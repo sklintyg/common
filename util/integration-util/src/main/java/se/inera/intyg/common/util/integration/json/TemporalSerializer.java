@@ -18,13 +18,11 @@
  */
 package se.inera.intyg.common.util.integration.json;
 
-import java.io.IOException;
-import java.time.temporal.Temporal;
-
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-
+import java.io.IOException;
+import java.time.temporal.Temporal;
 import se.inera.intyg.common.util.integration.schema.adapter.PartialDateAdapter;
 
 /**

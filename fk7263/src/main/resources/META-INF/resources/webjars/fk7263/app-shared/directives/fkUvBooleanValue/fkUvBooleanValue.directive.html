@@ -1,4 +1,6 @@
-<h4 ng-if="config.labelKey"><span ng-attr-id="{{config.type + '-label-' + config.labelKey | uvDomIdFilter}}" dynamic-label key="{{ config.labelKey }}"/></h4>
-<span ng-if="hasValue()" ng-attr-id="{{config.modelProp | uvDomIdFilter}}" class="value">{{getValue()}}</span>
+<h4 ng-if="config.labelKey"><span ng-attr-id="{{config.type + '-label-' + config.labelKey | uvDomIdFilter}}"
+                                  dynamic-label key="{{ config.labelKey }}" /></h4><span ng-if="hasValue()"
+                                                                                         ng-attr-id="{{config.modelProp | uvDomIdFilter}}"
+                                                                                         class="value">{{getValue()}}</span>
 
 <uv-no-value ng-if="!hasValue()"></uv-no-value>

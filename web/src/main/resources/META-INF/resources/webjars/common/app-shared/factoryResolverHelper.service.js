@@ -19,43 +19,43 @@
 /**
  * Helper class for resolving configfactories based on version
  */
-angular.module('common').factory('factoryResolverHelper', [ '$injector', '$log', function($injector, $log) {
-    'use strict';
+angular.module('common').factory('factoryResolverHelper', ['$injector', '$log', function($injector, $log) {
+  'use strict';
 
-    function _extractMajorVersion(version) {
-        var majorVersion = '';
-        if (angular.isDefined(version)) {
-            majorVersion = version.split('.')[0];
-        }
-        //$log.debug('version "' + version + "' resolved majorversion '" + majorVersion + '"');
-        return majorVersion;
+  function _extractMajorVersion(version) {
+    var majorVersion = '';
+    if (angular.isDefined(version)) {
+      majorVersion = version.split('.')[0];
+    }
+    //$log.debug('version "' + version + "' resolved majorversion '" + majorVersion + '"');
+    return majorVersion;
+  }
+
+  function _resolve(baseName, $stateParams) {
+    return $injector.get(baseName + '.v' + _extractMajorVersion($stateParams.intygTypeVersion));
+  }
+
+  /**
+   * Dynamically looks up the intygstyp-specific PatientHelperService that contains the rules for when certain
+   * info/warn messages should be displayed in the GUI when name- and/or address information doesn't match what's
+   * stored in the utkast compared to djupintegrations-parameters or PU-service data.
+   */
+  function _resolvePatientHelper(intygsTyp, version) {
+
+    var majorVersion = _extractMajorVersion(version);
+
+    try {
+      return $injector.get(intygsTyp + '.PatientHelperService.v' + majorVersion);
+    } catch (e) {
+      $log.error('Could not resolve PatientHelperService for intygstyp ' + intygsTyp + ' and version: ' + majorVersion + ', error: ' + e);
+      throw e;
     }
 
-    function _resolve(baseName, $stateParams) {
-            return $injector.get(baseName + '.v' + _extractMajorVersion($stateParams.intygTypeVersion));
-    }
+  }
 
-    /**
-     * Dynamically looks up the intygstyp-specific PatientHelperService that contains the rules for when certain
-     * info/warn messages should be displayed in the GUI when name- and/or address information doesn't match what's
-     * stored in the utkast compared to djupintegrations-parameters or PU-service data.
-     */
-    function _resolvePatientHelper(intygsTyp, version) {
-
-        var majorVersion = _extractMajorVersion(version);
-
-        try {
-            return $injector.get(intygsTyp + '.PatientHelperService.v' + majorVersion);
-        } catch(e) {
-            $log.error('Could not resolve PatientHelperService for intygstyp ' + intygsTyp + ' and version: ' + majorVersion + ', error: ' + e);
-            throw e;
-        }
-
-    }
-
-    // Return public API for the service
-    return {
-        resolve: _resolve,
-        resolvePatientHelper: _resolvePatientHelper
-    };
-} ]);
+  // Return public API for the service
+  return {
+    resolve: _resolve,
+    resolvePatientHelper: _resolvePatientHelper
+  };
+}]);

@@ -16,24 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('miCertificateHeaderPageingress', [ function() {
-    'use strict';
+angular.module('common').directive('miCertificateHeaderPageingress', [function() {
+  'use strict';
 
-    return {
-        restrict: 'E',
-        scope: {
-            isReplaced: '=',
-            defaultMessageKey: '@',
-            replacedMessageKey: '@'
-        },
-        templateUrl: '/web/webjars/common/minaintyg/components/miCertificateHeaderPageingress/miCertificateHeaderPageingress.directive.html',
-        controller: function($scope) {
+  return {
+    restrict: 'E',
+    scope: {
+      isReplaced: '=',
+      defaultMessageKey: '@',
+      replacedMessageKey: '@'
+    },
+    templateUrl: '/web/webjars/common/minaintyg/components/miCertificateHeaderPageingress/miCertificateHeaderPageingress.directive.html',
+    controller: function($scope) {
 
-            $scope.$watch('isReplaced', function(newVal, oldVal) {
-                if (angular.isDefined(newVal)) {
-                    $scope.messageKey = newVal ? $scope.replacedMessageKey : $scope.defaultMessageKey;
-                }
-            });
+      $scope.$watch('isReplaced', function(newVal, oldVal) {
+        if (angular.isDefined(newVal)) {
+          $scope.messageKey = newVal ? $scope.replacedMessageKey : $scope.defaultMessageKey;
         }
-    };
-} ]);
+      });
+    }
+  };
+}]);

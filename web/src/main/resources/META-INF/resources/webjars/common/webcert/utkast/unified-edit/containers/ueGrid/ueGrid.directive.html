@@ -9,13 +9,10 @@
 
       <div class="col-xs-12" ng-if="useRowValidation">
         <div ng-if="useRowValidation" ng-repeat="cvk in getRowValidationKeys($parent.$index, $index)">
-          <ue-validation-list
-              class="ng-animate-disabled"
-              field-type="{{cvk.type}}"
-              warnings="validation.warningMessagesByField[cvk.key]"
-              validations="validation.messagesByField[cvk.key]"
-              ng-key="{{cvk.key}}">
-          </ue-validation-list>
+          <ue-validation-list class="ng-animate-disabled" field-type="{{cvk.type}}"
+                              warnings="validation.warningMessagesByField[cvk.key]"
+                              validations="validation.messagesByField[cvk.key]"
+                              ng-key="{{cvk.key}}"></ue-validation-list>
         </div>
       </div>
     </ue-validation-wrapper>
@@ -23,14 +20,12 @@
 
   <div ng-if="!useRowValidation">
     <div ng-repeat="cvk in validationKeys">
-      <ue-validation-list
-          class="ng-animate-disabled"
-          field-type="{{cvk.type}}"
-          warnings="validation.warningMessagesByField[cvk.key]"
-          validations="validation.messagesByField[cvk.key]">
-      </ue-validation-list>
+      <ue-validation-list class="ng-animate-disabled" field-type="{{cvk.type}}"
+                          warnings="validation.warningMessagesByField[cvk.key]"
+                          validations="validation.messagesByField[cvk.key]"></ue-validation-list>
     </div>
   </div>
 
-  <ue-validation-list field-type="{{config.type}}" validations="validation.messagesByField[config.modelProp.toLowerCase()]" ></ue-validation-list>
+  <ue-validation-list field-type="{{config.type}}"
+                      validations="validation.messagesByField[config.modelProp.toLowerCase()]"></ue-validation-list>
 </div>

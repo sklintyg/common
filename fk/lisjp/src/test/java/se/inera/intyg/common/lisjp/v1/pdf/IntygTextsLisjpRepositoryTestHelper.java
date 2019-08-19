@@ -18,20 +18,16 @@
  */
 package se.inera.intyg.common.lisjp.v1.pdf;
 
+import com.google.common.collect.ImmutableMap;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.SortedMap;
-
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import com.google.common.collect.ImmutableMap;
-
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepositoryImpl;
 
@@ -42,10 +38,11 @@ public class IntygTextsLisjpRepositoryTestHelper extends IntygTextsRepositoryImp
     }
 
     @Override
-    public void update()  {
+    public void update() {
 
         try {
-            Document e = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ClassPathResource("v1/text/texterMU_LISJP_v1.0.xml").getInputStream());
+            Document e = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+                .parse(new ClassPathResource("v1/text/texterMU_LISJP_v1.0.xml").getInputStream());
             Element root = e.getDocumentElement();
             String version = root.getAttribute("version");
             String intygsTyp = root.getAttribute("typ").toLowerCase();
@@ -55,7 +52,8 @@ public class IntygTextsLisjpRepositoryTestHelper extends IntygTextsRepositoryImp
             List tillaggsFragor = this.getTillaggsfragor(e);
 
             Properties prop = new Properties();
-            prop.putAll(ImmutableMap.of("formId", "FK 7804 (001 F 001) Fastställd av Försäkringskassan (TEST)", "blankettId", "7804", "blankettVersion", "01"));
+            prop.putAll(ImmutableMap
+                .of("formId", "FK 7804 (001 F 001) Fastställd av Försäkringskassan (TEST)", "blankettId", "7804", "blankettVersion", "01"));
 
             super.intygTexts.add(new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, prop));
         } catch (Exception e1) {

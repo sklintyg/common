@@ -18,13 +18,6 @@
  */
 package se.inera.intyg.common.sos_parent.model.converter;
 
-import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
-import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_SVAR_ID;
@@ -44,10 +37,17 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getInternalDateContent;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getInternalDateContentFillWithZeros;
 
+import java.util.ArrayList;
+import java.util.List;
+import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+
 /**
  * Converters for shared svar between DB and DOI.
  */
 public final class SosUtlatandeToIntyg {
+
     private SosUtlatandeToIntyg() {
     }
 
@@ -72,11 +72,11 @@ public final class SosUtlatandeToIntyg {
         // Svar 3
         if (utlatande.getDodsplatsBoende() != null || utlatande.getDodsplatsKommun() != null) {
             InternalConverterUtil.SvarBuilder dodsplats = aSvar(DODSPLATS_SVAR_ID)
-                    .withDelsvar(DODSPLATS_KOMMUN_DELSVAR_ID, utlatande.getDodsplatsKommun());
+                .withDelsvar(DODSPLATS_KOMMUN_DELSVAR_ID, utlatande.getDodsplatsKommun());
             if (utlatande.getDodsplatsBoende() != null) {
                 dodsplats.withDelsvar(DODSPLATS_BOENDE_DELSVAR_ID,
-                        aCV(DODSPLATS_BOENDE_CODE_SYSTEM, utlatande.getDodsplatsBoende().name(),
-                                utlatande.getDodsplatsBoende().getBeskrivning()));
+                    aCV(DODSPLATS_BOENDE_CODE_SYSTEM, utlatande.getDodsplatsBoende().name(),
+                        utlatande.getDodsplatsBoende().getBeskrivning()));
             }
             svar.add(dodsplats.build());
         }

@@ -18,20 +18,20 @@
  */
 
 angular.module('common').directive('intygFooter', ['$stateParams',
-    function($stateParams) {
-        'use strict';
-        return {
-            restrict: 'E',
-            scope: {
-                model: '=',
-                viewstate: '='
-            },
-            templateUrl: '/web/webjars/common/webcert/intyg/intygFooter.directive.html',
-            link: function($scope) {
+  function($stateParams) {
+    'use strict';
+    return {
+      restrict: 'E',
+      scope: {
+        model: '=',
+        viewstate: '='
+      },
+      templateUrl: '/web/webjars/common/webcert/intyg/intygFooter.directive.html',
+      link: function($scope) {
 
-                $scope.intygId = $stateParams.certificateId;
+        $scope.intygId = $stateParams.certificateId;
 
-            }
-        };
-    }
+      }
+    };
+  }
 ]);

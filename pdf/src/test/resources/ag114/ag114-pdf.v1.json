@@ -35,9 +35,11 @@
     },
     "signeringsdatum": "2015-12-07T15:48:05.000"
   },
-  "sysselsattning": [{
-    "typ": "NUVARANDE_ARBETE"
-  }],
+  "sysselsattning": [
+    {
+      "typ": "NUVARANDE_ARBETE"
+    }
+  ],
   "nuvarandeArbete": "Inget",
   "onskarFormedlaDiagnos": true,
   "nedsattArbetsformaga": "Kan jobba halvtid.",

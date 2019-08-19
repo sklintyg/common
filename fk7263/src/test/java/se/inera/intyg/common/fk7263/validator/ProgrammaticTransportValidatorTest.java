@@ -18,7 +18,15 @@
  */
 package se.inera.intyg.common.fk7263.validator;
 
+import static org.junit.Assert.assertEquals;
+import static se.inera.intyg.common.fk7263.validator.ProgrammaticTransportValidator.findAktivitetWithCode;
+import static se.inera.intyg.common.fk7263.validator.ProgrammaticTransportValidator.findFunktionsTillstandType;
+
 import iso.v21090.dt.v1.II;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
+import javax.xml.bind.JAXB;
 import org.junit.Test;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.AktivitetType;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Aktivitetskod;
@@ -32,15 +40,6 @@ import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.SysselsattningTyp
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.TypAvFunktionstillstand;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.TypAvSysselsattning;
 
-import javax.xml.bind.JAXB;
-import java.io.File;
-import java.io.IOException;
-import java.time.LocalDate;
-
-import static org.junit.Assert.assertEquals;
-import static se.inera.intyg.common.fk7263.validator.ProgrammaticTransportValidator.findAktivitetWithCode;
-import static se.inera.intyg.common.fk7263.validator.ProgrammaticTransportValidator.findFunktionsTillstandType;
-
 /**
  * @author andreaskaltenbach, marced
  */
@@ -48,7 +47,8 @@ public class ProgrammaticTransportValidatorTest {
 
     private LakarutlatandeType getValidUtlatande() throws IOException {
         // read valid certificate from file
-        return JAXB.unmarshal(new File("src/test/resources/ProgrammaticLegacyTransportSchemaValidatorTest/legacy-maximalt-fk7263-transport.xml"),
+        return JAXB
+            .unmarshal(new File("src/test/resources/ProgrammaticLegacyTransportSchemaValidatorTest/legacy-maximalt-fk7263-transport.xml"),
                 LakarutlatandeType.class);
     }
 
@@ -182,7 +182,7 @@ public class ProgrammaticTransportValidatorTest {
     public void testInvalidAktivitetPlanSjukvardBeskrivning() throws Exception {
         LakarutlatandeType utlatande = getValidUtlatande();
         AktivitetType aktivitet = findAktivitetWithCode(utlatande.getAktivitet(),
-                Aktivitetskod.PLANERAD_ELLER_PAGAENDE_BEHANDLING_ELLER_ATGARD_INOM_SJUKVARDEN);
+            Aktivitetskod.PLANERAD_ELLER_PAGAENDE_BEHANDLING_ELLER_ATGARD_INOM_SJUKVARDEN);
         aktivitet.setBeskrivning(null);
 
         assertEquals(1, new ProgrammaticTransportValidator(utlatande).validate().size());
@@ -207,7 +207,8 @@ public class ProgrammaticTransportValidatorTest {
     @Test
     public void testInvalidObservationKroppFunktionsBeskrivning() throws Exception {
         LakarutlatandeType utlatande = getValidUtlatande();
-        FunktionstillstandType funktion = findFunktionsTillstandType(utlatande.getFunktionstillstand(), TypAvFunktionstillstand.KROPPSFUNKTION);
+        FunktionstillstandType funktion = findFunktionsTillstandType(utlatande.getFunktionstillstand(),
+            TypAvFunktionstillstand.KROPPSFUNKTION);
         funktion.setBeskrivning(null);
 
         assertEquals(1, new ProgrammaticTransportValidator(utlatande).validate().size());
@@ -216,7 +217,8 @@ public class ProgrammaticTransportValidatorTest {
     @Test
     public void testSaknadSysselsattning() throws Exception {
         LakarutlatandeType utlatande = getValidUtlatande();
-        FunktionstillstandType inAktivitetFunktion = findFunktionsTillstandType(utlatande.getFunktionstillstand(), TypAvFunktionstillstand.AKTIVITET);
+        FunktionstillstandType inAktivitetFunktion = findFunktionsTillstandType(utlatande.getFunktionstillstand(),
+            TypAvFunktionstillstand.AKTIVITET);
         inAktivitetFunktion.getArbetsformaga().getSysselsattning().clear();
 
         assertEquals(1, new ProgrammaticTransportValidator(utlatande).validate().size());
@@ -228,7 +230,8 @@ public class ProgrammaticTransportValidatorTest {
         AktivitetType smittskydd = new AktivitetType();
         smittskydd.setAktivitetskod(Aktivitetskod.AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA);
         utlatande.getAktivitet().add(smittskydd);
-        FunktionstillstandType inAktivitetFunktion = findFunktionsTillstandType(utlatande.getFunktionstillstand(), TypAvFunktionstillstand.AKTIVITET);
+        FunktionstillstandType inAktivitetFunktion = findFunktionsTillstandType(utlatande.getFunktionstillstand(),
+            TypAvFunktionstillstand.AKTIVITET);
         inAktivitetFunktion.getArbetsformaga().getSysselsattning().clear();
 
         assertEquals(0, new ProgrammaticTransportValidator(utlatande).validate().size());
@@ -237,7 +240,8 @@ public class ProgrammaticTransportValidatorTest {
     @Test
     public void testTomArbetsuppgiftVidSysselsattningArbete() throws Exception {
         LakarutlatandeType utlatande = getValidUtlatande();
-        FunktionstillstandType inAktivitetFunktion = findFunktionsTillstandType(utlatande.getFunktionstillstand(), TypAvFunktionstillstand.AKTIVITET);
+        FunktionstillstandType inAktivitetFunktion = findFunktionsTillstandType(utlatande.getFunktionstillstand(),
+            TypAvFunktionstillstand.AKTIVITET);
         inAktivitetFunktion.getArbetsformaga().getSysselsattning().clear();
         SysselsattningType type = new SysselsattningType();
         type.setTypAvSysselsattning(TypAvSysselsattning.NUVARANDE_ARBETE);
@@ -269,7 +273,8 @@ public class ProgrammaticTransportValidatorTest {
         journalUppgifter.setDatum(LocalDate.now());
         utlatande.getReferens().clear();
         utlatande.getReferens().add(journalUppgifter);
-        FunktionstillstandType inAktivitetFunktion = findFunktionsTillstandType(utlatande.getFunktionstillstand(), TypAvFunktionstillstand.AKTIVITET);
+        FunktionstillstandType inAktivitetFunktion = findFunktionsTillstandType(utlatande.getFunktionstillstand(),
+            TypAvFunktionstillstand.AKTIVITET);
         inAktivitetFunktion.getArbetsformaga().setPrognosangivelse(Prognosangivelse.DET_GAR_INTE_ATT_BEDOMMA);
         utlatande.setKommentar("");
 
@@ -282,7 +287,8 @@ public class ProgrammaticTransportValidatorTest {
         AktivitetType smittskydd = new AktivitetType();
         smittskydd.setAktivitetskod(Aktivitetskod.AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA);
         utlatande.getAktivitet().add(smittskydd);
-        FunktionstillstandType inAktivitetFunktion = findFunktionsTillstandType(utlatande.getFunktionstillstand(), TypAvFunktionstillstand.AKTIVITET);
+        FunktionstillstandType inAktivitetFunktion = findFunktionsTillstandType(utlatande.getFunktionstillstand(),
+            TypAvFunktionstillstand.AKTIVITET);
         inAktivitetFunktion.getArbetsformaga().getSysselsattning().clear();
 
         SysselsattningType type = new SysselsattningType();
@@ -297,7 +303,8 @@ public class ProgrammaticTransportValidatorTest {
     @Test
     public void testValidMissingAktivitetsbegransningBeskrivning() throws Exception {
         LakarutlatandeType utlatande = getValidUtlatande();
-        FunktionstillstandType inAktivitetFunktion = findFunktionsTillstandType(utlatande.getFunktionstillstand(), TypAvFunktionstillstand.AKTIVITET);
+        FunktionstillstandType inAktivitetFunktion = findFunktionsTillstandType(utlatande.getFunktionstillstand(),
+            TypAvFunktionstillstand.AKTIVITET);
         inAktivitetFunktion.setBeskrivning(null);
 
         assertEquals(0, new ProgrammaticTransportValidator(getValidUtlatande()).validate().size());
@@ -306,7 +313,8 @@ public class ProgrammaticTransportValidatorTest {
     @Test
     public void testValidEmptyAktivitetsbegransningBeskrivning() throws Exception {
         LakarutlatandeType utlatande = getValidUtlatande();
-        FunktionstillstandType inAktivitetFunktion = findFunktionsTillstandType(utlatande.getFunktionstillstand(), TypAvFunktionstillstand.AKTIVITET);
+        FunktionstillstandType inAktivitetFunktion = findFunktionsTillstandType(utlatande.getFunktionstillstand(),
+            TypAvFunktionstillstand.AKTIVITET);
         inAktivitetFunktion.setBeskrivning("");
 
         assertEquals(0, new ProgrammaticTransportValidator(getValidUtlatande()).validate().size());
@@ -320,7 +328,8 @@ public class ProgrammaticTransportValidatorTest {
         smittskydd.setAktivitetskod(Aktivitetskod.AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA);
         utlatande.getAktivitet().add(smittskydd);
 
-        FunktionstillstandType inAktivitetFunktion = findFunktionsTillstandType(utlatande.getFunktionstillstand(), TypAvFunktionstillstand.KROPPSFUNKTION);
+        FunktionstillstandType inAktivitetFunktion = findFunktionsTillstandType(utlatande.getFunktionstillstand(),
+            TypAvFunktionstillstand.KROPPSFUNKTION);
         inAktivitetFunktion.setBeskrivning(null);
 
         assertEquals(0, new ProgrammaticTransportValidator(getValidUtlatande()).validate().size());

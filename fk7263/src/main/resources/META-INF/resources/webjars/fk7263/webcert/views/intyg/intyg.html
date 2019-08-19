@@ -1,11 +1,13 @@
 <div ui-view="header" class="webcert-workarea-intyg-header"></div>
 <div class="webcert-workarea-wrapper">
-  <div class="webcert-workarea-hflex-container centered-constrained-content" id="view-fk7263" ng-show="!viewState.common.activeErrorMessageKey">
+  <div class="webcert-workarea-hflex-container centered-constrained-content" id="view-fk7263"
+       ng-show="!viewState.common.activeErrorMessageKey">
     <div id="certificate-content-container" class="webcert-workarea-intyg container-fluid">
       <!-- fk7263-ns -->
       <div class="{{viewState.common.intyg.type}}-ns weak-hidden" ng-class="{show: viewState.common.showTemplate}">
         <wc-spinner label="common.load.certificate" show-spinner="!viewState.common.doneLoading">
-          <div id="certificate" ng-class="{'certificate': true, 'revoked-certificate' : viewState.common.intygProperties.isRevoked}">
+          <div id="certificate"
+               ng-class="{'certificate': true, 'revoked-certificate' : viewState.common.intygProperties.isRevoked}">
             <div class="row">
               <div class="col-md-12">
                 <div class="intyg-body">

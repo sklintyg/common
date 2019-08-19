@@ -22,15 +22,12 @@ import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.BEDOMNING_LAMPLIGHET_ATT_INNEHA_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID;
 
-import java.util.Set;
-
-import javax.annotation.Nullable;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.auto.value.AutoValue;
-
+import java.util.Set;
+import javax.annotation.Nullable;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetDeserializer;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 
@@ -53,12 +50,14 @@ public abstract class Bedomning {
     public abstract String getBorUndersokasBeskrivning();
 
     public static class BedomningKorkortstypSetEnumSetSerializer extends AbstractEnumSetSerializer<BedomningKorkortstyp> {
+
         protected BedomningKorkortstypSetEnumSetSerializer() {
             super(BedomningKorkortstyp.class);
         }
     }
 
     public static class BedomningKorkortstypSetDeserializer extends AbstractEnumSetDeserializer<BedomningKorkortstyp> {
+
         protected BedomningKorkortstypSetDeserializer() {
             super(BedomningKorkortstyp.class);
         }
@@ -70,6 +69,7 @@ public abstract class Bedomning {
 
     @AutoValue.Builder
     public abstract static class Builder {
+
         public abstract Bedomning build();
 
         @JsonProperty(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID)

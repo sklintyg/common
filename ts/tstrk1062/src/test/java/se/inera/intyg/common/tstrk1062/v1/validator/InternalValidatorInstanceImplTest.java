@@ -18,25 +18,74 @@
  */
 package se.inera.intyg.common.tstrk1062.v1.validator;
 
-import static org.junit.Assert.*;
-import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_KODAD_KOD_KODSYSTEM_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_INMATNING_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_INMATNING_SVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_KATEGORI;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.BEDOMNING_KATEGORI;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.BEDOMNING_UPPFYLLER_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.BEDOMNING_UPPFYLLER_SVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ID_KONTROLL_CATEGORY;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ID_KONTROLL_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ID_KONTROLL_SVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.INTYG_AVSER_CATEGORY;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.INTYG_AVSER_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.INTYG_AVSER_SVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_KATEGORI;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.PUNKT;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.SYMPTOM_BEDOMNING_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.SYMPTOM_KATEGORI;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.SYMPTOM_PROGNOS_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.SYMPTOM_PROGNOS_SVAR_JSON_ID;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
-import se.inera.intyg.common.tstrk1062.v1.model.internal.*;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.Bedomning;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.DiagnosFritext;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.DiagnosKodad;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.DiagnosRegistrering;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.IdKontroll;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.IntygAvser;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.Lakemedelsbehandling;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.PrognosTillstand;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.TsTrk1062UtlatandeV1;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -50,18 +99,18 @@ public class InternalValidatorInstanceImplTest {
     @Before
     public void setUp() {
         builderTemplate = TsTrk1062UtlatandeV1.builder()
-                .setId("intygsId")
-                .setGrundData(buildGrundData(LocalDateTime.now()))
-                .setIntygAvser(IntygAvser.create(EnumSet.of(IntygAvser.BehorighetsTyp.IAV11)))
-                .setIdKontroll(IdKontroll.create(IdKontrollKod.KORKORT))
-                .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT))
-                .setDiagnosFritext(DiagnosFritext.create("Diagnoser", "2017"))
-                .setLakemedelsbehandling(Lakemedelsbehandling.create(false, false, "", false, false, false, null, ""))
-                .setBedomningAvSymptom("Bedömning av symptom")
-                .setPrognosTillstand(PrognosTillstand.create(PrognosTillstand.PrognosTillstandTyp.JA))
-                .setOvrigaKommentarer(null)
-                .setBedomning(Bedomning.builder().setUppfyllerBehorighetskrav(EnumSet.of(Bedomning.BehorighetsTyp.VAR11)).build())
-                .setTextVersion("");
+            .setId("intygsId")
+            .setGrundData(buildGrundData(LocalDateTime.now()))
+            .setIntygAvser(IntygAvser.create(EnumSet.of(IntygAvser.BehorighetsTyp.IAV11)))
+            .setIdKontroll(IdKontroll.create(IdKontrollKod.KORKORT))
+            .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT))
+            .setDiagnosFritext(DiagnosFritext.create("Diagnoser", "2017"))
+            .setLakemedelsbehandling(Lakemedelsbehandling.create(false, false, "", false, false, false, null, ""))
+            .setBedomningAvSymptom("Bedömning av symptom")
+            .setPrognosTillstand(PrognosTillstand.create(PrognosTillstand.PrognosTillstandTyp.JA))
+            .setOvrigaKommentarer(null)
+            .setBedomning(Bedomning.builder().setUppfyllerBehorighetskrav(EnumSet.of(Bedomning.BehorighetsTyp.VAR11)).build())
+            .setTextVersion("");
 
     }
 
@@ -77,8 +126,8 @@ public class InternalValidatorInstanceImplTest {
     @Test
     public void validateNullIntygAvser() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setIntygAvser(null)
-                .build();
+            .setIntygAvser(null)
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessage = validateDraftResponse.getValidationErrors();
@@ -89,75 +138,75 @@ public class InternalValidatorInstanceImplTest {
     @Test
     public void validateMissingIntygAvser() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setIntygAvser(IntygAvser.create(EnumSet.noneOf(IntygAvser.BehorighetsTyp.class)))
-                .build();
+            .setIntygAvser(IntygAvser.create(EnumSet.noneOf(IntygAvser.BehorighetsTyp.class)))
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessage = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessage, INTYG_AVSER_CATEGORY,
-                INTYG_AVSER_SVAR_JSON_ID + PUNKT + INTYG_AVSER_DELSVAR_JSON_ID);
+            INTYG_AVSER_SVAR_JSON_ID + PUNKT + INTYG_AVSER_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateNullIdKontroll() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setIdKontroll(null)
-                .build();
+            .setIdKontroll(null)
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessage = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessage, ID_KONTROLL_CATEGORY,
-                ID_KONTROLL_SVAR_JSON_ID + PUNKT + ID_KONTROLL_DELSVAR_JSON_ID);
+            ID_KONTROLL_SVAR_JSON_ID + PUNKT + ID_KONTROLL_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateNullDiagnosRegistrering() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setDiagnosRegistrering(null)
-                .build();
+            .setDiagnosRegistrering(null)
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessage = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessage, ALLMANT_KATEGORI,
-                ALLMANT_INMATNING_SVAR_JSON_ID + PUNKT + ALLMANT_INMATNING_DELSVAR_JSON_ID);
+            ALLMANT_INMATNING_SVAR_JSON_ID + PUNKT + ALLMANT_INMATNING_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateNullDiagnosRegistreringTyp() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setDiagnosRegistrering(DiagnosRegistrering.create(null))
-                .build();
+            .setDiagnosRegistrering(DiagnosRegistrering.create(null))
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessage = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessage, ALLMANT_KATEGORI,
-                ALLMANT_INMATNING_SVAR_JSON_ID + PUNKT + ALLMANT_INMATNING_DELSVAR_JSON_ID);
+            ALLMANT_INMATNING_SVAR_JSON_ID + PUNKT + ALLMANT_INMATNING_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateNullDiagnosFritext() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT))
-                .setDiagnosFritext(null)
-                .build();
+            .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT))
+            .setDiagnosFritext(null)
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessage = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessage, ALLMANT_KATEGORI,
-                ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_JSON_ID);
+            ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateNullDiagnosFritextValues() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT))
-                .setDiagnosFritext(DiagnosFritext.create(null, null))
-                .build();
+            .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT))
+            .setDiagnosFritext(DiagnosFritext.create(null, null))
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
@@ -167,18 +216,18 @@ public class InternalValidatorInstanceImplTest {
         final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
 
         assertValidationMessage(validationsMap, ALLMANT_KATEGORI,
-                ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_JSON_ID);
+            ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_JSON_ID);
 
         assertValidationMessage(validationsMap, ALLMANT_KATEGORI,
-                ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID);
+            ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateEmptyDiagnosFritextValues() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT))
-                .setDiagnosFritext(DiagnosFritext.create("", ""))
-                .build();
+            .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT))
+            .setDiagnosFritext(DiagnosFritext.create("", ""))
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
@@ -188,24 +237,24 @@ public class InternalValidatorInstanceImplTest {
         final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
 
         assertValidationMessage(validationsMap, ALLMANT_KATEGORI,
-                ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_JSON_ID);
+            ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_JSON_ID);
 
         assertValidationMessage(validationsMap, ALLMANT_KATEGORI,
-                ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID);
+            ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateInvalidDiagnosFritextYear() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT))
-                .setDiagnosFritext(DiagnosFritext.create("Diagnoser", "Årtal"))
-                .build();
+            .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT))
+            .setDiagnosFritext(DiagnosFritext.create("Diagnoser", "Årtal"))
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, ValidationMessageType.INVALID_FORMAT, ALLMANT_KATEGORI,
-                ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID);
+            ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID);
     }
 
     @Test
@@ -213,56 +262,56 @@ public class InternalValidatorInstanceImplTest {
         final String futureYear = Integer.toString(LocalDate.now().plusYears(1).getYear());
 
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT))
-                .setDiagnosFritext(DiagnosFritext.create("Diagnoser", futureYear))
-                .build();
+            .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT))
+            .setDiagnosFritext(DiagnosFritext.create("Diagnoser", futureYear))
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, ValidationMessageType.OTHER, ALLMANT_KATEGORI,
-                ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID);
+            ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateNullDiagnosKodad() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
-                .build();
+            .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, ALLMANT_KATEGORI,
-                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID);
+            ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID);
     }
 
     @Test
     public void validateEmptyDiagnosKodad() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
-                .setDiagnosKodad(new ArrayList<>())
-                .build();
+            .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
+            .setDiagnosKodad(new ArrayList<>())
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, ALLMANT_KATEGORI,
-                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID);
+            ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID);
     }
 
     @Test
     public void validateNullDiagnos() {
         final DiagnosKodad diagnosKodad = DiagnosKodad.create(null,
-                null, null, null, null);
+            null, null, null, null);
 
         final List<DiagnosKodad> diagnosKodadList = new ArrayList<>(1);
         diagnosKodadList.add(diagnosKodad);
 
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
-                .setDiagnosKodad(diagnosKodadList)
-                .build();
+            .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
+            .setDiagnosKodad(diagnosKodadList)
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
@@ -272,27 +321,27 @@ public class InternalValidatorInstanceImplTest {
         final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
 
         assertValidationMessage(validationsMap, ALLMANT_KATEGORI,
-                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID);
+            ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID);
 
         assertValidationMessage(validationsMap, ALLMANT_KATEGORI,
-                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID);
+            ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID);
 
         assertValidationMessage(validationsMap, ALLMANT_KATEGORI,
-                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_KODSYSTEM_JSON_ID);
+            ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_KODSYSTEM_JSON_ID);
     }
 
     @Test
     public void validateEmptyDiagnos() {
         final DiagnosKodad diagnosKodad = DiagnosKodad.create("", "",
-                "", "", "");
+            "", "", "");
 
         final List<DiagnosKodad> diagnosKodadList = new ArrayList<>(1);
         diagnosKodadList.add(diagnosKodad);
 
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
-                .setDiagnosKodad(diagnosKodadList)
-                .build();
+            .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
+            .setDiagnosKodad(diagnosKodadList)
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
@@ -302,31 +351,31 @@ public class InternalValidatorInstanceImplTest {
         final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
 
         assertValidationMessage(validationsMap, ALLMANT_KATEGORI,
-                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID);
+            ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID);
 
         assertValidationMessage(validationsMap, ALLMANT_KATEGORI,
-                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID);
+            ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID);
 
         assertValidationMessage(validationsMap, ALLMANT_KATEGORI,
-                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_KODSYSTEM_JSON_ID);
+            ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_KODSYSTEM_JSON_ID);
     }
 
     @Test
     public void validateFirstDiagnosMissing() {
         final DiagnosKodad diagnosKodadOne = DiagnosKodad.create("", "",
-                "", "", "");
+            "", "", "");
 
         final DiagnosKodad diagnosKodadTwo = DiagnosKodad.create("A01", "ICD10",
-                "Diagnosbeskrivning", "A01 - Diagnosbeskrivning", "2019");
+            "Diagnosbeskrivning", "A01 - Diagnosbeskrivning", "2019");
 
         final List<DiagnosKodad> diagnosKodadList = new ArrayList<>(2);
         diagnosKodadList.add(diagnosKodadOne);
         diagnosKodadList.add(diagnosKodadTwo);
 
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
-                .setDiagnosKodad(diagnosKodadList)
-                .build();
+            .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
+            .setDiagnosKodad(diagnosKodadList)
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
@@ -334,25 +383,25 @@ public class InternalValidatorInstanceImplTest {
         final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
 
         assertOneValidationMessages(validationMessages, ValidationMessageType.INCORRECT_COMBINATION, ALLMANT_KATEGORI,
-                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID);
+            ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateFirstDiagnosMissingAndSecondInvalid() {
         final DiagnosKodad diagnosKodadOne = DiagnosKodad.create("", "",
-                "", "", "");
+            "", "", "");
 
         final DiagnosKodad diagnosKodadTwo = DiagnosKodad.create("A01", "ICD10",
-                "Diagnosbeskrivning", "A01 - Diagnosbeskrivning", "Årtal");
+            "Diagnosbeskrivning", "A01 - Diagnosbeskrivning", "Årtal");
 
         final List<DiagnosKodad> diagnosKodadList = new ArrayList<>(2);
         diagnosKodadList.add(diagnosKodadOne);
         diagnosKodadList.add(diagnosKodadTwo);
 
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
-                .setDiagnosKodad(diagnosKodadList)
-                .build();
+            .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
+            .setDiagnosKodad(diagnosKodadList)
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
@@ -362,30 +411,30 @@ public class InternalValidatorInstanceImplTest {
         final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
 
         assertValidationMessage(validationsMap, ValidationMessageType.INCORRECT_COMBINATION, ALLMANT_KATEGORI,
-                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID);
+            ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID);
 
         assertValidationMessage(validationsMap, ValidationMessageType.INVALID_FORMAT, ALLMANT_KATEGORI,
-                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[1]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID);
+            ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[1]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateInvalidDiagnosArtal() {
         final DiagnosKodad diagnosKodad = DiagnosKodad.create("A01", "ICD10",
-                "Diagnosbeskrivning", "A01 - Diagnosbeskrivning", "Årtal");
+            "Diagnosbeskrivning", "A01 - Diagnosbeskrivning", "Årtal");
 
         final List<DiagnosKodad> diagnosKodadList = new ArrayList<>(1);
         diagnosKodadList.add(diagnosKodad);
 
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
-                .setDiagnosKodad(diagnosKodadList)
-                .build();
+            .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
+            .setDiagnosKodad(diagnosKodadList)
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, ValidationMessageType.INVALID_FORMAT, ALLMANT_KATEGORI,
-                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID);
+            ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID);
     }
 
     @Test
@@ -393,195 +442,195 @@ public class InternalValidatorInstanceImplTest {
         final String futureYear = Integer.toString(LocalDate.now().plusYears(1).getYear());
 
         final DiagnosKodad diagnosKodad = DiagnosKodad.create("A01", "ICD10",
-                "Diagnosbeskrivning", "A01 - Diagnosbeskrivning", futureYear);
+            "Diagnosbeskrivning", "A01 - Diagnosbeskrivning", futureYear);
 
         final List<DiagnosKodad> diagnosKodadList = new ArrayList<>(1);
         diagnosKodadList.add(diagnosKodad);
 
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
-                .setDiagnosKodad(diagnosKodadList)
-                .build();
+            .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
+            .setDiagnosKodad(diagnosKodadList)
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, ValidationMessageType.OTHER, ALLMANT_KATEGORI,
-                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID);
+            ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateNullLakemedelsbehandling() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setLakemedelsbehandling(null)
-                .build();
+            .setLakemedelsbehandling(null)
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_JSON_ID);
+            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateNullLakemedelsbehandlingHarHaft() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setLakemedelsbehandling(Lakemedelsbehandling.create(null, null, null, null,
-                        null, null, null, null))
-                .build();
+            .setLakemedelsbehandling(Lakemedelsbehandling.create(null, null, null, null,
+                null, null, null, null))
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_JSON_ID);
+            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateNullLakemedelsbehandlingPagar() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setLakemedelsbehandling(Lakemedelsbehandling.create(true, null, null, null,
-                        null, null, null, null))
-                .build();
+            .setLakemedelsbehandling(Lakemedelsbehandling.create(true, null, null, null,
+                null, null, null, null))
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_JSON_ID);
+            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateNullLakemedelsbehandlingAktuell() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setLakemedelsbehandling(Lakemedelsbehandling.create(true, true, null, false,
-                        false, false, null, null))
-                .build();
+            .setLakemedelsbehandling(Lakemedelsbehandling.create(true, true, null, false,
+                false, false, null, null))
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_JSON_ID);
+            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateEmptyLakemedelsbehandlingAktuell() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setLakemedelsbehandling(Lakemedelsbehandling.create(true, true, "", false,
-                        false, false, null, null))
-                .build();
+            .setLakemedelsbehandling(Lakemedelsbehandling.create(true, true, "", false,
+                false, false, null, null))
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_JSON_ID);
+            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateNullLakemedelsbehandlingPagatt() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setLakemedelsbehandling(Lakemedelsbehandling.create(true, true, "Aktuell", null,
-                        false, false, null, null))
-                .build();
+            .setLakemedelsbehandling(Lakemedelsbehandling.create(true, true, "Aktuell", null,
+                false, false, null, null))
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_JSON_ID);
+            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateNullLakemedelsbehandlingEffekt() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setLakemedelsbehandling(Lakemedelsbehandling.create(true, true, "Aktuell", false,
-                        null, false, null, null))
-                .build();
+            .setLakemedelsbehandling(Lakemedelsbehandling.create(true, true, "Aktuell", false,
+                null, false, null, null))
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_JSON_ID);
+            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateNullLakemedelsbehandlingFoljsamhet() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setLakemedelsbehandling(Lakemedelsbehandling.create(true, true, "Aktuell", false,
-                        false, null, null, null))
-                .build();
+            .setLakemedelsbehandling(Lakemedelsbehandling.create(true, true, "Aktuell", false,
+                false, null, null, null))
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_JSON_ID);
+            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateNullLakemedelsbehandlingAvslutadTidpunkt() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setLakemedelsbehandling(Lakemedelsbehandling.create(true, false, null, null,
-                        null, null, null, "Orsak"))
-                .build();
+            .setLakemedelsbehandling(Lakemedelsbehandling.create(true, false, null, null,
+                null, null, null, "Orsak"))
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_JSON_ID);
+            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateEmptyLakemedelsbehandlingAvslutadTidpunkt() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setLakemedelsbehandling(Lakemedelsbehandling.create(true, false, null, null,
-                        null, null, "", "Orsak"))
-                .build();
+            .setLakemedelsbehandling(Lakemedelsbehandling.create(true, false, null, null,
+                null, null, "", "Orsak"))
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_JSON_ID);
+            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateNullLakemedelsbehandlingAvslutadOrsak() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setLakemedelsbehandling(Lakemedelsbehandling.create(true, false, null, null,
-                        null, null, "Förra året", null))
-                .build();
+            .setLakemedelsbehandling(Lakemedelsbehandling.create(true, false, null, null,
+                null, null, "Förra året", null))
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_JSON_ID);
+            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateEmptyLakemedelsbehandlingAvslutadOrsak() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setLakemedelsbehandling(Lakemedelsbehandling.create(true, false, null, null,
-                        null, null, "Förra året", ""))
-                .build();
+            .setLakemedelsbehandling(Lakemedelsbehandling.create(true, false, null, null,
+                null, null, "Förra året", ""))
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_JSON_ID);
+            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateNullBedomningAvSymptom() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setBedomningAvSymptom(null)
-                .build();
+            .setBedomningAvSymptom(null)
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
@@ -592,8 +641,8 @@ public class InternalValidatorInstanceImplTest {
     @Test
     public void validateEmptyBedomningAvSymptom() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setBedomningAvSymptom(null)
-                .build();
+            .setBedomningAvSymptom(null)
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
@@ -604,84 +653,84 @@ public class InternalValidatorInstanceImplTest {
     @Test
     public void validateNullPrognos() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setPrognosTillstand(null)
-                .build();
+            .setPrognosTillstand(null)
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, SYMPTOM_KATEGORI,
-                SYMPTOM_PROGNOS_SVAR_JSON_ID + PUNKT + SYMPTOM_PROGNOS_DELSVAR_JSON_ID);
+            SYMPTOM_PROGNOS_SVAR_JSON_ID + PUNKT + SYMPTOM_PROGNOS_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateNullPrognosType() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setPrognosTillstand(PrognosTillstand.create(null))
-                .build();
+            .setPrognosTillstand(PrognosTillstand.create(null))
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, SYMPTOM_KATEGORI,
-                SYMPTOM_PROGNOS_SVAR_JSON_ID + PUNKT + SYMPTOM_PROGNOS_DELSVAR_JSON_ID);
+            SYMPTOM_PROGNOS_SVAR_JSON_ID + PUNKT + SYMPTOM_PROGNOS_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateNullBedomning() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setBedomning(null)
-                .build();
+            .setBedomning(null)
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessage = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessage, BEDOMNING_KATEGORI,
-                BEDOMNING_UPPFYLLER_SVAR_JSON_ID + PUNKT + BEDOMNING_UPPFYLLER_DELSVAR_JSON_ID);
+            BEDOMNING_UPPFYLLER_SVAR_JSON_ID + PUNKT + BEDOMNING_UPPFYLLER_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateNullBedomningBehorighetsKrav() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setBedomning(Bedomning.builder().build())
-                .build();
+            .setBedomning(Bedomning.builder().build())
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessage = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessage, BEDOMNING_KATEGORI,
-                BEDOMNING_UPPFYLLER_SVAR_JSON_ID + PUNKT + BEDOMNING_UPPFYLLER_DELSVAR_JSON_ID);
+            BEDOMNING_UPPFYLLER_SVAR_JSON_ID + PUNKT + BEDOMNING_UPPFYLLER_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateMissingBedomning() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setBedomning(Bedomning.builder()
-                        .setUppfyllerBehorighetskrav(EnumSet.noneOf(Bedomning.BehorighetsTyp.class))
-                        .build())
-                .build();
+            .setBedomning(Bedomning.builder()
+                .setUppfyllerBehorighetskrav(EnumSet.noneOf(Bedomning.BehorighetsTyp.class))
+                .build())
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessage = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessage, BEDOMNING_KATEGORI,
-                BEDOMNING_UPPFYLLER_SVAR_JSON_ID + PUNKT + BEDOMNING_UPPFYLLER_DELSVAR_JSON_ID);
+            BEDOMNING_UPPFYLLER_SVAR_JSON_ID + PUNKT + BEDOMNING_UPPFYLLER_DELSVAR_JSON_ID);
     }
 
     @Test
     public void validateInvalidBedomning() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setBedomning(Bedomning.builder()
-                        .setUppfyllerBehorighetskrav(EnumSet.of(Bedomning.BehorighetsTyp.VAR6,
-                                Bedomning.BehorighetsTyp.VAR11))
-                        .build())
-                .build();
+            .setBedomning(Bedomning.builder()
+                .setUppfyllerBehorighetskrav(EnumSet.of(Bedomning.BehorighetsTyp.VAR6,
+                    Bedomning.BehorighetsTyp.VAR11))
+                .build())
+            .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessage = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessage, ValidationMessageType.INCORRECT_COMBINATION, BEDOMNING_KATEGORI,
-                BEDOMNING_UPPFYLLER_SVAR_JSON_ID + PUNKT + BEDOMNING_UPPFYLLER_DELSVAR_JSON_ID);
+            BEDOMNING_UPPFYLLER_SVAR_JSON_ID + PUNKT + BEDOMNING_UPPFYLLER_DELSVAR_JSON_ID);
     }
 
     private Map<String, ValidationMessage> buildMapFromMessages(List<ValidationMessage> validationMessages) {
@@ -697,7 +746,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     private void assertValidationMessage(Map<String, ValidationMessage> validationMessageMap, ValidationMessageType validationMessageType,
-            String category, String field) {
+        String category, String field) {
         final ValidationMessage validationMessage = validationMessageMap.get(field);
         assertNotNull("Missing message for " + field, validationMessage);
         assertValidationMessage(validationMessage, validationMessageType, category, field);
@@ -708,13 +757,13 @@ public class InternalValidatorInstanceImplTest {
     }
 
     private void assertOneValidationMessages(List<ValidationMessage> validationMessage, ValidationMessageType validationMessageType,
-            String category, String field) {
+        String category, String field) {
         assertEquals("Should have error messages", 1, validationMessage.size());
         assertValidationMessage(validationMessage.get(0), validationMessageType, category, field);
     }
 
     private void assertValidationMessage(ValidationMessage validationMessage, ValidationMessageType validationMessageType, String category,
-            String field) {
+        String field) {
         assertEquals("Should have Empty message type", validationMessageType, validationMessage.getType());
         assertEquals("Should have category: " + category, category, validationMessage.getCategory());
         assertEquals("Should have field: " + field, field, validationMessage.getField());

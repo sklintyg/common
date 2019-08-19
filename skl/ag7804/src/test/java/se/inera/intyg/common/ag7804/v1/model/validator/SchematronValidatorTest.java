@@ -21,14 +21,11 @@ package se.inera.intyg.common.ag7804.v1.model.validator;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.net.URL;
-
-import org.junit.Test;
-
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.commons.debug.GlobalDebug;
-
+import java.net.URL;
+import org.junit.Test;
 import se.inera.intyg.common.ag7804.v1.rest.Ag7804ModuleApiV1;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
@@ -79,20 +76,20 @@ public class SchematronValidatorTest {
     @Test
     public void invalidHeltNedsattOchOmArbetstidsforlaggning() throws Exception {
         String inputXml = Resources
-                .toString(getResource("v1/transport/failingSjukskrivningHeltNedsattOchOmArbetstidsforlaggning.xml"),
-                        Charsets.UTF_8);
+            .toString(getResource("v1/transport/failingSjukskrivningHeltNedsattOchOmArbetstidsforlaggning.xml"),
+                Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertTrue(String.format("Expected 1 error but was %s",
-                response.getValidationErrors().size()), response.getValidationErrors().size() == 1);
+            response.getValidationErrors().size()), response.getValidationErrors().size() == 1);
     }
 
     @Test
     public void validFleraSjukskrivningarOchOmArbetstidsforlaggning() throws Exception {
         String inputXml = Resources
-                .toString(getResource("v1/transport/fleraSjukskrivningOchOmArbetstidsforlaggning.xml"),
-                        Charsets.UTF_8);
+            .toString(getResource("v1/transport/fleraSjukskrivningOchOmArbetstidsforlaggning.xml"),
+                Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertTrue(String.format("Expected 0 error but was %s",
-                response.getValidationErrors().size()), response.getValidationErrors().size() == 0);
+            response.getValidationErrors().size()), response.getValidationErrors().size() == 0);
     }
 }

@@ -18,40 +18,40 @@
  */
 
 angular
-    .module('common')
-    .factory('common.UtkastFooterService',
+.module('common')
+.factory('common.UtkastFooterService',
     ['common.UtkastViewStateService', 'common.UtkastService', 'common.UtkastValidationService', 'common.UtkastValidationViewState',
-        function(CommonViewState, UtkastService, UtkastValidationService, utkastValidationViewState) {
-            'use strict';
+      function(CommonViewState, UtkastService, UtkastValidationService, utkastValidationViewState) {
+        'use strict';
 
-             function checkMissing(viewState, certForm, signStatus) {
-                if(signStatus === 'pending') {
-                    return false;
-                }
+        function checkMissing(viewState, certForm, signStatus) {
+          if (signStatus === 'pending') {
+            return false;
+          }
 
-                if(!viewState.common.intyg.isComplete || certForm.$dirty){
+          if (!viewState.common.intyg.isComplete || certForm.$dirty) {
 
-                    CommonViewState.setShowComplete(true);
-                    UtkastService.save();
-                    UtkastValidationService.filterValidationMessages();
+            CommonViewState.setShowComplete(true);
+            UtkastService.save();
+            UtkastValidationService.filterValidationMessages();
 
-                    return false;
-                }
+            return false;
+          }
 
-                return true;
-            }
+          return true;
+        }
 
-            function toggleMissing(value, viewState, certForm) {
-                if (value) {
-                    checkMissing(viewState, certForm);
-                } else {
-                    CommonViewState.setShowComplete(false);
-                    utkastValidationViewState.reset();
-                }
-            }
+        function toggleMissing(value, viewState, certForm) {
+          if (value) {
+            checkMissing(viewState, certForm);
+          } else {
+            CommonViewState.setShowComplete(false);
+            utkastValidationViewState.reset();
+          }
+        }
 
-            return {
-                checkMissing: checkMissing,
-                toggleMissing: toggleMissing
-            };
-        }]);
+        return {
+          checkMissing: checkMissing,
+          toggleMissing: toggleMissing
+        };
+      }]);

@@ -36,5 +36,6 @@ public final class Constants {
     public static final String KV_ID_KONTROLL_CODE_SYSTEM = "e7cc8f30-a353-4c42-b17a-a189b6876647";
     public static final String KV_KORKORTSBEHORIGHET_CODE_SYSTEM = "e889fa20-1dee-4f79-8b37-03853e75a9f8";
 
-    private Constants() { }
+    private Constants() {
+    }
 }

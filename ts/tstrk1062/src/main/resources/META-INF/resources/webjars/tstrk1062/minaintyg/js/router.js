@@ -17,21 +17,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('tstrk1062').config(function($stateProvider) {
-    'use strict';
-    $stateProvider.
-        state('tstrk1062-view', {
-            url :'/tstrk1062/:intygTypeVersion/view/:certificateId',
-            templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
-            controller: 'common.ViewCertCtrl',
-            resolve: {
-                viewConfigFactory: function(factoryResolverHelper, $stateParams) {
-                    return factoryResolverHelper.resolve('tstrk1062.viewConfigFactory', $stateParams);
-                },
-                viewFactory: function(factoryResolverHelper, $stateParams) {
-                    return factoryResolverHelper.resolve('tstrk1062.viewFactory', $stateParams);
-                }
-            },
-            data:{title: 'Läkarintyg Transportstyrelsen ADHD', keepInboxTabActive: true,
-                breadcrumb: ['inkorg', 'intyg']}
-        });
+  'use strict';
+  $stateProvider.state('tstrk1062-view', {
+    url: '/tstrk1062/:intygTypeVersion/view/:certificateId',
+    templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
+    controller: 'common.ViewCertCtrl',
+    resolve: {
+      viewConfigFactory: function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('tstrk1062.viewConfigFactory', $stateParams);
+      },
+      viewFactory: function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('tstrk1062.viewFactory', $stateParams);
+      }
+    },
+    data: {
+      title: 'Läkarintyg Transportstyrelsen ADHD', keepInboxTabActive: true,
+      breadcrumb: ['inkorg', 'intyg']
+    }
+  });
 });

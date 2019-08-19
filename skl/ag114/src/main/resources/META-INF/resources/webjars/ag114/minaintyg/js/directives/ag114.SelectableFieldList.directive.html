@@ -2,17 +2,10 @@
 
 
   <!-- Grund för medicinskt underlag -->
-  <selectable-category-wrapper
-      category-label="KAT_7.RBK"
-      cert-model="cert"
-      field-configs="[fieldConfig.grund]"
-      summary="summary">
-    <div selectable-field-wrapper
-         label-key="FRG_10.RBK"
-         cert-model="cert"
-         field-config="fieldConfig.grund"
-         summary="summary"
-         show-deselected="showDeselected">
+  <selectable-category-wrapper category-label="KAT_7.RBK" cert-model="cert" field-configs="[fieldConfig.grund]"
+                               summary="summary">
+    <div selectable-field-wrapper label-key="FRG_10.RBK" cert-model="cert" field-config="fieldConfig.grund"
+         summary="summary" show-deselected="showDeselected">
       <div ng-show="cert.undersokningAvPatienten!=null">
         <div id="undersokningAvPatienten" class="inline-single-value">
           <h4><span dynamic-label key="KV_FKMU_0001.UNDERSOKNING.RBK"></span></h4><span>  {{cert.undersokningAvPatienten | date:'shortDate' }}</span>
@@ -30,8 +23,7 @@
       </div>
       <div ng-show="cert.annatGrundForMU!=null">
         <div id="annatGrundForMU" class="inline-single-value">
-          <h4><span dynamic-label
-                    key="KV_FKMU_0001.ANNAT.RBK"></span></h4><span>{{cert.annatGrundForMU | date:'shortDate' }}</span>
+          <h4><span dynamic-label key="KV_FKMU_0001.ANNAT.RBK"></span></h4><span>{{cert.annatGrundForMU | date:'shortDate' }}</span>
         </div>
       </div>
       <h4><span dynamic-label key="DFR_10.3.RBK" ng-show="cert.annatGrundForMUBeskrivning!=null"></span></h4>
@@ -42,17 +34,12 @@
   </selectable-category-wrapper>
 
   <!-- Sysselsättning -->
-  <selectable-category-wrapper category-label="KAT_1.RBK"
-                               cert-model="cert"
-                               field-configs="[fieldConfig.sysselsattning]"
+  <selectable-category-wrapper category-label="KAT_1.RBK" cert-model="cert" field-configs="[fieldConfig.sysselsattning]"
                                summary="summary">
-    <div selectable-field-wrapper
-         label-key="FRG_1.RBK"
-         cert-model="cert"
-         field-config="fieldConfig.sysselsattning"
-         summary="summary"
-         show-deselected="showDeselected">
-      <div id="sysselsattning" class="inline-single-value" dynamic-label key="KV_FKMU_0002.{{cert.sysselsattning[0].typ}}.RBK"></div>
+    <div selectable-field-wrapper label-key="FRG_1.RBK" cert-model="cert" field-config="fieldConfig.sysselsattning"
+         summary="summary" show-deselected="showDeselected">
+      <div id="sysselsattning" class="inline-single-value" dynamic-label
+           key="KV_FKMU_0002.{{cert.sysselsattning[0].typ}}.RBK"></div>
       <h4><span dynamic-label key="FRG_1.RBK"></span></h4>
       <div id="nuvarandeArbete" class="inline-single-value">{{cert.nuvarandeArbete}}</div>
 
@@ -63,16 +50,10 @@
 
 
   <!-- Diagnoser -->
-  <selectable-category-wrapper category-label="KAT_2.RBK"
-                               cert-model="cert"
-                               field-configs="[fieldConfig.diagnosGrupp]"
+  <selectable-category-wrapper category-label="KAT_2.RBK" cert-model="cert" field-configs="[fieldConfig.diagnosGrupp]"
                                summary="summary">
-    <div selectable-field-wrapper
-         label-key="FRG_3.RBK"
-         cert-model="cert"
-         field-config="fieldConfig.diagnosGrupp"
-         summary="summary"
-         show-deselected="showDeselected">
+    <div selectable-field-wrapper label-key="FRG_3.RBK" cert-model="cert" field-config="fieldConfig.diagnosGrupp"
+         summary="summary" show-deselected="showDeselected">
       <div id="onskarFormedlaDiagnos" class="inline-single-value">{{cert.onskarFormedlaDiagnos | uvBoolFilter}}</div>
 
       <h4><span dynamic-label key="FRG_4.RBK"></span></h4>
@@ -96,82 +77,62 @@
 
 
   <!-- Arbetsformaga -->
-  <selectable-category-wrapper category-label="KAT_3.RBK"
-                               cert-model="cert"
+  <selectable-category-wrapper category-label="KAT_3.RBK" cert-model="cert"
                                field-configs="[fieldConfig.nedsattArbetsformaga, fieldConfig.arbetsformagaTrotsSjukdom, fieldConfig.arbetsformagaTrotsSjukdomBeskrivning]"
                                summary="summary">
-    <div selectable-field-wrapper
-         label-key="FRG_5.RBK"
-         cert-model="cert"
-         field-config="fieldConfig.nedsattArbetsformaga"
-         summary="summary"
-         show-deselected="showDeselected">
+    <div selectable-field-wrapper label-key="FRG_5.RBK" cert-model="cert"
+         field-config="fieldConfig.nedsattArbetsformaga" summary="summary" show-deselected="showDeselected">
       <div id="nedsattArbetsformaga" class="inline-single-value">{{cert.nedsattArbetsformaga}}</div>
     </div>
 
-    <div selectable-field-wrapper
-         label-key="FRG_6.RBK"
-         cert-model="cert"
-         field-config="fieldConfig.arbetsformagaTrotsSjukdom"
-         summary="summary"
-         show-deselected="showDeselected">
-      <div id="arbetsformagaTrotsSjukdom" class="inline-single-value">{{cert.arbetsformagaTrotsSjukdom | uvBoolFilter}}</div>
+    <div selectable-field-wrapper label-key="FRG_6.RBK" cert-model="cert"
+         field-config="fieldConfig.arbetsformagaTrotsSjukdom" summary="summary" show-deselected="showDeselected">
+      <div id="arbetsformagaTrotsSjukdom" class="inline-single-value">{{cert.arbetsformagaTrotsSjukdom |
+        uvBoolFilter}}
+      </div>
       <h4><span dynamic-label key="DFR_6.2.RBK"></span></h4>
-      <div id="arbetsformagaTrotsSjukdomBeskrivning" class="inline-single-value">{{cert.arbetsformagaTrotsSjukdomBeskrivning}}</div>
+      <div id="arbetsformagaTrotsSjukdomBeskrivning" class="inline-single-value">
+        {{cert.arbetsformagaTrotsSjukdomBeskrivning}}
+      </div>
     </div>
   </selectable-category-wrapper>
 
   <!-- Sjukskrivningsgrad -->
-  <selectable-category-wrapper category-label="KAT_4.RBK"
-                               cert-model="cert"
-                               field-configs="[fieldConfig.sjukskrivningsgrad]"
-                               summary="summary">
-    <div selectable-field-wrapper
-         label-key="FRG_7.RBK"
-         cert-model="cert"
-         field-config="fieldConfig.sjukskrivningsgrad"
-         summary="summary"
-         show-deselected="showDeselected">
+  <selectable-category-wrapper category-label="KAT_4.RBK" cert-model="cert"
+                               field-configs="[fieldConfig.sjukskrivningsgrad]" summary="summary">
+    <div selectable-field-wrapper label-key="FRG_7.RBK" cert-model="cert" field-config="fieldConfig.sjukskrivningsgrad"
+         summary="summary" show-deselected="showDeselected">
       <h4><span dynamic-label key="DFR_7.1.RBK"></span></h4>
       <div id="sjukskrivningsgrad" class="multiline inline-single-value">{{cert.sjukskrivningsgrad}} %</div>
 
       <h4><span dynamic-label key="DFR_7.2.RBK"></span></h4>
-      <div id="sjukskrivningsperiod" class="inline-single-value"> Fr.o.m {{cert.sjukskrivningsperiod.from | date:'shortDate'}} t.o.m {{cert.sjukskrivningsperiod.tom | date:'shortDate'}}</div>
+      <div id="sjukskrivningsperiod" class="inline-single-value"> Fr.o.m {{cert.sjukskrivningsperiod.from |
+        date:'shortDate'}} t.o.m {{cert.sjukskrivningsperiod.tom | date:'shortDate'}}
+      </div>
     </div>
 
   </selectable-category-wrapper>
 
 
   <!-- Övriga upplysningar -->
-  <selectable-category-wrapper category-label="KAT_5.RBK"
-                               cert-model="cert"
-                               field-configs="[fieldConfig.ovrigaUpplysningar]"
-                               summary="summary">
-    <div selectable-field-wrapper
-         label-key="FRG_8.RBK"
-         cert-model="cert"
-         field-config="fieldConfig.ovrigaUpplysningar"
-         summary="summary"
-         show-deselected="showDeselected">
+  <selectable-category-wrapper category-label="KAT_5.RBK" cert-model="cert"
+                               field-configs="[fieldConfig.ovrigaUpplysningar]" summary="summary">
+    <div selectable-field-wrapper label-key="FRG_8.RBK" cert-model="cert" field-config="fieldConfig.ovrigaUpplysningar"
+         summary="summary" show-deselected="showDeselected">
       <div id="ovrigaUpplysningar" class="multiline">{{cert.ovrigaUpplysningar}}</div>
     </div>
 
   </selectable-category-wrapper>
 
 
-
   <!-- Kontakt -->
-  <selectable-category-wrapper category-label="KAT_6.RBK"
-                               cert-model="cert"
+  <selectable-category-wrapper category-label="KAT_6.RBK" cert-model="cert"
                                field-configs="[fieldConfig.kontaktMedArbetsgivaren, fieldConfig.anledningTillKontakt]"
                                summary="summary">
-    <div selectable-field-wrapper
-         label-key="DFR_9.1.RBK"
-         cert-model="cert"
-         field-config="fieldConfig.kontaktMedArbetsgivaren"
-         summary="summary"
-         show-deselected="showDeselected">
-      <div id="kontaktMedArbetsgivaren" class="inline-single-value">{{cert.kontaktMedArbetsgivaren | uvBoolFilter}}</div>
+    <div selectable-field-wrapper label-key="DFR_9.1.RBK" cert-model="cert"
+         field-config="fieldConfig.kontaktMedArbetsgivaren" summary="summary" show-deselected="showDeselected">
+      <div id="kontaktMedArbetsgivaren" class="inline-single-value">{{cert.kontaktMedArbetsgivaren | uvBoolFilter}}
+      </div>
 
       <h4><span dynamic-label key="DFR_9.2.RBK"></span></h4>
       <div id="anledningTillKontakt" class="multiline">{{cert.anledningTillKontakt}}</div>

@@ -24,17 +24,19 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeParseException;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.fasterxml.jackson.core.*;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import se.inera.intyg.common.util.integration.json.CustomLocalDateDeserializer;
 
 public final class CustomLocalDateDeserializerTest {
@@ -59,7 +61,8 @@ public final class CustomLocalDateDeserializerTest {
 
         DeserializationContext ctxt = mock(DeserializationContext.class);
         when(ctxt.wrongTokenException(any(JsonParser.class), any(JsonToken.class), anyString())).
-                thenReturn(JsonMappingException.from(jp, "Unexpected token (" + jp.getCurrentToken() + "), expected " + JsonToken.START_ARRAY + ": expected JSON Array, Number or String"));    // Mock implementation
+            thenReturn(JsonMappingException.from(jp, "Unexpected token (" + jp.getCurrentToken() + "), expected " + JsonToken.START_ARRAY
+                + ": expected JSON Array, Number or String"));    // Mock implementation
 
         // Deserialize JSON string
         LocalDate ld = deserializer.deserialize(jp, ctxt);
@@ -79,7 +82,8 @@ public final class CustomLocalDateDeserializerTest {
 
         DeserializationContext ctxt = mock(DeserializationContext.class);
         when(ctxt.wrongTokenException(any(JsonParser.class), any(JsonToken.class), anyString())).
-                thenReturn(JsonMappingException.from(jp, "Unexpected token (" + jp.getCurrentToken() + "), expected " + JsonToken.START_ARRAY + ": expected JSON Array, Number or String"));    // Mock implementation
+            thenReturn(JsonMappingException.from(jp, "Unexpected token (" + jp.getCurrentToken() + "), expected " + JsonToken.START_ARRAY
+                + ": expected JSON Array, Number or String"));    // Mock implementation
 
         // Deserialize JSON string
         LocalDate ld = deserializer.deserialize(jp, ctxt);
@@ -99,7 +103,8 @@ public final class CustomLocalDateDeserializerTest {
 
         DeserializationContext ctxt = mock(DeserializationContext.class);
         when(ctxt.wrongTokenException(any(JsonParser.class), any(JsonToken.class), anyString())).
-                thenReturn(JsonMappingException.from(jp, "Unexpected token (" + jp.getCurrentToken() + "), expected " + JsonToken.START_ARRAY + ": expected JSON Array, Number or String"));    // Mock implementation
+            thenReturn(JsonMappingException.from(jp, "Unexpected token (" + jp.getCurrentToken() + "), expected " + JsonToken.START_ARRAY
+                + ": expected JSON Array, Number or String"));    // Mock implementation
 
         // Deserialize JSON string
         LocalDate ld = deserializer.deserialize(jp, ctxt);
@@ -119,7 +124,8 @@ public final class CustomLocalDateDeserializerTest {
 
         DeserializationContext ctxt = mock(DeserializationContext.class);
         when(ctxt.wrongTokenException(any(JsonParser.class), any(JsonToken.class), anyString())).
-                thenReturn(JsonMappingException.from(jp, "Unexpected token (" + jp.getCurrentToken() + "), expected " + JsonToken.START_ARRAY + ": expected JSON Array, Number or String"));    // Mock implementation
+            thenReturn(JsonMappingException.from(jp, "Unexpected token (" + jp.getCurrentToken() + "), expected " + JsonToken.START_ARRAY
+                + ": expected JSON Array, Number or String"));    // Mock implementation
 
         // Deserialize JSON string
         LocalDate ld = deserializer.deserialize(jp, ctxt);
@@ -139,7 +145,8 @@ public final class CustomLocalDateDeserializerTest {
 
         DeserializationContext ctxt = mock(DeserializationContext.class);
         when(ctxt.wrongTokenException(any(JsonParser.class), any(JsonToken.class), anyString())).
-                thenReturn(JsonMappingException.from(jp, "Unexpected token (" + jp.getCurrentToken() + "), expected " + JsonToken.START_ARRAY + ": expected JSON Array, Number or String"));    // Mock implementation
+            thenReturn(JsonMappingException.from(jp, "Unexpected token (" + jp.getCurrentToken() + "), expected " + JsonToken.START_ARRAY
+                + ": expected JSON Array, Number or String"));    // Mock implementation
 
         // Deserialize JSON string
         LocalDate ld = deserializer.deserialize(jp, ctxt);
@@ -159,7 +166,8 @@ public final class CustomLocalDateDeserializerTest {
 
         DeserializationContext ctxt = mock(DeserializationContext.class);
         when(ctxt.wrongTokenException(any(JsonParser.class), any(JsonToken.class), anyString())).
-                thenReturn(JsonMappingException.from(jp, "Unexpected token (" + jp.getCurrentToken() + "), expected " + JsonToken.START_ARRAY + ": expected JSON Array, Number or String"));    // Mock implementation
+            thenReturn(JsonMappingException.from(jp, "Unexpected token (" + jp.getCurrentToken() + "), expected " + JsonToken.START_ARRAY
+                + ": expected JSON Array, Number or String"));    // Mock implementation
 
         // Deserialize JSON string
         deserializer.deserialize(jp, ctxt);
@@ -167,9 +175,9 @@ public final class CustomLocalDateDeserializerTest {
 
     private void setJsonParserAtCorrectToken(JsonParser jp) throws IOException, JsonParseException {
         // loop over all fields in JSON object
-        while(jp.nextToken() != JsonToken.END_OBJECT) {
+        while (jp.nextToken() != JsonToken.END_OBJECT) {
             String field = jp.getCurrentName();
-            if("journalanteckningar".equals(field)) {
+            if ("journalanteckningar".equals(field)) {
                 break;
             }
             // move to next token (which is the field value)

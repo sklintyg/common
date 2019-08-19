@@ -43,7 +43,7 @@
   ],
   "prognos": {
     "typ": "ATER_X_ANTAL_DGR",
-    "dagarTillArbete" : "TRETTIO_DGR"
+    "dagarTillArbete": "TRETTIO_DGR"
   },
   "arbetsresor": true,
   "arbetstidsforlaggningMotivering": "Kan bara jobba på nätterna.",

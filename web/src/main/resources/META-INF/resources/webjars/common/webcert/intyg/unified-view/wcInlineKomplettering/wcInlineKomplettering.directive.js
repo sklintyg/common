@@ -16,29 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcInlineKomplettering', [ 'common.ArendeListViewStateService', 'common.UtilsService',
-    function(ArendeListViewStateService, Utils) {
+angular.module('common').directive('wcInlineKomplettering', ['common.ArendeListViewStateService', 'common.UtilsService',
+  function(ArendeListViewStateService, Utils) {
     'use strict';
 
     return {
-        restrict: 'E',
-        templateUrl: '/web/webjars/common/webcert/intyg/unified-view/wcInlineKomplettering/wcInlineKomplettering.directive.html',
-        scope: {
-            frageId: '='
-        },
-        link: function($scope) {
+      restrict: 'E',
+      templateUrl: '/web/webjars/common/webcert/intyg/unified-view/wcInlineKomplettering/wcInlineKomplettering.directive.html',
+      scope: {
+        frageId: '='
+      },
+      link: function($scope) {
 
-            var numericFrageId = Utils.extractNumericalFrageId($scope.frageId);
-            if (numericFrageId) {
-                _updateKompletteringar();
-                $scope.$on('arenden.updated', _updateKompletteringar);
-            }
-
-            function _updateKompletteringar() {
-                // lookup if there's an unhandled komplettering for this frage-id
-                $scope.kompletteringar = ArendeListViewStateService.getKompletteringarForFraga(numericFrageId);
-            }
-
+        var numericFrageId = Utils.extractNumericalFrageId($scope.frageId);
+        if (numericFrageId) {
+          _updateKompletteringar();
+          $scope.$on('arenden.updated', _updateKompletteringar);
         }
+
+        function _updateKompletteringar() {
+          // lookup if there's an unhandled komplettering for this frage-id
+          $scope.kompletteringar = ArendeListViewStateService.getKompletteringarForFraga(numericFrageId);
+        }
+
+      }
     };
-} ]);
+  }]);

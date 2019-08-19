@@ -18,33 +18,33 @@
  */
 angular.module('common').factory('common.IcfProxy',
     function($http, $log) {
-        'use strict';
+      'use strict';
 
-        function _getIcf(diagnoser, onSuccess, onError) {
-            var restPath = '/api/icf?' + _generateQueryFromDiagnos(diagnoser);
-            $http.get(restPath).then(function(response) {
-                if (response && response.status === 200) {
-                    onSuccess(response.data);
-                } else {
-                    onError(response);
-                }
-            }, function(response) {
-                $log.error('IcfProxy.getIcf, Error: ' + response.status + ': ' + response.statusText);
-                onError(response);
-            });
-        }
+      function _getIcf(diagnoser, onSuccess, onError) {
+        var restPath = '/api/icf?' + _generateQueryFromDiagnos(diagnoser);
+        $http.get(restPath).then(function(response) {
+          if (response && response.status === 200) {
+            onSuccess(response.data);
+          } else {
+            onError(response);
+          }
+        }, function(response) {
+          $log.error('IcfProxy.getIcf, Error: ' + response.status + ': ' + response.statusText);
+          onError(response);
+        });
+      }
 
-        function _generateQueryFromDiagnos(diagnoser) {
-            var icdKodNr = 0;
-            var diagnosPath = diagnoser.map(function(v){
-                icdKodNr++;
-                return 'icd10Kod' + icdKodNr + '=' + v.diagnosKod;
-            }).join('&');
-            return diagnosPath;
-        }
+      function _generateQueryFromDiagnos(diagnoser) {
+        var icdKodNr = 0;
+        var diagnosPath = diagnoser.map(function(v) {
+          icdKodNr++;
+          return 'icd10Kod' + icdKodNr + '=' + v.diagnosKod;
+        }).join('&');
+        return diagnosPath;
+      }
 
-        return {
-            getIcf: _getIcf
-        };
+      return {
+        getIcf: _getIcf
+      };
     });
 

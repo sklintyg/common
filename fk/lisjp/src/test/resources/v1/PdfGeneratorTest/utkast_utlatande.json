@@ -1,48 +1,45 @@
 {
-  "id":"utkast-utlatande",
-  "grundData":{
-    "signeringsdatum":"",
-    "skapadAv":{
-      "personId":"TSTNMT2321000156-1079",
-      "fullstandigtNamn":"Arnold Johansson",
-      "forskrivarKod":"0000000",
-      "befattningar":[
+  "id": "utkast-utlatande",
+  "grundData": {
+    "signeringsdatum": "",
+    "skapadAv": {
+      "personId": "TSTNMT2321000156-1079",
+      "fullstandigtNamn": "Arnold Johansson",
+      "forskrivarKod": "0000000",
+      "befattningar": [
         "204010"
       ],
-      "specialiteter":[
-
+      "specialiteter": [
       ],
-      "vardenhet":{
-        "enhetsid":"TSTNMT2321000156-1077",
-        "enhetsnamn":"NMT vg3 ve1",
-        "postadress":"NMT gata 3",
-        "postnummer":"12345",
-        "postort":"Testhult",
-        "telefonnummer":"0101112131416",
-        "epost":"enhet3@webcert.invalid.se",
-        "vardgivare":{
-          "vardgivarid":"TSTNMT2321000156-102Q",
-          "vardgivarnamn":"NMT vg3"
+      "vardenhet": {
+        "enhetsid": "TSTNMT2321000156-1077",
+        "enhetsnamn": "NMT vg3 ve1",
+        "postadress": "NMT gata 3",
+        "postnummer": "12345",
+        "postort": "Testhult",
+        "telefonnummer": "0101112131416",
+        "epost": "enhet3@webcert.invalid.se",
+        "vardgivare": {
+          "vardgivarid": "TSTNMT2321000156-102Q",
+          "vardgivarnamn": "NMT vg3"
         },
-        "arbetsplatsKod":"1234567890"
+        "arbetsplatsKod": "1234567890"
       }
     },
-    "patient":{
-      "personId":"19121212-1212",
-      "samordningsNummer":false
+    "patient": {
+      "personId": "19121212-1212",
+      "samordningsNummer": false
     },
-    "relation":{
-
+    "relation": {
     }
   },
-  "textVersion":"1.0",
-  "avstangningSmittskydd":false,
-  "sysselsattning":[
-
+  "textVersion": "1.0",
+  "avstangningSmittskydd": false,
+  "sysselsattning": [
   ],
-  "diagnoser":[],
-  "sjukskrivningar":[],
-  "arbetslivsinriktadeAtgarder":[],
-  "kontaktMedFk":false,
-  "typ":"lisjp"
+  "diagnoser": [],
+  "sjukskrivningar": [],
+  "arbetslivsinriktadeAtgarder": [],
+  "kontaktMedFk": false,
+  "typ": "lisjp"
 }

@@ -24,13 +24,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-
 import javax.xml.bind.JAXB;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
@@ -65,7 +62,6 @@ public class GetTSDiabetesResponderImpl implements GetTSDiabetesResponderInterfa
         String certificateId = request.getIntygsId();
         Personnummer personnummer = getPersonnummer(request);
 
-
         if (certificateId == null || certificateId.length() == 0) {
             LOGGER.info(LogMarkers.VALIDATION, "Tried to get certificate with non-existing certificateId '.");
             response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "non-existing certificateId"));
@@ -80,15 +76,15 @@ public class GetTSDiabetesResponderImpl implements GetTSDiabetesResponderInterfa
             }
             if (certificate.isDeletedByCareGiver()) {
                 response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR,
-                        String.format("Certificate '%s' has been deleted by care giver", certificateId)));
+                    String.format("Certificate '%s' has been deleted by care giver", certificateId)));
             } else {
                 TSDiabetesIntyg tsDiabetesIntyg = JAXB
-                        .unmarshal(new StringReader(certificate.getOriginalCertificate()), RegisterTSDiabetesType.class).getIntyg();
+                    .unmarshal(new StringReader(certificate.getOriginalCertificate()), RegisterTSDiabetesType.class).getIntyg();
                 response.setIntyg(tsDiabetesIntyg);
                 response.setMeta(createMetaData(certificate));
                 if (certificate.isRevoked()) {
                     response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.REVOKED,
-                            String.format("Certificate '%s' has been revoked", request.getIntygsId())));
+                        String.format("Certificate '%s' has been revoked", request.getIntygsId())));
                 } else {
                     response.setResultat(ResultTypeUtil.okResult());
                 }

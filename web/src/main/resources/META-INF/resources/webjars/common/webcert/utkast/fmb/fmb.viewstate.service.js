@@ -17,44 +17,44 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').service('common.fmbViewState', [
-    'common.fmbDiagnosInfoModel', 'common.ObjectHelper',
-    function(fmbModel, ObjectHelper) {
-        'use strict';
+  'common.fmbDiagnosInfoModel', 'common.ObjectHelper',
+  function(fmbModel, ObjectHelper) {
+    'use strict';
 
-        this.DIAGNOS_TYPE = {
-            HUVUDDIAGNOS: 0,
-            BIDIAGNOS1: 1,
-            BIDIAGNOS2: 2
-        };
+    this.DIAGNOS_TYPE = {
+      HUVUDDIAGNOS: 0,
+      BIDIAGNOS1: 1,
+      BIDIAGNOS2: 2
+    };
 
-        this.test = function() {
-            console.log('fmb function test');
-        };
+    this.test = function() {
+      console.log('fmb function test');
+    };
 
-        this.closeFmb = function(scope){
-            
-        };
+    this.closeFmb = function(scope) {
 
-        this.isIcdKodVerk = true;
+    };
 
-        this.diagnoses = {
-            // The following properties are created and deleted on demand depending on FMB info available.
-            // 0: fmbModel.build(), // huvuddiagnos
-            // 1: fmbModel.build(), // bidiagnos
-            // 2: fmbModel.build() // bidiagnos
-        };
-        this.activeDiagnos = 1;
+    this.isIcdKodVerk = true;
 
-        this.setState = function(diagnosType, formData, originalDiagnosKod, originalDiagnosBeskrivning) {
+    this.diagnoses = {
+      // The following properties are created and deleted on demand depending on FMB info available.
+      // 0: fmbModel.build(), // huvuddiagnos
+      // 1: fmbModel.build(), // bidiagnos
+      // 2: fmbModel.build() // bidiagnos
+    };
+    this.activeDiagnos = 1;
 
-            if (!ObjectHelper.isEmpty(originalDiagnosKod) && !angular.isObject(this.diagnoses[diagnosType])) {
-                this.diagnoses[diagnosType] = fmbModel.build();
-            }
+    this.setState = function(diagnosType, formData, originalDiagnosKod, originalDiagnosBeskrivning) {
 
-            this.diagnoses[diagnosType].setState(formData, originalDiagnosKod, originalDiagnosBeskrivning);
-        };
+      if (!ObjectHelper.isEmpty(originalDiagnosKod) && !angular.isObject(this.diagnoses[diagnosType])) {
+        this.diagnoses[diagnosType] = fmbModel.build();
+      }
 
-        this.reset = function(diagnosType) {
-            delete this.diagnoses[diagnosType];
-        };
-    }]);
+      this.diagnoses[diagnosType].setState(formData, originalDiagnosKod, originalDiagnosBeskrivning);
+    };
+
+    this.reset = function(diagnosType) {
+      delete this.diagnoses[diagnosType];
+    };
+  }]);

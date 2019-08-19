@@ -23,12 +23,10 @@ import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_JSON_ID;
 
-import javax.annotation.Nullable;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
-
+import javax.annotation.Nullable;
 import se.inera.intyg.common.ts_diabetes.v3.model.kodverk.KvTypAvDiabetes;
 
 /**
@@ -57,6 +55,7 @@ public abstract class Allmant {
 
     @AutoValue.Builder
     public abstract static class Builder {
+
         public abstract Allmant build();
 
         @JsonProperty(ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11)

@@ -27,7 +27,6 @@ import com.itextpdf.text.Utilities;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
-
 import se.inera.intyg.common.fkparent.pdf.PdfConstants;
 
 /**
@@ -39,6 +38,7 @@ import se.inera.intyg.common.fkparent.pdf.PdfConstants;
  */
 // CHECKSTYLE:OFF MagicNumber
 public class FkDynamicPageDecoratorEventHandler extends PdfPageEventHelper {
+
     private static final float BORDER_WIDTH = 0.2f;
 
     private static final float INTYG_NAME_X = Utilities.millimetersToPoints(107.5f);
@@ -63,10 +63,8 @@ public class FkDynamicPageDecoratorEventHandler extends PdfPageEventHelper {
     /**
      * Decorates overflow pages with intygsname and a border.
      *
-     * @param writer
-     *            PdfWriter
-     * @param document
-     *            Document
+     * @param writer PdfWriter
+     * @param document Document
      */
     @Override
     public void onEndPage(PdfWriter writer, Document document) {
@@ -82,17 +80,17 @@ public class FkDynamicPageDecoratorEventHandler extends PdfPageEventHelper {
     private void drawIntygsNamn(PdfWriter writer, Document document) {
 
         ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, new Phrase(intygsNamnRow1, PdfConstants.FONT_FRAGERUBRIK),
-                INTYG_NAME_X,
-                document.getPageSize().getTop() - INTYG_NAME_ROW1_Y_OFFSET, 0);
+            INTYG_NAME_X,
+            document.getPageSize().getTop() - INTYG_NAME_ROW1_Y_OFFSET, 0);
         ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, new Phrase(intygsNamnRow2, PdfConstants.FONT_BOLD_9),
-                INTYG_NAME_X,
-                document.getPageSize().getTop() - INTYG_NAME_ROW2_Y_OFFSET, 0);
+            INTYG_NAME_X,
+            document.getPageSize().getTop() - INTYG_NAME_ROW2_Y_OFFSET, 0);
     }
 
     private void drawBorder(PdfWriter writer, Document document) {
         Rectangle p = document.getPageSize();
         Rectangle rect = new Rectangle(p.getLeft(pageMargins[0]), p.getBottom(pageMargins[3]), p.getRight(pageMargins[1]),
-                p.getTop(pageMargins[2]));
+            p.getTop(pageMargins[2]));
         rect.setBorder(Rectangle.BOX);
         rect.setBorderWidth(Utilities.millimetersToPoints(BORDER_WIDTH));
         rect.setBorderColor(BaseColor.BLACK);

@@ -1,14 +1,9 @@
 <div class="wc-utkast-patient-address-updater" wc-authority="HANTERA_PERSONUPPGIFTER" intygstyp="model.typ">
-  <button type="button"
-          id="fetchPatientButton"
-          class="btn btn-secondary"
-          ng-click="onUpdateAddressClick()"
-          ng-class="{'idle' : fetchingPatientData}"
-          ng-disabled="disableButton">
+  <button type="button" id="fetchPatientButton" class="btn btn-secondary" ng-click="onUpdateAddressClick()"
+          ng-class="{'idle' : fetchingPatientData}" ng-disabled="disableButton">
     <i class="glyphicon glyphicon-refresh"></i>
   </button>
   <span class="patient-address-updater-label">Hämta adressuppgifter från personuppgiftstjänsten</span>
-  <wc-alert-message ng-show="fetchingPatientDataErrorKey"
-                    alert-severity="warning"
+  <wc-alert-message ng-show="fetchingPatientDataErrorKey" alert-severity="warning"
                     alert-message-id="{{fetchingPatientDataErrorKey}}"></wc-alert-message>
 </div>

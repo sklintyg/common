@@ -1,13 +1,9 @@
 <ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]" class="ue-del-fraga">
   <ue-label config="::config.label" model="::model"></ue-label>
 
-  <wc-dropdown data-items="config.choices"
-               ng-model="modelGetterSetter"
-               ng-model-options="{ getterSetter: true }"
-               data-on-select="updateValidation()"
-               data-use-dynamic-label="true"
+  <wc-dropdown data-items="config.choices" ng-model="modelGetterSetter" ng-model-options="{ getterSetter: true }"
+               data-on-select="updateValidation()" data-use-dynamic-label="true"
                ng-attr-id="{{::config.modelProp|ueDomIdFilter}}"
-               name="{{::config.modelProp|ueDomIdFilter}}">
-  </wc-dropdown>
+               name="{{::config.modelProp|ueDomIdFilter}}"></wc-dropdown>
 
 </ue-validation-wrapper>

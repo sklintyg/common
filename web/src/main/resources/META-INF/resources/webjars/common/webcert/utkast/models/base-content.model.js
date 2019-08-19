@@ -17,19 +17,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.domain.BaseContentModel',
-    [ function( ) {
-        'use strict';
+    [function() {
+      'use strict';
 
-        /**
-         * Constructor, with class name
-         */
-        function BaseContentModel() {
-        }
+      /**
+       * Constructor, with class name
+       */
+      function BaseContentModel() {
+      }
 
-        BaseContentModel.prototype.update = function ( data ) {
+      BaseContentModel.prototype.update = function(data) {
 
-        };
+      };
 
-        return BaseContentModel;
+      return BaseContentModel;
 
     }]);

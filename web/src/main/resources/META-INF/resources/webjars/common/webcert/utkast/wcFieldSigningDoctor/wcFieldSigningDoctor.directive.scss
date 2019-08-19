@@ -1,29 +1,35 @@
 .wc-field-signing-doctor {
-    display: flex;
-    padding-top: 10px;
-    background-color: $wc-color-24;
-    padding-bottom: 10px;
-    border-radius: 5px 5px 0 0;
-    .left {
-        flex: 1 0 auto;
-        span {
-            &.header {
-                @extend %wc-typo-13;
-            }
-            &.name {
-                @extend %wc-typo-07;
-            }
-            float: right;
-            clear: both;
-            color: $wc-color-19;
-        }
+  display: flex;
+  padding-top: 10px;
+  background-color: $wc-color-24;
+  padding-bottom: 10px;
+  border-radius: 5px 5px 0 0;
+
+  .left {
+    flex: 1 0 auto;
+
+    span {
+      &.header {
+        @extend %wc-typo-13;
+      }
+
+      &.name {
+        @extend %wc-typo-07;
+      }
+
+      float: right;
+      clear: both;
+      color: $wc-color-19;
     }
-    .right {
-        flex: 0 0 45px;
-        .material-icons {
-            font-size: 30px;
-            margin-top: 5px;
-            margin-left: 5px;
-        }
+  }
+
+  .right {
+    flex: 0 0 45px;
+
+    .material-icons {
+      font-size: 30px;
+      margin-top: 5px;
+      margin-left: 5px;
     }
+  }
 }

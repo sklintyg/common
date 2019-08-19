@@ -43,11 +43,14 @@ wc-header-help {
 
     &.create-account-section {
       @extend %wc-typo-07;
+
       a {
         @extend %wc-typo-06;
       }
+
       flex: 1 5;
       justify-content: flex-end;
+
       .vertical-container {
         align-items: flex-end;
       }
@@ -95,6 +98,7 @@ wc-header-help {
 
     }
   }
+
   //Override wc-app-header style for this particular dropdown
   .dropdown-menu {
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.32);

@@ -22,7 +22,9 @@ import static se.inera.intyg.common.fk7263.integration.RegisterMedicalCertificat
 import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32;
 import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
 
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
+import iso.v21090.dt.v1.CD;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
@@ -31,21 +33,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
 import javax.xml.bind.JAXBElement;
 import javax.xml.ws.soap.SOAPFaultException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.w3.wsaddressing10.AttributedURIType;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Strings;
-
-import iso.v21090.dt.v1.CD;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.AktivitetType;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Aktivitetskod;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.LakarutlatandeType;
@@ -149,17 +144,17 @@ public class Fk7263ModuleApi implements ModuleApi {
             lastSjukskrivningsgrad = Nedsattningsgrad.NEDSATT_MED_1_4.name();
         }
         if (internal.getNedsattMed50() != null && internal.getNedsattMed50().tomAsLocalDate() != null
-                && (lastPeriod == null || lastPeriod.asLocalDate().isBefore(internal.getNedsattMed50().tomAsLocalDate()))) {
+            && (lastPeriod == null || lastPeriod.asLocalDate().isBefore(internal.getNedsattMed50().tomAsLocalDate()))) {
             lastPeriod = internal.getNedsattMed50().getTom();
             lastSjukskrivningsgrad = Nedsattningsgrad.NEDSATT_MED_1_2.name();
         }
         if (internal.getNedsattMed75() != null && internal.getNedsattMed75().tomAsLocalDate() != null
-                && (lastPeriod == null || lastPeriod.asLocalDate().isBefore(internal.getNedsattMed75().tomAsLocalDate()))) {
+            && (lastPeriod == null || lastPeriod.asLocalDate().isBefore(internal.getNedsattMed75().tomAsLocalDate()))) {
             lastPeriod = internal.getNedsattMed75().getTom();
             lastSjukskrivningsgrad = Nedsattningsgrad.NEDSATT_MED_3_4.name();
         }
         if (internal.getNedsattMed100() != null && internal.getNedsattMed100().tomAsLocalDate() != null
-                && (lastPeriod == null || lastPeriod.asLocalDate().isBefore(internal.getNedsattMed100().tomAsLocalDate()))) {
+            && (lastPeriod == null || lastPeriod.asLocalDate().isBefore(internal.getNedsattMed100().tomAsLocalDate()))) {
             lastSjukskrivningsgrad = Nedsattningsgrad.HELT_NEDSATT.name();
         }
         return lastSjukskrivningsgrad;
@@ -178,7 +173,7 @@ public class Fk7263ModuleApi implements ModuleApi {
      */
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-            throws ModuleException {
+        throws ModuleException {
         try {
             Fk7263Utlatande intyg = getInternal(internalModel);
             PdfDefaultGenerator pdfGenerator = new PdfDefaultGenerator(intyg, statuses, applicationOrigin, utkastStatus);
@@ -194,14 +189,14 @@ public class Fk7263ModuleApi implements ModuleApi {
      */
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            List<String> optionalFields, UtkastStatus utkastStatus)
-            throws ModuleException {
+        List<String> optionalFields, UtkastStatus utkastStatus)
+        throws ModuleException {
         try {
             Fk7263Utlatande intyg = getInternal(internalModel);
             PdfEmployeeGenerator pdfGenerator = new PdfEmployeeGenerator(intyg, statuses, applicationOrigin,
-                    optionalFields, utkastStatus);
+                optionalFields, utkastStatus);
             return new PdfResponse(pdfGenerator.getBytes(), pdfGenerator.generatePdfFilename(LocalDateTime.now(),
-                    pdfGenerator.isCustomized()));
+                pdfGenerator.isCustomized()));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate (employer copy) PDF for certificate!", e);
@@ -224,7 +219,7 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     @Override
     public String createNewInternalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, Utlatande template)
-            throws ModuleException {
+        throws ModuleException {
         try {
             return toInteralModelResponse(webcertModelFactory.createCopy(draftCertificateHolder, template));
         } catch (ConverterException e) {
@@ -261,26 +256,26 @@ public class Fk7263ModuleApi implements ModuleApi {
         GetMedicalCertificateResponseType response = getMedicalCertificateResponderInterface.getMedicalCertificate(logicalAddress, request);
 
         switch (response.getResult().getResultCode()) {
-        case INFO:
-        case OK:
-            return convert(response, false);
-        case ERROR:
-            ErrorIdType errorId = response.getResult().getErrorId();
-            String resultText = response.getResult().getResultText();
-            switch (errorId) {
-            case REVOKED:
-                return convert(response, true);
-            default:
-                LOG.error("Error of type {} occured when retrieving certificate '{}': {}", errorId, certificateId, resultText);
-                throw new ModuleException(
-                        "Error of type " + errorId + " occured when retrieving certificate " + certificateId + ", " + resultText);
-            }
+            case INFO:
+            case OK:
+                return convert(response, false);
+            case ERROR:
+                ErrorIdType errorId = response.getResult().getErrorId();
+                String resultText = response.getResult().getResultText();
+                switch (errorId) {
+                    case REVOKED:
+                        return convert(response, true);
+                    default:
+                        LOG.error("Error of type {} occured when retrieving certificate '{}': {}", errorId, certificateId, resultText);
+                        throw new ModuleException(
+                            "Error of type " + errorId + " occured when retrieving certificate " + certificateId + ", " + resultText);
+                }
         }
         LOG.error("An unidentified error occured when retrieving certificate '{}': {}", certificateId,
-                response.getResult().getResultText());
+            response.getResult().getResultText());
         throw new ModuleException(
-                "An unidentified error occured when retrieving certificate " + certificateId + ", "
-                        + response.getResult().getResultText());
+            "An unidentified error occured when retrieving certificate " + certificateId + ", "
+                + response.getResult().getResultText());
     }
 
     @Override
@@ -324,7 +319,7 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     @Override
     public String updateBeforeSigning(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
-            throws ModuleException {
+        throws ModuleException {
         return updateInternal(internalModel, hosPerson, signingDate);
     }
 
@@ -357,7 +352,7 @@ public class Fk7263ModuleApi implements ModuleApi {
      * It should be removed when Forsakringskassan can handle code system name correctly.
      */
     RegisterMedicalCertificateType whenFkIsRecipientThenSetCodeSystemToICD10(final RegisterMedicalCertificateType request)
-            throws ModuleException {
+        throws ModuleException {
 
         LOG.debug("Recipient of RegisterMedicalCertificate certificate is Försäkringskassan");
         LOG.debug("Set element 'lakarutlatande/medicinsktTillstand/tillstandsKod/codeSystemName' to value 'ICD-10'");
@@ -371,7 +366,7 @@ public class Fk7263ModuleApi implements ModuleApi {
 
         // Decide if this certificate has smittskydd checked
         boolean inSmittskydd = findAktivitetWithCode(request.getLakarutlatande().getAktivitet(),
-                Aktivitetskod.AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA) != null;
+            Aktivitetskod.AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA) != null;
 
         if (!inSmittskydd) {
             // Check that we got a medicinsktTillstand element
@@ -396,12 +391,12 @@ public class Fk7263ModuleApi implements ModuleApi {
             try {
                 // tillstandskod is not mandatory when smittskydd is true, just try to set it.
                 request.getLakarutlatande().getMedicinsktTillstand().getTillstandskod()
-                        .setCodeSystemName(Diagnoskodverk.ICD_10_SE.getCodeSystemName());
+                    .setCodeSystemName(Diagnoskodverk.ICD_10_SE.getCodeSystemName());
 
             } catch (NullPointerException npe) {
                 LOG.debug("No tillstandskod element found in request data. "
-                        + "Element is not mandatory when Smittskydd is checked. "
-                        + "Cannot set codeSystemName to 'ICD-10'");
+                    + "Element is not mandatory when Smittskydd is checked. "
+                    + "Cannot set codeSystemName to 'ICD-10'");
             }
         }
 
@@ -465,8 +460,8 @@ public class Fk7263ModuleApi implements ModuleApi {
     // - - - - - Private transformation methods for building responses - - - - - //
 
     private void sendCertificateToRecipient(RegisterMedicalCertificateType originalRequest, final String logicalAddress,
-            final String recipientId)
-            throws ModuleException {
+        final String recipientId)
+        throws ModuleException {
         RegisterMedicalCertificateType request = originalRequest;
         // This is a special case when recipient is Forsakringskassan. See JIRA issue WEBCERT-1442.
         if (!Strings.isNullOrEmpty(recipientId) && recipientId.equalsIgnoreCase(Fk7263EntryPoint.DEFAULT_RECIPIENT_ID)) {
@@ -494,15 +489,15 @@ public class Fk7263ModuleApi implements ModuleApi {
                 // ErrorIdEnum of ValidationError.
                 if (recipientId == null && info && CERTIFICATE_ALREADY_EXISTS.equals(response.getResult().getInfoText())) {
                     LOG.warn("Tried to register certificate ({}) which already exist in Intygstjänsten",
-                            request.getLakarutlatande().getLakarutlatandeId());
+                        request.getLakarutlatande().getLakarutlatandeId());
                     throw new ExternalServiceCallException(response.getResult().getInfoText(), ErrorIdEnum.VALIDATION_ERROR);
                 } else {
                     String message = info
-                            ? response.getResult().getInfoText()
-                            : response.getResult().getErrorId() + " : " + response.getResult().getErrorText();
+                        ? response.getResult().getInfoText()
+                        : response.getResult().getErrorId() + " : " + response.getResult().getErrorText();
                     LOG.error("Error occured when sending certificate '{}': {}",
-                            request.getLakarutlatande() != null ? request.getLakarutlatande().getLakarutlatandeId() : null,
-                            message);
+                        request.getLakarutlatande() != null ? request.getLakarutlatande().getLakarutlatandeId() : null,
+                        message);
                     throw new ExternalServiceCallException(message);
                 }
             }
@@ -513,7 +508,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     private Fk7263Utlatande getInternal(String internalModel)
-            throws ModuleException {
+        throws ModuleException {
 
         try {
             Fk7263Utlatande utlatande = objectMapper.readValue(internalModel, Fk7263Utlatande.class);
@@ -529,7 +524,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     private String updateInternal(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
-            throws ModuleException {
+        throws ModuleException {
         try {
             Fk7263Utlatande intyg = getInternal(internalModel);
             WebcertModelFactoryUtil.updateSkapadAv(intyg, hosPerson, signingDate);
@@ -540,7 +535,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     private String updateInternal(String internalModel, Patient patient)
-            throws ModuleException {
+        throws ModuleException {
         try {
             Fk7263Utlatande intyg = getInternal(internalModel);
             WebcertModelFactoryUtil.populateWithPatientInfo(intyg.getGrundData(), patient);
@@ -567,13 +562,13 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     @Override
     public Map<String, List<String>> getModuleSpecificArendeParameters(Utlatande utlatande,
-            List<String> frageIds) {
+        List<String> frageIds) {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template)
-            throws ModuleException {
+        throws ModuleException {
         try {
             if (!Fk7263Utlatande.class.isInstance(template)) {
                 LOG.error("Could not create a new internal Webcert model from template");
@@ -622,22 +617,22 @@ public class Fk7263ModuleApi implements ModuleApi {
     @Override
     public String getAdditionalInfo(Intyg intyg) throws ModuleException {
         List<DatePeriodType> periods = intyg.getSvar().stream()
-                .filter(svar -> BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32.equals(svar.getId()))
-                .map(Svar::getDelsvar)
-                .flatMap(List::stream)
-                .filter(delsvar -> delsvar != null && BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32.equals(delsvar.getId()))
-                .map(delsvar -> {
-                    try {
-                        return TransportConverterUtil.getDatePeriodTypeContent(delsvar);
-                    } catch (ConverterException ce) {
-                        LOG.error("Failed retrieving additionalInfo for certificate {}: {}",
-                                intyg.getIntygsId().getExtension(), ce.getMessage());
-                        return null;
-                    }
-                })
-                .filter(Objects::nonNull)
-                .sorted(PERIOD_START)
-                .collect(Collectors.toList());
+            .filter(svar -> BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32.equals(svar.getId()))
+            .map(Svar::getDelsvar)
+            .flatMap(List::stream)
+            .filter(delsvar -> delsvar != null && BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32.equals(delsvar.getId()))
+            .map(delsvar -> {
+                try {
+                    return TransportConverterUtil.getDatePeriodTypeContent(delsvar);
+                } catch (ConverterException ce) {
+                    LOG.error("Failed retrieving additionalInfo for certificate {}: {}",
+                        intyg.getIntygsId().getExtension(), ce.getMessage());
+                    return null;
+                }
+            })
+            .filter(Objects::nonNull)
+            .sorted(PERIOD_START)
+            .collect(Collectors.toList());
 
         if (periods.isEmpty()) {
             LOG.error("Failed retrieving additionalInfo for certificate {}: Found no periods.", intyg.getIntygsId().getExtension());
@@ -655,7 +650,7 @@ public class Fk7263ModuleApi implements ModuleApi {
         JAXBElement<RevokeMedicalCertificateRequestType> el = XmlMarshallerHelper.unmarshal(xmlBody);
 
         RevokeMedicalCertificateResponseType response =
-                revokeCertificateClient.revokeMedicalCertificate(uri, el.getValue());
+            revokeCertificateClient.revokeMedicalCertificate(uri, el.getValue());
         if (!response.getResult().getResultCode().equals(ResultCodeEnum.OK)) {
             String message = "Could not send revoke to " + logicalAddress;
             LOG.error(message);
@@ -668,8 +663,8 @@ public class Fk7263ModuleApi implements ModuleApi {
         RevokeMedicalCertificateRequestType request = new RevokeMedicalCertificateRequestType();
         request.setRevoke(ModelConverter.buildRevokeTypeFromUtlatande(utlatande, meddelande));
 
-        JAXBElement<RevokeMedicalCertificateRequestType>  el =
-                new se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.ObjectFactory()
+        JAXBElement<RevokeMedicalCertificateRequestType> el =
+            new se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.ObjectFactory()
                 .createRevokeMedicalCertificateRequest(request);
 
         return XmlMarshallerHelper.marshal(el);

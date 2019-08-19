@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
-                xmlns:cr="urn:local:se:intygstjanster:services:fk:1">
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:cr="urn:local:se:intygstjanster:services:fk:1">
 
   <!-- Copy all XML nodes, if no more specific template matches. -->
   <xsl:template match="@*|node()">

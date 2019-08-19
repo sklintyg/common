@@ -19,7 +19,6 @@
 package se.inera.intyg.common.fk7263.schemas.clinicalprocess.healthcond.certificate.converter;
 
 import java.time.LocalDate;
-
 import se.inera.intyg.common.fk7263.schemas.clinicalprocess.healthcond.certificate.builder.ClinicalProcessCertificateMetaTypeBuilder;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.riv.clinicalprocess.healthcond.certificate.v1.CertificateMetaType;
@@ -35,14 +34,14 @@ public final class ModelConverter {
     public static CertificateMetaType toCertificateMetaType(CertificateHolder source) {
 
         ClinicalProcessCertificateMetaTypeBuilder builder = new ClinicalProcessCertificateMetaTypeBuilder()
-                .certificateId(source.getId())
-                .certificateType(source.getType())
-                .validity(toLocalDate(source.getValidFromDate()), toLocalDate(source.getValidToDate()))
-                .issuerName(source.getSigningDoctorName())
-                .facilityName(source.getCareUnitName())
-                .signDate(source.getSignedDate())
-                .available(String.valueOf(!source.isDeleted()))
-                .complemantaryInfo(source.getAdditionalInfo());
+            .certificateId(source.getId())
+            .certificateType(source.getType())
+            .validity(toLocalDate(source.getValidFromDate()), toLocalDate(source.getValidToDate()))
+            .issuerName(source.getSigningDoctorName())
+            .facilityName(source.getCareUnitName())
+            .signDate(source.getSignedDate())
+            .available(String.valueOf(!source.isDeleted()))
+            .complemantaryInfo(source.getAdditionalInfo());
 
         CertificateMetaType meta = builder.build();
 

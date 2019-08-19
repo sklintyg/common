@@ -18,43 +18,42 @@
  */
 
 describe('wcInlineKomplettering Directive', function() {
-    'use strict';
+  'use strict';
 
-    var $scope;
-    var element;
+  var $scope;
+  var element;
 
-    var answer = [ {
-        text: 'kompletteringstext1'
-    } ];
-    beforeEach(angular.mock.module('htmlTemplates'));
-    beforeEach(angular.mock.module('common'));
+  var answer = [{
+    text: 'kompletteringstext1'
+  }];
+  beforeEach(angular.mock.module('htmlTemplates'));
+  beforeEach(angular.mock.module('common'));
 
-    beforeEach(angular.mock.module('common', function($provide) {
-        $provide.value('common.ArendeListViewStateService', {
-            getKompletteringarForFraga: function(frageId) {
-                return answer;
-            }
-        });
-    }));
-
-    beforeEach(angular.mock.inject([ '$compile', '$rootScope', function($compile, $rootScope) {
-        $scope = $rootScope.$new();
-
-        element = $compile('<wc-inline-komplettering frage-id="frageId"></wc-inline-komplettering>')($scope);
-
-    } ]));
-
-    it('should render kompletteringstexten when komplettering exists', function() {
-        $scope.frageId = 'FRG_25.RBK';
-        $scope.$digest();
-        expect($(element).find('.inline-komplettering-text').text()).toBe('Kompletteringsbegäran: kompletteringstext1');
+  beforeEach(angular.mock.module('common', function($provide) {
+    $provide.value('common.ArendeListViewStateService', {
+      getKompletteringarForFraga: function(frageId) {
+        return answer;
+      }
     });
+  }));
 
-    it('should render nothing when no komplettering exists', function() {
-        $scope.frageId = 'apa';
-        $scope.$digest();
-        expect($(element).find('div.alert-warning').length).toBe(0);
-    });
+  beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {
+    $scope = $rootScope.$new();
 
+    element = $compile('<wc-inline-komplettering frage-id="frageId"></wc-inline-komplettering>')($scope);
+
+  }]));
+
+  it('should render kompletteringstexten when komplettering exists', function() {
+    $scope.frageId = 'FRG_25.RBK';
+    $scope.$digest();
+    expect($(element).find('.inline-komplettering-text').text()).toContain('Kompletteringsbegäran: kompletteringstext1');
+  });
+
+  it('should render nothing when no komplettering exists', function() {
+    $scope.frageId = 'apa';
+    $scope.$digest();
+    expect($(element).find('div.alert-warning').length).toBe(0);
+  });
 
 });

@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('ts-bas', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common' ]);
+angular.module('ts-bas', ['ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common']);
 
 // Inject language resources
-angular.module('ts-bas').run([ 'common.messageService', 'ts-bas.messages',
-    function(messageService, tsBasMessages) {
-        'use strict';
+angular.module('ts-bas').run(['common.messageService', 'ts-bas.messages',
+  function(messageService, tsBasMessages) {
+    'use strict';
 
-        messageService.addResources(tsBasMessages);
-    }]);
+    messageService.addResources(tsBasMessages);
+  }]);

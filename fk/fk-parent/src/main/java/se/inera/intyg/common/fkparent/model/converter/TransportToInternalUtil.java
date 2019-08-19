@@ -18,16 +18,6 @@
  */
 package se.inera.intyg.common.fkparent.model.converter;
 
-import com.google.common.base.Strings;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
-import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
-
-import java.util.List;
-
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BIDIAGNOS_1_BESKRIVNING_DELSVAR_ID_6;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BIDIAGNOS_1_DELSVAR_ID_6;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BIDIAGNOS_2_BESKRIVNING_DELSVAR_ID_6;
@@ -37,7 +27,17 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGN
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
 
+import com.google.common.base.Strings;
+import java.util.List;
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
+import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
+
 public final class TransportToInternalUtil {
+
     private TransportToInternalUtil() {
     }
 
@@ -65,35 +65,35 @@ public final class TransportToInternalUtil {
 
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
-            case DIAGNOS_DELSVAR_ID_6:
-                CVType diagnos = getCVSvarContent(delsvar);
-                diagnosKod = diagnos.getCode();
-                diagnosDisplayName = diagnos.getDisplayName();
-                diagnosKodSystem = diagnos.getCodeSystem();
-                break;
-            case DIAGNOS_BESKRIVNING_DELSVAR_ID_6:
-                diagnosBeskrivning = getStringContent(delsvar);
-                break;
-            case BIDIAGNOS_1_DELSVAR_ID_6:
-                CVType bidiagnos1 = getCVSvarContent(delsvar);
-                bidiagnosKod1 = bidiagnos1.getCode();
-                bidiagnosDisplayName1 = bidiagnos1.getDisplayName();
-                bidiagnosKodSystem1 = bidiagnos1.getCodeSystem();
-                break;
-            case BIDIAGNOS_1_BESKRIVNING_DELSVAR_ID_6:
-                bidiagnosBeskrivning1 = getStringContent(delsvar);
-                break;
-            case BIDIAGNOS_2_DELSVAR_ID_6:
-                CVType bidiagnos2 = getCVSvarContent(delsvar);
-                bidiagnosKod2 = bidiagnos2.getCode();
-                bidiagnosDisplayName2 = bidiagnos2.getDisplayName();
-                bidiagnosKodSystem2 = bidiagnos2.getCodeSystem();
-                break;
-            case BIDIAGNOS_2_BESKRIVNING_DELSVAR_ID_6:
-                bidiagnosBeskrivning2 = getStringContent(delsvar);
-                break;
-            default:
-                throw new IllegalArgumentException();
+                case DIAGNOS_DELSVAR_ID_6:
+                    CVType diagnos = getCVSvarContent(delsvar);
+                    diagnosKod = diagnos.getCode();
+                    diagnosDisplayName = diagnos.getDisplayName();
+                    diagnosKodSystem = diagnos.getCodeSystem();
+                    break;
+                case DIAGNOS_BESKRIVNING_DELSVAR_ID_6:
+                    diagnosBeskrivning = getStringContent(delsvar);
+                    break;
+                case BIDIAGNOS_1_DELSVAR_ID_6:
+                    CVType bidiagnos1 = getCVSvarContent(delsvar);
+                    bidiagnosKod1 = bidiagnos1.getCode();
+                    bidiagnosDisplayName1 = bidiagnos1.getDisplayName();
+                    bidiagnosKodSystem1 = bidiagnos1.getCodeSystem();
+                    break;
+                case BIDIAGNOS_1_BESKRIVNING_DELSVAR_ID_6:
+                    bidiagnosBeskrivning1 = getStringContent(delsvar);
+                    break;
+                case BIDIAGNOS_2_DELSVAR_ID_6:
+                    CVType bidiagnos2 = getCVSvarContent(delsvar);
+                    bidiagnosKod2 = bidiagnos2.getCode();
+                    bidiagnosDisplayName2 = bidiagnos2.getDisplayName();
+                    bidiagnosKodSystem2 = bidiagnos2.getCodeSystem();
+                    break;
+                case BIDIAGNOS_2_BESKRIVNING_DELSVAR_ID_6:
+                    bidiagnosBeskrivning2 = getStringContent(delsvar);
+                    break;
+                default:
+                    throw new IllegalArgumentException();
             }
         }
         diagnoskodverk = Diagnoskodverk.getEnumByCodeSystem(diagnosKodSystem);

@@ -25,159 +25,159 @@
  */
 angular.module('common').directive('arendeHantera',
     ['$log', '$rootScope', '$uibModal', 'common.statService', 'common.ErrorHelper', 'common.ArendeProxy',
-        'common.ArendeHelper', 'common.dynamicLabelService',
-        'common.ResourceLinkService',
-        function($log, $rootScope, $uibModal, statService, ErrorHelper, ArendeProxy, ArendeHelper, dynamicLabelService,
-            ResourceLinkService) {
-            'use strict';
+      'common.ArendeHelper', 'common.dynamicLabelService',
+      'common.ResourceLinkService',
+      function($log, $rootScope, $uibModal, statService, ErrorHelper, ArendeProxy, ArendeHelper, dynamicLabelService,
+          ResourceLinkService) {
+        'use strict';
 
-            return {
-                restrict: 'E',
-                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/hantera/arendeHantera.directive.html',
-                scope: {
-                    arendeListItem: '=',
-                    parentViewState: '='
-                },
-                require: '^^arendePanel',
-                link: function($scope, $element, $attrs, ArendePanelController) {
+        return {
+          restrict: 'E',
+          templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/hantera/arendeHantera.directive.html',
+          scope: {
+            arendeListItem: '=',
+            parentViewState: '='
+          },
+          require: '^^arendePanel',
+          link: function($scope, $element, $attrs, ArendePanelController) {
 
-                    $scope.showHandleToggle = function() {
-                        var arendeModel = $scope.arendeListItem;
-                        var isRevoked = $scope.parentViewState.intygProperties.isRevoked;
+            $scope.showHandleToggle = function() {
+              var arendeModel = $scope.arendeListItem;
+              var isRevoked = $scope.parentViewState.intygProperties.isRevoked;
 
-                        // If no access is given from backend, it should not be possible to toggle handled.
-                        if (!hasAccess()) {
-                            return false;
-                        }
+              // If no access is given from backend, it should not be possible to toggle handled.
+              if (!hasAccess()) {
+                return false;
+              }
 
-                        //Special case - fraga from FK on revoked intyg and not handled already: allow to mark as handled (see INTYG-3617)
-                        if (isRevoked && arendeModel.arende.fraga.frageStallare === 'FK' &&
-                            arendeModel.arende.fraga.status !== 'CLOSED') {
-                            return true;
-                        }
+              //Special case - fraga from FK on revoked intyg and not handled already: allow to mark as handled (see INTYG-3617)
+              if (isRevoked && arendeModel.arende.fraga.frageStallare === 'FK' &&
+                  arendeModel.arende.fraga.status !== 'CLOSED') {
+                return true;
+              }
 
-                        //Rule 1: Revoked intyg can't be toggled at all
-                        if (isRevoked) {
-                            $scope.handledText = 'Hanterad';
-                            return false;
-                        }
+              //Rule 1: Revoked intyg can't be toggled at all
+              if (isRevoked) {
+                $scope.handledText = 'Hanterad';
+                return false;
+              }
 
-                        //Rule 2: A closed komplettering (answered with new intyg or text message) isn't allowed to be toggled back to
-                        // unhandled (See INTYG-6460, INTYG-3792)
-                        if (arendeModel.isKomplettering() && arendeModel.arende.fraga.status === 'CLOSED') {
-                            return false;
-                        }
+              //Rule 2: A closed komplettering (answered with new intyg or text message) isn't allowed to be toggled back to
+              // unhandled (See INTYG-6460, INTYG-3792)
+              if (arendeModel.isKomplettering() && arendeModel.arende.fraga.status === 'CLOSED') {
+                return false;
+              }
 
-                        // Enforce default business rule FS-011, from FK + answer should remain closed
-                        return arendeModel.arende.fraga.frageStallare === 'WC' || !arendeModel.arende.svar.meddelande;
-                    };
-
-                    $scope.showReadOnlyCheckBox = function() {
-                        // If no access is given from backend, it should be possible to toggle handled.
-                        if (!hasAccess()) {
-                            return $scope.arendeListItem.arende.fraga.status === 'CLOSED';
-                        } else {
-                            return true;
-                        }
-                    };
-
-                    $scope.handledFunction = function(newState) {
-                        if (arguments.length) {
-                            if (newState) {
-                                $scope.updateAsHandled($scope.arendeListItem);
-                            } else {
-                                $scope.updateAsUnhandled($scope.arendeListItem);
-                            }
-                        } else {
-                            return $scope.arendeListItem.arende.fraga.status === 'CLOSED';
-                        }
-                    };
-
-                    $scope.updateAsHandled = function(arendeListItem) {
-                        $log.debug('updateAsHandled:' + arendeListItem.arende);
-
-                        if (ArendePanelController.getArendePanelSvar() &&
-                            ArendePanelController.getArendePanelSvar().hasSvaraDraft()) {
-                            var modalInstance = $uibModal.open({
-                                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/hantera/arendeHanteraModal.template.html',
-                                size: 'md',
-                                controller: function($scope, $uibModalInstance) {
-                                    $scope.confirm = function() {
-                                        ArendePanelController.getArendePanelSvar().deleteSvaraDraft();
-                                        _updateAsHandled(arendeListItem);
-                                        $uibModalInstance.close();
-                                    };
-                                    $scope.abort = function() {
-                                        $uibModalInstance.close();
-                                    };
-                                }
-                            });
-                            //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
-                            modalInstance.result.catch(function() { //jshint ignore:line
-                            }); //jshint ignore:line
-                        } else {
-                            _updateAsHandled(arendeListItem);
-                        }
-                    };
-
-                    function hasAccess() {
-                        // If no access is given from backend, it should be possible to toggle handled.
-                        if ($scope.arendeListItem.isKomplettering()) {
-                            return ResourceLinkService.isLinkTypeExists($scope.parentViewState.intygProperties.links,
-                                'BESVARA_KOMPLETTERING');
-                        } else {
-                            return ResourceLinkService.isLinkTypeExists($scope.parentViewState.intygProperties.links,
-                                'BESVARA_FRAGA');
-                        }
-                    }
-
-                    function _updateAsHandled(arendeListItem) {
-                        arendeListItem.updateHandledStateInProgress = true;
-
-                        ArendeProxy.closeAsHandled(arendeListItem.arende.fraga.internReferens,
-                            $scope.parentViewState.intygProperties.type, function(result) {
-                                arendeListItem.activeErrorMessageKey = null;
-                                arendeListItem.updateHandledStateInProgress = false;
-                                if (result !== null) {
-                                    angular.copy(result, arendeListItem.arende);
-                                    arendeListItem.updateArendeListItem();
-
-                                    $rootScope.$broadcast('arenden.updated');
-
-                                    statService.refreshStat();
-                                }
-                            }, function(errorData) {
-                                // show error view
-                                arendeListItem.updateHandledStateInProgress = false;
-                                arendeListItem.activeErrorMessageKey = ErrorHelper.safeGetError(errorData);
-                            });
-                    }
-
-                    $scope.updateAsUnhandled = function(arendeListItem) {
-                        $log.debug('updateAsUnHandled:' + arendeListItem);
-                        arendeListItem.updateHandledStateInProgress = true; // trigger local
-
-                        ArendeProxy.openAsUnhandled(arendeListItem.arende.fraga.internReferens,
-                            $scope.parentViewState.intygProperties.type, function(result) {
-                                $log.debug('Got openAsUnhandled result:' + result);
-                                arendeListItem.activeErrorMessageKey = null;
-                                arendeListItem.updateHandledStateInProgress = false;
-
-                                if (result !== null) {
-                                    angular.copy(result, arendeListItem.arende);
-                                    arendeListItem.updateArendeListItem();
-
-                                    $rootScope.$broadcast('arenden.updated');
-
-                                    statService.refreshStat();
-                                }
-                            }, function(errorData) {
-                                // show error view
-                                arendeListItem.updateHandledStateInProgress = false;
-                                arendeListItem.activeErrorMessageKey = ErrorHelper.safeGetError(errorData);
-                            });
-                    };
-
-                }
+              // Enforce default business rule FS-011, from FK + answer should remain closed
+              return arendeModel.arende.fraga.frageStallare === 'WC' || !arendeModel.arende.svar.meddelande;
             };
-        }]);
+
+            $scope.showReadOnlyCheckBox = function() {
+              // If no access is given from backend, it should be possible to toggle handled.
+              if (!hasAccess()) {
+                return $scope.arendeListItem.arende.fraga.status === 'CLOSED';
+              } else {
+                return true;
+              }
+            };
+
+            $scope.handledFunction = function(newState) {
+              if (arguments.length) {
+                if (newState) {
+                  $scope.updateAsHandled($scope.arendeListItem);
+                } else {
+                  $scope.updateAsUnhandled($scope.arendeListItem);
+                }
+              } else {
+                return $scope.arendeListItem.arende.fraga.status === 'CLOSED';
+              }
+            };
+
+            $scope.updateAsHandled = function(arendeListItem) {
+              $log.debug('updateAsHandled:' + arendeListItem.arende);
+
+              if (ArendePanelController.getArendePanelSvar() &&
+                  ArendePanelController.getArendePanelSvar().hasSvaraDraft()) {
+                var modalInstance = $uibModal.open({
+                  templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/hantera/arendeHanteraModal.template.html',
+                  size: 'md',
+                  controller: function($scope, $uibModalInstance) {
+                    $scope.confirm = function() {
+                      ArendePanelController.getArendePanelSvar().deleteSvaraDraft();
+                      _updateAsHandled(arendeListItem);
+                      $uibModalInstance.close();
+                    };
+                    $scope.abort = function() {
+                      $uibModalInstance.close();
+                    };
+                  }
+                });
+                //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
+                modalInstance.result.catch(function() { //jshint ignore:line
+                }); //jshint ignore:line
+              } else {
+                _updateAsHandled(arendeListItem);
+              }
+            };
+
+            function hasAccess() {
+              // If no access is given from backend, it should be possible to toggle handled.
+              if ($scope.arendeListItem.isKomplettering()) {
+                return ResourceLinkService.isLinkTypeExists($scope.parentViewState.intygProperties.links,
+                    'BESVARA_KOMPLETTERING');
+              } else {
+                return ResourceLinkService.isLinkTypeExists($scope.parentViewState.intygProperties.links,
+                    'BESVARA_FRAGA');
+              }
+            }
+
+            function _updateAsHandled(arendeListItem) {
+              arendeListItem.updateHandledStateInProgress = true;
+
+              ArendeProxy.closeAsHandled(arendeListItem.arende.fraga.internReferens,
+                  $scope.parentViewState.intygProperties.type, function(result) {
+                    arendeListItem.activeErrorMessageKey = null;
+                    arendeListItem.updateHandledStateInProgress = false;
+                    if (result !== null) {
+                      angular.copy(result, arendeListItem.arende);
+                      arendeListItem.updateArendeListItem();
+
+                      $rootScope.$broadcast('arenden.updated');
+
+                      statService.refreshStat();
+                    }
+                  }, function(errorData) {
+                    // show error view
+                    arendeListItem.updateHandledStateInProgress = false;
+                    arendeListItem.activeErrorMessageKey = ErrorHelper.safeGetError(errorData);
+                  });
+            }
+
+            $scope.updateAsUnhandled = function(arendeListItem) {
+              $log.debug('updateAsUnHandled:' + arendeListItem);
+              arendeListItem.updateHandledStateInProgress = true; // trigger local
+
+              ArendeProxy.openAsUnhandled(arendeListItem.arende.fraga.internReferens,
+                  $scope.parentViewState.intygProperties.type, function(result) {
+                    $log.debug('Got openAsUnhandled result:' + result);
+                    arendeListItem.activeErrorMessageKey = null;
+                    arendeListItem.updateHandledStateInProgress = false;
+
+                    if (result !== null) {
+                      angular.copy(result, arendeListItem.arende);
+                      arendeListItem.updateArendeListItem();
+
+                      $rootScope.$broadcast('arenden.updated');
+
+                      statService.refreshStat();
+                    }
+                  }, function(errorData) {
+                    // show error view
+                    arendeListItem.updateHandledStateInProgress = false;
+                    arendeListItem.activeErrorMessageKey = ErrorHelper.safeGetError(errorData);
+                  });
+            };
+
+          }
+        };
+      }]);

@@ -17,31 +17,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueTypeahead', [ '$http', '$log', 'ueUtil',
-    function($http, $log, ueUtil) {
-        'use strict';
+angular.module('common').directive('ueTypeahead', ['$http', '$log', 'ueUtil',
+  function($http, $log, ueUtil) {
+    'use strict';
 
-        return {
-            restrict: 'E',
-            scope: {
-                form: '=',
-                config: '=',
-                model: '='
-            },
-            templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueTypeahead/ueTypeahead.directive.html',
-            link: function($scope) {
+    return {
+      restrict: 'E',
+      scope: {
+        form: '=',
+        config: '=',
+        model: '='
+      },
+      templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueTypeahead/ueTypeahead.directive.html',
+      link: function($scope) {
 
-                ueUtil.standardSetup($scope);
+        ueUtil.standardSetup($scope);
 
-                $scope.values = [];
-                $http.get($scope.config.valuesUrl).then(function(response) {
-                    $scope.values = response.data;
-                }, function(response) {
-                    $log.error('failed to load typeahead values. Error ' + response.status);
-                });
+        $scope.values = [];
+        $http.get($scope.config.valuesUrl).then(function(response) {
+          $scope.values = response.data;
+        }, function(response) {
+          $log.error('failed to load typeahead values. Error ' + response.status);
+        });
 
-            }
-        };
-    }
+      }
+    };
+  }
 ]);
 

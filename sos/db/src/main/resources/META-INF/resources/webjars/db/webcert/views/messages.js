@@ -19,32 +19,35 @@
 /* jshint maxlen: false */
 
 angular.module('db').constant('db.messages', {
-    'sv': {
-        //Validation messages
-        'db.validation.explosivAvlagsnat.explosivImplantatFalse': 'Den valda kombinationen är ogiltig.',
-        'db.validation.undersokningDatum.after.dodsdatum': 'Ange ett datum, samma som eller tidigare än "Dödsdatum".',
-        'db.validation.undersokningDatum.after.antraffatDodDatum' : 'Ange ett datum, samma som eller tidigare än "Anträffad död".',
-        'db.validation.undersokningDatum.before.beginningOflastYear' : 'Ange ett datum, samma som eller senare än 1 januari föregående året.',
+  'sv': {
+    //Validation messages
+    'db.validation.explosivAvlagsnat.explosivImplantatFalse': 'Den valda kombinationen är ogiltig.',
+    'db.validation.undersokningDatum.after.dodsdatum': 'Ange ett datum, samma som eller tidigare än "Dödsdatum".',
+    'db.validation.undersokningDatum.after.antraffatDodDatum': 'Ange ett datum, samma som eller tidigare än "Anträffad död".',
+    'db.validation.undersokningDatum.before.beginningOflastYear': 'Ange ett datum, samma som eller senare än 1 januari föregående året.',
 
-        'db.validation.datum.innanDodsdatum': 'Ange ett datum, samma som eller senare än "Dödsdatum".',
+    'db.validation.datum.innanDodsdatum': 'Ange ett datum, samma som eller senare än "Dödsdatum".',
 
-        'db.makulera.body.common-header': '<p>Ett dödsbevis som är inskickat på fel person kan makuleras. Genom att trycka på "Makulera" makulerar du dödsbeviset i Webcert, med detta kommer inte återkalla dödsbeviset hos Skatteverket.</p>Förutom att trycka på "Makulera" måste du omedelbart ta kontakt med Skatteverket så att felet kan rättas fort. Du tar kontakt med Skatteverket genom att ringa till Skatteupplysningen på telefon 0771-567 567 och ange "folkbokföring - dödsfall".',
-        'db.modal.ersatt.text.info': 'Om dödsbeviset är utfärdat på fel patient ska du istället makulera dödsbeviset.',
-        'db.modal.ersatt.text':
-        '<p>Ett intyg kan ersättas om det innehåller felaktiga uppgifter eller om ny information tillkommit efter att intyget utfärdades. När ett intyg ersätts med ett nytt skapas ett utkast, med samma information som i det ursprungliga intyget, som du kan redigera innan du signerar intyget.</p>' +
-        '<p>Senast skapade dödsbevis är det som gäller. Om du ersätter det tidigare dödsbeviset och lämnar in det nya så blir det därför detta dödsbevis som gäller.</p>' +
+    'db.makulera.body.common-header': '<p>Ett dödsbevis som är inskickat på fel person kan makuleras. Genom att trycka på "Makulera" makulerar du dödsbeviset i Webcert, med detta kommer inte återkalla dödsbeviset hos Skatteverket.</p>Förutom att trycka på "Makulera" måste du omedelbart ta kontakt med Skatteverket så att felet kan rättas fort. Du tar kontakt med Skatteverket genom att ringa till Skatteupplysningen på telefon 0771-567 567 och ange "folkbokföring - dödsfall".',
+    'db.modal.ersatt.text.info': 'Om dödsbeviset är utfärdat på fel patient ska du istället makulera dödsbeviset.',
+    'db.modal.ersatt.text': '<p>' +
+        'Ett intyg kan ersättas om det innehåller felaktiga uppgifter eller om ny information tillkommit efter att intyget utfärdades. ' +
+        'När ett intyg ersätts med ett nytt skapas ett utkast, med samma information som i det ursprungliga intyget, ' +
+        'som du kan redigera innan du signerar intyget.</p>' +
+        '<p>Senast skapade dödsbevis är det som gäller. ' +
+        'Om du ersätter det tidigare dödsbeviset och lämnar in det nya så blir det därför detta dödsbevis som gäller.</p>' +
         '<p>Det nya utkastet skapas på den enhet du är inloggad på.</p>',
 
-        'db.label.status.recieved': '<p>Dödsbeviset är signerat och har nu skickats till Skatteverket.</p>'+
-            '<p>Glöm inte att göra en journalanteckning att dödsbevis är inlämnat!</p>'+
-            '<p>Du kan nu avsluta Webcert eller direkt skriva ett dödsorsaksintyg för samma person genom att trycka på knappen "Skriv dödsorsaksintyg" ovan.</p>',
+    'db.label.status.recieved': '<p>Dödsbeviset är signerat och har nu skickats till Skatteverket.</p>' +
+        '<p>Glöm inte att göra en journalanteckning att dödsbevis är inlämnat!</p>' +
+        '<p>Du kan nu avsluta Webcert eller direkt skriva ett dödsorsaksintyg för samma person genom att trycka på knappen "Skriv dödsorsaksintyg" ovan.</p>',
 
-        'db.status.revoke.requested': '<strong>Status:</strong> Intyget är makulerat.',
-        'db.status.revoke.confirmed': '<strong>Status:</strong> Intyget är makulerat.',
+    'db.status.revoke.requested': '<strong>Status:</strong> Intyget är makulerat.',
+    'db.status.revoke.confirmed': '<strong>Status:</strong> Intyget är makulerat.',
 
-        'db.createfromtemplate.doi.tooltip': 'Skapar ett dödsorsaksintyg utifrån dödsbeviset.',
-        'db.createfromtemplate.doi.modal.header': 'Skapa dödsorsaksintyg utifrån dödsbevis',
-        'db.createfromtemplate.doi.modal.text': 'Skapa ett dödsorsaksintyg utifrån ett dödsbevis innebär att informationsmängder som är gemensamma för båda intygen, automatiskt förifylls.',
-        'db.createfromtemplate.doi.modal.text.info': 'Dödsorsaksintyg finns för detta personnummer hos annan vårdgivare. Senast skapade dödsorsaksintyg är det som gäller. Om du fortsätter och lämnar in dödsorsaksintyget så blir det därför detta dödsorsaksintyg som gäller.'
-    }
+    'db.createfromtemplate.doi.tooltip': 'Skapar ett dödsorsaksintyg utifrån dödsbeviset.',
+    'db.createfromtemplate.doi.modal.header': 'Skapa dödsorsaksintyg utifrån dödsbevis',
+    'db.createfromtemplate.doi.modal.text': 'Skapa ett dödsorsaksintyg utifrån ett dödsbevis innebär att informationsmängder som är gemensamma för båda intygen, automatiskt förifylls.',
+    'db.createfromtemplate.doi.modal.text.info': 'Dödsorsaksintyg finns för detta personnummer hos annan vårdgivare. Senast skapade dödsorsaksintyg är det som gäller. Om du fortsätter och lämnar in dödsorsaksintyget så blir det därför detta dödsorsaksintyg som gäller.'
+  }
 });

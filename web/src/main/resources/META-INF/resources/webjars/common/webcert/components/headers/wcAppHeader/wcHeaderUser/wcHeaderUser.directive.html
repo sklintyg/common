@@ -1,6 +1,7 @@
 <div class="wc-header-directive-container" ng-class="{'expanded' : menu.expanded}">
 
-  <i class="header-icon material-icons md-36" ng-class="{'sekretess-markering' : user.sekretessMarkerad}">{{user.sekretessMarkerad ? 'security': 'person'}}</i>
+  <i class="header-icon material-icons md-36" ng-class="{'sekretess-markering' : user.sekretessMarkerad}">{{user.sekretessMarkerad
+    ? 'security': 'person'}}</i>
 
   <div class="vertical-container">
     <div class="single-text-row-container">
@@ -8,24 +9,24 @@
       <span class="text-nowrap" id="wc-header-user-role">&nbsp;{{user.role}}</span>
     </div>
     <div class="status-row truncate-when-needed" ng-if="user.sekretessMarkerad">
-      <a href="" id="wc-vardperson-sekretess-info-dialog--link" class="sekretess-markering" ng-click="showSekretessInfoMessage()">
+      <a href="" id="wc-vardperson-sekretess-info-dialog--link" class="sekretess-markering"
+         ng-click="showSekretessInfoMessage()">
         Sekretessmarkering
       </a>
     </div>
   </div>
 
 
-  <button type="button" id="expand-usermenu-btn" class="btn btn-link" ng-click="toggleMenu($event)" ng-if="menu.enabled">
+  <button type="button" id="expand-usermenu-btn" class="btn btn-link" ng-click="toggleMenu($event)"
+          ng-if="menu.enabled">
     <i class="material-icons md-24">{{menu.expanded ? 'expand_less': 'expand_more'}}</i>
   </button>
 
 
-</div>
-<!-- must be outside flex container to be able to relatively position it -->
+</div><!-- must be outside flex container to be able to relatively position it -->
 <div uib-dropdown is-open="menu.expanded">
   <ul uib-dropdown-menu>
     <li><a href="" id="editUserLink" ng-click="goToPrivatPortalen()">Min sida</a></li>
   </ul>
-</div>
-<!-- launches sekretess confirmation dialog if needed -->
+</div><!-- launches sekretess confirmation dialog if needed -->
 <wc-vard-person-sekretess></wc-vard-person-sekretess>

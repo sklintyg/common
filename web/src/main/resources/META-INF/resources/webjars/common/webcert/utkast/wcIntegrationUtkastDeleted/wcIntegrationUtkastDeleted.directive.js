@@ -19,13 +19,12 @@
 
 angular.module('common').directive('wcIntegrationUtkastDeleted',
     ['$stateParams', function($stateParams) {
-            'use strict';
+      'use strict';
 
-            return {
-                restrict: 'E',
-                transclude: false,
-                scope: {
-                },
-                templateUrl: '/web/webjars/common/webcert/utkast/wcIntegrationUtkastDeleted/wcIntegrationUtkastDeleted.directive.html'
-            };
-        }]);
+      return {
+        restrict: 'E',
+        transclude: false,
+        scope: {},
+        templateUrl: '/web/webjars/common/webcert/utkast/wcIntegrationUtkastDeleted/wcIntegrationUtkastDeleted.directive.html'
+      };
+    }]);

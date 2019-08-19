@@ -18,36 +18,36 @@
  */
 angular.module('fk7263').factory('fk7263.Domain.IntygModel',
     ['common.Domain.GrundDataModel', 'common.Domain.DraftModel',
-        'common.domain.BaseAtticModel',
-        function(GrundData, DraftModel, BaseAtticModel) {
-            'use strict';
+      'common.domain.BaseAtticModel',
+      function(GrundData, DraftModel, BaseAtticModel) {
+        'use strict';
 
-            //We still need a basic model so that utkastservice can process loading of a fk7263 draft..
-            //Also, some related components such as utkast-header expects grundData to exist for an utkast.
-            var Fk7263Model = BaseAtticModel._extend({
-                init: function init() {
-                    init._super.call(this, 'Fk7263Model', {
-                        id: undefined,
-                        grundData: GrundData.build()
-                    });
-
-                },
-
-                update: function update(content, parent) {
-                    if (parent) {
-                        parent.content = this;
-                    }
-                    update._super.call(this, content);
-                }
-            }, {
-                build : function(){
-                    return new DraftModel(new Fk7263Model());
-                }
+        //We still need a basic model so that utkastservice can process loading of a fk7263 draft..
+        //Also, some related components such as utkast-header expects grundData to exist for an utkast.
+        var Fk7263Model = BaseAtticModel._extend({
+          init: function init() {
+            init._super.call(this, 'Fk7263Model', {
+              id: undefined,
+              grundData: GrundData.build()
             });
 
-            /**
-             * Return the constructor function IntygModel
-             */
-            return Fk7263Model;
+          },
 
-        }]);
+          update: function update(content, parent) {
+            if (parent) {
+              parent.content = this;
+            }
+            update._super.call(this, content);
+          }
+        }, {
+          build: function() {
+            return new DraftModel(new Fk7263Model());
+          }
+        });
+
+        /**
+         * Return the constructor function IntygModel
+         */
+        return Fk7263Model;
+
+      }]);

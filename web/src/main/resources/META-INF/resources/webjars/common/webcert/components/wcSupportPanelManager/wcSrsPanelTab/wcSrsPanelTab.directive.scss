@@ -27,18 +27,18 @@ wc-srs-panel-tab {
     padding: 0px 20px 0 20px;
   }
 
-  .line{
-    float:left;
+  .line {
+    float: left;
     margin-left: 5px;
     display: block;
   }
 
   .floatLeft {
-    float:left;
+    float: left;
   }
 
   .floatRight {
-    float:right;
+    float: right;
   }
 
   .fullWidth {
@@ -77,8 +77,9 @@ wc-srs-panel-tab {
     display: -ms-grid;
     display: grid;
     -ms-grid-columns: 1fr 1fr 1fr 1fr;
-    grid-template-columns: repeat(auto-fill, minmax(120px,1fr));
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     margin-left: 5px;
+
     .option-label {
       max-width: 120px;
       word-wrap: break-word;
@@ -89,7 +90,7 @@ wc-srs-panel-tab {
     display: -ms-grid;
     display: grid;
     -ms-grid-columns: 1fr 1fr;
-    grid-template-columns: repeat(auto-fill, minmax(120px,1fr));
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     -ms-grid-rows: unset;
     margin-left: 5px;
   }
@@ -99,30 +100,37 @@ wc-srs-panel-tab {
     -ms-grid-column: 1;
     -ms-grid-row: 1;
   }
+
   .srs-option-grid-cell:nth-child(n+2) {
     -ms-grid-column: 2;
     -ms-grid-row: 1;
   }
+
   .srs-option-grid-cell:nth-child(n+3) {
     -ms-grid-column: 3;
     -ms-grid-row: 1;
   }
+
   .srs-option-grid-cell:nth-child(n+4) {
     -ms-grid-column: 4;
     -ms-grid-row: 1;
   }
+
   .srs-option-grid-cell:nth-child(n+5) {
     -ms-grid-column: 1;
     -ms-grid-row: 2;
   }
+
   .srs-option-grid-cell:nth-child(n+6) {
     -ms-grid-column: 2;
     -ms-grid-row: 2;
   }
+
   .srs-option-grid-cell:nth-child(n+7) {
     -ms-grid-column: 3;
     -ms-grid-row: 2;
   }
+
   .srs-option-grid-cell:nth-child(n+8) {
     -ms-grid-column: 4;
     -ms-grid-row: 2;
@@ -230,19 +238,19 @@ wc-srs-panel-tab {
     background-color: $wc-color-00 !important; // Need to use important because somebody used important on the wc-common.css
     border-color: $wc-color-00;
     border-radius: 16px;
-    color: $wc-color-19 !important;// Need to use important because somebody used important on the wc-common.css
+    color: $wc-color-19 !important; // Need to use important because somebody used important on the wc-common.css
     text-decoration: none;
   }
 
   ul.nav.nav-tabs > li.rounded > a:hover {
     border-color: $wc-color-21;
-    color: $wc-color-19 !important;// Need to use important because somebody used important on the wc-common.css
+    color: $wc-color-19 !important; // Need to use important because somebody used important on the wc-common.css
   }
 
   ul.nav.nav-tabs > li.rounded.active > a {
     background-color: $wc-color-21 !important; // Need to use important because somebody used important on the wc-common.css
     border-color: $wc-color-21;
-    color: $wc-color-00 !important;// Need to use important because somebody used important on the wc-common.css
+    color: $wc-color-00 !important; // Need to use important because somebody used important on the wc-common.css
   }
 
   #srs-result .tab-pane {
@@ -306,16 +314,20 @@ wc-srs-panel-tab {
     margin-bottom: -25px;
     background-color: $wc-color-28;
     word-wrap: break-word;
+
     h4 {
       @extend %wc-typo-05;
       padding: 8px 0;
     }
+
     div {
       @extend %wc-typo-07;
     }
+
     section {
       @extend %wc-typo-07;
     }
+
     .missing-info {
       @extend %wc-typo-12;
     }
@@ -330,6 +342,7 @@ wc-srs-panel-tab {
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
+
     .material-icons {
       font-size: inherit;
     }
@@ -338,13 +351,16 @@ wc-srs-panel-tab {
 
   wc-alert-message {
     display: block;
+
     .alert {
       display: block;
     }
   }
+
   .no-diagnose-entered {
     text-align: center;
     padding-top: 25px;
+
     img {
       padding-bottom: 24px;
     }

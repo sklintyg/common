@@ -40,25 +40,32 @@
   "medicinskaForhallanden": "Väldigt olämplig",
   "senasteUndersokningsdatum": "2019-01-16",
   "intygetAvserBehorigheter": {
-    "typer": [{
-      "type": "ALLA",
-      "selected": true
-    }, {
-      "type": "A_B_TRAKTOR",
-      "selected": false
-    }, {
-      "type": "C_E",
-      "selected": false
-    }, {
-      "type": "D",
-      "selected": false
-    }, {
-      "type": "TAXI",
-      "selected": false
-    }, {
-      "type": "KANINTETASTALLNING",
-      "selected": false
-    }]
+    "typer": [
+      {
+        "type": "ALLA",
+        "selected": true
+      },
+      {
+        "type": "A_B_TRAKTOR",
+        "selected": false
+      },
+      {
+        "type": "C_E",
+        "selected": false
+      },
+      {
+        "type": "D",
+        "selected": false
+      },
+      {
+        "type": "TAXI",
+        "selected": false
+      },
+      {
+        "type": "KANINTETASTALLNING",
+        "selected": false
+      }
+    ]
   },
   "informationOmTsBeslutOnskas": true,
   "typ": "tstrk1009"

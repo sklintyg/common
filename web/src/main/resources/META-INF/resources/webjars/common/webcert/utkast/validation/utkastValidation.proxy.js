@@ -18,19 +18,19 @@
  */
 angular.module('common').factory('common.UtkastValidationProxy',
     ['$http', function($http) {
-        'use strict';
+      'use strict';
 
-        function _validateUtkast(intygsId, intygsTyp, utkastData, callback,  errorCallback) {
-            var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/validate';
-            $http.post(restPath, utkastData).then(function(response) {
-                callback(response.data);
-            }, function(response) {
-                errorCallback(response.data);
-            });
-        }
+      function _validateUtkast(intygsId, intygsTyp, utkastData, callback, errorCallback) {
+        var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/validate';
+        $http.post(restPath, utkastData).then(function(response) {
+          callback(response.data);
+        }, function(response) {
+          errorCallback(response.data);
+        });
+      }
 
-        // Return public API for the service
-        return {
-            validateUtkast: _validateUtkast
-        };
+      // Return public API for the service
+      return {
+        validateUtkast: _validateUtkast
+      };
     }]);

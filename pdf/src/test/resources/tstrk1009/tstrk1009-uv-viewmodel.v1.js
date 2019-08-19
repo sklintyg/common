@@ -18,96 +18,96 @@
  */
 
 var viewConfig = [
-    {
-        type: 'uv-kategori',
-        labelKey: 'KAT_1.RBK',
+  {
+    type: 'uv-kategori',
+    labelKey: 'KAT_1.RBK',
+    components: [{
+      type: 'uv-fraga',
+      components: [{
+        type: 'uv-kodverk-value',
+        kvModelProps: ['identitetStyrktGenom.typ'],
+        kvLabelKeys: ['IDENTITET_{var}.RBK']
+      }]
+    }]
+  },
+  {
+    type: 'uv-kategori',
+    labelKey: 'KAT_2.RBK',
+    components: [{
+      type: 'uv-fraga',
+      labelKey: 'FRG_46.RBK',
+      components: [{
+        type: 'uv-del-fraga',
         components: [{
-            type: 'uv-fraga',
-            components: [{
-                type: 'uv-kodverk-value',
-                kvModelProps: ['identitetStyrktGenom.typ'],
-                kvLabelKeys: ['IDENTITET_{var}.RBK']
-            }]
+          type: 'uv-kodverk-value',
+          kvModelProps: ['anmalanAvser.typ'],
+          kvLabelKeys: ['KV_SVAR_OLAMPLIGHET.{var}.RBK']
         }]
-    },
-    {
-        type: 'uv-kategori',
-        labelKey: 'KAT_2.RBK',
+      }]
+    }]
+  },
+  {
+    type: 'uv-kategori',
+    labelKey: 'KAT_3.RBK',
+    components: [
+      {
+        type: 'uv-fraga',
+        labelKey: 'FRG_47.RBK',
+        components: [
+          {
+            type: 'uv-simple-value',
+            modelProp: 'medicinskaForhallanden'
+          }
+        ]
+      },
+      {
+        type: 'uv-fraga',
+        labelKey: 'FRG_48.RBK',
+        components: [
+          {
+            type: 'uv-simple-value',
+            modelProp: 'senasteUndersokningsdatum'
+          }
+        ]
+      }]
+  },
+  {
+    type: 'uv-kategori',
+    labelKey: 'KAT_4.RBK',
+    components: [
+      {
+        type: 'uv-list',
+        labelKey: 'SVAR_{var}.RBK',
+        useLabelKeyForPrint: true,
+        listKey: function(model) {
+          return model.selected ? model.type : null;
+        },
+        separator: ', ',
+        modelProp: 'intygetAvserBehorigheter.typer'
+      }
+    ]
+  },
+  {
+    type: 'uv-kategori',
+    labelKey: 'KAT_5.RBK',
+    components: [
+      {
+        type: 'uv-fraga',
+        labelKey: 'FRG_49.RBK',
         components: [{
-            type: 'uv-fraga',
-            labelKey: 'FRG_46.RBK',
-            components: [{
-                type: 'uv-del-fraga',
-                components: [{
-                    type: 'uv-kodverk-value',
-                    kvModelProps: ['anmalanAvser.typ'],
-                    kvLabelKeys: ['KV_SVAR_OLAMPLIGHET.{var}.RBK']
-                }]
-            }]
+          type: 'uv-del-fraga',
+          components: [
+            {
+              type: 'uv-boolean-statement',
+              modelProp: 'informationOmTsBeslutOnskas'
+            }
+          ]
         }]
-    },
-    {
-        type: 'uv-kategori',
-        labelKey: 'KAT_3.RBK',
-        components: [
-            {
-                type: 'uv-fraga',
-                labelKey: 'FRG_47.RBK',
-                components: [
-                    {
-                        type: 'uv-simple-value',
-                        modelProp: 'medicinskaForhallanden'
-                    }
-                ]
-            },
-            {
-                type: 'uv-fraga',
-                labelKey: 'FRG_48.RBK',
-                components: [
-                    {
-                        type: 'uv-simple-value',
-                        modelProp: 'senasteUndersokningsdatum'
-                    }
-                ]
-            }]
-    },
-    {
-        type: 'uv-kategori',
-        labelKey: 'KAT_4.RBK',
-        components: [
-            {
-                type: 'uv-list',
-                labelKey: 'SVAR_{var}.RBK',
-                useLabelKeyForPrint: true,
-                listKey: function(model) {
-                    return model.selected ? model.type : null;
-                },
-                separator: ', ',
-                modelProp: 'intygetAvserBehorigheter.typer'
-            }
-        ]
-    },
-    {
-        type: 'uv-kategori',
-        labelKey: 'KAT_5.RBK',
-        components: [
-            {
-                type: 'uv-fraga',
-                labelKey: 'FRG_49.RBK',
-                components: [{
-                    type: 'uv-del-fraga',
-                    components: [
-                        {
-                            type: 'uv-boolean-statement',
-                            modelProp: 'informationOmTsBeslutOnskas'
-                        }
-                    ]
-                }]
-            }
-        ]
-    },
-    {
-        type: 'uv-skapad-av',
-        modelProp: 'grundData.skapadAv'
-    }
+      }
+    ]
+  },
+  {
+    type: 'uv-skapad-av',
+    modelProp: 'grundData.skapadAv'
+  }
 ];

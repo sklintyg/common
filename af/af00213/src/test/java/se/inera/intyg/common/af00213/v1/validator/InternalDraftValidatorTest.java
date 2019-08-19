@@ -23,12 +23,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -48,22 +46,21 @@ public class InternalDraftValidatorTest {
     Af00213UtlatandeV1.Builder builderTemplate;
 
 
-
     @Before
     public void setUp() throws Exception {
         builderTemplate = Af00213UtlatandeV1.builder()
-                .setId("intygsId")
-                .setGrundData(buildGrundData(LocalDateTime.now()))
-                .setHarFunktionsnedsattning(true)
-                .setFunktionsnedsattning("funktionsnedsattning")
-                .setHarAktivitetsbegransning(true)
-                .setAktivitetsbegransning("aktivitetsbegransning")
-                .setHarUtredningBehandling(true)
-                .setUtredningBehandling("utredningBehandling")
-                .setHarArbetetsPaverkan(true)
-                .setArbetetsPaverkan("arbetetsPaverkan")
-                .setOvrigt("ovrigt")
-                .setTextVersion("");
+            .setId("intygsId")
+            .setGrundData(buildGrundData(LocalDateTime.now()))
+            .setHarFunktionsnedsattning(true)
+            .setFunktionsnedsattning("funktionsnedsattning")
+            .setHarAktivitetsbegransning(true)
+            .setAktivitetsbegransning("aktivitetsbegransning")
+            .setHarUtredningBehandling(true)
+            .setUtredningBehandling("utredningBehandling")
+            .setHarArbetetsPaverkan(true)
+            .setArbetetsPaverkan("arbetetsPaverkan")
+            .setOvrigt("ovrigt")
+            .setTextVersion("");
     }
 
     @Test
@@ -79,8 +76,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateFunktionsnedsattningJaNejNotSpecified() throws Exception {
         Af00213UtlatandeV1 utlatande = builderTemplate
-                .setHarFunktionsnedsattning(null)
-                .build();
+            .setHarFunktionsnedsattning(null)
+            .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -92,8 +89,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateFunktionsnedsattningMissing() throws Exception {
         Af00213UtlatandeV1 utlatande = builderTemplate
-                .setFunktionsnedsattning(null)
-                .build();
+            .setFunktionsnedsattning(null)
+            .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -105,8 +102,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateFunktionsnedsattningBlank() throws Exception {
         Af00213UtlatandeV1 utlatande = builderTemplate
-                .setFunktionsnedsattning(" ")
-                .build();
+            .setFunktionsnedsattning(" ")
+            .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -118,8 +115,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateAktivitetsbegransningMissing() throws Exception {
         Af00213UtlatandeV1 utlatande = builderTemplate
-                .setAktivitetsbegransning(null)
-                .build();
+            .setAktivitetsbegransning(null)
+            .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -132,8 +129,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateAktivitetsbegransningBlank() throws Exception {
         Af00213UtlatandeV1 utlatande = builderTemplate
-                .setAktivitetsbegransning(" ")
-                .build();
+            .setAktivitetsbegransning(" ")
+            .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -146,8 +143,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateAktivitetsbegransningUnspecifiedWhenHarFunktionsnedsattning() throws Exception {
         Af00213UtlatandeV1 utlatande = builderTemplate
-                .setHarAktivitetsbegransning(null)
-                .build();
+            .setHarAktivitetsbegransning(null)
+            .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -160,8 +157,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateUtredningBehandlingJaNejNotSpecified() throws Exception {
         Af00213UtlatandeV1 utlatande = builderTemplate
-                .setHarUtredningBehandling(null)
-                .build();
+            .setHarUtredningBehandling(null)
+            .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -173,9 +170,9 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateUtredningBehandlingMissingText() throws Exception {
         Af00213UtlatandeV1 utlatande = builderTemplate
-                .setHarUtredningBehandling(true)
-                .setUtredningBehandling(null)
-                .build();
+            .setHarUtredningBehandling(true)
+            .setUtredningBehandling(null)
+            .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -187,9 +184,9 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateUtredningBehandlingDoesNotRequireTextWhenNej() throws Exception {
         Af00213UtlatandeV1 utlatande = builderTemplate
-                .setHarUtredningBehandling(false)
-                .setUtredningBehandling(null)
-                .build();
+            .setHarUtredningBehandling(false)
+            .setUtredningBehandling(null)
+            .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -199,12 +196,12 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateUtredningBehandlingJaRequiresText() throws Exception {
         Af00213UtlatandeV1 utlatande = builderTemplate
-                .setHarAktivitetsbegransning(false)
-                .setHarArbetetsPaverkan(false)
-                .setHarFunktionsnedsattning(false)
-                .setHarUtredningBehandling(true)
-                .setUtredningBehandling(null)
-                .build();
+            .setHarAktivitetsbegransning(false)
+            .setHarArbetetsPaverkan(false)
+            .setHarFunktionsnedsattning(false)
+            .setHarUtredningBehandling(true)
+            .setUtredningBehandling(null)
+            .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -215,8 +212,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateBlankstegPlaneradBehandling() throws Exception {
         Af00213UtlatandeV1 utlatande = builderTemplate
-                .setUtredningBehandling(" ")
-                .build();
+            .setUtredningBehandling(" ")
+            .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -227,8 +224,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateBlankstegOvrigt() throws Exception {
         Af00213UtlatandeV1 utlatande = builderTemplate
-                .setOvrigt(" ")
-                .build();
+            .setOvrigt(" ")
+            .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 

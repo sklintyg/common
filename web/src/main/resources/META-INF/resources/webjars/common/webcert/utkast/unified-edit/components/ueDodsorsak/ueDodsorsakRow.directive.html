@@ -6,16 +6,14 @@
   <span wc-help-chevron-text help-text-key="{{config.label.helpKey}}"></span>
   <div class="dodsorsak-row__controls">
     <div>{{config.requireDescription}}
-      <span dynamic-label key="{{config.beskrivningLabel}}.RBK" class="label-padding"></span> <span wc-help-chevron help-text-key="{{config.beskrivningLabel}}.HLP"></span> <span ng-if="requireDescription && !modelValue.beskrivning" class="required icon-wc-ikon-38"></span>
+      <span dynamic-label key="{{config.beskrivningLabel}}.RBK" class="label-padding"></span> <span wc-help-chevron
+                                                                                                    help-text-key="{{config.beskrivningLabel}}.HLP"></span>
+      <span ng-if="requireDescription && !modelValue.beskrivning" class="required icon-wc-ikon-38"></span>
       <span wc-help-chevron-text help-text-key="{{config.beskrivningLabel}}.HLP"></span>
       <div class="input-wrapper">
-        <input id="orsak-{{rowIndex}}-beskrivning"
-               type="text"
-               class="form-control input-full"
+        <input id="orsak-{{rowIndex}}-beskrivning" type="text" class="form-control input-full"
                ng-class="{'validation-error' : hasValidationError('beskrivning', rowIndex)}"
-               ng-model="modelValue.beskrivning"
-               ue-filter-latin1
-               ng-blur="validate()"
+               ng-model="modelValue.beskrivning" ue-filter-latin1 ng-blur="validate()"
                maxlength="{{config.htmlMaxlength || 3500}}">
       </div>
       <span class="dodsorsak-row__letter">{{letter}}</span>
@@ -24,25 +22,21 @@
     </div>
     <div>
       <div class="inline-block padding-top-small">
-      <span><span class="label-padding" dynamic-label key="{{config.datumLabel}}.RBK"></span> </span> <span wc-help-chevron help-text-key="{{config.datumLabel}}.HLP"></span><br>
-      <span wc-help-chevron-text help-text-key="{{config.datumLabel}}.HLP"></span>
-      <span wc-date-picker-field target-model="modelValue.datum" dom-id="orsak-{{rowIndex}}-datum"
-            ng-model="modelValue.datum"
-            on-blur="validate()"
-            add-date-parser="loose"
-            max-date="{{ ::config.maxDate }}"></span>
+        <span><span class="label-padding" dynamic-label key="{{config.datumLabel}}.RBK"></span> </span> <span
+          wc-help-chevron help-text-key="{{config.datumLabel}}.HLP"></span><br>
+        <span wc-help-chevron-text help-text-key="{{config.datumLabel}}.HLP"></span>
+        <span wc-date-picker-field target-model="modelValue.datum" dom-id="orsak-{{rowIndex}}-datum"
+              ng-model="modelValue.datum" on-blur="validate()" add-date-parser="loose"
+              max-date="{{ ::config.maxDate }}"></span>
       </div>
       <div class="inline-block padding-top-small" style="width: 140px;">
-        <span class="label-padding" dynamic-label key="{{config.orsakLabel}}.RBK"></span> <span wc-help-chevron help-text-key="{{config.orsakLabel}}.HLP"></span>
+        <span class="label-padding" dynamic-label key="{{config.orsakLabel}}.RBK"></span> <span wc-help-chevron
+                                                                                                help-text-key="{{config.orsakLabel}}.HLP"></span>
         <span wc-help-chevron-text help-text-key="{{config.orsakLabel}}.HLP"></span>
 
-        <wc-dropdown data-items="orsakOptions"
-                     ng-model="modelValue.specifikation"
-                     data-on-select="validate()"
-                     id="orsak-{{rowIndex}}-specifikation"
-                     name="andraDodsorsak-{{rowIndex}}"
-                     use-dynamic-label="false">
-        </wc-dropdown>
+        <wc-dropdown data-items="orsakOptions" ng-model="modelValue.specifikation" data-on-select="validate()"
+                     id="orsak-{{rowIndex}}-specifikation" name="andraDodsorsak-{{rowIndex}}"
+                     use-dynamic-label="false"></wc-dropdown>
 
       </div>
     </div>

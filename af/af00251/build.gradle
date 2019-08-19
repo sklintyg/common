@@ -7,8 +7,8 @@ dependencies {
     compile "com.google.auto.value:auto-value:${autovalueVersion}"
 
     compile "com.google.auto.value:auto-value:${autovalueVersion}"
-annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
+    annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
     compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
-    
+
     testCompile "org.hamcrest:hamcrest-library:1.3"
 }

@@ -28,7 +28,7 @@ public interface WebcertModuleService {
     /**
      * Validates a diagnosis code using the DiagnosService.
      *
-     * @param codeFragment  the code to validate
+     * @param codeFragment the code to validate
      * @param codeSystemStr the string representing the code system the diagnosis belongs to
      * @return true if the code matches a diagnosis, false otherwise.
      */
@@ -38,7 +38,7 @@ public interface WebcertModuleService {
      * Validates a diagnosis code using the DiagnosService.
      *
      * @param codeFragment the code to validate
-     * @param codeSystem   the enum representing the code system the diagnosis belongs to
+     * @param codeSystem the enum representing the code system the diagnosis belongs to
      * @return true if the code matches a diagnosis, false otherwise.
      */
     boolean validateDiagnosisCode(String codeFragment, Diagnoskodverk codeSystem);
@@ -51,7 +51,7 @@ public interface WebcertModuleService {
      * match, description will be set to "" since we do not wish to interpret what is being delivered to us - we only
      * wish to forward the information.
      *
-     * @param code          the code of the diagnosis
+     * @param code the code of the diagnosis
      * @param codeSystemStr the codeSystem used for the diagnosis code
      * @return the description if there is one and only one, otherwise empty String
      */

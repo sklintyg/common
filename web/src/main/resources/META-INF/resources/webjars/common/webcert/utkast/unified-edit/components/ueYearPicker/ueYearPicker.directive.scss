@@ -1,9 +1,11 @@
 ue-year-picker {
 
   @extend %field-set-disabled-ie11-fix;
+
   .wc-datepicker-wrapper {
     width: 90px;
   }
+
   input.form-control {
 
     &:disabled, fieldset[disabled] & {
@@ -25,6 +27,7 @@ ue-year-picker {
         background-color: $wc-color-20;
         color: $wc-color-09;
       }
+
       &.active {
         .text-info {
           color: $wc-color-20;
@@ -32,7 +35,7 @@ ue-year-picker {
       }
 
 
-     //.text-info is set on current year
+      //.text-info is set on current year
       span.text-info {
         color: $wc-color-17;
       }
@@ -41,6 +44,7 @@ ue-year-picker {
     .btn {
       padding: 6px 5px;
     }
+
     .border {
       border: $wc-color-21 !important;
       box-shadow: 2px 2px 4px 0 $black_12;
@@ -55,6 +59,7 @@ ue-year-picker {
         color: $wc-color-07;
         box-shadow: none;
       }
+
       &.btn-default, &:hover {
         border: none;
         background-color: transparent;
@@ -78,6 +83,7 @@ ue-year-picker {
 
         }
       }
+
       &.uib-title {
         @extend %wc-typo-02;
         color: $wc-color-07
@@ -95,6 +101,7 @@ ue-year-picker {
 
     .text-invalid, INPUT.ng-invalid-min-date, INPUT.ng-invalid-max-date, INPUT.ng-invalid-date {
       border-color: $wc-color-11;
+
       & + SPAN.input-group-btn {
         button {
           border-right-color: $wc-color-11;

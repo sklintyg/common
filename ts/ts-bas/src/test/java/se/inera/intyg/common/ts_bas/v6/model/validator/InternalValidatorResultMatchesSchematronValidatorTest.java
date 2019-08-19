@@ -21,30 +21,26 @@ package se.inera.intyg.common.ts_bas.v6.model.validator;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.google.common.base.Charsets;
+import com.helger.commons.debug.GlobalDebug;
+import com.helger.schematron.svrl.SVRLHelper;
 import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 import javax.xml.transform.stream.StreamSource;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
-
-import com.google.common.base.Charsets;
-import com.helger.commons.debug.GlobalDebug;
-import com.helger.schematron.svrl.SVRLHelper;
-
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
@@ -62,12 +58,12 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
  * Data driven test that uses Scenario and ScenarioFinder along with the JUnit Parameterized test runner,
  * uses test data from internal/scenarios and transport/scenarios, so in order to create new tests, just add
  * corresponding json- and XML-files in these directories.
- * 
- * @author erik
  *
+ * @author erik
  */
 @RunWith(Parameterized.class)
 public class InternalValidatorResultMatchesSchematronValidatorTest {
+
     private Scenario scenario;
 
     private boolean shouldFail;
@@ -97,8 +93,8 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
      * Process test data and supply it to the test.
      * The format for the test data needs to be: {name to display for current test, the scenario to test, expected
      * outcome of the test}.
-     * 
-     * @return Collection<Object[]>
+     *
+     * @return Collection<Object [ ]>
      */
     @Parameters(name = "{index}: Scenario: {0}")
     public static Collection<Object[]> data() throws ScenarioNotFoundException {
@@ -106,13 +102,13 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
         List<Object[]> retList = new ArrayList<>();
         // Failing tests
         retList.addAll(ScenarioFinder.getInternalScenarios("fail-*").stream()
-                .map(u -> new Object[] { u.getName(), u, true })
-                .collect(Collectors.toList()));
+            .map(u -> new Object[]{u.getName(), u, true})
+            .collect(Collectors.toList()));
         // Passing tests
         retList.addAll(
-                ScenarioFinder.getInternalScenarios("valid-*").stream()
-                        .map(u -> new Object[] { u.getName(), u, false })
-                        .collect(Collectors.toList()));
+            ScenarioFinder.getInternalScenarios("valid-*").stream()
+                .map(u -> new Object[]{u.getName(), u, false})
+                .collect(Collectors.toList()));
         return retList;
     }
 
@@ -135,7 +131,8 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
         String convertedXML = getXmlFromIntyg(intyg);
 
         RegisterCertificateValidator validator = new RegisterCertificateValidator(TsBasEntryPoint.SCHEMATRON_FILE);
-        SchematronOutputType result = validator.validateSchematron(new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
+        SchematronOutputType result = validator
+            .validateSchematron(new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
 
         String internalValidationErrors = getInternalValidationErrorString(internalValidationResponse);
 
@@ -145,24 +142,25 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
     }
 
     private void doAssertions(boolean fail, ValidateDraftResponse internalValidationResponse, SchematronOutputType result,
-            String internalValidationErrors, String transportValidationErrors) {
+        String internalValidationErrors, String transportValidationErrors) {
         if (fail) {
-            assertEquals(String.format("Scenario: %s\n Transport: %s \n Internal: %s\n Expected number of validation-errors to be the same.",
+            assertEquals(
+                String.format("Scenario: %s\n Transport: %s \n Internal: %s\n Expected number of validation-errors to be the same.",
                     name, transportValidationErrors, internalValidationErrors),
-                    getNumberOfTransportValidationErrors(result), getNumberOfInternalValidationErrors(internalValidationResponse));
+                getNumberOfTransportValidationErrors(result), getNumberOfInternalValidationErrors(internalValidationResponse));
 
             assertEquals(String.format("File: %s, Internal validation, expected ValidationStatus.INVALID",
-                    name), ValidationStatus.INVALID, internalValidationResponse.getStatus());
+                name), ValidationStatus.INVALID, internalValidationResponse.getStatus());
 
             assertTrue(String.format("File: %s, Schematronvalidation, expected errors > 0",
-                    name),
-                    SVRLHelper.getAllFailedAssertions(result).size() > 0);
+                name),
+                SVRLHelper.getAllFailedAssertions(result).size() > 0);
         } else {
             assertEquals(String.format("File: %s, Internal validation, expected ValidationStatus.VALID \n Validation-errors: %s",
-                    name, internalValidationErrors), ValidationStatus.VALID, internalValidationResponse.getStatus());
+                name, internalValidationErrors), ValidationStatus.VALID, internalValidationResponse.getStatus());
 
             assertEquals(String.format("File: %s, Schematronvalidation, expected 0 errors \n Validation-errors: %s",
-                    name, transportValidationErrors), 0, SVRLHelper.getAllFailedAssertions(result).size());
+                name, transportValidationErrors), 0, SVRLHelper.getAllFailedAssertions(result).size());
         }
     }
 
@@ -178,26 +176,26 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
 
     private static JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {
         return new JAXBElement<>(
-                new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3", "RegisterCertificate"),
-                RegisterCertificateType.class, ws);
+            new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3", "RegisterCertificate"),
+            RegisterCertificateType.class, ws);
     }
 
     private static String getTransportValidationErrorString(SchematronOutputType result) {
         return SVRLHelper.getAllFailedAssertions(result).stream()
-                .map(e -> String.format("Test: %s, Text: %s", e.getTest(), e.getText()))
-                .collect(Collectors.joining(";"));
+            .map(e -> String.format("Test: %s, Text: %s", e.getTest(), e.getText()))
+            .collect(Collectors.joining(";"));
     }
 
     private static String getInternalValidationErrorString(ValidateDraftResponse internalValidationResponse) {
         return internalValidationResponse.getValidationErrors().stream()
-                .map(ValidationMessage::getMessage)
-                .collect(Collectors.joining(", "));
+            .map(ValidationMessage::getMessage)
+            .collect(Collectors.joining(", "));
     }
 
     private static int getNumberOfInternalValidationErrors(ValidateDraftResponse internalValidationResponse) {
         // Rules R33-35 is validated differently between schematron and internal due to frontend limitations.
         Long numberOfspecialErrors = internalValidationResponse.getValidationErrors().stream()
-                .filter(e -> e.getMessage().contains("ts-bas.validation.syn.r3")).count();
+            .filter(e -> e.getMessage().contains("ts-bas.validation.syn.r3")).count();
         if (numberOfspecialErrors > 1) {
             return internalValidationResponse.getValidationErrors().size() - (numberOfspecialErrors.intValue() - 1);
         }

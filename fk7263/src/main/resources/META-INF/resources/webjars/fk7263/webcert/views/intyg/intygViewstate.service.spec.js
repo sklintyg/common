@@ -18,50 +18,50 @@
  */
 
 describe('fk7263.IntygViewStateService', function() {
-    'use strict';
+  'use strict';
 
-    var IntygViewState;
+  var IntygViewState;
 
-    beforeEach(angular.mock.module('common', function($provide) {
-    }));
+  beforeEach(angular.mock.module('common', function($provide) {
+  }));
 
-    beforeEach(angular.mock.inject(['fk7263.IntygController.ViewStateService',
-        function(_IntygViewState_) {
-            IntygViewState = _IntygViewState_;
-        }]));
+  beforeEach(angular.mock.inject(['fk7263.IntygController.ViewStateService',
+    function(_IntygViewState_) {
+      IntygViewState = _IntygViewState_;
+    }]));
 
-    describe('send', function() {
+  describe('send', function() {
 
-        it ('should show observandum in the right conditions (FK7263)', function() {
+    it('should show observandum in the right conditions (FK7263)', function() {
 
-            // anything other than ARBETSLOSHET should spawn observandum if duration is 7 days or less
-            IntygViewState.intygModel = {
-                typ: 'fk7263',
-                nedsattMed25: {
-                    from: '2018-01-01',
-                    tom: '2018-01-02'
-                },
-                nedsattMed50: {
-                    from: '2018-01-03',
-                    tom: '2018-01-04'
-                },
-                nedsattMed100: {
-                    from: '2018-01-06',
-                    tom: '2018-01-07'
-                },
-                arbetsloshet: false
-            };
+      // anything other than ARBETSLOSHET should spawn observandum if duration is 7 days or less
+      IntygViewState.intygModel = {
+        typ: 'fk7263',
+        nedsattMed25: {
+          from: '2018-01-01',
+          tom: '2018-01-02'
+        },
+        nedsattMed50: {
+          from: '2018-01-03',
+          tom: '2018-01-04'
+        },
+        nedsattMed100: {
+          from: '2018-01-06',
+          tom: '2018-01-07'
+        },
+        arbetsloshet: false
+      };
 
-            expect(IntygViewState.shouldArbeteSpawnObservandum()).toBeTruthy();
-            expect(IntygViewState.getObservandumId()).not.toBe(null);
+      expect(IntygViewState.shouldArbeteSpawnObservandum()).toBeTruthy();
+      expect(IntygViewState.getObservandumId()).not.toBe(null);
 
-            // ARBETSLOSHET should not spawn observandum
-            IntygViewState.intygModel.arbetsloshet = true;
+      // ARBETSLOSHET should not spawn observandum
+      IntygViewState.intygModel.arbetsloshet = true;
 
-            expect(IntygViewState.shouldArbeteSpawnObservandum()).toBeFalsy();
-            expect(IntygViewState.getObservandumId()).toBe(null);
-        });
-
+      expect(IntygViewState.shouldArbeteSpawnObservandum()).toBeFalsy();
+      expect(IntygViewState.getObservandumId()).toBe(null);
     });
+
+  });
 
 });

@@ -18,12 +18,12 @@
  */
 angular.module('common').filter('ueLabelFilter',
     function() {
-        'use strict';
+      'use strict';
 
-        return function(label) {
-            for(var i=1; i<arguments.length; i++) {
-                label = label.replace('{' + (i - 1) + '}', arguments[i]);
-            }
-            return label;
-        };
+      return function(label) {
+        for (var i = 1; i < arguments.length; i++) {
+          label = label.replace('{' + (i - 1) + '}', arguments[i]);
+        }
+        return label;
+      };
     });

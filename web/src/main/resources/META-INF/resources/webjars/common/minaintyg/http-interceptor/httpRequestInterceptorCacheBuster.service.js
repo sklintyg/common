@@ -22,21 +22,21 @@
  * config the http provider for the app like this (in 1.1.5):
  *
  * app.config(function ($httpProvider) {
-     *   $httpProvider.interceptors.push('httpRequestInterceptorCacheBuster');
-     * })
+ *   $httpProvider.interceptors.push('httpRequestInterceptorCacheBuster');
+ * })
  */
 angular.module('common').factory('common.httpRequestInterceptorCacheBuster',
     function($q) {
-        'use strict';
+      'use strict';
 
-        return {
-            request: function(config) {
-                // Don't mess with view loading, ok if cached..
-                if (config.url.indexOf('.html') === -1) {
-                    var sep = config.url.indexOf('?') === -1 ? '?' : '&';
-                    config.url = config.url + sep + 'cacheSlayer=' + new Date().getTime();
-                }
-                return config || $q.when(config);
-            }
-        };
+      return {
+        request: function(config) {
+          // Don't mess with view loading, ok if cached..
+          if (config.url.indexOf('.html') === -1) {
+            var sep = config.url.indexOf('?') === -1 ? '?' : '&';
+            config.url = config.url + sep + 'cacheSlayer=' + new Date().getTime();
+          }
+          return config || $q.when(config);
+        }
+      };
     });

@@ -18,76 +18,76 @@
  */
 
 describe('uvKodverk Directive', function() {
-    'use strict';
+  'use strict';
 
-    var $scope;
-    var element;
+  var $scope;
+  var element;
 
-    beforeEach(angular.mock.module('htmlTemplates'));
-    beforeEach(angular.mock.module('common'));
+  beforeEach(angular.mock.module('htmlTemplates'));
+  beforeEach(angular.mock.module('common'));
 
-    beforeEach(module('common', function($compileProvider) {
-        // Create a mocked version of the dynamic label directive for easier and more
-        // focused unittesting of THIS directive.
-        // (That the dynamic-label directive works should be tested by that directive)
-        $compileProvider.directive('dynamicLabel', function() {
-            return {
-                priority: 100,
-                terminal: true,
-                replace: true,
-                restrict: 'A',
-                scope: {
-                    key: '@'
-                },
-                template: '<span></span>',
-                link: function($scope, $element) {
-                    $element.append('dynamicLabel-' + $scope.key);
-                }
-            };
-        });
-    }));
-
-    beforeEach(angular.mock.inject([ '$compile', '$rootScope', function($compile, $rootScope) {
-        $scope = $rootScope.$new();
-
-        $scope.configMock = {
-            modelProp: 'data',
-            kvModelProps: [ 'data.KEY0', 'data.KEY1', 'data.KEY2' ],
-            kvLabelKeys: [ 'KV0.{var}.RBK', 'KV1.{var}.RBK', 'KV2.{var}.RBK' ]
-        };
-
-        element = $compile('<uv-kodverk-value config="configMock" view-data="viewDataMock"></uv-kodverk-value>')($scope);
-
-    } ]));
-
-    it('should render modelProps values as resolved dynamic labelkey spans', function() {
-        $scope.viewDataMock = {
-            data: {
-                KEY0: 'VALUE_0',
-                KEY1: 'VALUE_1',
-                KEY2: 'VALUE_2'
-            }
-        };
-
-        $scope.$digest();
-
-        var expectedElements = $(element).find('span.value');
-        expect(expectedElements.length).toBe(3);
-        expect(expectedElements.eq(0).text().trim()).toBe('dynamicLabel-KV0.VALUE_0.RBK');
-        expect(expectedElements.eq(1).text().trim()).toBe('dynamicLabel-KV1.VALUE_1.RBK');
-        expect(expectedElements.eq(2).text().trim()).toBe('dynamicLabel-KV2.VALUE_2.RBK');
-
+  beforeEach(module('common', function($compileProvider) {
+    // Create a mocked version of the dynamic label directive for easier and more
+    // focused unittesting of THIS directive.
+    // (That the dynamic-label directive works should be tested by that directive)
+    $compileProvider.directive('dynamicLabel', function() {
+      return {
+        priority: 100,
+        terminal: true,
+        replace: true,
+        restrict: 'A',
+        scope: {
+          key: '@'
+        },
+        template: '<span></span>',
+        link: function($scope, $element) {
+          $element.append('dynamicLabel-' + $scope.key);
+        }
+      };
     });
+  }));
 
-    it('should render "Ej angivet" if no values are resolved', function() {
-        $scope.viewDataMock = {};
+  beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {
+    $scope = $rootScope.$new();
 
-        $scope.$digest();
+    $scope.configMock = {
+      modelProp: 'data',
+      kvModelProps: ['data.KEY0', 'data.KEY1', 'data.KEY2'],
+      kvLabelKeys: ['KV0.{var}.RBK', 'KV1.{var}.RBK', 'KV2.{var}.RBK']
+    };
 
-        var expectedElements = $(element).find('span.value');
-        expect(expectedElements.length).toBe(0);
-        expect($(element).find('uv-no-value').length).toBe(1);
+    element = $compile('<uv-kodverk-value config="configMock" view-data="viewDataMock"></uv-kodverk-value>')($scope);
 
-    });
+  }]));
+
+  it('should render modelProps values as resolved dynamic labelkey spans', function() {
+    $scope.viewDataMock = {
+      data: {
+        KEY0: 'VALUE_0',
+        KEY1: 'VALUE_1',
+        KEY2: 'VALUE_2'
+      }
+    };
+
+    $scope.$digest();
+
+    var expectedElements = $(element).find('span.value');
+    expect(expectedElements.length).toBe(3);
+    expect(expectedElements.eq(0).text().trim()).toBe('dynamicLabel-KV0.VALUE_0.RBK');
+    expect(expectedElements.eq(1).text().trim()).toBe('dynamicLabel-KV1.VALUE_1.RBK');
+    expect(expectedElements.eq(2).text().trim()).toBe('dynamicLabel-KV2.VALUE_2.RBK');
+
+  });
+
+  it('should render "Ej angivet" if no values are resolved', function() {
+    $scope.viewDataMock = {};
+
+    $scope.$digest();
+
+    var expectedElements = $(element).find('span.value');
+    expect(expectedElements.length).toBe(0);
+    expect($(element).find('uv-no-value').length).toBe(1);
+
+  });
 
 });

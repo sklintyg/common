@@ -36,10 +36,10 @@
 // This is used to override the background color (and text) color to grey + white of headings and uv-skapad-av
 // in the UV framework when a certificate has been replaced.
 .certificate-header-replaced {
-    uv-kategori h2,
-    uv-table tbody tr th,
-    uv-skapad-av .uv-skapad-av-body {
-        color:#FFF;
-        background-color: #777;
-    }
+  uv-kategori h2,
+  uv-table tbody tr th,
+  uv-skapad-av .uv-skapad-av-body {
+    color: #FFF;
+    background-color: #777;
+  }
 }

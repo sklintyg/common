@@ -21,39 +21,38 @@
  *
  * Created by marced on 2018-01-16.
  */
-angular.module('ag7804').factory('ag7804.supportPanelConfigFactory', [ function() {
-    'use strict';
+angular.module('ag7804').factory('ag7804.supportPanelConfigFactory', [function() {
+  'use strict';
 
-    function _getConfig(id, intygTypeVersion, isSigned) {
+  function _getConfig(id, intygTypeVersion, isSigned) {
 
-        var config = {
-            tabs: [],
-            intygContext: {
-                type: 'ag7804',
-                aboutMsgKey: 'FRM_2.RBK',
-                id: id,
-                intygTypeVersion: intygTypeVersion,
-                isSigned: isSigned
-            }
-        };
-
-         //Default aktiv om signerat och inte ännu skickat
-        config.tabs.push({
-            id: 'wc-help-tips-panel-tab',
-            title: 'common.supportpanel.help.title',
-            tooltip: 'common.supportpanel.help.tooltip',
-            config: {
-                intygContext: config.intygContext
-            },
-            active: true
-        });
-
-
-        return angular.copy(config);
-    }
-
-    return {
-        getConfig: _getConfig
+    var config = {
+      tabs: [],
+      intygContext: {
+        type: 'ag7804',
+        aboutMsgKey: 'FRM_2.RBK',
+        id: id,
+        intygTypeVersion: intygTypeVersion,
+        isSigned: isSigned
+      }
     };
 
-} ]);
+    //Default aktiv om signerat och inte ännu skickat
+    config.tabs.push({
+      id: 'wc-help-tips-panel-tab',
+      title: 'common.supportpanel.help.title',
+      tooltip: 'common.supportpanel.help.tooltip',
+      config: {
+        intygContext: config.intygContext
+      },
+      active: true
+    });
+
+    return angular.copy(config);
+  }
+
+  return {
+    getConfig: _getConfig
+  };
+
+}]);

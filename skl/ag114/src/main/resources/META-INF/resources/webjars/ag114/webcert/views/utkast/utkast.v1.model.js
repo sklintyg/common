@@ -18,72 +18,72 @@
  */
 angular.module('ag114').factory('ag114.Domain.IntygModel.v1',
     ['common.Domain.GrundDataModel', 'common.Domain.DraftModel', 'common.domain.ModelAttr',
-        'common.domain.BaseAtticModel', 'common.domain.ModelTransformService',
-        function(GrundData, DraftModel, ModelAttr, BaseAtticModel, ModelTransform) {
-            'use strict';
+      'common.domain.BaseAtticModel', 'common.domain.ModelTransformService',
+      function(GrundData, DraftModel, ModelAttr, BaseAtticModel, ModelTransform) {
+        'use strict';
 
-            var Ag114Model = BaseAtticModel._extend({
-                init: function init() {
-                    var grundData = GrundData.build();
-                    init._super.call(this, 'Ag114Model', {
+        var Ag114Model = BaseAtticModel._extend({
+          init: function init() {
+            var grundData = GrundData.build();
+            init._super.call(this, 'Ag114Model', {
 
-                        'id': undefined,
-                        'typ': undefined,
-                        'textVersion': undefined,
-                        'grundData': grundData,
+              'id': undefined,
+              'typ': undefined,
+              'textVersion': undefined,
+              'grundData': grundData,
 
-                        // Kategori 7 Grund för medicinskt underlag
-                        'undersokningAvPatienten': undefined,
-                        'telefonkontaktMedPatienten': undefined,
-                        'journaluppgifter': undefined,
-                        'annatGrundForMU': undefined,
-                        'annatGrundForMUBeskrivning': undefined,
+              // Kategori 7 Grund för medicinskt underlag
+              'undersokningAvPatienten': undefined,
+              'telefonkontaktMedPatienten': undefined,
+              'journaluppgifter': undefined,
+              'annatGrundForMU': undefined,
+              'annatGrundForMUBeskrivning': undefined,
 
-                        // Kategori 1 sysselsättning
-                        'sysselsattning': new ModelAttr('sysselsattning', {
-                            toTransform: ModelTransform.enumToTransform,
-                            fromTransform: ModelTransform.enumFromTransform,
-                            defaultValue: {
-                                'typ': 'NUVARANDE_ARBETE'
-                            }
-                        }),
-                        'nuvarandeArbete' : undefined,
-                        'onskarFormedlaDiagnos': undefined,
-                        'diagnoser': new ModelAttr('diagnoser', {
-                            defaultValue: [],
-                            fromTransform: ModelTransform.diagnosFromTransform,
-                            toTransform: ModelTransform.diagnosToTransform
-                        }),
-                        'nedsattArbetsformaga': undefined,
-                        'arbetsformagaTrotsSjukdom': undefined,
-                        'arbetsformagaTrotsSjukdomBeskrivning': undefined,
-                        'ovrigaUpplysningar': undefined,
-                        'sjukskrivningsgrad': undefined,
-                        'sjukskrivningsperiod': {
-                            from: moment().format('YYYY-MM-DD'),
-                            tom: undefined
-                        },
-
-                        'kontaktMedArbetsgivaren': new ModelAttr( 'kontaktMedArbetsgivaren', { defaultValue : false }),
-                        'anledningTillKontakt': undefined
-                    });
-                },
-                update: function update(content, parent) {
-                    if (parent) {
-                        parent.content = this;
-                    }
-                    update._super.call(this, content);
+              // Kategori 1 sysselsättning
+              'sysselsattning': new ModelAttr('sysselsattning', {
+                toTransform: ModelTransform.enumToTransform,
+                fromTransform: ModelTransform.enumFromTransform,
+                defaultValue: {
+                  'typ': 'NUVARANDE_ARBETE'
                 }
+              }),
+              'nuvarandeArbete': undefined,
+              'onskarFormedlaDiagnos': undefined,
+              'diagnoser': new ModelAttr('diagnoser', {
+                defaultValue: [],
+                fromTransform: ModelTransform.diagnosFromTransform,
+                toTransform: ModelTransform.diagnosToTransform
+              }),
+              'nedsattArbetsformaga': undefined,
+              'arbetsformagaTrotsSjukdom': undefined,
+              'arbetsformagaTrotsSjukdomBeskrivning': undefined,
+              'ovrigaUpplysningar': undefined,
+              'sjukskrivningsgrad': undefined,
+              'sjukskrivningsperiod': {
+                from: moment().format('YYYY-MM-DD'),
+                tom: undefined
+              },
 
-            }, {
-                build: function() {
-                    return new DraftModel(new Ag114Model());
-                }
+              'kontaktMedArbetsgivaren': new ModelAttr('kontaktMedArbetsgivaren', {defaultValue: false}),
+              'anledningTillKontakt': undefined
             });
+          },
+          update: function update(content, parent) {
+            if (parent) {
+              parent.content = this;
+            }
+            update._super.call(this, content);
+          }
 
-            /**
-             * Return the constructor function IntygModel
-             */
-            return Ag114Model;
+        }, {
+          build: function() {
+            return new DraftModel(new Ag114Model());
+          }
+        });
 
-        }]);
+        /**
+         * Return the constructor function IntygModel
+         */
+        return Ag114Model;
+
+      }]);

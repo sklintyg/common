@@ -24,64 +24,64 @@
  * arendePanel directive. Common directive for both unhandled and handled questions/answers
  */
 angular.module('common').directive('arendePanel',
-    [ 'common.ObjectHelper', 'common.ArendeSvarModel',
-        function(ObjectHelper, ArendeSvarModel) {
-            'use strict';
+    ['common.ObjectHelper', 'common.ArendeSvarModel',
+      function(ObjectHelper, ArendeSvarModel) {
+        'use strict';
 
-            return {
-                restrict: 'E',
-                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/panel/arendePanel.directive.html',
-                scope: {
-                    panelId: '@',
-                    arendeListItem: '=',
-                    arendeList: '=',
-                    parentViewState: '=',
-                    lastCard: '<',
-                    config: '='
-                },
-                controller: function($scope) {
+        return {
+          restrict: 'E',
+          templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/panel/arendePanel.directive.html',
+          scope: {
+            panelId: '@',
+            arendeListItem: '=',
+            arendeList: '=',
+            parentViewState: '=',
+            lastCard: '<',
+            config: '='
+          },
+          controller: function($scope) {
 
-                    $scope.unhandledKompletteringCount = 0;
-                    $scope.unhandledAdminFragor = 0;
+            $scope.unhandledKompletteringCount = 0;
+            $scope.unhandledAdminFragor = 0;
 
-                    $scope.showAnswer = function() {
-                        var ArendeSvar = $scope.arendeListItem.arende.svar;
-                        // If closed and has a meddelande it is answered by message
-                        // If closed and has answeredWithIntyg object it was answered with intyg
-                        return (ArendeSvar.status === 'CLOSED' &&
-                            (ObjectHelper.isEmpty(ArendeSvar.meddelande) === false ||
-                                ObjectHelper.isDefined(ArendeSvar.answeredWithIntyg))) ||
-                            (ArendeSvar.status === 'ANSWERED');
-                    };
-
-                    function _buildArendeSvarModel() {
-                        var ArendeSvar = ArendeSvarModel.build($scope.parentViewState, $scope.arendeListItem);
-                        $scope.arendeSvar = ArendeSvar;
-                        return ArendeSvar;
-                    }
-
-                    var ArendeSvar = _buildArendeSvarModel();
-                    $scope.$on('arenden.updated', function() {
-                        ArendeSvar = _buildArendeSvarModel();
-                    });
-
-                    angular.forEach($scope.parentViewState.arendeList, function(arendeListItem) {
-                        if (arendeListItem.isOpen()) {
-                            if (arendeListItem.isKomplettering()) {
-                                $scope.unhandledKompletteringCount++;
-                            } else {
-                                $scope.unhandledAdminFragor++;
-                            }
-                        }
-                    });
-
-                    var arendePanelSvarController;
-                    this.registerArendePanelSvar = function(controller) {
-                        arendePanelSvarController = controller;
-                    };
-                    this.getArendePanelSvar = function() {
-                        return arendePanelSvarController;
-                    };
-                }
+            $scope.showAnswer = function() {
+              var ArendeSvar = $scope.arendeListItem.arende.svar;
+              // If closed and has a meddelande it is answered by message
+              // If closed and has answeredWithIntyg object it was answered with intyg
+              return (ArendeSvar.status === 'CLOSED' &&
+                  (ObjectHelper.isEmpty(ArendeSvar.meddelande) === false ||
+                      ObjectHelper.isDefined(ArendeSvar.answeredWithIntyg))) ||
+                  (ArendeSvar.status === 'ANSWERED');
             };
-        }]);
+
+            function _buildArendeSvarModel() {
+              var ArendeSvar = ArendeSvarModel.build($scope.parentViewState, $scope.arendeListItem);
+              $scope.arendeSvar = ArendeSvar;
+              return ArendeSvar;
+            }
+
+            var ArendeSvar = _buildArendeSvarModel();
+            $scope.$on('arenden.updated', function() {
+              ArendeSvar = _buildArendeSvarModel();
+            });
+
+            angular.forEach($scope.parentViewState.arendeList, function(arendeListItem) {
+              if (arendeListItem.isOpen()) {
+                if (arendeListItem.isKomplettering()) {
+                  $scope.unhandledKompletteringCount++;
+                } else {
+                  $scope.unhandledAdminFragor++;
+                }
+              }
+            });
+
+            var arendePanelSvarController;
+            this.registerArendePanelSvar = function(controller) {
+              arendePanelSvarController = controller;
+            };
+            this.getArendePanelSvar = function() {
+              return arendePanelSvarController;
+            };
+          }
+        };
+      }]);

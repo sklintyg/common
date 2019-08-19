@@ -18,13 +18,11 @@
  */
 package se.inera.intyg.common.fkparent.model.internal;
 
-import javax.annotation.Nullable;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.auto.value.AutoValue;
-
+import javax.annotation.Nullable;
 import se.inera.intyg.common.support.model.InternalDate;
 
 @AutoValue
@@ -32,8 +30,8 @@ public abstract class Underlag {
 
     @JsonCreator
     public static Underlag create(@JsonProperty("typ") UnderlagsTyp typ,
-            @JsonProperty("datum") InternalDate datum,
-            @JsonProperty("hamtasFran") String hamtasFran) {
+        @JsonProperty("datum") InternalDate datum,
+        @JsonProperty("hamtasFran") String hamtasFran) {
         return new AutoValue_Underlag(typ, datum, hamtasFran);
     }
 

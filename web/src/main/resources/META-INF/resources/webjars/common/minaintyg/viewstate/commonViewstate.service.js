@@ -18,16 +18,16 @@
  */
 angular.module('common').service('common.ViewStateService',
     function() {
-        'use strict';
+      'use strict';
 
-        this.reset = function() {
-            this.doneLoading = false;
+      this.reset = function() {
+        this.doneLoading = false;
 
-            this.intygProperties = {
-                type: undefined
-            };
+        this.intygProperties = {
+          type: undefined
         };
+      };
 
-        this.reset();
+      this.reset();
     }
 );

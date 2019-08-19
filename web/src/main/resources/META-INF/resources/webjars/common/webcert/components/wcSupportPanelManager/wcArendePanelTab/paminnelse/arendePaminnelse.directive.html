@@ -5,12 +5,15 @@
       <div class="arende-paminnelse-heading">
         Påminnelse
       </div>
-      <div class="arende-paminnelse-datum" id="arende-pamminelse-skickaddatum-{{arendeListItem.arende.fraga.internReferens}}">
+      <div class="arende-paminnelse-datum"
+           id="arende-pamminelse-skickaddatum-{{arendeListItem.arende.fraga.internReferens}}">
         {{arendeListItem.arende.fraga.timestamp | date:'short'}}
       </div>
     </div>
 
-    <div class="arende-meddelande multiline" ng-if="arendeListItem.arende.fraga.meddelande">{{arendeListItem.arende.fraga.meddelande}}</div>
+    <div class="arende-meddelande multiline" ng-if="arendeListItem.arende.fraga.meddelande">
+      {{arendeListItem.arende.fraga.meddelande}}
+    </div>
 
     <div class="arende-svara-senast" ng-if="arendeListItem.arende.fraga.sistaDatumForSvar">
       <i class="material-icons">date_range</i> Svara senast: {{arendeListItem.arende.fraga.sistaDatumForSvar}}

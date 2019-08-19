@@ -17,20 +17,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('ts-bas').factory('ts-bas.viewFactory.v6', [
-    '$stateParams',
-    function($stateParams) {
-        'use strict';
+  '$stateParams',
+  function($stateParams) {
+    'use strict';
 
-        var intygsTyp = 'ts-bas';
-        var selectRecipientKey = 'modules.page-header.info.select-recipients-and-send.ts';
-        
-        var _sendUrl = function() {
-            return '/send/' + intygsTyp +'/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/TRANSP';
-        };
+    var intygsTyp = 'ts-bas';
+    var selectRecipientKey = 'modules.page-header.info.select-recipients-and-send.ts';
 
-        return {
-            intygsTyp: intygsTyp,
-            selectRecipientKey: selectRecipientKey,
-            getSendUrl: _sendUrl
-        };
-    }]);
+    var _sendUrl = function() {
+      return '/send/' + intygsTyp + '/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/TRANSP';
+    };
+
+    return {
+      intygsTyp: intygsTyp,
+      selectRecipientKey: selectRecipientKey,
+      getSendUrl: _sendUrl
+    };
+  }]);

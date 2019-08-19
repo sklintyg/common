@@ -20,85 +20,82 @@
  * Created by stephenwhite on 05/03/15.
  */
 angular.module('ts-bas').config(function($stateProvider) {
-    'use strict';
+  'use strict';
 
-    var commonPath = '/web/webjars/common/webcert/';
-    //var intygsTypPath = '/web/webjars/ts-bas/webcert/';
+  var commonPath = '/web/webjars/common/webcert/';
+  //var intygsTypPath = '/web/webjars/ts-bas/webcert/';
 
-    var editViewState = function(factoryResolverHelper, $stateParams) {
-        return factoryResolverHelper.resolve('ts-bas.UtkastController.ViewStateService', $stateParams);
-    };
+  var editViewState = function(factoryResolverHelper, $stateParams) {
+    return factoryResolverHelper.resolve('ts-bas.UtkastController.ViewStateService', $stateParams);
+  };
 
-    var utkastConfig = function(factoryResolverHelper, $stateParams) {
-        return factoryResolverHelper.resolve('ts-bas.UtkastConfigFactory', $stateParams);
-    };
+  var utkastConfig = function(factoryResolverHelper, $stateParams) {
+    return factoryResolverHelper.resolve('ts-bas.UtkastConfigFactory', $stateParams);
+  };
 
-    var viewConfig = function(factoryResolverHelper, $stateParams) {
-        return factoryResolverHelper.resolve('ts-bas.viewConfigFactory', $stateParams);
-    };
+  var viewConfig = function(factoryResolverHelper, $stateParams) {
+    return factoryResolverHelper.resolve('ts-bas.viewConfigFactory', $stateParams);
+  };
 
-    $stateProvider.
-        state('ts-bas', {
-            url: '/ts-bas'
-        }).
-        state('ts-bas.utkast', {
-            data: { defaultActive : 'index', intygType: 'ts-bas' },
-            url: '/:intygTypeVersion/edit/:certificateId/:focusOn',
-            params: {
-                focusOn: ''
-            },
-            resolve: {
-                ViewState: editViewState,
-                UtkastConfigFactory: utkastConfig,
-                supportPanelConfigFactory: 'ts-bas.supportPanelConfigFactory'
-            },
-            views : {
-                'content@' : {
-                    templateUrl: commonPath + 'utkast/smiUtkast.html',
-                    controller: 'smi.EditCertCtrl'
-                },
+  $stateProvider.state('ts-bas', {
+    url: '/ts-bas'
+  }).state('ts-bas.utkast', {
+    data: {defaultActive: 'index', intygType: 'ts-bas'},
+    url: '/:intygTypeVersion/edit/:certificateId/:focusOn',
+    params: {
+      focusOn: ''
+    },
+    resolve: {
+      ViewState: editViewState,
+      UtkastConfigFactory: utkastConfig,
+      supportPanelConfigFactory: 'ts-bas.supportPanelConfigFactory'
+    },
+    views: {
+      'content@': {
+        templateUrl: commonPath + 'utkast/smiUtkast.html',
+        controller: 'smi.EditCertCtrl'
+      },
 
-                'header@' : {
-                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
-                },
+      'header@': {
+        templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
+      },
 
-                'header@ts-bas.utkast' : {
-                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
-                    controller: 'common.UtkastHeader'
-                },
+      'header@ts-bas.utkast': {
+        templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
+        controller: 'common.UtkastHeader'
+      },
 
-                'footer@ts-bas.utkast' : {
-                    templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
-                    controller: 'common.UtkastFooter'
-                },
+      'footer@ts-bas.utkast': {
+        templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
+        controller: 'common.UtkastFooter'
+      },
 
-                'utkast@ts-bas.utkast' : {
-                    templateUrl: commonPath + 'utkast/smiUtkastUE.html',
-                    controller: 'smi.EditCert.UECtrl'
-                }
-            }
-        }).
-        state('webcert.intyg.ts-bas', {
-            data: { defaultActive: 'index', intygType: 'ts-bas' },
-            url: '/intyg/ts-bas/:intygTypeVersion/:certificateId/:focusOn?:signed',
-            params: {
-                focusOn: ''
-            },
-            resolve: {
-                ViewState: 'ts-bas.IntygController.ViewStateService',
-                ViewConfigFactory: viewConfig,
-                supportPanelConfigFactory: 'ts-bas.supportPanelConfigFactory',
-                IntygViewState: 'ts-bas.IntygController.ViewStateService'
-            },
-            views: {
-                'intyg@webcert.intyg': {
-                    templateUrl: commonPath + 'intyg/smiIntygUv.html',
-                    controller: 'smi.ViewCertCtrlUv'
-                },
-                'header@webcert.intyg.ts-bas': {
-                    templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader'
-                }
-            }
-        });
+      'utkast@ts-bas.utkast': {
+        templateUrl: commonPath + 'utkast/smiUtkastUE.html',
+        controller: 'smi.EditCert.UECtrl'
+      }
+    }
+  }).state('webcert.intyg.ts-bas', {
+    data: {defaultActive: 'index', intygType: 'ts-bas'},
+    url: '/intyg/ts-bas/:intygTypeVersion/:certificateId/:focusOn?:signed',
+    params: {
+      focusOn: ''
+    },
+    resolve: {
+      ViewState: 'ts-bas.IntygController.ViewStateService',
+      ViewConfigFactory: viewConfig,
+      supportPanelConfigFactory: 'ts-bas.supportPanelConfigFactory',
+      IntygViewState: 'ts-bas.IntygController.ViewStateService'
+    },
+    views: {
+      'intyg@webcert.intyg': {
+        templateUrl: commonPath + 'intyg/smiIntygUv.html',
+        controller: 'smi.ViewCertCtrlUv'
+      },
+      'header@webcert.intyg.ts-bas': {
+        templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
+        controller: 'common.IntygHeader'
+      }
+    }
+  });
 });

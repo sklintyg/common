@@ -18,23 +18,21 @@
  */
 package se.inera.intyg.common.tstrk1062.v1.rest;
 
-import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.*;
+import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS;
+import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS_OR_PU;
+import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
 
+import com.google.common.base.Strings;
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.xml.bind.JAXB;
 import javax.xml.ws.soap.SOAPFaultException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.google.common.base.Strings;
-
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -76,13 +74,13 @@ public class TsTrk1062ModuleApiV1 extends TsParentModuleApi<TsTrk1062UtlatandeV1
 
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-            throws ModuleException {
+        throws ModuleException {
         TsTrk1062UtlatandeV1 utlatande = getInternal(internalModel);
         IntygTexts texts = getTexts(TsTrk1062EntryPoint.MODULE_ID, utlatande.getTextVersion());
 
         Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
         return pdfGenerator.generatePdf(utlatande.getId(), internalModel, personId, texts, statuses, applicationOrigin,
-                utkastStatus);
+            utkastStatus);
     }
 
     @Override
@@ -103,8 +101,8 @@ public class TsTrk1062ModuleApiV1 extends TsParentModuleApi<TsTrk1062UtlatandeV1
             if (response.getResult() != null && response.getResult().getResultCode() != ResultCodeType.OK) {
                 String message = response.getResult().getResultText();
                 LOG.error("Error occured when sending certificate '{}': {}",
-                        request.getIntyg() != null ? request.getIntyg().getIntygsId() : null,
-                        message);
+                    request.getIntyg() != null ? request.getIntyg().getIntygsId() : null,
+                    message);
                 throw new ExternalServiceCallException(message);
             }
         } catch (SOAPFaultException e) {
@@ -147,12 +145,12 @@ public class TsTrk1062ModuleApiV1 extends TsParentModuleApi<TsTrk1062UtlatandeV1
         final List<DiagnosKodad> diagnosKodadList = utlatande.getDiagnosKodad();
         if (diagnosKodadList != null && diagnosKodadList.size() > 0) {
             List<DiagnosKodad> decoratedDiagnoser = diagnosKodadList.stream()
-                    .map(diagnos -> DiagnosKodad.create(diagnos.getDiagnosKod(),
-                            diagnos.getDiagnosKodSystem(),
-                            diagnos.getDiagnosBeskrivning(),
-                            moduleService.getDescriptionFromDiagnosKod(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem()),
-                            diagnos.getDiagnosArtal()))
-                    .collect(Collectors.toList());
+                .map(diagnos -> DiagnosKodad.create(diagnos.getDiagnosKod(),
+                    diagnos.getDiagnosKodSystem(),
+                    diagnos.getDiagnosBeskrivning(),
+                    moduleService.getDescriptionFromDiagnosKod(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem()),
+                    diagnos.getDiagnosArtal()))
+                .collect(Collectors.toList());
             return utlatande.toBuilder().setDiagnosKodad(decoratedDiagnoser).build();
         } else {
             return utlatande;

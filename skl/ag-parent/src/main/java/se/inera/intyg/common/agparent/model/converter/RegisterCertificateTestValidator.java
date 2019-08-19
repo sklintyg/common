@@ -19,19 +19,19 @@
 package se.inera.intyg.common.agparent.model.converter;
 
 import com.google.common.base.Charsets;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import javax.annotation.Nonnull;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
-import javax.annotation.Nonnull;
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-
 public class RegisterCertificateTestValidator {
+
     private static final String RESPONDER_SCHEMA = "interactions/RegisterCertificateInteraction/RegisterCertificateResponder_3.1.xsd";
     private static final String GENERAL_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.2.xsd";
     private static final String EXT_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.2_ext.xsd";

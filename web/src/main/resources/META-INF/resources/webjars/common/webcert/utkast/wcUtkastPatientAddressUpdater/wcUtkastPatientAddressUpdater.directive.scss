@@ -6,14 +6,14 @@ wc-utkast-patient-address-updater {
   }
 
   .alert {
-    margin:5px 0 0 0;
+    margin: 5px 0 0 0;
   }
 
-  .btn{
+  .btn {
     padding-top: 8px;
     padding-bottom: 6px;
 
-    &.idle .glyphicon:before{
+    &.idle .glyphicon:before {
       display: block;
       animation: rotate360 1.5s linear infinite;
     }

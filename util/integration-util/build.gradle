@@ -1,8 +1,8 @@
 dependencies {
-  compile project(':common-support')
-  compile project(':logging-util')
+    compile project(':common-support')
+    compile project(':logging-util')
 
-  compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}"
-  compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:${jacksonVersion}"
-  compile "org.apache.cxf:cxf-rt-frontend-jaxrs:${cxfVersion}"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}"
+    compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:${jacksonVersion}"
+    compile "org.apache.cxf:cxf-rt-frontend-jaxrs:${cxfVersion}"
 }

@@ -20,12 +20,10 @@ package se.inera.intyg.common.tstrk1062.v1.model.internal;
 
 import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ID_KONTROLL_DELSVAR_JSON_ID;
 
-import javax.annotation.Nullable;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.auto.value.AutoValue;
-
+import javax.annotation.Nullable;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 
 @AutoValue

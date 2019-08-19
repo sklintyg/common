@@ -34,12 +34,12 @@
       <befattning>
         <ns3:code>201010</ns3:code>
         <ns3:codeSystem>1.2.752.129.2.2.1.4</ns3:codeSystem>
-		<ns3:displayName>Överläkare</ns3:displayName>
+        <ns3:displayName>Överläkare</ns3:displayName>
       </befattning>
       <befattning>
         <ns3:code>204510</ns3:code>
         <ns3:codeSystem>1.2.752.129.2.2.1.4</ns3:codeSystem>
-		<ns3:displayName>Psykolog</ns3:displayName>
+        <ns3:displayName>Psykolog</ns3:displayName>
       </befattning>
       <enhet>
         <enhets-id>
@@ -91,7 +91,7 @@
       <delsvar id="4.2">2015-09-03</delsvar>
       <delsvar id="4.3">Skickas med posten</delsvar>
     </svar>
-	<svar id="4">
+    <svar id="4">
       <delsvar id="4.1">
         <ns3:cv>
           <ns3:code>FYSIOTERAPEUT</ns3:code>
@@ -100,9 +100,13 @@
       </delsvar>
       <delsvar id="4.2">2015-06-30</delsvar>
       <delsvar id="4.3">Skickas med e-mail</delsvar>
-	</svar>
+    </svar>
     <svar id="5">
-      <delsvar id="5.1">Arbetsplatsolycka där patienten fastnade med höger hand i en vals 2014-07-09. Omhändertogs initialt på akutmottagningen AVC Södra Älvsborgs sjukhus i Borås. Vävnadsförluster i 3:e och 4:e fingret. Nedsatt kraft, känsel och funktion i handen, smärtsyndom i hela höger arm. Sedan några månader depression som har varit svår att behandla medikamentellt.</delsvar>
+      <delsvar id="5.1">Arbetsplatsolycka där patienten fastnade med höger hand i en vals 2014-07-09. Omhändertogs
+        initialt på akutmottagningen AVC Södra Älvsborgs sjukhus i Borås. Vävnadsförluster i 3:e och 4:e fingret.
+        Nedsatt kraft, känsel och funktion i handen, smärtsyndom i hela höger arm. Sedan några månader depression som
+        har varit svår att behandla medikamentellt.
+      </delsvar>
     </svar>
     <svar id="6">
       <delsvar id="6.1">Skada på multipla böjmuskler och deras senor på handleds- och handnivå</delsvar>
@@ -121,7 +125,9 @@
       </delsvar>
     </svar>
     <svar id="7">
-      <delsvar id="7.1">Diagnoserna ställdes vid besök på AVC Södra Älvsborgs sjukhus i Borås 2014-07-09 och på Vårdenheten 2015-03-02.</delsvar>
+      <delsvar id="7.1">Diagnoserna ställdes vid besök på AVC Södra Älvsborgs sjukhus i Borås 2014-07-09 och på
+        Vårdenheten 2015-03-02.
+      </delsvar>
     </svar>
     <svar id="45">
       <delsvar id="45.1">true</delsvar>
@@ -131,18 +137,26 @@
       <delsvar id="9.1">Nedsatt initiativförmåga, drar sig ofta undan folksamlingar.</delsvar>
     </svar>
     <svar id="17">
-      <delsvar id="17.1">Svårt att utföra arbeten med höger arm (högerhänt). Kan lyfta lättare saker men tappar lätt föremål. Nedsatt koncentrationsförmåga vilket påverkar arbeten där han behöver övervaka processer. </delsvar>
+      <delsvar id="17.1">Svårt att utföra arbeten med höger arm (högerhänt). Kan lyfta lättare saker men tappar lätt
+        föremål. Nedsatt koncentrationsförmåga vilket påverkar arbeten där han behöver övervaka processer.
+      </delsvar>
     </svar>
     <svar id="22">
-      <delsvar id="22.1">Patienten kommer sannolikt inte att kunna arbeta fullt ut med höger arm framgent. Framförallt är det nervskadorna med smärtkänslighet, nedsatt kraft, uttröttbarhet och svårigheten att koncentrera sig som försvårar ett heltidsarbete. Ett deltidsarbete måste också ta hänsyn till dessa begränsningar men bedöms kunna utföras på 50 procent av en heltid.</delsvar>
+      <delsvar id="22.1">Patienten kommer sannolikt inte att kunna arbeta fullt ut med höger arm framgent. Framförallt
+        är det nervskadorna med smärtkänslighet, nedsatt kraft, uttröttbarhet och svårigheten att koncentrera sig som
+        försvårar ett heltidsarbete. Ett deltidsarbete måste också ta hänsyn till dessa begränsningar men bedöms kunna
+        utföras på 50 procent av en heltid.
+      </delsvar>
     </svar>
     <svar id="25">
-      <delsvar id="25.1">Patientens tillstånd bedöms behöva en ny bedömning om 12 månader för att avgöra grad av arbetsförmåga, men till åtminstone viss del kommer patientens arbetsförmåga att vara fortsatt nedsatt.</delsvar>
+      <delsvar id="25.1">Patientens tillstånd bedöms behöva en ny bedömning om 12 månader för att avgöra grad av
+        arbetsförmåga, men till åtminstone viss del kommer patientens arbetsförmåga att vara fortsatt nedsatt.
+      </delsvar>
     </svar>
-	<svar id="9001">
+    <svar id="9001">
       <delsvar id="9001.1">Skostorleken är 37.</delsvar>
     </svar>
-	<svar id="9002">
+    <svar id="9002">
       <delsvar id="9002.1">Längden är 166 centimeter.</delsvar>
     </svar>
   </ns2:intyg>

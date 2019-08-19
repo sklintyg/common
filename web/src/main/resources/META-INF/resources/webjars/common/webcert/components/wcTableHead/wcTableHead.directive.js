@@ -21,24 +21,24 @@
  */
 angular.module('common').directive('wcTableHead',
     ['common.messageService',
-    function(messageService) {
+      function(messageService) {
         'use strict';
 
         return {
-            restrict: 'A',
-            templateUrl: '/web/webjars/common/webcert/components/wcTableHead/wcTableHead.directive.html',
-            scope: {
-                labelKey: '@',
-                helpKey: '@',
-                sorting: '=',
-                sortingCurrent: '=',
-                sortingAscending: '='
-            },
-            link: function($scope, element, attr) {
+          restrict: 'A',
+          templateUrl: '/web/webjars/common/webcert/components/wcTableHead/wcTableHead.directive.html',
+          scope: {
+            labelKey: '@',
+            helpKey: '@',
+            sorting: '=',
+            sortingCurrent: '=',
+            sortingAscending: '='
+          },
+          link: function($scope, element, attr) {
 
-                $scope.text = messageService.getProperty($scope.labelKey);
-                $scope.helpText = messageService.getProperty($scope.helpKey);
+            $scope.text = messageService.getProperty($scope.labelKey);
+            $scope.helpText = messageService.getProperty($scope.helpKey);
 
-            }
+          }
         };
-    }]);
+      }]);

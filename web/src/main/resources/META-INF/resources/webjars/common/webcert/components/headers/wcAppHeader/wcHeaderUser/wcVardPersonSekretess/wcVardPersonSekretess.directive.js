@@ -17,44 +17,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('wcVardPersonSekretess',
-        [ '$uibModal', 'common.UserModel', function($uibModal, UserModel) {
-            'use strict';
+    ['$uibModal', 'common.UserModel', function($uibModal, UserModel) {
+      'use strict';
 
-            return {
-                restrict: 'E',
-                scope: {},
-                template: '',
+      return {
+        restrict: 'E',
+        scope: {},
+        template: '',
 
-                link: function() {
+        link: function() {
 
-                    var confirmDialogInstance, _SEKRETESSWARNING_APPROVED = 'wc.vardperson.sekretess.approved';
+          var confirmDialogInstance, _SEKRETESSWARNING_APPROVED = 'wc.vardperson.sekretess.approved';
 
-                    //The confirmation dialog is only displayed if sekretess and not already given consent.
-                    var _showSekretessConfirmationDialog = function() {
-                        confirmDialogInstance = $uibModal.open({
-                            templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderUser/wcVardPersonSekretess/wcVardPersonSekretessDialog.html',
-                            controller: 'wcVardPersonSekretessDialogCtrl',
-                            size: 'md',
-                            id: 'SekretessConsentDialog',
-                            backdrop: 'static',
-                            keyboard: false,
-                            resolve: {
-                                preferenceKey: function() {
-                                    return _SEKRETESSWARNING_APPROVED;
-                                }
-                            }
-                        });
-                    };
-
-
-
-                    //Should we launch the approval dialog?
-                    if (UserModel.user.sekretessMarkerad && UserModel.getAnvandarPreference(_SEKRETESSWARNING_APPROVED) === undefined) {
-                        _showSekretessConfirmationDialog();
-
-                    }
-
+          //The confirmation dialog is only displayed if sekretess and not already given consent.
+          var _showSekretessConfirmationDialog = function() {
+            confirmDialogInstance = $uibModal.open({
+              templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderUser/wcVardPersonSekretess/wcVardPersonSekretessDialog.html',
+              controller: 'wcVardPersonSekretessDialogCtrl',
+              size: 'md',
+              id: 'SekretessConsentDialog',
+              backdrop: 'static',
+              keyboard: false,
+              resolve: {
+                preferenceKey: function() {
+                  return _SEKRETESSWARNING_APPROVED;
                 }
+              }
+            });
+          };
 
-            };
-        } ]);
+          //Should we launch the approval dialog?
+          if (UserModel.user.sekretessMarkerad && UserModel.getAnvandarPreference(_SEKRETESSWARNING_APPROVED) === undefined) {
+            _showSekretessConfirmationDialog();
+
+          }
+
+        }
+
+      };
+    }]);

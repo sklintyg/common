@@ -59,10 +59,6 @@ import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Consta
 import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.SYMPTOM_PROGNOS_SVAR_ID;
 import static se.inera.intyg.common.tstrk1062.v1.model.internal.PrognosTillstand.PrognosTillstandTyp;
 
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -82,6 +78,10 @@ import se.inera.intyg.common.tstrk1062.v1.model.internal.IntygAvser;
 import se.inera.intyg.common.tstrk1062.v1.model.internal.Lakemedelsbehandling;
 import se.inera.intyg.common.tstrk1062.v1.model.internal.PrognosTillstand;
 import se.inera.intyg.common.tstrk1062.v1.model.internal.TsTrk1062UtlatandeV1;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 public final class TransportToInternal {
 
@@ -125,61 +125,61 @@ public final class TransportToInternal {
 
         for (Svar svar : source.getSvar()) {
             switch (svar.getId()) {
-            case INTYG_AVSER_SVAR_ID_1:
-                final IntygAvser.BehorighetsTyp intygAvser = getIntygAvser(svar.getDelsvar());
-                if (intygAvser != null) {
-                    intygAvserList.add(intygAvser);
-                }
-                break;
-            case ID_KONTROLL_SVAR_ID_1:
-                idKontroll = getIdKontroll(svar);
-                break;
-            case ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID:
-                final DiagnosKodad diagnosKodad = getDiagnosKodad(svar.getDelsvar());
-                if (diagnosKodad != null) {
-                    diagnosKodadList.add(diagnosKodad);
-                }
-                break;
-            case ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_ID:
-                diagnosFritext = getDiagnosFritext(svar.getDelsvar());
-                break;
-            case LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID:
-                harHaft = getLakemedelsbehandlingForekommit(svar);
-                break;
-            case LAKEMEDELSBEHANDLING_PAGAR_SVAR_ID:
-                pagar = getLakemedelsbehandlingPagar(svar);
-                break;
-            case LAKEMEDELSBEHANDLING_AKTUELL_SVAR_ID:
-                aktuell = getLakemedelsbehandlingAktuell(svar);
-                break;
-            case LAKEMEDELSBEHANDLING_MER_3_AR_SVAR_ID:
-                pagatt = getLakemedelsbehandlingPagatt(svar);
-                break;
-            case LAKEMEDELSBEHANDLING_EFFEKT_SVAR_ID:
-                effekt = getLakemedelsbehandlingEffekt(svar);
-                break;
-            case LAKEMEDELSBEHANDLING_FOLJSAMHET_SVAR_ID:
-                foljsamhet = getLakemedelsbehandlingFoljsamhet(svar);
-                break;
-            case LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID:
-                avslutadTidpunkt = getLakemedelsbehandlingAvslutadTidpunkt(svar);
-                avslutadOrsak = getLakemedelsbehandlingAvslutadOrsak(svar);
-                break;
-            case SYMPTOM_BEDOMNING_SVAR_ID:
-                bedomningAvSymptom = getSymptomBedomning(svar.getDelsvar());
-                break;
-            case SYMPTOM_PROGNOS_SVAR_ID:
-                prognosTillstand = getPrognosTillstand(svar.getDelsvar());
-                break;
-            case OVRIGT_OVRIGA_KOMMENTARER_SVAR_ID:
-                ovrigaKommentarer = getOvrigaKommentarer(svar.getDelsvar());
-                break;
-            case BEDOMNING_UPPFYLLER_SVAR_ID:
-                final Bedomning.BehorighetsTyp bedomningsTyp = getBehorighetsTyp(svar.getDelsvar());
-                if (bedomningsTyp != null) {
-                    bedomningUppfyllerBehorighetskrav.add(bedomningsTyp);
-                }
-                break;
+                case INTYG_AVSER_SVAR_ID_1:
+                    final IntygAvser.BehorighetsTyp intygAvser = getIntygAvser(svar.getDelsvar());
+                    if (intygAvser != null) {
+                        intygAvserList.add(intygAvser);
+                    }
+                    break;
+                case ID_KONTROLL_SVAR_ID_1:
+                    idKontroll = getIdKontroll(svar);
+                    break;
+                case ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID:
+                    final DiagnosKodad diagnosKodad = getDiagnosKodad(svar.getDelsvar());
+                    if (diagnosKodad != null) {
+                        diagnosKodadList.add(diagnosKodad);
+                    }
+                    break;
+                case ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_ID:
+                    diagnosFritext = getDiagnosFritext(svar.getDelsvar());
+                    break;
+                case LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID:
+                    harHaft = getLakemedelsbehandlingForekommit(svar);
+                    break;
+                case LAKEMEDELSBEHANDLING_PAGAR_SVAR_ID:
+                    pagar = getLakemedelsbehandlingPagar(svar);
+                    break;
+                case LAKEMEDELSBEHANDLING_AKTUELL_SVAR_ID:
+                    aktuell = getLakemedelsbehandlingAktuell(svar);
+                    break;
+                case LAKEMEDELSBEHANDLING_MER_3_AR_SVAR_ID:
+                    pagatt = getLakemedelsbehandlingPagatt(svar);
+                    break;
+                case LAKEMEDELSBEHANDLING_EFFEKT_SVAR_ID:
+                    effekt = getLakemedelsbehandlingEffekt(svar);
+                    break;
+                case LAKEMEDELSBEHANDLING_FOLJSAMHET_SVAR_ID:
+                    foljsamhet = getLakemedelsbehandlingFoljsamhet(svar);
+                    break;
+                case LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID:
+                    avslutadTidpunkt = getLakemedelsbehandlingAvslutadTidpunkt(svar);
+                    avslutadOrsak = getLakemedelsbehandlingAvslutadOrsak(svar);
+                    break;
+                case SYMPTOM_BEDOMNING_SVAR_ID:
+                    bedomningAvSymptom = getSymptomBedomning(svar.getDelsvar());
+                    break;
+                case SYMPTOM_PROGNOS_SVAR_ID:
+                    prognosTillstand = getPrognosTillstand(svar.getDelsvar());
+                    break;
+                case OVRIGT_OVRIGA_KOMMENTARER_SVAR_ID:
+                    ovrigaKommentarer = getOvrigaKommentarer(svar.getDelsvar());
+                    break;
+                case BEDOMNING_UPPFYLLER_SVAR_ID:
+                    final Bedomning.BehorighetsTyp bedomningsTyp = getBehorighetsTyp(svar.getDelsvar());
+                    if (bedomningsTyp != null) {
+                        bedomningUppfyllerBehorighetskrav.add(bedomningsTyp);
+                    }
+                    break;
             }
         }
 
@@ -201,7 +201,7 @@ public final class TransportToInternal {
 
         if (harHaft != null) {
             utlatande.setLakemedelsbehandling(
-                    Lakemedelsbehandling.create(harHaft, pagar, aktuell, pagatt, effekt, foljsamhet, avslutadTidpunkt, avslutadOrsak));
+                Lakemedelsbehandling.create(harHaft, pagar, aktuell, pagatt, effekt, foljsamhet, avslutadTidpunkt, avslutadOrsak));
         }
 
         if (bedomningAvSymptom != null) {
@@ -266,7 +266,7 @@ public final class TransportToInternal {
 
         if (diagnosKod != null && diagnosKodSystem != null && diagnosBeskrivning != null && diagnosArtal != null) {
             diagnosKodad = DiagnosKodad.create(diagnosKod, diagnosKodSystem, diagnosBeskrivning, diagnosDisplayName,
-                    diagnosArtal);
+                diagnosArtal);
         }
 
         return diagnosKodad;

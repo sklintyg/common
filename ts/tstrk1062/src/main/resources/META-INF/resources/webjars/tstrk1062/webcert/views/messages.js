@@ -18,12 +18,12 @@
  */
 /* jshint maxlen: false */
 angular.module('tstrk1062').constant('tstrk1062.messages', {
-    'sv': {
-        // Validation messages starting
-        'tstrk1062.validation.diagnos.artal' : 'Ange ett år, årets eller tidigare.',
-        'tstrk1062.validation.diagnos.missing' : 'Ange minst en diagnos och vilket år den ställdes.'
-    },
-    'en': {
-        'tstrk1062.label.pagetitle': 'Show Certificate'
-    }
+  'sv': {
+    // Validation messages starting
+    'tstrk1062.validation.diagnos.artal': 'Ange ett år, årets eller tidigare.',
+    'tstrk1062.validation.diagnos.missing': 'Ange minst en diagnos och vilket år den ställdes.'
+  },
+  'en': {
+    'tstrk1062.label.pagetitle': 'Show Certificate'
+  }
 });

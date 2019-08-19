@@ -17,12 +17,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('luae_na', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common' ]);
+angular.module('luae_na', ['ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common']);
 
 // Inject language resources
 angular.module('luae_na').run(['common.messageService', 'luae_na.messages',
-    function(messageService, luaeNaMessages) {
-        'use strict';
+  function(messageService, luaeNaMessages) {
+    'use strict';
 
-        messageService.addResources(luaeNaMessages);
-    }]);
+    messageService.addResources(luaeNaMessages);
+  }]);

@@ -16,36 +16,36 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcFragaKomplettering', [ 'common.ArendeListViewStateService', 'common.UtilsService',
-    function(ArendeListViewStateService, Utils) {
+angular.module('common').directive('wcFragaKomplettering', ['common.ArendeListViewStateService', 'common.UtilsService',
+  function(ArendeListViewStateService, Utils) {
     'use strict';
 
     function _updateKompletteringActive(numericFrageId, $element) {
-        // lookup if there's an unhandled komplettering for this frage-id
-        var list = ArendeListViewStateService.getUnhandledKompletteringarForFraga(numericFrageId);
-        if (list.length > 0) {
-            // Not using ng-class for performance (IE 11)
-            $element.addClass('komplettering-active');
-        }
+      // lookup if there's an unhandled komplettering for this frage-id
+      var list = ArendeListViewStateService.getUnhandledKompletteringarForFraga(numericFrageId);
+      if (list.length > 0) {
+        // Not using ng-class for performance (IE 11)
+        $element.addClass('komplettering-active');
+      }
     }
 
     return {
-        restrict: 'E',
-        transclude: true,
-        scope: {
-            frageId: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/components/wcFragaKomplettering/wcFragaKomplettering.directive.html',
-        link: function($scope, $element) {
+      restrict: 'E',
+      transclude: true,
+      scope: {
+        frageId: '='
+      },
+      templateUrl: '/web/webjars/common/webcert/components/wcFragaKomplettering/wcFragaKomplettering.directive.html',
+      link: function($scope, $element) {
 
-            var numericFrageId = Utils.extractNumericalFrageId($scope.frageId);
-            if (numericFrageId) {
-                _updateKompletteringActive(numericFrageId, $element);
-                $scope.$on('arenden.updated', function() {
-                    _updateKompletteringActive(numericFrageId, $element);
-                });
-            }
-
+        var numericFrageId = Utils.extractNumericalFrageId($scope.frageId);
+        if (numericFrageId) {
+          _updateKompletteringActive(numericFrageId, $element);
+          $scope.$on('arenden.updated', function() {
+            _updateKompletteringActive(numericFrageId, $element);
+          });
         }
+
+      }
     };
-} ]);
+  }]);

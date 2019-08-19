@@ -4,18 +4,13 @@
     <div
         ng-repeat="arendeListItem in viewState.arendeList | filter:kompletteringarFilter | orderBy:['-arende.senasteHandelse'] as kompletteringarList"
         class="arende-item">
-      <arende-panel
-          last-card="$last"
-          panel-id="kompletteringar"
-          arende-list-item="arendeListItem"
-          arende-list="viewState.arendeList"
-          parent-view-state="viewState"
-          config="config">
-      </arende-panel>
+      <arende-panel last-card="$last" panel-id="kompletteringar" arende-list-item="arendeListItem"
+                    arende-list="viewState.arendeList" parent-view-state="viewState" config="config"></arende-panel>
     </div>
     <wc-error error="viewState.activeErrorMessageKey" ng-if="viewState.activeErrorMessageKey"></wc-error>
 
-    <div ng-if="!viewState.activeErrorMessageKey && kompletteringarList.length === 0" class="no-kompletteringar-container">
+    <div ng-if="!viewState.activeErrorMessageKey && kompletteringarList.length === 0"
+         class="no-kompletteringar-container">
 
       <div><img
           src="/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/wcArendeNoKompletteringarMessage/fragor_svar_nodata.svg">

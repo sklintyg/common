@@ -30,13 +30,11 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPCellEvent;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-
 import se.inera.intyg.common.fkparent.pdf.PdfConstants;
 
 /**
  * An implementation of a generic label component. Besides the common configuration properties, other adjustments can be
  * made to padding and leading etc.
- *
  */
 public class FkLabel extends PdfComponent<FkLabel> {
 
@@ -117,7 +115,7 @@ public class FkLabel extends PdfComponent<FkLabel> {
         table.addCell(labelCell);
 
         table.writeSelectedRows(0, -1, Utilities.millimetersToPoints(x),
-                Utilities.millimetersToPoints(y), writer.getDirectContent());
+            Utilities.millimetersToPoints(y), writer.getDirectContent());
 
         super.render(document, writer, x, y);
     }
@@ -140,7 +138,7 @@ public class FkLabel extends PdfComponent<FkLabel> {
         private static final float CORDER_RADIUS = 12f;
 
         private float leftOffset = DEFAULT_LEFT_OFFSET, bottomOffset = DEFAULT_BOTTOM_OFFSET, widthPadding = WIDTH_PADDING,
-                heightPadding = HEIGHT_PADDING, cornerRadius = CORDER_RADIUS;
+            heightPadding = HEIGHT_PADDING, cornerRadius = CORDER_RADIUS;
         private BaseColor backgroundColor;
 
         RoundedBorder(BaseColor backgroundColor) {
@@ -152,11 +150,11 @@ public class FkLabel extends PdfComponent<FkLabel> {
             PdfContentByte cb = canvas[PdfPTable.BACKGROUNDCANVAS];
             cb.setColorFill(backgroundColor);
             cb.roundRectangle(
-                    rect.getLeft() + leftOffset,
-                    rect.getBottom() + bottomOffset,
-                    rect.getWidth() + widthPadding,
-                    rect.getHeight() + heightPadding,
-                    cornerRadius);
+                rect.getLeft() + leftOffset,
+                rect.getBottom() + bottomOffset,
+                rect.getWidth() + widthPadding,
+                rect.getHeight() + heightPadding,
+                cornerRadius);
             cb.fill();
         }
     }

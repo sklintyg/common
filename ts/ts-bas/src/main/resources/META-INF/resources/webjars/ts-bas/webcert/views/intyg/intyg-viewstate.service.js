@@ -18,26 +18,26 @@
  */
 angular.module('ts-bas').service('ts-bas.IntygController.ViewStateService',
     ['$log', 'common.IntygViewStateService', 'common.messageService',
-        function($log, CommonViewState, messageService) {
-            'use strict';
+      function($log, CommonViewState, messageService) {
+        'use strict';
 
-            this.common = CommonViewState;
-            this.intygModel = {}; //INTYG-3950
+        this.common = CommonViewState;
+        this.intygModel = {}; //INTYG-3950
 
-            this.reset = function() {
-                this.common.reset();
-                this.common.intygProperties.type = 'ts-bas';
-            };
+        this.reset = function() {
+          this.common.reset();
+          this.common.intygProperties.type = 'ts-bas';
+        };
 
-            this.getSendContent = function(intygType) {
+        this.getSendContent = function(intygType) {
 
-                var sendContentModel = {
-                    observandumId: undefined,
-                    bodyText: messageService.getProperty(intygType + '.label.send.body')
-                };
+          var sendContentModel = {
+            observandumId: undefined,
+            bodyText: messageService.getProperty(intygType + '.label.send.body')
+          };
 
-                return sendContentModel;
-            };
+          return sendContentModel;
+        };
 
-            this.reset();
-        }]);
+        this.reset();
+      }]);

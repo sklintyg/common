@@ -74,11 +74,11 @@ public abstract class Ag7804UtlatandeV1 implements Utlatande {
 
     public static Builder builder() {
         return new AutoValue_Ag7804UtlatandeV1.Builder()
-                .setDiagnoser(ImmutableList.<Diagnos> of())
-                .setSjukskrivningar(ImmutableList.<Sjukskrivning> of())
-                .setSysselsattning(ImmutableList.<Sysselsattning> of())
-                .setArbetslivsinriktadeAtgarder(ImmutableList.<ArbetslivsinriktadeAtgarder> of())
-                .setSignature(null);
+            .setDiagnoser(ImmutableList.<Diagnos>of())
+            .setSjukskrivningar(ImmutableList.<Sjukskrivning>of())
+            .setSysselsattning(ImmutableList.<Sysselsattning>of())
+            .setArbetslivsinriktadeAtgarder(ImmutableList.<ArbetslivsinriktadeAtgarder>of())
+            .setSignature(null);
     }
 
     @Override

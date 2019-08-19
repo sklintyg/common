@@ -12,9 +12,21 @@
     "specifikation": "KRONISK"
   },
   "foljd": [
-    { "beskrivning": "foljd 1", "datum": "1926-05-01", "specifikation": "KRONISK"  },
-    { "beskrivning": "foljd 2", "datum": "1926-04-01", "specifikation": "PLOTSLIG" },
-    { "beskrivning": "foljd 3", "datum": "1926-03-01", "specifikation": "KRONISK"  }
+    {
+      "beskrivning": "foljd 1",
+      "datum": "1926-05-01",
+      "specifikation": "KRONISK"
+    },
+    {
+      "beskrivning": "foljd 2",
+      "datum": "1926-04-01",
+      "specifikation": "PLOTSLIG"
+    },
+    {
+      "beskrivning": "foljd 3",
+      "datum": "1926-03-01",
+      "specifikation": "KRONISK"
+    }
   ],
   "bidragandeSjukdomar": [],
   "operation": "JA",

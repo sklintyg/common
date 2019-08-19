@@ -25,13 +25,12 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
 import se.inera.intyg.common.luse.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.luse.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.luse.v1.validator.InternalDraftValidatorImpl;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InternalValidatorTest {
@@ -47,7 +46,8 @@ public class InternalValidatorTest {
         final int numErrors = 0;
         LuseUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel();
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
-        assertEquals(String.format("Expected %s validation errors", numErrors), numErrors, getNumberOfInternalValidationErrors(internalValidationResponse));
+        assertEquals(String.format("Expected %s validation errors", numErrors), numErrors,
+            getNumberOfInternalValidationErrors(internalValidationResponse));
     }
 
     @Test
@@ -55,7 +55,8 @@ public class InternalValidatorTest {
         final int numErrors = 1;
         LuseUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("underlagSkolhalsovard").asInternalModel();
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
-        assertEquals(String.format("Expected %s validation errors", numErrors), numErrors, getNumberOfInternalValidationErrors(internalValidationResponse));
+        assertEquals(String.format("Expected %s validation errors", numErrors), numErrors,
+            getNumberOfInternalValidationErrors(internalValidationResponse));
     }
 
     private static int getNumberOfInternalValidationErrors(ValidateDraftResponse internalValidationResponse) {

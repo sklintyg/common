@@ -18,15 +18,15 @@
  */
 angular.module('common').directive('booleanView',
     function() {
-        'use strict';
+      'use strict';
 
-        return {
-            restrict: 'A',
-            replace: true,
-            scope: {
-                booleanView: '@',
-                fieldModel: '='
-            },
-            templateUrl: '/web/webjars/common/minaintyg/intyg/booleanView.directive.html'
-        };
+      return {
+        restrict: 'A',
+        replace: true,
+        scope: {
+          booleanView: '@',
+          fieldModel: '='
+        },
+        templateUrl: '/web/webjars/common/minaintyg/intyg/booleanView.directive.html'
+      };
     });

@@ -23,9 +23,7 @@ import static org.junit.Assert.assertEquals;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-
 import org.junit.Test;
-
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
@@ -46,7 +44,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare;
  * external model, and populating each with mock data.
  *
  * @author erik
- *
  */
 public class TransportToInternalTest {
 
@@ -71,7 +68,7 @@ public class TransportToInternalTest {
         Specialistkompetens c = new Specialistkompetens();
         c.setDisplayName("c");
 
-        return Arrays.asList(a, b ,c);
+        return Arrays.asList(a, b, c);
     }
 
     @Test

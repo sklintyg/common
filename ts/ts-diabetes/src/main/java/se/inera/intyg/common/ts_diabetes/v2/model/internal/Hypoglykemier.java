@@ -21,6 +21,7 @@ package se.inera.intyg.common.ts_diabetes.v2.model.internal;
 import se.inera.intyg.common.support.model.InternalDate;
 
 public class Hypoglykemier {
+
     private Boolean kunskapOmAtgarder;
 
     private Boolean teckenNedsattHjarnfunktion;

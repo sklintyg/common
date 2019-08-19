@@ -18,18 +18,18 @@
  */
 angular.module('common').service('common.ArendeNewViewStateService',
     ['$log', function($log) {
-        'use strict';
+      'use strict';
 
-        this.reset = function() {
-            this.intygProperties = {
-                isLoaded: false,
-                isSent: false,
-                isRevoked: false,
-                relations: []
-            };
-            return this;
+      this.reset = function() {
+        this.intygProperties = {
+          isLoaded: false,
+          isSent: false,
+          isRevoked: false,
+          relations: []
         };
+        return this;
+      };
 
-        this.reset();
+      this.reset();
     }]
 );

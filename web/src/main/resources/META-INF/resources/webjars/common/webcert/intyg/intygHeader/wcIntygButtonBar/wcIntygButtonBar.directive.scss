@@ -5,13 +5,13 @@ wc-intyg-button-bar {
     border: 1px solid $wc-color-21;
     padding: 0;
 
-    >li>a {
+    > li > a {
       background: none;
       padding: 8px 10px;
       text-decoration: none;
     }
 
-    >li>a:hover {
+    > li > a:hover {
       background-color: $wc-color-21;
       color: $wc-color-00;
     }
@@ -20,14 +20,18 @@ wc-intyg-button-bar {
   .btn[disabled] {
     pointer-events: none;
   }
+
   .button-tooltip {
     display: inline-block;
+
     .disabled {
       cursor: not-allowed;
     }
   }
+
   div.white-space-no-wrap {
     display: flex;
+
     > button,
     > div {
       margin-left: 9px;

@@ -5,14 +5,9 @@
         <ue-label config="::config.label" model="::model"></ue-label>
       </div>
       <div>
-        <span wc-date-picker-field
-              target-model="modelGetterSetter"
-              target-model-options="{ getterSetter: true }"
-              add-date-parser="loose"
-              on-blur="onBlur()"
-              dom-id="datepicker_{{::config.modelProp}}"
-              min-date="{{config.minDate}}"
-              max-date="{{config.maxDate}}" />
+        <span wc-date-picker-field target-model="modelGetterSetter" target-model-options="{ getterSetter: true }"
+              add-date-parser="loose" on-blur="onBlur()" dom-id="datepicker_{{::config.modelProp}}"
+              min-date="{{config.minDate}}" max-date="{{config.maxDate}}" />
       </div>
     </div>
   </ue-validation-wrapper>

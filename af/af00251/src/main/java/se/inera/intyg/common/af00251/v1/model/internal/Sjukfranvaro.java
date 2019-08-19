@@ -18,14 +18,15 @@
  */
 package se.inera.intyg.common.af00251.v1.model.internal;
 
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.SJUKFRANVARO_SVAR_JSON_CHECKED;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.SJUKFRANVARO_SVAR_JSON_ID_61;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.SJUKFRANVARO_SVAR_JSON_ID_62;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
-import se.inera.intyg.common.support.model.InternalLocalDateInterval;
-
 import javax.annotation.Nullable;
-
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.*;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 
 /**
  *
@@ -51,6 +52,7 @@ public abstract class Sjukfranvaro {
 
     @AutoValue.Builder
     public abstract static class Builder {
+
         public abstract Sjukfranvaro build();
 
         @JsonProperty(SJUKFRANVARO_SVAR_JSON_CHECKED)

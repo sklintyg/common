@@ -18,51 +18,50 @@
  */
 angular.module('common').factory('common.Domain.PatientModel',
     [function() {
-        'use strict';
+      'use strict';
 
-        /**
-         * Constructor, with class name
-         */
-        function PatientModel() {
-            this.personId = undefined;
-            this.fullstandigtNamn = undefined;
-            this.fornamn = undefined;
-            this.mellannamn = undefined;
-            this.efternamn = undefined;
-            this.postadress = undefined;
-            this.postnummer = undefined;
-            this.postort = undefined;
-            this.samordningsNummer = undefined;
-            this.sekretessmarkering = undefined;
-            this.avliden = undefined;
+      /**
+       * Constructor, with class name
+       */
+      function PatientModel() {
+        this.personId = undefined;
+        this.fullstandigtNamn = undefined;
+        this.fornamn = undefined;
+        this.mellannamn = undefined;
+        this.efternamn = undefined;
+        this.postadress = undefined;
+        this.postnummer = undefined;
+        this.postort = undefined;
+        this.samordningsNummer = undefined;
+        this.sekretessmarkering = undefined;
+        this.avliden = undefined;
+      }
+
+      PatientModel.prototype.update = function(patient) {
+        // refresh the model data
+        if (patient === undefined) {
+          return;
         }
+        this.personId = patient.personId;
+        this.fullstandigtNamn = patient.fullstandigtNamn;
+        this.fornamn = patient.fornamn;
+        this.mellannamn = patient.mellannamn;
+        this.efternamn = patient.efternamn;
+        this.postadress = patient.postadress;
+        this.postnummer = patient.postnummer;
+        this.postort = patient.postort;
+        this.samordningsNummer = patient.samordningsNummer;
+        this.sekretessmarkering = patient.sekretessmarkering;
+        this.avliden = patient.avliden;
+      };
 
+      PatientModel.build = function() {
+        return new PatientModel();
+      };
 
-        PatientModel.prototype.update = function(patient) {
-            // refresh the model data
-            if(patient === undefined) {
-                return;
-            }
-            this.personId = patient.personId;
-            this.fullstandigtNamn = patient.fullstandigtNamn;
-            this.fornamn = patient.fornamn;
-            this.mellannamn = patient.mellannamn;
-            this.efternamn = patient.efternamn;
-            this.postadress = patient.postadress;
-            this.postnummer = patient.postnummer;
-            this.postort = patient.postort;
-            this.samordningsNummer = patient.samordningsNummer;
-            this.sekretessmarkering = patient.sekretessmarkering;
-            this.avliden = patient.avliden;
-        };
-
-        PatientModel.build = function() {
-            return new PatientModel();
-        };
-
-        /**
-         * Return the constructor function PatientModel
-         */
-        return PatientModel;
+      /**
+       * Return the constructor function PatientModel
+       */
+      return PatientModel;
 
     }]);

@@ -17,18 +17,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('uvPatientGrund',
-    [ 'uvUtil', function(uvUtil) {
-        'use strict';
+    ['uvUtil', function(uvUtil) {
+      'use strict';
 
-        return {
-            restrict: 'E',
-            scope: {
-                config: '=',
-                viewData: '='
-            },
-            templateUrl: '/web/webjars/common/webcert/intyg/unified-view/uvPatientGrund/uvPatientGrund.html',
-            link: function($scope) {
-                $scope.vm = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
-            }
-        };
+      return {
+        restrict: 'E',
+        scope: {
+          config: '=',
+          viewData: '='
+        },
+        templateUrl: '/web/webjars/common/webcert/intyg/unified-view/uvPatientGrund/uvPatientGrund.html',
+        link: function($scope) {
+          $scope.vm = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
+        }
+      };
     }]);

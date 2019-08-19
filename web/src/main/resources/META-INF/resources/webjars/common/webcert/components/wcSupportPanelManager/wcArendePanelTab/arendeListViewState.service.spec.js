@@ -18,46 +18,46 @@
  */
 
 describe('ArendeListViewState', function() {
-    'use strict';
+  'use strict';
 
-    var ArendeListViewStateService;
+  var ArendeListViewStateService;
 
-    var closed = {
-        fraga: {
-            status: 'CLOSED'
-        }
-    };
+  var closed = {
+    fraga: {
+      status: 'CLOSED'
+    }
+  };
 
-    var open = {
-        fraga: {
-            status: 'PENDING_INTERNAL_ACTION'
-        }
-    };
+  var open = {
+    fraga: {
+      status: 'PENDING_INTERNAL_ACTION'
+    }
+  };
 
-    beforeEach(angular.mock.inject([ 'common.ArendeListViewStateService', function(_ArendeListViewStateService_) {
-        ArendeListViewStateService = _ArendeListViewStateService_;
-    } ]));
+  beforeEach(angular.mock.inject(['common.ArendeListViewStateService', function(_ArendeListViewStateService_) {
+    ArendeListViewStateService = _ArendeListViewStateService_;
+  }]));
 
-    describe('hasUnhandledItems', function() {
-        it('should return false if no unhandled items', function() {
+  describe('hasUnhandledItems', function() {
+    it('should return false if no unhandled items', function() {
 
-            ArendeListViewStateService.setArendeList([ closed ]);
-            expect(ArendeListViewStateService.hasUnhandledItems()).toBe(false);
+      ArendeListViewStateService.setArendeList([closed]);
+      expect(ArendeListViewStateService.hasUnhandledItems()).toBe(false);
 
-        });
-        
-        it('should return false if no items', function() {
-
-            ArendeListViewStateService.setArendeList([]);
-            expect(ArendeListViewStateService.hasUnhandledItems()).toBe(false);
-
-        });
-
-        it('should return true if unhandled items', function() {
-
-            ArendeListViewStateService.setArendeList([ open, closed ]);
-            expect(ArendeListViewStateService.hasUnhandledItems()).toBe(true);
-        });
     });
+
+    it('should return false if no items', function() {
+
+      ArendeListViewStateService.setArendeList([]);
+      expect(ArendeListViewStateService.hasUnhandledItems()).toBe(false);
+
+    });
+
+    it('should return true if unhandled items', function() {
+
+      ArendeListViewStateService.setArendeList([open, closed]);
+      expect(ArendeListViewStateService.hasUnhandledItems()).toBe(true);
+    });
+  });
 
 });

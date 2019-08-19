@@ -20,25 +20,25 @@
  * Recommendation directive
  */
 angular.module('common').directive('wcSrsRecommendation', [
-    'common.srsProxy',
-    function(srsProxy) {
-        'use strict';
-        return {
-            restrict: 'E',
-            scope: {
-                atgard: '=',
-                srs: '=srsScope'
-            },
-            link: function($scope, element, attrs) {
-                $scope.collapsed = true;
-                $scope.collapseClicked = function() {
-                    if ($scope.collapsed) {
-                        srsProxy.logSrsMeasuresExpandOneClicked($scope.srs.userClientContext, $scope.srs.intygId,
-                            $scope.srs.vardgivareHsaId, $scope.srs.hsaId);
-                    }
-                    $scope.collapsed = !$scope.collapsed;
-                };
-            },
-            templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSrsPanelTab/wcSrsRecommendation.directive.html'
+  'common.srsProxy',
+  function(srsProxy) {
+    'use strict';
+    return {
+      restrict: 'E',
+      scope: {
+        atgard: '=',
+        srs: '=srsScope'
+      },
+      link: function($scope, element, attrs) {
+        $scope.collapsed = true;
+        $scope.collapseClicked = function() {
+          if ($scope.collapsed) {
+            srsProxy.logSrsMeasuresExpandOneClicked($scope.srs.userClientContext, $scope.srs.intygId,
+                $scope.srs.vardgivareHsaId, $scope.srs.hsaId);
+          }
+          $scope.collapsed = !$scope.collapsed;
         };
-    }]);
+      },
+      templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSrsPanelTab/wcSrsRecommendation.directive.html'
+    };
+  }]);

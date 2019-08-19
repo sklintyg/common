@@ -3,20 +3,16 @@
     <span class="tab-content-title-row-title" ng-show="!srs.srsApplicable">
         Stöd för rätt sjukskrivning
     </span>
-    <span class="tab-content-title-row-title" ng-show="srs.srsApplicable">
+  <span class="tab-content-title-row-title" ng-show="srs.srsApplicable">
         <div class="fullWidth form-group ng-scope">
             <wc-checkbox-wrapper>
-                <input id="consent-yes" type="checkbox" name="consent-to-srs-radio"
-                       ng-true-value="'JA'" ng-false-value="'NEJ'"
-                       ng-model="srs.consent"
-                       ng-disabled="srs.isForlangning"
+                <input id="consent-yes" type="checkbox" name="consent-to-srs-radio" ng-true-value="'JA'"
+                       ng-false-value="'NEJ'" ng-model="srs.consent" ng-disabled="srs.isForlangning"
                        ng-change="setConsent()">
                 <label class="header-label" for="consent-yes">Patienten samtycker till att delta i SRS pilot</label>
             </wc-checkbox-wrapper>
             </div>
-        </div>
-    </span>
-</div>
+</div></span></div>
 
 <!-- HEADER IF READONLY/REHABSTÖD -->
 <div class="tab-content-title-row" ng-if="srs.isReadOnly">
@@ -26,51 +22,49 @@
 </div>
 
 <!-- DIAGNOSIS HEADER--->
-<div class="srs-diagnos-row" ng-class="{'has-diagnose' : srs.diagnosKod && srs.diagnosBeskrivning}" ng-if="!srs.isReadOnly">
-    <div class="srs-panel-title" ng-show="srs.diagnosKod">
-        <span id="srs_diagnos_heading">{{srs.diagnosKod}} - {{srs.diagnosBeskrivning}}</span>
-    </div>
+<div class="srs-diagnos-row" ng-class="{'has-diagnose' : srs.diagnosKod && srs.diagnosBeskrivning}"
+     ng-if="!srs.isReadOnly">
+  <div class="srs-panel-title" ng-show="srs.diagnosKod">
+    <span id="srs_diagnos_heading">{{srs.diagnosKod}} - {{srs.diagnosBeskrivning}}</span>
+  </div>
 </div>
 <wc-support-panel-scrollable-body dom-id="srs-panel-scrollable-body">
-    <div class="srs-panel-body-content">
+  <div class="srs-panel-body-content">
 
-        <!-- General error, BACKEND ERROR MESSAGE -->
-        <div ng-if="srs.backendError">
-            <wc-srs-error-box message-string="srs.backendError"></wc-srs-error-box>
-        </div>
-
-        <!-- CONSENT ERROR MESSAGE -->
-        <div ng-if="srs.consentError">
-            <wc-srs-error-box message-string="srs.consentError"></wc-srs-error-box>
-        </div>
-
-        <!-- TÄNK PÅ ATT FÖR REHABKOORDINATORER -->
-        <wc-srs-recommendation-list
-                ng-if="srs.isReadOnly && srs.srsApplicable"
-                title="Som rehabkoordinator, tänk på att"
-                recommendations="srs.atgarder.atgarderReh"
-                srs-scope="srs"/>
-
+    <!-- General error, BACKEND ERROR MESSAGE -->
+    <div ng-if="srs.backendError">
+      <wc-srs-error-box message-string="srs.backendError"></wc-srs-error-box>
     </div>
 
-    <div ng-show="srs.userHasSrsFeature && srs.srsApplicable">
-<!-- PREDIKTION/RISKBEDÖMNING -->
-        <wc-srs-prediction ng-if="!srs.isForlangning"/>
-        <hr class="srs-thick-divider" ng-if="!srs.isForlangning"/>
-        <wc-srs-result></wc-srs-result>
+    <!-- CONSENT ERROR MESSAGE -->
+    <div ng-if="srs.consentError">
+      <wc-srs-error-box message-string="srs.consentError"></wc-srs-error-box>
     </div>
 
-    <div class="srs-panel-body-content">
-        <div ng-if="srs.diagnosKod && !srs.srsApplicable && !srs.backendError">
-            <wc-alert-message alert-severity="info">
-                För den angivna diagnosen finns för tillfället inget stöd från Risk och råd.
-            </wc-alert-message>
-        </div>
+    <!-- TÄNK PÅ ATT FÖR REHABKOORDINATORER -->
+    <wc-srs-recommendation-list ng-if="srs.isReadOnly && srs.srsApplicable" title="Som rehabkoordinator, tänk på att"
+                                recommendations="srs.atgarder.atgarderReh" srs-scope="srs" />
 
-        <div ng-if="!srs.diagnosKod" class="no-diagnose-entered">
-            <div dynamic-label key="srs.warn.no-diagnosis-set"></div>
-        </div>
+  </div>
+
+  <div ng-show="srs.userHasSrsFeature && srs.srsApplicable">
+    <!-- PREDIKTION/RISKBEDÖMNING -->
+    <wc-srs-prediction ng-if="!srs.isForlangning" />
+    <hr class="srs-thick-divider" ng-if="!srs.isForlangning" />
+    <wc-srs-result></wc-srs-result>
+  </div>
+
+  <div class="srs-panel-body-content">
+    <div ng-if="srs.diagnosKod && !srs.srsApplicable && !srs.backendError">
+      <wc-alert-message alert-severity="info">
+        För den angivna diagnosen finns för tillfället inget stöd från Risk och råd.
+      </wc-alert-message>
     </div>
+
+    <div ng-if="!srs.diagnosKod" class="no-diagnose-entered">
+      <div dynamic-label key="srs.warn.no-diagnosis-set"></div>
+    </div>
+  </div>
 </wc-support-panel-scrollable-body>
 
 <div class="srs-footer">

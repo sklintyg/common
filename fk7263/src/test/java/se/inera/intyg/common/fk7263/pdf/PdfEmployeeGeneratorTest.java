@@ -18,9 +18,24 @@
  */
 package se.inera.intyg.common.fk7263.pdf;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
@@ -35,22 +50,6 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 /**
  * @author andreaskaltenbach
@@ -86,7 +85,8 @@ public class PdfEmployeeGeneratorTest {
         LocalDateTime tidpunkt = LocalDateTime.now();
         String formattedTidpunkt = tidpunkt.format(DateTimeFormatter.ofPattern("yy-MM-dd_HHmm"));
         // generate PDF
-        final PdfEmployeeGenerator pdfEmployeeGenerator = new PdfEmployeeGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.MINA_INTYG, null, UtkastStatus.SIGNED);
+        final PdfEmployeeGenerator pdfEmployeeGenerator = new PdfEmployeeGenerator(intyg, new ArrayList<Status>(),
+            ApplicationOrigin.MINA_INTYG, null, UtkastStatus.SIGNED);
 
         assertEquals("lakarintyg_fk7263_" + formattedTidpunkt + ".pdf", pdfEmployeeGenerator.generatePdfFilename(tidpunkt, false));
         assertEquals("minimalt_lakarintyg_fk7263_" + formattedTidpunkt + ".pdf", pdfEmployeeGenerator.generatePdfFilename(tidpunkt, true));
@@ -100,7 +100,8 @@ public class PdfEmployeeGeneratorTest {
     @Test
     public void testWCGenerateFromScenarios() throws Exception {
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            byte[] pdf = new PdfEmployeeGenerator(scenario.asInternalModel(), new ArrayList<Status>(), ApplicationOrigin.WEBCERT, null, UtkastStatus.SIGNED).getBytes();
+            byte[] pdf = new PdfEmployeeGenerator(scenario.asInternalModel(), new ArrayList<Status>(), ApplicationOrigin.WEBCERT, null,
+                UtkastStatus.SIGNED).getBytes();
             assertNotNull("Error in scenario " + scenario.getName(), pdf);
             writePdfToFile(pdf, scenario, ApplicationOrigin.WEBCERT);
         }
@@ -112,7 +113,8 @@ public class PdfEmployeeGeneratorTest {
     @Test
     public void testMIGenerateFromScenarios() throws Exception {
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            byte[] pdf = new PdfEmployeeGenerator(scenario.asInternalModel(), new ArrayList<Status>(), ApplicationOrigin.MINA_INTYG, null, UtkastStatus.SIGNED).getBytes();
+            byte[] pdf = new PdfEmployeeGenerator(scenario.asInternalModel(), new ArrayList<Status>(), ApplicationOrigin.MINA_INTYG, null,
+                UtkastStatus.SIGNED).getBytes();
             assertNotNull("Error in scenario " + scenario.getName(), pdf);
             writePdfToFile(pdf, scenario, ApplicationOrigin.MINA_INTYG);
         }
@@ -126,7 +128,8 @@ public class PdfEmployeeGeneratorTest {
         Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
 
         // generate PDF
-        byte[] generatorResult = new PdfEmployeeGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.WEBCERT, null, UtkastStatus.SIGNED, false).getBytes();
+        byte[] generatorResult = new PdfEmployeeGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.WEBCERT, null,
+            UtkastStatus.SIGNED, false).getBytes();
         AcroFields expectedFields = readExpectedFields();
 
         // read expected PDF fields
@@ -136,7 +139,7 @@ public class PdfEmployeeGeneratorTest {
         // compare expected field values with field values in generated PDF
         for (String fieldKey : expectedFields.getFields().keySet()) {
             assertEquals("Value for field " + fieldKey + " is not the",
-                    pdfContent.get(fieldKey), generatedFields.getField(fieldKey));
+                pdfContent.get(fieldKey), generatedFields.getField(fieldKey));
         }
     }
 
@@ -144,7 +147,8 @@ public class PdfEmployeeGeneratorTest {
     public void testWCWriteEmployerCopy() throws Exception {
         Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
         // generate PDF
-        byte[] generatorResult = new PdfEmployeeGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.WEBCERT, null, UtkastStatus.SIGNED).getBytes();
+        byte[] generatorResult = new PdfEmployeeGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.WEBCERT, null,
+            UtkastStatus.SIGNED).getBytes();
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "-normal");
     }
 
@@ -170,8 +174,6 @@ public class PdfEmployeeGeneratorTest {
      * This test assert that a user can print a Intyg of type FK7263 after it has been sent to FK.
      * - The target property of a Status object is FK in this scenario.
      * - The type property of a Status object is CertificateState.SENT
-     *
-     * @throws Exception
      */
     @Test
     public void testWCIntygIsSignedAndSentToFKThenGeneratePDF() throws Exception {
@@ -182,7 +184,8 @@ public class PdfEmployeeGeneratorTest {
         statuses.add(new Status(CertificateState.SENT, "FK", LocalDateTime.now()));
 
         // generate PDF
-        byte[] generatorResult = new PdfEmployeeGenerator(intyg, statuses, ApplicationOrigin.WEBCERT, null, UtkastStatus.SIGNED, false).getBytes();
+        byte[] generatorResult = new PdfEmployeeGenerator(intyg, statuses, ApplicationOrigin.WEBCERT, null, UtkastStatus.SIGNED, false)
+            .getBytes();
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "-signed-AND_sent-to-fk");
     }
 
@@ -195,7 +198,8 @@ public class PdfEmployeeGeneratorTest {
 
         List<String> optionalFields = new ArrayList<>();
 
-        byte[] generatorResult = new PdfEmployeeGenerator(intyg, new ArrayList<>(), ApplicationOrigin.MINA_INTYG, optionalFields, UtkastStatus.SIGNED, false).getBytes();
+        byte[] generatorResult = new PdfEmployeeGenerator(intyg, new ArrayList<>(), ApplicationOrigin.MINA_INTYG, optionalFields,
+            UtkastStatus.SIGNED, false).getBytes();
 
         // Get all available fields in a fk7263 pdf
         AcroFields expectedFields = readExpectedFields();
@@ -207,7 +211,7 @@ public class PdfEmployeeGeneratorTest {
         // compare expected field values with field values in generated PDF
         for (String fieldKey : expectedFields.getFields().keySet()) {
             assertEquals("Value for field " + fieldKey + " is not the",
-                    pdfContent.get(fieldKey), generatedFields.getField(fieldKey));
+                pdfContent.get(fieldKey), generatedFields.getField(fieldKey));
         }
         writePdfToFile(generatorResult, ApplicationOrigin.MINA_INTYG, "-no-optional-fields");
     }
@@ -222,7 +226,8 @@ public class PdfEmployeeGeneratorTest {
         // generate PDF
         List<String> allFields = Stream.of(EmployeeOptionalFields.values()).map(EmployeeOptionalFields::value).collect(Collectors.toList());
 
-        byte[] generatorResult = new PdfEmployeeGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.MINA_INTYG, allFields, UtkastStatus.SIGNED, false).getBytes();
+        byte[] generatorResult = new PdfEmployeeGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.MINA_INTYG, allFields,
+            UtkastStatus.SIGNED, false).getBytes();
 
         // Get all available fields in a fk7263 pdf
         AcroFields expectedFields = readExpectedFields();
@@ -234,7 +239,7 @@ public class PdfEmployeeGeneratorTest {
         // compare expected field values with field values in generated PDF
         for (String fieldKey : expectedFields.getFields().keySet()) {
             assertEquals("Value for field " + fieldKey + " is not the",
-                    pdfContent.get(fieldKey), generatedFields.getField(fieldKey));
+                pdfContent.get(fieldKey), generatedFields.getField(fieldKey));
         }
         writePdfToFile(generatorResult, ApplicationOrigin.MINA_INTYG, "-all-optional-fields");
     }
@@ -247,8 +252,8 @@ public class PdfEmployeeGeneratorTest {
         }
 
         File file = new File(
-                String.format("%s/%s-%s-employee-generator.pdf", dir, origin.name() + "-" + scenario.getName(),
-                        LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"))));
+            String.format("%s/%s-%s-employee-generator.pdf", dir, origin.name() + "-" + scenario.getName(),
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"))));
         FileOutputStream fop = new FileOutputStream(file);
 
         file.createNewFile();

@@ -17,12 +17,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('luse', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common' ]);
+angular.module('luse', ['ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common']);
 
 // Inject language resources
 angular.module('luse').run(['common.messageService', 'luse.messages',
-    function(messageService, luseMessages) {
-        'use strict';
+  function(messageService, luseMessages) {
+    'use strict';
 
-        messageService.addResources(luseMessages);
-    }]);
+    messageService.addResources(luseMessages);
+  }]);

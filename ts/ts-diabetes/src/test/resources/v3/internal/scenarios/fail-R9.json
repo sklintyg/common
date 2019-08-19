@@ -43,40 +43,40 @@
       }
     ]
   },
-  "identitetStyrktGenom":{
-    "typ":"PASS"
+  "identitetStyrktGenom": {
+    "typ": "PASS"
   },
-  "allmant":{
-    "diabetesDiagnosAr":"1990",
-    "typAvDiabetes":"TYP1",
-    "behandling":{
-      "insulin":true,
-      "insulinSedanAr":"1991"
+  "allmant": {
+    "diabetesDiagnosAr": "1990",
+    "typAvDiabetes": "TYP1",
+    "behandling": {
+      "insulin": true,
+      "insulinSedanAr": "1991"
     }
   },
-  "hypoglykemier":{
-    "sjukdomenUnderKontroll":true,
-    "nedsattHjarnfunktion":true,
-    "forstarRisker":true,
-    "fortrogenMedSymptom":true,
-    "saknarFormagaVarningstecken":true,
-    "kunskapLampligaAtgarder":true,
-    "egenkontrollBlodsocker":true,
-    "aterkommandeSenasteAret":true,
-    "aterkommandeSenasteTidpunkt":"2018-09-10",
-    "aterkommandeSenasteKvartalet":true,
-    "forekomstTrafik":true,
-    "forekomstTrafikTidpunkt":"2018-09-10"
+  "hypoglykemier": {
+    "sjukdomenUnderKontroll": true,
+    "nedsattHjarnfunktion": true,
+    "forstarRisker": true,
+    "fortrogenMedSymptom": true,
+    "saknarFormagaVarningstecken": true,
+    "kunskapLampligaAtgarder": true,
+    "egenkontrollBlodsocker": true,
+    "aterkommandeSenasteAret": true,
+    "aterkommandeSenasteTidpunkt": "2018-09-10",
+    "aterkommandeSenasteKvartalet": true,
+    "forekomstTrafik": true,
+    "forekomstTrafikTidpunkt": "2018-09-10"
   },
-  "synfunktion":{
-    "misstankeOgonsjukdom":false,
-    "ogonbottenFotoSaknas":true
+  "synfunktion": {
+    "misstankeOgonsjukdom": false,
+    "ogonbottenFotoSaknas": true
   },
-  "bedomning":{
-    "uppfyllerBehorighetskrav":[
+  "bedomning": {
+    "uppfyllerBehorighetskrav": [
       {
-        "type":"KANINTETASTALLNING",
-        "selected":true
+        "type": "KANINTETASTALLNING",
+        "selected": true
       }
     ]
   }

@@ -18,113 +18,114 @@
  */
 angular.module('fk7263').service('fk7263.IntygController.ViewStateService',
     ['$log', 'common.IntygViewStateService', 'common.ObjectHelper', 'common.messageService',
-        function($log, CommonViewState, ObjectHelper, messageService) {
-            'use strict';
+      function($log, CommonViewState, ObjectHelper, messageService) {
+        'use strict';
 
-            this.common = CommonViewState;
-            this.intygModel = {};
+        this.common = CommonViewState;
+        this.intygModel = {};
 
-            this.reset = function() {
-                this.common.reset();
-                this.common.intygProperties.type = 'fk7263';
-            };
+        this.reset = function() {
+          this.common.reset();
+          this.common.intygProperties.type = 'fk7263';
+        };
 
-            // Fix for Angular 1.4 / WEBCERT-2236
-            this.has8a = function() {
-                if (ObjectHelper.isFalsy(this.intygModel.nuvarandeArbetsuppgifter) &&
-                    ObjectHelper.isFalsy(this.intygModel.arbetsloshet) &&
-                    ObjectHelper.isFalsy(this.intygModel.foraldrarledighet)) {
-                    return 'false';
-                } else {
-                    return 'true';
-                }
-            };
+        // Fix for Angular 1.4 / WEBCERT-2236
+        this.has8a = function() {
+          if (ObjectHelper.isFalsy(this.intygModel.nuvarandeArbetsuppgifter) &&
+              ObjectHelper.isFalsy(this.intygModel.arbetsloshet) &&
+              ObjectHelper.isFalsy(this.intygModel.foraldrarledighet)) {
+            return 'false';
+          } else {
+            return 'true';
+          }
+        };
 
-            this.shouldArbeteSpawnObservandum = function () {
-                return !this.intygModel.arbetsloshet;
-            };
+        this.shouldArbeteSpawnObservandum = function() {
+          return !this.intygModel.arbetsloshet;
+        };
 
-            this.calculateNedsattMedDuration = function () { // jshint ignore:line
+        this.calculateNedsattMedDuration = function() { // jshint ignore:line
 
-                var nedsattMedLevels = ['25', '50', '75', '100'];
+          var nedsattMedLevels = ['25', '50', '75', '100'];
 
-                var isAtleastOneLevelValid = false;
-                var i = 0;
-                for(; i < nedsattMedLevels.length; i++){
-                    if(this.intygModel['nedsattMed' + nedsattMedLevels[i]]){
-                        isAtleastOneLevelValid = true;
-                        break;
-                    }
-                }
+          var isAtleastOneLevelValid = false;
+          var i = 0;
+          for (; i < nedsattMedLevels.length; i++) {
+            if (this.intygModel['nedsattMed' + nedsattMedLevels[i]]) {
+              isAtleastOneLevelValid = true;
+              break;
+            }
+          }
 
-                if(!isAtleastOneLevelValid){
-                    return 0;
-                }
+          if (!isAtleastOneLevelValid) {
+            return 0;
+          }
 
-                var duration;
+          var duration;
 
-                var startDate = null;
-                var endDate = null;
+          var startDate = null;
+          var endDate = null;
 
-                for(i = 0; i < nedsattMedLevels.length; i++){
-                    var sjukskrivning = this.intygModel['nedsattMed' + nedsattMedLevels[i]];
-                    if(!sjukskrivning){
-                        continue;
-                    }
+          for (i = 0; i < nedsattMedLevels.length; i++) {
+            var sjukskrivning = this.intygModel['nedsattMed' + nedsattMedLevels[i]];
+            if (!sjukskrivning) {
+              continue;
+            }
 
-                    var from = new moment (sjukskrivning.from);
-                    if(startDate === null || from.isBefore(startDate)) {
-                        startDate = from;
-                    }
-                    var tom = new moment (sjukskrivning.tom);
-                    if(endDate === null || tom.isAfter(endDate)) {
-                        endDate = tom;
-                    }
-                }
+            var from = new moment(sjukskrivning.from);
+            if (startDate === null || from.isBefore(startDate)) {
+              startDate = from;
+            }
+            var tom = new moment(sjukskrivning.tom);
+            if (endDate === null || tom.isAfter(endDate)) {
+              endDate = tom;
+            }
+          }
 
-                if(startDate === null || endDate === null) {
-                    return 0;
-                }
+          if (startDate === null || endDate === null) {
+            return 0;
+          }
 
-                duration = moment.duration(endDate.diff(startDate));
-                duration = duration.days() + 1;
+          duration = moment.duration(endDate.diff(startDate));
+          duration = duration.days() + 1;
 
-                return duration;
-            };
+          return duration;
+        };
 
-            /**
-             * Visa observandum om:
-             * Perioden intyget avser är kortare eller lika med 7 dagar
-             * Alternativet Arbetslöshet är EJ valt.
-             */
-            this.getObservandumId = function() {
+        /**
+         * Visa observandum om:
+         * Perioden intyget avser är kortare eller lika med 7 dagar
+         * Alternativet Arbetslöshet är EJ valt.
+         */
+        this.getObservandumId = function() {
 
-                var duration = this.calculateNedsattMedDuration();
-                var shouldSysselsattningSpawnObservandum = this.shouldArbeteSpawnObservandum();
+          var duration = this.calculateNedsattMedDuration();
+          var shouldSysselsattningSpawnObservandum = this.shouldArbeteSpawnObservandum();
 
-                if (duration <= 7 && shouldSysselsattningSpawnObservandum) {
-                    return 'sjukpenning.label.send.obs.short.duration';
-                }
+          if (duration <= 7 && shouldSysselsattningSpawnObservandum) {
+            return 'sjukpenning.label.send.obs.short.duration';
+          }
 
-                return null;
-            };
+          return null;
+        };
 
-            /**
-             Lägg på text om observandum ska visas och returnera hela modellen
-             */
-            this.getSendContent = function(intygType) {
+        /**
+         Lägg på text om observandum ska visas och returnera hela modellen
+         */
+        this.getSendContent = function(intygType) {
 
-                var sendContentModel = {
-                    observandumId: this.getObservandumId(),
-                    bodyText: messageService.getProperty(intygType + '.label.send.body')
-                };
+          var sendContentModel = {
+            observandumId: this.getObservandumId(),
+            bodyText: messageService.getProperty(intygType + '.label.send.body')
+          };
 
-                if(sendContentModel.observandumId) {
-                    sendContentModel.bodyText = messageService.getProperty('common.label.send.body') + messageService.getProperty(intygType + '.label.send.body');
-                }
+          if (sendContentModel.observandumId) {
+            sendContentModel.bodyText =
+                messageService.getProperty('common.label.send.body') + messageService.getProperty(intygType + '.label.send.body');
+          }
 
-                return sendContentModel;
-            };
+          return sendContentModel;
+        };
 
-            this.reset();
-        }]);
+        this.reset();
+      }]);

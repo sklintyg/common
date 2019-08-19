@@ -2,8 +2,11 @@
 <ns3:RegisterMedicalCertificate xmlns="urn:riv:insuranceprocess:healthreporting:mu7263:3" xmlns:ns2="urn:riv:insuranceprocess:healthreporting:2" xmlns:ns3="urn:riv:insuranceprocess:healthreporting:RegisterMedicalCertificateResponder:3">
   <ns3:lakarutlatande>
     <lakarutlatande-id>9dbd792c-f102-4692-827e-db3a5213de1a</lakarutlatande-id>
-    <typAvUtlatande>L&#xE4;karintyg enligt 3 kap, 8 &#xA7; lagen (1962:381) om allm&#xE4;n f&#xF6;rs&#xE4;kring</typAvUtlatande>
-    <kommentar>4b: Filmkv&#xE4;ll f&#xF6;rra l&#xF6;rdagen. 8b: Arbetstidsf&#xF6;rl&#xE4;ggning 25. Arbetstidsf&#xF6;rl&#xE4;ggning 50. Arbetstidsf&#xF6;rl&#xE4;ggning 75. 10: Prognos. &#xD6;vriga upplysningar och f&#xF6;rtydliganden</kommentar>
+    <typAvUtlatande>L&#xE4;karintyg enligt 3 kap, 8 &#xA7; lagen (1962:381) om allm&#xE4;n f&#xF6;rs&#xE4;kring
+    </typAvUtlatande>
+    <kommentar>4b: Filmkv&#xE4;ll f&#xF6;rra l&#xF6;rdagen. 8b: Arbetstidsf&#xF6;rl&#xE4;ggning 25. Arbetstidsf&#xF6;rl&#xE4;ggning
+      50. Arbetstidsf&#xF6;rl&#xE4;ggning 75. 10: Prognos. &#xD6;vriga upplysningar och f&#xF6;rtydliganden
+    </kommentar>
     <signeringsdatum>2016-08-10T15:57:56</signeringsdatum>
     <skickatDatum>2016-08-10T15:57:56</skickatDatum>
     <patient>
@@ -57,7 +60,8 @@
     </aktivitet>
     <aktivitet>
       <aktivitetskod>Planerad_eller_pagaende_behandling_eller_atgard_inom_sjukvarden</aktivitetskod>
-      <beskrivning>Planerad eller p&#xE5;g&#xE5;ende behandling eller &#xE5;tg&#xE4;rd inom sjukv&#xE5;rden</beskrivning>
+      <beskrivning>Planerad eller p&#xE5;g&#xE5;ende behandling eller &#xE5;tg&#xE4;rd inom sjukv&#xE5;rden
+      </beskrivning>
     </aktivitet>
     <aktivitet>
       <aktivitetskod>Planerad_eller_pagaende_annan_atgard</aktivitetskod>
@@ -73,11 +77,12 @@
       <aktivitetskod>Kontakt_med_Forsakringskassan_ar_aktuell</aktivitetskod>
     </aktivitet>
     <bedomtTillstand>
-      <beskrivning>Aktuellt sjukdomsf&#xF6;rlopp 
+      <beskrivning>Aktuellt sjukdomsf&#xF6;rlopp
       </beskrivning>
     </bedomtTillstand>
     <medicinsktTillstand>
-      <beskrivning>Foster och nyf&#xF6;dd som p&#xE5;verkats av graviditetskomplikationer hos modern. Samsjuklighet f&#xF6;religger. O01 Druvb&#xF6;rd. L01 Impetigo (svinkoppor). F&#xF6;rtydligande av diagnos/diagnoser 
+      <beskrivning>Foster och nyf&#xF6;dd som p&#xE5;verkats av graviditetskomplikationer hos modern. Samsjuklighet f&#xF6;religger.
+        O01 Druvb&#xF6;rd. L01 Impetigo (svinkoppor). F&#xF6;rtydligande av diagnos/diagnoser
       </beskrivning>
       <tillstandskod code="P01" codeSystem="1.2.752.116.1.1.1.1.3" codeSystemName="ICD-10"/>
     </medicinsktTillstand>
@@ -92,7 +97,7 @@
         <motivering>arbetsf&#xF6;rm&#xE5;ga</motivering>
         <prognosangivelse>Det_gar_inte_att_bedomma</prognosangivelse>
         <arbetsuppgift>
-          <typAvArbetsuppgift> aktuella arbetsuppgifter</typAvArbetsuppgift>
+          <typAvArbetsuppgift>aktuella arbetsuppgifter</typAvArbetsuppgift>
         </arbetsuppgift>
         <arbetsformagaNedsattning>
           <varaktighetFrom>2016-08-10</varaktighetFrom>

@@ -2,9 +2,11 @@
   <wc-checkbox-wrapper ng-if="showHandleToggle()">
     <input type="checkbox" ng-model="handledFunction" ng-model-options="{ getterSetter: true }"
            id="handleCheck-{{arendeListItem.arende.fraga.internReferens}}">
-    <label class="checkbox-inline arende-hantera-toggle" ng-attr-for="handleCheck-{{arendeListItem.arende.fraga.internReferens}}">
+    <label class="checkbox-inline arende-hantera-toggle"
+           ng-attr-for="handleCheck-{{arendeListItem.arende.fraga.internReferens}}">
       Hanterad
     </label>
   </wc-checkbox-wrapper>
-  <span ng-if="!showHandleToggle()&&showReadOnlyCheckBox()" class="handled-label"><i class="material-icons md-18">check</i> Hanterad</span>
+  <span ng-if="!showHandleToggle()&&showReadOnlyCheckBox()" class="handled-label"><i
+      class="material-icons md-18">check</i> Hanterad</span>
 </div>

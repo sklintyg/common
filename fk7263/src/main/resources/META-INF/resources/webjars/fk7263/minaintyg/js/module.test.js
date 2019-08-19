@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('fk7263', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize' ]).
-run(function() {
+angular.module('fk7263', ['ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize']).run(function() {
 });
 

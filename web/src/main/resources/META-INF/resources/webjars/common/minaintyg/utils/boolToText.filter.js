@@ -18,9 +18,9 @@
  */
 angular.module('common').filter('BoolToTextFilter',
     function() {
-        'use strict';
+      'use strict';
 
-        return function(input) {
-            return ((input === true) ? 'common.yes' : ((input === false) ? 'common.no' : 'common.notset'));
-        };
+      return function(input) {
+        return ((input === true) ? 'common.yes' : ((input === false) ? 'common.no' : 'common.notset'));
+      };
     });

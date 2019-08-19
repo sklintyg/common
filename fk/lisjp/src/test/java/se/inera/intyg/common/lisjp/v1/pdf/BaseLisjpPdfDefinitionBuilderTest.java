@@ -18,18 +18,15 @@
  */
 package se.inera.intyg.common.lisjp.v1.pdf;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Before;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.util.ReflectionTestUtils;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.services.texts.IntygTextsServiceImpl;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
@@ -55,9 +52,12 @@ public abstract class BaseLisjpPdfDefinitionBuilderTest {
         intygsTextRepositoryHelper.update();
         ReflectionTestUtils.setField(intygTextsService, "repo", intygsTextRepositoryHelper);
         intygTextsService.getIntygTextsPojo("lisjp", "1.0");
-        intygList.add(objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/minimalt_utlatande.json").getFile(), LisjpUtlatandeV1.class));
-        intygList.add(objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/maximalt_utlatande.json").getFile(), LisjpUtlatandeV1.class));
-        intygList.add(objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/tillaggsfragor_utlatande.json").getFile(), LisjpUtlatandeV1.class));
+        intygList.add(
+            objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/minimalt_utlatande.json").getFile(), LisjpUtlatandeV1.class));
+        intygList.add(
+            objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/maximalt_utlatande.json").getFile(), LisjpUtlatandeV1.class));
+        intygList.add(objectMapper
+            .readValue(new ClassPathResource("v1/PdfGeneratorTest/tillaggsfragor_utlatande.json").getFile(), LisjpUtlatandeV1.class));
 
         intygTexts = intygTextsService.getIntygTextsPojo("lisjp", "1.0");
     }

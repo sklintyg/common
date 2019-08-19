@@ -1,19 +1,16 @@
 <div ng-class="{'ue-del-fraga' : config.htmlClass != 'no-padding'}">
-<ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]">
-  <div class="row form-horizontal">
-    <ue-label class="col-sm-12" config="::config.label" model="::model"></ue-label>
-    <div ng-class="colStyle" data-ng-repeat="choice in modelGetterSetter()">
-     <wc-checkbox-wrapper>
-        <input ng-attr-id="{{::config.modelProp}}-{{::choice.type|ueDomIdFilter}}"
-               type="checkbox"
-               ng-disabled="choice.disabled"
-               ng-model="choice.selected"
-               ng-change="updateValidation()">
-      <label ng-attr-for="{{::config.modelProp}}-{{::choice.type|ueDomIdFilter}}">
-        <span dynamic-label key="{{::config.labelTemplate | ueLabelFilter: choice.type}}"></span>
-      </label>
-     </wc-checkbox-wrapper>
+  <ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]">
+    <div class="row form-horizontal">
+      <ue-label class="col-sm-12" config="::config.label" model="::model"></ue-label>
+      <div ng-class="colStyle" data-ng-repeat="choice in modelGetterSetter()">
+        <wc-checkbox-wrapper>
+          <input ng-attr-id="{{::config.modelProp}}-{{::choice.type|ueDomIdFilter}}" type="checkbox"
+                 ng-disabled="choice.disabled" ng-model="choice.selected" ng-change="updateValidation()">
+          <label ng-attr-for="{{::config.modelProp}}-{{::choice.type|ueDomIdFilter}}">
+            <span dynamic-label key="{{::config.labelTemplate | ueLabelFilter: choice.type}}"></span>
+          </label>
+        </wc-checkbox-wrapper>
+      </div>
     </div>
-  </div>
-</ue-validation-wrapper>
+  </ue-validation-wrapper>
 </div>

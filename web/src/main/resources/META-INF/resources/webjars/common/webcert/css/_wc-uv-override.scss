@@ -20,15 +20,18 @@ uv-kategori {
     padding: $intyg-signed-card-body-padding;
     box-shadow: none;
     border-radius: 0 0 4px 4px;
+
     h3 {
       font-size: 16px;
       font-weight: bold;
       font-family: $font-0, $font-3;
       padding: $intyg-signed-card-h3-padding;
       color: $wc-color-08;
+
       span {
         padding-top: 5px;
         display: inline-block;
+
         &:empty {
           display: none;
         }
@@ -83,6 +86,7 @@ uv-table {
     overflow: hidden;
     margin-bottom: 14px;
   }
+
   .table {
 
     > thead > tr > th,
@@ -92,6 +96,7 @@ uv-table {
       padding: 8px;
       vertical-align: top;
     }
+
     tr {
       > td {
         border-top: 1px solid transparent;
@@ -117,7 +122,7 @@ uv-table {
         }
 
         > td:last-child {
-          border-right-color:$wc-color-21;
+          border-right-color: $wc-color-21;
         }
       }
     }

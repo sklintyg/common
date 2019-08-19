@@ -2,8 +2,8 @@
   <div class="kategorier">
     <input type="checkbox" class="big-checkbox" ng-model="kod.vald" />
     <span ng-click="toggle(kod)">{{kod.benamning}}</span>
-    <span class="visamer" ng-click="visamer = !visamer">{{visamer ? 'visa mindre':'visa mer'}} <i
-      class="glyphicon" ng-class="{'glyphicon-menu-down': !visamer, 'glyphicon-menu-up': visamer}"></i></span>
+    <span class="visamer" ng-click="visamer = !visamer">{{visamer ? 'visa mindre':'visa mer'}} <i class="glyphicon"
+                                                                                                  ng-class="{'glyphicon-menu-down': !visamer, 'glyphicon-menu-up': visamer}"></i></span>
   </div>
   <div ng-if="visamer" class="beskrivning">{{kod.beskrivning}}</div>
   <div ng-if="visamer && kod.innefattar" class="beskrivning">

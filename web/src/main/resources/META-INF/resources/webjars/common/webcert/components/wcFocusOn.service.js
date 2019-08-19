@@ -17,28 +17,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular
-    .module('common')
-    .factory('common.wcFocusOn', [
-    '$timeout', '$browser', 'common.anchorScrollService',
-    function($timeout, $browser, anchorScrollService) {
-        'use strict';
-        return function(name) {
-            return $timeout(function() {
-                var element = angular.element('#' + name);
+.module('common')
+.factory('common.wcFocusOn', [
+  '$timeout', '$browser', 'common.anchorScrollService',
+  function($timeout, $browser, anchorScrollService) {
+    'use strict';
+    return function(name) {
+      return $timeout(function() {
+        var element = angular.element('#' + name);
 
-                if (element.length > 0) {
-                    element.focus();
-                }
-                $browser.notifyWhenNoOutstandingRequests(function() {
-                    var element = angular.element('#' + name);
+        if (element.length > 0) {
+          element.focus();
+        }
+        $browser.notifyWhenNoOutstandingRequests(function() {
+          var element = angular.element('#' + name);
 
-                    if (element.length > 0) {
-                        element.focus();
+          if (element.length > 0) {
+            element.focus();
 
-                        anchorScrollService.scrollIntygContainerTo(name, 50);
-                    }
-                });
-            });
-        };
-    }
+            anchorScrollService.scrollIntygContainerTo(name, 50);
+          }
+        });
+      });
+    };
+  }
 ]);

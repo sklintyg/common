@@ -21,6 +21,8 @@ package se.inera.intyg.common.util.logging;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.spi.FilterReply;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,9 +30,6 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
-
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.spi.FilterReply;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MarkerFilterTest {

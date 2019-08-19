@@ -20,27 +20,23 @@
         <strong>Ange för <span dynamic-label key="{{model.recipient}}"></span> varför du makulerar intyget: </strong>
         <!-- <span ng-if="model.isFkIntyg"><span wc-help-chevron help-text-key="intyg.makulera.help"></span>
         <span wc-help-chevron-text help-text-key="intyg.makulera.help"></span></span> -->
-        <br/>
+        <br />
         <div ng-repeat="reason in model.choices" style="margin-top:5px;">
           <wc-radio-wrapper>
             <input id="reason-{{reason.value}}" name="reason-{{reason.value}}" type="radio"
-                     ng-model="model.makuleraModel.reason" ng-value="reason.value">
+                   ng-model="model.makuleraModel.reason" ng-value="reason.value">
             <label ng-attr-for="reason-{{reason.value}}">
               {{reason.label}}
             </label>
           </wc-radio-wrapper>
           <div class="form-group radio-indent fold-animation" ng-if="model.makuleraModel.reason == reason.value">
             <label ng-attr-for="clarification-{{reason.value}}">
-              <span ng-if="reason.required && !model.makuleraModel.clarification[reason.value]" class="required icon-wc-ikon-38"></span>
+              <span ng-if="reason.required && !model.makuleraModel.clarification[reason.value]"
+                    class="required icon-wc-ikon-38"></span>
               {{reason.textAreaLabel}}
             </label>
-            <textarea id="clarification-{{reason.value}}"
-                      rows="3"
-                      maxlength="3500"
-                      ue-filter-latin1
-                      auto-expand
-                      class="form-control"
-                      ng-model="model.makuleraModel.clarification[reason.value]">
+            <textarea id="clarification-{{reason.value}}" rows="3" maxlength="3500" ue-filter-latin1 auto-expand
+                      class="form-control" ng-model="model.makuleraModel.clarification[reason.value]">
             </textarea>
           </div>
         </div>
@@ -51,26 +47,17 @@
 
   <div class="modal-footer">
     <div class="button-wrapper">
-    <wc-button
-            btn-id="{{button1id}}"
-            btn-class="btn btn-secondary"
-            btn-click="button1click()"
-            btn-disabled="!model.isMakuleraEnabled(model)"
-            loading="!model.makuleraProgressDone"
-    >
-      <span dynamic-label key="{{button1text}}"></span>
-    </wc-button>
-    <wc-button
-            btn-id="{{button3id}}"
-            btn-class="btn btn-default"
-            btn-click="button3click()"
-    >
-      <span dynamic-label key="{{button3text}}"></span>
-    </wc-button>
+      <wc-button btn-id="{{button1id}}" btn-class="btn btn-secondary" btn-click="button1click()"
+                 btn-disabled="!model.isMakuleraEnabled(model)" loading="!model.makuleraProgressDone">
+        <span dynamic-label key="{{button1text}}"></span>
+      </wc-button>
+      <wc-button btn-id="{{button3id}}" btn-class="btn btn-default" btn-click="button3click()">
+        <span dynamic-label key="{{button3text}}"></span>
+      </wc-button>
     </div>
     <div class="webcert-top-padding-section" ng-show="model.showerror">
-      <wc-alert-message alert-severity="danger" class="alert-dialog-error" alert-message-id="{{model.errormessageid}}">
-      </wc-alert-message>
+      <wc-alert-message alert-severity="danger" class="alert-dialog-error"
+                        alert-message-id="{{model.errormessageid}}"></wc-alert-message>
     </div>
   </div>
 </div>

@@ -21,17 +21,17 @@
  */
 angular.module('common').directive('wcFocusMe',
     function() {
-        'use strict';
+      'use strict';
 
-        return {
-            scope: { trigger: '=wcFocusMe' },
-            link: function(scope, element) {
-                scope.$watch('trigger', function(value) {
-                    if (value === true) {
-                        element[0].focus();
-                        scope.trigger = false;
-                    }
-                });
+      return {
+        scope: {trigger: '=wcFocusMe'},
+        link: function(scope, element) {
+          scope.$watch('trigger', function(value) {
+            if (value === true) {
+              element[0].focus();
+              scope.trigger = false;
             }
-        };
+          });
+        }
+      };
     });

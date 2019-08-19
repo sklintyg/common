@@ -18,96 +18,96 @@
  */
 angular.module('common').controller('smi.EditCertCtrl',
     ['$scope', '$state', '$stateParams',
-        'common.UtkastService', 'common.UserModel', 'common.fmbService', 'common.fmbViewState',
-        'ViewState', 'UtkastConfigFactory', 'common.PrefilledUserDataService', 'supportPanelConfigFactory',
-        'common.receiverService', 'common.ResourceLinkService',
-        function($scope, $state, $stateParams,
-            UtkastService, UserModel, fmbService, fmbViewState, viewState, utkastConfigFactory,
-            prefilledUserDataService,
-            supportPanelConfigFactory, receiverService, ResourceLinkService) {
-            'use strict';
+      'common.UtkastService', 'common.UserModel', 'common.fmbService', 'common.fmbViewState',
+      'ViewState', 'UtkastConfigFactory', 'common.PrefilledUserDataService', 'supportPanelConfigFactory',
+      'common.receiverService', 'common.ResourceLinkService',
+      function($scope, $state, $stateParams,
+          UtkastService, UserModel, fmbService, fmbViewState, viewState, utkastConfigFactory,
+          prefilledUserDataService,
+          supportPanelConfigFactory, receiverService, ResourceLinkService) {
+        'use strict';
 
-            /**********************************************************************************
-             * Default state
-             **********************************************************************************/
+        /**********************************************************************************
+         * Default state
+         **********************************************************************************/
 
-            // create a new intyg model and reset all viewStates
-            viewState.reset();
-            $scope.viewState = viewState;
+        // create a new intyg model and reset all viewStates
+        viewState.reset();
+        $scope.viewState = viewState;
 
-            // Page states
-            $scope.user = UserModel;
+        // Page states
+        $scope.user = UserModel;
 
-            $scope.categoryIds = utkastConfigFactory.getCategoryIds();
+        $scope.categoryIds = utkastConfigFactory.getCategoryIds();
 
-            $scope.editEnabled = false;
-            $scope.lockedAlerts = [];
+        $scope.editEnabled = false;
+        $scope.lockedAlerts = [];
 
-            /**************************************************************************
-             * Load certificate and setup form / Constructor ...
-             **************************************************************************/
+        /**************************************************************************
+         * Load certificate and setup form / Constructor ...
+         **************************************************************************/
 
-            // Get the certificate draft from the server.
-            UtkastService.load(viewState).then(function(intygModel) {
-                receiverService.updatePossibleReceivers(viewState.common.intyg.type);
+        // Get the certificate draft from the server.
+        UtkastService.load(viewState).then(function(intygModel) {
+          receiverService.updatePossibleReceivers(viewState.common.intyg.type);
 
-                if (viewState.common.textVersionUpdated) {
-                    $scope.certForm.$setDirty();
-                }
-                //Expose pdf download link
-                viewState.common.intyg.pdfUrl =
-                    '/moduleapi/intyg/' + viewState.common.intyg.type + '/' + intygModel.id + '/pdf';
+          if (viewState.common.textVersionUpdated) {
+            $scope.certForm.$setDirty();
+          }
+          //Expose pdf download link
+          viewState.common.intyg.pdfUrl =
+              '/moduleapi/intyg/' + viewState.common.intyg.type + '/' + intygModel.id + '/pdf';
 
-                if ($state.current.data.useFmb) {
-                    fmbService.updateFmbTextsForAllDiagnoses(intygModel.diagnoser);
-                }
+          if ($state.current.data.useFmb) {
+            fmbService.updateFmbTextsForAllDiagnoses(intygModel.diagnoser);
+          }
 
-                if (ResourceLinkService.isLinkTypeExists(viewState.draftModel.links, 'REDIGERA_UTKAST')) {
-                    $scope.editEnabled = true;
-                } else {
-                    if (viewState.draftModel.isLocked() && angular.isFunction(viewState.getLockedDraftAlert)) {
-                        UtkastService.updatePreviousIntygUtkast(intygModel.grundData.patient.personId).then(function() {
-                            $scope.lockedAlerts = viewState.getLockedDraftAlert();
-                        });
-                    }
-                }
-            });
+          if (ResourceLinkService.isLinkTypeExists(viewState.draftModel.links, 'REDIGERA_UTKAST')) {
+            $scope.editEnabled = true;
+          } else {
+            if (viewState.draftModel.isLocked() && angular.isFunction(viewState.getLockedDraftAlert)) {
+              UtkastService.updatePreviousIntygUtkast(intygModel.grundData.patient.personId).then(function() {
+                $scope.lockedAlerts = viewState.getLockedDraftAlert();
+              });
+            }
+          }
+        });
 
-            $scope.$on('utkast.supportPanelConfig', function(event, isKomplettering, intygTypeVersion) {
-                //We now have all info needed to build support-panel config (id, intygTypeVersion, isSigned, isKompletteringsUtkast, isLocked, links)
-                $scope.supportPanelConfig =
-                    supportPanelConfigFactory.getConfig($stateParams.certificateId, intygTypeVersion, false,
-                        isKomplettering, viewState.draftModel.isLocked(), viewState.draftModel.links);
-            });
+        $scope.$on('utkast.supportPanelConfig', function(event, isKomplettering, intygTypeVersion) {
+          //We now have all info needed to build support-panel config (id, intygTypeVersion, isSigned, isKompletteringsUtkast, isLocked, links)
+          $scope.supportPanelConfig =
+              supportPanelConfigFactory.getConfig($stateParams.certificateId, intygTypeVersion, false,
+                  isKomplettering, viewState.draftModel.isLocked(), viewState.draftModel.links);
+        });
 
-            $scope.$on('saveRequest', function($event, saveDeferred) {
-                $scope.certForm.$commitViewValue();
-                var intygState = {
-                    viewState: viewState,
-                    formFail: function() {
-                        if ($scope.certForm) {
-                            $scope.certForm.$setDirty();
-                        }
-                    },
-                    formPristine: function() {
-                        $scope.certForm.$setPristine();
-                    }
-                };
-                saveDeferred.resolve(intygState);
-            });
+        $scope.$on('saveRequest', function($event, saveDeferred) {
+          $scope.certForm.$commitViewValue();
+          var intygState = {
+            viewState: viewState,
+            formFail: function() {
+              if ($scope.certForm) {
+                $scope.certForm.$setDirty();
+              }
+            },
+            formPristine: function() {
+              $scope.certForm.$setPristine();
+            }
+          };
+          saveDeferred.resolve(intygState);
+        });
 
-            $scope.$on('$destroy', function() {
-                if (!$scope.certForm.$dirty) {
-                    $scope.destroyList();
-                }
+        $scope.$on('$destroy', function() {
+          if (!$scope.certForm.$dirty) {
+            $scope.destroyList();
+          }
 
-                if ($state.current.data && $state.current.data.useFmb) {
-                    fmbViewState.reset();
-                }
-            });
+          if ($state.current.data && $state.current.data.useFmb) {
+            fmbViewState.reset();
+          }
+        });
 
-            $scope.destroyList = function() {
-                viewState.clearModel();
-            };
+        $scope.destroyList = function() {
+          viewState.clearModel();
+        };
 
-        }]);
+      }]);

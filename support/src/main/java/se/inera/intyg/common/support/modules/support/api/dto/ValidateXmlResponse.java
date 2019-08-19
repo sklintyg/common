@@ -21,7 +21,6 @@ package se.inera.intyg.common.support.modules.support.api.dto;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.springframework.util.Assert;
 
 /**

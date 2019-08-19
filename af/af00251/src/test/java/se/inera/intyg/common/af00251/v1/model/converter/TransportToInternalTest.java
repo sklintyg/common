@@ -18,7 +18,10 @@
  */
 package se.inera.intyg.common.af00251.v1.model.converter;
 
+import static org.junit.Assert.assertEquals;
+
 import com.google.common.collect.Lists;
+import java.time.LocalDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -34,10 +37,6 @@ import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
-import java.time.LocalDate;
-
-import static org.junit.Assert.assertEquals;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
 public class TransportToInternalTest {
@@ -50,35 +49,35 @@ public class TransportToInternalTest {
         utlatande.setUndersokningsDatum(new InternalDate(LocalDate.now()));
 
         utlatande.setArbetsmarknadspolitisktProgram(ArbetsmarknadspolitisktProgram.builder()
-                                                                                  .setMedicinskBedomning("Arbetsprov")
-                                                                                  .setOmfattning(ArbetsmarknadspolitisktProgram.Omfattning.DELTID)
-                                                                                  .setOmfattningDeltid(4)
-                                                                                  .build());
+            .setMedicinskBedomning("Arbetsprov")
+            .setOmfattning(ArbetsmarknadspolitisktProgram.Omfattning.DELTID)
+            .setOmfattningDeltid(4)
+            .build());
         utlatande.setFunktionsnedsattning("Funktionsnedsättning");
         utlatande.setAktivitetsbegransning("Väldigt sjuk");
         utlatande.setHarForhinder(true);
 
         utlatande.setSjukfranvaro(Lists.newArrayList(
             Sjukfranvaro.builder()
-                        .setChecked(true)
-                        .setNiva(4)
-                        .setPeriod(new InternalLocalDateInterval(
-                            new InternalDate(LocalDate.now()),
-                            new InternalDate(LocalDate.now()
-                                                      .plusDays(5))))
-                        .build()));
+                .setChecked(true)
+                .setNiva(4)
+                .setPeriod(new InternalLocalDateInterval(
+                    new InternalDate(LocalDate.now()),
+                    new InternalDate(LocalDate.now()
+                        .plusDays(5))))
+                .build()));
 
         utlatande.setBegransningSjukfranvaro(
             BegransningSjukfranvaro.builder()
-                                   .setKanBegransas(true)
-                                   .setBeskrivning("Använd hjälpmedel")
-                                   .build());
+                .setKanBegransas(true)
+                .setBeskrivning("Använd hjälpmedel")
+                .build());
 
         utlatande.setPrognosAtergang(
             PrognosAtergang.builder()
-                           .setPrognos(PrognosAtergang.Prognos.EJ_MOJLIGT_AVGORA)
-                           .setAnpassningar("Jobba halvtid")
-                           .build());
+                .setPrognos(PrognosAtergang.Prognos.EJ_MOJLIGT_AVGORA)
+                .setAnpassningar("Jobba halvtid")
+                .build());
 
         return utlatande.build();
     }
@@ -87,8 +86,6 @@ public class TransportToInternalTest {
     public void endToEnd() throws Exception {
         AF00251UtlatandeV1 originalUtlatande = getUtlatande();
         RegisterCertificateType transportCertificate = InternalToTransport.convert(originalUtlatande);
-
-
 
         AF00251UtlatandeV1 convertedIntyg = TransportToInternal.convert(transportCertificate.getIntyg());
         assertEquals(originalUtlatande, convertedIntyg);

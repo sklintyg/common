@@ -17,32 +17,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('wcFaqToggler', function() {
-    'use strict';
+  'use strict';
 
-    return {
-        restrict: 'E',
-        transclude: true,
-        scope: {},
-        templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/vanliga-fragor/wcFaqToggler.directive.html',
-        controller: function($scope) {
+  return {
+    restrict: 'E',
+    transclude: true,
+    scope: {},
+    templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/vanliga-fragor/wcFaqToggler.directive.html',
+    controller: function($scope) {
 
-            $scope.vm = {
-                mode: undefined
-            };
+      $scope.vm = {
+        mode: undefined
+      };
 
-            $scope.toggle = function($event, state) {
-                $scope.vm.mode = state;
-                $event.target.blur();
-            };
+      $scope.toggle = function($event, state) {
+        $scope.vm.mode = state;
+        $event.target.blur();
+      };
 
-            this.someChildToggledItself = function() {
-                $scope.vm.mode = undefined;
-            };
+      this.someChildToggledItself = function() {
+        $scope.vm.mode = undefined;
+      };
 
-            this.getGlobalState = function() {
-                return $scope.vm.mode;
-            };
+      this.getGlobalState = function() {
+        return $scope.vm.mode;
+      };
 
-        }
-    };
+    }
+  };
 });

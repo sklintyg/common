@@ -19,7 +19,6 @@
 package se.inera.intyg.common.ts_bas.v6.model.internal;
 
 import com.google.common.collect.ImmutableSet;
-
 import java.util.Set;
 
 public enum IntygAvserKategori {

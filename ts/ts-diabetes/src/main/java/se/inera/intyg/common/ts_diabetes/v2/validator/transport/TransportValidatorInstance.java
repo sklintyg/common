@@ -20,7 +20,6 @@ package se.inera.intyg.common.ts_diabetes.v2.validator.transport;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import se.inera.intyg.common.support.Constants;
 import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
 
@@ -49,7 +48,7 @@ public class TransportValidatorInstance {
             String id = utlatande.getGrundData().getPatient().getPersonId().getRoot();
             if (!id.equals(Constants.PERSON_ID_OID) && !id.equals(Constants.SAMORDNING_ID_OID)) {
                 validationErrors.add(String.format("Root for patient.personnummer should be %s or %s but was %s",
-                        Constants.PERSON_ID_OID, Constants.SAMORDNING_ID_OID, id));
+                    Constants.PERSON_ID_OID, Constants.SAMORDNING_ID_OID, id));
             }
         }
         // Läkares HSAId
@@ -59,12 +58,12 @@ public class TransportValidatorInstance {
         // Vardenhet
         if (utlatande.getGrundData().getSkapadAv().getVardenhet() != null) {
             checkId(utlatande.getGrundData().getSkapadAv().getVardenhet().getEnhetsId().getRoot(), Constants.HSA_ID_OID,
-                    "vardenhet.enhetsId");
+                "vardenhet.enhetsId");
         }
         // vardgivare
         if (utlatande.getGrundData().getSkapadAv().getVardenhet().getVardgivare() != null) {
             checkId(utlatande.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid().getRoot(), Constants.HSA_ID_OID,
-                    "vardgivarId");
+                "vardgivarId");
         }
     }
 
@@ -82,14 +81,14 @@ public class TransportValidatorInstance {
         if (getContext().isHogreContext()) {
             if (utlatande.getHypoglykemier().isGenomforEgenkontrollBlodsocker() == null) {
                 validationErrors
-                        .add("'Egenkontroll av blodsocker' must be present when intygAvser contains any of "
-                                + "C1, C1E, C, CE, D1, D1E, D, DE or TAXI]");
+                    .add("'Egenkontroll av blodsocker' must be present when intygAvser contains any of "
+                        + "C1, C1E, C, CE, D1, D1E, D, DE or TAXI]");
             }
 
             if (utlatande.getHypoglykemier().isHarAllvarligForekomstVakenTid() == null) {
                 validationErrors
-                        .add("'Allvarlig förekomst av hypoglykemi vaken tid' must be present when intygAvser contains any of "
-                                + "[C1, C1E, C, CE, D1, D1E, D, DE or TAXI]");
+                    .add("'Allvarlig förekomst av hypoglykemi vaken tid' must be present when intygAvser contains any of "
+                        + "[C1, C1E, C, CE, D1, D1E, D, DE or TAXI]");
             }
         }
     }

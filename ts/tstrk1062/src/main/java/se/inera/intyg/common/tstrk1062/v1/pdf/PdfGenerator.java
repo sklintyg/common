@@ -21,22 +21,19 @@ package se.inera.intyg.common.tstrk1062.v1.pdf;
 import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_BODY;
 import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_HEADER;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Strings;
-
 import se.inera.intyg.common.pdf.model.Summary;
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
@@ -59,15 +56,15 @@ public class PdfGenerator {
     private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);
 
     private static final String INFO_SIGNED_TEXT = "Detta är en utskrift av ett elektroniskt intyg. "
-            + "Intyget har signerats elektroniskt av intygsutfärdaren.";
+        + "Intyget har signerats elektroniskt av intygsutfärdaren.";
     private static final String INFO_UTKAST_TEXT = "Detta är en utskrift av ett elektroniskt intygsutkast och ska INTE "
-            + "skickas till Transportstyrelsen.";
+        + "skickas till Transportstyrelsen.";
     private static final String SENT_TEXT = "Notera att intyget redan har skickats till Transportstyrelsen.";
 
     private static final String CERTIFICATE_FILE_PREFIX = "lakarintyg_transportstyrelsen_";
 
     public PdfResponse generatePdf(String intygsId, String jsonModel, Personnummer personId, IntygTexts intygTexts, List<Status> statuses,
-            ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
+        ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
 
         try {
             String cleanedJson = cleanJsonModel(jsonModel);
@@ -79,23 +76,23 @@ public class PdfGenerator {
             boolean isMakulerad = statuses != null && statuses.stream().anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
 
             PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
-                    .withIntygJsonModel(cleanedJson)
-                    .withUpJsModel(upJsModel)
-                    .withIntygsId(intygsId)
-                    .withIntygsNamn(TsTrk1062EntryPoint.MODULE_NAME)
-                    .withIntygsKod(TsTrk1062EntryPoint.KV_UTLATANDETYP_INTYG_CODE)
-                    .withPersonnummer(personId.getPersonnummerWithDash())
-                    .withInfoText(buildInfoText(isUtkast || isLockedUtkast, statuses))
-                    .withSummary(new Summary()
-                            .add("", getCleanModuleDescription(intygTexts))
-                            .add(UTSK001_HEADER, UTSK001_BODY))
-                    .withLeftMarginTypText(TsTrk1062EntryPoint.KV_UTLATANDETYP_INTYG_CODE + " - Fastställd av Transportstyrelsen")
-                    .withUtfardarLogotyp(logoData)
-                    .withIsUtkast(isUtkast)
-                    .withIsLockedUtkast(isLockedUtkast)
-                    .withIsMakulerad(isMakulerad)
-                    .withApplicationOrigin(applicationOrigin)
-                    .build();
+                .withIntygJsonModel(cleanedJson)
+                .withUpJsModel(upJsModel)
+                .withIntygsId(intygsId)
+                .withIntygsNamn(TsTrk1062EntryPoint.MODULE_NAME)
+                .withIntygsKod(TsTrk1062EntryPoint.KV_UTLATANDETYP_INTYG_CODE)
+                .withPersonnummer(personId.getPersonnummerWithDash())
+                .withInfoText(buildInfoText(isUtkast || isLockedUtkast, statuses))
+                .withSummary(new Summary()
+                    .add("", getCleanModuleDescription(intygTexts))
+                    .add(UTSK001_HEADER, UTSK001_BODY))
+                .withLeftMarginTypText(TsTrk1062EntryPoint.KV_UTLATANDETYP_INTYG_CODE + " - Fastställd av Transportstyrelsen")
+                .withUtfardarLogotyp(logoData)
+                .withIsUtkast(isUtkast)
+                .withIsLockedUtkast(isLockedUtkast)
+                .withIsMakulerad(isMakulerad)
+                .withApplicationOrigin(applicationOrigin)
+                .build();
 
             byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
             return new PdfResponse(data, buildFilename());
@@ -135,7 +132,7 @@ public class PdfGenerator {
 
     private String loadUvViewConfig() throws IOException {
         String upJsModel = IOUtils.toString(new ClassPathResource(PDF_UP_MODEL_CLASSPATH_URI).getInputStream(),
-                Charset.forName("UTF-8"));
+            Charset.forName("UTF-8"));
         if (Strings.isNullOrEmpty(upJsModel)) {
             throw new IllegalArgumentException("Cannot generate PDF, UV viewConfig not found on classpath: " + PDF_UP_MODEL_CLASSPATH_URI);
         }

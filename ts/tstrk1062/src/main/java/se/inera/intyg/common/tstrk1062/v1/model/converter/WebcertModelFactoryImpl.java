@@ -18,15 +18,12 @@
  */
 package se.inera.intyg.common.tstrk1062.v1.model.converter;
 
+import com.google.common.base.Strings;
 import java.util.EnumSet;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.google.common.base.Strings;
-
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -72,7 +69,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsTrk1062Utl
         template.setId(newDraftData.getCertificateId());
 
         template.setTextVersion(intygTexts.getLatestVersionForSameMajorVersion(TsTrk1062EntryPoint.MODULE_ID,
-                newDraftData.getIntygTypeVersion()));
+            newDraftData.getIntygTypeVersion()));
 
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
         resetDataInGrundData(grundData);

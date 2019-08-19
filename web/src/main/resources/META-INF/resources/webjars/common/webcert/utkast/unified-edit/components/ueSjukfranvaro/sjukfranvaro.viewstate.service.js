@@ -18,124 +18,123 @@
  */
 angular.module('common').service('common.SjukfranvaroViewStateService',
     ['common.DateUtilsService',
-        function(DateUtilsService) {
-            'use strict';
+      function(DateUtilsService) {
+        'use strict';
 
-            this.reset = function() {
-                this.model = undefined;
-                this.totalDays = undefined;
-                this.maxRows = undefined;
+        this.reset = function() {
+          this.model = undefined;
+          this.totalDays = undefined;
+          this.maxRows = undefined;
 
-                return this;
-            };
+          return this;
+        };
 
-            this.setup = function(model, maxRows, dirtyCallback) {
-                this.model = model;
-                this.maxRows = maxRows;
-                this.dirtyCallback = dirtyCallback;
-            };
+        this.setup = function(model, maxRows, dirtyCallback) {
+          this.model = model;
+          this.maxRows = maxRows;
+          this.dirtyCallback = dirtyCallback;
+        };
 
-            this.updateCheckBox = function(index) {
+        this.updateCheckBox = function(index) {
 
-                if (this.model[index].checked) {
+          if (this.model[index].checked) {
 
-                    // Klickar jag i checkboxen för en sjukskrivningsgrad ska 'från och med' datum sättas till dagens datum,
-                    // tabben ska hamna i fältet för 'till och med' datum. 'till och med' rutan ska vara tom.
+            // Klickar jag i checkboxen för en sjukskrivningsgrad ska 'från och med' datum sättas till dagens datum,
+            // tabben ska hamna i fältet för 'till och med' datum. 'till och med' rutan ska vara tom.
 
-                    // Väljer jag en andra/tredje/fjärde sjukskrivningsperiod ska 'från och med' datum sättas till
-                    // dagen efter 'till och med' datumet för den föregående perioden.
+            // Väljer jag en andra/tredje/fjärde sjukskrivningsperiod ska 'från och med' datum sättas till
+            // dagen efter 'till och med' datumet för den föregående perioden.
 
-                    var maxDate;
-                    angular.forEach(this.model, function(row) {
-                        var checkDate = DateUtilsService.convertDateStrict(row.period.tom);
-                        if (checkDate && (!maxDate || checkDate > maxDate)) {
-                            maxDate = checkDate;
-                        }
-                    });
+            var maxDate;
+            angular.forEach(this.model, function(row) {
+              var checkDate = DateUtilsService.convertDateStrict(row.period.tom);
+              if (checkDate && (!maxDate || checkDate > maxDate)) {
+                maxDate = checkDate;
+              }
+            });
 
-                    if (maxDate) {
-                        this.model[index].period.from = maxDate.add(1, 'days').format('YYYY-MM-DD');
-                    }
-                    else {
-                        this.model[index].period.from = moment().format('YYYY-MM-DD');
-                    }
-                    this.model[index].period.tom = undefined;
-                    var toEl = $('#sjukfranvaro-' + index + '-tom');
-                    if (toEl) {
-                        toEl.focus();
-                    }
-                }
-                else {
-                    this.model[index].period.from = undefined;
-                    this.model[index].period.tom = undefined;
-                    if (this.model[index].niva !== 100) {
-                        this.model[index].niva = undefined;
-                    }
-                }
-            };
+            if (maxDate) {
+              this.model[index].period.from = maxDate.add(1, 'days').format('YYYY-MM-DD');
+            } else {
+              this.model[index].period.from = moment().format('YYYY-MM-DD');
+            }
+            this.model[index].period.tom = undefined;
+            var toEl = $('#sjukfranvaro-' + index + '-tom');
+            if (toEl) {
+              toEl.focus();
+            }
+          } else {
+            this.model[index].period.from = undefined;
+            this.model[index].period.tom = undefined;
+            if (this.model[index].niva !== 100) {
+              this.model[index].niva = undefined;
+            }
+          }
+        };
 
-            this.updatePeriods = function() {
+        this.updatePeriods = function() {
 
-                var minDate, maxDate;
+          var minDate, maxDate;
 
-                angular.forEach(this.model, function(value) {
+          angular.forEach(this.model, function(value) {
 
-                    // Om det står något i något av fälten kryssa i checkboxen
-                    if (value.period.from || value.period.tom || value.niva) {
-                        value.checked = true;
-                    }
+            // Om det står något i något av fälten kryssa i checkboxen
+            if (value.period.from || value.period.tom || value.niva) {
+              value.checked = true;
+            }
 
-                    var fromMoment = DateUtilsService.convertDateStrict(value.period.from);
-                    var toMoment = DateUtilsService.convertDateStrict(value.period.tom);
+            var fromMoment = DateUtilsService.convertDateStrict(value.period.from);
+            var toMoment = DateUtilsService.convertDateStrict(value.period.tom);
 
-                    // Get min and max dates
-                    if (fromMoment && (!minDate || fromMoment.isBefore(minDate))) {
-                        minDate = fromMoment;
-                    }
-                    if (toMoment && (!maxDate || toMoment.isAfter(maxDate))) {
-                        maxDate = toMoment;
-                    }
+            // Get min and max dates
+            if (fromMoment && (!minDate || fromMoment.isBefore(minDate))) {
+              minDate = fromMoment;
+            }
+            if (toMoment && (!maxDate || toMoment.isAfter(maxDate))) {
+              maxDate = toMoment;
+            }
 
-                    // Checkboxen för den valda sjukskrivningsgraden ska fortfarande vara ifylld och endast försvinna
-                    // om man klickar ur den, eller tömmer både 'från och med' och 'till och med' datumen.
-                    if (!value.period.from && !value.period.tom) {
-                        value.checked = false;
-                    }
-                }, this);
+            // Checkboxen för den valda sjukskrivningsgraden ska fortfarande vara ifylld och endast försvinna
+            // om man klickar ur den, eller tömmer både 'från och med' och 'till och med' datumen.
+            if (!value.period.from && !value.period.tom) {
+              value.checked = false;
+            }
+          }, this);
 
-                this.totalDays = undefined;
-                if (minDate && maxDate) {
-                    this.totalDays = maxDate.diff(minDate, 'days') + 1;
-                    if (this.totalDays <= 0) {
-                        this.totalDays = undefined;
-                    }
-                }
+          this.totalDays = undefined;
+          if (minDate && maxDate) {
+            this.totalDays = maxDate.diff(minDate, 'days') + 1;
+            if (this.totalDays <= 0) {
+              this.totalDays = undefined;
+            }
+          }
 
-            };
+        };
 
-            this.addRow = function () {
+        this.addRow = function() {
 
-                if (this.model.length >= this.maxRows) {
-                    return;
-                }
+          if (this.model.length >= this.maxRows) {
+            return;
+          }
 
-                this.model.push({
-                    checked: false,
-                    niva: '',
-                    period: {
-                        from: '',
-                        tom: ''
-                    }});
-                this.dirtyCallback();
-            };
+          this.model.push({
+            checked: false,
+            niva: '',
+            period: {
+              from: '',
+              tom: ''
+            }
+          });
+          this.dirtyCallback();
+        };
 
-            this.deleteRow = function (index) {
+        this.deleteRow = function(index) {
 
-                if (index > 1) {
-                    this.model.splice(index, 1);
-                }
+          if (index > 1) {
+            this.model.splice(index, 1);
+          }
 
-                this.dirtyCallback();
-            };
-        }
+          this.dirtyCallback();
+        };
+      }
     ]);

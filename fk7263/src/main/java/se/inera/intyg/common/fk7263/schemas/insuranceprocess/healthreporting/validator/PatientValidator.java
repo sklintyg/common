@@ -21,16 +21,14 @@ package se.inera.intyg.common.fk7263.schemas.insuranceprocess.healthreporting.va
 import static java.util.Arrays.asList;
 
 import com.google.common.base.Joiner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import se.inera.intyg.common.support.Constants;
-import se.inera.intyg.common.util.logging.LogMarkers;
-import se.inera.ifv.insuranceprocess.healthreporting.v2.PatientType;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.PatientType;
+import se.inera.intyg.common.support.Constants;
+import se.inera.intyg.common.util.logging.LogMarkers;
 
 public final class PatientValidator {
 
@@ -45,8 +43,9 @@ public final class PatientValidator {
     }
 
     /**
-     *  Validate and correct patient information.
-     *  @return true if valid enough to continue
+     * Validate and correct patient information.
+     *
+     * @return true if valid enough to continue
      */
     public static List<String> validateAndCorrect(PatientType patient) {
         List<String> validationErrors = new ArrayList<String>();

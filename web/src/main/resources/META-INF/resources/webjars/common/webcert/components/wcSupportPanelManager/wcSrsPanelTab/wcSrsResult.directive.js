@@ -40,47 +40,47 @@
  * Display SRS questionnaire
  */
 angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelper', 'common.srsProxy', 'common.srsLinkCreator',
-    function($window, ObjectHelper, srsProxy, srsLinkCreator) {
-        'use strict';
+  function($window, ObjectHelper, srsProxy, srsLinkCreator) {
+    'use strict';
 
-        return {
-            restrict: 'E',
-            link: function (scope, element, attrs) {
-                scope.externalRisk = {
-                    templateUrl: '/web/webjars/common/webcert/utkast/srs/wcSrsResult.risk-popover.html'
-                };
-
-                scope.logAtgarderLasMerButtonClicked = function() {
-                    srsProxy.logSrsMeasuresLinkClicked(scope.srs.userClientContext, scope.srs.intygId,
-                        scope.srs.vardgivareHsaId, scope.srs.hsaId);
-                };
-
-                scope.logStatistikLasMerButtonClicked = function() {
-                    srsProxy.logSrsStatisticsLinkClicked(scope.srs.userClientContext, scope.srs.intygId,
-                        scope.srs.vardgivareHsaId, scope.srs.hsaId);
-                };
-
-                scope.setActiveTab = function(tabname) {
-                    if (tabname === 'statistics') {
-                        srsProxy.logSrsStatisticsActivated(scope.srs.userClientContext, scope.srs.intygId,
-                            scope.srs.vardgivareHsaId, scope.srs.hsaId);
-                    }
-                    scope.srs.activeTab = tabname;
-                };
-
-                scope.readMoreRisk = function(){
-                    $window.open(srsLinkCreator.createPrediktionsModellLink, '_blank');
-                };
-
-                scope.redirectToAtgardExternalSite = function(){
-                    window.open(srsLinkCreator.createAtgardsrekommendationLink(scope.srs.diagnosKod));
-                };
-
-                scope.redirectToStatistikExternalSite = function(){
-                    window.open(srsLinkCreator.createStatistikLink(scope.srs.diagnosKod));
-                };
-
-            },
-            templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSrsPanelTab/wcSrsResult.directive.html'
+    return {
+      restrict: 'E',
+      link: function(scope, element, attrs) {
+        scope.externalRisk = {
+          templateUrl: '/web/webjars/common/webcert/utkast/srs/wcSrsResult.risk-popover.html'
         };
-    }]);
+
+        scope.logAtgarderLasMerButtonClicked = function() {
+          srsProxy.logSrsMeasuresLinkClicked(scope.srs.userClientContext, scope.srs.intygId,
+              scope.srs.vardgivareHsaId, scope.srs.hsaId);
+        };
+
+        scope.logStatistikLasMerButtonClicked = function() {
+          srsProxy.logSrsStatisticsLinkClicked(scope.srs.userClientContext, scope.srs.intygId,
+              scope.srs.vardgivareHsaId, scope.srs.hsaId);
+        };
+
+        scope.setActiveTab = function(tabname) {
+          if (tabname === 'statistics') {
+            srsProxy.logSrsStatisticsActivated(scope.srs.userClientContext, scope.srs.intygId,
+                scope.srs.vardgivareHsaId, scope.srs.hsaId);
+          }
+          scope.srs.activeTab = tabname;
+        };
+
+        scope.readMoreRisk = function() {
+          $window.open(srsLinkCreator.createPrediktionsModellLink, '_blank');
+        };
+
+        scope.redirectToAtgardExternalSite = function() {
+          window.open(srsLinkCreator.createAtgardsrekommendationLink(scope.srs.diagnosKod));
+        };
+
+        scope.redirectToStatistikExternalSite = function() {
+          window.open(srsLinkCreator.createStatistikLink(scope.srs.diagnosKod));
+        };
+
+      },
+      templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSrsPanelTab/wcSrsResult.directive.html'
+    };
+  }]);

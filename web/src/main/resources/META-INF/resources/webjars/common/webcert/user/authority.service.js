@@ -17,113 +17,113 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.authorityService',
-    [ 'common.UserModel', 'common.featureService' , function(userModel, featureService) {
-        'use strict';
+    ['common.UserModel', 'common.featureService', function(userModel, featureService) {
+      'use strict';
 
-        function _isAuthorityActive(options) {
-            var feature = options.feature;
-            var role = options.role;
-            var authority = options.authority;
-            var requestOrigin = options.requestOrigin;
-            var intygstyp = options.intygstyp;
+      function _isAuthorityActive(options) {
+        var feature = options.feature;
+        var role = options.role;
+        var authority = options.authority;
+        var requestOrigin = options.requestOrigin;
+        var intygstyp = options.intygstyp;
 
-            return  check(feature, featureCheck, intygstyp) &&
-                    check(role, roleCheck) &&
-                    check(authority, privilegeCheck, intygstyp) &&
-                    check(requestOrigin, requestOriginCheck);
+        return check(feature, featureCheck, intygstyp) &&
+            check(role, roleCheck) &&
+            check(authority, privilegeCheck, intygstyp) &&
+            check(requestOrigin, requestOriginCheck);
+      }
+
+      function checkEach(toCheck, fn, intygstyp) {
+        var result = true;
+        var array = toCheck.split(',');
+        for (var i = 0; i < array.length; i++) {
+          result = fn(array[i].trim(), intygstyp);
+          if (!result) {
+            // as soon as we get a false result return it
+            return false;
+          }
         }
 
-        function checkEach(toCheck, fn, intygstyp) {
-            var result = true;
-            var array = toCheck.split(',');
-            for(var i = 0; i < array.length; i++){
-                result = fn(array[i].trim(), intygstyp);
-                if(!result){
-                    // as soon as we get a false result return it
-                    return false;
-                }
-            }
+        return true;
+      }
 
-            return true;
+      function check(toCheck, fn, intygstyp) {
+        var res = true;
+        if (toCheck !== undefined && toCheck.length > 0) {
+          if (toCheck.indexOf(',') > 0) {
+            res = checkEach(toCheck, fn, intygstyp);
+          } else {
+            res = fn(toCheck, intygstyp);
+          }
         }
 
-        function check(toCheck, fn, intygstyp){
-            var res = true;
-            if(toCheck !== undefined && toCheck.length > 0) {
-                if(toCheck.indexOf(',') > 0){
-                    res = checkEach(toCheck, fn, intygstyp);
-                } else {
-                    res = fn(toCheck, intygstyp);
-                }
-            }
+        return res;
+      }
 
-            return res;
+      function roleCheck(role) {
+        if (role !== undefined && role.length > 0) {
+          if (role.indexOf('!') === 0) {
+            // we have a not
+            role = role.slice(1);
+            return !userModel.hasRole(role);
+          } else {
+            return userModel.hasRole(role);
+          }
         }
 
-        function roleCheck(role){
-            if (role !== undefined && role.length > 0) {
-                if (role.indexOf('!') === 0) {
-                    // we have a not
-                    role = role.slice(1);
-                    return !userModel.hasRole(role);
-                } else {
-                    return userModel.hasRole(role);
-                }
-            }
+        return true;
+      }
 
-            return true;
+      function privilegeCheck(privilege, intygstyp) {
+        if (privilege !== undefined && privilege.length > 0) {
+          if (privilege.indexOf('!') === 0) {
+            // we have a not
+            privilege = privilege.slice(1);
+            return !userModel.hasPrivilege(privilege, intygstyp);
+          } else {
+            return userModel.hasPrivilege(privilege, intygstyp);
+          }
         }
 
-        function privilegeCheck(privilege, intygstyp) {
-            if (privilege !== undefined && privilege.length > 0) {
-                if (privilege.indexOf('!') === 0) {
-                    // we have a not
-                    privilege = privilege.slice(1);
-                    return !userModel.hasPrivilege(privilege, intygstyp);
-                } else {
-                    return userModel.hasPrivilege(privilege, intygstyp);
-                }
-            }
+        return true;
+      }
 
-            return true;
+      function featureCheck(feature, intygstyp) {
+        if (feature !== undefined && feature.length > 0) {
+          if (feature.indexOf('!') === 0) {
+            // we have a not
+            feature = feature.slice(1);
+            return !featureService.isFeatureActive(feature, intygstyp);
+          } else {
+            return featureService.isFeatureActive(feature, intygstyp);
+          }
         }
 
-        function featureCheck(feature, intygstyp){
-            if (feature !== undefined && feature.length > 0) {
-                if (feature.indexOf('!') === 0) {
-                    // we have a not
-                    feature = feature.slice(1);
-                    return !featureService.isFeatureActive(feature, intygstyp);
-                } else {
-                    return featureService.isFeatureActive(feature, intygstyp);
-                }
-            }
+        return true;
+      }
 
-            return true;
+      /**
+       * Check the current user's origin.
+       *
+       * 1. Om requestOrigin finns måste användaren ha den
+       *
+       * @param requestOrigin
+       */
+      function requestOriginCheck(requestOrigin) {
+        if (requestOrigin !== undefined && requestOrigin.length > 0) {
+          if (requestOrigin.indexOf('!') === 0) {
+            // we have a not
+            requestOrigin = requestOrigin.slice(1);
+            return !userModel.hasRequestOrigin(requestOrigin);
+          } else {
+            return userModel.hasRequestOrigin(requestOrigin);
+          }
         }
 
-        /**
-         * Check the current user's origin.
-         *
-         * 1. Om requestOrigin finns måste användaren ha den
-         *
-         * @param requestOrigin
-         */
-        function requestOriginCheck(requestOrigin) {
-            if (requestOrigin !== undefined && requestOrigin.length > 0) {
-                if (requestOrigin.indexOf('!') === 0) {
-                    // we have a not
-                    requestOrigin = requestOrigin.slice(1);
-                    return !userModel.hasRequestOrigin(requestOrigin);
-                } else {
-                    return userModel.hasRequestOrigin(requestOrigin);
-                }
-            }
+        return true;
+      }
 
-            return true;
-        }
-
-        return {
-            isAuthorityActive: _isAuthorityActive
-        };
+      return {
+        isAuthorityActive: _isAuthorityActive
+      };
     }]);

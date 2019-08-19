@@ -17,24 +17,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').service('common.ArendeHelper',
-    ['$log', '$timeout', '$window', 'common.statService', 'common.ArendeListItemModel', 'common.ArendeListViewStateService', 'common.UserModel',
-        function ($log, $timeout, $window, statService, ArendeListItemModel, ArendeListViewState, UserModel) {
-            'use strict';
+    ['$log', '$timeout', '$window', 'common.statService', 'common.ArendeListItemModel', 'common.ArendeListViewStateService',
+      'common.UserModel',
+      function($log, $timeout, $window, statService, ArendeListItemModel, ArendeListViewState, UserModel) {
+        'use strict';
 
-            this.getUnhandledArenden = function(arendeList) {
-                if(!arendeList || arendeList.length === 0){
-                    return false;
-                }
-                var arendeListfiltered = [];
-                for (var i = 0, len = arendeList.length; i < len; i++) {
-                    var arendeListItem = arendeList[i];
-                    var isUnhandled = arendeListItem.isUnhandled();
-                    var fromFk = arendeListItem.fromFk();
-                    if (arendeListItem.arende.fraga.status === 'ANSWERED' || (isUnhandled && fromFk) ){
-                        arendeListfiltered.push(arendeListItem);
-                    }
-                }
-                return arendeListfiltered;
-            };
+        this.getUnhandledArenden = function(arendeList) {
+          if (!arendeList || arendeList.length === 0) {
+            return false;
+          }
+          var arendeListfiltered = [];
+          for (var i = 0, len = arendeList.length; i < len; i++) {
+            var arendeListItem = arendeList[i];
+            var isUnhandled = arendeListItem.isUnhandled();
+            var fromFk = arendeListItem.fromFk();
+            if (arendeListItem.arende.fraga.status === 'ANSWERED' || (isUnhandled && fromFk)) {
+              arendeListfiltered.push(arendeListItem);
+            }
+          }
+          return arendeListfiltered;
+        };
 
-        }]);
+      }]);

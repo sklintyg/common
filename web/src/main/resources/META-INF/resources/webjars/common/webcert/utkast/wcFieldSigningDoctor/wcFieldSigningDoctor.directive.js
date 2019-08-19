@@ -21,16 +21,17 @@
  * Broadcast a intyg.loaded event on rootscope when the intyg is loaded to update the message.
  */
 angular.module('common').directive('wcFieldSigningDoctor',
-    [ 'common.UserModel',
-        function(UserModel) {
-            'use strict';
+    ['common.UserModel',
+      function(UserModel) {
+        'use strict';
 
-            return {
-                restrict: 'A',
-                controller: function($scope) {
-                    $scope.show = UserModel.isDjupintegration() && UserModel.isVardAdministrator();
-                    $scope.hospName = UserModel.getIntegrationParam('responsibleHospName') ? UserModel.getIntegrationParam('responsibleHospName') : 'Ej angivet';
-                },
-                templateUrl: '/web/webjars/common/webcert/utkast/wcFieldSigningDoctor/wcFieldSigningDoctor.directive.html'
-            };
-        }]);
+        return {
+          restrict: 'A',
+          controller: function($scope) {
+            $scope.show = UserModel.isDjupintegration() && UserModel.isVardAdministrator();
+            $scope.hospName =
+                UserModel.getIntegrationParam('responsibleHospName') ? UserModel.getIntegrationParam('responsibleHospName') : 'Ej angivet';
+          },
+          templateUrl: '/web/webjars/common/webcert/utkast/wcFieldSigningDoctor/wcFieldSigningDoctor.directive.html'
+        };
+      }]);

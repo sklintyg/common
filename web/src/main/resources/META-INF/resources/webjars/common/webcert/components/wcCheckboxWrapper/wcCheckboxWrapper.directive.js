@@ -18,12 +18,12 @@
  */
 angular.module('common').directive('wcCheckboxWrapper',
     [
-        function() {
-            'use strict';
+      function() {
+        'use strict';
 
-            return {
-                restrict: 'E',
-                transclude: true,
-                templateUrl: '/web/webjars/common/webcert/components/wcCheckboxWrapper/wcCheckboxWrapper.directive.html'
-            };
-        }]);
+        return {
+          restrict: 'E',
+          transclude: true,
+          templateUrl: '/web/webjars/common/webcert/components/wcCheckboxWrapper/wcCheckboxWrapper.directive.html'
+        };
+      }]);

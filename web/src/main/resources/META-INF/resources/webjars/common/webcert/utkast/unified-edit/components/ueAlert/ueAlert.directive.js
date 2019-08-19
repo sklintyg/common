@@ -18,14 +18,14 @@
  */
 
 angular.module('common').directive('ueAlert', function() {
-    'use strict';
+  'use strict';
 
-    return {
-        restrict: 'E',
-        scope: {
-            config: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueAlert/ueAlert.directive.html'
-    };
+  return {
+    restrict: 'E',
+    scope: {
+      config: '='
+    },
+    templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueAlert/ueAlert.directive.html'
+  };
 
 });

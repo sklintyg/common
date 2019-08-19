@@ -21,7 +21,6 @@ package se.inera.intyg.common.support.modules.support.api.dto;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.springframework.util.Assert;
 
 /**
@@ -40,8 +39,8 @@ public class ValidateDraftResponse {
     }
 
     public ValidateDraftResponse(ValidationStatus status,
-                                 List<ValidationMessage> validationErrors,
-                                 List<ValidationMessage> validationWarnings) {
+        List<ValidationMessage> validationErrors,
+        List<ValidationMessage> validationWarnings) {
         Assert.notNull(status, "'status' must not be null");
         Assert.notNull(validationErrors, "'validationErrors' must not be null");
         Assert.notNull(validationWarnings, "'validationWarnings' must not be null");

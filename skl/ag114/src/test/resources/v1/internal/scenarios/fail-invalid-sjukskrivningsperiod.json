@@ -35,20 +35,22 @@
     },
     "signeringsdatum": "2015-12-07T15:48:05.000"
   },
-  "undersokningAvPatienten" : "2015-12-09",
-  "sysselsattning": [{
-    "typ": "NUVARANDE_ARBETE"
-  }],
+  "undersokningAvPatienten": "2015-12-09",
+  "sysselsattning": [
+    {
+      "typ": "NUVARANDE_ARBETE"
+    }
+  ],
   "nuvarandeArbete": "Inget",
   "onskarFormedlaDiagnos": true,
   "nedsattArbetsformaga": "Kan jobba halvtid.",
   "arbetsformagaTrotsSjukdom": true,
   "arbetsformagaTrotsSjukdomBeskrivning": "Beskrivning av förmåga",
   "sjukskrivningsgrad": "70",
-    "sjukskrivningsperiod": {
-      "from": "2018-11-10",
-      "tom": "2018-11-06"
-    },
+  "sjukskrivningsperiod": {
+    "from": "2018-11-10",
+    "tom": "2018-11-06"
+  },
   "ovrigaUpplysningar": "text",
   "diagnoser": [
     {

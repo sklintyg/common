@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('db', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common' ]);
+angular.module('db', ['ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common']);
 
 // Inject language resources
 angular.module('db').run(['common.messageService', 'db.messages',
-    function(messageService, dbMessages) {
-        'use strict';
+  function(messageService, dbMessages) {
+    'use strict';
 
-        messageService.addResources(dbMessages);
-    }]);
+    messageService.addResources(dbMessages);
+  }]);

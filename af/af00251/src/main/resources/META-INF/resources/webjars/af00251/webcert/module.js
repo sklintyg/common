@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('af00251', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common' ]);
+angular.module('af00251', ['ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common']);
 
 // Inject language resources
 angular.module('af00251').run(['common.messageService', 'af00251.messages',
-    function(messageService, af00251Messages) {
-        'use strict';
+  function(messageService, af00251Messages) {
+    'use strict';
 
-        messageService.addResources(af00251Messages);
-    }]);
+    messageService.addResources(af00251Messages);
+  }]);

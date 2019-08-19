@@ -20,7 +20,6 @@ package se.inera.intyg.common.tstrk1062.v1.model.converter;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public class SvarsWrapper {

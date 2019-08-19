@@ -1,74 +1,69 @@
 <div id="srs-result">
 
-    <div class="srs-panel-body-content" ng-if="!srs.isReadOnly">
-        <ul id="tab{{id}}" class="nav nav-tabs nav-justified">
-            <li class="rounded active"><a data-toggle="tab" ng-click="setActiveTab('atgarder')" href="#atgarder{{id}}">Råd och åtgärder</a></li>
-            <li class="rounded" ng-if="srs.isForlangning"><a data-toggle="tab" ng-click="setActiveTab('prediction')" href="#prediction{{id}}">Tidigare riskbedömning</a></li>
-            <li class="rounded"><a data-toggle="tab" ng-click="setActiveTab('statistics')" href="#statstics{{id}}">Statistik</a></li>
-        </ul>
+  <div class="srs-panel-body-content" ng-if="!srs.isReadOnly">
+    <ul id="tab{{id}}" class="nav nav-tabs nav-justified">
+      <li class="rounded active"><a data-toggle="tab" ng-click="setActiveTab('atgarder')" href="#atgarder{{id}}">Råd och
+        åtgärder</a></li>
+      <li class="rounded" ng-if="srs.isForlangning"><a data-toggle="tab" ng-click="setActiveTab('prediction')"
+                                                       href="#prediction{{id}}">Tidigare riskbedömning</a></li>
+      <li class="rounded"><a data-toggle="tab" ng-click="setActiveTab('statistics')"
+                             href="#statstics{{id}}">Statistik</a></li>
+    </ul>
+  </div>
+  <div class="tab-content">
+    <div id="atgarder{{id}}" class="tab-pane fade in active">
+      <div class="srs-panel-body-content">
+        <div ng-if="srs.atgarderInfo">
+          <wc-srs-info-box message-string="srs.atgarderInfo"></wc-srs-info-box>
+        </div>
+        <div ng-if="srs.atgarderError">
+          <wc-srs-error-box message-string="srs.atgarderError"></wc-srs-error-box>
+        </div>
+        <!-- ÅTGÄRDER - Förlängning -->
+        <wc-srs-recommendation-list ng-if="srs.isForlangning" title="Tänk på att vid förlängning"
+                                    recommendations="srs.atgarder.atgarderExt" srs-scope="srs" />
+        <!-- ÅTGÄRDER - Tänk på att -->
+        <wc-srs-recommendation-list title="{{srs.isReadOnly?'Som läkare, tänk på att':'Tänk på att'}}"
+                                    recommendations="srs.atgarder.atgarderObs" srs-scope="srs" />
+        <!-- ÅTGÄRDER - Åtgärdsrekommendationer -->
+        <wc-srs-recommendation-list title="Åtgärdsrekommendationer" more-title="Se fler åtgärder"
+                                    less-title="Se färre åtgärder" srs-scope="srs"
+                                    recommendations="srs.atgarder.atgarderRek" srs-scope="srs" />
+        <!-- NER INFO -->
+        <div class="srs-more-information-section">
+          <h3>Mer information</h3>
+          <a ng-click="redirectToAtgardExternalSite(); logAtgarderLasMerButtonClicked();">Information om
+            {{srs.atgarder.atgarderDiagnosisDescription}} hos Rätt Sjukskrivning</a>
+        </div>
+      </div>
     </div>
-    <div class="tab-content">
-        <div id="atgarder{{id}}" class="tab-pane fade in active">
-            <div class="srs-panel-body-content">
-                <div ng-if="srs.atgarderInfo">
-                    <wc-srs-info-box message-string="srs.atgarderInfo"></wc-srs-info-box>
-                </div>
-                <div ng-if="srs.atgarderError">
-                    <wc-srs-error-box message-string="srs.atgarderError"></wc-srs-error-box>
-                </div>
-    <!-- ÅTGÄRDER - Förlängning -->
-                <wc-srs-recommendation-list
-                        ng-if="srs.isForlangning"
-                        title="Tänk på att vid förlängning"
-                        recommendations="srs.atgarder.atgarderExt"
-                        srs-scope="srs"/>
-    <!-- ÅTGÄRDER - Tänk på att -->
-                <wc-srs-recommendation-list
-                        title="{{srs.isReadOnly?'Som läkare, tänk på att':'Tänk på att'}}"
-                        recommendations="srs.atgarder.atgarderObs"
-                        srs-scope="srs"
-                />
-    <!-- ÅTGÄRDER - Åtgärdsrekommendationer -->
-                <wc-srs-recommendation-list
-                        title="Åtgärdsrekommendationer"
-                        more-title="Se fler åtgärder"
-                        less-title="Se färre åtgärder"
-                        srs-scope="srs"
-                        recommendations="srs.atgarder.atgarderRek"
-                        srs-scope="srs"/>
-    <!-- NER INFO -->
-                <div class="srs-more-information-section">
-                    <h3>Mer information</h3>
-                    <a ng-click="redirectToAtgardExternalSite(); logAtgarderLasMerButtonClicked();">Information om {{srs.atgarder.atgarderDiagnosisDescription}} hos Rätt Sjukskrivning</a>
-                </div>
-            </div>
-        </div>
 
-<!-- TIDIGARE RISKBEDÖMNING -->
+    <!-- TIDIGARE RISKBEDÖMNING -->
 
-        <div ng-if="srs.isForlangning" id="prediction{{id}}" class="tab-pane fade">
-            <wc-srs-prediction ng-if="srs.isForlangning"/>
-        </div>
-
-<!-- STATISTIK -->
-
-
-        <div ng-if="!srs.isReadOnly" id="statstics{{id}}" class="tab-pane fade">
-            <div class="srs-panel-body-content">
-                <div ng-if="srs.statistikInfo">
-                    <wc-srs-info-box message-string="srs.statistikInfo"></wc-srs-info-box>
-                </div>
-                <div ng-if="srs.statistikError">
-                    <wc-srs-error-box message-string="srs.statistikError"></wc-srs-error-box>
-                </div>
-                <wc-srs-nationell-statistik-diagram />
-
-                <div class="srs-more-information-section">
-                    <h3>Mer information</h3>
-                    <a ng-click="redirectToStatistikExternalSite(); logStatistikLasMerButtonClicked();">Information om {{srs.diagnosBeskrivning}} hos Rätt Sjukskrivning</a>
-                </div>
-            </div>
-        </div>
-
+    <div ng-if="srs.isForlangning" id="prediction{{id}}" class="tab-pane fade">
+      <wc-srs-prediction ng-if="srs.isForlangning" />
     </div>
+
+    <!-- STATISTIK -->
+
+
+    <div ng-if="!srs.isReadOnly" id="statstics{{id}}" class="tab-pane fade">
+      <div class="srs-panel-body-content">
+        <div ng-if="srs.statistikInfo">
+          <wc-srs-info-box message-string="srs.statistikInfo"></wc-srs-info-box>
+        </div>
+        <div ng-if="srs.statistikError">
+          <wc-srs-error-box message-string="srs.statistikError"></wc-srs-error-box>
+        </div>
+        <wc-srs-nationell-statistik-diagram />
+
+        <div class="srs-more-information-section">
+          <h3>Mer information</h3>
+          <a ng-click="redirectToStatistikExternalSite(); logStatistikLasMerButtonClicked();">Information om
+            {{srs.diagnosBeskrivning}} hos Rätt Sjukskrivning</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>

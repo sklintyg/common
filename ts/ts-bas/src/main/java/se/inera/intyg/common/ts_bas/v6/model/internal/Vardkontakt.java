@@ -21,7 +21,6 @@ package se.inera.intyg.common.ts_bas.v6.model.internal;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.auto.value.AutoValue;
-
 import javax.annotation.Nullable;
 
 @AutoValue
@@ -29,7 +28,7 @@ public abstract class Vardkontakt {
 
     @JsonCreator
     public static Vardkontakt create(@JsonProperty("typ") String typ,
-                                     @JsonProperty("idkontroll") String idkontroll) {
+        @JsonProperty("idkontroll") String idkontroll) {
         return new AutoValue_Vardkontakt(typ, idkontroll);
     }
 

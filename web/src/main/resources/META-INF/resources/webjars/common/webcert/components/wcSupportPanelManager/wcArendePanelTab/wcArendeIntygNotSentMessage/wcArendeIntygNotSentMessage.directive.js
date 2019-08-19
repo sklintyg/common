@@ -19,16 +19,15 @@
 
 angular.module('common').directive('wcArendeIntygNotSentMessage',
     [
-        function() {
-            'use strict';
+      function() {
+        'use strict';
 
-            return {
-                restrict: 'E',
-                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/wcArendeIntygNotSentMessage/wcArendeIntygNotSentMessage.directive.html',
-                scope: {
-                },
-                link: function($scope, $element, $attrs) {
-                    $element.attr('id', 'intyg-is-not-sent-to-fk-message-text');
-                }
-            };
-        }]);
+        return {
+          restrict: 'E',
+          templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/wcArendeIntygNotSentMessage/wcArendeIntygNotSentMessage.directive.html',
+          scope: {},
+          link: function($scope, $element, $attrs) {
+            $element.attr('id', 'intyg-is-not-sent-to-fk-message-text');
+          }
+        };
+      }]);

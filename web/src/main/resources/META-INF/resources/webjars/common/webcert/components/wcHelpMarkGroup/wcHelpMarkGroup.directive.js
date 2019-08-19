@@ -21,63 +21,63 @@
  */
 angular.module('common').directive('wcHelpMarkGroup',
     ['$log', 'common.messageService', 'common.dynamicLabelService', 'common.ObjectHelper',
-        function($log, messageService, dynamicLabelService, ObjectHelper) {
-            'use strict';
+      function($log, messageService, dynamicLabelService, ObjectHelper) {
+        'use strict';
 
-            return {
-                restrict: 'A',
-                transclude: true,
-                scope: {
-                    fieldDynamicLabelGroup: '=',
-                    fieldTooltipPlacement: '@'
-                },
-                controller: function($scope) {
-                    $scope.text = '';
-                    $scope.showHelp = false;
-                    var labelTexts = '';
+        return {
+          restrict: 'A',
+          transclude: true,
+          scope: {
+            fieldDynamicLabelGroup: '=',
+            fieldTooltipPlacement: '@'
+          },
+          controller: function($scope) {
+            $scope.text = '';
+            $scope.showHelp = false;
+            var labelTexts = '';
 
-                    if ($scope.fieldTooltipPlacement === undefined) {
-                        $scope.placement = 'bottom';
-                    } else {
-                        $scope.placement = $scope.fieldTooltipPlacement;
-                    }
+            if ($scope.fieldTooltipPlacement === undefined) {
+              $scope.placement = 'bottom';
+            } else {
+              $scope.placement = $scope.fieldTooltipPlacement;
+            }
 
-                    function getLabelText(id) {
-                        var imported = dynamicLabelService.getProperty(id);
+            function getLabelText(id) {
+              var imported = dynamicLabelService.getProperty(id);
 
-                        // if we any empty string or only extension, dont render the ? icon in GUI.
-                        if (!imported || imported.split('.')[0] === '') {
-                            $scope.showHelp = false;
-                        } else {
-                            $scope.showHelp = true;
-                            labelTexts += '<h5>'+ id +'</h5>';
-                            labelTexts += '<p>'+ imported +'</p>';
-                        }
-                    }
+              // if we any empty string or only extension, dont render the ? icon in GUI.
+              if (!imported || imported.split('.')[0] === '') {
+                $scope.showHelp = false;
+              } else {
+                $scope.showHelp = true;
+                labelTexts += '<h5>' + id + '</h5>';
+                labelTexts += '<p>' + imported + '</p>';
+              }
+            }
 
-                    function updateLabels() {
-                        if ($scope.fieldDynamicLabelGroup.length > 0 && $scope.fieldDynamicLabelGroup[0] !== '') {
+            function updateLabels() {
+              if ($scope.fieldDynamicLabelGroup.length > 0 && $scope.fieldDynamicLabelGroup[0] !== '') {
 
-                            for (var i = 0; i < $scope.fieldDynamicLabelGroup.length; i++) {
-                                    getLabelText($scope.fieldDynamicLabelGroup[i]);
-                            }
-                            $scope.text = labelTexts;
-                            labelTexts = '';
-                        }
-                    }
+                for (var i = 0; i < $scope.fieldDynamicLabelGroup.length; i++) {
+                  getLabelText($scope.fieldDynamicLabelGroup[i]);
+                }
+                $scope.text = labelTexts;
+                labelTexts = '';
+              }
+            }
 
-                    // Either texts have already loaded and the function below will do the job
-                    // or
-                    // texts failed to update first but they are updated on the dynamicLabels.updated event sent when utkast AND texts have been loaded.
+            // Either texts have already loaded and the function below will do the job
+            // or
+            // texts failed to update first but they are updated on the dynamicLabels.updated event sent when utkast AND texts have been loaded.
 
-                    $scope.$on('dynamicLabels.updated', function() {
-                        updateLabels();
-                    });
-                    updateLabels();
-                },
-                templateUrl: '/web/webjars/common/webcert/components/wcHelpMarkGroup/wcHelpMarkGroup.directive.html'
+            $scope.$on('dynamicLabels.updated', function() {
+              updateLabels();
+            });
+            updateLabels();
+          },
+          templateUrl: '/web/webjars/common/webcert/components/wcHelpMarkGroup/wcHelpMarkGroup.directive.html'
 
-            };
-        }]);
+        };
+      }]);
 
 

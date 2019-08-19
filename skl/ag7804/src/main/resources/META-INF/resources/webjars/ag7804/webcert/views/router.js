@@ -17,80 +17,77 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('ag7804').config(function($stateProvider) {
-    'use strict';
+  'use strict';
 
-    var commonPath = '/web/webjars/common/webcert/';
+  var commonPath = '/web/webjars/common/webcert/';
 
-    var editViewState = function(factoryResolverHelper, $stateParams) {
-        return factoryResolverHelper.resolve('ag7804.EditCertCtrl.ViewStateService', $stateParams);
-    };
+  var editViewState = function(factoryResolverHelper, $stateParams) {
+    return factoryResolverHelper.resolve('ag7804.EditCertCtrl.ViewStateService', $stateParams);
+  };
 
-    var utkastConfig = function(factoryResolverHelper, $stateParams) {
-        return factoryResolverHelper.resolve('ag7804.UtkastConfigFactory', $stateParams);
-    };
+  var utkastConfig = function(factoryResolverHelper, $stateParams) {
+    return factoryResolverHelper.resolve('ag7804.UtkastConfigFactory', $stateParams);
+  };
 
+  var viewConfig = function(factoryResolverHelper, $stateParams) {
+    return factoryResolverHelper.resolve('ag7804.viewConfigFactory', $stateParams);
+  };
+  $stateProvider.state('ag7804', {
+    url: '/ag7804'
+  }).state('ag7804.utkast', {
+    data: {defaultActive: 'index', intygType: 'ag7804', useFmb: false},
+    url: '/:intygTypeVersion/edit/:certificateId/:focusOn',
+    params: {
+      focusOn: ''
+    },
+    resolve: {
+      ViewState: editViewState,
+      UtkastConfigFactory: utkastConfig,
+      supportPanelConfigFactory: 'ag7804.supportPanelConfigFactory'
+    },
+    views: {
+      'content@': {
+        templateUrl: commonPath + 'utkast/smiUtkast.html',
+        controller: 'smi.EditCertCtrl'
+      },
 
-    var viewConfig = function(factoryResolverHelper, $stateParams) {
-        return factoryResolverHelper.resolve('ag7804.viewConfigFactory', $stateParams);
-    };
-    $stateProvider.
-        state('ag7804', {
-            url: '/ag7804'
-        }).
-        state('ag7804.utkast', {
-            data: { defaultActive : 'index', intygType: 'ag7804', useFmb: false },
-            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
-            params: {
-                focusOn: ''
-            },
-            resolve: {
-                ViewState: editViewState,
-                UtkastConfigFactory: utkastConfig,
-                supportPanelConfigFactory: 'ag7804.supportPanelConfigFactory'
-            },
-            views : {
-                'content@' : {
-                    templateUrl: commonPath + 'utkast/smiUtkast.html',
-                    controller: 'smi.EditCertCtrl'
-                },
+      'header@': {
+        templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
+      },
 
-                'header@' : {
-                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
-                },
+      'header@ag7804.utkast': {
+        templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
+        controller: 'common.UtkastHeader'
+      },
 
-                'header@ag7804.utkast' : {
-                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
-                    controller: 'common.UtkastHeader'
-                },
+      'footer@ag7804.utkast': {
+        templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
+        controller: 'common.UtkastFooter'
+      },
 
-                'footer@ag7804.utkast' : {
-                    templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
-                    controller: 'common.UtkastFooter'
-                },
-
-                'utkast@ag7804.utkast' : {
-                    templateUrl: commonPath + 'utkast/smiUtkastUE.html',
-                    controller: 'smi.EditCert.UECtrl'
-                }
-            }
-        }).state('webcert.intyg.ag7804', {
-            data: { defaultActive : 'index', intygType: 'ag7804' },
-            url:'/intyg/ag7804/:intygTypeVersion/:certificateId/:focusOn?:signed',
-            resolve: {
-                ViewState: 'ag7804.IntygController.ViewStateService',
-                ViewConfigFactory: viewConfig,
-                supportPanelConfigFactory: 'ag7804.supportPanelConfigFactory',
-                IntygViewState: 'ag7804.IntygController.ViewStateService'
-            },
-            views: {
-                'intyg@webcert.intyg' : {
-                    templateUrl: commonPath + 'intyg/smiIntygUv.html',
-                    controller: 'smi.ViewCertCtrlUv'
-                },
-                'header@webcert.intyg.ag7804' : {
-                    templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader'
-                }
-            }
-        });
+      'utkast@ag7804.utkast': {
+        templateUrl: commonPath + 'utkast/smiUtkastUE.html',
+        controller: 'smi.EditCert.UECtrl'
+      }
+    }
+  }).state('webcert.intyg.ag7804', {
+    data: {defaultActive: 'index', intygType: 'ag7804'},
+    url: '/intyg/ag7804/:intygTypeVersion/:certificateId/:focusOn?:signed',
+    resolve: {
+      ViewState: 'ag7804.IntygController.ViewStateService',
+      ViewConfigFactory: viewConfig,
+      supportPanelConfigFactory: 'ag7804.supportPanelConfigFactory',
+      IntygViewState: 'ag7804.IntygController.ViewStateService'
+    },
+    views: {
+      'intyg@webcert.intyg': {
+        templateUrl: commonPath + 'intyg/smiIntygUv.html',
+        controller: 'smi.ViewCertCtrlUv'
+      },
+      'header@webcert.intyg.ag7804': {
+        templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
+        controller: 'common.IntygHeader'
+      }
+    }
+  });
 });

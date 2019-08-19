@@ -25,27 +25,28 @@
  */
 angular.module('common').directive('arendeVidarebefordra',
     ['common.authorityService', 'common.UserModel',
-        function(authorityService, UserModel) {
-            'use strict';
+      function(authorityService, UserModel) {
+        'use strict';
 
-            return {
-                restrict: 'E',
-                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/vidarebefordra/arendeVidarebefordra.directive.html',
-                scope: {
-                    panelId: '@',
-                    arendeListItem: '=',
-                    parentViewState: '='
-                },
-                controller: function($scope, $element, $attrs) {
-                    $scope.forwardInProgress = false;
+        return {
+          restrict: 'E',
+          templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/vidarebefordra/arendeVidarebefordra.directive.html',
+          scope: {
+            panelId: '@',
+            arendeListItem: '=',
+            parentViewState: '='
+          },
+          controller: function($scope, $element, $attrs) {
+            $scope.forwardInProgress = false;
 
-                    $scope.showVidarebefordra = function() {
-                        var hasAuthPermission = authorityService.isAuthorityActive({
-                            authority: UserModel.privileges.VIDAREBEFORDRA_FRAGASVAR,
-                            intygstyp: $scope.parentViewState.intygProperties.type });
-                        return hasAuthPermission &&
-                            $scope.parentViewState.intygProperties.isInteractionEnabled;
-                    };
-                }
+            $scope.showVidarebefordra = function() {
+              var hasAuthPermission = authorityService.isAuthorityActive({
+                authority: UserModel.privileges.VIDAREBEFORDRA_FRAGASVAR,
+                intygstyp: $scope.parentViewState.intygProperties.type
+              });
+              return hasAuthPermission &&
+                  $scope.parentViewState.intygProperties.isInteractionEnabled;
             };
-        }]);
+          }
+        };
+      }]);

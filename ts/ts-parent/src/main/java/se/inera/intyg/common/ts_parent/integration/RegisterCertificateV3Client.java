@@ -18,24 +18,23 @@
  */
 package se.inera.intyg.common.ts_parent.integration;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponderService;
-
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.Dispatch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponderService;
 
 public class RegisterCertificateV3Client extends SendTSClient {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RegisterCertificateV3Client.class);
 
     private static final String REGISTER_V3_NAMESPACE =
-            "urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3:RegisterCertificate";
+        "urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3:RegisterCertificate";
 
     private static final QName REGISTER_V3_PORT_NAME =
-            new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificate:3:rivtabp21",
-                    "RegisterCertificateResponderPort");
+        new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificate:3:rivtabp21",
+            "RegisterCertificateResponderPort");
 
     public RegisterCertificateV3Client(String url) {
         super(url);

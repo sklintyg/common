@@ -18,88 +18,88 @@
  */
 
 describe('DatePeriodFieldHelper', function() {
-    'use strict';
+  'use strict';
 
-    var DatePeriodFieldHelper;
+  var DatePeriodFieldHelper;
 
-    beforeEach(angular.mock.module('common'), function($provide){
-    });
+  beforeEach(angular.mock.module('common'), function($provide) {
+  });
 
-    beforeEach(angular.mock.inject(['common.wcDatePeriodFieldHelper',
-        function(_DatePeriodFieldHelper_) {
-            DatePeriodFieldHelper = _DatePeriodFieldHelper_;
-        }
-    ]));
-
-    function buildPeriod(from, tom) {
-        return {
-            from: { moment: moment(from, 'YYYYMMDD') },
-            tom: { moment: moment(tom, 'YYYYMMDD') }
-        };
+  beforeEach(angular.mock.inject(['common.wcDatePeriodFieldHelper',
+    function(_DatePeriodFieldHelper_) {
+      DatePeriodFieldHelper = _DatePeriodFieldHelper_;
     }
+  ]));
 
-    it('can detect nonoverlap', function(){
-        var period1 = buildPeriod('20150410', '20150417');
-        var period2 = buildPeriod('20150401', '20150403');
+  function buildPeriod(from, tom) {
+    return {
+      from: {moment: moment(from, 'YYYYMMDD')},
+      tom: {moment: moment(tom, 'YYYYMMDD')}
+    };
+  }
 
-        var overlap = DatePeriodFieldHelper.hasOverlap(period1, period2);
-        expect(overlap).toBeFalsy();
-    });
+  it('can detect nonoverlap', function() {
+    var period1 = buildPeriod('20150410', '20150417');
+    var period2 = buildPeriod('20150401', '20150403');
 
-    it('can detect overlap (2nd starts inside 1st)', function(){
-        var period1 = buildPeriod('20150410', '20150417');
-        var period2 = buildPeriod('20150415', '20150420');
+    var overlap = DatePeriodFieldHelper.hasOverlap(period1, period2);
+    expect(overlap).toBeFalsy();
+  });
 
-        var overlap = DatePeriodFieldHelper.hasOverlap(period1, period2);
-        expect(overlap).toBeTruthy();
-    });
+  it('can detect overlap (2nd starts inside 1st)', function() {
+    var period1 = buildPeriod('20150410', '20150417');
+    var period2 = buildPeriod('20150415', '20150420');
 
-    it('can detect overlap (2nd ends inside 1st)', function(){
-        var period1 = buildPeriod('20150415', '20150420');
-        var period2 = buildPeriod('20150410', '20150417');
+    var overlap = DatePeriodFieldHelper.hasOverlap(period1, period2);
+    expect(overlap).toBeTruthy();
+  });
 
-        var overlap = DatePeriodFieldHelper.hasOverlap(period1, period2);
-        expect(overlap).toBeTruthy();
-    });
+  it('can detect overlap (2nd ends inside 1st)', function() {
+    var period1 = buildPeriod('20150415', '20150420');
+    var period2 = buildPeriod('20150410', '20150417');
 
-    it('can detect overlap (1st is inside 2nd)', function(){
-        var period1 = buildPeriod('20150410', '20150417');
-        var period2 = buildPeriod('20150408', '20150420');
+    var overlap = DatePeriodFieldHelper.hasOverlap(period1, period2);
+    expect(overlap).toBeTruthy();
+  });
 
-        var overlap = DatePeriodFieldHelper.hasOverlap(period1, period2);
-        expect(overlap).toBeTruthy();
-    });
+  it('can detect overlap (1st is inside 2nd)', function() {
+    var period1 = buildPeriod('20150410', '20150417');
+    var period2 = buildPeriod('20150408', '20150420');
 
-    it('can detect overlap (2nd is inside 1st)', function(){
-        var period1 = buildPeriod('20150408', '20150420');
-        var period2 = buildPeriod('20150410', '20150417');
+    var overlap = DatePeriodFieldHelper.hasOverlap(period1, period2);
+    expect(overlap).toBeTruthy();
+  });
 
-        var overlap = DatePeriodFieldHelper.hasOverlap(period1, period2);
-        expect(overlap).toBeTruthy();
-    });
+  it('can detect overlap (2nd is inside 1st)', function() {
+    var period1 = buildPeriod('20150408', '20150420');
+    var period2 = buildPeriod('20150410', '20150417');
 
-    it('can detect overlap with same date', function(){
-        var period1 = buildPeriod('20150410', '20150417');
-        var period2 = buildPeriod('20150417', '20150420');
+    var overlap = DatePeriodFieldHelper.hasOverlap(period1, period2);
+    expect(overlap).toBeTruthy();
+  });
 
-        var overlap = DatePeriodFieldHelper.hasOverlap(period1, period2);
-        expect(overlap).toBeTruthy();
-    });
+  it('can detect overlap with same date', function() {
+    var period1 = buildPeriod('20150410', '20150417');
+    var period2 = buildPeriod('20150417', '20150420');
 
-    it('can detect overlap with exactly same dates', function(){
-        var period1 = buildPeriod('20150410', '20150417');
-        var period2 = buildPeriod('20150410', '20150417');
+    var overlap = DatePeriodFieldHelper.hasOverlap(period1, period2);
+    expect(overlap).toBeTruthy();
+  });
 
-        var overlap = DatePeriodFieldHelper.hasOverlap(period1, period2);
-        expect(overlap).toBeTruthy();
-    });
+  it('can detect overlap with exactly same dates', function() {
+    var period1 = buildPeriod('20150410', '20150417');
+    var period2 = buildPeriod('20150410', '20150417');
 
-    it('can detect overlap with same end date', function(){
-        var period1 = buildPeriod('20150410', '20150417');
-        var period2 = buildPeriod('20150415', '20150417');
+    var overlap = DatePeriodFieldHelper.hasOverlap(period1, period2);
+    expect(overlap).toBeTruthy();
+  });
 
-        var overlap = DatePeriodFieldHelper.hasOverlap(period1, period2);
-        expect(overlap).toBeTruthy();
-    });
+  it('can detect overlap with same end date', function() {
+    var period1 = buildPeriod('20150410', '20150417');
+    var period2 = buildPeriod('20150415', '20150417');
+
+    var overlap = DatePeriodFieldHelper.hasOverlap(period1, period2);
+    expect(overlap).toBeTruthy();
+  });
 
 });

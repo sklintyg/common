@@ -21,13 +21,10 @@ package se.inera.intyg.common.ts_bas.v6.model.validator;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.google.common.base.Joiner;
 import java.util.Collection;
-
 import org.junit.Before;
 import org.junit.Test;
-
-import com.google.common.base.Joiner;
-
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.inera.intyg.common.ts_bas.v6.model.internal.Sjukhusvard;
@@ -53,14 +50,14 @@ public class InternalValidatorTest {
             ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
             assertEquals(
-                    "Error in scenario " + scenario.getName() + "\n"
-                            + Joiner.on(", ").join(validationResponse.getValidationErrors()),
-                    ValidationStatus.VALID, validationResponse.getStatus());
+                "Error in scenario " + scenario.getName() + "\n"
+                    + Joiner.on(", ").join(validationResponse.getValidationErrors()),
+                ValidationStatus.VALID, validationResponse.getStatus());
 
             assertTrue(
-                    "Error in scenario " + scenario.getName() + "\n"
-                            + Joiner.on(", ").join(validationResponse.getValidationErrors()), validationResponse
-                            .getValidationErrors().isEmpty());
+                "Error in scenario " + scenario.getName() + "\n"
+                    + Joiner.on(", ").join(validationResponse.getValidationErrors()), validationResponse
+                    .getValidationErrors().isEmpty());
 
         }
     }
@@ -79,7 +76,7 @@ public class InternalValidatorTest {
     @Test
     public void testInvalidDiabetesTyp2MissingBehandling() throws Exception {
         TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("invalid-diabetes-typ2-missing-behandling")
-                .asInternalModel();
+            .asInternalModel();
         ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
         assertEquals("diabetes.behandlingsTyp", getSingleElement(validationResponse.getValidationErrors()).getField());
@@ -96,21 +93,21 @@ public class InternalValidatorTest {
     @Test
     public void testFunktionshinderBeskrivningMissing() throws Exception {
         TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("invalid-funktionshinder-beskrivning-missing")
-                .asInternalModel();
+            .asInternalModel();
         ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
         assertEquals("funktionsnedsattning.beskrivning", getSingleElement(validationResponse.getValidationErrors())
-                .getField());
+            .getField());
     }
 
     @Test
     public void testIdentitetMissing() throws Exception {
         TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("invalid-missing-identitet")
-                .asInternalModel();
+            .asInternalModel();
         ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
         assertEquals("vardkontakt.idkontroll", getSingleElement(validationResponse.getValidationErrors())
-                .getField());
+            .getField());
     }
 
     @Test
@@ -131,7 +128,7 @@ public class InternalValidatorTest {
     @Test
     public void testInvalidMinimalR35TestFails() throws Exception {
         TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("fail-minimal-r35")
-                .asInternalModel();
+            .asInternalModel();
         ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
         int index = 0;
         assertEquals("syn.hogerOga.medKorrektion", validationResponse.getValidationErrors().get(index++).getField());
@@ -142,7 +139,7 @@ public class InternalValidatorTest {
     @Test
     public void testInvalidMinimalTestFails() throws Exception {
         TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("fail-annat-felsynskarpa")
-                .asInternalModel();
+            .asInternalModel();
         ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
         int index = 0;
         assertEquals("syn.hogerOga.medKorrektion", validationResponse.getValidationErrors().get(index++).getField());
@@ -152,8 +149,7 @@ public class InternalValidatorTest {
     /**
      * Utility method for getting a single element from a collection.
      *
-     * @param collection
-     *            the collection
+     * @param collection the collection
      * @return a single element, throws IllegalArgumentException in case the collection contains more than one element
      */
     public static <T> T getSingleElement(Collection<T> collection) {

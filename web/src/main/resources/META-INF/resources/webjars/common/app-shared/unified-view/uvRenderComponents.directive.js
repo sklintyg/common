@@ -18,14 +18,14 @@
  */
 angular.module('common').directive('uvRenderComponents',
     function() {
-        'use strict';
+      'use strict';
 
-        return {
-            restrict: 'E',
-            scope: {
-                config: '=',
-                viewData: '='
-            },
-            templateUrl: '/web/webjars/common/app-shared/unified-view/uvRenderComponents.directive.html'
-        };
+      return {
+        restrict: 'E',
+        scope: {
+          config: '=',
+          viewData: '='
+        },
+        templateUrl: '/web/webjars/common/app-shared/unified-view/uvRenderComponents.directive.html'
+      };
     });

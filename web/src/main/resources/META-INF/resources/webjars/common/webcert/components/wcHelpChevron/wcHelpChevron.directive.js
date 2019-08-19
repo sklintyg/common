@@ -20,65 +20,65 @@
  * Enable help marks with tooltip for other components than wcFields
  */
 angular.module('common').directive('wcHelpChevron',
-    [ '$log', '$rootScope', 'common.messageService', 'common.dynamicLabelService', 'common.ObjectHelper',
-        function($log, $rootScope, messageService, dynamicLabelService, ObjectHelper) {
-            'use strict';
+    ['$log', '$rootScope', 'common.messageService', 'common.dynamicLabelService', 'common.ObjectHelper',
+      function($log, $rootScope, messageService, dynamicLabelService, ObjectHelper) {
+        'use strict';
 
-            return {
-                restrict: 'AE',
-                scope: {
-                    helpTextKey: '@',
-                    variableLabelKey: '@'
-                },
-                templateUrl: '/web/webjars/common/webcert/components/wcHelpChevron/wcHelpChevron.directive.html',
-                link: function($scope, element, attr) {
+        return {
+          restrict: 'AE',
+          scope: {
+            helpTextKey: '@',
+            variableLabelKey: '@'
+          },
+          templateUrl: '/web/webjars/common/webcert/components/wcHelpChevron/wcHelpChevron.directive.html',
+          link: function($scope, element, attr) {
 
-                    $scope.isCollapsed = true;
+            $scope.isCollapsed = true;
 
-                    $scope.toggleHelp = function(){
-                        $scope.isCollapsed = !$scope.isCollapsed;
-                        $rootScope.$broadcast('help-chevron-' + $scope.helpTextKey, { id: $scope.helpTextKey, action: 'toggle'});
-                    };
-
-                    function setText(text) {
-                        if(!ObjectHelper.isEmpty(text)){
-                            $rootScope.$broadcast('help-chevron-' + $scope.helpTextKey, { id: $scope.helpTextKey, action: 'setText', text: text});
-                            $scope.showHelp = true;
-                        } else {
-                            // if we have empty string, dont render the ? icon in GUI.
-                            $scope.showHelp = false;
-                        }
-                    }
-
-                    function updateMessage() {
-                        if(!ObjectHelper.isEmpty($scope.helpTextKey)) {
-                            var helpText = dynamicLabelService.getProperty($scope.helpTextKey, true);
-                            if ($scope.variableLabelKey) {
-                                var statLabel;
-                                if (messageService.propertyExists($scope.variableLabelKey)) {
-                                    statLabel = messageService.getProperty($scope.variableLabelKey);
-                                } else {
-                                    statLabel = dynamicLabelService.getProperty($scope.variableLabelKey, true);
-                                }
-                                if (statLabel) {
-                                    helpText = helpText.replace('{0}', statLabel);
-                                }
-                            }
-                            setText(helpText);
-                        }
-                    }
-
-                    // Either texts have already loaded and the function below will do the job
-                    // or
-                    // texts failed to update first but they are updated on the dynamicLabels.updated event sent when utkast AND texts have been loaded.
-                    $scope.$on('dynamicLabels.updated', function() {
-                        $log.debug('updating from intyg.loaded message');
-                        updateMessage();
-                    });
-
-                    attr.$observe('helpTextKey', updateMessage);
-
-                    updateMessage();
-                }
+            $scope.toggleHelp = function() {
+              $scope.isCollapsed = !$scope.isCollapsed;
+              $rootScope.$broadcast('help-chevron-' + $scope.helpTextKey, {id: $scope.helpTextKey, action: 'toggle'});
             };
-        }]);
+
+            function setText(text) {
+              if (!ObjectHelper.isEmpty(text)) {
+                $rootScope.$broadcast('help-chevron-' + $scope.helpTextKey, {id: $scope.helpTextKey, action: 'setText', text: text});
+                $scope.showHelp = true;
+              } else {
+                // if we have empty string, dont render the ? icon in GUI.
+                $scope.showHelp = false;
+              }
+            }
+
+            function updateMessage() {
+              if (!ObjectHelper.isEmpty($scope.helpTextKey)) {
+                var helpText = dynamicLabelService.getProperty($scope.helpTextKey, true);
+                if ($scope.variableLabelKey) {
+                  var statLabel;
+                  if (messageService.propertyExists($scope.variableLabelKey)) {
+                    statLabel = messageService.getProperty($scope.variableLabelKey);
+                  } else {
+                    statLabel = dynamicLabelService.getProperty($scope.variableLabelKey, true);
+                  }
+                  if (statLabel) {
+                    helpText = helpText.replace('{0}', statLabel);
+                  }
+                }
+                setText(helpText);
+              }
+            }
+
+            // Either texts have already loaded and the function below will do the job
+            // or
+            // texts failed to update first but they are updated on the dynamicLabels.updated event sent when utkast AND texts have been loaded.
+            $scope.$on('dynamicLabels.updated', function() {
+              $log.debug('updating from intyg.loaded message');
+              updateMessage();
+            });
+
+            attr.$observe('helpTextKey', updateMessage);
+
+            updateMessage();
+          }
+        };
+      }]);

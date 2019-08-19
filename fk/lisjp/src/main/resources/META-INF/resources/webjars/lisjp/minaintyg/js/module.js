@@ -19,83 +19,84 @@
 angular.module('lisjp', ['ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common']);
 
 angular.module('lisjp').config(function($stateProvider) {
-    'use strict';
+  'use strict';
 
-    $stateProvider.state('lisjp-view', {
-        url: '/lisjp/:intygTypeVersion/view/:certificateId',
-        templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
-        controller: 'common.ViewCertCtrl',
-        resolve: {
-            viewConfigFactory: function(factoryResolverHelper, $stateParams) {
-                return factoryResolverHelper.resolve('lisjp.viewConfigFactory', $stateParams);
-            },
-            viewFactory: function(factoryResolverHelper, $stateParams) {
-                return factoryResolverHelper.resolve('lisjp.viewFactory', $stateParams);
-            }
-        },
-        data: {
-            title: 'Läkarintyg för sjukpenning',
-            keepInboxTabActive: true,
-            breadcrumb: ['inkorg', 'intyg']
-        }
-    }).state('lisjp-customize', {
-        abstract: true, // jshint ignore:line
-        url: '/:type/:intygTypeVersion/customize-lisjp/:certificateId',
-        templateUrl: '/web/webjars/lisjp/minaintyg/views/customize-pdf.html',
-        controller: 'lisjp.CustomizePdfCtrl',
-        data: {
-            title: 'Anpassa intyget till arbetsgivare',
-            keepInboxTabActive: true,
-            breadcrumb: ['inkorg', 'intyg', 'anpassa'], backState: 'history-back' }
+  $stateProvider.state('lisjp-view', {
+    url: '/lisjp/:intygTypeVersion/view/:certificateId',
+    templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
+    controller: 'common.ViewCertCtrl',
+    resolve: {
+      viewConfigFactory: function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('lisjp.viewConfigFactory', $stateParams);
+      },
+      viewFactory: function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('lisjp.viewFactory', $stateParams);
+      }
+    },
+    data: {
+      title: 'Läkarintyg för sjukpenning',
+      keepInboxTabActive: true,
+      breadcrumb: ['inkorg', 'intyg']
+    }
+  }).state('lisjp-customize', {
+    abstract: true, // jshint ignore:line
+    url: '/:type/:intygTypeVersion/customize-lisjp/:certificateId',
+    templateUrl: '/web/webjars/lisjp/minaintyg/views/customize-pdf.html',
+    controller: 'lisjp.CustomizePdfCtrl',
+    data: {
+      title: 'Anpassa intyget till arbetsgivare',
+      keepInboxTabActive: true,
+      breadcrumb: ['inkorg', 'intyg', 'anpassa'], backState: 'history-back'
+    }
 
-    }).state('lisjp-customize.step1', {
-        url: '/step1',
-        views: {
-            'header@lisjp-customize': {
-                templateUrl: '/web/webjars/lisjp/minaintyg/views/step1.header.html'
-            },
-            'body@lisjp-customize': {
-                templateUrl: '/web/webjars/lisjp/minaintyg/views/step1.body.html'
-            }
-        },
-        data: {
-            index: 0
-        }
+  }).state('lisjp-customize.step1', {
+    url: '/step1',
+    views: {
+      'header@lisjp-customize': {
+        templateUrl: '/web/webjars/lisjp/minaintyg/views/step1.header.html'
+      },
+      'body@lisjp-customize': {
+        templateUrl: '/web/webjars/lisjp/minaintyg/views/step1.body.html'
+      }
+    },
+    data: {
+      index: 0
+    }
 
-    }).state('lisjp-customize.step2', {
-        url: '/step2',
-        views: {
-            'header@lisjp-customize': {
-                templateUrl: '/web/webjars/lisjp/minaintyg/views/step2.header.html'
-            },
-            'body@lisjp-customize': {
-                templateUrl: '/web/webjars/lisjp/minaintyg/views/step2.body.html'
-            }
-        },
-        data: {
-            index: 1
-        }
+  }).state('lisjp-customize.step2', {
+    url: '/step2',
+    views: {
+      'header@lisjp-customize': {
+        templateUrl: '/web/webjars/lisjp/minaintyg/views/step2.header.html'
+      },
+      'body@lisjp-customize': {
+        templateUrl: '/web/webjars/lisjp/minaintyg/views/step2.body.html'
+      }
+    },
+    data: {
+      index: 1
+    }
 
-    }).state('lisjp-customize.step3', {
-        url: '/step3',
-        views: {
-            'header@lisjp-customize': {
-                templateUrl: '/web/webjars/lisjp/minaintyg/views/step3.header.html'
-            },
-            'body@lisjp-customize': {
-                templateUrl: '/web/webjars/lisjp/minaintyg/views/step3.body.html'
-            }
-        },
-        data: {
-            index: 2
-        }
+  }).state('lisjp-customize.step3', {
+    url: '/step3',
+    views: {
+      'header@lisjp-customize': {
+        templateUrl: '/web/webjars/lisjp/minaintyg/views/step3.header.html'
+      },
+      'body@lisjp-customize': {
+        templateUrl: '/web/webjars/lisjp/minaintyg/views/step3.body.html'
+      }
+    },
+    data: {
+      index: 2
+    }
 
-    });
+  });
 });
 
 // Inject language resources
 angular.module('lisjp').run(['common.messageService', 'lisjp.messages', function(messageService, lisjpMessages) {
-    'use strict';
+  'use strict';
 
-    messageService.addResources(lisjpMessages);
+  messageService.addResources(lisjpMessages);
 }]);

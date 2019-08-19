@@ -26,10 +26,10 @@ import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
-
 import se.inera.intyg.common.fkparent.pdf.PdfConstants;
 
 // CHECKSTYLE:OFF MagicNumber
+
 /**
  * Outputs certificate id and source application text in the right margin, rotated 90 deg.
  */
@@ -52,9 +52,9 @@ public class FkPrintedByEventHandler extends PdfPageEventHelper {
         PdfContentByte canvas = writer.getDirectContentUnder();
 
         ColumnText.showTextAligned(canvas, Element.ALIGN_CENTER,
-                new Phrase(String.format("Intygs-ID: %s. %s", intygsId, applicationOriginText), PdfConstants.FONT_STAMPER_LABEL),
-                printedbyX, printedbyY,
-                ROTATION);
+            new Phrase(String.format("Intygs-ID: %s. %s", intygsId, applicationOriginText), PdfConstants.FONT_STAMPER_LABEL),
+            printedbyX, printedbyY,
+            ROTATION);
 
     }
 }

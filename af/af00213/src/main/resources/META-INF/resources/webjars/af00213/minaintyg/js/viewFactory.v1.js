@@ -18,16 +18,16 @@
  */
 angular.module('af00213').factory('af00213.viewFactory.v1',
     function() {
-        'use strict';
+      'use strict';
 
-        var intygsTyp = 'af00213';
+      var intygsTyp = 'af00213';
 
-        var _sendUrl = function() {
-            return null;
-        };
+      var _sendUrl = function() {
+        return null;
+      };
 
-        return {
-            intygsTyp: intygsTyp,
-            getSendUrl: _sendUrl
-        };
+      return {
+        intygsTyp: intygsTyp,
+        getSendUrl: _sendUrl
+      };
     });

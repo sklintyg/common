@@ -18,82 +18,83 @@
  */
 
 angular.module('common').directive('uePrognos', ['$log', '$timeout', 'common.dynamicLabelService', 'common.ArendeListViewStateService',
-    'common.AtticHelper', 'common.UtkastValidationService', 'common.UtkastViewStateService', function($log, $timeout, dynamicLabelService,
-        ArendeListViewState, AtticHelper, UtkastValidationService, UtkastViewState) {
+  'common.AtticHelper', 'common.UtkastValidationService', 'common.UtkastViewStateService', function($log, $timeout, dynamicLabelService,
+      ArendeListViewState, AtticHelper, UtkastValidationService, UtkastViewState) {
     'use strict';
 
     return {
-        restrict: 'E',
-        scope: {
-            config: '=',
-            model: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/uePrognos/uePrognos.directive.html',
-        link: function($scope) {
+      restrict: 'E',
+      scope: {
+        config: '=',
+        model: '='
+      },
+      templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/uePrognos/uePrognos.directive.html',
+      link: function($scope) {
 
-            $scope.validation = UtkastViewState.validation;
+        $scope.validation = UtkastViewState.validation;
 
-            // Restore data model value form attic if exists
-            AtticHelper.restoreFromAttic($scope.model, $scope.config.modelProp + '.typ');
+        // Restore data model value form attic if exists
+        AtticHelper.restoreFromAttic($scope.model, $scope.config.modelProp + '.typ');
 
-            // Clear attic model and destroy watch on scope destroy
-            AtticHelper.updateToAttic($scope, $scope.model, $scope.config.modelProp + '.typ');
+        // Clear attic model and destroy watch on scope destroy
+        AtticHelper.updateToAttic($scope, $scope.model, $scope.config.modelProp + '.typ');
 
-            var chooseOption = {
-                id: undefined,
-                label: 'Välj tidsperiod'
-            };
+        var chooseOption = {
+          id: undefined,
+          label: 'Välj tidsperiod'
+        };
 
-            $scope.prognosOptions = [];
+        $scope.prognosOptions = [];
 
-            function updatePrognosOptions() {
-                $scope.prognosOptions = [chooseOption];
+        function updatePrognosOptions() {
+          $scope.prognosOptions = [chooseOption];
 
-                if ($scope.config.prognosDagarTillArbeteTyper) {
-                    $scope.config.prognosDagarTillArbeteTyper.forEach(function (prognosDagarTillArbeteTyp) {
-                        $scope.prognosOptions.push({
-                            'id': prognosDagarTillArbeteTyp,
-                            'label': dynamicLabelService.getProperty($scope.config.prognosDagarTillArbeteCode + '.' + prognosDagarTillArbeteTyp + '.RBK')
-                        });
-                    });
-                }
+          if ($scope.config.prognosDagarTillArbeteTyper) {
+            $scope.config.prognosDagarTillArbeteTyper.forEach(function(prognosDagarTillArbeteTyp) {
+              $scope.prognosOptions.push({
+                'id': prognosDagarTillArbeteTyp,
+                'label': dynamicLabelService.getProperty(
+                    $scope.config.prognosDagarTillArbeteCode + '.' + prognosDagarTillArbeteTyp + '.RBK')
+              });
+            });
+          }
+        }
+
+        $scope.hasKompletteringar = function() {
+          return ArendeListViewState.hasKompletteringar($scope.config.modelProp);
+        };
+
+        $scope.$on('dynamicLabels.updated', function() {
+          updatePrognosOptions();
+        });
+
+        $scope.validate = function() {
+          $timeout(function() {
+            $log.debug('validating');
+            UtkastValidationService.validate($scope.model);
+          });
+        };
+
+        updatePrognosOptions();
+
+        $scope.$watch('model.prognos.typ', function _prognosTypListener(newValue, oldValue) {
+          var model = $scope.model;
+          if (newValue === 'ATER_X_ANTAL_DGR') {
+            model.restoreFromAttic('prognos.dagarTillArbete');
+          } else {
+            if (oldValue === 'ATER_X_ANTAL_DGR') {
+              model.updateToAttic('prognos.dagarTillArbete');
             }
 
-            $scope.hasKompletteringar = function() {
-                return ArendeListViewState.hasKompletteringar($scope.config.modelProp);
-            };
+            model.clear('prognos.dagarTillArbete');
+          }
+        });
 
-            $scope.$on('dynamicLabels.updated', function() {
-                updatePrognosOptions();
-            });
-
-            $scope.validate = function() {
-                $timeout(function(){
-                    $log.debug('validating');
-                    UtkastValidationService.validate($scope.model);
-                });
-            };
-
-            updatePrognosOptions();
-
-            $scope.$watch('model.prognos.typ', function _prognosTypListener( newValue, oldValue) {
-                var model = $scope.model;
-                if (newValue === 'ATER_X_ANTAL_DGR') {
-                    model.restoreFromAttic('prognos.dagarTillArbete');
-                } else {
-                    if (oldValue === 'ATER_X_ANTAL_DGR') {
-                        model.updateToAttic('prognos.dagarTillArbete');
-                    }
-
-                    model.clear('prognos.dagarTillArbete');
-                }
-            });
-
-            $scope.$on('$destroy', function() {
-                $scope.model.updateToAttic('prognos.dagarTillArbete');
-                $scope.model.clear('prognos.dagarTillArbete');
-            });
-        }
+        $scope.$on('$destroy', function() {
+          $scope.model.updateToAttic('prognos.dagarTillArbete');
+          $scope.model.clear('prognos.dagarTillArbete');
+        });
+      }
     };
 
-}]);
+  }]);

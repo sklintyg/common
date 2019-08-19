@@ -17,53 +17,52 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('fk7263').directive('fkUvTable', [
-    '$log', 'uvUtil',
-    function($log, uvUtil) {
-        'use strict';
+  '$log', 'uvUtil',
+  function($log, uvUtil) {
+    'use strict';
 
-        return {
-            restrict: 'E',
-            scope: {
-                config: '=',
-                viewData: '='
-            },
-            templateUrl: '/web/webjars/fk7263/app-shared/directives/fkUvTable/fkUvTable.directive.html',
-            link: function($scope) {
+    return {
+      restrict: 'E',
+      scope: {
+        config: '=',
+        viewData: '='
+      },
+      templateUrl: '/web/webjars/fk7263/app-shared/directives/fkUvTable/fkUvTable.directive.html',
+      link: function($scope) {
 
-                if(!$scope.config) {
-                    $log.debug('no view config present for uv-table controller');
-                    return;
-                }
+        if (!$scope.config) {
+          $log.debug('no view config present for uv-table controller');
+          return;
+        }
 
-                $scope.viewModel = {
-                    headers: [
-                        // 'headerValue1','headerValue2', 'headerValue3'
-                    ],
-                    rows: [
-                        // {valueProps: ['colValue1', 'colValue2', 'colValue3']},
-                    ]
-                };
-
-                // Convert headers config to viewModel values
-                $scope.viewModel.headers = [];
-                angular.forEach($scope.config.headers, function(header) {
-                    this.push(uvUtil.getTextFromConfig(header));
-                }, $scope.viewModel.headers);
-
-
-                // Check if valueProps are dot-paths or a function or just a simple value and resolve viewData accordingly
-                $scope.viewModel.rows = [];
-                angular.forEach($scope.config.rows, function(row) {
-
-                    var data = uvUtil.getValue($scope.viewData, row.key);
-
-                    if (uvUtil.isValidValue(data)) {
-                        var label = uvUtil.getTextFromConfig(row.label);
-                        var values = [label, data.from, data.tom];
-
-                        $scope.viewModel.rows.push({values: values, key: row.key});
-                    }
-                });
-            }
+        $scope.viewModel = {
+          headers: [
+            // 'headerValue1','headerValue2', 'headerValue3'
+          ],
+          rows: [
+            // {valueProps: ['colValue1', 'colValue2', 'colValue3']},
+          ]
         };
-    }]);
+
+        // Convert headers config to viewModel values
+        $scope.viewModel.headers = [];
+        angular.forEach($scope.config.headers, function(header) {
+          this.push(uvUtil.getTextFromConfig(header));
+        }, $scope.viewModel.headers);
+
+        // Check if valueProps are dot-paths or a function or just a simple value and resolve viewData accordingly
+        $scope.viewModel.rows = [];
+        angular.forEach($scope.config.rows, function(row) {
+
+          var data = uvUtil.getValue($scope.viewData, row.key);
+
+          if (uvUtil.isValidValue(data)) {
+            var label = uvUtil.getTextFromConfig(row.label);
+            var values = [label, data.from, data.tom];
+
+            $scope.viewModel.rows.push({values: values, key: row.key});
+          }
+        });
+      }
+    };
+  }]);

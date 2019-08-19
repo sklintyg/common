@@ -2,15 +2,15 @@
  Used by lisjp anpassad utskrift wizard
  */
 .customize-pdf-header {
-    padding:10px 0px;
+  padding: 10px 0px;
 }
 
 .selectable-field-list {
-    padding:10px 0;
+  padding: 10px 0;
 }
 
 .customize-pdf-body {
-    padding-top:10px;
+  padding-top: 10px;
 }
 
 

@@ -18,7 +18,13 @@
  */
 package se.inera.intyg.common.fk7263.rest;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import org.apache.cxf.helpers.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,13 +41,6 @@ import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
-
-import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 /**
  * Specifically tests the renewal of FK7263 where certain fields are nulled out.
@@ -101,7 +100,7 @@ public class Fk7263ModuleApiRenewalTest {
         assertEquals(original.getAktivitetsbegransning(), renewCopy.getAktivitetsbegransning());
         assertEquals(original.getArbetsformagaPrognos(), renewCopy.getArbetsformagaPrognos());
         assertEquals(original.getArbetsformagaPrognosGarInteAttBedomaBeskrivning(),
-                renewCopy.getArbetsformagaPrognosGarInteAttBedomaBeskrivning());
+            renewCopy.getArbetsformagaPrognosGarInteAttBedomaBeskrivning());
         assertEquals(original.getAnnanAtgard(), renewCopy.getAnnanAtgard());
         assertEquals(original.getAtgardInomSjukvarden(), renewCopy.getAtgardInomSjukvarden());
         assertEquals(original.getNuvarandeArbetsuppgifter(), renewCopy.getNuvarandeArbetsuppgifter());
@@ -131,7 +130,7 @@ public class Fk7263ModuleApiRenewalTest {
 
     private CreateDraftCopyHolder createCopyHolder() {
         CreateDraftCopyHolder draftCopyHolder = new CreateDraftCopyHolder("certificateId",
-                createHosPersonal());
+            createHosPersonal());
         draftCopyHolder.setRelation(new Relation());
         return draftCopyHolder;
     }
@@ -147,7 +146,7 @@ public class Fk7263ModuleApiRenewalTest {
 
     private Fk7263Utlatande getUtlatandeFromFile() throws IOException {
         String internalModelHolder = IOUtils.toString(new ClassPathResource(
-                TESTFILE_UTLATANDE).getInputStream());
+            TESTFILE_UTLATANDE).getInputStream());
         return new CustomObjectMapper().readValue(internalModelHolder, Fk7263Utlatande.class);
     }
 

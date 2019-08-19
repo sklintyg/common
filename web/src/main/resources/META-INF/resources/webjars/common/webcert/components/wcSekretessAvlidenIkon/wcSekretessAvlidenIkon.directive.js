@@ -21,16 +21,16 @@
  */
 angular.module('common').directive('wcSekretessAvlidenIkon',
     [
-        function() {
-            'use strict';
+      function() {
+        'use strict';
 
-            return {
-                restrict: 'E',
-                scope: {
-                    uuid: '=',
-                    sekretessmarkering: '=',
-                    avliden: '='
-                },
-                templateUrl: '/web/webjars/common/webcert/components/wcSekretessAvlidenIkon/wcSekretessAvlidenIkon.directive.html'
-            };
-        }]);
+        return {
+          restrict: 'E',
+          scope: {
+            uuid: '=',
+            sekretessmarkering: '=',
+            avliden: '='
+          },
+          templateUrl: '/web/webjars/common/webcert/components/wcSekretessAvlidenIkon/wcSekretessAvlidenIkon.directive.html'
+        };
+      }]);

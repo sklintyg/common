@@ -18,143 +18,144 @@
  */
 angular.module('common').service('common.UtkastViewStateService',
     ['common.User', 'common.UtkastValidationViewState', 'common.UserModel', 'common.IntygHeaderViewState',
-        function(commonUser, utkastValidationViewState, UserModel, IntygHeaderViewState) {
+      function(commonUser, utkastValidationViewState, UserModel, IntygHeaderViewState) {
         'use strict';
 
         this.reset = function() {
-            this.error = {
-                activeErrorMessageKey : null,
-                saveErrorMessage : null,
-                saveErrorCode : null
-            };
-            this.intyg = {
-                isComplete : false,
-                isRevoked: false,
-                type : undefined
-            };
-            //some drafts will be presented using uv-framwork, and need the "raw" utlatande-json as input.
-            this.__utlatandeJson = null;
+          this.error = {
+            activeErrorMessageKey: null,
+            saveErrorMessage: null,
+            saveErrorCode: null
+          };
+          this.intyg = {
+            isComplete: false,
+            isRevoked: false,
+            type: undefined
+          };
+          //some drafts will be presented using uv-framwork, and need the "raw" utlatande-json as input.
+          this.__utlatandeJson = null;
 
-            // should go into intyg above
-            this.showComplete = false;
-            this.hsaInfoMissing = false;
-            this.vidarebefordraInProgress = false;
-            this.hospName = UserModel.getIntegrationParam('responsibleHospName');
-            this.deleted = false;
-            this.isSigned = false;
-            this.isLocked = false;
-            this.textVersionUpdated = false;
-            this.validPatientAddressAquiredFromPU = false;
-            this.sameCareUnit = false;
+          // should go into intyg above
+          this.showComplete = false;
+          this.hsaInfoMissing = false;
+          this.vidarebefordraInProgress = false;
+          this.hospName = UserModel.getIntegrationParam('responsibleHospName');
+          this.deleted = false;
+          this.isSigned = false;
+          this.isLocked = false;
+          this.textVersionUpdated = false;
+          this.validPatientAddressAquiredFromPU = false;
+          this.sameCareUnit = false;
 
-            this.doneLoading = false;
-            this.saving = false;
-            this.today = new Date();
-            this.today.setHours(0, 0, 0, 0); // reset time to increase comparison accuracy (using new Date() also sets time)
+          this.doneLoading = false;
+          this.saving = false;
+          this.today = new Date();
+          this.today.setHours(0, 0, 0, 0); // reset time to increase comparison accuracy (using new Date() also sets time)
 
-            this.validation = utkastValidationViewState;
-            this.validation.reset();
+          this.validation = utkastValidationViewState;
+          this.validation.reset();
 
-            this.previousIntyg = {};
-            this.previousUtkast = {};
+          this.previousIntyg = {};
+          this.previousUtkast = {};
 
-            IntygHeaderViewState.reset();
+          IntygHeaderViewState.reset();
         };
 
         this.update = function(draftModel, data) {
-            /* Note: data corresponds to DraftHolder dto in backend, which is also used as a wrapper for intyg not just utkast.
-             * To find equivalent DTO-transformation for intyg instead of utkast, see  commonIntygViewstate.service.js */
-            if(draftModel){
-                draftModel.update(data);
-                this.__utlatandeJson = data;
-                this.error.activeErrorMessageKey = null;
-                this.error.saveErrorMessage = null;
-                this.error.saveErrorCode = null;
+          /* Note: data corresponds to DraftHolder dto in backend, which is also used as a wrapper for intyg not just utkast.
+           * To find equivalent DTO-transformation for intyg instead of utkast, see  commonIntygViewstate.service.js */
+          if (draftModel) {
+            draftModel.update(data);
+            this.__utlatandeJson = data;
+            this.error.activeErrorMessageKey = null;
+            this.error.saveErrorMessage = null;
+            this.error.saveErrorCode = null;
 
-                this.sameCareUnit = commonUser.getUser().valdVardenhet.id === this.__utlatandeJson.content.grundData.skapadAv.vardenhet.enhetsid;
-                this.isLocked = draftModel.isLocked();
-                this.isSigned = draftModel.isSigned();
-                this.intyg.isComplete = draftModel.isSigned() || draftModel.isDraftComplete();
-                this.intyg.isRevoked = draftModel.isRevoked();
+            this.sameCareUnit =
+                commonUser.getUser().valdVardenhet.id === this.__utlatandeJson.content.grundData.skapadAv.vardenhet.enhetsid;
+            this.isLocked = draftModel.isLocked();
+            this.isSigned = draftModel.isSigned();
+            this.intyg.isComplete = draftModel.isSigned() || draftModel.isDraftComplete();
+            this.intyg.isRevoked = draftModel.isRevoked();
 
-                this.validPatientAddressAquiredFromPU = data.validPatientAddressAquiredFromPU;
+            this.validPatientAddressAquiredFromPU = data.validPatientAddressAquiredFromPU;
 
-                // Check if new text version is available
-                if (data.latestTextVersion &&
-                    data.latestTextVersion !== draftModel.content.textVersion) {
-                    // Update textversion to latest
-                    draftModel.content.textVersion = data.latestTextVersion;
-                    // Set flag to indicate text version has been updated
-                    this.textVersionUpdated = true;
-                }
-
-                this.hsaInfoMissing = checkHsaInfo(data);
+            // Check if new text version is available
+            if (data.latestTextVersion &&
+                data.latestTextVersion !== draftModel.content.textVersion) {
+              // Update textversion to latest
+              draftModel.content.textVersion = data.latestTextVersion;
+              // Set flag to indicate text version has been updated
+              this.textVersionUpdated = true;
             }
+
+            this.hsaInfoMissing = checkHsaInfo(data);
+          }
         };
 
         function checkHsaInfo(data) {
-            var vardenhetData = commonUser.getUser().valdVardenhet;
-            if (vardenhetData.mottagningar !== undefined) {
-                for (var enhetIndex = 0; enhetIndex < vardenhetData.mottagningar.length; enhetIndex++) {
-                    if (vardenhetData.mottagningar[enhetIndex].id === data.content.grundData.skapadAv.vardenhet.enhetsid) {
-                        vardenhetData = vardenhetData.mottagningar[enhetIndex];
-                        break;
-                    }
-                }
+          var vardenhetData = commonUser.getUser().valdVardenhet;
+          if (vardenhetData.mottagningar !== undefined) {
+            for (var enhetIndex = 0; enhetIndex < vardenhetData.mottagningar.length; enhetIndex++) {
+              if (vardenhetData.mottagningar[enhetIndex].id === data.content.grundData.skapadAv.vardenhet.enhetsid) {
+                vardenhetData = vardenhetData.mottagningar[enhetIndex];
+                break;
+              }
             }
+          }
 
-            if (vardenhetData.id === data.content.grundData.skapadAv.vardenhet.enhetsid) {
-                var properties = ['postadress', 'postnummer', 'postort', 'telefonnummer'];
-                for(var i = 0; i < properties.length; i++) {
-                    var field = vardenhetData[properties[i]];
-                    if(field === undefined || field === '') {
-                        return true;
-                    }
-                }
+          if (vardenhetData.id === data.content.grundData.skapadAv.vardenhet.enhetsid) {
+            var properties = ['postadress', 'postnummer', 'postort', 'telefonnummer'];
+            for (var i = 0; i < properties.length; i++) {
+              var field = vardenhetData[properties[i]];
+              if (field === undefined || field === '') {
+                return true;
+              }
             }
-            return false;
+          }
+          return false;
         }
 
         this.isSameCareUnit = function() {
-            return this.sameCareUnit;
+          return this.sameCareUnit;
         };
 
         this.isRevoked = function() {
-            return this.intyg.isRevoked;
+          return this.intyg.isRevoked;
         };
 
         this.isCopied = function() {
-            return this.__utlatandeJson !== null &&
-                angular.isObject(this.__utlatandeJson.relations.latestChildRelations) &&
-                angular.isObject(this.__utlatandeJson.relations.latestChildRelations.utkastCopy);
+          return this.__utlatandeJson !== null &&
+              angular.isObject(this.__utlatandeJson.relations.latestChildRelations) &&
+              angular.isObject(this.__utlatandeJson.relations.latestChildRelations.utkastCopy);
         };
 
         this.getCopyUtkastId = function() {
-            if (this.isCopied()) {
-                return this.__utlatandeJson.relations.latestChildRelations.utkastCopy.intygsId;
-            }
+          if (this.isCopied()) {
+            return this.__utlatandeJson.relations.latestChildRelations.utkastCopy.intygsId;
+          }
 
-            return null;
+          return null;
         };
 
         this.setShowComplete = function(showComplete) {
-            this.showComplete = showComplete;
-            return this.showComplete;
+          this.showComplete = showComplete;
+          return this.showComplete;
         };
 
-        this.setPreviousIntygUtkast = function(prevIntyg, prevUtkast){
-            this.previousIntyg = prevIntyg;
-            this.previousUtkast = prevUtkast;
+        this.setPreviousIntygUtkast = function(prevIntyg, prevUtkast) {
+          this.previousIntyg = prevIntyg;
+          this.previousUtkast = prevUtkast;
         };
 
         this.isCreatedFromIntygInSession = function() {
-            return !!IntygHeaderViewState.utkastCreatedFrom;
+          return !!IntygHeaderViewState.utkastCreatedFrom;
         };
 
         this.clearUtkastCreatedFrom = function() {
-            IntygHeaderViewState.utkastCreatedFrom = null;
+          IntygHeaderViewState.utkastCreatedFrom = null;
         };
 
         this.reset();
-    }
+      }
     ]);

@@ -18,115 +18,116 @@
  */
 
 describe('vagueDate', function() {
-    'use strict';
+  'use strict';
 
-    var $scope;
-    var element;
+  var $scope;
+  var element;
 
-    beforeEach(angular.mock.module('htmlTemplates'));
+  beforeEach(angular.mock.module('htmlTemplates'));
 
-    beforeEach(angular.mock.module('common'));
+  beforeEach(angular.mock.module('common'));
 
-    beforeEach(inject(function($compile, $rootScope) {
-        $scope = $rootScope.$new();
-        $scope.model = {
-            date:undefined,
-            clear:function() {}
-        };
-        $scope.config = {
-            type: 'ue-vague-date',
-            modelProp: 'date'
-        };
-        element =
-            angular.element('<form><ue-vague-date model="model" config="config" form="form"></ue-vague-date></form>');
-        $compile(element)($scope);
-        $scope.$digest();
-        $scope = element.find('ue-vague-date').isolateScope();
-    }));
+  beforeEach(inject(function($compile, $rootScope) {
+    $scope = $rootScope.$new();
+    $scope.model = {
+      date: undefined,
+      clear: function() {
+      }
+    };
+    $scope.config = {
+      type: 'ue-vague-date',
+      modelProp: 'date'
+    };
+    element =
+        angular.element('<form><ue-vague-date model="model" config="config" form="form"></ue-vague-date></form>');
+    $compile(element)($scope);
+    $scope.$digest();
+    $scope = element.find('ue-vague-date').isolateScope();
+  }));
 
-    it('Initial load should set year and month from model', function() {
+  it('Initial load should set year and month from model', function() {
 
-        $scope.model.date = '2017-01-00';
-        $scope.$apply();
+    $scope.model.date = '2017-01-00';
+    $scope.$apply();
 
-        expect($scope.years.length).toBe(3);
-        expect($scope.vagueDateModel.year).toBe('2017');
-        expect($scope.vagueDateModel.month).toBe('01');
-        expect($scope.vagueDateModel.monthEnabled).toBeTruthy();
-    });
+    expect($scope.years.length).toBe(3);
+    expect($scope.vagueDateModel.year).toBe('2017');
+    expect($scope.vagueDateModel.month).toBe('01');
+    expect($scope.vagueDateModel.monthEnabled).toBeTruthy();
+  });
 
-    it('If a year is selected month should be selectable', function() {
-        expect($scope.years.length).toBe(4);
-        expect($scope.vagueDateModel.monthEnabled).toBeFalsy();
+  it('If a year is selected month should be selectable', function() {
+    expect($scope.years.length).toBe(4);
+    expect($scope.vagueDateModel.monthEnabled).toBeFalsy();
 
-        $scope.vagueDateModel.year = (new Date()).getFullYear();
-        $scope.$apply();
+    $scope.vagueDateModel.year = (new Date()).getFullYear();
+    $scope.$apply();
 
-        expect($scope.model.date).toBe((new Date()).getFullYear()+'--00');
-        expect($scope.years.length).toBe(3);
-        expect($scope.vagueDateModel.monthEnabled).toBeTruthy();
-    });
+    expect($scope.model.date).toBe((new Date()).getFullYear() + '--00');
+    expect($scope.years.length).toBe(3);
+    expect($scope.vagueDateModel.monthEnabled).toBeTruthy();
+  });
 
-    it('If year "0000" is selected month should be set to "00" and not selectable', function() {
-        expect($scope.vagueDateModel.monthEnabled).toBeFalsy();
+  it('If year "0000" is selected month should be set to "00" and not selectable', function() {
+    expect($scope.vagueDateModel.monthEnabled).toBeFalsy();
 
-        $scope.vagueDateModel.year = '0000';
-        $scope.$apply();
+    $scope.vagueDateModel.year = '0000';
+    $scope.$apply();
 
-        expect($scope.model.date).toBe('0000-00-00');
-        expect($scope.vagueDateModel.month).toBe('00');
-        expect($scope.vagueDateModel.monthEnabled).toBeFalsy();
-    });
+    expect($scope.model.date).toBe('0000-00-00');
+    expect($scope.vagueDateModel.month).toBe('00');
+    expect($scope.vagueDateModel.monthEnabled).toBeFalsy();
+  });
 
-    it('If year and month is selected "Ange år" and "Ange månad" should no longer be available', function() {
-        expect($scope.years.length).toBe(4);   // "Ange år", "0000", this year and last year
-        expect($scope.months.length).toBe(14); // "Ange månad", "00" and 01-12
+  it('If year and month is selected "Ange år" and "Ange månad" should no longer be available', function() {
+    expect($scope.years.length).toBe(4);   // "Ange år", "0000", this year and last year
+    expect($scope.months.length).toBe(14); // "Ange månad", "00" and 01-12
 
-        $scope.vagueDateModel.year = (new Date()).getFullYear();
-        $scope.$apply();
-        $scope.vagueDateModel.month = '06';
-        $scope.$apply();
+    $scope.vagueDateModel.year = (new Date()).getFullYear();
+    $scope.$apply();
+    $scope.vagueDateModel.month = '06';
+    $scope.$apply();
 
-        expect($scope.model.date).toBe((new Date()).getFullYear() + '-06-00');
-        expect($scope.years.length).toBe(3);
-        expect($scope.months.length).toBe(13);
-    });
+    expect($scope.model.date).toBe((new Date()).getFullYear() + '-06-00');
+    expect($scope.years.length).toBe(3);
+    expect($scope.months.length).toBe(13);
+  });
 
-    it('If year is first set to 0000 and then changed to current year: month should reset back to "Ange månad"', function() {
-        expect($scope.years.length).toBe(4);   // "Ange år", "0000", this year and last year
-        expect($scope.months.length).toBe(14); // "Ange månad", "00" and 01-12
+  it('If year is first set to 0000 and then changed to current year: month should reset back to "Ange månad"', function() {
+    expect($scope.years.length).toBe(4);   // "Ange år", "0000", this year and last year
+    expect($scope.months.length).toBe(14); // "Ange månad", "00" and 01-12
 
-        $scope.vagueDateModel.year = '0000';
-        $scope.$apply();
+    $scope.vagueDateModel.year = '0000';
+    $scope.$apply();
 
-        expect($scope.months.length).toBe(13); // "Ange månad" should be gone
-        expect($scope.vagueDateModel.month).toBe('00');
+    expect($scope.months.length).toBe(13); // "Ange månad" should be gone
+    expect($scope.vagueDateModel.month).toBe('00');
 
-        $scope.vagueDateModel.year = (new Date()).getFullYear();
-        $scope.$apply();
+    $scope.vagueDateModel.year = (new Date()).getFullYear();
+    $scope.$apply();
 
-        expect($scope.months.length).toBe(14); // "Ange månad" should be back
-        expect($scope.vagueDateModel.month).toBe('');
-    });
+    expect($scope.months.length).toBe(14); // "Ange månad" should be back
+    expect($scope.vagueDateModel.month).toBe('');
+  });
 
-    it('If year is first set to last year and then changed to current year: month should not reset back to "Ange månad"', function() {
-        expect($scope.years.length).toBe(4);   // "Ange år", "0000", this year and last year
-        expect($scope.months.length).toBe(14); // "Ange månad", "00" and 01-12
+  it('If year is first set to last year and then changed to current year: month should not reset back to "Ange månad"', function() {
+    expect($scope.years.length).toBe(4);   // "Ange år", "0000", this year and last year
+    expect($scope.months.length).toBe(14); // "Ange månad", "00" and 01-12
 
-        $scope.vagueDateModel.year = (new Date()).getFullYear();
-        $scope.$apply();
-        $scope.vagueDateModel.month = '02';
-        $scope.$apply();
+    $scope.vagueDateModel.year = (new Date()).getFullYear();
+    $scope.$apply();
+    $scope.vagueDateModel.month = '02';
+    $scope.$apply();
 
-        expect($scope.months.length).toBe(13); // "Ange månad" should be gone
-        expect($scope.vagueDateModel.month).toBe('02');
+    expect($scope.months.length).toBe(13); // "Ange månad" should be gone
+    expect($scope.vagueDateModel.month).toBe('02');
 
-        $scope.vagueDateModel.year = (new Date()).getFullYear() - 1;
-        $scope.$apply();
+    $scope.vagueDateModel.year = (new Date()).getFullYear() - 1;
+    $scope.$apply();
 
-        expect($scope.months.length).toBe(13); // "Ange månad" should be gone
-        expect($scope.vagueDateModel.month).toBe('02');
-    });
+    expect($scope.months.length).toBe(13); // "Ange månad" should be gone
+    expect($scope.vagueDateModel.month).toBe('02');
+  });
 
 });
 

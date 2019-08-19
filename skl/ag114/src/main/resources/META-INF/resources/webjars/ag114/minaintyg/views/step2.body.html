@@ -14,7 +14,8 @@
       <!-- List any excluded fields -->
       <div ng-if="customizeViewstate.getUnselected().length > 0">
         <h1>Information din arbetsgivare INTE kan se</h1>
-        <p id="warn-for-unselected-important-field" class="alert alert-info" ng-if="customizeViewstate.getUnselected(true).length > 0">
+        <p id="warn-for-unselected-important-field" class="alert alert-info"
+           ng-if="customizeViewstate.getUnselected(true).length > 0">
           <i class="icon icon-attention-circled"></i>
           <span dynamic-label key="modules.customize.message.warning"></span>
         </p>

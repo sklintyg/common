@@ -19,11 +19,10 @@
 package se.inera.intyg.common.ts_bas.v6.model.converter.util;
 
 import com.google.common.base.Joiner;
-
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
-import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
+import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
 
 public final class ConverterUtil {
 

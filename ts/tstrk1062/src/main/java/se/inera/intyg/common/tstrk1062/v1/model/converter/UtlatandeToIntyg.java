@@ -18,17 +18,56 @@
  */
 package se.inera.intyg.common.tstrk1062.v1.model.converter;
 
-import static se.inera.intyg.common.support.Constants.*;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.*;
+import static se.inera.intyg.common.support.Constants.KV_ID_KONTROLL_CODE_SYSTEM;
+import static se.inera.intyg.common.support.Constants.KV_INTYGET_AVSER_CODE_SYSTEM;
+import static se.inera.intyg.common.support.Constants.KV_INTYGSTYP_CODE_SYSTEM;
+import static se.inera.intyg.common.support.Constants.KV_KORKORTSBEHORIGHET_CODE_SYSTEM;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.SvarBuilder;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aPartialDate;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getYearContent;
 import static se.inera.intyg.common.ts_parent.model.converter.InternalToTransportUtil.getVersion;
-import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.*;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.BEDOMNING_UPPFYLLER_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.BEDOMNING_UPPFYLLER_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ID_KONTROLL_DELSVAR_ID_1;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ID_KONTROLL_SVAR_ID_1;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.INTYG_AVSER_DELSVAR_ID_1;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.INTYG_AVSER_SVAR_ID_1;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.KV_V3_CODE_SYSTEM_NULLFLAVOR_SYSTEM;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_AKTUELL_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_EFFEKT_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_FOLJSAMHET_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_MER_3_AR_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_PAGAR_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.OVRIGT_OVRIGA_KOMMENTARER_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.OVRIGT_OVRIGA_KOMMENTARER_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.SYMPTOM_BEDOMNING_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.SYMPTOM_BEDOMNING_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.SYMPTOM_PROGNOS_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.SYMPTOM_PROGNOS_SVAR_ID;
 
+import com.google.common.collect.ImmutableList;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.common.collect.ImmutableList;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
@@ -38,7 +77,13 @@ import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
 import se.inera.intyg.common.tstrk1062.support.TsTrk1062EntryPoint;
-import se.inera.intyg.common.tstrk1062.v1.model.internal.*;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.Bedomning;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.DiagnosFritext;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.DiagnosKodad;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.IntygAvser;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.Lakemedelsbehandling;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.PrognosTillstand;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.TsTrk1062UtlatandeV1;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -81,9 +126,9 @@ public final class UtlatandeToIntyg {
                 IntygAvserKod intygAvser = IntygAvserKod.fromCode(behorighetsTyp.name());
                 if (intygAvser != null) {
                     svars.add(aSvar(INTYG_AVSER_SVAR_ID_1, intygAvserInstans++)
-                            .withDelsvar(INTYG_AVSER_DELSVAR_ID_1,
-                                    aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvser.getCode(), intygAvser.getDescription()))
-                            .build());
+                        .withDelsvar(INTYG_AVSER_DELSVAR_ID_1,
+                            aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvser.getCode(), intygAvser.getDescription()))
+                        .build());
                 }
             }
         }
@@ -91,25 +136,25 @@ public final class UtlatandeToIntyg {
         if (source.getIdKontroll() != null && source.getIdKontroll().getTyp() != null) {
             final IdKontrollKod idKontrollKod = source.getIdKontroll().getTyp();
             svars.add(aSvar(ID_KONTROLL_SVAR_ID_1)
-                    .withDelsvar(ID_KONTROLL_DELSVAR_ID_1,
-                            aCV(KV_ID_KONTROLL_CODE_SYSTEM, idKontrollKod.getCode(), idKontrollKod.getDescription()))
-                    .build());
+                .withDelsvar(ID_KONTROLL_DELSVAR_ID_1,
+                    aCV(KV_ID_KONTROLL_CODE_SYSTEM, idKontrollKod.getCode(), idKontrollKod.getDescription()))
+                .build());
         }
 
         if (source.getDiagnosRegistrering() != null && source.getDiagnosRegistrering().getTyp() != null) {
             switch (source.getDiagnosRegistrering().getTyp()) {
-            case DIAGNOS_KODAD:
-                final ImmutableList<DiagnosKodad> diagnosKodad = source.getDiagnosKodad();
-                if (diagnosKodad != null) {
-                    handleDiagnosKodad(diagnosKodad, svars, webcertModuleService);
-                }
-                break;
-            case DIAGNOS_FRITEXT:
-                final DiagnosFritext diagnosFritext = source.getDiagnosFritext();
-                if (diagnosFritext != null) {
-                    handleDiagnosFritext(diagnosFritext, svars);
-                }
-                break;
+                case DIAGNOS_KODAD:
+                    final ImmutableList<DiagnosKodad> diagnosKodad = source.getDiagnosKodad();
+                    if (diagnosKodad != null) {
+                        handleDiagnosKodad(diagnosKodad, svars, webcertModuleService);
+                    }
+                    break;
+                case DIAGNOS_FRITEXT:
+                    final DiagnosFritext diagnosFritext = source.getDiagnosFritext();
+                    if (diagnosFritext != null) {
+                        handleDiagnosFritext(diagnosFritext, svars);
+                    }
+                    break;
             }
         }
 
@@ -119,8 +164,8 @@ public final class UtlatandeToIntyg {
 
         if (source.getBedomningAvSymptom() != null) {
             svars.add(aSvar(SYMPTOM_BEDOMNING_SVAR_ID)
-                    .withDelsvar(SYMPTOM_BEDOMNING_DELSVAR_ID, source.getBedomningAvSymptom())
-                    .build());
+                .withDelsvar(SYMPTOM_BEDOMNING_DELSVAR_ID, source.getBedomningAvSymptom())
+                .build());
         }
 
         if (source.getPrognosTillstand() != null && source.getPrognosTillstand().getTyp() != null) {
@@ -128,27 +173,27 @@ public final class UtlatandeToIntyg {
 
             Object content = null;
             switch (prognosTillstandTyp) {
-            case JA:
-            case NEJ:
-                content = prognosTillstandTyp.getCode();
-                break;
-            case KANEJBEDOMA:
-                content = aCV(KV_V3_CODE_SYSTEM_NULLFLAVOR_SYSTEM, prognosTillstandTyp.getCode(),
+                case JA:
+                case NEJ:
+                    content = prognosTillstandTyp.getCode();
+                    break;
+                case KANEJBEDOMA:
+                    content = aCV(KV_V3_CODE_SYSTEM_NULLFLAVOR_SYSTEM, prognosTillstandTyp.getCode(),
                         prognosTillstandTyp.getDescription());
-                break;
+                    break;
             }
 
             if (content != null) {
                 svars.add(aSvar(SYMPTOM_PROGNOS_SVAR_ID)
-                        .withDelsvar(SYMPTOM_PROGNOS_DELSVAR_ID, content)
-                        .build());
+                    .withDelsvar(SYMPTOM_PROGNOS_DELSVAR_ID, content)
+                    .build());
             }
         }
 
         if (source.getOvrigaKommentarer() != null) {
             svars.add(aSvar(OVRIGT_OVRIGA_KOMMENTARER_SVAR_ID)
-                    .withDelsvar(OVRIGT_OVRIGA_KOMMENTARER_DELSVAR_ID, source.getOvrigaKommentarer())
-                    .build());
+                .withDelsvar(OVRIGT_OVRIGA_KOMMENTARER_DELSVAR_ID, source.getOvrigaKommentarer())
+                .build());
         }
 
         if (source.getBedomning() != null && source.getBedomning().getUppfyllerBehorighetskrav() != null) {
@@ -156,10 +201,10 @@ public final class UtlatandeToIntyg {
             for (Bedomning.BehorighetsTyp behorighetsTyp : source.getBedomning().getUppfyllerBehorighetskrav()) {
                 KorkortsbehorighetKod korkortsbehorighetKod = KorkortsbehorighetKod.fromCode(behorighetsTyp.name());
                 svars.add(aSvar(BEDOMNING_UPPFYLLER_SVAR_ID, behorighetskravInstans++)
-                        .withDelsvar(BEDOMNING_UPPFYLLER_DELSVAR_ID,
-                                aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, korkortsbehorighetKod.getCode(),
-                                        korkortsbehorighetKod.getDescription()))
-                        .build());
+                    .withDelsvar(BEDOMNING_UPPFYLLER_DELSVAR_ID,
+                        aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, korkortsbehorighetKod.getCode(),
+                            korkortsbehorighetKod.getDescription()))
+                    .build());
             }
         }
 
@@ -175,19 +220,19 @@ public final class UtlatandeToIntyg {
     }
 
     private static void handleDiagnosKodad(ImmutableList<DiagnosKodad> diagnosKodad, List<Svar> svars,
-                                           WebcertModuleService webcertModuleService) {
+        WebcertModuleService webcertModuleService) {
         int diagnosKodadInstans = 1;
         for (DiagnosKodad diagnos : diagnosKodad) {
             Year diagnosArtal = getYearContent(diagnos.getDiagnosArtal());
             if (isDiagnoseCodeValid(diagnos, webcertModuleService) && diagnosArtal != null) {
                 svars.add(aSvar(ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID, diagnosKodadInstans++)
-                        .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_ID,
-                                aCV(Diagnoskodverk.valueOf(diagnos.getDiagnosKodSystem()).getCodeSystem(),
-                                        diagnos.getDiagnosKod(), diagnos.getDiagnosDisplayName()))
-                        .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_ID, diagnos.getDiagnosBeskrivning())
-                        .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_ID,
-                                aPartialDate(PartialDateTypeFormatEnum.YYYY, diagnosArtal))
-                        .build());
+                    .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_ID,
+                        aCV(Diagnoskodverk.valueOf(diagnos.getDiagnosKodSystem()).getCodeSystem(),
+                            diagnos.getDiagnosKod(), diagnos.getDiagnosDisplayName()))
+                    .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_ID, diagnos.getDiagnosBeskrivning())
+                    .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_ID,
+                        aPartialDate(PartialDateTypeFormatEnum.YYYY, diagnosArtal))
+                    .build());
             }
         }
     }
@@ -197,8 +242,8 @@ public final class UtlatandeToIntyg {
         if (diagnosArtal != null) {
             SvarBuilder diagnosSvar = aSvar(ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_ID);
             diagnosSvar.withDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_ID, diagnosFritext.getDiagnosFritext())
-                    .withDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_ID,
-                            aPartialDate(PartialDateTypeFormatEnum.YYYY, diagnosArtal));
+                .withDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_ID,
+                    aPartialDate(PartialDateTypeFormatEnum.YYYY, diagnosArtal));
             if (!diagnosSvar.delSvars.isEmpty()) {
                 svars.add(diagnosSvar.build());
             }
@@ -208,50 +253,50 @@ public final class UtlatandeToIntyg {
     private static void handleLakemedelsbehandling(Lakemedelsbehandling lakemedelsbehandling, List<Svar> svars) {
         if (lakemedelsbehandling.getHarHaft() != null) {
             svars.add(aSvar(LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID)
-                    .withDelsvar(LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID,
-                            InternalConverterUtil.getBooleanContent(lakemedelsbehandling.getHarHaft()))
-                    .build());
+                .withDelsvar(LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID,
+                    InternalConverterUtil.getBooleanContent(lakemedelsbehandling.getHarHaft()))
+                .build());
         }
 
         if (lakemedelsbehandling.getPagar() != null) {
             svars.add(aSvar(LAKEMEDELSBEHANDLING_PAGAR_SVAR_ID)
-                    .withDelsvar(LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_ID,
-                            InternalConverterUtil.getBooleanContent(lakemedelsbehandling.getPagar()))
-                    .build());
+                .withDelsvar(LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_ID,
+                    InternalConverterUtil.getBooleanContent(lakemedelsbehandling.getPagar()))
+                .build());
         }
 
         if (lakemedelsbehandling.getAktuell() != null) {
             svars.add(aSvar(LAKEMEDELSBEHANDLING_AKTUELL_SVAR_ID)
-                    .withDelsvar(LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_ID, lakemedelsbehandling.getAktuell())
-                    .build());
+                .withDelsvar(LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_ID, lakemedelsbehandling.getAktuell())
+                .build());
         }
 
         if (lakemedelsbehandling.getPagatt() != null) {
             svars.add(aSvar(LAKEMEDELSBEHANDLING_MER_3_AR_SVAR_ID)
-                    .withDelsvar(LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_ID,
-                            InternalConverterUtil.getBooleanContent(lakemedelsbehandling.getPagatt()))
-                    .build());
+                .withDelsvar(LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_ID,
+                    InternalConverterUtil.getBooleanContent(lakemedelsbehandling.getPagatt()))
+                .build());
         }
 
         if (lakemedelsbehandling.getEffekt() != null) {
             svars.add(aSvar(LAKEMEDELSBEHANDLING_EFFEKT_SVAR_ID)
-                    .withDelsvar(LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_ID,
-                            InternalConverterUtil.getBooleanContent(lakemedelsbehandling.getEffekt()))
-                    .build());
+                .withDelsvar(LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_ID,
+                    InternalConverterUtil.getBooleanContent(lakemedelsbehandling.getEffekt()))
+                .build());
         }
 
         if (lakemedelsbehandling.getFoljsamhet() != null) {
             svars.add(aSvar(LAKEMEDELSBEHANDLING_FOLJSAMHET_SVAR_ID)
-                    .withDelsvar(LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID,
-                            InternalConverterUtil.getBooleanContent(lakemedelsbehandling.getFoljsamhet()))
-                    .build());
+                .withDelsvar(LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID,
+                    InternalConverterUtil.getBooleanContent(lakemedelsbehandling.getFoljsamhet()))
+                .build());
         }
 
         if (lakemedelsbehandling.getAvslutadTidpunkt() != null) {
             svars.add(aSvar(LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID)
-                    .withDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID, lakemedelsbehandling.getAvslutadTidpunkt())
-                    .withDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID, lakemedelsbehandling.getAvslutadOrsak())
-                    .build());
+                .withDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID, lakemedelsbehandling.getAvslutadTidpunkt())
+                .withDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID, lakemedelsbehandling.getAvslutadOrsak())
+                .build());
         }
     }
 }

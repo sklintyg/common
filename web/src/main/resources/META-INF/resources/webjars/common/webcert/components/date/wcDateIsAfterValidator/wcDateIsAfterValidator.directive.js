@@ -18,41 +18,41 @@
  */
 angular.module('common').directive('wcDateIsAfterValidator',
     [
-        function() {
-            'use strict';
+      function() {
+        'use strict';
 
-            return {
-                restrict: 'A',
-                require: '^form',
-                link: function(scope, elm, attrs, form) {
+        return {
+          restrict: 'A',
+          require: '^form',
+          link: function(scope, elm, attrs, form) {
 
-                    scope.date1Ctrl = form[attrs.domId];
-                    scope.date2Ctrl = form[attrs.wcDateIsAfterValidator];
+            scope.date1Ctrl = form[attrs.domId];
+            scope.date2Ctrl = form[attrs.wcDateIsAfterValidator];
 
-                    scope.date1Ctrl.$validators.isBefore = function() {
-                        var date1 = scope.date1Ctrl.$modelValue;
-                        var date2 = scope.date2Ctrl.$modelValue;
-                        if (scope.date1Ctrl.$isEmpty(date1) || scope.date2Ctrl.$isEmpty(date2)) {
-                            // consider empty models to be valid
-                            return true;
-                        }
+            scope.date1Ctrl.$validators.isBefore = function() {
+              var date1 = scope.date1Ctrl.$modelValue;
+              var date2 = scope.date2Ctrl.$modelValue;
+              if (scope.date1Ctrl.$isEmpty(date1) || scope.date2Ctrl.$isEmpty(date2)) {
+                // consider empty models to be valid
+                return true;
+              }
 
-                        var mdate1 = moment(date1, 'YYYY-MM-DD', true);
-                        var mdate2 = moment(date2, 'YYYY-MM-DD', true);
+              var mdate1 = moment(date1, 'YYYY-MM-DD', true);
+              var mdate2 = moment(date2, 'YYYY-MM-DD', true);
 
-                        if(!mdate1.isValid() || !mdate2.isValid()) {
-                            return true;
-                        }
+              if (!mdate1.isValid() || !mdate2.isValid()) {
+                return true;
+              }
 
-                        return !moment(mdate2).isAfter(mdate1);
-                    };
-
-                    // Trigger validation of this field when other field changes
-                    scope.$watch('date2Ctrl.$modelValue', function() {
-                        scope.date1Ctrl.$validate();
-                    });
-                }
+              return !moment(mdate2).isAfter(mdate1);
             };
-        }
+
+            // Trigger validation of this field when other field changes
+            scope.$watch('date2Ctrl.$modelValue', function() {
+              scope.date1Ctrl.$validate();
+            });
+          }
+        };
+      }
     ]
 );

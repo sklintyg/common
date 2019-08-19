@@ -25,10 +25,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
-
 import org.junit.Assert;
 import org.junit.Test;
-
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -80,11 +78,11 @@ public class UtlatandeToIntygTest {
         final String patientPostort = "patientPostort";
 
         TsDiabetesUtlatandeV3 utlatande = buildUtlatande(intygsId, textVersion, enhetsId, enhetsnamn, patientPersonId,
-                skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost,
-                telefonNummer,
-                vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer,
-                patientPostort,
-                null, null).build();
+            skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost,
+            telefonNummer,
+            vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer,
+            patientPostort,
+            null, null).build();
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
 
@@ -155,19 +153,19 @@ public class UtlatandeToIntygTest {
     public void svarWithoutDelsvarInJsonShouldNotPropagateToXml() {
         // Given
         TsDiabetesUtlatandeV3 utlatande = buildUtlatande()
-                .setIntygAvser(IntygAvser.create(null))
-                .setIdentitetStyrktGenom(IdKontroll.create(null))
-                .setAllmant(Allmant.builder()
-                        .setBehandling(Behandling.builder().build())
-                        .build())
-                .setHypoglykemier(Hypoglykemier.builder().build())
-                .setSynfunktion(Synfunktion.builder()
-                        .setBinokulart(Synskarpevarden.builder().build())
-                        .setHoger(Synskarpevarden.builder().build())
-                        .setVanster(Synskarpevarden.builder().build())
-                        .build())
-                .setBedomning(Bedomning.builder().build())
-                .build();
+            .setIntygAvser(IntygAvser.create(null))
+            .setIdentitetStyrktGenom(IdKontroll.create(null))
+            .setAllmant(Allmant.builder()
+                .setBehandling(Behandling.builder().build())
+                .build())
+            .setHypoglykemier(Hypoglykemier.builder().build())
+            .setSynfunktion(Synfunktion.builder()
+                .setBinokulart(Synskarpevarden.builder().build())
+                .setHoger(Synskarpevarden.builder().build())
+                .setVanster(Synskarpevarden.builder().build())
+                .build())
+            .setBedomning(Bedomning.builder().build())
+            .build();
 
         // When
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
@@ -182,20 +180,20 @@ public class UtlatandeToIntygTest {
 
     private static TsDiabetesUtlatandeV3.Builder buildUtlatande(RelationKod relationKod, String relationIntygsId) {
         return buildUtlatande("intygsId", "textVersion", "enhetsId", "enhetsnamn", PNR_TOLVAN,
-                "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer",
-                "postOrt",
-                "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn",
-                "patientPostadress",
-                "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
+            "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer",
+            "postOrt",
+            "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn",
+            "patientPostadress",
+            "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
     }
 
     private static TsDiabetesUtlatandeV3.Builder buildUtlatande(String intygsId, String textVersion, String enhetsId, String enhetsnamn,
-            String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum,
-            String arbetsplatsKod,
-            String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid,
-            String vardgivarNamn,
-            String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
-            String patientPostort, RelationKod relationKod, String relationIntygsId) {
+        String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum,
+        String arbetsplatsKod,
+        String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid,
+        String vardgivarNamn,
+        String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
+        String patientPostort, RelationKod relationKod, String relationIntygsId) {
 
         TsDiabetesUtlatandeV3.Builder template = TsDiabetesUtlatandeV3.builder();
         template.setId(intygsId);

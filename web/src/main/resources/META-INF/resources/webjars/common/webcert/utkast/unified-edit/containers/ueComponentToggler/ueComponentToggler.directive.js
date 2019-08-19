@@ -17,29 +17,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('ueComponentToggler', ['$timeout', 'common.UtkastValidationService', 'common.UtkastValidationViewState',
-     function($timeout, UtkastValidationService, UtkastValidationViewState) {
-        'use strict';
+  function($timeout, UtkastValidationService, UtkastValidationViewState) {
+    'use strict';
 
-        return {
-            restrict: 'E',
-            scope: {
-                form: '=',
-                config: '=',
-                model: '='
-            },
-            templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/containers/ueComponentToggler/ueComponentToggler.directive.html',
-            link: function($scope) {
+    return {
+      restrict: 'E',
+      scope: {
+        form: '=',
+        config: '=',
+        model: '='
+      },
+      templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/containers/ueComponentToggler/ueComponentToggler.directive.html',
+      link: function($scope) {
 
-                $scope.validation = UtkastValidationViewState;
+        $scope.validation = UtkastValidationViewState;
 
-                //Default is to not render the component children..
-                $scope.vm = {
-                    showComponents: false
-                };
-                //Let the state of modelPropToWatch determine if we should show/hide the components
-                $scope.$watch('model.' + $scope.config.modelPropToWatch, function (newVal) {
-                    $scope.vm.showComponents = angular.isDefined(newVal);
-                });
-            }
+        //Default is to not render the component children..
+        $scope.vm = {
+          showComponents: false
         };
-    }]);
+        //Let the state of modelPropToWatch determine if we should show/hide the components
+        $scope.$watch('model.' + $scope.config.modelPropToWatch, function(newVal) {
+          $scope.vm.showComponents = angular.isDefined(newVal);
+        });
+      }
+    };
+  }]);

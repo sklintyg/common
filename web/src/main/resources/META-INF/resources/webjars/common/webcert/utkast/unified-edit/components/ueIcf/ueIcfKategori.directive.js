@@ -18,19 +18,19 @@
  */
 
 angular.module('common').directive('ueIcfKategori', [
-    function() {
+  function() {
     'use strict';
     return {
-        restrict: 'E',
-        scope: {
-            kod: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueIcf/ueIcfKategori.directive.html',
-        link: function(scope) {
-            scope.toggle = function(kategori) {
-                kategori.vald = !kategori.vald;
-            };
-        }
+      restrict: 'E',
+      scope: {
+        kod: '='
+      },
+      templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueIcf/ueIcfKategori.directive.html',
+      link: function(scope) {
+        scope.toggle = function(kategori) {
+          kategori.vald = !kategori.vald;
+        };
+      }
     };
 
-}]);
+  }]);

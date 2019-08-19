@@ -22,39 +22,39 @@
  *
  * Created by marced on 2018-01-26.
  */
-angular.module('ts-diabetes').factory('ts-diabetes.supportPanelConfigFactory.v3', [ function() {
-    'use strict';
+angular.module('ts-diabetes').factory('ts-diabetes.supportPanelConfigFactory.v3', [function() {
+  'use strict';
 
-    function _getConfig(id, intygTypeVersion, isSigned) {
+  function _getConfig(id, intygTypeVersion, isSigned) {
 
-        var config = {
-            tabs: [],
-            intygContext: {
-                type: 'ts-diabetes',
-                id: id,
-                intygTypeVersion: intygTypeVersion,
-                aboutMsgKey: 'FRM_2.RBK',
-                isSigned: isSigned
-            }
-        };
-
-        //Always has this
-        config.tabs.push({
-            id: 'wc-help-tips-panel-tab',
-            title: 'common.supportpanel.help.title',
-            tooltip: 'common.supportpanel.help.tooltip',
-            config: {
-                intygContext: config.intygContext
-            }
-        });
-
-        // First tab of those added should be active by default
-        config.tabs[0].active = true;
-        return angular.copy(config);
-    }
-
-    return {
-        getConfig: _getConfig
+    var config = {
+      tabs: [],
+      intygContext: {
+        type: 'ts-diabetes',
+        id: id,
+        intygTypeVersion: intygTypeVersion,
+        aboutMsgKey: 'FRM_2.RBK',
+        isSigned: isSigned
+      }
     };
 
-} ]);
+    //Always has this
+    config.tabs.push({
+      id: 'wc-help-tips-panel-tab',
+      title: 'common.supportpanel.help.title',
+      tooltip: 'common.supportpanel.help.tooltip',
+      config: {
+        intygContext: config.intygContext
+      }
+    });
+
+    // First tab of those added should be active by default
+    config.tabs[0].active = true;
+    return angular.copy(config);
+  }
+
+  return {
+    getConfig: _getConfig
+  };
+
+}]);

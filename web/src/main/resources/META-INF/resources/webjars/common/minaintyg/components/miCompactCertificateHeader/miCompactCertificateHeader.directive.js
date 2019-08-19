@@ -16,20 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('miCompactCertificateHeader', [ 'common.moduleService', function(moduleService) {
-    'use strict';
+angular.module('common').directive('miCompactCertificateHeader', ['common.moduleService', function(moduleService) {
+  'use strict';
 
-    return {
-        restrict: 'E',
-        scope: {
-            certMetaModel: '=',
-            onViewClick: '&?'
-        },
-        templateUrl: '/web/webjars/common/minaintyg/components/miCompactCertificateHeader/miCompactCertificateHeader.directive.html',
-        controller: function($scope) {
-            $scope.getModuleName = function() {
-                return $scope.certMetaModel && moduleService.getModuleName($scope.certMetaModel.type);
-            };
-        }
-    };
-} ]);
+  return {
+    restrict: 'E',
+    scope: {
+      certMetaModel: '=',
+      onViewClick: '&?'
+    },
+    templateUrl: '/web/webjars/common/minaintyg/components/miCompactCertificateHeader/miCompactCertificateHeader.directive.html',
+    controller: function($scope) {
+      $scope.getModuleName = function() {
+        return $scope.certMetaModel && moduleService.getModuleName($scope.certMetaModel.type);
+      };
+    }
+  };
+}]);

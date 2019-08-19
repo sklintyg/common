@@ -18,14 +18,13 @@
  */
 package se.inera.intyg.common.support.validate;
 
-import com.google.common.base.Joiner;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
+import com.google.common.base.Joiner;
 import java.time.LocalDate;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Test the {@link PersonnummerValidator}.
@@ -34,7 +33,9 @@ import static org.junit.Assert.assertEquals;
  */
 public class SamordningsnummerValidatorTest {
 
-    /** The validator to test. */
+    /**
+     * The validator to test.
+     */
     private SamordningsnummerValidator validator;
 
     @Before
@@ -46,8 +47,6 @@ public class SamordningsnummerValidatorTest {
 
     /**
      * Test that only dates in the samordningsnummer series are supported.
-     *
-     * @throws Exception
      */
     @Test
     public void testPersonnummerDate() throws Exception {

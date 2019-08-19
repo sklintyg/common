@@ -19,30 +19,30 @@ wc-support-panel-manager {
   margin-left: 8px;
   z-index: 4;
 
-  &.minimized{
+  &.minimized {
     width: 110px;
     position: absolute;
     right: 0;
     bottom: 0;
     top: 0;
 
-    .inside-wrapper{
+    .inside-wrapper {
       background-color: $wc-color-27;
       padding-left: 15px;
       padding-right: 15px;
     }
 
-    .minimized-support-tabs{
+    .minimized-support-tabs {
       display: block;
     }
 
     .support-tabs,
-    .tab-content-wrapper{
+    .tab-content-wrapper {
       display: none;
     }
   }
 
-  .inside-wrapper{
+  .inside-wrapper {
     display: flex;
     flex: auto;
     flex-direction: column;
@@ -59,6 +59,7 @@ wc-support-panel-manager {
 
     > li {
       flex: 1 1 auto;
+
       &:first-child a {
         border-radius: 4px 0 0 0;
       }
@@ -126,12 +127,12 @@ wc-support-panel-manager {
     padding: 9px 45px 19px 15px;
     min-height: 70px;
 
-    .navbar-nav > li{
+    .navbar-nav > li {
       margin-top: 10px;
     }
   }
 
-  .tab-content-title-row-title{
+  .tab-content-title-row-title {
     display: block;
     margin-top: 15px;
   }
@@ -143,27 +144,27 @@ wc-support-panel-manager {
   }
 
   // Sidebar when minimized
-  .minimized-support-tabs{
+  .minimized-support-tabs {
     display: none;
     text-align: center;
     list-style-type: none;
     padding: 0;
 
-    li{
+    li {
       margin: 2em 0;
     }
 
-    a{
+    a {
       position: relative;
       font-weight: 500;
       text-decoration: none;
       display: block;
 
-      span{
+      span {
         display: block;
       }
 
-      .notification{
+      .notification {
         background-color: $wc-color-11; // $wc-color-04
         border-radius: 9px;
         color: $wc-color-00;
@@ -179,7 +180,7 @@ wc-support-panel-manager {
     }
   }
 
-  .tab-content-wrapper{
+  .tab-content-wrapper {
     position: relative;
     display: flex;
     flex: 1;
@@ -187,18 +188,18 @@ wc-support-panel-manager {
     min-height: 1%;
   }
 
-  .sidebar-minimize{
+  .sidebar-minimize {
     position: absolute;
     right: 3px;
     top: 16px;
 
-    a{
+    a {
       text-decoration: none;
 
-      .material-icons{
+      .material-icons {
         font-size: 28px;
 
-        & + .material-icons{
+        & + .material-icons {
           margin-left: -25.5px;
         }
       }
@@ -206,7 +207,7 @@ wc-support-panel-manager {
   }
 
   // little hack to hide shadow from space between columns
-  &:after{
+  &:after {
     content: '';
     position: absolute;
     height: 30px;

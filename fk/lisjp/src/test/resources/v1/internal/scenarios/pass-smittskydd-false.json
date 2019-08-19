@@ -37,7 +37,7 @@
   },
   "tillaggsfragor": [],
   "arbetslivsinriktadeAtgarderBeskrivning": "Jobbar bra om man inte stör honom",
-  "avstangningSmittskydd" : "false",
+  "avstangningSmittskydd": "false",
   "arbetslivsinriktadeAtgarder": [
     {
       "typ": "OVRIGA_ATGARDER"

@@ -19,7 +19,6 @@
   -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0"
-    xmlns:ns1="urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3"
     xmlns:ns2="urn:riv:clinicalprocess:healthcond:certificate:3"
     xmlns:ns3="urn:riv:clinicalprocess:healthcond:certificate:types:3"
 
@@ -172,9 +171,9 @@
       </p:enhet>
       <xsl:for-each select="ns2:skapadAv/ns2:specialistkompetens/ns3:displayName">
         <xsl:element name="{$ns-prefix}:specialitet" namespace="{$ns-namespace}">
-          <xsl:attribute name="code" select="." />
-          <xsl:attribute name="codeSystem" select="'coming_soon'" />
-          <xsl:attribute name="codeSystemName" select="'kv_intyg_specialitet'" />
+          <xsl:attribute name="code" select="."/>
+          <xsl:attribute name="codeSystem" select="'coming_soon'"/>
+          <xsl:attribute name="codeSystemName" select="'kv_intyg_specialitet'"/>
         </xsl:element>
       </xsl:for-each>
     </p:skapadAv>

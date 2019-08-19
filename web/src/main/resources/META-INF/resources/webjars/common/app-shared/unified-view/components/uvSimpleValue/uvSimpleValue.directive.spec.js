@@ -18,48 +18,48 @@
  */
 
 describe('uvSimpleValue Directive', function() {
-    'use strict';
+  'use strict';
 
-    var $scope;
-    var element;
+  var $scope;
+  var element;
 
-    beforeEach(angular.mock.module('htmlTemplates'));
-    beforeEach(angular.mock.module('common'));
+  beforeEach(angular.mock.module('htmlTemplates'));
+  beforeEach(angular.mock.module('common'));
 
-    beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {
-        $scope = $rootScope.$new();
+  beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {
+    $scope = $rootScope.$new();
 
-        $scope.viewDataMock ={
-            property1: {
-                name: 'Tolvan'
-            }
-        };
+    $scope.viewDataMock = {
+      property1: {
+        name: 'Tolvan'
+      }
+    };
 
-        $scope.configMock = {
-            modelProp: 'property1.name'
-        };
+    $scope.configMock = {
+      modelProp: 'property1.name'
+    };
 
-        element = $compile(
-            '<uv-simple-value config="configMock" view-data="viewDataMock"></uv-simple-value>'
-        )($scope);
+    element = $compile(
+        '<uv-simple-value config="configMock" view-data="viewDataMock"></uv-simple-value>'
+    )($scope);
 
-    }]));
+  }]));
 
-    it('should display model value when value exists', function() {
-        $scope.$digest();
-        expect(element.isolateScope().value).toBe('Tolvan');
-        expect(element.isolateScope().hasValue()).toBeTruthy();
-        expect($(element).find('span').text()).toContain('Tolvan');
-        expect($(element).find('uv-no-value').length).toBe(0);
-    });
+  it('should display model value when value exists', function() {
+    $scope.$digest();
+    expect(element.isolateScope().value).toBe('Tolvan');
+    expect(element.isolateScope().hasValue()).toBeTruthy();
+    expect($(element).find('span').text()).toContain('Tolvan');
+    expect($(element).find('uv-no-value').length).toBe(0);
+  });
 
-    it('should display "uv-no-value" when no value exists', function() {
-        $scope.viewDataMock = undefined;
-        $scope.$digest();
+  it('should display "uv-no-value" when no value exists', function() {
+    $scope.viewDataMock = undefined;
+    $scope.$digest();
 
-        expect(element.isolateScope().value).toBeUndefined();
-        expect(element.isolateScope().hasValue()).toBeFalsy();
-        expect($(element).find('uv-no-value').length).toBe(1);
-    });
+    expect(element.isolateScope().value).toBeUndefined();
+    expect(element.isolateScope().hasValue()).toBeFalsy();
+    expect($(element).find('uv-no-value').length).toBe(1);
+  });
 
 });

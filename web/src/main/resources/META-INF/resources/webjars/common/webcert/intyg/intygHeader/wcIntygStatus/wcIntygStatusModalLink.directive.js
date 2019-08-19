@@ -17,19 +17,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('wcIntygStatusModalLink', [
-    '$compile',
-    function($compile) {
-        'use strict';
+  '$compile',
+  function($compile) {
+    'use strict';
 
-        return {
-            restrict: 'E',
-            scope: {
-                source:'='
-            },
-            link: function($scope, $element, attrs) {
-                $element[0].innerHTML = $scope.source;
-                $compile($element.contents())($scope);
-            }
-        };
-    }
+    return {
+      restrict: 'E',
+      scope: {
+        source: '='
+      },
+      link: function($scope, $element, attrs) {
+        $element[0].innerHTML = $scope.source;
+        $compile($element.contents())($scope);
+      }
+    };
+  }
 ]);

@@ -18,18 +18,6 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.pdf;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.BaseFont;
@@ -39,6 +27,16 @@ import com.itextpdf.text.pdf.PdfIndirectReference;
 import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
@@ -60,6 +58,7 @@ import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.Vardkontakt;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
+
 @Component("ts-diabetes.v2.PdfGeneratorImpl")
 public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<TsDiabetesUtlatandeV2> {
 
@@ -87,7 +86,7 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
     private static final StringField DIABETIKER_ANNAN_BEHANDLING = new StringField("Falt__39");
     private static final YesNoField KUNSKAP_ATGARD_HYPOGLYKEMI = new YesNoField("Falt_40", "Falt_41");
     private static final YesNoField HYPOGLYKEMIER_MED_TECKEN_PA_NEDSATT_HJARNFUNKTION = new YesNoField("Falt_44",
-            "Falt_45");
+        "Falt_45");
     private static final YesNoField SAKNAR_FORMAGA_KANNA_HYPOGLYKEMI = new YesNoField("Falt_48", "Falt_49");
     private static final YesNoField ALLVARLIG_HYPOGLYKEMI = new YesNoField("Falt_27", "Falt_28");
     private static final StringField ALLVARLIG_HYPOGLYKEMI_ANTAL = new StringField("Falt__50");
@@ -108,7 +107,7 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
     private static final CheckGroupField<BedomningKorkortstyp> BEDOMNING;
     private static final CheckField BEDOMNING_INTE_TA_STALLNING = new CheckField("Falt_91");
     private static final YesNoField LAMPLIGHET_INNEHA_BEHORIGHET_TILL_KORNINGAR_OCH_ARBETSFORMER = new YesNoField(
-            "Falt_92", "Falt_93");
+        "Falt_92", "Falt_93");
     private static final StringField OVRIG_BESKRIVNING = new StringField("FaltDiv6");
     private static final StringField BEDOMNING_BOR_UNDERSOKAS_SPECIALIST = new StringField("Falt__94");
     private static final StringField INTYGSDATUM = new StringField("Falt__95");
@@ -171,7 +170,7 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
 
     @Override
     public byte[] generatePDF(TsDiabetesUtlatandeV2 utlatande, List<Status> statuses, ApplicationOrigin applicationOrigin,
-                              UtkastStatus utkastStatus) throws PdfGeneratorException {
+        UtkastStatus utkastStatus) throws PdfGeneratorException {
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
@@ -230,13 +229,9 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
     /**
      * Method for filling out the fields of a pdf with data from the internal model.
      *
-     * @param utlatande
-     *            {@link TsDiabetesUtlatandeV2} containing data for
-     *            populating the pdf
-     * @param fields
-     *            The fields of the pdf
-     * @throws DocumentException
-     * @throws IOException
+     * @param utlatande {@link TsDiabetesUtlatandeV2} containing data for
+     * populating the pdf
+     * @param fields The fields of the pdf
      */
     private void populatePdfFields(TsDiabetesUtlatandeV2 utlatande, AcroFields fields) throws IOException, DocumentException {
         populatePatientInfo(utlatande.getGrundData().getPatient(), fields);
@@ -301,21 +296,21 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
     }
 
     private void populateHypoglykemier(Hypoglykemier hypoglykemier, AcroFields fields) throws IOException,
-            DocumentException {
+        DocumentException {
         KUNSKAP_ATGARD_HYPOGLYKEMI.setField(fields, hypoglykemier.getKunskapOmAtgarder());
         HYPOGLYKEMIER_MED_TECKEN_PA_NEDSATT_HJARNFUNKTION.setField(fields,
-                hypoglykemier.getTeckenNedsattHjarnfunktion());
+            hypoglykemier.getTeckenNedsattHjarnfunktion());
         SAKNAR_FORMAGA_KANNA_HYPOGLYKEMI.setField(fields, hypoglykemier.getSaknarFormagaKannaVarningstecken());
         ALLVARLIG_HYPOGLYKEMI.setField(fields, hypoglykemier.getAllvarligForekomst());
         ALLVARLIG_HYPOGLYKEMI_ANTAL.setField(fields, hypoglykemier.getAllvarligForekomstBeskrivning());
         ALLVARLIG_HYPOGLYKEMI_I_TRAFIKEN.setField(fields, hypoglykemier.getAllvarligForekomstTrafiken());
         ALLVARLIG_HYPOGLYKEMI_I_TRAFIKEN_BESKRIVNING.setField(fields,
-                hypoglykemier.getAllvarligForekomstTrafikBeskrivning());
+            hypoglykemier.getAllvarligForekomstTrafikBeskrivning());
         EGENOVERVAKNING_BLODGLUKOS.setField(fields, hypoglykemier.getEgenkontrollBlodsocker());
         ALLVARLIG_HYPOGLYKEMI_VAKET_TILLSTAND.setField(fields, hypoglykemier.getAllvarligForekomstVakenTid());
         if (hypoglykemier.getAllvarligForekomstVakenTidObservationstid() != null) {
             ALLVARLIG_HYPOGLYKEMI_VAKET_TILLSTAND_DATUM.setField(fields, hypoglykemier
-                    .getAllvarligForekomstVakenTidObservationstid().getDate().replace("-", ""));
+                .getAllvarligForekomstVakenTidObservationstid().getDate().replace("-", ""));
         }
     }
 
@@ -345,7 +340,7 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
         }
         BEDOMNING_INTE_TA_STALLNING.setField(fields, bedomning.getKanInteTaStallning());
         LAMPLIGHET_INNEHA_BEHORIGHET_TILL_KORNINGAR_OCH_ARBETSFORMER.setField(fields,
-                bedomning.getLamplighetInnehaBehorighet());
+            bedomning.getLamplighetInnehaBehorighet());
         BEDOMNING_BOR_UNDERSOKAS_SPECIALIST.setField(fields, bedomning.getLakareSpecialKompetens());
     }
 
@@ -355,11 +350,11 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
 
     private void populateAvslut(TsDiabetesUtlatandeV2 utlatande, AcroFields fields) throws IOException, DocumentException {
         INTYGSDATUM.setField(fields, utlatande.getGrundData().getSigneringsdatum() != null
-                ? utlatande.getGrundData().getSigneringsdatum().format(DateTimeFormatter.ofPattern("yyMMdd")) : "");
+            ? utlatande.getGrundData().getSigneringsdatum().format(DateTimeFormatter.ofPattern("yyMMdd")) : "");
         Vardenhet vardenhet = utlatande.getGrundData().getSkapadAv().getVardenhet();
         VARDINRATTNINGENS_NAMN.setField(fields, vardenhet.getEnhetsnamn());
         String adressOrt = String.format("%s, %s, %s", vardenhet.getPostadress(), vardenhet.getPostnummer(),
-                vardenhet.getPostort());
+            vardenhet.getPostort());
         if (ADRESS_OCH_ORT.fieldFits(fields, adressOrt)) {
             ADRESS_OCH_ORT.setField(fields, adressOrt);
         } else {
@@ -386,6 +381,7 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
     }
 
     private static final class CheckField {
+
         private final String field;
 
         private CheckField(String field) {
@@ -400,6 +396,7 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
     }
 
     private static class CheckGroupField<T extends Enum<?>> {
+
         private final Map<T, String> fieldMap = new HashMap<>();
 
         public void addField(T code, String field) {
@@ -416,6 +413,7 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
     }
 
     private static final class YesNoField {
+
         private final String yesField;
 
         private final String noField;
@@ -433,6 +431,7 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
     }
 
     private static final class DecimalField {
+
         private static final int ADD_DECIMAL_PART = 10;
 
         private final String integerField;
@@ -456,6 +455,7 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
     }
 
     private static final class StringField {
+
         private final String field;
 
         private StringField(String field) {

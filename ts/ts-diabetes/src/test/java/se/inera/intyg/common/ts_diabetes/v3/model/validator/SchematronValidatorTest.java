@@ -42,10 +42,10 @@ import static se.inera.intyg.common.ts_diabetes.v3.model.validator.ValidationMes
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.commons.debug.GlobalDebug;
-import org.junit.Test;
 import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.junit.Test;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;

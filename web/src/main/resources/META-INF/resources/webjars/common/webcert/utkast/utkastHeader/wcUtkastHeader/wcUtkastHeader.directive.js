@@ -16,22 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcUtkastHeader', [ '$window', '$state', 'common.moduleService', 'common.UtkastHeaderViewState', 'common.UserModel',
-    function($window, $state, moduleService, UtkastHeaderViewState, UserModel) {
-    'use strict';
+angular.module('common').directive('wcUtkastHeader',
+    ['$window', '$state', 'common.moduleService', 'common.UtkastHeaderViewState', 'common.UserModel',
+      function($window, $state, moduleService, UtkastHeaderViewState, UserModel) {
+        'use strict';
 
-    return {
-        restrict: 'E',
-        scope: {
+        return {
+          restrict: 'E',
+          scope: {
             utkastViewState: '=',
             certForm: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/utkast/utkastHeader/wcUtkastHeader/wcUtkastHeader.directive.html',
-        link: function($scope) {
+          },
+          templateUrl: '/web/webjars/common/webcert/utkast/utkastHeader/wcUtkastHeader/wcUtkastHeader.directive.html',
+          link: function($scope) {
 
             $scope.certificateName = moduleService.getModuleName(UtkastHeaderViewState.intygType);
             $scope.backState = 'webcert.create-choose-certtype-index';
             $scope.oldPersonId = UserModel.getIntegrationParam('beforeAlternateSsn');
-        }
-    };
-} ]);
+          }
+        };
+      }]);

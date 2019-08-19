@@ -17,13 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('miFishbone', function() {
-    'use strict';
+  'use strict';
 
-    return {
-        restrict: 'E',
-        scope: {
-            stepModel: '='
-        },
-        templateUrl: '/web/webjars/common/minaintyg/components/customize-pdf/miFishbone.directive.html'
-    };
+  return {
+    restrict: 'E',
+    scope: {
+      stepModel: '='
+    },
+    templateUrl: '/web/webjars/common/minaintyg/components/customize-pdf/miFishbone.directive.html'
+  };
 });

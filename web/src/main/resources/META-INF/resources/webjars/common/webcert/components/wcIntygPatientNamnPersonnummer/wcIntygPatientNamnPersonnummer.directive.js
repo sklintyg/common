@@ -16,16 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcIntygPatientNamnPersonnummer', [ function() {
-    'use strict';
+angular.module('common').directive('wcIntygPatientNamnPersonnummer', [function() {
+  'use strict';
 
-    return {
-        restrict: 'A',
-        scope: {
-            patientName: '=',
-            personId: '=',
-            oldPersonId: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/components/wcIntygPatientNamnPersonnummer/wcIntygPatientNamnPersonnummer.directive.html'
-    };
-} ]);
+  return {
+    restrict: 'A',
+    scope: {
+      patientName: '=',
+      personId: '=',
+      oldPersonId: '='
+    },
+    templateUrl: '/web/webjars/common/webcert/components/wcIntygPatientNamnPersonnummer/wcIntygPatientNamnPersonnummer.directive.html'
+  };
+}]);

@@ -28,10 +28,8 @@ public interface IntygTextsRepository {
     /**
      * Lookup if the version and type of intyg is supported.
      *
-     * @param intygsTyp
-     *              the type of intyg
-     * @param version
-     *              the version of the intyg, described in [major.minor]
+     * @param intygsTyp the type of intyg
+     * @param version the version of the intyg, described in [major.minor]
      * @return boolean if the specific intyg is supported
      */
     boolean isVersionSupported(String intygsTyp, String version);
@@ -39,8 +37,7 @@ public interface IntygTextsRepository {
     /**
      * Returns the latest version for intyg of type <code>intygsType</code>.
      *
-     * @param intygsTyp
-     *            the type of intyg
+     * @param intygsTyp the type of intyg
      * @return the latest version
      */
     String getLatestVersion(String intygsTyp);
@@ -49,8 +46,7 @@ public interface IntygTextsRepository {
      * Returns the latest version for intyg of type <code>intygsType</code> having the same majorVersion as
      * expressed by <code>version</code>.
      *
-     * @param intygsTyp
-     *            the type of intyg
+     * @param intygsTyp the type of intyg
      * @return the latest version
      */
     String getLatestVersionForSameMajorVersion(String intygsTyp, String version);
@@ -58,10 +54,8 @@ public interface IntygTextsRepository {
     /**
      * Returns a map of format Key -> Text for the intyg of specified type and version.
      *
-     * @param intygsTyp
-     *            the type
-     * @param version
-     *            the version
+     * @param intygsTyp the type
+     * @param version the version
      * @return the mapping of Key -> Text
      */
     IntygTexts getTexts(String intygsTyp, String version);

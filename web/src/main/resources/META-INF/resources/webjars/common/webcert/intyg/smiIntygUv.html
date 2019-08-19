@@ -2,13 +2,17 @@
 <div class="webcert-workarea-wrapper">
 
   <!-- page error message -->
-  <wc-error error="viewState.common.activeErrorMessageKey" ng-if="viewState.common.activeErrorMessageKey && viewState.common.doneLoading"></wc-error>
+  <wc-error error="viewState.common.activeErrorMessageKey"
+            ng-if="viewState.common.activeErrorMessageKey && viewState.common.doneLoading"></wc-error>
 
-  <div class="webcert-workarea-hflex-container centered-constrained-content" id="view-{{viewState.common.intygProperties.type}}" ng-show="!viewState.common.activeErrorMessageKey">
+  <div class="webcert-workarea-hflex-container centered-constrained-content"
+       id="view-{{viewState.common.intygProperties.type}}" ng-show="!viewState.common.activeErrorMessageKey">
     <div id="certificate-content-container" class="webcert-workarea-intyg container-fluid">
-      <div class="{{viewState.common.intygProperties.type}}-ns weak-hidden" ng-class="{show: viewState.common.showTemplate}">
+      <div class="{{viewState.common.intygProperties.type}}-ns weak-hidden"
+           ng-class="{show: viewState.common.showTemplate}">
         <wc-spinner label="common.load.certificate" show-spinner="!viewState.common.doneLoading">
-          <div id="certificate" ng-class="{'certificate': true, 'revoked-certificate' : viewState.common.intygProperties.isRevoked}">
+          <div id="certificate"
+               ng-class="{'certificate': true, 'revoked-certificate' : viewState.common.intygProperties.isRevoked}">
             <div class="row">
               <div class="col-md-12">
                 <div class="intyg-body">

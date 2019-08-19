@@ -51,7 +51,7 @@ public class Tillaggsfraga implements Comparable<Tillaggsfraga> {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof  Tillaggsfraga)) {
+        if (!(obj instanceof Tillaggsfraga)) {
             return false;
         }
         Tillaggsfraga other = (Tillaggsfraga) obj;

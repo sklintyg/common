@@ -19,6 +19,8 @@
 
 package se.inera.intyg.common.support.xml;
 
+import static org.junit.Assert.assertEquals;
+
 import java.time.LocalDateTime;
 import javax.xml.bind.JAXBElement;
 import org.junit.Test;
@@ -26,9 +28,6 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.Obje
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v1.UtlatandeId;
 import se.riv.clinicalprocess.healthcond.certificate.v1.Utlatande;
-
-
-import static org.junit.Assert.assertEquals;
 
 public class XmlMarshallerHelperTest {
 

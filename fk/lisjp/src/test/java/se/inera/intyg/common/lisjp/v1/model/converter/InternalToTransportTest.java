@@ -26,35 +26,31 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+import com.helger.schematron.svrl.SVRLHelper;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-
 import javax.xml.transform.stream.StreamSource;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-import com.helger.schematron.svrl.SVRLHelper;
-
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.fkparent.model.converter.RegisterCertificateTestValidator;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
-import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.lisjp.model.internal.Prognos;
 import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
+import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.lisjp.v1.rest.LisjpModuleApiV1;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -118,12 +114,12 @@ public class InternalToTransportTest {
         utlatande.setAktivitetsbegransning("Kommer inte in i bilen");
 
         utlatande.setSjukskrivningar(asList(
-                Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_3_4,
-                        new InternalLocalDateInterval(new InternalDate("2015-12-07"), new InternalDate("2015-12-10"))),
-                Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN,
-                        new InternalLocalDateInterval(new InternalDate("2015-12-12"), new InternalDate("2015-12-14"))),
-                Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_1_4,
-                        new InternalLocalDateInterval(new InternalDate("2015-12-15"), new InternalDate("2015-12-15")))));
+            Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_3_4,
+                new InternalLocalDateInterval(new InternalDate("2015-12-07"), new InternalDate("2015-12-10"))),
+            Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN,
+                new InternalLocalDateInterval(new InternalDate("2015-12-12"), new InternalDate("2015-12-14"))),
+            Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_1_4,
+                new InternalLocalDateInterval(new InternalDate("2015-12-15"), new InternalDate("2015-12-15")))));
 
         utlatande.setForsakringsmedicinsktBeslutsstod("Överskrider inte FMB");
 
@@ -135,8 +131,8 @@ public class InternalToTransportTest {
         utlatande.setPrognos(Prognos.create(PrognosTyp.PROGNOS_OKLAR, null));
 
         utlatande.setArbetslivsinriktadeAtgarder(asList(
-                ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OVRIGT),
-                ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING)));
+            ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OVRIGT),
+            ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING)));
 
         utlatande.setArbetslivsinriktadeAtgarderBeskrivning("Jobbar bra om man inte stör honom");
 
@@ -152,7 +148,7 @@ public class InternalToTransportTest {
 
         RegisterCertificateValidator validator = new RegisterCertificateValidator(LisjpModuleApiV1.SCHEMATRON_FILE);
         SchematronOutputType result = validator
-                .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+            .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
 
         assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
     }

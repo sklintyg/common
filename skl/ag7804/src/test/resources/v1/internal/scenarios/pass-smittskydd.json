@@ -35,7 +35,7 @@
     },
     "signeringsdatum": "2015-12-07T15:48:05.000"
   },
-  "avstangningSmittskydd" : "true",
+  "avstangningSmittskydd": "true",
   "onskarFormedlaDiagnos": true,
   "diagnoser": [
     {
@@ -53,6 +53,6 @@
       "sjukskrivningsgrad": "TRE_FJARDEDEL"
     }
   ],
-  "arbetslivsinriktadeAtgarder" : [],
-  "ovrigt" : "Övriga kommentarer"
+  "arbetslivsinriktadeAtgarder": [],
+  "ovrigt": "Övriga kommentarer"
 }

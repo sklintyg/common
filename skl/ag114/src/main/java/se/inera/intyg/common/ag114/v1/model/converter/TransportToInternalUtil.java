@@ -24,7 +24,6 @@ import static se.inera.intyg.common.support.modules.converter.TransportConverter
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
 
 import java.util.List;
-
 import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -36,6 +35,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
  * Util for AG1-14 diagnoser.
  */
 public final class TransportToInternalUtil {
+
     private TransportToInternalUtil() {
     }
 
@@ -47,17 +47,17 @@ public final class TransportToInternalUtil {
 
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
-            case TYP_AV_DIAGNOS_DELSVAR_ID_4:
-                CVType diagnos = getCVSvarContent(delsvar);
-                diagnosKod = diagnos.getCode();
-                diagnosDisplayName = diagnos.getDisplayName();
-                diagnosKodSystem = diagnos.getCodeSystem();
-                break;
-            case TYP_AV_DIAGNOS_BESKRIVNING_DELSVAR_ID_4:
-                diagnosBeskrivning = getStringContent(delsvar);
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown diagnos delsvar id: " + delsvar.getId());
+                case TYP_AV_DIAGNOS_DELSVAR_ID_4:
+                    CVType diagnos = getCVSvarContent(delsvar);
+                    diagnosKod = diagnos.getCode();
+                    diagnosDisplayName = diagnos.getDisplayName();
+                    diagnosKodSystem = diagnos.getCodeSystem();
+                    break;
+                case TYP_AV_DIAGNOS_BESKRIVNING_DELSVAR_ID_4:
+                    diagnosBeskrivning = getStringContent(delsvar);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown diagnos delsvar id: " + delsvar.getId());
             }
         }
         Diagnoskodverk diagnoskodverk = Diagnoskodverk.getEnumByCodeSystem(diagnosKodSystem);

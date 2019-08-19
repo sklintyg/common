@@ -17,6 +17,7 @@ wc-main-menu {
   // center the entire directive, and constrain the max width
   max-width: $wc-max-content-width;
   margin: auto;
+
   .navbar {
     flex: 1;
     min-height: 0;
@@ -29,9 +30,11 @@ wc-main-menu {
   .navbar-wc {
     background-color: $wc-color-26;
     border-color: transparent;
+
     .navbar-collapse {
       padding: 0;
     }
+
     .navbar-nav {
       > li > a {
         @extend %wc-typo-10;

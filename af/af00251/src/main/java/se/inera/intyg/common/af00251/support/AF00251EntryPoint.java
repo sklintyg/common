@@ -19,7 +19,6 @@
 package se.inera.intyg.common.af00251.support;
 
 import org.springframework.stereotype.Component;
-
 import se.inera.intyg.common.af_parent.support.AfAbstractModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
@@ -67,24 +66,24 @@ public class AF00251EntryPoint extends AfAbstractModuleEntryPoint {
     @Override
     public String getModuleScriptPath(ApplicationOrigin originator) {
         switch (originator) {
-        case MINA_INTYG:
-            return "/web/webjars/af00251/minaintyg/js/module";
-        case WEBCERT:
-            return "/web/webjars/af00251/webcert/module";
-        default:
-            return null;
+            case MINA_INTYG:
+                return "/web/webjars/af00251/minaintyg/js/module";
+            case WEBCERT:
+                return "/web/webjars/af00251/webcert/module";
+            default:
+                return null;
         }
     }
 
     @Override
     public String getModuleDependencyDefinitionPath(ApplicationOrigin originator) {
         switch (originator) {
-        case MINA_INTYG:
-            return "/web/webjars/af00251/minaintyg/js/module-deps.json";
-        case WEBCERT:
-            return "/web/webjars/af00251/webcert/module-deps.json";
-        default:
-            return null;
+            case MINA_INTYG:
+                return "/web/webjars/af00251/minaintyg/js/module-deps.json";
+            case WEBCERT:
+                return "/web/webjars/af00251/webcert/module-deps.json";
+            default:
+                return null;
         }
     }
 }

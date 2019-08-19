@@ -21,6 +21,7 @@ arende-panel-header {
     .arende-header-right {
       display: flex;
       flex-direction: column;
+
       .arende-header-date {
         @extend %wc-typo-07;
         color: $wc-color-09;

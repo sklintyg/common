@@ -18,26 +18,26 @@
  */
 /* jshint maxlen: false */
 angular.module('af00251').constant('af00251.messages', {
-    'sv': {
-        // Composite keys - used with dynamic prefix such as <intygstype> or suffixes <true/false> etc.
-        // Be careful to investigate if they are used before removing them.
+  'sv': {
+    // Composite keys - used with dynamic prefix such as <intygstype> or suffixes <true/false> etc.
+    // Be careful to investigate if they are used before removing them.
 
-        'af00251.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget elektroniskt, ladda ned intyget som en PDF och arkivera intyget. För medicinska frågor som rör ditt intyg ska du kontakta den som utfärdade ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
-        'af00251.label.pageingress.ersatt': 'Här visas hela ditt ersatta läkarintyg. Klicka på länken i den gula inforutan för att komma till det nya intyget som detta blev ersatt med. Klicka på knappen Arkivera intyg för att flytta intyget till <i>Arkiverade intyg</i>. Du kan när som helst återställa intyget igen.',
-        'af00251.label.pageingress.kompletterat': 'Här visas hela ditt kompletterade läkarintyg. Klicka på länken i den gula inforutan för att komma till det nya intyget som detta blev kompletterat med. Klicka på knappen Arkivera intyg för att flytta intyget till <i>Arkiverade intyg</i>. Du kan när som helst återställa intyget igen.',
+    'af00251.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget elektroniskt, ladda ned intyget som en PDF och arkivera intyget. För medicinska frågor som rör ditt intyg ska du kontakta den som utfärdade ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
+    'af00251.label.pageingress.ersatt': 'Här visas hela ditt ersatta läkarintyg. Klicka på länken i den gula inforutan för att komma till det nya intyget som detta blev ersatt med. Klicka på knappen Arkivera intyg för att flytta intyget till <i>Arkiverade intyg</i>. Du kan när som helst återställa intyget igen.',
+    'af00251.label.pageingress.kompletterat': 'Här visas hela ditt kompletterade läkarintyg. Klicka på länken i den gula inforutan för att komma till det nya intyget som detta blev kompletterat med. Klicka på knappen Arkivera intyg för att flytta intyget till <i>Arkiverade intyg</i>. Du kan när som helst återställa intyget igen.',
 
-        // Labels
-        'af00251.label.yes': 'Ja',
-        'af00251.label.no': 'Nej',
+    // Labels
+    'af00251.label.yes': 'Ja',
+    'af00251.label.no': 'Nej',
 
-        'af00251.button.cancel': 'Avbryt',
+    'af00251.button.cancel': 'Avbryt',
 
-        // Composite keys - used with dynamic prefix such as <intygstype>.
-        // Be careful to investigate if they are used before removing them.
-        'af00251.inbox.complementaryinfo': 'Intygsperiod',
-        'af00251.compact-header.complementaryinfo-prefix': 'Gäller intygsperiod:'
-    },
-    'en': {
-        'af00251.label.pagetitle': 'Show Certificate'
-    }
+    // Composite keys - used with dynamic prefix such as <intygstype>.
+    // Be careful to investigate if they are used before removing them.
+    'af00251.inbox.complementaryinfo': 'Intygsperiod',
+    'af00251.compact-header.complementaryinfo-prefix': 'Gäller intygsperiod:'
+  },
+  'en': {
+    'af00251.label.pagetitle': 'Show Certificate'
+  }
 });

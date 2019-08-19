@@ -22,13 +22,10 @@ import static com.google.common.io.Resources.getResource;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.stream.Collectors;
-
-import org.junit.Test;
-
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-
+import java.util.stream.Collectors;
+import org.junit.Test;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
@@ -36,6 +33,7 @@ import se.inera.intyg.common.support.validate.XmlValidator;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 
 public class SchematronValidatorTest {
+
     private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator(TsBasEntryPoint.SCHEMATRON_FILE);
 
     @Test

@@ -18,9 +18,8 @@
  */
 package se.inera.intyg.common.support.integration.module.exception;
 
-import se.inera.intyg.schemas.contract.Personnummer;
-
 import java.util.Optional;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 /**
  * Exception thrown whenever a certificate with unknown certificate ID is tried to access, or the civic registration

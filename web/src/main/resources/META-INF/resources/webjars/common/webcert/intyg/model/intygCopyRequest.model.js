@@ -22,25 +22,25 @@
 
 angular.module('common').factory('common.IntygCopyRequestModel',
     [function() {
-        'use strict';
+      'use strict';
 
-        /**
-         * Constructor
-         *
-         * parameters intygId, intygType, patientPersonnummer, newIntygType
-         */
-        function IntygCopyRequestModel(data) {
-            this.intygId = data.intygId;
-            this.intygType = data.intygType;
-            this.patientPersonnummer = data.patientPersonnummer;
-            this.kommentar = data.kommentar;
-            this.newIntygType = data.newIntygType || data.intygType;
-        }
+      /**
+       * Constructor
+       *
+       * parameters intygId, intygType, patientPersonnummer, newIntygType
+       */
+      function IntygCopyRequestModel(data) {
+        this.intygId = data.intygId;
+        this.intygType = data.intygType;
+        this.patientPersonnummer = data.patientPersonnummer;
+        this.kommentar = data.kommentar;
+        this.newIntygType = data.newIntygType || data.intygType;
+      }
 
-        IntygCopyRequestModel.build = function(data) {
-            return new IntygCopyRequestModel(data);
-        };
+      IntygCopyRequestModel.build = function(data) {
+        return new IntygCopyRequestModel(data);
+      };
 
-        return IntygCopyRequestModel;
+      return IntygCopyRequestModel;
     }
-]);
+    ]);

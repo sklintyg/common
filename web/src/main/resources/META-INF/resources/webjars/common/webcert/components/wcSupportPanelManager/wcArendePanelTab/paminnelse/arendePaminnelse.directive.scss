@@ -10,10 +10,12 @@ arende-paminnelse {
 
       .arende-paminnelse-header {
         display: flex;
+
         .arende-paminnelse-heading {
           @extend %wc-typo-06;
           flex-grow: 1;
         }
+
         .arende-paminnelse-datum {
         }
       }

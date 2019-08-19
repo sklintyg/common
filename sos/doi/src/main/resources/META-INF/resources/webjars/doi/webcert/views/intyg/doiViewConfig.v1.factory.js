@@ -16,251 +16,250 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('doi').factory('doi.viewConfigFactory.v1', [ 'uvUtil', function(uvUtil) {
-    'use strict';
+angular.module('doi').factory('doi.viewConfigFactory.v1', ['uvUtil', function(uvUtil) {
+  'use strict';
 
-    var viewConfig = [
-        {
-            type: 'uv-kategori',
-            labelKey: 'KAT_1.RBK',
-            components: [ {
-                type: 'uv-fraga',
-                labelKey: 'DFR_1.1.RBK',
-                components: [ {
-                    type: 'uv-del-fraga',
-                    components: [ {
-                        type: 'uv-simple-value',
-                        modelProp: 'identitetStyrkt'
-                    } ]
-                } ]
-            }, {
-                type: 'uv-fraga',
-                labelKey: 'DFR_14.1.RBK',
-                components: [ {
-                    type: 'uv-del-fraga',
-                    components: [ {
-                        type: 'uv-simple-value',
-                        modelProp: 'land'
-                    } ]
-                } ]
-            } ]
+  var viewConfig = [
+    {
+      type: 'uv-kategori',
+      labelKey: 'KAT_1.RBK',
+      components: [{
+        type: 'uv-fraga',
+        labelKey: 'DFR_1.1.RBK',
+        components: [{
+          type: 'uv-del-fraga',
+          components: [{
+            type: 'uv-simple-value',
+            modelProp: 'identitetStyrkt'
+          }]
+        }]
+      }, {
+        type: 'uv-fraga',
+        labelKey: 'DFR_14.1.RBK',
+        components: [{
+          type: 'uv-del-fraga',
+          components: [{
+            type: 'uv-simple-value',
+            modelProp: 'land'
+          }]
+        }]
+      }]
+    }, {
+      type: 'uv-kategori',
+      labelKey: 'KAT_2.RBK',
+      components: [{
+        type: 'uv-fraga',
+        labelKey: 'FRG_2.RBK',
+        components: [{
+          type: 'uv-enum-value',
+          values: {
+            'true': 'SVAR_SAKERT.RBK',
+            'false': 'SVAR_EJ_SAKERT.RBK'
+          },
+          modelProp: 'dodsdatumSakert'
         }, {
-            type: 'uv-kategori',
-            labelKey: 'KAT_2.RBK',
-            components: [{
-                type: 'uv-fraga',
-                labelKey: 'FRG_2.RBK',
-                components: [{
-                    type: 'uv-enum-value',
-                    values: {
-                        'true'  : 'SVAR_SAKERT.RBK',
-                        'false' : 'SVAR_EJ_SAKERT.RBK'
-                    },
-                    modelProp: 'dodsdatumSakert'
-                }, {
-                    type: 'uv-del-fraga',
-                    labelKey: 'DFR_2.2.RBK',
-                    components: [{
-                        type: 'uv-simple-value',
-                        modelProp: 'dodsdatum'
-                    }]
-                }, {
-                    type: 'uv-del-fraga',
-                    labelKey: 'DFR_2.3.RBK',
-                    components: [{
-                        type: 'uv-simple-value',
-                        modelProp: 'antraffatDodDatum'
-                    }]
-                }]
-            }, {
-                type: 'uv-fraga',
-                labelKey: 'FRG_3.RBK',
-                components: [ {
-                    type: 'uv-del-fraga',
-                    labelKey: 'DFR_3.1.RBK',
-                    components: [ {
-                        type: 'uv-simple-value',
-                        modelProp: 'dodsplatsKommun'
-                    } ]
+          type: 'uv-del-fraga',
+          labelKey: 'DFR_2.2.RBK',
+          components: [{
+            type: 'uv-simple-value',
+            modelProp: 'dodsdatum'
+          }]
+        }, {
+          type: 'uv-del-fraga',
+          labelKey: 'DFR_2.3.RBK',
+          components: [{
+            type: 'uv-simple-value',
+            modelProp: 'antraffatDodDatum'
+          }]
+        }]
+      }, {
+        type: 'uv-fraga',
+        labelKey: 'FRG_3.RBK',
+        components: [{
+          type: 'uv-del-fraga',
+          labelKey: 'DFR_3.1.RBK',
+          components: [{
+            type: 'uv-simple-value',
+            modelProp: 'dodsplatsKommun'
+          }]
 
-                }, {
-                    type: 'uv-del-fraga',
-                    labelKey: 'DFR_3.2.RBK',
-                    components: [ {
-                        type: 'uv-kodverk-value',
-                        kvModelProps: ['dodsplatsBoende'],
-                        kvLabelKeys: ['DODSPLATS_BOENDE.{var}.RBK']
-                    } ]
+        }, {
+          type: 'uv-del-fraga',
+          labelKey: 'DFR_3.2.RBK',
+          components: [{
+            type: 'uv-kodverk-value',
+            kvModelProps: ['dodsplatsBoende'],
+            kvLabelKeys: ['DODSPLATS_BOENDE.{var}.RBK']
+          }]
 
-                } ]
-            } ]
+        }]
+      }]
+    },
+    {
+      type: 'uv-kategori',
+      labelKey: 'KAT_3.RBK',
+      components: [{
+        type: 'uv-fraga',
+        labelKey: 'DFR_4.1.RBK',
+        components: [{
+          type: 'uv-boolean-value',
+          modelProp: 'barn'
+        }]
+      }]
+    },
+    {
+      type: 'uv-kategori',
+      labelKey: 'KAT_7.RBK',
+      components: [
+        {
+          type: 'uv-fraga',
+          labelKey: 'KAT_7.1.RBK',
+          components: []
         },
         {
-            type: 'uv-kategori',
-            labelKey: 'KAT_3.RBK',
-            components: [ {
-                type: 'uv-fraga',
-                labelKey: 'DFR_4.1.RBK',
-                components: [ {
-                    type: 'uv-boolean-value',
-                    modelProp: 'barn'
-                } ]
-            } ]
-        },
-        {
-            type: 'uv-kategori',
-            labelKey: 'KAT_7.RBK',
-            components: [
-                {
-                    type: 'uv-fraga',
-                    labelKey: 'KAT_7.1.RBK',
-                    components: [
-                    ]
-                },
-                {
-                    type: 'uv-fraga',
-                    labelKey: 'FRG_8.RBK',
-                    components: [
-                        {
-                            type: 'uv-table',
-                            headers: ['DELAT_TEXT.BESKRIVNING.RBK', 'DELAT_TEXT.DEBUT.RBK', 'DELAT_TEXT.SPECIFIKATION.RBK'],
-                            valueProps: ['beskrivning', 'datum', 'DELAD_SVAR.{specifikation}.RBK'],
-                            modelProp: 'terminalDodsorsak'
-                        }
-                    ]
-                },
-                {
-                    type: 'uv-fraga',
-                    labelKey: 'FRG_9.RBK',
-                    components: [
-                        {
-                            type: 'uv-table',
-                            headers: ['DELAT_TEXT.BESKRIVNING.RBK', 'DELAT_TEXT.DEBUT.RBK', 'DELAT_TEXT.SPECIFIKATION.RBK'],
-                            valueProps: ['beskrivning', 'datum', 'DELAD_SVAR.{specifikation}.RBK'],
-                            modelProp: 'foljd'
-                        }
-                    ]
-                },
-                {
-                    type: 'uv-fraga',
-                    labelKey: 'KAT_7.2.RBK',
-                    components: [
-                        {
-                            type: 'uv-table',
-                            headers: ['DELAT_TEXT.BESKRIVNING.RBK', 'DELAT_TEXT.DEBUT.RBK', 'DELAT_TEXT.SPECIFIKATION.RBK'],
-                            valueProps: ['beskrivning', 'datum', 'DELAD_SVAR.{specifikation}.RBK'],
-                            modelProp: 'bidragandeSjukdomar'
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            type: 'uv-kategori',
-            labelKey: 'KAT_8.RBK',
-            components: [ {
-                type: 'uv-fraga',
-                labelKey: 'FRG_12.RBK',
-                components: [
-                    {
-                        type: 'uv-del-fraga',
-                        labelKey: 'DFR_11.1.RBK',
-                        components: [ {
-                            type: 'uv-kodverk-value',
-                            kvModelProps: ['operation'],
-                            kvLabelKeys: ['DFR_11.1.{var}.RBK']
-                        }  ]
-                    },
-                    {
-                        type: 'uv-del-fraga',
-                        labelKey: 'DFR_11.2.RBK',
-                        components: [ {
-                            type: 'uv-simple-value',
-                            modelProp: 'operationDatum'
-                        } ]
-                    },
-                    {
-                        type: 'uv-del-fraga',
-                        labelKey: 'DFR_11.3.RBK',
-                        components: [ {
-                            type: 'uv-simple-value',
-                            modelProp: 'operationAnledning'
-                        } ]
-                    }
-                ]
-            } ]
-        },
-        {
-            type: 'uv-kategori',
-            labelKey: 'KAT_9.RBK',
-            components: [ {
-                type: 'uv-fraga',
-                labelKey: 'FRG_12.RBK',
-                components: [
-                    {
-                        type: 'uv-del-fraga',
-                        labelKey: 'DFR_12.1.RBK',
-                        components: [ {
-                            type: 'uv-boolean-value',
-                            modelProp: 'forgiftning'
-                        } ]
-                    },
-                    {
-                        type: 'uv-del-fraga',
-                        labelKey: 'DFR_12.2.RBK',
-                        components: [ {
-                            type: 'uv-kodverk-value',
-                            kvModelProps: ['forgiftningOrsak'],
-                            kvLabelKeys: ['ORSAK.{var}.RBK']
-                        }  ]
-                    },
-                    {
-                        type: 'uv-del-fraga',
-                        labelKey: 'DFR_12.3.RBK',
-                        components: [ {
-                            type: 'uv-simple-value',
-                            modelProp: 'forgiftningDatum'
-                        } ]
-                    },
-                    {
-                        type: 'uv-del-fraga',
-                        labelKey: 'DFR_12.4.RBK',
-                        components: [ {
-                            type: 'uv-simple-value',
-                            modelProp: 'forgiftningUppkommelse'
-                        } ]
-                    }
-                ]
-            } ]
-        },
-        {
-            type: 'uv-kategori',
-            labelKey: 'KAT_10.RBK',
-            components: [ {
-                type: 'uv-fraga',
-                labelKey: 'DFR_13.1.RBK',
-                components: [ {
-                    type: 'uv-list',
-                    labelKey: 'DODSORSAKSUPPGIFTER.{var}.RBK', // {var} is a placeholder for sysselsattning.typ values
-                    modelProp: 'grunder'
-                } ]
-            } ]
-        },
-        {
-            type: 'uv-skapad-av',
-            modelProp: 'grundData.skapadAv'
-        }
-    ];
-
-    return {
-        getViewConfig: function(webcert) {
-            var config = angular.copy(viewConfig);
-
-            if (webcert) {
-                config = uvUtil.convertToWebcert(config);
+          type: 'uv-fraga',
+          labelKey: 'FRG_8.RBK',
+          components: [
+            {
+              type: 'uv-table',
+              headers: ['DELAT_TEXT.BESKRIVNING.RBK', 'DELAT_TEXT.DEBUT.RBK', 'DELAT_TEXT.SPECIFIKATION.RBK'],
+              valueProps: ['beskrivning', 'datum', 'DELAD_SVAR.{specifikation}.RBK'],
+              modelProp: 'terminalDodsorsak'
             }
-
-            return config;
+          ]
+        },
+        {
+          type: 'uv-fraga',
+          labelKey: 'FRG_9.RBK',
+          components: [
+            {
+              type: 'uv-table',
+              headers: ['DELAT_TEXT.BESKRIVNING.RBK', 'DELAT_TEXT.DEBUT.RBK', 'DELAT_TEXT.SPECIFIKATION.RBK'],
+              valueProps: ['beskrivning', 'datum', 'DELAD_SVAR.{specifikation}.RBK'],
+              modelProp: 'foljd'
+            }
+          ]
+        },
+        {
+          type: 'uv-fraga',
+          labelKey: 'KAT_7.2.RBK',
+          components: [
+            {
+              type: 'uv-table',
+              headers: ['DELAT_TEXT.BESKRIVNING.RBK', 'DELAT_TEXT.DEBUT.RBK', 'DELAT_TEXT.SPECIFIKATION.RBK'],
+              valueProps: ['beskrivning', 'datum', 'DELAD_SVAR.{specifikation}.RBK'],
+              modelProp: 'bidragandeSjukdomar'
+            }
+          ]
         }
-    };
-} ]);
+      ]
+    },
+    {
+      type: 'uv-kategori',
+      labelKey: 'KAT_8.RBK',
+      components: [{
+        type: 'uv-fraga',
+        labelKey: 'FRG_12.RBK',
+        components: [
+          {
+            type: 'uv-del-fraga',
+            labelKey: 'DFR_11.1.RBK',
+            components: [{
+              type: 'uv-kodverk-value',
+              kvModelProps: ['operation'],
+              kvLabelKeys: ['DFR_11.1.{var}.RBK']
+            }]
+          },
+          {
+            type: 'uv-del-fraga',
+            labelKey: 'DFR_11.2.RBK',
+            components: [{
+              type: 'uv-simple-value',
+              modelProp: 'operationDatum'
+            }]
+          },
+          {
+            type: 'uv-del-fraga',
+            labelKey: 'DFR_11.3.RBK',
+            components: [{
+              type: 'uv-simple-value',
+              modelProp: 'operationAnledning'
+            }]
+          }
+        ]
+      }]
+    },
+    {
+      type: 'uv-kategori',
+      labelKey: 'KAT_9.RBK',
+      components: [{
+        type: 'uv-fraga',
+        labelKey: 'FRG_12.RBK',
+        components: [
+          {
+            type: 'uv-del-fraga',
+            labelKey: 'DFR_12.1.RBK',
+            components: [{
+              type: 'uv-boolean-value',
+              modelProp: 'forgiftning'
+            }]
+          },
+          {
+            type: 'uv-del-fraga',
+            labelKey: 'DFR_12.2.RBK',
+            components: [{
+              type: 'uv-kodverk-value',
+              kvModelProps: ['forgiftningOrsak'],
+              kvLabelKeys: ['ORSAK.{var}.RBK']
+            }]
+          },
+          {
+            type: 'uv-del-fraga',
+            labelKey: 'DFR_12.3.RBK',
+            components: [{
+              type: 'uv-simple-value',
+              modelProp: 'forgiftningDatum'
+            }]
+          },
+          {
+            type: 'uv-del-fraga',
+            labelKey: 'DFR_12.4.RBK',
+            components: [{
+              type: 'uv-simple-value',
+              modelProp: 'forgiftningUppkommelse'
+            }]
+          }
+        ]
+      }]
+    },
+    {
+      type: 'uv-kategori',
+      labelKey: 'KAT_10.RBK',
+      components: [{
+        type: 'uv-fraga',
+        labelKey: 'DFR_13.1.RBK',
+        components: [{
+          type: 'uv-list',
+          labelKey: 'DODSORSAKSUPPGIFTER.{var}.RBK', // {var} is a placeholder for sysselsattning.typ values
+          modelProp: 'grunder'
+        }]
+      }]
+    },
+    {
+      type: 'uv-skapad-av',
+      modelProp: 'grundData.skapadAv'
+    }
+  ];
+
+  return {
+    getViewConfig: function(webcert) {
+      var config = angular.copy(viewConfig);
+
+      if (webcert) {
+        config = uvUtil.convertToWebcert(config);
+      }
+
+      return config;
+    }
+  };
+}]);

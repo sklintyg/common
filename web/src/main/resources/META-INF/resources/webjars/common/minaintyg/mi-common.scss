@@ -1,9 +1,8 @@
- @CHARSET "UTF-8";
+@CHARSET "UTF-8";
 
 @import "components/fonts";
 @import "components/variables";
 @import "components/mixins";
-
 // Component styles are injected through grunt
 // injector
 @import '../app-shared/servicebanner/serviceBanner.directive.scss';

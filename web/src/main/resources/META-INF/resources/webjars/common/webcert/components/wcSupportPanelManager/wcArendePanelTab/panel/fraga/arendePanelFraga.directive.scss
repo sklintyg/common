@@ -16,7 +16,7 @@
   }
 
   .arende-visa-komplettering-button {
-    display:flex;
+    display: flex;
     padding: 5px 10px;
     margin-top: 5px;
     align-items: center;
@@ -31,23 +31,29 @@
     width: 100%;
 
     color: $wc-color-09;
+
     .material-icons {
       color: $wc-color-05;
       margin-right: 10px;
     }
+
     .arende-visa-komplettering-text {
       flex-grow: 1;
+
       div {
         color: $wc-color-05;
       }
     }
+
     &:hover {
       background-color: $wc-color-21;
       border-color: $wc-color-21;
       color: $wc-color-00;
+
       .material-icons {
         color: $wc-color-00;
       }
+
       .arende-visa-komplettering-text {
         div {
           color: $wc-color-00;

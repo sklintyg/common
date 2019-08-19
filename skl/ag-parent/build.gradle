@@ -14,8 +14,8 @@ dependencies {
     compile "org.springframework:spring-tx:${springVersion}"
 
     compile "com.google.auto.value:auto-value:${autovalueVersion}"
-    compile "org.apache.commons:commons-lang3:${commonsLang3Version}"    
+    compile "org.apache.commons:commons-lang3:${commonsLang3Version}"
 
     compile "com.google.auto.value:auto-value:${autovalueVersion}"
-annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
+    annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
 }

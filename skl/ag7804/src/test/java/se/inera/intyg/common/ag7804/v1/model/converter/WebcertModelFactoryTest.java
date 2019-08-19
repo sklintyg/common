@@ -27,7 +27,6 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
-
 import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +36,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.core.io.ClassPathResource;
-
 import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
@@ -77,7 +75,7 @@ public class WebcertModelFactoryTest {
     @Before
     public void setUp() {
         when(intygTextsService.getLatestVersionForSameMajorVersion(eq(Ag7804EntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
-                .thenReturn(INTYG_TYPE_VERSION_1_2);
+            .thenReturn(INTYG_TYPE_VERSION_1_2);
     }
 
     @Test
@@ -106,10 +104,10 @@ public class WebcertModelFactoryTest {
         copyHolder.setIntygTypeVersion("1.1");
 
         LisjpUtlatandeV1 template = customObjectMapper.readValue(new ClassPathResource(
-                LISJP_TESTFILE_UTLATANDE_TEMPLATE).getFile(), LisjpUtlatandeV1.class);
+            LISJP_TESTFILE_UTLATANDE_TEMPLATE).getFile(), LisjpUtlatandeV1.class);
 
         Ag7804UtlatandeV1 expectedUtlatande = customObjectMapper.readValue(new ClassPathResource(
-                AG7804_TESTFILE_UTLATANDE_EXPECTED).getFile(), Ag7804UtlatandeV1.class);
+            AG7804_TESTFILE_UTLATANDE_EXPECTED).getFile(), Ag7804UtlatandeV1.class);
 
         Ag7804UtlatandeV1 draft = modelFactory.createCopy(copyHolder, template);
         assertNotNull(draft);

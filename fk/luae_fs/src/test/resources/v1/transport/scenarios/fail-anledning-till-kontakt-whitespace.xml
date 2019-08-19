@@ -100,7 +100,7 @@
     </svar>
     <svar id="26">
       <delsvar id="26.1">true</delsvar>
-      <delsvar id="26.2">   </delsvar>
+      <delsvar id="26.2"></delsvar>
     </svar>
   </ns2:intyg>
 </ns2:RegisterCertificate>

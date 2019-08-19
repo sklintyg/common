@@ -18,14 +18,6 @@
  */
 package se.inera.intyg.common.fk7263.pdf;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.itextpdf.text.BaseColor;
@@ -41,7 +33,13 @@ import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfGState;
 import com.itextpdf.text.pdf.PdfStamper;
-
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.support.model.CertificateState;
@@ -72,7 +70,7 @@ public abstract class PdfAbstractGenerator {
     private static final int WATERMARK_FONTSIZE = 11;
 
     protected static final String ELECTRONIC_COPY_WATERMARK_TEXT = "Detta är en utskrift av ett elektroniskt intyg. \n"
-            + "Intyget har signerats elektroniskt av intygsutfärdaren.";
+        + "Intyget har signerats elektroniskt av intygsutfärdaren.";
 
     // Right margin texts
     protected static final String MINA_INTYG_MARGIN_TEXT = "Intyget är utskrivet från Mina Intyg.";
@@ -249,7 +247,7 @@ public abstract class PdfAbstractGenerator {
         addOverlay.setColorFill(SIGNATURE_NOT_REQUIRED_COLOR);
         addOverlay.setColorStroke(CMYKColor.BLACK);
         addOverlay.rectangle(SIGNATURE_NOT_REQUIRED_START_X, SIGNATURE_NOT_REQUIRED_START_Y, SIGNATURE_NOT_REQUIRED_WIDTH,
-                SIGNATURE_NOT_REQUIRED_HEIGHT);
+            SIGNATURE_NOT_REQUIRED_HEIGHT);
         addOverlay.setLineWidth(LINE_WIDTH);
         addOverlay.fillStroke();
         addOverlay.restoreState();
@@ -260,7 +258,7 @@ public abstract class PdfAbstractGenerator {
         addOverlay.beginText();
         addOverlay.setFontAndSize(bf, SIGNATURE_NOT_REQUIRED_FONT_SIZE);
         addOverlay.setTextMatrix(SIGNATURE_NOT_REQUIRED_START_X + SIGNATURE_NOT_REQUIRED_PADDING_LEFT, SIGNATURE_NOT_REQUIRED_START_Y
-                + SIGNATURE_NOT_REQUIRED_PADDING_BOTTOM);
+            + SIGNATURE_NOT_REQUIRED_PADDING_BOTTOM);
         addOverlay.showText(SIGNATURE_NOT_REQUIRED_TEXT);
         addOverlay.endText();
         addOverlay.restoreState();
@@ -281,11 +279,11 @@ public abstract class PdfAbstractGenerator {
     // Mark this document as a copy of an electronically signed document
     protected void markAsElectronicCopy(PdfStamper pdfStamper) throws DocumentException, IOException {
         mark(pdfStamper, ELECTRONIC_COPY_WATERMARK_TEXT, MARK_AS_COPY_START_X, MARK_AS_COPY_START_Y, MARK_AS_COPY_HEIGTH,
-                MARK_AS_COPY_WIDTH);
+            MARK_AS_COPY_WIDTH);
     }
 
     protected void mark(PdfStamper pdfStamper, String watermarkText, int startX, int startY, int height, int width)
-            throws DocumentException, IOException {
+        throws DocumentException, IOException {
         PdfContentByte addOverlay;
         addOverlay = pdfStamper.getOverContent(1);
         addOverlay.saveState();
@@ -311,7 +309,7 @@ public abstract class PdfAbstractGenerator {
 
     public static boolean isMakulerad(List<Status> statuses) {
         return statuses != null && statuses.stream().filter(Objects::nonNull)
-                .anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
+            .anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
     }
 
     public void addIntygStateWatermark(PdfStamper stamper, int nrPages, boolean isUtkast, boolean isMakulerad, boolean isLocked) {
@@ -351,7 +349,7 @@ public abstract class PdfAbstractGenerator {
 
 
     protected void createRightMarginText(PdfStamper pdfStamper, int numberOfPages, String id, String text)
-            throws DocumentException, IOException {
+        throws DocumentException, IOException {
         PdfContentByte addOverlay;
         BaseFont bf = BaseFont.createFont();
         // Do text
@@ -379,7 +377,7 @@ public abstract class PdfAbstractGenerator {
     protected void fillSignerNameAndAddress() {
         fillText(SIGN_NAME, intyg.getNamnfortydligandeOchAdress());
         fillText(SIGN_DATE, intyg.getGrundData().getSigneringsdatum() != null
-                ? intyg.getGrundData().getSigneringsdatum().format(DateTimeFormatter.ofPattern(DATE_PATTERN)) : "");
+            ? intyg.getGrundData().getSigneringsdatum().format(DateTimeFormatter.ofPattern(DATE_PATTERN)) : "");
     }
 
     protected void fillTravel() {
@@ -394,18 +392,18 @@ public abstract class PdfAbstractGenerator {
     protected void fillPrognose() {
         if (intyg.getPrognosBedomning() != null) {
             switch (intyg.getPrognosBedomning()) {
-            case arbetsformagaPrognosJa:
-                checkField(WORK_CAPACITY_FORECAST_YES);
-                break;
-            case arbetsformagaPrognosJaDelvis:
-                checkField(WORK_CAPACITY_FORECAST_PARTLY);
-                break;
-            case arbetsformagaPrognosNej:
-                checkField(WORK_CAPACITY_FORECAST_NO);
-                break;
-            case arbetsformagaPrognosGarInteAttBedoma:
-                checkField(WORK_CAPACITY_FORECAST_UNKNOWN);
-                break;
+                case arbetsformagaPrognosJa:
+                    checkField(WORK_CAPACITY_FORECAST_YES);
+                    break;
+                case arbetsformagaPrognosJaDelvis:
+                    checkField(WORK_CAPACITY_FORECAST_PARTLY);
+                    break;
+                case arbetsformagaPrognosNej:
+                    checkField(WORK_CAPACITY_FORECAST_NO);
+                    break;
+                case arbetsformagaPrognosGarInteAttBedoma:
+                    checkField(WORK_CAPACITY_FORECAST_UNKNOWN);
+                    break;
             }
         }
     }
@@ -415,7 +413,7 @@ public abstract class PdfAbstractGenerator {
     }
 
     protected void fillNedsattning(InternalLocalDateInterval interval, String checkboxFieldName, String fromDateFieldName,
-            String toDateFieldName) {
+        String toDateFieldName) {
         if (interval != null) {
             checkField(checkboxFieldName);
             fillText(fromDateFieldName, interval.getFrom().getDate());
@@ -425,13 +423,13 @@ public abstract class PdfAbstractGenerator {
 
     protected void fillCapacity() {
         fillNedsattning(intyg.getNedsattMed100(), REDUCED_WORK_CAPACITY_FULL, REDUCED_WORK_CAPACITY_FULL_FROM,
-                REDUCED_WORK_CAPACITY_FULL_TOM);
+            REDUCED_WORK_CAPACITY_FULL_TOM);
         fillNedsattning(intyg.getNedsattMed75(), REDUCED_WORK_CAPACITY_75, REDUCED_WORK_CAPACITY_75_FROM,
-                REDUCED_WORK_CAPACITY_75_TOM);
+            REDUCED_WORK_CAPACITY_75_TOM);
         fillNedsattning(intyg.getNedsattMed50(), REDUCED_WORK_CAPACITY_50, REDUCED_WORK_CAPACITY_50_FROM,
-                REDUCED_WORK_CAPACITY_50_TOM);
+            REDUCED_WORK_CAPACITY_50_TOM);
         fillNedsattning(intyg.getNedsattMed25(), REDUCED_WORK_CAPACITY_25, REDUCED_WORK_CAPACITY_25_FROM,
-                REDUCED_WORK_CAPACITY_25_TOM);
+            REDUCED_WORK_CAPACITY_25_TOM);
     }
 
     protected void fillCapacityRelativeToNuvarandeArbete() {
@@ -451,15 +449,15 @@ public abstract class PdfAbstractGenerator {
     protected void fillRehabilitation() {
         if (intyg.getRehabilitering() != null) {
             switch (intyg.getRehabilitering()) {
-            case rehabiliteringAktuell:
-                setField(RECOMMENDATION_REHAB_YES, true);
-                break;
-            case rehabiliteringEjAktuell:
-                setField(RECOMMENDATION_REHAB_NO, true);
-                break;
-            case rehabiliteringGarInteAttBedoma:
-                setField(RECOMMENDATION_REHAB_UNKNOWN, true);
-                break;
+                case rehabiliteringAktuell:
+                    setField(RECOMMENDATION_REHAB_YES, true);
+                    break;
+                case rehabiliteringEjAktuell:
+                    setField(RECOMMENDATION_REHAB_NO, true);
+                    break;
+                case rehabiliteringGarInteAttBedoma:
+                    setField(RECOMMENDATION_REHAB_UNKNOWN, true);
+                    break;
             }
         }
     }

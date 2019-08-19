@@ -18,115 +18,117 @@
  */
 
 describe('wArendeFooter', function() {
-    'use strict';
+  'use strict';
 
-    var $scope;
-    var $rootScope;
-    var $window;
-    var authorityService;
-    var ArendeListViewState;
-    var UserModel;
-    var ArendeProxy;
-    var DialogService;
+  var $scope;
+  var $rootScope;
+  var $window;
+  var authorityService;
+  var ArendeListViewState;
+  var UserModel;
+  var ArendeProxy;
+  var DialogService;
 
-    // Load the webcert module and mock away everything that is not necessary.
-    beforeEach(angular.mock.module('common', function($provide) {
-        $provide.value('common.dialogService', jasmine.createSpyObj('common.dialogService',
-            [ 'showErrorMessageDialog']));
+  // Load the webcert module and mock away everything that is not necessary.
+  beforeEach(angular.mock.module('common', function($provide) {
+    $provide.value('common.dialogService', jasmine.createSpyObj('common.dialogService',
+        ['showErrorMessageDialog']));
 
-        $provide.value('common.ArendeProxy', jasmine.createSpyObj('common.ArendeProxy', ['setVidarebefordradState']));
-        $provide.value('$window', {location:{
-            protocol:'protocol',
-            hostname:'hostname',
-            port:'port'
-        }});
-        $provide.value('common.authorityService', jasmine.createSpyObj('common.authorityService', ['isAuthorityActive']));
-    }));
+    $provide.value('common.ArendeProxy', jasmine.createSpyObj('common.ArendeProxy', ['setVidarebefordradState']));
+    $provide.value('$window', {
+      location: {
+        protocol: 'protocol',
+        hostname: 'hostname',
+        port: 'port'
+      }
+    });
+    $provide.value('common.authorityService', jasmine.createSpyObj('common.authorityService', ['isAuthorityActive']));
+  }));
 
-    beforeEach(angular.mock.module('htmlTemplates'));
+  beforeEach(angular.mock.module('htmlTemplates'));
 
-    beforeEach(angular.mock.inject(['$controller', '$compile', '$rootScope', '$window',
-        'common.authorityService', 'common.ArendeListViewStateService', 'common.UserModel',
-        'common.ArendeProxy', 'common.dialogService',
-        function($controller, $compile, _$rootScope_, _$window_,
-            _authorityService_, _ArendeListViewState_, _UserModel_, _ArendeProxy_, _DialogService_) {
-            $rootScope = _$rootScope_;
-            $window = _$window_;
-            ArendeListViewState = _ArendeListViewState_;
-            ArendeProxy = _ArendeProxy_;
-            authorityService = _authorityService_;
-            authorityService.isAuthorityActive.and.returnValue(true);
-            UserModel = _UserModel_;
-            DialogService = _DialogService_;
+  beforeEach(angular.mock.inject(['$controller', '$compile', '$rootScope', '$window',
+    'common.authorityService', 'common.ArendeListViewStateService', 'common.UserModel',
+    'common.ArendeProxy', 'common.dialogService',
+    function($controller, $compile, _$rootScope_, _$window_,
+        _authorityService_, _ArendeListViewState_, _UserModel_, _ArendeProxy_, _DialogService_) {
+      $rootScope = _$rootScope_;
+      $window = _$window_;
+      ArendeListViewState = _ArendeListViewState_;
+      ArendeProxy = _ArendeProxy_;
+      authorityService = _authorityService_;
+      authorityService.isAuthorityActive.and.returnValue(true);
+      UserModel = _UserModel_;
+      DialogService = _DialogService_;
 
-            $scope = $rootScope.$new();
-            $scope.arendeList = [{
-                arende:{
-                    fraga:{
-                        internReferens: 'ID111',
-                        intygId:'ID112',
-                        enhetsnamn:'enhet1',
-                        vardgivarnamn:'vardgivare1'
-                    },
-                    svar:{}
-                }
-            }];
+      $scope = $rootScope.$new();
+      $scope.arendeList = [{
+        arende: {
+          fraga: {
+            internReferens: 'ID111',
+            intygId: 'ID112',
+            enhetsnamn: 'enhet1',
+            vardgivarnamn: 'vardgivare1'
+          },
+          svar: {}
+        }
+      }];
 
-            UserModel.user = {
-                valdVardenhet:{ namn: 'VE' },
-                valdVardgivare:{ namn: 'VG' }
-            };
+      UserModel.user = {
+        valdVardenhet: {namn: 'VE'},
+        valdVardgivare: {namn: 'VG'}
+      };
 
-            ArendeListViewState.intyg.id = 'testIntygId';
-            ArendeListViewState.intyg.grundData = { skapadAv:{vardenhet:{enhetsid:'testenhetsid'}}};
-            ArendeListViewState.intygProperties.type = 'lisjp';
+      ArendeListViewState.intyg.id = 'testIntygId';
+      ArendeListViewState.intyg.grundData = {skapadAv: {vardenhet: {enhetsid: 'testenhetsid'}}};
+      ArendeListViewState.intygProperties.type = 'lisjp';
 
-            var tpl = angular.element(
-                '<wc-arende-footer arende-list="arendeList"></wc-arende-footer>'
-            );
-            var element = $compile(tpl)($scope);
-            $scope.$digest();
-            $scope = element.isolateScope();
-        }]));
+      var tpl = angular.element(
+          '<wc-arende-footer arende-list="arendeList"></wc-arende-footer>'
+      );
+      var element = $compile(tpl)($scope);
+      $scope.$digest();
+      $scope = element.isolateScope();
+    }]));
 
+  it('should open mail dialog', function() {
+    $scope.openMailDialog();
 
-    it('should open mail dialog', function() {
-        $scope.openMailDialog();
+    expect($window.location).toEqual(
+        'mailto:?subject=Ett%20%C3%A4rende%20ska%20hanteras%20i%20Webcert%20p%C3%A5%20enhet%20VE%20f%C3%B6r%20v%C3%A5rdgivare%20VG' +
+        '&body=Klicka%20p%C3%A5%20l%C3%A4nken%20f%C3%B6r%20att%20hantera%20%C3%A4rendet%3A%0Aprotocol%2F%2Fhostname%3Aport%2F' +
+        'webcert%2Fweb' +
+        '%2Fuser%2Fbasic-certificate%2Flisjp%2FtestIntygId%2Fquestions%0A%0AOBS!%20S%C3%A4tt%20i%20ditt%20SITHS-kort%20innan%20du' +
+        '%20klickar%20p%C3%A5%20l%C3%A4nken.');
+  });
 
-        expect($window.location).toEqual(
-            'mailto:?subject=Ett%20%C3%A4rende%20ska%20hanteras%20i%20Webcert%20p%C3%A5%20enhet%20VE%20f%C3%B6r%20v%C3%A5rdgivare%20VG'+
-            '&body=Klicka%20p%C3%A5%20l%C3%A4nken%20f%C3%B6r%20att%20hantera%20%C3%A4rendet%3A%0Aprotocol%2F%2Fhostname%3Aport%2Fwebcert%2Fweb'+
-            '%2Fuser%2Fbasic-certificate%2Flisjp%2FtestIntygId%2Fquestions%0A%0AOBS!%20S%C3%A4tt%20i%20ditt%20SITHS-kort%20innan%20du'+
-            '%20klickar%20p%C3%A5%20l%C3%A4nken.');
+  describe('#vidarebefordra', function() {
+    it('should setVidarebefordradState when forward state is changed with onVidarebefordrad', function() {
+
+      ArendeProxy.setVidarebefordradState.and.callFake(function(a, b, fn) {
+        fn([{
+          fraga: {
+            vidarebefordrad: true,
+            status: 'CLOSED'
+          }
+        }]);
+      });
+
+      $scope.onVidarebefordradChange();
+
+      expect(ArendeProxy.setVidarebefordradState).toHaveBeenCalled();
     });
 
-    describe('#vidarebefordra', function() {
-        it('should setVidarebefordradState when forward state is changed with onVidarebefordrad', function() {
+    it('should show error message if request fails', function() {
 
-            ArendeProxy.setVidarebefordradState.and.callFake(function(a,b,fn) {
-                fn([{
-                    fraga: {
-                        vidarebefordrad: true,
-                        status: 'CLOSED'
-                    }
-                }]);
-            });
+      ArendeProxy.setVidarebefordradState.and.callFake(function(a, b, fn) {
+        fn('');
+      });
 
-            $scope.onVidarebefordradChange();
+      $scope.onVidarebefordradChange();
 
-            expect(ArendeProxy.setVidarebefordradState).toHaveBeenCalled();
-        });
-
-        it('should show error message if request fails', function() {
-
-            ArendeProxy.setVidarebefordradState.and.callFake(function(a,b,fn) {
-                fn('');
-            });
-
-            $scope.onVidarebefordradChange();
-
-            expect(DialogService.showErrorMessageDialog).toHaveBeenCalled();
-        });
+      expect(DialogService.showErrorMessageDialog).toHaveBeenCalled();
     });
+  });
 
 });

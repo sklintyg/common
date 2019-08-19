@@ -178,7 +178,8 @@
 
       <ul>
         <li>
-          <span dynamic-label key="fk7263.label.patientworkcapacity.currentwork"></span> - <span id="currentwork" class="multiline">{{cert.nuvarandeArbetsuppgifter}}</span>
+          <span dynamic-label key="fk7263.label.patientworkcapacity.currentwork"></span> - <span id="currentwork"
+                                                                                                 class="multiline">{{cert.nuvarandeArbetsuppgifter}}</span>
         </li>
       </ul>
     </div>
@@ -188,8 +189,10 @@
          show-deselected="showDeselected">
 
       <ul>
-        <li ng-if="cert.arbetsloshet"><span dynamic-label key="fk7263.label.patientworkcapacity.unemployed"> </span></li>
-        <li ng-if="cert.foraldrarledighet"><span dynamic-label key="fk7263.label.patientworkcapacity.parentalleave"> </span></li>
+        <li ng-if="cert.arbetsloshet"><span dynamic-label key="fk7263.label.patientworkcapacity.unemployed"> </span>
+        </li>
+        <li ng-if="cert.foraldrarledighet"><span dynamic-label
+                                                 key="fk7263.label.patientworkcapacity.parentalleave"> </span></li>
       </ul>
     </div>
 
@@ -233,63 +236,46 @@
 
 
   <!-- Fält 9: Arbetsförmåga nedsatt längre än fmb-->
-  <selectable-category-wrapper category-label="fk7263.label.patientworkcapacityjudgement"
-                               cert-model="cert"
-                               field-configs="[fieldConfig.arbetsFormaga]"
-                               summary="summary">
-    <div selectable-field-wrapper
-         label-key="{{summary ? 'fk7263.label.patientworkcapacityjudgement' : ''}}"
-         cert-model="cert"
-         field-config="fieldConfig.arbetsFormaga"
-         summary="summary"
-         show-deselected="showDeselected">
+  <selectable-category-wrapper category-label="fk7263.label.patientworkcapacityjudgement" cert-model="cert"
+                               field-configs="[fieldConfig.arbetsFormaga]" summary="summary">
+    <div selectable-field-wrapper label-key="{{summary ? 'fk7263.label.patientworkcapacityjudgement' : ''}}"
+         cert-model="cert" field-config="fieldConfig.arbetsFormaga" summary="summary" show-deselected="showDeselected">
       <div class="multiline">{{cert.arbetsformagaPrognos}}</div>
     </div>
   </selectable-category-wrapper>
 
 
-
   <!-- Fält 10: Prognos -->
-  <selectable-category-wrapper category-label="fk7263.label.prognosis"
-                               cert-model="cert"
-                               field-configs="[fieldConfig.prognos]"
-                               summary="summary">
-    <div selectable-field-wrapper
-         label-key="{{summary ? 'fk7263.label.prognosis' : ''}}"
-         cert-model="cert"
-         field-config="fieldConfig.prognos"
-         summary="summary"
-         show-deselected="showDeselected">
+  <selectable-category-wrapper category-label="fk7263.label.prognosis" cert-model="cert"
+                               field-configs="[fieldConfig.prognos]" summary="summary">
+    <div selectable-field-wrapper label-key="{{summary ? 'fk7263.label.prognosis' : ''}}" cert-model="cert"
+         field-config="fieldConfig.prognos" summary="summary" show-deselected="showDeselected">
 
-      <span ng-if="cert.prognosBedomning === 'arbetsformagaPrognosJa'" id="arbetsformagaPrognos-yes" dynamic-label key="fk7263.label.yes"></span>
-      <span ng-if="cert.prognosBedomning === 'arbetsformagaPrognosJaDelvis'" id="arbetsformagaPrognos-partialyes" dynamic-label key="fk7263.label.partialyes"></span>
-      <span ng-if="cert.prognosBedomning === 'arbetsformagaPrognosNej'" id="arbetsformagaPrognos-no" dynamic-label key="fk7263.label.no"></span>
-      <span ng-if="cert.prognosBedomning === 'arbetsformagaPrognosGarInteAttBedoma'" id="arbetsformagaPrognos-unjudgeable" dynamic-label key="fk7263.label.unjudgeable"></span>
+      <span ng-if="cert.prognosBedomning === 'arbetsformagaPrognosJa'" id="arbetsformagaPrognos-yes" dynamic-label
+            key="fk7263.label.yes"></span>
+      <span ng-if="cert.prognosBedomning === 'arbetsformagaPrognosJaDelvis'" id="arbetsformagaPrognos-partialyes"
+            dynamic-label key="fk7263.label.partialyes"></span>
+      <span ng-if="cert.prognosBedomning === 'arbetsformagaPrognosNej'" id="arbetsformagaPrognos-no" dynamic-label
+            key="fk7263.label.no"></span>
+      <span ng-if="cert.prognosBedomning === 'arbetsformagaPrognosGarInteAttBedoma'"
+            id="arbetsformagaPrognos-unjudgeable" dynamic-label key="fk7263.label.unjudgeable"></span>
 
 
     </div>
   </selectable-category-wrapper>
-
 
 
   <!-- Fält 11: Resor till och från arbetet -->
-  <selectable-category-wrapper category-label="fk7263.label.othertransport"
-                               cert-model="cert"
-                               field-configs="[fieldConfig.ressatt]"
-                               summary="summary">
-    <div selectable-field-wrapper
-         label-key="{{summary ? 'fk7263.label.othertransport' : ''}}"
-         cert-model="cert"
-         field-config="fieldConfig.ressatt"
-         summary="summary"
-         show-deselected="showDeselected">
+  <selectable-category-wrapper category-label="fk7263.label.othertransport" cert-model="cert"
+                               field-configs="[fieldConfig.ressatt]" summary="summary">
+    <div selectable-field-wrapper label-key="{{summary ? 'fk7263.label.othertransport' : ''}}" cert-model="cert"
+         field-config="fieldConfig.ressatt" summary="summary" show-deselected="showDeselected">
 
-     <span ng-if="cert.ressattTillArbeteAktuellt" id="resaTillArbetet-yes" dynamic-label key="fk7263.label.yes"></span>
-     <span ng-if="cert.ressattTillArbeteEjAktuellt" id="resaTillArbetet-no" dynamic-label key="fk7263.label.no"></span>
+      <span ng-if="cert.ressattTillArbeteAktuellt" id="resaTillArbetet-yes" dynamic-label key="fk7263.label.yes"></span>
+      <span ng-if="cert.ressattTillArbeteEjAktuellt" id="resaTillArbetet-no" dynamic-label key="fk7263.label.no"></span>
 
     </div>
   </selectable-category-wrapper>
-
 
 
   <!-- Fält 12:  Kontakt med fk-->

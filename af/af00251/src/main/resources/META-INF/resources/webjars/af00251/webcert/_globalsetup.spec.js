@@ -17,6 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 beforeEach(angular.mock.module('af00251', function($provide) {
-    'use strict';
-    $provide.value('networkConfig', {});
+  'use strict';
+  $provide.value('networkConfig', {});
 }));

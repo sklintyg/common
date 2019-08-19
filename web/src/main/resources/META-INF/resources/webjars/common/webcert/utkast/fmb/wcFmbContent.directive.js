@@ -20,22 +20,21 @@
  * Display FMB help texts
  */
 angular.module('common').directive('wcFmbContent', ['$log', 'common.ObjectHelper', 'common.fmbService',
-    function($log, ObjectHelper, fmbService) {
-        'use strict';
+  function($log, ObjectHelper, fmbService) {
+    'use strict';
 
-        return {
-            restrict: 'EA',
-            scope: {
-                fmb: '=',
-                relatedFormId: '@',
-                status: '=',
-                fieldName: '='
-            },
-            link: function(scope, element, attrs) {
-                $log.debug(scope.fmb);
+    return {
+      restrict: 'EA',
+      scope: {
+        fmb: '=',
+        relatedFormId: '@',
+        status: '=',
+        fieldName: '='
+      },
+      link: function(scope, element, attrs) {
+        $log.debug(scope.fmb);
 
-
-            },
-            templateUrl: '/web/webjars/common/webcert/utkast/fmb/wcFmbContent.directive.html'
-        };
-    }]);
+      },
+      templateUrl: '/web/webjars/common/webcert/utkast/fmb/wcFmbContent.directive.html'
+    };
+  }]);

@@ -18,11 +18,10 @@
  */
 package se.inera.intyg.common.support.model.common.internal;
 
-import java.util.Objects;
-import java.util.Optional;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Strings;
+import java.util.Objects;
+import java.util.Optional;
 import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -58,21 +57,21 @@ public class Patient {
         }
         final Patient that = (Patient) object;
         return Objects.equals(this.personId, that.personId)
-                && Objects.equals(this.fullstandigtNamn, that.fullstandigtNamn)
-                && Objects.equals(this.fornamn, that.fornamn)
-                && Objects.equals(this.mellannamn, that.mellannamn)
-                && Objects.equals(this.efternamn, that.efternamn)
-                && Objects.equals(this.postadress, that.postadress)
-                && Objects.equals(this.postnummer, that.postnummer)
-                && Objects.equals(this.postort, that.postort)
-                && Objects.equals(this.sekretessmarkering, that.sekretessmarkering)
-                && Objects.equals(this.avliden, that.avliden);
+            && Objects.equals(this.fullstandigtNamn, that.fullstandigtNamn)
+            && Objects.equals(this.fornamn, that.fornamn)
+            && Objects.equals(this.mellannamn, that.mellannamn)
+            && Objects.equals(this.efternamn, that.efternamn)
+            && Objects.equals(this.postadress, that.postadress)
+            && Objects.equals(this.postnummer, that.postnummer)
+            && Objects.equals(this.postort, that.postort)
+            && Objects.equals(this.sekretessmarkering, that.sekretessmarkering)
+            && Objects.equals(this.avliden, that.avliden);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(this.personId, this.fullstandigtNamn, this.fornamn, this.mellannamn, this.efternamn,
-                this.postadress, this.postnummer, this.postort, this.sekretessmarkering, this.avliden);
+            this.postadress, this.postnummer, this.postort, this.sekretessmarkering, this.avliden);
     }
 
     public boolean isSamordningsNummer() {
@@ -85,8 +84,8 @@ public class Patient {
     @JsonIgnore
     public boolean isCompleteAddressProvided() {
         return !Strings.isNullOrEmpty(this.postadress)
-                && !Strings.isNullOrEmpty(this.postort)
-                && !Strings.isNullOrEmpty(this.postnummer);
+            && !Strings.isNullOrEmpty(this.postort)
+            && !Strings.isNullOrEmpty(this.postnummer);
     }
 
     public Personnummer getPersonId() {

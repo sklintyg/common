@@ -18,19 +18,19 @@
  */
 angular.module('common').factory('common.ErrorHelper',
     ['common.ObjectHelper', function(ObjectHelper) {
-        'use strict';
+      'use strict';
 
-        return {
-            safeGetError: function(errorData) {
-                if(!ObjectHelper.isEmpty(errorData)) {
-                    if (angular.isString(errorData.errorCode)) {
-                        return errorData.errorCode.toLowerCase();
-                    }
-                    return errorData.errorCode;
-                } else {
-                    return 'unknown';
-                }
+      return {
+        safeGetError: function(errorData) {
+          if (!ObjectHelper.isEmpty(errorData)) {
+            if (angular.isString(errorData.errorCode)) {
+              return errorData.errorCode.toLowerCase();
             }
-        };
+            return errorData.errorCode;
+          } else {
+            return 'unknown';
+          }
+        }
+      };
     }]
 );

@@ -18,6 +18,10 @@
  */
 package se.inera.intyg.common.doi.v1.validator;
 
+import static org.junit.Assert.assertEquals;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -30,11 +34,6 @@ import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.schemas.contract.Personnummer;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
-import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InternalValidatorTest {
@@ -51,7 +50,7 @@ public class InternalValidatorTest {
     private DoiUtlatandeV1 setupBarnSomAvliditDates(DoiUtlatandeV1 utlatande, int daysLived) {
         LocalDate date = LocalDate.now().minusDays(30);
         Personnummer personnummer = Personnummer.createPersonnummer(
-                date.format(DateTimeFormatter.ISO_LOCAL_DATE).replace("-", "") + "-4321").get();
+            date.format(DateTimeFormatter.ISO_LOCAL_DATE).replace("-", "") + "-4321").get();
         utlatande.getGrundData().getPatient().setPersonId(personnummer);
         utlatande.getDodsdatum().setDate(date.plusDays(daysLived).format(DateTimeFormatter.ISO_LOCAL_DATE));
         utlatande.getOperationDatum().setDate(date.plusDays(5).format(DateTimeFormatter.ISO_LOCAL_DATE));
@@ -222,15 +221,18 @@ public class InternalValidatorTest {
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("forgiftning", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("forgiftning", internalValidationResponse.getValidationErrors().get(0).getField());
-        assertEquals("doi.validation.forgiftning.orsak.incorrect_combination", internalValidationResponse.getValidationErrors().get(0).getMessage());
+        assertEquals("doi.validation.forgiftning.orsak.incorrect_combination",
+            internalValidationResponse.getValidationErrors().get(0).getMessage());
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(1).getType());
         assertEquals("forgiftning", internalValidationResponse.getValidationErrors().get(1).getCategory());
         assertEquals("forgiftning", internalValidationResponse.getValidationErrors().get(1).getField());
-        assertEquals("doi.validation.forgiftning.datum.incorrect_combination", internalValidationResponse.getValidationErrors().get(1).getMessage());
+        assertEquals("doi.validation.forgiftning.datum.incorrect_combination",
+            internalValidationResponse.getValidationErrors().get(1).getMessage());
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(2).getType());
         assertEquals("forgiftning", internalValidationResponse.getValidationErrors().get(2).getCategory());
         assertEquals("forgiftning", internalValidationResponse.getValidationErrors().get(2).getField());
-        assertEquals("doi.validation.forgiftning.uppkommelse.incorrect_combination", internalValidationResponse.getValidationErrors().get(2).getMessage());
+        assertEquals("doi.validation.forgiftning.uppkommelse.incorrect_combination",
+            internalValidationResponse.getValidationErrors().get(2).getMessage());
     }
 
     @Test
@@ -303,7 +305,7 @@ public class InternalValidatorTest {
     @Test
     public void testR20_1() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = setupBarnSomAvliditDates(
-                ScenarioFinder.getInternalScenario("fail-R20-1").asInternalModel(), 29);
+            ScenarioFinder.getInternalScenario("fail-R20-1").asInternalModel(), 29);
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
@@ -314,7 +316,7 @@ public class InternalValidatorTest {
     @Test
     public void testR20_2() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = setupBarnSomAvliditDates(
-                ScenarioFinder.getInternalScenario("fail-R20-2").asInternalModel(), 10);
+            ScenarioFinder.getInternalScenario("fail-R20-2").asInternalModel(), 10);
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
@@ -326,7 +328,7 @@ public class InternalValidatorTest {
     public void testR20_3() throws ScenarioNotFoundException {
         // Same as R20_1 but with samordningsnummer
         DoiUtlatandeV1 utlatandeFromJson = setupBarnSomAvliditDates(
-                ScenarioFinder.getInternalScenario("fail-R20-3").asInternalModel(), 29);
+            ScenarioFinder.getInternalScenario("fail-R20-3").asInternalModel(), 29);
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
@@ -338,7 +340,7 @@ public class InternalValidatorTest {
     public void testR20_4() throws ScenarioNotFoundException {
         // Same as R20_2 but with samordningsnummer
         DoiUtlatandeV1 utlatandeFromJson = setupBarnSomAvliditDates(
-                ScenarioFinder.getInternalScenario("fail-R20-4").asInternalModel(), 10);
+            ScenarioFinder.getInternalScenario("fail-R20-4").asInternalModel(), 10);
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());

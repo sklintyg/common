@@ -19,52 +19,51 @@
 angular.module('common').directive('wcCookieBanner',
 
     ['$window', 'common.dialogService', function($window, dialogService) {
-        'use strict';
+      'use strict';
 
-        return {
-            restrict: 'E',
-            scope: {},
-            templateUrl: '/web/webjars/common/webcert/components/cookiebanner/wcCookieBanner.directive.html',
-            controller: function($scope, $timeout) {
-                $scope.isOpen = false;
-                $scope.showDetails = false;
+      return {
+        restrict: 'E',
+        scope: {},
+        templateUrl: '/web/webjars/common/webcert/components/cookiebanner/wcCookieBanner.directive.html',
+        controller: function($scope, $timeout) {
+          $scope.isOpen = false;
+          $scope.showDetails = false;
 
-                var dialogInstance;
+          var dialogInstance;
 
-                $scope.showModal = function() {
-                    dialogInstance = dialogService.showDialog({
-                        dialogId: 'cookie-banner-modal',
-                        templateUrl: '/web/webjars/common/webcert/components/cookiebanner/wcCookieBanner.modal.html',
-                        button1click: function() {
-                            dialogInstance.close();
-                        },
-                        button2click: function() {
-                            dialogInstance.close();
-                            $scope.onCookieConsentClick();
-                        },
-                        autoClose: false,
-                        size: 'lg'
-                    });
-                };
+          $scope.showModal = function() {
+            dialogInstance = dialogService.showDialog({
+              dialogId: 'cookie-banner-modal',
+              templateUrl: '/web/webjars/common/webcert/components/cookiebanner/wcCookieBanner.modal.html',
+              button1click: function() {
+                dialogInstance.close();
+              },
+              button2click: function() {
+                dialogInstance.close();
+                $scope.onCookieConsentClick();
+              },
+              autoClose: false,
+              size: 'lg'
+            });
+          };
 
-                function cookieConsentGiven() {
-                    return $window.localStorage && $window.localStorage.getItem('wc-cookie-consent-given') === '1';
-                }
+          function cookieConsentGiven() {
+            return $window.localStorage && $window.localStorage.getItem('wc-cookie-consent-given') === '1';
+          }
 
-                $timeout(function() {
-                    if (!cookieConsentGiven()) {
-                        $scope.isOpen = true;
-                    }
-                }, 500);
-
-
-                $scope.onCookieConsentClick = function() {
-                    $scope.isOpen = false;
-                    if ($window.localStorage) {
-                        $window.localStorage.setItem('wc-cookie-consent-given', '1');
-                    }
-
-                };
+          $timeout(function() {
+            if (!cookieConsentGiven()) {
+              $scope.isOpen = true;
             }
-        };
+          }, 500);
+
+          $scope.onCookieConsentClick = function() {
+            $scope.isOpen = false;
+            if ($window.localStorage) {
+              $window.localStorage.setItem('wc-cookie-consent-given', '1');
+            }
+
+          };
+        }
+      };
     }]);

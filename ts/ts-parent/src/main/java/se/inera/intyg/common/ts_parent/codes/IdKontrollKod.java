@@ -47,6 +47,6 @@ public enum IdKontrollKod {
 
     public static IdKontrollKod fromCode(String code) {
         return Stream.of(IdKontrollKod.values()).filter(s -> code.equals(s.getCode())).findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(code));
+            .orElseThrow(() -> new IllegalArgumentException(code));
     }
 }

@@ -27,14 +27,12 @@ import static se.inera.intyg.common.support.modules.transformer.XslTransformerUt
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBElement;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.transform.stream.StreamSource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +40,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.MarshallingFailureException;
 import org.springframework.stereotype.Component;
 import org.w3.wsaddressing10.AttributedURIType;
-
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.ObjectFactory;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateRequestType;
@@ -80,7 +77,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 /**
  * The contract between the certificate module and the generic components (Intygstjänsten, Mina-Intyg & Webcert).
- *
  */
 @Component("moduleapi.ts-bas.v6")
 public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
@@ -119,13 +115,13 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
 
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-            throws ModuleException {
+        throws ModuleException {
         TsBasUtlatandeV6 utlatande = getInternal(internalModel);
         IntygTexts texts = getTexts(TsBasEntryPoint.MODULE_ID, utlatande.getTextVersion());
 
         Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
         return new PdfGenerator().generatePdf(utlatande.getId(), internalModel, personId, texts, statuses, applicationOrigin,
-                utkastStatus);
+            utkastStatus);
     }
 
     @Override
@@ -195,7 +191,7 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
                 return TsBasTransformerType.TRANSPORT_TO_V3.getTransformer().transform(xmlBody);
             } else {
                 String msg = String.format("Error in sendCertificateToRecipient. Cannot decide type of transformer."
-                        + "Property registercertificate.version = '%s'", registerCertificateVersion);
+                    + "Property registercertificate.version = '%s'", registerCertificateVersion);
                 throw new ModuleException(msg);
             }
         } else if (isRegisterCertificateV3(xmlBody)) {
@@ -232,7 +228,7 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
         uri.setValue(logicalAddress);
 
         RevokeMedicalCertificateRequestType request = JAXB.unmarshal(new StreamSource(new StringReader(xmlBody)),
-                RevokeMedicalCertificateRequestType.class);
+            RevokeMedicalCertificateRequestType.class);
         RevokeMedicalCertificateResponseType response = revokeCertificateClient.revokeMedicalCertificate(uri, request);
         if (response.getResult().getResultCode().equals(ResultCodeEnum.ERROR)) {
             String message = "Revoke sent to " + logicalAddress + " failed with error: " + response.getResult().getErrorText();

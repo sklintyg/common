@@ -18,45 +18,43 @@
  */
 angular.module('common').factory('common.pingService',
     ['$http', '$log', '$interval', function($http, $log, $interval) {
-        'use strict';
+      'use strict';
 
-        var pingSessionPromise;
+      var pingSessionPromise;
 
-        //(Max) how often should session ping requestsf be sent
-        var msMinPingSessionRequestInterval = 30 * 1000;
+      //(Max) how often should session ping requestsf be sent
+      var msMinPingSessionRequestInterval = 30 * 1000;
 
-        /*
-         * Extending session by making a request to server
-         */
-        function _executePingSessionRequest() {
-            $log.debug('_executePingSessionRequest =>');
-            $http.get('/api/anvandare/ping').then(function() {
-                $log.debug('<= _executePingSessionRequest success');
-            }, function(response) {
-                $log.error('<= _executePingSessionRequest failed: ' + response.status);
-            }).finally(function() { // jshint ignore:line
-                //clear interval promise no matter the outcome of the request
-                if (pingSessionPromise) {
-                    $interval.cancel(pingSessionPromise);
-                    pingSessionPromise = undefined;
-                }
-            });
+      /*
+       * Extending session by making a request to server
+       */
+      function _executePingSessionRequest() {
+        $log.debug('_executePingSessionRequest =>');
+        $http.get('/api/anvandare/ping').then(function() {
+          $log.debug('<= _executePingSessionRequest success');
+        }, function(response) {
+          $log.error('<= _executePingSessionRequest failed: ' + response.status);
+        }).finally(function() { // jshint ignore:line
+          //clear interval promise no matter the outcome of the request
+          if (pingSessionPromise) {
+            $interval.cancel(pingSessionPromise);
+            pingSessionPromise = undefined;
+          }
+        });
+      }
+
+      function _registerUserAction(action) {
+        if (!pingSessionPromise) {
+          pingSessionPromise = $interval(_executePingSessionRequest, msMinPingSessionRequestInterval);
+          $log.debug('_executePingSessionRequest for action ' + action + ' scheduled..');
+        } else {
+          $log.debug('_executePingSessionRequest already scheduled (ignoring)');
         }
+      }
 
-
-        function _registerUserAction(action) {
-            if (!pingSessionPromise) {
-                pingSessionPromise = $interval(_executePingSessionRequest, msMinPingSessionRequestInterval);
-                $log.debug('_executePingSessionRequest for action ' + action + ' scheduled..');
-            } else {
-                $log.debug('_executePingSessionRequest already scheduled (ignoring)');
-            }
-        }
-
-
-        // Return public API for the service
-        return {
-            registerUserAction: _registerUserAction,
-            _THROTTLE_VALUE_: msMinPingSessionRequestInterval //used by test only
-        };
+      // Return public API for the service
+      return {
+        registerUserAction: _registerUserAction,
+        _THROTTLE_VALUE_: msMinPingSessionRequestInterval //used by test only
+      };
     }]);

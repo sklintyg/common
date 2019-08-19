@@ -29,13 +29,14 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.List;
-
 import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -43,7 +44,6 @@ import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,11 +59,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.w3.wsaddressing10.AttributedURIType;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateRequestType;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateResponseType;
@@ -160,6 +155,7 @@ public class TsDiabetesModuleApiV2Test {
     public TsDiabetesModuleApiV2Test() {
         MockitoAnnotations.initMocks(this);
     }
+
     @Before
     public void setup() throws Exception {
         revokeCertificateFile = new ClassPathResource("revokeCertificate.xml");
@@ -180,13 +176,14 @@ public class TsDiabetesModuleApiV2Test {
 
     @Test
     public void testPdf() throws Exception {
-        when(pdfGenerator.generatePDF(any(TsDiabetesUtlatandeV2.class), any(List.class), any(ApplicationOrigin.class), eq(UtkastStatus.SIGNED)))
-                .thenReturn(new byte[] {});
+        when(pdfGenerator
+            .generatePDF(any(TsDiabetesUtlatandeV2.class), any(List.class), any(ApplicationOrigin.class), eq(UtkastStatus.SIGNED)))
+            .thenReturn(new byte[]{});
         when(pdfGenerator.generatePdfFilename(any(TsDiabetesUtlatandeV2.class))).thenReturn("filename");
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
             moduleApi
-                    .pdf(objectMapper.writeValueAsString(scenario.asInternalModel()), Collections.emptyList(), ApplicationOrigin.MINA_INTYG,
-                            UtkastStatus.SIGNED);
+                .pdf(objectMapper.writeValueAsString(scenario.asInternalModel()), Collections.emptyList(), ApplicationOrigin.MINA_INTYG,
+                    UtkastStatus.SIGNED);
         }
     }
 
@@ -296,12 +293,12 @@ public class TsDiabetesModuleApiV2Test {
     public void testRegisterCertificateAlreadyExists() throws Exception {
         final String logicalAddress = "logicalAddress";
         final String internalModel = objectMapper
-                .writeValueAsString(ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
+            .writeValueAsString(ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
 
         RegisterTSDiabetesResponseType registerResponse = new RegisterTSDiabetesResponseType();
         registerResponse.setResultat(ResultTypeUtil.infoResult(RegisterTSDiabetesResponderImpl.CERTIFICATE_ALREADY_EXISTS));
         when(registerTSDiabetesResponderInterface.registerTSDiabetes(eq(logicalAddress), Mockito.any(RegisterTSDiabetesType.class)))
-                .thenReturn(registerResponse);
+            .thenReturn(registerResponse);
 
         try {
             moduleApi.registerCertificate(internalModel, logicalAddress);
@@ -316,12 +313,12 @@ public class TsDiabetesModuleApiV2Test {
     public void testRegisterCertificateGenericInfoResult() throws Exception {
         final String logicalAddress = "logicalAddress";
         final String internalModel = objectMapper
-                .writeValueAsString(ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
+            .writeValueAsString(ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
 
         RegisterTSDiabetesResponseType registerResponse = new RegisterTSDiabetesResponseType();
         registerResponse.setResultat(ResultTypeUtil.infoResult("INFO"));
         when(registerTSDiabetesResponderInterface.registerTSDiabetes(eq(logicalAddress), Mockito.any(RegisterTSDiabetesType.class)))
-                .thenReturn(registerResponse);
+            .thenReturn(registerResponse);
 
         try {
             moduleApi.registerCertificate(internalModel, logicalAddress);
@@ -336,12 +333,12 @@ public class TsDiabetesModuleApiV2Test {
     public void testRegisterCertificateErrorResult() throws Exception {
         final String logicalAddress = "logicalAddress";
         final String internalModel = objectMapper
-                .writeValueAsString(ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
+            .writeValueAsString(ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
 
         RegisterTSDiabetesResponseType registerResponse = new RegisterTSDiabetesResponseType();
         registerResponse.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
         when(registerTSDiabetesResponderInterface.registerTSDiabetes(eq(logicalAddress), Mockito.any(RegisterTSDiabetesType.class)))
-                .thenReturn(registerResponse);
+            .thenReturn(registerResponse);
 
         moduleApi.registerCertificate(internalModel, logicalAddress);
     }
@@ -390,7 +387,7 @@ public class TsDiabetesModuleApiV2Test {
         result.setMeta(createMeta());
         result.setResultat(ResultTypeUtil.okResult());
         Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
-                .thenReturn(result);
+            .thenReturn(result);
 
         CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", "INVANA");
         assertNotNull(internal);
@@ -403,7 +400,7 @@ public class TsDiabetesModuleApiV2Test {
         result.setMeta(createMeta());
         result.setResultat(ResultTypeUtil.errorResult(ErrorIdType.REVOKED, "error"));
         Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
-                .thenReturn(result);
+            .thenReturn(result);
 
         CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", "INVANA");
         assertNotNull(internal);
@@ -414,7 +411,7 @@ public class TsDiabetesModuleApiV2Test {
         GetTSDiabetesResponseType result = new GetTSDiabetesResponseType();
         result.setResultat(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "error"));
         Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
-                .thenReturn(result);
+            .thenReturn(result);
 
         moduleApi.getCertificate("cert-id", "TS", "INVANA");
     }
@@ -424,7 +421,7 @@ public class TsDiabetesModuleApiV2Test {
         GetTSDiabetesResponseType result = new GetTSDiabetesResponseType();
         result.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
         Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
-                .thenReturn(result);
+            .thenReturn(result);
 
         moduleApi.getCertificate("cert-id", "TS", "INVANA");
     }
@@ -449,12 +446,12 @@ public class TsDiabetesModuleApiV2Test {
         RevokeMedicalCertificateResponseType revokeResponse = new RevokeMedicalCertificateResponseType();
         revokeResponse.setResult(ResultOfCallUtil.okResult());
         when(revokeCertificateClient.revokeMedicalCertificate(any(AttributedURIType.class), any(RevokeMedicalCertificateRequestType.class)))
-                .thenReturn(revokeResponse);
+            .thenReturn(revokeResponse);
 
         moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
         ArgumentCaptor<AttributedURIType> attributedUriCaptor = ArgumentCaptor.forClass(AttributedURIType.class);
         ArgumentCaptor<RevokeMedicalCertificateRequestType> parametersCaptor = ArgumentCaptor
-                .forClass(RevokeMedicalCertificateRequestType.class);
+            .forClass(RevokeMedicalCertificateRequestType.class);
         verify(revokeCertificateClient).revokeMedicalCertificate(attributedUriCaptor.capture(), parametersCaptor.capture());
         assertNotNull(parametersCaptor.getValue());
         assertEquals(LOGICAL_ADDRESS, attributedUriCaptor.getValue().getValue());
@@ -467,7 +464,7 @@ public class TsDiabetesModuleApiV2Test {
         RevokeMedicalCertificateResponseType revokeResponse = new RevokeMedicalCertificateResponseType();
         revokeResponse.setResult(ResultOfCallUtil.failResult("error"));
         when(revokeCertificateClient.revokeMedicalCertificate(any(AttributedURIType.class), any(RevokeMedicalCertificateRequestType.class)))
-                .thenReturn(revokeResponse);
+            .thenReturn(revokeResponse);
 
         moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
     }
@@ -501,7 +498,7 @@ public class TsDiabetesModuleApiV2Test {
         final String validMinimalJson = getResourceAsString(new ClassPathResource("v2/scenarios/internal/valid-minimal.json"));
         final String res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient);
         assertNotNull(res);
-        JSONAssert.assertEquals(validMinimalJson,res, JSONCompareMode.LENIENT);
+        JSONAssert.assertEquals(validMinimalJson, res, JSONCompareMode.LENIENT);
     }
 
     private CreateNewDraftHolder createNewDraftHolder() {

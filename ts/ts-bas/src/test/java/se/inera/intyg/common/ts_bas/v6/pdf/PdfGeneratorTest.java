@@ -26,13 +26,10 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.regex.Pattern;
-
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
-
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
@@ -59,10 +56,10 @@ public class PdfGeneratorTest {
         IntygTexts intygTexts = intygsTextRepositoryHelper.getTexts("ts-bas", "6.8");
 
         String jsonModel = IOUtils.toString(new ClassPathResource("v6/PdfGenerator/utlatande.json").getInputStream(),
-                Charset.forName("UTF-8"));
+            Charset.forName("UTF-8"));
         PdfResponse pdfResponse = testee.generatePdf(UUID.randomUUID().toString(), jsonModel,
-                Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
-                new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
+            Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
+            new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
         assertNotNull(pdfResponse);
         Pattern p = Pattern.compile("^lakarintyg_transportstyrelsen_[\\d]{2}-[\\d]{2}-[\\d]{2}_[\\d]{4}\\.pdf$");
         assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());
@@ -75,10 +72,10 @@ public class PdfGeneratorTest {
         IntygTexts intygTexts = intygsTextRepositoryHelper.getTexts("ts-bas", "6.8");
 
         String jsonModel = IOUtils.toString(new ClassPathResource("v6/PdfGenerator/utkast_utlatande.json").getInputStream(),
-                Charset.forName("UTF-8"));
+            Charset.forName("UTF-8"));
         PdfResponse pdfResponse = testee.generatePdf(UUID.randomUUID().toString(), jsonModel,
-                Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
-                new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
+            Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
+            new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
         assertNotNull(pdfResponse);
         Pattern p = Pattern.compile("^lakarintyg_transportstyrelsen_[\\d]{2}-[\\d]{2}-[\\d]{2}_[\\d]{4}\\.pdf$");
         assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());

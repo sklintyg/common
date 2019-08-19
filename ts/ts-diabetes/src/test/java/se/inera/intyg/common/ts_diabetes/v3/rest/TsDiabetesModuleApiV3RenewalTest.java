@@ -21,8 +21,8 @@ package se.inera.intyg.common.ts_diabetes.v3.rest;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-
 import org.apache.cxf.helpers.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -31,9 +31,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
@@ -64,7 +61,7 @@ public class TsDiabetesModuleApiV3RenewalTest {
     @Test
     public void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
         String internalModelHolder = IOUtils.toString(new ClassPathResource(
-                TESTFILE_UTLATANDE).getInputStream());
+            TESTFILE_UTLATANDE).getInputStream());
         TsDiabetesUtlatandeV3 original = getUtlatandeFromFile();
         String renewalFromTemplate = moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
         assertNotNull(renewalFromTemplate);
@@ -84,7 +81,7 @@ public class TsDiabetesModuleApiV3RenewalTest {
 
     private CreateDraftCopyHolder createCopyHolder() {
         CreateDraftCopyHolder draftCopyHolder = new CreateDraftCopyHolder("certificateId",
-                createHosPersonal());
+            createHosPersonal());
         draftCopyHolder.setRelation(new Relation());
         return draftCopyHolder;
     }
@@ -100,7 +97,7 @@ public class TsDiabetesModuleApiV3RenewalTest {
 
     private TsDiabetesUtlatandeV3 getUtlatandeFromFile() throws IOException {
         return new CustomObjectMapper().readValue(new ClassPathResource(
-                TESTFILE_UTLATANDE).getFile(), TsDiabetesUtlatandeV3.class);
+            TESTFILE_UTLATANDE).getFile(), TsDiabetesUtlatandeV3.class);
     }
 
 }
