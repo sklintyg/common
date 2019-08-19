@@ -47,7 +47,8 @@ public class InternalValidatorTest {
         final int numErrors = 3;
         LisjpUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("sjukskrivningOverlappandePerioder").asInternalModel();
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
-        assertEquals(String.format("Expected %s validation errors", numErrors), numErrors, getNumberOfInternalValidationErrors(internalValidationResponse));
+        assertEquals(String.format("Expected %s validation errors", numErrors), numErrors,
+            getNumberOfInternalValidationErrors(internalValidationResponse));
     }
 
     private static int getNumberOfInternalValidationErrors(ValidateDraftResponse internalValidationResponse) {

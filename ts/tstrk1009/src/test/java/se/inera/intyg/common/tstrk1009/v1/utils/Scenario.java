@@ -45,8 +45,7 @@ public interface Scenario {
      * Returns the scenario as a transport model.
      *
      * @return The scenario as a transport model.
-     * @throws ScenarioNotFoundException
-     *             if the scenario wasn't found.
+     * @throws ScenarioNotFoundException if the scenario wasn't found.
      */
     RegisterCertificateType asTransportModel() throws ScenarioNotFoundException;
 
@@ -54,8 +53,7 @@ public interface Scenario {
      * Returns the scenario as a internal Mina Intyg model.
      *
      * @return The scenario as a internal Mina Intyg model.
-     * @throws ScenarioNotFoundException
-     *             if the scenario wasn't found.
+     * @throws ScenarioNotFoundException if the scenario wasn't found.
      */
     Tstrk1009UtlatandeV1 asInternalModel() throws ScenarioNotFoundException;
 }

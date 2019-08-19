@@ -72,8 +72,8 @@ public class TransportToInternalTest {
         utlatande.setUnderlag(buildUnderlag());
 
         utlatande.setDiagnoser(asList((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra")),
-                Diagnos.create("S48", "ICD_10_SE", "Klämskada arm", "Klämskada arm"),
-                Diagnos.create("S49", "ICD_10_SE", "Klämskada hand", "Klämskada hand")));
+            Diagnos.create("S48", "ICD_10_SE", "Klämskada arm", "Klämskada arm"),
+            Diagnos.create("S49", "ICD_10_SE", "Klämskada hand", "Klämskada hand")));
 
         utlatande.setFunktionsnedsattningDebut("Debut 1");
         utlatande.setFunktionsnedsattningPaverkan("Påverkan 1");

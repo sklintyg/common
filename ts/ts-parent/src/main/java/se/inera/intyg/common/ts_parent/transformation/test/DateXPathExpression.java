@@ -36,10 +36,8 @@ public class DateXPathExpression extends AbstractXPathExpression<String> {
     /**
      * Creates a boolean xPath expression from an xPath string.
      *
-     * @param xPathString
-     *            The xPath string resulting in a boolean result.
-     * @param dateFormat
-     *            The expected output date format.
+     * @param xPathString The xPath string resulting in a boolean result.
+     * @param dateFormat The expected output date format.
      */
     public DateXPathExpression(String xPathString, String dateFormat) {
         super(xPathString, XPathConstants.STRING);

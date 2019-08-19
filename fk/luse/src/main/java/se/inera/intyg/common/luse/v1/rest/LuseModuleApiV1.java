@@ -18,27 +18,24 @@
  */
 package se.inera.intyg.common.luse.v1.rest;
 
+import com.google.common.collect.ImmutableList;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import com.google.common.collect.ImmutableList;
-
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
 import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
 import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
 import se.inera.intyg.common.fkparent.rest.FkParentModuleApi;
+import se.inera.intyg.common.luse.support.LuseEntryPoint;
 import se.inera.intyg.common.luse.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.luse.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.luse.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
 import se.inera.intyg.common.luse.v1.pdf.LusePdfDefinitionBuilder;
-import se.inera.intyg.common.luse.support.LuseEntryPoint;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -52,6 +49,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 @Component(value = "moduleapi.luse.v1")
 public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
+
     public static final String SCHEMATRON_FILE = "luse.v1.sch";
     private static final Logger LOG = LoggerFactory.getLogger(LuseModuleApiV1.class);
     private static final String CERTIFICATE_FILE_PREFIX = "lakarutlatande_sjukersattning";
@@ -65,7 +63,7 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
      */
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-            throws ModuleException {
+        throws ModuleException {
         try {
             LuseUtlatandeV1 luseIntyg = getInternal(internalModel);
             LusePdfDefinitionBuilder builder = new LusePdfDefinitionBuilder();
@@ -74,7 +72,7 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
             final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luseIntyg, statuses, applicationOrigin, texts, utkastStatus);
 
             return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition),
-                    PdfGenerator.generatePdfFilename(LocalDateTime.now(), CERTIFICATE_FILE_PREFIX));
+                PdfGenerator.generatePdfFilename(LocalDateTime.now(), CERTIFICATE_FILE_PREFIX));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate!", e);
@@ -83,8 +81,8 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
 
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            List<String> optionalFields, UtkastStatus utkastStatus)
-            throws ModuleException {
+        List<String> optionalFields, UtkastStatus utkastStatus)
+        throws ModuleException {
         throw new RuntimeException("Not implemented");
     }
 
@@ -111,17 +109,17 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
     @Override
     protected LuseUtlatandeV1 decorateDiagnoserWithDescriptions(LuseUtlatandeV1 utlatande) {
         List<Diagnos> decoratedDiagnoser = utlatande.getDiagnoser().stream()
-                .map(diagnos -> Diagnos.create(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem(), diagnos.getDiagnosBeskrivning(),
-                        moduleService.getDescriptionFromDiagnosKod(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem())))
-                .collect(Collectors.toList());
+            .map(diagnos -> Diagnos.create(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem(), diagnos.getDiagnosBeskrivning(),
+                moduleService.getDescriptionFromDiagnosKod(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem())))
+            .collect(Collectors.toList());
         return utlatande.toBuilder().setDiagnoser(decoratedDiagnoser).build();
     }
 
     @Override
     protected LuseUtlatandeV1 decorateUtkastWithComment(LuseUtlatandeV1 utlatande, String comment) {
         return utlatande.toBuilder()
-                .setOvrigt(concatOvrigtFalt(utlatande.getOvrigt(), comment))
-                .build();
+            .setOvrigt(concatOvrigtFalt(utlatande.getOvrigt(), comment))
+            .build();
     }
 
     @Override

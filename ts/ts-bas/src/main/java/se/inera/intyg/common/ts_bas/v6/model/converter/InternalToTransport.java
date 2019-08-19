@@ -29,7 +29,6 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
  * model.
  *
  * @author erik
- *
  */
 public final class InternalToTransport {
 

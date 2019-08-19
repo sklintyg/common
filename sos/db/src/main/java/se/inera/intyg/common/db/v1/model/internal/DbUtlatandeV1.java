@@ -128,6 +128,7 @@ public abstract class DbUtlatandeV1 implements SosUtlatande {
 
     @AutoValue.Builder
     public abstract static class Builder {
+
         public abstract DbUtlatandeV1 build();
 
         @JsonProperty(ID_JSON_ID)

@@ -66,7 +66,7 @@ public class UtlatandeToIntygTest {
     @Test
     public void convertUtlatandeIntygsTyp() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .build();
+            .build();
 
         final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
@@ -76,8 +76,8 @@ public class UtlatandeToIntygTest {
     @Test
     public void convertUtlatandeIntygsVersion() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setTextVersion("TextVersion")
-                .build();
+            .setTextVersion("TextVersion")
+            .build();
 
         final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
@@ -87,8 +87,8 @@ public class UtlatandeToIntygTest {
     @Test
     public void convertUtlatandeIntygAvses() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setIntygAvser(IntygAvser.create(EnumSet.of(IntygAvser.BehorighetsTyp.IAV11)))
-                .build();
+            .setIntygAvser(IntygAvser.create(EnumSet.of(IntygAvser.BehorighetsTyp.IAV11)))
+            .build();
 
         final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
@@ -99,8 +99,8 @@ public class UtlatandeToIntygTest {
     @Test
     public void convertUtlatandeIdKontroll() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setIdKontroll(IdKontroll.create(IdKontrollKod.KORKORT))
-                .build();
+            .setIdKontroll(IdKontroll.create(IdKontrollKod.KORKORT))
+            .build();
 
         final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
@@ -111,34 +111,34 @@ public class UtlatandeToIntygTest {
     @Test
     public void convertUtlatandeDiagnosFritext() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT))
-                .setDiagnosFritext(DiagnosFritext.create("Diagnoser", "2017"))
-                .build();
+            .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT))
+            .setDiagnosFritext(DiagnosFritext.create("Diagnoser", "2017"))
+            .build();
 
         final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
         final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
         assertDiagnosFritext(utlatande.getDiagnosFritext(),
-                svar.getDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_ID, ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_ID),
-                svar.getDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_ID, ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_ID));
+            svar.getDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_ID, ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_ID),
+            svar.getDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_ID, ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_ID));
     }
 
     @Test
     public void convertUtlatandeWithDiagnosKodadToIntyg() throws Exception {
         final DiagnosKodad diagnosKodadA01 = DiagnosKodad.create("A01",
-                "ICD_10_SE", "Beskrivning för A01", "DisplayName för A01", "2018");
+            "ICD_10_SE", "Beskrivning för A01", "DisplayName för A01", "2018");
 
         final DiagnosKodad diagnosKodadB01 = DiagnosKodad.create("B01",
-                "ICD_10_SE", "Beskrivning för B01", "DisplayName för B01", "2019");
+            "ICD_10_SE", "Beskrivning för B01", "DisplayName för B01", "2019");
 
         final List<DiagnosKodad> diagnosKodadList = new ArrayList<DiagnosKodad>(1);
         diagnosKodadList.add(diagnosKodadA01);
         diagnosKodadList.add(diagnosKodadB01);
 
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
-                .setDiagnosKodad(diagnosKodadList)
-                .build();
+            .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
+            .setDiagnosKodad(diagnosKodadList)
+            .build();
 
         final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
@@ -149,9 +149,9 @@ public class UtlatandeToIntygTest {
     @Test
     public void convertUtlatandeLakemedelsbehandlingNej() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setLakemedelsbehandling(Lakemedelsbehandling.create(false, null, null, null, null, null, null,
-                        null))
-                .build();
+            .setLakemedelsbehandling(Lakemedelsbehandling.create(false, null, null, null, null, null, null,
+                null))
+            .build();
 
         final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
@@ -162,9 +162,9 @@ public class UtlatandeToIntygTest {
     @Test
     public void convertUtlatandeLakemedelsbehandlingJaPagande() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setLakemedelsbehandling(Lakemedelsbehandling.create(true, true, "Aktuell behandling", true, true, true, null,
-                        null))
-                .build();
+            .setLakemedelsbehandling(Lakemedelsbehandling.create(true, true, "Aktuell behandling", true, true, true, null,
+                null))
+            .build();
 
         final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
@@ -175,9 +175,9 @@ public class UtlatandeToIntygTest {
     @Test
     public void convertUtlatandeLakemedelsbehandlingNejAvslutad() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setLakemedelsbehandling(Lakemedelsbehandling.create(true, false, null, null, null, null, "Förra månaden",
-                        "Avslutad orsak."))
-                .build();
+            .setLakemedelsbehandling(Lakemedelsbehandling.create(true, false, null, null, null, null, "Förra månaden",
+                "Avslutad orsak."))
+            .build();
 
         final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
@@ -188,21 +188,21 @@ public class UtlatandeToIntygTest {
     @Test
     public void convertUtlatandeBedomningAvSymptom() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setBedomningAvSymptom("Bedömning av...")
-                .build();
+            .setBedomningAvSymptom("Bedömning av...")
+            .build();
 
         final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
         final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
         assertBedomningAvSymptom(utlatande.getBedomningAvSymptom(),
-                svar.getDelsvar(SYMPTOM_BEDOMNING_SVAR_ID, SYMPTOM_BEDOMNING_DELSVAR_ID));
+            svar.getDelsvar(SYMPTOM_BEDOMNING_SVAR_ID, SYMPTOM_BEDOMNING_DELSVAR_ID));
     }
 
     @Test
     public void convertUtlatandeWithPrognosTillstandNej() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setPrognosTillstand(PrognosTillstand.create(PrognosTillstand.PrognosTillstandTyp.NEJ))
-                .build();
+            .setPrognosTillstand(PrognosTillstand.create(PrognosTillstand.PrognosTillstandTyp.NEJ))
+            .build();
 
         final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
@@ -213,8 +213,8 @@ public class UtlatandeToIntygTest {
     @Test
     public void convertUtlatandeWithPrognosTillstandJa() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setPrognosTillstand(PrognosTillstand.create(PrognosTillstand.PrognosTillstandTyp.JA))
-                .build();
+            .setPrognosTillstand(PrognosTillstand.create(PrognosTillstand.PrognosTillstandTyp.JA))
+            .build();
 
         final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
@@ -225,8 +225,8 @@ public class UtlatandeToIntygTest {
     @Test
     public void convertUtlatandeWithPrognosTillstandKanEjBedoma() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setPrognosTillstand(PrognosTillstand.create(PrognosTillstand.PrognosTillstandTyp.KANEJBEDOMA))
-                .build();
+            .setPrognosTillstand(PrognosTillstand.create(PrognosTillstand.PrognosTillstandTyp.KANEJBEDOMA))
+            .build();
 
         final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
@@ -237,21 +237,21 @@ public class UtlatandeToIntygTest {
     @Test
     public void convertUtlatandeOvrigaKommentarer() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setOvrigaKommentarer("Ovriga kommentarer")
-                .build();
+            .setOvrigaKommentarer("Ovriga kommentarer")
+            .build();
 
         final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
         final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
         assertOvrigaKommentarer(utlatande.getOvrigaKommentarer(),
-                svar.getDelsvar(OVRIGT_OVRIGA_KOMMENTARER_SVAR_ID, OVRIGT_OVRIGA_KOMMENTARER_DELSVAR_ID));
+            svar.getDelsvar(OVRIGT_OVRIGA_KOMMENTARER_SVAR_ID, OVRIGT_OVRIGA_KOMMENTARER_DELSVAR_ID));
     }
 
     @Test
     public void convertUtlatandeBedomning() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-                .setBedomning(Bedomning.builder().setUppfyllerBehorighetskrav(EnumSet.of(Bedomning.BehorighetsTyp.VAR11)).build())
-                .build();
+            .setBedomning(Bedomning.builder().setUppfyllerBehorighetskrav(EnumSet.of(Bedomning.BehorighetsTyp.VAR11)).build())
+            .build();
 
         final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
@@ -296,9 +296,9 @@ public class UtlatandeToIntygTest {
         assertNotNull("PrognosTillstand should not be null", delsvar);
         assertEquals("PrognosTillstand.kod not equal", prognosTillstand.getTyp().getCode(), getCVSvarContent(delsvar).getCode());
         assertEquals("PrognosTillstand.kodsystem not equal", KV_V3_CODE_SYSTEM_NULLFLAVOR_SYSTEM,
-                getCVSvarContent(delsvar).getCodeSystem());
+            getCVSvarContent(delsvar).getCodeSystem());
         assertEquals("PrognosTillstand.beskrivning not equal", prognosTillstand.getTyp().getDescription(),
-                getCVSvarContent(delsvar).getDisplayName());
+            getCVSvarContent(delsvar).getDisplayName());
     }
 
     private void assertIdKontroll(IdKontroll idKontroll, Svar.Delsvar delsvar) throws ConverterException {
@@ -318,7 +318,7 @@ public class UtlatandeToIntygTest {
     }
 
     private void assertDiagnosFritext(DiagnosFritext diagnosFritext, Svar.Delsvar delsvarFritext, Svar.Delsvar delsvarArtal)
-            throws ConverterException {
+        throws ConverterException {
         assertEquals("DiagnosFritext not equal", diagnosFritext.getDiagnosFritext(), getStringContent(delsvarFritext));
         assertEquals("DiagnosArtal not equal", diagnosFritext.getDiagnosArtal(), getPartialDateContent(delsvarArtal).getValue().toString());
     }
@@ -330,23 +330,23 @@ public class UtlatandeToIntygTest {
 
         for (int i = 0; i < svarList.size(); i++) {
             final Svar.Delsvar delsvarKod = svar.getDelsvar(ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID, i + 1,
-                    ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_ID);
+                ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_ID);
             final Svar.Delsvar delsvarBeskrivning = svar.getDelsvar(ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID, i + 1,
-                    ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_ID);
+                ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_ID);
             final Svar.Delsvar delsvarArtal = svar.getDelsvar(ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID, i + 1,
-                    ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_ID);
+                ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_ID);
 
             assertEquals("DiagnosKod not equal", diagnosKodad.get(i).getDiagnosKod(), getCVSvarContent(delsvarKod).getCode());
             assertEquals("KodSystem not equal", "1.2.752.116.1.1.1.1.3", getCVSvarContent(delsvarKod).getCodeSystem());
             assertEquals("Beskrivning not equal", diagnosKodad.get(i).getDiagnosBeskrivning(), getStringContent(delsvarBeskrivning));
             assertEquals("Artal not equal", diagnosKodad.get(i).getDiagnosArtal(),
-                    getPartialDateContent(delsvarArtal).getValue().toString());
+                getPartialDateContent(delsvarArtal).getValue().toString());
         }
     }
 
     private void assertLakemedelsbehandlingNej(Lakemedelsbehandling lakemedelsbehandling, SvarsWrapper svar) throws ConverterException {
         final Svar.Delsvar delsvarHarHaft = svar.getDelsvar(LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID,
-                LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID);
+            LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID);
         assertNotNull("HarHaft should not be null", delsvarHarHaft);
         assertEquals("HarHaft not equal", lakemedelsbehandling.getHarHaft(), getBooleanContent(delsvarHarHaft));
 
@@ -363,21 +363,21 @@ public class UtlatandeToIntygTest {
         assertNull("Effekt should be null", delsvarEffekt);
 
         final Svar.Delsvar delsvarFoljsamhet = svar.getDelsvar(LAKEMEDELSBEHANDLING_FOLJSAMHET_SVAR_ID,
-                LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID);
+            LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID);
         assertNull("Foljsamhet should be null", delsvarFoljsamhet);
 
         final Svar.Delsvar delsvarAvslutadTidpunkt = svar.getDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID,
-                LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID);
+            LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID);
         assertNull("AvslutadTidpunkt should be null", delsvarAvslutadTidpunkt);
 
         final Svar.Delsvar delsvarAvslutadOrsak = svar.getDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID,
-                LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID);
+            LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID);
         assertNull("AvslutadOrsak should be null", delsvarAvslutadOrsak);
     }
 
     private void assertLakemedelsbehandlingJaPagar(Lakemedelsbehandling lakemedelsbehandling, SvarsWrapper svar) throws ConverterException {
         final Svar.Delsvar delsvarHarHaft = svar.getDelsvar(LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID,
-                LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID);
+            LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID);
         assertNotNull("HarHaft should not be null", delsvarHarHaft);
         assertEquals("HarHaft not equal", lakemedelsbehandling.getHarHaft(), getBooleanContent(delsvarHarHaft));
 
@@ -398,23 +398,23 @@ public class UtlatandeToIntygTest {
         assertEquals("Effekt not equal", lakemedelsbehandling.getEffekt(), getBooleanContent(delsvarEffekt));
 
         final Svar.Delsvar delsvarFoljsamhet = svar.getDelsvar(LAKEMEDELSBEHANDLING_FOLJSAMHET_SVAR_ID,
-                LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID);
+            LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID);
         assertNotNull("Foljsamhet should not be null", delsvarFoljsamhet);
         assertEquals("Foljsamhet not equal", lakemedelsbehandling.getFoljsamhet(), getBooleanContent(delsvarFoljsamhet));
 
         final Svar.Delsvar delsvarAvslutadTidpunkt = svar.getDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID,
-                LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID);
+            LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID);
         assertNull("AvslutadTidpunkt should be null", delsvarAvslutadTidpunkt);
 
         final Svar.Delsvar delsvarAvslutadOrsak = svar.getDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID,
-                LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID);
+            LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID);
         assertNull("AvslutadOrsak should be null", delsvarAvslutadOrsak);
     }
 
     private void assertLakemedelsbehandlingJaAvslutad(Lakemedelsbehandling lakemedelsbehandling, SvarsWrapper svar)
-            throws ConverterException {
+        throws ConverterException {
         final Svar.Delsvar delsvarHarHaft = svar.getDelsvar(LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID,
-                LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID);
+            LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID);
         assertNotNull("HarHaft should not be null", delsvarHarHaft);
         assertEquals("HarHaft not equal", lakemedelsbehandling.getHarHaft(), getBooleanContent(delsvarHarHaft));
 
@@ -432,17 +432,17 @@ public class UtlatandeToIntygTest {
         assertNull("Effekt should be null", delsvarEffekt);
 
         final Svar.Delsvar delsvarFoljsamhet = svar.getDelsvar(LAKEMEDELSBEHANDLING_FOLJSAMHET_SVAR_ID,
-                LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID);
+            LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID);
         assertNull("Foljsamhet should be null", delsvarFoljsamhet);
 
         final Svar.Delsvar delsvarAvslutadTidpunkt = svar.getDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID,
-                LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID);
+            LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID);
         assertNotNull("AvslutadTidpunkt should not be null", delsvarAvslutadTidpunkt);
         assertEquals("AvslutadTidpunkt not equal", lakemedelsbehandling.getAvslutadTidpunkt(),
-                getStringContent(delsvarAvslutadTidpunkt));
+            getStringContent(delsvarAvslutadTidpunkt));
 
         final Svar.Delsvar delsvarAvslutadOrsak = svar.getDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID,
-                LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID);
+            LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID);
         assertNotNull("AvslutadOrsak should not be null", delsvarAvslutadOrsak);
         assertEquals("AvslutadOrsak not equal", lakemedelsbehandling.getAvslutadOrsak(), getStringContent(delsvarAvslutadOrsak));
     }

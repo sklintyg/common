@@ -61,7 +61,7 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Obje
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { BefattningService.class })
+@ContextConfiguration(classes = {BefattningService.class})
 public class ConverterTest {
 
     @Mock
@@ -93,7 +93,7 @@ public class ConverterTest {
 
         RegisterCertificateValidator validator = new RegisterCertificateValidator(Ag114ModuleApiV1.SCHEMATRON_FILE);
         SchematronOutputType result = validator
-                .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+            .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
 
         assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
     }
@@ -113,7 +113,7 @@ public class ConverterTest {
         // Do schematron validation on the xml-string from the converted transport format
         RegisterCertificateValidator validator = new RegisterCertificateValidator(Ag114ModuleApiV1.SCHEMATRON_FILE);
         SchematronOutputType result = validator
-                .validateSchematron(new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
+            .validateSchematron(new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
         assertEquals(getErrorString(result), 0, SVRLHelper.getAllFailedAssertions(result).size());
 
         // Why not validate internal model as well?
@@ -123,9 +123,9 @@ public class ConverterTest {
     private String getErrorString(SchematronOutputType result) {
         StringBuilder errorMsg = new StringBuilder();
         SVRLHelper.getAllFailedAssertions(result).stream()
-                .map(e -> e.getText())
-                .collect(Collectors.toList())
-                .forEach(e -> errorMsg.append(e));
+            .map(e -> e.getText())
+            .collect(Collectors.toList())
+            .forEach(e -> errorMsg.append(e));
         return errorMsg.toString();
     }
 

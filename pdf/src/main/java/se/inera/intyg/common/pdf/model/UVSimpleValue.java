@@ -31,6 +31,7 @@ import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 public class UVSimpleValue extends UVComponent {
 
     private static final float SIMPLEVALUE_MARGIN_BOTTOM = 5f;
+
     public UVSimpleValue(UVRenderer renderer) {
         super(renderer);
     }
@@ -55,14 +56,14 @@ public class UVSimpleValue extends UVComponent {
             outputText.append(UVComponent.EJ_ANGIVET_STR);
         }
         parent.add(new Paragraph(outputText.toString()).setItalic()
-                .setMarginBottom(millimetersToPoints(SIMPLEVALUE_MARGIN_BOTTOM))
-                .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
-                .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
-                .setFont(renderer.svarFont)
-                .setFontSize(SVAR_FONT_SIZE)
-                .setPadding(0f).setMarginTop(0f).setMarginBottom(0f)
-                .setKeepTogether(false)
-                );
+            .setMarginBottom(millimetersToPoints(SIMPLEVALUE_MARGIN_BOTTOM))
+            .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
+            .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
+            .setFont(renderer.svarFont)
+            .setFontSize(SVAR_FONT_SIZE)
+            .setPadding(0f).setMarginTop(0f).setMarginBottom(0f)
+            .setKeepTogether(false)
+        );
 
         return true;
     }

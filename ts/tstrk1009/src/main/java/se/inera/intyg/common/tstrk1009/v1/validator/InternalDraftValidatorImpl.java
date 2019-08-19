@@ -68,7 +68,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1
         // Identitet styrkt genom
         if (utlatande.getIdentitetStyrktGenom() == null) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_IDENTITET, IDENTITET_STYRKT_GENOM_JSON_ID + ".typ",
-                    ValidationMessageType.EMPTY);
+                ValidationMessageType.EMPTY);
         }
     }
 
@@ -76,7 +76,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1
         // Anmälan avser olämplighet eller sannolik olämplighet
         if (utlatande.getAnmalanAvser() == null) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_ANMALAN, ANMALAN_AVSER_JSON_ID + ".typ",
-                    ValidationMessageType.EMPTY);
+                ValidationMessageType.EMPTY);
         }
     }
 
@@ -84,15 +84,15 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1
         // Medicinska förhållanden som utgör grund för olämplighet
         if (Strings.isNullOrEmpty(utlatande.getMedicinskaForhallanden())) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDICINSKAFORHALLANDEN, MEDICINSKA_FORHALLANDEN_JSON_ID,
-                    ValidationMessageType.EMPTY);
+                ValidationMessageType.EMPTY);
         }
 
         if (ValidatorUtil.validateDate(utlatande.getSenasteUndersokningsdatum(), validationMessages,
-                CATEGORY_MEDICINSKAFORHALLANDEN, SENASTE_UNDERSOKNINGSDATUM_JSON_ID, null)) {
+            CATEGORY_MEDICINSKAFORHALLANDEN, SENASTE_UNDERSOKNINGSDATUM_JSON_ID, null)) {
 
             if (eligibleForRule1(utlatande)) {
                 ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDICINSKAFORHALLANDEN, SENASTE_UNDERSOKNINGSDATUM_JSON_ID,
-                        ValidationMessageType.OTHER, VALIDATION_COMMON_EXCEEDS_MAXDATE);
+                    ValidationMessageType.OTHER, VALIDATION_COMMON_EXCEEDS_MAXDATE);
             }
         }
     }
@@ -101,13 +101,13 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1
         // Intyget avser behörighet
         if (utlatande.getIntygetAvserBehorigheter() == null || isEmpty(utlatande.getIntygetAvserBehorigheter().getTyper())) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, INTYGET_AVSER_BEHORIGHET_JSON_ID + ".typer",
-                    ValidationMessageType.EMPTY);
+                ValidationMessageType.EMPTY);
         } else if (utlatande.getIntygetAvserBehorigheter().getTyper().size() > FOUR) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, INTYGET_AVSER_BEHORIGHET_JSON_ID + ".typer",
-                    ValidationMessageType.OTHER);
+                ValidationMessageType.OTHER);
         } else if (eligibleForRule2To10(utlatande)) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, INTYGET_AVSER_BEHORIGHET_JSON_ID + ".typer",
-                    ValidationMessageType.OTHER);
+                ValidationMessageType.OTHER);
         }
     }
 
@@ -117,8 +117,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1
 
     private static boolean eligibleForRule1(Tstrk1009UtlatandeV1 utlatande) {
         return utlatande.getSenasteUndersokningsdatum() != null
-                && utlatande.getSenasteUndersokningsdatum().isValidDate()
-                && utlatande.getSenasteUndersokningsdatum().asLocalDate().isAfter(LocalDate.now());
+            && utlatande.getSenasteUndersokningsdatum().isValidDate()
+            && utlatande.getSenasteUndersokningsdatum().asLocalDate().isAfter(LocalDate.now());
     }
 
     private static boolean eligibleForRule2To10(Tstrk1009UtlatandeV1 utlatande) {

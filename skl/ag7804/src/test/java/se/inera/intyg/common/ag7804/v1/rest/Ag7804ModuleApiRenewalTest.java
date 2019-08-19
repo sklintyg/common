@@ -69,7 +69,8 @@ public class Ag7804ModuleApiRenewalTest {
 
         //Retained values
         assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
-        assertEquals(original.getGrundData().getPatient().getFullstandigtNamn(), renewCopy.getGrundData().getPatient().getFullstandigtNamn());
+        assertEquals(original.getGrundData().getPatient().getFullstandigtNamn(),
+            renewCopy.getGrundData().getPatient().getFullstandigtNamn());
         assertEquals(original.getFunktionsnedsattning(), renewCopy.getFunktionsnedsattning());
         assertEquals(original.getAktivitetsbegransning(), renewCopy.getAktivitetsbegransning());
         assertEquals(original.getForsakringsmedicinsktBeslutsstod(), renewCopy.getForsakringsmedicinsktBeslutsstod());
@@ -96,7 +97,7 @@ public class Ag7804ModuleApiRenewalTest {
 
     private CreateDraftCopyHolder createCopyHolder() {
         CreateDraftCopyHolder draftCopyHolder = new CreateDraftCopyHolder("certificateId",
-                createHosPersonal());
+            createHosPersonal());
         draftCopyHolder.setRelation(new Relation());
         return draftCopyHolder;
     }
@@ -112,7 +113,7 @@ public class Ag7804ModuleApiRenewalTest {
 
     private Ag7804UtlatandeV1 getUtlatandeFromFile() throws IOException {
         return new CustomObjectMapper().readValue(new ClassPathResource(
-                TESTFILE_UTLATANDE).getFile(), Ag7804UtlatandeV1.class);
+            TESTFILE_UTLATANDE).getFile(), Ag7804UtlatandeV1.class);
     }
 
 }

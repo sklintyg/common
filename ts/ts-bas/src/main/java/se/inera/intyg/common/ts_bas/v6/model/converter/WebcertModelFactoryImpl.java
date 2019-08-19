@@ -53,13 +53,9 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsBasUtlatan
     /**
      * Create a new TS-bas draft pre-populated with the attached data.
      *
-     * @param newDraftData
-     *            {@link CreateNewDraftHolder}
-     *
+     * @param newDraftData {@link CreateNewDraftHolder}
      * @return {@link TsBasUtlatandeV6}
-     *
-     * @throws se.inera.intyg.common.support.model.converter.util.ConverterException
-     *             if something unforeseen happens
+     * @throws se.inera.intyg.common.support.model.converter.util.ConverterException if something unforeseen happens
      */
     @Override
     public TsBasUtlatandeV6 createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {
@@ -70,7 +66,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsBasUtlatan
         template.setId(newDraftData.getCertificateId());
         // Default to latest minor version available for major version of intygtype
         template.setTextVersion(
-                intygTexts.getLatestVersionForSameMajorVersion(TsBasEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
+            intygTexts.getLatestVersionForSameMajorVersion(TsBasEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
 
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
         template.setGrundData(grundData);

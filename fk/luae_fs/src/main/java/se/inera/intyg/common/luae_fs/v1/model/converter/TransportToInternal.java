@@ -86,40 +86,40 @@ public final class TransportToInternal {
 
         for (Svar svar : source.getSvar()) {
             switch (svar.getId()) {
-            case GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1:
-                handleGrundForMedicinsktUnderlag(utlatande, svar);
-                break;
-            case KANNEDOM_SVAR_ID_2:
-                handleKannedom(utlatande, svar);
-                break;
-            case UNDERLAGFINNS_SVAR_ID_3:
-                handleUnderlagFinns(utlatande, svar);
-                break;
-            case UNDERLAG_SVAR_ID_4:
-                handleUnderlag(underlag, svar);
-                break;
-            case DIAGNOS_SVAR_ID_6:
-                handleDiagnos(diagnoser, svar);
-                break;
-            case FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15:
-                handleFunktionsnedsattningDebut(utlatande, svar);
-                break;
-            case FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16:
-                handleFunktionsnedsattningPaverkan(utlatande, svar);
-                break;
-            case OVRIGT_SVAR_ID_25:
-                handleOvrigt(utlatande, svar);
-                break;
-            case KONTAKT_ONSKAS_SVAR_ID_26:
-                handleOnskarKontakt(utlatande, svar);
-                break;
+                case GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1:
+                    handleGrundForMedicinsktUnderlag(utlatande, svar);
+                    break;
+                case KANNEDOM_SVAR_ID_2:
+                    handleKannedom(utlatande, svar);
+                    break;
+                case UNDERLAGFINNS_SVAR_ID_3:
+                    handleUnderlagFinns(utlatande, svar);
+                    break;
+                case UNDERLAG_SVAR_ID_4:
+                    handleUnderlag(underlag, svar);
+                    break;
+                case DIAGNOS_SVAR_ID_6:
+                    handleDiagnos(diagnoser, svar);
+                    break;
+                case FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15:
+                    handleFunktionsnedsattningDebut(utlatande, svar);
+                    break;
+                case FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16:
+                    handleFunktionsnedsattningPaverkan(utlatande, svar);
+                    break;
+                case OVRIGT_SVAR_ID_25:
+                    handleOvrigt(utlatande, svar);
+                    break;
+                case KONTAKT_ONSKAS_SVAR_ID_26:
+                    handleOnskarKontakt(utlatande, svar);
+                    break;
 
-            default:
-                Integer parsedInt = Ints.tryParse(svar.getId());
-                if (parsedInt != null && parsedInt >= TILLAGGSFRAGA_START) {
-                    handleTillaggsfraga(tillaggsfragor, svar);
-                }
-                break;
+                default:
+                    Integer parsedInt = Ints.tryParse(svar.getId());
+                    if (parsedInt != null && parsedInt >= TILLAGGSFRAGA_START) {
+                        handleTillaggsfraga(tillaggsfragor, svar);
+                    }
+                    break;
             }
         }
 
@@ -194,36 +194,36 @@ public final class TransportToInternal {
         RespConstants.ReferensTyp grundForMedicinsktUnderlagTyp = RespConstants.ReferensTyp.ANNAT;
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
-            case GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1:
-                grundForMedicinsktUnderlagDatum = new InternalDate(getStringContent(delsvar));
-                break;
-            case GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1:
-                String referensTypString = getCVSvarContent(delsvar).getCode();
-                grundForMedicinsktUnderlagTyp = RespConstants.ReferensTyp.byTransportId(referensTypString);
-                break;
-            case GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1:
-                utlatande.setAnnatGrundForMUBeskrivning(getStringContent(delsvar));
-                break;
-            default:
-                throw new IllegalArgumentException();
+                case GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1:
+                    grundForMedicinsktUnderlagDatum = new InternalDate(getStringContent(delsvar));
+                    break;
+                case GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1:
+                    String referensTypString = getCVSvarContent(delsvar).getCode();
+                    grundForMedicinsktUnderlagTyp = RespConstants.ReferensTyp.byTransportId(referensTypString);
+                    break;
+                case GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1:
+                    utlatande.setAnnatGrundForMUBeskrivning(getStringContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
             }
         }
 
         switch (grundForMedicinsktUnderlagTyp) {
-        case UNDERSOKNING:
-            utlatande.setUndersokningAvPatienten(grundForMedicinsktUnderlagDatum);
-            break;
-        case JOURNAL:
-            utlatande.setJournaluppgifter(grundForMedicinsktUnderlagDatum);
-            break;
-        case ANHORIGSBESKRIVNING:
-            utlatande.setAnhorigsBeskrivningAvPatienten(grundForMedicinsktUnderlagDatum);
-            break;
-        case ANNAT:
-            utlatande.setAnnatGrundForMU(grundForMedicinsktUnderlagDatum);
-            break;
-        default:
-            throw new IllegalArgumentException();
+            case UNDERSOKNING:
+                utlatande.setUndersokningAvPatienten(grundForMedicinsktUnderlagDatum);
+                break;
+            case JOURNAL:
+                utlatande.setJournaluppgifter(grundForMedicinsktUnderlagDatum);
+                break;
+            case ANHORIGSBESKRIVNING:
+                utlatande.setAnhorigsBeskrivningAvPatienten(grundForMedicinsktUnderlagDatum);
+                break;
+            case ANNAT:
+                utlatande.setAnnatGrundForMU(grundForMedicinsktUnderlagDatum);
+                break;
+            default:
+                throw new IllegalArgumentException();
         }
     }
 
@@ -241,25 +241,25 @@ public final class TransportToInternal {
     private static void handleOvrigt(LuaefsUtlatandeV1.Builder utlatande, Svar svar) {
         Delsvar delsvar = svar.getDelsvar().get(0);
         switch (delsvar.getId()) {
-        case OVRIGT_DELSVAR_ID_25:
-            utlatande.setOvrigt(getStringContent(delsvar));
-            break;
-        default:
-            throw new IllegalArgumentException();
+            case OVRIGT_DELSVAR_ID_25:
+                utlatande.setOvrigt(getStringContent(delsvar));
+                break;
+            default:
+                throw new IllegalArgumentException();
         }
     }
 
     private static void handleOnskarKontakt(LuaefsUtlatandeV1.Builder utlatande, Svar svar) {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
-            case KONTAKT_ONSKAS_DELSVAR_ID_26:
-                utlatande.setKontaktMedFk(Boolean.valueOf(getStringContent(delsvar)));
-                break;
-            case ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26:
-                utlatande.setAnledningTillKontakt(getStringContent(delsvar));
-                break;
-            default:
-                throw new IllegalArgumentException();
+                case KONTAKT_ONSKAS_DELSVAR_ID_26:
+                    utlatande.setKontaktMedFk(Boolean.valueOf(getStringContent(delsvar)));
+                    break;
+                case ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26:
+                    utlatande.setAnledningTillKontakt(getStringContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
             }
         }
     }

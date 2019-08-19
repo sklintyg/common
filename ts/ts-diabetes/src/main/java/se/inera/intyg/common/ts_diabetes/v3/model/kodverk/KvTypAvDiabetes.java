@@ -54,7 +54,7 @@ public enum KvTypAvDiabetes {
 
     public static KvTypAvDiabetes fromCode(String code) {
         return Stream.of(KvTypAvDiabetes.values()).filter(s -> code.equals(s.getCode())).findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(code));
+            .orElseThrow(() -> new IllegalArgumentException(code));
     }
 
     @JsonValue

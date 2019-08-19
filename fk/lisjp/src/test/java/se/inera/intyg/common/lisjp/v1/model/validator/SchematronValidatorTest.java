@@ -75,21 +75,21 @@ public class SchematronValidatorTest {
     @Test
     public void invalidHeltNedsattOchOmArbetstidsforlaggning() throws Exception {
         String inputXml = Resources
-                .toString(getResource("v1/transport/failingSjukskrivningHeltNedsattOchOmArbetstidsforlaggning.xml"),
-                        Charsets.UTF_8);
+            .toString(getResource("v1/transport/failingSjukskrivningHeltNedsattOchOmArbetstidsforlaggning.xml"),
+                Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertTrue(String.format("Expected 1 error but was %s",
-                response.getValidationErrors().size()),  response.getValidationErrors().size() == 1);
+            response.getValidationErrors().size()), response.getValidationErrors().size() == 1);
     }
 
     @Test
     public void validFleraSjukskrivningarOchOmArbetstidsforlaggning() throws Exception {
         String inputXml = Resources
-                .toString(getResource("v1/transport/fleraSjukskrivningOchOmArbetstidsforlaggning.xml"),
-                        Charsets.UTF_8);
+            .toString(getResource("v1/transport/fleraSjukskrivningOchOmArbetstidsforlaggning.xml"),
+                Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertTrue(String.format("Expected 0 error but was %s",
-                response.getValidationErrors().size()),  response.getValidationErrors().size() == 0);
+            response.getValidationErrors().size()), response.getValidationErrors().size() == 0);
     }
 
 

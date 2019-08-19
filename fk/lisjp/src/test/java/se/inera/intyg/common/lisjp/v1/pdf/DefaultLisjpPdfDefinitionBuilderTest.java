@@ -72,29 +72,34 @@ public class DefaultLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinition
 
     @Test
     public void testGenerateLockedUtkastPdf() throws Exception {
-        LisjpUtlatandeV1 utkast = objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(), LisjpUtlatandeV1.class);
+        LisjpUtlatandeV1 utkast = objectMapper
+            .readValue(new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(), LisjpUtlatandeV1.class);
 
         byte[] generatorResult = PdfGenerator
-                .generatePdf(lisjpPdfDefinitionBuilder.buildPdfDefinition(utkast, Lists.newArrayList(), ApplicationOrigin.WEBCERT, intygTexts, UtkastStatus.DRAFT_LOCKED));
+            .generatePdf(lisjpPdfDefinitionBuilder
+                .buildPdfDefinition(utkast, Lists.newArrayList(), ApplicationOrigin.WEBCERT, intygTexts, UtkastStatus.DRAFT_LOCKED));
         assertNotNull(generatorResult);
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "låst-utkast", utkast.getId());
     }
 
     @Test
     public void testGenerateUtkastPdf() throws Exception {
-        LisjpUtlatandeV1 utkast = objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(), LisjpUtlatandeV1.class);
+        LisjpUtlatandeV1 utkast = objectMapper
+            .readValue(new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(), LisjpUtlatandeV1.class);
 
         byte[] generatorResult = PdfGenerator
-                .generatePdf(lisjpPdfDefinitionBuilder.buildPdfDefinition(utkast, Lists.newArrayList(), ApplicationOrigin.WEBCERT, intygTexts, UtkastStatus.DRAFT_COMPLETE));
+            .generatePdf(lisjpPdfDefinitionBuilder
+                .buildPdfDefinition(utkast, Lists.newArrayList(), ApplicationOrigin.WEBCERT, intygTexts, UtkastStatus.DRAFT_COMPLETE));
         assertNotNull(generatorResult);
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "utkast", utkast.getId());
     }
 
     private void generate(String scenarioName, List<Status> statuses, ApplicationOrigin origin) throws PdfGeneratorException, IOException {
         for (LisjpUtlatandeV1 intyg : intygList) {
-            FkPdfDefinition pdfDefinition = lisjpPdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts, UtkastStatus.SIGNED);
+            FkPdfDefinition pdfDefinition = lisjpPdfDefinitionBuilder
+                .buildPdfDefinition(intyg, statuses, origin, intygTexts, UtkastStatus.SIGNED);
             byte[] generatorResult = PdfGenerator
-                    .generatePdf(pdfDefinition);
+                .generatePdf(pdfDefinition);
 
             assertNotNull(generatorResult);
 

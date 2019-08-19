@@ -85,7 +85,8 @@ public class SvarIdHelperTest {
 
     @Test
     public void testCalculateFrageIdHandleForGrundForMUAll() throws ConverterException {
-        List<String> res = svarIdHelper.calculateFrageIdHandleForGrundForMU(buildUtlatande(INTERNAL_DATE, INTERNAL_DATE, INTERNAL_DATE, INTERNAL_DATE));
+        List<String> res = svarIdHelper
+            .calculateFrageIdHandleForGrundForMU(buildUtlatande(INTERNAL_DATE, INTERNAL_DATE, INTERNAL_DATE, INTERNAL_DATE));
         assertNotNull(res);
         assertEquals(5, res.size());
         assertEquals(GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1, res.get(0));
@@ -96,15 +97,15 @@ public class SvarIdHelperTest {
     }
 
     private LisjpUtlatandeV1 buildUtlatande(InternalDate undersokningAvPatienten, InternalDate journaluppgifter,
-                                            InternalDate telefonkontaktMedPatienten, InternalDate annatGrundForMU) {
+        InternalDate telefonkontaktMedPatienten, InternalDate annatGrundForMU) {
         return LisjpUtlatandeV1.builder()
-                .setId("intygId")
-                .setGrundData(new GrundData())
-                .setTextVersion("v1.0")
-                .setUndersokningAvPatienten(undersokningAvPatienten)
-                .setJournaluppgifter(journaluppgifter)
-                .setTelefonkontaktMedPatienten(telefonkontaktMedPatienten)
-                .setAnnatGrundForMU(annatGrundForMU)
-                .build();
+            .setId("intygId")
+            .setGrundData(new GrundData())
+            .setTextVersion("v1.0")
+            .setUndersokningAvPatienten(undersokningAvPatienten)
+            .setJournaluppgifter(journaluppgifter)
+            .setTelefonkontaktMedPatienten(telefonkontaktMedPatienten)
+            .setAnnatGrundForMU(annatGrundForMU)
+            .build();
     }
 }

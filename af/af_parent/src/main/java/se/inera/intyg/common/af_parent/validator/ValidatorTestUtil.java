@@ -18,31 +18,36 @@
  */
 package se.inera.intyg.common.af_parent.validator;
 
-import com.helger.schematron.svrl.SVRLHelper;
 import java.io.IOException;
 import java.util.stream.Collectors;
+
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
+
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
+
+import com.helger.schematron.svrl.SVRLHelper;
+
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 public final class ValidatorTestUtil {
+
     private ValidatorTestUtil() {
     }
 
     public static String getTransportValidationErrorString(SchematronOutputType result) {
         return SVRLHelper.getAllFailedAssertions(result).stream()
-                .map(e -> String.format("Test: %s, Text: %s", e.getTest(), e.getText()))
-                .collect(Collectors.joining(";"));
+            .map(e -> String.format("Test: %s, Text: %s", e.getTest(), e.getText()))
+            .collect(Collectors.joining(";"));
     }
 
     public static String getInternalValidationErrorString(ValidateDraftResponse internalValidationResponse) {
         return internalValidationResponse.getValidationErrors().stream()
-                .map(e -> e.getField())
-                .collect(Collectors.joining(", "));
+            .map(e -> e.getField())
+            .collect(Collectors.joining(", "));
     }
 
     public static String getXmlFromModel(RegisterCertificateType transport) throws IOException, JAXBException {

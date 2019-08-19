@@ -55,9 +55,12 @@ public abstract class BaseLisjpPdfDefinitionBuilderTest {
         intygsTextRepositoryHelper.update();
         ReflectionTestUtils.setField(intygTextsService, "repo", intygsTextRepositoryHelper);
         intygTextsService.getIntygTextsPojo("lisjp", "1.0");
-        intygList.add(objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/minimalt_utlatande.json").getFile(), LisjpUtlatandeV1.class));
-        intygList.add(objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/maximalt_utlatande.json").getFile(), LisjpUtlatandeV1.class));
-        intygList.add(objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/tillaggsfragor_utlatande.json").getFile(), LisjpUtlatandeV1.class));
+        intygList.add(
+            objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/minimalt_utlatande.json").getFile(), LisjpUtlatandeV1.class));
+        intygList.add(
+            objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/maximalt_utlatande.json").getFile(), LisjpUtlatandeV1.class));
+        intygList.add(objectMapper
+            .readValue(new ClassPathResource("v1/PdfGeneratorTest/tillaggsfragor_utlatande.json").getFile(), LisjpUtlatandeV1.class));
 
         intygTexts = intygTextsService.getIntygTextsPojo("lisjp", "1.0");
     }

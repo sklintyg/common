@@ -88,7 +88,7 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
 
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-            throws ModuleException {
+        throws ModuleException {
         try {
             if (ApplicationOrigin.WEBCERT != applicationOrigin) {
                 throw new IllegalArgumentException("Generating PDF not allowed for application origin " + applicationOrigin);
@@ -97,7 +97,7 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
             IntygTexts texts = getTexts(DbModuleEntryPoint.MODULE_ID, intyg.getTextVersion());
             DbPdfGenerator pdfGenerator = new DbPdfGenerator(intyg, texts, statuses, utkastStatus);
             return new PdfResponse(pdfGenerator.getBytes(),
-                    pdfGenerator.generatePdfFilename(LocalDateTime.now(), PDF_FILENAME_PREFIX));
+                pdfGenerator.generatePdfFilename(LocalDateTime.now(), PDF_FILENAME_PREFIX));
         } catch (SoSPdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate PDF for certificate!", e);
@@ -106,7 +106,7 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
 
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            List<String> optionalFields, UtkastStatus utkastStatus) throws ModuleException {
+        List<String> optionalFields, UtkastStatus utkastStatus) throws ModuleException {
         throw new RuntimeException("Not applicable for dodsbevis");
     }
 

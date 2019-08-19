@@ -58,13 +58,13 @@ public class PdfGenerator {
     private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);
 
     private static final String INFO_SIGNED_TEXT_COMPLETE = "Detta är en utskrift av ett elektroniskt intyg. Intyget har "
-            + "signerats elektroniskt av intygsutfärdaren.";
+        + "signerats elektroniskt av intygsutfärdaren.";
 
     private static final String INFO_SIGNED_TEXT_CUSTOMIZED = "Detta är en anpassad utskrift av ett elektroniskt intyg. "
-            + "Viss information i intyget har valts bort. Intyget har signerats elektroniskt av intygsutfärdaren.";
+        + "Viss information i intyget har valts bort. Intyget har signerats elektroniskt av intygsutfärdaren.";
 
     private static final String INFO_UTKAST_TEXT = "Detta är en utskrift av ett elektroniskt intygsutkast och "
-            + "ska INTE skickas till arbetsgivaren.";
+        + "ska INTE skickas till arbetsgivaren.";
 
     private static final String SKIP_SYMBOL = "!";
     private static final String OPTIONAL_FIELD_FORMEDLA_DIAGNOSER = ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_JSON_ID_100;
@@ -73,8 +73,8 @@ public class PdfGenerator {
 
     // CHECKSTYLE:OFF ParameterNumber
     public PdfResponse generatePdf(String intygsId, String jsonModel, String majorVersion, Personnummer personId, IntygTexts intygTexts,
-            List<Status> statuses,
-            ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus, List<String> optionalFields) throws ModuleException {
+        List<Status> statuses,
+        ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus, List<String> optionalFields) throws ModuleException {
 
         try {
             String cleanedJson = cleanJsonModel(jsonModel);
@@ -88,24 +88,24 @@ public class PdfGenerator {
             Map<String, String> modelPropReplacements = buildModelPropReplacements(optionalFields);
 
             PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
-                    .withIntygJsonModel(cleanedJson)
-                    .withUpJsModel(upJsModel)
-                    .withIntygsId(intygsId)
-                    .withIntygsNamn(Ag7804EntryPoint.MODULE_NAME)
-                    .withIntygsKod(Ag7804EntryPoint.ISSUER_TYPE_ID)
-                    .withPersonnummer(personId.getPersonnummerWithDash())
-                    .withInfoText(buildInfoText(isUtkast || isLockedUtkast, modelPropReplacements.isEmpty()))
-                    .withSummary(new Summary().add(PDF_SUMMARY_HEADER, intygTexts.getTexter().get("FRM_1.RBK")))
-                    .withLeftMarginTypText(intygTexts.getProperties().getProperty("formId"))
-                    .withUtfardarLogotyp(logoData)
-                    .withIsUtkast(isUtkast)
-                    .withIsLockedUtkast(isLockedUtkast)
-                    .withIsMakulerad(isMakulerad)
-                    .withApplicationOrigin(applicationOrigin)
-                    .withSignBox(true)
-                    .withSignatureLine(true)
-                    .withModelPropReplacements(modelPropReplacements)
-                    .build();
+                .withIntygJsonModel(cleanedJson)
+                .withUpJsModel(upJsModel)
+                .withIntygsId(intygsId)
+                .withIntygsNamn(Ag7804EntryPoint.MODULE_NAME)
+                .withIntygsKod(Ag7804EntryPoint.ISSUER_TYPE_ID)
+                .withPersonnummer(personId.getPersonnummerWithDash())
+                .withInfoText(buildInfoText(isUtkast || isLockedUtkast, modelPropReplacements.isEmpty()))
+                .withSummary(new Summary().add(PDF_SUMMARY_HEADER, intygTexts.getTexter().get("FRM_1.RBK")))
+                .withLeftMarginTypText(intygTexts.getProperties().getProperty("formId"))
+                .withUtfardarLogotyp(logoData)
+                .withIsUtkast(isUtkast)
+                .withIsLockedUtkast(isLockedUtkast)
+                .withIsMakulerad(isMakulerad)
+                .withApplicationOrigin(applicationOrigin)
+                .withSignBox(true)
+                .withSignatureLine(true)
+                .withModelPropReplacements(modelPropReplacements)
+                .build();
 
             byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
             return new PdfResponse(data, buildFilename(optionalFields != null && optionalFields.size() > 0));
@@ -118,9 +118,6 @@ public class PdfGenerator {
 
     /**
      * Build a map of modelProp names and a replacement text to be used when rendering it.
-     *
-     * @param optionalFields
-     * @return
      */
     private Map<String, String> buildModelPropReplacements(List<String> optionalFields) {
         Map<String, String> overrides = new HashMap<>();
@@ -170,7 +167,7 @@ public class PdfGenerator {
     private String loadUvViewConfig(String majorVersion) throws IOException {
         String templateUriPath = String.format(PDF_UP_MODEL_CLASSPATH_URI_TEMPLATE, majorVersion);
         String upJsModel = IOUtils.toString(new ClassPathResource(templateUriPath).getInputStream(),
-                Charset.forName("UTF-8"));
+            Charset.forName("UTF-8"));
         if (Strings.isNullOrEmpty(upJsModel)) {
             throw new IllegalArgumentException("Cannot generate PDF, UV viewConfig not found on classpath: " + templateUriPath);
         }
@@ -180,7 +177,7 @@ public class PdfGenerator {
     private String buildFilename(boolean pdfEmployer) {
         LocalDateTime now = LocalDateTime.now();
         return (pdfEmployer ? MINIMAL_CERTIFICATE_FILE_PREFIX
-                : CERTIFICATE_FILE_BASE_NAME) + now.format(DateTimeFormatter.ofPattern("yy_MM_dd_HHmm")) + ".pdf";
+            : CERTIFICATE_FILE_BASE_NAME) + now.format(DateTimeFormatter.ofPattern("yy_MM_dd_HHmm")) + ".pdf";
     }
 
     private JsonNode toIntygJsonNode(String jsonModel) throws IOException {

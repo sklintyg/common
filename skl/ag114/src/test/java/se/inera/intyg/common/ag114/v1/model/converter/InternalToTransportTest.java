@@ -54,7 +54,7 @@ import se.inera.intyg.common.support.validate.XmlValidator;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { BefattningService.class })
+@ContextConfiguration(classes = {BefattningService.class})
 public class InternalToTransportTest {
 
     private WebcertModuleService webcertModuleService;

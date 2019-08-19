@@ -42,10 +42,11 @@ public class IntygTextsLuaenaRepositoryTestHelper extends IntygTextsRepositoryIm
     }
 
     @Override
-    public void update()  {
+    public void update() {
 
         try {
-            Document e = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ClassPathResource("v1/text/texterMU_LUAE_NA_v1.0.xml").getInputStream());
+            Document e = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+                .parse(new ClassPathResource("v1/text/texterMU_LUAE_NA_v1.0.xml").getInputStream());
             Element root = e.getDocumentElement();
             String version = root.getAttribute("version");
             String intygsTyp = root.getAttribute("typ").toLowerCase();
@@ -55,7 +56,8 @@ public class IntygTextsLuaenaRepositoryTestHelper extends IntygTextsRepositoryIm
             List tillaggsFragor = this.getTillaggsfragor(e);
 
             Properties prop = new Properties();
-            prop.putAll(ImmutableMap.of("formId", "FK 7801 (001 F 001) Fastställd av Försäkringskassan", "blankettId", "7801", "blankettVersion", "01"));
+            prop.putAll(ImmutableMap
+                .of("formId", "FK 7801 (001 F 001) Fastställd av Försäkringskassan", "blankettId", "7801", "blankettVersion", "01"));
 
             super.intygTexts.add(new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, prop));
         } catch (Exception e1) {

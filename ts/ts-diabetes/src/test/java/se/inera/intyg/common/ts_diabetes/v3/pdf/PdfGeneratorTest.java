@@ -57,11 +57,12 @@ public class PdfGeneratorTest {
         IntygTexts intygTexts = intygsTextRepositoryHelper.getTexts(TsDiabetesEntryPoint.MODULE_ID, "3.0");
 
         String jsonModel = IOUtils.toString(new ClassPathResource("v3/internal/scenarios/pass-complete.json").getInputStream(),
-                Charset.forName("UTF-8"));
-        PdfResponse pdfResponse = testee.generatePdf(UUID.randomUUID().toString(), jsonModel, Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
+            Charset.forName("UTF-8"));
+        PdfResponse pdfResponse = testee
+            .generatePdf(UUID.randomUUID().toString(), jsonModel, Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
                 new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
         assertNotNull(pdfResponse);
-        Pattern p = Pattern.compile("^" +  CERTIFICATE_FILE_PREFIX + "[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");
+        Pattern p = Pattern.compile("^" + CERTIFICATE_FILE_PREFIX + "[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");
         assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());
     }
 

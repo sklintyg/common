@@ -19,6 +19,7 @@
 package se.inera.intyg.common.luae_fs.v1.model.internal;
 
 // CHECKSTYLE:OFF LineLength
+
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_SVAR_JSON_ID_6;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15;
@@ -178,10 +179,10 @@ public abstract class LuaefsUtlatandeV1 implements Utlatande {
 
     public static Builder builder() {
         return new AutoValue_LuaefsUtlatandeV1.Builder()
-                .setDiagnoser(ImmutableList.<Diagnos> of())
-                .setTillaggsfragor(ImmutableList.<Tillaggsfraga> of())
-                .setUnderlag(ImmutableList.<Underlag> of())
-                .setSignature(null);
+            .setDiagnoser(ImmutableList.<Diagnos>of())
+            .setTillaggsfragor(ImmutableList.<Tillaggsfraga>of())
+            .setUnderlag(ImmutableList.<Underlag>of())
+            .setSignature(null);
     }
 
     @AutoValue.Builder

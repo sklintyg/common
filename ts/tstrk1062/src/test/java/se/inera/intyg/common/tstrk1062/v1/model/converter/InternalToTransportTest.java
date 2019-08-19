@@ -80,7 +80,7 @@ public class InternalToTransportTest {
 
     private TsTrk1062UtlatandeV1 getUtlatande() {
         final TsTrk1062UtlatandeV1.Builder builderTemplate = TsTrk1062UtlatandeV1.builder()
-                .setGrundData(buildGrundData(LocalDateTime.now()));
+            .setGrundData(buildGrundData(LocalDateTime.now()));
         return builderTemplate.build();
     }
 

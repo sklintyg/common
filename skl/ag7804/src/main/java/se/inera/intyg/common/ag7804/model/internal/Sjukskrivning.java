@@ -32,7 +32,7 @@ public abstract class Sjukskrivning {
 
     @JsonCreator
     public static Sjukskrivning create(@JsonProperty("sjukskrivningsgrad") SjukskrivningsGrad sjukskrivningsgrad,
-            @JsonProperty("period") InternalLocalDateInterval period) {
+        @JsonProperty("period") InternalLocalDateInterval period) {
         return new AutoValue_Sjukskrivning(sjukskrivningsgrad, period);
     }
 

@@ -59,10 +59,10 @@ public class UVTable extends UVComponent {
         List<String> headerLabels = buildHeaderLabels(currentUvNode);
 
         Table table = new Table(headerLabels.size())
-                .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
-                .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
-                .setWidth(millimetersToPoints(DEFAULT_TABLE_WIDTH_MM))
-                .setKeepTogether(true);
+            .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
+            .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
+            .setWidth(millimetersToPoints(DEFAULT_TABLE_WIDTH_MM))
+            .setKeepTogether(true);
 
         // Render headers with tabs
         renderHeaders(headerLabels, table);
@@ -94,7 +94,7 @@ public class UVTable extends UVComponent {
                     if (valueProp instanceof ScriptObjectMirror) {
                         ScriptObjectMirror valuePropSOM = (ScriptObjectMirror) valueProp;
                         throw new IllegalStateException(
-                                "Found unhandled ScriptObjectMirror in UVTable for valueProp " + valuePropSOM.getClassName());
+                            "Found unhandled ScriptObjectMirror in UVTable for valueProp " + valuePropSOM.getClassName());
                     }
 
                 }
@@ -145,13 +145,13 @@ public class UVTable extends UVComponent {
             parent.add(table);
         } else {
             parent.add(new Paragraph(EJ_ANGIVET_STR).setItalic()
-                    .setMarginBottom(0f)
-                    .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
-                    .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
-                    .setFont(renderer.svarFont)
-                    .setFontSize(SVAR_FONT_SIZE)
-                    .setPadding(0f).setMarginTop(0f)
-                    .setKeepTogether(false));
+                .setMarginBottom(0f)
+                .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
+                .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
+                .setFont(renderer.svarFont)
+                .setFontSize(SVAR_FONT_SIZE)
+                .setPadding(0f).setMarginTop(0f)
+                .setKeepTogether(false));
         }
 
         return true;
@@ -190,8 +190,8 @@ public class UVTable extends UVComponent {
             int columnIndex = 0;
             for (String col : row) {
                 Paragraph paragraph = new Paragraph(col)
-                        .setFont(renderer.svarFont)
-                        .setFontSize(FRAGA_DELFRAGA_FONT_SIZE);
+                    .setFont(renderer.svarFont)
+                    .setFontSize(FRAGA_DELFRAGA_FONT_SIZE);
 
                 // Weird extra rule - if first column has no header text, make the values bold.
                 if (columnIndex == 0 && headerLabels.get(0).isEmpty()) {
@@ -206,13 +206,13 @@ public class UVTable extends UVComponent {
     private void renderHeaders(List<String> headerLabels, Table table) {
         for (String header : headerLabels) {
             table.addHeaderCell(
-                    new Cell()
-                            .setBorder(Border.NO_BORDER)
-                            .setBorderBottom(new SolidBorder(DEFAULT_BORDER_WIDTH))
-                            .add(
-                                    new Paragraph(header)
-                                            .setFont(renderer.fragaDelFragaFont)
-                                            .setFontSize(FRAGA_DELFRAGA_FONT_SIZE)));
+                new Cell()
+                    .setBorder(Border.NO_BORDER)
+                    .setBorderBottom(new SolidBorder(DEFAULT_BORDER_WIDTH))
+                    .add(
+                        new Paragraph(header)
+                            .setFont(renderer.fragaDelFragaFont)
+                            .setFontSize(FRAGA_DELFRAGA_FONT_SIZE)));
         }
     }
 

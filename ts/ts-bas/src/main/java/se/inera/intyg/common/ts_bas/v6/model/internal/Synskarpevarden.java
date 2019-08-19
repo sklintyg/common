@@ -28,7 +28,6 @@ import javax.annotation.Nullable;
  * Class encapsulating the values for synskarpa for a single eye.
  *
  * @author erik
- *
  */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Synskarpevarden.Builder.class)
@@ -42,6 +41,7 @@ public abstract class Synskarpevarden {
 
     @AutoValue.Builder
     public abstract static class Builder {
+
         public abstract Synskarpevarden build();
 
         @JsonProperty("utanKorrektion")

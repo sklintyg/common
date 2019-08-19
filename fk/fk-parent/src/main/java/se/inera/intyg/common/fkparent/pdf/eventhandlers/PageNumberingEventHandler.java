@@ -28,6 +28,7 @@ import se.inera.intyg.common.fkparent.pdf.PdfConstants;
  */
 // CHECKSTYLE:OFF MagicNumber
 public class PageNumberingEventHandler extends PdfPageEventHelper {
+
     private static final int WIDTH = 30;
     private static final int HEIGHT = 16;
 
@@ -45,7 +46,6 @@ public class PageNumberingEventHandler extends PdfPageEventHelper {
      * Constructs a new instance that uses the default placement of the page numbering, e.g.
      * {@link PageNumberingEventHandler#DEFAULT_MARGIN_LEFT} mm from the left and
      * {@link PageNumberingEventHandler#DEFAULT_MARGIN_TOP} mm from the top.
-     *
      */
     public PageNumberingEventHandler() {
         // Intentionally empty, use this when you want the default margins.
@@ -56,10 +56,8 @@ public class PageNumberingEventHandler extends PdfPageEventHelper {
      * top
      * of the page, in millimeters.
      *
-     * @param marginLeft
-     *            Margin from the left edge of the page, in millimeters.
-     * @param marginTop
-     *            Margin from the top of the page, in millimeters.
+     * @param marginLeft Margin from the left edge of the page, in millimeters.
+     * @param marginTop Margin from the top of the page, in millimeters.
      */
     public PageNumberingEventHandler(float marginLeft, float marginTop) {
         this.marginTop = marginTop;
@@ -70,7 +68,7 @@ public class PageNumberingEventHandler extends PdfPageEventHelper {
      * Creates the PdfTemplate that will hold the issueInfoTemplate number of pages.
      *
      * @see com.itextpdf.text.pdf.PdfPageEventHelper#onOpenDocument(com.itextpdf.text.pdf.PdfWriter,
-     *      com.itextpdf.text.Document)
+     * com.itextpdf.text.Document)
      */
     @Override
     public void onOpenDocument(PdfWriter writer, Document document) {
@@ -81,7 +79,7 @@ public class PageNumberingEventHandler extends PdfPageEventHelper {
      * Adds a header to every page.
      *
      * @see com.itextpdf.text.pdf.PdfPageEventHelper#onEndPage(com.itextpdf.text.pdf.PdfWriter,
-     *      com.itextpdf.text.Document)
+     * com.itextpdf.text.Document)
      */
     @Override
     public void onEndPage(PdfWriter writer, Document document) {
@@ -99,8 +97,8 @@ public class PageNumberingEventHandler extends PdfPageEventHelper {
             table.addCell(cell);
 
             table.writeSelectedRows(0, -1, Utilities.millimetersToPoints(marginLeft),
-                    document.getPageSize().getTop() - Utilities.millimetersToPoints(marginTop),
-                    writer.getDirectContent());
+                document.getPageSize().getTop() - Utilities.millimetersToPoints(marginTop),
+                writer.getDirectContent());
 
         } catch (DocumentException de) {
             throw new ExceptionConverter(de);
@@ -111,15 +109,15 @@ public class PageNumberingEventHandler extends PdfPageEventHelper {
      * Fills out the issueInfoTemplate number of pages before the document is closed.
      *
      * @see com.itextpdf.text.pdf.PdfPageEventHelper#onCloseDocument(com.itextpdf.text.pdf.PdfWriter,
-     *      com.itextpdf.text.Document)
+     * com.itextpdf.text.Document)
      */
     @Override
     public void onCloseDocument(PdfWriter writer, Document document) {
         // CHECKSTYLE:OFF MagicNumber
         ColumnText.showTextAligned(total,
-                Element.ALIGN_LEFT,
-                new Phrase("(" + Integer.toString(writer.getPageNumber()) + ")", PdfConstants.FONT_PAGE_NUMBERING), 0,
-                Utilities.millimetersToPoints(1f),
-                0);
+            Element.ALIGN_LEFT,
+            new Phrase("(" + Integer.toString(writer.getPageNumber()) + ")", PdfConstants.FONT_PAGE_NUMBERING), 0,
+            Utilities.millimetersToPoints(1f),
+            0);
     }
 }

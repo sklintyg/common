@@ -22,25 +22,39 @@ package se.inera.intyg.common.support.model;
  * @author andreaskaltenbach
  */
 public enum CertificateState {
-    /** This code is unused. */
+    /**
+     * This code is unused.
+     */
     UNHANDLED,
 
-    /** The intyg is archived in Mina Intyg ('arkiverad'). */
+    /**
+     * The intyg is archived in Mina Intyg ('arkiverad').
+     */
     DELETED,
 
-    /** The intyg is no longer archived in Mina Intyg. */
+    /**
+     * The intyg is no longer archived in Mina Intyg.
+     */
     RESTORED,
 
-    /** The intyg is 'makulerat'. */
+    /**
+     * The intyg is 'makulerat'.
+     */
     CANCELLED,
 
-    /** The intyg is sent to a recipient. */
+    /**
+     * The intyg is sent to a recipient.
+     */
     SENT,
 
-    /** The intyg was stored in Intygstjänsten. */
+    /**
+     * The intyg was stored in Intygstjänsten.
+     */
     RECEIVED,
 
-    /** Valid statuses in {@link se.inera.ifv.insuranceprocess.certificate.v1.StatusType}. */
+    /**
+     * Valid statuses in {@link se.inera.ifv.insuranceprocess.certificate.v1.StatusType}.
+     */
     IN_PROGRESS,
     PROCESSED
 }

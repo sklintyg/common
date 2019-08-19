@@ -58,6 +58,6 @@ public final class ClinicalProcessCertificateMetaTypeConverter {
 
     public static Status toStatus(UtlatandeStatus certificateStatus) {
         return new Status(CertificateState.valueOf(certificateStatus.getType().value()), certificateStatus.getTarget(),
-                certificateStatus.getTimestamp());
+            certificateStatus.getTimestamp());
     }
 }

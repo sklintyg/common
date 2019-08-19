@@ -121,7 +121,7 @@ public class Fk7263ModuleApiTest {
         assertEquals("nyNamn", updatedIntyg.getGrundData().getSkapadAv().getFullstandigtNamn());
         assertEquals("nyForskrivarkod", updatedIntyg.getGrundData().getSkapadAv().getForskrivarKod());
         assertEquals(vardenhet.getEnhetsnamn(), updatedIntyg.getGrundData().getSkapadAv().getVardenhet()
-                .getEnhetsnamn());
+            .getEnhetsnamn());
     }
 
     @Test
@@ -213,7 +213,7 @@ public class Fk7263ModuleApiTest {
 
         // Wen
         when(registerMedicalCertificateClient.registerMedicalCertificate(
-                any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
+            any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
 
         // Then
         fk7263ModuleApi.sendCertificateToRecipient(xml, "logicalAddress", null);
@@ -233,7 +233,7 @@ public class Fk7263ModuleApiTest {
         response.setResult(ResultOfCallUtil.okResult());
 
         when(registerMedicalCertificateClient.registerMedicalCertificate(
-                any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
+            any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
 
         // Then
         fk7263ModuleApi.sendCertificateToRecipient(xml, "logicalAddress", "FK");
@@ -253,7 +253,7 @@ public class Fk7263ModuleApiTest {
         response.setResult(ResultOfCallUtil.okResult());
 
         when(registerMedicalCertificateClient.registerMedicalCertificate(
-                any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
+            any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
 
         // Then
         fk7263ModuleApi.sendCertificateToRecipient(xml, "logicalAddress", "FKASSA");
@@ -429,7 +429,7 @@ public class Fk7263ModuleApiTest {
         response.setResult(ResultOfCallUtil.infoResult(RegisterMedicalCertificateResponderImpl.CERTIFICATE_ALREADY_EXISTS));
 
         when(registerMedicalCertificateClient.registerMedicalCertificate(
-                any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
+            any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
 
         try {
             fk7263ModuleApi.registerCertificate(json, "logicalAddress");
@@ -451,7 +451,7 @@ public class Fk7263ModuleApiTest {
         response.setResult(ResultOfCallUtil.infoResult("INFO"));
 
         when(registerMedicalCertificateClient.registerMedicalCertificate(
-                any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
+            any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
 
         try {
             fk7263ModuleApi.registerCertificate(json, "logicalAddress");
@@ -464,7 +464,7 @@ public class Fk7263ModuleApiTest {
 
     private Fk7263Utlatande getUtlatandeFromFile() throws IOException {
         return new CustomObjectMapper().readValue(new ClassPathResource(
-                TESTFILE_UTLATANDE).getFile(), Fk7263Utlatande.class);
+            TESTFILE_UTLATANDE).getFile(), Fk7263Utlatande.class);
     }
 
     private String toJsonString(Fk7263Utlatande utlatande) throws ModuleException {
@@ -523,8 +523,8 @@ public class Fk7263ModuleApiTest {
         Fk7263Utlatande internal = objectMapper.readValue(jsonString, Fk7263Utlatande.class);
         RegisterMedicalCertificateType external = InternalToTransport.getJaxbObject(internal);
         JAXBElement<RegisterMedicalCertificateType> el =
-                new se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3
-                        .ObjectFactory().createRegisterMedicalCertificate(external);
+            new se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3
+                .ObjectFactory().createRegisterMedicalCertificate(external);
         return XmlMarshallerHelper.marshal(el);
     }
 

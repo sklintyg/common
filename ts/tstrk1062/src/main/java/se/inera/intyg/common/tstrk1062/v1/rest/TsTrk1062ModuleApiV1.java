@@ -76,13 +76,13 @@ public class TsTrk1062ModuleApiV1 extends TsParentModuleApi<TsTrk1062UtlatandeV1
 
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-            throws ModuleException {
+        throws ModuleException {
         TsTrk1062UtlatandeV1 utlatande = getInternal(internalModel);
         IntygTexts texts = getTexts(TsTrk1062EntryPoint.MODULE_ID, utlatande.getTextVersion());
 
         Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
         return pdfGenerator.generatePdf(utlatande.getId(), internalModel, personId, texts, statuses, applicationOrigin,
-                utkastStatus);
+            utkastStatus);
     }
 
     @Override
@@ -103,8 +103,8 @@ public class TsTrk1062ModuleApiV1 extends TsParentModuleApi<TsTrk1062UtlatandeV1
             if (response.getResult() != null && response.getResult().getResultCode() != ResultCodeType.OK) {
                 String message = response.getResult().getResultText();
                 LOG.error("Error occured when sending certificate '{}': {}",
-                        request.getIntyg() != null ? request.getIntyg().getIntygsId() : null,
-                        message);
+                    request.getIntyg() != null ? request.getIntyg().getIntygsId() : null,
+                    message);
                 throw new ExternalServiceCallException(message);
             }
         } catch (SOAPFaultException e) {
@@ -147,12 +147,12 @@ public class TsTrk1062ModuleApiV1 extends TsParentModuleApi<TsTrk1062UtlatandeV1
         final List<DiagnosKodad> diagnosKodadList = utlatande.getDiagnosKodad();
         if (diagnosKodadList != null && diagnosKodadList.size() > 0) {
             List<DiagnosKodad> decoratedDiagnoser = diagnosKodadList.stream()
-                    .map(diagnos -> DiagnosKodad.create(diagnos.getDiagnosKod(),
-                            diagnos.getDiagnosKodSystem(),
-                            diagnos.getDiagnosBeskrivning(),
-                            moduleService.getDescriptionFromDiagnosKod(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem()),
-                            diagnos.getDiagnosArtal()))
-                    .collect(Collectors.toList());
+                .map(diagnos -> DiagnosKodad.create(diagnos.getDiagnosKod(),
+                    diagnos.getDiagnosKodSystem(),
+                    diagnos.getDiagnosBeskrivning(),
+                    moduleService.getDescriptionFromDiagnosKod(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem()),
+                    diagnos.getDiagnosArtal()))
+                .collect(Collectors.toList());
             return utlatande.toBuilder().setDiagnosKodad(decoratedDiagnoser).build();
         } else {
             return utlatande;

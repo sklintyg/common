@@ -27,6 +27,7 @@ import se.inera.intyg.common.fkparent.pdf.PdfConstants;
  * A simple container for components with an optional title text.
  */
 public class FkPage extends PdfComponent<FkPage> {
+
     private String pageTitle;
     private float indentationLeft = 2f;
 

@@ -41,6 +41,7 @@ import java.time.temporal.Temporal;
  */
 @Component
 public class CustomObjectMapper extends ObjectMapper {
+
     private static final long serialVersionUID = 1L;
 
     public CustomObjectMapper() {
@@ -52,6 +53,7 @@ public class CustomObjectMapper extends ObjectMapper {
     }
 
     private static final class CustomModule extends SimpleModule {
+
         private static final long serialVersionUID = 1L;
 
         private CustomModule() {

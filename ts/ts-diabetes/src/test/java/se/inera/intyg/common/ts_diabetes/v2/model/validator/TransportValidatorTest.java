@@ -43,8 +43,8 @@ public class TransportValidatorTest {
             List<String> validationResponse = validator.validate(utlatande);
 
             assertTrue(
-                    "Error in scenario " + scenario.getName() + "\n"
-                            + Joiner.on(", ").join(validationResponse), validationResponse.isEmpty());
+                "Error in scenario " + scenario.getName() + "\n"
+                    + Joiner.on(", ").join(validationResponse), validationResponse.isEmpty());
         }
     }
 

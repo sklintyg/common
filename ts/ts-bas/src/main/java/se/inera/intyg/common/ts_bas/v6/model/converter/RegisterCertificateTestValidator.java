@@ -35,6 +35,7 @@ import com.google.common.base.Charsets;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
 public class RegisterCertificateTestValidator {
+
     private static final String RESPONDER_SCHEMA = "interactions/RegisterCertificateInteraction/RegisterCertificateResponder_3.1.xsd";
     private static final String GENERAL_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.2.xsd";
     private static final String EXT_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.2_ext.xsd";

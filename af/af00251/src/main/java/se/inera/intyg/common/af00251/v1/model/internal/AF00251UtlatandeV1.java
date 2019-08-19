@@ -20,20 +20,31 @@ package se.inera.intyg.common.af00251.v1.model.internal;
 
 // CHECKSTYLE:OFF LineLength
 
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_4;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_7;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.FORHINDER_SVAR_JSON_ID_5;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_3;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.GRUNDDATA_SVAR_JSON_ID;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.ID_JSON_ID;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.MEDICINSKUNDERLAG_SVAR_JSON_ANNAT_BESKRIVNING;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.MEDICINSKUNDERLAG_SVAR_JSON_ANNAT_DATUM;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.MEDICINSKUNDERLAG_SVAR_JSON_UNDERSOKNINGS_DATUM;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.PROGNOS_ATERGANG_SVAR_JSON_ID_8;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.SIGNATURE;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.SJUKFRANVARO_SVAR_JSON_ID_6;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.TEXTVERSION_JSON_ID;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import java.util.List;
+import javax.annotation.Nullable;
 import se.inera.intyg.common.af00251.support.AF00251EntryPoint;
 import se.inera.intyg.common.af_parent.model.internal.AfUtlatande;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
-
-import javax.annotation.Nullable;
-
-import java.util.List;
-
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.*;
 
 // CHECKSTYLE:ON LineLength
 
@@ -69,8 +80,10 @@ public abstract class AF00251UtlatandeV1 implements AfUtlatande {
     // Kardinalitet 1-2
     @Nullable
     public abstract InternalDate getUndersokningsDatum();
+
     @Nullable
     public abstract InternalDate getAnnatDatum();
+
     @Nullable
     public abstract String getAnnatBeskrivning();
 

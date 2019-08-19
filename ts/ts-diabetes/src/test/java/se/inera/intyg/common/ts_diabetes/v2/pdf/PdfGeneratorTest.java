@@ -90,7 +90,7 @@ public class PdfGeneratorTest {
     @Test
     public void testGenerateDraftPdf() throws Exception {
         final TsDiabetesUtlatandeV2 tsBasUtlatande = objectMapper
-                .readValue(new ClassPathResource("v2/PdfGenerator/ts-diabetes-utkast-utlatande.json").getFile(), TsDiabetesUtlatandeV2.class);
+            .readValue(new ClassPathResource("v2/PdfGenerator/ts-diabetes-utkast-utlatande.json").getFile(), TsDiabetesUtlatandeV2.class);
         byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, defaultStatuses, ApplicationOrigin.WEBCERT, UtkastStatus.DRAFT_COMPLETE);
         writePdfToFile(pdf, "webcert-utkast");
     }
@@ -98,7 +98,7 @@ public class PdfGeneratorTest {
     @Test
     public void testGenerateLockedDraftPdf() throws Exception {
         final TsDiabetesUtlatandeV2 tsBasUtlatande = objectMapper
-                .readValue(new ClassPathResource("v2/PdfGenerator/ts-diabetes-utkast-utlatande.json").getFile(), TsDiabetesUtlatandeV2.class);
+            .readValue(new ClassPathResource("v2/PdfGenerator/ts-diabetes-utkast-utlatande.json").getFile(), TsDiabetesUtlatandeV2.class);
         byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, defaultStatuses, ApplicationOrigin.WEBCERT, UtkastStatus.DRAFT_LOCKED);
         writePdfToFile(pdf, "webcert-locked");
     }
@@ -106,8 +106,8 @@ public class PdfGeneratorTest {
     @Test
     public void testGenerateMakuleratPdf() throws Exception {
         final TsDiabetesUtlatandeV2 tsBasUtlatande = objectMapper.readValue(
-                new ClassPathResource("v2/PdfGenerator/ts-diabetes-utlatande.json").getFile(),
-                TsDiabetesUtlatandeV2.class);
+            new ClassPathResource("v2/PdfGenerator/ts-diabetes-utlatande.json").getFile(),
+            TsDiabetesUtlatandeV2.class);
         List<Status> statuses = new ArrayList<>();
         statuses.add(new Status(CertificateState.SENT, TRANSPORTSTYRELSEN_RECIPIENT_ID, LocalDateTime.now()));
         // generate makulerat version
@@ -122,7 +122,7 @@ public class PdfGeneratorTest {
     private void writePdfToFile(byte[] pdf, String prefix) throws IOException {
         String dir = "build/tmp";
         File file = new File(
-                String.format("%s/%s_%s.pdf", dir, prefix, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"))));
+            String.format("%s/%s_%s.pdf", dir, prefix, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"))));
         FileOutputStream fop = new FileOutputStream(file);
 
         file.createNewFile();
@@ -135,7 +135,7 @@ public class PdfGeneratorTest {
     private void writePdfToFile(byte[] pdf, Scenario scenario) throws IOException {
         String dir = "build/tmp";
         File file = new File(String.format("%s/%s_%s.pdf", dir, scenario.getName(),
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"))));
+            LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"))));
         FileOutputStream fop = new FileOutputStream(file);
 
         file.createNewFile();

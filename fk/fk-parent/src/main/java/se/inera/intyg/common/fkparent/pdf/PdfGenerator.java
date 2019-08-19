@@ -40,6 +40,7 @@ import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
  */
 // CHECKSTYLE:OFF MagicNumber
 public final class PdfGenerator {
+
     private PdfGenerator() {
     }
 

@@ -74,74 +74,74 @@ public final class TransportToInternal {
 
         for (Svar svar : source.getSvar()) {
             switch (svar.getId()) {
-            case RespConstants.INTYGETAVSER_SVAR_ID:
-                handleIntygAvser(intygAvserSet, svar);
-                break;
-            case RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID:
-                handleIdentitetStyrkt(utlatande, svar);
-                break;
-            case RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID:
-                handleAllmantDiabetesDiagnosAr(allmant, svar);
-                break;
-            case RespConstants.ALLMANT_TYP_AV_DIABETES_SVAR_ID:
-                handleAllmantTypAvDiabetes(allmant, svar);
-                break;
-            case RespConstants.ALLMANT_BEHANDLING_SVAR_ID:
-                handleAllmantBehandling(allmant, svar);
-                break;
-            case RespConstants.HYPOGLYKEMIER_SVAR_ID:
-                handleHypoglykemier(hypoglykemier, svar);
-                break;
-            case RespConstants.HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_SVAR_ID:
-                handleHypoglykemierNedsattHjarnfunktion(hypoglykemier, svar);
-                break;
-            case RespConstants.HYPOGLYKEMIER_FORSTAR_RISKER_SVAR_ID:
-                handleHypoglykemierForstarRisker(hypoglykemier, svar);
-                break;
-            case RespConstants.HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_SVAR_ID:
-                handleHypoglykemierFortrogenMedSymptom(hypoglykemier, svar);
-                break;
-            case RespConstants.HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_SVAR_ID:
-                handleHypoglykemierSaknarFormagaVarningstecken(hypoglykemier, svar);
-                break;
-            case RespConstants.HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_ATGARDER_SVAR_ID:
-                handleHypoglykemierKunskapLampligaAtgarder(hypoglykemier, svar);
-                break;
-            case RespConstants.HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_SVAR_ID:
-                handleHypoglykemierEgenkontrollBlodsocker(hypoglykemier, svar);
-                break;
-            case RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_SVAR_ID:
-                handleHypoglykemierAterkommandeSenasteAret(hypoglykemier, svar);
-                break;
-            case RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_SVAR_ID:
-                handleHypoglykemierAterkommandeSenasteKvartalet(hypoglykemier, svar);
-                break;
-            case RespConstants.HYPOGLYKEMIER_FOREKOMST_SENASTE_TRAFIK_SVAR_ID:
-                handleHypoglykemierForekomstSenasteTrafik(hypoglykemier, svar);
-                break;
-            case RespConstants.SYNFUNKTION_SVAR_ID:
-                handleSynfunktion(synfunktion, svar);
-                break;
-            case RespConstants.SYNFUNKTION_OGONBOTTENFOTO_SAKNAS_SVAR_ID:
-                handleSynfunktionOgonbottenfotoSaknas(synfunktion, svar);
-                break;
-            case RespConstants.SYNFUNKTION_SYNSKARPA_SVAR_ID:
-                handleSynfunktionSynskarpa(synfunktion, svar);
-                break;
-            case RespConstants.OVRIGT_SVAR_ID:
-                handleOvrigt(utlatande, svar);
-                break;
-            case RespConstants.BEDOMNING_SVAR_ID:
-                handleBedomning(bedomningUppfyllerBehorighetskrav, svar);
-                break;
-            case RespConstants.BEDOMNING_LAMPLIGHET_SVAR_ID:
-                handleBedomningLamplighet(bedomning, svar);
-                break;
-            case RespConstants.BEDOMNING_BOR_UNDERSOKAS_SVAR_ID:
-                handleBedomningBorUndersokas(bedomning, svar);
-                break;
-            default:
-                break;
+                case RespConstants.INTYGETAVSER_SVAR_ID:
+                    handleIntygAvser(intygAvserSet, svar);
+                    break;
+                case RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID:
+                    handleIdentitetStyrkt(utlatande, svar);
+                    break;
+                case RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID:
+                    handleAllmantDiabetesDiagnosAr(allmant, svar);
+                    break;
+                case RespConstants.ALLMANT_TYP_AV_DIABETES_SVAR_ID:
+                    handleAllmantTypAvDiabetes(allmant, svar);
+                    break;
+                case RespConstants.ALLMANT_BEHANDLING_SVAR_ID:
+                    handleAllmantBehandling(allmant, svar);
+                    break;
+                case RespConstants.HYPOGLYKEMIER_SVAR_ID:
+                    handleHypoglykemier(hypoglykemier, svar);
+                    break;
+                case RespConstants.HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_SVAR_ID:
+                    handleHypoglykemierNedsattHjarnfunktion(hypoglykemier, svar);
+                    break;
+                case RespConstants.HYPOGLYKEMIER_FORSTAR_RISKER_SVAR_ID:
+                    handleHypoglykemierForstarRisker(hypoglykemier, svar);
+                    break;
+                case RespConstants.HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_SVAR_ID:
+                    handleHypoglykemierFortrogenMedSymptom(hypoglykemier, svar);
+                    break;
+                case RespConstants.HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_SVAR_ID:
+                    handleHypoglykemierSaknarFormagaVarningstecken(hypoglykemier, svar);
+                    break;
+                case RespConstants.HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_ATGARDER_SVAR_ID:
+                    handleHypoglykemierKunskapLampligaAtgarder(hypoglykemier, svar);
+                    break;
+                case RespConstants.HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_SVAR_ID:
+                    handleHypoglykemierEgenkontrollBlodsocker(hypoglykemier, svar);
+                    break;
+                case RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_SVAR_ID:
+                    handleHypoglykemierAterkommandeSenasteAret(hypoglykemier, svar);
+                    break;
+                case RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_SVAR_ID:
+                    handleHypoglykemierAterkommandeSenasteKvartalet(hypoglykemier, svar);
+                    break;
+                case RespConstants.HYPOGLYKEMIER_FOREKOMST_SENASTE_TRAFIK_SVAR_ID:
+                    handleHypoglykemierForekomstSenasteTrafik(hypoglykemier, svar);
+                    break;
+                case RespConstants.SYNFUNKTION_SVAR_ID:
+                    handleSynfunktion(synfunktion, svar);
+                    break;
+                case RespConstants.SYNFUNKTION_OGONBOTTENFOTO_SAKNAS_SVAR_ID:
+                    handleSynfunktionOgonbottenfotoSaknas(synfunktion, svar);
+                    break;
+                case RespConstants.SYNFUNKTION_SYNSKARPA_SVAR_ID:
+                    handleSynfunktionSynskarpa(synfunktion, svar);
+                    break;
+                case RespConstants.OVRIGT_SVAR_ID:
+                    handleOvrigt(utlatande, svar);
+                    break;
+                case RespConstants.BEDOMNING_SVAR_ID:
+                    handleBedomning(bedomningUppfyllerBehorighetskrav, svar);
+                    break;
+                case RespConstants.BEDOMNING_LAMPLIGHET_SVAR_ID:
+                    handleBedomningLamplighet(bedomning, svar);
+                    break;
+                case RespConstants.BEDOMNING_BOR_UNDERSOKAS_SVAR_ID:
+                    handleBedomningBorUndersokas(bedomning, svar);
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -186,7 +186,7 @@ public final class TransportToInternal {
             switch (delsvar.getId()) {
                 case RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_DELSVAR_ID:
                     allmant.setDiabetesDiagnosAr(getPartialDateContent(delsvar).getValue().toString());
-                break;
+                    break;
                 default:
                     throw new IllegalArgumentException();
             }
@@ -246,7 +246,7 @@ public final class TransportToInternal {
             switch (delsvar.getId()) {
                 case RespConstants.HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_DELSVAR_ID:
                     hypoglykemier.setSjukdomenUnderKontroll(getBooleanContent(delsvar));
-                break;
+                    break;
                 default:
                     throw new IllegalArgumentException();
             }
@@ -430,11 +430,11 @@ public final class TransportToInternal {
     private static void handleOvrigt(TsDiabetesUtlatandeV3.Builder utlatande, Svar svar) {
         Delsvar delsvar = svar.getDelsvar().get(0);
         switch (delsvar.getId()) {
-        case RespConstants.OVRIGT_DELSVAR_ID:
-            utlatande.setOvrigt(getStringContent(delsvar));
-            break;
-        default:
-            throw new IllegalArgumentException();
+            case RespConstants.OVRIGT_DELSVAR_ID:
+                utlatande.setOvrigt(getStringContent(delsvar));
+                break;
+            default:
+                throw new IllegalArgumentException();
         }
     }
 
@@ -443,7 +443,7 @@ public final class TransportToInternal {
             switch (delsvar.getId()) {
                 case RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID:
                     bedomningUppfyllerBehorighetskrav.add(BedomningKorkortstyp.valueOf(KorkortsbehorighetKod.fromCode(
-                            getCVSvarContent(delsvar).getCode()).name()));
+                        getCVSvarContent(delsvar).getCode()).name()));
                     break;
                 default:
                     throw new IllegalArgumentException();

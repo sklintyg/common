@@ -113,13 +113,13 @@ public abstract class TsBasUtlatandeV6 implements Utlatande {
 
     public static Builder builder() {
         return new AutoValue_TsBasUtlatandeV6.Builder()
-                .setPsykiskt(Psykiskt.create(null))
-                .setKognitivt(Kognitivt.create(null))
-                .setNjurar(Njurar.create(null))
-                .setSomnVakenhet(SomnVakenhet.create(null))
-                .setNeurologi(Neurologi.create(null))
-                .setUtvecklingsstorning(Utvecklingsstorning.builder().build())
-                .setSignature(null);
+            .setPsykiskt(Psykiskt.create(null))
+            .setKognitivt(Kognitivt.create(null))
+            .setNjurar(Njurar.create(null))
+            .setSomnVakenhet(SomnVakenhet.create(null))
+            .setNeurologi(Neurologi.create(null))
+            .setUtvecklingsstorning(Utvecklingsstorning.builder().build())
+            .setSignature(null);
     }
 
     @AutoValue.Builder

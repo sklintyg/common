@@ -36,6 +36,7 @@ import se.inera.intyg.common.support.validate.XmlValidator;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 
 public class SchematronValidatorTest {
+
     private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator(TsBasEntryPoint.SCHEMATRON_FILE);
 
     @Test

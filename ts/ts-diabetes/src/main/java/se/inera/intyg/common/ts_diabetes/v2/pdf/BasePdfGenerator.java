@@ -58,7 +58,7 @@ public abstract class BasePdfGenerator<T extends Utlatande> {
 
     public static boolean isMakulerad(List<Status> statuses) {
         return statuses != null && statuses.stream().filter(Objects::nonNull)
-                .anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
+            .anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
     }
 
 
@@ -97,7 +97,7 @@ public abstract class BasePdfGenerator<T extends Utlatande> {
     }
 
     protected void createLeftMarginText(PdfStamper pdfStamper, int numberOfPages, String id, ApplicationOrigin applicationOrigin)
-            throws DocumentException, IOException {
+        throws DocumentException, IOException {
         PdfContentByte addOverlay;
         BaseFont bf = BaseFont.createFont();
 

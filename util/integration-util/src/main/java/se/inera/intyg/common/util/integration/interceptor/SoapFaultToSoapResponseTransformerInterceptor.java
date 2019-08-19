@@ -18,28 +18,36 @@
  */
 package se.inera.intyg.common.util.integration.interceptor;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
-
-import javax.xml.soap.*;
-import javax.xml.transform.*;
+import javax.xml.soap.MessageFactory;
+import javax.xml.soap.SOAPEnvelope;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPFault;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import org.apache.cxf.feature.transform.*;
+import org.apache.cxf.feature.transform.AbstractXSLTInterceptor;
+import org.apache.cxf.feature.transform.XSLTOutInterceptor;
+import org.apache.cxf.feature.transform.XSLTUtils;
 import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import se.inera.intyg.common.util.logging.LogMarkers;
 
 /**
  * CXF interceptor which turns SOAP faults into valid SOAP responses.
  *
- * Transformation is performed using XSLTs which transform the <soap:Fault> element to a proper response element
- * containing a <result> element giving more specifics about the error.
+ * Transformation is performed using XSLTs which transform the <soap:Fault> element to a proper response element containing a <result>
+ * element giving more specifics about the error.
  *
  * @author andreaskaltenbach
  */
@@ -50,7 +58,8 @@ public class SoapFaultToSoapResponseTransformerInterceptor extends XSLTOutInterc
     static {
         try {
             // Configure the private TransformerFactory defined in AbstractXSLTInterceptor
-            Field transformFactoryField  = AbstractXSLTInterceptor.class.getDeclaredField("TRANSFORM_FACTORIY");
+            // This can only be done if CXF version is 3.2.4 or below.
+            Field transformFactoryField = AbstractXSLTInterceptor.class.getDeclaredField("TRANSFORM_FACTORY");
             transformFactoryField.setAccessible(true);
             TransformerFactory transformerFactory = (TransformerFactory) transformFactoryField.get(null);
             transformerFactory.setURIResolver(new ClasspathUriResolver());
@@ -62,8 +71,8 @@ public class SoapFaultToSoapResponseTransformerInterceptor extends XSLTOutInterc
 
     public static final int HTTP_OK = 200;
 
-    public SoapFaultToSoapResponseTransformerInterceptor(String phase) {
-        super(phase);
+    public SoapFaultToSoapResponseTransformerInterceptor(String xsltPath) {
+        super(xsltPath);
     }
 
     @Override
@@ -93,7 +102,7 @@ public class SoapFaultToSoapResponseTransformerInterceptor extends XSLTOutInterc
             StringWriter sw = new StringWriter();
             TransformerFactory.newInstance().newTransformer().transform(new DOMSource(envelope), new StreamResult(sw));
             InputStream transformedStream = XSLTUtils.transform(getXSLTTemplate(),
-                    new ByteArrayInputStream(sw.getBuffer().toString().getBytes(StandardCharsets.UTF_8)));
+                new ByteArrayInputStream(sw.getBuffer().toString().getBytes(StandardCharsets.UTF_8)));
             IOUtils.copyAndCloseInput(transformedStream, message.getContent(OutputStream.class));
 
         } catch (SOAPException | TransformerException | TransformerFactoryConfigurationError | IOException ex) {

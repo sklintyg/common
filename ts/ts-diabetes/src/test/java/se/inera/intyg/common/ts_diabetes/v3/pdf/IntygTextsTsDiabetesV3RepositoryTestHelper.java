@@ -39,10 +39,11 @@ public class IntygTextsTsDiabetesV3RepositoryTestHelper extends IntygTextsReposi
     }
 
     @Override
-    public void update()  {
+    public void update() {
 
         try {
-            Document e = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ClassPathResource("v3/text/texterTS_DIABETES_v3.0.xml").getInputStream());
+            Document e = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+                .parse(new ClassPathResource("v3/text/texterTS_DIABETES_v3.0.xml").getInputStream());
             Element root = e.getDocumentElement();
             String version = root.getAttribute("version");
             String intygsTyp = root.getAttribute("typ").toLowerCase();

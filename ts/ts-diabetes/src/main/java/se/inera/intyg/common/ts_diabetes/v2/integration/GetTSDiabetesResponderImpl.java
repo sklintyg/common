@@ -65,7 +65,6 @@ public class GetTSDiabetesResponderImpl implements GetTSDiabetesResponderInterfa
         String certificateId = request.getIntygsId();
         Personnummer personnummer = getPersonnummer(request);
 
-
         if (certificateId == null || certificateId.length() == 0) {
             LOGGER.info(LogMarkers.VALIDATION, "Tried to get certificate with non-existing certificateId '.");
             response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "non-existing certificateId"));
@@ -80,15 +79,15 @@ public class GetTSDiabetesResponderImpl implements GetTSDiabetesResponderInterfa
             }
             if (certificate.isDeletedByCareGiver()) {
                 response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR,
-                        String.format("Certificate '%s' has been deleted by care giver", certificateId)));
+                    String.format("Certificate '%s' has been deleted by care giver", certificateId)));
             } else {
                 TSDiabetesIntyg tsDiabetesIntyg = JAXB
-                        .unmarshal(new StringReader(certificate.getOriginalCertificate()), RegisterTSDiabetesType.class).getIntyg();
+                    .unmarshal(new StringReader(certificate.getOriginalCertificate()), RegisterTSDiabetesType.class).getIntyg();
                 response.setIntyg(tsDiabetesIntyg);
                 response.setMeta(createMetaData(certificate));
                 if (certificate.isRevoked()) {
                     response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.REVOKED,
-                            String.format("Certificate '%s' has been revoked", request.getIntygsId())));
+                        String.format("Certificate '%s' has been revoked", request.getIntygsId())));
                 } else {
                     response.setResultat(ResultTypeUtil.okResult());
                 }

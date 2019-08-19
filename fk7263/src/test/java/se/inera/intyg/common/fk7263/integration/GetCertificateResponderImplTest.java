@@ -73,7 +73,8 @@ public class GetCertificateResponderImplTest {
 
     @Test
     public void getCertificate() throws Exception {
-        String document = Resources.toString(new ClassPathResource("GetCertificateResponderImplTest/maximalt-fk7263-internal.json").getURL(), Charsets.UTF_8);
+        String document = Resources
+            .toString(new ClassPathResource("GetCertificateResponderImplTest/maximalt-fk7263-internal.json").getURL(), Charsets.UTF_8);
         Fk7263Utlatande utlatande = objectMapper.readValue(document, Fk7263Utlatande.class);
         CertificateHolder certificate = ConverterUtil.toCertificateHolder(utlatande);
         String xmlFile = Resources.toString(new ClassPathResource("GetCertificateResponderImplTest/fk7263.xml").getURL(), Charsets.UTF_8);
@@ -94,7 +95,8 @@ public class GetCertificateResponderImplTest {
     @Test
     public void getCertificateWithUnknownCertificateId() throws Exception {
 
-        when(moduleContainer.getCertificate(certificateId, createPnr(civicRegistrationNumber), true)).thenThrow(new InvalidCertificateException("123456", null));
+        when(moduleContainer.getCertificate(certificateId, createPnr(civicRegistrationNumber), true))
+            .thenThrow(new InvalidCertificateException("123456", null));
 
         GetCertificateRequestType parameters = createGetCertificateRequest(civicRegistrationNumber, certificateId);
 
@@ -109,7 +111,8 @@ public class GetCertificateResponderImplTest {
 
     @Test
     public void getRevokedCertificate() throws Exception {
-        String document = Resources.toString(new ClassPathResource("GetCertificateResponderImplTest/maximalt-fk7263-internal.json").getURL(), Charsets.UTF_8);
+        String document = Resources
+            .toString(new ClassPathResource("GetCertificateResponderImplTest/maximalt-fk7263-internal.json").getURL(), Charsets.UTF_8);
         Fk7263Utlatande utlatande = objectMapper.readValue(document, Fk7263Utlatande.class);
         CertificateHolder certificate = ConverterUtil.toCertificateHolder(utlatande);
         certificate.setRevoked(true);

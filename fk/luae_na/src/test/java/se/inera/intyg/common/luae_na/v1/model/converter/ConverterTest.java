@@ -90,7 +90,8 @@ public class ConverterTest {
         assertTrue(generalValidator.validateGeneral(xmlContents));
 
         RegisterCertificateValidator validator = new RegisterCertificateValidator(LuaenaModuleApiV1.SCHEMATRON_FILE);
-        SchematronOutputType result = validator.validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+        SchematronOutputType result = validator
+            .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
 
         assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
     }
@@ -109,7 +110,8 @@ public class ConverterTest {
 
         // Do schematron validation on the xml-string from the converted transport format
         RegisterCertificateValidator validator = new RegisterCertificateValidator(LuaenaModuleApiV1.SCHEMATRON_FILE);
-        SchematronOutputType result = validator.validateSchematron(new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
+        SchematronOutputType result = validator
+            .validateSchematron(new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
 
         assertEquals(getErrorString(result), 0, SVRLHelper.getAllFailedAssertions(result).size());
 
@@ -120,9 +122,9 @@ public class ConverterTest {
     private String getErrorString(SchematronOutputType result) {
         StringBuilder errorMsg = new StringBuilder();
         SVRLHelper.getAllFailedAssertions(result).stream()
-                .map(e -> e.getText())
-                .collect(Collectors.toList())
-                .forEach(e -> errorMsg.append(e));
+            .map(e -> e.getText())
+            .collect(Collectors.toList())
+            .forEach(e -> errorMsg.append(e));
         return errorMsg.toString();
     }
 

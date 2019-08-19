@@ -80,9 +80,12 @@ public class LuaefsPdfDefinitionBuilderTest {
         ReflectionTestUtils.setField(intygTextsService, "repo", intygsTextRepositoryHelper);
         intygTextsService.getIntygTextsPojo("luae_fs", "1.0");
 
-        intygList.add(objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/minimalt_utlatande.json").getFile(), LuaefsUtlatandeV1.class));
-        intygList.add(objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/fullt_utlatande.json").getFile(), LuaefsUtlatandeV1.class));
-        intygList.add(objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/overflow_utlatande.json").getFile(), LuaefsUtlatandeV1.class));
+        intygList.add(objectMapper
+            .readValue(new ClassPathResource("v1/PdfGeneratorTest/minimalt_utlatande.json").getFile(), LuaefsUtlatandeV1.class));
+        intygList.add(
+            objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/fullt_utlatande.json").getFile(), LuaefsUtlatandeV1.class));
+        intygList.add(objectMapper
+            .readValue(new ClassPathResource("v1/PdfGeneratorTest/overflow_utlatande.json").getFile(), LuaefsUtlatandeV1.class));
 
         intygTexts = intygTextsService.getIntygTextsPojo("luae_fs", "1.0");
     }
@@ -110,29 +113,34 @@ public class LuaefsPdfDefinitionBuilderTest {
 
     @Test
     public void testGeneratePdfForUtkast() throws Exception {
-        LuaefsUtlatandeV1 utkast = objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(), LuaefsUtlatandeV1.class);
+        LuaefsUtlatandeV1 utkast = objectMapper
+            .readValue(new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(), LuaefsUtlatandeV1.class);
 
         byte[] generatorResult = PdfGenerator
-                .generatePdf(luaefsPdfDefinitionBuilder.buildPdfDefinition(utkast, Lists.newArrayList(), ApplicationOrigin.WEBCERT, intygTexts, UtkastStatus.DRAFT_COMPLETE));
+            .generatePdf(luaefsPdfDefinitionBuilder
+                .buildPdfDefinition(utkast, Lists.newArrayList(), ApplicationOrigin.WEBCERT, intygTexts, UtkastStatus.DRAFT_COMPLETE));
         assertNotNull(generatorResult);
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "utkast", utkast.getId());
     }
 
     @Test
     public void testGeneratePdfForLockedUtkast() throws Exception {
-        LuaefsUtlatandeV1 utkast = objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(), LuaefsUtlatandeV1.class);
+        LuaefsUtlatandeV1 utkast = objectMapper
+            .readValue(new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(), LuaefsUtlatandeV1.class);
 
         byte[] generatorResult = PdfGenerator
-                .generatePdf(luaefsPdfDefinitionBuilder.buildPdfDefinition(utkast, Lists.newArrayList(), ApplicationOrigin.WEBCERT, intygTexts, UtkastStatus.DRAFT_LOCKED));
+            .generatePdf(luaefsPdfDefinitionBuilder
+                .buildPdfDefinition(utkast, Lists.newArrayList(), ApplicationOrigin.WEBCERT, intygTexts, UtkastStatus.DRAFT_LOCKED));
         assertNotNull(generatorResult);
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "låst-utkast", utkast.getId());
     }
 
     private void generate(String scenarioName, List<Status> statuses, ApplicationOrigin origin) throws PdfGeneratorException, IOException {
         for (LuaefsUtlatandeV1 intyg : intygList) {
-            FkPdfDefinition pdfDefinition = luaefsPdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts, UtkastStatus.SIGNED);
+            FkPdfDefinition pdfDefinition = luaefsPdfDefinitionBuilder
+                .buildPdfDefinition(intyg, statuses, origin, intygTexts, UtkastStatus.SIGNED);
             byte[] generatorResult = PdfGenerator
-                    .generatePdf(pdfDefinition);
+                .generatePdf(pdfDefinition);
 
             assertNotNull(generatorResult);
 

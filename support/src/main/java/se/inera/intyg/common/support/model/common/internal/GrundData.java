@@ -24,6 +24,7 @@ import java.util.Objects;
 import java.time.LocalDateTime;
 
 public class GrundData {
+
     private LocalDateTime signeringsdatum;
     private HoSPersonal skapadAv;
     private Patient patient;
@@ -71,9 +72,9 @@ public class GrundData {
         }
         final GrundData that = (GrundData) object;
         return Objects.equals(this.signeringsdatum, that.signeringsdatum)
-                && Objects.equals(this.skapadAv, that.skapadAv)
-                && Objects.equals(this.patient, that.patient)
-                && Objects.equals(this.relation, that.relation);
+            && Objects.equals(this.skapadAv, that.skapadAv)
+            && Objects.equals(this.patient, that.patient)
+            && Objects.equals(this.relation, that.relation);
     }
 
     @Override
@@ -84,10 +85,10 @@ public class GrundData {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("signeringsdatum", signeringsdatum)
-                .add("skapadAv", skapadAv)
-                .add("patient", patient)
-                .add("relation", relation)
-                .toString();
+            .add("signeringsdatum", signeringsdatum)
+            .add("skapadAv", skapadAv)
+            .add("patient", patient)
+            .add("relation", relation)
+            .toString();
     }
 }

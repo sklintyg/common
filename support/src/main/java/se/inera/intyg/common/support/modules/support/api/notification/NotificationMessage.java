@@ -67,18 +67,18 @@ public class NotificationMessage {
 
     // CHECKSTYLE:OFF ParameterNumber
     public NotificationMessage(String intygsId, String intygsTyp, LocalDateTime handelseTid, HandelsekodEnum handelse,
-                               String logiskAdress, String utkastJson, FragorOchSvar fragaSvar, ArendeCount skickadeFragor,
-                               ArendeCount mottagnaFragor, SchemaVersion version, String reference) {
+        String logiskAdress, String utkastJson, FragorOchSvar fragaSvar, ArendeCount skickadeFragor,
+        ArendeCount mottagnaFragor, SchemaVersion version, String reference) {
 
         this(intygsId, intygsTyp, handelseTid, handelse,
-                logiskAdress, utkastJson, fragaSvar, skickadeFragor,
-                mottagnaFragor, version, reference, null, null);
+            logiskAdress, utkastJson, fragaSvar, skickadeFragor,
+            mottagnaFragor, version, reference, null, null);
     }
 
     public NotificationMessage(String intygsId, String intygsTyp, LocalDateTime handelseTid, HandelsekodEnum handelse,
-                               String logiskAdress, String utkastJson, FragorOchSvar fragaSvar, ArendeCount skickadeFragor,
-                               ArendeCount mottagnaFragor, SchemaVersion version, String reference, Amneskod amne,
-                               LocalDate sistaSvarsDatum) {
+        String logiskAdress, String utkastJson, FragorOchSvar fragaSvar, ArendeCount skickadeFragor,
+        ArendeCount mottagnaFragor, SchemaVersion version, String reference, Amneskod amne,
+        LocalDate sistaSvarsDatum) {
 
         super();
         this.intygsId = intygsId;
@@ -100,16 +100,16 @@ public class NotificationMessage {
     @Override
     public String toString() {
         return "NotificationMessage{"
-                + "intygsId='" + intygsId + '\''
-                + ", intygsTyp='" + intygsTyp + '\''
-                + ", logiskAdress='" + logiskAdress + '\''
-                + ", handelseTid=" + handelseTid
-                + ", handelse=" + handelse
-                + ", version=" + version
-                + ", reference='" + reference + '\''
-                + ", amne=" + amne
-                + ", sistaSvarsDatum=" + sistaSvarsDatum
-                + '}';
+            + "intygsId='" + intygsId + '\''
+            + ", intygsTyp='" + intygsTyp + '\''
+            + ", logiskAdress='" + logiskAdress + '\''
+            + ", handelseTid=" + handelseTid
+            + ", handelse=" + handelse
+            + ", version=" + version
+            + ", reference='" + reference + '\''
+            + ", amne=" + amne
+            + ", sistaSvarsDatum=" + sistaSvarsDatum
+            + '}';
     }
 
     public String getIntygsId() {

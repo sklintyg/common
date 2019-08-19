@@ -36,7 +36,7 @@ public final class WebcertModelFactoryUtil {
     }
 
     public static void populateGrunddataFromCreateDraftCopyHolder(GrundData grundData, CreateDraftCopyHolder copyData)
-            throws ConverterException {
+        throws ConverterException {
         validateRequest(copyData.getSkapadAv());
 
         if (grundData.getSkapadAv().getVardenhet().getEnhetsid().equals(copyData.getSkapadAv().getVardenhet().getEnhetsid())) {
@@ -58,7 +58,7 @@ public final class WebcertModelFactoryUtil {
     }
 
     public static void populateGrunddataFromCreateNewDraftHolder(GrundData grundData,
-            CreateNewDraftHolder newDraftData) throws ConverterException {
+        CreateNewDraftHolder newDraftData) throws ConverterException {
         validateRequest(newDraftData.getSkapadAv());
         grundData.setSkapadAv(newDraftData.getSkapadAv());
         populateWithPatientInfo(grundData, newDraftData.getPatient());

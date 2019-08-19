@@ -72,7 +72,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsTrk1062Utl
         template.setId(newDraftData.getCertificateId());
 
         template.setTextVersion(intygTexts.getLatestVersionForSameMajorVersion(TsTrk1062EntryPoint.MODULE_ID,
-                newDraftData.getIntygTypeVersion()));
+            newDraftData.getIntygTypeVersion()));
 
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
         resetDataInGrundData(grundData);

@@ -32,7 +32,7 @@ public abstract class DiagnosFritext {
 
     @JsonCreator
     public static DiagnosFritext create(@JsonProperty(ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_JSON_ID) String diagnosFritext,
-            @JsonProperty(ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID) String diagnosArtal) {
+        @JsonProperty(ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID) String diagnosArtal) {
         return new AutoValue_DiagnosFritext(diagnosFritext, diagnosArtal);
     }
 

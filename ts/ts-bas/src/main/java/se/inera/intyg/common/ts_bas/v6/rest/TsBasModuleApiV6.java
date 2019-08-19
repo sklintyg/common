@@ -80,7 +80,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 /**
  * The contract between the certificate module and the generic components (Intygstjänsten, Mina-Intyg & Webcert).
- *
  */
 @Component("moduleapi.ts-bas.v6")
 public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
@@ -119,13 +118,13 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
 
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-            throws ModuleException {
+        throws ModuleException {
         TsBasUtlatandeV6 utlatande = getInternal(internalModel);
         IntygTexts texts = getTexts(TsBasEntryPoint.MODULE_ID, utlatande.getTextVersion());
 
         Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
         return new PdfGenerator().generatePdf(utlatande.getId(), internalModel, personId, texts, statuses, applicationOrigin,
-                utkastStatus);
+            utkastStatus);
     }
 
     @Override
@@ -195,7 +194,7 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
                 return TsBasTransformerType.TRANSPORT_TO_V3.getTransformer().transform(xmlBody);
             } else {
                 String msg = String.format("Error in sendCertificateToRecipient. Cannot decide type of transformer."
-                        + "Property registercertificate.version = '%s'", registerCertificateVersion);
+                    + "Property registercertificate.version = '%s'", registerCertificateVersion);
                 throw new ModuleException(msg);
             }
         } else if (isRegisterCertificateV3(xmlBody)) {
@@ -232,7 +231,7 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
         uri.setValue(logicalAddress);
 
         RevokeMedicalCertificateRequestType request = JAXB.unmarshal(new StreamSource(new StringReader(xmlBody)),
-                RevokeMedicalCertificateRequestType.class);
+            RevokeMedicalCertificateRequestType.class);
         RevokeMedicalCertificateResponseType response = revokeCertificateClient.revokeMedicalCertificate(uri, request);
         if (response.getResult().getResultCode().equals(ResultCodeEnum.ERROR)) {
             String message = "Revoke sent to " + logicalAddress + " failed with error: " + response.getResult().getErrorText();

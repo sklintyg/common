@@ -79,6 +79,7 @@ import static org.mockito.Mockito.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
 public class DbModuleApiTest {
+
     private static final String LOGICAL_ADDRESS = "logical address";
 
     @Mock
@@ -181,7 +182,7 @@ public class DbModuleApiTest {
     public void testGetUtlatandeFromJson() throws Exception {
         final String utlatandeJson = "utlatandeJson";
         when(objectMapper.readValue(eq(utlatandeJson), eq(DbUtlatandeV1.class)))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+            .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         Utlatande utlatandeFromJson = moduleApi.getUtlatandeFromJson(utlatandeJson);
         assertNotNull(utlatandeFromJson);
     }
@@ -190,7 +191,7 @@ public class DbModuleApiTest {
     public void testUpdateBeforeSave() throws Exception {
         final String internalModel = "internal model";
         when(objectMapper.readValue(anyString(), eq(DbUtlatandeV1.class)))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+            .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
         String response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
         assertEquals(internalModel, response);
@@ -200,7 +201,7 @@ public class DbModuleApiTest {
     public void testUpdateBeforeSigning() throws Exception {
         final String internalModel = "internal model";
         when(objectMapper.readValue(anyString(), eq(DbUtlatandeV1.class)))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+            .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
         String response = moduleApi.updateBeforeSigning(internalModel, createHosPersonal(), null);
         assertEquals(internalModel, response);
@@ -208,7 +209,7 @@ public class DbModuleApiTest {
 
     @Test
     public void testUpdateBeforeViewing() throws Exception {
-        Patient updatedPatient = createPatient("fornamn","efternamn","19121212-1212");
+        Patient updatedPatient = createPatient("fornamn", "efternamn", "19121212-1212");
         updatedPatient.setPostadress("updated postal address");
         updatedPatient.setPostnummer("54321");
         updatedPatient.setPostort("updated post city");
@@ -222,7 +223,7 @@ public class DbModuleApiTest {
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailWhenErrorIsReturned() throws ModuleException {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
-                .thenReturn(createReturnVal(ResultCodeType.ERROR));
+            .thenReturn(createReturnVal(ResultCodeType.ERROR));
         try {
             String xmlContents = Resources.toString(Resources.getResource("v1/db.xml"), Charsets.UTF_8);
             moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
@@ -253,7 +254,7 @@ public class DbModuleApiTest {
         response.setResult(ResultTypeUtil.okResult());
 
         when(objectMapper.readValue(internalModel, DbUtlatandeV1.class))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+            .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
         moduleApi.registerCertificate(internalModel, logicalAddress);
@@ -271,7 +272,7 @@ public class DbModuleApiTest {
         response.setResult(ResultTypeUtil.infoResult("Certificate already exists"));
 
         when(objectMapper.readValue(internalModel, DbUtlatandeV1.class))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+            .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
         try {
@@ -291,7 +292,7 @@ public class DbModuleApiTest {
         response.setResult(ResultTypeUtil.infoResult("INFO"));
 
         when(objectMapper.readValue(internalModel, DbUtlatandeV1.class))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+            .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
         try {
@@ -311,7 +312,7 @@ public class DbModuleApiTest {
         response.setResult(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "resultText"));
 
         when(objectMapper.readValue(internalModel, DbUtlatandeV1.class))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+            .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
         moduleApi.registerCertificate(internalModel, logicalAddress);
@@ -331,7 +332,7 @@ public class DbModuleApiTest {
         final String certificateId = "certificateId";
         final String logicalAddress = "logicalAddress";
         when(getCertificateResponder.getCertificate(eq(logicalAddress), any()))
-                .thenThrow(new SOAPFaultException(SOAPFactory.newInstance().createFault()));
+            .thenThrow(new SOAPFaultException(SOAPFactory.newInstance().createFault()));
         moduleApi.getCertificate(certificateId, logicalAddress, "INVANA");
     }
 
@@ -416,7 +417,7 @@ public class DbModuleApiTest {
 
     private CreateDraftCopyHolder createCopyHolder() {
         return new CreateDraftCopyHolder("certificateId",
-                createHosPersonal());
+            createHosPersonal());
     }
 
     private CreateNewDraftHolder createDraftHolder() {
@@ -437,7 +438,7 @@ public class DbModuleApiTest {
 
     private Patient createPatient(String fornamn, String efternamn, String personnummer) {
         Patient patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer( (personnummer != null) ? personnummer : "191212121212").get());
+        patient.setPersonId(Personnummer.createPersonnummer((personnummer != null) ? personnummer : "191212121212").get());
         patient.setFornamn(fornamn);
         patient.setEfternamn(efternamn);
         return patient;

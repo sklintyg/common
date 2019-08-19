@@ -27,6 +27,7 @@ import se.inera.intyg.common.fkparent.pdf.PdfConstants;
  * Representation of a tillaggsfraga (just a question label and an text answer).
  */
 public class FkTillaggsFraga extends PdfComponent<FkTillaggsFraga> {
+
     private String label;
     private String value;
     private float indentationLeft = 2f;

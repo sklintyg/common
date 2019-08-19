@@ -61,8 +61,8 @@ public class ValidatorUtil {
         // R35: For syntactically valid dates, verify it's not a future date
         if (isValid && date.asLocalDate().isAfter(LocalDate.now())) {
             se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,
-                    type.getFieldName(), ValidationMessageType.OTHER,
-                    "common.validation.c-06");
+                type.getFieldName(), ValidationMessageType.OTHER,
+                "common.validation.c-06");
         }
 
 
@@ -72,17 +72,17 @@ public class ValidatorUtil {
 
         if (diagnoser == null || diagnoser.isEmpty()) {
             se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS,
-                    DIAGNOS_SVAR_JSON_ID_6,
-                    ValidationMessageType.EMPTY,
-                    "common.validation.diagnos.missing");
+                DIAGNOS_SVAR_JSON_ID_6,
+                ValidationMessageType.EMPTY,
+                "common.validation.diagnos.missing");
             return;
         }
 
         if (diagnoser.size() > 1 && !validateFirstDiagnosIsPresent(diagnoser)) {
             // Om första diagnosen saknas, så ska det visas fel för hela första raden. Då ska inga andra fel visas.
             se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS,
-                    DIAGNOS_SVAR_JSON_ID_6 + "[0].row",
-                    ValidationMessageType.INCORRECT_COMBINATION, "common.validation.c-13a");
+                DIAGNOS_SVAR_JSON_ID_6 + "[0].row",
+                ValidationMessageType.INCORRECT_COMBINATION, "common.validation.c-13a");
             return;
         }
 
@@ -102,49 +102,49 @@ public class ValidatorUtil {
              */
             if (Strings.nullToEmpty(diagnos.getDiagnosKod()).trim().isEmpty()) {
                 se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS,
-                        DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod",
-                        ValidationMessageType.EMPTY, "common.validation.diagnos.codemissing");
+                    DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod",
+                    ValidationMessageType.EMPTY, "common.validation.diagnos.codemissing");
             } else {
                 String trimDiagnoskod = diagnos.getDiagnosKod().trim().toUpperCase();
                 if ((trimDiagnoskod.startsWith("Z73") || trimDiagnoskod.startsWith("F"))
-                        && trimDiagnoskod.length() < MIN_SIZE_PSYKISK_DIAGNOS) {
+                    && trimDiagnoskod.length() < MIN_SIZE_PSYKISK_DIAGNOS) {
                     se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS,
-                            DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod",
-                            ValidationMessageType.INVALID_FORMAT,
-                            "common.validation.diagnos.psykisk.length-4");
+                        DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod",
+                        ValidationMessageType.INVALID_FORMAT,
+                        "common.validation.diagnos.psykisk.length-4");
                 } else if (trimDiagnoskod.length() < MIN_SIZE_DIAGNOS) {
                     se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS,
-                            DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod",
-                            ValidationMessageType.INVALID_FORMAT,
-                            "common.validation.diagnos.length-3");
+                        DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod",
+                        ValidationMessageType.INVALID_FORMAT,
+                        "common.validation.diagnos.length-3");
                 } else if (trimDiagnoskod.length() > MAX_SIZE_DIAGNOS) {
                     se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS,
-                            DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod",
-                            ValidationMessageType.INVALID_FORMAT,
-                            "common.validation.diagnos.length-5");
+                        DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod",
+                        ValidationMessageType.INVALID_FORMAT,
+                        "common.validation.diagnos.length-5");
                 } else {
                     validateDiagnosKod(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem(),
-                            "common.validation.diagnos.invalid", validationMessages);
+                        "common.validation.diagnos.invalid", validationMessages);
                 }
             }
             if (Strings.nullToEmpty(diagnos.getDiagnosBeskrivning()).trim().isEmpty()) {
                 se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS,
-                        DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnosbeskrivning",
-                        ValidationMessageType.EMPTY,
-                        "common.validation.diagnos.description.missing");
+                    DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnosbeskrivning",
+                    ValidationMessageType.EMPTY,
+                    "common.validation.diagnos.description.missing");
             }
             if (!Strings.nullToEmpty(diagnos.getDiagnosKodSystem()).trim().isEmpty()
-                    && !kodverk.equals(diagnos.getDiagnosKodSystem().trim())) {
+                && !kodverk.equals(diagnos.getDiagnosKodSystem().trim())) {
                 se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS,
-                        DIAGNOS_SVAR_JSON_ID_6 + ".diagnoskodsystem",
-                        ValidationMessageType.INCORRECT_COMBINATION,
-                        "common.validation.diagnos.invalid_combination");
+                    DIAGNOS_SVAR_JSON_ID_6 + ".diagnoskodsystem",
+                    ValidationMessageType.INCORRECT_COMBINATION,
+                    "common.validation.diagnos.invalid_combination");
             }
         }
     }
 
     private void validateDiagnosKod(String diagnosKod, String kodsystem, String msgKey,
-            List<ValidationMessage> validationMessages) {
+        List<ValidationMessage> validationMessages) {
         // if moduleService is not available, skip this validation
         if (moduleService == null) {
             LOG.warn("Forced to skip validation of diagnosKod since an implementation of ModuleService is not available");
@@ -153,8 +153,8 @@ public class ValidatorUtil {
 
         if (!moduleService.validateDiagnosisCode(diagnosKod, kodsystem)) {
             se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS,
-                    DIAGNOS_SVAR_JSON_ID_6,
-                    ValidationMessageType.INVALID_FORMAT, msgKey);
+                DIAGNOS_SVAR_JSON_ID_6,
+                ValidationMessageType.INVALID_FORMAT, msgKey);
         }
 
     }
@@ -162,7 +162,7 @@ public class ValidatorUtil {
     private Boolean validateFirstDiagnosIsPresent(List<Diagnos> diagnoser) {
         Diagnos diagnos = diagnoser.get(0);
         return !Strings.nullToEmpty(diagnos.getDiagnosKod()).trim().isEmpty()
-                || !Strings.nullToEmpty(diagnos.getDiagnosBeskrivning()).trim().isEmpty();
+            || !Strings.nullToEmpty(diagnos.getDiagnosBeskrivning()).trim().isEmpty();
     }
 
     public enum GrundForMu {
@@ -173,14 +173,14 @@ public class ValidatorUtil {
 
         public String getFieldName() {
             switch (this) {
-            case UNDERSOKNING:
-                return GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
-            case JOURNALUPPGIFTER:
-                return GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
-            case ANNAT:
-                return GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
-            case TELEFONKONTAKT:
-                return GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1;
+                case UNDERSOKNING:
+                    return GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
+                case JOURNALUPPGIFTER:
+                    return GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
+                case ANNAT:
+                    return GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
+                case TELEFONKONTAKT:
+                    return GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1;
             }
             return "annat";
         }

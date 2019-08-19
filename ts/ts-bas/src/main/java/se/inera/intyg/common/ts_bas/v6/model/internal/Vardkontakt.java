@@ -29,7 +29,7 @@ public abstract class Vardkontakt {
 
     @JsonCreator
     public static Vardkontakt create(@JsonProperty("typ") String typ,
-                                     @JsonProperty("idkontroll") String idkontroll) {
+        @JsonProperty("idkontroll") String idkontroll) {
         return new AutoValue_Vardkontakt(typ, idkontroll);
     }
 

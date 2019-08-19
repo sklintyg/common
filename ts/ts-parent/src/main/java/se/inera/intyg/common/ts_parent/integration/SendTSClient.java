@@ -103,8 +103,8 @@ public abstract class SendTSClient {
     protected abstract void setupService();
 
     void setupService(Service service, QName port) {
-            this.service = service;
-            this.service.addPort(port, SOAPBinding.SOAP11HTTP_BINDING, this.url);
+        this.service = service;
+        this.service.addPort(port, SOAPBinding.SOAP11HTTP_BINDING, this.url);
     }
 
     Dispatch<SOAPMessage> createDispatchMessage(String namespace, QName port) {

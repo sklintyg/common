@@ -61,8 +61,8 @@ public class Fk7263ModelCompareUtilTest {
         Answer<Boolean> mockAnswer = new Answer<Boolean>() {
             @Override
             public Boolean answer(InvocationOnMock invocation) {
-               String codeFragment = (String) invocation.getArguments()[0];
-               return CORRECT_DIAGNOSKOD_FROM_FILE.equals(codeFragment) || CORRECT_DIAGNOSKOD2.equals(codeFragment);
+                String codeFragment = (String) invocation.getArguments()[0];
+                return CORRECT_DIAGNOSKOD_FROM_FILE.equals(codeFragment) || CORRECT_DIAGNOSKOD2.equals(codeFragment);
             }
         };
         doAnswer(mockAnswer).when(moduleService).validateDiagnosisCode(anyString(), anyString());
@@ -237,7 +237,7 @@ public class Fk7263ModelCompareUtilTest {
 
     private Fk7263Utlatande getUtlatandeFromFile() throws IOException {
         return objectMapper.readValue(new ClassPathResource(
-                "Fk7263ModuleApiTest/utlatande.json").getFile(), Fk7263Utlatande.class);
+            "Fk7263ModuleApiTest/utlatande.json").getFile(), Fk7263Utlatande.class);
     }
 
 }

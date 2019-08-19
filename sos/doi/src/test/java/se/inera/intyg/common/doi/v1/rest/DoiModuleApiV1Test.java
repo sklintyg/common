@@ -79,6 +79,7 @@ import static org.mockito.Mockito.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
 public class DoiModuleApiV1Test {
+
     private static final String LOGICAL_ADDRESS = "logical address";
     private static final String INTYG_TYPE_VERSION_1 = "1.0";
 
@@ -182,7 +183,7 @@ public class DoiModuleApiV1Test {
     public void testGetUtlatandeFromJson() throws Exception {
         final String utlatandeJson = "utlatandeJson";
         when(objectMapper.readValue(eq(utlatandeJson), eq(DoiUtlatandeV1.class)))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+            .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         Utlatande utlatandeFromJson = moduleApi.getUtlatandeFromJson(utlatandeJson);
         assertNotNull(utlatandeFromJson);
     }
@@ -191,7 +192,7 @@ public class DoiModuleApiV1Test {
     public void testUpdateBeforeSave() throws Exception {
         final String internalModel = "internal model";
         when(objectMapper.readValue(anyString(), eq(DoiUtlatandeV1.class)))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+            .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
         String response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
         assertEquals(internalModel, response);
@@ -201,7 +202,7 @@ public class DoiModuleApiV1Test {
     public void testUpdateBeforeSigning() throws Exception {
         final String internalModel = "internal model";
         when(objectMapper.readValue(anyString(), eq(DoiUtlatandeV1.class)))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+            .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
         String response = moduleApi.updateBeforeSigning(internalModel, createHosPersonal(), null);
         assertEquals(internalModel, response);
@@ -224,7 +225,7 @@ public class DoiModuleApiV1Test {
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailWhenErrorIsReturned() throws ModuleException {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
-                .thenReturn(createReturnVal(ResultCodeType.ERROR));
+            .thenReturn(createReturnVal(ResultCodeType.ERROR));
         try {
             String xmlContents = Resources.toString(Resources.getResource("v1/doi.xml"), Charsets.UTF_8);
             moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
@@ -255,7 +256,7 @@ public class DoiModuleApiV1Test {
         response.setResult(ResultTypeUtil.okResult());
 
         when(objectMapper.readValue(internalModel, DoiUtlatandeV1.class))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+            .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
         moduleApi.registerCertificate(internalModel, logicalAddress);
@@ -273,7 +274,7 @@ public class DoiModuleApiV1Test {
         response.setResult(ResultTypeUtil.infoResult("Certificate already exists"));
 
         when(objectMapper.readValue(internalModel, DoiUtlatandeV1.class))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+            .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
         try {
@@ -293,7 +294,7 @@ public class DoiModuleApiV1Test {
         response.setResult(ResultTypeUtil.infoResult("INFO"));
 
         when(objectMapper.readValue(internalModel, DoiUtlatandeV1.class))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+            .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
         try {
@@ -313,7 +314,7 @@ public class DoiModuleApiV1Test {
         response.setResult(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "resultText"));
 
         when(objectMapper.readValue(internalModel, DoiUtlatandeV1.class))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+            .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
         moduleApi.registerCertificate(internalModel, logicalAddress);
@@ -333,7 +334,7 @@ public class DoiModuleApiV1Test {
         final String certificateId = "certificateId";
         final String logicalAddress = "logicalAddress";
         when(getCertificateResponder.getCertificate(eq(logicalAddress), any()))
-                .thenThrow(new SOAPFaultException(SOAPFactory.newInstance().createFault()));
+            .thenThrow(new SOAPFaultException(SOAPFactory.newInstance().createFault()));
         moduleApi.getCertificate(certificateId, logicalAddress, "INVANA");
     }
 
@@ -422,7 +423,7 @@ public class DoiModuleApiV1Test {
 
     private CreateDraftCopyHolder createCopyHolder() {
         return new CreateDraftCopyHolder("certificateId",
-                createHosPersonal());
+            createHosPersonal());
     }
 
     private CreateNewDraftHolder createDraftHolder() {

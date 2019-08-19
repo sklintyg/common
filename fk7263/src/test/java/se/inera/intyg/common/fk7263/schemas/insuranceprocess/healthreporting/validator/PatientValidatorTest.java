@@ -30,6 +30,7 @@ import iso.v21090.dt.v1.II;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.PatientType;
 
 public class PatientValidatorTest {
+
     private PatientType patient;
     private II patientId;
 

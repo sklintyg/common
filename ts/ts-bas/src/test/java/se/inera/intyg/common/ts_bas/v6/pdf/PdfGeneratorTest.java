@@ -59,10 +59,10 @@ public class PdfGeneratorTest {
         IntygTexts intygTexts = intygsTextRepositoryHelper.getTexts("ts-bas", "6.8");
 
         String jsonModel = IOUtils.toString(new ClassPathResource("v6/PdfGenerator/utlatande.json").getInputStream(),
-                Charset.forName("UTF-8"));
+            Charset.forName("UTF-8"));
         PdfResponse pdfResponse = testee.generatePdf(UUID.randomUUID().toString(), jsonModel,
-                Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
-                new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
+            Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
+            new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
         assertNotNull(pdfResponse);
         Pattern p = Pattern.compile("^lakarintyg_transportstyrelsen_[\\d]{2}-[\\d]{2}-[\\d]{2}_[\\d]{4}\\.pdf$");
         assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());
@@ -75,10 +75,10 @@ public class PdfGeneratorTest {
         IntygTexts intygTexts = intygsTextRepositoryHelper.getTexts("ts-bas", "6.8");
 
         String jsonModel = IOUtils.toString(new ClassPathResource("v6/PdfGenerator/utkast_utlatande.json").getInputStream(),
-                Charset.forName("UTF-8"));
+            Charset.forName("UTF-8"));
         PdfResponse pdfResponse = testee.generatePdf(UUID.randomUUID().toString(), jsonModel,
-                Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
-                new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
+            Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
+            new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
         assertNotNull(pdfResponse);
         Pattern p = Pattern.compile("^lakarintyg_transportstyrelsen_[\\d]{2}-[\\d]{2}-[\\d]{2}_[\\d]{4}\\.pdf$");
         assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());

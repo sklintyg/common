@@ -42,10 +42,11 @@ public class IntygTextsTsBasRepositoryTestHelper extends IntygTextsRepositoryImp
     }
 
     @Override
-    public void update()  {
+    public void update() {
 
         try {
-            Document e = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ClassPathResource("v6/text/texterTS_TSTRK_1007_v6.8.xml").getInputStream());
+            Document e = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+                .parse(new ClassPathResource("v6/text/texterTS_TSTRK_1007_v6.8.xml").getInputStream());
             Element root = e.getDocumentElement();
             String version = root.getAttribute("version");
             String intygsTyp = root.getAttribute("typ").toLowerCase();

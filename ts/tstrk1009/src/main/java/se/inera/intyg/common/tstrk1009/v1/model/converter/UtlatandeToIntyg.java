@@ -107,45 +107,45 @@ public final class UtlatandeToIntyg {
 
         if (nonNull(utlatande.getIdentitetStyrktGenom())) {
             svarList.add(aSvar(IDENTITET_STYRKT_GENOM_SVAR_ID)
-                    .withDelsvar(IDENTITET_STYRKT_GENOM_DELSVAR_ID,
-                            aCV(KV_ID_KONTROLL_KODSYSTEM,
-                                    utlatande.getIdentitetStyrktGenom().getTyp().getCode(), utlatande.getIdentitetStyrktGenom().getTyp()
-                                            .getDescription()))
-                    .build());
+                .withDelsvar(IDENTITET_STYRKT_GENOM_DELSVAR_ID,
+                    aCV(KV_ID_KONTROLL_KODSYSTEM,
+                        utlatande.getIdentitetStyrktGenom().getTyp().getCode(), utlatande.getIdentitetStyrktGenom().getTyp()
+                            .getDescription()))
+                .build());
         }
 
         if (nonNull(utlatande.getAnmalanAvser())) {
             svarList.add(aSvar(ANMALAN_AVSER_SVAR_ID)
-                    .withDelsvar(ANMALAN_AVSER_DELSVAR_ID,
-                            aCV(KV_KORKORTSOLAMPLIGHET_KODSYSTEM,
-                                    utlatande.getAnmalanAvser().getTyp().getCode(), utlatande.getAnmalanAvser().getTyp().getDescription()))
-                    .build());
+                .withDelsvar(ANMALAN_AVSER_DELSVAR_ID,
+                    aCV(KV_KORKORTSOLAMPLIGHET_KODSYSTEM,
+                        utlatande.getAnmalanAvser().getTyp().getCode(), utlatande.getAnmalanAvser().getTyp().getDescription()))
+                .build());
         }
 
         addIfNotBlank(svarList, MEDICINSKA_FORHALLANDEN_SVAR_ID, MEDICINSKA_FORHALLANDEN_DELSVAR_ID, utlatande.getMedicinskaForhallanden());
 
         if (nonNull(utlatande.getSenasteUndersokningsdatum()) && utlatande.getSenasteUndersokningsdatum().isValidDate()) {
             svarList.add(aSvar(SENASTE_UNDERSOKNINGSDATUM_SVAR_ID)
-                    .withDelsvar(SENASTE_UNDERSOKNINGSDATUM_DELSVAR_ID,
-                            getInternalDateContent(utlatande.getSenasteUndersokningsdatum()))
-                    .build());
+                .withDelsvar(SENASTE_UNDERSOKNINGSDATUM_DELSVAR_ID,
+                    getInternalDateContent(utlatande.getSenasteUndersokningsdatum()))
+                .build());
         }
 
         int intygetAvserBehorigheterInstans = 1;
         if (nonNull(utlatande.getIntygetAvserBehorigheter())
-                && isNotEmpty(utlatande.getIntygetAvserBehorigheter().getTyper())) {
+            && isNotEmpty(utlatande.getIntygetAvserBehorigheter().getTyper())) {
             for (final KorkortBehorighetGrupp behorighetsGrupp : utlatande.getIntygetAvserBehorigheter().getTyper()) {
                 for (final Korkortsbehorighet korkortsbehorighet : behorighetsGrupp.getKorkortsbehorigheter()) {
                     svarList.add(aSvar(INTYGET_AVSER_BEHORIGHET_SVAR_ID, intygetAvserBehorigheterInstans++)
                         .withDelsvar(INTYGET_AVSER_BEHORIGHET_DELSVAR_ID,
-                                aCV(KV_KORKORTSBEHORIGHET_KODSYSTEM, korkortsbehorighet.getCode(), korkortsbehorighet.getValue()))
+                            aCV(KV_KORKORTSBEHORIGHET_KODSYSTEM, korkortsbehorighet.getCode(), korkortsbehorighet.getValue()))
                         .build());
                 }
             }
         }
 
         addIfNotNull(svarList, INFORMATION_OM_TS_BESLUT_ONSKAS_SVAR_ID, INFORMATION_OM_TS_BESLUT_ONSKAS_DELSVAR_ID,
-                utlatande.getInformationOmTsBeslutOnskas());
+            utlatande.getInformationOmTsBeslutOnskas());
 
         return svarList;
     }

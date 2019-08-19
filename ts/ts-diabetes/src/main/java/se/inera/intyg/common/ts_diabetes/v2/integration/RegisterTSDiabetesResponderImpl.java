@@ -83,13 +83,13 @@ public class RegisterTSDiabetesResponderImpl implements RegisterTSDiabetesRespon
             String certificateId = parameters.getIntyg().getIntygsId();
             String issuedBy = parameters.getIntyg().getGrundData().getSkapadAv().getVardenhet().getEnhetsId().getExtension();
             LOGGER.warn(LogMarkers.VALIDATION, "Validation warning for intyg " + certificateId + " issued by " + issuedBy
-                    + ": Certificate already exists - ignored.");
+                + ": Certificate already exists - ignored.");
         } catch (InvalidCertificateException e) {
             response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "Invalid certificate ID"));
             String certificateId = parameters.getIntyg().getIntygsId();
             String issuedBy = parameters.getIntyg().getGrundData().getSkapadAv().getVardenhet().getEnhetsId().getExtension();
             LOGGER.error(LogMarkers.VALIDATION, "Failed to create Certificate with id " + certificateId + " issued by " + issuedBy
-                    + ": Certificate ID already exists for another person.");
+                + ": Certificate ID already exists for another person.");
 
         } catch (CertificateValidationException e) {
             response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, e.getMessage()));

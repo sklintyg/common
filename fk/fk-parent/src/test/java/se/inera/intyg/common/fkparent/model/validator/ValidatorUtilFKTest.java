@@ -73,7 +73,8 @@ public class ValidatorUtilFKTest {
 
     @Test
     public void testDiagnosesAreValid() {
-        List<Diagnos> source = Arrays.asList(buildDiagnos(VALID_CODE_1, ICD_CODE_SYSTEM, "besk"), buildDiagnos(VALID_CODE_2, ICD_CODE_SYSTEM, "besk"));
+        List<Diagnos> source = Arrays
+            .asList(buildDiagnos(VALID_CODE_1, ICD_CODE_SYSTEM, "besk"), buildDiagnos(VALID_CODE_2, ICD_CODE_SYSTEM, "besk"));
         List<ValidationMessage> validationMessages = new ArrayList<>();
         validatorUtil.validateDiagnose(source, validationMessages);
 
@@ -84,7 +85,8 @@ public class ValidatorUtilFKTest {
 
     @Test
     public void testDiagnoesMustHaveSameCodeSystem() {
-        List<Diagnos> source = Arrays.asList(buildDiagnos(VALID_CODE_1, ICD_CODE_SYSTEM, "besk"), buildDiagnos(VALID_CODE_2, KSH_CODE_SYSTEM, "besk"));
+        List<Diagnos> source = Arrays
+            .asList(buildDiagnos(VALID_CODE_1, ICD_CODE_SYSTEM, "besk"), buildDiagnos(VALID_CODE_2, KSH_CODE_SYSTEM, "besk"));
         List<ValidationMessage> validationMessages = new ArrayList<>();
         validatorUtil.validateDiagnose(source, validationMessages);
 
@@ -96,7 +98,8 @@ public class ValidatorUtilFKTest {
 
     @Test
     public void testDiagnosesAreValidFalse() {
-        List<Diagnos> source = Arrays.asList(buildDiagnos(INVALID_CODE, ICD_CODE_SYSTEM, "besk"), buildDiagnos(VALID_CODE_2, ICD_CODE_SYSTEM, "besk"));
+        List<Diagnos> source = Arrays
+            .asList(buildDiagnos(INVALID_CODE, ICD_CODE_SYSTEM, "besk"), buildDiagnos(VALID_CODE_2, ICD_CODE_SYSTEM, "besk"));
         List<ValidationMessage> validationMessages = new ArrayList<>();
         validatorUtil.validateDiagnose(source, validationMessages);
 
@@ -222,7 +225,8 @@ public class ValidatorUtilFKTest {
     @Test
     public void testDiagnosesAreValidModuleServiceMissing() {
         ReflectionTestUtils.setField(validatorUtil, "moduleService", null);
-        List<Diagnos> source = Arrays.asList(buildDiagnos(VALID_CODE_1, ICD_CODE_SYSTEM, "besk"), buildDiagnos(VALID_CODE_2, ICD_CODE_SYSTEM, "besk"));
+        List<Diagnos> source = Arrays
+            .asList(buildDiagnos(VALID_CODE_1, ICD_CODE_SYSTEM, "besk"), buildDiagnos(VALID_CODE_2, ICD_CODE_SYSTEM, "besk"));
         List<ValidationMessage> validationMessages = new ArrayList<>();
         validatorUtil.validateDiagnose(source, validationMessages);
 

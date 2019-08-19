@@ -75,9 +75,10 @@ public class UtlatandeToIntygTest {
         final String patientPostort = "patientPostort";
 
         LuaefsUtlatandeV1 utlatande = buildUtlatande(intygsId, textVersion, enhetsId, enhetsnamn, patientPersonId,
-                skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost, telefonNummer,
-                vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
-                null, null);
+            skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost,
+            telefonNummer,
+            vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
+            null, null);
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
@@ -144,9 +145,9 @@ public class UtlatandeToIntygTest {
     @Test
     public void testConvertUnderlagEmptyUnderlagsTyp() {
         LuaefsUtlatandeV1 utlatande = buildUtlatande().toBuilder()
-                .setUnderlagFinns(true)
-                .setUnderlag(ImmutableList.of(Underlag.create(null, new InternalDate("2018-01-01"), "")))
-                .build();
+            .setUnderlagFinns(true)
+            .setUnderlag(ImmutableList.of(Underlag.create(null, new InternalDate("2018-01-01"), "")))
+            .build();
         Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
         assertEquals(2, intyg.getSvar().size());
         assertEquals("2018-01-01", intyg.getSvar().get(1).getDelsvar().get(0).getContent().get(0));
@@ -155,9 +156,9 @@ public class UtlatandeToIntygTest {
     @Test
     public void testConvertUnderlagUnfinishedDate() {
         LuaefsUtlatandeV1 utlatande = buildUtlatande().toBuilder()
-                .setUnderlagFinns(true)
-                .setUnderlag(ImmutableList.of(Underlag.create(Underlag.UnderlagsTyp.OVRIGT, new InternalDate("2018-"), "")))
-                .build();
+            .setUnderlagFinns(true)
+            .setUnderlag(ImmutableList.of(Underlag.create(Underlag.UnderlagsTyp.OVRIGT, new InternalDate("2018-"), "")))
+            .build();
         Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
         assertEquals(1, intyg.getSvar().size());
         assertEquals("true", intyg.getSvar().get(0).getDelsvar().get(0).getContent().get(0));
@@ -169,16 +170,18 @@ public class UtlatandeToIntygTest {
 
     private LuaefsUtlatandeV1 buildUtlatande(RelationKod relationKod, String relationIntygsId) {
         return buildUtlatande("intygsId", "textVersion", "enhetsId", "enhetsnamn", PNR_TOLVAN,
-                "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer", "postOrt",
-                "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress",
-                "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
+            "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer", "postOrt",
+            "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn",
+            "patientPostadress",
+            "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
     }
 
     private LuaefsUtlatandeV1 buildUtlatande(String intygsId, String textVersion, String enhetsId, String enhetsnamn,
-                                             String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum, String arbetsplatsKod,
-                                             String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
-                                             String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
-                                             String patientPostort, RelationKod relationKod, String relationIntygsId) {
+        String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum,
+        String arbetsplatsKod,
+        String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
+        String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
+        String patientPostort, RelationKod relationKod, String relationIntygsId) {
         Builder template = LuaefsUtlatandeV1.builder();
         template.setId(intygsId);
         template.setTextVersion(textVersion);

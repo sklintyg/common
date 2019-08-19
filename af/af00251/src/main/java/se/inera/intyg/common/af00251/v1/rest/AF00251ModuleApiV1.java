@@ -24,11 +24,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
 import se.inera.intyg.common.af00251.pdf.PdfGenerator;
 import se.inera.intyg.common.af00251.support.AF00251EntryPoint;
 import se.inera.intyg.common.af00251.v1.model.converter.InternalToTransport;
@@ -79,15 +77,15 @@ public class AF00251ModuleApiV1 extends AfParentModuleApi<AF00251UtlatandeV1> {
         IntygTexts texts = getTexts(AF00251EntryPoint.MODULE_ID, filtreratUtlatande.getTextVersion());
 
         Personnummer personId = filtreratUtlatande.getGrundData()
-                                     .getPatient()
-                                     .getPersonId();
+            .getPatient()
+            .getPersonId();
         return new PdfGenerator().generatePdf(filtreratUtlatande.getId(), filtreradInternalModel, "1", personId, texts, statuses,
             applicationOrigin, utkastStatus);
     }
 
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-                                   List<String> optionalFields, UtkastStatus utkastStatus) throws ModuleException {
+        List<String> optionalFields, UtkastStatus utkastStatus) throws ModuleException {
         return null;
     }
 
@@ -114,8 +112,8 @@ public class AF00251ModuleApiV1 extends AfParentModuleApi<AF00251UtlatandeV1> {
     @Override
     protected AF00251UtlatandeV1 decorateWithSignature(AF00251UtlatandeV1 utlatande, String base64EncodedSignatureXml) {
         return utlatande.toBuilder()
-                        .setSignature(base64EncodedSignatureXml)
-                        .build();
+            .setSignature(base64EncodedSignatureXml)
+            .build();
     }
 
     @Override
@@ -125,11 +123,11 @@ public class AF00251ModuleApiV1 extends AfParentModuleApi<AF00251UtlatandeV1> {
             final AF00251UtlatandeV1 af00251UtlatandeV1 = transportToInternal(intyg);
             if (af00251UtlatandeV1.getSjukfranvaro() != null && af00251UtlatandeV1.getSjukfranvaro().size() > 0) {
                 additionalInfo = af00251UtlatandeV1.getSjukfranvaro().stream()
-                        .map(Sjukfranvaro::getPeriod)
-                        .sorted(Comparator.comparing(InternalLocalDateInterval::fromAsLocalDate))
-                        .reduce((a, b) -> new InternalLocalDateInterval(a.getFrom(), b.getTom()))
-                        .map(interval -> interval.getFrom().toString() + " - " + interval.getTom().toString())
-                        .orElse(null);
+                    .map(Sjukfranvaro::getPeriod)
+                    .sorted(Comparator.comparing(InternalLocalDateInterval::fromAsLocalDate))
+                    .reduce((a, b) -> new InternalLocalDateInterval(a.getFrom(), b.getTom()))
+                    .map(interval -> interval.getFrom().toString() + " - " + interval.getTom().toString())
+                    .orElse(null);
             }
             return additionalInfo;
 
@@ -149,13 +147,13 @@ public class AF00251ModuleApiV1 extends AfParentModuleApi<AF00251UtlatandeV1> {
 
     AF00251UtlatandeV1 filterUncheckedSjukfranvaro(AF00251UtlatandeV1 utlatandeV1) {
         final List<Sjukfranvaro> filtreradSjukfranvaro = utlatandeV1.getSjukfranvaro()
-                                                                    .stream()
-                                                                    .filter(sjukfranvaro -> nullToFalse(sjukfranvaro.getChecked()))
-                                                                    .collect(Collectors.toList());
+            .stream()
+            .filter(sjukfranvaro -> nullToFalse(sjukfranvaro.getChecked()))
+            .collect(Collectors.toList());
 
         return utlatandeV1.toBuilder()
-                          .setSjukfranvaro(filtreradSjukfranvaro)
-                          .build();
+            .setSjukfranvaro(filtreradSjukfranvaro)
+            .build();
     }
 
     boolean nullToFalse(Boolean value) {
@@ -178,23 +176,23 @@ public class AF00251ModuleApiV1 extends AfParentModuleApi<AF00251UtlatandeV1> {
 
             // Null out applicable fields
             AF00251UtlatandeV1 renewCopy = internal.toBuilder()
-                    .setSjukfranvaro(null)
-                    .setUndersokningsDatum(null)
-                    .setAnnatDatum(null)
-                    .setAnnatBeskrivning(null)
-                    .build();
+                .setSjukfranvaro(null)
+                .setUndersokningsDatum(null)
+                .setAnnatDatum(null)
+                .setAnnatBeskrivning(null)
+                .build();
 
             Relation relation = draftCopyHolder.getRelation();
             if (internal.getSjukfranvaro() != null) {
                 Optional<LocalDate> lastDateOfLastIntyg = internal.getSjukfranvaro().stream()
-                        .sorted((s1, s2) -> s2.getPeriod().getTom().asLocalDate().compareTo(s1.getPeriod().getTom().asLocalDate()))
-                        .map(sjukskrivning -> sjukskrivning.getPeriod().getTom().asLocalDate())
-                        .findFirst();
+                    .sorted((s1, s2) -> s2.getPeriod().getTom().asLocalDate().compareTo(s1.getPeriod().getTom().asLocalDate()))
+                    .map(sjukskrivning -> sjukskrivning.getPeriod().getTom().asLocalDate())
+                    .findFirst();
                 relation.setSistaGiltighetsDatum(lastDateOfLastIntyg.orElse(LocalDate.now()));
                 Optional<Integer> lastSjukskrivningsgradOfLastIntyg = internal.getSjukfranvaro().stream()
-                        .sorted((s1, s2) -> s2.getPeriod().getTom().asLocalDate().compareTo(s1.getPeriod().getTom().asLocalDate()))
-                        .map(sjukskrivning -> sjukskrivning.getNiva())
-                        .findFirst();
+                    .sorted((s1, s2) -> s2.getPeriod().getTom().asLocalDate().compareTo(s1.getPeriod().getTom().asLocalDate()))
+                    .map(sjukskrivning -> sjukskrivning.getNiva())
+                    .findFirst();
                 lastSjukskrivningsgradOfLastIntyg.ifPresent(grad -> relation.setSistaSjukskrivningsgrad(grad.toString()));
             }
             draftCopyHolder.setRelation(relation);

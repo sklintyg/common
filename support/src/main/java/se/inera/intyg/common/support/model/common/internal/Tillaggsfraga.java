@@ -29,7 +29,7 @@ public abstract class Tillaggsfraga {
 
     @JsonCreator
     public static Tillaggsfraga create(@JsonProperty("id") String id,
-            @JsonProperty("svar") String svar) {
+        @JsonProperty("svar") String svar) {
         return new AutoValue_Tillaggsfraga(id, svar);
     }
 

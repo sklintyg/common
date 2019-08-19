@@ -60,7 +60,7 @@ public abstract class AbstractSoSPdfGenerator {
     public static final String PDF_PATH_PROPERTY_KEY = "pdfPath";
 
     protected static final String ELECTRONIC_COPY_WATERMARK_TEXT = "Detta är en utskrift av ett elektroniskt intyg. \n"
-            + "Intyget har signerats elektroniskt av intygsutfärdaren.";
+        + "Intyget har signerats elektroniskt av intygsutfärdaren.";
     protected static final String WEBCERT_MARGIN_TEXT = "Intyget är utskrivet från Webcert.";
     protected static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     // Constants used for watermarking
@@ -86,7 +86,7 @@ public abstract class AbstractSoSPdfGenerator {
 
     public static boolean isMakulerad(List<Status> statuses) {
         return statuses != null && statuses.stream().filter(Objects::nonNull)
-                .anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
+            .anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
     }
 
     public static boolean ersatterTidigareIntyg(Relation relation) {
@@ -100,7 +100,7 @@ public abstract class AbstractSoSPdfGenerator {
     }
 
     protected String getPdfPathFromIntygVersion(Utlatande utlatande, IntygTexts intygTexts, String defaultPath)
-            throws SoSPdfGeneratorException {
+        throws SoSPdfGeneratorException {
         String textVersion = utlatande.getTextVersion();
         if (textVersion == null) {
             return defaultPath;
@@ -114,12 +114,6 @@ public abstract class AbstractSoSPdfGenerator {
     /**
      * Simple util method that helps translade a Boolean instance state to 3 possible value, one for null and others for
      * true/false.
-     *
-     * @param booleanValue
-     * @param whenNull
-     * @param whenTrue
-     * @param whenFalse
-     * @return
      */
     protected String getRadioValueFromBoolean(Boolean booleanValue, String whenNull, String whenTrue, String whenFalse) {
         if (booleanValue == null) {
@@ -173,11 +167,11 @@ public abstract class AbstractSoSPdfGenerator {
     // Mark this document as a copy of an electronically signed document
     protected void markAsElectronicCopy(PdfStamper pdfStamper) throws DocumentException, IOException {
         mark(pdfStamper, ELECTRONIC_COPY_WATERMARK_TEXT, MARK_AS_COPY_START_X, MARK_AS_COPY_START_Y, MARK_AS_COPY_HEIGTH,
-                MARK_AS_COPY_WIDTH);
+            MARK_AS_COPY_WIDTH);
     }
 
     protected void mark(PdfStamper pdfStamper, String watermarkText, int startX, int startY, int height, int width)
-            throws DocumentException, IOException {
+        throws DocumentException, IOException {
         PdfContentByte addOverlay;
         addOverlay = pdfStamper.getOverContent(1);
         addOverlay.saveState();
@@ -202,7 +196,7 @@ public abstract class AbstractSoSPdfGenerator {
     }
 
     protected void addIntygStateWatermark(PdfStamper stamper, int nrPages, boolean isUtkast, boolean isMakulerad,
-                                          boolean isLocked) {
+        boolean isLocked) {
         Phrase watermark;
 
         if (isLocked) {
@@ -238,7 +232,7 @@ public abstract class AbstractSoSPdfGenerator {
     }
 
     protected void createRightMarginText(PdfStamper pdfStamper, int numberOfPages, String id, String text)
-            throws DocumentException, IOException {
+        throws DocumentException, IOException {
         PdfContentByte addOverlay;
         BaseFont bf = BaseFont.createFont();
         // Do text

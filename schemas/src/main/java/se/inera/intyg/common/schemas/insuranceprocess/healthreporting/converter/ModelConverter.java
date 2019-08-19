@@ -52,13 +52,13 @@ public final class ModelConverter {
     public static CertificateMetaType toCertificateMetaType(CertificateHolder source) {
 
         CertificateMetaTypeBuilder builder = new CertificateMetaTypeBuilder()
-                .certificateId(source.getId())
-                .certificateType(source.getType())
-                .validity(toLocalDate(source.getValidFromDate()), toLocalDate(source.getValidToDate()))
-                .issuerName(source.getSigningDoctorName())
-                .facilityName(source.getCareUnitName())
-                .signDate(source.getSignedDate() != null ? source.getSignedDate().toLocalDate() : null)
-                .available(String.valueOf(!source.isDeleted()));
+            .certificateId(source.getId())
+            .certificateType(source.getType())
+            .validity(toLocalDate(source.getValidFromDate()), toLocalDate(source.getValidToDate()))
+            .issuerName(source.getSigningDoctorName())
+            .facilityName(source.getCareUnitName())
+            .signDate(source.getSignedDate() != null ? source.getSignedDate().toLocalDate() : null)
+            .available(String.valueOf(!source.isDeleted()));
 
         CertificateMetaType meta = builder.build();
 
@@ -134,12 +134,11 @@ public final class ModelConverter {
         lakarutlatande.setLakarutlatandeId(utlatande.getId());
         lakarutlatande.setSigneringsTidpunkt(utlatande.getGrundData().getSigneringsdatum());
 
-
         Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
         II patientIdHolder = new II();
         patientIdHolder.setRoot(SamordningsnummerValidator.isSamordningsNummer(Optional.of(personId))
-                ? Constants.SAMORDNING_ID_OID
-                : Constants.PERSON_ID_OID);
+            ? Constants.SAMORDNING_ID_OID
+            : Constants.PERSON_ID_OID);
         patientIdHolder.setExtension(personId.getOriginalPnr());
 
         PatientType patient = new PatientType();

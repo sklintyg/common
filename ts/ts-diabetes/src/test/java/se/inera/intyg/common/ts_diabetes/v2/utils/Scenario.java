@@ -46,8 +46,7 @@ public interface Scenario {
      * Returns the scenario as a transport model.
      *
      * @return The scenario as a transport model.
-     * @throws ScenarioNotFoundException
-     *             if the scenario wasn't found.
+     * @throws ScenarioNotFoundException if the scenario wasn't found.
      */
     RegisterTSDiabetesType asTransportModel() throws ScenarioNotFoundException;
 
@@ -55,8 +54,7 @@ public interface Scenario {
      * Returns the scenario as a rivta v3 transport model.
      *
      * @return The scenario as a rivta v3 transport model.
-     * @throws ScenarioNotFoundException
-     *             if the scenario wasn't found.
+     * @throws ScenarioNotFoundException if the scenario wasn't found.
      */
     RegisterCertificateType asRivtaV3TransportModel() throws ScenarioNotFoundException;
 
@@ -64,18 +62,16 @@ public interface Scenario {
      * Returns the scenario as a transformed transport model.
      *
      * @return The scenario as a transformed transport model.
-     * @throws ScenarioNotFoundException
-     *             if the scenario wasn't found.
+     * @throws ScenarioNotFoundException if the scenario wasn't found.
      */
     se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType asTransformedTransportModel()
-            throws ScenarioNotFoundException;
+        throws ScenarioNotFoundException;
 
     /**
      * Returns the scenario as a internal Mina Intyg model.
      *
      * @return The scenario as a internal Mina Intyg model.
-     * @throws ScenarioNotFoundException
-     *             if the scenario wasn't found.
+     * @throws ScenarioNotFoundException if the scenario wasn't found.
      */
     TsDiabetesUtlatandeV2 asInternalModel() throws ScenarioNotFoundException;
 

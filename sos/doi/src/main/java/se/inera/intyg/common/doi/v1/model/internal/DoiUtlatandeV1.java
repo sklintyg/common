@@ -65,7 +65,7 @@ public abstract class DoiUtlatandeV1 implements SosUtlatande {
 
     public static Builder builder() {
         return new AutoValue_DoiUtlatandeV1.Builder().setGrunder(ImmutableList.<Dodsorsaksgrund>of())
-                .setBidragandeSjukdomar(ImmutableList.<Dodsorsak>of()).setFoljd(ImmutableList.<Dodsorsak>of());
+            .setBidragandeSjukdomar(ImmutableList.<Dodsorsak>of()).setFoljd(ImmutableList.<Dodsorsak>of());
     }
 
     @Override
@@ -155,6 +155,7 @@ public abstract class DoiUtlatandeV1 implements SosUtlatande {
 
     @AutoValue.Builder
     public abstract static class Builder {
+
         public abstract DoiUtlatandeV1 build();
 
         @JsonProperty(ID_JSON_ID)

@@ -55,7 +55,7 @@ public class UVList extends UVComponent {
         Object modelPropObj = currentUvNode.get(MODEL_PROP);
 
         useLabelKeyForPrint = currentUvNode.get("useLabelKeyForPrint") == null
-                ? false : (Boolean) currentUvNode.get("useLabelKeyForPrint");
+            ? false : (Boolean) currentUvNode.get("useLabelKeyForPrint");
 
         // First, resolve the actual values using either String- or function based resolving and push the textual values
         // into a list.
@@ -84,7 +84,7 @@ public class UVList extends UVComponent {
      * Handle listKey as ScriptObjectMirror, where the modelProp in its turn may be a String or a ScriptObjectMirror.
      */
     private void handleListKeyAsScriptObjectMirror(List<String> results, String labelKey, ScriptObjectMirror listKeyObj,
-            Object modelPropObj) {
+        Object modelPropObj) {
         ScriptObjectMirror listKey = listKeyObj;
         if (modelPropObj instanceof String) {
             buildListResultFromStringModelProp(results, listKey, (String) modelPropObj, labelKey);
@@ -116,16 +116,16 @@ public class UVList extends UVComponent {
                     }
                 } else {
                     throw new IllegalStateException("Unhandled result type class in uv-list: " + evalSOM.getClassName()
-                            + " expected Array");
+                        + " expected Array");
                 }
             } else {
                 throw new IllegalStateException("Unhandled evaluation class in uv-list: " + eval.getClass().getName()
-                        + " expected ScriptObjectMirror");
+                    + " expected ScriptObjectMirror");
             }
 
         } else if (modelPropObj instanceof ScriptObjectMirror) {
             throw new IllegalStateException("Unhandled modelPropObj class in uv-list: " + modelPropObj.getClass().getName()
-                    + " expected String");
+                + " expected String");
         }
     }
 
@@ -159,16 +159,16 @@ public class UVList extends UVComponent {
         // If there's a separator specified, render as comma-separated string
         parent.setKeepTogether(true);
         parent.add(new Paragraph(results.stream().collect(Collectors.joining(separator))).setItalic()
-                .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
-                .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
-                .setFont(renderer.svarFont)
-                .setFontSize(SVAR_FONT_SIZE)
-                .setPadding(0f).setMarginTop(0f).setMarginBottom(0f));
+            .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
+            .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
+            .setFont(renderer.svarFont)
+            .setFontSize(SVAR_FONT_SIZE)
+            .setPadding(0f).setMarginTop(0f).setMarginBottom(0f));
         parent.setKeepTogether(false);
     }
 
     private void buildListResultFromArray(List<String> results, String labelKey, ScriptObjectMirror listKey,
-            ScriptObjectMirror modelProps) {
+        ScriptObjectMirror modelProps) {
         int index = 0;
         for (Object val : modelProps.values()) {
 
@@ -207,7 +207,7 @@ public class UVList extends UVComponent {
     }
 
     private void buildListResultFromStringModelProp(List<String> results, ScriptObjectMirror listKey,
-                                                    String modelPropObj, String labelKey) {
+        String modelPropObj, String labelKey) {
         Object eval = renderer.evalValueFromModel(modelPropObj);
 
         // Lists are tricky. Check if the listKey is a function

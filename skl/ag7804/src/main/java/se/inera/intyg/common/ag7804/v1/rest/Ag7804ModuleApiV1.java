@@ -75,14 +75,14 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
      */
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-            throws ModuleException {
+        throws ModuleException {
         try {
             Ag7804UtlatandeV1 utlatande = getInternal(internalModel);
             IntygTexts texts = getTexts(Ag7804EntryPoint.MODULE_ID, utlatande.getTextVersion());
             Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
             return new PdfGenerator().generatePdf(utlatande.getId(), internalModel, getMajorVersion(utlatande.getTextVersion()), personId,
-                    texts, statuses,
-                    applicationOrigin, utkastStatus, null);
+                texts, statuses,
+                applicationOrigin, utkastStatus, null);
         } catch (Exception e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate", e);
@@ -91,19 +91,20 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
 
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            List<String> optionalFields, UtkastStatus utkastStatus) throws ModuleException {
+        List<String> optionalFields, UtkastStatus utkastStatus) throws ModuleException {
         try {
             Ag7804UtlatandeV1 utlatande = getInternal(internalModel);
             IntygTexts texts = getTexts(Ag7804EntryPoint.MODULE_ID, utlatande.getTextVersion());
             Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
             return new PdfGenerator().generatePdf(utlatande.getId(), internalModel, getMajorVersion(utlatande.getTextVersion()), personId,
-                    texts, statuses,
-                    applicationOrigin, utkastStatus, optionalFields);
+                texts, statuses,
+                applicationOrigin, utkastStatus, optionalFields);
         } catch (Exception e) {
             LOG.error("Failed to generate pdfEmployer for certificate!", e);
             throw new ModuleSystemException("Failed to generate (pdfEmployer) PDF for certificate!", e);
         }
     }
+
     private String getMajorVersion(String textVersion) {
         return textVersion.split("\\.", 0)[0];
     }
@@ -132,9 +133,9 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
     protected Ag7804UtlatandeV1 decorateDiagnoserWithDescriptions(Ag7804UtlatandeV1 utlatande) {
         if (utlatande.getDiagnoser() != null) {
             List<Diagnos> decoratedDiagnoser = utlatande.getDiagnoser().stream()
-                    .map(diagnos -> Diagnos.create(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem(), diagnos.getDiagnosBeskrivning(),
-                            moduleService.getDescriptionFromDiagnosKod(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem())))
-                    .collect(Collectors.toList());
+                .map(diagnos -> Diagnos.create(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem(), diagnos.getDiagnosBeskrivning(),
+                    moduleService.getDescriptionFromDiagnosKod(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem())))
+                .collect(Collectors.toList());
             return utlatande.toBuilder().setDiagnoser(decoratedDiagnoser).build();
         } else {
             return utlatande;
@@ -150,11 +151,11 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
     public String getAdditionalInfo(Intyg intyg) throws ModuleException {
         try {
             return transportToInternal(intyg).getSjukskrivningar().stream()
-                    .map(Sjukskrivning::getPeriod)
-                    .sorted(Comparator.comparing(InternalLocalDateInterval::fromAsLocalDate))
-                    .reduce((a, b) -> new InternalLocalDateInterval(a.getFrom(), b.getTom()))
-                    .map(interval -> interval.getFrom().toString() + " - " + interval.getTom().toString())
-                    .orElse(null);
+                .map(Sjukskrivning::getPeriod)
+                .sorted(Comparator.comparing(InternalLocalDateInterval::fromAsLocalDate))
+                .reduce((a, b) -> new InternalLocalDateInterval(a.getFrom(), b.getTom()))
+                .map(interval -> interval.getFrom().toString() + " - " + interval.getTom().toString())
+                .orElse(null);
 
         } catch (ConverterException e) {
             throw new ModuleException("Could not convert Intyg to Utlatande and as a result could not get additional info", e);
@@ -168,7 +169,7 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
 
     @Override
     public String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template)
-            throws ModuleException {
+        throws ModuleException {
         try {
             if (!Ag7804UtlatandeV1.class.isInstance(template)) {
                 LOG.error("Could not create a new internal Webcert model using template of wrong type");
@@ -179,30 +180,30 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
 
             // Null out applicable fields
             Ag7804UtlatandeV1 renewCopy = internal.toBuilder()
-                    .setUndersokningAvPatienten(null)
-                    .setTelefonkontaktMedPatienten(null)
-                    .setJournaluppgifter(null)
-                    .setAnnatGrundForMU(null)
-                    .setAnnatGrundForMUBeskrivning(null)
-                    .setPrognos(null)
-                    .setSjukskrivningar(new ArrayList<>())
-                    .setArbetstidsforlaggning(null)
-                    .setArbetstidsforlaggningMotivering(null)
-                    .setOnskarFormedlaDiagnos(null)
-                    .setKontaktMedAg(null)
-                    .setAnledningTillKontakt(null)
-                    .build();
+                .setUndersokningAvPatienten(null)
+                .setTelefonkontaktMedPatienten(null)
+                .setJournaluppgifter(null)
+                .setAnnatGrundForMU(null)
+                .setAnnatGrundForMUBeskrivning(null)
+                .setPrognos(null)
+                .setSjukskrivningar(new ArrayList<>())
+                .setArbetstidsforlaggning(null)
+                .setArbetstidsforlaggningMotivering(null)
+                .setOnskarFormedlaDiagnos(null)
+                .setKontaktMedAg(null)
+                .setAnledningTillKontakt(null)
+                .build();
 
             Relation relation = draftCopyHolder.getRelation();
             Optional<LocalDate> lastDateOfLastIntyg = internal.getSjukskrivningar().stream()
-                    .sorted((s1, s2) -> s2.getPeriod().getTom().asLocalDate().compareTo(s1.getPeriod().getTom().asLocalDate()))
-                    .map(sjukskrivning -> sjukskrivning.getPeriod().getTom().asLocalDate())
-                    .findFirst();
+                .sorted((s1, s2) -> s2.getPeriod().getTom().asLocalDate().compareTo(s1.getPeriod().getTom().asLocalDate()))
+                .map(sjukskrivning -> sjukskrivning.getPeriod().getTom().asLocalDate())
+                .findFirst();
             relation.setSistaGiltighetsDatum(lastDateOfLastIntyg.orElse(LocalDate.now()));
             Optional<Sjukskrivning.SjukskrivningsGrad> lastSjukskrivningsgradOfLastIntyg = internal.getSjukskrivningar().stream()
-                    .sorted((s1, s2) -> s2.getPeriod().getTom().asLocalDate().compareTo(s1.getPeriod().getTom().asLocalDate()))
-                    .map(sjukskrivning -> sjukskrivning.getSjukskrivningsgrad())
-                    .findFirst();
+                .sorted((s1, s2) -> s2.getPeriod().getTom().asLocalDate().compareTo(s1.getPeriod().getTom().asLocalDate()))
+                .map(sjukskrivning -> sjukskrivning.getSjukskrivningsgrad())
+                .findFirst();
             lastSjukskrivningsgradOfLastIntyg.ifPresent(grad -> relation.setSistaSjukskrivningsgrad(grad.getLabel()));
 
             draftCopyHolder.setRelation(relation);

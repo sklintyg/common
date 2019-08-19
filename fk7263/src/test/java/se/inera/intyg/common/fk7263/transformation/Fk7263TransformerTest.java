@@ -45,6 +45,7 @@ import static org.junit.Assert.fail;
 
 @RunWith(MockitoJUnitRunner.class)
 public class Fk7263TransformerTest {
+
     private static final String COMMON_UTLATANDE_SCHEMA = "core_components/MU7263-RIV_3.1.xsd";
 
     private static final String COMMON_UTLATANDE_TYPES_SCHEMA = "core_components/insuranceprocess_healthreporting_2.0.xsd";
@@ -94,7 +95,7 @@ public class Fk7263TransformerTest {
     @Test
     public void testTransformationFailsOnMissingFunktionstillstand() throws Exception {
         List<String> testFiles = Arrays.asList(
-                "fk7263_utanfunktionstillstand.xml");
+            "fk7263_utanfunktionstillstand.xml");
 
         for (String xmlFile : testFiles) {
             String xmlContentsInput = Resources.toString(getResource("Fk7263TransformerTest/" + xmlFile), Charsets.UTF_8);
@@ -111,14 +112,15 @@ public class Fk7263TransformerTest {
             SchematronOutputType output = getFk7263OutputSchematron(result);
 
             assertEquals(1, SVRLHelper.getAllFailedAssertions(output).size());
-            assertTrue(SVRLHelper.getAllFailedAssertions(output).get(0).getText().contains("Ett 'MU' måste ha minst ett 'Behov av sjukskrivning'"));
+            assertTrue(SVRLHelper.getAllFailedAssertions(output).get(0).getText()
+                .contains("Ett 'MU' måste ha minst ett 'Behov av sjukskrivning'"));
         }
     }
 
     @Test
     public void testTransformationFailsOnMissingArbetsbegransning() throws Exception {
         List<String> testFiles = Arrays.asList(
-                "fk7263_utanarbetsbegransning.xml");
+            "fk7263_utanarbetsbegransning.xml");
 
         for (String xmlFile : testFiles) {
             String xmlContentsInput = Resources.toString(getResource("Fk7263TransformerTest/" + xmlFile), Charsets.UTF_8);
@@ -135,7 +137,8 @@ public class Fk7263TransformerTest {
             SchematronOutputType output = getFk7263OutputSchematron(result);
 
             assertEquals(1, SVRLHelper.getAllFailedAssertions(output).size());
-            assertTrue(SVRLHelper.getAllFailedAssertions(output).get(0).getText().contains("Ett 'MU' måste ha minst ett 'Behov av sjukskrivning'"));
+            assertTrue(SVRLHelper.getAllFailedAssertions(output).get(0).getText()
+                .contains("Ett 'MU' måste ha minst ett 'Behov av sjukskrivning'"));
         }
     }
 
@@ -143,8 +146,8 @@ public class Fk7263TransformerTest {
     public void testTransformationAccepted() throws Exception {
 
         List<String> testFiles = Arrays.asList("fk7263.xml", "fk7263_utanvardkontakt.xml", "fk7263_utanreferens.xml",
-                "fk7263_utanprognosangivelse.xml", "fk7263_utanmedicinskttillstand.xml",
-                "fk7263_utanbedomttillstand.xml", "fk7263_utanaktivitet.xml", "fk7263_flerasysselsattningar.xml");
+            "fk7263_utanprognosangivelse.xml", "fk7263_utanmedicinskttillstand.xml",
+            "fk7263_utanbedomttillstand.xml", "fk7263_utanaktivitet.xml", "fk7263_flerasysselsattningar.xml");
 
         for (String xmlFile : testFiles) {
             String xmlContentsInput = Resources.toString(getResource("Fk7263TransformerTest/" + xmlFile), Charsets.UTF_8);
@@ -175,7 +178,7 @@ public class Fk7263TransformerTest {
             throw new IllegalArgumentException("Invalid Schematron!");
         }
         return schematronResource
-                .applySchematronValidationToSVRL((new StreamSource(new ByteArrayInputStream(xml.getBytes(Charsets.UTF_8)))));
+            .applySchematronValidationToSVRL((new StreamSource(new ByteArrayInputStream(xml.getBytes(Charsets.UTF_8)))));
 
     }
 

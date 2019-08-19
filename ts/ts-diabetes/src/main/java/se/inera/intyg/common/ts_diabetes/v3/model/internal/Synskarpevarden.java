@@ -31,7 +31,6 @@ import com.google.auto.value.AutoValue;
  * Class encapsulating the values for synskarpa for a single eye.
  *
  * @author marced
- *
  */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Synskarpevarden.Builder.class)
@@ -49,6 +48,7 @@ public abstract class Synskarpevarden {
 
     @AutoValue.Builder
     public abstract static class Builder {
+
         public abstract Synskarpevarden build();
 
         @JsonProperty(SYNFUNKTION_SYNSKARPA_UTAN_KORREKTION_JSON_ID)

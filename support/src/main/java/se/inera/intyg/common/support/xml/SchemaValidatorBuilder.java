@@ -63,15 +63,11 @@ public class SchemaValidatorBuilder {
     /**
      * Register an resource that can be fount on the classpath.
      *
-     * @param classPathResouce
-     *            The XSD classpath resource path.
-     *
+     * @param classPathResouce The XSD classpath resource path.
      * @return The {@link javax.xml.transform.Source} representation of the resource.
      * Useful when calling {@link #build(javax.xml.transform.Source)} if the
-     *         specified resource is the root source.
-     *
-     * @throws java.io.IOException
-     *             if the resource could not be found.
+     * specified resource is the root source.
+     * @throws java.io.IOException if the resource could not be found.
      */
     public Source registerResource(String classPathResouce) throws IOException {
         Source source = new StreamSource(new ClassPathResource(classPathResouce).getInputStream());
@@ -85,13 +81,9 @@ public class SchemaValidatorBuilder {
     /**
      * Builds a {@link javax.xml.validation.Schema} that can be used to validate XML agains the complex XSD schema.
      *
-     * @param rootSource
-     *            The XSD that is the root schema (including and importing other schemas).
-     *
+     * @param rootSource The XSD that is the root schema (including and importing other schemas).
      * @return A schema used for validation.
-     *
-     * @throws org.xml.sax.SAXException
-     *             If the schema could not be generated.
+     * @throws org.xml.sax.SAXException If the schema could not be generated.
      */
     public Schema build(Source rootSource) throws SAXException {
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);

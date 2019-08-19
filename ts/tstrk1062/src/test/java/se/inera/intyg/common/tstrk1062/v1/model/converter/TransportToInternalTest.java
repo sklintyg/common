@@ -62,7 +62,7 @@ public class TransportToInternalTest {
         assertNotNull("IntygAvser should not be null", utlatande.getIntygAvser());
         assertEquals("IntygAvser size not equal", 1, utlatande.getIntygAvser().getBehorigheter().size());
         assertEquals("IntygAvser not equal", IntygAvser.BehorighetsTyp.IAV11,
-                utlatande.getIntygAvser().getBehorigheter().iterator().next());
+            utlatande.getIntygAvser().getBehorigheter().iterator().next());
     }
 
     @Test
@@ -101,7 +101,7 @@ public class TransportToInternalTest {
         assertEquals("DiagnosKod not equal", "A01", utlatande.getDiagnosKodad().get(0).getDiagnosKod());
         assertEquals("DiagnosKodSystem not equal", "ICD_10_SE", utlatande.getDiagnosKodad().get(0).getDiagnosKodSystem());
         assertEquals("DiagnosBeskrivning not equal", "Tyfoidfeber och paratyfoidfeber",
-                utlatande.getDiagnosKodad().get(0).getDiagnosBeskrivning());
+            utlatande.getDiagnosKodad().get(0).getDiagnosBeskrivning());
         assertEquals("Artal not equal", "2018", utlatande.getDiagnosKodad().get(0).getDiagnosArtal());
 
         assertEquals("DiagnosKod not equal", "B02", utlatande.getDiagnosKodad().get(1).getDiagnosKod());
@@ -112,7 +112,7 @@ public class TransportToInternalTest {
         assertEquals("DiagnosKod not equal", "C03", utlatande.getDiagnosKodad().get(2).getDiagnosKod());
         assertEquals("DiagnosKodSystem not equal", "ICD_10_SE", utlatande.getDiagnosKodad().get(2).getDiagnosKodSystem());
         assertEquals("DiagnosBeskrivning not equal", "Malign tumör i tandköttet",
-                utlatande.getDiagnosKodad().get(2).getDiagnosBeskrivning());
+            utlatande.getDiagnosKodad().get(2).getDiagnosBeskrivning());
         assertEquals("Artal not equal", "2018", utlatande.getDiagnosKodad().get(2).getDiagnosArtal());
 
         assertEquals("DiagnosKod not equal", "D04", utlatande.getDiagnosKodad().get(3).getDiagnosKod());
@@ -207,7 +207,7 @@ public class TransportToInternalTest {
         assertNotNull("Utlatande should not be null", utlatande);
         assertEquals("BedomningAvSymptom not equal", "Bedömning av aktuella symptom", utlatande.getBedomningAvSymptom());
         assertEquals("PrognosTillstand not equal", PrognosTillstand.PrognosTillstandTyp.KANEJBEDOMA,
-                utlatande.getPrognosTillstand().getTyp());
+            utlatande.getPrognosTillstand().getTyp());
     }
 
     @Test
@@ -230,7 +230,7 @@ public class TransportToInternalTest {
         assertNotNull("Bedomning should not be null", utlatande.getBedomning());
         assertEquals("Bedomning size not equal", 1, utlatande.getBedomning().getUppfyllerBehorighetskrav().size());
         assertEquals("Bedomning not equal", Bedomning.BehorighetsTyp.VAR12,
-                utlatande.getBedomning().getUppfyllerBehorighetskrav().iterator().next());
+            utlatande.getBedomning().getUppfyllerBehorighetskrav().iterator().next());
     }
 
     private Intyg getIntyg(String href) throws IOException {

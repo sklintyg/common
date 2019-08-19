@@ -62,11 +62,10 @@ public class LisjpModuleApiRenewalTest {
     private LisjpModuleApiV1 moduleApi;
 
 
-
     @Test
     public void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
         String internalModelHolder = IOUtils.toString(new ClassPathResource(
-                TESTFILE_UTLATANDE).getInputStream());
+            TESTFILE_UTLATANDE).getInputStream());
         LisjpUtlatandeV1 original = getUtlatandeFromFile();
         String renewalFromTemplate = moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
         assertNotNull(renewalFromTemplate);
@@ -89,7 +88,6 @@ public class LisjpModuleApiRenewalTest {
         assertNull(renewCopy.getArbetstidsforlaggning());
         assertNull(renewCopy.getArbetstidsforlaggningMotivering());
 
-
         // Retained values
         assertEquals(original.getAktivitetsbegransning(), renewCopy.getAktivitetsbegransning());
         assertEquals(original.getArbetslivsinriktadeAtgarder(), renewCopy.getArbetslivsinriktadeAtgarder());
@@ -104,13 +102,15 @@ public class LisjpModuleApiRenewalTest {
         assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
 
         // Relation
-        assertEquals(original.getSjukskrivningar().get(0).getPeriod().getTom().asLocalDate(), renewCopy.getGrundData().getRelation().getSistaGiltighetsDatum());
-        assertEquals(original.getSjukskrivningar().get(0).getSjukskrivningsgrad().getLabel(), renewCopy.getGrundData().getRelation().getSistaSjukskrivningsgrad());
+        assertEquals(original.getSjukskrivningar().get(0).getPeriod().getTom().asLocalDate(),
+            renewCopy.getGrundData().getRelation().getSistaGiltighetsDatum());
+        assertEquals(original.getSjukskrivningar().get(0).getSjukskrivningsgrad().getLabel(),
+            renewCopy.getGrundData().getRelation().getSistaSjukskrivningsgrad());
     }
 
     private CreateDraftCopyHolder createCopyHolder() {
         CreateDraftCopyHolder draftCopyHolder = new CreateDraftCopyHolder("certificateId",
-                createHosPersonal());
+            createHosPersonal());
         draftCopyHolder.setRelation(new Relation());
         return draftCopyHolder;
     }
@@ -126,7 +126,7 @@ public class LisjpModuleApiRenewalTest {
 
     private LisjpUtlatandeV1 getUtlatandeFromFile() throws IOException {
         return new CustomObjectMapper().readValue(new ClassPathResource(
-                TESTFILE_UTLATANDE).getFile(), LisjpUtlatandeV1.class);
+            TESTFILE_UTLATANDE).getFile(), LisjpUtlatandeV1.class);
     }
 
 }

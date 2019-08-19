@@ -44,10 +44,8 @@ public final class ArbetsformagaToGiltighet {
      * If there are invalid dates (format etc.) on the Utlatande "NedsattMedNN", we catch all Exceptions and just return null
      * as Giltighet. (WEBCERT-1940)
      *
-     * @param utlatande
-     * @return
-     *      Aa LocalDateInterval with the earliest fromDate to the
-     *      latest toDate. Null if there are invalid/unparsable dates.
+     * @return Aa LocalDateInterval with the earliest fromDate to the
+     * latest toDate. Null if there are invalid/unparsable dates.
      */
     public static LocalDateInterval getGiltighetFromUtlatande(Fk7263Utlatande utlatande) {
         try {

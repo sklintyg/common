@@ -42,12 +42,14 @@ public abstract class Bedomning {
     public abstract Set<BehorighetsTyp> getUppfyllerBehorighetskrav();
 
     public static class BehorighetsTypSetEnumSetSerializer extends AbstractEnumSetSerializer<BehorighetsTyp> {
+
         protected BehorighetsTypSetEnumSetSerializer() {
             super(BehorighetsTyp.class);
         }
     }
 
     public static class BehorighetsTypSetDeserializer extends AbstractEnumSetDeserializer<BehorighetsTyp> {
+
         protected BehorighetsTypSetDeserializer() {
             super(BehorighetsTyp.class);
         }
@@ -59,6 +61,7 @@ public abstract class Bedomning {
 
     @AutoValue.Builder
     public abstract static class Builder {
+
         public abstract Bedomning build();
 
         @JsonProperty(BEDOMNING_UPPFYLLER_DELSVAR_JSON_ID)

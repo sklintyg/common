@@ -79,8 +79,9 @@ public class DomainTransportModelValidatorTest {
     private void validateUtlatande(Scenario scenario) {
         try {
             ByteArrayOutputStream output = new ByteArrayOutputStream();
-            JAXBElement<RegisterTSDiabetesType> jaxbElement = new JAXBElement<RegisterTSDiabetesType>(new QName("ns3:RegisterTSDiabetes"), RegisterTSDiabetesType.class,
-                    scenario.asTransportModel());
+            JAXBElement<RegisterTSDiabetesType> jaxbElement = new JAXBElement<RegisterTSDiabetesType>(new QName("ns3:RegisterTSDiabetes"),
+                RegisterTSDiabetesType.class,
+                scenario.asTransportModel());
             JAXBContext context = JAXBContext.newInstance(RegisterTSDiabetesType.class);
             context.createMarshaller().marshal(jaxbElement, output);
 

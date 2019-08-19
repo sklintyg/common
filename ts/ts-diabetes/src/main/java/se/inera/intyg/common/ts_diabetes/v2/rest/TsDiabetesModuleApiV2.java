@@ -143,9 +143,9 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
         // check whether call was successful or not
         if (response.getResultat().getResultCode() == ResultCodeType.INFO) {
             throw new ExternalServiceCallException(response.getResultat().getResultText(),
-                    RegisterTSDiabetesResponderImpl.CERTIFICATE_ALREADY_EXISTS.equals(response.getResultat().getResultText())
-                            ? ErrorIdEnum.VALIDATION_ERROR
-                            : ErrorIdEnum.APPLICATION_ERROR);
+                RegisterTSDiabetesResponderImpl.CERTIFICATE_ALREADY_EXISTS.equals(response.getResultat().getResultText())
+                    ? ErrorIdEnum.VALIDATION_ERROR
+                    : ErrorIdEnum.APPLICATION_ERROR);
         } else if (response.getResultat().getResultCode() == ResultCodeType.ERROR) {
             throw new ExternalServiceCallException(response.getResultat().getErrorId() + " : " + response.getResultat().getResultText());
         }
@@ -175,20 +175,20 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
         GetTSDiabetesResponseType diabetesResponseType = diabetesGetClient.getTSDiabetes(logicalAddress, type);
 
         switch (diabetesResponseType.getResultat().getResultCode()) {
-        case INFO:
-        case OK:
-            return convert(diabetesResponseType, false);
-        case ERROR:
-            switch (diabetesResponseType.getResultat().getErrorId()) {
-            case REVOKED:
-                return convert(diabetesResponseType, true);
-            case VALIDATION_ERROR:
-                throw new ModuleException("GetTSDiabetes WS call: VALIDATION_ERROR :"
-                        + diabetesResponseType.getResultat().getResultText());
-            default:
-                throw new ModuleException(
-                        "GetTSDiabetes WS call: ERROR :" + diabetesResponseType.getResultat().getResultText());
-            }
+            case INFO:
+            case OK:
+                return convert(diabetesResponseType, false);
+            case ERROR:
+                switch (diabetesResponseType.getResultat().getErrorId()) {
+                    case REVOKED:
+                        return convert(diabetesResponseType, true);
+                    case VALIDATION_ERROR:
+                        throw new ModuleException("GetTSDiabetes WS call: VALIDATION_ERROR :"
+                            + diabetesResponseType.getResultat().getResultText());
+                    default:
+                        throw new ModuleException(
+                            "GetTSDiabetes WS call: ERROR :" + diabetesResponseType.getResultat().getResultText());
+                }
         }
         throw new ModuleException("GetTSDiabetes WS call: ERROR :" + diabetesResponseType.getResultat().getResultText());
     }
@@ -199,7 +199,7 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
         uri.setValue(logicalAddress);
 
         RevokeMedicalCertificateRequestType request = JAXB.unmarshal(new StreamSource(new StringReader(xmlBody)),
-                RevokeMedicalCertificateRequestType.class);
+            RevokeMedicalCertificateRequestType.class);
         RevokeMedicalCertificateResponseType response = revokeCertificateClient.revokeMedicalCertificate(uri, request);
         if (!response.getResult().getResultCode().equals(ResultCodeEnum.OK)) {
             String message = "Could not send revoke to " + logicalAddress;
@@ -214,7 +214,7 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
         request.setRevoke(ModelConverter.buildRevokeTypeFromUtlatande(utlatande, meddelande));
 
         JAXBElement<RevokeMedicalCertificateRequestType> el =
-                new ObjectFactory().createRevokeMedicalCertificateRequest(request);
+            new ObjectFactory().createRevokeMedicalCertificateRequest(request);
         return XmlMarshallerHelper.marshal(el);
     }
 
@@ -224,7 +224,7 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
     public TsDiabetesUtlatandeV2 getUtlatandeFromXml(String xml) throws ModuleException {
         try {
             RegisterTSDiabetesType jaxbObject = JAXB.unmarshal(new StringReader(xml),
-                    RegisterTSDiabetesType.class);
+                RegisterTSDiabetesType.class);
             return TransportToInternalConverter.convert(jaxbObject.getIntyg());
         } catch (ConverterException e) {
             LOG.error("Could not get utlatande from xml: {}", e.getMessage());
@@ -237,7 +237,7 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
             TsDiabetesUtlatandeV2 utlatande = TransportToInternalConverter.convert(diabetesResponseType.getIntyg());
             String internalModel = toInternalModelResponse(utlatande);
             CertificateMetaData metaData = TSDiabetesCertificateMetaTypeConverter.toCertificateMetaData(diabetesResponseType.getMeta(),
-                    diabetesResponseType.getIntyg());
+                diabetesResponseType.getIntyg());
             return new CertificateResponse(internalModel, utlatande, metaData, revoked);
         } catch (Exception e) {
             throw new ModuleException(e);
@@ -277,10 +277,10 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
 
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-            throws ModuleException {
+        throws ModuleException {
         try {
             return new PdfResponse(pdfGenerator.generatePDF(getInternal(internalModel), statuses, applicationOrigin, utkastStatus),
-                    pdfGenerator.generatePdfFilename(getInternal(internalModel)));
+                pdfGenerator.generatePdfFilename(getInternal(internalModel)));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate PDF for certificate!", e);

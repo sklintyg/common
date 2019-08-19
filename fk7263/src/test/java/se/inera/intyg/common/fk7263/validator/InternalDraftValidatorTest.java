@@ -66,7 +66,7 @@ public class InternalDraftValidatorTest {
     @Before
     public void setUpModuleServiceExpectation() {
         Mockito.when(mockModuleService.validateDiagnosisCode(Mockito.argThat(new DiagnosKodArgmentMatcher()), Mockito.anyString()))
-                .thenReturn(true);
+            .thenReturn(true);
     }
 
     @Test
@@ -75,14 +75,14 @@ public class InternalDraftValidatorTest {
             Fk7263Utlatande utlatande = scenario.asInternalModel();
             ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
             assertEquals(
-                    "Error in scenario " + scenario.getName() + "\n"
-                            + Joiner.on(", ").join(validationResponse.getValidationErrors()),
-                    ValidationStatus.VALID, validationResponse.getStatus());
+                "Error in scenario " + scenario.getName() + "\n"
+                    + Joiner.on(", ").join(validationResponse.getValidationErrors()),
+                ValidationStatus.VALID, validationResponse.getStatus());
 
             assertTrue(
-                    "Error in scenario " + scenario.getName() + "\n"
-                            + Joiner.on(", ").join(validationResponse.getValidationErrors()), validationResponse
-                            .getValidationErrors().isEmpty());
+                "Error in scenario " + scenario.getName() + "\n"
+                    + Joiner.on(", ").join(validationResponse.getValidationErrors()), validationResponse
+                    .getValidationErrors().isEmpty());
 
         }
     }
@@ -95,7 +95,7 @@ public class InternalDraftValidatorTest {
             ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
             assertEquals("Error in scenario " + scenario.getName() + "\n",
-                    ValidationStatus.INVALID, validationResponse.getStatus());
+                ValidationStatus.INVALID, validationResponse.getStatus());
         }
     }
 

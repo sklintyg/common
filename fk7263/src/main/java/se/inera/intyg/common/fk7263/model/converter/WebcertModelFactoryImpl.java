@@ -36,15 +36,14 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
  * Factory for creating an editable model.
  */
 public class WebcertModelFactoryImpl implements WebcertModelFactory {
+
     private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
 
     /**
      * Create a new FK7263 draft pre-populated with the attached data.
      *
-     * @param newDraftData
-     *            {@link CreateNewDraftHolder}
+     * @param newDraftData {@link CreateNewDraftHolder}
      * @return {@link Fk7263Utlatande} or throws a ConverterException if something unforeseen happens
-     * @throws ConverterException
      */
     @Override
     public Fk7263Utlatande createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {

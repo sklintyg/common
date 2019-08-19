@@ -89,8 +89,8 @@ public class TSBasV3toV1TransformerTest {
     @Test
     public void testTransformation() throws Exception {
         List<String> testFiles = asList("valid-diabetes-typ2-kost.xml",
-                "valid-korrigerad-synskarpa.xml", "valid-maximal.xml", "valid-minimal.xml",
-                "valid-persontransport.xml", "valid-sjukhusvard.xml", "valid-utan-korrigerad-synskarpa.xml");
+            "valid-korrigerad-synskarpa.xml", "valid-maximal.xml", "valid-minimal.xml",
+            "valid-persontransport.xml", "valid-sjukhusvard.xml", "valid-utan-korrigerad-synskarpa.xml");
 
         XslTransformer transformer = new XslTransformer("xsl/V3ToV1.xsl");
 
@@ -129,23 +129,19 @@ public class TSBasV3toV1TransformerTest {
         Validator validator = v1Schema.newValidator();
         final ArrayList<SAXParseException> exceptions = new ArrayList<>();
         Pair<Validator, ArrayList<SAXParseException>> ret = new Pair<>(validator, exceptions);
-        validator.setErrorHandler(new ErrorHandler()
-        {
+        validator.setErrorHandler(new ErrorHandler() {
             @Override
-            public void warning(SAXParseException exception)
-            {
+            public void warning(SAXParseException exception) {
                 exceptions.add(exception);
             }
 
             @Override
-            public void fatalError(SAXParseException exception)
-            {
+            public void fatalError(SAXParseException exception) {
                 exceptions.add(exception);
             }
 
             @Override
-            public void error(SAXParseException exception)
-            {
+            public void error(SAXParseException exception) {
                 exceptions.add(exception);
             }
         });

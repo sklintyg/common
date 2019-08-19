@@ -104,16 +104,16 @@ public class FkOverflowableValueField extends PdfComponent<FkOverflowableValueFi
             float labelY = Utilities.millimetersToPoints(y) - topLabelFont.getCalculatedSize();
 
             ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(label, topLabelFont),
-                    labelX, labelY, 0);
+                labelX, labelY, 0);
             effectiveHeight -= Utilities.pointsToMillimeters(topLabelFont.getCalculatedSize());
             effectiveY -= Utilities.pointsToMillimeters(topLabelFont.getCalculatedSize());
         }
 
         Rectangle targetRect = new Rectangle(
-                Utilities.millimetersToPoints(x),
-                Utilities.millimetersToPoints(y - effectiveHeight),
-                Utilities.millimetersToPoints(x + width),
-                Utilities.millimetersToPoints(effectiveY));
+            Utilities.millimetersToPoints(x),
+            Utilities.millimetersToPoints(y - effectiveHeight),
+            Utilities.millimetersToPoints(x + width),
+            Utilities.millimetersToPoints(effectiveY));
 
         // First: Check if entire text will fit..
         int charsToWrite = findFittingLength(canvas, targetRect, textValue, "");
@@ -152,7 +152,7 @@ public class FkOverflowableValueField extends PdfComponent<FkOverflowableValueFi
     }
 
     private int findFittingLength(PdfContentByte canvas, Rectangle boundingRect, String text, String overflowInfoText)
-            throws DocumentException {
+        throws DocumentException {
         boolean foundFittingLength = false;
         int length = text.length();
         while (length > 0 && !foundFittingLength) {
@@ -177,7 +177,7 @@ public class FkOverflowableValueField extends PdfComponent<FkOverflowableValueFi
     }
 
     private int writeText(PdfContentByte canvas, Rectangle boundingRect, String text, String overflowInfoText, boolean simulate)
-            throws DocumentException {
+        throws DocumentException {
         ColumnText ct = new ColumnText(canvas);
 
         ct.setSimpleColumn(boundingRect);

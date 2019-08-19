@@ -32,19 +32,20 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Obje
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 public final class InternalToSchematronValidatorTestUtil {
+
     private InternalToSchematronValidatorTestUtil() {
     }
 
     public static String getTransportValidationErrorString(SchematronOutputType result) {
         return SVRLHelper.getAllFailedAssertions(result).stream()
-                .map(e -> String.format("Test: %s, Text: %s", e.getTest(), e.getText()))
-                .collect(Collectors.joining(";"));
+            .map(e -> String.format("Test: %s, Text: %s", e.getTest(), e.getText()))
+            .collect(Collectors.joining(";"));
     }
 
     public static String getInternalValidationErrorString(ValidateDraftResponse internalValidationResponse) {
         return internalValidationResponse.getValidationErrors().stream()
-                .map(e -> e.getMessage())
-                .collect(Collectors.joining(", "));
+            .map(e -> e.getMessage())
+            .collect(Collectors.joining(", "));
     }
 
     public static String getXmlFromModel(RegisterCertificateType transport) throws IOException, JAXBException {
@@ -55,8 +56,8 @@ public final class InternalToSchematronValidatorTestUtil {
 
     public static int getNumberOfInternalValidationErrors(ValidateDraftResponse internalValidationResponse, List<String> ignoredFields) {
         return (int) internalValidationResponse.getValidationErrors().stream()
-                .filter(e -> !ignoredFields.contains(e.getField()))
-                .count();
+            .filter(e -> !ignoredFields.contains(e.getField()))
+            .count();
     }
 
     public static int getNumberOfInternalValidationErrors(ValidateDraftResponse internalValidationResponse) {

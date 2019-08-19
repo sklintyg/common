@@ -66,7 +66,7 @@ public class SignBox implements IEventHandler {
         PdfPage page = docEvent.getPage();
         Rectangle pageSize = page.getPageSize();
         PdfCanvas pdfCanvas = new PdfCanvas(
-                page.newContentStreamBefore(), page.getResources(), pdf);
+            page.newContentStreamBefore(), page.getResources(), pdf);
 
         Canvas canvas = new Canvas(pdfCanvas, pdf, pageSize);
         canvas.setFont(svarFont).setFontSize(FONT_SIZE);
@@ -74,9 +74,9 @@ public class SignBox implements IEventHandler {
 
         if (shouldRender(pdf, page)) {
             canvas.showTextAligned("Signatur",
-                    pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT) - millimetersToPoints(13f),
-                    pageSize.getBottom() + PAGE_MARGIN_BOTTOM_WITH_SIGNBOX + 17f,
-                    TextAlignment.LEFT, VerticalAlignment.MIDDLE, 0);
+                pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT) - millimetersToPoints(13f),
+                pageSize.getBottom() + PAGE_MARGIN_BOTTOM_WITH_SIGNBOX + 17f,
+                TextAlignment.LEFT, VerticalAlignment.MIDDLE, 0);
 
             final float width = 50f;
             final float height = 15f;

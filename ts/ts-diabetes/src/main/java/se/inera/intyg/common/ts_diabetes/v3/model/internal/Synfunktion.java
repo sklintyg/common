@@ -58,6 +58,7 @@ public abstract class Synfunktion {
 
     @AutoValue.Builder
     public abstract static class Builder {
+
         public abstract Synfunktion build();
 
         @JsonProperty(SYNFUNKTION_MISSTANKE_OGONSJUKDOM_JSON_ID)

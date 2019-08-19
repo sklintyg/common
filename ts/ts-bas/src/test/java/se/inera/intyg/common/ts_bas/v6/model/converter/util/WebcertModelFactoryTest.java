@@ -55,7 +55,7 @@ public class WebcertModelFactoryTest {
     @Before
     public void setUp() {
         when(intygTexts.getLatestVersionForSameMajorVersion(eq(TsBasEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
-                .thenReturn(INTYG_TYPE_VERSION_1_1);
+            .thenReturn(INTYG_TYPE_VERSION_1_1);
     }
 
     @Test

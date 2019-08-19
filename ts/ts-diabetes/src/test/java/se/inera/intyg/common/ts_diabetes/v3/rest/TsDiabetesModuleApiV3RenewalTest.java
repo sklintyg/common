@@ -64,7 +64,7 @@ public class TsDiabetesModuleApiV3RenewalTest {
     @Test
     public void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
         String internalModelHolder = IOUtils.toString(new ClassPathResource(
-                TESTFILE_UTLATANDE).getInputStream());
+            TESTFILE_UTLATANDE).getInputStream());
         TsDiabetesUtlatandeV3 original = getUtlatandeFromFile();
         String renewalFromTemplate = moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
         assertNotNull(renewalFromTemplate);
@@ -84,7 +84,7 @@ public class TsDiabetesModuleApiV3RenewalTest {
 
     private CreateDraftCopyHolder createCopyHolder() {
         CreateDraftCopyHolder draftCopyHolder = new CreateDraftCopyHolder("certificateId",
-                createHosPersonal());
+            createHosPersonal());
         draftCopyHolder.setRelation(new Relation());
         return draftCopyHolder;
     }
@@ -100,7 +100,7 @@ public class TsDiabetesModuleApiV3RenewalTest {
 
     private TsDiabetesUtlatandeV3 getUtlatandeFromFile() throws IOException {
         return new CustomObjectMapper().readValue(new ClassPathResource(
-                TESTFILE_UTLATANDE).getFile(), TsDiabetesUtlatandeV3.class);
+            TESTFILE_UTLATANDE).getFile(), TsDiabetesUtlatandeV3.class);
     }
 
 }

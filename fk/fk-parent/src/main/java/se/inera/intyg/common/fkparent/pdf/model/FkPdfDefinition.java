@@ -34,11 +34,11 @@ import com.itextpdf.text.pdf.PdfPageEventHelper;
 public class FkPdfDefinition extends PdfComponent<FkPdfDefinition> {
 
     // Default page margins (left,right,top,bottom)
-    private static final float[] DEFAULT_PAGE_MARGINS = new float[] {
-            Utilities.millimetersToPoints(15f),
-            Utilities.millimetersToPoints(15f),
-            Utilities.millimetersToPoints(40f),
-            Utilities.millimetersToPoints(10f)
+    private static final float[] DEFAULT_PAGE_MARGINS = new float[]{
+        Utilities.millimetersToPoints(15f),
+        Utilities.millimetersToPoints(15f),
+        Utilities.millimetersToPoints(40f),
+        Utilities.millimetersToPoints(10f)
     };
 
     private List<PdfPageEventHelper> pageEvents = new ArrayList<>();
@@ -58,17 +58,16 @@ public class FkPdfDefinition extends PdfComponent<FkPdfDefinition> {
     /**
      * Inspects itself for all overflowing text components.
      *
-     * @return
-     *         List of all FkOverflowableValueFields that reported having overflowing text
+     * @return List of all FkOverflowableValueFields that reported having overflowing text
      */
     public List<FkOverflowableValueField> collectOverflowingComponents() {
 
         // Flatten structure and filter for relevant PdfComponents
         final List<FkOverflowableValueField> overflowingList = this.flattened()
-                .filter(FkOverflowableValueField.class::isInstance)
-                .map(pdfComponent -> (FkOverflowableValueField) pdfComponent)
-                .filter(candidate -> candidate.getOverFlowingText() != null)
-                .collect(Collectors.toList());
+            .filter(FkOverflowableValueField.class::isInstance)
+            .map(pdfComponent -> (FkOverflowableValueField) pdfComponent)
+            .filter(candidate -> candidate.getOverFlowingText() != null)
+            .collect(Collectors.toList());
 
         return overflowingList;
     }

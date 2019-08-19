@@ -36,6 +36,7 @@ import se.inera.intyg.common.fkparent.pdf.PdfConstants;
  * Created by marced on 2016-10-24.
  */
 public class FkOverflowPage extends FkPage {
+
     private static final float FULL_WIDTH = 100f;
 
     private FkPdfDefinition model;

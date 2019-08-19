@@ -50,8 +50,8 @@ public class ModelConverterTest {
         String careUnitName = "careUnitName";
         LocalDateTime signedDate = LocalDateTime.now();
         CertificateHolder source = buildCertificateHolder(certificateId, certificateType, validFromDate, validToDate, signingDoctorName,
-                careUnitName,
-                signedDate, false);
+            careUnitName,
+            signedDate, false);
 
         CertificateMetaType res = ModelConverter.toCertificateMetaType(source);
 
@@ -71,8 +71,8 @@ public class ModelConverterTest {
     @Test
     public void testToCertificateMetaTypeDateMissing() {
         CertificateHolder source = buildCertificateHolder("certificateId", "certificateType", "2016-10-11", null, "signingDoctorName",
-                "careUnitName",
-                LocalDateTime.now(), false);
+            "careUnitName",
+            LocalDateTime.now(), false);
 
         CertificateMetaType res = ModelConverter.toCertificateMetaType(source);
 
@@ -83,8 +83,8 @@ public class ModelConverterTest {
     @Test
     public void testToCertificateMetaTypeDeleted() {
         CertificateHolder source = buildCertificateHolder("certificateId", "certificateType", "2016-10-11", "2016-10-14",
-                "signingDoctorName", "careUnitName",
-                LocalDateTime.now(), true);
+            "signingDoctorName", "careUnitName",
+            LocalDateTime.now(), true);
 
         CertificateMetaType res = ModelConverter.toCertificateMetaType(source);
 
@@ -95,8 +95,8 @@ public class ModelConverterTest {
     @Test
     public void testToCertificateMetaTypeSignedDateMissing() {
         CertificateHolder source = buildCertificateHolder("certificateId", "certificateType", "2016-10-11", "2016-10-14",
-                "signingDoctorName", "careUnitName",
-                null, false);
+            "signingDoctorName", "careUnitName",
+            null, false);
 
         CertificateMetaType res = ModelConverter.toCertificateMetaType(source);
 
@@ -134,7 +134,7 @@ public class ModelConverterTest {
     @Test
     public void testToVardAdresseringsTypeNoArbetsplatskod() {
         GrundData source = buildGrundData("enhetsId", "enhetsnamn", null, "vardgivarid", "vardgivarnamn", "fullstandigt namn",
-                "personalId");
+            "personalId");
 
         VardAdresseringsType res = ModelConverter.toVardAdresseringsType(source);
 
@@ -152,7 +152,7 @@ public class ModelConverterTest {
 
         Utlatande source = buildUtlatande(certificateId, LocalDateTime.now(), personId, "fullstandigt namn");
         source.getGrundData().setSkapadAv(buildGrundData("enhetsId", "enhetsnamn", null, vardgivarid, "vardgivarnamn", "fullstandigt namn",
-                personalId).getSkapadAv());
+            personalId).getSkapadAv());
 
         RevokeType res = ModelConverter.buildRevokeTypeFromUtlatande(source, revokeMessage);
 
@@ -171,8 +171,8 @@ public class ModelConverterTest {
         final String revokeMessage = null;
         Utlatande source = buildUtlatande("certificateId", LocalDateTime.now(), "191212121212", "fullstandigt namn");
         source.getGrundData()
-                .setSkapadAv(buildGrundData("enhetsId", "enhetsnamn", null, "vardgivarid", "vardgivarnamn", "fullstandigt namn",
-                        "personalId").getSkapadAv());
+            .setSkapadAv(buildGrundData("enhetsId", "enhetsnamn", null, "vardgivarid", "vardgivarnamn", "fullstandigt namn",
+                "personalId").getSkapadAv());
 
         RevokeType res = ModelConverter.buildRevokeTypeFromUtlatande(source, revokeMessage);
 
@@ -221,7 +221,7 @@ public class ModelConverterTest {
     }
 
     private CertificateHolder buildCertificateHolder(String certificateId, String certificateType, String validFromDate, String validToDate,
-            String signingDoctorName, String careUnitName, LocalDateTime signedDate, boolean isDeleted) {
+        String signingDoctorName, String careUnitName, LocalDateTime signedDate, boolean isDeleted) {
         CertificateHolder source = new CertificateHolder();
         source.setId(certificateId);
         source.setType(certificateType);
@@ -232,13 +232,13 @@ public class ModelConverterTest {
         source.setSignedDate(signedDate);
         source.setCertificateStates(new ArrayList<>());
         source.getCertificateStates()
-                .add(new CertificateStateHolder("target", CertificateState.RECEIVED, LocalDateTime.now().minusDays(2)));
+            .add(new CertificateStateHolder("target", CertificateState.RECEIVED, LocalDateTime.now().minusDays(2)));
         source.setDeleted(isDeleted);
         return source;
     }
 
     private GrundData buildGrundData(final String enhetsId, final String enhetsnamn, final String arbetsplatskod, final String vardgivarid,
-            final String vardgivarnamn, final String fullstandigtNamn, final String personalId) {
+        final String vardgivarnamn, final String fullstandigtNamn, final String personalId) {
         GrundData source = new GrundData();
         Vardgivare vardgivare = new Vardgivare();
         vardgivare.setVardgivarid(vardgivarid);
@@ -257,7 +257,7 @@ public class ModelConverterTest {
     }
 
     private Utlatande buildUtlatande(final String certificateId, final LocalDateTime signedDate, final String personId,
-            final String fullstandigtNamn) {
+        final String fullstandigtNamn) {
 
         Personnummer personnummer = Personnummer.createPersonnummer(personId).get();
 

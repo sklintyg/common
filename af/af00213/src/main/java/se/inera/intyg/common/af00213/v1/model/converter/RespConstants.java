@@ -54,7 +54,6 @@ public final class RespConstants {
     public static final String OVRIGT_SVAR_JSON_ID_5 = "ovrigt";
 
 
-
     public static final String GRUNDDATA_SVAR_JSON_ID = "grundData";
     public static final String TEXTVERSION_JSON_ID = "textVersion";
     public static final String ID_JSON_ID = "id";

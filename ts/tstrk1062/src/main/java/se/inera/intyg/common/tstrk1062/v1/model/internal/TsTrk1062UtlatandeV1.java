@@ -95,8 +95,8 @@ public abstract class TsTrk1062UtlatandeV1 implements Utlatande {
 
     public static Builder builder() {
         return new AutoValue_TsTrk1062UtlatandeV1.Builder()
-                .setDiagnosKodad(ImmutableList.of())
-                .setSignature(null);
+            .setDiagnosKodad(ImmutableList.of())
+            .setSignature(null);
     }
 
     @AutoValue.Builder

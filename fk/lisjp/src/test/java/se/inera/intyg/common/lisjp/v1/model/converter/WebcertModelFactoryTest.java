@@ -63,7 +63,7 @@ public class WebcertModelFactoryTest {
     @Before
     public void setUp() {
         when(intygTextsService.getLatestVersionForSameMajorVersion(eq(LisjpEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
-                .thenReturn(INTYG_TYPE_VERSION_1_2);
+            .thenReturn(INTYG_TYPE_VERSION_1_2);
     }
 
     @Test

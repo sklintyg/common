@@ -277,7 +277,7 @@ public final class TransportToInternal {
     }
 
     private static void handleIntygAvser(TsBasUtlatandeV6.Builder utlatande, Svar svar,
-                                         EnumSet<IntygAvserKategori> intygAvserSet) throws ConverterException {
+        EnumSet<IntygAvserKategori> intygAvserSet) throws ConverterException {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case INTYG_AVSER_DELSVAR_ID_1:
@@ -294,7 +294,7 @@ public final class TransportToInternal {
             switch (delsvar.getId()) {
                 case IDENTITET_STYRKT_GENOM_ID_2:
                     utlatande.setVardkontakt(Vardkontakt.create(VARDKONTAKT_TYP,
-                            IdKontrollKod.fromCode(getCVSvarContent(delsvar).getCode()).name()));
+                        IdKontrollKod.fromCode(getCVSvarContent(delsvar).getCode()).name()));
                     break;
                 default:
                     throw new IllegalArgumentException();
@@ -762,12 +762,12 @@ public final class TransportToInternal {
     }
 
     private static void handleUppfyllerKravForBehorighet(Bedomning.Builder bedomning, Svar svar,
-                                                         EnumSet<BedomningKorkortstyp> bedomningsSet) throws ConverterException {
+        EnumSet<BedomningKorkortstyp> bedomningsSet) throws ConverterException {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case UPPFYLLER_KRAV_FOR_BEHORIGHET_DELSVAR_ID_33:
                     TsBasKorkortsbehorighetKod korkortsbehorighetKod =
-                            TsBasKorkortsbehorighetKod.fromCode(getCVSvarContent(delsvar).getCode());
+                        TsBasKorkortsbehorighetKod.fromCode(getCVSvarContent(delsvar).getCode());
                     BedomningKorkortstyp bedomningKorkortstyp = BedomningKorkortstyp.valueOf(korkortsbehorighetKod.name());
                     bedomningsSet.add(bedomningKorkortstyp);
                     break;

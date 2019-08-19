@@ -55,16 +55,16 @@ public class InternalValidatorTest {
             ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
             assertEquals(
-                    "Error in scenario " + scenario.getName() + "\n"
-                            + Joiner.on(", ").join(validationResponse.getValidationErrors()),
-                    ValidationStatus.VALID,
-                    validationResponse.getStatus());
+                "Error in scenario " + scenario.getName() + "\n"
+                    + Joiner.on(", ").join(validationResponse.getValidationErrors()),
+                ValidationStatus.VALID,
+                validationResponse.getStatus());
 
             assertTrue(
-                    "Error in scenario " + scenario.getName() + "\n"
-                            + Joiner.on(", ").join(validationResponse.getValidationErrors()),
-                    validationResponse
-                            .getValidationErrors().isEmpty());
+                "Error in scenario " + scenario.getName() + "\n"
+                    + Joiner.on(", ").join(validationResponse.getValidationErrors()),
+                validationResponse
+                    .getValidationErrors().isEmpty());
 
         }
     }
@@ -132,17 +132,18 @@ public class InternalValidatorTest {
         ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
         assertEquals("hypoglykemier.allvarligForekomstVakenTidObservationstid",
-                getSingleElement(validationResponse.getValidationErrors()).getField());
+            getSingleElement(validationResponse.getValidationErrors()).getField());
     }
 
     @Test
     public void testDateHypoglykemiMoreThenOneYearInThePast() throws Exception {
         TsDiabetesUtlatandeV2 utlatande = ScenarioFinder.getInternalScenario("invalid-date-format-hypoglykemi").asInternalModel();
-        utlatande.getHypoglykemier().setAllvarligForekomstVakenTidObservationstid(new InternalDate(LocalDate.now().minusYears(1).minusDays(1)));
+        utlatande.getHypoglykemier()
+            .setAllvarligForekomstVakenTidObservationstid(new InternalDate(LocalDate.now().minusYears(1).minusDays(1)));
         ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
         assertEquals("hypoglykemier.allvarligForekomstVakenTidObservationstid",
-                getSingleElement(validationResponse.getValidationErrors()).getField());
+            getSingleElement(validationResponse.getValidationErrors()).getField());
     }
 
     @Test
@@ -159,7 +160,7 @@ public class InternalValidatorTest {
         utlatande.getDiabetes().setInsulinBehandlingsperiod(String.valueOf(LocalDate.now().getYear() + 1));
         ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
         assertEquals("diabetes.insulinBehandlingsperiod",
-                getSingleElement(validationResponse.getValidationErrors()).getField());
+            getSingleElement(validationResponse.getValidationErrors()).getField());
     }
 
     @Test
@@ -170,35 +171,34 @@ public class InternalValidatorTest {
         utlatande.getDiabetes().setInsulinBehandlingsperiod("1111");
         validationResponse = validator.validateDraft(utlatande);
         assertEquals("diabetes.insulinBehandlingsperiod",
-                getSingleElement(validationResponse.getValidationErrors()).getField());
+            getSingleElement(validationResponse.getValidationErrors()).getField());
 
         utlatande.getDiabetes().setInsulinBehandlingsperiod("");
         validationResponse = validator.validateDraft(utlatande);
         assertEquals("diabetes.insulinBehandlingsperiod",
-                getSingleElement(validationResponse.getValidationErrors()).getField());
+            getSingleElement(validationResponse.getValidationErrors()).getField());
 
         utlatande.getDiabetes().setInsulinBehandlingsperiod("aaaaaaaaaaaaaaa");
         validationResponse = validator.validateDraft(utlatande);
         assertEquals("diabetes.insulinBehandlingsperiod",
-                getSingleElement(validationResponse.getValidationErrors()).getField());
+            getSingleElement(validationResponse.getValidationErrors()).getField());
 
     }
 
     @Test
     public void testInvalidHypoglykemierMissing() throws Exception {
         TsDiabetesUtlatandeV2 utlatande = ScenarioFinder.getInternalScenario("invalid-missing-hypoglykemier-kunskap")
-                .asInternalModel();
+            .asInternalModel();
         ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
         assertEquals("hypoglykemier.kunskapOmAtgarder", getSingleElement(validationResponse.getValidationErrors())
-                .getField());
+            .getField());
     }
 
     /**
      * Utility method for getting a single element from a collection.
      *
-     * @param collection
-     *            the collection
+     * @param collection the collection
      * @return a single element, throws IllegalArgumentException in case the collection contains more than one element
      */
     public static <T> T getSingleElement(Collection<T> collection) {

@@ -37,7 +37,7 @@ public class CustomObjectMapperTest {
 
     @Test
     public void givenNullsIgnoredGloballyWhenWritingObjectWithNullFieldThenIgnored()
-            throws JsonProcessingException {
+        throws JsonProcessingException {
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);

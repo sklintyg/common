@@ -123,34 +123,34 @@ public class Vardenhet {
         }
         final Vardenhet that = (Vardenhet) object;
         return Objects.equals(this.enhetsid, that.enhetsid)
-                && Objects.equals(this.enhetsnamn, that.enhetsnamn)
-                && Objects.equals(this.postadress, that.postadress)
-                && Objects.equals(this.postnummer, that.postnummer)
-                && Objects.equals(this.postort, that.postort)
-                && Objects.equals(this.telefonnummer, that.telefonnummer)
-                && Objects.equals(this.epost, that.epost)
-                && Objects.equals(this.vardgivare, that.vardgivare)
-                && Objects.equals(this.arbetsplatsKod, that.arbetsplatsKod);
+            && Objects.equals(this.enhetsnamn, that.enhetsnamn)
+            && Objects.equals(this.postadress, that.postadress)
+            && Objects.equals(this.postnummer, that.postnummer)
+            && Objects.equals(this.postort, that.postort)
+            && Objects.equals(this.telefonnummer, that.telefonnummer)
+            && Objects.equals(this.epost, that.epost)
+            && Objects.equals(this.vardgivare, that.vardgivare)
+            && Objects.equals(this.arbetsplatsKod, that.arbetsplatsKod);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(this.enhetsid, this.enhetsnamn, this.postadress, this.postnummer, this.postort,
-                this.telefonnummer, this.epost, this.vardgivare, this.arbetsplatsKod);
+            this.telefonnummer, this.epost, this.vardgivare, this.arbetsplatsKod);
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("enhetsid", enhetsid)
-                .add("enhetsnamn", enhetsnamn)
-                .add("postadress", postadress)
-                .add("postnummer", postnummer)
-                .add("postort", postort)
-                .add("telefonnummer", telefonnummer)
-                .add("epost", epost)
-                .add("vardgivare", vardgivare)
-                .add("arbetsplatsKod", arbetsplatsKod)
-                .toString();
+            .add("enhetsid", enhetsid)
+            .add("enhetsnamn", enhetsnamn)
+            .add("postadress", postadress)
+            .add("postnummer", postnummer)
+            .add("postort", postort)
+            .add("telefonnummer", telefonnummer)
+            .add("epost", epost)
+            .add("vardgivare", vardgivare)
+            .add("arbetsplatsKod", arbetsplatsKod)
+            .toString();
     }
 }

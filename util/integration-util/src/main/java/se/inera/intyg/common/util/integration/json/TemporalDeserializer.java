@@ -42,7 +42,7 @@ public class TemporalDeserializer extends StdDeserializer<Temporal> {
 
     @Override
     public Temporal deserialize(JsonParser jp, DeserializationContext ctxt)
-            throws IOException {
+        throws IOException {
 
         if (jp.getCurrentToken() != VALUE_STRING) {
             throw ctxt.wrongTokenException(jp, VALUE_STRING, "expected JSON String");

@@ -155,7 +155,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public String createNewInternalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, Utlatande template)
-            throws ModuleException {
+        throws ModuleException {
         try {
             return toInternalModelResponse(webcertModelFactory.createCopy(draftCertificateHolder, template));
         } catch (ConverterException e) {
@@ -166,7 +166,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public String createCompletionFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template, String comment)
-            throws ModuleException {
+        throws ModuleException {
 
         T utkast;
 
@@ -182,7 +182,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public String createRenewalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, Utlatande template)
-            throws ModuleException {
+        throws ModuleException {
         return createNewInternalFromTemplate(draftCertificateHolder, template);
     }
 
@@ -200,8 +200,8 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
             if (response.getResult() != null && response.getResult().getResultCode() != ResultCodeType.OK) {
                 String message = response.getResult().getResultText();
                 LOG.error("Error occured when sending certificate '{}': {}",
-                        request.getIntyg() != null ? request.getIntyg().getIntygsId() : null,
-                        message);
+                    request.getIntyg() != null ? request.getIntyg().getIntygsId() : null,
+                    message);
                 throw new ExternalServiceCallException(message);
             }
         } catch (SOAPFaultException e) {
@@ -224,7 +224,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
             return convert(getCertificateResponderInterface.getCertificate(logicalAddress, request));
         } catch (SOAPFaultException e) {
             String error = String.format("Could not get certificate with id %s from Intygstjansten. SOAPFault: %s",
-                    certificateId, e.getMessage());
+                certificateId, e.getMessage());
             LOG.error(error);
             throw new ModuleException(error);
         }
@@ -245,9 +245,9 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
         // check whether call was successful or not
         if (response2.getResult().getResultCode() == ResultCodeType.INFO) {
             throw new ExternalServiceCallException(response2.getResult().getResultText(),
-                    "Certificate already exists".equals(response2.getResult().getResultText())
-                            ? ErrorIdEnum.VALIDATION_ERROR
-                            : ErrorIdEnum.APPLICATION_ERROR);
+                "Certificate already exists".equals(response2.getResult().getResultText())
+                    ? ErrorIdEnum.VALIDATION_ERROR
+                    : ErrorIdEnum.APPLICATION_ERROR);
         } else if (response2.getResult().getResultCode() == ResultCodeType.ERROR) {
             throw new ExternalServiceCallException(response2.getResult().getErrorId() + " : " + response2.getResult().getResultText());
         }
@@ -265,7 +265,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public String updateBeforeSigning(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
-            throws ModuleException {
+        throws ModuleException {
         return updateInternal(internalModel, hosPerson, signingDate);
     }
 
@@ -409,7 +409,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
             String internalModel = toInternalModelResponse(utlatande);
             CertificateMetaData metaData = TransportConverterUtil.getMetaData(response.getIntyg(), getAdditionalInfo(response.getIntyg()));
             boolean revoked = response.getIntyg().getStatus().stream()
-                    .anyMatch(status -> StatusKod.CANCEL.name().equals(status.getStatus().getCode()));
+                .anyMatch(status -> StatusKod.CANCEL.name().equals(status.getStatus().getCode()));
             return new CertificateResponse(internalModel, utlatande, metaData, revoked);
         } catch (Exception e) {
             throw new ModuleException(e);
@@ -417,7 +417,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     private String updateInternal(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
-            throws ModuleException {
+        throws ModuleException {
         try {
             T utlatande = decorateDiagnoserWithDescriptions(getInternal(internalModel));
             WebcertModelFactoryUtil.updateSkapadAv(utlatande, hosPerson, signingDate);
@@ -428,7 +428,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     private String updateInternal(String internalModel, Patient patient)
-            throws ModuleException {
+        throws ModuleException {
         try {
             T utlatande = getInternal(internalModel);
             WebcertModelFactoryUtil.populateWithPatientInfo(utlatande.getGrundData(), patient);
@@ -439,7 +439,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     private String updateInternalAfterSigning(String internalModel, String base64EncodedSignatureXml)
-            throws ModuleException {
+        throws ModuleException {
         try {
             T utlatande = decorateWithSignature(getInternal(internalModel), base64EncodedSignatureXml);
             return toInternalModelResponse(utlatande);
@@ -453,10 +453,10 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
             return Collections.singletonList(TILLAGGSFRAGOR_SVAR_JSON_ID);
         }
         switch (frageId) {
-        case GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1:
-            return svarIdHelper.calculateFrageIdHandleForGrundForMU(type.cast(utlatande));
-        default:
-            return Collections.singletonList(RespConstants.getJsonPropertyFromFrageId(frageId));
+            case GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1:
+                return svarIdHelper.calculateFrageIdHandleForGrundForMU(type.cast(utlatande));
+            default:
+                return Collections.singletonList(RespConstants.getJsonPropertyFromFrageId(frageId));
         }
     }
 

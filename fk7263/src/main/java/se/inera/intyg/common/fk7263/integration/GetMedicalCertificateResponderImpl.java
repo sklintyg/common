@@ -51,14 +51,14 @@ public class GetMedicalCertificateResponderImpl implements GetMedicalCertificate
 
     @Override
     public GetMedicalCertificateResponseType getMedicalCertificate(String logicalAddress,
-            GetMedicalCertificateRequestType request) {
+        GetMedicalCertificateRequestType request) {
 
         GetMedicalCertificateResponseType response = new GetMedicalCertificateResponseType();
 
         String certificateId = request.getCertificateId();
         Personnummer nationalIdentityNumber = request.getNationalIdentityNumber() != null
-                ? Personnummer.createPersonnummer(request.getNationalIdentityNumber()).get()
-                : null;
+            ? Personnummer.createPersonnummer(request.getNationalIdentityNumber()).get()
+            : null;
 
         CertificateHolder certificate = null;
 
@@ -73,14 +73,14 @@ public class GetMedicalCertificateResponderImpl implements GetMedicalCertificate
             }
             if (HSVARD.equals(request.getPart()) && certificate.isDeletedByCareGiver()) {
                 response.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR,
-                        String.format("Certificate '%s' has been deleted by care giver", certificateId)));
+                    String.format("Certificate '%s' has been deleted by care giver", certificateId)));
             } else {
                 response.setMeta(ModelConverter.toCertificateMetaType(certificate));
                 attachCertificateDocument(certificate, response);
                 if (certificate.isRevoked()) {
                     response.setResult(
-                            ResultTypeUtil.errorResult(ErrorIdType.REVOKED,
-                                    String.format("Certificate '%s' has been revoked", certificateId)));
+                        ResultTypeUtil.errorResult(ErrorIdType.REVOKED,
+                            String.format("Certificate '%s' has been revoked", certificateId)));
                 } else {
                     response.setResult(ResultTypeUtil.okResult());
                 }
@@ -96,13 +96,13 @@ public class GetMedicalCertificateResponderImpl implements GetMedicalCertificate
         try {
 
             JAXBElement<RegisterMedicalCertificateType> el =
-                    XmlMarshallerHelper.unmarshal(certificate.getOriginalCertificate());
+                XmlMarshallerHelper.unmarshal(certificate.getOriginalCertificate());
 
             response.setLakarutlatande(el.getValue().getLakarutlatande());
 
         } catch (Exception e) {
             LOGGER.error("Error while converting in getMedicalCertificate for id: {} with stacktrace: {}", certificate.getId(),
-                    e.getStackTrace());
+                e.getStackTrace());
             throw new RuntimeException(e);
         }
     }

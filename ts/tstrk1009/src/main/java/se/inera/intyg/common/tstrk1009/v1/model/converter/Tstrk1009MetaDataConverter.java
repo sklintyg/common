@@ -51,7 +51,7 @@ public final class Tstrk1009MetaDataConverter {
 
     public static List<Status> toStatusList(List<IntygStatus> certificateStatuses) {
         List<Status> statuses = certificateStatuses != null ? new ArrayList<>(certificateStatuses.size())
-                : Collections.<Status> emptyList();
+            : Collections.<Status>emptyList();
         if (certificateStatuses != null) {
             for (IntygStatus certificateStatus : certificateStatuses) {
                 if (certificateStatus != null) {
@@ -64,7 +64,7 @@ public final class Tstrk1009MetaDataConverter {
 
     public static Status toStatus(IntygStatus certificateStatus) {
         return new Status(CertificateState.valueOf(certificateStatus.getType().value()),
-                certificateStatus.getTarget(),
-                LocalDateTime.parse(certificateStatus.getTimestamp(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            certificateStatus.getTarget(),
+            LocalDateTime.parse(certificateStatus.getTimestamp(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
     }
 }
