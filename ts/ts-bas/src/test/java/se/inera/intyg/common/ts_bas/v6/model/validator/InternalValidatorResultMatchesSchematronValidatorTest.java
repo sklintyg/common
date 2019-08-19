@@ -21,48 +21,41 @@ package se.inera.intyg.common.ts_bas.v6.model.validator;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.google.common.base.Charsets;
+import com.helger.commons.debug.GlobalDebug;
+import com.helger.schematron.svrl.SVRLHelper;
 import java.io.ByteArrayInputStream;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
-import javax.xml.bind.Marshaller;
-import javax.xml.namespace.QName;
 import javax.xml.transform.stream.StreamSource;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
-
-import com.google.common.base.Charsets;
-import com.helger.commons.debug.GlobalDebug;
-import com.helger.schematron.svrl.SVRLHelper;
-
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
+import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
 import se.inera.intyg.common.ts_bas.v6.utils.Scenario;
 import se.inera.intyg.common.ts_bas.v6.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_bas.v6.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.ts_bas.v6.validator.internal.InternalValidatorInstance;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 
 /**
  * Data driven test that uses Scenario and ScenarioFinder along with the JUnit Parameterized test runner,
  * uses test data from internal/scenarios and transport/scenarios, so in order to create new tests, just add
  * corresponding json- and XML-files in these directories.
- * 
+ *
  * @author erik
  *
  */
@@ -97,7 +90,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
      * Process test data and supply it to the test.
      * The format for the test data needs to be: {name to display for current test, the scenario to test, expected
      * outcome of the test}.
-     * 
+     *
      * @return Collection<Object[]>
      */
     @Parameters(name = "{index}: Scenario: {0}")
@@ -167,19 +160,9 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
     }
 
     private static String getXmlFromIntyg(RegisterCertificateType intyg) throws Exception {
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
-        Marshaller marshaller = jaxbContext.createMarshaller();
-        StringWriter xml = new StringWriter();
-
-        marshaller.marshal(wrapJaxb(intyg), xml);
-
-        return xml.toString();
-    }
-
-    private static JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {
-        return new JAXBElement<>(
-                new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3", "RegisterCertificate"),
-                RegisterCertificateType.class, ws);
+        ObjectFactory objectFactory = new ObjectFactory();
+        JAXBElement<RegisterCertificateType> jaxbElement = objectFactory.createRegisterCertificate(intyg);
+        return XmlMarshallerHelper.marshal(jaxbElement);
     }
 
     private static String getTransportValidationErrorString(SchematronOutputType result) {

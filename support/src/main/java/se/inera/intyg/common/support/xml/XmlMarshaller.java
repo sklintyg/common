@@ -38,7 +38,6 @@ final class XmlMarshaller {
         jaxb2Marshaller = new Jaxb2Marshaller();
         jaxb2Marshaller.setPackagesToScan(
                 "se.riv.clinicalprocess",
-                "se.riv.ehr",
                 "se.riv.infrastructure",
                 "se.riv.strategicresourcemanagement",
                 "se.riv.intygsbestallning",

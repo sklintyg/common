@@ -18,9 +18,17 @@
  */
 package se.inera.intyg.common.fk7263.integration;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import iso.v21090.dt.v1.CD;
+import java.time.LocalDate;
+import java.util.Optional;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,17 +60,7 @@ import se.inera.intyg.common.support.integration.module.exception.CertificateAlr
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.transform.stream.StreamSource;
-import java.time.LocalDate;
-import java.util.Optional;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
+import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RegisterMedicalCertificateResponderImplTest {
@@ -91,16 +89,11 @@ public class RegisterMedicalCertificateResponderImplTest {
 
     @Before
     public void prepareRequest() throws Exception {
+        ClassPathResource resource = new ClassPathResource("RegisterMedicalCertificateResponderImplTest/fk7263.xml");
+        JAXBElement<RegisterMedicalCertificateType> jaxbElement = XmlMarshallerHelper.unmarshal(resource.getInputStream());
 
-        ClassPathResource file = new ClassPathResource(
-                "RegisterMedicalCertificateResponderImplTest/fk7263.xml");
-
-        JAXBContext context = JAXBContext.newInstance(RegisterMedicalCertificateType.class);
-        JAXBElement<RegisterMedicalCertificateType> registerMedicalCertificate = context.createUnmarshaller().unmarshal(
-                new StreamSource(file.getInputStream()), RegisterMedicalCertificateType.class);
-        request = registerMedicalCertificate.getValue();
-
-        xml = Resources.toString(file.getURL(), Charsets.UTF_8);
+        request = jaxbElement.getValue();
+        xml = Resources.toString(resource.getURL(), Charsets.UTF_8);
         utlatande = TransportToInternal.convert(request.getLakarutlatande());
         certificateHolder = ConverterUtil.toCertificateHolder(utlatande);
         certificateHolder.setOriginalCertificate(xml);
@@ -237,10 +230,10 @@ public class RegisterMedicalCertificateResponderImplTest {
 
         assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
-        assertEquals("Validation Error(s) found: Validation Error:Field 4: Referens is missing datum\n" +
-                "Validation Error:Field 4: Referens is missing datum\n" +
-                "Validation Error:No or wrong date for referens - journal found!\n" +
-                "Validation Error:No or wrong date for referens - annat found!", response.getResult().getErrorText());
+        assertEquals("Validation Error(s) found: Validation Error:Field 4: Referens is missing datum\n"
+            + "Validation Error:Field 4: Referens is missing datum\n"
+            + "Validation Error:No or wrong date for referens - journal found!\n"
+            + "Validation Error:No or wrong date for referens - annat found!", response.getResult().getErrorText());
 
         Mockito.verifyZeroInteractions(moduleContainer);
     }
@@ -255,8 +248,8 @@ public class RegisterMedicalCertificateResponderImplTest {
 
         assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
-        assertEquals("Validation Error(s) found: Validation Error:Field 4: Referens is missing datum\n" +
-                "Validation Error:Field 4: Referens is missing datum", response.getResult().getErrorText());
+        assertEquals("Validation Error(s) found: Validation Error:Field 4: Referens is missing datum\n"
+            + "Validation Error:Field 4: Referens is missing datum", response.getResult().getErrorText());
 
         Mockito.verifyZeroInteractions(moduleContainer);
     }
@@ -268,23 +261,12 @@ public class RegisterMedicalCertificateResponderImplTest {
 
         assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
-        assertEquals("Validation Error(s) found: Validation Error:Head: Utlatande Id is mandatory!", response.getResult().getErrorText());
+        assertEquals(
+            "Validation Error(s) found: Validation Error:Head: Utlatande Id is mandatory!",
+            response.getResult().getErrorText());
 
         Mockito.verifyZeroInteractions(moduleContainer);
     }
-
-    // // INTYG-4086, namn skall ej längre skickas med.
-//    @Test
-//    public void testRegisterMedicalCertificateSaknadPatient() throws Exception {
-//        request.getLakarutlatande().setPatient(null);
-//        RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
-//
-//        assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
-//        assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
-//        assertEquals("Validation Error(s) found: Validation Error:No Patient element found!", response.getResult().getErrorText());
-//
-//        Mockito.verifyZeroInteractions(moduleContainer);
-//    }
 
     @Test
     public void testRegisterMedicalCertificateFelaktigPersonIdKod() throws Exception {
@@ -293,8 +275,9 @@ public class RegisterMedicalCertificateResponderImplTest {
 
         assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
-        assertEquals("Validation Error(s) found: Validation Error:Wrong o.i.d. for Patient Id! Should be 1.2.752.129.2.1.3.1 or 1.2.752.129.2.1.3.3",
-                response.getResult().getErrorText());
+        assertEquals(
+            "Validation Error(s) found: Validation Error:Wrong o.i.d. for Patient Id! Should be 1.2.752.129.2.1.3.1 or 1.2.752.129.2.1.3.3",
+            response.getResult().getErrorText());
 
         Mockito.verifyZeroInteractions(moduleContainer);
     }
@@ -306,8 +289,9 @@ public class RegisterMedicalCertificateResponderImplTest {
 
         assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
-        assertEquals("Validation Error(s) found: Validation Error:Wrong format for person-id! Valid format is YYYYMMDD-XXXX or YYYYMMDD+XXXX.",
-                response.getResult().getErrorText());
+        assertEquals(
+            "Validation Error(s) found: Validation Error:Wrong format for person-id! Valid format is YYYYMMDD-XXXX or YYYYMMDD+XXXX.",
+            response.getResult().getErrorText());
 
         Mockito.verifyZeroInteractions(moduleContainer);
     }
@@ -319,8 +303,9 @@ public class RegisterMedicalCertificateResponderImplTest {
 
         assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
-        assertEquals("Validation Error(s) found: Validation Error:Wrong format for person-id! Valid format is YYYYMMDD-XXXX or YYYYMMDD+XXXX.",
-                response.getResult().getErrorText());
+        assertEquals(
+            "Validation Error(s) found: Validation Error:Wrong format for person-id! Valid format is YYYYMMDD-XXXX or YYYYMMDD+XXXX.",
+            response.getResult().getErrorText());
 
         Mockito.verifyZeroInteractions(moduleContainer);
     }
@@ -344,7 +329,9 @@ public class RegisterMedicalCertificateResponderImplTest {
 
         assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
-        assertEquals("Validation Error(s) found: Validation Error:No SkapadAvHosPersonal element found!", response.getResult().getErrorText());
+        assertEquals(
+            "Validation Error(s) found: Validation Error:No SkapadAvHosPersonal element found!",
+            response.getResult().getErrorText());
 
         Mockito.verifyZeroInteractions(moduleContainer);
     }
@@ -356,8 +343,8 @@ public class RegisterMedicalCertificateResponderImplTest {
 
         assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
-        assertEquals("Validation Error(s) found: Validation Error:No personal-id found!\n" +
-                "Validation Error:Wrong o.i.d. for personalId! Should be 1.2.752.129.2.1.4.1", response.getResult().getErrorText());
+        assertEquals("Validation Error(s) found: Validation Error:No personal-id found!\n"
+            + "Validation Error:Wrong o.i.d. for personalId! Should be 1.2.752.129.2.1.4.1", response.getResult().getErrorText());
 
         Mockito.verifyZeroInteractions(moduleContainer);
     }
@@ -602,8 +589,8 @@ public class RegisterMedicalCertificateResponderImplTest {
 
         assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
-        assertEquals("Validation Error(s) found: Validation Error:No vardgivare-id found!\n" +
-                "Validation Error:Wrong o.i.d. for vardgivareId! Should be 1.2.752.129.2.1.4.1", response.getResult().getErrorText());
+        assertEquals("Validation Error(s) found: Validation Error:No vardgivare-id found!\n"
+            + "Validation Error:Wrong o.i.d. for vardgivareId! Should be 1.2.752.129.2.1.4.1", response.getResult().getErrorText());
 
         Mockito.verifyZeroInteractions(moduleContainer);
     }
@@ -692,9 +679,9 @@ public class RegisterMedicalCertificateResponderImplTest {
 
         assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
-        assertEquals("Validation Error(s) found: Validation Error:No funktionstillstand - aktivitet element found!\n" +
-                "Validation Error:No arbetsformaga element found for field 8a!\n" +
-                "Validation Error:No arbetsformaga element found 8b!.", response.getResult().getErrorText());
+        assertEquals("Validation Error(s) found: Validation Error:No funktionstillstand - aktivitet element found!\n"
+            + "Validation Error:No arbetsformaga element found for field 8a!\n"
+            + "Validation Error:No arbetsformaga element found 8b!.", response.getResult().getErrorText());
 
         Mockito.verifyZeroInteractions(moduleContainer);
     }
@@ -706,7 +693,8 @@ public class RegisterMedicalCertificateResponderImplTest {
 
         assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
-        assertEquals("Validation Error(s) found: Validation Error:No medicinsktTillstand element found!", response.getResult().getErrorText());
+        assertEquals("Validation Error(s) found: Validation Error:No medicinsktTillstand element found!",
+            response.getResult().getErrorText());
 
         Mockito.verifyZeroInteractions(moduleContainer);
     }
@@ -718,9 +706,9 @@ public class RegisterMedicalCertificateResponderImplTest {
 
         assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
-        assertEquals("Validation Error(s) found: Validation Error:No tillstandskod in medicinsktTillstand found!\n" +
-                "Validation Error:Wrong code system name for medicinskt tillstand - tillstandskod (diagnoskod)! Should be ICD-10 OR KSH97P",
-                response.getResult().getErrorText());
+        assertEquals("Validation Error(s) found: Validation Error:No tillstandskod in medicinsktTillstand found!\n"
+                + "Validation Error:Wrong code system name for medicinskt tillstand - tillstandskod (diagnoskod)! "
+                + "Should be ICD-10 OR KSH97P", response.getResult().getErrorText());
 
         Mockito.verifyZeroInteractions(moduleContainer);
     }
@@ -747,8 +735,8 @@ public class RegisterMedicalCertificateResponderImplTest {
         assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
         assertEquals(
-                "Validation Error(s) found: Validation Error:Wrong code system name for medicinskt tillstand - tillstandskod (diagnoskod)! Should be ICD-10 OR KSH97P",
-                response.getResult().getErrorText());
+                "Validation Error(s) found: Validation Error:Wrong code system name for medicinskt tillstand - tillstandskod (diagnoskod)! "
+                    + "Should be ICD-10 OR KSH97P", response.getResult().getErrorText());
 
         Mockito.verifyZeroInteractions(moduleContainer);
     }
@@ -763,8 +751,8 @@ public class RegisterMedicalCertificateResponderImplTest {
         assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
         assertEquals(
-                "Validation Error(s) found: Validation Error:Wrong code system name for medicinskt tillstand - tillstandskod (diagnoskod)! Should be ICD-10 OR KSH97P",
-                response.getResult().getErrorText());
+                "Validation Error(s) found: Validation Error:Wrong code system name for medicinskt tillstand - tillstandskod (diagnoskod)! "
+                    + "Should be ICD-10 OR KSH97P", response.getResult().getErrorText());
 
         Mockito.verifyZeroInteractions(moduleContainer);
     }
@@ -1008,8 +996,8 @@ public class RegisterMedicalCertificateResponderImplTest {
         assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
         assertEquals(
-                "Validation Error(s) found: Validation Error:Beskrivning must be set for Aktivitet Rekommendation Planerad eller pågående åtgärd inom sjukvården",
-                response.getResult().getErrorText());
+                "Validation Error(s) found: Validation Error:Beskrivning must be set for Aktivitet Rekommendation Planerad "
+                    + "eller pågående åtgärd inom sjukvården", response.getResult().getErrorText());
 
         Mockito.verifyZeroInteractions(moduleContainer);
     }
@@ -1038,8 +1026,8 @@ public class RegisterMedicalCertificateResponderImplTest {
         assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
         assertEquals(
-                "Validation Error(s) found: Validation Error:Beskrivning must be set for Aktivitet Rekommendation Planerad eller pågående annan atgärd",
-                response.getResult().getErrorText());
+                "Validation Error(s) found: Validation Error:Beskrivning must be set for Aktivitet Rekommendation Planerad "
+                    + "eller pågående annan atgärd", response.getResult().getErrorText());
 
         Mockito.verifyZeroInteractions(moduleContainer);
     }
@@ -1056,8 +1044,8 @@ public class RegisterMedicalCertificateResponderImplTest {
         assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
         assertEquals(
-                "Validation Error(s) found: Validation Error:Beskrivning must be set for Aktivitet Rekommendation Planerad eller pågående annan atgärd",
-                response.getResult().getErrorText());
+            "Validation Error(s) found: Validation Error:Beskrivning must be set for Aktivitet Rekommendation Planerad "
+                + "eller pågående annan atgärd", response.getResult().getErrorText());
 
         Mockito.verifyZeroInteractions(moduleContainer);
     }
@@ -1117,8 +1105,8 @@ public class RegisterMedicalCertificateResponderImplTest {
 
         assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
-        assertEquals("Validation Error(s) found: Validation Error:No arbetsformaga element found for field 8a!\n" +
-                "Validation Error:No arbetsformaga element found 8b!.", response.getResult().getErrorText());
+        assertEquals("Validation Error(s) found: Validation Error:No arbetsformaga element found for field 8a!\n"
+            + "Validation Error:No arbetsformaga element found 8b!.", response.getResult().getErrorText());
 
         Mockito.verifyZeroInteractions(moduleContainer);
     }
@@ -1133,8 +1121,8 @@ public class RegisterMedicalCertificateResponderImplTest {
         assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
         assertEquals(
-                "Validation Error(s) found: Validation Error:No sysselsattning element found for field 8a! Nuvarande arbete, arbestloshet or foraldraledig should be set.",
-                response.getResult().getErrorText());
+            "Validation Error(s) found: Validation Error:No sysselsattning element found for field 8a! "
+                + "Nuvarande arbete, arbestloshet or foraldraledig should be set.", response.getResult().getErrorText());
 
         Mockito.verifyZeroInteractions(moduleContainer);
     }
