@@ -28,7 +28,6 @@ import iso.v21090.dt.v1.CD;
 import java.time.LocalDate;
 import java.util.Optional;
 import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -81,11 +80,6 @@ public class RegisterMedicalCertificateResponderImplTest {
 
     @InjectMocks
     private RegisterMedicalCertificateResponderImpl responder = new RegisterMedicalCertificateResponderImpl();
-
-    @Before
-    public void initializeResponder() throws JAXBException {
-        responder.initializeJaxbContext();
-    }
 
     @Before
     public void prepareRequest() throws Exception {
@@ -419,8 +413,8 @@ public class RegisterMedicalCertificateResponderImplTest {
 
         assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
-        assertEquals("Validation Error(s) found: Validation Error:No enhets-id found!\n" +
-                "Validation Error:Wrong o.i.d. for enhetsId! Should be 1.2.752.129.2.1.4.1", response.getResult().getErrorText());
+        assertEquals("Validation Error(s) found: Validation Error:No enhets-id found!\n"
+            + "Validation Error:Wrong o.i.d. for enhetsId! Should be 1.2.752.129.2.1.4.1", response.getResult().getErrorText());
 
         Mockito.verifyZeroInteractions(moduleContainer);
     }
