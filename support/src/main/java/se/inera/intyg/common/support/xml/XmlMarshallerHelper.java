@@ -19,6 +19,8 @@
 
 package se.inera.intyg.common.support.xml;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.io.CharStreams;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +28,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
-
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 public final class XmlMarshallerHelper {
@@ -54,7 +55,7 @@ public final class XmlMarshallerHelper {
 
     public static <T> JAXBElement<T> unmarshal(final InputStream inputStream) throws IOException {
         String text = null;
-        try (Reader reader = new InputStreamReader(inputStream)) {
+        try (Reader reader = new InputStreamReader(inputStream, UTF_8)) {
             text = CharStreams.toString(reader);
         }
         return unmarshal(text);
