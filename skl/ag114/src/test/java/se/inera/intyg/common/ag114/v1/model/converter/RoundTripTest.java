@@ -22,15 +22,9 @@ import static org.junit.Assert.assertFalse;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-import java.io.StringWriter;
+import com.fasterxml.jackson.databind.JsonNode;
 import java.util.Collection;
 import java.util.stream.Collectors;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.Marshaller;
-import javax.xml.namespace.QName;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,22 +39,19 @@ import org.xmlunit.builder.Input;
 import org.xmlunit.diff.DefaultNodeMatcher;
 import org.xmlunit.diff.Diff;
 import org.xmlunit.diff.ElementSelectors;
-
-import com.fasterxml.jackson.databind.JsonNode;
-
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.utils.Scenario;
 import se.inera.intyg.common.ag114.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.ag114.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.services.BefattningService;
+import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.PQType;
 
 @RunWith(Parameterized.class)
-@ContextConfiguration(classes = {BefattningService.class})
+@ContextConfiguration(classes = { BefattningService.class })
 public class RoundTripTest {
 
     private Scenario scenario;
@@ -85,8 +76,8 @@ public class RoundTripTest {
     @Parameters(name = "{index}: Scenario: {0}")
     public static Collection<Object[]> data() throws ScenarioNotFoundException {
         return ScenarioFinder.getInternalScenarios("pass-*").stream()
-            .map(u -> new Object[]{u.getName(), u})
-            .collect(Collectors.toList());
+                .map(u -> new Object[] { u.getName(), u })
+                .collect(Collectors.toList());
     }
 
     /**
@@ -96,23 +87,21 @@ public class RoundTripTest {
     @Test
     public void testRoundTripInternalFirst() throws Exception {
         CustomObjectMapper objectMapper = new CustomObjectMapper();
+        ObjectFactory objectFactory = new ObjectFactory();
+
         RegisterCertificateType transport = InternalToTransport.convert(scenario.asInternalModel(), webcertModuleService);
 
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class, PQType.class);
-        Marshaller marshaller = jaxbContext.createMarshaller();
-        StringWriter expected = new StringWriter();
-        StringWriter actual = new StringWriter();
-        marshaller.marshal(wrapJaxb(scenario.asTransportModel()), expected);
-        marshaller.marshal(wrapJaxb(transport), actual);
+        String expected = XmlMarshallerHelper.marshal(objectFactory.createRegisterCertificate(scenario.asTransportModel()));
+        String actual = XmlMarshallerHelper.marshal(objectFactory.createRegisterCertificate(transport));
 
         Diff diff = DiffBuilder
-            .compare(Input.fromString(expected.toString()))
-            .withTest(Input.fromString(actual.toString()))
-            .ignoreComments()
-            .ignoreWhitespace()
-            .checkForSimilar()
-            .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
-            .build();
+                .compare(Input.fromString(expected))
+                .withTest(Input.fromString(actual))
+                .ignoreComments()
+                .ignoreWhitespace()
+                .checkForSimilar()
+                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+                .build();
         assertFalse(name + " " + diff.toString(), diff.hasDifferences());
 
         JsonNode tree = objectMapper.valueToTree(TransportToInternal.convert(transport.getIntyg()));
@@ -128,34 +117,29 @@ public class RoundTripTest {
     @Test
     public void testRoundTripTransportFirst() throws Exception {
         CustomObjectMapper objectMapper = new CustomObjectMapper();
+        ObjectFactory objectFactory = new ObjectFactory();
+
         Ag114UtlatandeV1 internal = TransportToInternal.convert(scenario.asTransportModel().getIntyg());
 
         JsonNode tree = objectMapper.valueToTree(internal);
         JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
         JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
 
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class, PQType.class);
-        Marshaller marshaller = jaxbContext.createMarshaller();
-        StringWriter expected = new StringWriter();
-        StringWriter actual = new StringWriter();
-        marshaller.marshal(wrapJaxb(scenario.asTransportModel()), expected);
-        marshaller.marshal(wrapJaxb(InternalToTransport.convert(internal, webcertModuleService)), actual);
+        String expected = XmlMarshallerHelper.marshal(objectFactory.createRegisterCertificate(scenario.asTransportModel()));
+        String actual = XmlMarshallerHelper.marshal(objectFactory.createRegisterCertificate(
+            InternalToTransport.convert(internal, webcertModuleService)));
 
         Diff diff = DiffBuilder
-            .compare(Input.fromString(expected.toString()))
-            .withTest(Input.fromString(actual.toString()))
-            .ignoreComments()
-            .ignoreWhitespace()
-            .checkForSimilar()
-            .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
-            .build();
+                .compare(Input.fromString(expected))
+                .withTest(Input.fromString(actual))
+                .ignoreComments()
+                .ignoreWhitespace()
+                .checkForSimilar()
+                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+                .build();
+
         assertFalse(name + " " + diff.toString(), diff.hasDifferences());
     }
 
-    private JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {
-        JAXBElement<?> jaxbElement = new JAXBElement<>(
-            new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3", "RegisterCertificate"),
-            RegisterCertificateType.class, ws);
-        return jaxbElement;
-    }
 }
+

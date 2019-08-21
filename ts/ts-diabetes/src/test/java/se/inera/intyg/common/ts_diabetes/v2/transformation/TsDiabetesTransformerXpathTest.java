@@ -386,12 +386,6 @@ public class TsDiabetesTransformerXpathTest {
         JAXBContext context = JAXBContext.newInstance(Utlatande.class);
         context.createMarshaller().marshal(jaxbElement, node);
 
-        // // Output the Document
-        // TransformerFactory tf = TransformerFactory.newInstance();
-        // Transformer t = tf.newTransformer();
-        // DOMSource source = new DOMSource(node);
-        // StreamResult result = new StreamResult(System.out);
-        // t.transform(source, result);
         return node;
     }
 }

@@ -32,7 +32,6 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.util.stream.Collectors;
 import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.stream.StreamSource;
@@ -50,10 +49,10 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
+import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
@@ -117,12 +116,9 @@ public class ConverterTest {
     }
 
     private String getXmlFromModel(RegisterCertificateType transport) throws IOException, JAXBException {
-        StringWriter sw = new StringWriter();
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
         ObjectFactory objectFactory = new ObjectFactory();
-        JAXBElement<RegisterCertificateType> requestElement = objectFactory.createRegisterCertificate(transport);
-        jaxbContext.createMarshaller().marshal(requestElement, sw);
-        return sw.toString();
+        JAXBElement<RegisterCertificateType> jaxbElement = objectFactory.createRegisterCertificate(transport);
+        return XmlMarshallerHelper.marshal(jaxbElement);
     }
 
     private String getJsonFromTransport(RegisterCertificateType transport) throws ConverterException {

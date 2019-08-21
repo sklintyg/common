@@ -18,6 +18,12 @@
  */
 package se.inera.intyg.common.support.modules.converter;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Year;
@@ -59,13 +65,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare;
-
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
 public class TransportConverterUtilTest {
 
@@ -422,14 +421,18 @@ public class TransportConverterUtilTest {
         CVType cvType = new CVType();
         cvType.setCode(code);
         cvType.setCodeSystem(codeSystem);
-        if (codeSystemName != null)
+        if (codeSystemName != null) {
             cvType.setCodeSystemName(codeSystemName);
-        if (codeSystemVersion != null)
+        }
+        if (codeSystemVersion != null) {
             cvType.setCodeSystemVersion(codeSystemVersion);
-        if (displayName != null)
+        }
+        if (displayName != null) {
             cvType.setDisplayName(displayName);
-        if (originalText != null)
+        }
+        if (originalText != null) {
             cvType.setOriginalText(originalText);
+        }
         return cvType;
     }
 
