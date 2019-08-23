@@ -22,6 +22,8 @@ import static org.springframework.util.Assert.notNull;
 
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.riv.clinicalprocess.healthcond.certificate.v33.Forifyllnad;
+
 
 public class CreateNewDraftHolder {
 
@@ -33,7 +35,13 @@ public class CreateNewDraftHolder {
 
     private final Patient patient;
 
+    private final Forifyllnad forifyllnad;
+
     public CreateNewDraftHolder(String certificateId, String intygTypeVersion, HoSPersonal skapadAv, Patient patient) {
+        this(certificateId, intygTypeVersion, skapadAv, patient, null);
+    }
+
+    public CreateNewDraftHolder(String certificateId, String intygTypeVersion, HoSPersonal skapadAv, Patient patient, Forifyllnad forifyllnad) {
         notNull(certificateId, "'certificateId' must not be null");
         notNull(intygTypeVersion, "'intygTypeVersion' must not be null");
         notNull(skapadAv, "'skapadAv' must not be null");
@@ -42,6 +50,7 @@ public class CreateNewDraftHolder {
         this.intygTypeVersion = intygTypeVersion;
         this.skapadAv = skapadAv;
         this.patient = patient;
+        this.forifyllnad = forifyllnad;
     }
 
     public String getCertificateId() {
@@ -58,5 +67,9 @@ public class CreateNewDraftHolder {
 
     public String getIntygTypeVersion() {
         return intygTypeVersion;
+    }
+
+    public Forifyllnad getForifyllnad() {
+        return forifyllnad;
     }
 }
