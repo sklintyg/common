@@ -78,7 +78,6 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillUtil
 import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillUtils.getValidatedString;
 import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillUtils.nullToEmpty;
 
-import com.google.common.primitives.Ints;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -101,7 +100,6 @@ import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1.Builder;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
-import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
@@ -124,19 +122,23 @@ import se.riv.clinicalprocess.healthcond.certificate.v33.Forifyllnad;
 public class PrefillHandler {
 
     protected static final String WARNING_INVALID_CVTYPE = "Ignoring - invalid CVType";
+    protected static final String WARNING_MISSING_MANDATORY_CVTYPE_FOR_DELSVAR = "Ignoring - Missing mandatory CVType for delsvar %s";
     static final String WARNING_INVALID_CVTYPE_CODE_VALUE = "Ignoring - invalid CVType code value";
     static final String WARNING_INVALID_CVTYPE_CODESYSTEM = "Ignoring - invalid CVType codeSystem";
     static final String WARNING_INVALID_BOOLEAN_FIELD = "Ignoring - expected a String with 'true'/'false'";
     static final String WARNING_INVALID_STRING_FIELD = "Ignoring - expected a String delsvar element";
-    static final String WARNING_INVALID_DELSVAR_CONTENT = "Ignoring - invalid delsvar content";
+    static final String WARNING_INVALID_STRING_MAXLENGTH = "Ignoring - expected a String delsvar with maxlength of %s but was %s";
     static final String WARNING_INVALID_DATEPERIOD_CONTENT = "Ignoring - failed to parse DatePeriod";
     private static final String WARNING_INVALID_SVAR_ID = "Ignoring - invalid svar id";
     private static final String WARNING_INVALID_DELSVAR_ID = "Ignoring - invalid delsvar id";
     private static final String WARNING_MISSING_SJUKSKRIVNINGSNIVA = "Ignoring - missing sjukskrivningsniva";
+    private static final String WARNING_MISSING_DATE_DEFAULTING_TO = "No date provided - defaulting to %s";
     private static final List<String> VALID_DIAGNOSE_CODESYSTEM_VALUES = Arrays
         .asList(Diagnoskodverk.ICD_10_SE.getCodeSystem(), Diagnoskodverk.KSH_97_P.getCodeSystem());
     private static final Logger LOG = LoggerFactory.getLogger(PrefillHandler.class);
-    private static final int TILLAGGSFRAGA_START = 9001;
+    private static final int DEFAULT_FREETEXT_MAXLENGTH = 4000;
+    private static final int DEFAULT_DATE_STRING_LENGTH = 10;
+    private static final int DEFAULT_DIAGNOSDESCRIPTION_MAXLENGTH = 81;
     private final String intygsId;
     private final String intygsTyp;
     private final String intygsVersion;
@@ -149,7 +151,6 @@ public class PrefillHandler {
         this.intygsVersion = intygsVersion;
     }
 
-
     public PrefillResult prefill(Builder utlatande, Forifyllnad forifyllnad) {
 
         PrefillResult pr = new PrefillResult(intygsId, intygsTyp, intygsVersion);
@@ -157,7 +158,6 @@ public class PrefillHandler {
         if (forifyllnad != null) {
             //These properties are lists and are collected throughout the loop and added after all Svar has been processed.
             List<Diagnos> diagnoser = new ArrayList<>();
-            List<Tillaggsfraga> tillaggsfragor = new ArrayList<>();
             List<Sjukskrivning> sjukskrivningar = new ArrayList<>();
             List<Sysselsattning> sysselsattning = new ArrayList<>();
             List<ArbetslivsinriktadeAtgarder> arbetslivsinriktadeAtgarder = new ArrayList<>();
@@ -220,13 +220,7 @@ public class PrefillHandler {
                             handleOnskarKontakt(utlatande, svar);
                             break;
                         default:
-                            Integer parsedInt = Ints.tryParse(svar.getId());
-                            if (parsedInt != null && parsedInt >= TILLAGGSFRAGA_START) {
-                                handleTillaggsfraga(tillaggsfragor, svar, pr);
-                            } else {
-                                throw new PrefillWarningException(svar, WARNING_INVALID_SVAR_ID);
-                            }
-                            break;
+                            throw new PrefillWarningException(svar, WARNING_INVALID_SVAR_ID);
                     }
                 } catch (PrefillWarningException pw) {
                     pr.addMessage(PrefillEventType.WARNING, pw.getSvarId(), pw.getMessage(), pw.getSourceContent());
@@ -242,7 +236,6 @@ public class PrefillHandler {
             utlatande.setSysselsattning(sysselsattning);
             utlatande.setArbetslivsinriktadeAtgarder(arbetslivsinriktadeAtgarder);
             utlatande.setDiagnoser(diagnoser);
-            utlatande.setTillaggsfragor(tillaggsfragor);
         }
 
         return pr;
@@ -267,39 +260,44 @@ public class PrefillHandler {
         InternalDate grundForMedicinsktUnderlagDatum = null;
         RespConstants.ReferensTyp grundForMedicinsktUnderlagTyp = null;
         for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1:
-                    grundForMedicinsktUnderlagDatum = new InternalDate(getValidatedString(delsvar));
-                    break;
-                case GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1:
-                    String validatedCVType = getValidatedCVTypeCodeContent(delsvar, GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM);
-                    try {
-                        grundForMedicinsktUnderlagTyp = RespConstants.ReferensTyp.byTransportId(validatedCVType);
-                    } catch (Exception e) {
-                        throw new PrefillWarningException(delsvar, WARNING_INVALID_CVTYPE_CODE_VALUE);
-                    }
+            //We fail at individual delsvar so that other (correct) delsvarsinfo can be processed.
+            try {
+                switch (delsvar.getId()) {
+                    case GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1:
+                        grundForMedicinsktUnderlagDatum = new InternalDate(getValidatedString(delsvar, DEFAULT_DATE_STRING_LENGTH));
+                        break;
+                    case GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1:
+                        String validatedCVType = getValidatedCVTypeCodeContent(delsvar, GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM);
+                        try {
+                            grundForMedicinsktUnderlagTyp = RespConstants.ReferensTyp.byTransportId(validatedCVType);
+                        } catch (Exception e) {
+                            throw new PrefillWarningException(delsvar, WARNING_INVALID_CVTYPE_CODE_VALUE);
+                        }
 
-                    break;
-                case GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1:
-                    utlatande.setAnnatGrundForMUBeskrivning(getValidatedString(delsvar));
-                    break;
-                default:
-                    throw new PrefillWarningException(delsvar, WARNING_INVALID_DELSVAR_ID);
+                        break;
+                    case GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1:
+                        utlatande.setAnnatGrundForMUBeskrivning(getValidatedString(delsvar, DEFAULT_FREETEXT_MAXLENGTH));
+                        break;
+                    default:
+                        throw new PrefillWarningException(delsvar, WARNING_INVALID_DELSVAR_ID);
+                }
+            } catch (PrefillWarningException e) {
+                pr.addMessage(PrefillEventType.WARNING, e.getSvarId(), e.getMessage(), e.getSourceContent());
             }
         }
 
         if (grundForMedicinsktUnderlagTyp == null) {
             throw new PrefillWarningException(svar,
-                "Ignoring - Missing mandatory CVType for " + GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1);
+                String.format(WARNING_MISSING_MANDATORY_CVTYPE_FOR_DELSVAR, GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1));
         }
 
         //Fallback handling
-        if (grundForMedicinsktUnderlagDatum == null) {
+        if (grundForMedicinsktUnderlagDatum == null || StringUtils.isEmpty(grundForMedicinsktUnderlagDatum.getDate())) {
             grundForMedicinsktUnderlagDatum = new InternalDate(LocalDate.now());
 
             pr.addMessage(PrefillEventType.INFO, svar,
-                "No " + GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1 + " date provided - defaulting to " + grundForMedicinsktUnderlagDatum
-                    .getDate());
+                String.format(WARNING_MISSING_DATE_DEFAULTING_TO, grundForMedicinsktUnderlagDatum.getDate()));
+
         }
 
         switch (grundForMedicinsktUnderlagTyp) {
@@ -346,7 +344,7 @@ public class PrefillHandler {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_DELSVAR_ID_44:
-                    utlatande.setArbetslivsinriktadeAtgarderBeskrivning(getValidatedString(delsvar));
+                    utlatande.setArbetslivsinriktadeAtgarderBeskrivning(getValidatedString(delsvar, DEFAULT_FREETEXT_MAXLENGTH));
                     break;
                 default:
                     throw new PrefillWarningException(delsvar, WARNING_INVALID_DELSVAR_ID);
@@ -394,7 +392,7 @@ public class PrefillHandler {
                     utlatande.setArbetstidsforlaggning(getValidatedBoolean(delsvar));
                     break;
                 case ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33:
-                    utlatande.setArbetstidsforlaggningMotivering(getValidatedString(delsvar));
+                    utlatande.setArbetstidsforlaggningMotivering(getValidatedString(delsvar, DEFAULT_FREETEXT_MAXLENGTH));
                     break;
                 default:
                     throw new PrefillWarningException(delsvar, WARNING_INVALID_DELSVAR_ID);
@@ -407,7 +405,7 @@ public class PrefillHandler {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case FORSAKRINGSMEDICINSKT_BESLUTSSTOD_DELSVAR_ID_37:
-                    utlatande.setForsakringsmedicinsktBeslutsstod(getValidatedString(delsvar));
+                    utlatande.setForsakringsmedicinsktBeslutsstod(getValidatedString(delsvar, DEFAULT_FREETEXT_MAXLENGTH));
                     break;
                 default:
                     throw new PrefillWarningException(delsvar, WARNING_INVALID_DELSVAR_ID);
@@ -453,8 +451,7 @@ public class PrefillHandler {
 
         //If we could not find a period, we default to a period with a default startDate and an empty enddate
         if (period == null) {
-            pr.addMessage(PrefillEventType.INFO, svar,
-                "No DatePeriod provided - defaulting to period with start " + defaultStartDate);
+            pr.addMessage(PrefillEventType.INFO, svar, String.format(WARNING_MISSING_DATE_DEFAULTING_TO, defaultStartDate));
             period = new InternalLocalDateInterval(defaultStartDate.toString(), "");
         }
 
@@ -467,7 +464,7 @@ public class PrefillHandler {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case FUNKTIONSNEDSATTNING_DELSVAR_ID_35:
-                    utlatande.setFunktionsnedsattning(getValidatedString(delsvar));
+                    utlatande.setFunktionsnedsattning(getValidatedString(delsvar, DEFAULT_FREETEXT_MAXLENGTH));
                     break;
                 default:
                     throw new PrefillWarningException(delsvar, WARNING_INVALID_DELSVAR_ID);
@@ -480,7 +477,7 @@ public class PrefillHandler {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case NUVARANDE_ARBETE_DELSVAR_ID_29:
-                    utlatande.setNuvarandeArbete(getValidatedString(delsvar));
+                    utlatande.setNuvarandeArbete(getValidatedString(delsvar, DEFAULT_FREETEXT_MAXLENGTH));
                     break;
                 default:
                     throw new PrefillWarningException(delsvar, WARNING_INVALID_DELSVAR_ID);
@@ -511,7 +508,7 @@ public class PrefillHandler {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case AKTIVITETSBEGRANSNING_DELSVAR_ID_17:
-                    utlatande.setAktivitetsbegransning(getValidatedString(delsvar));
+                    utlatande.setAktivitetsbegransning(getValidatedString(delsvar, DEFAULT_FREETEXT_MAXLENGTH));
                     break;
                 default:
                     throw new PrefillWarningException(delsvar, WARNING_INVALID_DELSVAR_ID);
@@ -523,7 +520,7 @@ public class PrefillHandler {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case PAGAENDEBEHANDLING_DELSVAR_ID_19:
-                    utlatande.setPagaendeBehandling(getValidatedString(delsvar));
+                    utlatande.setPagaendeBehandling(getValidatedString(delsvar, DEFAULT_FREETEXT_MAXLENGTH));
                     break;
                 default:
                     throw new PrefillWarningException(delsvar, WARNING_INVALID_DELSVAR_ID);
@@ -535,7 +532,7 @@ public class PrefillHandler {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case PLANERADBEHANDLING_DELSVAR_ID_20:
-                    utlatande.setPlaneradBehandling(getValidatedString(delsvar));
+                    utlatande.setPlaneradBehandling(getValidatedString(delsvar, DEFAULT_FREETEXT_MAXLENGTH));
                     break;
                 default:
                     throw new PrefillWarningException(delsvar, WARNING_INVALID_DELSVAR_ID);
@@ -547,7 +544,7 @@ public class PrefillHandler {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case OVRIGT_DELSVAR_ID_25:
-                    utlatande.setOvrigt(getValidatedString(delsvar));
+                    utlatande.setOvrigt(getValidatedString(delsvar, DEFAULT_FREETEXT_MAXLENGTH));
                     break;
                 default:
                     throw new PrefillWarningException(delsvar, WARNING_INVALID_DELSVAR_ID);
@@ -562,7 +559,7 @@ public class PrefillHandler {
                     utlatande.setKontaktMedFk(getValidatedBoolean(delsvar));
                     break;
                 case ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26:
-                    utlatande.setAnledningTillKontakt(getValidatedString(delsvar));
+                    utlatande.setAnledningTillKontakt(getValidatedString(delsvar, DEFAULT_FREETEXT_MAXLENGTH));
                     break;
                 default:
                     throw new PrefillWarningException(delsvar, WARNING_INVALID_DELSVAR_ID);
@@ -604,7 +601,7 @@ public class PrefillHandler {
                         diagnoskodverk = Diagnoskodverk.getEnumByCodeSystem(diagnosKodSystem);
                         break;
                     case DIAGNOS_BESKRIVNING_DELSVAR_ID_6:
-                        diagnosBeskrivning = getValidatedString(delsvar);
+                        diagnosBeskrivning = getValidatedString(delsvar, DEFAULT_DIAGNOSDESCRIPTION_MAXLENGTH);
                         break;
                     case BIDIAGNOS_1_DELSVAR_ID_6:
                         CVType bidiagnos1 = getValidatedCVTypeContent(delsvar, VALID_DIAGNOSE_CODESYSTEM_VALUES);
@@ -614,7 +611,7 @@ public class PrefillHandler {
                         bidiagnoskodverk1 = Diagnoskodverk.getEnumByCodeSystem(bidiagnosKodSystem1);
                         break;
                     case BIDIAGNOS_1_BESKRIVNING_DELSVAR_ID_6:
-                        bidiagnosBeskrivning1 = getValidatedString(delsvar);
+                        bidiagnosBeskrivning1 = getValidatedString(delsvar, DEFAULT_DIAGNOSDESCRIPTION_MAXLENGTH);
                         break;
                     case BIDIAGNOS_2_DELSVAR_ID_6:
                         CVType bidiagnos2 = getValidatedCVTypeContent(delsvar, VALID_DIAGNOSE_CODESYSTEM_VALUES);
@@ -624,7 +621,7 @@ public class PrefillHandler {
                         bidiagnoskodverk2 = Diagnoskodverk.getEnumByCodeSystem(bidiagnosKodSystem2);
                         break;
                     case BIDIAGNOS_2_BESKRIVNING_DELSVAR_ID_6:
-                        bidiagnosBeskrivning2 = getValidatedString(delsvar);
+                        bidiagnosBeskrivning2 = getValidatedString(delsvar, DEFAULT_DIAGNOSDESCRIPTION_MAXLENGTH);
                         break;
                     default:
                         throw new PrefillWarningException(delsvar, WARNING_INVALID_DELSVAR_ID);
@@ -672,22 +669,6 @@ public class PrefillHandler {
         pr.addMessage(PrefillEventType.INFO, delsvarsId,
             "Missing diagnoseDescription for code " + diagnosKod + " - defaulting with lookup value '"
                 + diagnosBeskrivning + "'", "");
-    }
-
-    private void handleTillaggsfraga(List<Tillaggsfraga> tillaggsFragor, Svar svar, PrefillResult pr) throws PrefillWarningException {
-        // Must only have 1 delsvar per tillaggsfraga
-        final int nrDelsvar = svar.getDelsvar().size();
-        if (nrDelsvar != 1) {
-            throw new PrefillWarningException(svar, "Ignoring - Expected 1 delsvar per tillaggsfraga but was " + nrDelsvar);
-        }
-
-        Delsvar delsvar = svar.getDelsvar().get(0);
-        if (!delsvar.getId().equals(svar.getId() + ".1")) {
-            throw new PrefillWarningException(delsvar, WARNING_INVALID_DELSVAR_ID);
-        }
-
-        //TODO: check that tillaggsfraga exists in intygtext?
-        tillaggsFragor.add(Tillaggsfraga.create(svar.getId(), getValidatedString(delsvar)));
     }
 
 

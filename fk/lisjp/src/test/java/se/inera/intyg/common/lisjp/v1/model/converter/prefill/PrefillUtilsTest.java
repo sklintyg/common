@@ -55,11 +55,11 @@ public class PrefillUtilsTest {
         Delsvar delsvar = new ObjectFactory().createSvarDelsvar();
         delsvar.setId("1.1");
         delsvar.getContent().add(expected);
-        assertEquals(expected, PrefillUtils.getValidatedString(delsvar));
+        assertEquals(expected, PrefillUtils.getValidatedString(delsvar, 100));
 
         delsvar.getContent().clear();
         delsvar.getContent().add("");
-        assertEquals("", PrefillUtils.getValidatedString(delsvar));
+        assertEquals("", PrefillUtils.getValidatedString(delsvar, 100));
     }
 
     @Test(expected = PrefillWarningException.class)
@@ -67,6 +67,15 @@ public class PrefillUtilsTest {
         Delsvar delsvar = new ObjectFactory().createSvarDelsvar();
         delsvar.setId("1.1");
         delsvar.getContent().add(new ObjectFactory().createSvarDelsvar());
-        PrefillUtils.getValidatedString(delsvar);
+        PrefillUtils.getValidatedString(delsvar,100);
+    }
+
+    @Test(expected = PrefillWarningException.class)
+    public void getValidatedStringFailsWhenExceedingMaxLength() throws PrefillWarningException {
+        String expected = "Lite text";
+        Delsvar delsvar = new ObjectFactory().createSvarDelsvar();
+        delsvar.setId("1.1");
+        delsvar.getContent().add(expected);
+        PrefillUtils.getValidatedString(delsvar,2);
     }
 }

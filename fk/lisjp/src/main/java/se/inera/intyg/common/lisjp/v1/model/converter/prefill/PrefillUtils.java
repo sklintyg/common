@@ -24,6 +24,7 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillHand
 import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillHandler.WARNING_INVALID_CVTYPE_CODE_VALUE;
 import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillHandler.WARNING_INVALID_DATEPERIOD_CONTENT;
 import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillHandler.WARNING_INVALID_STRING_FIELD;
+import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillHandler.WARNING_INVALID_STRING_MAXLENGTH;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.childElements;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
@@ -33,7 +34,6 @@ import static se.inera.intyg.common.support.modules.converter.TransportConverter
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import org.springframework.util.StringUtils;
 import se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillResult.PrefillEventType;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -58,12 +58,17 @@ final class PrefillUtils {
         return Boolean.valueOf(potentialBooleanString);
     }
 
-    static String getValidatedString(Delsvar delsvar) throws PrefillWarningException {
+    static String getValidatedString(Delsvar delsvar, int validMaxLength) throws PrefillWarningException {
         if (!isStringContent(delsvar)) {
             throw new PrefillWarningException(delsvar, WARNING_INVALID_STRING_FIELD);
         }
-        return getStringContent(delsvar);
+        final String validatedMaxLengthString = getStringContent(delsvar);
 
+        if (validatedMaxLengthString != null && validatedMaxLengthString.length() > validMaxLength) {
+            throw new PrefillWarningException(delsvar,
+                String.format(WARNING_INVALID_STRING_MAXLENGTH, validMaxLength, validatedMaxLengthString.length()));
+        }
+        return validatedMaxLengthString;
     }
 
     /**
@@ -119,7 +124,7 @@ final class PrefillUtils {
                 return tempPeriod;
             });
             //Default startdate handling
-            if (Objects.isNull(datePeriodType.getStart())) {
+            if (StringUtils.isEmpty(datePeriodType.getStart())) {
                 pr.addMessage(PrefillEventType.INFO, delsvar, "No startdate provided - defaulting to " + defaultStartDateIfMissing);
                 datePeriodType.setStart(defaultStartDateIfMissing);
             }

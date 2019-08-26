@@ -25,6 +25,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_BESKRIVNING_DELSVAR_ID_6;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_35;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 
 import java.time.LocalDate;
 import org.assertj.core.api.Assertions;
@@ -70,7 +72,7 @@ public class PrefillHandlerTest {
         final PrefillResult result = testee.prefill(template, scenario.getForifyllnad());
 
         assertTrue(result.getMessages().isEmpty());
-        Assertions.assertThat(scenario.getUtlatande()).isEqualTo(template.build());
+        Assertions.assertThat(template.build()).isEqualTo(scenario.getUtlatande());
     }
 
     @Test
@@ -81,7 +83,7 @@ public class PrefillHandlerTest {
         final PrefillResult result = testee.prefill(template, scenario.getForifyllnad());
 
         assertTrue(result.getMessages().isEmpty());
-        Assertions.assertThat(scenario.getUtlatande()).isEqualTo(template.build());
+        Assertions.assertThat(template.build()).isEqualTo(scenario.getUtlatande());
 
     }
 
@@ -98,8 +100,8 @@ public class PrefillHandlerTest {
         final PrefillResult result = testee.prefill(template, scenario.getForifyllnad());
 
         LisjpUtlatandeV1 utlatande = template.build();
-        Assertions.assertThat(scenario.getUtlatande()).isEqualToIgnoringGivenFields(utlatande, "sjukskrivningar");
 
+        Assertions.assertThat(utlatande).isEqualToIgnoringGivenFields(scenario.getUtlatande(), "sjukskrivningar");
         assertEquals(1, result.getMessages().size());
         final SvarResult svarResult = result.getMessages().get(0);
         assertEquals(PrefillEventType.INFO, svarResult.getEventType());
@@ -107,6 +109,58 @@ public class PrefillHandlerTest {
         final Sjukskrivning sjukskrivning = utlatande.getSjukskrivningar().stream()
             .filter(ss -> ss.getSjukskrivningsgrad().equals(SjukskrivningsGrad.HELT_NEDSATT)).findFirst().get();
         assertEquals(LocalDate.now(), sjukskrivning.getPeriod().getFrom().asLocalDate());
+
+    }
+
+    /**
+     * Verify that when a field (funktionsnedsattning) is longer than maxlength - it's ignored with a warning message
+     */
+    @Test
+    public void testPrefillHandlesMaxStringLength() {
+
+        PrefillScenario scenario = new PrefillScenario("lisjp-freetext-maxlength");
+        LisjpUtlatandeV1.Builder template = getEmptyUtlatande();
+
+        final PrefillResult result = testee.prefill(template, scenario.getForifyllnad());
+
+        LisjpUtlatandeV1 utlatande = template.build();
+
+        Assertions.assertThat(utlatande).isEqualTo(scenario.getUtlatande());
+        assertEquals(1, result.getMessages().size());
+        final SvarResult svarResult = result.getMessages().get(0);
+        assertEquals(PrefillEventType.WARNING, svarResult.getEventType());
+        assertEquals(FUNKTIONSNEDSATTNING_DELSVAR_ID_35, svarResult.getSvarId());
+
+    }
+
+    /**
+     * Verify that when a Forifylland of a GrundForMu date is not present - a default date is set as todays date and
+     * that a INFO message of the fallback handling is returned.
+     */
+    @Test
+    public void testPrefillGrundForMUDateDefaultValue() {
+
+        PrefillScenario scenario = new PrefillScenario("lisjp-defaulting-grundformu-date");
+        LisjpUtlatandeV1.Builder template = getEmptyUtlatande();
+
+        final PrefillResult result = testee.prefill(template, scenario.getForifyllnad());
+
+        LisjpUtlatandeV1 utlatande = template.build();
+        Assertions.assertThat(utlatande)
+            .isEqualToIgnoringGivenFields(scenario.getUtlatande(), "undersokningAvPatienten", "telefonkontaktMedPatienten",
+                "journaluppgifter",
+                "annatGrundForMU");
+
+        assertEquals(4, result.getMessages().size());
+        for (SvarResult item : result.getMessages()) {
+            assertEquals(PrefillEventType.INFO, item.getEventType());
+            assertTrue(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1.equals(item.getSvarId()));
+        }
+
+        assertEquals(LocalDate.now(), utlatande.getUndersokningAvPatienten().asLocalDate());
+        assertEquals(LocalDate.now(), utlatande.getTelefonkontaktMedPatienten().asLocalDate());
+        assertEquals(LocalDate.now(), utlatande.getJournaluppgifter().asLocalDate());
+        assertEquals(LocalDate.now(), utlatande.getAnnatGrundForMU().asLocalDate());
 
     }
 
@@ -123,7 +177,7 @@ public class PrefillHandlerTest {
         final PrefillResult result = testee.prefill(template, scenario.getForifyllnad());
 
         LisjpUtlatandeV1 utlatande = template.build();
-        Assertions.assertThat(scenario.getUtlatande()).isEqualTo(utlatande);
+        Assertions.assertThat(utlatande).isEqualTo(scenario.getUtlatande());
 
         assertEquals(1, result.getMessages().size());
         final SvarResult svarResult = result.getMessages().get(0);
