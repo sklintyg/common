@@ -76,6 +76,7 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillUtil
 import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillUtils.getValidatedCVTypeContent;
 import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillUtils.getValidatedDatePeriodTypeContent;
 import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillUtils.getValidatedString;
+import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillUtils.nullToEmpty;
 
 import com.google.common.primitives.Ints;
 import java.time.LocalDate;
@@ -435,7 +436,7 @@ public class PrefillHandler {
                         break;
                     case BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32:
                         DatePeriodType datePeriod = getValidatedDatePeriodTypeContent(delsvar, defaultStartDate, pr);
-                        period = new InternalLocalDateInterval(datePeriod.getStart().toString(), datePeriod.getEnd().toString());
+                        period = new InternalLocalDateInterval(nullToEmpty(datePeriod.getStart()), nullToEmpty(datePeriod.getEnd()));
                         break;
                     default:
                         throw new PrefillWarningException(delsvar, WARNING_INVALID_DELSVAR_ID);
@@ -569,7 +570,7 @@ public class PrefillHandler {
         }
     }
 
-    public void handleDiagnos(List<Diagnos> diagnoser, Svar svar, PrefillResult pr) {
+    private void handleDiagnos(List<Diagnos> diagnoser, Svar svar, PrefillResult pr) {
         // Huvuddiagnos
         String diagnosKod = null;
         String diagnosKodSystem = null;

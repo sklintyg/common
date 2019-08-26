@@ -101,34 +101,39 @@ final class PrefillUtils {
     static DatePeriodType getValidatedDatePeriodTypeContent(Delsvar delsvar, LocalDate defaultStartDateIfMissing, PrefillResult pr)
         throws PrefillWarningException {
         try {
-            return parseDelsvarType(delsvar, dpNode -> {
-                final DatePeriodType datePeriodType = new DatePeriodType();
+            DatePeriodType datePeriodType = parseDelsvarType(delsvar, dpNode -> {
+                final DatePeriodType tempPeriod = new DatePeriodType();
                 childElements(dpNode, child -> {
                     switch (child.getLocalName()) {
                         case "start":
-                            datePeriodType.setStart(LocalDate.parse(child.getTextContent()));
+                            tempPeriod.setStart(LocalDate.parse(child.getTextContent()));
                             break;
                         case "end":
-                            datePeriodType.setEnd(LocalDate.parse(child.getTextContent()));
+                            tempPeriod.setEnd(LocalDate.parse(child.getTextContent()));
                             break;
                         default:
                             throw new IllegalArgumentException("Invalid DatePeriodType element " + child.getLocalName());
                     }
                 });
 
-                //Default startdate handling
-                if (Objects.isNull(datePeriodType.getStart())) {
-                    pr.addMessage(PrefillEventType.INFO, delsvar, "No startdate provided - defaulting to " + defaultStartDateIfMissing);
-                    datePeriodType.setStart(defaultStartDateIfMissing);
-                }
-
-                return datePeriodType;
+                return tempPeriod;
             });
+            //Default startdate handling
+            if (Objects.isNull(datePeriodType.getStart())) {
+                pr.addMessage(PrefillEventType.INFO, delsvar, "No startdate provided - defaulting to " + defaultStartDateIfMissing);
+                datePeriodType.setStart(defaultStartDateIfMissing);
+            }
+
+            return datePeriodType;
 
         } catch (ConverterException e) {
             throw new PrefillWarningException(delsvar, WARNING_INVALID_DATEPERIOD_CONTENT + " (" + e.getMessage() + ")");
         } catch (Exception e) {
             throw new PrefillWarningException(delsvar, WARNING_INVALID_DATEPERIOD_CONTENT + " (" + e.getMessage() + ")");
         }
+    }
+
+    static String nullToEmpty(LocalDate localDate) {
+        return localDate == null ? "" : localDate.toString();
     }
 }
