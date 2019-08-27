@@ -132,7 +132,7 @@ public class PrefillHandler {
     private static final String WARNING_INVALID_SVAR_ID = "Ignoring - invalid svar id";
     private static final String WARNING_INVALID_DELSVAR_ID = "Ignoring - invalid delsvar id";
     private static final String WARNING_MISSING_SJUKSKRIVNINGSNIVA = "Ignoring - missing sjukskrivningsniva";
-    private static final String WARNING_MISSING_DATE_DEFAULTING_TO = "No date provided - defaulting to %s";
+    private static final String WARNING_MISSING_DATE_DEFAULTING_TO = "No date provided for delsvar %s - defaulting to %s";
     private static final List<String> VALID_DIAGNOSE_CODESYSTEM_VALUES = Arrays
         .asList(Diagnoskodverk.ICD_10_SE.getCodeSystem(), Diagnoskodverk.KSH_97_P.getCodeSystem());
     private static final Logger LOG = LoggerFactory.getLogger(PrefillHandler.class);
@@ -296,7 +296,8 @@ public class PrefillHandler {
             grundForMedicinsktUnderlagDatum = new InternalDate(LocalDate.now());
 
             pr.addMessage(PrefillEventType.INFO, svar,
-                String.format(WARNING_MISSING_DATE_DEFAULTING_TO, grundForMedicinsktUnderlagDatum.getDate()));
+                String.format(WARNING_MISSING_DATE_DEFAULTING_TO, GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1,
+                    grundForMedicinsktUnderlagDatum.getDate()));
 
         }
 
@@ -451,7 +452,8 @@ public class PrefillHandler {
 
         //If we could not find a period, we default to a period with a default startDate and an empty enddate
         if (period == null) {
-            pr.addMessage(PrefillEventType.INFO, svar, String.format(WARNING_MISSING_DATE_DEFAULTING_TO, defaultStartDate));
+            pr.addMessage(PrefillEventType.INFO, svar,
+                String.format(WARNING_MISSING_DATE_DEFAULTING_TO, BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32, defaultStartDate));
             period = new InternalLocalDateInterval(defaultStartDate.toString(), "");
         }
 

@@ -27,7 +27,6 @@ import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
 import se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillHandler;
 import se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillResult;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
-import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1.Builder;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -73,12 +72,12 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LisjpUtlatan
         // Default to latest minor version available for major version of intygtype
         String fullVersion = intygTexts.getLatestVersionForSameMajorVersion(LisjpEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion());
         template.setTextVersion(fullVersion);
-
-        PrefillHandler prefillHandler = new PrefillHandler(moduleService, newDraftData.getCertificateId(), LisjpEntryPoint.MODULE_ID,
-            fullVersion);
-        PrefillResult prefillResult = prefillHandler.prefill(template, newDraftData.getForifyllnad());
-        LOG.info("Prefill result: " + prefillResult.toJsonReport());
-
+        if (newDraftData.getForifyllnad().isPresent()) {
+            PrefillHandler prefillHandler = new PrefillHandler(moduleService, newDraftData.getCertificateId(), LisjpEntryPoint.MODULE_ID,
+                fullVersion);
+            PrefillResult prefillResult = prefillHandler.prefill(template, newDraftData.getForifyllnad().get());
+            LOG.info("Prefill result log: " + prefillResult.toJsonReport());
+        }
         return template.setGrundData(grundData).build();
     }
 

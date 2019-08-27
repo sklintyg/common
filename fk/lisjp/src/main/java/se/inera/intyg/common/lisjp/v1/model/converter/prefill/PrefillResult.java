@@ -34,7 +34,7 @@ public class PrefillResult {
     private final List<SvarResult> messages = new ArrayList<>();
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    public PrefillResult(String intygsId, String intygsTyp, String intygsVersion) {
+    PrefillResult(String intygsId, String intygsTyp, String intygsVersion) {
         this.intygsId = intygsId;
         this.intygsTyp = intygsTyp;
         this.intygsVersion = intygsVersion;
@@ -64,32 +64,8 @@ public class PrefillResult {
             return this.toString();
         }
     }
-    /*public String getMessageLog() {
-        StringBuilder builder = new StringBuilder();
-        for (SvarResult message : messages) {
-            builder
-                .append(message.eventType.name())
-                .append(" ").append(message.getMessage())
-                .append(" frageId:").append(message.getSvarId())
-                .append(" input-data:").append(message.getInput())
-                .append("\n");
 
-        }
-        return builder.toString();
-
-    }*/
-
-    /*public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder
-            .append("intygid:").append(this.intygsId)
-            .append(", INTYGTYP:").append(this.intygsTyp)
-            .append(", INTYGSVERSION:").append(this.intygsVersion)
-            .append(", RESULTS:[").append(this.getMessageLog()).append("]");
-        return builder.toString();
-    }*/
-
-    public void addMessage(PrefillEventType eventType, Svar svar, String message) {
+    void addMessage(PrefillEventType eventType, Svar svar, String message) {
         if (svar == null) {
             addMessage(eventType, "", message, "");
         } else {
@@ -98,7 +74,7 @@ public class PrefillResult {
 
     }
 
-    public void addMessage(PrefillEventType eventType, Delsvar delsvar, String message) {
+    void addMessage(PrefillEventType eventType, Delsvar delsvar, String message) {
         if (delsvar == null) {
             addMessage(eventType, "", message, "");
         } else {
@@ -107,7 +83,7 @@ public class PrefillResult {
     }
 
 
-    public void addMessage(PrefillEventType eventType, String svarsId, String message, Serializable input) {
+    void addMessage(PrefillEventType eventType, String svarsId, String message, Serializable input) {
         messages.add(new SvarResult(eventType, svarsId, message, input));
 
     }
@@ -117,14 +93,14 @@ public class PrefillResult {
         INFO, WARNING
     }
 
-    class SvarResult {
+    static class SvarResult {
 
         private final String svarId;
         private PrefillEventType eventType;
         private String message;
         private Serializable input;
 
-        public SvarResult(PrefillEventType eventType, String svarId, String message, Serializable input) {
+        SvarResult(PrefillEventType eventType, String svarId, String message, Serializable input) {
             this.eventType = eventType;
             this.svarId = svarId;
             this.message = message;
