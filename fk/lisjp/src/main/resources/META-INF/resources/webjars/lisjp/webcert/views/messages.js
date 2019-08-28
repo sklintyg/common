@@ -50,7 +50,7 @@ angular.module('lisjp').constant('lisjp.messages', {
 
         'lisjp.help.sjukskrivningar.sista-giltighets-datum': 'På det ursprungliga intyget var slutdatumet för den sista sjukskrivningsperioden {{lastEffectiveDate}} och sjukskrivningsgraden var {{sjukskrivningsgrad}}.',
         'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering': 'Ange orsak för att starta perioden mer än 7 dagar bakåt i tiden.',
-        'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering.help': 'Detta är ett stöd för ifyllnad och ingen fråga från Försäkringskassan. Informationen du anger här kan vara till hjälp för Försäkringskassan i deras handläggning.\n' +
+        'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering.help': 'Observera att detta inte är en fråga från Försäkringskassan. Information om varför sjukskrivningen startar mer än en vecka före dagens datum kan vara till hjälp för Försäkringskassan i deras handläggning.\n' +
             '\n' +
             'Informationen du anger nedan, kommer att överföras till fältet "{0}" vid signering.',
         'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering.info': 'Informationen överförs till fältet \'{0}\' vid signering.',
