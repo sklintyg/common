@@ -1,0 +1,128 @@
+{
+  "id": "id1",
+  "grundData": {},
+  "typ": "lisjp",
+  "textVersion": "1.0",
+  "avstangningSmittskydd": false,
+  "undersokningAvPatienten": "tbd",
+  "telefonkontaktMedPatienten": "tbd",
+  "journaluppgifter": "tbd",
+  "annatGrundForMU": "tbd",
+  "annatGrundForMUBeskrivning": "baserat på annat",
+  "sysselsattning": [
+    {
+      "typ": "NUVARANDE_ARBETE"
+    },
+    {
+      "typ": "ARBETSSOKANDE"
+    },
+    {
+      "typ": "FORALDRALEDIG"
+    },
+    {
+      "typ": "STUDIER"
+    }
+  ],
+  "nuvarandeArbete": "Ett yrke med arbetsuppgifter",
+  "diagnoser": [
+    {
+      "diagnosKod": "J22",
+      "diagnosKodSystem": "ICD_10_SE",
+      "diagnosBeskrivning": "Icke specificerad akut infektion i nedre luftvägarna",
+      "diagnosDisplayName": "Icke specificerad akut infektion i nedre luftvägarna"
+    },
+    {
+      "diagnosKod": "M46",
+      "diagnosKodSystem": "ICD_10_SE",
+      "diagnosBeskrivning": "Andra inflammatoriska sjukdomar i ryggraden",
+      "diagnosDisplayName": "Andra inflammatoriska sjukdomar i ryggraden"
+    },
+    {
+      "diagnosKod": "S22",
+      "diagnosKodSystem": "ICD_10_SE",
+      "diagnosBeskrivning": "Fraktur på revben, bröstbenet och bröstkotpelaren",
+      "diagnosDisplayName": "Fraktur på revben, bröstbenet och bröstkotpelaren"
+    }
+  ],
+  "funktionsnedsattning": "Funktionell nedsättning",
+  "aktivitetsbegransning": "Begränsning i aktivitet",
+  "pagaendeBehandling": "En pågående behandling",
+  "planeradBehandling": "En planerad behandling",
+  "sjukskrivningar": [
+    {
+      "sjukskrivningsgrad": "HELT_NEDSATT",
+      "period": {
+        "from": "2017-06-19",
+        "tom": "2017-07-10"
+      }
+    },
+    {
+      "sjukskrivningsgrad": "TRE_FJARDEDEL",
+      "period": {
+        "from": "2017-05-28",
+        "tom": "2017-06-18"
+      }
+    },
+    {
+      "sjukskrivningsgrad": "HALFTEN",
+      "period": {
+        "from": "2017-05-27",
+        "tom": "2017-05-27"
+      }
+    },
+    {
+      "sjukskrivningsgrad": "EN_FJARDEDEL",
+      "period": {
+        "from": "2017-05-26",
+        "tom": "2017-05-26"
+      }
+    }
+  ],
+  "forsakringsmedicinsktBeslutsstod": "Arbetsförmågan bedöms nedsatt en längre tid.",
+  "arbetstidsforlaggning": true,
+  "arbetstidsforlaggningMotivering": "Ett medicinskt skäl till annan förläggning",
+  "arbetsresor": true,
+  "prognos": {
+    "typ": "ATER_X_ANTAL_DGR",
+    "dagarTillArbete": "NITTIO_DGR"
+  },
+  "arbetslivsinriktadeAtgarder": [
+    {
+      "typ": "ARBETSTRANING"
+    },
+    {
+      "typ": "ARBETSANPASSNING"
+    },
+    {
+      "typ": "SOKA_NYTT_ARBETE"
+    },
+    {
+      "typ": "BESOK_ARBETSPLATS"
+    },
+    {
+      "typ": "ERGONOMISK"
+    },
+    {
+      "typ": "HJALPMEDEL"
+    },
+    {
+      "typ": "KONFLIKTHANTERING"
+    },
+    {
+      "typ": "KONTAKT_FHV"
+    },
+    {
+      "typ": "OMFORDELNING"
+    },
+    {
+      "typ": "OVRIGA_ATGARDER"
+    }
+  ],
+  "arbetslivsinriktadeAtgarderBeskrivning": "Övriga åtgärder finns",
+  "ovrigt": "En del övrigt om patienten",
+  "kontaktMedFk": true,
+  "anledningTillKontakt": "Gillar att prata i telefon",
+  "tillaggsfragor": [],
+  "funktionsKategorier": [],
+  "aktivitetsKategorier": []
+}

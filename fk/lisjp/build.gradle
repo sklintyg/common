@@ -3,5 +3,6 @@ dependencies {
 
     compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
     compile "com.google.auto.value:auto-value:${autovalueVersion}"
+    testCompile "org.assertj:assertj-core:${assertjVersion}"
 annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
 }

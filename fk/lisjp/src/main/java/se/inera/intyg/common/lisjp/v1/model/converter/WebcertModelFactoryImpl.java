@@ -24,6 +24,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
+import se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillHandler;
+import se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillResult;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -32,6 +34,7 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 
@@ -42,7 +45,8 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
 public class WebcertModelFactoryImpl implements WebcertModelFactory<LisjpUtlatandeV1> {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
-
+    @Autowired(required = false)
+    protected WebcertModuleService moduleService;
     @Autowired(required = false)
     private IntygTextsService intygTexts;
 
@@ -66,9 +70,14 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LisjpUtlatan
         template.setSignature(null);
 
         // Default to latest minor version available for major version of intygtype
-        template.setTextVersion(
-            intygTexts.getLatestVersionForSameMajorVersion(LisjpEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
-
+        String fullVersion = intygTexts.getLatestVersionForSameMajorVersion(LisjpEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion());
+        template.setTextVersion(fullVersion);
+        if (newDraftData.getForifyllnad().isPresent()) {
+            PrefillHandler prefillHandler = new PrefillHandler(moduleService, newDraftData.getCertificateId(), LisjpEntryPoint.MODULE_ID,
+                fullVersion);
+            PrefillResult prefillResult = prefillHandler.prefill(template, newDraftData.getForifyllnad().get());
+            LOG.info("Prefill result log: " + prefillResult.toJsonReport());
+        }
         return template.setGrundData(grundData).build();
     }
 

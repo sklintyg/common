@@ -125,8 +125,8 @@ angular.module('common').service('common.SjukskrivningarViewStateService',
 
                 angular.forEach(this.model, function(value, key) {
 
-                    // Om det står något i både fälten kryssa i checkboxen
-                    if (value.period.from && value.period.tom) {
+                    // Om det står något i nåt av fälten kryssa i checkboxen
+                    if (value.period.from || value.period.tom) {
                         this.periods[key].checked = true;
                     }
 

@@ -303,7 +303,7 @@ public final class TransportConverterUtil {
     }
 
     //
-    static <T> T parseDelsvarType(final Delsvar delsvar, final Function<Node, T> parser) throws ConverterException {
+    public static <T> T parseDelsvarType(final Delsvar delsvar, final Function<Node, T> parser) throws ConverterException {
         for (Object o : delsvar.getContent()) {
             if (o instanceof Node) {
                 T value = parser.apply((Node) o);
@@ -325,7 +325,7 @@ public final class TransportConverterUtil {
      * @param parentNode the parent node.
      * @param consumer the consumer of child element nodes.
      */
-    static void childElements(Node parentNode, Consumer<Node> consumer) {
+    public static void childElements(Node parentNode, Consumer<Node> consumer) {
         for (Node n = parentNode.getFirstChild(); n != null; n = n.getNextSibling()) {
             if (n.getNodeType() == Node.ELEMENT_NODE) {
                 consumer.accept(n);

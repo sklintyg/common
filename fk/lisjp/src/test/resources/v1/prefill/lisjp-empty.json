@@ -1,0 +1,13 @@
+{
+  "id" : "id1",
+  "grundData" : { },
+  "textVersion" : "1.0",
+  "sysselsattning" : [ ],
+  "diagnoser" : [ ],
+  "sjukskrivningar" : [ ],
+  "arbetslivsinriktadeAtgarder" : [ ],
+  "tillaggsfragor" : [ ],
+  "funktionsKategorier" : [ ],
+  "aktivitetsKategorier" : [ ],
+  "typ" : "lisjp"
+}
