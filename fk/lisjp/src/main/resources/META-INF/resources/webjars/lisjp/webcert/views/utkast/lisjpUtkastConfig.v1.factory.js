@@ -123,6 +123,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
                             }]
                         ), fraga(1, '', '', { hideExpression: motiveringBaseratHideExpression }, [{
                             type: 'ue-textarea',
+                            htmlMaxlength: 150,
                             label: {
                                 bold: 'bold',
                                 key: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning',
@@ -245,6 +246,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
                             }
                         } }, [ {
                             type: 'ue-textarea',
+                            htmlMaxlength:  150,
                             label: {
                                 bold: 'bold',
                                 materialIcon: 'lightbulb_outline',
@@ -402,7 +404,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
                         fraga(25, '', '', { }, [{
                             modelProp: 'ovrigt',
                             type: 'ue-textarea',
-                            htmlMaxlength: 3500
+                            htmlMaxlength: 2700
                         }])
                     ]),
 

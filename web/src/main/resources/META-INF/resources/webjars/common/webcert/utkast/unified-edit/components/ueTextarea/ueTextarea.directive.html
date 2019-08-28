@@ -7,8 +7,9 @@
               ue-filter-latin1
               ng-model="modelGetterSetter"
               ng-model-options="{ debounce: 500, getterSetter: true }"
-              maxlength="{{::config.htmlMaxlength || 3500}}"
+              wc-maxlength maxlength="{{::config.htmlMaxlength || 3500}}"
               ng-blur="updateValidation()">
     </textarea>
   </div>
 </ue-validation-wrapper>
+
