@@ -165,6 +165,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory.v1',
                         fraga(1, '', '', { hideExpression: motiveringBaseratHideExpression }, [{
                             type: 'ue-textarea',
                             modelProp: 'motiveringTillInteBaseratPaUndersokning',
+                            htmlMaxlength: 150,
                             label: {
                                 bold: 'bold',
                                 key: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning',
@@ -446,7 +447,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory.v1',
                         fraga(25, 'FRG_25.RBK', 'FRG_25.HLP', { }, [{
                             type: 'ue-textarea',
                             modelProp: 'ovrigt',
-                            htmlMaxlength: 3500
+                            htmlMaxlength: 2850
                         }])
                     ]),
 

@@ -31,7 +31,7 @@ describe('wcMaxlength', function() {
             test: ''
         };
 
-        var el = angular.element('<form name="form"><textarea wc-maxlength maxlength="20" rows="13" ng-model="model.test" name="test" id="test-{{1+1}}"></textarea></form>');
+        var el = angular.element('<form name="form"><textarea wc-maxlength maxlength="40" rows="13" ng-model="model.test" name="test" id="test-{{1+1}}"></textarea></form>');
 
         form = $compile(el)($scope);
         $scope.$digest();
@@ -42,27 +42,27 @@ describe('wcMaxlength', function() {
         expect($scope.model.test).toEqual('This is a test');
     });
     it('should append number of characters left', function() {
-        expect(form.html()).toContain('Tecken kvar: 20');
+        expect(form.html()).toContain('Tecken kvar: 40');
     });
     it('should update number of characters left', function() {
         $scope.form.test.$setViewValue('13 characters');
         $scope.$digest();
-        expect(form.html()).toContain('Tecken kvar: 7'); // 20 - 13
+        expect(form.html()).toContain('Tecken kvar: 27'); // 40 - 13
     });
     it('should limit model to set limit', function() {
-        $scope.form.test.$setViewValue('this text is very long, extremely long even'); // 44 characters
+        $scope.form.test.$setViewValue('this text is very long, extremely long even!'); // 44 characters
         $scope.$digest();
-        expect(form.html()).toContain('Tecken kvar: 0'); // 20 - 13
-        expect($scope.model.test).toEqual('this text is very lo'); // Break after limit
+        expect(form.html()).toContain('Tecken kvar: 0'); // 40 - 44 ~ 0
+        expect($scope.model.test).toEqual('this text is very long, extremely long e'); // Break after limit
     });
     it('should accept stupid input', function() {
-        $scope.form.test.$setViewValue('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n');
+        $scope.form.test.$setViewValue('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n');
         $scope.$digest();
         expect(form.html()).toContain('Tecken kvar: 0');
     });
     it('should accept unprintable input', function() {
         $scope.form.test.$setViewValue('\0\0\0\0');
         $scope.$digest();
-        expect(form.html()).toContain('Tecken kvar: 16');
+        expect(form.html()).toContain('Tecken kvar: 36'); // 40 - 4
     });
 });

@@ -1,6 +1,10 @@
 ue-textarea {
   display: block;
 
+  .textarea-wrapper {
+    text-align: right;
+  }
+
   textarea.form-control {
     overflow-y: hidden;
     &:disabled, fieldset[disabled] & {

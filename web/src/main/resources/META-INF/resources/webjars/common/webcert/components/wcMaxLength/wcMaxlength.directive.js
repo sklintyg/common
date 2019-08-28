@@ -41,11 +41,13 @@ angular.module('common').directive('wcMaxlength',
                     counterName = counterName.replace(/\./g, '');
                     counterName = counterName.replace(/-/g, '');
                     scope[counterName] = attrs.maxlength;
-
-                    var counter = angular.
-                        element('<span class="counter">Tecken kvar: {{' + counterName + '}}</span>');
-                    $compile(counter)(scope);
-                    element.after(counter);
+                    var needCounter = attrs.maxlength > 35 && attrs.maxlength <= 1000;
+                    if(needCounter) {
+                        var counter = angular.element(
+                            '<span class="counter">Tecken kvar: {{' + counterName + '}}</span>');
+                            $compile(counter)(scope);
+                            element.after(counter);
+                    }
 
                     function limitLength(text) {
                         if (text === undefined) {
@@ -60,7 +62,6 @@ angular.module('common').directive('wcMaxlength',
                         scope[counterName] = attrs.maxlength - text.length;
                         return text;
                     }
-
                     controller.$formatters.unshift(limitLength);
                     controller.$parsers.unshift(limitLength);
                 });

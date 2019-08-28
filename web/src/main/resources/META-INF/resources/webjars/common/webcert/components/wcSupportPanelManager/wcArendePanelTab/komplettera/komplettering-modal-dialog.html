@@ -65,10 +65,11 @@
           Om intygsutfärdaren inte längre finns tillgänglig och ingen annan på vårdenheten kan ta det medicinska ansvaret för intyget,
           så ska du delge Försäkringskassan det genom att svara med ett meddelande.
         </div>
-        <div class="form-group" ng-class="{ 'form-group-indent' : !model.showLamnaOvrigaUpplysningar }">
+        <div class="form-group ovrigt-place-counter" ng-class="{ 'form-group-indent' : !model.showLamnaOvrigaUpplysningar }">
           <textarea id="komplettering-modal-dialog-meddelandetext"
                     class="form-control"
-                    ng-model="model.meddelandeText">
+                    ng-model="model.meddelandeText"
+                    wc-maxlength maxlength="500">
           </textarea>
         </div>
       </div>
