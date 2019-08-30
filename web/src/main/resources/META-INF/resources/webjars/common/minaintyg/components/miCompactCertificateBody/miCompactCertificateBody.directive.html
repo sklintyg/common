@@ -1,9 +1,21 @@
 <div class="mi-compact-certificate-body" ng-show="certMetaModel">
   <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-6 col-sm-6">
       <div class="text-muted"><span dynamic-label key="inbox.list.issuer.label" /></div>
       <span ng-attr-id="cert-issuer-text-{{certMetaModel.id}}"><strong>{{certMetaModel.caregiverName}}, {{certMetaModel.careunitName}}</strong></span>
     </div>
+    <div class="col-xs-6 col-sm-6 text-right" ng-init="isCollapsed = true">
+      <div>
+        <a ng-click="isCollapsed = !isCollapsed" ng-switch="isCollapsed" data-toggle="collapse" data-target="#intygsIdText-{{certMetaModel.id}}">
+           {{isCollapsed ? 'Visa intygs-ID' : 'Dölj intygs-ID'}}
+          <span ng-switch-when="false" data-toggle="collapse" data-target="#intygsIdText-{{certMetaModel.id}}" class="glyphicon glyphicon-chevron-up" style="-webkit-text-stroke: 2px white"></span>
+          <span ng-switch-when="true" data-toggle="collapse" data-target="#intygsIdText-{{certMetaModel.id}}" class="glyphicon glyphicon-chevron-down" style="-webkit-text-stroke: 2px white"></span>
+        </a>
+        <div id="intygsIdText-{{certMetaModel.id}}" class="collapse">
+          <span>{{certMetaModel.id}}</span>
+        </div>
+      </div>
+   </div>
   </div>
 
   <div class="row">
