@@ -61,8 +61,13 @@
                               config="uvConfig"
                               view-data="cert"></uv-render-components>
 
-        <div ng-if="!errorMessage" class="row col-xs-12 text-muted">
-          <br><span dynamic-label key="modules.view-intyg.end-of-intyg.text"></span>
+        <div class="row">
+          <div class="col-xs-6 col-sm-6 text-muted" >
+            <br><span ng-if="!errorMessage" dynamic-label key="modules.view-intyg.end-of-intyg.text"></span>
+          </div>
+          <div class="col-xs-6 col-sm-6 text-right">
+            <br><span>Intygs-ID: {{ cert.id }} </span>
+          </div>
         </div>
       </div>
       <!-- eof spinner -->
