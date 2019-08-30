@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('lisjp').factory('lisjp.viewFactory.v1', [
-    '$stateParams', '$location', 'lisjp.customizeViewstate',
-    function($stateParams, $location, customizeViewstate) {
+    '$stateParams',
+    function($stateParams) {
         'use strict';
 
         var intygsTyp = 'lisjp';
@@ -28,20 +28,9 @@ angular.module('lisjp').factory('lisjp.viewFactory.v1', [
             return '/send/' + intygsTyp +'/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/FKASSA';
         };
 
-        var _customizeCertificate = function() {
-            customizeViewstate.resetModel();
-            $location.path('/' + intygsTyp + '/' + $stateParams.intygTypeVersion + '/customize-lisjp/' + $stateParams.certificateId + '/step1');
-        };
-
-        var _enableCustomizeCertificate = function(cert) {
-            return !cert.avstangningSmittskydd;
-        };
-
         return {
             intygsTyp: intygsTyp,
             selectRecipientKey: selectRecipientKey,
-            getSendUrl: _sendUrl,
-            customizeCertificate: _customizeCertificate,
-            enableCustomizeCertificate: _enableCustomizeCertificate
+            getSendUrl: _sendUrl
         };
     }]);
