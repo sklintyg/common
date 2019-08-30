@@ -46,7 +46,7 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
         pdfDefinition.addChild(createPage4(intyg));
         // Only add tillaggsfragor page if there are some
         if (intyg.getTillaggsfragor() != null && intyg.getTillaggsfragor().size() > 0) {
-            final FkPage tillaggsfragorPage = tillaggsfragorPage(intyg, null);
+            final FkPage tillaggsfragorPage = tillaggsfragorPage(intyg);
             if (tillaggsfragorPage != null) {
                 pdfDefinition.addChild(tillaggsfragorPage);
             }
@@ -72,10 +72,10 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
 
         addPage1MiscFields(intyg, showFkAddress, allElements);
 
-        allElements.add(fraga1(intyg, null));
+        allElements.add(fraga1(intyg));
         allElements.add(fraga2(intyg));
-        allElements.add(fraga3(intyg, null));
-        allElements.add(fraga4(intyg, null));
+        allElements.add(fraga3(intyg));
+        allElements.add(fraga4(intyg));
 
         FkPage thisPage = new FkPage();
         thisPage.getChildren().addAll(allElements);
@@ -85,11 +85,11 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
     private FkPage createPage2(LisjpUtlatandeV1 intyg) throws IOException, DocumentException {
         List<PdfComponent<?>> allElements = new ArrayList<>();
 
-        allElements.add(fraga5(intyg, null));
-        allElements.add(fraga6(intyg, null));
-        allElements.add(fraga7(intyg, null));
+        allElements.add(fraga5(intyg));
+        allElements.add(fraga6(intyg));
+        allElements.add(fraga7(intyg));
         allElements.add(fraga8p1(intyg));
-        allElements.add(fraga8p2(intyg, null));
+        allElements.add(fraga8p2(intyg));
 
         FkPage thisPage = new FkPage();
         thisPage.getChildren().addAll(allElements);
@@ -100,10 +100,10 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
         List<PdfComponent<?>> allElements = new ArrayList<>();
 
         allElements.add(fraga8p3(intyg));
-        allElements.add(fraga8p4(intyg, null));
+        allElements.add(fraga8p4(intyg));
         allElements.add(fraga9(intyg));
         allElements.add(fraga10(intyg));
-        allElements.add(fraga11(intyg, null));
+        allElements.add(fraga11(intyg));
 
         FkPage thisPage = new FkPage();
         thisPage.getChildren().addAll(allElements);
@@ -113,7 +113,7 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
     private FkPage createPage4(LisjpUtlatandeV1 intyg) throws IOException, DocumentException {
         List<PdfComponent<?>> allElements = new ArrayList<>();
 
-        allElements.add(fraga12(intyg, null));
+        allElements.add(fraga12(intyg));
         allElements.add(fraga13(intyg));
 
         FkPage thisPage = new FkPage();
