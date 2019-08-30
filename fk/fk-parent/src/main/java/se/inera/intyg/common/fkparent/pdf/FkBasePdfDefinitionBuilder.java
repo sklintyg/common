@@ -18,11 +18,10 @@
  */
 package se.inera.intyg.common.fkparent.pdf;
 
+import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
-
-import com.google.common.collect.ImmutableList;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.pdf.model.FkPage;
 import se.inera.intyg.common.fkparent.pdf.model.FkTillaggsFraga;
@@ -47,10 +46,15 @@ public class FkBasePdfDefinitionBuilder {
 
     protected static final String DATE_PATTERN = "yyyy-MM-dd";
     protected static final String PROPERTY_KEY_FORMID = "formId";
+    protected static final String PROPERTY_KEY_FORMID_ROW2 = "formIdRow2";
     protected static final String PROPERTY_KEY_BLANKETT_ID = "blankettId";
     protected static final String PROPERTY_KEY_BLANKETT_VERSION = "blankettVersion";
 
     protected IntygTexts intygTexts;
+
+    protected String getPropertyValue(String propertyName) {
+        return this.intygTexts.getProperties().getProperty(propertyName, "");
+    }
 
     protected String getPrintedByText(ApplicationOrigin applicationOrigin) {
         switch (applicationOrigin) {

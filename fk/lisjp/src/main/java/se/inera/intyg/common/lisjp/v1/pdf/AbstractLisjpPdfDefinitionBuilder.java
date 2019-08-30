@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import org.springframework.util.StringUtils;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.pdf.FkBasePdfDefinitionBuilder;
 import se.inera.intyg.common.fkparent.pdf.PdfConstants;
@@ -93,6 +94,27 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
 
     private static final float CHECKBOXROW_DEFAULT_HEIGHT = 9f;
     private static final float CHECKBOX_DEFAULT_WIDTH = 60f;
+    private static final String PROPERTY_KEY_BLANKETT_LABEL_DATUM = "label.datum";
+    private static final String PROPERTY_KEY_BLANKETT_LABEL_DATUM_FROM = "label.from";
+    private static final String PROPERTY_KEY_BLANKETT_LABEL_DATUM_TOM = "label.tom";
+    private static final String PROPERTY_KEY_BLANKETT_LABEL_JA_FYLL_I = "label.fylli";
+    private static final String PROPERTY_KEY_BLANKETT_LABEL_UNDERSKRIFT_RUBRIK = "label.underskrift.rubrik";
+    private static final String PROPERTY_KEY_BLANKETT_LABEL_UNDERSKRIFT_LAKARE = "label.underskrift.lakare";
+    private static final String PROPERTY_KEY_BLANKETT_LABEL_UNDERSKRIFT_NAMNFORTYDLIGANDE = "label.underskrift.namnfortydligande";
+    private static final String PROPERTY_KEY_BLANKETT_LABEL_UNDERSKRIFT_BEFATTNING = "label.underskrift.befattning";
+    private static final String PROPERTY_KEY_BLANKETT_LABEL_UNDERSKRIFT_SPECIALISTKOMP = "label.underskrift.specialistkomp";
+    private static final String PROPERTY_KEY_BLANKETT_LABEL_UNDERSKRIFT_LAKARE_HSAID = "label.underskrift.lakare.hsaid";
+    private static final String PROPERTY_KEY_BLANKETT_LABEL_UNDERSKRIFT_ARBETSPLATSKOD = "label.underskrift.arbetsplatskod";
+    private static final String PROPERTY_KEY_BLANKETT_LABEL_UNDERSKRIFT_LAKARE_PERSONID = "label.underskrift.lakare.personid";
+    private static final String PROPERTY_KEY_BLANKETT_LABEL_UNDERSKRIFT_VARDENHET_ADRESS = "label.underskrift.vardenhet.adress";
+    private static final String PROPERTY_KEY_BLANKETT_UNDERSKRIFT_OMFATTNING = "label.underskrift.omfattning";
+    private static final String PROPERTY_KEY_BLANKETT_LABEL_GDPR_INFO = "label.gdpr.info";
+    private static final String PROPERTY_KEY_BLANKETT_LABEL_INTE_KANNER_PATIENT = "label.inte.kanner.patient";
+    private static final String PROPERTY_KEY_BLANKETT_LABEL_PATIENT_NAMN = "label.patientnamn";
+    private static final String PROPERTY_KEY_BLANKETT_LABEL_PERSONNR = "label.personnr";
+    private static final String PROPERTY_KEY_BLANKETT_LABEL_SKICKA_TILL = "label.skicka.till";
+    private static final String PROPERTY_KEY_BLANKETT_LABEL_FK_INLASNING = "label.fk.inlasning";
+    private static final String PROPERTY_KEY_BLANKETT_LABEL_FK_ADRESS = "label.fk.adress";
 
     abstract void fillIntyg(FkPdfDefinition pdfDefinition, LisjpUtlatandeV1 intyg, boolean isUtkast, boolean isLockedUtkast,
         List<Status> statuses, ApplicationOrigin applicationOrigin) throws IOException, DocumentException;
@@ -113,9 +135,12 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
 
             // Add page envent handlers
             def.addPageEvent(new PageNumberingEventHandler());
-            def.addPageEvent(new FkFormIdentityEventHandler(intygTexts.getProperties().getProperty(PROPERTY_KEY_FORMID),
-                intygTexts.getProperties().getProperty(PROPERTY_KEY_BLANKETT_ID),
-                intygTexts.getProperties().getProperty(PROPERTY_KEY_BLANKETT_VERSION)));
+
+            def.addPageEvent(new FkFormIdentityEventHandler(
+                getPropertyValue(PROPERTY_KEY_FORMID),
+                getPropertyValue(PROPERTY_KEY_FORMID_ROW2),
+                getPropertyValue(PROPERTY_KEY_BLANKETT_ID),
+                getPropertyValue(PROPERTY_KEY_BLANKETT_VERSION)));
             def.addPageEvent(new FkFormPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
             def.addPageEvent(new FkOverflowPagePersonnummerEventHandlerImpl(
                 intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
@@ -169,7 +194,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         fraga2.addChild(new FkValueField("")
             .offset(CHECKBOX_DEFAULT_WIDTH, 0f)
             .size(CHECKBOX_DEFAULT_WIDTH, 4f)
-            .withTopLabel("datum (år, månad, dag)"));
+            .withTopLabel(getPropertyValue(PROPERTY_KEY_BLANKETT_LABEL_DATUM)));
 
         fraga2.addChild(new FkCheckbox(getText("KV_FKMU_0001.UNDERSOKNING.RBK"),
             intyg.getUndersokningAvPatienten() != null)
@@ -432,7 +457,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
             .orElse(""))
             .offset(82.5f, 0f)
             .size(45f, 9f)
-            .withTopLabel("från och med (år, månad, dag)")
+            .withTopLabel(getPropertyValue(PROPERTY_KEY_BLANKETT_LABEL_DATUM_FROM))
             .withBorders(Rectangle.BOTTOM)
             .withValueTextAlignment(PdfPCell.ALIGN_MIDDLE));
         fraga8.addChild(new FkValueField(sjuk100.map(Sjukskrivning::getPeriod)
@@ -441,7 +466,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
             .orElse(""))
             .offset(127.5f, 0f)
             .size(52.5f, 9f)
-            .withTopLabel("till och med (år, månad, dag)")
+            .withTopLabel(getPropertyValue(PROPERTY_KEY_BLANKETT_LABEL_DATUM_TOM))
             .withBorders(Rectangle.BOTTOM)
             .withValueTextAlignment(PdfPCell.ALIGN_MIDDLE));
 
@@ -545,7 +570,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
             .size(22f, 9f)
             .withBorders(Rectangle.BOTTOM));
 
-        fraga8p4.addChild(new FkCheckbox("Ja. Fyll i nedan.",
+        fraga8p4.addChild(new FkCheckbox(getPropertyValue(PROPERTY_KEY_BLANKETT_LABEL_JA_FYLL_I),
             intyg.getArbetstidsforlaggning() != null ? intyg.getArbetstidsforlaggning()
                 : false)
             .offset(22f, 2f)
@@ -728,7 +753,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
     }
 
     FkFieldGroup fraga13(LisjpUtlatandeV1 intyg) {
-        FkFieldGroup fraga13 = new FkFieldGroup("13. Underskrift")
+        FkFieldGroup fraga13 = new FkFieldGroup(getPropertyValue(PROPERTY_KEY_BLANKETT_LABEL_UNDERSKRIFT_RUBRIK))
             .offset(KATEGORI_OFFSET_X, 65.5f)
             .size(KATEGORI_FULL_WIDTH, 85.5f)
             .withFont(PdfConstants.FONT_FRAGERUBRIK_SMALL)
@@ -746,57 +771,67 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
             .size(KATEGORI_FULL_WIDTH - 45f, 11f)
             .withBorders(Rectangle.BOTTOM)
             .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
-            .withTopLabel("Läkarens namnteckning"));
+            .withTopLabel(getPropertyValue(PROPERTY_KEY_BLANKETT_LABEL_UNDERSKRIFT_LAKARE)));
 
         fraga13.addChild(new FkValueField(intyg.getGrundData().getSkapadAv().getFullstandigtNamn())
             .offset(0f, 11f)
             .size(KATEGORI_FULL_WIDTH, 11f)
             .withBorders(Rectangle.BOTTOM)
             .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
-            .withTopLabel("Namnförtydligande"));
+            .withTopLabel(getPropertyValue(PROPERTY_KEY_BLANKETT_LABEL_UNDERSKRIFT_NAMNFORTYDLIGANDE)));
 
         fraga13.addChild(new FkValueField(concatStringList(intyg.getGrundData().getSkapadAv().getBefattningar()))
             .offset(0f, 22f)
             .size(90f, 14f)
             .withValueTextAlignment(PdfPCell.ALIGN_TOP)
             .withBorders(Rectangle.RIGHT + Rectangle.BOTTOM)
-            .withTopLabel("Befattning"));
+            .withTopLabel(getPropertyValue(PROPERTY_KEY_BLANKETT_LABEL_UNDERSKRIFT_BEFATTNING)));
         fraga13.addChild(new FkValueField(concatStringList(intyg.getGrundData().getSkapadAv().getSpecialiteter()))
             .offset(90f, 22f)
             .size(KATEGORI_FULL_WIDTH - 90f, 14f)
             .withBorders(Rectangle.BOTTOM)
             .withValueTextAlignment(PdfPCell.ALIGN_TOP)
-            .withTopLabel("Eventuell specialistkompetens"));
+            .withTopLabel(getPropertyValue(PROPERTY_KEY_BLANKETT_LABEL_UNDERSKRIFT_SPECIALISTKOMP)));
         // skapadAv.personId is always a hsa-id
         fraga13.addChild(new FkValueField(intyg.getGrundData().getSkapadAv().getPersonId())
             .offset(0f, 36f)
             .size(90f, 9f)
             .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
             .withBorders(Rectangle.BOTTOM + Rectangle.RIGHT)
-            .withTopLabel("Läkarens HSA-id"));
+            .withTopLabel(getPropertyValue(PROPERTY_KEY_BLANKETT_LABEL_UNDERSKRIFT_LAKARE_HSAID)));
         fraga13.addChild(new FkValueField(intyg.getGrundData().getSkapadAv().getVardenhet().getArbetsplatsKod())
             .offset(90f, 36f)
             .size(KATEGORI_FULL_WIDTH - 90f, 9f)
             .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
             .withBorders(Rectangle.BOTTOM)
-            .withTopLabel("Arbetsplatskod"));
+            .withTopLabel(getPropertyValue(PROPERTY_KEY_BLANKETT_LABEL_UNDERSKRIFT_ARBETSPLATSKOD)));
         // We only have an hsa-Id - so we never fill this field
         fraga13.addChild(new FkValueField("")
             .offset(0f, 45f)
             .size(KATEGORI_FULL_WIDTH, 9f)
             .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
             .withBorders(Rectangle.BOTTOM)
-            .withTopLabel("Läkarens personnummer. Anges endast om du som läkare saknar HSA-id."));
+            .withTopLabel(getPropertyValue(PROPERTY_KEY_BLANKETT_LABEL_UNDERSKRIFT_LAKARE_PERSONID)));
 
         fraga13.addChild(new FkValueField(buildVardEnhetAdress(intyg.getGrundData().getSkapadAv().getVardenhet()))
             .offset(0f, 54f)
             .size(KATEGORI_FULL_WIDTH, 31.5f)
             .withValueTextAlignment(PdfPCell.ALIGN_TOP)
-            .withTopLabel("Vårdenhetens namn, adress och telefon."));
+            .withTopLabel(getPropertyValue(PROPERTY_KEY_BLANKETT_LABEL_UNDERSKRIFT_VARDENHET_ADRESS)));
 
+        //GDPRInfo (Optional)
+        String gdprInfoText = getPropertyValue(PROPERTY_KEY_BLANKETT_LABEL_GDPR_INFO);
+        float gdprOffset = 0;
+        if (!StringUtils.isEmpty(gdprInfoText)) {
+            gdprOffset = 5f;
+            fraga13.addChild(new FkLabel(gdprInfoText)
+                .offset(2f, 86f)
+                .size(KATEGORI_FULL_WIDTH - 6f, 10f)
+                .withVerticalAlignment(PdfPCell.ALIGN_TOP));
+        }
         // Somewhat hacky, add a label outside the category box.
-        fraga13.addChild(new FkLabel("Underskriften omfattar samtliga uppgifter i intyget")
-            .offset(3f, 91f)
+        fraga13.addChild(new FkLabel(getPropertyValue(PROPERTY_KEY_BLANKETT_UNDERSKRIFT_OMFATTNING))
+            .offset(3f, 91f + gdprOffset)
             .size(KATEGORI_FULL_WIDTH - 6f, 10f)
             .withVerticalAlignment(PdfPCell.ALIGN_TOP)
             .backgroundColor(245, 245, 245)
@@ -815,8 +850,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
             .withFont(PdfConstants.FONT_INLINE_FIELD_LABEL_LARGE);
         allElements.add(fortsBladText);
 
-        FkLabel inteKannerPatientenText = new FkLabel(
-            "Om du inte känner patienten ska hen styrka\nsin identitet genom legitimation med foto\n(SOSFS 2005:29).")
+        FkLabel inteKannerPatientenText = new FkLabel(getPropertyValue(PROPERTY_KEY_BLANKETT_LABEL_INTE_KANNER_PATIENT))
             .offset(14f, 35.5f)
             .withVerticalAlignment(Element.ALIGN_TOP)
             .size(70f, 15f)
@@ -837,12 +871,12 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         allElements.add(mainHeader);
         allElements.add(subHeader);
 
-        FkLabel patientNamnLbl = new FkLabel("Patientens namn")
+        FkLabel patientNamnLbl = new FkLabel(getPropertyValue(PROPERTY_KEY_BLANKETT_LABEL_PATIENT_NAMN))
             .offset(104f, 21f)
             .size(62.5f, 15f)
             .withVerticalAlignment(Element.ALIGN_TOP)
             .withFont(PdfConstants.FONT_STAMPER_LABEL);
-        FkLabel patientPnrLbl = new FkLabel("Personnummer")
+        FkLabel patientPnrLbl = new FkLabel(getPropertyValue(PROPERTY_KEY_BLANKETT_LABEL_PERSONNR))
             .offset(166f, 21f)
             .size(35f, 15f)
             .withVerticalAlignment(Element.ALIGN_TOP)
@@ -858,19 +892,19 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         allElements.add(patientPnr);
 
         if (showFkAddress) {
-            FkLabel skickaBlankettenTillLbl = new FkLabel("Skicka blanketten till")
+            FkLabel skickaBlankettenTillLbl = new FkLabel(getPropertyValue(PROPERTY_KEY_BLANKETT_LABEL_SKICKA_TILL))
                 .offset(110.2f, 40f)
                 .size(35f, 5f)
                 .withVerticalAlignment(Element.ALIGN_TOP)
                 .withFont(PdfConstants.FONT_INLINE_FIELD_LABEL_SMALL);
             allElements.add(skickaBlankettenTillLbl);
 
-            FkLabel inlasningsCentralRad1 = new FkLabel("Försäkringskassans inläsningscentral")
+            FkLabel inlasningsCentralRad1 = new FkLabel(getPropertyValue(PROPERTY_KEY_BLANKETT_LABEL_FK_INLASNING))
                 .offset(110.2f, 44.5f)
                 .size(70f, 6f)
                 .withVerticalAlignment(Element.ALIGN_TOP)
                 .withFont(PdfConstants.FONT_INLINE_FIELD_LABEL_LARGE);
-            FkLabel inlasningsCentralRad2 = new FkLabel("839 88 Östersund")
+            FkLabel inlasningsCentralRad2 = new FkLabel(getPropertyValue(PROPERTY_KEY_BLANKETT_LABEL_FK_ADRESS))
                 .offset(110.2f, 51.25f)
                 .size(60f, 6f)
                 .withVerticalAlignment(Element.ALIGN_TOP)
