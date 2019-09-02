@@ -18,56 +18,65 @@
  */
 package se.inera.intyg.common.lisjp.v1.pdf;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Before;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.test.util.ReflectionTestUtils;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
+import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.IntygTextsServiceImpl;
-import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
+import se.inera.intyg.common.services.texts.repo.IntygTextsRepositoryImpl;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
 /**
  * Created by marced on 2017-03-08.
  */
+
+@ContextConfiguration(classes = {BaseLisjpPdfDefinitionBuilderTest.TestConfiguration.class})
+@TestPropertySource(properties = {
+    "texts.file.directory=classpath:v1/text",
+})
 public abstract class BaseLisjpPdfDefinitionBuilderTest {
 
-    protected ObjectMapper objectMapper = new CustomObjectMapper();
-
-    protected IntygTextsServiceImpl intygTextsService;
     protected List<LisjpUtlatandeV1> intygList = new ArrayList<>();
 
-    protected IntygTexts intygTexts;
+    @Autowired
+    ObjectMapper objectMapper;
+
+    @Autowired
+    IntygTextsServiceImpl intygTextsService;
+
+    @Autowired
+    IntygTextsRepositoryImpl repo;
 
     @Before
-    public void initTexts() throws IOException {
-        intygTextsService = new IntygTextsServiceImpl();
-        IntygTextsLisjpRepositoryTestHelper intygsTextRepositoryHelper = new IntygTextsLisjpRepositoryTestHelper();
-        intygsTextRepositoryHelper.update();
-        ReflectionTestUtils.setField(intygTextsService, "repo", intygsTextRepositoryHelper);
-        intygTextsService.getIntygTextsPojo("lisjp", "1.0");
+    public void initIntyg() throws IOException {
+
         intygList.add(
             objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/minimalt_utlatande.json").getFile(), LisjpUtlatandeV1.class));
         intygList.add(
             objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/maximalt_utlatande.json").getFile(), LisjpUtlatandeV1.class));
         intygList.add(objectMapper
             .readValue(new ClassPathResource("v1/PdfGeneratorTest/tillaggsfragor_utlatande.json").getFile(), LisjpUtlatandeV1.class));
-
-        intygTexts = intygTextsService.getIntygTextsPojo("lisjp", "1.0");
     }
 
-    protected void writePdfToFile(byte[] pdf, ApplicationOrigin origin, String scenarioName, String namingPrefix) throws IOException {
+    void writePdfToFile(byte[] pdf, ApplicationOrigin origin, String scenarioName, String namingPrefix, String textVersion)
+        throws IOException {
         String dir = "build/tmp";
-        File file = new File(String.format("%s/%s-%s-%s-%s", dir, origin.name(), scenarioName, namingPrefix, "lisjp.pdf"));
+        File file = new File(String.format("%s/%s-%s-%s-v%s-%s", dir, origin.name(), scenarioName, namingPrefix, textVersion, "lisjp.pdf"));
         file.getParentFile().mkdirs();
         FileOutputStream fop = new FileOutputStream(file);
 
@@ -76,6 +85,31 @@ public abstract class BaseLisjpPdfDefinitionBuilderTest {
         fop.write(pdf);
         fop.flush();
         fop.close();
+    }
+
+    //Expose autowire candidates to Spring
+    @Configuration
+    static class TestConfiguration {
+
+        @Bean
+        public ResourceLoader resourceLoader() {
+            return new DefaultResourceLoader();
+        }
+
+        @Bean
+        public IntygTextsRepository repo() {
+            return new IntygTextsRepositoryImpl();
+        }
+
+        @Bean
+        public IntygTextsService intygTextsService() {
+            return new IntygTextsServiceImpl();
+        }
+
+        @Bean
+        public CustomObjectMapper customObjectMapper() {
+            return new CustomObjectMapper();
+        }
     }
 
 }
