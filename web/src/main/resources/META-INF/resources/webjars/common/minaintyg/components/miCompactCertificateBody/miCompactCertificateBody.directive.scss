@@ -6,6 +6,10 @@ mi-compact-certificate-body {
     padding: 15px;
     box-shadow: 0 3px 5px $mi-box-shadow-color;
 
+    .show-intygs-id-arrow {
+      -webkit-text-stroke: 2px white;
+    }
+
   }
   .body-col {
     padding-top: 30px;

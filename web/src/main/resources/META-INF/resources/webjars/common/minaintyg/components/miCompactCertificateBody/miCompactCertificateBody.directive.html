@@ -8,8 +8,8 @@
       <div>
         <a ng-click="isCollapsed = !isCollapsed" ng-switch="isCollapsed" data-toggle="collapse" data-target="#intygsIdText-{{certMetaModel.id}}">
            {{isCollapsed ? 'Visa intygs-ID' : 'Dölj intygs-ID'}}
-          <span ng-switch-when="false" data-toggle="collapse" data-target="#intygsIdText-{{certMetaModel.id}}" class="glyphicon glyphicon-chevron-up" style="-webkit-text-stroke: 2px white"></span>
-          <span ng-switch-when="true" data-toggle="collapse" data-target="#intygsIdText-{{certMetaModel.id}}" class="glyphicon glyphicon-chevron-down" style="-webkit-text-stroke: 2px white"></span>
+          <span ng-switch-when="false" data-toggle="collapse" data-target="#intygsIdText-{{certMetaModel.id}}" class="glyphicon glyphicon-chevron-up show-intygs-id-arrow"></span>
+          <span ng-switch-when="true" data-toggle="collapse" data-target="#intygsIdText-{{certMetaModel.id}}" class="glyphicon glyphicon-chevron-down show-intygs-id-arrow"></span>
         </a>
         <div id="intygsIdText-{{certMetaModel.id}}" class="collapse">
           <span>{{certMetaModel.id}}</span>
