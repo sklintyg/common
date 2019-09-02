@@ -38,58 +38,6 @@ angular.module('lisjp').config(function($stateProvider) {
             keepInboxTabActive: true,
             breadcrumb: ['inkorg', 'intyg']
         }
-    }).state('lisjp-customize', {
-        abstract: true, // jshint ignore:line
-        url: '/:type/:intygTypeVersion/customize-lisjp/:certificateId',
-        templateUrl: '/web/webjars/lisjp/minaintyg/views/customize-pdf.html',
-        controller: 'lisjp.CustomizePdfCtrl',
-        data: {
-            title: 'Anpassa intyget till arbetsgivare',
-            keepInboxTabActive: true,
-            breadcrumb: ['inkorg', 'intyg', 'anpassa'], backState: 'history-back' }
-
-    }).state('lisjp-customize.step1', {
-        url: '/step1',
-        views: {
-            'header@lisjp-customize': {
-                templateUrl: '/web/webjars/lisjp/minaintyg/views/step1.header.html'
-            },
-            'body@lisjp-customize': {
-                templateUrl: '/web/webjars/lisjp/minaintyg/views/step1.body.html'
-            }
-        },
-        data: {
-            index: 0
-        }
-
-    }).state('lisjp-customize.step2', {
-        url: '/step2',
-        views: {
-            'header@lisjp-customize': {
-                templateUrl: '/web/webjars/lisjp/minaintyg/views/step2.header.html'
-            },
-            'body@lisjp-customize': {
-                templateUrl: '/web/webjars/lisjp/minaintyg/views/step2.body.html'
-            }
-        },
-        data: {
-            index: 1
-        }
-
-    }).state('lisjp-customize.step3', {
-        url: '/step3',
-        views: {
-            'header@lisjp-customize': {
-                templateUrl: '/web/webjars/lisjp/minaintyg/views/step3.header.html'
-            },
-            'body@lisjp-customize': {
-                templateUrl: '/web/webjars/lisjp/minaintyg/views/step3.body.html'
-            }
-        },
-        data: {
-            index: 2
-        }
-
     });
 });
 

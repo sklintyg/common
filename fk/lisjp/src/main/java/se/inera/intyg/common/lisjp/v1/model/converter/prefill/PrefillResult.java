@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.lisjp.v1.model.converter.prefill;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.Serializable;
@@ -115,6 +116,9 @@ public class PrefillResult {
             return message;
         }
 
+        // Input could potentially contain sensitive information that we dont't want to risk ending up in logs etc, so we ignore
+        // them when serializing SvarResult.
+        @JsonIgnore
         public Serializable getInput() {
             return input;
         }

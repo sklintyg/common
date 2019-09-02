@@ -54,7 +54,7 @@ public class LisjpEntryPoint extends FkAbstractModuleEntryPoint {
     public String getModuleCssPath(ApplicationOrigin originator) {
         switch (originator) {
             case MINA_INTYG:
-                return "/web/webjars/lisjp/minaintyg/css/lisjp.css";
+                return "";
             case WEBCERT:
                 return "/web/webjars/lisjp/webcert/css/lisjp.css";
             default:

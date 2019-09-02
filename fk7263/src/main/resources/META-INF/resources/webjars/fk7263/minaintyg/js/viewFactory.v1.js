@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('fk7263').factory('fk7263.viewFactory', [
-    '$stateParams', 'fk7263.customizeViewstate', '$location',
-    function($stateParams, customizeViewstate, $location) {
+    '$stateParams',
+    function($stateParams) {
         'use strict';
 
         var intygsTyp = 'fk7263';
@@ -28,20 +28,9 @@ angular.module('fk7263').factory('fk7263.viewFactory', [
             return '/send/' + intygsTyp + '/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/FKASSA';
         };
 
-        var _customizeCertificate = function() {
-            customizeViewstate.resetModel();
-            $location.path('/' + intygsTyp + '/' + $stateParams.intygTypeVersion + '/customizepdf/' + $stateParams.certificateId + '/step1');
-        };
-
-        var _enableCustomizeCertificate = function(cert) {
-            return !cert.avstangningSmittskydd;
-        };
-
         return {
             intygsTyp: intygsTyp,
             selectRecipientKey: selectRecipientKey,
-            getSendUrl: _sendUrl,
-            customizeCertificate: _customizeCertificate,
-            enableCustomizeCertificate: _enableCustomizeCertificate
+            getSendUrl: _sendUrl
         };
     }]);

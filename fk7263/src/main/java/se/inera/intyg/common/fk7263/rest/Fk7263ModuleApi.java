@@ -22,7 +22,9 @@ import static se.inera.intyg.common.fk7263.integration.RegisterMedicalCertificat
 import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32;
 import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
 
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
+import iso.v21090.dt.v1.CD;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
@@ -31,21 +33,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
 import javax.xml.bind.JAXBElement;
 import javax.xml.ws.soap.SOAPFaultException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.w3.wsaddressing10.AttributedURIType;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Strings;
-
-import iso.v21090.dt.v1.CD;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.AktivitetType;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Aktivitetskod;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.LakarutlatandeType;
@@ -68,7 +63,6 @@ import se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.model.util.Fk7263ModelCompareUtil;
 import se.inera.intyg.common.fk7263.pdf.PdfDefaultGenerator;
-import se.inera.intyg.common.fk7263.pdf.PdfEmployeeGenerator;
 import se.inera.intyg.common.fk7263.pdf.PdfGeneratorException;
 import se.inera.intyg.common.fk7263.schemas.clinicalprocess.healthcond.certificate.converter.ClinicalProcessCertificateMetaTypeConverter;
 import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
@@ -196,16 +190,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
         List<String> optionalFields, UtkastStatus utkastStatus)
         throws ModuleException {
-        try {
-            Fk7263Utlatande intyg = getInternal(internalModel);
-            PdfEmployeeGenerator pdfGenerator = new PdfEmployeeGenerator(intyg, statuses, applicationOrigin,
-                optionalFields, utkastStatus);
-            return new PdfResponse(pdfGenerator.getBytes(), pdfGenerator.generatePdfFilename(LocalDateTime.now(),
-                pdfGenerator.isCustomized()));
-        } catch (PdfGeneratorException e) {
-            LOG.error("Failed to generate PDF for certificate!", e);
-            throw new ModuleSystemException("Failed to generate (employer copy) PDF for certificate!", e);
-        }
+        throw new RuntimeException("Not implemented");
     }
 
     /**

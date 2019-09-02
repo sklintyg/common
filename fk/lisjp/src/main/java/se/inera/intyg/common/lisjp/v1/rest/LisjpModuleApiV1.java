@@ -41,7 +41,6 @@ import se.inera.intyg.common.lisjp.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.lisjp.v1.pdf.AbstractLisjpPdfDefinitionBuilder;
 import se.inera.intyg.common.lisjp.v1.pdf.DefaultLisjpPdfDefinitionBuilder;
-import se.inera.intyg.common.lisjp.v1.pdf.EmployeeLisjpPdfDefinitionBuilder;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
@@ -65,7 +64,6 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
     private static final Logger LOG = LoggerFactory.getLogger(LisjpModuleApiV1.class);
 
     private static final String CERTIFICATE_FILE_PREFIX = "lakarintyg_sjukpenning";
-    private static final String MINIMAL_CERTIFICATE_FILE_PREFIX = "minimalt_lakarintyg_sjukpenning";
 
     public LisjpModuleApiV1() {
         super(LisjpUtlatandeV1.class);
@@ -85,17 +83,7 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
         List<String> optionalFields, UtkastStatus utkastStatus) throws ModuleException {
-
-        LisjpUtlatandeV1 luseIntyg = getInternal(internalModel);
-
-        if (luseIntyg.getAvstangningSmittskydd() != null && luseIntyg.getAvstangningSmittskydd()) {
-            throw new ModuleSystemException("Not allowed for smittskydd.");
-        }
-
-        final EmployeeLisjpPdfDefinitionBuilder builder = new EmployeeLisjpPdfDefinitionBuilder(optionalFields);
-        String fileNamePrefix = getEmployerCopyFilePrefix(builder, applicationOrigin);
-        return generatePdf(builder, statuses, luseIntyg, applicationOrigin,
-            fileNamePrefix, utkastStatus);
+        throw new RuntimeException("Not implemented");
     }
 
     @Override
@@ -216,18 +204,6 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate!", e);
-        }
-    }
-
-    private String getEmployerCopyFilePrefix(EmployeeLisjpPdfDefinitionBuilder builder, ApplicationOrigin applicationOrigin) {
-        if (applicationOrigin.equals(ApplicationOrigin.MINA_INTYG)) {
-            if (!builder.hasDeselectedOptionalFields()) {
-                return CERTIFICATE_FILE_PREFIX;
-            } else {
-                return MINIMAL_CERTIFICATE_FILE_PREFIX;
-            }
-        } else {
-            return MINIMAL_CERTIFICATE_FILE_PREFIX;
         }
     }
 
