@@ -76,8 +76,13 @@ angular.module('common').directive('wcArendeFooter',
                     };
 
                     $scope.showKanInteKompletteraButton = function() {
-                        return ResourceLinkService.isLinkTypeExists(ArendeListViewState.intygProperties.links,
-                            'BESVARA_FRAGA');
+                        //Until we have a suitable ResourceLink implementation for "BESVARA_KOMPLETTERINGSFRAGA_MED_INTYG" we use the
+                        // underlying previlege directly to determine if this button should be accessible or not.
+                        //return ResourceLinkService.isLinkTypeExists(ArendeListViewState.intygProperties.links, 'BESVARA_FRAGA');
+
+                        return authorityService.isAuthorityActive(
+                            {authority: 'BESVARA_KOMPLETTERINGSFRAGA', intygstyp: ArendeListViewState.intygProperties.type});
+
                     };
 
                     $scope.showVidarebefodraButton = function() {
@@ -156,7 +161,10 @@ angular.module('common').directive('wcArendeFooter',
                             updateInProgress: false,
                             kompletteringConfig: $scope.kompletteringConfig,
                             showLamnaOvrigaUpplysningar: authorityService.isAuthorityActive(
-                                {authority: 'SVARA_MED_NYTT_INTYG'}) && !UserModel.hasRole('VARDADMINISTRATOR')
+                                {
+                                    authority: 'SVARA_MED_NYTT_INTYG',
+                                    intygstyp: ArendeListViewState.intygProperties.type
+                                }) && !UserModel.hasRole('VARDADMINISTRATOR')
                         };
 
                         if (!dialogModel.showLamnaOvrigaUpplysningar) {
