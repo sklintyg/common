@@ -148,7 +148,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
         } else {
             boolean dateIsValid = ValidatorUtil.validateDateAndCheckIfFuture(utlatande.getKannedomOmPatient(), validationMessages,
                     CATEGORY_GRUNDFORMU, "kannedomOmPatient", "common.validation.c-06");
-            if (dateIsValid && utlatande.getKannedomOmPatient().asLocalDate().isBefore(LocalDate.now())) {
+            if (dateIsValid && checkIfNotFuture(utlatande.getKannedomOmPatient().asLocalDate())) {
                 if (utlatande.getUndersokningAvPatienten() != null && utlatande.getUndersokningAvPatienten().isValidDate()
                         && utlatande.getKannedomOmPatient().asLocalDate().isAfter(utlatande.getUndersokningAvPatienten().asLocalDate())) {
                     ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU, KANNEDOM_SVAR_JSON_ID_2,
@@ -165,7 +165,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
             }
 
         }
+    }
 
+    private boolean checkIfNotFuture(LocalDate date) {
+        return date.isBefore(LocalDate.now().plusDays(1));
     }
 
     private void validateUnderlag(LuaenaUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
