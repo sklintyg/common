@@ -77,7 +77,7 @@ angular.module('common').directive('wcArendeFooter',
 
                     $scope.showKanInteKompletteraButton = function() {
                         return ResourceLinkService.isLinkTypeExists(ArendeListViewState.intygProperties.links,
-                            'BESVARA_FRAGA');
+                            'BESVARA_KOMPLETTERING_MED_MEDDELANDE');
                     };
 
                     $scope.showVidarebefodraButton = function() {
@@ -156,7 +156,10 @@ angular.module('common').directive('wcArendeFooter',
                             updateInProgress: false,
                             kompletteringConfig: $scope.kompletteringConfig,
                             showLamnaOvrigaUpplysningar: authorityService.isAuthorityActive(
-                                {authority: 'SVARA_MED_NYTT_INTYG'}) && !UserModel.hasRole('VARDADMINISTRATOR')
+                                {
+                                    authority: 'SVARA_MED_NYTT_INTYG',
+                                    intygstyp: ArendeListViewState.intygProperties.type
+                                }) && !UserModel.hasRole('VARDADMINISTRATOR')
                         };
 
                         if (!dialogModel.showLamnaOvrigaUpplysningar) {
