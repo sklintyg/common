@@ -67,34 +67,50 @@ angular.module('common').directive('wcFmbPanelTab', [ 'common.anchorScrollServic
 
             function _updateSectionDataForDiagnose(activeDiagnose) {
                 //Init sections
-                $scope.vm.sections = [ {
+                $scope.vm.sections = [{
+                    type: 'FORM',
                     formId: 'ARBETSFORMAGA',
                     heading: 'BESLUTSUNDERLAG_TEXTUELLT',
+                    headingTooltip: activeDiagnose ? 'Vägledning för sjukskrivning vid ' + activeDiagnose.originalDiagnosBeskrivning : '',
                     data: null
-                }, {
+                },
+                {
+                    type: 'DIAGNOSE-META'
+                },
+                {
+                    type: 'FORM',
                     formId: 'FUNKTIONSNEDSATTNING',
                     heading: 'FUNKTIONSNEDSATTNING',
                     data: null
                 }, {
+                    type: 'FORM',
                     formId: 'AKTIVITETSBEGRANSNING',
                     heading: 'AKTIVITETSBEGRANSNING',
                     data: null
                 }, {
+                    type: 'FORM',
                     formId: 'INFORMATIONOMREHABILITERING',
                     heading: 'INFORMATIONOMREHABILITERING',
                     data: null
                 }, {
+                    type: 'FORM',
                     formId: 'DIAGNOS',
                     heading: 'GENERELL_INFO',
                     data: null
                 }, {
+                    type: 'FORM',
                     formId: 'DIAGNOS',
                     heading: 'SYMPTOM_PROGNOS_BEHANDLING',
                     data: null
-                } ];
+                }];
 
                 angular.forEach($scope.vm.sections, function(section) {
-                    section.data = activeDiagnose ? activeDiagnose.getFormData(section.formId, section.heading) : null;
+                    if (section.type === 'DIAGNOSE-META') {
+                        section.data = activeDiagnose;
+                    } else {
+                        section.data = activeDiagnose ? activeDiagnose.getFormData(section.formId, section.heading) : null;
+                    }
+
                     var reference = activeDiagnose ? activeDiagnose.getReference() : null;
                     if (reference) {
                         $scope.vm.referensDescr = reference.desc;
