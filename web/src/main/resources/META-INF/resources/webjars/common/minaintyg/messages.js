@@ -85,7 +85,7 @@ angular.module('common').constant('common.messages', {
         'certificates.events.kompletterat.warn.header': 'OBS! Intyget har kompletterats av vården med <a href="/web/start#/{1}/{2}/view/{0}">detta intyg</a>.',
         'certificates.events.kompletterat.warn.text': 'Läkaren kan svara med ett nytt intyg, innehållande de kompletterade uppgifterna, om Försäkringskassan begärt en komplettering av vården.',
 
-        //Common text in customized pdf wizard (lisjp and fk7263)
+        //Common text in customized pdf wizard (ag7804)
         'modules.customize.message.customize.disabled': 'Intyg som avser avstängning enligt smittskyddslagen kan inte anpassas till din arbetsgivare. Om du vill hämta det fullständiga intyget så klicka på knappen <i>Ladda ner intyg som PDF</i>.',
         'modules.customize.label.mandatory': 'Obligatorisk info',
         'modules.customize.label.optional': 'Inkludera i anpassat intyg',
