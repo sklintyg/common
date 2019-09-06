@@ -26,9 +26,9 @@
 angular.module('common').directive('arendeHantera',
     ['$log', '$rootScope', '$uibModal', 'common.statService', 'common.ErrorHelper', 'common.ArendeProxy',
         'common.ArendeHelper', 'common.dynamicLabelService',
-        'common.ResourceLinkService',
+        'common.ResourceLinkService', 'common.authorityService',
         function($log, $rootScope, $uibModal, statService, ErrorHelper, ArendeProxy, ArendeHelper, dynamicLabelService,
-            ResourceLinkService) {
+            ResourceLinkService, authorityService) {
             'use strict';
 
             return {
@@ -123,8 +123,17 @@ angular.module('common').directive('arendeHantera',
                     function hasAccess() {
                         // If no access is given from backend, it should be possible to toggle handled.
                         if ($scope.arendeListItem.isKomplettering()) {
-                            return ResourceLinkService.isLinkTypeExists($scope.parentViewState.intygProperties.links,
-                                'BESVARA_KOMPLETTERING');
+                            //return ResourceLinkService.isLinkTypeExists($scope.parentViewState.intygProperties.links,
+                            //    'BESVARA_KOMPLETTERING');
+
+                            //INTYGFV-12162 temporary fix for 2019-3 release. We don't have a suitable previlege to handle this using
+                            // BESVARA_KOMPLETTERING Resourcelink as it also requires SVARA_MED_NYTT_INTYG previledge.
+                            // Should be properly fixed in 2019-4, maybe by introducing a new privilege or ResourceLink
+                            if ($scope.parentViewState.intygProperties.type === 'fk7263') {
+                                return true;
+                            }
+                            return authorityService.isAuthorityActive(
+                                {authority: 'BESVARA_KOMPLETTERINGSFRAGA', intygstyp: $scope.parentViewState.intygProperties.type});
                         } else {
                             return ResourceLinkService.isLinkTypeExists($scope.parentViewState.intygProperties.links,
                                 'BESVARA_FRAGA');
