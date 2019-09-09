@@ -41,7 +41,7 @@
         <mi-certificate-replaced cert-meta-model="certMeta"></mi-certificate-replaced>
 
         <div id="customize-disabled-message" class="alert alert-warning"
-             ng-if="!enableCustomize() && cert.avstangningSmittskydd && !certMeta.isReplaced">
+             ng-if="possibleToCustomize() && !enableCustomize() && cert.avstangningSmittskydd && !certMeta.isReplaced">
           <span dynamic-label key="modules.customize.message.customize.disabled"></span>
         </div>
 
