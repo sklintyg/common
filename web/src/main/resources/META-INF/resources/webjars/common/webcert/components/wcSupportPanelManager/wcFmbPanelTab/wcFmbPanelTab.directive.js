@@ -71,7 +71,7 @@ angular.module('common').directive('wcFmbPanelTab', [ 'common.anchorScrollServic
                     type: 'FORM',
                     formId: 'ARBETSFORMAGA',
                     heading: 'BESLUTSUNDERLAG_TEXTUELLT',
-                    headingTooltip: activeDiagnose ? 'Vägledning för sjukskrivning vid ' + activeDiagnose.originalDiagnosBeskrivning : '',
+                    headingTooltip: activeDiagnose ? 'Vägledning för sjukskrivning vid ' + activeDiagnose.originalDiagnosBeskrivning  + '.': '',
                     data: null
                 },
                 {

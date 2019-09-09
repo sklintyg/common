@@ -73,6 +73,9 @@ wc-fmb-panel-tab {
         padding-left: 20px;
         padding-right: 20px;
         margin-right: -20px;
+        > span {
+          vertical-align: middle;
+        }
         &.diagnose-meta {
           @extend %wc-typo-05;
           padding-top: 14px;
