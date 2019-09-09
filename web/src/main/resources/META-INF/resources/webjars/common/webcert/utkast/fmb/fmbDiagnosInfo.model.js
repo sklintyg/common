@@ -23,6 +23,8 @@ angular.module('common').service('common.fmbDiagnosInfoModel',
             function FmbDiagnosInfoModel() {
                 this.formData = [];
                 this.diagnosKod = undefined;
+                this.diagnosTitle = undefined;
+                this.relatedDiagnoses = undefined;
                 this.diagnosBeskrivning = undefined;
                 this.originalDiagnosKod = undefined;
                 this.referenceDescription = undefined;
@@ -46,6 +48,8 @@ angular.module('common').service('common.fmbDiagnosInfoModel',
                 this.diagnosKod = formData.icd10Code;
                 this.diagnosBeskrivning = formData.icd10Description || originalDiagnosBeskrivning;
                 this.originalDiagnosKod = originalDiagnosKod;
+                this.diagnosTitle = formData.diagnosTitle;
+                this.relatedDiagnoses = formData.relatedDiagnoses;
                 this.referenceDescription = formData.referenceDescription;
                 this.referenceLink = formData.referenceLink;
                 this.hasInfo = Object.keys(this.formData).length > 0;
