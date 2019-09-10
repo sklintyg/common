@@ -17,14 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').controller('smi.EditCertCtrl',
-    ['$scope', '$state', '$stateParams',
+    ['$scope', '$state', '$stateParams', '$log', '$location',
         'common.UtkastService', 'common.UserModel', 'common.fmbService', 'common.fmbViewState',
         'ViewState', 'UtkastConfigFactory', 'common.PrefilledUserDataService', 'supportPanelConfigFactory',
-        'common.receiverService', 'common.ResourceLinkService',
-        function($scope, $state, $stateParams,
+        'common.receiverService', 'common.ResourceLinkService', 'common.dialogService',
+        function($scope, $state, $stateParams, $log, $location,
             UtkastService, UserModel, fmbService, fmbViewState, viewState, utkastConfigFactory,
             prefilledUserDataService,
-            supportPanelConfigFactory, receiverService, ResourceLinkService) {
+            supportPanelConfigFactory, receiverService, ResourceLinkService, dialogService) {
             'use strict';
 
             /**********************************************************************************
@@ -46,32 +46,48 @@ angular.module('common').controller('smi.EditCertCtrl',
             /**************************************************************************
              * Load certificate and setup form / Constructor ...
              **************************************************************************/
-
             // Get the certificate draft from the server.
-            UtkastService.load(viewState).then(function(intygModel) {
-                receiverService.updatePossibleReceivers(viewState.common.intyg.type);
+            function loadIntyg() {
+                UtkastService.load(viewState).then(function(intygModel) {
+                    receiverService.updatePossibleReceivers(viewState.common.intyg.type);
 
-                if (viewState.common.textVersionUpdated) {
-                    $scope.certForm.$setDirty();
-                }
-                //Expose pdf download link
-                viewState.common.intyg.pdfUrl =
-                    '/moduleapi/intyg/' + viewState.common.intyg.type + '/' + intygModel.id + '/pdf';
-
-                if ($state.current.data.useFmb) {
-                    fmbService.updateFmbTextsForAllDiagnoses(intygModel.diagnoser);
-                }
-
-                if (ResourceLinkService.isLinkTypeExists(viewState.draftModel.links, 'REDIGERA_UTKAST')) {
-                    $scope.editEnabled = true;
-                } else {
-                    if (viewState.draftModel.isLocked() && angular.isFunction(viewState.getLockedDraftAlert)) {
-                        UtkastService.updatePreviousIntygUtkast(intygModel.grundData.patient.personId).then(function() {
-                            $scope.lockedAlerts = viewState.getLockedDraftAlert();
-                        });
+                    if (viewState.common.textVersionUpdated) {
+                        $scope.certForm.$setDirty();
                     }
-                }
-            });
+                    //Expose pdf download link
+                    viewState.common.intyg.pdfUrl =
+                        '/moduleapi/intyg/' + viewState.common.intyg.type + '/' + intygModel.id + '/pdf';
+
+                    if ($state.current.data.useFmb) {
+                        fmbService.updateFmbTextsForAllDiagnoses(intygModel.diagnoser);
+                    }
+
+                    if (ResourceLinkService.isLinkTypeExists(viewState.draftModel.links, 'REDIGERA_UTKAST')) {
+                        $scope.editEnabled = true;
+                    } else {
+                        if (viewState.draftModel.isLocked() && angular.isFunction(viewState.getLockedDraftAlert)) {
+                            UtkastService.updatePreviousIntygUtkast(intygModel.grundData.patient.personId).then(function() {
+                                $scope.lockedAlerts = viewState.getLockedDraftAlert();
+                            });
+                        }
+                    }
+
+                    if (viewState.common.__utlatandeJson.candidateMetaData) {
+                            UtkastService.copyFromCandidate(viewState.common.__utlatandeJson).then(function(success) {
+                                console.log('SUCCESS: ' + success);
+                                //var path = '/' + success.intygType + '/' + success.intygTypeVersion + '/edit/' + success.intygId;
+                                //window.location.href = path;
+                                loadIntyg();
+                            }, function(error) {
+                                console.log('ERROR: ' + error);
+                                // Error
+                            });
+                    }
+                });
+            }
+
+            // Do load certificate
+            loadIntyg();
 
             $scope.$on('utkast.supportPanelConfig', function(event, isKomplettering, intygTypeVersion) {
                 //We now have all info needed to build support-panel config (id, intygTypeVersion, isSigned, isKompletteringsUtkast, isLocked, links)

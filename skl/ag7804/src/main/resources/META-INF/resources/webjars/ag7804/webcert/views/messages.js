@@ -70,7 +70,9 @@ angular.module('ag7804').constant('ag7804.messages', {
             '<li>Valet om man vill ha kontakt med arbetsgivaren</li>' +
             '<li>Referenser som intyget baseras på</li>' +
             '</ul>' +
-            '<br>Det nya utkastet skapas på den enhet du är  inloggad på.'
+            '<br>Det nya utkastet skapas på den enhet du är  inloggad på.',
+
+        'ag7804.modal.copy-from-candidate.text': 'Det finns ett Läkarintyg för sjukpenning för denna patient som är utfärdat av dig ${createdDate}. Vill du kopiera de svar som givits i det intyget till detta intygsutkast?'
     },
     'en': {
         'ag7804.label.pagetitle': 'Show Certificate'

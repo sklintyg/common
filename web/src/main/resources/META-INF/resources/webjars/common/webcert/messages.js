@@ -118,6 +118,8 @@
             'common.modal.title.sign.error': 'Signering misslyckad',
             'common.modal.title.error': 'Tekniskt fel',
 
+            'common.modal.copy-from-candidate.title': 'Kopiera från annat intyg',
+
             'common.modal.copy.title': 'Kopiera låst utkast',
             'common.modal.copy.body_new': '<p>Genom att kopiera ett låst intygsutkast skapas ett nytt utkast med samma information som i det ursprungliga låsta utkastet. Du kan redigera utkastet innan du signerar det. Det ursprungliga låsta utkastet finns kvar.</p>' +
                                             '<p>Det nya utkastet skapas på den enhet du är inloggat på.</p>',

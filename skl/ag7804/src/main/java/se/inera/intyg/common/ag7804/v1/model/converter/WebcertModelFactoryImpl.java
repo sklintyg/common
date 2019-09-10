@@ -77,32 +77,49 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Ag7804Utlata
 
     @Override
     public Ag7804UtlatandeV1 createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException {
-
         if (Ag7804UtlatandeV1.class.isInstance(template)) {
-            Ag7804UtlatandeV1 ag7804pUtlatandeV1 = (Ag7804UtlatandeV1) template;
-
-            LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), ag7804pUtlatandeV1.getId());
-
-            Ag7804UtlatandeV1.Builder templateBuilder = ag7804pUtlatandeV1.toBuilder();
-            GrundData grundData = ag7804pUtlatandeV1.getGrundData();
-
-            populateWithId(templateBuilder, copyData.getCertificateId());
-            WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
-
-            resetDataInGrundData(grundData);
-            templateBuilder.setSignature(null);
-            return templateBuilder.build();
+            return createCopyFromAg7804(copyData, (Ag7804UtlatandeV1) template);
         } else if (LisjpUtlatandeV1.class.isInstance(template)) {
-            return handleFromLisjpCopy(copyData, (LisjpUtlatandeV1) template);
+            return createCopyFromFk7804(copyData, (LisjpUtlatandeV1) template);
         } else {
             throw new ConverterException("Template is of an unsupported type : " + template.getClass());
         }
-
     }
 
-    private Ag7804UtlatandeV1 handleFromLisjpCopy(CreateDraftCopyHolder copyData, LisjpUtlatandeV1 lisjpTemplate)
-        throws ConverterException {
-        LOG.trace("Creating copy with id {} from LisjpUtlatandeV1 with id {}", copyData.getCertificateId(), lisjpTemplate.getId());
+    /**
+     * Creates a AG7804 copy from an existing AG7804 certificate.
+     *
+     * @param copyData the basic draft data
+     * @param template the certificate we shall copy data from
+     * @return an Utlatande of type AG7804
+     * @throws ConverterException
+     */
+    private Ag7804UtlatandeV1 createCopyFromAg7804(CreateDraftCopyHolder copyData, Ag7804UtlatandeV1 template) throws ConverterException {
+        LOG.trace("Creating copy with id {} from a Ag7804UtlatandeV1 with id {}", copyData.getCertificateId(), template.getId());
+
+        Ag7804UtlatandeV1 ag7804pUtlatandeV1 = template;
+        Ag7804UtlatandeV1.Builder templateBuilder = ag7804pUtlatandeV1.toBuilder();
+
+        populateWithId(templateBuilder, copyData.getCertificateId());
+
+        GrundData grundData = ag7804pUtlatandeV1.getGrundData();
+        WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
+
+        resetDataInGrundData(grundData);
+        templateBuilder.setSignature(null);
+        return templateBuilder.build();
+    }
+
+    /**
+     * Creates a AG7804 copy from an existing FK7804 (LISJP) certificate.
+     *
+     * @param copyData the basic draft data
+     * @param template the certificate we shall copy data from
+     * @return an Utlatande of type AG7804
+     * @throws ConverterException
+     */
+    private Ag7804UtlatandeV1 createCopyFromFk7804(CreateDraftCopyHolder copyData, LisjpUtlatandeV1 template) throws ConverterException {
+        LOG.trace("Creating copy with id {} from a LisjpUtlatandeV1 with id {}", copyData.getCertificateId(), template.getId());
 
         Ag7804UtlatandeV1.Builder templateBuilder = Ag7804UtlatandeV1.builder();
 
@@ -119,7 +136,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Ag7804Utlata
         templateBuilder.setTextVersion(copyData.getIntygTypeVersion());
         templateBuilder.setSignature(null);
 
-        CopyFromUtlatandeHelper.copyFrom(lisjpTemplate, templateBuilder);
+        CopyFromUtlatandeHelper.copyFrom(template, templateBuilder);
         return templateBuilder.build();
     }
 
