@@ -86,7 +86,6 @@ public class PrefillResult {
 
     void addMessage(PrefillEventType eventType, String svarsId, String message, Serializable input) {
         messages.add(new SvarResult(eventType, svarsId, message, input));
-
     }
 
 

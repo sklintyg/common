@@ -21,14 +21,19 @@ package se.inera.intyg.common.lisjp.v1.model.converter.prefill;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.matches;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BIDIAGNOS_1_DELSVAR_ID_6;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_BESKRIVNING_DELSVAR_ID_6;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_35;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,7 +58,6 @@ public class PrefillHandlerTest {
     private static final String INTYGSVERSION = "1.0";
     @Mock
     private WebcertModuleService webcertModuleService;
-
     private PrefillHandler testee;
 
 
@@ -61,6 +65,8 @@ public class PrefillHandlerTest {
     public void setup() {
         webcertModuleService = mock(WebcertModuleService.class);
         when(webcertModuleService.getDescriptionFromDiagnosKod(anyString(), anyString())).thenReturn(UPPSLAGEN_DIAGNOSKODBESKRIVNING);
+        //when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
+        when(webcertModuleService.validateDiagnosisCode(matches("J22|M46|S22"), anyString())).thenReturn(true);
         testee = new PrefillHandler(webcertModuleService, INTYGSID, INTYGSTYPE, INTYGSVERSION);
     }
 
@@ -134,7 +140,7 @@ public class PrefillHandlerTest {
     }
 
     /**
-     * Verify that when a Forifylland of a GrundForMu date is not present - a default date is set as todays date and
+     * Verify that when a Forifylland of a GrundForMu date is not present or invalid- a default date is set as todays date and
      * that a INFO message of the fallback handling is returned.
      */
     @Test
@@ -144,23 +150,26 @@ public class PrefillHandlerTest {
         LisjpUtlatandeV1.Builder template = getEmptyUtlatande();
 
         final PrefillResult result = testee.prefill(template, scenario.getForifyllnad());
-
         LisjpUtlatandeV1 utlatande = template.build();
         Assertions.assertThat(utlatande)
             .isEqualToIgnoringGivenFields(scenario.getUtlatande(), "undersokningAvPatienten", "telefonkontaktMedPatienten",
                 "journaluppgifter",
                 "annatGrundForMU");
 
-        assertEquals(4, result.getMessages().size());
-        for (SvarResult item : result.getMessages()) {
-            assertEquals(PrefillEventType.INFO, item.getEventType());
+        final List<SvarResult> infos = result.getMessages().stream().filter(sr -> sr.getEventType().equals(PrefillEventType.INFO)).collect(
+            Collectors.toList());
+        assertEquals(4, infos.size());
+        for (SvarResult item : infos) {
             assertTrue(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1.equals(item.getSvarId()));
         }
 
-        assertEquals(LocalDate.now(), utlatande.getUndersokningAvPatienten().asLocalDate());
-        assertEquals(LocalDate.now(), utlatande.getTelefonkontaktMedPatienten().asLocalDate());
-        assertEquals(LocalDate.now(), utlatande.getJournaluppgifter().asLocalDate());
-        assertEquals(LocalDate.now(), utlatande.getAnnatGrundForMU().asLocalDate());
+        final List<SvarResult> warnings = result.getMessages().stream().filter(sr -> sr.getEventType().equals(PrefillEventType.WARNING))
+            .collect(
+                Collectors.toList());
+        assertEquals(3, warnings.size());
+        for (SvarResult item : warnings) {
+            assertTrue(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1.equals(item.getSvarId()));
+        }
 
     }
 
@@ -187,6 +196,30 @@ public class PrefillHandlerTest {
         assertEquals(1, utlatande.getDiagnoser().size());
         final Diagnos diagnos = utlatande.getDiagnoser().get(0);
         assertEquals(UPPSLAGEN_DIAGNOSKODBESKRIVNING, diagnos.getDiagnosBeskrivning());
+
+    }
+
+    /**
+     * Verify that when a Forifylland of diagnose - the actual diagnose code must be known to us or it will be ignored
+     */
+    @Test
+    public void testPrefillDiagnosInvalidIcd10Code() {
+
+        PrefillScenario scenario = new PrefillScenario("lisjp-ignored-diagnose-code");
+        LisjpUtlatandeV1.Builder template = getEmptyUtlatande();
+
+        final PrefillResult result = testee.prefill(template, scenario.getForifyllnad());
+
+        LisjpUtlatandeV1 utlatande = template.build();
+        Assertions.assertThat(utlatande).isEqualTo(scenario.getUtlatande());
+
+        assertEquals(1, result.getMessages().size());
+        final SvarResult svarResult = result.getMessages().get(0);
+        assertEquals(PrefillEventType.WARNING, svarResult.getEventType());
+        assertEquals(BIDIAGNOS_1_DELSVAR_ID_6, svarResult.getSvarId());
+
+        assertEquals(2, utlatande.getDiagnoser().size());
+
 
     }
 

@@ -52,6 +52,7 @@
             <urn2:displayName>Min undersökning av patienten</urn2:displayName>
           </urn2:cv>
         </urn3:delsvar>
+        <urn3:delsvar id="1.2">2017-05-26</urn3:delsvar>
       </urn5:svar>
       <urn5:svar id="1">
         <urn3:delsvar id="1.1">
@@ -61,7 +62,7 @@
             <urn2:displayName>Min telefonkontakt med patienten</urn2:displayName>
           </urn2:cv>
         </urn3:delsvar>
-        <urn3:delsvar id="1.2"></urn3:delsvar>
+        <urn3:delsvar id="1.2">2017-05-26</urn3:delsvar>
       </urn5:svar>
       <urn5:svar id="1">
         <urn3:instans>3</urn3:instans>
@@ -72,7 +73,7 @@
             <urn2:displayName>Journaluppgifter från den</urn2:displayName>
           </urn2:cv>
         </urn3:delsvar>
-        <urn3:delsvar id="1.2">not-valid-date</urn3:delsvar>
+        <urn3:delsvar id="1.2">2017-05-26</urn3:delsvar>
       </urn5:svar>
       <urn5:svar id="1">
         <urn3:instans>4</urn3:instans>
@@ -83,7 +84,7 @@
             <urn2:displayName>Annat</urn2:displayName>
           </urn2:cv>
         </urn3:delsvar>
-        <urn3:delsvar id="1.2">20190101</urn3:delsvar>
+        <urn3:delsvar id="1.2">2017-05-26</urn3:delsvar>
         <urn3:delsvar id="1.3">baserat på annat</urn3:delsvar>
       </urn5:svar>
       <urn5:svar id="28">
@@ -140,12 +141,12 @@
         <urn3:delsvar id="6.1">Icke specificerad akut infektion i nedre luftvägarna</urn3:delsvar>
         <urn3:delsvar id="6.4">
           <urn2:cv>
-            <urn2:code>M46</urn2:code>
+            <urn2:code>MX46</urn2:code>
             <urn2:codeSystem>1.2.752.116.1.1.1.1.3</urn2:codeSystem>
-            <urn2:displayName>Andra inflammatoriska sjukdomar i ryggraden</urn2:displayName>
+            <urn2:displayName>This diagnose svar will be ignored as its unknown</urn2:displayName>
           </urn2:cv>
         </urn3:delsvar>
-        <urn3:delsvar id="6.3">Andra inflammatoriska sjukdomar i ryggraden</urn3:delsvar>
+        <urn3:delsvar id="6.3">This diagnose svar will be ignored as its unknown</urn3:delsvar>
         <urn3:delsvar id="6.6">
           <urn2:cv>
             <urn2:code>S22</urn2:code>
