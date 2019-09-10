@@ -23,6 +23,7 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillHand
 import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillHandler.WARNING_INVALID_CVTYPE_CODESYSTEM;
 import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillHandler.WARNING_INVALID_CVTYPE_CODE_VALUE;
 import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillHandler.WARNING_INVALID_DATEPERIOD_CONTENT;
+import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillHandler.WARNING_INVALID_DATE_CONTENT;
 import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillHandler.WARNING_INVALID_STRING_FIELD;
 import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillHandler.WARNING_INVALID_STRING_MAXLENGTH;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.childElements;
@@ -31,6 +32,7 @@ import static se.inera.intyg.common.support.modules.converter.TransportConverter
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.isStringContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.parseDelsvarType;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -69,6 +71,21 @@ final class PrefillUtils {
                 String.format(WARNING_INVALID_STRING_MAXLENGTH, validMaxLength, validatedMaxLengthString.length()));
         }
         return validatedMaxLengthString;
+    }
+
+    static String getValidatedDateString(Delsvar delsvar) throws PrefillWarningException {
+        if (!isStringContent(delsvar)) {
+            throw new PrefillWarningException(delsvar, WARNING_INVALID_STRING_FIELD);
+        }
+
+        final String dateString = getStringContent(delsvar);
+
+        try {
+            new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
+        } catch (Exception e) {
+            throw new PrefillWarningException(delsvar, WARNING_INVALID_DATE_CONTENT);
+        }
+        return dateString;
     }
 
     /**
