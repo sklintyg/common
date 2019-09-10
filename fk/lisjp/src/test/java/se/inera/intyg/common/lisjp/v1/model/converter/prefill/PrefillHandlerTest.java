@@ -20,6 +20,7 @@ package se.inera.intyg.common.lisjp.v1.model.converter.prefill;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.matches;
 import static org.mockito.Mockito.mock;
@@ -46,6 +47,7 @@ import se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillResult.Pref
 import se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillResult.SvarResult;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1.Builder;
+import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
@@ -65,8 +67,8 @@ public class PrefillHandlerTest {
     public void setup() {
         webcertModuleService = mock(WebcertModuleService.class);
         when(webcertModuleService.getDescriptionFromDiagnosKod(anyString(), anyString())).thenReturn(UPPSLAGEN_DIAGNOSKODBESKRIVNING);
-        //when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
-        when(webcertModuleService.validateDiagnosisCode(matches("J22|M46|S22"), anyString())).thenReturn(true);
+        when(webcertModuleService.validateDiagnosisCode(matches("J22|M46|S22"), any(Diagnoskodverk.class)))
+            .thenReturn(true);
         testee = new PrefillHandler(webcertModuleService, INTYGSID, INTYGSTYPE, INTYGSVERSION);
     }
 
