@@ -20,11 +20,11 @@ angular.module('common').controller('smi.EditCertCtrl',
     ['$scope', '$state', '$stateParams', '$log', '$location',
         'common.UtkastService', 'common.UserModel', 'common.fmbService', 'common.fmbViewState',
         'ViewState', 'UtkastConfigFactory', 'common.PrefilledUserDataService', 'supportPanelConfigFactory',
-        'common.receiverService', 'common.ResourceLinkService', 'common.dialogService',
+        'common.receiverService', 'common.ResourceLinkService',
         function($scope, $state, $stateParams, $log, $location,
             UtkastService, UserModel, fmbService, fmbViewState, viewState, utkastConfigFactory,
             prefilledUserDataService,
-            supportPanelConfigFactory, receiverService, ResourceLinkService, dialogService) {
+            supportPanelConfigFactory, receiverService, ResourceLinkService) {
             'use strict';
 
             /**********************************************************************************
@@ -75,9 +75,7 @@ angular.module('common').controller('smi.EditCertCtrl',
                     if (viewState.common.__utlatandeJson.candidateMetaData) {
                             UtkastService.copyFromCandidate(viewState.common.__utlatandeJson).then(function(success) {
                                 console.log('SUCCESS: ' + success);
-                                //var path = '/' + success.intygType + '/' + success.intygTypeVersion + '/edit/' + success.intygId;
-                                //window.location.href = path;
-                                loadIntyg();
+                                $state.reload();
                             }, function(error) {
                                 console.log('ERROR: ' + error);
                                 // Error
