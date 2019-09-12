@@ -31,12 +31,12 @@ angular.module('common').directive('wcArendeFooter',
         'common.messageService',
         'common.dialogService', 'common.IntygProxy', 'common.IntygCopyRequestModel',
         'common.ArendeHelper', 'common.ArendeProxy', 'common.ArendeSvarModel', 'common.ErrorHelper',
-        'common.ArendeVidarebefordraHelper', 'common.authorityService',
+        'common.ArendeVidarebefordraHelper',
         'common.IntygHelper', 'common.IntygHeaderViewState', 'common.ResourceLinkService',
         function($log, $rootScope, $q, $state, $timeout, $window,
             UserModel, ObjectHelper, ArendeListViewState, statService, messageService,
             DialogService, IntygProxy, IntygCopyRequestModel,
-            ArendeHelper, ArendeProxy, ArendeSvarModel, ErrorHelper, ArendeVidarebefordraHelper, authorityService,
+            ArendeHelper, ArendeProxy, ArendeSvarModel, ErrorHelper, ArendeVidarebefordraHelper,
             IntygHelper, IntygHeaderViewState, ResourceLinkService) {
             'use strict';
 
@@ -155,11 +155,8 @@ angular.module('common').directive('wcArendeFooter',
                             enhetsid: ArendeListViewState.intyg.grundData.skapadAv.vardenhet.enhetsid,
                             updateInProgress: false,
                             kompletteringConfig: $scope.kompletteringConfig,
-                            showLamnaOvrigaUpplysningar: authorityService.isAuthorityActive(
-                                {
-                                    authority: 'SVARA_MED_NYTT_INTYG',
-                                    intygstyp: ArendeListViewState.intygProperties.type
-                                }) && !UserModel.hasRole('VARDADMINISTRATOR')
+                            showLamnaOvrigaUpplysningar: ResourceLinkService.isLinkTypeExists(ArendeListViewState.intygProperties.links,
+                                'BESVARA_KOMPLETTERING')
                         };
 
                         if (!dialogModel.showLamnaOvrigaUpplysningar) {

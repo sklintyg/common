@@ -23,7 +23,6 @@ describe('wArendeFooter', function() {
     var $scope;
     var $rootScope;
     var $window;
-    var authorityService;
     var ArendeListViewState;
     var UserModel;
     var ArendeProxy;
@@ -40,22 +39,20 @@ describe('wArendeFooter', function() {
             hostname:'hostname',
             port:'port'
         }});
-        $provide.value('common.authorityService', jasmine.createSpyObj('common.authorityService', ['isAuthorityActive']));
     }));
 
     beforeEach(angular.mock.module('htmlTemplates'));
 
     beforeEach(angular.mock.inject(['$controller', '$compile', '$rootScope', '$window',
-        'common.authorityService', 'common.ArendeListViewStateService', 'common.UserModel',
+        'common.ArendeListViewStateService', 'common.UserModel',
         'common.ArendeProxy', 'common.dialogService',
         function($controller, $compile, _$rootScope_, _$window_,
-            _authorityService_, _ArendeListViewState_, _UserModel_, _ArendeProxy_, _DialogService_) {
+            _ArendeListViewState_, _UserModel_, _ArendeProxy_, _DialogService_) {
             $rootScope = _$rootScope_;
             $window = _$window_;
             ArendeListViewState = _ArendeListViewState_;
             ArendeProxy = _ArendeProxy_;
-            authorityService = _authorityService_;
-            authorityService.isAuthorityActive.and.returnValue(true);
+
             UserModel = _UserModel_;
             DialogService = _DialogService_;
 
