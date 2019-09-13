@@ -122,8 +122,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v33.Forifyllnad;
  */
 public class PrefillHandler {
 
-    protected static final String WARNING_INVALID_CVTYPE = "Ignoring - invalid CVType";
-    protected static final String WARNING_MISSING_MANDATORY_CVTYPE_FOR_DELSVAR = "Ignoring - Missing mandatory CVType for delsvar %s";
+    static final String WARNING_INVALID_CVTYPE = "Ignoring - invalid CVType";
     static final String WARNING_INVALID_CVTYPE_CODE_VALUE = "Ignoring - invalid CVType code value";
     static final String WARNING_INVALID_CVTYPE_CODESYSTEM = "Ignoring - invalid CVType codeSystem";
     static final String WARNING_INVALID_BOOLEAN_FIELD = "Ignoring - expected a String with 'true'/'false'";
@@ -132,11 +131,11 @@ public class PrefillHandler {
     static final String WARNING_INVALID_DATEPERIOD_CONTENT = "Ignoring - failed to parse DatePeriod";
     static final String WARNING_INVALID_DATE_CONTENT = "Ignoring - expected a date string in format yyyy-MM-dd";
     static final String WARNING_MISSING_DATE_DEFAULTING_TO = "No valid yyyy-MM-dd date provided for delsvar %s - defaulting to %s";
+    private static final String WARNING_MISSING_MANDATORY_CVTYPE_FOR_DELSVAR = "Ignoring - Missing mandatory CVType for delsvar %s";
     private static final String WARNING_INVALID_SVAR_ID = "Ignoring - invalid svar id";
     private static final String WARNING_INVALID_DELSVAR_ID = "Ignoring - invalid delsvar id";
     private static final String WARNING_MISSING_SJUKSKRIVNINGSNIVA = "Ignoring - missing sjukskrivningsniva";
-    private static final List<String> VALID_DIAGNOSE_CODESYSTEM_VALUES = Arrays
-        .asList(Diagnoskodverk.ICD_10_SE.getCodeSystem(), Diagnoskodverk.KSH_97_P.getCodeSystem());
+    private static final List<String> VALID_DIAGNOSE_CODESYSTEM_VALUES = Arrays.asList(Diagnoskodverk.ICD_10_SE.getCodeSystem());
     private static final Logger LOG = LoggerFactory.getLogger(PrefillHandler.class);
     private static final int DEFAULT_FREETEXT_MAXLENGTH = 4000;
     private static final int DEFAULT_DIAGNOSDESCRIPTION_MAXLENGTH = 81;

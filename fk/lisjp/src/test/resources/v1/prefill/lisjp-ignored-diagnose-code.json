@@ -30,12 +30,6 @@
       "diagnosKodSystem": "ICD_10_SE",
       "diagnosBeskrivning": "Icke specificerad akut infektion i nedre luftvägarna",
       "diagnosDisplayName": "Icke specificerad akut infektion i nedre luftvägarna"
-    },
-    {
-      "diagnosKod": "S22",
-      "diagnosKodSystem": "ICD_10_SE",
-      "diagnosBeskrivning": "Fraktur på revben, bröstbenet och bröstkotpelaren",
-      "diagnosDisplayName": "Fraktur på revben, bröstbenet och bröstkotpelaren"
     }
   ],
   "funktionsnedsattning": "Funktionell nedsättning",

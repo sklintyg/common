@@ -27,12 +27,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BIDIAGNOS_1_DELSVAR_ID_6;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BIDIAGNOS_2_DELSVAR_ID_6;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_BESKRIVNING_DELSVAR_ID_6;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.assertj.core.api.Assertions;
@@ -215,14 +217,12 @@ public class PrefillHandlerTest {
         LisjpUtlatandeV1 utlatande = template.build();
         Assertions.assertThat(utlatande).isEqualTo(scenario.getUtlatande());
 
-        assertEquals(1, result.getMessages().size());
-        final SvarResult svarResult = result.getMessages().get(0);
-        assertEquals(PrefillEventType.WARNING, svarResult.getEventType());
-        assertEquals(BIDIAGNOS_1_DELSVAR_ID_6, svarResult.getSvarId());
-
-        assertEquals(2, utlatande.getDiagnoser().size());
-
-
+        assertEquals(2, result.getMessages().size());
+        for (SvarResult message : result.getMessages()) {
+            final SvarResult svarResult = message;
+            assertEquals(PrefillEventType.WARNING, svarResult.getEventType());
+            assertTrue(Arrays.asList(BIDIAGNOS_1_DELSVAR_ID_6, BIDIAGNOS_2_DELSVAR_ID_6).contains(svarResult.getSvarId()));
+        }
     }
 
     private Builder getEmptyUtlatande() {
