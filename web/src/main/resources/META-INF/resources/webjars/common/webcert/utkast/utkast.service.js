@@ -217,7 +217,7 @@ angular.module('common').factory('common.UtkastService',
 
                 var bodyMessageKey = copyFromCandidateDialogModel.copyToType.toLowerCase() + '.modal.copy-from-candidate.text';
                 if (messageService.propertyExists(bodyMessageKey)) {
-                    var variables = {createdDate: copyFromCandidateDialogModel.copyFromCreatedDate}
+                    var variables = {createdDate: copyFromCandidateDialogModel.copyFromCreatedDate};
                     copyFromCandidateDialogModel.bodyText = messageService.getProperty(bodyMessageKey, variables, bodyMessageKey);
                 }
 

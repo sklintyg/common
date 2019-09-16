@@ -33,7 +33,8 @@ public interface Mapper {
      Mapper map(Utlatande source, CreateDraftCopyHolder draftData) throws ModuleException;
 
      /**
-      * Get internal model as JSON
+      * Get internal model as JSON.
+      *
       * @return
       * @throws ModuleException
       */
