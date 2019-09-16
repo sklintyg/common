@@ -88,7 +88,6 @@ angular.module('common').factory('common.UtkastService',
                         $location.url('/intyg/' + intygsTyp + '/' + utkastData.content.textVersion + '/' + utkastData.content.id + '/');
                     }
                     else {
-
                         srsService.updatePersonnummer(utkastData.content.grundData.patient.personId);
                         // console.log("UTKASTDATA", utkastData)
                         srsService.updateHsaId(utkastData.content.grundData.skapadAv.vardenhet.enhetsid);
@@ -170,6 +169,95 @@ angular.module('common').factory('common.UtkastService',
                 }
             }
 
+            function _copyFromCandidateToUtkast(intygId, intygType, intygTypeVersion, intygIdCandidate, intygTypeCandidate) {
+                var copyFromCandidateRequest = {
+                    candidateId:intygIdCandidate,
+                    candidateType:intygTypeCandidate
+                };
+
+                var defer = $q.defer();
+
+                UtkastProxy.copyFromCandidate(intygId, intygType, copyFromCandidateRequest, function(success) {
+                    success.intygId = intygId;
+                    success.intygType = intygType;
+                    success.intygTypeVersion = intygTypeVersion;
+                    defer.resolve(success);
+                }, function(error) {
+                    defer.reject(error);
+                });
+
+                return defer.promise;
+            }
+
+            function _copyFromCandidate(utlatandeJson) {
+
+                var defer = $q.defer();
+
+                var dialogModel = {
+                    isOpen: null,
+                    copyFromId: null,
+                    copyFromType: null,
+                    copyFromCreatedDate: null,
+                    copyToId: null,
+                    copyToType: null,
+                    copyToTypeVersion: null,
+                    patientId: null,
+                    bodyText: null
+                };
+
+                var copyFromCandidateDialogModel = angular.copy(dialogModel);
+
+                copyFromCandidateDialogModel.copyFromId = utlatandeJson.candidateMetaData.intygId;
+                copyFromCandidateDialogModel.copyFromType = utlatandeJson.candidateMetaData.intygType;
+                copyFromCandidateDialogModel.copyFromCreatedDate = utlatandeJson.content.intygCreated;
+                copyFromCandidateDialogModel.copyToId =  utlatandeJson.content.id;
+                copyFromCandidateDialogModel.copyToType = utlatandeJson.content.typ;
+                copyFromCandidateDialogModel.copyToTypeVersion = utlatandeJson.content.textVersion;
+
+                var bodyMessageKey = copyFromCandidateDialogModel.copyToType.toLowerCase() + '.modal.copy-from-candidate.text';
+                if (messageService.propertyExists(bodyMessageKey)) {
+                    var variables = {createdDate: copyFromCandidateDialogModel.copyFromCreatedDate};
+                    copyFromCandidateDialogModel.bodyText = messageService.getProperty(bodyMessageKey, variables, bodyMessageKey);
+                }
+
+                var copyFromCandidateDialog = dialogService.showDialog({
+                    dialogId: 'copy-from-candidate-dialog',
+                    titleId: 'common.modal.copy-from-candidate.title',
+                    bodyText: copyFromCandidateDialogModel.bodyText,
+                    button1click: function() {
+                        $log.debug('copying data from certificate candidate');
+                        _copyFromCandidateToUtkast(
+                            copyFromCandidateDialogModel.copyToId,
+                            copyFromCandidateDialogModel.copyToType,
+                            copyFromCandidateDialogModel.copyToTypeVersion,
+                            copyFromCandidateDialogModel.copyFromId,
+                            copyFromCandidateDialogModel.copyFromType)
+                        .then(function(success) {
+                                defer.resolve(success);
+                        }, function(error) {
+                                defer.reject(error);
+                        });
+
+                        // close dialog when done
+                        copyFromCandidateDialog.close();
+                    },
+                    button2click: function() {
+                        copyFromCandidateDialog.close();
+                        defer.reject();
+                    },
+                    button1id: 'copy-from-candidate-dialog-button1',
+                    button1text: 'common.copy',
+                    button1icon: 'icon-ok',
+                    button2id: 'copy-from-candidate-dialog-button2',
+                    button2text: 'common.cancel',
+                    button2icon: 'icon-cancel',
+                    button2class: 'btn-secondary',
+                    autoClose: false
+                });
+
+                return defer.promise;
+            }
+
             /**
              * Save draft to webcert
              * @param autoSave
@@ -225,7 +313,7 @@ angular.module('common').factory('common.UtkastService',
                         relation.status = data.status;
                     }
                 }, intygState.relations);
-                
+
                 if (intygState.formPristine) {
                     intygState.formPristine();
                 }
@@ -314,6 +402,7 @@ angular.module('common').factory('common.UtkastService',
             return {
                 load: _load,
                 save: _save,
-                updatePreviousIntygUtkast: _updatePreviousIntygUtkast
+                updatePreviousIntygUtkast: _updatePreviousIntygUtkast,
+                copyFromCandidate: _copyFromCandidate
             };
         }]);

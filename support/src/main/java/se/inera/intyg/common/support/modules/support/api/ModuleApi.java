@@ -23,12 +23,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.modules.mapper.Mapper;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
@@ -307,9 +307,8 @@ public interface ModuleApi {
     /**
      * Returns an instance of the implementation of Utlatande that this module handles.
      *
-     * @param xml
-     *            the model represented as XML (transport)
-     * @return the converted utlatande
+     * @param xml the model represented as XML (transport)
+     * @return the model represented as JSON (internal)
      * @throws ModuleException
      *             if there was an error in the conversion
      */
@@ -427,4 +426,8 @@ public interface ModuleApi {
         return Optional.empty();
     }
 
+
+    default Optional<Mapper> getMapper() {
+        return Optional.empty();
+    }
 }

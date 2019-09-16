@@ -36,6 +36,23 @@ angular.module('common').factory('common.UtkastProxy',
         /**
          * Get a utkast with the specified id from the server.
          */
+        function _copyFromCandidate(intygsId, intygsType, copyFromCandidatePayload, onSuccess, onError) {
+          $log.debug('_copyFromCandidate intygsId: ' + intygsId + ' intygsTyp: ' + intygsType);
+          var restPath = '/moduleapi/utkast/' + intygsType + '/' + intygsId  + '/copyfromcandidate';
+
+          $http.post(restPath, copyFromCandidatePayload)
+          .then(function(response) {
+            $log.debug('_copyFromCandidate data: ' + response.data);
+            onSuccess(response.data);
+          }, function(response) {
+            $log.error('error ' + response.status);
+            onError(response.data);
+          });
+        }
+
+        /**
+         * Get a utkast with the specified id from the server.
+         */
         function _getUtkast(intygsId, intygsTyp, onSuccess, onError) {
             $log.debug('_getDraft intygsId: ' + intygsId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId;
@@ -240,6 +257,7 @@ angular.module('common').factory('common.UtkastProxy',
             discardUtkast: _discardUtkast,
             makuleraUtkast: _makuleraUtkast,
             copyUtkast: _copyUtkast,
+            copyFromCandidate: _copyFromCandidate,
             startSigningProcess: _startSigningProcess,
             getSigneringsstatus: _getSigneringsstatus,
             fejkSignera: _fejkSignera,

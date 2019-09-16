@@ -24,17 +24,16 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
 import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
 import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
 import se.inera.intyg.common.ag7804.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.ag7804.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.ag7804.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
+import se.inera.intyg.common.ag7804.v1.model.mapper.FK7804ToAG7804Mapper;
 import se.inera.intyg.common.ag7804.v1.pdf.PdfGenerator;
 import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.agparent.rest.AgParentModuleApi;
@@ -46,6 +45,7 @@ import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.mapper.Mapper;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.GetCopyFromCriteria;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
@@ -61,6 +61,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
 
     public static final String SCHEMATRON_FILE = "ag7804.v1.sch";
+
     private static final Logger LOG = LoggerFactory.getLogger(Ag7804ModuleApiV1.class);
 
     private static final int COPY_FROM_LISJP_MAX_AGE_DAYS = 14;
@@ -209,10 +210,16 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
             draftCopyHolder.setRelation(relation);
 
             return toInternalModelResponse(webcertModelFactory.createCopy(draftCopyHolder, renewCopy));
+
         } catch (ConverterException e) {
             LOG.error("Could not create a new internal Webcert model", e);
             throw new ModuleConverterException("Could not create a new internal Webcert model", e);
         }
+    }
+
+    @Override
+    public Optional<Mapper> getMapper() {
+        return Optional.of(new FK7804ToAG7804Mapper(objectMapper));
     }
 
 }
