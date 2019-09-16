@@ -169,7 +169,7 @@ angular.module('common').factory('common.UtkastService',
                 }
             }
 
-            function _copyDataFromCandidate(intygId, intygType, intygTypeVersion, intygIdCandidate, intygTypeCandidate) {
+            function _copyFromCandidateToUtkast(intygId, intygType, intygTypeVersion, intygIdCandidate, intygTypeCandidate) {
                 var copyFromCandidateRequest = {
                     candidateId:intygIdCandidate,
                     candidateType:intygTypeCandidate,
@@ -179,15 +179,12 @@ angular.module('common').factory('common.UtkastService',
                 var defer = $q.defer();
 
                 UtkastProxy.copyFromCandidate(intygId, intygType, copyFromCandidateRequest, function(success) {
-                    //$location.url('/' + intygType + '/' + intygTypeVersion + '/edit/' + intygId + '/', true);
                     success.intygId = intygId;
                     success.intygType = intygType;
                     success.intygTypeVersion = intygTypeVersion;
-                    console.log(success);
                     defer.resolve(success);
                 }, function(error) {
-                    console.log(error);
-                    defer.reject();
+                    defer.reject(error);
                 });
 
                 return defer.promise;
@@ -230,19 +227,20 @@ angular.module('common').factory('common.UtkastService',
                     bodyText: copyFromCandidateDialogModel.bodyText,
                     button1click: function() {
                         $log.debug('copying data from certificate candidate');
-                        _copyDataFromCandidate(
+                        _copyFromCandidateToUtkast(
                             copyFromCandidateDialogModel.copyToId,
                             copyFromCandidateDialogModel.copyToType,
                             copyFromCandidateDialogModel.copyToTypeVersion,
                             copyFromCandidateDialogModel.copyFromId,
-                            copyFromCandidateDialogModel.copyFromType).then(function(success) {
+                            copyFromCandidateDialogModel.copyFromType)
+                        .then(function(success) {
                                 defer.resolve(success);
                         }, function(error) {
                                 defer.reject(error);
                         });
 
-                            // close dialog when done
-                            copyFromCandidateDialog.close();
+                        // close dialog when done
+                        copyFromCandidateDialog.close();
                     },
                     button2click: function() {
                         copyFromCandidateDialog.close();
