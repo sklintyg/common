@@ -172,8 +172,7 @@ angular.module('common').factory('common.UtkastService',
             function _copyFromCandidateToUtkast(intygId, intygType, intygTypeVersion, intygIdCandidate, intygTypeCandidate) {
                 var copyFromCandidateRequest = {
                     candidateId:intygIdCandidate,
-                    candidateType:intygTypeCandidate,
-                    candidateTypeVersion:''
+                    candidateType:intygTypeCandidate
                 };
 
                 var defer = $q.defer();

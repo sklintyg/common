@@ -17,11 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').controller('smi.EditCertCtrl',
-    ['$scope', '$state', '$stateParams', '$log', '$location',
+    ['$scope', '$state', '$stateParams',
         'common.UtkastService', 'common.UserModel', 'common.fmbService', 'common.fmbViewState',
         'ViewState', 'UtkastConfigFactory', 'common.PrefilledUserDataService', 'supportPanelConfigFactory',
         'common.receiverService', 'common.ResourceLinkService',
-        function($scope, $state, $stateParams, $log, $location,
+        function($scope, $state, $stateParams,
             UtkastService, UserModel, fmbService, fmbViewState, viewState, utkastConfigFactory,
             prefilledUserDataService, supportPanelConfigFactory, receiverService, ResourceLinkService) {
             'use strict';
