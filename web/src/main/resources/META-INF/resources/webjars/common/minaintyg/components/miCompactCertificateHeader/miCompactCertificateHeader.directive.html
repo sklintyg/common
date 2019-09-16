@@ -25,9 +25,13 @@
             <p dynamic-label key="certificates.label.dash"></p>
           </span>
         </span>
-        <span ng-if="certMetaModel.replacedBy" ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
+        <span ng-if="certMetaModel.replacedBy.relationKod === 'KOMPLT'" ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
+          <p dynamic-label key="certificates.label.completed"></p>
+        </span>
+        <span ng-if="certMetaModel.replacedBy.relationKod === 'ERSATT'" ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
           <p dynamic-label key="certificates.label.replaced"></p>
         </span>
+
       </div>
     </div>
 
