@@ -209,15 +209,14 @@ angular.module('common').factory('common.UtkastService',
 
                 copyFromCandidateDialogModel.copyFromId = utlatandeJson.candidateMetaData.intygId;
                 copyFromCandidateDialogModel.copyFromType = utlatandeJson.candidateMetaData.intygType;
-                copyFromCandidateDialogModel.copyFromCreatedDate = utlatandeJson.content.intygCreated;
+                copyFromCandidateDialogModel.copyFromCreatedDate = utlatandeJson.candidateMetaData.intygCreated;
                 copyFromCandidateDialogModel.copyToId =  utlatandeJson.content.id;
                 copyFromCandidateDialogModel.copyToType = utlatandeJson.content.typ;
                 copyFromCandidateDialogModel.copyToTypeVersion = utlatandeJson.content.textVersion;
 
                 var bodyMessageKey = copyFromCandidateDialogModel.copyToType.toLowerCase() + '.modal.copy-from-candidate.text';
                 if (messageService.propertyExists(bodyMessageKey)) {
-                    var variables = {createdDate: copyFromCandidateDialogModel.copyFromCreatedDate};
-                    copyFromCandidateDialogModel.bodyText = messageService.getProperty(bodyMessageKey, variables, bodyMessageKey);
+                    copyFromCandidateDialogModel.bodyText = messageService.getProperty(bodyMessageKey, {createdDate:  moment(copyFromCandidateDialogModel.copyFromCreatedDate).format('YYYY-MM-DD')});
                 }
 
                 var copyFromCandidateDialog = dialogService.showDialog({
