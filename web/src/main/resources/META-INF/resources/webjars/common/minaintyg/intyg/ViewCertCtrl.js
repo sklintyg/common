@@ -28,6 +28,10 @@ angular.module('common').controller(
             $scope.enableSend = !!viewFactory.getSendUrl();
             $scope.selectRecipientKey = viewFactory.selectRecipientKey;
 
+            $scope.possibleToCustomize = function() {
+                return angular.isFunction(viewFactory.enableCustomizeCertificate);
+            };
+
             $scope.enableCustomize = function() {
                 return angular.isFunction(viewFactory.enableCustomizeCertificate) && viewFactory.enableCustomizeCertificate($scope.cert);
             };

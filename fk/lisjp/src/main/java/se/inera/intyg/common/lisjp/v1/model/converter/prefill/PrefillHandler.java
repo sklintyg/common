@@ -75,6 +75,7 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillUtil
 import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillUtils.getValidatedCVTypeCodeContent;
 import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillUtils.getValidatedCVTypeContent;
 import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillUtils.getValidatedDatePeriodTypeContent;
+import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillUtils.getValidatedDateString;
 import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillUtils.getValidatedString;
 import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillUtils.nullToEmpty;
 
@@ -121,23 +122,22 @@ import se.riv.clinicalprocess.healthcond.certificate.v33.Forifyllnad;
  */
 public class PrefillHandler {
 
-    protected static final String WARNING_INVALID_CVTYPE = "Ignoring - invalid CVType";
-    protected static final String WARNING_MISSING_MANDATORY_CVTYPE_FOR_DELSVAR = "Ignoring - Missing mandatory CVType for delsvar %s";
+    static final String WARNING_INVALID_CVTYPE = "Ignoring - invalid CVType";
     static final String WARNING_INVALID_CVTYPE_CODE_VALUE = "Ignoring - invalid CVType code value";
     static final String WARNING_INVALID_CVTYPE_CODESYSTEM = "Ignoring - invalid CVType codeSystem";
     static final String WARNING_INVALID_BOOLEAN_FIELD = "Ignoring - expected a String with 'true'/'false'";
     static final String WARNING_INVALID_STRING_FIELD = "Ignoring - expected a String delsvar element";
     static final String WARNING_INVALID_STRING_MAXLENGTH = "Ignoring - expected a String delsvar with maxlength of %s but was %s";
     static final String WARNING_INVALID_DATEPERIOD_CONTENT = "Ignoring - failed to parse DatePeriod";
+    static final String WARNING_INVALID_DATE_CONTENT = "Ignoring - expected a date string in format yyyy-MM-dd";
+    static final String WARNING_MISSING_DATE_DEFAULTING_TO = "No valid yyyy-MM-dd date provided for delsvar %s - defaulting to %s";
+    private static final String WARNING_MISSING_MANDATORY_CVTYPE_FOR_DELSVAR = "Ignoring - Missing mandatory CVType for delsvar %s";
     private static final String WARNING_INVALID_SVAR_ID = "Ignoring - invalid svar id";
     private static final String WARNING_INVALID_DELSVAR_ID = "Ignoring - invalid delsvar id";
     private static final String WARNING_MISSING_SJUKSKRIVNINGSNIVA = "Ignoring - missing sjukskrivningsniva";
-    private static final String WARNING_MISSING_DATE_DEFAULTING_TO = "No date provided for delsvar %s - defaulting to %s";
-    private static final List<String> VALID_DIAGNOSE_CODESYSTEM_VALUES = Arrays
-        .asList(Diagnoskodverk.ICD_10_SE.getCodeSystem(), Diagnoskodverk.KSH_97_P.getCodeSystem());
+    private static final List<String> VALID_DIAGNOSE_CODESYSTEM_VALUES = Arrays.asList(Diagnoskodverk.ICD_10_SE.getCodeSystem());
     private static final Logger LOG = LoggerFactory.getLogger(PrefillHandler.class);
     private static final int DEFAULT_FREETEXT_MAXLENGTH = 4000;
-    private static final int DEFAULT_DATE_STRING_LENGTH = 10;
     private static final int DEFAULT_DIAGNOSDESCRIPTION_MAXLENGTH = 81;
     private final String intygsId;
     private final String intygsTyp;
@@ -264,7 +264,7 @@ public class PrefillHandler {
             try {
                 switch (delsvar.getId()) {
                     case GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1:
-                        grundForMedicinsktUnderlagDatum = new InternalDate(getValidatedString(delsvar, DEFAULT_DATE_STRING_LENGTH));
+                        grundForMedicinsktUnderlagDatum = new InternalDate(getValidatedDateString(delsvar));
                         break;
                     case GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1:
                         String validatedCVType = getValidatedCVTypeCodeContent(delsvar, GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM);
@@ -300,7 +300,6 @@ public class PrefillHandler {
                     grundForMedicinsktUnderlagDatum.getDate()));
 
         }
-
         switch (grundForMedicinsktUnderlagTyp) {
             case UNDERSOKNING:
                 utlatande.setUndersokningAvPatienten(grundForMedicinsktUnderlagDatum);
@@ -597,6 +596,8 @@ public class PrefillHandler {
                 switch (delsvar.getId()) {
                     case DIAGNOS_DELSVAR_ID_6:
                         CVType diagnos = getValidatedCVTypeContent(delsvar, VALID_DIAGNOSE_CODESYSTEM_VALUES);
+                        //Also verify that the supplied code value is one we have in our diagnose repository
+                        ensureKnownDiagnoseCode(delsvar, diagnos);
                         diagnosKod = diagnos.getCode();
                         diagnosKodSystem = diagnos.getCodeSystem();
                         diagnosDisplayName = diagnos.getDisplayName();
@@ -607,6 +608,7 @@ public class PrefillHandler {
                         break;
                     case BIDIAGNOS_1_DELSVAR_ID_6:
                         CVType bidiagnos1 = getValidatedCVTypeContent(delsvar, VALID_DIAGNOSE_CODESYSTEM_VALUES);
+                        ensureKnownDiagnoseCode(delsvar, bidiagnos1);
                         bidiagnosKod1 = bidiagnos1.getCode();
                         bidiagnosKodSystem1 = bidiagnos1.getCodeSystem();
                         bidiagnosDisplayName1 = bidiagnos1.getDisplayName();
@@ -617,6 +619,7 @@ public class PrefillHandler {
                         break;
                     case BIDIAGNOS_2_DELSVAR_ID_6:
                         CVType bidiagnos2 = getValidatedCVTypeContent(delsvar, VALID_DIAGNOSE_CODESYSTEM_VALUES);
+                        ensureKnownDiagnoseCode(delsvar, bidiagnos2);
                         bidiagnosKod2 = bidiagnos2.getCode();
                         bidiagnosKodSystem2 = bidiagnos2.getCodeSystem();
                         bidiagnosDisplayName2 = bidiagnos2.getDisplayName();
@@ -657,6 +660,12 @@ public class PrefillHandler {
                     BIDIAGNOS_2_BESKRIVNING_DELSVAR_ID_6);
             }
             diagnoser.add(Diagnos.create(bidiagnosKod2, bidiagnoskodverk2.toString(), bidiagnosBeskrivning2, bidiagnosDisplayName2));
+        }
+    }
+
+    private void ensureKnownDiagnoseCode(Delsvar delsvar, CVType diagnos) throws PrefillWarningException {
+        if (!moduleService.validateDiagnosisCode(diagnos.getCode(), Diagnoskodverk.getEnumByCodeSystem(diagnos.getCodeSystem()))) {
+            throw new PrefillWarningException(delsvar, WARNING_INVALID_CVTYPE_CODE_VALUE);
         }
     }
 

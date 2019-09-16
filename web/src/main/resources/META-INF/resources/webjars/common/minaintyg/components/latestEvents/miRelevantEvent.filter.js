@@ -19,7 +19,7 @@
 angular.module('common').filter('miRelevantEventFilter', function() {
     'use strict';
     //For now only these events. If needed, _visibleEvents could be made coonfigurable
-    var _visibleEvents = [ 'SENT', 'ERSATT', 'ERSATTER'];
+    var _visibleEvents = [ 'SENT', 'ERSATT', 'ERSATTER', 'KOMPLETTERAT', 'KOMPLETTERAR'];
 
     function _isRelevant(event) {
         var result = false;

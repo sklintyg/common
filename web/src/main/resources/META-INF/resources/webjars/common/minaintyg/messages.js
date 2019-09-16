@@ -80,10 +80,12 @@ angular.module('common').constant('common.messages', {
         'certificates.events.ersatter': '<a data-ng-click="viewCert({type: \'{1}\', typeVersion: \'{2}\', id: \'{0}\'})">Ersätter ett intyg som inte längre är aktuellt</a>',
         'certificates.events.ersatt.warn.header': 'OBS! Intyget har ersatts av vården med <a href="/web/start#/{1}/{2}/view/{0}">detta intyg</a>.',
         'certificates.events.ersatt.warn.text': 'Läkaren kan ersätta ett intyg om till exempel intyget innehåller felaktig information eller ny information tillkommit.',
+        'certificates.events.kompletterat': '<a data-ng-click="viewCert({type: \'{1}\', typeVersion: \'{2}\', id: \'{0}\'})">Kompletterades av vården med ett nytt intyg</a>',
+        'certificates.events.kompletterar': '<a data-ng-click="viewCert({type: \'{1}\', typeVersion: \'{2}\', id: \'{0}\'})">Kompletterar ett intyg som inte längre är aktuellt</a>',
         'certificates.events.kompletterat.warn.header': 'OBS! Intyget har kompletterats av vården med <a href="/web/start#/{1}/{2}/view/{0}">detta intyg</a>.',
         'certificates.events.kompletterat.warn.text': 'Läkaren kan svara med ett nytt intyg, innehållande de kompletterade uppgifterna, om Försäkringskassan begärt en komplettering av vården.',
 
-        //Common text in customized pdf wizard (lisjp and fk7263)
+        //Common text in customized pdf wizard (ag7804)
         'modules.customize.message.customize.disabled': 'Intyg som avser avstängning enligt smittskyddslagen kan inte anpassas till din arbetsgivare. Om du vill hämta det fullständiga intyget så klicka på knappen <i>Ladda ner intyg som PDF</i>.',
         'modules.customize.label.mandatory': 'Obligatorisk info',
         'modules.customize.label.optional': 'Inkludera i anpassat intyg',

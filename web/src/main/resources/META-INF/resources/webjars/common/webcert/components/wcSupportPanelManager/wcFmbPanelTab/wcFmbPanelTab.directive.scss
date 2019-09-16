@@ -49,26 +49,58 @@ wc-fmb-panel-tab {
         .diagnosinfo {
           color: $wc-color-21;
           vertical-align: text-top;
+          cursor: pointer;
         }
       }
     }
   }
 
+  //Override default scrollable body padding.
+  #fmb-panel-scrollable-body {
+    &.tab-content-scrollable-body {
+      padding-left: 0;
+      padding-right: 20px;
+
+    }
+  }
   .fmb-section {
     padding-bottom: 20px;
     color: $wc-color-07;
     h4 {
-      @extend %wc-typo-05;
+      @extend %wc-typo-06;
       padding: 8px 0;
+      &.fmb-section-headline {
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-right: -20px;
+        > span {
+          vertical-align: middle;
+        }
+        &.diagnose-meta {
+          @extend %wc-typo-05;
+          padding-top: 14px;
+          padding-bottom: 14px;
+          background-color: $wc-color-28;
+          margin-bottom: 16px;
+        }
+      }
     }
     div {
       @extend %wc-typo-07;
     }
     section {
       @extend %wc-typo-07;
+      padding:0 20px;
     }
     .missing-info {
       @extend %wc-typo-12;
+      padding:0 20px;
+    }
+    .info-icon {
+      color: $wc-color-07;
+      cursor: pointer;
+      padding-left: 4px;
+      vertical-align: middle;
     }
   }
 
@@ -76,8 +108,9 @@ wc-fmb-panel-tab {
     padding-left: 30px;
   }
 
+
   .fmb-more-information-section {
-    padding: 25px 20px 25px 20px;
+    padding: 25px 40px 25px 40px;
     margin-left: -20px;
     margin-right: -20px;
     margin-bottom: -25px;
@@ -114,6 +147,7 @@ wc-fmb-panel-tab {
   }
 
   wc-alert-message {
+    padding:0 20px;
     display: block;
     .alert {
       display: block;

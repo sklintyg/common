@@ -23,6 +23,7 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillHand
 import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillHandler.WARNING_INVALID_CVTYPE_CODESYSTEM;
 import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillHandler.WARNING_INVALID_CVTYPE_CODE_VALUE;
 import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillHandler.WARNING_INVALID_DATEPERIOD_CONTENT;
+import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillHandler.WARNING_INVALID_DATE_CONTENT;
 import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillHandler.WARNING_INVALID_STRING_FIELD;
 import static se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillHandler.WARNING_INVALID_STRING_MAXLENGTH;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.childElements;
@@ -31,9 +32,11 @@ import static se.inera.intyg.common.support.modules.converter.TransportConverter
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.isStringContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.parseDelsvarType;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 import org.springframework.util.StringUtils;
 import se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillResult.PrefillEventType;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -42,6 +45,9 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 final class PrefillUtils {
+
+    private static final String DATE_YYYY_MM_DD = "yyyy-MM-dd";
+    private static final Pattern VALID_DATE_PATTERN = Pattern.compile("\\d{4}-\\d{2}-\\d{2}");
 
     private PrefillUtils() {
     }
@@ -69,6 +75,32 @@ final class PrefillUtils {
                 String.format(WARNING_INVALID_STRING_MAXLENGTH, validMaxLength, validatedMaxLengthString.length()));
         }
         return validatedMaxLengthString;
+    }
+
+    /**
+     * Validates that a @{@link Delsvar} has a valid string value representation of a date in the format of yyyy-MM-dd.
+     * It also checks that it's an actual date, disallowing values such as 2019-01-33 etc.
+     *
+     * @return the delsvar String content
+     */
+    static String getValidatedDateString(Delsvar delsvar) throws PrefillWarningException {
+        if (!isStringContent(delsvar)) {
+            throw new PrefillWarningException(delsvar, WARNING_INVALID_STRING_FIELD);
+        }
+
+        final String dateString = getStringContent(delsvar);
+
+        try {
+            if (!VALID_DATE_PATTERN.matcher(dateString).matches()) {
+                throw new IllegalArgumentException("Invalid date string value " + dateString);
+            }
+            final SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_YYYY_MM_DD);
+            dateFormat.setLenient(false);
+            dateFormat.parse(dateString);
+        } catch (Exception e) {
+            throw new PrefillWarningException(delsvar, WARNING_INVALID_DATE_CONTENT);
+        }
+        return dateString;
     }
 
     /**
