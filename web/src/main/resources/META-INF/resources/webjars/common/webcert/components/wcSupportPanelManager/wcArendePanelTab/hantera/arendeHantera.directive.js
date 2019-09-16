@@ -124,7 +124,7 @@ angular.module('common').directive('arendeHantera',
                         // If no access is given from backend, it should be possible to toggle handled.
                         if ($scope.arendeListItem.isKomplettering()) {
                             return ResourceLinkService.isLinkTypeExists($scope.parentViewState.intygProperties.links,
-                                'BESVARA_KOMPLETTERING');
+                                'MARKERA_KOMPLETTERING_SOM_HANTERAD');
                         } else {
                             return ResourceLinkService.isLinkTypeExists($scope.parentViewState.intygProperties.links,
                                 'BESVARA_FRAGA');
