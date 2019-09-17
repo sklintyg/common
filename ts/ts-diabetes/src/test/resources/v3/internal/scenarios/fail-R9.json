@@ -63,10 +63,10 @@
     "kunskapLampligaAtgarder":true,
     "egenkontrollBlodsocker":true,
     "aterkommandeSenasteAret":true,
-    "aterkommandeSenasteTidpunkt":"2018-09-10",
+    "aterkommandeSenasteTidpunkt":"set-in-test",
     "aterkommandeSenasteKvartalet":true,
     "forekomstTrafik":true,
-    "forekomstTrafikTidpunkt":"2018-09-10"
+    "forekomstTrafikTidpunkt":"set-in-test"
   },
   "synfunktion":{
     "misstankeOgonsjukdom":false,

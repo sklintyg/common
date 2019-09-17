@@ -56,6 +56,9 @@ import static se.inera.intyg.common.ts_diabetes.v3.validator.InternalDraftValida
 import static se.inera.intyg.common.ts_diabetes.v3.validator.InternalDraftValidatorImpl.CATEGORY_SYNFUNKTION;
 
 import com.google.common.collect.ImmutableSet;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -265,6 +268,13 @@ public class InternalDraftValidatorTest {
     @Test
     public void failureDueToRule9() throws Exception {
         TsDiabetesUtlatandeV3 utlatande = ScenarioFinder.getInternalScenario("fail-R9").asInternalModel();
+        //Test json can't have dynamic dates som we override it here.
+        // Maybe we should allow getInternalScenario to have arguments that replaces tfeilds in the json file when reading?
+        final String lastMonth = LocalDate.now().minus(1, ChronoUnit.MONTHS).format(
+            DateTimeFormatter.ISO_DATE);
+
+        utlatande.getHypoglykemier().getAterkommandeSenasteTidpunkt().setDate(lastMonth);
+        utlatande.getHypoglykemier().getForekomstTrafikTidpunkt().setDate(lastMonth);
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
