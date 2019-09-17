@@ -85,7 +85,7 @@
 
             'common.alert.newpersonid': 'Patientens personummer har ändrats',
             'common.alert.newreserveid': 'Patienten har samordningsnummer kopplat till reservnummer: <b>${reserve}</b>.',
-            'common.alert.sekretessmarkering.print': 'Patienten har en sekretessmarkering. Hantera utskriften varsamt.',
+            'common.alert.sekretessmarkering.print': 'Patienten har skyddade personuppgifter. Hantera utskriften varsamt.',
             'common.alert.textversionupdated': 'Observera att frågetexterna har uppdaterats',
             'common.warning.patientdataupdate.failed': '<b>Observera!</b> Misslyckades att slå upp patienten i personuppgiftstjänsten',
 
