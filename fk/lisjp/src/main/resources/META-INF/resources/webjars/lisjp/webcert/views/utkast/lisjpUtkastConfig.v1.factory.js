@@ -50,7 +50,12 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
                 var lockedExpression = isLocked ? '&& model.motiveringTillInteBaseratPaUndersokning' : '';
                 var motiveringBaseratHideExpression = '!(!model.undersokningAvPatienten && (model.telefonkontaktMedPatienten || ' + 
                 'model.journaluppgifter || model.annatGrundForMU)' + lockedExpression + ')';
-            
+
+              var isKompletteringsUtkast = false;
+              if(viewState.relations !== undefined && viewState.relations.parent !== undefined && viewState.relations.parent.relationKod !== undefined){
+                isKompletteringsUtkast = viewState.relations.parent.relationKod === 'KOMPLT';
+              }
+
                 var config = [
 
                     kategori(categoryIds[10], 'KAT_10.RBK', 'KAT_10.HLP', {signingDoctor: true}, [
@@ -404,7 +409,8 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
                         fraga(25, '', '', { }, [{
                             modelProp: 'ovrigt',
                             type: 'ue-textarea',
-                            htmlMaxlength: 2700
+                            htmlMaxlength: isKompletteringsUtkast? 3296 : 2700
+
                         }])
                     ]),
 
