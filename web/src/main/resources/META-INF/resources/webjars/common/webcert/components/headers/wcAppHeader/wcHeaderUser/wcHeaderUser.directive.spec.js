@@ -255,7 +255,7 @@ describe('wcHeaderUser Directive', function() {
             runDirective();
 
             //Assert
-            expect(getSekretessLink().text()).toContain('Sekretessmarkering');
+            expect(getSekretessLink().text()).toContain('Skyddade personuppgifter');
 
             //trigger open dialog
             getSekretessLink().click();
