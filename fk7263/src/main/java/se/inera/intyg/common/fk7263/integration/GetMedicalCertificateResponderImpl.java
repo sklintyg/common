@@ -19,11 +19,9 @@
 package se.inera.intyg.common.fk7263.integration;
 
 import javax.xml.bind.JAXBElement;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
 import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificate.v1.GetMedicalCertificateRequestType;
 import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificate.v1.GetMedicalCertificateResponderInterface;
@@ -43,9 +41,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
  */
 public class GetMedicalCertificateResponderImpl implements GetMedicalCertificateResponderInterface {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GetMedicalCertificateResponderImpl.class);
     public static final String HSVARD = "HSVARD";
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(GetMedicalCertificateResponderImpl.class);
     @Autowired(required = false)
     private ModuleContainerApi moduleContainer;
 
@@ -77,6 +74,8 @@ public class GetMedicalCertificateResponderImpl implements GetMedicalCertificate
             } else {
                 response.setMeta(ModelConverter.toCertificateMetaType(certificate));
                 attachCertificateDocument(certificate, response);
+                moduleContainer.logCertificateRetrieved(certificate.getId(), certificate.getType(), certificate.getCareUnitId(),
+                    request.getPart());
                 if (certificate.isRevoked()) {
                     response.setResult(
                         ResultTypeUtil.errorResult(ErrorIdType.REVOKED,

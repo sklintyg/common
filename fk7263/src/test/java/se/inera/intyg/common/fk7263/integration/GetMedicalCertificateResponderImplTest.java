@@ -18,6 +18,12 @@
  */
 package se.inera.intyg.common.fk7263.integration;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import org.junit.Test;
@@ -36,10 +42,6 @@ import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v1.ResultCodeType;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 @RunWith(MockitoJUnitRunner.class)
 public class GetMedicalCertificateResponderImplTest {
 
@@ -56,11 +58,16 @@ public class GetMedicalCertificateResponderImplTest {
 
     @Test
     public void getMedicalCertificate() throws Exception {
-        when(moduleContainer.getCertificate(INTYG_ID, createPnr(PERSON_ID), false)).thenReturn(createCertificateHolder());
+        CertificateHolder certificateHolder = createCertificateHolder();
+        when(moduleContainer.getCertificate(INTYG_ID, createPnr(PERSON_ID), false)).thenReturn(certificateHolder);
 
-        GetMedicalCertificateResponseType response = responder.getMedicalCertificate(null, createGetMedicalCertificateRequest());
+        GetMedicalCertificateRequestType request = createGetMedicalCertificateRequest();
+        GetMedicalCertificateResponseType response = responder.getMedicalCertificate(null, request);
 
         verify(moduleContainer).getCertificate(INTYG_ID, createPnr(PERSON_ID), false);
+        verify(moduleContainer)
+            .logCertificateRetrieved(certificateHolder.getId(), certificateHolder.getType(), certificateHolder.getCareUnitId(),
+                request.getPart());
         assertEquals(ResultCodeType.OK, response.getResult().getResultCode());
         assertNotNull(response.getMeta());
         assertEquals(INTYG_ID, response.getMeta().getCertificateId());
