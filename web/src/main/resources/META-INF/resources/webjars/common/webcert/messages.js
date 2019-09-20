@@ -711,8 +711,8 @@
             // Common errors
             'common.error.unknown': '<strong>Tekniskt fel.</strong>',
             'common.error.authorization_problem': '<strong>Behörighet saknas.</strong><br>Du saknar behörighet att använda denna resurs.',
-            'common.error.authorization_problem_sekretessmarkering': '<strong>Behörighet saknas.</strong><br>Du saknar behörighet. För att hantera intyg för patienter med sekretessmarkering krävs att du har befattningen läkare eller tandläkare. Vissa intygstyper får inte hanteras alls för patienter med sekretessmarkering, även om du har befattningen som krävs.',
-            'common.error.authorization_problem_sekretessmarkering_enhet': '<strong>Behörighet saknas.</strong><br>Du saknar behörighet att hantera detta intyg. För att hantera ett intyg för en patient med sekretessmarkering måste du vara inloggad på den vårdenhet intyget skrevs.',
+            'common.error.authorization_problem_sekretessmarkering': '<strong>Behörighet saknas.</strong><br>Du saknar behörighet. För att hantera intyg för patienter med skyddade personuppgifter krävs att du har befattningen läkare eller tandläkare. Vissa intygstyper får inte hanteras alls för patienter med skyddade personuppgifter, även om du har befattningen som krävs.',
+            'common.error.authorization_problem_sekretessmarkering_enhet': '<strong>Behörighet saknas.</strong><br>Du saknar behörighet att hantera detta intyg. För att hantera ett intyg för en patient med skyddade personuppgifter måste du vara inloggad på den vårdenhet intyget skrevs.',
             'common.error.cantconnect': '<strong>Kunde inte kontakta servern.</strong>',
             'common.error.certificatenotfound': '<strong>Intyget finns inte.</strong>',
             'common.error.certificateinvalid': '<strong>Intyget är inte korrekt ifyllt.</strong>',
@@ -745,7 +745,7 @@
             'common.error.save.noconnection': 'Inget nätverk. Utkastet kunde inte sparas. Kontrollera att du har en fungerande internetanslutning.',
             'common.error.save.concurrent_modification': 'Utkastet har samtidigt ändrats av en annan användare och kunde därför inte sparas. Ladda om sidan och försök igen. Utkastet ändrades av: ${name}',
             'common.error.save.unknown_internal_problem': 'Tappade anslutningen till Webcerts server. Utkastet kunde inte sparas. Om problemet kvarstår, kontakta din lokala IT-administratör.',
-            'common.error.certificate_type_sekretessmarkering_unsupported': '<strong>Intyg kan ej hanteras.</strong><br>Det intyg du valt att skriva går tyvärr inte att skapa i Webcert för en patient med sekretessmarkering.',
+            'common.error.certificate_type_sekretessmarkering_unsupported': '<strong>Intyg kan ej hanteras.</strong><br>Det intyg du valt att skriva går tyvärr inte att skapa i Webcert för en patient med skyddade personuppgifter.',
             'common.error.intyg.status.failed.load': 'Intygsstatus kunde inte hämtas.',
 
             // FMB texts
