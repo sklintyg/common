@@ -81,6 +81,7 @@ public class GetCertificateResponderImpl implements
             } else {
                 response.setMeta(ModelConverter.toCertificateMetaType(certificate));
                 attachCertificateDocument(certificate, response);
+                moduleContainer.logCertificateRetrieved(certificate.getId(), certificate.getType(), certificate.getCareUnitId(), null);
                 response.setResult(ResultOfCallUtil.okResult());
             }
         } catch (InvalidCertificateException e) {

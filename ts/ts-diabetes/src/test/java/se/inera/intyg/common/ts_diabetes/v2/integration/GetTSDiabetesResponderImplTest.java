@@ -20,22 +20,19 @@ package se.inera.intyg.common.ts_diabetes.v2.integration;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
@@ -78,6 +75,9 @@ public class GetTSDiabetesResponderImplTest {
         Personnummer pnr = createPnr(PNR_TOLVAN);
 
         CertificateHolder certificate = new CertificateHolder();
+        certificate.setId(intygId);
+        certificate.setType("ts-diabetes");
+        certificate.setCareUnitId("hsa-id-enheten");
         certificate.setCivicRegistrationNumber(pnr);
         certificate.setCertificateStates(Arrays.asList(new CertificateStateHolder(target, state, timestamp)));
         certificate.setOriginalCertificate(xmlToString(originalCertificate));
@@ -92,6 +92,7 @@ public class GetTSDiabetesResponderImplTest {
 
         GetTSDiabetesResponseType res = responder.getTSDiabetes(LOGICAL_ADDRESS, request);
 
+        verify(moduleContainer).logCertificateRetrieved(certificate.getId(), certificate.getType(), certificate.getCareUnitId(), null);
         assertNotNull(res);
         assertEquals(ResultCodeType.OK, res.getResultat().getResultCode());
         assertEquals(originalCertificate.getIntyg().getIntygsId(), res.getIntyg().getIntygsId());

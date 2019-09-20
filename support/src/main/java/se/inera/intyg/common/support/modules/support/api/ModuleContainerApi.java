@@ -37,4 +37,10 @@ public interface ModuleContainerApi {
      */
     CertificateHolder getCertificate(String certificateId, Personnummer personId, boolean checkConsent) throws InvalidCertificateException;
 
+    /**
+     * Logs the event of a certificate retrieved by a part. It's placed here as modules do not have access to an applications monitoringlog
+     * service.
+     */
+    void logCertificateRetrieved(String certificateId, String certificateType, String careUnit, String partId);
+
 }
