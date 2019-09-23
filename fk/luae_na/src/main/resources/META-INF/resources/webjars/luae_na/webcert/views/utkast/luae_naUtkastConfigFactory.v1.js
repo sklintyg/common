@@ -66,6 +66,11 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory.v1',
                 var motiveringBaseratHideExpression = '!(!model.undersokningAvPatienten && (model.anhorigsBeskrivningAvPatienten || ' + 
                 'model.journaluppgifter || model.annatGrundForMU)' + lockedExpression + ')';
 
+                var isKompletteringsUtkast = false;
+                if(viewState.relations !== undefined && viewState.relations.parent !== undefined && viewState.relations.parent.relationKod !== undefined){
+                    isKompletteringsUtkast=viewState.relations.parent.relationKod === 'KOMPLT';
+                }
+
                 var buildUnderlagConfigRow = function(row) {
                     return [ {
                         type: 'ue-dropdown',
@@ -447,7 +452,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory.v1',
                         fraga(25, 'FRG_25.RBK', 'FRG_25.HLP', { }, [{
                             type: 'ue-textarea',
                             modelProp: 'ovrigt',
-                            htmlMaxlength: 2850
+                            htmlMaxlength: isKompletteringsUtkast ? 3446 : 2850
                         }])
                     ]),
 

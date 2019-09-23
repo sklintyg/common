@@ -31,7 +31,7 @@ import java.util.Optional;
 public abstract class AgAbstractModuleEntryPoint implements ModuleEntryPoint {
 
     public static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
-    public static final String DEFAULT_RECIPIENT_ID = "AG";
+    public static final String DEFAULT_RECIPIENT_ID = ""; // Should not be sent
 
     // Depending on context, an IntygTextRepository may not be available (e.g Intygstjansten)
     @Autowired(required = false)
