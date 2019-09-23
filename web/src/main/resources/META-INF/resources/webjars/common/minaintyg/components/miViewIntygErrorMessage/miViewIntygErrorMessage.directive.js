@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('miViewIntygErrorMessage',
-        [ '$state', 'common.IntygListService', 'common.dialogService', function($state, IntygListService, dialogService) {
+        [ '$state', 'common.IntygListService', 'common.dialogService', 'common.messageService', function($state, IntygListService, dialogService, messageService) {
             'use strict';
 
             return {
@@ -32,6 +32,9 @@ angular.module('common').directive('miViewIntygErrorMessage',
                     if ($scope.msgKey === 'error.certarchived') {
                         $scope.showRestoreLink = true;
                     }
+                    if($scope.msgKey === 'error.certnotfound') {
+                        $scope.msgText = messageService.getProperty('error.certnotfound', {intygsId: $scope.certId});
+                    }
 
                     $scope.restoreAndReload = function() {
                         IntygListService.restoreCertificate({id: $scope.certId}, function(fromServer) {
@@ -42,7 +45,7 @@ angular.module('common').directive('miViewIntygErrorMessage',
                                 dialogService.showDialog($scope, {
                                     dialogId: 'restore-error-dialog',
                                     titleId: 'error.generictechproblem.title',
-                                    bodyTextId: 'error.modal.couldnotrestorecert',
+                                    bodyText: messageService.getProperty('error.modal.couldnotarchivecert', {intygsId: $scope.certId}),
                                     button1text: 'common.close',
                                     templateUrl: '/web/webjars/common/minaintyg/components/miViewIntygErrorMessage/error-dialog.html',
                                     autoClose: true
