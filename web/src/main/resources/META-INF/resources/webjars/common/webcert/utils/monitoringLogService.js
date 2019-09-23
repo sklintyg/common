@@ -67,10 +67,23 @@ angular.module('common').factory('common.MonitoringLogService',
             }
         }
 
+        function _idpCheck(ip, connectivity) {
+            if (isDefined(ip) && isDefined(connectivity)) {
+                post({
+                    'event': 'IDP_CONNECTIVITY_CHECK',
+                    'info': {
+                        'ip': ip,
+                        'connectivity' : connectivity
+                    }
+                });
+            }
+        }
+
         return {
             diagnoskodverkChanged: _diagnoskodverkChanged,
             screenResolution: _screenResolution,
-            signingFailed: _signingFailed
+            signingFailed: _signingFailed,
+            idpCheck: _idpCheck
         };
 
     }]);
