@@ -34,10 +34,10 @@ angular.module('ag7804').controller('ag7804.CustomizePdfCtrl',
                 } else {
 
                     // show error view
-                    $location.path('/fel/certnotfound');
+                    $location.path('/fel/certnotfound/' + $stateParams.certificateId);
                 }
             }, function() {
-                $location.path('/fel/certnotfound');
+                $location.path('/fel/certnotfound/' + $stateParams.certificateId);
             });
 
             var dialogInstance;

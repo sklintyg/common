@@ -68,7 +68,7 @@ angular.module('common').directive('miCertificateActionButtons',
                                 dialogService.showDialog( $scope, {
                                     dialogId: 'archive-error-dialog',
                                     titleId: 'error.generictechproblem.title',
-                                    bodyTextId: 'error.modal.couldnotarchivecert',
+                                    bodyText: messageService.getProperty('error.modal.couldnotarchivecert', {intygsId:item.id}),
                                     button1text: 'common.close',
                                     templateUrl: '/app/partials/error-dialog.html',
                                     autoClose: true

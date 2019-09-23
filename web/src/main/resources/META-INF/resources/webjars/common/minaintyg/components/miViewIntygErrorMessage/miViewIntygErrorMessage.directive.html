@@ -3,7 +3,8 @@
     <img src="/img/404.png">
   </div>
   <div class="col-xs-12 text-center text">
-    <span dynamic-label key="{{msgKey}}"></span>
+    <span ng-if="msgText === undefined" dynamic-label key="{{msgKey}}"></span>
+    <span ng-if="msgText !== undefined" ng-bind-html="msgText"></span>
 
     <div ng-if="showRestoreLink">
       <a id="restore-and-reload-btn" class="btn btn-link" ng-click="restoreAndReload()">Återställ intyget till inkorgen</a>
