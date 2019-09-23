@@ -54,15 +54,11 @@ angular.module('common').controller(
                     $scope.errorMessage = null;
                 } else {
                     $scope.errorMessage = 'error.certnotfound';
-                    $scope.msgText = messageService.getProperty('error.certnotfound', {intygsId: $scope.certificateId});
                 }
             }, function(errorMsgKey) {
                 $scope.doneLoading = true;
                 $log.debug('getCertificate got error ' + errorMsgKey);
                 $scope.errorMessage = errorMsgKey;
-                if($scope.errorMessage === 'error.certnotfound'){
-                    $scope.msgText = messageService.getProperty('error.certnotfound', {intygsId: $scope.certificateId});
-                }
             });
 
             $scope.pagefocus = true;
