@@ -18,8 +18,8 @@
  */
 angular.module('common').controller(
     'common.ViewCertCtrl',
-    [ '$location', '$log', '$stateParams', '$scope', 'common.IntygService', 'viewConfigFactory', 'viewFactory', 'common.messageService',
-        function($location, $log, $stateParams, $scope, certificateService, viewConfigFactory, viewFactory, messageService) {
+    [ '$location', '$log', '$stateParams', '$scope', 'common.IntygService', 'viewConfigFactory', 'viewFactory',
+        function($location, $log, $stateParams, $scope, certificateService, viewConfigFactory, viewFactory) {
             'use strict';
             $scope.certificateId = $stateParams.certificateId;
             $scope.cert = undefined;
