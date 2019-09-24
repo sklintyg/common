@@ -416,8 +416,8 @@ public interface ModuleApi {
     }
 
     /**
-     * Returns critera for the intygstype, majorversion and age (time since signed) a source candidate intyg must match in
-     * order to be a copy-from-candicate when creating a new draft with
+     * Returns critera for an intyg's type, major version and age (time since signed) a source candidate intyg
+     * must match in order to be a copy-from-candicate when creating a new draft with
      * {@link se.riv.clinicalprocess.healthcond.certificate.createdraftcertificateresponder.v3.CreateDraftCertificateResponderInterface}.
      *
      * Since most types does not supports this, the defaults is none.
@@ -426,8 +426,14 @@ public interface ModuleApi {
         return Optional.empty();
     }
 
-
+    /**
+     * Returns a mapping implementation between this module certificate type and another module certificate type.
+     * E.g. mapping between FK7804 and AG7804.
+     *
+     * @return a mapping between certificate types
+     */
     default Optional<Mapper> getMapper() {
         return Optional.empty();
     }
+
 }
