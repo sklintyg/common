@@ -21,69 +21,82 @@
  */
 angular.module('common').factory('common.MonitoringLogService',
     ['$http', function($http) {
-        'use strict';
+      'use strict';
 
-        function post(request) {
-            $http.post('/api/jslog/monitoring', request);
-        }
+      function post(request) {
+        $http.post('/api/jslog/monitoring', request);
+      }
 
-        function isDefined(input) {
-            return input !== undefined && input !== '';
-        }
+      function isDefined(input) {
+        return input !== undefined && input !== '';
+      }
 
-        function _diagnoskodverkChanged(id, type) {
-            if (isDefined(id) && isDefined(type)) {
-                post({
-                    'event': 'DIAGNOSKODVERK_CHANGED',
-                    'info': {
-                        'intygId': id,
-                        'intygType': type
-                    }
-                });
+      function _diagnoskodverkChanged(id, type) {
+        if (isDefined(id) && isDefined(type)) {
+          post({
+            'event': 'DIAGNOSKODVERK_CHANGED',
+            'info': {
+              'intygId': id,
+              'intygType': type
             }
+          });
         }
+      }
 
-        function _screenResolution(width, height) {
-            if (isDefined(width) && isDefined(height)) {
-                post({
-                    'event': 'SCREEN_RESOLUTION',
-                    'info': {
-                        'width': width,
-                        'height': height
-                    }
-                });
+      function _screenResolution(width, height) {
+        if (isDefined(width) && isDefined(height)) {
+          post({
+            'event': 'SCREEN_RESOLUTION',
+            'info': {
+              'width': width,
+              'height': height
             }
+          });
         }
+      }
 
-        function _signingFailed(errorMessage, intygsId) {
-            if (isDefined(errorMessage) && isDefined(intygsId)) {
-                post({
-                    'event': 'SIGNING_FAILED',
-                    'info': {
-                        'errorMessage': errorMessage,
-                        'intygId': intygsId
-                    }
-                });
+      function _signingFailed(errorMessage, intygsId) {
+        if (isDefined(errorMessage) && isDefined(intygsId)) {
+          post({
+            'event': 'SIGNING_FAILED',
+            'info': {
+              'errorMessage': errorMessage,
+              'intygId': intygsId
             }
+          });
         }
+      }
 
-        function _idpCheck(ip, connectivity) {
-            if (isDefined(ip) && isDefined(connectivity)) {
-                post({
-                    'event': 'IDP_CONNECTIVITY_CHECK',
-                    'info': {
-                        'ip': ip,
-                        'connectivity' : connectivity
-                    }
-                });
+      function _signingCertificateMissing(intygsId, netIdVersion) {
+        if (isDefined(intygsId) && isDefined(netIdVersion)) {
+          post({
+            'event': 'SIGNING_CERTIFICATE_MISSING',
+            'info': {
+              'intygId': intygsId,
+              'netIdVersion': netIdVersion
             }
+          });
         }
+      }
 
-        return {
-            diagnoskodverkChanged: _diagnoskodverkChanged,
-            screenResolution: _screenResolution,
-            signingFailed: _signingFailed,
-            idpCheck: _idpCheck
-        };
+      function _idpCheck(ip, connectivity) {
+        if (isDefined(ip) && isDefined(connectivity)) {
+          post({
+            'event': 'IDP_CONNECTIVITY_CHECK',
+            'info': {
+              'ip': ip,
+              'connectivity': connectivity
+            }
+          });
+        }
+      }
+
+      return {
+        diagnoskodverkChanged: _diagnoskodverkChanged,
+        screenResolution: _screenResolution,
+        signingFailed: _signingFailed,
+        signingCertificateMissing: _signingCertificateMissing,
+        idpCheck: _idpCheck
+      };
 
     }]);
