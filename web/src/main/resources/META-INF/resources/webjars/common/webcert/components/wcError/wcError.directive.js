@@ -29,7 +29,9 @@ angular.module('common').directive('wcError',
                 },
                 templateUrl: '/web/webjars/common/webcert/components/wcError/wcError.directive.html',
                 link: function(scope, element, attrs, ctrl) {
-                    scope.certificateId = $stateParams.certificateId;
+                    if(scope.error !== 'common.error.authorization_problem_sekretessmarkering_enhet' && scope.error !== 'common.error.authorization_problem_sekretessmarkering') {
+                      scope.certificateId = $stateParams.certificateId;
+                    }
                 }
             };
         }]);
