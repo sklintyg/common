@@ -43,13 +43,14 @@ angular.module('common').factory('common.MonitoringLogService',
             }
         }
 
-        function _screenResolution(width, height) {
-            if (isDefined(width) && isDefined(height)) {
+        function _browserInfo(width, height, netIdVersion) {
+            if (isDefined(width) && isDefined(height) && isDefined(netIdVersion)) {
                 post({
-                    'event': 'SCREEN_RESOLUTION',
+                    'event': 'BROWSER_INFO',
                     'info': {
                         'width': width,
-                        'height': height
+                        'height': height,
+                        'netIdVersion': netIdVersion
                     }
                 });
             }
@@ -69,7 +70,7 @@ angular.module('common').factory('common.MonitoringLogService',
 
         return {
             diagnoskodverkChanged: _diagnoskodverkChanged,
-            screenResolution: _screenResolution,
+            browserInfo: _browserInfo,
             signingFailed: _signingFailed
         };
 
