@@ -14,7 +14,6 @@
           ng-if="IntygHeaderService.showCreateFromTemplate()"
           ng-disabled="!IntygHeaderService.enableCreateFromTemplate()"
           ng-click="IntygHeaderService.createFromTemplate(viewState.intygModel);createFromTemplatePopoverOpen=false"
-          wc-check-vardenhet
           uib-popover="{{IntygHeaderService.getCurrentCreateFromTemplate().tooltip}}"
           popover-is-open="createFromTemplatePopoverOpen"
           popover-popup-delay="300"
@@ -42,7 +41,6 @@
           wc-authority feature="SKICKA_INTYG"
           request-origin="!UTHOPP"
           intygstyp="{{intygType}}"
-          wc-check-vardenhet vardenhet="{{viewState.enhetsId}}"
           ng-if="showSkickaButton()"
           ng-click="send();sendPopoverOpen=false"
           uib-popover="{{sendBtnTooltipText}}"
@@ -126,9 +124,7 @@
             id="ersattBtn"
             class="btn btn-primary"
             ng-click="ersatt(viewState.intygModel)"
-            ng-disabled="ersattButtonDisabled"
-            wc-check-vardenhet
-            vardenhet="{{viewState.enhetsId}}">
+            ng-disabled="ersattButtonDisabled">
       <i class="material-icons">swap_horiz</i> Ersätt
     </button>
   </div>
@@ -138,8 +134,6 @@
           class="btn btn-secondary"
           ng-if="showMakuleraButton()"
           ng-click="makuleraPopoverOpen=false;makulera(viewState.intygModel)"
-          wc-check-vardenhet
-          vardenhet="{{viewState.enhetsId}}"
           uib-popover="{{makuleraBtnTooltipText}}"
           popover-is-open="makuleraPopoverOpen"
           popover-popup-delay="300"
