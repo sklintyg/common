@@ -105,7 +105,16 @@
             'db.makulera.body.common-header': 'Ett dödsbevis som är inskickat på fel person kan makuleras. Genom att trycka på ”Makulera” makulerar du dödsbeviset i Webcert, men detta kommer inte att återkalla dödsbeviset hos Skatteverket.<br/><br/>Förutom att trycka på ”Makulera” måste du omedelbart ta kontakt med Skatteverket så att felet kan rättas fort. Du tar kontakt med Skatteverket genom att ringa Skatteupplysningen på telefon 0771-567 567 och ange "folkbokföring - dödsfall".',
             'doi.makulera.body.common-header': 'Ett dödsorsaksintyg som är inskickat på fel person kan makuleras. Genom att trycka på ”Makulera” makulerar du dödsorsaksintyget i Webcert, men detta kommer inte återkalla dödsorsaksintyget hos Socialstyrelsen.<br/><br/>Förutom att trycka på ”Makulera” måste du omedelbart ta kontakt med Socialstyrelsen så att felet kan rättas fort. Du tar kontakt med Socialstyrelsen genom att ringa till Socialstyrelsens växel på nummer: 075 247 30 00.',
 
+
             'label.makulera.confirmation': 'Kvittens - Återtaget intyg',
+
+            // makulera låst intyg
+            'label.makulera.locked': 'Makulera låst utkast',
+            'label.makulera.locked.body.common-footer': 'Om du fått ny information om patienten eller av annan anledning behöver korrigera innehållet i utkastet, bör du istället kopiera utkastet och skapa ett nytt intyg.',
+            'label.makulera.locked.body.common-header': 'Ett låst utkast kan makuleras om det innehåller allvarliga fel. Exempel på ett allvarligt fel är om det är skapat för fel patient.',
+            'label.db.doi.makulera.locked.body.common-header': 'Ett låst utkast kan makuleras om det är utfärdat på fel person. Genom att trycka på "Makulera" makulerar du det låsta utkastet i Webcert.',
+            'label.makulera.locked.title.radio': 'Ange varför du makulerar det låsta utkastet:',
+
 
             // avtal/terms
             'avtal.title.text': 'Godkännande av användarvillkor',

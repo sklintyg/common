@@ -9,7 +9,7 @@
   <wc-bottom-fadeout>
     <div class="modal-body">
 
-      <wc-alert-message alert-severity="info" alert-message-id="label.makulera.body.common-footer"></wc-alert-message>
+      <wc-alert-message alert-severity="info" alert-message-id="{{model.alertMessage}}"></wc-alert-message>
 
       <div class="form-group">
         <span dynamic-label key="{{model.bodyTextId}}"></span>
@@ -17,7 +17,8 @@
       </div>
 
       <div class="form-group makulera-choices" ng-if="model.choices.length > 0">
-        <strong>Ange för <span dynamic-label key="{{model.recipient}}"></span> varför du makulerar intyget: </strong>
+        <div ng-if="!model.isLocked"><strong>Ange för <span dynamic-label key="{{model.recipient}}"></span> varför du makulerar intyget: </strong></div>
+        <div ng-if="model.isLocked"><strong><span dynamic-label key="label.makulera.locked.title.radio"/></strong></div>
         <!-- <span ng-if="model.isFkIntyg"><span wc-help-chevron help-text-key="intyg.makulera.help"></span>
         <span wc-help-chevron-text help-text-key="intyg.makulera.help"></span></span> -->
         <br/>
