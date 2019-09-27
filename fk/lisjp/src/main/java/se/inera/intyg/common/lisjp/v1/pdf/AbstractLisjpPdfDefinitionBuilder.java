@@ -99,6 +99,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
     private static final String PROPERTY_KEY_BLANKETT_LABEL_SKICKA_TILL = "label.skicka.till";
     private static final String PROPERTY_KEY_BLANKETT_LABEL_FK_INLASNING = "label.fk.inlasning";
     private static final String PROPERTY_KEY_BLANKETT_LABEL_FK_ADRESS = "label.fk.adress";
+    private static final String PROPERTY_KEY_BLANKETT_FORTSATTNINGSBLAD = "label.fk.fortsattningsblad";
 
     abstract void fillIntyg(FkPdfDefinition pdfDefinition, LisjpUtlatandeV1 intyg, boolean isUtkast, boolean isLockedUtkast,
         List<Status> statuses, ApplicationOrigin applicationOrigin) throws IOException, DocumentException;
@@ -821,8 +822,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
 
     void addPage1MiscFields(LisjpUtlatandeV1 intyg, boolean showFkAddress, List<PdfComponent<?>> allElements)
         throws IOException {
-        FkLabel fortsBladText = new FkLabel(
-            "Använd fortsättningsbladet som finns i slutet av blanketten om utrymmet i fälten inte räcker till.")
+        FkLabel fortsBladText = new FkLabel(getPropertyValue(PROPERTY_KEY_BLANKETT_FORTSATTNINGSBLAD))
             .offset(14f, 24f)
             .withVerticalAlignment(Element.ALIGN_TOP)
             .size(80f, 10f)

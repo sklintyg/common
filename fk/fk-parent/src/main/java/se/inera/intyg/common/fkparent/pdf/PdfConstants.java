@@ -84,7 +84,7 @@ public final class PdfConstants {
             FONT_VALUE_TEXT_OVERFLOWINFO_ARIAL_COMPATIBLE = new Font(createFont(ARIAL_REGULAR_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H,
                 BaseFont.EMBEDDED), 10f, Font.BOLD);
 
-            FONT_PAGESCAN_ID = new Font(createFont(TREBUCHET_REGULAR_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 9f,
+            FONT_PAGESCAN_ID = new Font(createFont(TREBUCHET_REGULAR_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 11f,
                 Font.NORMAL);
             FONT_FORM_ID_LABEL = new Font(createFont(TREBUCHET_REGULAR_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 7f,
                 Font.NORMAL);
