@@ -88,9 +88,6 @@ angular.module('common').factory('common.IntygMakulera',
                     var myText;
                     if(intyg.isLocked){
                         myText = '.makulera.locked.body.common-header';
-                        if(intyg.intygType === 'doi' || intyg.intygType === 'db'){
-                            myText = '.db.doi.makulera.locked.body.common-header';
-                        }
                     } else {
                         myText = '.makulera.body.common-header';
                     }
@@ -100,6 +97,17 @@ angular.module('common').factory('common.IntygMakulera',
                         textId = 'label' + myText;
                     }
                     return textId;
+                }
+
+                function getRadioTitle(recipient){
+                    if(recipient === 'common.recipient.'){
+                        return messageService.getProperty('label.makulera.no.recipient.title.radio');
+                    } else if(intyg.isLocked){
+                        return messageService.getProperty('label.makulera.locked.title.radio');
+                    } else {
+                        var myRecipient = messageService.getProperty(recipient);
+                        return messageService.getProperty('label.makulera.title.radio', {recipient: myRecipient});
+                    }
                 }
 
                 function getAlertMessage(){
@@ -127,6 +135,7 @@ angular.module('common').factory('common.IntygMakulera',
                     }
                 }
 
+                var recipient = 'common.recipient.' + moduleService.getModule(intyg.intygType).defaultRecipient.toLowerCase();
                 var dialogMakuleraModel = {
                     hasUnhandledArenden: ArendeListViewStateService.hasUnhandledItems(),
                     isMakuleraEnabled: isMakuleraEnabled,
@@ -136,6 +145,7 @@ angular.module('common').factory('common.IntygMakulera',
                     errormessageid: 'error.failedtomakuleraintyg',
                     showerror: false,
                     alertMessage: getAlertMessage(),
+
                     isLocked: intyg.isLocked,
                 labels: {},
                     choices: [],
@@ -143,7 +153,8 @@ angular.module('common').factory('common.IntygMakulera',
                         reason: undefined,
                         clarification: []
                     },
-                    recipient: 'common.recipient.' + moduleService.getModule(intyg.intygType).defaultRecipient.toLowerCase()
+                    recipient: recipient,
+                    radioTitle: getRadioTitle(recipient)
                 };
 
                 if (featureService.isFeatureActive(featureService.features.MAKULERA_INTYG_KRAVER_ANLEDNING, intyg.intygType)) {
