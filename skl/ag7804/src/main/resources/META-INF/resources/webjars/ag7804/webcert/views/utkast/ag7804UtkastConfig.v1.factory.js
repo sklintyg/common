@@ -367,7 +367,8 @@ angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
                     kategori(categoryIds[8], 'KAT_8.RBK', 'KAT_8.HLP', {}, [
                         fraga(25, 'FRG_25.RBK', '', { }, [{
                             modelProp: 'ovrigt',
-                            type: 'ue-textarea'
+                            type: 'ue-textarea',
+                            htmlMaxlength: 4000
                         }])
                     ]),
 
