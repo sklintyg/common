@@ -279,7 +279,8 @@ angular.module('common').directive('wcUtkastButtonBar', ['$log', '$stateParams',
                     var intyg = {
                         id: $stateParams.certificateId,
                         intygType: CommonViewState.intyg.type,
-                        utkast: true
+                        utkast: true,
+                        isLocked: CommonViewState.intyg.isLocked
                     };
 
                     IntygMakulera.makulera(intyg, confirmationMessage, function() {

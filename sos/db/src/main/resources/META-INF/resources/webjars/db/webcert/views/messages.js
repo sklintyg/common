@@ -29,6 +29,7 @@ angular.module('db').constant('db.messages', {
         'db.validation.datum.innanDodsdatum': 'Ange ett datum, samma som eller senare än "Dödsdatum".',
 
         'db.makulera.body.common-header': '<p>Ett dödsbevis som är inskickat på fel person kan makuleras. Genom att trycka på "Makulera" makulerar du dödsbeviset i Webcert, med detta kommer inte återkalla dödsbeviset hos Skatteverket.</p>Förutom att trycka på "Makulera" måste du omedelbart ta kontakt med Skatteverket så att felet kan rättas fort. Du tar kontakt med Skatteverket genom att ringa till Skatteupplysningen på telefon 0771-567 567 och ange "folkbokföring - dödsfall".',
+        'db.makulera.locked.body.common-header': 'Ett låst utkast kan makuleras om det är utfärdat på fel person. Genom att trycka på "Makulera" makulerar du det låsta utkastet i Webcert.',
         'db.modal.ersatt.text.info': 'Om dödsbeviset är utfärdat på fel patient ska du istället makulera dödsbeviset.',
         'db.modal.ersatt.text':
         '<p>Ett intyg kan ersättas om det innehåller felaktiga uppgifter eller om ny information tillkommit efter att intyget utfärdades. När ett intyg ersätts med ett nytt skapas ett utkast, med samma information som i det ursprungliga intyget, som du kan redigera innan du signerar intyget.</p>' +

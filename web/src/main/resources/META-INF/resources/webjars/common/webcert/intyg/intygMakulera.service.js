@@ -85,14 +85,57 @@ angular.module('common').factory('common.IntygMakulera',
                 }
 
                 function getMakuleraText() {
-                    var textId = intyg.intygType + '.makulera.body.common-header';
+                    var myText;
+                    if(intyg.isLocked){
+                        myText = '.makulera.locked.body.common-header';
+                    } else {
+                        myText = '.makulera.body.common-header';
+                    }
+                    var textId = intyg.intygType + myText;
                     if (!messageService.propertyExists(textId)) {
                         // If intyg hasn't specified a text, fall back to common text
-                        textId = 'label.makulera.body.common-header';
+                        textId = 'label' + myText;
                     }
                     return textId;
                 }
 
+                function getRadioTitle(recipient){
+                    if(recipient === 'common.recipient.'){
+                        return messageService.getProperty('label.makulera.no.recipient.title.radio');
+                    } else if(intyg.isLocked){
+                        return messageService.getProperty('label.makulera.locked.title.radio');
+                    } else {
+                        var myRecipient = messageService.getProperty(recipient);
+                        return messageService.getProperty('label.makulera.title.radio', {recipient: myRecipient});
+                    }
+                }
+
+                function getAlertMessage(){
+                    if(intyg.isLocked){
+                        return 'label.makulera.locked.body.common-footer';
+                    } else {
+                        return 'label.makulera.body.common-footer';
+                    }
+                }
+
+                function getFelPatientText(){
+                    if(intyg.isLocked){
+                        return 'Utkastet har skapats på fel patient';
+                    } else {
+                        return 'Intyget har utfärdats på fel patient';
+                    }
+                }
+
+                function getTitle(){
+                    var myTitle = 'label.makulera';
+                    if(intyg.isLocked){
+                        return myTitle + '.locked';
+                    } else {
+                        return myTitle;
+                    }
+                }
+
+                var recipient = 'common.recipient.' + moduleService.getModule(intyg.intygType).defaultRecipient.toLowerCase();
                 var dialogMakuleraModel = {
                     hasUnhandledArenden: ArendeListViewStateService.hasUnhandledItems(),
                     isMakuleraEnabled: isMakuleraEnabled,
@@ -101,19 +144,23 @@ angular.module('common').factory('common.IntygMakulera',
                     bodyTextId: getMakuleraText(),
                     errormessageid: 'error.failedtomakuleraintyg',
                     showerror: false,
-                    labels: {},
+                    alertMessage: getAlertMessage(),
+
+                    isLocked: intyg.isLocked,
+                labels: {},
                     choices: [],
                     makuleraModel: {
                         reason: undefined,
                         clarification: []
                     },
-                    recipient: 'common.recipient.' + moduleService.getModule(intyg.intygType).defaultRecipient.toLowerCase()
+                    recipient: recipient,
+                    radioTitle: getRadioTitle(recipient)
                 };
 
                 if (featureService.isFeatureActive(featureService.features.MAKULERA_INTYG_KRAVER_ANLEDNING, intyg.intygType)) {
                     dialogMakuleraModel.labels = {
-                        'FEL_PATIENT': 'Intyget har utfärdats på fel patient.',
-                        'ANNAT_ALLVARLIGT_FEL': 'Annat allvarligt fel.'
+                        'FEL_PATIENT': getFelPatientText(),
+                        'ANNAT_ALLVARLIGT_FEL': 'Annat allvarligt fel'
                     };
                 }
 
@@ -123,14 +170,14 @@ angular.module('common').factory('common.IntygMakulera',
                     this.push({
                         label: label,
                         value: key,
-                        textAreaLabel: key === 'FEL_PATIENT' ? 'Ange orsak vid behov.' : 'Ange orsaken till felet.',
+                        textAreaLabel: key === 'FEL_PATIENT' ? 'Förtydliga vid behov' : 'Ange orsaken till felet.',
                         required: key !== 'FEL_PATIENT'
                     });
                 }, dialogMakuleraModel.choices);
-                
+
                 makuleraDialog = dialogService.showDialog({
                     dialogId: 'makulera-dialog',
-                    titleId: 'label.makulera',
+                    titleId: getTitle(),
                     templateUrl: '/web/webjars/common/webcert/intyg/intygMakulera.dialog.html',
                     model: dialogMakuleraModel,
                     button1click: function() {
