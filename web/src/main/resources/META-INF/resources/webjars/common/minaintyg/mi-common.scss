@@ -1,8 +1,8 @@
  @CHARSET "UTF-8";
 
-@import "components/fonts";
-@import "components/variables";
-@import "components/mixins";
+@import "mixins/fonts";
+@import "mixins/variables";
+@import "mixins/mixins";
 
 // Component styles are injected through grunt
 // injector
@@ -24,8 +24,6 @@
 @import '../app-shared/unified-view/components/uvSkapadAv/uvSkapadAv.directive.scss';
 @import '../app-shared/unified-view/components/uvTable/uvTable.directive.scss';
 @import '../app-shared/unified-view/components/uvTillaggsfragor/uvTillaggsfragor.directive.scss';
-@import 'components/_fonts.scss';
-@import 'components/_mixins.scss';
 @import 'components/common-intyg-modules.scss';
 @import 'components/customize-pdf/miCheckboxSlider.directive.scss';
 @import 'components/customize-pdf/miFishbone.directive.scss';
@@ -38,6 +36,7 @@
 @import 'components/miCompactCertificateBody/miCompactCertificateBody.directive.scss';
 @import 'components/miCompactCertificateHeader/miCompactCertificateHeader.directive.scss';
 @import 'components/miViewIntygErrorMessage/miViewIntygErrorMessage.directive.scss';
+@import 'components/serviceBanners.scss';
 // endinjector
 
 .rotate-180 {
