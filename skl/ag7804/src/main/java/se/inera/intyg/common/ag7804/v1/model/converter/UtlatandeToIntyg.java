@@ -67,12 +67,12 @@ import static se.inera.intyg.common.agparent.model.converter.RespConstants.PROGN
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.PROGNOS_DAGAR_TILL_ARBETE_CODE_SYSTEM;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.SJUKSKRIVNING_CODE_SYSTEM;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_CODE_SYSTEM;
-import static se.inera.intyg.common.support.Constants.KV_INTYGSTYP_CODE_SYSTEM;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aDatePeriod;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotNull;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getTypAvIntyg;
 
 import com.google.common.base.Strings;
 import java.util.ArrayList;
@@ -81,11 +81,10 @@ import se.inera.intyg.common.ag7804.converter.RespConstants;
 import se.inera.intyg.common.ag7804.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
-import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
+import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
@@ -96,18 +95,10 @@ public final class UtlatandeToIntyg {
 
     public static Intyg convert(Ag7804UtlatandeV1 utlatande, WebcertModuleService webcertModuleService) {
         Intyg intyg = InternalConverterUtil.getIntyg(utlatande, false);
-        intyg.setTyp(getTypAvIntyg(utlatande));
+        intyg.setTyp(getTypAvIntyg(KvIntygstyp.AG7804));
         intyg.getSvar().addAll(getSvar(utlatande, webcertModuleService));
         intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));
         return intyg;
-    }
-
-    private static TypAvIntyg getTypAvIntyg(Ag7804UtlatandeV1 source) {
-        TypAvIntyg typAvIntyg = new TypAvIntyg();
-        typAvIntyg.setCode(Ag7804EntryPoint.KV_INTYGSTYP_CODE);
-        typAvIntyg.setCodeSystem(KV_INTYGSTYP_CODE_SYSTEM);
-        typAvIntyg.setDisplayName(Ag7804EntryPoint.KV_INTYGSTYP_DISPLAYNAME);
-        return typAvIntyg;
     }
 
     private static List<Svar> getSvar(Ag7804UtlatandeV1 source, WebcertModuleService webcertModuleService) {

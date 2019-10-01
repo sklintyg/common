@@ -29,7 +29,7 @@
     <typ>
       <ns3:code>AF00251</ns3:code>
       <ns3:codeSystem>b64ea353-e8f6-4832-b563-fc7d46f29548</ns3:codeSystem>
-      <ns3:displayName>Läkarintyg för deltagare i arbetsmarknadspolitiska program</ns3:displayName>
+      <ns3:displayName>Läkarintyg för deltagare i arbetsmarknadspolitiska program med aktivitetsstöd, utvecklingsersättning eller etableringsersättning</ns3:displayName>
     </typ>
     <version>1</version>
     <signeringstidpunkt>2015-12-07T15:48:05</signeringstidpunkt>

@@ -96,7 +96,7 @@ public final class AF00251RespConstants {
     public enum UnderlagsTyp {
 
         UNDERSOKNING("UNDERSOKNING", "Min undersökning av patienten"),
-        TELEFONKONTAKT("TELEFONKONTAKT", "Min telefonkontakt av patienten"),
+        TELEFONKONTAKT("TELEFONKONTAKT", "Min telefonkontakt med patienten"),
         JOURNALUPPGIFT("JOURNALUPPGIFT", "Journaluppgifter från den"),
         ANHORIG("ANHORIG", "Anhörigs beskrivning av patienten"),
         ANNAT("ANNAT", "Annat");

@@ -18,11 +18,12 @@
  */
 package se.inera.intyg.common.tstrk1062.support;
 
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import java.util.Optional;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
+import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 
@@ -31,9 +32,6 @@ public class TsTrk1062EntryPoint implements ModuleEntryPoint {
 
     public static final String MODULE_ID = "tstrk1062";
     public static final String MODULE_NAME = "Transportstyrelsens läkarintyg ADHD";
-
-    public static final String ISSUER_MODULE_NAME = "Transportstyrelsens läkarintyg ADHD";
-    public static final String KV_UTLATANDETYP_INTYG_CODE = "TSTRK1062";
 
     private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
     private static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
@@ -134,12 +132,12 @@ public class TsTrk1062EntryPoint implements ModuleEntryPoint {
 
     @Override
     public String getExternalId() {
-        return KV_UTLATANDETYP_INTYG_CODE;
+        return KvIntygstyp.TSTRK1062.getCodeValue();
     }
 
     @Override
     public String getIssuerTypeId() {
         // Same as externalId for ts
-        return KV_UTLATANDETYP_INTYG_CODE;
+        return this.getExternalId();
     }
 }

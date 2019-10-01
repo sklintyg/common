@@ -79,7 +79,7 @@
         <ns3:cv>
           <ns3:code>TELEFONKONTAKT</ns3:code>
           <ns3:codeSystem>FKMU_0001</ns3:codeSystem>
-          <ns3:displayName>Min telefonkontakt av patienten</ns3:displayName>
+          <ns3:displayName>Min telefonkontakt med patienten</ns3:displayName>
         </ns3:cv>
       </delsvar>
       <delsvar id="1.2">2018-10-30</delsvar>

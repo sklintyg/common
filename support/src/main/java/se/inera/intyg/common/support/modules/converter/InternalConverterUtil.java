@@ -26,6 +26,7 @@ import static se.inera.intyg.common.support.Constants.KV_RELATION_CODE_SYSTEM;
 import static se.inera.intyg.common.support.Constants.PERSON_ID_OID;
 import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
 
+import com.google.common.base.Strings;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.temporal.Temporal;
@@ -34,13 +35,9 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
-
 import javax.xml.bind.JAXBElement;
-
 import org.w3._2000._09.xmldsig_.SignatureType;
-
-import com.google.common.base.Strings;
-
+import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.ModelException;
@@ -63,6 +60,7 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PersonId;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Specialistkompetens;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvRelation;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.UnderskriftType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Enhet;
@@ -88,6 +86,19 @@ public final class InternalConverterUtil {
     static ObjectFactory objectFactory = new ObjectFactory();
 
     private InternalConverterUtil() {
+    }
+
+    /**
+     * Constructs a @{@link TypAvIntyg} from a {@link KvIntygstyp} type.
+     * @param intygstyp
+     * @return
+     */
+    public static TypAvIntyg getTypAvIntyg(KvIntygstyp intygstyp) {
+        TypAvIntyg typAvIntyg = new TypAvIntyg();
+        typAvIntyg.setCodeSystem(intygstyp.getCodeSystem());
+        typAvIntyg.setCode(intygstyp.getCodeValue());
+        typAvIntyg.setDisplayName(intygstyp.getDisplayName());
+        return typAvIntyg;
     }
 
     /**

@@ -24,10 +24,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.google.common.collect.ImmutableMap;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.TreeMap;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,9 +35,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
-
-import com.google.common.collect.ImmutableMap;
-
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepositoryImpl;
 
@@ -56,7 +53,6 @@ public class FkAbstractModuleEntryPointTest {
     public void setup() {
         ReflectionTestUtils.setField(entryPoint, "repo", Optional.of(repo));
         when(entryPoint.getDetailedModuleDescription()).thenCallRealMethod();
-        when(entryPoint.getExternalId()).thenCallRealMethod();
         when(entryPoint.getModuleId()).thenReturn(MODULE_ID);
     }
 
@@ -83,13 +79,6 @@ public class FkAbstractModuleEntryPointTest {
         String res = entryPoint.getDetailedModuleDescription();
 
         assertNull(res);
-    }
-
-    @Test
-    public void testGetExternalId() {
-        String res = entryPoint.getExternalId();
-
-        assertEquals("MODULEID", res); // upper case
     }
 
 }

@@ -42,7 +42,6 @@ import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConsta
 import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.SJUKFRANVARO_DELSVAR_ID_62;
 import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.SJUKFRANVARO_SVAR_ID_6;
 import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.UnderlagsTyp;
-import static se.inera.intyg.common.support.Constants.KV_INTYGSTYP_CODE_SYSTEM;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.SvarBuilder;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aDatePeriod;
@@ -51,18 +50,18 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotNull;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getInternalDateContent;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getTypAvIntyg;
 
 import java.util.ArrayList;
 import java.util.List;
-import se.inera.intyg.common.af00251.support.AF00251EntryPoint;
 import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
 import se.inera.intyg.common.af00251.v1.model.internal.ArbetsmarknadspolitisktProgram;
 import se.inera.intyg.common.af00251.v1.model.internal.BegransningSjukfranvaro;
 import se.inera.intyg.common.af00251.v1.model.internal.PrognosAtergang;
 import se.inera.intyg.common.af00251.v1.model.internal.Sjukfranvaro;
+import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
@@ -76,20 +75,11 @@ public final class UtlatandeToIntyg {
 
     public static Intyg convert(AF00251UtlatandeV1 utlatande) {
         Intyg intyg = InternalConverterUtil.getIntyg(utlatande, false);
-        intyg.setTyp(getTypAvIntyg(utlatande));
+        intyg.setTyp(getTypAvIntyg(KvIntygstyp.AF00251));
         intyg.getSvar()
             .addAll(getSvar(utlatande));
         intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));
         return intyg;
-    }
-
-    private static TypAvIntyg getTypAvIntyg(AF00251UtlatandeV1 source) {
-        TypAvIntyg typAvIntyg = new TypAvIntyg();
-        typAvIntyg.setCode(source.getTyp()
-            .toUpperCase());
-        typAvIntyg.setCodeSystem(KV_INTYGSTYP_CODE_SYSTEM);
-        typAvIntyg.setDisplayName(AF00251EntryPoint.MODULE_NAME);
-        return typAvIntyg;
     }
 
     private static List<Svar> getSvar(AF00251UtlatandeV1 source) {

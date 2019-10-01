@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
+import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 
@@ -73,7 +74,7 @@ public class DbModuleEntryPoint implements ModuleEntryPoint {
 
     @Override
     public String getExternalId() {
-        return MODULE_ID.toUpperCase();
+        return KvIntygstyp.DB.getCodeValue();
     }
 
     @Override

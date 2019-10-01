@@ -39,6 +39,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.support.Constants;
+import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
@@ -272,9 +273,9 @@ public class UtlatandeToIntygTest {
     }
 
     private void assertIntygsTyp(final TsTrk1062UtlatandeV1 utlatande, Intyg intyg) {
-        assertEquals("Intygstyp.code is not equal", TsTrk1062EntryPoint.KV_UTLATANDETYP_INTYG_CODE, intyg.getTyp().getCode());
-        assertEquals("Intygstyp.codeSystem is not equal", Constants.KV_INTYGSTYP_CODE_SYSTEM, intyg.getTyp().getCodeSystem());
-        assertEquals("Intygstyp.displayName is not equal", TsTrk1062EntryPoint.ISSUER_MODULE_NAME, intyg.getTyp().getDisplayName());
+        assertEquals("Intygstyp.code is not equal", KvIntygstyp.TSTRK1062.getCodeValue(), intyg.getTyp().getCode());
+        assertEquals("Intygstyp.codeSystem is not equal", KvIntygstyp.TSTRK1062.getCodeSystem(), intyg.getTyp().getCodeSystem());
+        assertEquals("Intygstyp.displayName is not equal", KvIntygstyp.TSTRK1062.getDisplayName(), intyg.getTyp().getDisplayName());
     }
 
     private void assertOvrigaKommentarer(String ovrigaKommentarer, Svar.Delsvar delsvar) {

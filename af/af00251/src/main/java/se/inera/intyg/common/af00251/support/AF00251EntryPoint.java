@@ -20,6 +20,7 @@ package se.inera.intyg.common.af00251.support;
 
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.af_parent.support.AfAbstractModuleEntryPoint;
+import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
 @Component("AF00251EntryPoint")
@@ -39,6 +40,11 @@ public class AF00251EntryPoint extends AfAbstractModuleEntryPoint {
     @Override
     public String getModuleName() {
         return MODULE_NAME;
+    }
+
+    @Override
+    public String getExternalId() {
+        return KvIntygstyp.AF00251.getCodeValue();
     }
 
     @Override
