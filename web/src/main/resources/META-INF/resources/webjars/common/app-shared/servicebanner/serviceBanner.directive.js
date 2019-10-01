@@ -21,9 +21,11 @@ angular.module('common').directive('serviceBanner', function() {
 
   return {
     restrict: 'E',
-    scope: {},
+    scope: {
+      banners: '='
+    },
     templateUrl: '/web/webjars/common/app-shared/servicebanner/serviceBanner.directive.html',
-    controller: function($scope, moduleConfig) {
+    controller: function($scope) {
 
       function getSeverity(priority) {
         switch(priority) {
@@ -36,18 +38,18 @@ angular.module('common').directive('serviceBanner', function() {
         }
       }
 
-      var banners = [];
+      var bannersShown = [];
       var i = 0;
 
-      angular.forEach(moduleConfig.BANNERS, function(banner) {
-        banners.push({
+      angular.forEach($scope.banners, function(banner) {
+        bannersShown.push({
           id: 'serviceBanner' + i++,
           severity: getSeverity(banner.priority),
           text: addExternalIcon(banner.message)
         });
       });
 
-      $scope.banners = banners;
+      $scope.bannersShown = bannersShown;
     }
   };
 
