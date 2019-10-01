@@ -27,10 +27,15 @@ stage('tag and upload') {
     }
 }
 
-// stage('propagate') {
-//     build job: "${buildRoot}-webcert", wait: false, parameters: [[$class: 'StringParameterValue', name: 'GIT_BRANCH', value: GIT_BRANCH]]
-//     build job: "${buildRoot}-minaintyg", wait: false, parameters: [[$class: 'StringParameterValue', name: 'GIT_BRANCH', value: GIT_BRANCH]]
-// }
+stage('propagate') {
+    [ "intygstjanst" ].each {
+        try {
+            build job: "dintyg-${it}-test-pipeline", parameters: [string(name: 'GIT_BRANCH', value: GIT_BRANCH)]
+        } catch (e) {
+            println "Trigger build error (ignored): ${e.message}"
+        }
+    }
+}
 
 stage('notify') {
     node {
