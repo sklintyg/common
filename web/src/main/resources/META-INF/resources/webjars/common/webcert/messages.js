@@ -83,7 +83,7 @@
             'common.button.save.as.pdf.full': 'Fullständigt intyg',
             'common.button.save.as.pdf.minimal': 'Minimalt intyg',
 
-            'common.alert.newpersonid': 'Patientens personummer har ändrats',
+            'common.alert.newpersonid': 'Patientens personnummer har ändrats',
             'common.alert.newreserveid': 'Patienten har samordningsnummer kopplat till reservnummer: <b>${reserve}</b>.',
             'common.alert.sekretessmarkering.print': 'Patienten har skyddade personuppgifter. Hantera utskriften varsamt.',
             'common.alert.textversionupdated': 'Observera att frågetexterna har uppdaterats',
