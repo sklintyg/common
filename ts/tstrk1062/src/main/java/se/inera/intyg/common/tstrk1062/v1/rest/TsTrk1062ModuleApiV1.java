@@ -162,9 +162,8 @@ public class TsTrk1062ModuleApiV1 extends TsParentModuleApi<TsTrk1062UtlatandeV1
     @Override
     public PatientDetailResolveOrder getPatientDetailResolveOrder() {
         List<ResolveOrder> adressStrat = Arrays.asList(PARAMS, PU);
-        List<ResolveOrder> avlidenStrat = Arrays.asList(PARAMS_OR_PU);
         List<ResolveOrder> otherStrat = Arrays.asList(PU, PARAMS);
 
-        return new PatientDetailResolveOrder(null, adressStrat, avlidenStrat, otherStrat);
+        return new PatientDetailResolveOrder(null, adressStrat, otherStrat);
     }
 }

@@ -19,7 +19,6 @@
 package se.inera.intyg.common.ts_bas.v6.rest;
 
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS;
-import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS_OR_PU;
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
 import static se.inera.intyg.common.support.modules.transformer.XslTransformerUtil.isRegisterCertificateV3;
 import static se.inera.intyg.common.support.modules.transformer.XslTransformerUtil.isRegisterTsBas;
@@ -219,10 +218,9 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
     @Override
     public PatientDetailResolveOrder getPatientDetailResolveOrder() {
         List<ResolveOrder> adressStrat = Arrays.asList(PARAMS, PU);
-        List<ResolveOrder> avlidenStrat = Arrays.asList(PARAMS_OR_PU);
         List<ResolveOrder> otherStrat = Arrays.asList(PU, PARAMS);
 
-        return new PatientDetailResolveOrder(null, adressStrat, avlidenStrat, otherStrat);
+        return new PatientDetailResolveOrder(null, adressStrat, otherStrat);
     }
 
     @Override

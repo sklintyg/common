@@ -18,7 +18,6 @@
  */
 package se.inera.intyg.common.doi.v1.rest;
 
-import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS_OR_PU;
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PREDECESSOR;
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
 
@@ -120,10 +119,9 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
     @Override
     public PatientDetailResolveOrder getPatientDetailResolveOrder() {
         List<ResolveOrder> adressStrat = Arrays.asList(PREDECESSOR, PU);
-        List<ResolveOrder> avlidenStrat = Arrays.asList(PARAMS_OR_PU);
         List<ResolveOrder> otherStrat = Arrays.asList(PREDECESSOR, PU);
 
-        return new PatientDetailResolveOrder("db", adressStrat, avlidenStrat, otherStrat);
+        return new PatientDetailResolveOrder("db", adressStrat, otherStrat);
     }
 
 }

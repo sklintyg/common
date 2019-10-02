@@ -32,9 +32,8 @@ public class PatientDetailResolveOrderTest {
     public void constructorShouldThrowWhenGivenNullList() {
         List<PatientDetailResolveOrder.ResolveOrder> any = ImmutableList.of();
 
-        assertThatThrownBy(() -> new PatientDetailResolveOrder("", null, any, any)).isExactlyInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> new PatientDetailResolveOrder("", any, null, any)).isExactlyInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> new PatientDetailResolveOrder("", any, any, null)).isExactlyInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> new PatientDetailResolveOrder("", null, any)).isExactlyInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> new PatientDetailResolveOrder("", any, null)).isExactlyInstanceOf(NullPointerException.class);
     }
 
     @Test
@@ -43,7 +42,7 @@ public class PatientDetailResolveOrderTest {
                 .of(PatientDetailResolveOrder.ResolveOrder.PREDECESSOR);
         List<PatientDetailResolveOrder.ResolveOrder> other = ImmutableList.of(PatientDetailResolveOrder.ResolveOrder.PU);
 
-        assertThatThrownBy(() -> new PatientDetailResolveOrder("", other, predecessorStrat, other))
+        assertThatThrownBy(() -> new PatientDetailResolveOrder("", predecessorStrat, other))
                 .isExactlyInstanceOf(IllegalArgumentException.class);
     }
 

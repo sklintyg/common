@@ -19,7 +19,6 @@
 package se.inera.intyg.common.ts_diabetes.v2.rest;
 
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS;
-import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS_OR_PU;
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
 
 
@@ -290,10 +289,9 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
     @Override
     public PatientDetailResolveOrder getPatientDetailResolveOrder() {
         List<ResolveOrder> adressStrat = Arrays.asList(PARAMS, PU);
-        List<ResolveOrder> avlidenStrat = Arrays.asList(PARAMS_OR_PU);
         List<ResolveOrder> otherStrat = Arrays.asList(PU, PARAMS);
 
-        return new PatientDetailResolveOrder(null, adressStrat, avlidenStrat, otherStrat);
+        return new PatientDetailResolveOrder(null, adressStrat, otherStrat);
     }
 
 }
