@@ -6,7 +6,6 @@
 
 // Component styles are injected through grunt
 // injector
-@import '../app-shared/servicebanner/serviceBanner.directive.scss';
 @import '../app-shared/unified-view/components/_variables.scss';
 @import '../app-shared/unified-view/components/uvAlertMessage/uvAlertMessage.directive.scss';
 @import '../app-shared/unified-view/components/uvAlertValue/uvAlertValue.directive.scss';
@@ -36,7 +35,6 @@
 @import 'components/miCompactCertificateBody/miCompactCertificateBody.directive.scss';
 @import 'components/miCompactCertificateHeader/miCompactCertificateHeader.directive.scss';
 @import 'components/miViewIntygErrorMessage/miViewIntygErrorMessage.directive.scss';
-@import 'components/serviceBanners.scss';
 // endinjector
 
 .rotate-180 {

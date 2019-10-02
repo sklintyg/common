@@ -6,7 +6,6 @@
   @import 'css/mixins/mixins';
 
   // injector
-  @import '../app-shared/servicebanner/serviceBanner.directive.scss';
   @import '../app-shared/unified-view/components/_variables.scss';
   @import '../app-shared/unified-view/components/uvAlertMessage/uvAlertMessage.directive.scss';
   @import '../app-shared/unified-view/components/uvAlertValue/uvAlertValue.directive.scss';
@@ -65,6 +64,7 @@
   @import 'components/wcRadioWrapper/wcRadioWrapper.directive.scss';
   @import 'components/wcSekretessAvliden/wcSekretessAvliden.directive.scss';
   @import 'components/wcSekretessAvlidenIkon/wcSekretessAvlidenIkon.directive.scss';
+  @import 'components/wcServiceBanner/wcServiceBanner.directive.scss';
   @import 'components/wcSpinner/wcSpinner.scss';
   @import 'components/wcSupportPanelManager/wcArendePanelTab/_arende.scss';
   @import 'components/wcSupportPanelManager/wcArendePanelTab/hantera/arendeHantera.directive.scss';

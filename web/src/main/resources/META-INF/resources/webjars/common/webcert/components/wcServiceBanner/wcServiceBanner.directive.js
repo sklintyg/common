@@ -16,16 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('serviceBanner', function() {
+angular.module('common').directive('wcServiceBanner', function() {
   'use strict';
 
   return {
     restrict: 'E',
-    scope: {
-      banners: '='
-    },
-    templateUrl: '/web/webjars/common/app-shared/servicebanner/serviceBanner.directive.html',
-    controller: function($scope) {
+    scope: {},
+    templateUrl: '/web/webjars/common/webcert/components/wcServiceBanner/wcServiceBanner.directive.html',
+    controller: function($scope, moduleConfig) {
 
       function getSeverity(priority) {
         switch(priority) {
@@ -41,7 +39,7 @@ angular.module('common').directive('serviceBanner', function() {
       var bannersShown = [];
       var i = 0;
 
-      angular.forEach($scope.banners, function(banner) {
+      angular.forEach(moduleConfig.BANNERS, function(banner) {
         bannersShown.push({
           id: 'serviceBanner' + i++,
           severity: getSeverity(banner.priority),
