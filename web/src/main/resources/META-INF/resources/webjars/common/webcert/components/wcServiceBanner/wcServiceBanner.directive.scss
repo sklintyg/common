@@ -1,21 +1,4 @@
-$wc-color-07: #212121;
-//Font priority
-$font-0: Roboto;
-$font-1: helvetica;
-$font-2: arial;
-$font-3: sans-serif;
-
-@mixin font-variant-regular($font-size: 14px) {
-  font-family: $font-0, $font-1, $font-2, $font-3;
-  font-size: $font-size;
-  font-weight: 400;
-}
-
-%wc-typo-07 {
-  @include font-variant-regular(14px);
-}
-
-service-banner {
+wc-service-banner {
   display: block;
 
   .text-container {
