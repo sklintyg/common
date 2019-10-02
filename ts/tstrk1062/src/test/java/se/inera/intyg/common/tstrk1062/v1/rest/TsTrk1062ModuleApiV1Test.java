@@ -280,21 +280,6 @@ public class TsTrk1062ModuleApiV1Test {
     }
 
     @Test
-    public void testGetPatientDetailResolveOrderAvliden() {
-        final List<PatientDetailResolveOrder.ResolveOrder> expectedAvlidenOrder = Arrays.asList(PARAMS_OR_PU);
-
-        final PatientDetailResolveOrder actualPatientDetailResolveOrder = moduleApi.getPatientDetailResolveOrder();
-
-        assertNotNull("PatientDetailResolveOrder", actualPatientDetailResolveOrder);
-        final List actualAvlidenOrder = actualPatientDetailResolveOrder.getAvlidenStrategy();
-        assertNotNull("AddressResolveOrder should not be null", actualAvlidenOrder);
-        assertEquals("AddressResolveOrder not equal length ", expectedAvlidenOrder.size(), actualAvlidenOrder.size());
-        for (int i = 0; i < expectedAvlidenOrder.size(); i++) {
-            assertEquals("AddressOrder element: " + i + " not equal", expectedAvlidenOrder.get(i), actualAvlidenOrder.get(i));
-        }
-    }
-
-    @Test
     public void testGetPatientDetailResolveOrderOther() {
         final List<PatientDetailResolveOrder.ResolveOrder> expectedOtherOrder = Arrays.asList(PU, PARAMS);
 

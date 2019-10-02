@@ -31,38 +31,33 @@ public class PatientDetailResolveOrder {
 
     private String predecessorType;
     private List<ResolveOrder> adressStrategy;
-    private List<ResolveOrder> avlidenStrategy;
     private List<ResolveOrder> other;
 
     /**
      * Create a default PatientDetailResolveOrder, <br/>
      * with:<br/>
      * no adress-strategy,<br/>
-     * avlidenStrategy(PU, PARAMS) and <br/>
      * other ie name and sekretess-strategy (PU, PARAMS).
      */
     public static PatientDetailResolveOrder defaultOrder() {
         return new PatientDetailResolveOrder(null, ImmutableList.of(),
-            ImmutableList.of(ResolveOrder.PARAMS_OR_PU),
             ImmutableList.of(ResolveOrder.PU, ResolveOrder.PARAMS));
     }
 
     public PatientDetailResolveOrder(String predecessorType, List<ResolveOrder> adressStrategy,
-        List<ResolveOrder> avlidenStrategy, List<ResolveOrder> other) {
+        List<ResolveOrder> other) {
         checkNotNull(adressStrategy);
-        checkNotNull(avlidenStrategy);
         checkNotNull(other);
 
         // No predecessor --> can't use predecessor strategy.
         Preconditions.checkArgument((!Strings.isNullOrEmpty(predecessorType)
-                || ImmutableList.of(adressStrategy, avlidenStrategy, other).stream()
+                || ImmutableList.of(adressStrategy, other).stream()
                 .flatMap(List::stream)
                 .noneMatch(Predicate.isEqual(ResolveOrder.PREDECESSOR))),
             "Can't use predecessor strategy without predecessor.");
 
         this.predecessorType = predecessorType;
         this.adressStrategy = ImmutableList.copyOf(adressStrategy);
-        this.avlidenStrategy = ImmutableList.copyOf(avlidenStrategy);
         this.other = ImmutableList.copyOf(other);
     }
 
@@ -74,19 +69,11 @@ public class PatientDetailResolveOrder {
         return adressStrategy;
     }
 
-    public List<ResolveOrder> getAvlidenStrategy() {
-        return avlidenStrategy;
-    }
-
     public List<ResolveOrder> getOtherStrategy() {
         return other;
     }
 
     public enum ResolveOrder {
-        /**
-         * PARAMS || PU (used for avliden).
-         */
-        PARAMS_OR_PU,
         /**
          * From integrations parameters.
          */
