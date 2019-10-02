@@ -48,6 +48,7 @@
             'common.gotofromtemplate': 'Visa ${intygName}',
             'common.makulera': 'Makulera',
             'common.makulera.tooltip': 'Öppnar ett fönster där du kan välja att makulera intyget.',
+            'common.makulera.locked.tooltip': 'Öppnar ett fönster där du kan välja att makulera det låsta utkastet.',
             'common.sign': 'Signera intyget',
             'common.sign.tooltip': 'Intyget signeras.',
             'common.signsend': 'Signera och skicka',

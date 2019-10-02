@@ -39,7 +39,7 @@ angular.module('common').directive('wcUtkastButtonBar', ['$log', '$stateParams',
                 $scope.printBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.utkast.tooltip');
                 $scope.copyBtnTooltipText = messageService.getProperty('common.copy.utkast.tooltip');
                 $scope.deleteBtnTooltipText = messageService.getProperty('common.delete.tooltip');
-                $scope.makuleraBtnTooltipText = messageService.getProperty('common.makulera.tooltip');
+                $scope.makuleraBtnTooltipText = messageService.getProperty('common.makulera.locked.tooltip');
 
                 /**
                  * Action to discard the certificate draft and return to WebCert again.
