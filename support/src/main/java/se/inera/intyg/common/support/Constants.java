@@ -35,6 +35,9 @@ public final class Constants {
     public static final String KV_INTYGET_AVSER_CODE_SYSTEM = "24c41b8d-258a-46bf-a08a-b90738b28770";
     public static final String KV_ID_KONTROLL_CODE_SYSTEM = "e7cc8f30-a353-4c42-b17a-a189b6876647";
     public static final String KV_KORKORTSBEHORIGHET_CODE_SYSTEM = "e889fa20-1dee-4f79-8b37-03853e75a9f8";
+    public static final String KV_OMFATTNING_ARBETSMARKNADSPOLITISKT_PROGRAM_CODE_SYSTEM = "1.2.752.129.5.1.2";
+    public static final String KV_PROGNOS_ATERGANG_ARBETSMARKNADSPOLITISKT_PROGRAM_CODE_SYSTEM = "1.2.752.129.5.1.3";
+    public static final String KV_V3_CODE_SYSTEM_NULLFLAVOR_CODE_SYSTEM = "2.16.840.1.113883.5.1008";
 
     private Constants() { }
 }

@@ -21,6 +21,7 @@ package se.inera.intyg.common.tstrk1062.v1.model.converter;
 import static se.inera.intyg.common.support.Constants.KV_ID_KONTROLL_CODE_SYSTEM;
 import static se.inera.intyg.common.support.Constants.KV_INTYGET_AVSER_CODE_SYSTEM;
 import static se.inera.intyg.common.support.Constants.KV_KORKORTSBEHORIGHET_CODE_SYSTEM;
+import static se.inera.intyg.common.support.Constants.KV_V3_CODE_SYSTEM_NULLFLAVOR_CODE_SYSTEM;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.SvarBuilder;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aPartialDate;
@@ -41,7 +42,6 @@ import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Consta
 import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ID_KONTROLL_SVAR_ID_1;
 import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.INTYG_AVSER_DELSVAR_ID_1;
 import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.INTYG_AVSER_SVAR_ID_1;
-import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.KV_V3_CODE_SYSTEM_NULLFLAVOR_SYSTEM;
 import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_ID;
 import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_AKTUELL_SVAR_ID;
 import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID;
@@ -169,7 +169,7 @@ public final class UtlatandeToIntyg {
                     content = prognosTillstandTyp.getCode();
                     break;
                 case KANEJBEDOMA:
-                    content = aCV(KV_V3_CODE_SYSTEM_NULLFLAVOR_SYSTEM, prognosTillstandTyp.getCode(),
+                    content = aCV(KV_V3_CODE_SYSTEM_NULLFLAVOR_CODE_SYSTEM, prognosTillstandTyp.getCode(),
                         prognosTillstandTyp.getDescription());
                     break;
             }

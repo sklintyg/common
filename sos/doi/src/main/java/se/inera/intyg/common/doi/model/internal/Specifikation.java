@@ -18,19 +18,18 @@
  */
 package se.inera.intyg.common.doi.model.internal;
 
-import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
-
-import java.util.stream.Stream;
-
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UPPGIFT_SAKNAS_CODE;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UPPGIFT_SAKNAS_DISPLAY_NAME;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.V3_CODE_SYSTEM_NULL_FLAVOR;
+import static se.inera.intyg.common.support.Constants.KV_V3_CODE_SYSTEM_NULLFLAVOR_CODE_SYSTEM;
+
+import java.util.stream.Stream;
+import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 
 public enum Specifikation {
 
-    UPPGIFT_SAKNAS(UPPGIFT_SAKNAS_CODE, UPPGIFT_SAKNAS_DISPLAY_NAME, V3_CODE_SYSTEM_NULL_FLAVOR),
+    UPPGIFT_SAKNAS(UPPGIFT_SAKNAS_CODE, UPPGIFT_SAKNAS_DISPLAY_NAME, KV_V3_CODE_SYSTEM_NULLFLAVOR_CODE_SYSTEM),
     KRONISK("90734009", "kronisk", Diagnoskodverk.SNOMED_CT.getCodeSystem()),
-    PLOTSLIG("424124008", "akut", Diagnoskodverk.SNOMED_CT.getCodeSystem());
+    PLOTSLIG("424124008", "plötslig debut och/eller kort duration", Diagnoskodverk.SNOMED_CT.getCodeSystem());
 
     private final String id;
     private final String label;

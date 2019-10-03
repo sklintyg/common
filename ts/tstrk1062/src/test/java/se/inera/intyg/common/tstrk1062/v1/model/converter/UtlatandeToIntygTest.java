@@ -18,34 +18,80 @@
  */
 package se.inera.intyg.common.tstrk1062.v1.model.converter;
 
-import static junit.framework.TestCase.*;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.*;
-import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.*;
+import static se.inera.intyg.common.support.Constants.KV_V3_CODE_SYSTEM_NULLFLAVOR_CODE_SYSTEM;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getBooleanContent;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getPartialDateContent;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.BEDOMNING_UPPFYLLER_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.BEDOMNING_UPPFYLLER_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ID_KONTROLL_DELSVAR_ID_1;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ID_KONTROLL_SVAR_ID_1;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.INTYG_AVSER_DELSVAR_ID_1;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.INTYG_AVSER_SVAR_ID_1;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_AKTUELL_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_EFFEKT_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_FOLJSAMHET_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_MER_3_AR_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_PAGAR_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.OVRIGT_OVRIGA_KOMMENTARER_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.OVRIGT_OVRIGA_KOMMENTARER_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.SYMPTOM_BEDOMNING_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.SYMPTOM_BEDOMNING_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.SYMPTOM_PROGNOS_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.SYMPTOM_PROGNOS_SVAR_ID;
 
+import com.google.common.collect.ImmutableList;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
-
 import org.junit.Before;
 import org.junit.Test;
-
-import com.google.common.collect.ImmutableList;
-
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import se.inera.intyg.common.support.Constants;
 import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
-import se.inera.intyg.common.tstrk1062.support.TsTrk1062EntryPoint;
-import se.inera.intyg.common.tstrk1062.v1.model.internal.*;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.Bedomning;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.DiagnosFritext;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.DiagnosKodad;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.DiagnosRegistrering;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.IdKontroll;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.IntygAvser;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.Lakemedelsbehandling;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.PrognosTillstand;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.TsTrk1062UtlatandeV1;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
@@ -296,7 +342,7 @@ public class UtlatandeToIntygTest {
     private void assertPrognosTillstandAsCode(PrognosTillstand prognosTillstand, Svar.Delsvar delsvar) throws ConverterException {
         assertNotNull("PrognosTillstand should not be null", delsvar);
         assertEquals("PrognosTillstand.kod not equal", prognosTillstand.getTyp().getCode(), getCVSvarContent(delsvar).getCode());
-        assertEquals("PrognosTillstand.kodsystem not equal", KV_V3_CODE_SYSTEM_NULLFLAVOR_SYSTEM,
+        assertEquals("PrognosTillstand.kodsystem not equal", KV_V3_CODE_SYSTEM_NULLFLAVOR_CODE_SYSTEM,
             getCVSvarContent(delsvar).getCodeSystem());
         assertEquals("PrognosTillstand.beskrivning not equal", prognosTillstand.getTyp().getDescription(),
             getCVSvarContent(delsvar).getDisplayName());

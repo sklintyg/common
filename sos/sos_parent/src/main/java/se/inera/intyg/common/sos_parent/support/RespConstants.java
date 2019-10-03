@@ -110,7 +110,6 @@ public final class RespConstants {
 
     public static final String UPPGIFT_SAKNAS_CODE = "NI";
     public static final String UPPGIFT_SAKNAS_DISPLAY_NAME = "Uppgift saknas";
-    public static final String V3_CODE_SYSTEM_NULL_FLAVOR = "v3 Code System NullFlavor";
 
     private RespConstants() {
     }

@@ -105,7 +105,6 @@ public abstract class TSTRK1062Constants {
     public static final String SYMPTOM_PROGNOS_SVAR_JSON_ID = "prognosTillstand";
     public static final String SYMPTOM_PROGNOS_DELSVAR_ID = "61.1";
     public static final String SYMPTOM_PROGNOS_DELSVAR_JSON_ID = "typ";
-    public static final String KV_V3_CODE_SYSTEM_NULLFLAVOR_SYSTEM = "2.16.840.1.113883.5.1008";
 
     // Kat 6 - Övrigt
     public static final String OVRIGT_KATEGORI = "ovrigt";

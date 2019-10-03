@@ -137,7 +137,7 @@
                 <ns3:cv>
                     <ns3:code>424124008</ns3:code>
                     <ns3:codeSystem>1.2.752.116.2.1.1.1</ns3:codeSystem>
-                    <ns3:displayName>akut</ns3:displayName>
+                    <ns3:displayName>plötslig debut och/eller kort duration</ns3:displayName>
                 </ns3:cv>
             </delsvar>
         </svar>
