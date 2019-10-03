@@ -249,9 +249,10 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
 
     private void populatePatientInfo(Patient patient, AcroFields fields) throws IOException, DocumentException {
         INVANARE_ADRESS_FALT1.setField(fields, patient.getFullstandigtNamn());
-        INVANARE_ADRESS_FALT2.setField(fields, patient.getPostadress());
+        String postadress = patient.getPostadress() == null ? "" : patient.getPostadress();
         String postnummer = patient.getPostnummer() == null ? "" : patient.getPostnummer();
         String postort = patient.getPostort() == null ? "" : patient.getPostort();
+        INVANARE_ADRESS_FALT2.setField(fields, postadress);
         INVANARE_ADRESS_FALT3.setField(fields, postnummer + " " + postort);
         INVANARE_PERSONNUMMER.setField(fields, patient.getPersonId().getPersonnummer());
     }
