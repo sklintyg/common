@@ -20,7 +20,6 @@ package se.inera.intyg.common.tstrk1009.v1.model.converter;
 
 import static java.util.Objects.nonNull;
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
-import static se.inera.intyg.common.support.Constants.KV_UTLATANDETYP_INTYG_CODE_SYSTEM;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
@@ -28,6 +27,7 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.base64StringToUnderskriftType;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getInternalDateContent;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getIntyg;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getTypAvIntyg;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.NOT_AVAILABLE;
 import static se.inera.intyg.common.ts_parent.model.converter.InternalToTransportUtil.getVersion;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.ANMALAN_AVSER_DELSVAR_ID;
@@ -48,16 +48,15 @@ import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.S
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import java.util.List;
 import java.util.Optional;
-import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
+import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.KorkortBehorighetGrupp;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsbehorighet;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 import se.inera.intyg.schemas.contract.Personnummer;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public final class UtlatandeToIntyg {
 
@@ -71,7 +70,7 @@ public final class UtlatandeToIntyg {
 
         complementArbetsplatskodIfMissing(intyg);
 
-        intyg.setTyp(getTypAvIntyg());
+        intyg.setTyp(getTypAvIntyg(KvIntygstyp.TSTRK1009));
         intyg.getSvar().addAll(getSvar(utlatande));
         intyg.setVersion(getVersion(utlatande).orElse(DEFAULT_VERSION));
         intyg.setUnderskrift(base64StringToUnderskriftType(utlatande));
@@ -79,13 +78,6 @@ public final class UtlatandeToIntyg {
         return intyg;
     }
 
-    private static TypAvIntyg getTypAvIntyg() {
-        TypAvIntyg typAvIntyg = new TypAvIntyg();
-        typAvIntyg.setCode(Tstrk1009EntryPoint.KV_UTLATANDETYP_INTYG_CODE);
-        typAvIntyg.setCodeSystem(KV_UTLATANDETYP_INTYG_CODE_SYSTEM);
-        typAvIntyg.setDisplayName(Tstrk1009EntryPoint.ISSUER_MODULE_NAME);
-        return typAvIntyg;
-    }
 
     private static void complementArbetsplatskodIfMissing(Intyg intyg) {
         if (Strings.nullToEmpty(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension()).trim().isEmpty()) {

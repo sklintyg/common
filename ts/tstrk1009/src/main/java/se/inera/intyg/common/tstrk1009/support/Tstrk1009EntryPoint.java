@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
+import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 
@@ -31,8 +32,6 @@ public class Tstrk1009EntryPoint implements ModuleEntryPoint {
 
     public static final String MODULE_ID = "tstrk1009";
     public static final String MODULE_NAME = "Läkares anmälan till Transportstyrelsen";
-    public static final String ISSUER_MODULE_NAME = "Läkares anmälan till Transportstyrelsen";
-    public static final String KV_UTLATANDETYP_INTYG_CODE = "TSTRK1009";
     public static final String SCHEMATRON_FILE = "tstrk1009.v1.sch";
 
     private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
@@ -59,6 +58,11 @@ public class Tstrk1009EntryPoint implements ModuleEntryPoint {
     @Override
     public String getModuleDescription() {
         return MODULE_DESCRIPTION;
+    }
+
+    @Override
+    public String getExternalId() {
+        return KvIntygstyp.TSTRK1009.getCodeValue();
     }
 
     @Override
@@ -115,14 +119,9 @@ public class Tstrk1009EntryPoint implements ModuleEntryPoint {
     }
 
     @Override
-    public String getExternalId() {
-        return KV_UTLATANDETYP_INTYG_CODE;
-    }
-
-    @Override
     public String getIssuerTypeId() {
         //Same as externalId for ts
-        return KV_UTLATANDETYP_INTYG_CODE;
+        return this.getExternalId();
     }
 
 }

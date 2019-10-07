@@ -57,8 +57,4 @@ public abstract class FkAbstractModuleEntryPoint implements ModuleEntryPoint {
         return DEFAULT_RECIPIENT_ID;
     }
 
-    @Override
-    public String getExternalId() {
-        return getModuleId().toUpperCase();
-    }
 }

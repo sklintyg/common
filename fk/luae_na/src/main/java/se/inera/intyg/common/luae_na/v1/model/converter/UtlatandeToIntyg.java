@@ -18,22 +18,6 @@
  */
 package se.inera.intyg.common.luae_na.v1.model.converter;
 
-import com.google.common.base.Joiner;
-import com.google.common.base.Strings;
-import se.inera.intyg.common.fkparent.model.converter.RespConstants;
-import se.inera.intyg.common.fkparent.model.internal.Underlag;
-import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
-import se.inera.intyg.common.luae_na.support.LuaenaEntryPoint;
-import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
-import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
-import se.inera.intyg.common.support.modules.service.WebcertModuleService;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import static se.inera.intyg.common.fkparent.model.converter.InternalToTransportUtil.handleDiagnosSvar;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
@@ -91,10 +75,24 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDER
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_HAMTAS_FRAN_DELSVAR_ID_4;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_TYP_DELSVAR_ID_4;
-import static se.inera.intyg.common.support.Constants.KV_INTYGSTYP_CODE_SYSTEM;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getTypAvIntyg;
+
+import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
+import java.util.ArrayList;
+import java.util.List;
+import se.inera.intyg.common.fkparent.model.converter.RespConstants;
+import se.inera.intyg.common.fkparent.model.internal.Underlag;
+import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
+import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
+import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public final class UtlatandeToIntyg {
 
@@ -103,19 +101,12 @@ public final class UtlatandeToIntyg {
 
     public static Intyg convert(LuaenaUtlatandeV1 utlatande, WebcertModuleService webcertModuleService) {
         Intyg intyg = InternalConverterUtil.getIntyg(utlatande, false);
-        intyg.setTyp(getTypAvIntyg(utlatande));
+        intyg.setTyp(getTypAvIntyg(KvIntygstyp.LUAE_NA));
         intyg.getSvar().addAll(getSvar(utlatande, webcertModuleService));
         intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));
         return intyg;
     }
 
-    private static TypAvIntyg getTypAvIntyg(LuaenaUtlatandeV1 source) {
-        TypAvIntyg typAvIntyg = new TypAvIntyg();
-        typAvIntyg.setCode(source.getTyp().toUpperCase());
-        typAvIntyg.setCodeSystem(KV_INTYGSTYP_CODE_SYSTEM);
-        typAvIntyg.setDisplayName(LuaenaEntryPoint.MODULE_NAME);
-        return typAvIntyg;
-    }
 
     private static List<Svar> getSvar(LuaenaUtlatandeV1 source, WebcertModuleService webcertModuleService) {
         List<Svar> svars = new ArrayList<>();

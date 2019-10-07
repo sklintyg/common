@@ -21,6 +21,7 @@ package se.inera.intyg.common.ag7804.support;
 import org.springframework.stereotype.Component;
 
 import se.inera.intyg.common.agparent.support.AgAbstractModuleEntryPoint;
+import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
 @Component("ag7804EntryPoint")
@@ -30,9 +31,6 @@ public class Ag7804EntryPoint extends AgAbstractModuleEntryPoint {
     public static final String MODULE_ID = "ag7804";
     public static final String MODULE_NAME = "Läkarintyg om arbetsförmåga – arbetsgivaren";
     public static final String MODULE_DESCRIPTION = "Läkarintyg om arbetsförmåga – arbetsgivaren";
-    //Used in external transfer (i.e xml)
-    public static final String KV_INTYGSTYP_CODE = "AG7804";
-    public static final String KV_INTYGSTYP_DISPLAYNAME = "Läkarintyg om arbetsförmåga – arbetsgivare";
 
     @Override
     public String getModuleId() {
@@ -56,7 +54,7 @@ public class Ag7804EntryPoint extends AgAbstractModuleEntryPoint {
 
     @Override
     public String getExternalId() {
-        return KV_INTYGSTYP_CODE;
+        return KvIntygstyp.AG7804.getCodeValue();
     }
 
     @Override

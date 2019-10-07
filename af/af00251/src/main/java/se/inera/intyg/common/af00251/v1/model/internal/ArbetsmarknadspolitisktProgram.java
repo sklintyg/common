@@ -79,8 +79,6 @@ public abstract class ArbetsmarknadspolitisktProgram {
             this.label = label;
         }
 
-        public static final String KODVERK = "kv-omfattning-arbetsmarknadspolitiskt-program";
-
         @JsonValue
         public String getId() {
             return id;

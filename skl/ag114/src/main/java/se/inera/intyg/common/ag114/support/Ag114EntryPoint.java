@@ -21,6 +21,7 @@ package se.inera.intyg.common.ag114.support;
 import org.springframework.stereotype.Component;
 
 import se.inera.intyg.common.agparent.support.AgAbstractModuleEntryPoint;
+import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
 @Component(value = "Ag114EntryPoint")
@@ -28,8 +29,6 @@ public class Ag114EntryPoint extends AgAbstractModuleEntryPoint {
 
     public static final String ISSUER_TYPE_ID = "AG1-14";
     public static final String MODULE_ID = "ag114";
-    public static final String KV_INTYGSTYP_CODE = "AG1-14";
-    public static final String KV_INTYGSTYP_DISPLAYNAME = "Läkarintyg om arbetsförmåga – sjuklöneperiod";
     public static final String MODULE_NAME = "Läkarintyg om arbetsförmåga – sjuklöneperioden";
     public static final String MODULE_DESCRIPTION = "Läkarintyg om arbetsförmåga – sjuklöneperioden";
 
@@ -55,7 +54,7 @@ public class Ag114EntryPoint extends AgAbstractModuleEntryPoint {
 
     @Override
     public String getExternalId() {
-        return KV_INTYGSTYP_CODE;
+        return KvIntygstyp.AG1_14.getCodeValue();
     }
 
     @Override

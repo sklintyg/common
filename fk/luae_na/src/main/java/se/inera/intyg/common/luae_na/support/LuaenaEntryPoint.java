@@ -20,6 +20,7 @@ package se.inera.intyg.common.luae_na.support;
 
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint;
+import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
 @Component(value = "LuaenaEntryPoint")
@@ -43,6 +44,11 @@ public class LuaenaEntryPoint extends FkAbstractModuleEntryPoint {
     @Override
     public String getModuleDescription() {
         return MODULE_DESCRIPTION;
+    }
+
+    @Override
+    public String getExternalId() {
+        return KvIntygstyp.LUAE_NA.getCodeValue();
     }
 
     @Override

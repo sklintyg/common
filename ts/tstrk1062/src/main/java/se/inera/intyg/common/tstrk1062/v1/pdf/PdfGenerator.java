@@ -41,6 +41,7 @@ import se.inera.intyg.common.pdf.model.Summary;
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -83,13 +84,13 @@ public class PdfGenerator {
                 .withUpJsModel(upJsModel)
                 .withIntygsId(intygsId)
                 .withIntygsNamn(TsTrk1062EntryPoint.MODULE_NAME)
-                .withIntygsKod(TsTrk1062EntryPoint.KV_UTLATANDETYP_INTYG_CODE)
+                .withIntygsKod(KvIntygstyp.TSTRK1062.getCodeValue())
                 .withPersonnummer(personId.getPersonnummerWithDash())
                 .withInfoText(buildInfoText(isUtkast || isLockedUtkast, statuses))
                 .withSummary(new Summary()
                     .add("", getCleanModuleDescription(intygTexts))
                     .add(UTSK001_HEADER, UTSK001_BODY))
-                .withLeftMarginTypText(TsTrk1062EntryPoint.KV_UTLATANDETYP_INTYG_CODE + " - Fastställd av Transportstyrelsen")
+                .withLeftMarginTypText(KvIntygstyp.TSTRK1062.getCodeValue() + " - Fastställd av Transportstyrelsen")
                 .withUtfardarLogotyp(logoData)
                 .withIsUtkast(isUtkast)
                 .withIsLockedUtkast(isLockedUtkast)

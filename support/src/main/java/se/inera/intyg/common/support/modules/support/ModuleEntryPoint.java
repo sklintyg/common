@@ -54,7 +54,7 @@ public interface ModuleEntryPoint {
     /**
      * Returns a unique external id for the module.
      *
-     * @return the id used outside of the application
+     * @return the id of the intyg type used outside of the application, e.g in xml transport format
      */
     String getExternalId();
 

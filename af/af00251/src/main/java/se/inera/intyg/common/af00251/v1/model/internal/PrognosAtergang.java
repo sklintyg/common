@@ -97,9 +97,6 @@ public abstract class PrognosAtergang {
             }
             throw new IllegalArgumentException();
         }
-
-        public static final String KODVERK = "kv-prognos-återgång-arbetsmarknadspolitiskt-program";
-
     }
 
 }

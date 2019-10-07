@@ -32,17 +32,16 @@ import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.OVR
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_DELSVAR_ID_31;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_DELSVAR_ID_32;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_ID_3;
-import static se.inera.intyg.common.support.Constants.KV_INTYGSTYP_CODE_SYSTEM;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getTypAvIntyg;
 
 import com.google.common.base.Strings;
 import java.util.ArrayList;
 import java.util.List;
-import se.inera.intyg.common.af00213.support.Af00213EntryPoint;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
+import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
@@ -53,18 +52,10 @@ public final class UtlatandeToIntyg {
 
     public static Intyg convert(Af00213UtlatandeV1 utlatande) {
         Intyg intyg = InternalConverterUtil.getIntyg(utlatande, false);
-        intyg.setTyp(getTypAvIntyg(utlatande));
+        intyg.setTyp(getTypAvIntyg(KvIntygstyp.AF00213));
         intyg.getSvar().addAll(getSvar(utlatande));
         intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));
         return intyg;
-    }
-
-    private static TypAvIntyg getTypAvIntyg(Af00213UtlatandeV1 source) {
-        TypAvIntyg typAvIntyg = new TypAvIntyg();
-        typAvIntyg.setCode(source.getTyp().toUpperCase());
-        typAvIntyg.setCodeSystem(KV_INTYGSTYP_CODE_SYSTEM);
-        typAvIntyg.setDisplayName(Af00213EntryPoint.MODULE_NAME);
-        return typAvIntyg;
     }
 
     private static List<Svar> getSvar(Af00213UtlatandeV1 source) {

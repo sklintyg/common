@@ -42,32 +42,30 @@ import static se.inera.intyg.common.ag114.model.converter.RespConstants.SJUKSKRI
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_DELSVAR_ID_1;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_1;
-import static se.inera.intyg.common.ag114.support.Ag114EntryPoint.KV_INTYGSTYP_CODE;
 import static se.inera.intyg.common.ag114.v1.model.converter.InternalToTransportUtil.handleDiagnosSvar;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_CODE_SYSTEM;
-import static se.inera.intyg.common.support.Constants.KV_INTYGSTYP_CODE_SYSTEM;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aDatePeriod;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aPQ;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotNull;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getTypAvIntyg;
 
 import com.google.common.base.Strings;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.JAXBElement;
 import se.inera.intyg.common.ag114.model.converter.RespConstants;
-import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
+import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PQType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
@@ -81,21 +79,10 @@ public final class UtlatandeToIntyg {
             throw new ConverterException("Source utlatande was null, cannot convert");
         }
         Intyg intyg = InternalConverterUtil.getIntyg(utlatande, false);
-        intyg.setTyp(getTypAvIntyg(utlatande));
+        intyg.setTyp(getTypAvIntyg(KvIntygstyp.AG1_14));
         intyg.getSvar().addAll(getSvar(utlatande, webcertModuleService));
         intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));
         return intyg;
-    }
-
-    private static TypAvIntyg getTypAvIntyg(Ag114UtlatandeV1 source) {
-        TypAvIntyg typAvIntyg = new TypAvIntyg();
-
-        // Note that this value comes from Ag114EntryPoint, see jira INTYG-7574
-        typAvIntyg.setCode(KV_INTYGSTYP_CODE);
-
-        typAvIntyg.setCodeSystem(KV_INTYGSTYP_CODE_SYSTEM);
-        typAvIntyg.setDisplayName(Ag114EntryPoint.KV_INTYGSTYP_DISPLAYNAME);
-        return typAvIntyg;
     }
 
     private static List<Svar> getSvar(Ag114UtlatandeV1 source, WebcertModuleService webcertModuleService) {

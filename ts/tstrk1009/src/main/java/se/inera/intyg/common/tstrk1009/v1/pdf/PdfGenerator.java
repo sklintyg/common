@@ -28,6 +28,7 @@ import org.springframework.core.io.ClassPathResource;
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -78,10 +79,10 @@ public class PdfGenerator {
                 .withUpJsModel(upJsModel)
                 .withIntygsId(intygsId)
                 .withIntygsNamn(Tstrk1009EntryPoint.MODULE_NAME)
-                .withIntygsKod(Tstrk1009EntryPoint.KV_UTLATANDETYP_INTYG_CODE)
+                .withIntygsKod(KvIntygstyp.TSTRK1009.getCodeValue())
                 .withPersonnummer(personId.getPersonnummerWithDash())
                 .withInfoText(buildInfoText(isUtkast || isLockedUtkast, statuses))
-                .withLeftMarginTypText(Tstrk1009EntryPoint.KV_UTLATANDETYP_INTYG_CODE + " - Fastställd av Transportstyrelsen")
+                .withLeftMarginTypText(KvIntygstyp.TSTRK1009.getCodeValue() + " - Fastställd av Transportstyrelsen")
                 .withUtfardarLogotyp(logoData)
                 .withIsUtkast(isUtkast)
                 .withIsLockedUtkast(isLockedUtkast)
