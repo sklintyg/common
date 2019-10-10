@@ -238,9 +238,14 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
     }
 
     @Override
-    // INTYG-7449, INTYG-7529: Saved patient data should not be overwritten for this intyg.
-    public String updateBeforeViewing(String internalModel, Patient patient) {
-        return internalModel;
+    public String updateBeforeViewing(String internalModel, Patient patient) throws ModuleException {
+        try {
+            Utlatande utlatande = this.getInternal(internalModel);
+            WebcertModelFactoryUtil.populateWithPatientInfo(utlatande.getGrundData(), patient);
+            return this.toInternalModelResponse(utlatande);
+        } catch (ConverterException | ModuleException var4) {
+            throw new ModuleException("Error while updating internal model", var4);
+        }
     }
 
     @Override
@@ -339,7 +344,7 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
         }
     }
 
-    protected String toInternalModelResponse(T internalModel) throws ModuleException {
+    protected String toInternalModelResponse(Utlatande internalModel) throws ModuleException {
         try {
             return objectMapper.writeValueAsString(internalModel);
         } catch (IOException e) {

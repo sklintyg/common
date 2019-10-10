@@ -55,6 +55,7 @@ import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
@@ -244,9 +245,21 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
     }
 
     @Override
-    // INTYG-7449, INTYG-7529: The saved patient data should not be overwritten for this intyg.
-    public String updateBeforeViewing(String internalModel, Patient patient) {
-        return internalModel;
+    public String updateBeforeViewing(String internalModel, Patient patient) throws ModuleException {
+        try {
+            Utlatande utlatande = this.getInternal(internalModel);
+            String postadress = utlatande.getGrundData().getPatient().getPostadress();
+            String postort = utlatande.getGrundData().getPatient().getPostadress();
+            String postnummer = utlatande.getGrundData().getPatient().getPostnummer();
+
+            WebcertModelFactoryUtil.populateWithPatientInfo(utlatande.getGrundData(), patient);
+            utlatande.getGrundData().getPatient().setPostadress(postadress);
+            utlatande.getGrundData().getPatient().setPostort(postort);
+            utlatande.getGrundData().getPatient().setPostnummer(postnummer);
+            return this.toInternalModelResponse(utlatande);
+        } catch (ConverterException | ModuleException var4) {
+            throw new ModuleException("Error while updating internal model", var4);
+        }
     }
 
     @Override

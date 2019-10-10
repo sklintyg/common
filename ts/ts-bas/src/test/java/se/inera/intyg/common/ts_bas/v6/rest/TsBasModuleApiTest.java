@@ -356,6 +356,8 @@ public class TsBasModuleApiTest {
         updatedPatient.setPostort("updated post city");
 
         final String validMinimalJson = getResourceAsString(new ClassPathResource("v6/scenarios/internal/valid-minimal.json"));
+        when(objectMapper.readValue(validMinimalJson, TsBasUtlatandeV6.class)).thenReturn(ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
+        when(objectMapper.writeValueAsString(any())).thenReturn(validMinimalJson);
         final String res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient);
 
         assertNotNull(res);
