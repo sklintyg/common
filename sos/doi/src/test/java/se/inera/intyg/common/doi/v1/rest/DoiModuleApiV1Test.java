@@ -216,6 +216,8 @@ public class DoiModuleApiV1Test {
         updatedPatient.setPostort("updated post city");
 
         final String validMinimalJson = getResourceAsString(new ClassPathResource("v1/internal/scenarios/pass-1.json"));
+        when(objectMapper.readValue(validMinimalJson, DoiUtlatandeV1.class)).thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+        when(objectMapper.writeValueAsString(any())).thenReturn(validMinimalJson);
         final String res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient);
 
         assertNotNull(res);
