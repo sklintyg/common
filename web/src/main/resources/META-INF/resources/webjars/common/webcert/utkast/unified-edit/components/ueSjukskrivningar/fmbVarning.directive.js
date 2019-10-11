@@ -31,9 +31,7 @@ angular.module('common').directive('fmbVarning', ['$log', '$filter', 'common.fmb
 
             function requestFMBVarningUpdate(){
                 if($scope.model && $scope.model.diagnoser && $scope.model.diagnoser.length > 0 &&
-                    (ObjectHelper.isDefined($scope.model.diagnoser[0].diagnosKod) ||
-                    ObjectHelper.isDefined($scope.model.diagnoser[1].diagnosKod) ||
-                    ObjectHelper.isDefined($scope.model.diagnoser[2].diagnosKod)) &&
+                    ObjectHelper.isDefined($scope.model.diagnoser[0].diagnosKod) &&
                     $scope.viewstate.totalDays && $scope.viewstate.totalDays > 0) {
                     $log.debug('fmbvarning - diagnoses available and period entered - requesting fmbvarning info');
                     FMBProxy.getValidateSjukskrivningstid({
