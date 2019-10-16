@@ -3,13 +3,12 @@
   <div class="logo-svg"></div>
 </div>
 
-
+<div ng-if="!isEmpty" class="flex-row">
 <wc-header-user ng-if="!hideUserSection()"></wc-header-user>
 
-
 <wc-header-unit ng-if="!hideUnitSection()"></wc-header-unit>
+</div>
 
-
-<wc-header-help user="user"></wc-header-help>
+<wc-header-help ng-if="!isEmpty" user="user"></wc-header-help>
 
 

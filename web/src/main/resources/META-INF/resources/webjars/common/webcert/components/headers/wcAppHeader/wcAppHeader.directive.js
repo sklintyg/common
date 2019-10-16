@@ -21,10 +21,11 @@ angular.module('common').directive('wcAppHeader', ['common.User', function(UserS
 
     return {
         restrict: 'E',
-        scope: {},
+        scope: {
+            isEmpty: '='
+        },
         templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcAppHeader.directive.html',
         link: function($scope) {
-
             $scope.user = UserService.getUser();
 
             $scope.hideUserSection = function () {
