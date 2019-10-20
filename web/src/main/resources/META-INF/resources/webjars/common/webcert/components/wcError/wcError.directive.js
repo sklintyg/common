@@ -28,8 +28,7 @@ angular.module('common').directive('wcError',
                     error: '=',
                     errorTitle: '@',
                     errorMsg: '@',
-                    redirectingLink: '@',
-                    browserWarning: '='
+                    redirectingLink: '@'
                 },
                 templateUrl: '/web/webjars/common/webcert/components/wcError/wcError.directive.html',
                 link: function($scope, element, attrs, ctrl) {
