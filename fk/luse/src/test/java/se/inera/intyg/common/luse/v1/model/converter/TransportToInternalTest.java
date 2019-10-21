@@ -26,7 +26,9 @@ import static org.mockito.Mockito.when;
 
 import com.helger.schematron.svrl.SVRLHelper;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.time.LocalDate;
+import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.stream.StreamSource;
@@ -47,7 +49,6 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
-import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
@@ -56,6 +57,7 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 public class TransportToInternalTest {
 
     private ObjectFactory objectFactory;
+    private JAXBContext jaxbContext;
     private RegisterCertificateValidator validator = new RegisterCertificateValidator(LuseModuleApiV1.SCHEMATRON_FILE);
 
     private WebcertModuleService webcertModuleService;
@@ -75,11 +77,11 @@ public class TransportToInternalTest {
         utlatande.setKannedomOmPatient(new InternalDate(LocalDate.now()));
         utlatande.setUnderlagFinns(true);
         utlatande.setUnderlag(asList(Underlag.create(Underlag.UnderlagsTyp.OVRIGT, new InternalDate(LocalDate.now()), "plats 1"),
-                Underlag.create(Underlag.UnderlagsTyp.UNDERLAG_FRAN_ARBETSTERAPEUT, new InternalDate(LocalDate.now().plusWeeks(2)),
-                        "plats 2")));
+            Underlag.create(Underlag.UnderlagsTyp.UNDERLAG_FRAN_ARBETSTERAPEUT, new InternalDate(LocalDate.now().plusWeeks(2)),
+                "plats 2")));
         utlatande.setSjukdomsforlopp("Snabbt");
         utlatande.setDiagnoser(asList((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra")),
-                Diagnos.create("S48", "ICD_10_SE", "Klämskada arm", "Klämskada arm")));
+            Diagnos.create("S48", "ICD_10_SE", "Klämskada arm", "Klämskada arm")));
         utlatande.setDiagnosgrund("Ingen som vet");
         utlatande.setNyBedomningDiagnosgrund(true);
         utlatande.setDiagnosForNyBedomning("Diagnos för ny bedömning");
@@ -105,6 +107,7 @@ public class TransportToInternalTest {
 
     @Before
     public void suitSetup() throws JAXBException {
+        jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class);
         objectFactory = new ObjectFactory();
     }
 
@@ -122,8 +125,10 @@ public class TransportToInternalTest {
     }
 
     private String xmlToString(RegisterCertificateType registerCertificate) throws JAXBException {
+        StringWriter stringWriter = new StringWriter();
         JAXBElement<RegisterCertificateType> requestElement = objectFactory.createRegisterCertificate(registerCertificate);
-        return XmlMarshallerHelper.marshal(requestElement);
+        jaxbContext.createMarshaller().marshal(requestElement, stringWriter);
+        return stringWriter.toString();
     }
 
 }

@@ -24,24 +24,27 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 import java.util.Map;
-import javax.xml.bind.JAXBElement;
-import org.junit.Before;
-import org.junit.Test;
+
+import javax.xml.bind.*;
+import javax.xml.transform.stream.StreamSource;
+
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.w3.wsaddressing10.AttributedURIType;
+
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateResponseType;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum;
 import se.inera.intyg.common.support.stub.MedicalCertificatesStore;
-import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RegisterMedicalCertificateResponderStubTest {
 
+    private static JAXBContext jaxbContext;
     private RegisterMedicalCertificateType request;
     private AttributedURIType logicalAddress = new AttributedURIType();
 
@@ -51,19 +54,27 @@ public class RegisterMedicalCertificateResponderStubTest {
     @InjectMocks
     RegisterMedicalCertificateResponderStub stub;
 
+    @BeforeClass
+    public static void setUpOnce() throws JAXBException {
+        jaxbContext = JAXBContext.newInstance(RegisterMedicalCertificateType.class);
+    }
+
     @Before
     public void setUp() throws Exception {
         logicalAddress.setValue("FK");
-
-        ClassPathResource resource = new ClassPathResource("fk7263/fk7263.xml");
-        JAXBElement<RegisterMedicalCertificateType> jaxbElement = XmlMarshallerHelper.unmarshal(resource.getInputStream());
-        request = jaxbElement.getValue();
+        // read request from file
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+        request = unmarshaller
+            .unmarshal(new StreamSource(new ClassPathResource("fk7263/fk7263.xml").getInputStream()), RegisterMedicalCertificateType.class)
+            .getValue();
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void testName() throws Exception {
+
         request.getLakarutlatande().setLakarutlatandeId("id-1234567890");
+
         stub.registerMedicalCertificate(logicalAddress, request);
 
         verify(store).addCertificate(eq("id-1234567890"), any(Map.class));
@@ -71,7 +82,9 @@ public class RegisterMedicalCertificateResponderStubTest {
 
     @Test(expected = RuntimeException.class)
     public void testThrowsExceptionWhenIdIsError() throws Exception {
+
         request.getLakarutlatande().setLakarutlatandeId("error");
+
         stub.registerMedicalCertificate(logicalAddress, request);
     }
 

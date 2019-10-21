@@ -18,18 +18,24 @@
  */
 package se.inera.intyg.common.fkparent.model.validator;
 
-import com.helger.schematron.svrl.SVRLHelper;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
+
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
+
+import com.helger.schematron.svrl.SVRLHelper;
+
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
-import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 
 public final class InternalToSchematronValidatorTestUtil {
 
@@ -49,9 +55,12 @@ public final class InternalToSchematronValidatorTestUtil {
     }
 
     public static String getXmlFromModel(RegisterCertificateType transport) throws IOException, JAXBException {
+        StringWriter sw = new StringWriter();
+        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
         ObjectFactory objectFactory = new ObjectFactory();
-        JAXBElement<RegisterCertificateType> jaxbElement = objectFactory.createRegisterCertificate(transport);
-        return XmlMarshallerHelper.marshal(jaxbElement);
+        JAXBElement<RegisterCertificateType> requestElement = objectFactory.createRegisterCertificate(transport);
+        jaxbContext.createMarshaller().marshal(requestElement, sw);
+        return sw.toString();
     }
 
     public static int getNumberOfInternalValidationErrors(ValidateDraftResponse internalValidationResponse, List<String> ignoredFields) {

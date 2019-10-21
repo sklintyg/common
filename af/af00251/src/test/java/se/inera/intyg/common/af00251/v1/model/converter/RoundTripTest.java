@@ -21,8 +21,13 @@ package se.inera.intyg.common.af00251.v1.model.converter;
 import static org.junit.Assert.assertFalse;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import java.io.StringWriter;
 import java.util.Collection;
 import java.util.stream.Collectors;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.Marshaller;
+import javax.xml.namespace.QName;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -40,10 +45,10 @@ import se.inera.intyg.common.af00251.v1.utils.Scenario;
 import se.inera.intyg.common.af00251.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.af00251.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.support.services.BefattningService;
-import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PQType;
 
 @RunWith(Parameterized.class)
 @ContextConfiguration(classes = {BefattningService.class})
@@ -63,8 +68,8 @@ public class RoundTripTest {
     @Parameters(name = "{index}: Scenario: {0}")
     public static Collection<Object[]> data() throws ScenarioNotFoundException {
         return ScenarioFinder.getInternalScenarios("pass-*").stream()
-                .map(u -> new Object[] { u.getName(), u })
-                .collect(Collectors.toList());
+            .map(u -> new Object[]{u.getName(), u})
+            .collect(Collectors.toList());
     }
 
     /**
@@ -74,25 +79,27 @@ public class RoundTripTest {
     @Test
     public void testRoundTripInternalFirst() throws Exception {
         CustomObjectMapper objectMapper = new CustomObjectMapper();
-        ObjectFactory objectFactory = new ObjectFactory();
-
         RegisterCertificateType transport = InternalToTransport.convert(scenario.asInternalModel());
 
-        String expected = XmlMarshallerHelper.marshal(objectFactory.createRegisterCertificate(scenario.asTransportModel()));
-        String actual = XmlMarshallerHelper.marshal(objectFactory.createRegisterCertificate(transport));
+        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class, PQType.class);
+        Marshaller marshaller = jaxbContext.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        StringWriter expected = new StringWriter();
+        StringWriter actual = new StringWriter();
+        marshaller.marshal(wrapJaxb(scenario.asTransportModel()), expected);
+        marshaller.marshal(wrapJaxb(transport), actual);
 
         Diff diff = DiffBuilder
-                .compare(Input.fromString(expected))
-                .withTest(Input.fromString(actual))
-                .ignoreComments()
-                .ignoreWhitespace()
-                .checkForSimilar()
-                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
-                .build();
-
+            .compare(Input.fromString(expected.toString()))
+            .withTest(Input.fromString(actual.toString()))
+            .ignoreComments()
+            .ignoreWhitespace()
+            .checkForSimilar()
+            .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+            .build();
         if (diff.hasDifferences()) {
-            System.out.println("Expected: " + expected);
-            System.out.println("Actual: " + actual);
+            System.out.println("Expected: " + expected.toString());
+            System.out.println("Actual: " + actual.toString());
         }
         assertFalse(name + " " + diff.toString(), diff.hasDifferences());
 
@@ -109,32 +116,42 @@ public class RoundTripTest {
     @Test
     public void testRoundTripTransportFirst() throws Exception {
         CustomObjectMapper objectMapper = new CustomObjectMapper();
-        ObjectFactory objectFactory = new ObjectFactory();
-
         AF00251UtlatandeV1 internal = TransportToInternal.convert(scenario.asTransportModel().getIntyg());
 
         JsonNode tree = objectMapper.valueToTree(internal);
         JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
+
         JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
 
-        String expected = XmlMarshallerHelper.marshal(objectFactory.createRegisterCertificate(scenario.asTransportModel()));
-        String actual = XmlMarshallerHelper.marshal(objectFactory.createRegisterCertificate(InternalToTransport.convert(internal)));
+        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class, PQType.class);
+        Marshaller marshaller = jaxbContext.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        StringWriter expected = new StringWriter();
+        StringWriter actual = new StringWriter();
+        marshaller.marshal(wrapJaxb(scenario.asTransportModel()), expected);
+        marshaller.marshal(wrapJaxb(InternalToTransport.convert(internal)), actual);
 
         Diff diff = DiffBuilder
-                .compare(Input.fromString(expected))
-                .withTest(Input.fromString(actual))
-                .ignoreComments()
-                .ignoreWhitespace()
-                .checkForSimilar()
-                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
-                .build();
+            .compare(Input.fromString(expected.toString()))
+            .withTest(Input.fromString(actual.toString()))
+            .ignoreComments()
+            .ignoreWhitespace()
+            .checkForSimilar()
+            .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+            .build();
 
         if (diff.hasDifferences()) {
-            System.out.println("Expected: " + expected);
-            System.out.println("Actual: " + actual);
+            System.out.println("Expected: " + expected.toString());
+            System.out.println("Actual: " + actual.toString());
         }
 
         assertFalse(name + " " + diff.toString(), diff.hasDifferences());
     }
 
+    private JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {
+        JAXBElement<?> jaxbElement = new JAXBElement<>(
+            new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3", "RegisterCertificate"),
+            RegisterCertificateType.class, ws);
+        return jaxbElement;
+    }
 }
