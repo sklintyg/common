@@ -1,9 +1,11 @@
 <div id="error-panel">
   <img src="/web/webjars/common/webcert/components/wcError/fel-1.svg" alt="">
 
+  <h2 ng-if="errorTitle">{{errorTitle}}</h2>
   <p dynamic-label key="{{error}}"></p>
+  <p ng-if="errorMsg">{{errorMsg}}</p>
   <p ng-if="certificateId">
     Ange intygets ID för snabbare hantering: {{certificateId}}
   </p>
-
+  <a ng-if="redirectingLink" href="/">{{redirectingLink}}</a>
 </div>

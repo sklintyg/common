@@ -25,12 +25,15 @@ angular.module('common').directive('wcError',
                 restrict: 'E',
                 transclude: false,
                 scope: {
-                    error: '='
+                    error: '=',
+                    errorTitle: '@',
+                    errorMsg: '@',
+                    redirectingLink: '@'
                 },
                 templateUrl: '/web/webjars/common/webcert/components/wcError/wcError.directive.html',
-                link: function(scope, element, attrs, ctrl) {
-                    if(scope.error !== 'common.error.authorization_problem_sekretessmarkering_enhet' && scope.error !== 'common.error.authorization_problem_sekretessmarkering') {
-                      scope.certificateId = $stateParams.certificateId;
+                link: function($scope, element, attrs, ctrl) {
+                    if($scope.error !== 'common.error.authorization_problem_sekretessmarkering_enhet' && $scope.error !== 'common.error.authorization_problem_sekretessmarkering') {
+                      $scope.certificateId = $stateParams.certificateId;
                     }
                 }
             };
