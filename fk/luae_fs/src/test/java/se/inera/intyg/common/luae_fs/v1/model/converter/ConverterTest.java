@@ -23,20 +23,13 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-import com.helger.schematron.svrl.SVRLHelper;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.io.*;
 import java.net.URL;
 import java.util.stream.Collectors;
-import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
+
+import javax.xml.bind.*;
 import javax.xml.transform.stream.StreamSource;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,21 +38,27 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+import com.helger.schematron.svrl.SVRLHelper;
+
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import se.inera.intyg.common.fkparent.model.converter.RegisterCertificateTestValidator;
-import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
-import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
 import se.inera.intyg.common.luae_fs.v1.rest.LuaefsModuleApiV1;
-import se.inera.intyg.common.luae_fs.v1.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.services.BefattningService;
-import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
-import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
+import se.inera.intyg.common.fkparent.model.converter.RegisterCertificateTestValidator;
+import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
+import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
+import se.inera.intyg.common.luae_fs.v1.validator.InternalDraftValidatorImpl;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
@@ -135,9 +134,12 @@ public class ConverterTest {
     }
 
     private String getXmlFromModel(RegisterCertificateType transport) throws IOException, JAXBException {
+        StringWriter sw = new StringWriter();
+        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
         ObjectFactory objectFactory = new ObjectFactory();
-        JAXBElement<RegisterCertificateType> jaxbElement = objectFactory.createRegisterCertificate(transport);
-        return XmlMarshallerHelper.marshal(jaxbElement);
+        JAXBElement<RegisterCertificateType> requestElement = objectFactory.createRegisterCertificate(transport);
+        jaxbContext.createMarshaller().marshal(requestElement, sw);
+        return sw.toString();
     }
 
     private String getJsonFromTransport(RegisterCertificateType transport) throws ConverterException {

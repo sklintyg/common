@@ -20,9 +20,15 @@ package se.inera.intyg.common.ts_bas.v6.model.converter;
 
 import static org.junit.Assert.assertFalse;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import java.io.StringWriter;
 import java.util.Collection;
 import java.util.stream.Collectors;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.Marshaller;
+import javax.xml.namespace.QName;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -33,15 +39,17 @@ import org.springframework.test.context.TestContextManager;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.Diff;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
 import se.inera.intyg.common.support.services.BefattningService;
-import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
 import se.inera.intyg.common.ts_bas.v6.utils.Scenario;
 import se.inera.intyg.common.ts_bas.v6.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_bas.v6.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 
 @RunWith(Parameterized.class)
 @ContextConfiguration(classes = {BefattningService.class})
@@ -61,8 +69,8 @@ public class RoundTripTest {
     @Parameters(name = "{index}: Scenario: {0}")
     public static Collection<Object[]> data() throws ScenarioNotFoundException {
         return ScenarioFinder.getInternalScenarios("valid-*").stream()
-                .map(u -> new Object[] { u.getName(), u })
-                .collect(Collectors.toList());
+            .map(u -> new Object[]{u.getName(), u})
+            .collect(Collectors.toList());
     }
 
     /**
@@ -72,20 +80,22 @@ public class RoundTripTest {
     @Test
     public void testRoundTripInternalFirst() throws Exception {
         CustomObjectMapper objectMapper = new CustomObjectMapper();
-        ObjectFactory objectFactory = new ObjectFactory();
-
         RegisterCertificateType transport = InternalToTransport.convert(scenario.asInternalModel());
 
-        String expected = XmlMarshallerHelper.marshal(objectFactory.createRegisterCertificate(scenario.asRivtaV3TransportModel()));
-        String actual = XmlMarshallerHelper.marshal(objectFactory.createRegisterCertificate(transport));
+        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
+        Marshaller marshaller = jaxbContext.createMarshaller();
+        StringWriter expected = new StringWriter();
+        StringWriter actual = new StringWriter();
+        marshaller.marshal(wrapJaxb(scenario.asRivtaV3TransportModel()), expected);
+        marshaller.marshal(wrapJaxb(transport), actual);
 
         Diff diff = DiffBuilder
-                .compare(Input.fromString(actual))
-                .withTest(Input.fromString(expected))
-                .ignoreComments()
-                .ignoreWhitespace()
-                .checkForSimilar()
-                .build();
+            .compare(Input.fromString(actual.toString()))
+            .withTest(Input.fromString(expected.toString()))
+            .ignoreComments()
+            .ignoreWhitespace()
+            .checkForSimilar()
+            .build();
         assertFalse(diff.toString(), diff.hasDifferences());
 
         JsonNode tree = objectMapper.valueToTree(TransportToInternal.convert(transport.getIntyg()));
@@ -101,26 +111,33 @@ public class RoundTripTest {
     @Test
     public void testRoundTripTransportFirst() throws Exception {
         CustomObjectMapper objectMapper = new CustomObjectMapper();
-        ObjectFactory objectFactory = new ObjectFactory();
-
         TsBasUtlatandeV6 internal = TransportToInternal.convert(scenario.asRivtaV3TransportModel().getIntyg());
 
         JsonNode tree = objectMapper.valueToTree(internal);
         JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
         JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
 
-
-        String expected = XmlMarshallerHelper.marshal(objectFactory.createRegisterCertificate(scenario.asRivtaV3TransportModel()));
-        String actual = XmlMarshallerHelper.marshal(objectFactory.createRegisterCertificate(InternalToTransport.convert(internal)));
+        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
+        Marshaller marshaller = jaxbContext.createMarshaller();
+        StringWriter expected = new StringWriter();
+        StringWriter actual = new StringWriter();
+        marshaller.marshal(wrapJaxb(scenario.asRivtaV3TransportModel()), expected);
+        marshaller.marshal(wrapJaxb(InternalToTransport.convert(internal)), actual);
 
         Diff diff = DiffBuilder
-                .compare(Input.fromString(actual))
-                .withTest(Input.fromString(expected))
-                .ignoreComments()
-                .ignoreWhitespace()
-                .checkForSimilar()
-                .build();
+            .compare(Input.fromString(actual.toString()))
+            .withTest(Input.fromString(expected.toString()))
+            .ignoreComments()
+            .ignoreWhitespace()
+            .checkForSimilar()
+            .build();
         assertFalse(diff.toString(), diff.hasDifferences());
     }
 
+    private JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {
+        JAXBElement<?> jaxbElement = new JAXBElement<>(
+            new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3", "RegisterCertificate"),
+            RegisterCertificateType.class, ws);
+        return jaxbElement;
+    }
 }
