@@ -83,7 +83,7 @@ angular.module('common').factory('common.UserModel', [
 
         var paramValue = this.user.parameters[paramName];
         if (!ObjectHelper.isDefined(paramValue)) {
-          $log.error('Invalid paramName');
+          $log.debug('Undefined value for paramName ' + paramName);
           return null;
         }
 
