@@ -35,7 +35,7 @@ angular.module('common').directive('dynamiclink', ['$log', '$rootScope', '$sce',
 
                         if (angular.isDefined(value)) {
                             scope.url = value.url;
-                            scope.text = $sce.trustAsHtml(value.text) + (!!value.target ? ' <i class="icon icon-external_link"></i>' : '');
+                            scope.text = $sce.trustAsHtml(value.text + (!!value.target ? ' <i class="icon icon-external_link"></i>' : ''));
                             scope.tooltip = value.tooltip;
                             scope.target = value.target;
                         } else {
