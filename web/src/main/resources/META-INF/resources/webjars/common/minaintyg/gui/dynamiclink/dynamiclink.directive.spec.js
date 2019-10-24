@@ -29,7 +29,7 @@ describe('dynamiclink', function() {
         $scope.$digest();
 
         expect(el.html()).toContain('href="http://some.url"');
-        expect(el.html()).toContain('>real text<');
+        expect(el.html()).toContain('>real text');
         expect(el.html()).toContain('title="My tooltip!"');
         expect(el.html()).toContain('target="_blank"');
     });
