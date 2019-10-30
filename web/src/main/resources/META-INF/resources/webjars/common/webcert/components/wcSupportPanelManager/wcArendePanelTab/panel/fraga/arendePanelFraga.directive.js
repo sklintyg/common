@@ -44,6 +44,14 @@ angular.module('common').directive('arendePanelFraga',
                         // the name of the field is visible after scroll.
                         anchorScroll.scrollIntygContainerTo(target, parseInt($('#certificate-content-container').offset().top + 60, 10));
                     };
+
+                    scope.getSvaraSenast = function() {
+                        if(scope.arendeListItem.arende.paminnelser.length <= 0) {
+                            return scope.arendeListItem.arende.fraga.sistaDatumForSvar;
+                        }
+                        return scope.arendeListItem.arende.paminnelser[0].sistaDatumForSvar;
+                    };
+
                 }
             };
         }]);

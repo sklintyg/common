@@ -34,8 +34,8 @@
 
     </div>
 
-    <div class="arende-svara-senast" ng-if="arendeListItem.arende.fraga.status != 'CLOSED' && arendeListItem.arende.fraga.sistaDatumForSvar">
-      <i class="material-icons">date_range</i> Svara senast: {{arendeListItem.arende.fraga.sistaDatumForSvar}}
+    <div class="arende-svara-senast" ng-if="arendeListItem.arende.fraga.status != 'CLOSED' && getSvaraSenast()">
+      <i class="material-icons">date_range</i> Svara senast: {{getSvaraSenast()}}
     </div>
 
   </div>
