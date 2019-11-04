@@ -2,4 +2,8 @@ arende-panel {
   h3 {
     @extend %wc-typo-06;
   }
+
+  arende-panel-svar {
+    padding-bottom: 28px;
+  }
 }
