@@ -62,14 +62,14 @@
 
       <div class="fold-animation fold-slide-animation ifyllnadsstod"
            ng-if="viewstate.periods[field].valid">
-        Arbetstid: {{viewstate.periods[field].hoursPerWeek | number : 2}} timmar/vecka i
-        {{viewstate.periods[field].days}} dagar.
+        Arbetstid: {{viewstate.periods[field].hoursPerWeek | number : 2}} timmar/vecka
+        <span ng-if="viewstate.totalDays > 0"> i {{viewstate.periods[field].days}} dagar.</span>
       </div>
     </div>
 
     <ue-validation-list field-type="sjukskrivning_period" validations="overlapValidations"></ue-validation-list>
     
-    <div ng-if="viewstate.totalDays && !intygIsLocked" class="fold-animation fold-slide-animation ifyllnadsstod period">
+    <div ng-if="viewstate.totalDays > 0 && !intygIsLocked" class="fold-animation fold-slide-animation ifyllnadsstod period">
       <i class="material-icons">lightbulb_outline</i>Intyget motsvarar en period på {{viewstate.totalDays}} dagar.
     </div>
 
