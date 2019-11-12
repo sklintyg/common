@@ -97,7 +97,7 @@ angular.module('luae_na').config(function($stateProvider) {
             }
         }).
         state('webcert.fragasvar.luae_na', {
-            data: { defaultActive : 'enhet-arenden', intygType: 'luae_na' },
+            data: { defaultActive : 'index', intygType: 'luae_na' },
             url: '/fragasvar/luae_na/:intygTypeVersion/:certificateId',
             resolve: {
                 ViewState: 'luae_na.IntygController.ViewStateService',

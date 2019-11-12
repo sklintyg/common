@@ -97,7 +97,7 @@ angular.module('luse').config(function($stateProvider) {
             }
         }).
         state('webcert.fragasvar.luse', {
-            data: { defaultActive : 'enhet-arenden', intygType: 'luse' },
+            data: { defaultActive : 'index', intygType: 'luse' },
             url: '/fragasvar/luse/:intygTypeVersion/:certificateId',
             resolve: {
                 ViewState: 'luse.IntygController.ViewStateService',
