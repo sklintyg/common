@@ -55,8 +55,10 @@ angular.module('common').factory('common.anchorScrollService', ['$location', '$l
      */
     function _scrollIntygContainerTo(anchorName, offset) {
         var intygContainerId = 'certificate-content-container';
+        var elementIntygContainer = angular.element.find('#' + _escape(intygContainerId))[0];
 
         var elementToScrollTo = angular.element.find('#' + _escape(anchorName))[0];
+        var elementHeader =  document.getElementsByClassName('ue-kategori__heading')[0];
 
         if (!elementToScrollTo) {
             $log.warn('Unable to find scrollTo target "' + anchorName + '"');
@@ -67,7 +69,7 @@ angular.module('common').factory('common.anchorScrollService', ['$location', '$l
             containerId: intygContainerId,
             duration: 500,
             easing: 'easeInOutQuart',
-            offset: offset || 0
+            offset: offset || window.innerHeight - elementIntygContainer.clientHeight + elementHeader.clientHeight * 2 // header is added twice for padding
         };
 
         smoothScrollService(elementToScrollTo, options);

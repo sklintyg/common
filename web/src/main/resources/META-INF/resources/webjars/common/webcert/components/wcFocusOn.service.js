@@ -35,7 +35,7 @@ angular
                     if (element.length > 0) {
                         element.focus();
 
-                        anchorScrollService.scrollIntygContainerTo(name, 50);
+                        anchorScrollService.scrollIntygContainerTo(name, null);
                     }
                 });
             });
