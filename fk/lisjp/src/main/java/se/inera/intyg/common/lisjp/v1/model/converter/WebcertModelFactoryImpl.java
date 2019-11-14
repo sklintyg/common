@@ -93,9 +93,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LisjpUtlatan
 
         LisjpUtlatandeV1.Builder templateBuilder = lisjpUtlatandeV1.toBuilder();
         GrundData grundData = lisjpUtlatandeV1.getGrundData();
-        if (copyData.getIntygTypeVersion() != null) {
-            templateBuilder.setTextVersion(copyData.getIntygTypeVersion());
-        }
+        templateBuilder.setTextVersion(copyData.getIntygTypeVersion());
 
         populateWithId(templateBuilder, copyData.getCertificateId());
         WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
