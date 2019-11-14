@@ -1,5 +1,9 @@
 <div ui-view="header" class="webcert-workarea-intyg-header"></div>
 <div class="webcert-workarea-wrapper">
+
+  <!-- page error message -->
+  <wc-error error="viewState.common.activeErrorMessageKey" ng-if="viewState.common.activeErrorMessageKey && viewState.common.doneLoading"></wc-error>
+
   <div class="webcert-workarea-hflex-container centered-constrained-content" id="view-fk7263" ng-show="!viewState.common.activeErrorMessageKey">
     <div id="certificate-content-container" class="webcert-workarea-intyg container-fluid">
       <!-- fk7263-ns -->
