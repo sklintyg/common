@@ -73,13 +73,14 @@ angular.module('common').directive('fmbVarning', ['$log', '$filter', 'common.fmb
                 }
             }
 
-            $scope.$on('diagnos.changed', function(event, data){
+            // fmb warning deactivated
+            /**$scope.$on('diagnos.changed', function(event, data){
                 requestFMBVarningUpdate();
             });
 
             $scope.$on('sjukskrivning.periodUpdated', function(event, data){
                 requestFMBVarningUpdate();
-            });
+            });**/
 
         }
     };
