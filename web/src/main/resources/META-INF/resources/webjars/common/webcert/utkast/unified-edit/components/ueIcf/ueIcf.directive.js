@@ -63,7 +63,7 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
                             scope.kategorier = {};
                             scope.model[scope.config.kategoriProp] = [];
                         }
-                        scope.diagnoser = diagnoser;
+                        scope.diagnoser = angular.copy(diagnoser);
                     }
                 }
             }, true);
