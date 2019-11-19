@@ -1,0 +1,13 @@
+<ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]" class="ue-del-fraga">
+  <div class="form-horizontal">
+    <ue-label config="::config.label" model="::model"></ue-label>
+    <div data-ng-repeat="choice in ::config.choices">
+      <wc-checkbox-wrapper>
+        <input ng-attr-id="{{::config.modelProp}}-{{::choice|ueDomIdFilter}}" type="checkbox" ng-model="model[config.modelProp][choice]" ng-change="updateValidation()" ng-disabled="isDisabled(choice)">
+        <label ng-attr-for="{{::config.modelProp}}-{{::choice|ueDomIdFilter}}">
+          <span dynamic-label key="{{::config.code}}.{{::choice}}.RBK"></span>
+        </label>
+      </wc-checkbox-wrapper>
+    </div>
+  </div>
+</ue-validation-wrapper>
