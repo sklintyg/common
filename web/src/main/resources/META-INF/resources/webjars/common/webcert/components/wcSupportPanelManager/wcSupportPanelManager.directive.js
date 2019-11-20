@@ -90,7 +90,7 @@ angular.module('common').directive('wcSupportPanelManager', ['$rootScope', 'comm
                     tab.minimized = tab.minimized || {};
 
                     if(tab.id === 'wc-arende-panel-tab') {
-                        tab.minimized.icon = 'message';
+                        tab.minimized.icon = 'forum';
                     } else if(tab.id === 'wc-help-tips-panel-tab') {
                         tab.minimized.icon = 'icon-wc-ikon-24';
                         tab.minimized.iconIsCustom = true;

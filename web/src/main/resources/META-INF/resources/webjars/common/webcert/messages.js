@@ -812,7 +812,7 @@
             'common.supportpanel.arende.title': 'Ärendekommunikation',
             'common.supportpanel.arende.tooltip': 'Hantera kompletteringsbegäran, frågor och svar.',
             'common.supportpanel.arende.title.minimized': 'Ärenden',
-            'common.supportpanel.arende.tooltip.minimized': 'Öppnar fliken med ärendekommunikation',
+            'common.supportpanel.arende.tooltip.minimized': 'Öppnar fliken med ärendekommunikationen.',
             'common.supportpanel.help.title': 'Om intyget',
             'common.supportpanel.help.tooltip': 'Läs om intyget.',
             'common.supportpanel.help.title.minimized': 'Om intyget',
