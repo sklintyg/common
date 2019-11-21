@@ -74,6 +74,9 @@ angular.module('common').directive('wcIntygButtonBar', ['$rootScope', '$timeout'
                             messageService.getProperty('common.ersatt.unhandledkomplettering.tooltip');
                     } else {
                         $scope.ersattButtonDisabled = false;
+                        $scope.ersattBtnTooltipText =
+                            messageService.getProperty('common.ersatt.tooltip');
+
                     }
                 }
 
