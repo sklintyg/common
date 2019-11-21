@@ -230,7 +230,7 @@
             'draft.notifyready.button': 'Markera klart för signering ',
             'draft.notifyready.button.tooltip': 'Utkastet sparas och markeras klart för signering.',
             'draft.notifyready.text': 'Utkastet är sparat och markerat klart för signering.',
-            'modal.title.notifyjournalsystem': 'Markera utkast som klart för signering',
+            'modal.title.notifyjournalsystem': 'Markera utkast klart för signering',
 
 
             'intyg.makulera.help': 'Orsak till makulering ska anges eftersom Försäkringskassans handläggare behöver den informationen för att bedöma patientens rätt till ersättning.',
