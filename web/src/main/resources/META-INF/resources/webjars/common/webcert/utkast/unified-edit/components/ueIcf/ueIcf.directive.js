@@ -56,6 +56,9 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
                         if (diagnoser.length > 0 && !angular.equals(diagnoser, scope.diagnoser)) {
                             IcfProxy.getIcf(diagnoser, function(kategorier) {
                                 scope.kategorier = kategorier;
+                                if (!scope.hasICFDiagnos()) {
+                                    scope.model[scope.config.kategoriProp] = [];
+                                }
                             }, function() {
                                 scope.kategorier = {};
                             });
