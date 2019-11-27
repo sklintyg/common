@@ -9,11 +9,7 @@
     {{::forwardBtnText}}
   </wc-button>
 
-  <wc-checkbox-wrapper>
-    <input id="mark-as-vidarebefordrad" type="checkbox" wc-ignore-dirty ng-disabled="viewState.common.vidarebefordraInProgress"
-           ng-model="viewState.draftModel.vidarebefordrad" ng-change="onVidarebefordradChange()" />
-    <label for="mark-as-vidarebefordrad">Vidarebefordrad</label>
-  </wc-checkbox-wrapper>
+  <span class="icon-wrapper" ng-if="viewState.draftModel.vidarebefordrad"><i class="material-icons check-color">check</i><label class="icon-text">Vidarebefodrat</label></span>
 
   <wc-toggle
       data-ng-if="!viewState.common.intyg.isComplete"

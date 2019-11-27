@@ -11,5 +11,17 @@ wc-utkast-footer-vidarebefordra {
       flex: 1 1 100%;
       text-align: right;
     }
+    .material-icons.check-color {
+      color: $wc-color-10;
+    }
 
+    .icon-wrapper {
+      display: inherit;
+    }
+
+  .icon-text {
+    padding: 0 0 0 5px;
+    font-weight: normal;
+    margin: auto;
+  }
 }
