@@ -228,7 +228,7 @@
             'draft.notify.hide-missing.button': 'Dölj information som saknas',
 
             'draft.notifyready.button': 'Markera klart för signering ',
-            'draft.notifyready.button.tooltip': 'Utkastet sparas och markeras klart för signering.',
+            'draft.notifyready.button.tooltip': 'Utkastet markeras som klar för signering.',
             'draft.notifyready.text': 'Utkastet är sparat och markerat klart för signering.',
             'modal.title.notifyjournalsystem': 'Markera utkast som klart för signering',
 
