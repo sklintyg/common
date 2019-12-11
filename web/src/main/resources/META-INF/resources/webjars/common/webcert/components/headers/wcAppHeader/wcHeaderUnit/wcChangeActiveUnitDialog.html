@@ -27,11 +27,11 @@
             </div>
 
             <div class="col-xs-4 enhet-stat" id="fraga-svar-stat-{{enhet.id}}">
-              {{ findFragaSvar(vg.id, enhet.id) }} ({{ findAllFragaSvar(vg.id, enhet.id) }})
+              {{ findFragaSvar(vg.id, enhet.id) }} (total {{ findAllFragaSvar(vg.id, enhet.id) }})
             </div>
 
             <div class="col-xs-3 enhet-stat" id="intyg-stat-{{enhet.id}}">
-              {{ findIntyg(vg.id, enhet.id) }} ({{ findAllIntyg(vg.id, enhet.id) }})
+              {{ findIntyg(vg.id, enhet.id) }} (total {{ findAllIntyg(vg.id, enhet.id) }})
             </div>
 
           </div>
