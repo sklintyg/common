@@ -8,7 +8,7 @@
       <i ng-switch-when="true" class="icon icon-clone pull-left"></i>
     </div>
     <div class="certificate-header-wrapper">
-      <div class="cert-type-title">
+      <div class="cert-type-title" ng-class="{'center' : !certMetaModel.complementaryInfo}">
         <h1 ng-if="onViewClick"><a ng-click="onViewClick({cert:certMetaModel})">{{getModuleName()}}</a></h1>
         <h1 ng-if="!onViewClick">{{getModuleName()}}</h1>
       </div>
@@ -21,9 +21,6 @@
           <span ng-if="certMetaModel.complementaryInfo" ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
             {{certMetaModel.complementaryInfo}}
           </span>
-          <span ng-if="!certMetaModel.complementaryInfo" ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
-            <p dynamic-label key="certificates.label.dash"></p>
-          </span>
         </span>
         <span ng-if="certMetaModel.replacedBy.relationKod === 'KOMPLT'" ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
           <p dynamic-label key="certificates.label.completed"></p>
@@ -35,7 +32,7 @@
       </div>
     </div>
 
-    <div class="certificate-issued-date">
+    <div class="certificate-issued-date" ng-class="{'center' : !certMetaModel.complementaryInfo}">
       <span class="visible-xs">Utfärdat</span>
       <span class="hidden-xs">Intyg utfärdat</span>
       <b class="date">{{certMetaModel.sentDate | date:'shortDate'}}</b>
