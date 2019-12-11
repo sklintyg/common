@@ -12,7 +12,7 @@
 
       <div ng-if="model.showLamnaOvrigaUpplysningar">
         <h4>
-          Ange varför du inte kan komplettera med ett nytt intyg:
+          Ange varför intyget inte kan kompletteras med ett nytt intyg:
         </h4>
 
         <wc-radio-wrapper>
@@ -30,9 +30,9 @@
         <div class="form-group radio-indent" ng-if="model.answerWithIntyg === true">
           <div class="form-group">
             <span class="required icon-wc-ikon-38" ng-show="model.answerWithIntyg === undefined || (model.answerWithIntyg === true && !model.ovrigaUpplysningar) || (model.answerWithIntyg === false && !model.meddelandeText)"></span>
-            Kommentera varför du inte kan ange ytterligare medicinsk information.
+            Kommentera varför det inte är möjligt att ange ytterligare medicinsk information.
             När du skickar svaret skapas en kopia av intyget med din kommentar i fältet "Övriga upplysningar".
-            Signera och skicka intyget när du är klar.
+            Intyget måste därefter signeras och skickas till Försäkringskassan.
           </div>
           <div class="form-group ovrigt-place-counter">
             <textarea id="komplettering-modal-dialog-ovriga-upplysningar"
