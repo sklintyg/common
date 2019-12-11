@@ -7,8 +7,10 @@
         <arende-vidarebefordra arende-list-item="arendeListItem" panel-id="{{panelId}}" parent-view-state="parentViewState"></arende-vidarebefordra>
 
         <!-- list of paminnelser -->
-        <div ng-if="arendeListItem.arende.fraga.status != 'CLOSED'" ng-repeat="paminnelse in arendeListItem.arende.paminnelser | orderBy:'+senasteHandelse'">
-            <arende-paminnelse paminnelse="paminnelse" parent-view-state="parentViewState"></arende-paminnelse>
+        <div class="paminnelseList" ng-if="arendeListItem.arende.paminnelser.length > 0">
+            <div ng-if="arendeListItem.arende.fraga.status != 'CLOSED'" ng-repeat="paminnelse in arendeListItem.arende.paminnelser | orderBy:'+senasteHandelse'">
+                <arende-paminnelse paminnelse="paminnelse" parent-view-state="parentViewState"></arende-paminnelse>
+            </div>
         </div>
 
         <arende-panel-fraga arende-panel-fraga arende-list-item="arendeListItem" panel-id="{{panelId}}" parent-view-state="parentViewState"></arende-panel-fraga>
