@@ -1,6 +1,11 @@
 mi-compact-certificate-header {
   display: block;
 
+  .center {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
   .mi-compact-certificate-header {
     background: $mi-intyg-header-bg;
     color: $mi-intyg-header-color;
@@ -45,8 +50,8 @@ mi-compact-certificate-header {
       cursor: pointer;
     }
     h1 {
-      margin: 0;
       padding-top: 3px;
+      margin: 0;
     }
   }
 

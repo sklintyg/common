@@ -43,7 +43,7 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                 var today = moment().format('YYYY-MM-DD');
 
                 var config = [
-                    kategori(categoryIds[7], 'KAT_7.RBK', 'KAT_7.HLP', {}, [
+                    kategori(categoryIds[7], 'KAT_7.RBK', 'KAT_7.HLP', {signingDoctor: true}, [
                         fraga(1, 'FRG_10.RBK', 'FRG_10.HLP',
                             {
                                 validationContext: {
@@ -103,7 +103,7 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                         )
                     ]),
                     // Sysselsättning
-                    kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', {signingDoctor: true}, [
+                    kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', {}, [
                         fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', { required: true, requiredProp: ['sysselsattning["NUVARANDE_ARBETE"]']}, [{
                             type: 'ue-checkgroup',
                             disabled: true,
