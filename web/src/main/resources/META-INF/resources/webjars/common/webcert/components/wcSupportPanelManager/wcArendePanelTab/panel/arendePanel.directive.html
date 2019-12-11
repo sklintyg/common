@@ -1,9 +1,5 @@
 <div id="arende-{{panelId}}-{{arendeListItem.arende.fraga.internReferens}}">
 
-    <arende-panel-svar arende-list="arendeList" arende-list-item="arendeListItem"
-                       panel-id="{{panelId}}" parent-view-state="parentViewState">
-    </arende-panel-svar>
-
     <div class="card">
         <arende-panel-header header-type="fraga" show-hantera="config.intygContext.isSigned && ((unhandledKompletteringCount > 0 || arendeSvar.answeredWithIntyg) || unhandledAdminFragor > 0) && !showAnswer()" arende-list-item="arendeListItem" parent-view-state="parentViewState">
         </arende-panel-header>
@@ -17,5 +13,10 @@
 
         <arende-panel-fraga arende-panel-fraga arende-list-item="arendeListItem" panel-id="{{panelId}}" parent-view-state="parentViewState"></arende-panel-fraga>
     </div>
+    <arende-panel-svar arende-list="arendeList" arende-list-item="arendeListItem"
+                       panel-id="{{panelId}}" parent-view-state="parentViewState">
+    </arende-panel-svar>
 </div>
+
 <div data-ng-if="!lastCard" class="card-divider"></div>
+
