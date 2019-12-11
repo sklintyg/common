@@ -68,7 +68,7 @@ angular.module('common').directive('arendeNew',
                                 }
                                 if (data.amne !== undefined) {
                                     angular.forEach($scope.arendeNewModel.topics, function(topic) {
-                                        if (topic.value === data.amne) {
+                                        if (topic.id === data.amne) {
                                             $scope.arendeNewModel.chosenTopic = topic.id;
                                             return;
                                         }
