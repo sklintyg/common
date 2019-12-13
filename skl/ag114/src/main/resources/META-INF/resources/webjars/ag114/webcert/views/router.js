@@ -97,7 +97,7 @@ angular.module('ag114').config(function($stateProvider) {
             }
         }).
         state('webcert.fragasvar.ag114', {
-            data: { defaultActive : 'enhet-arenden', intygType: 'ag114'  },
+            data: { defaultActive : 'index', intygType: 'ag114'  },
             url: '/fragasvar/ag114/:intygTypeVersion/:certificateId',
             resolve: {
                 ViewState: 'ag114.IntygController.ViewStateService',

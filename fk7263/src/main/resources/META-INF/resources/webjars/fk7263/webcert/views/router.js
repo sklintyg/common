@@ -75,7 +75,7 @@ angular.module('fk7263').config(function($stateProvider) {
             }
         }).
         state('webcert.fragasvar.fk7263', {
-            data: { defaultActive : 'enhet-arenden', intygType: 'fk7263' },
+            data: { defaultActive : 'index', intygType: 'fk7263' },
             url: '/fragasvar/fk7263/:intygTypeVersion/:certificateId',
             resolve: {
                 supportPanelConfigFactory: 'fk7263.supportPanelConfigFactory',
