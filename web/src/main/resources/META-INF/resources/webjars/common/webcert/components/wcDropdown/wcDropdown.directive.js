@@ -111,7 +111,11 @@ angular.module('common').directive('wcDropdown',
                         if (index === null) {
                             return null;
                         }
-                        return scope.items[index].label;
+                        if (scope.items[index].number >= 0) {
+                            return scope.items[index].label + ' (' + scope.items[index].number + ')';
+                        } else {
+                            return scope.items[index].label;
+                        }
                     }
 
                     function getIndexForId(id) {

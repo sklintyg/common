@@ -12,15 +12,16 @@
   <i class="material-icons md-18">{{isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</i>
 </div>
 
-<div ng-show="isOpen" class="plate ng-hide" role="listbox" id="wcdropdown-{{id}}">
+<div ng-show="isOpen" class="plate ng-hide" ng-class="{ numberPlate : items[0].number >= 0 }" role="listbox" id="wcdropdown-{{id}}">
   <div ng-repeat="item in items"
        ng-click="select(item)"
        role="option"
        aria-selected="{{selectedItemId === item.id}}"
-       ng-class="{selected : selectedItemId === item.id}"
+       ng-class="{selected : selectedItemId === item.id} && {subcategory : item.isSubcategory}"
        ng-switch="useDynamicLabel"
        ng-attr-id="{{id + '-' + item.id}}">
     <span ng-switch-when="true" dynamic-label key="{{ item.label }}"></span>
     <span ng-switch-when="false">{{ item.label }}</span>
+    <span ng-if="item.number >= 0"> ({{item.number}})</span>
   </div>
 </div>

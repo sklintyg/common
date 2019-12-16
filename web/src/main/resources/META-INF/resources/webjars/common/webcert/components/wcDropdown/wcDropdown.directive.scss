@@ -2,6 +2,14 @@ wc-dropdown {
     position: relative;
     display: block;
 
+    .subcategory {
+        padding-left: 25px !important;
+    }
+
+    .numberPlate {
+        width: max-content;
+    }
+
     .dropdown-label {
         display: flex;
         padding: 9px 10px;
