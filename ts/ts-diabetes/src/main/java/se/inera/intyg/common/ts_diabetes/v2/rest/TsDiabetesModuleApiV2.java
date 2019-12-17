@@ -249,7 +249,7 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
         try {
             Utlatande utlatande = this.getInternal(internalModel);
             String postadress = utlatande.getGrundData().getPatient().getPostadress();
-            String postort = utlatande.getGrundData().getPatient().getPostadress();
+            String postort = utlatande.getGrundData().getPatient().getPostort();
             String postnummer = utlatande.getGrundData().getPatient().getPostnummer();
 
             WebcertModelFactoryUtil.populateWithPatientInfo(utlatande.getGrundData(), patient);
