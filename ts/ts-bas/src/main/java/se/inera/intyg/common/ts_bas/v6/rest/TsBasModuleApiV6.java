@@ -163,7 +163,7 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
         try {
             Utlatande utlatande = this.getInternal(internalModel);
             String postadress = utlatande.getGrundData().getPatient().getPostadress();
-            String postort = utlatande.getGrundData().getPatient().getPostadress();
+            String postort = utlatande.getGrundData().getPatient().getPostort();
             String postnummer = utlatande.getGrundData().getPatient().getPostnummer();
 
             WebcertModelFactoryUtil.populateWithPatientInfo(utlatande.getGrundData(), patient);
