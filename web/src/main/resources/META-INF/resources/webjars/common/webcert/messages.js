@@ -640,6 +640,7 @@
             'common.validation.ue-year-picker.invalid_format': 'Ange ett år på formatet åååå.',
             'common.validation.ue-checkbox-date.invalid_format': 'Ange datum i formatet åååå-mm-dd.',
             'common.validation.ue-checkgroup.empty': 'Välj minst ett alternativ.',
+            'common.validation.ue-checkgroup-disabled.empty': 'Välj minst ett alternativ.',
             'common.validation.ue-checkgroup.incorrect_combination': 'Välj ett alternativ.',
             'common.validation.ue-radio.empty': 'Välj ett alternativ.',
             'common.validation.ue-radio.incorrect_combination': 'Välj ett alternativ.',
