@@ -28,8 +28,7 @@ angular.module('common').directive('wcNewPersonIdMessage', [
         return {
             restrict: 'E',
             scope: {
-                patient: '=',
-                isIntyg: '='
+                patient: '='
             },
             controller: function($scope) {
 
@@ -71,7 +70,15 @@ angular.module('common').directive('wcNewPersonIdMessage', [
                     }
                 }
 
-                if ($scope.isIntyg) {
+                var beforeAlternateSsn = UserModel.getIntegrationParam('beforeAlternateSsn');
+                if (!ObjectHelper.isEmpty(beforeAlternateSsn)) {
+                    $scope.show = false;
+                    var alternatePatientSSn = UserModel.getIntegrationParam('alternateSsn');
+                    var intygPersonnummer = beforeAlternateSsn;
+                    if (!ObjectHelper.isEmpty(alternatePatientSSn)) {
+                        decideMessageToShow(intygPersonnummer, alternatePatientSSn);
+                    }
+                } else {
                     var updateShowFlag = function(currentPatient) {
                         $scope.show = false;
                         var alternatePatientSSn = UserModel.getIntegrationParam('alternateSsn');
@@ -84,14 +91,6 @@ angular.module('common').directive('wcNewPersonIdMessage', [
                     // Patient comes from intyg which is loaded async
                     $scope.$watch('patient', updateShowFlag, true);
                     updateShowFlag();
-                }
-                else {
-                    $scope.show = false;
-                    var alternatePatientSSn = UserModel.getIntegrationParam('alternateSsn');
-                    var intygPersonnummer = UserModel.getIntegrationParam('beforeAlternateSsn');
-                    if (!ObjectHelper.isEmpty(alternatePatientSSn) && !ObjectHelper.isEmpty(intygPersonnummer)) {
-                        decideMessageToShow(intygPersonnummer, alternatePatientSSn);
-                    }
                 }
 
                 $scope.openModal = function() {
