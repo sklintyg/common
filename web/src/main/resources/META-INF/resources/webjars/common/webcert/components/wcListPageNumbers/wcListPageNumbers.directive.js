@@ -67,7 +67,7 @@ angular.module('common').directive('wcListPageNumbers',
             $scope.setChosenPage();
 
             if ($scope.listModel.nbrOfPages >= 1) {
-              if (!$scope.isMiddlePageList()) {
+              if ($scope.isMiddlePageList()) {
                 $scope.listModel.pagesList = new Array($scope.listModel.DEFAULT_NUMBER_PAGES);
               } else if($scope.isLastPageList()) {
                 $scope.listModel.pagesList = new Array($scope.listModel.nbrOfPages -  $scope.getNbrPreviousPages());
