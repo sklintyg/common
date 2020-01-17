@@ -35,14 +35,32 @@ angular.module('common').directive('wcUtkastHeader',
 
             // $scope.oldPersonId = UserModel.getIntegrationParam('beforeAlternateSsn');
 
+            /**
+             * First have to make sure if grundData has been loaded to the IntygModel.
+             *
+             * If beforeAlternateSsn has a patient id - It means that the backend has updated it based on passed alternateSsn
+             * and beforeAlternateSsn has the old patient id.
+             *
+             * If beforeAlternateSsn is missing patient id but alternateSsn has one - It means that the EHR-system have called
+             * webcert with a new patient id but the backend haven't stored it (based on user authorization). Then display
+             * alternateSsn as the new and the patient id on the draft as old.
+             *
+             * If both beforeAlternateSsn and alternateSsn are missing value, then give just use the patient id on the draft.
+             */
             function updatePersonId() {
-              var beforeAlternateSsn = UserModel.getIntegrationParam('beforeAlternateSsn');
-              if (beforeAlternateSsn) {
-                $scope.oldPersonId = beforeAlternateSsn;
-                $scope.personId = UserModel.getIntegrationParam('alternateSsn');
-              } else if (UserModel.getIntegrationParam('alternateSsn')) {
-                $scope.oldPersonId = $scope.personId;
-                $scope.personId = UserModel.getIntegrationParam('alternateSsn');
+              if ($scope.utkastViewState.intygModel.grundData) {
+                var beforeAlternateSsn = UserModel.getIntegrationParam('beforeAlternateSsn');
+                var alternateSsn = UserModel.getIntegrationParam('alternateSsn');
+
+                if (beforeAlternateSsn) {
+                  $scope.oldPersonId = beforeAlternateSsn;
+                  $scope.personId = alternateSsn;
+                } else if (alternateSsn) {
+                  $scope.oldPersonId = $scope.utkastViewState.intygModel.grundData.patient.personId;
+                  $scope.personId = alternateSsn;
+                } else {
+                  $scope.personId = $scope.utkastViewState.intygModel.grundData.patient.personId;
+                }
               }
             }
 
