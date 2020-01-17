@@ -31,20 +31,16 @@ angular.module('common').directive('wcLimitDropdown',
         link: function($scope, $element, $attrs, $controller) {
 
           $scope.fetchArenden = function() {
-            if($scope.listModel.limit !== $scope.filterModel.filterForm.pageSize) {
+            if($scope.listModel.limit !== $scope.filterModel.pageSize) {
               $scope.listModel.chosenPage = $scope.listModel.DEFAULT_PAGE;
             }
-            $scope.filterModel.filterForm.pageSize = $scope.listModel.limit;
-            $rootScope.$broadcast('enhetArendenList.requestListUpdate', {startFrom: 0, reset: false});
+            $scope.filterModel.pageSize = $scope.listModel.limit;
+            $rootScope.$broadcast($scope.listModel.LIST_NAME + '.requestListUpdate', {startFrom: 0, reset: false});
           };
 
           $scope.getLimits = function() {
             $scope.limitList = [];
             var count = 0;
-
-            if ($scope.listModel.limit === undefined || $scope.listModel.limit <= 0 || $scope.listModel.limit > $scope.listModel.totalCount && $scope.filterModel.filterForm.pageSize !== undefined) {
-              $scope.listModel.limit = $scope.filterModel.filterForm.pageSize;
-            }
 
             if ($scope.listModel.totalCount < $scope.listModel.DEFAULT_PAGE_SIZE) {
               return null;
@@ -62,10 +58,8 @@ angular.module('common').directive('wcLimitDropdown',
             $scope.limitList[count] = {id: $scope.listModel.totalCount, label: 'alla'};
           };
 
-          $scope.getLimits();
-
           $scope.$on('wcLimitDropdown.getLimits', $scope.getLimits);
-
+          $scope.getLimits();
         }
       };
     }]);
