@@ -53,7 +53,7 @@ public class PdfGenerator {
     protected static final String CERTIFICATE_FILE_BASE_NAME = "arbetsgivarintyg_";
     protected static final String MINIMAL_CERTIFICATE_FILE_PREFIX = "minimalt_" + CERTIFICATE_FILE_BASE_NAME;
     private static final String PDF_SUMMARY_HEADER = Ag7804EntryPoint.MODULE_NAME;
-    private static final String PDF_LOGOTYPE_CLASSPATH_URI = "skl_logo.png";
+    private static final String PDF_LOGOTYPE_CLASSPATH_URI = "skr_logo.png";
     private static final String PDF_UP_MODEL_CLASSPATH_URI_TEMPLATE = "ag7804-uv-viewmodel.v%s.js";
     private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);
 

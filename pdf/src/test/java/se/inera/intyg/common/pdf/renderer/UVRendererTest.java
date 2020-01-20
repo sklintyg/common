@@ -75,7 +75,7 @@ public class UVRendererTest {
         String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
 
         IntygTexts intygTexts = loadTexts("ag7804/texterMU_AG7804_v1.0.xml");
-        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skl_logo.png").getInputStream());
+        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skr_logo.png").getInputStream());
 
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
             .withIntygJsonModel(cleanedJson)
@@ -110,7 +110,7 @@ public class UVRendererTest {
         String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
 
         IntygTexts intygTexts = loadTexts("ag7804/texterMU_AG7804_v1.0.xml");
-        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skl_logo.png").getInputStream());
+        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skr_logo.png").getInputStream());
 
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
             .withIntygJsonModel(cleanedJson)
@@ -145,7 +145,7 @@ public class UVRendererTest {
         String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
 
         IntygTexts intygTexts = loadTexts("ag7804/texterMU_AG7804_v1.0.xml");
-        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skl_logo.png").getInputStream());
+        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skr_logo.png").getInputStream());
         Map<String, String> replacementConfig = new HashMap<>();
         replacementConfig.put("diagnoser", "Denna text är istället för diagnoserna!");
         replacementConfig.put("onskarFormedlaDiagnos", "Denna text är istället för diagnoserna!");
@@ -185,7 +185,7 @@ public class UVRendererTest {
         String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
 
         IntygTexts intygTexts = loadTexts("ag114/pdftestMU_AG114_v1.0.xml");
-        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skl_logo.png").getInputStream());
+        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skr_logo.png").getInputStream());
 
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
             .withIntygJsonModel(cleanedJson)
@@ -220,7 +220,7 @@ public class UVRendererTest {
         String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
 
         IntygTexts intygTexts = loadTexts("ag114/pdftestMU_AG114_v1.0.xml");
-        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skl_logo.png").getInputStream());
+        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skr_logo.png").getInputStream());
 
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
             .withIntygJsonModel(cleanedJson)
@@ -255,7 +255,7 @@ public class UVRendererTest {
         String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
 
         IntygTexts intygTexts = loadTexts("ag114/pdftestMU_AG114_v1.0.xml");
-        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skl_logo.png").getInputStream());
+        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skr_logo.png").getInputStream());
 
         Map<String, String> replacementConfig = new HashMap<>();
         replacementConfig.put("diagnoser", "Denna text är istället för diagnoserna!");
