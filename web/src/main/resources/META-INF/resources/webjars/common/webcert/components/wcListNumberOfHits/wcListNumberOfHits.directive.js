@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcNumberOfHits',
+angular.module('common').directive('wcListNumberOfHits',
     ['$document', '$window', '$timeout', '$rootScope', function($document, $window, $timeout, $rootScope) {
       'use strict';
       return {
@@ -26,7 +26,7 @@ angular.module('common').directive('wcNumberOfHits',
         scope: {
           listModel: '='
         },
-        templateUrl: '/web/webjars/common/webcert/components/wcNumberOfHits/wcNumberOfHits.directive.html',
+        templateUrl: '/web/webjars/common/webcert/components/wcListNumberOfHits/wcListNumberOfHits.directive.html',
         link: function($scope, $element, $attrs, $controller) {
           $scope.showInterval = function() {
             return $scope.listModel.totalCount > $scope.listModel.DEFAULT_PAGE_SIZE;

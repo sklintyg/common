@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcLimitDropdown',
+angular.module('common').directive('wcListDropdown',
     ['$document', '$window', '$timeout', '$rootScope', function($document, $window, $timeout, $rootScope) {
       'use strict';
       return {
@@ -27,10 +27,10 @@ angular.module('common').directive('wcLimitDropdown',
           listModel: '=',
           filterModel: '='
         },
-        templateUrl: '/web/webjars/common/webcert/components/wcLimitDropdown/wcLimitDropdown.directive.html',
+        templateUrl: '/web/webjars/common/webcert/components/wcListDropdown/wcListDropdown.directive.html',
         link: function($scope, $element, $attrs, $controller) {
 
-          $scope.fetchArenden = function() {
+          $scope.fetchList = function() {
             if($scope.listModel.limit !== $scope.filterModel.pageSize) {
               $scope.listModel.chosenPage = $scope.listModel.DEFAULT_PAGE;
             }
@@ -58,7 +58,7 @@ angular.module('common').directive('wcLimitDropdown',
             $scope.limitList[count] = {id: $scope.listModel.totalCount, label: 'alla'};
           };
 
-          $scope.$on('wcLimitDropdown.getLimits', $scope.getLimits);
+          $scope.$on('wcListDropdown.getLimits', $scope.getLimits);
           $scope.getLimits();
         }
       };
