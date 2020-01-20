@@ -1,4 +1,4 @@
-/*!
+/*
  * Copyright (C) 2020 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
@@ -17,41 +17,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pageNumbers {
-  float: right;
-  padding-right: 0;
-  padding-left: 0;
-
-  span {
-    padding-left: 20px;
-    cursor: pointer;
-  }
-
-  span:hover {
-    color: $wc-color-21;
-  }
-
-  .chosenPage {
-    color: $wc-color-21;
-  }
-
-  .disabledPage {
-    color: $wc-color-22;
-    cursor: text !important;
-  }
-
-  .disabledPage:hover {
-    color: $wc-color-22;
-  }
-}
-
-@media (max-width: 991px) {
-  #pageNumbers {
-    float: left;
-
-    span:first-child {
-      padding-left: 0px;
-    }
-  }
-}
-
+angular.module('common').directive('wcNumberOfHits',
+    ['$document', '$window', '$timeout', '$rootScope', function($document, $window, $timeout, $rootScope) {
+      'use strict';
+      return {
+        restrict: 'E',
+        transclude: false,
+        scope: {
+          listModel: '='
+        },
+        templateUrl: '/web/webjars/common/webcert/components/wcNumberOfHits/wcNumberOfHits.directive.html',
+        link: function($scope, $element, $attrs, $controller) {
+          $scope.showInterval = function() {
+            return $scope.listModel.totalCount > $scope.listModel.DEFAULT_PAGE_SIZE;
+          };
+        }
+      };
+    }]);
