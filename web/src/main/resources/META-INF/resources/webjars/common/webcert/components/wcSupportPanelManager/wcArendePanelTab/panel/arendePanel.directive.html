@@ -1,7 +1,7 @@
 <div id="arende-{{panelId}}-{{arendeListItem.arende.fraga.internReferens}}">
 
     <div class="card">
-        <arende-panel-header header-type="fraga" show-hantera="config.intygContext.isSigned && ((((unhandledKompletteringCount > 0 || arendeSvar.answeredWithIntyg) || unhandledAdminFragor > 0) && !showAnswer()) || arendeSvar.svarSkickadDatum != undefined)" arende-list-item="arendeListItem" parent-view-state="parentViewState">
+        <arende-panel-header header-type="fraga" show-hantera="showHantera()" arende-list-item="arendeListItem" parent-view-state="parentViewState">
         </arende-panel-header>
 
         <arende-vidarebefordra arende-list-item="arendeListItem" panel-id="{{panelId}}" parent-view-state="parentViewState"></arende-vidarebefordra>
