@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('fmbVarning', ['$log', '$filter', 'common.fmbProxy', 'common.ObjectHelper',
-    function($log, $filter, FMBProxy, ObjectHelper) {
+angular.module('common').directive('fmbVarning', ['$log', '$filter', 'common.fmbProxy', 'common.ObjectHelper', 'common.DateUtilsService',
+    function($log, $filter, FMBProxy, ObjectHelper, dateUtilsService) {
     'use strict';
     return {
         restrict: 'E',
@@ -29,7 +29,55 @@ angular.module('common').directive('fmbVarning', ['$log', '$filter', 'common.fmb
         templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueSjukskrivningar/fmbVarning.directive.html',
         link: function($scope) {
 
-        /**    function requestFMBVarningUpdate(){
+            /**
+             * Get the sickleave periods with from and to values including the percentage.
+             */
+            function getPeriods(sjukskrivningar) {
+                if (!sjukskrivningar) {
+                    return [];
+                }
+
+                var periods = [];
+                for (var property in sjukskrivningar) {
+                    if (sjukskrivningar.hasOwnProperty(property)) {
+                        var fromMoment = dateUtilsService.convertDateStrict(sjukskrivningar[property].period.from);
+                        var toMoment = dateUtilsService.convertDateStrict(sjukskrivningar[property].period.tom);
+                        if (validPeriod(fromMoment, toMoment)) {
+                            periods.push({
+                                from: sjukskrivningar[property].period.from,
+                                tom: sjukskrivningar[property].period.tom,
+                                nedsattning: getPeriodLevel(property)
+                            });
+                        }
+                    }
+                }
+
+                return periods;
+            }
+
+            function validPeriod(fromMoment, toMoment) {
+                return fromMoment && toMoment && dateUtilsService.isBeforeOrEqual(fromMoment, toMoment);
+            }
+
+            /**
+             * Get the percentage based on the name of the period.
+             */
+            function getPeriodLevel(periodName) {
+                switch (periodName) {
+                case 'HELT_NEDSATT':
+                    return 100;
+                case 'TRE_FJARDEDEL':
+                    return 75;
+                case 'HALFTEN':
+                    return 50;
+                case 'EN_FJARDEDEL':
+                    return 25;
+                default:
+                    return 0;
+                }
+            }
+
+           function requestFMBVarningUpdate(){
                 if($scope.model && $scope.model.diagnoser && $scope.model.diagnoser.length > 0 &&
                     ObjectHelper.isDefined($scope.model.diagnoser[0].diagnosKod) &&
                     $scope.viewstate.totalDays && $scope.viewstate.totalDays > 0) {
@@ -38,23 +86,22 @@ angular.module('common').directive('fmbVarning', ['$log', '$filter', 'common.fmb
                         icd10Kod1: $scope.model.diagnoser[0].diagnosKod,
                         icd10Kod2: $scope.model.diagnoser[1].diagnosKod,
                         icd10Kod3: $scope.model.diagnoser[2].diagnosKod,
-                        foreslagenSjukskrivningstid: $scope.viewstate.totalDays,
-                        personnummer: $scope.model.grundData.patient.personId
+                        personnummer: $scope.model.grundData.patient.personId,
+                        periods: getPeriods($scope.model.sjukskrivningar)
                     }).then(function(data){
                         $log.debug('fmbvarning - updated from server');
                         var fmbVarning = data;
                         $scope.fmbVarning = fmbVarning;
 
                         if (fmbVarning.overskriderRekommenderadSjukskrivningstid) {
-                            if (fmbVarning.totalTidigareSjukskrivningstid < 1) {
+                            if (fmbVarning.totalSjukskrivningstid === $scope.viewstate.totalDays) {
                                 $scope.fmbVarning.text = 'Den föreslagna sjukskrivningsperioden är längre än FMBs rekommendation på ' +
                                     fmbVarning.maximaltRekommenderadSjukskrivningstid + ' dagar (' +
                                     fmbVarning.maximaltRekommenderadSjukskrivningstidSource + ') för diagnosen ' +
                                     fmbVarning.aktuellIcd10Kod + '. Ange en motivering för att underlätta Försäkringskassans handläggning.';
                             } else {
-
                                 $scope.fmbVarning.text = 'Den totala sjukskrivningsperioden är ' +
-                                    fmbVarning.totalSjukskrivningstidInklusiveForeslagen +
+                                    fmbVarning.totalSjukskrivningstid +
                                     ' dagar och därmed längre än FMBs rekommendation på ' +
                                     fmbVarning.maximaltRekommenderadSjukskrivningstid +
                                     ' dagar (' + fmbVarning.maximaltRekommenderadSjukskrivningstidSource + ') för diagnosen ' +
@@ -71,16 +118,15 @@ angular.module('common').directive('fmbVarning', ['$log', '$filter', 'common.fmb
                     $scope.fmbVarning = { overskriderRekommenderadSjukskrivningstid: false };
                     $log.debug('fmbvarning - diagnoses or period not entered yet');
                 }
-            } **/
+            }
 
-            // fmb warning deactivated
-            /**$scope.$on('diagnos.changed', function(event, data){
+            $scope.$on('diagnos.changed', function(event, data){
                 requestFMBVarningUpdate();
             });
 
             $scope.$on('sjukskrivning.periodUpdated', function(event, data){
                 requestFMBVarningUpdate();
-            });**/
+            });
 
         }
     };

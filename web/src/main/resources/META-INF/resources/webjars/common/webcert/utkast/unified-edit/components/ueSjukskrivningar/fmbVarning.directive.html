@@ -1,6 +1,5 @@
 <div class="fmb-varning">
-    <!-- Warning deactivated. false was: fmbVarning.overskriderRekommenderadSjukskrivningstid -->
-    <wc-alert-message ng-if="false" alert-severity="warning">
+    <wc-alert-message ng-if="fmbVarning.overskriderRekommenderadSjukskrivningstid" alert-severity="warning">
       {{fmbVarning.text}}
     </wc-alert-message>
     <wc-alert-message ng-if="fmbVarning.error" alert-severity="warning">
