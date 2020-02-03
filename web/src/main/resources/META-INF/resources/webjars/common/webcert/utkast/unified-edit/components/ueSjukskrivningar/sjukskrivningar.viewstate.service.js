@@ -122,6 +122,7 @@ angular.module('common').service('common.SjukskrivningarViewStateService',
             this.updatePeriods = function() {
 
                 var calculateTotalDays = 0;
+                var periods = [];
 
                 angular.forEach(this.model, function(value, key) {
 
@@ -140,6 +141,7 @@ angular.module('common').service('common.SjukskrivningarViewStateService',
                     }
 
                     if (fromMoment && toMoment) {
+                        periods.push({from: fromMoment, to: toMoment});
                         calculateTotalDays += toMoment.diff(fromMoment, 'days') + 1;
                     }
 
@@ -148,7 +150,7 @@ angular.module('common').service('common.SjukskrivningarViewStateService',
                 }, this);
 
                 this.totalDays = undefined;
-                if (calculateTotalDays) {
+                if (calculateTotalDays && !DateUtilsService.hasOverlap(periods)) {
                     this.totalDays = calculateTotalDays;
                 }
             };

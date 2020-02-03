@@ -77,6 +77,7 @@ angular.module('common').service('common.SjukfranvaroViewStateService',
             this.updatePeriods = function() {
 
                 var calculateTotalDays = 0;
+                var periods = [];
 
                 angular.forEach(this.model, function(value) {
 
@@ -95,12 +96,13 @@ angular.module('common').service('common.SjukfranvaroViewStateService',
                     }
 
                     if (fromMoment && toMoment) {
+                        periods.push({from: fromMoment, to: toMoment});
                         calculateTotalDays += toMoment.diff(fromMoment, 'days') + 1;
                     }
                 }, this);
 
                 this.totalDays = undefined;
-                if (calculateTotalDays) {
+                if (calculateTotalDays && !DateUtilsService.hasOverlap(periods)) {
                     this.totalDays = calculateTotalDays;
                 }
             };

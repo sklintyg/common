@@ -366,6 +366,31 @@ angular.module('common').factory('common.DateUtilsService', ['common.ObjectHelpe
         return !moment(mdate2).isAfter(mdate1);
     }
 
+    function _hasOverlap(periods) {
+        var i, j;
+        for (i = 0; i < periods.length; i++) {
+            for (j = i + 1; j < periods.length; j++) {
+                if (_dateRangeOverlaps(periods[i].from, periods[i].to, periods[j].from, periods[j].to)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    function _dateRangeOverlaps(aStart, aEnd, bStart, bEnd) {
+        if (_isBeforeOrEqual(aStart, bStart) && _isBeforeOrEqual(bStart, aEnd)) { // b starts in a
+            return true;
+        }
+        if (_isBeforeOrEqual(aStart, bEnd)   && _isBeforeOrEqual(bEnd, aEnd)) { // b ends in a
+            return true;
+        }
+        if (bStart.isBefore(aStart) && aEnd.isBefore(bEnd)) { // a in b
+            return true;
+        }
+        return false;
+    }
+
     return {
         isDate: _isDate,
         isYear: _isYear,
@@ -389,7 +414,9 @@ angular.module('common').factory('common.DateUtilsService', ['common.ObjectHelpe
         dateRegDashesOptional: _dateRegDashesOptional,
         parseDayCodes: _parseDayCodes,
         parseMonthCode: _parseMonthCode,
-        isDateEmptyOrValidAndBefore: _isDateEmptyOrValidAndBefore
+        isDateEmptyOrValidAndBefore: _isDateEmptyOrValidAndBefore,
+        hasOverlap: _hasOverlap,
+        dateRangeOverlaps: _dateRangeOverlaps
     };
 
 }]);
