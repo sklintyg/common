@@ -26,11 +26,13 @@ angular.module('common').factory('common.sessionCheckService',
 
       var pollPromise;
 
+      var pollIntervalInSeconds = 60;
+
       // logout use when seconds remains (to be able to follow the normal logout flow)
-      var logoutWhenSecondsleft = 80;
+      var logoutWhenSecondsLeft = pollIntervalInSeconds + 20;
 
       //one every minute
-      var msPollingInterval = 60 * 1000;
+      var msPollingInterval = pollIntervalInSeconds * 1000;
 
       /*
        * stop regular polling
@@ -50,7 +52,7 @@ angular.module('common').factory('common.sessionCheckService',
           $log.debug('<= _getSessionInfo success');
           if (response.data) {
             $log.debug('session status  = ' + JSON.stringify(response.data));
-            if (response.data.authenticated === false || response.data.secondsUntilExpire < logoutWhenSecondsleft) {
+            if (response.data.authenticated === false || response.data.secondsUntilExpire < logoutWhenSecondsLeft) {
               $log.debug('No longer authenticated - redirecting to loggedout');
               _stopPolling();
               _logout();
@@ -80,12 +82,14 @@ angular.module('common').factory('common.sessionCheckService',
       }
 
       function _logout() {
-        if (UtilsService.endsWith(UserModel.user.authenticationScheme, ':fake')) {
-          $window.location = '/logout';
-        } else {
+        if (!UtilsService.endsWith(UserModel.user.authenticationScheme, ':fake')) {
+          // We don't need to do anything for :fake logins since this will be handled
+          // by the 403 interceptor
           // iid is a global object from /vendor/netid.js
           iid_Invoke('Logout'); // jshint ignore:line
-          $window.location = '/saml/logout/';
+          // The RelayState is a mechanism to preserve the desired location after
+          // SAML redirects/POSTs has occured
+          $window.location = '/saml/logout?RelayState=/new-error.jsp?reason=timeout';
         }
       }
 
