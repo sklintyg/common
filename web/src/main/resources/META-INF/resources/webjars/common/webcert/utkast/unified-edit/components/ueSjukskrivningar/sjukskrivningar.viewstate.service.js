@@ -121,7 +121,8 @@ angular.module('common').service('common.SjukskrivningarViewStateService',
 
             this.updatePeriods = function() {
 
-                var minDate, maxDate;
+                var calculateTotalDays = 0;
+                var periods = [];
 
                 angular.forEach(this.model, function(value, key) {
 
@@ -133,18 +134,15 @@ angular.module('common').service('common.SjukskrivningarViewStateService',
                     var fromMoment = DateUtilsService.convertDateStrict(value.period.from);
                     var toMoment = DateUtilsService.convertDateStrict(value.period.tom);
 
-                    // Get min and max dates
-                    if (fromMoment && (!minDate || fromMoment.isBefore(minDate))) {
-                        minDate = fromMoment;
-                    }
-                    if (toMoment && (!maxDate || toMoment.isAfter(maxDate))) {
-                        maxDate = toMoment;
-                    }
-
                     // Checkboxen för den valda sjukskrivningsgraden ska fortfarande vara ifylld och endast försvinna
                     // om man klickar ur den, eller tömmer både 'från och med' och 'till och med' datumen.
                     if (!value.period.from && !value.period.tom) {
                         this.periods[key].checked = false;
+                    }
+
+                    if (fromMoment && toMoment) {
+                        periods.push({from: fromMoment, to: toMoment});
+                        calculateTotalDays += toMoment.diff(fromMoment, 'days') + 1;
                     }
 
                     // Uppdatera värden för arbetstid och period
@@ -152,10 +150,9 @@ angular.module('common').service('common.SjukskrivningarViewStateService',
                 }, this);
 
                 this.totalDays = undefined;
-                if (minDate && maxDate) {
-                    this.totalDays = maxDate.diff(minDate, 'days') + 1;
+                if (calculateTotalDays && !DateUtilsService.hasOverlap(periods)) {
+                    this.totalDays = calculateTotalDays;
                 }
-
             };
         }
     ]);
