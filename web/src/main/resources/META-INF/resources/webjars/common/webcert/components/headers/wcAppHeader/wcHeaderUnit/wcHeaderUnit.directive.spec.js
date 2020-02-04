@@ -27,6 +27,7 @@ describe('wcHeaderUnit Directive', function() {
     var $uibModal;
     var UserModel;
     var statService;
+    var sessionService;
     var $httpBackend;
     var $state;
     var initialMockedUser = {
@@ -141,8 +142,8 @@ describe('wcHeaderUnit Directive', function() {
     beforeEach(module('htmlTemplates'));
     beforeEach(module('common'));
 
-    beforeEach(inject([ '$compile', '$rootScope', '$httpBackend', '$state', '$uibModal', 'common.statService', 'common.UserModel',
-            function($compile, $rootScope, _$httpBackend_, _$state_, _$uibModal_, _statService_, _UserModel_) {
+    beforeEach(inject([ '$compile', '$rootScope', '$httpBackend', '$state', '$uibModal', 'common.statService', 'common.sessionCheckService', 'common.UserModel',
+            function($compile, $rootScope, _$httpBackend_, _$state_, _$uibModal_, _statService_, _sessionService_, _UserModel_) {
                 compile = $compile;
                 $httpBackend = _$httpBackend_;
                 $state = _$state_;
@@ -150,6 +151,7 @@ describe('wcHeaderUnit Directive', function() {
                 $uibModal = _$uibModal_;
                 UserModel = _UserModel_;
                 statService = _statService_;
+                sessionService = _sessionService_;
 
                 spyOn(statService, 'startPolling').and.callFake(function() {
                 });
@@ -158,6 +160,9 @@ describe('wcHeaderUnit Directive', function() {
                 });
                 spyOn($state, 'go').and.callFake(function() {
                 });
+                spyOn(sessionService, 'startPolling').and.callFake(function() {
+                });
+
 
                 //Set a fresh COPY of initial user model before each test, so tests don't affect each other.
                 UserModel.setUser(angular.copy(initialMockedUser));
@@ -166,6 +171,7 @@ describe('wcHeaderUnit Directive', function() {
 
     afterEach(function() {
         expect(statService.startPolling).toHaveBeenCalled();
+        expect(sessionService.startPolling).toHaveBeenCalled();
     });
 
     describe('Verify ability to change unit', function() {

@@ -19,8 +19,9 @@
 /**
  Note: This directive is not rendered unless a valid userModel is available, so all access to $scope.userModel can skips such checks.
  */
-angular.module('common').directive('wcHeaderUnit', [ '$uibModal', 'common.authorityService', 'common.statService', 'common.User', 'common.UserModel',
-    function($uibModal, authorityService, statService, UserService, UserModel) {
+angular.module('common').directive('wcHeaderUnit', [ '$uibModal', 'common.authorityService', 'common.statService',
+    'common.sessionCheckService', 'common.User', 'common.UserModel',
+    function($uibModal, authorityService, statService, sessionCheckService, UserService, UserModel) {
     'use strict';
 
     return {
@@ -40,6 +41,14 @@ angular.module('common').directive('wcHeaderUnit', [ '$uibModal', 'common.author
                 intygAndraEnheter: 0,
                 vardgivare: []
             };
+
+            /**
+             * Start polling session status
+             * This will ensure correct logout when session has timed out.
+             *
+             */
+            $scope.sessionCheckService = sessionCheckService;
+            $scope.sessionCheckService.startPolling();
 
             /**
              * Event listeners
