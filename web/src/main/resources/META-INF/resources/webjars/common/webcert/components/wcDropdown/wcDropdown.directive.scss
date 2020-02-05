@@ -56,6 +56,11 @@ wc-dropdown {
         box-shadow: none;
     }
 
+    .highlighted, .highlighted:hover {
+        background-color: $wc-color-21;
+        color: #fff;
+    }
+
     .plate {
         position: absolute;
         top: 36px;
