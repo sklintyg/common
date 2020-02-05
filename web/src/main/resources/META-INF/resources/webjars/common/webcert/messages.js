@@ -155,6 +155,10 @@
             'common.modal.label.employee.yes': 'Skriv ut',
             'common.modal.label.employee.body': 'Ett minimalt intyg innehåller endast de uppgifter som enligt sjuklönelagen är obligatoriska att delge arbetsgivaren. Detta kan ge arbetsgivaren sämre förutsättningar att stödja patientens rehabilitering och göra nödvändiga arbetsanpassningar.<br><br>Sveriges kommuner och landsting rekommenderar att patienten skickar in ett fullständigt läkarintyg till arbetsgivaren, alternativt skapar ett anpassat intyg på <LINK:minaintyg>.',
 
+            'common.modal.confirm_handled.text': 'När ett intyg markeras som hanterad kan detta inte ångras senare.',
+            'common.arende.confirm_handled.notification': 'Kompletteringsbegäran är markerad som hanterad.',
+
+
             // Text in copy and fornya (renew) modal dialogs
             'common.modal.copy.text': 'Vid kopiering skapas ett nytt intygsutkast med samma information som i det ursprungliga intyget. Uppgifterna i ett kopierat intygsutkast går att ändra innan det signeras. Om intyget är utfärdat på en annan enhet kommer det nya utkastet utfärdas på den enhet du är inloggad på. I de fall patienten har ändrat namn eller adress så uppdateras den informationen.',
 

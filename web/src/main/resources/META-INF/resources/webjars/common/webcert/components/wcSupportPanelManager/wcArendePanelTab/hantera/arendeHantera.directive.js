@@ -84,13 +84,36 @@ angular.module('common').directive('arendeHantera',
                     $scope.handledFunction = function(newState) {
                         if (arguments.length) {
                             if (newState) {
-                                $scope.updateAsHandled($scope.arendeListItem);
+                                if($scope.showReadOnlyCheckBox() && $scope.arendeListItem.isKomplettering()) {
+                                    $scope.showHandledConfirmModal();
+                                } else {
+                                    $scope.updateAsHandled($scope.arendeListItem);
+                                }
                             } else {
                                 $scope.updateAsUnhandled($scope.arendeListItem);
                             }
                         } else {
                             return $scope.arendeListItem.arende.fraga.status === 'CLOSED';
                         }
+                    };
+
+                    $scope.showHandledConfirmModal = function () {
+                        var arendeListItem = $scope.arendeListItem;
+                        var modalInstance = $uibModal.open({
+                            templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/hantera/arendeHanteraConfirmModal.template.html',
+                            size: 'md',
+                            controller: function($scope, $uibModalInstance) {
+                                $scope.confirm = function() {
+                                    _updateAsHandled(arendeListItem);
+                                    $uibModalInstance.close();
+                                };
+                                $scope.abort = function() {
+                                    $uibModalInstance.close();
+                                };
+                            }
+                        });
+                        modalInstance.result.catch(function() { //jshint ignore:line
+                        }); //jshint ignore:line
                     };
 
                     $scope.updateAsHandled = function(arendeListItem) {
@@ -141,7 +164,6 @@ angular.module('common').directive('arendeHantera',
                                 if (result !== null) {
                                     angular.copy(result, arendeListItem.arende);
                                     arendeListItem.updateArendeListItem();
-
                                     $rootScope.$broadcast('arenden.updated');
 
                                     statService.refreshStat();
