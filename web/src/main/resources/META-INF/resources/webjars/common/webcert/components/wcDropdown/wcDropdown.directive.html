@@ -4,7 +4,7 @@
      aria-expanded="{{isOpen}}"
      aria-owns="wcdropdown-{{id}}"
      ng-keydown="onKeydown($event)"
-     ng-class="{open: isOpen}"
+     ng-class="{open: isOpen} && {highlighted: isHighlighted()}"
      class="dropdown-label"
      ng-switch="useDynamicLabel">
   <span ng-attr-id="{{id + '-selected-item-label'}}" ng-switch-when="true" dynamic-label key="{{ selectedItemLabel }}"></span>

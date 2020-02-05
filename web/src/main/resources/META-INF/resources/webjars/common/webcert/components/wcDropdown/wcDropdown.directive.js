@@ -31,7 +31,10 @@ angular.module('common').directive('wcDropdown',
                     items: '=',
                     onSelect: '&?',
                     useDynamicLabel: '=',
-                    disabled:'<ngDisabled'
+                    disabled:'<ngDisabled',
+                    alwaysHighlighted: '=',
+                    showHighlight: '=',
+                    defaultIndex: '='
                 },
                 templateUrl: '/web/webjars/common/webcert/components/wcDropdown/wcDropdown.directive.html',
                 require: 'ngModel',
@@ -44,6 +47,20 @@ angular.module('common').directive('wcDropdown',
                         scope.formDisabled = true;
                         $(element).attr('disabled', 'disabled');
                     }
+
+                    scope.isHighlighted = function() {
+                        if(scope.alwaysHighlighted) {
+                            return true;
+                        } else if (scope.showHighlight) {
+                            var index = 0;
+                            if(scope.defaultIndex !== undefined) {
+                               index = scope.defaultIndex;
+                            }
+                            return getIndexForId(ctrl.$viewValue) !== index;
+                        } else {
+                            return false;
+                        }
+                    };
 
                     function offset(element) {
                         var boundingClientRect = element[0].getBoundingClientRect();
@@ -192,6 +209,7 @@ angular.module('common').directive('wcDropdown',
                     scope.select = function(item) {
                         ctrl.$setViewValue(item.id);
                         scope.selectedItemLabel = getSelectedItemLabel();
+                        scope.selectedItemId = item.id;
                         $timeout(function() {
                             if (scope.onSelect) {
                                 scope.onSelect();
