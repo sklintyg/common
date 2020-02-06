@@ -82,14 +82,16 @@ angular.module('common').factory('common.sessionCheckService',
       }
 
       function _logout() {
-        if (!UtilsService.endsWith(UserModel.user.authenticationScheme, ':fake')) {
-          // We don't need to do anything for :fake logins since this will be handled
-          // by the 403 interceptor
+        if (UserModel.user.authenticationMethod !== 'FAKE') {
           // iid is a global object from /vendor/netid.js
           iid_Invoke('Logout'); // jshint ignore:line
           // The RelayState is a mechanism to preserve the desired location after
           // SAML redirects/POSTs has occured
-          $window.location = '/saml/logout?RelayState=/new-error.jsp?reason=timeout';
+          if(UserModel.isDjupintegration()){
+            $window.location = '/saml/logout?RelayState=/new-error.jsp?reason=timeout_integration';
+          } else {
+            $window.location = '/saml/logout?RelayState=/new-error.jsp?reason=timeout';
+          }
         }
       }
 
