@@ -83,8 +83,6 @@ angular.module('common').factory('common.sessionCheckService',
 
       function _logout() {
         if (UserModel.user.authenticationMethod !== 'FAKE') {
-          // iid is a global object from /vendor/netid.js
-          iid_Invoke('Logout'); // jshint ignore:line
           // The RelayState is a mechanism to preserve the desired location after
           // SAML redirects/POSTs has occured
           if(UserModel.isDjupintegration()){
