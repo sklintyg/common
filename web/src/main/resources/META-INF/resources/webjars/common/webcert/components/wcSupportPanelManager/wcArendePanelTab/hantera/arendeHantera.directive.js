@@ -24,11 +24,11 @@
  * arendeHantera directive. Common directive for Hanterad checkbox
  */
 angular.module('common').directive('arendeHantera',
-    ['$log', '$rootScope', '$uibModal', 'common.statService', 'common.ErrorHelper', 'common.ArendeProxy',
+    ['$log', '$rootScope', '$uibModal', '$timeout', 'common.statService', 'common.ErrorHelper', 'common.ArendeProxy',
         'common.ArendeHelper', 'common.dynamicLabelService',
-        'common.ResourceLinkService',
-        function($log, $rootScope, $uibModal, statService, ErrorHelper, ArendeProxy, ArendeHelper, dynamicLabelService,
-            ResourceLinkService) {
+        'common.ResourceLinkService', 'common.messageService', 'common.dialogService',
+        function($log, $rootScope, $uibModal, $timeout, statService, ErrorHelper, ArendeProxy, ArendeHelper, dynamicLabelService,
+            ResourceLinkService, messageService, dialogService) {
             'use strict';
 
             return {
@@ -97,23 +97,25 @@ angular.module('common').directive('arendeHantera',
                         }
                     };
 
-                    $scope.showHandledConfirmModal = function () {
+                    var dialogInstance;
+                    $scope.showHandledConfirmModal = function() {
                         var arendeListItem = $scope.arendeListItem;
-                        var modalInstance = $uibModal.open({
-                            templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/hantera/arendeHanteraConfirmModal.template.html',
-                            size: 'md',
-                            controller: function($scope, $uibModalInstance) {
-                                $scope.confirm = function() {
+                            dialogInstance = dialogService.showDialog({
+                                dialogId: 'modal-confirm-mark-handled',
+                                titleId: 'common.arende.atgard.markhandled',
+                                bodyText: messageService.getProperty('common.modal.confirm_handled.text'),
+                                button1text: 'common.arende.atgard.markhandled',
+                                button2text: 'common.cancel',
+                                button1click: function() {
                                     _updateAsHandled(arendeListItem);
-                                    $uibModalInstance.close();
-                                };
-                                $scope.abort = function() {
-                                    $uibModalInstance.close();
-                                };
-                            }
-                        });
-                        modalInstance.result.catch(function() { //jshint ignore:line
-                        }); //jshint ignore:line
+                                    dialogInstance.close();
+                                },
+                                button2click: function() {
+                                    dialogInstance.close();
+                                },
+                                autoClose: false,
+                                size: 'md'
+                            });
                     };
 
                     $scope.updateAsHandled = function(arendeListItem) {
