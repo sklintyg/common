@@ -51,6 +51,20 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory',
                 });
             }
 
+            if (featureService.isFeatureActive(featureService.features.SRS, config.intygContext.type) &&
+                !(isSigned || isKompletteringsUtkast || isLocked)) {
+                config.tabs.push({
+                    id: 'wc-srs-panel-tab',
+                    title: 'common.supportpanel.srs.title',
+                    icon: 'lightbulb_outline',
+                    tooltip: 'common.supportpanel.srs.tooltip',
+                    config: {
+                        intygContext: config.intygContext
+                    },
+                    active: !_anyTabActive()
+                });
+            }
+
             //Bara visas i utkastläge men inte låst, default aktiv bara om det inte är ett kompletteringsutkast
             if (!config.intygContext.isSigned && !config.intygContext.isLocked) {
                 config.tabs.push({
@@ -62,20 +76,6 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory',
                         intygContext: config.intygContext
                     },
                     active: !(isSigned || isKompletteringsUtkast) && !_anyTabActive()
-                });
-            }
-
-            if (featureService.isFeatureActive(featureService.features.SRS, config.intygContext.type) &&
-                    !(isSigned || isKompletteringsUtkast || isLocked)) {
-                config.tabs.push({
-                    id: 'wc-srs-panel-tab',
-                    title: 'common.supportpanel.srs.title',
-                    icon: 'lightbulb_outline',
-                    tooltip: 'common.supportpanel.srs.tooltip',
-                    config: {
-                        intygContext: config.intygContext
-                    },
-                    active: !_anyTabActive()
                 });
             }
 

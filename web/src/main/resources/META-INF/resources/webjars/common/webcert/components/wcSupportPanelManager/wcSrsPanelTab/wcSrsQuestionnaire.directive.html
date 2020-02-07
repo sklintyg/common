@@ -7,7 +7,7 @@
                     <div class="srs-question-answer srs-option-grid-cell"
                          ng-repeat="answer in question.answerOptions track by $index" for="{{answer}}">
                         <wc-radio-wrapper>
-                            <input type="radio" ng-disabled="srs.consent !== 'JA' || srs.isForlangning" ng-change="change()"
+                            <input type="radio" ng-disabled="(srs.srsConsentNeeded && srs.consent !== 'JA') || srs.isForlangning" ng-change="change()"
                                    id="q-{{question.questionId}}-a-{{answer.id}}"
                                    name="q{{question.questionId}}" ng-model="question.model" ng-value="answer" />
                             <label class="option-label" for="q-{{question.questionId}}-a-{{answer.id}}">{{answer.text}}</label>
@@ -20,7 +20,7 @@
         <div class="srs-questions-submit">
             <button type="button" id="showBtn-a8722b69-ae4c-4d28-bdf4-9af526c29a44" class="floatLeft btn btn-secondary ng-binding"
                     ng-click="calculateClicked()"
-                    ng-disabled="!srs.showVisaKnapp || srs.consent !== 'JA' || srs.isForlangning"
+                    ng-disabled="!srs.showVisaKnapp || (srs.srsConsentNeeded && srs.consent !== 'JA') || srs.isForlangning"
                     ng-if="!srs.isForlangning"
 
                     popover-popup-delay="300" popover-append-to-body="true"

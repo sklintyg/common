@@ -11,7 +11,7 @@
     <div>
         <wc-srs-risk-diagram />
     </div>
-    <div ng-show="srs.consent === 'JA' && !srs.consentError">
+    <div ng-show="(srs.srsConsentNeeded === false || srs.consent === 'JA') && !srs.consentError">
         <!-- LÄKARENS EGEN BEDÖMNING --->
         <div id="srs-own-opinion" ng-if="srs.prediction.probabilityOverLimit">
             <hr/>

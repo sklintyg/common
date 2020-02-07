@@ -18,9 +18,9 @@
  */
 angular.module('common').directive('wcSrsPanelTab',
     [ 'common.ObjectHelper', 'common.srsProxy', 'common.authorityService', '$stateParams',
-        'common.srsService', 'common.srsViewState',
+        'common.srsService', 'common.srsViewState', '$timeout', '$window',
     function(ObjectHelper, srsProxy, authorityService, $stateParams,
-             srsService, srsViewState) {
+             srsService, srsViewState, $timeout, $window) {
     'use strict';
 
     return {
@@ -30,6 +30,7 @@ angular.module('common').directive('wcSrsPanelTab',
         },
         templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSrsPanelTab/wcSrsPanelTab.directive.html',
         link: function($scope, $element, $attrs) {
+
             $scope.srs = srsViewState;
             $scope.questionsFilledForVisaButton = function() {
                 var answers = $scope.getSelectedAnswerOptions();
@@ -128,8 +129,18 @@ angular.module('common').directive('wcSrsPanelTab',
 
             $scope.logSrsPanelActivated = function() {
                 if (!$scope.srs.activatedFirstTime) {
+                    debugLog('event: SRS panel activated')
                     $scope.srs.activatedFirstTime = true;
                     srsProxy.logSrsPanelActivated($scope.srs.userClientContext, $scope.srs.intygId,
+                        $scope.srs.vardgivareHsaId, $scope.srs.hsaId);
+                }
+            };
+
+            $scope.logSrsMeasuresDisplayed = function() {
+                if (!$scope.srs.measuresDisplayedFirstTime) {
+                    debugLog('event: SRS measures displayed')
+                    $scope.srs.measuresDisplayedFirstTime = true;
+                    srsProxy.logSrsMeasuresDisplayed($scope.srs.userClientContext, $scope.srs.intygId,
                         $scope.srs.vardgivareHsaId, $scope.srs.hsaId);
                 }
             };
@@ -156,18 +167,18 @@ angular.module('common').directive('wcSrsPanelTab',
                     $scope.srs.userHasSrsFeature = checkIfUserHasSrsFeature();
                     // INTYG-4543: Only use srs endpoints if user has srs-feature enabled.
                     if ($scope.srs.userHasSrsFeature) {
-                        $scope.srs.consentError = '';
-                        $scope.srs.consent = '';
-                        srsProxy.getConsent($scope.srs.personId, $scope.srs.hsaId).then(function(consent) {
-                            if(consent.status === 200){
-                                $scope.srs.consent = consent.data;
-                            }
-                            else{
-                                $scope.srs.consent = 'error';
-                            }
-                            setConsentMessages();
-                        });
-
+                        if ($scope.srs.srsConsentNeeded) {
+                            $scope.srs.consentError = '';
+                            $scope.srs.consent = '';
+                            srsProxy.getConsent($scope.srs.personId, $scope.srs.hsaId).then(function (consent) {
+                                if (consent.status === 200) {
+                                    $scope.srs.consent = consent.data;
+                                } else {
+                                    $scope.srs.consent = 'error';
+                                }
+                                setConsentMessages();
+                            });
+                        }
                         $scope.$watch('srs.originalDiagnosKod', function(newVal, oldVal) {
                             if (newVal === null) {
                                 reset();
@@ -196,6 +207,37 @@ angular.module('common').directive('wcSrsPanelTab',
                 }
             }
             /* jshint ignore:end */
+
+            function isScrolledIntoView(element, fullyInView)
+            {
+                var pageTop = $window.document.documentElement.scrollTop;
+                var pageBottom = pageTop + $window.innerHeight;
+                var elementTop = element.getBoundingClientRect().top;
+                var elementBottom = elementTop + element.getBoundingClientRect().height;
+                if (fullyInView === true) {
+                    return ((pageTop < elementTop) && (pageBottom > elementBottom));
+                } else {
+                    return ((elementTop <= pageBottom) && (elementBottom >= pageTop));
+                }
+            }
+
+            function initViewportMonitoringEvents() {
+                // First check if measures are already displayed in the viewport directly after loading
+                // NB! This must be done after the thing above on SRS panel has been initialized to get an accurate snapshot of the
+                // viewport
+                if (isScrolledIntoView(angular.element('.recommendation-list')[0], true)) {
+                    $scope.logSrsMeasuresDisplayed();
+                }
+                // Add listener on scroll events
+                var $viewport = angular.element('#srs-panel-scrollable-body');
+                $viewport.off('scroll'); // remove any old event handlers
+                $viewport.on('scroll', function (e) {
+                    $scope.logSrsPanelActivated();
+                    if (isScrolledIntoView(angular.element('.recommendation-list')[0], true)) {
+                        $scope.logSrsMeasuresDisplayed();
+                    }
+                });
+            }
 
             function applySrsForDiagnosCode() {
                 resetMessages();
@@ -325,6 +367,12 @@ angular.module('common').directive('wcSrsPanelTab',
                         $scope.setPredictionRiskLevel();
                     });
                     $scope.setPrediktionMessages(); // No prediction data as of yet, only used to ensure initial correct state.
+
+                    // At the next "cycle" after the questions have been loaded and rendered
+                    // init the monitoring events for the viewport (and check if measures are already shown)
+                    $timeout(function(){
+                        initViewportMonitoringEvents();
+                    }, 0);
                 });
             }
 
@@ -355,8 +403,7 @@ angular.module('common').directive('wcSrsPanelTab',
                 }
             };
 
-
-            function resetMessages(){
+            function resetMessages() {
                 $scope.srs.backendError = '';
                 $scope.srs.consentError = '';
 
@@ -385,6 +432,7 @@ angular.module('common').directive('wcSrsPanelTab',
                     $scope.srs.prediction.description = '';
                     $scope.srs.shownFirstTime = false;
                     $scope.srs.activatedFirstTime = false;
+                    $scope.srs.measuresDisplayedFirstTime = false;
                     $scope.srs.srsApplicable = false;
                     $scope.srs.errorMessage = '';
                     $scope.srs.allQuestionsAnswered = false;
@@ -396,7 +444,9 @@ angular.module('common').directive('wcSrsPanelTab',
 
             $scope.$on('panel.activated', function(event, activatedPanelId) {
                 if (activatedPanelId === 'wc-srs-panel-tab') {
-                    $scope.logSrsPanelActivated();
+                    if ($scope.srs.srsApplicable) {
+                        $scope.logSrsPanelActivated();
+                    }
                     if ($scope.config.isReadOnly) {
                         $scope.srs.isReadOnly = true;
                         $scope.srs.userClientContext = 'SRS_REH'; // Rehabstöd
@@ -412,16 +462,18 @@ angular.module('common').directive('wcSrsPanelTab',
                         }
                         $scope.srs.userHasSrsFeature = checkIfUserHasSrsFeature();
                         if ($scope.srs.userHasSrsFeature) {
-                            $scope.srs.consentError = '';
-                            $scope.srs.consent = '';
-                            srsProxy.getConsent($scope.srs.personId, $scope.srs.hsaId).then(function (consent) {
-                                if (consent.status === 200) {
-                                    $scope.srs.consent = consent.data;
-                                } else {
-                                    $scope.srs.consent = 'error';
-                                }
-                                setConsentMessages();
-                            });
+                            if ($scope.srs.srsConsentNeeded) {
+                                $scope.srs.consentError = '';
+                                $scope.srs.consent = '';
+                                srsProxy.getConsent($scope.srs.personId, $scope.srs.hsaId).then(function (consent) {
+                                    if (consent.status === 200) {
+                                        $scope.srs.consent = consent.data;
+                                    } else {
+                                        $scope.srs.consent = 'error';
+                                    }
+                                    setConsentMessages();
+                                });
+                            }
                             applySrsForDiagnosCode();
                         }
                     }
