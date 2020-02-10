@@ -41,6 +41,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.w3.wsaddressing10.AttributedURIType;
+import se.inera.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.AktivitetType;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Aktivitetskod;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.LakarutlatandeType;
@@ -98,7 +99,6 @@ import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
-import se.riv.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 

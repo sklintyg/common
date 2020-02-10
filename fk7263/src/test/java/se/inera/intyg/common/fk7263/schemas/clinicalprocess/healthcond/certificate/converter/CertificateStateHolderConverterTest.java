@@ -25,13 +25,11 @@ import static org.junit.Assert.assertTrue;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Test;
-
+import se.inera.clinicalprocess.healthcond.certificate.v1.StatusType;
+import se.inera.clinicalprocess.healthcond.certificate.v1.UtlatandeStatus;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
-import se.riv.clinicalprocess.healthcond.certificate.v1.StatusType;
-import se.riv.clinicalprocess.healthcond.certificate.v1.UtlatandeStatus;
 
 public class CertificateStateHolderConverterTest {
 

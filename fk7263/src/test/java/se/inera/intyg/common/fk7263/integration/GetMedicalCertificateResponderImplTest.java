@@ -39,8 +39,8 @@ import se.inera.intyg.common.support.integration.module.exception.InvalidCertifi
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 import se.inera.intyg.schemas.contract.Personnummer;
-import se.riv.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
-import se.riv.clinicalprocess.healthcond.certificate.v1.ResultCodeType;
+import se.inera.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
+import se.inera.clinicalprocess.healthcond.certificate.v1.ResultCodeType;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GetMedicalCertificateResponderImplTest {

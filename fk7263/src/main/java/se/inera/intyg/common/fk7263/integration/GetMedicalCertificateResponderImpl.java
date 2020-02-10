@@ -22,6 +22,7 @@ import javax.xml.bind.JAXBElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import se.inera.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
 import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificate.v1.GetMedicalCertificateRequestType;
 import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificate.v1.GetMedicalCertificateResponderInterface;
@@ -34,7 +35,6 @@ import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.schemas.contract.Personnummer;
-import se.riv.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
 
 /**
  * @author andreaskaltenbach

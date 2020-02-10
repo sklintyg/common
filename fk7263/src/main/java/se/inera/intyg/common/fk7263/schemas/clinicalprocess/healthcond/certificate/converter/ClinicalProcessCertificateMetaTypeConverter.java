@@ -20,12 +20,11 @@ package se.inera.intyg.common.fk7263.schemas.clinicalprocess.healthcond.certific
 
 import java.util.ArrayList;
 import java.util.List;
-
+import se.inera.clinicalprocess.healthcond.certificate.v1.CertificateMetaType;
+import se.inera.clinicalprocess.healthcond.certificate.v1.UtlatandeStatus;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
-import se.riv.clinicalprocess.healthcond.certificate.v1.CertificateMetaType;
-import se.riv.clinicalprocess.healthcond.certificate.v1.UtlatandeStatus;
 
 public final class ClinicalProcessCertificateMetaTypeConverter {
 

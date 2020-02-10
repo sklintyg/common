@@ -19,10 +19,9 @@
 package se.inera.intyg.common.fk7263.schemas.clinicalprocess.healthcond.certificate.converter;
 
 import java.time.LocalDate;
-
+import se.inera.clinicalprocess.healthcond.certificate.v1.CertificateMetaType;
 import se.inera.intyg.common.fk7263.schemas.clinicalprocess.healthcond.certificate.builder.ClinicalProcessCertificateMetaTypeBuilder;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
-import se.riv.clinicalprocess.healthcond.certificate.v1.CertificateMetaType;
 
 /**
  * @author andreaskaltenbach
