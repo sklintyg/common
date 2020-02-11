@@ -98,6 +98,8 @@ angular
                     };
 
                     function doSignRequest() {
+                        // After signing is done, there is no access to links when evaluating if the receiver dialog should be displayed.
+                        $stateParams.accessToApproveReceivers = ResourceLinkService.isLinkTypeExists(viewState.draftModel.links, 'GODKANNA_MOTTAGARE');
                         waitingForSignCompletion = UtkastSignService.signera(viewState.common.intyg.type, viewState.draftModel.version).then(
                             function(result) {
                                 if (result.newVersion) {

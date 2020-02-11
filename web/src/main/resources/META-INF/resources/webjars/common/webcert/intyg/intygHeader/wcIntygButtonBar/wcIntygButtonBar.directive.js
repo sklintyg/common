@@ -87,7 +87,7 @@ angular.module('common').directive('wcIntygButtonBar', ['$rootScope', '$timeout'
 
                 $scope.showValjMottagareButton = function() {
                     return IntygHeaderViewState.intygLoaded && !CommonIntygViewState.isRevoked() &&
-                        !CommonIntygViewState.isPatientDeceased();
+                        ResourceLinkService.isLinkTypeExists(CommonIntygViewState.getLinks(), 'GODKANNA_MOTTAGARE');
                 };
 
                 $scope.showSkickaButton = function() {

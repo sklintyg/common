@@ -389,7 +389,10 @@ angular.module('common').factory('common.UtkastSignService',
                 var intygTypeVersion = $stateParams.intygTypeVersion;
                 $location.replace();
                 $location.path('/intyg/' + intygsTyp + '/' + intygTypeVersion + '/' + intygsId + '/').search('signed', true);
-                receiverService.getData().showApproveDialog = needsReceiverApproval(intygsTyp);
+                // There is currently no way to get the ResourceLink without using $stateparams. This is in wcUtkastFooterSign and
+                // clear the stateparam when used
+                receiverService.getData().showApproveDialog = $stateParams.accessToApproveReceivers && needsReceiverApproval(intygsTyp);
+                $stateParams.accessToApproveReceivers = undefined;
                 statService.refreshStat();
             }
 
