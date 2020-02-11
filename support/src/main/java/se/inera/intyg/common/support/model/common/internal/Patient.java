@@ -23,6 +23,7 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Strings;
+
 import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -48,6 +49,8 @@ public class Patient {
 
     private boolean avliden;
 
+    private boolean testIndicator;
+
     @Override
     public boolean equals(Object object) {
         if (object == null) {
@@ -66,13 +69,14 @@ public class Patient {
             && Objects.equals(this.postnummer, that.postnummer)
             && Objects.equals(this.postort, that.postort)
             && Objects.equals(this.sekretessmarkering, that.sekretessmarkering)
-            && Objects.equals(this.avliden, that.avliden);
+            && Objects.equals(this.avliden, that.avliden)
+            && Objects.equals(this.testIndicator, that.testIndicator);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(this.personId, this.fullstandigtNamn, this.fornamn, this.mellannamn, this.efternamn,
-            this.postadress, this.postnummer, this.postort, this.sekretessmarkering, this.avliden);
+            this.postadress, this.postnummer, this.postort, this.sekretessmarkering, this.avliden, this.testIndicator);
     }
 
     public boolean isSamordningsNummer() {
@@ -167,6 +171,14 @@ public class Patient {
 
     public void setAvliden(boolean avliden) {
         this.avliden = avliden;
+    }
+
+    public boolean isTestIndicator() {
+        return this.testIndicator;
+    }
+
+    public void setTestIndicator(boolean testIndicator) {
+        this.testIndicator = testIndicator;
     }
 
 }
