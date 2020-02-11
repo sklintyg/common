@@ -18,10 +18,10 @@
  */
 package se.inera.intyg.common.support.model.common.internal;
 
-import com.google.common.base.MoreObjects;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
-import java.time.LocalDateTime;
+import com.google.common.base.MoreObjects;
 
 public class GrundData {
 
@@ -29,6 +29,7 @@ public class GrundData {
     private HoSPersonal skapadAv;
     private Patient patient;
     private Relation relation;
+    private boolean isTestIntyg;
 
     public LocalDateTime getSigneringsdatum() {
         return signeringsdatum;
@@ -62,6 +63,14 @@ public class GrundData {
         this.relation = relation;
     }
 
+    public boolean isTestIntyg() {
+        return isTestIntyg;
+    }
+
+    public void setTestIntyg(boolean isTestIntyg) {
+        this.isTestIntyg = isTestIntyg;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (object == null) {
@@ -74,12 +83,13 @@ public class GrundData {
         return Objects.equals(this.signeringsdatum, that.signeringsdatum)
             && Objects.equals(this.skapadAv, that.skapadAv)
             && Objects.equals(this.patient, that.patient)
-            && Objects.equals(this.relation, that.relation);
+            && Objects.equals(this.relation, that.relation)
+            && Objects.equals(this.isTestIntyg, that.isTestIntyg);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.signeringsdatum, this.skapadAv, this.patient, this.relation);
+        return Objects.hash(this.signeringsdatum, this.skapadAv, this.patient, this.relation, this.isTestIntyg);
     }
 
     @Override
@@ -89,6 +99,7 @@ public class GrundData {
             .add("skapadAv", skapadAv)
             .add("patient", patient)
             .add("relation", relation)
+            .add("isTestIntyg", isTestIntyg)
             .toString();
     }
 }
