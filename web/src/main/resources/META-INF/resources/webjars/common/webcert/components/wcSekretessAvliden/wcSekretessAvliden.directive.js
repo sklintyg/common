@@ -30,7 +30,8 @@ angular.module('common').directive('wcSekretessAvliden',
                 scope: {
                     uuid: '=',
                     sekretessmarkering: '=',
-                    avliden: '='
+                    avliden: '=',
+                    testindicator: '='
                 },
                 templateUrl: '/web/webjars/common/webcert/components/wcSekretessAvliden/wcSekretessAvliden.directive.html',
                 link: function($scope) {
@@ -39,6 +40,21 @@ angular.module('common').directive('wcSekretessAvliden',
                     $scope.onSekretessClick = function () {
                         aboutModalInstance = $uibModal.open({
                             templateUrl: '/web/webjars/common/webcert/components/wcSekretessAvliden/aboutSekretessDialog.template.html',
+                            size: 'lg',
+                            controller: function($scope, $uibModalInstance) {
+
+                                $scope.close = function() {
+                                    $uibModalInstance.close();
+                                };
+                            }
+                        });
+                        //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
+                        aboutModalInstance.result.catch(function () {}); //jshint ignore:line
+                    };
+
+                    $scope.onTestIndicatorClick = function () {
+                        aboutModalInstance = $uibModal.open({
+                            templateUrl: '/web/webjars/common/webcert/components/wcSekretessAvliden/aboutTestIndicatorDialog.template.html',
                             size: 'lg',
                             controller: function($scope, $uibModalInstance) {
 
