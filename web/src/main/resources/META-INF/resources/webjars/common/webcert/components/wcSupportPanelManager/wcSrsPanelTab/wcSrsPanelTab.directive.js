@@ -129,7 +129,6 @@ angular.module('common').directive('wcSrsPanelTab',
 
             $scope.logSrsPanelActivated = function() {
                 if (!$scope.srs.activatedFirstTime) {
-                    debugLog('event: SRS panel activated')
                     $scope.srs.activatedFirstTime = true;
                     srsProxy.logSrsPanelActivated($scope.srs.userClientContext, $scope.srs.intygId,
                         $scope.srs.vardgivareHsaId, $scope.srs.hsaId);
@@ -138,7 +137,6 @@ angular.module('common').directive('wcSrsPanelTab',
 
             $scope.logSrsMeasuresDisplayed = function() {
                 if (!$scope.srs.measuresDisplayedFirstTime) {
-                    debugLog('event: SRS measures displayed')
                     $scope.srs.measuresDisplayedFirstTime = true;
                     srsProxy.logSrsMeasuresDisplayed($scope.srs.userClientContext, $scope.srs.intygId,
                         $scope.srs.vardgivareHsaId, $scope.srs.hsaId);
