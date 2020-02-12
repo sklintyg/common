@@ -18,12 +18,17 @@
  */
 package se.inera.intyg.common.support.model.converter.util;
 
+import java.time.LocalDateTime;
+
 import com.google.common.base.Strings;
-import se.inera.intyg.common.support.model.common.internal.*;
+
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
-
-import java.time.LocalDateTime;
 
 public final class WebcertModelFactoryUtil {
 
@@ -47,6 +52,7 @@ public final class WebcertModelFactoryUtil {
 
         grundData.setSkapadAv(copyData.getSkapadAv());
         grundData.setRelation(copyData.getRelation());
+        grundData.setTestIntyg(copyData.isTestIntyg());
 
         if (copyData.hasPatient()) {
             populateWithPatientInfo(grundData, copyData.getPatient());
@@ -61,6 +67,7 @@ public final class WebcertModelFactoryUtil {
         CreateNewDraftHolder newDraftData) throws ConverterException {
         validateRequest(newDraftData.getSkapadAv());
         grundData.setSkapadAv(newDraftData.getSkapadAv());
+        grundData.setTestIntyg(newDraftData.isTestIntyg());
         populateWithPatientInfo(grundData, newDraftData.getPatient());
     }
 

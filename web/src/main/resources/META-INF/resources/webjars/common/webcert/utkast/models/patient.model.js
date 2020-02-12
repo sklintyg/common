@@ -35,6 +35,7 @@ angular.module('common').factory('common.Domain.PatientModel',
             this.samordningsNummer = undefined;
             this.sekretessmarkering = undefined;
             this.avliden = undefined;
+            this.testIndicator = undefined;
         }
 
 
@@ -54,6 +55,7 @@ angular.module('common').factory('common.Domain.PatientModel',
             this.samordningsNummer = patient.samordningsNummer;
             this.sekretessmarkering = patient.sekretessmarkering;
             this.avliden = patient.avliden;
+            this.testIndicator = patient.testIndicator;
         };
 
         PatientModel.build = function() {

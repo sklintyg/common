@@ -131,6 +131,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Ag7804Utlata
         grundData.setSkapadAv(copyData.getSkapadAv());
         grundData.setSigneringsdatum(null);
         grundData.setRelation(null);
+        grundData.setTestIntyg(copyData.isTestIntyg());
 
         templateBuilder.setGrundData(grundData);
         templateBuilder.setTextVersion(copyData.getIntygTypeVersion());

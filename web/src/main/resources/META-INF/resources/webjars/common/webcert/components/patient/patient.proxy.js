@@ -49,6 +49,7 @@ angular.module('common').factory('common.PatientProxy',
                         that.postnummer = data.person.postnummer;
                         that.postort = data.person.postort;
                         that.avliden = data.person.avliden;
+                        that.testIndicator = data.person.testIndicator;
                         onSuccess(that);
                     } else if (data.status === 'ERROR') {
                         $log.warn('PU-tjänsten kunde inte kontaktas.');

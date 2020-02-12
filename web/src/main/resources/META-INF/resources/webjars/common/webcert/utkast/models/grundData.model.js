@@ -28,6 +28,7 @@ angular.module('common').factory('common.Domain.GrundDataModel',
                 this.skapadAv = SkapadAvModel.build();
                 this.patient = PatientModel.build();
                 this.relation = RelationModel.build();
+                this.isTestIntyg = undefined;
             }
 
             GrundDataModel.prototype.update = function (grundData) {
@@ -38,6 +39,7 @@ angular.module('common').factory('common.Domain.GrundDataModel',
                 this.skapadAv.update(grundData.skapadAv);
                 this.patient.update(grundData.patient);
                 this.relation.update(grundData.relation);
+                this.testIntyg = grundData.testIntyg;
             };
 
             GrundDataModel.build = function() {

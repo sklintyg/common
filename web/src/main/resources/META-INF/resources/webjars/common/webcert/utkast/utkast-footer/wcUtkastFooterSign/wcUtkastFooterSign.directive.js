@@ -20,10 +20,10 @@
 angular
     .module('common')
     .directive('wcUtkastFooterSign',
-    ['$q', 'common.dynamicLabelService', 'common.UtkastValidationViewState', 'common.UtkastSignService', 'common.UtkastProxy', 'common.featureService', 'common.UtkastFooterService',
-        'common.messageService', 'common.moduleService', 'common.dialogService',
-        function($q, dynamicLabelService, utkastValidationViewState, UtkastSignService, commonUtkastProxy, featureService, UtkastFooterService,
-            messageService, moduleService, dialogService) {
+    ['$q', '$stateParams', 'common.dynamicLabelService', 'common.UtkastValidationViewState', 'common.UtkastSignService', 'common.UtkastProxy', 'common.featureService', 'common.UtkastFooterService',
+        'common.messageService', 'common.moduleService', 'common.dialogService', 'common.ResourceLinkService',
+        function($q, $stateParams, dynamicLabelService, utkastValidationViewState, UtkastSignService, commonUtkastProxy, featureService, UtkastFooterService,
+            messageService, moduleService, dialogService, ResourceLinkService) {
             'use strict';
 
             return {
@@ -98,6 +98,8 @@ angular
                     };
 
                     function doSignRequest() {
+                        // After signing is done, there is no access to links when evaluating if the receiver dialog should be displayed.
+                        $stateParams.accessToApproveReceivers = ResourceLinkService.isLinkTypeExists(viewState.draftModel.links, 'GODKANNA_MOTTAGARE');
                         waitingForSignCompletion = UtkastSignService.signera(viewState.common.intyg.type, viewState.draftModel.version).then(
                             function(result) {
                                 if (result.newVersion) {
@@ -144,7 +146,8 @@ angular
                     }
 
                     function isSignAndSend() {
-                        return featureService.isFeatureActive(featureService.features.SIGNERA_SKICKA_DIREKT, viewState.common.intyg.type);
+                        return featureService.isFeatureActive(featureService.features.SIGNERA_SKICKA_DIREKT, viewState.common.intyg.type) &&
+                            ResourceLinkService.isLinkTypeExists(viewState.draftModel.links, 'SKICKA_INTYG');
                     }
 
                     function isSignAndSendOrKomp() {

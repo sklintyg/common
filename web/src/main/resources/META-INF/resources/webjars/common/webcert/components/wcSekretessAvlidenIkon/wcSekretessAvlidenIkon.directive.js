@@ -29,7 +29,8 @@ angular.module('common').directive('wcSekretessAvlidenIkon',
                 scope: {
                     uuid: '=',
                     sekretessmarkering: '=',
-                    avliden: '='
+                    avliden: '=',
+                    testIntyg: '='
                 },
                 templateUrl: '/web/webjars/common/webcert/components/wcSekretessAvlidenIkon/wcSekretessAvlidenIkon.directive.html'
             };

@@ -18,12 +18,12 @@
  */
 package se.inera.intyg.common.support.modules.support.api.dto;
 
+import static org.springframework.util.Assert.notNull;
+
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.schemas.contract.Personnummer;
-
-import static org.springframework.util.Assert.notNull;
 
 public class CreateDraftCopyHolder {
 
@@ -38,6 +38,8 @@ public class CreateDraftCopyHolder {
     private Relation relation;
 
     private String intygTypeVersion;
+
+    private boolean isTestIntyg;
 
     public CreateDraftCopyHolder(String certificateId, HoSPersonal skapadAv, Relation relation) {
         this(certificateId, skapadAv);
@@ -98,5 +100,13 @@ public class CreateDraftCopyHolder {
 
     public void setIntygTypeVersion(String intygTypeVersion) {
         this.intygTypeVersion = intygTypeVersion;
+    }
+
+    public boolean isTestIntyg() {
+        return this.isTestIntyg;
+    }
+
+    public void setTestIntyg(boolean isTestIntyg) {
+        this.isTestIntyg = isTestIntyg;
     }
 }
