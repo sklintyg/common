@@ -170,6 +170,11 @@
 
             'common.modal.marked.ready.notification.sent': 'Observera att utkastet saknar obligatoriska uppgifter. Om du inte kan fylla i mer information kan du ändå markera intyget som klart för signering. Läkaren kommer då behöva komplettera intyget med de saknade uppgifterna innan det går att signera.',
 
+            // Messages for user survey
+            'wc.modal.survey.title': 'Användarundersökning',
+            'wc.modal.survey.text': 'Vi genomför en användarundersökning för intygsapplikationen Webcert och vore mycket tacksamma om du kan tänka dig att dela dina synpunkter med oss. Undersökningen tar några minuter att fylla i och är helt anonym. Du kan närsomhelst avbryta undersökningen om så önskas. \n' +
+                'Vill du hjälpa oss att förbättra tjänsten genom ditt deltagande?',
+
             // common intyg view messages
             'common.label.ovanstaende-har-bekraftats': 'Ovanstående uppgifter och bedömningar bekräftas',
             'common.label.kontakt-info': 'Namn och kontaktuppgifter till vårdenheten',
