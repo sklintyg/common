@@ -20,6 +20,7 @@ angular.module('common').service('common.srsViewState',
     function() {
         'use strict';
 
+        this.srsConsentNeeded = false;
         this.consent = '';
         this.opinion = '';
         this.opinionError = null;
@@ -39,6 +40,8 @@ angular.module('common').service('common.srsViewState',
         this.statistik = {};
         this.atgarder = {};
 
+        this.measuresDisplayedFirstTime = false;
+        this.activatedFirstTime = false;
                     
         this.prediction = {};
         this.prediction.description = '';

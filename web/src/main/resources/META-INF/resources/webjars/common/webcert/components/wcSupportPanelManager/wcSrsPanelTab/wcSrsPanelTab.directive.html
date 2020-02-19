@@ -1,9 +1,9 @@
 <!-- PATIENT CONSENT CHECKBOX--->
 <div class="tab-content-title-row" ng-if="!srs.isReadOnly">
-    <span class="tab-content-title-row-title" ng-show="!srs.srsApplicable">
+    <span class="tab-content-title-row-title" ng-show="!srs.srsApplicable || !srs.srsConsentNeeded">
         Stöd för rätt sjukskrivning
     </span>
-    <span class="tab-content-title-row-title" ng-show="srs.srsApplicable">
+    <span class="tab-content-title-row-title" ng-show="srs.srsApplicable && srs.srsConsentNeeded">
         <div class="fullWidth form-group ng-scope">
             <wc-checkbox-wrapper>
                 <input id="consent-yes" type="checkbox" name="consent-to-srs-radio"
