@@ -65,7 +65,8 @@ angular.module('common').service('common.IntygViewStateService',
             };
             this.isComplementedByIntyg = function() {
                 return angular.isObject(this.intygProperties.latestChildRelations) &&
-                    angular.isObject(this.intygProperties.latestChildRelations.complementedByIntyg);
+                    angular.isObject(this.intygProperties.latestChildRelations.complementedByIntyg) &&
+                    this.intygProperties.latestChildRelations.complementedByIntyg.makulerat === false;
             };
 
             this.isComplementedByUtkast = function() {
