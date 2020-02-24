@@ -225,6 +225,8 @@ angular.module('common').factory('common.srsProxy', ['common.ObjectHelper', '$ht
                 _logSrsMonitor('SRS_LOADED', userClientContext, intygsId, caregiverId, careUnitId, diagnosisCode);},
             logSrsPanelActivated: function(userClientContext, intygsId, caregiverId, careUnitId) {
                 _logSrsMonitor('SRS_PANEL_ACTIVATED', userClientContext, intygsId, caregiverId, careUnitId);},
+            logSrsMeasuresDisplayed: function(userClientContext, intygsId, caregiverId, careUnitId) {
+                _logSrsMonitor('SRS_MEASURES_DISPLAYED', userClientContext, intygsId, caregiverId, careUnitId);},
             logSrsConsentAnswered: function(userClientContext, intygsId, caregiverId, careUnitId) {
                 _logSrsMonitor('SRS_CONSENT_ANSWERED', userClientContext, intygsId, caregiverId, careUnitId);},
             logSrsQuestionAnswered: function(userClientContext, intygsId, caregiverId, careUnitId) {
