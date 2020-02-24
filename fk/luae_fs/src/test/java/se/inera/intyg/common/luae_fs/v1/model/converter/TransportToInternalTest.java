@@ -41,11 +41,12 @@ import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.services.BefattningService;
+import se.inera.intyg.common.support.services.LegitimeradeYrkesgrupperService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {BefattningService.class})
+@ContextConfiguration(classes = {BefattningService.class, LegitimeradeYrkesgrupperService.class})
 public class TransportToInternalTest {
 
     private WebcertModuleService webcertModuleService;

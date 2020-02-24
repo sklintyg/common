@@ -43,11 +43,12 @@ import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.services.BefattningService;
+import se.inera.intyg.common.support.services.LegitimeradeYrkesgrupperService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {BefattningService.class})
+@ContextConfiguration(classes = {BefattningService.class, LegitimeradeYrkesgrupperService.class})
 public class InternalToTransportTest {
 
     private WebcertModuleService webcertModuleService;

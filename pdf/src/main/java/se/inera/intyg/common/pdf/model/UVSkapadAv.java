@@ -41,6 +41,8 @@ import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
  */
 public class UVSkapadAv extends UVComponent {
 
+    private static final String COMMA_SPACE = ", ";
+
     public UVSkapadAv(UVRenderer renderer) {
         super(renderer);
     }
@@ -123,21 +125,24 @@ public class UVSkapadAv extends UVComponent {
         StringBuilder intygsUtfardare = new StringBuilder();
         intygsUtfardare.append(renderer.evalValueFromModel(modelProp + ".fullstandigtNamn").toString()).append("\n");
 
-        // Befattningar
         List<String> befattningar = fromStringArray(renderer.evalValueFromModel(modelProp + ".befattningar"));
-        if (befattningar.size() > 0) {
+        if (!befattningar.isEmpty()) {
             intygsUtfardare.append(befattningar.stream()
                 .map(befattningsKod -> BefattningService.getDescriptionFromCode(befattningsKod).orElse(befattningsKod))
-                .collect(Collectors.joining(", "))).append("\n");
+                .collect(Collectors.joining(COMMA_SPACE))).append("\n");
         }
 
-        // Specialistkompetenser
         List<String> specialistkompentenser = fromStringArray(renderer.evalValueFromModel(modelProp + ".specialiteter"));
-        if (specialistkompentenser.size() > 0) {
-            intygsUtfardare.append(specialistkompentenser.stream().collect(Collectors.joining(", "))).append("\n");
+        if (!specialistkompentenser.isEmpty()) {
+            intygsUtfardare.append(String.join(COMMA_SPACE, specialistkompentenser)).append("\n");
         }
 
-        // Leg yrkesgrupp.
+        List<String> legitimeradeYrkesgrupper = fromStringArray(renderer.evalValueFromModel(modelProp
+            + ".legitimeradeYrkesgrupper"));
+        if (!legitimeradeYrkesgrupper.isEmpty()) {
+            intygsUtfardare.append(String.join(COMMA_SPACE, legitimeradeYrkesgrupper)).append("\n");
+        }
+
         return intygsUtfardare;
     }
 

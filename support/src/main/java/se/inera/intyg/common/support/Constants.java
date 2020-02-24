@@ -25,6 +25,7 @@ public final class Constants {
     public static final String SAMORDNING_ID_OID = "1.2.752.129.2.1.3.3";
     public static final String ARBETSPLATS_KOD_OID = "1.2.752.29.4.71";
     public static final String BEFATTNING_KOD_OID = "1.2.752.129.2.2.1.4";
+    public static final String LEGITIMERAD_YRKESGRUPP_KOD_OID = "1.2.752.29.23.1.6";
     public static final String KV_PART_CODE_SYSTEM = "769bb12b-bd9f-4203-a5cd-fd14f2eb3b80";
     public static final String KV_STATUS_CODE_SYSTEM = "9871cd17-8755-4ed9-b894-ff3729e775a4";
     public static final String KV_INTYGSTYP_CODE_SYSTEM = "b64ea353-e8f6-4832-b563-fc7d46f29548";

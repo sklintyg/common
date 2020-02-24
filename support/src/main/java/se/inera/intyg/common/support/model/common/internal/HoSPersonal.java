@@ -41,6 +41,8 @@ public class HoSPersonal {
 
     private Vardenhet vardenhet;
 
+    private List<String> legitimeradeYrkesgrupper;
+
     public List<String> getSpecialiteter() {
         if (specialiteter == null) {
             specialiteter = new ArrayList<>();
@@ -103,6 +105,13 @@ public class HoSPersonal {
         this.vardenhet = vardenhet;
     }
 
+    public List<String> getLegitimeradeYrkesgrupper() {
+        if (legitimeradeYrkesgrupper == null) {
+            legitimeradeYrkesgrupper = new ArrayList<>();
+        }
+        return legitimeradeYrkesgrupper;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (object == null) {
@@ -119,14 +128,15 @@ public class HoSPersonal {
             && Objects.equals(this.medarbetarUppdrag, that.medarbetarUppdrag)
             && Objects.deepEquals(this.befattningar, that.befattningar)
             && Objects.deepEquals(this.specialiteter, that.specialiteter)
-            && Objects.equals(this.vardenhet, that.vardenhet);
+            && Objects.equals(this.vardenhet, that.vardenhet)
+            && Objects.deepEquals(this.legitimeradeYrkesgrupper, that.legitimeradeYrkesgrupper);
 
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(this.personId, this.fullstandigtNamn, this.forskrivarKod,
-            this.titel, this.medarbetarUppdrag, this.befattningar, this.specialiteter);
+            this.titel, this.medarbetarUppdrag, this.befattningar, this.specialiteter, this.legitimeradeYrkesgrupper);
     }
 
     @Override
@@ -140,6 +150,7 @@ public class HoSPersonal {
             .add("befattningar", befattningar)
             .add("specialiteter", specialiteter)
             .add("vardenhet", vardenhet)
+            .add("legitimeradeYrkesgrupper", legitimeradeYrkesgrupper)
             .toString();
     }
 }

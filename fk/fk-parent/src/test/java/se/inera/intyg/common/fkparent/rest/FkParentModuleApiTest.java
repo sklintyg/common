@@ -45,6 +45,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.services.BefattningService;
+import se.inera.intyg.common.support.services.LegitimeradeYrkesgrupperService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
@@ -83,7 +84,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {BefattningService.class})
+@ContextConfiguration(classes = {BefattningService.class, LegitimeradeYrkesgrupperService.class})
 public class FkParentModuleApiTest {
 
     private static final String INTYG_ID = "test-id";

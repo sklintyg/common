@@ -34,11 +34,12 @@ import se.inera.intyg.common.af00251.v1.model.internal.Sjukfranvaro;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.services.BefattningService;
+import se.inera.intyg.common.support.services.LegitimeradeYrkesgrupperService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {BefattningService.class})
+@ContextConfiguration(classes = {BefattningService.class, LegitimeradeYrkesgrupperService.class})
 public class TransportToInternalTest {
 
     public static AF00251UtlatandeV1 getUtlatande() {

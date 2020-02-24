@@ -1,0 +1,84 @@
+/*
+ * Copyright (C) 2020 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package se.inera.intyg.common.support.services;
+
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableBiMap;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import javax.annotation.PostConstruct;
+import org.apache.commons.csv.CSVFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
+
+@Service
+public class LegitimeradeYrkesgrupperService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(LegitimeradeYrkesgrupperService.class);
+    private static final char CSV_DELIMITER = ';';
+    private ImmutableBiMap<String, String> codeMap = ImmutableBiMap.of();
+    private static LegitimeradeYrkesgrupperService instance = null;
+
+    @Value("${legitimerade.yrkesgrupper.file:classpath:codes/legitimerade-yrkesgrupper-default.csv}")
+    Resource resource;
+
+    @PostConstruct
+    void initialize() throws IOException {
+        try (Reader reader = new BufferedReader(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8))) {
+            final ImmutableBiMap.Builder<String, String> codeBuilder = ImmutableBiMap.builder();
+
+            CSVFormat.DEFAULT.withDelimiter(CSV_DELIMITER).parse(reader).forEach(r -> codeBuilder.put(r.get(0), r.get(1)));
+
+            this.codeMap = codeBuilder.build();
+
+            LOG.info("{} codes loaded from {}", this.codeMap.size() - 1, this.resource);
+
+            instance = this;
+       }
+    }
+
+    private Optional<String> lookupInverse(final String description) {
+        if (Strings.isNullOrEmpty(description)) {
+            return Optional.empty();
+        }
+        final Map<String, String> map = this.codeMap.inverse();
+        return Optional.ofNullable(map.get(description.trim()));
+    }
+
+    static LegitimeradeYrkesgrupperService instance() {
+        if (Objects.isNull(instance)) {
+            throw new IllegalStateException("Not properly initialized");
+        }
+        return instance;
+    }
+
+    public static Optional<String> getCodeFromDescription(String description) {
+        return instance().lookupInverse(description);
+    }
+
+}

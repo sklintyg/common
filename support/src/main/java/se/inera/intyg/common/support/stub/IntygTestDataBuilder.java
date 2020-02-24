@@ -83,6 +83,7 @@ public final class IntygTestDataBuilder {
         personal.getBefattningar().add("Klinikchef");
         personal.getBefattningar().add("Forskningsledare");
         personal.getSpecialiteter().add("Kirurg");
+        personal.getLegitimeradeYrkesgrupper().add("Läkare");
         return personal;
     }
 

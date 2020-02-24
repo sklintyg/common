@@ -26,11 +26,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.support.services.BefattningService;
+import se.inera.intyg.common.support.services.LegitimeradeYrkesgrupperService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {BefattningService.class})
+@ContextConfiguration(classes = {BefattningService.class, LegitimeradeYrkesgrupperService.class})
 public class TransportToInternalTest {
 
     public static Af00213UtlatandeV1 getUtlatande() {

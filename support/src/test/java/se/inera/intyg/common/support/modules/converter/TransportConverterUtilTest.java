@@ -46,6 +46,7 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.HsaId;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.LegitimeratYrkeType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PQType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Part;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
@@ -398,6 +399,25 @@ public class TransportConverterUtilTest {
         HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source);
         assertEquals(1, skapadAv.getBefattningar().size());
         assertEquals(befattningKod, skapadAv.getBefattningar().get(0));
+    }
+
+    @Test
+    public void testLegitimeratYrkeUsesDisplayName() {
+        final String yrkesgrupp = "Läkare";
+        HosPersonal source = new HosPersonal();
+        source.setPersonalId(new HsaId());
+        source.setEnhet(new Enhet());
+        source.getEnhet().setEnhetsId(new HsaId());
+        source.getEnhet().setArbetsplatskod(new ArbetsplatsKod());
+        source.getEnhet().setVardgivare(new Vardgivare());
+        source.getEnhet().getVardgivare().setVardgivareId(new HsaId());
+        LegitimeratYrkeType legitimeratYrke = new LegitimeratYrkeType();
+        legitimeratYrke.setCode("LK");
+        legitimeratYrke.setDisplayName(yrkesgrupp);
+        source.getLegitimeratYrke().add(legitimeratYrke);
+        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source);
+        assertEquals(1, skapadAv.getLegitimeradeYrkesgrupper().size());
+        assertEquals(yrkesgrupp, skapadAv.getLegitimeradeYrkesgrupper().get(0));
     }
 
     // returns data node

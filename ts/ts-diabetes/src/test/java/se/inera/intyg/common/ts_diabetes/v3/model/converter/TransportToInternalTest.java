@@ -25,6 +25,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.support.services.BefattningService;
+import se.inera.intyg.common.support.services.LegitimeradeYrkesgrupperService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.Allmant;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.Bedomning;
@@ -34,7 +35,7 @@ import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {BefattningService.class})
+@ContextConfiguration(classes = {BefattningService.class, LegitimeradeYrkesgrupperService.class})
 public class TransportToInternalTest {
 
     public static TsDiabetesUtlatandeV3 getUtlatande() {

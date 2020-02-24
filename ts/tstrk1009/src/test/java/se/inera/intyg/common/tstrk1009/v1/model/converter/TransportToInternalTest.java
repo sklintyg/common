@@ -24,6 +24,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import se.inera.intyg.common.support.services.LegitimeradeYrkesgrupperService;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import java.util.EnumSet;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -38,7 +39,7 @@ import se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsolamplighet;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {BefattningService.class})
+@ContextConfiguration(classes = {BefattningService.class, LegitimeradeYrkesgrupperService.class})
 public class TransportToInternalTest {
 
     private Tstrk1009UtlatandeV1 getUtlatande() {

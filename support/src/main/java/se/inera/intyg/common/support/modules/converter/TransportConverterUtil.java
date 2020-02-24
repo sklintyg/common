@@ -55,6 +55,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Befattning;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.LegitimeratYrkeType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PQType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
@@ -396,6 +397,9 @@ public final class TransportConverterUtil {
             if (kompetens.getDisplayName() != null) {
                 personal.getSpecialiteter().add(kompetens.getDisplayName());
             }
+        }
+        for (LegitimeratYrkeType legitimeratYrke : source.getLegitimeratYrke()) {
+            personal.getLegitimeradeYrkesgrupper().add(legitimeratYrke.getDisplayName());
         }
         return personal;
     }

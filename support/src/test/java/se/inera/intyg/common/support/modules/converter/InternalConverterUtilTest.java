@@ -26,6 +26,7 @@ import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.services.BefattningService;
+import se.inera.intyg.common.support.services.LegitimeradeYrkesgrupperService;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
@@ -46,7 +47,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {BefattningService.class})
+@ContextConfiguration(classes = {BefattningService.class, LegitimeradeYrkesgrupperService.class})
 public class InternalConverterUtilTest {
     @Test
     public void testConvert() throws Exception {
@@ -347,6 +348,29 @@ public class InternalConverterUtilTest {
         assertEquals(1, skapadAv.getBefattning().size());
         assertEquals(befattning, skapadAv.getBefattning().get(0).getCode());
         assertNull(skapadAv.getBefattning().get(0).getDisplayName());
+    }
+
+    @Test
+    public void testLegitimeradeYrkesgrupper() {
+        final String yrkeskod = "LK";
+        final String yrkesgrupp = "Läkare";
+        Utlatande utlatande = buildUtlatande(null, null);
+        utlatande.getGrundData().getSkapadAv().getLegitimeradeYrkesgrupper().clear();
+        utlatande.getGrundData().getSkapadAv().getLegitimeradeYrkesgrupper().add(yrkesgrupp);
+        HosPersonal skapadAv = InternalConverterUtil.getIntyg(utlatande, false).getSkapadAv();
+        assertEquals(1, skapadAv.getLegitimeratYrke().size());
+        assertEquals(yrkeskod, skapadAv.getLegitimeratYrke().get(0).getCode());
+        assertEquals(yrkesgrupp, skapadAv.getLegitimeratYrke().get(0).getDisplayName());
+    }
+
+    @Test
+    public void testLegitimeradeYrkesgrupperNotFound() {
+        final String notExistingYrkesgrupp = "Lokare";
+        Utlatande utlatande = buildUtlatande(null, null);
+        utlatande.getGrundData().getSkapadAv().getLegitimeradeYrkesgrupper().clear();
+        utlatande.getGrundData().getSkapadAv().getLegitimeradeYrkesgrupper().add(notExistingYrkesgrupp);
+        HosPersonal skapadAv = InternalConverterUtil.getIntyg(utlatande, false).getSkapadAv();
+        assertEquals(0, skapadAv.getLegitimeratYrke().size());
     }
 
     @Test

@@ -23,6 +23,7 @@ import static se.inera.intyg.common.support.Constants.ARBETSPLATS_KOD_OID;
 import static se.inera.intyg.common.support.Constants.BEFATTNING_KOD_OID;
 import static se.inera.intyg.common.support.Constants.HSA_ID_OID;
 import static se.inera.intyg.common.support.Constants.KV_RELATION_CODE_SYSTEM;
+import static se.inera.intyg.common.support.Constants.LEGITIMERAD_YRKESGRUPP_KOD_OID;
 import static se.inera.intyg.common.support.Constants.PERSON_ID_OID;
 import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
 
@@ -36,6 +37,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import javax.xml.bind.JAXBElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3._2000._09.xmldsig_.SignatureType;
 import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
@@ -45,6 +48,7 @@ import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.services.BefattningService;
+import se.inera.intyg.common.support.services.LegitimeradeYrkesgrupperService;
 import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.schemas.contract.Personnummer;
@@ -54,6 +58,7 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.HsaId;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.LegitimeratYrkeType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PQType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
@@ -77,6 +82,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare;
  * Provides utility methods for converting domain objects from internal Java format to transport format.
  */
 public final class InternalConverterUtil {
+
+    private static final Logger LOG = LoggerFactory.getLogger(InternalConverterUtil.class);
 
     private static final String NOT_AVAILABLE = "N/A";
     private static final int DATE_PARSE_SECTIONS = 3;
@@ -151,6 +158,21 @@ public final class InternalConverterUtil {
             kompetens.setCode(NOT_AVAILABLE);
             kompetens.setDisplayName(sourceKompetens);
             skapadAv.getSpecialistkompetens().add(kompetens);
+        }
+        for (String sourceLegitimeradYrkesgrupp : hoSPersonal.getLegitimeradeYrkesgrupper()) {
+            Optional<String> yrkeskod = LegitimeradeYrkesgrupperService.getCodeFromDescription(sourceLegitimeradYrkesgrupp);
+            if (yrkeskod.isPresent()) {
+                LegitimeratYrkeType legitimeratYrke = new LegitimeratYrkeType();
+                legitimeratYrke.setCodeSystem(LEGITIMERAD_YRKESGRUPP_KOD_OID);
+                legitimeratYrke.setCode(yrkeskod.get());
+                legitimeratYrke.setDisplayName(sourceLegitimeradYrkesgrupp);
+                skapadAv.getLegitimeratYrke().add(legitimeratYrke);
+            } else {
+                //TODO: Ska exception kastas eller bara logga?
+                LOG.error(String.format("Couldn't find mapping for legitimerad yrkesgrupp '%s' in HSA kodverk.",
+                    sourceLegitimeradYrkesgrupp));
+                //throw new IllegalArgumentException("Could not find mapping between legitimerad yrkesgrupp from HSA and HSA kodverk.");
+            }
         }
         return skapadAv;
     }
