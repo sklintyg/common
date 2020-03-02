@@ -8,6 +8,11 @@
   <div class="formly-field form-inline row hours-wrapper">
     <div ng-if="!intygIsLocked">
       <label>
+        <i class="material-icons ifyllnadsstod"
+           uib-popover={{lightBulbTooltip}}
+           popover-popup-delay="300"
+           popover-append-to-body="true"
+           popover-placement="auto top">lightbulb_outline</i>
         <span dynamic-label key="{{::hoursPerWeek.labelkey1}}"></span>
         <input class="form-control hoursPerWeek" type="text"
                ng-model="viewstate.hoursPerWeek"

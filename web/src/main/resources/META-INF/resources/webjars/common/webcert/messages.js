@@ -97,6 +97,7 @@
 
             'common.favourite.add.tooltip': 'Markera intyget som favorit och fäst högst upp i listan.',
             'common.favourite.remove.tooltip': 'Ta bort som favoritmarkerat intyg.',
+            'common.lightbulb.tooltip': 'Funktionen är ett stöd för ifyllnad och bedömning.',
 
             // makulera
             'label.makulera': 'Makulera intyg',
