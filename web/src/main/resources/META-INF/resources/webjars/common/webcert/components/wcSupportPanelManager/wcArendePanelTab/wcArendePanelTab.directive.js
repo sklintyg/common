@@ -96,6 +96,9 @@ angular.module('common').directive('wcArendePanelTab', [
                 }
 
                 $scope.$on('intygstatus.updated', function() {
+                    if (ArendeListViewState.intygProperties.isRevoked === true) {
+                        fetchArenden($stateParams.certificateId, $state.current.data.intygType, false);
+                    }
                     updateInteractionEnabled();
                 });
 
@@ -107,7 +110,7 @@ angular.module('common').directive('wcArendePanelTab', [
                     }
                 });
 
-                function fetchArenden(intygId, intygTyp) {
+                function fetchArenden(intygId, intygTyp, resetFilter) {
 
                     abortFetchArenden = $q.defer();
 
@@ -117,10 +120,12 @@ angular.module('common').directive('wcArendePanelTab', [
 
                         ArendeListViewState.setArendeList(result);
 
-                        // Select default state for isFilterKomplettering
-                        $scope.isFilterKomplettering =
-                            !($scope.unhandledKompletteringCount === 0 && $scope.unhandledAdministrativaFragorCount >
-                                0);
+                        if (resetFilter === true) {
+                            // Select default state for isFilterKomplettering
+                            $scope.isFilterKomplettering =
+                                !($scope.unhandledKompletteringCount === 0 && $scope.unhandledAdministrativaFragorCount >
+                                    0);
+                        }
 
                         abortFetchArenden = null;
 
@@ -142,11 +147,11 @@ angular.module('common').directive('wcArendePanelTab', [
 
                 // If this is a signed intyg we cant start fetching ärenden with this certificateId
                 if ($scope.config.intygContext.isSigned) {
-                    fetchArenden($stateParams.certificateId, $state.current.data.intygType);
+                    fetchArenden($stateParams.certificateId, $state.current.data.intygType, true);
                 } else {
                     // If this is a not signed intyg we need the id from the parentIntyg. $stateParams.certificateId is the id of the utkast, not the parentIntyg
                     $scope.$on('arenden.loadForIntygId', function(event, intygId) {
-                        fetchArenden(intygId, $state.current.data.intygType);
+                        fetchArenden(intygId, $state.current.data.intygType, true);
                     });
                 }
 
