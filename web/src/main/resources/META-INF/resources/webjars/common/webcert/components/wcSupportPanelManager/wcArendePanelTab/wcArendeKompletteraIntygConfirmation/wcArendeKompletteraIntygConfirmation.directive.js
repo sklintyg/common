@@ -33,12 +33,14 @@ angular.module('common').directive('wcArendeKompletteraIntygConfirmation',
                         if (ArendeListViewState.intygProperties.latestChildRelations.complementedByIntyg) {
                             $scope.intygType = ArendeListViewState.intygProperties.type;
                             $scope.intygId = ArendeListViewState.intygProperties.latestChildRelations.complementedByIntyg.intygsId;
+                            $scope.intygMakulerat = ArendeListViewState.intygProperties.latestChildRelations.complementedByIntyg.makulerat;
                             $scope.intygTypeVersion = ArendeListViewState.intygProperties.intygTypeVersion;
                         }
                         else {
                             $scope.intygType = undefined;
                             $scope.intygId = undefined;
                             $scope.intygTypeVersion = undefined;
+                            $scope.intygMakulerat = undefined;
                         }
                     }
 
@@ -48,7 +50,7 @@ angular.module('common').directive('wcArendeKompletteraIntygConfirmation',
                     onIntygLoaded(null, ArendeListViewState.intyg, ArendeListViewState.intygProperties);
 
                     $scope.showKompletteringsIntyg = function() {
-                        return $scope.intygType && $scope.intygId;
+                        return $scope.intygType && $scope.intygId && !$scope.intygMakulerat;
                     };
                 }
             };
