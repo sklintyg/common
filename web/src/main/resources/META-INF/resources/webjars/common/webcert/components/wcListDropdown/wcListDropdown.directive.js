@@ -33,6 +33,7 @@ angular.module('common').directive('wcListDropdown',
           $scope.fetchList = function() {
             if($scope.listModel.limit !== $scope.filterModel.pageSize) {
               $scope.listModel.chosenPage = $scope.listModel.DEFAULT_PAGE;
+              $scope.listModel.chosenPageList = $scope.listModel.DEFAULT_PAGE;
             }
             $scope.filterModel.pageSize = $scope.listModel.limit;
             $rootScope.$broadcast($scope.listModel.LIST_NAME + '.requestListUpdate', {startFrom: 0, reset: false});
