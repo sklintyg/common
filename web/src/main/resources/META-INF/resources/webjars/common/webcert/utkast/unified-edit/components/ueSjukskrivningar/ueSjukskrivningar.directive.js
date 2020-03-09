@@ -40,6 +40,7 @@ angular.module('common').directive('ueSjukskrivningar', ['$log', '$rootScope', '
                     hlpKey: 'common.sit.help.sjukskrivning.hoursperweek'
                 };
             }
+            $scope.lightBulbTooltip = messageService.getProperty('common.lightbulb.tooltip');
 
             var validation = $scope.validation = UtkastViewState.validation;
             $scope.intygIsLocked = UtkastViewState.isLocked;
