@@ -79,9 +79,10 @@ angular.module('common').service('common.UtkastViewStateService',
 
                 this.validPatientAddressAquiredFromPU = data.validPatientAddressAquiredFromPU;
 
-                // Check if new text version is available
+                // Check if new text version is available, but ignore locked drafts
                 if (data.latestTextVersion &&
-                    data.latestTextVersion !== draftModel.content.textVersion) {
+                    data.latestTextVersion !== draftModel.content.textVersion &&
+                    draftModel.status !== 'DRAFT_LOCKED') {
                     // Update textversion to latest
                     draftModel.content.textVersion = data.latestTextVersion;
                     // Set flag to indicate text version has been updated

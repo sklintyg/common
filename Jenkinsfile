@@ -1,8 +1,7 @@
 #!groovy
 
 node {
-    def buildVersion = "3.12.0.${BUILD_NUMBER}"
-    def release = RELEASE
+    def buildVersion = "3.13.0.${BUILD_NUMBER}"
 
     stage('checkout') {
         git url: "https://github.com/sklintyg/common.git", branch: GIT_BRANCH
@@ -20,20 +19,6 @@ node {
 
     stage('tag and upload') {
         shgradle "uploadArchives tagRelease -DbuildVersion=${buildVersion}"
-    }
-
-    stage('propagate') {
-        if (release == 'true') {
-            println "Releases will not trigger downstream builds"
-        } else {
-            ["intygstjanst"].each {
-                try {
-                    build job: "dintyg-${it}-test-pipeline", parameters: [string(name: 'GIT_BRANCH', value: GIT_BRANCH)]
-                } catch (e) {
-                    println "Trigger build error (ignored): ${e.message}"
-                }
-            }
-        }
     }
 
     stage('notify') {
