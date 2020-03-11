@@ -1,4 +1,4 @@
-<div class="ue-del-fraga">  
+<div class="ue-del-fraga">
   <ue-label config="::config.label" model="::model"></ue-label>
 
   <button type="button" id="icf-{{config.modelProp}}-dropdown"
@@ -41,7 +41,7 @@
               value="{{model[config.kategoriProp].length > 0 ? 'Uppdatera' : 'Lägg till'}}"
               ng-click="add(kategorier);updateValidation()" />
       <input type="button" class="btn btn-secondary kategori-rensa" value="Avbryt" ng-click="rensa()" ng-disabled="isInteractionDisabled()"/>
-      <span><a href="https://www.socialstyrelsen.se/klassificeringochkoder/koderfunktionstillstandicf" target="_blank">Läs mer
+      <span><a href="https://www.socialstyrelsen.se/utveckla-verksamhet/e-halsa/klassificering-och-koder/icf" target="_blank">Läs mer
         om ICF hos Socialstyrelsen<i class="external-link-icon material-icons">launch</i></a></span>
     </div>
   </div>
@@ -52,7 +52,7 @@
           'Svårigheter som påverkar patientens sysselsättning:'}}</span>
     <span class="problem" ng-repeat="val in model[config.kategoriProp] track by $index">{{val}}</span>
   </div>
-  
+
   <ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]">
     <div ng-if="(focus || modelGetterSetter()) && model[config.kategoriProp].length > 0" class="placeholder">{{getPlaceHolder()}}</div>
     <textarea ng-attr-id="{{::config.modelProp|ueDomIdFilter}}" name="{{::config.modelProp}}" class="form-control"
