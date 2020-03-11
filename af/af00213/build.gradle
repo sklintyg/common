@@ -1,12 +1,12 @@
 dependencies {
     compile project(":af-parent")
 
-    compile "com.helger:ph-schematron"
+    compile "com.helger:ph-schematron:${phSchematronVersion}"
     compile "org.springframework:spring-tx"
 
-    compile "com.google.auto.value:auto-value"
-    compile "com.google.auto.value:auto-value-annotations"
-    compileOnly "com.google.auto.value:auto-value"
+    //compile "com.google.auto.value:auto-value:${autovalueVersion}"
+    compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
+    compileOnly "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
     annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
 }
 

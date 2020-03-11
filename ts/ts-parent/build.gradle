@@ -7,9 +7,27 @@ dependencies {
 
     compile "com.itextpdf:itextpdf:${itextVersion}"
     compile "com.helger:ph-schematron:${phSchematronVersion}"
+    compile "org.springframework:spring-tx"
+    compile "org.apache.commons:commons-collections4:${commonsCollectionsVersion}"
+
+    compile "se.riv.insuranceprocess.healthreporting:insuranceprocess-healthreporting-schemas:${rivtaInsuranceprocessSchemasVersion}"
+    compile "se.inera.intyg.transportstyrelsen:intyg-transportstyrelsen-schemas:${intygTransportstyrelsenSchemasVersion}"
+}
+
+/*
+dependencies {
+    compile project(":common-support")
+    compile project(":common-web")
+    compile project(":integration-util")
+    compile project(":common-services")
+    compile project(":common-schemas")
+
+    compile "com.itextpdf:itextpdf:${itextVersion}"
+    compile "com.helger:ph-schematron:${phSchematronVersion}"
     compile "org.springframework:spring-tx:${springVersion}"
     compile "org.apache.commons:commons-collections4:${commonsCollectionsVersion}"
 
     compile "se.riv.insuranceprocess.healthreporting:insuranceprocess-healthreporting-schemas:${rivtaInsuranceprocessSchemasVersion}"
     compile "se.inera.intyg.transportstyrelsen:intyg-transportstyrelsen-schemas:${intygTransportstyrelsenSchemasVersion}"
 }
+ */

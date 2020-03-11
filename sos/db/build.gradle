@@ -3,6 +3,16 @@ dependencies {
 
     compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
     compile "com.google.auto.value:auto-value:${autovalueVersion}"
-annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
+    compile "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
+    annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
 }
 
+/*
+dependencies {
+    compile project(':sos_parent')
+
+    compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
+    compile "com.google.auto.value:auto-value:${autovalueVersion}"
+annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
+}
+ */

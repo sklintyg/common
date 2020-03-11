@@ -3,7 +3,20 @@ dependencies {
     compile project(':fk-parent')
     compile project(':lisjp')
 
-    //compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
-    //compile "com.google.auto.value:auto-value:${autovalueVersion}"
+    compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
+    compile "com.google.auto.value:auto-value:${autovalueVersion}"
+    compile "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
     annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
 }
+
+/*
+dependencies {
+    compile project(':ag-parent')
+    compile project(':fk-parent')
+    compile project(':lisjp')
+
+    compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
+    compile "com.google.auto.value:auto-value:${autovalueVersion}"
+    annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
+}
+ */
