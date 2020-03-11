@@ -2,6 +2,22 @@ dependencies {
   compile project(':logging-util')
   compile project(':common-services')
 
+  compile "se.inera.intyg.schemas:schemas-contract"
+  compile "com.fasterxml.jackson.core:jackson-core"
+  compile "com.fasterxml.jackson.core:jackson-databind"
+
+  compile "org.apache.commons:commons-text:${commonsTextVersion}"
+
+  compile "commons-io:commons-io:${commonsIoVersion}"
+  compile "com.itextpdf:itext7-core:${itext7Version}"
+  compile "com.itextpdf:html2pdf:${itextPdfHtmlVersion}"
+}
+
+/*
+dependencies {
+  compile project(':logging-util')
+  compile project(':common-services')
+
   compile "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
   compile "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
   compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
@@ -12,3 +28,4 @@ dependencies {
   compile "com.itextpdf:itext7-core:${itext7Version}"
   compile "com.itextpdf:html2pdf:${itextPdfHtmlVersion}"
 }
+ */
