@@ -24,6 +24,7 @@ ext {
     itextVersion = "5.5.13" //5.5.13.1 not working (tests never finishes)
     itext7Version = "7.1.10"
     itextPdfHtmlVersion = "2.1.7"
+    jaxwsriVersion = "2.3.2"
     phSchematronVersion = "3.0.1"
     //phSchematronVersion = "5.5.0"
     saxonVersion = "9.9.1-6"
@@ -77,25 +78,14 @@ allprojects {
         testCompile "org.xmlunit:xmlunit-core"
         testCompile "nl.jqno.equalsverifier:equalsverifier:${equalsVerifierVersion}"
     }
-    /*
-    dependencies {
-        testCompile "junit:junit:4.+"
-        testCompile "org.mockito:mockito-core:${mockitoVersion}"
-        testCompile "org.skyscreamer:jsonassert:${jsonAssertVersion}"
-        testCompile "org.springframework:spring-test:${springVersion}"
-        testCompile "org.unitils:unitils-core:${unitilsCoreVersion}"
-        testCompile "org.xmlunit:xmlunit-core:${xmlUnitVersion}"
-        testCompile "nl.jqno.equalsverifier:equalsverifier:${equalsVerifierVersion}"
-    }
-    */
 
     group = 'se.inera.intyg.common'
     version = System.properties['buildVersion'] ?: '0-SNAPSHOT'
 
     compileJava.options.encoding = 'UTF-8'
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = 11
+    targetCompatibility = 11
 
     task createVersionPropertyFile(type: VersionPropertyFileTask)
 

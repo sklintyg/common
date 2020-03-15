@@ -32,8 +32,9 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
-import jdk.nashorn.internal.runtime.ECMAException;
-import jdk.nashorn.internal.runtime.Undefined;
+import jdk.nashorn.api.scripting.NashornException;
+//import jdk.nashorn.internal.runtime.ECMAException;
+//import jdk.nashorn.internal.runtime.Undefined;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
 /**
@@ -118,17 +119,17 @@ public class UVTable extends UVComponent {
                     Object result;
                     try {
                         result = function.call(null, som, row, col++, colProp);
-                    } catch (ECMAException e) {
+                    } catch (NashornException/*ECMAException*/ e) {
                         result = EJ_ANGIVET_STR;
                     }
-                    if (result != null && !(result instanceof Undefined)) {
+                    if (result != null && !(result.toString().equals("undefined")/*instanceof Undefined*/)) {
                         String text = renderer.getText(result.toString());
                         if (text != null) {
                             columnValues.add(text);
                         } else {
                             columnValues.add(result.toString());
                         }
-                    } else if (result instanceof Undefined) {
+                    } else if (result != null && result.toString().equals("undefined") /*instanceof Undefined*/) {
                         columnValues.add(EJ_ANGIVET_STR);
                     } else {
                         columnValues.add("");

@@ -109,92 +109,96 @@ public class UVRenderer {
     private PdfImageXObject observandumIcon;
     private PdfImageXObject observandumInfoIcon;
 
-    public byte[] startRendering(PrintConfig printConfig, IntygTexts intygTexts) {
-        this.intygTexts = intygTexts;
-        this.printConfig = printConfig;
 
-        this.kategoriFont = loadFont("Roboto-Medium.woff2");
-        this.fragaDelFragaFont = loadFont("Roboto-Medium.woff2");
-        this.svarFont = loadFont("Roboto-Regular.woff2");
-        this.watermarkFont = loadFont("Roboto-Medium.woff2");
-        this.signBoxFont = loadFont("Roboto-Regular.woff2");
 
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        try {
-            // Initialize PDF writer
-            PdfWriter writer = new PdfWriter(bos);
 
-            // Initialize PDF document
-            PdfDocument pdf = new PdfDocument(writer);
+public byte[] startRendering(PrintConfig printConfig, IntygTexts intygTexts) {
+    this.intygTexts = intygTexts;
+    this.printConfig = printConfig;
 
-            // Load icons for observandum
-            this.observandumIcon = new PdfImageXObject(
-                ImageDataFactory.create(IOUtils.toByteArray(new ClassPathResource("obs-icon.png").getInputStream())));
-            this.observandumInfoIcon = new PdfImageXObject(
-                ImageDataFactory.create(IOUtils.toByteArray(new ClassPathResource("obs-info-icon.png").getInputStream())));
+    this.kategoriFont = loadFont("Roboto-Medium.woff2");
+    this.fragaDelFragaFont = loadFont("Roboto-Medium.woff2");
+    this.svarFont = loadFont("Roboto-Regular.woff2");
+    this.watermarkFont = loadFont("Roboto-Medium.woff2");
+    this.signBoxFont = loadFont("Roboto-Regular.woff2");
 
-            // Initialize event handlers for header, footer etc.
-            pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
-                new IntygHeader(printConfig, kategoriFont, fragaDelFragaFont, svarFont));
-            pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
-                new IntygFooter(svarFont, printConfig.getApplicationOrigin()));
-            pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
-                new MarginTexts(printConfig, svarFont));
-            pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
-                new WaterMarkerer(printConfig, watermarkFont));
-            pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
-                new SignBox(printConfig, signBoxFont));
+    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+    try {
+        // Initialize PDF writer
+        PdfWriter writer = new PdfWriter(bos);
 
-            PageNumberEvent pageNumberEvent = new PageNumberEvent(svarFont);
-            pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
-                pageNumberEvent);
+        // Initialize PDF document
+        PdfDocument pdf = new PdfDocument(writer);
 
-            // Initialize document
-            Document document = new Document(pdf, PageSize.A4);
-            document.setMargins(
-                millimetersToPoints(PAGE_MARGIN_TOP),
-                millimetersToPoints(PAGE_MARGIN_LEFT),
-                millimetersToPoints(printConfig.showSignBox() ? PAGE_MARGIN_BOTTOM_WITH_SIGNBOX : PAGE_MARGIN_BOTTOM_WITHOUT_SIGNBOX),
-                millimetersToPoints(PAGE_MARGIN_LEFT));
+        // Load icons for observandum
+        this.observandumIcon = new PdfImageXObject(
+            ImageDataFactory.create(IOUtils.toByteArray(new ClassPathResource("obs-icon.png").getInputStream())));
+        this.observandumInfoIcon = new PdfImageXObject(
+            ImageDataFactory.create(IOUtils.toByteArray(new ClassPathResource("obs-info-icon.png").getInputStream())));
 
-            // Initialize script engine
-            engine = new ScriptEngineManager().getEngineByName("nashorn");
+        // Initialize event handlers for header, footer etc.
+        pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
+            new IntygHeader(printConfig, kategoriFont, fragaDelFragaFont, svarFont));
+        pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
+            new IntygFooter(svarFont, printConfig.getApplicationOrigin()));
+        pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
+            new MarginTexts(printConfig, svarFont));
+        pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
+            new WaterMarkerer(printConfig, watermarkFont));
+        pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
+            new SignBox(printConfig, signBoxFont));
 
-            // Bind the $filter function and other custom functions declared in uvViewConfig.
-            engine.eval(new InputStreamReader(new ClassPathResource("customfilter.js").getInputStream(), Charset.forName("UTF-8")));
+        PageNumberEvent pageNumberEvent = new PageNumberEvent(svarFont);
+        pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
+            pageNumberEvent);
 
-            // Parse JSON intyg into JS object
-            String script = "JSON.parse('" + escape(printConfig.getIntygJsonModel()) + "');";
-            jsIntygModel = (ScriptObjectMirror) engine.eval(script);
-            engine.put("jsIntygModel", jsIntygModel);
+        // Initialize document
+        Document document = new Document(pdf, PageSize.A4);
+        document.setMargins(
+            millimetersToPoints(PAGE_MARGIN_TOP),
+            millimetersToPoints(PAGE_MARGIN_LEFT),
+            millimetersToPoints(printConfig.showSignBox() ? PAGE_MARGIN_BOTTOM_WITH_SIGNBOX : PAGE_MARGIN_BOTTOM_WITHOUT_SIGNBOX),
+            millimetersToPoints(PAGE_MARGIN_LEFT));
 
-            // Load unified print JS model
-            InputStreamReader inputStreamReader = new InputStreamReader(
-                IOUtils.toInputStream(printConfig.getUpJsModel()), Charset.forName("UTF-8"));
-            engine.eval(inputStreamReader);
-            ScriptObjectMirror viewConfig = (ScriptObjectMirror) engine.eval("viewConfig");
-            engine.put("viewConfig", viewConfig);
+        // Initialize script engine
+        engine = new ScriptEngineManager().getEngineByName("nashorn");
 
-            Div rootDiv = new Div();
-            for (Object o : viewConfig.values()) {
-                render(rootDiv, (ScriptObjectMirror) o);
-            }
+        // Bind the $filter function and other custom functions declared in uvViewConfig.
+        engine.eval(new InputStreamReader(new ClassPathResource("customfilter.js").getInputStream(), Charset.forName("UTF-8")));
 
-            document.add(rootDiv);
+        // Parse JSON intyg into JS object
+        String script = "JSON.parse('" + escape(printConfig.getIntygJsonModel()) + "');";
+        jsIntygModel = (ScriptObjectMirror) engine.eval(script);
+        engine.put("jsIntygModel", jsIntygModel);
 
-            // Final page.
-            if (printConfig.hasSummaryPage()) {
-                renderSummaryPage(printConfig, document);
-            }
+        // Load unified print JS model
+        InputStreamReader inputStreamReader = new InputStreamReader(
+            IOUtils.toInputStream(printConfig.getUpJsModel()), Charset.forName("UTF-8"));
+        engine.eval(inputStreamReader);
+        ScriptObjectMirror viewConfig = (ScriptObjectMirror) engine.eval("viewConfig");
+        engine.put("viewConfig", viewConfig);
 
-            pageNumberEvent.writeTotal(pdf);
-
-            document.close();
-            return bos.toByteArray();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        Div rootDiv = new Div();
+        for (Object o : viewConfig.values()) {
+            render(rootDiv, (ScriptObjectMirror) o);
         }
+
+        document.add(rootDiv);
+
+        // Final page.
+        if (printConfig.hasSummaryPage()) {
+            renderSummaryPage(printConfig, document);
+        }
+
+        pageNumberEvent.writeTotal(pdf);
+
+        document.close();
+        return bos.toByteArray();
+    } catch (Exception e) {
+        throw new RuntimeException(e);
     }
+}
+
 
     public ScriptObjectMirror getIntygModel() {
         return jsIntygModel;
@@ -312,6 +316,7 @@ public class UVRenderer {
         return element;
     }
 
+
     private void render(Div parentDiv, ScriptObjectMirror currentUvNode) {
 
         boolean renderChildren = false;
@@ -377,6 +382,7 @@ public class UVRenderer {
             parentDiv.add(new Div().setMarginTop(millimetersToPoints(MARGIN_BETWEEN_KATEGORIER)));
         }
     }
+
 
     private PdfFont loadFont(String name) {
         try {
