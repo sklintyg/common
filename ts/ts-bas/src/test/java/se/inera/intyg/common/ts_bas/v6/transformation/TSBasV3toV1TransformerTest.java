@@ -20,7 +20,7 @@ package se.inera.intyg.common.ts_bas.v6.transformation;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import com.helger.commons.collection.pair.Pair;
+import com.helger.collection.pair.Pair;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xml.sax.ErrorHandler;

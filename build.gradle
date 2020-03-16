@@ -25,8 +25,7 @@ ext {
     itext7Version = "7.1.10"
     itextPdfHtmlVersion = "2.1.7"
     jaxwsriVersion = "2.3.2"
-    phSchematronVersion = "3.0.1"
-    //phSchematronVersion = "5.5.0"
+    phSchematronVersion = "5.5.0"
     saxonVersion = "9.9.1-6"
 
     unitilsCoreVersion = "3.4.6"

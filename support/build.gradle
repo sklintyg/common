@@ -6,11 +6,11 @@ dependencies {
   compile "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schemas:${intygClinicalprocessSchemasVersion}"
   compile "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
   compile "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schematron:${intygClinicalprocessSchematronVersion}"
-  compile "com.helger:ph-schematron:${phSchematronVersion}"
-  //compile group: 'com.helger', name: 'ph-schematron', version: "${phSchematronVersion}",
-    //      {
-    //        exclude group: "com.helger", module: "ph-jaxb-pom"
-    //      }
+  //compile "com.helger:ph-schematron:${phSchematronVersion}"
+  compile group: 'com.helger', name: 'ph-schematron', version: "${phSchematronVersion}",
+    {
+      exclude group: "com.helger", module: "ph-jaxb-pom"
+    }
 
   compile "com.fasterxml.jackson.core:jackson-databind"
   compile "com.google.guava:guava:${guavaVersion}"
@@ -19,39 +19,9 @@ dependencies {
 
   testCompile "org.assertj:assertj-core"
 
-  //compile "javax.annotation:javax.annotation-api"
-  //compile "org.glassfish.jaxb:jaxb-runtime"
   compile "com.sun.xml.ws:jaxws-ri:${jaxwsriVersion}"
 
   compile "com.google.auto.value:auto-value:${autovalueVersion}"
   compile "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
   annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
 }
-
-/*
-dependencies {
-  compile project(':logging-util')
-
-  compile "org.springframework:spring-oxm:${springVersion}"
-  compile "se.riv.clinicalprocess.healthcond.certificate:clinicalprocess-healthcond-certificate-schemas:${rivtaClinicalprocessSchemasVersion}"
-  compile "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schemas:${intygClinicalprocessSchemasVersion}"
-  compile "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
-  compile "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schematron:${intygClinicalprocessSchematronVersion}"
-  compile "com.helger:ph-schematron:${phSchematronVersion}"
-
-  compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
-  compile "com.google.guava:guava:${guavaVersion}"
-  compile "net.sf.saxon:Saxon-HE:${saxonVersion}"
-  compile "org.apache.commons:commons-csv:${commonsTextVersion}"
-
-  compile "com.google.auto.value:auto-value:${autovalueVersion}"
-
-  testCompile "org.assertj:assertj-core:${assertjVersion}"
-
-  compile "com.google.auto.value:auto-value:${autovalueVersion}"
-annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
-
-
-  compile "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
-}
- */

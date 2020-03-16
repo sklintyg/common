@@ -23,6 +23,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
+import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.*;
 import java.net.URL;
 import java.util.stream.Collectors;
@@ -37,7 +38,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;

@@ -17,20 +17,3 @@ dependencies {
   compile "org.graalvm.js:js:20.0.0"
   compile "org.graalvm.js:js-scriptengine:20.0.0"
 }
-
-/*
-dependencies {
-  compile project(':logging-util')
-  compile project(':common-services')
-
-  compile "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
-  compile "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
-  compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
-
-  compile "org.apache.commons:commons-text:${commonsTextVersion}"
-
-  compile "commons-io:commons-io:${commonsIoVersion}"
-  compile "com.itextpdf:itext7-core:${itext7Version}"
-  compile "com.itextpdf:html2pdf:${itextPdfHtmlVersion}"
-}
- */

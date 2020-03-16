@@ -1,7 +1,11 @@
 dependencies {
     compile project(":af-parent")
 
-    compile "com.helger:ph-schematron:${phSchematronVersion}"
+    //compile "com.helger:ph-schematron:${phSchematronVersion}"
+    compile group: 'com.helger', name: 'ph-schematron', version: "${phSchematronVersion}",
+            {
+                exclude group: "com.helger", module: "ph-jaxb-pom"
+            }
     compile "org.springframework:spring-tx"
 
     //compile "com.google.auto.value:auto-value:${autovalueVersion}"
@@ -9,18 +13,3 @@ dependencies {
     compileOnly "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
     annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
 }
-
-/*
-dependencies {
-    compile project(":af-parent")
-
-    compile "com.helger:ph-schematron:${phSchematronVersion}"
-    compile "org.springframework:spring-tx:${springVersion}"
-
-    compile "com.google.auto.value:auto-value:${autovalueVersion}"
-
-    compile "com.google.auto.value:auto-value:${autovalueVersion}"
-    annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
-    compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
-}
- */

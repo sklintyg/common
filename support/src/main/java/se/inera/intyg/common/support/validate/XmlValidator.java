@@ -18,13 +18,12 @@
  */
 package se.inera.intyg.common.support.validate;
 
+import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.transform.stream.StreamSource;
-
-import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 
 import com.helger.schematron.svrl.SVRLHelper;
 
