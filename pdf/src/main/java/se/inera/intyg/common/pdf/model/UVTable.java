@@ -75,7 +75,7 @@ public class UVTable extends UVComponent {
             throw new IllegalArgumentException("Table valueProps must be of type array.");
         }
 
-        ScriptObjectMirror modelValue = (ScriptObjectMirror) renderer.evalValueFromModel(modelProp);
+        ScriptObjectMirror modelValue = null; // (ScriptObjectMirror) renderer.evalValueFromModel(modelProp);
 
         List<List<String>> data = new ArrayList<>();
 
@@ -119,10 +119,10 @@ public class UVTable extends UVComponent {
                     Object result;
                     try {
                         result = function.call(null, som, row, col++, colProp);
-                    } catch (NashornException/*ECMAException*/ e) {
+                    } catch (NashornException /*ECMAException*/ e) {
                         result = EJ_ANGIVET_STR;
                     }
-                    if (result != null && !(result.toString().equals("undefined")/*instanceof Undefined*/)) {
+                    if (result != null && !(result.toString().equals("undefined") /*instanceof Undefined*/)) {
                         String text = renderer.getText(result.toString());
                         if (text != null) {
                             columnValues.add(text);
