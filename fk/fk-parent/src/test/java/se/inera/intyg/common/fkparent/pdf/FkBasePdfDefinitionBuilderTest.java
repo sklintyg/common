@@ -18,32 +18,28 @@
  */
 package se.inera.intyg.common.fkparent.pdf;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import com.google.common.collect.ImmutableList;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
-import javax.annotation.Nullable;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import com.google.common.collect.ImmutableList;
 import se.inera.intyg.common.fkparent.pdf.model.FkPage;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by marced on 2016-10-25.
@@ -142,19 +138,8 @@ public class FkBasePdfDefinitionBuilderTest {
 
     @Test
     public void buildTillagsfragorPageMissingText() {
-        Tillaggsfraga tillaggsfraga = new Tillaggsfraga() {
-            @Nullable
-            @Override
-            public String getId() {
-                return KEY_MISSING_TEXT;
-            }
 
-            @Nullable
-            @Override
-            public String getSvar() {
-                return "";
-            }
-        };
+        Tillaggsfraga tillaggsfraga = Tillaggsfraga.create(KEY_MISSING_TEXT, "");
 
         ImmutableList<Tillaggsfraga> tillaggsfragas = ImmutableList.of(tillaggsfraga);
         FkPage page = builder.buildTillagsfragorPage(tillaggsfragas);
@@ -164,19 +149,8 @@ public class FkBasePdfDefinitionBuilderTest {
 
     @Test
     public void buildTillagsfragorPage() {
-        Tillaggsfraga tillaggsfraga = new Tillaggsfraga() {
-            @Nullable
-            @Override
-            public String getId() {
-                return KEY_TEXT_FOUND_BASE;
-            }
 
-            @Nullable
-            @Override
-            public String getSvar() {
-                return "svar";
-            }
-        };
+        Tillaggsfraga tillaggsfraga = Tillaggsfraga.create(KEY_TEXT_FOUND_BASE, "svar");
 
         ImmutableList<Tillaggsfraga> tillaggsfragas = ImmutableList.of(tillaggsfraga);
         FkPage page = builder.buildTillagsfragorPage(tillaggsfragas);

@@ -19,10 +19,8 @@
 package se.inera.intyg.common.util.integration.schema.adapter;
 
 import java.text.DecimalFormat;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 import se.inera.intyg.common.support.model.InternalDate;
 
 public final class InternalDateAdapter {
@@ -72,7 +70,7 @@ public final class InternalDateAdapter {
         return new InternalDate(dateString);
     }
 
-    //CHECKSTYLE:OFF EmptyBlock
+    //CHECKSTYLE:OFF EmptyCatchBlock
     private static LocalDate getLocalDate(String str) {
         try {
             return LocalDate.parse(str, DateTimeFormatter.ISO_DATE);
@@ -89,6 +87,6 @@ public final class InternalDateAdapter {
             return null;
         }
     }
-    //CHECKSTYLE:ON EmptyBlock
+    //CHECKSTYLE:ON EmptyCatchBlock
 
 }
