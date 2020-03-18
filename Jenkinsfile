@@ -10,7 +10,7 @@ node {
 
     stage('build') {
         try {
-            shgradle "--refresh-dependencies clean build testReport -PcodeQuality -DgruntColors=false -DbuildVersion=${buildVersion}"
+            shgradle11 "--refresh-dependencies clean build testReport -PcodeQuality -DgruntColors=false -DbuildVersion=${buildVersion}"
         } finally {
             publishHTML allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'build/reports/allTests', \
                 reportFiles: 'index.html', reportName: 'JUnit results'
@@ -18,7 +18,7 @@ node {
     }
 
     stage('tag and upload') {
-        shgradle "uploadArchives tagRelease -DbuildVersion=${buildVersion}"
+        shgradle11 "uploadArchives tagRelease -DbuildVersion=${buildVersion}"
     }
 
     stage('notify') {
