@@ -44,6 +44,10 @@ ue-icf {
       background-color: $wc-color-00;
       flex-direction: column;
 
+      .material-icons {
+        padding-bottom: 3px;
+      }
+
       .kategori-header {
         color: $wc-color-06;
         background-color: $wc-color-03;
