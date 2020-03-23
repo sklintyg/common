@@ -105,7 +105,8 @@ angular.module('common').factory('common.UserModel', [
       requestOrigins: {
         NORMAL: 'NORMAL',
         DJUPINTEGRATION: 'DJUPINTEGRATION',
-        UTHOPP: 'UTHOPP'
+        UTHOPP: 'UTHOPP',
+        READONLY: 'READONLY'
       },
 
       privileges: {
@@ -219,6 +220,10 @@ angular.module('common').factory('common.UserModel', [
 
       isDjupintegration: function _isDjupintegration() {
         return this.hasRequestOrigin(this.requestOrigins.DJUPINTEGRATION);
+      },
+
+      isReadOnly: function _isReadOnly() {
+        return this.hasRequestOrigin(this.requestOrigins.READONLY);
       },
 
       isLakare: function _isLakare() {

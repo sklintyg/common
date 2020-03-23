@@ -66,7 +66,7 @@ angular.module('common').directive('wcModalUserSurvey',
         };
 
         $scope.checkSurvey = function () {
-          if($scope.isModalActive() && !$scope.isUserAsked()) {
+          if($scope.isModalActive() && !$scope.isUserAsked() && !UserModel.isReadOnly()) {
             $scope.showModal();
           }
         };
