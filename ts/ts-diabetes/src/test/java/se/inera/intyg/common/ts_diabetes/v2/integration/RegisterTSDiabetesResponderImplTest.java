@@ -49,7 +49,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -124,7 +124,7 @@ public class RegisterTSDiabetesResponderImplTest {
         assertEquals(ErrorIdType.VALIDATION_ERROR, res.getResultat().getErrorId());
         assertTrue(res.getResultat().getResultText().startsWith("Validation Error(s) found:"));
 
-        verifyZeroInteractions(moduleContainer);
+        verifyNoInteractions(moduleContainer);
     }
 
     @Test(expected = RuntimeException.class)

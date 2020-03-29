@@ -10,13 +10,11 @@ dependencies {
     compile "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schematron:${intygClinicalprocessSchematronVersion}"
 
     compile "com.itextpdf:itextpdf:${itextVersion}"
-    //compile "com.helger:ph-schematron:${phSchematronVersion}"
-    compile group: 'com.helger', name: 'ph-schematron', version: "${phSchematronVersion}",
-            {
-                exclude group: "com.helger", module: "ph-jaxb-pom"
-            }
-    compile "org.springframework:spring-tx"
+    compile ("com.helger:ph-schematron:${phSchematronVersion}") {
+        exclude group: "com.helger", module: "ph-jaxb-pom"
+    }
 
+    compile "org.springframework:spring-tx"
     compile "org.apache.commons:commons-lang3"
 
     compile "javax.annotation:javax.annotation-api"

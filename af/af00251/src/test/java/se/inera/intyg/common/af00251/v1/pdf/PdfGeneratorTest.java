@@ -23,6 +23,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -59,7 +60,7 @@ public class PdfGeneratorTest {
         IntygTexts intygTexts = intygsTextRepositoryHelper.getTexts("af00251", "1.0");
 
         String jsonModel = IOUtils.toString(new ClassPathResource("internal/scenarios/pass-complete.json").getInputStream(),
-            Charset.forName("UTF-8"));
+            StandardCharsets.UTF_8);
         PdfResponse pdfResponse = testee
             .generatePdf(UUID.randomUUID().toString(), jsonModel, "1", Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
                 new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);

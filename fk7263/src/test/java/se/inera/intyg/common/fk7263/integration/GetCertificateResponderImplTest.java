@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.ERROR;
 import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.INFO;
@@ -132,7 +132,7 @@ public class GetCertificateResponderImplTest {
         GetCertificateRequestType request = createGetCertificateRequest("", null);
         GetCertificateResponseType response = responder.getCertificate(null, request);
         assertEquals(response.getResult().getErrorId(), ErrorIdEnum.VALIDATION_ERROR);
-        verifyZeroInteractions(moduleRestApi);
+        verifyNoInteractions(moduleRestApi);
     }
 
     @Test
@@ -140,7 +140,7 @@ public class GetCertificateResponderImplTest {
         GetCertificateRequestType request = createGetCertificateRequest("", "");
         GetCertificateResponseType response = responder.getCertificate(null, request);
         assertEquals(response.getResult().getErrorId(), ErrorIdEnum.VALIDATION_ERROR);
-        verifyZeroInteractions(moduleRestApi);
+        verifyNoInteractions(moduleRestApi);
     }
 
     @Test
@@ -148,7 +148,7 @@ public class GetCertificateResponderImplTest {
         GetCertificateRequestType request = createGetCertificateRequest(null, certificateId);
         GetCertificateResponseType response = responder.getCertificate(null, request);
         assertEquals(response.getResult().getErrorId(), ErrorIdEnum.VALIDATION_ERROR);
-        verifyZeroInteractions(moduleRestApi);
+        verifyNoInteractions(moduleRestApi);
     }
 
     @Test
@@ -156,7 +156,7 @@ public class GetCertificateResponderImplTest {
         GetCertificateRequestType request = createGetCertificateRequest("", certificateId);
         GetCertificateResponseType response = responder.getCertificate(null, request);
         assertEquals(response.getResult().getErrorId(), ErrorIdEnum.VALIDATION_ERROR);
-        verifyZeroInteractions(moduleRestApi);
+        verifyNoInteractions(moduleRestApi);
     }
 
     private GetCertificateRequestType createGetCertificateRequest(String civicRegistrationNumber, String certificateId) {
