@@ -18,7 +18,7 @@
  */
 
 angular.module('common').directive('wcUtkastDeletedModal',
-    ['$document', '$window', '$timeout', '$uibModal', 'common.UtkastViewStateService', 'common.UserModel',
+    ['$document', '$window', '$timeout', '$uibModal', 'common.IntygViewStateService', 'common.UserModel',
       function($document, $window, $timeout, $uibModal, CommonViewState, UserModel) {
         'use strict';
         return {
