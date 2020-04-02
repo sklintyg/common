@@ -19,7 +19,7 @@
 
 angular.module('common').directive('wcUtkastDeletedModal',
     ['$document', '$window', '$timeout', '$uibModal', 'common.IntygViewStateService', 'common.UserModel',
-      function($document, $window, $timeout, $uibModal, CommonViewState, UserModel) {
+      function($document, $window, $timeout, $uibModal, IntygViewState, UserModel) {
         'use strict';
         return {
           restrict: 'E',
@@ -43,7 +43,7 @@ angular.module('common').directive('wcUtkastDeletedModal',
             };
 
             $scope.init = function() {
-              if (CommonViewState.deletedDraft && !UserModel.isDjupintegration()) {
+              if (IntygViewState.deletedDraft && !UserModel.isDjupintegration()) {
                 $scope.showModal();
 
                 setTimeout(function() {
@@ -52,7 +52,7 @@ angular.module('common').directive('wcUtkastDeletedModal',
                   }
                 },2000);
 
-                CommonViewState.deletedDraft = false;
+                IntygViewState.deletedDraft = false;
               }
             };
 
