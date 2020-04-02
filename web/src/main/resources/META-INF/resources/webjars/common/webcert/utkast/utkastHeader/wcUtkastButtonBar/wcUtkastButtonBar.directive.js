@@ -20,10 +20,10 @@ angular.module('common').directive('wcUtkastButtonBar', ['$log', '$stateParams',
     'common.authorityService', 'common.featureService', 'common.messageService', 'common.UtkastViewStateService',
     'common.dialogService',
     'common.PatientProxy', 'common.statService', 'common.UtkastProxy', 'common.UserModel', 'common.IntygMakulera',
-    'common.ResourceLinkService',
+    'common.ResourceLinkService', 'common.IntygViewStateService',
     function($log, $stateParams, $timeout, $window, $location,
         authorityService, featureService, messageService, CommonViewState, dialogService,
-        PatientProxy, statService, UtkastProxy, UserModel, IntygMakulera, ResourceLinkService) {
+        PatientProxy, statService, UtkastProxy, UserModel, IntygMakulera, ResourceLinkService, IntygViewState) {
         'use strict';
 
         return {
@@ -73,7 +73,7 @@ angular.module('common').directive('wcUtkastButtonBar', ['$log', '$stateParams',
 
                             function afterDelete() {
                                 statService.refreshStat(); // Update statistics to reflect change
-                                CommonViewState.deletedDraft = true;
+                                IntygViewState.deletedDraft = true;
                                 if (!authorityService.isAuthorityActive({authority: 'NAVIGERING'})) {
                                     if (CommonViewState.isCreatedFromIntygInSession()) {
                                         CommonViewState.clearUtkastCreatedFrom();
