@@ -18,13 +18,12 @@
  */
 package se.inera.intyg.common.ts_parent.integration;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponderService;
-
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.Dispatch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponderService;
 
 public class RegisterCertificateV3Client extends SendTSClient {
 
@@ -39,6 +38,7 @@ public class RegisterCertificateV3Client extends SendTSClient {
 
     public RegisterCertificateV3Client(String url) {
         super(url);
+        LOGGER.info("RegisterCertificateV3Client invoked: " + url);
     }
 
     @Override
