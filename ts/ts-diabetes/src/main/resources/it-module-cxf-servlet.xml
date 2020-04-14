@@ -70,8 +70,7 @@
   </bean>
 
   <bean id="sendTsDiabetesClient" class="se.inera.intyg.common.ts_parent.integration.RegisterCertificateV1Client">
-<!--    <constructor-arg value="${registercertificatev1.endpoint.url}"/>-->
-    <constructor-arg value="http://diabetes.se"/>
+    <constructor-arg value="${registercertificatev1.endpoint.url}"/>
   </bean>
 
 </beans>

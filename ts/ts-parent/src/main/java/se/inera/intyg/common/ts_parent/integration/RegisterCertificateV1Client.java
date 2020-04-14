@@ -39,7 +39,6 @@ public class RegisterCertificateV1Client extends SendTSClient {
 
     public RegisterCertificateV1Client(String url) {
         super(url);
-        LOGGER.info("RegisterCertificateV1Client invoked: " + url);
     }
 
     @Override
