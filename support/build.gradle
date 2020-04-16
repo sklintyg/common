@@ -17,8 +17,6 @@ dependencies {
 
   testCompile "org.assertj:assertj-core"
 
-  compile "com.sun.xml.ws:jaxws-ri:${jaxwsriVersion}"
-
   compile "com.google.auto.value:auto-value:${autovalueVersion}"
   compile "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
   annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
