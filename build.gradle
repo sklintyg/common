@@ -60,6 +60,12 @@ allprojects {
         }
     }
 
+    configurations {
+        // Remove these due to conflict with Spring SAML which uses bcprov-jdk15.
+        compile.exclude group: "org.bouncycastle", module: "bcpkix-jdk15on"
+        compile.exclude group: "org.bouncycastle", module: "bcprov-jdk15on"
+    }
+
     apply plugin: "io.spring.dependency-management"
 
     dependencyManagement {
