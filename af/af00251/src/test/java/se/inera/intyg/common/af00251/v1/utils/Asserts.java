@@ -27,7 +27,6 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.hamcrest.Matcher;
-import org.junit.Assert;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 
@@ -50,11 +49,11 @@ public class Asserts {
     public static void assertValidationMessage(ValidationMessage message, Matcher<String> categoryMatcher,
         Matcher<String> fieldMatcher, Matcher<ValidationMessageType> typeMatcher,
         Matcher<String> messageMatcher, Matcher<String> dynamicKeyMatcher) {
-        Assert.assertThat("Invalid ValidationMessage, Category", message.getCategory(), categoryMatcher);
-        Assert.assertThat("Invalid ValidationMessage, Field", message.getField(), fieldMatcher);
-        Assert.assertThat("Invalid ValidationMessage, Validation Message Type", message.getType(), typeMatcher);
-        Assert.assertThat("Invalid ValidationMessage, Validation Message", message.getMessage(), messageMatcher);
-        Assert.assertThat("Invalid ValidationMessage, Validation Dynamic Key", message.getDynamicKey(),
+        assertThat("Invalid ValidationMessage, Category", message.getCategory(), categoryMatcher);
+        assertThat("Invalid ValidationMessage, Field", message.getField(), fieldMatcher);
+        assertThat("Invalid ValidationMessage, Validation Message Type", message.getType(), typeMatcher);
+        assertThat("Invalid ValidationMessage, Validation Message", message.getMessage(), messageMatcher);
+        assertThat("Invalid ValidationMessage, Validation Dynamic Key", message.getDynamicKey(),
             dynamicKeyMatcher);
     }
 

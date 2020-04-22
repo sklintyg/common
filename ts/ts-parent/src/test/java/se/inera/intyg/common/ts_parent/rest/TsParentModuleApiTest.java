@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 import javax.xml.bind.JAXB;
@@ -240,7 +241,7 @@ public class TsParentModuleApiTest {
     @Test
     public void testUpdateBeforeSigning() throws Exception {
         final String otherHosPersonalName = "Other Person";
-        final LocalDateTime signDate = LocalDateTime.now();
+        final LocalDateTime signDate = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
 
         HoSPersonal hosPersonal = new HoSPersonal();
         hosPersonal.setFullstandigtNamn(otherHosPersonalName);

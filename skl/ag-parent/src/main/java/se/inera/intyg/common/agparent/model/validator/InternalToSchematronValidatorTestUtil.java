@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.agparent.model.validator;
 
+import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Collections;
@@ -27,8 +28,6 @@ import java.util.stream.Collectors;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-
-import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 
 import com.helger.schematron.svrl.SVRLHelper;
 

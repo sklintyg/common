@@ -24,7 +24,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
@@ -122,7 +122,7 @@ public class ValidatorUtilFKTest {
         assertEquals("diagnoser", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos.missing", validationMessages.get(0).getMessage());
-        verifyZeroInteractions(moduleService);
+        verifyNoInteractions(moduleService);
     }
 
     @Test
@@ -135,7 +135,7 @@ public class ValidatorUtilFKTest {
         assertEquals("diagnoser", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos.missing", validationMessages.get(0).getMessage());
-        verifyZeroInteractions(moduleService);
+        verifyNoInteractions(moduleService);
     }
 
     @Test
@@ -149,7 +149,7 @@ public class ValidatorUtilFKTest {
         assertEquals("diagnoser[0].diagnoskod", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos.codemissing", validationMessages.get(0).getMessage());
-        verifyZeroInteractions(moduleService);
+        verifyNoInteractions(moduleService);
     }
 
     @Test
@@ -177,7 +177,7 @@ public class ValidatorUtilFKTest {
         assertEquals("diagnoser[0].diagnoskod", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.INVALID_FORMAT, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos.psykisk.length-4", validationMessages.get(0).getMessage());
-        verifyZeroInteractions(moduleService);
+        verifyNoInteractions(moduleService);
     }
 
     @Test
@@ -191,7 +191,7 @@ public class ValidatorUtilFKTest {
         assertEquals("diagnoser[0].diagnoskod", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.INVALID_FORMAT, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos.psykisk.length-4", validationMessages.get(0).getMessage());
-        verifyZeroInteractions(moduleService);
+        verifyNoInteractions(moduleService);
     }
 
     @Test
@@ -205,7 +205,7 @@ public class ValidatorUtilFKTest {
         assertEquals("diagnoser[0].diagnoskod", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.INVALID_FORMAT, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos.length-3", validationMessages.get(0).getMessage());
-        verifyZeroInteractions(moduleService);
+        verifyNoInteractions(moduleService);
     }
 
     @Test
@@ -219,7 +219,7 @@ public class ValidatorUtilFKTest {
         assertEquals("diagnoser[0].diagnoskod", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.INVALID_FORMAT, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos.length-5", validationMessages.get(0).getMessage());
-        verifyZeroInteractions(moduleService);
+        verifyNoInteractions(moduleService);
     }
 
     @Test
@@ -231,7 +231,7 @@ public class ValidatorUtilFKTest {
         validatorUtil.validateDiagnose(source, validationMessages);
 
         assertTrue(validationMessages.isEmpty());
-        verifyZeroInteractions(moduleService);
+        verifyNoInteractions(moduleService);
     }
 
     @Test

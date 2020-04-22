@@ -26,6 +26,7 @@ import static se.inera.intyg.common.agparent.model.validator.InternalToSchematro
 import static se.inera.intyg.common.agparent.model.validator.InternalToSchematronValidatorTestUtil.getTransportValidationErrorString;
 import static se.inera.intyg.common.agparent.model.validator.InternalToSchematronValidatorTestUtil.getXmlFromModel;
 
+import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.ByteArrayInputStream;
 import java.util.Collection;
 import java.util.List;
@@ -39,7 +40,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.mockito.MockitoAnnotations;
-import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.google.common.base.Charsets;

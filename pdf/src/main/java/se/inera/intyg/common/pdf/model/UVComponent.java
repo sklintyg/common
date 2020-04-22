@@ -23,9 +23,8 @@ import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Paragraph;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
-import jdk.nashorn.internal.runtime.Undefined;
+//import jdk.nashorn.internal.runtime.Undefined;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -219,7 +218,7 @@ public abstract class UVComponent {
         if (res == null) {
             return false;
         }
-        if (res instanceof Undefined) {
+        if (res.toString() /*instanceof Undefined*/ .equals("undefined")) {
             return false;
         }
         if (res instanceof Boolean) {

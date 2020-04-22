@@ -21,12 +21,13 @@ package se.inera.intyg.common.fkparent.rest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import com.helger.schematron.svrl.jaxb.SchematronOutputType;
+import java.time.temporal.ChronoUnit;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.*;
-import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -407,7 +408,7 @@ public class FkParentModuleApiTest {
     @Test
     public void testUpdateBeforeSigning() throws Exception {
         final String otherHosPersonalName = "Other Person";
-        final LocalDateTime signDate = LocalDateTime.now();
+        final LocalDateTime signDate = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
         doAnswer(invocation -> (Utlatande) invocation.getArguments()[0]).when(moduleApi)
             .decorateDiagnoserWithDescriptions(any(Utlatande.class));
 

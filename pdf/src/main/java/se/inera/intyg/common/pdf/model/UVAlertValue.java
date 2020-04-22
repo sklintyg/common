@@ -69,7 +69,7 @@ public class UVAlertValue extends UVComponent {
         }
 
         // Check if we have hide/show expressions
-        boolean render = show(currentUvNode);
+        boolean render = true; //show(currentUvNode);
         if (render) {
 
             String delFraga = renderer.getText(labelKey);

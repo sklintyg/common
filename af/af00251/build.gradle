@@ -1,14 +1,16 @@
 dependencies {
     compile project(":af-parent")
 
-    compile "com.helger:ph-schematron:${phSchematronVersion}"
-    compile "org.springframework:spring-tx:${springVersion}"
+    compile ("com.helger:ph-schematron:${phSchematronVersion}") {
+        exclude group: "com.helger", module: "ph-jaxb-pom"
+    }
+    compile "org.springframework:spring-tx"
 
     compile "com.google.auto.value:auto-value:${autovalueVersion}"
-
-    compile "com.google.auto.value:auto-value:${autovalueVersion}"
-annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
+    compile "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
+    annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
     compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
-    
-    testCompile "org.hamcrest:hamcrest-library:1.3"
+
+    testCompile "org.hamcrest:hamcrest"
+    testCompile "org.hamcrest:hamcrest-library"
 }

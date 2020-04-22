@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.support.validate;
 
+import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import com.helger.schematron.xslt.SchematronResourceSCH;
-import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 
 import javax.annotation.Nonnull;

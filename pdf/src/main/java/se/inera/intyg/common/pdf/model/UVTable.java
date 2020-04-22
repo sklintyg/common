@@ -20,9 +20,6 @@ package se.inera.intyg.common.pdf.model;
 
 import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.common.base.Strings;
 import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.borders.SolidBorder;
@@ -30,11 +27,15 @@ import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
-
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.util.ArrayList;
+import java.util.List;
+import jdk.nashorn.api.scripting.NashornException;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
-import jdk.nashorn.internal.runtime.ECMAException;
-import jdk.nashorn.internal.runtime.Undefined;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
+
+//import jdk.nashorn.internal.runtime.ECMAException;
+//import jdk.nashorn.internal.runtime.Undefined;
 
 /**
  * The table component is somewhat complex since table data can be either property- or function-based.
@@ -48,6 +49,8 @@ public class UVTable extends UVComponent {
     }
 
     @Override
+    @SuppressFBWarnings({"RCN_REDUNDANT_NULLCHECK_OF_NULL_VALUE",
+        "NP_LOAD_OF_KNOWN_NULL_VALUE"})
     public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
         String modelProp = (String) currentUvNode.get(MODEL_PROP);
 
@@ -74,7 +77,7 @@ public class UVTable extends UVComponent {
             throw new IllegalArgumentException("Table valueProps must be of type array.");
         }
 
-        ScriptObjectMirror modelValue = (ScriptObjectMirror) renderer.evalValueFromModel(modelProp);
+        ScriptObjectMirror modelValue = null; // (ScriptObjectMirror) renderer.evalValueFromModel(modelProp);
 
         List<List<String>> data = new ArrayList<>();
 
@@ -118,17 +121,17 @@ public class UVTable extends UVComponent {
                     Object result;
                     try {
                         result = function.call(null, som, row, col++, colProp);
-                    } catch (ECMAException e) {
+                    } catch (NashornException /*ECMAException*/ e) {
                         result = EJ_ANGIVET_STR;
                     }
-                    if (result != null && !(result instanceof Undefined)) {
+                    if (result != null && !(result.toString().equals("undefined") /*instanceof Undefined*/)) {
                         String text = renderer.getText(result.toString());
                         if (text != null) {
                             columnValues.add(text);
                         } else {
                             columnValues.add(result.toString());
                         }
-                    } else if (result instanceof Undefined) {
+                    } else if (result != null && result.toString().equals("undefined") /*instanceof Undefined*/) {
                         columnValues.add(EJ_ANGIVET_STR);
                     } else {
                         columnValues.add("");

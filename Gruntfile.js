@@ -208,11 +208,25 @@ module.exports = function(grunt) {
 
     });
 
-    grunt.registerTask('default', [ 'ngtemplates', 'concat', 'ngAnnotate', 'uglify', 'sass' ]);
+    grunt.registerTask('default', [ 'ngtemplates', 'concat', 'ngAnnotate', 'uglify', 'sass', 'appendtemplate' ]);
     grunt.registerTask('test-minaintyg', [ 'bower:minaintyg', 'wiredep:minaintyg', 'karma:minaintyg' ]);
     grunt.registerTask('test-webcert', [ 'bower:webcert', 'wiredep:webcert', 'karma:webcert' ]);
     grunt.registerTask('test', [ 'bower', 'wiredep', 'karma' ].concat(RUN_COVERAGE?['lcovMerge']:[]));
     grunt.registerTask('lint-minaintyg', [ 'jshint:minaintyg' ]);
     grunt.registerTask('lint-webcert', [ 'jshint:webcert' ]);
     grunt.registerTask('lint', [ 'jshint' ]);
+
+    // This task is needed since empty templates.js files aren't served by Gretty in its current version.
+    // Results in 404 instead of the empty file. This is however only a concern in development.
+    grunt.registerTask('appendtemplate', 'Make sure template.js isnt empty', function() {
+        grunt.file.expand('build/resources/main/META-INF/resources/webjars/' + MODULE + '/**/templates.js').forEach(function(path){
+            var templateFile = grunt.file.read(path);
+            if(templateFile.length == 0){
+                grunt.log.writeln('Append new line to empty: ' + path);
+                templateFile += '\n';
+                grunt.file.write(path, templateFile);
+            }
+        });
+    });
+
 };

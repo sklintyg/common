@@ -1,6 +1,7 @@
 plugins {
-    id "se.inera.intyg.plugin.common" version "2.0.11" apply false
+    id "se.inera.intyg.plugin.common" version "3.1.1" apply false
     id "com.moowork.node" version "1.3.1" apply false
+    id "io.spring.dependency-management" version "1.0.9.RELEASE"
 }
 
 ext {
@@ -12,33 +13,28 @@ ext {
 
     schemasContractVersion = "2.1.8"
 
-    autovalueVersion = "1.5"
-    cxfVersion = "3.2.4"
     fkEIntygAdapterVersion = "2.2-RC3-INTYG"
-    guavaVersion = "24.1-jre"
-    commonsCollectionsVersion = "4.2"
-    commonsLang3Version = "3.8.1"
-    commonsTextVersion = "1.6"
-    commonsIoVersion = "2.4"
-    itextVersion = "5.5.8"
-    itext7Version = "7.1.7"
-    itextPdfHtmlVersion = "2.1.4"
-    jacksonVersion = "2.9.7"
-    logbackVersion = "1.2.3"
-    phSchematronVersion = "3.0.1"
-    saxonVersion = "9.8.0-10"
-    servletApiVersion = "2.5"
-    springVersion = "4.3.16.RELEASE"
 
-    jsonAssertVersion = "1.2.0"
-    mockitoVersion = "2.16.0"
+    autovalueVersion = "1.7"
+    cxfVersion = "3.2.4"
+    commonsCollectionsVersion = "4.4"
+    commonsTextVersion = "1.8"
+    commonsIoVersion = "2.6"
+    guavaVersion = "28.2-jre"
+    itextVersion = "5.5.13" //5.5.13.1 not working (tests never finishes)
+    itext7Version = "7.1.10"
+    itextPdfHtmlVersion = "2.1.7"
+    jakartaJwsApiVersion = "2.1.0"
+    phSchematronVersion = "5.5.0"
+    saxonVersion = "9.9.1-6"
+
     unitilsCoreVersion = "3.4.6"
-    xmlUnitVersion = "2.6.2"
-    equalsVerifierVersion = "2.5.2"
-    assertjVersion = "3.6.2"
+    equalsVerifierVersion = "3.1.12"
 
     nodeJsVersion = "10.16.2"
     npmVersion = "6.10.3"
+
+    springbootMavenBomVersion = "2.2.5.RELEASE"
 }
 
 allprojects {
@@ -64,23 +60,44 @@ allprojects {
         }
     }
 
+    configurations {
+        // Remove these due to conflict with Spring SAML which uses bcprov-jdk15.
+        compile.exclude group: "org.bouncycastle", module: "bcpkix-jdk15on"
+        compile.exclude group: "org.bouncycastle", module: "bcprov-jdk15on"
+    }
+
+    apply plugin: "io.spring.dependency-management"
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${springbootMavenBomVersion}"
+        }
+    }
+
     dependencies {
+        compile "javax.annotation:javax.annotation-api"
+        compile "jakarta.xml.bind:jakarta.xml.bind-api"
+        compile "jakarta.xml.ws:jakarta.xml.ws-api"
+        compile "jakarta.jws:jakarta.jws-api:${jakartaJwsApiVersion}"
+        testCompile "org.glassfish.jaxb:jaxb-runtime"
+        testCompile "com.sun.xml.messaging.saaj:saaj-impl"
+
         testCompile "junit:junit:4.+"
-        testCompile "org.mockito:mockito-core:${mockitoVersion}"
-        testCompile "org.skyscreamer:jsonassert:${jsonAssertVersion}"
-        testCompile "org.springframework:spring-test:${springVersion}"
+        testCompile "org.mockito:mockito-core"
+        testCompile "org.skyscreamer:jsonassert"
+        testCompile "org.springframework:spring-test"
         testCompile "org.unitils:unitils-core:${unitilsCoreVersion}"
-        testCompile "org.xmlunit:xmlunit-core:${xmlUnitVersion}"
+        testCompile "org.xmlunit:xmlunit-core"
         testCompile "nl.jqno.equalsverifier:equalsverifier:${equalsVerifierVersion}"
     }
 
     group = 'se.inera.intyg.common'
-    version = System.properties['buildVersion'] ?: '0-SNAPSHOT'
+    version = System.properties['buildVersion'] ?: '3.13.1-SNAPSHOT'
 
     compileJava.options.encoding = 'UTF-8'
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = 11
+    targetCompatibility = 11
 
     task createVersionPropertyFile(type: VersionPropertyFileTask)
 

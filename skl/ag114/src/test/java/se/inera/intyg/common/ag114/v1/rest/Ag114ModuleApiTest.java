@@ -21,6 +21,10 @@ package se.inera.intyg.common.ag114.v1.rest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import com.helger.schematron.svrl.jaxb.SchematronOutputType;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +34,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -356,8 +359,8 @@ public class Ag114ModuleApiTest {
     @Test
     public void testUpdateBeforeSigning() throws Exception {
         final String json = getResourceAsString("v1/Ag114ModuleApiTest/valid-utkast-sample.json");
-        ;
-        final LocalDateTime signDate = LocalDateTime.now();
+
+        final LocalDateTime signDate = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
 
         HoSPersonal hosPersonal = new HoSPersonal();
         hosPersonal.setFullstandigtNamn("Other Person");

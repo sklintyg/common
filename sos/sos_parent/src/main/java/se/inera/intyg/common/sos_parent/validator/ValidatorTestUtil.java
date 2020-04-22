@@ -19,7 +19,7 @@
 package se.inera.intyg.common.sos_parent.validator;
 
 import com.helger.schematron.svrl.SVRLHelper;
-import org.oclc.purl.dsdl.svrl.SchematronOutputType;
+import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;

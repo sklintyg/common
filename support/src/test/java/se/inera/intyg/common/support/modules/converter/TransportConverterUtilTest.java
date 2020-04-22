@@ -31,9 +31,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.dom.DOMResult;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.w3c.dom.Node;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.StatusKod;
@@ -63,7 +61,9 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
@@ -71,9 +71,6 @@ public class TransportConverterUtilTest {
 
     /* Exception messages */
     private static final String UNEXPECTED_CONVERSION_ERROR = "Unexpected error while converting data type, mandatory data is missing";
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     @XmlRootElement(namespace = "urn:riv:clinicalprocess:healthcond:certificate:types:3")
     public static class XmlRoot<T> {
@@ -328,34 +325,34 @@ public class TransportConverterUtilTest {
 
         CVType expected = buildCVType(code, "TEST", null, null, null, null);
         assertEquals(expected.getCode(), actual.getCode());
-        assertFalse(expected.getCodeSystem().equals(actual.getCodeSystem()));
+        assertNotEquals(expected.getCodeSystem(), actual.getCodeSystem());
     }
 
     /* Breaking tests */
     @Test
     public void shouldThrowConverterExceptionWithMissingMandatoryFieldMessage() throws Exception {
-        expectedException.expect(ConverterException.class);
-        expectedException.expectMessage(UNEXPECTED_CONVERSION_ERROR);
         Delsvar delsvar = buildCVTypeDelsvar(null, "ANOTHER", null, null, null, null);
-        TransportConverterUtil.getCVSvarContent(delsvar);
+        Exception exception =
+            assertThrows(ConverterException.class,() -> TransportConverterUtil.getCVSvarContent(delsvar));
+        assertEquals(UNEXPECTED_CONVERSION_ERROR, exception.getMessage());
     }
 
     @Test
     public void shouldThrowConverterExceptionWithUnexpectedOutComeMessage() throws Exception {
-        expectedException.expect(ConverterException.class);
-        expectedException.expectMessage(UNEXPECTED_CONVERSION_ERROR);
         Delsvar delsvar = new Delsvar();
-        delsvar.getContent().add(new Integer(1));
-        TransportConverterUtil.getCVSvarContent(delsvar);
+        delsvar.getContent().add(1);
+        Exception exception =
+            assertThrows(ConverterException.class,() -> TransportConverterUtil.getCVSvarContent(delsvar));
+        assertEquals(UNEXPECTED_CONVERSION_ERROR, exception.getMessage());
     }
 
     @Test
     public void shouldThrowConverterExceptionWithUnexpectedOutComeMessage2() throws Exception {
-        expectedException.expect(ConverterException.class);
-        expectedException.expectMessage(UNEXPECTED_CONVERSION_ERROR);
         Delsvar delsvar = new Delsvar();
         delsvar.getContent().add(null);
-        TransportConverterUtil.getCVSvarContent(delsvar);
+        Exception exception =
+            assertThrows(ConverterException.class,() -> TransportConverterUtil.getCVSvarContent(delsvar));
+        assertEquals(UNEXPECTED_CONVERSION_ERROR, exception.getMessage());
     }
 
     @Test

@@ -3,8 +3,8 @@ dependencies {
   compile project(':common-services')
 
   compile "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
-  compile "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
-  compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+  compile "com.fasterxml.jackson.core:jackson-core"
+  compile "com.fasterxml.jackson.core:jackson-databind"
 
   compile "org.apache.commons:commons-text:${commonsTextVersion}"
 

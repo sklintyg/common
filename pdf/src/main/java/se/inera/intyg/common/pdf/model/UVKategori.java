@@ -38,6 +38,7 @@ public class UVKategori extends UVComponent {
         super(renderer);
     }
 
+
     @Override
     public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
         String labelKey = (String) currentUvNode.get(LABEL_KEY);

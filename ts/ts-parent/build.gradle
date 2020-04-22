@@ -6,8 +6,10 @@ dependencies {
     compile project(":common-schemas")
 
     compile "com.itextpdf:itextpdf:${itextVersion}"
-    compile "com.helger:ph-schematron:${phSchematronVersion}"
-    compile "org.springframework:spring-tx:${springVersion}"
+    compile ("com.helger:ph-schematron:${phSchematronVersion}") {
+        exclude group: "com.helger", module: "ph-jaxb-pom"
+    }
+    compile "org.springframework:spring-tx"
     compile "org.apache.commons:commons-collections4:${commonsCollectionsVersion}"
 
     compile "se.riv.insuranceprocess.healthreporting:insuranceprocess-healthreporting-schemas:${rivtaInsuranceprocessSchemasVersion}"
