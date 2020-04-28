@@ -39,7 +39,7 @@ angular.module('common').directive('wcUtkastDeletedModal',
                   backdrop: true,
                   size: 'md'
                 });
-              }, 500);
+              });
             };
 
             $scope.init = function() {
@@ -50,7 +50,7 @@ angular.module('common').directive('wcUtkastDeletedModal',
                   if (modalInstance) {
                     modalInstance.close();
                   }
-                },2000);
+                },1500);
 
                 IntygViewState.deletedDraft = false;
               }
