@@ -43,7 +43,7 @@ angular.module('common').directive('wcUtkastDeletedModal',
             };
 
             $scope.init = function() {
-              if (IntygViewState.deletedDraft && !UserModel.isDjupintegration()) {
+              if (IntygViewState.deletedDraft) {
                 $scope.showModal();
 
                 setTimeout(function() {
