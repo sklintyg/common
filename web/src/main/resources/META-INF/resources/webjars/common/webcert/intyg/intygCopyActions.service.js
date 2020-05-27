@@ -18,9 +18,11 @@
  */
 angular.module('common').factory('common.IntygCopyActions',
     [ '$log', '$stateParams', '$state', 'common.messageService',
-        'common.dialogService', 'common.IntygProxy', 'common.authorityService', 'common.UserModel', 'common.User', 'common.IntygHelper', 'common.PersonIdValidatorService',
+        'common.dialogService', 'common.IntygProxy', 'common.authorityService', 'common.UserModel', 'common.User',
+        'common.IntygHelper', 'common.PersonIdValidatorService', 'common.IntygViewStateService',
         function($log, $stateParams, $state, messageService,
-            dialogService, IntygProxy, authorityService, UserModel, userService, IntygHelper, PersonIdValidatorService) {
+            dialogService, IntygProxy, authorityService, UserModel, userService,
+            IntygHelper, PersonIdValidatorService, IntygViewState) {
             'use strict';
 
             var _FORNYA_DIALOG_PREFERENCE = 'wc.dontShowFornyaDialog';
@@ -131,6 +133,7 @@ angular.module('common').factory('common.IntygCopyActions',
                     $log.debug('fornya intyg without dialog' + intygFornyaRequest);
                     resetViewStateErrorKeys(viewState);
                     _createFornyaDraft(intygFornyaRequest, function(draftResponse) {
+                        IntygViewState.intygWasRenewed = true;
                         IntygHelper.goToDraft(draftResponse.intygsTyp, draftResponse.intygTypeVersion, draftResponse.intygsUtkastId);
                     }, function(errorCode) {
                         var errorMessageKey = 'error.failedtofornyaintyg';
@@ -165,6 +168,7 @@ angular.module('common').factory('common.IntygCopyActions',
                                 dialogPreferenceKey: _FORNYA_DIALOG_PREFERENCE,
                                 closeDialog: function (result) {
                                     fornyaDialog.close(result);
+                                    IntygViewState.intygWasRenewed = true;
                                 }
                             });
                         },

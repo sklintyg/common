@@ -51,8 +51,8 @@ angular.module('common').directive('wcUtkastDeletedModal',
                     modalInstance.close();
                   }
                 },1500);
-
                 IntygViewState.deletedDraft = false;
+                IntygViewState.intygWasRenewed = false;
               }
             };
 
