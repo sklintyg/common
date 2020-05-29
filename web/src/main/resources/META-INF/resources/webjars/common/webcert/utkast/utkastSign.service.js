@@ -20,11 +20,11 @@
  * Common certificate management methods between certificate modules
  */
 angular.module('common').factory('common.UtkastSignService',
-    ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
+    ['$sce', '$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.UtkastProxy', 'common.dialogService', 'common.messageService', 'common.statService',
         'common.UserModel', '$uibModal', 'common.authorityService', 'common.receiverService',
         'common.MonitoringLogService',
-        function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q,
+        function($sce, $rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q,
             UtkastProxy, dialogService, messageService, statService, UserModel, $uibModal,
             authorityService, receiverService, monitoringService) {
             'use strict';
@@ -52,7 +52,8 @@ angular.module('common').factory('common.UtkastSignService',
                     if (iid_IsExplorer()) { // jshint ignore:line
                         _signeraKlient(intygsTyp, $stateParams.certificateId, version, deferred);
                     } else {
-                        _signeraServerUsingNias(intygsTyp, $stateParams.certificateId, version, deferred);
+                        // _signeraServerUsingNias(intygsTyp, $stateParams.certificateId, version, deferred);
+                        _signWithSignService(intygsTyp, $stateParams.certificateId, version, deferred);
                     }
                 } else {
                     _signeraServerUsingGrp(intygsTyp, $stateParams.certificateId, version, deferred);
@@ -79,6 +80,50 @@ angular.module('common').factory('common.UtkastSignService',
             function _signeraServerUsingNias(intygsTyp, intygsId, version, deferred) {
                 var signModel = {};
                 _confirmSigneraMedNias(signModel, intygsTyp, intygsId, version, deferred);
+            }
+
+            /**
+             * Init point for signing using SignService
+             */
+            function _signWithSignService(intygsTyp, intygsId, version, deferred) {
+                var signModel = {};
+
+                // Get formdata from WC backend
+                UtkastProxy.startSigningProcess(intygsId, intygsTyp, version, 'SIGN_SERVICE', function(formData) {
+
+                    _openSignServiceFormModal(formData);
+
+                }, function(error) {
+                    deferred.resolve({});
+                    _showSigneringsError(signModel, error, intygsTyp);
+                });
+            }
+
+            /**
+             * Opens a model with SignService form that automatically will be POST-ed to the SignService.
+             */
+            function _openSignServiceFormModal(formData) {
+
+                return $uibModal.open({
+                    templateUrl: '/app/views/signserviceDialog/signservice.dialog.html',
+                    size: 'lg',
+                    controller: function($scope, $uibModalInstance, transactionId, actionUrl, signRequest) {
+                        $scope.transactionId = transactionId;
+                        $scope.actionUrl = actionUrl;
+                        $scope.signRequest = signRequest;
+                    },
+                    resolve: {
+                        transactionId: function() {
+                            return angular.copy(formData.id);
+                        },
+                        actionUrl: function() {
+                            return $sce.trustAsResourceUrl(angular.copy(formData.actionUrl));
+                        },
+                        signRequest: function() {
+                            return angular.copy(formData.signRequest);
+                        }
+                    }
+                });
             }
 
             /**
