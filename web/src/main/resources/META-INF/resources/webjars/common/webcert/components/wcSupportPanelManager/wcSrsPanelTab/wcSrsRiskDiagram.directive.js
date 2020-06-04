@@ -45,13 +45,33 @@ angular.module('common').directive('wcSrsRiskDiagram',
                             chartData: [
                                 {
                                     name: 'Genomsnittlig risk',
+                                    type: 'GENOMSNITT_RISK',
+                                    y: null,
+                                    enabled: true
+                                },
+                                {
+                                    name: 'Tidigare risk',
+                                    type: 'TIDIGARE_RISK',
+                                    y: null,
+                                    enabled: true,
+                                    date: null,
+                                    opinion: null
+                                },
+                                {
+                                    name: 'Aktuell risk',
                                     type: 'RISK',
-                                    y: 32
+                                    y: null,
+                                    enabled: false,
+                                    date: null,
+                                    opinion: null
                                 },
                                 {
                                     name: '',
                                     type: 'RISK',
-                                    y: 0
+                                    y: null,
+                                    enabled: false,
+                                    date: null,
+                                    opinion: null
                                 }
                             ]
                         }
@@ -75,13 +95,13 @@ angular.module('common').directive('wcSrsRiskDiagram',
                     var calculateResponsiveSize = function(currentResponsiveSize) {
                         var windowWidth = $window.innerWidth;
                         var newSize = null;
-                        if (windowWidth >= 1200 && currentResponsiveSize !== 'larger') {
+                        if (windowWidth >= 1300 && currentResponsiveSize !== 'larger') {
                             newSize = {
                                 responsiveSize: 'larger',
-                                width: 400,
+                                width: 500,
                                 height: 267
                             };
-                        } else if (windowWidth < 1200 && windowWidth >= 1020 && currentResponsiveSize !== 'normal') {
+                        } else if (windowWidth < 1300 && windowWidth >= 1020 && currentResponsiveSize !== 'normal') {
                             newSize = {
                                 responsiveSize: 'normal',
                                 width: 360,
@@ -105,6 +125,20 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         return newSize;
                     };
 
+                    function setBarNames(chartData, meanName, currentName, previousName, calculateRisk) {
+                        chartData[0].name = meanName;
+                        chartData[0].type = 'GENOMSNITT_RISK';
+                        if (!chartData[2] || chartData[2].enabled===false) {
+                            chartData[1].name = chartData[1].y?currentName:calculateRisk;
+                            chartData[1].type = 'RISK';
+                        } else if (chartData[2] && chartData[2].enabled===true) {
+                            chartData[1].name = previousName;
+                            chartData[1].type = 'TIDIGARE_RISK';
+                            chartData[2].name = chartData[2].y?currentName:calculateRisk;
+                            chartData[2].type = 'RISK';
+                        }
+                    }
+
                     function updateResponsiveDesign() {
                         var newSize = calculateResponsiveSize(responsiveSize);
                         if (newSize) {
@@ -118,15 +152,13 @@ angular.module('common').directive('wcSrsRiskDiagram',
                             }
                             responsiveSize = newSize.responsiveSize;
                         }
+
                         if (responsiveSize === 'smallest' && chartData.risk) {
-                            chartData.risk.chartData[0].name = 'Gen.sn.';
-                            chartData.risk.chartData[1].name = 'Pat.';
+                            setBarNames(chartData.risk.chartData, 'Gen.sn.', 'Akt.', 'Tid.', 'Ber.');
                         } else if (responsiveSize === 'smaller' && chartData.risk) {
-                            chartData.risk.chartData[0].name = 'Genomsnitt';
-                            chartData.risk.chartData[1].name = 'Patient';
+                            setBarNames(chartData.risk.chartData, 'Genomsnitt', 'Aktuell', 'Tidigare', 'Beräkna');
                         } else if (chartData.risk) {
-                            chartData.risk.chartData[0].name = 'Genomsnittlig risk';
-                            chartData.risk.chartData[1].name = 'Patientens risk';
+                            setBarNames(chartData.risk.chartData, 'Genomsnittlig risk', 'Aktuell risk', 'Tidigare risk', 'Beräkna aktuell risk');
                         }
                     }
 
@@ -138,7 +170,7 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         var series = [
                             {
                                 name: 'Risk',
-                                data: chartData,
+                                data: chartData.filter(function(cd){ return cd.enabled === true; }),
                                 color: chartFactory.getColors().risk
                             }
                         ];
@@ -220,6 +252,9 @@ angular.module('common').directive('wcSrsRiskDiagram',
                                 }
                             }
                         ];
+                        chartOptions.accessibility = {
+                            description: 'Riskdiagram'
+                        };
                         return new Highcharts.Chart(chartOptions);
                     }
 
@@ -230,20 +265,59 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         }
                     });
 
-                    $scope.$watch('srs.prediction', function(newVal, oldVal) {
-                        if (newVal.prevalence !== null) {
-                            chartData.risk.chartData[0].y = Math.round(newVal.prevalence * 100);
+                    $scope.$watchCollection('srs.predictions', function(newPredictions, oldPredictions) {
+                        // Reset
+                        chartData.risk.chartData.forEach(function(cd) {
+                            cd.y=null;
+                            cd.enabled = false;
+                        });
+                        // if we change to nothing then just return after the reset
+                        if (!newPredictions || !newPredictions[0]) {
+                            return;
+                        }
+
+                        // Current prevalence (always furthest to the left, i.e. index 0)
+                        if (newPredictions[0].prevalence !== null) {
+                            chartData.risk.chartData[0].enabled = true;
+                            chartData.risk.chartData[0].y = Math.round(newPredictions[0].prevalence * 100);
                             // name/title is set via updateResponsiveDesign
                         } else {
+                            chartData.risk.chartData[0].enabled = false;
                             chartData.risk.chartData[0].y = 0;
                             chartData.risk.chartData[0].name = '';
+                            chartData.risk.chartData[0].date = null;
+                            chartData.risk.chartData[0].opinion = null;
                         }
-                        if (newVal.probabilityOverLimit !== null) {
-                            chartData.risk.chartData[1].y = Math.round(newVal.probabilityOverLimit * 100);
+
+                        // Previous prediction (if we have a previous prediction newPrediction[1], add it on position 1)
+                        if (newPredictions[1] && newPredictions[1].probabilityOverLimit !== null) {
+                            chartData.risk.chartData[1].enabled = true;
+                            chartData.risk.chartData[1].y = Math.round(newPredictions[1].probabilityOverLimit * 100);
+                            chartData.risk.chartData[1].date = newPredictions[1].date;
+                            chartData.risk.chartData[1].opinion = newPredictions[1].opinion;
+                            // add current prediction if available
+                            if (newPredictions[0].probabilityOverLimit !== null) { // if we also have a current prediction newPrediction[1] add that to the right
+                                chartData.risk.chartData[2].enabled = true;
+                                chartData.risk.chartData[2].y = Math.round(newPredictions[0].probabilityOverLimit * 100);
+                                chartData.risk.chartData[2].date = newPredictions[0].date;
+                                chartData.risk.chartData[2].opinion = newPredictions[0].opinion;
+                            }
                             // name/title is set via updateResponsiveDesign
-                        } else {
+                        }
+                        // No previous prediction but current (if we don't have a previous one, just add the current at the middle spot)
+                        else if (newPredictions[0].probabilityOverLimit !== null) {
+                            chartData.risk.chartData[1].enabled = true;
+                            chartData.risk.chartData[1].y = Math.round(newPredictions[0].probabilityOverLimit * 100);
+                            chartData.risk.chartData[1].date = newPredictions[0].date;
+                            chartData.risk.chartData[1].opinion = newPredictions[0].opinion;
+                        }
+                        // No prediction
+                        else {
+                            chartData.risk.chartData[1].enabled = false;
                             chartData.risk.chartData[1].y = null;
                             chartData.risk.chartData[1].name = '';
+                            chartData.risk.chartData[1].date = null;
+                            chartData.risk.chartData[1].opinion = null;
                         }
                         dataReceivedSuccess(chartData);
                     });
