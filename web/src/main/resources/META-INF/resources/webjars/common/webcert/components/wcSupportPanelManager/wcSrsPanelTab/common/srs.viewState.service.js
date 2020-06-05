@@ -20,8 +20,8 @@ angular.module('common').service('common.srsViewState',
     function() {
         'use strict';
 
-        this.srsConsentNeeded = false;
-        this.consent = '';
+        this.isLoaded = false;
+        this.selectedView = null;
         this.opinion = '';
         this.opinionError = null;
         this.diagnosBeskrivning = '';
@@ -43,6 +43,7 @@ angular.module('common').service('common.srsViewState',
         this.measuresDisplayedFirstTime = false;
         this.activatedFirstTime = false;
                     
+        this.predictions = [];
         this.prediction = {};
         this.prediction.description = '';
         this.prediction.prevalens = null;
@@ -50,9 +51,6 @@ angular.module('common').service('common.srsViewState',
         this.showVisaKnapp = false;
         this.srsButtonVisible = true; // SRS window should not start in fixed position immediately.
         this.riskImage = '';
-
-        this.consentInfo = '';
-        this.consentError = '';
 
         this.atgarderInfo = '';
         this.atgarderError = '';

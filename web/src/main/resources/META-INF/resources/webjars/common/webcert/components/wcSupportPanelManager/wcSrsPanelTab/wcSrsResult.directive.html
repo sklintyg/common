@@ -3,7 +3,7 @@
     <div class="srs-panel-body-content" ng-if="!srs.isReadOnly">
         <ul id="tab{{id}}" class="nav nav-tabs nav-justified">
             <li class="rounded active"><a data-toggle="tab" ng-click="setActiveTab('atgarder')" href="#atgarder{{id}}">Råd och åtgärder</a></li>
-            <li class="rounded" ng-if="srs.isForlangning"><a data-toggle="tab" ng-click="setActiveTab('prediction')" href="#prediction{{id}}">Tidigare riskbedömning</a></li>
+<!--            <li class="rounded" ng-if="srs.isForlangning"><a data-toggle="tab" ng-click="setActiveTab('prediction')" href="#prediction{{id}}">Tidigare riskbedömning</a></li>-->
             <li class="rounded"><a data-toggle="tab" ng-click="setActiveTab('statistics')" href="#statstics{{id}}">Statistik</a></li>
         </ul>
     </div>
@@ -46,9 +46,9 @@
 
 <!-- TIDIGARE RISKBEDÖMNING -->
 
-        <div ng-if="srs.isForlangning" id="prediction{{id}}" class="tab-pane fade">
-            <wc-srs-prediction ng-if="srs.isForlangning"/>
-        </div>
+<!--        <div ng-if="srs.isForlangning" id="prediction{{id}}" class="tab-pane fade">-->
+<!--            <wc-srs-prediction ng-if="srs.isForlangning"/>-->
+<!--        </div>-->
 
 <!-- STATISTIK -->
 

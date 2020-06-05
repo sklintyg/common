@@ -43,26 +43,21 @@ angular.module('common').directive('wcSrsPanelTab',
             };
 
             $scope.retrieveAndSetAtgarderAndStatistikAndHistoricPrediction = function() {
-                var predictionIntygId = $scope.srs.userClientContext === 'SRS_FRL' ? $scope.srs.extensionFromIntygId : $scope.srs.intygId;
-                return srsProxy.getAtgarderAndStatistikAndHistoricPredictionForDiagnosis(predictionIntygId, $scope.srs.personId,
+                // var predictionIntygId = $scope.srs.userClientContext === 'SRS_FRL' ? $scope.srs.extensionFromIntygId : $scope.srs.intygId;
+                var predictionIntygId = $scope.srs.intygId;
+                return srsProxy.getAtgarderAndStatistikAndHistoricPredictionsForDiagnosis(predictionIntygId, $scope.srs.personId,
                     srsViewState.diagnosKod)
                     .then(function(data) {
                         $scope.srs.statistik = data.statistik || 'error';
                         $scope.srs.atgarder = data.atgarder || 'error';
-                        // If we are in the extension view, update the prediction values if it is the first load (page load) or if the
-                        // currently loaded prediction doesn't have a personalized prediction (probabilityOverLimit)
-                        // This makes the prediction from the previous
-                        if (!$scope.srs.isForlangning || ($scope.srs.isForlangning && (!$scope.srs.extensionPredictionFetched ||
-                            !$scope.srs.prediction.probabilityOverLimit))) {
-                            $scope.srs.prediction = data.prediktion || 'error';
-                            $scope.srs.extensionPredictionFetched = true;
-                        }
+                        $scope.srs.extensionChain = data.forlangningskedja || 'error';
+                        $scope.srs.predictions = data.prediktioner || 'error';
 
                         // Update the selected answers to the received stored answer
-                        if ($scope.srs.prediction.predictionQuestionsResponses) {
-                            $scope.srs.prediction.predictionQuestionsResponses.forEach(function(qnr) {
+                        if ($scope.srs.predictions[0].questionsResponses) {
+                            $scope.srs.predictions[0].questionsResponses.forEach(function(qnr) {
                                 // Find correct question and answer option (in the scope) for received qnr
-                                var correspondingQuestion = $scope.srs.questions.filter(function(q){
+                                var correspondingQuestion = $scope.srs.questions.filter(function(q) {
                                     return qnr.questionId===q.questionId;
                                 })[0];
                                 // Some prediction params like "Region" aren't reflected as questions in the gui so if we don't get a
@@ -78,7 +73,7 @@ angular.module('common').directive('wcSrsPanelTab',
                     }, function(error) {
                         $scope.srs.statistik = 'error';
                         $scope.srs.atgarder = 'error';
-                        $scope.srs.prediction = 'error';
+                        $scope.srs.predictions = 'error';
                     });
             };
 
@@ -104,27 +99,25 @@ angular.module('common').directive('wcSrsPanelTab',
                 });
             };
 
-            $scope.setConsent = function() {
-                var consent = $scope.srs.consent === 'JA';
-                if (consent) {
-                    srsProxy.logSrsConsentAnswered($scope.srs.userClientContext, $scope.srs.intygId,
-                        $scope.srs.vardgivareHsaId, $scope.srs.hsaId);
-                }
-                srsProxy.setConsent($scope.srs.personId, $scope.srs.hsaId, consent);
-                if ($scope.srs.consent === 'NEJ') {
-                    var cleanPrediction = angular.copy($scope.srs.prediction);
-                    cleanPrediction.probabilityOverLimit = null;
-                    $scope.srs.prediction = cleanPrediction;
-                }
+            $scope.setSelectedView = function(view) {
+                $scope.srs.selectedView = view;
             };
 
             $scope.setOpinion = function(opinion) {
+                // it is only possible to set own opinion while in draft mode, thus predictions[0]
                 srsProxy.setOwnOpinion(opinion, $scope.srs.personId, $scope.srs.vardgivareHsaId, $scope.srs.hsaId,
-                    $scope.srs.intygId, $scope.srs.prediction.predictionDiagnosisCode).then(function(result) {
-                    $scope.srs.prediction.opinion = opinion;
-                }, function(error) {
-                    $scope.srs.prediction.opinionError = 'Fel när egen bedömning skulle sparas';
-                });
+                    $scope.srs.intygId, $scope.srs.predictions[0].diagnosisCode)
+                .then(function(result) {
+                        // Special procedure to trigger update (of the tooltip) in the risk diagram change listener
+                        // I.e. this would not trigger the change listener: $scope.srs.predictions[0].opinion = opinion;
+                        var copyOfCurrentPrediction = {};
+                        Object.assign(copyOfCurrentPrediction, $scope.srs.predictions[0]);
+                        copyOfCurrentPrediction.opinion = opinion;
+                        $scope.srs.predictions[0] = copyOfCurrentPrediction;
+                    },
+                    function(error) {
+                        $scope.srs.predictions[0].opinionError = 'Fel när egen bedömning skulle sparas';
+                    });
             };
 
             $scope.logSrsPanelActivated = function() {
@@ -148,54 +141,75 @@ angular.module('common').directive('wcSrsPanelTab',
              * or the editor is reloaded.
              */
             $scope.$on('intyg.loaded', function(event, content) {
-                    if (content.grundData.relation.relationKod === 'FRLANG') {
-                        $scope.srs.isForlangning = true;
-                        $scope.srs.extensionFromIntygId = content.grundData.relation.relationIntygsId;
-                        $scope.srs.userClientContext = 'SRS_FRL';
-                        $scope.srs.extensionPredictionFetched = false;
-                    } else {
-                        $scope.srs.isForlangning = false;
-                        $scope.srs.userClientContext = 'SRS_UTK';
-                    }
-                    $scope.srs.intygId = $stateParams.certificateId;
+                if (content.grundData.relation.relationKod === 'FRLANG') {
+                    $scope.srs.isForlangning = true;
+                    // $scope.srs.extensionFromIntygId = content.grundData.relation.relationIntygsId;
+                    $scope.srs.userClientContext = 'SRS_FRL';
+                    $scope.srs.extensionPredictionFetched = false;
+                } else {
+                    $scope.srs.isForlangning = false;
+                    $scope.srs.userClientContext = 'SRS_UTK';
+                }
+                $scope.srs.intygId = $stateParams.certificateId;
 
-                    if(!$scope.srs.diagnosisListFetching) {
-                        loadDiagCodes();
-                    }
-                    $scope.srs.userHasSrsFeature = checkIfUserHasSrsFeature();
-                    // INTYG-4543: Only use srs endpoints if user has srs-feature enabled.
-                    if ($scope.srs.userHasSrsFeature) {
-                        if ($scope.srs.srsConsentNeeded) {
-                            $scope.srs.consentError = '';
-                            $scope.srs.consent = '';
-                            srsProxy.getConsent($scope.srs.personId, $scope.srs.hsaId).then(function (consent) {
-                                if (consent.status === 200) {
-                                    $scope.srs.consent = consent.data;
-                                } else {
-                                    $scope.srs.consent = 'error';
-                                }
-                                setConsentMessages();
-                            });
+                if(!$scope.srs.diagnosisListFetching) {
+                    loadDiagCodes();
+                }
+                $scope.srs.userHasSrsFeature = checkIfUserHasSrsFeature();
+                // INTYG-4543: Only use srs endpoints if user has srs-feature enabled.
+                if ($scope.srs.userHasSrsFeature) {
+                    $scope.$watch('srs.originalDiagnosKod', function(newVal, oldVal) {
+                        if (newVal === null || newVal === '') {
+                            reset();
+                            resetMessages();
+                        } else if (newVal !== oldVal) {
+                            applySrsForDiagnosisCode();
                         }
-                        $scope.$watch('srs.originalDiagnosKod', function(newVal, oldVal) {
-                            if (newVal === null) {
-                                reset();
-                                resetMessages();
-                            } else if (newVal !== oldVal) {
-                                applySrsForDiagnosCode();
-                            }
-                        });
+                    });
+                    $scope.$watch('srs.selectedView', function(newVal, oldVal) {
+                        $scope.srs.showVisaKnapp = true;
+                        $scope.srs.daysIntoSickLeave = getDaysIntoSickLeaveApproximationFromSelectedView(newVal);
+                    });
+                }
+                // In SRS_UTK applyForDiagnosis will be triggered by initial automatic change to srs.originalDiagnosKod
+                if ($scope.srs.userClientContext !== 'SRS_UTK') {
+                    applySrsForDiagnosisCode();
+                }
+            });
 
-                        $scope.$watch('srs.consent', function(newVal, oldVal) {
-                            if (newVal === 'JA' && srsViewState.diagnosKod) {
-                                srsViewState.diagnosisListFetching.then(function() {
-                                    loadSrs();
-                                });
-                            }
-                        });
+            function getDaysIntoSickLeaveApproximationFromSelectedView(selectedView) {
+                switch (selectedView) {
+                    case 'NEW':
+                        return 15; // No need for LISJP the first 14 days
+                    case 'EXT':
+                        return 45; // Middle of 30..60
+                    case 'LATE_EXT':
+                        return 75; // Not used at the moment
+                    default:
+                        break;
+                }
+                // We shouldn't end up here.
+                // If we can't figure out the selected view, return 15 as default;
+                return 15;
+            }
+
+            function getSelectedViewFromExtensionChain(extensionChain) {
+                if (extensionChain && extensionChain.length > 0) {
+                    switch (extensionChain.length) {
+                        case 1:
+                            return 'NEW';
+                        case 2:
+                            return 'EXT';
+                        case 3:
+                            return 'LATE_EXT';
+                        default:
+                            break;
                     }
                 }
-            );
+                // We shouldn't end up here.
+                // If we can't figure out which view to show, use NEW
+                return 'NEW';
+            }
 
             /* jshint ignore:start */
             function debugLog() {
@@ -206,8 +220,10 @@ angular.module('common').directive('wcSrsPanelTab',
             }
             /* jshint ignore:end */
 
-            function isScrolledIntoView(element, fullyInView)
-            {
+            function isScrolledIntoView(element, fullyInView) {
+                if (!$scope.srs.isLoaded) {
+                    return false;
+                }
                 var pageTop = $window.document.documentElement.scrollTop;
                 var pageBottom = pageTop + $window.innerHeight;
                 var elementTop = element.getBoundingClientRect().top;
@@ -237,7 +253,7 @@ angular.module('common').directive('wcSrsPanelTab',
                 });
             }
 
-            function applySrsForDiagnosCode() {
+            function applySrsForDiagnosisCode() {
                 resetMessages();
                 reset();
                 $scope.srs.diagnosKod = srsViewState.originalDiagnosKod;
@@ -255,12 +271,6 @@ angular.module('common').directive('wcSrsPanelTab',
                         loadSrs();
                     }
                 });
-            }
-
-            function setConsentMessages() {
-                if ($scope.srs.consent === 'error') {
-                    $scope.srs.consentError = 'Tekniskt fel: Det gick inte att hämta information om tidigare samtycke';
-                }
             }
 
             function setAtgarderMessages() {
@@ -352,17 +362,18 @@ angular.module('common').directive('wcSrsPanelTab',
 
             function loadSrs() {
                 $scope.getQuestions($scope.srs.diagnosKod).then(function(questions) {
-                    setConsentMessages();
                     if (!$scope.srs.isForlangning || ($scope.srs.isForlangning && !$scope.srs.extensionPredictionFetched)) {
                         $scope.srs.questions = questions;
                         $scope.srs.allQuestionsAnswered = $scope.questionsFilledForVisaButton();
                         $scope.srs.showVisaKnapp = $scope.srs.allQuestionsAnswered;
                     }
                     $scope.retrieveAndSetAtgarderAndStatistikAndHistoricPrediction().then(function () {
+                        $scope.srs.selectedView = getSelectedViewFromExtensionChain($scope.srs.extensionChain);
                         setAtgarderMessages();
                         setStatistikMessages();
                         $scope.setPrediktionMessages();
                         $scope.setPredictionRiskLevel();
+                        $scope.srs.isLoaded = true;
                     });
                     $scope.setPrediktionMessages(); // No prediction data as of yet, only used to ensure initial correct state.
 
@@ -377,33 +388,38 @@ angular.module('common').directive('wcSrsPanelTab',
             $scope.setPrediktionMessages = function() {
                 $scope.srs.prediktionInfo = '';
                 $scope.srs.prediktionError = '';
-                if ($scope.srs.prediction === 'error') {
+                if ($scope.srs.predictions === 'error') {
                     $scope.srs.prediktionError =
-                        'Tekniskt fel: Det gick inte att hämta risk för sjukskrivning längre än 90 dagar';
-                } else if ($scope.srs.prediction.statusCode === 'NOT_OK') {
-                    $scope.srs.prediktionError =
-                        'Tekniskt fel: Det gick inte att hämta risk för sjukskrivning längre än 90 dagar';
+                        'Tekniskt fel: Något gick fel när risk för sjukskrivning längre än 90 dagar skulle hämtas.';
+                } else {
+                    $scope.srs.predictions.forEach(function(prediction) {
+                        if (prediction === 'error' || prediction.statusCode === 'NOT_OK') {
+                            $scope.srs.prediktionError =
+                                'Tekniskt fel: Något gick fel när risk för sjukskrivning längre än 90 dagar skulle hämtas.';
+                        }
+                    });
                 }
             };
 
             $scope.setPredictionRiskLevel = function() {
-                if ($scope.srs.prediction.probabilityOverLimit && $scope.srs.prediction.probabilityOverLimit !== null) {
-                    var probability = $scope.srs.prediction.probabilityOverLimit;
-                    var riskLevel = null;
-                    if (probability < 0.39) {
-                        riskLevel = 'Måttlig risk';
-                    } else if (probability >= 0.39 && probability <= 0.62) {
-                        riskLevel = 'Hög risk';
-                    } else if (probability > 0.62) {
-                        riskLevel = 'Mycket hög risk';
+                $scope.srs.predictions.forEach(function(prediction) {
+                    if (prediction.probabilityOverLimit) {
+                        var probability = prediction.probabilityOverLimit;
+                        var riskLevel = null;
+                        if (probability < 0.39) {
+                            riskLevel = 'Måttlig risk';
+                        } else if (probability >= 0.39 && probability <= 0.62) {
+                            riskLevel = 'Hög risk';
+                        } else if (probability > 0.62) {
+                            riskLevel = 'Mycket hög risk';
+                        }
+                        prediction.riskLevel = riskLevel;
                     }
-                    $scope.srs.prediction.riskLevel = riskLevel;
-                }
+                });
             };
 
             function resetMessages() {
                 $scope.srs.backendError = '';
-                $scope.srs.consentError = '';
 
                 $scope.srs.atgarderInfo = '';
                 $scope.srs.atgarderError = '';
@@ -417,17 +433,19 @@ angular.module('common').directive('wcSrsPanelTab',
 
             function reset() {
                 // On forlangning we want to preserve the latest prediction
+                // TODO: check if this (the if statement) is still needed after getting the extension chain
+                $scope.isLoaded = false;
                 if ($scope.srs.isForlangning) {
                     $scope.srs.statistik = {};
                     $scope.srs.atgarder = {};
+                    // $scope.srs.predictions = [];
                     $scope.srs.srsApplicable = false;
                     $scope.srs.activeTab = 'atgarder';
                 } else {
                     $scope.srs.questions = [];
                     $scope.srs.statistik = {};
                     $scope.srs.atgarder = {};
-                    $scope.srs.prediction = {};
-                    $scope.srs.prediction.description = '';
+                    $scope.srs.predictions = [];
                     $scope.srs.shownFirstTime = false;
                     $scope.srs.activatedFirstTime = false;
                     $scope.srs.measuresDisplayedFirstTime = false;
@@ -450,29 +468,19 @@ angular.module('common').directive('wcSrsPanelTab',
                         $scope.srs.userClientContext = 'SRS_REH'; // Rehabstöd
                         $scope.srs.isForlangning = false;
                         $scope.srs.intygId = $scope.config.intygContext.id;
+
                         srsService.updatePersonnummer($scope.config.readOnlyIntyg.grundData.patient.personId);
                         srsService.updateHsaId($scope.config.readOnlyIntyg.grundData.skapadAv.vardenhet.enhetsid);
                         srsService.updateVardgivareHsaId($scope.config.readOnlyIntyg.grundData.skapadAv.vardenhet.vardgivare.vardgivarid);
                         srsService.updateIntygsTyp($scope.config.readOnlyIntyg.typ);
                         srsService.updateDiagnosKod($scope.config.diagnoseCode);
+
                         if(!$scope.srs.diagnosisListFetching) {
                             loadDiagCodes();
                         }
                         $scope.srs.userHasSrsFeature = checkIfUserHasSrsFeature();
                         if ($scope.srs.userHasSrsFeature) {
-                            if ($scope.srs.srsConsentNeeded) {
-                                $scope.srs.consentError = '';
-                                $scope.srs.consent = '';
-                                srsProxy.getConsent($scope.srs.personId, $scope.srs.hsaId).then(function (consent) {
-                                    if (consent.status === 200) {
-                                        $scope.srs.consent = consent.data;
-                                    } else {
-                                        $scope.srs.consent = 'error';
-                                    }
-                                    setConsentMessages();
-                                });
-                            }
-                            applySrsForDiagnosCode();
+                            applySrsForDiagnosisCode();
                         }
                     }
 

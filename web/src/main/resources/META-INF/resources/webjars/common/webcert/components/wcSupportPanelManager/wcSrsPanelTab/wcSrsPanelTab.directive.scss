@@ -1,3 +1,5 @@
+$srs-wc-color-02-variation: #FFDB84;
+
 wc-srs-panel-tab {
   overflow: auto;
   overflow-x: hidden;
@@ -13,7 +15,7 @@ wc-srs-panel-tab {
     }
   }
 
-  /* We need to override the padding of the default webcert scollable panel to be able to have the
+  /* We need to override the padding of the default webcert scrollable panel to be able to have the
      thick-divider below span the entire width
      We also override the bottom padding.
      */
@@ -45,6 +47,67 @@ wc-srs-panel-tab {
     width: 100%;
   }
 
+  .srs-view-selection-row {
+    min-width: 1px;
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px 20px 20px;
+  }
+
+  .srs-view-selection-grid {
+    display: -ms-grid;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 5px;
+    wc-radio-wrapper {
+      padding: 0 11px 0 22px;
+    }
+  }
+
+  // Special construct since IE don't support automatic wrapping in grids
+  .srs-view-selection-grid-cell:nth-child(n+1) {
+    -ms-grid-column: 1;
+    -ms-grid-row: 1;
+  }
+  .srs-view-selection-grid-cell:nth-child(n+2) {
+    -ms-grid-column: 2;
+    -ms-grid-row: 1;
+  }
+  .srs-view-selection-grid-cell:nth-child(n+3) {
+    -ms-grid-column: 3;
+    -ms-grid-row: 1;
+  }
+
+  .srs-calclulate-risk-header {
+    background: $wc-color-02;
+    overflow: hidden;
+    padding: 20px 25px 10px 25px;
+    //margin-top: 30px;
+    margin-left: -20px;
+    margin-right: -20px;
+    margin-bottom: 20px;
+    height: 54px;
+    box-shadow: 1px 2px 5px $wc-color-15;
+    &:hover {
+      background: $srs-wc-color-02-variation;
+    }
+    &.open {
+      background: $srs-wc-color-02-variation;
+      box-shadow: unset;
+    }
+  }
+
+  hr.srs-calclulate-risk-footer {
+    background: $srs-wc-color-02-variation;
+    overflow: hidden;
+    padding: 0px 25px 0px 25px;
+    margin-top: 16px;
+    margin-left: -20px;
+    margin-right: -20px;
+    //margin-bottom: 20px;
+    height: 12px;
+  }
+
   hr.srs-thick-divider {
     border-top: 1px;
     border-bottom: 1px;
@@ -55,22 +118,6 @@ wc-srs-panel-tab {
     border-bottom-color: $wc-color-13;
     background-color: $wc-color-28;
     height: 13px;
-  }
-
-  .srs-diagnos-row {
-    min-width: 1px;
-    display: flex;
-    flex-direction: column;
-    padding: 11px 20px;
-
-    &.has-diagnose {
-      border-bottom: 1px solid $wc-color-15;
-    }
-
-  }
-
-  .risk-header-line {
-    display: block;
   }
 
   .srs-option-grid {
@@ -342,10 +389,12 @@ wc-srs-panel-tab {
       display: block;
     }
   }
-  .no-diagnose-entered {
+  .center-message {
     text-align: center;
     padding-top: 25px;
     img {
+      width: 78px;
+      height: 92px;
       padding-bottom: 24px;
     }
   }
