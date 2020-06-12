@@ -24,9 +24,9 @@ angular.module('common').factory('common.srsProxy', ['common.ObjectHelper', '$ht
             return [{questionId: 'garbagedata', answerId: 'garbagedata'}];
         }
 
-        function _getSrs(intygsId, patientId, diagnosKod, qaIds, prediktion, atgard, statistik) {
-            var url = '/api/srs/' + intygsId + '/' + patientId + '/' + diagnosKod + '?prediktion=' +
-                prediktion + '&atgard=' + atgard + '&statistik=' + statistik;
+        function _getSrs(intygsId, patientId, diagnosKod, qaIds, prediktion, atgard, statistik, daysIntoSickLeave) {
+            var url = '/api/srs/' + intygsId + '/' + patientId + '/' + diagnosKod + '?prediktion=' + prediktion +
+                '&atgard=' + atgard + '&statistik=' + statistik + '&daysIntoSickLeave=' + (daysIntoSickLeave?daysIntoSickLeave:15);
             return $http.post(url, qaIds).then(function(response) {
                 return response.data;
             }, function(err) {
@@ -34,24 +34,26 @@ angular.module('common').factory('common.srsProxy', ['common.ObjectHelper', '$ht
             });
         }
 
-        function _getPredictionFromResponseData(data) {
+        function _getPredictionsFromResponseData(data) {
             /*jshint maxcomplexity:12 */
             if(data === 'error'){
                 return data;
             }
-            return {
-                predictionDiagnosisDescription: data.predictionDiagnosisDescription,
-                predictionDiagnosisCode: data.predictionDiagnosisCode,
-                description: data.predictionDescription,
-                level: data.predictionLevel,
-                statusCode: data.predictionStatusCode,
-                probabilityOverLimit: data.predictionProbabilityOverLimit,
-                prevalence: data.predictionPrevalence,
-                opinion: data.predictionPhysiciansOwnOpinionRisk,
-                predictionQuestionsResponses: data.predictionQuestionsResponses,
-                predictionTimestamp: data.predictionTimestamp,
-                predictionDate: data.predictionTimestamp?moment(Date.parse(data.predictionTimestamp)).format('YYYY-MM-DD'):undefined
-            };
+            return data.predictions.map(function(p) {
+                return {
+                    diagnosisDescription: p.diagnosisDescription,
+                    diagnosisCode: p.diagnosisCode,
+                    description: p.description,
+                    level: p.level,
+                    statusCode: p.statusCode,
+                    probabilityOverLimit: p.probabilityOverLimit,
+                    prevalence: p.prevalence,
+                    opinion: p.physiciansOwnOpinionRisk,
+                    questionsResponses: p.questionsResponses,
+                    timestamp: p.timestamp,
+                    date: p.timestamp?moment(Date.parse(p.timestamp)).format('YYYY-MM-DD'):undefined
+                };
+            });
         }
 
         function _getAtgarderFromResponseData(data) {
@@ -109,28 +111,30 @@ angular.module('common').factory('common.srsProxy', ['common.ObjectHelper', '$ht
             return statistik;
         }
 
-        function _getPrediction(intygsId, patientId, diagnosKod, qaIds) {
-            return _getSrs(intygsId, patientId, diagnosKod, qaIds, true, false, false).then(function(data) {
-                return _getPredictionFromResponseData(data);
-            });
+        function _getPredictions(intygsId, patientId, diagnosKod, qaIds, daysIntoSickLeave) {
+            return _getSrs(intygsId, patientId, diagnosKod, qaIds, true, false, false, daysIntoSickLeave)
+                .then(function(data) {
+                    return _getPredictionsFromResponseData(data);
+                });
         }
 
         function _getHistoricPredictionForDiagnosis(intygsId, patientId, diagnosKod) {
             return _getSrs(intygsId, patientId, diagnosKod, _createGarbageQuestionAnswer(), false, false, false).then(
                 function(data) {
                     return {
-                        'prediktion': _getPredictionFromResponseData(data)
+                        'prediktion': _getPredictionsFromResponseData(data)
                     };
                 });
         }
 
-        function _getAtgarderAndStatistikAndHistoricPredictionForDiagnosis(intygsId, patientId, diagnosKod) {
+        function _getAtgarderAndStatistikAndHistoricPredictionsForDiagnosis(intygsId, patientId, diagnosKod) {
             return _getSrs(intygsId, patientId, diagnosKod, _createGarbageQuestionAnswer(), false, true, true).then(
                 function(data) {
                     return {
                         'atgarder': _getAtgarderFromResponseData(data),
                         'statistik': _getStatistikFromResponseData(data),
-                        'prediktion': _getPredictionFromResponseData(data)
+                        'prediktioner': _getPredictionsFromResponseData(data),
+                        'forlangningskedja' : data.extensionChain || 'error'
                     };
                 });
         }
@@ -140,21 +144,6 @@ angular.module('common').factory('common.srsProxy', ['common.ObjectHelper', '$ht
                 function(response) {
                     return response;
                 }, function(err) {
-                    return err;
-                });
-        }
-
-        function _setConsent(patientId, careUnitHsaId, consentGiven) {
-            return $http.put('/api/srs/consent/' + patientId + '/' + careUnitHsaId, consentGiven).then(function(response) {
-                return response.data;
-            });
-        }
-
-        function _getConsent(personId, careUnitHsaId) {
-            return $http.get('/api/srs/consent/' + personId + '/' + careUnitHsaId).then(
-                function(response) {
-                    return response;
-                }, function(err){
                     return err;
                 });
         }
@@ -170,7 +159,7 @@ angular.module('common').factory('common.srsProxy', ['common.ObjectHelper', '$ht
 
         /**
          * Monitor logging for SRS
-         * @param eventType 'SRS_LOADED', 'SRS_PANEL_ACTIVATED', 'SRS_CONSENT_ANSWERED', 'SRS_QUESTION_ANSWERED'
+         * @param eventType 'SRS_LOADED', 'SRS_PANEL_ACTIVATED', 'SRS_QUESTION_ANSWERED'
          *  'SRS_CALCULATE_CLICKED', 'SRS_HIDE_QUESTIONS_CLICKED', 'SRS_SHOW_QUESTIONS_CLICKED',
          *  'SRS_MEASURES_SHOW_MORE_CLICKED', 'SRS_MEASURES_LINK_CLICKED', 'SRS_STATISTICS_ACTIVATED',
          *  'SRS_STATISTICS_LINK_CLICKED'
@@ -212,14 +201,12 @@ angular.module('common').factory('common.srsProxy', ['common.ObjectHelper', '$ht
 
         // Return public API for the service
         return {
-            getConsent: _getConsent,
             getDiagnosisCodes: _getDiagnosisCodes,
             getQuestions: _getQuestions,
             setOwnOpinion: _setOwnOpinion,
-            getPrediction: _getPrediction,
-            getAtgarderAndStatistikAndHistoricPredictionForDiagnosis: _getAtgarderAndStatistikAndHistoricPredictionForDiagnosis,
+            getPredictions: _getPredictions,
+            getAtgarderAndStatistikAndHistoricPredictionsForDiagnosis: _getAtgarderAndStatistikAndHistoricPredictionsForDiagnosis,
             getHistoricPredictionForDiagnosis: _getHistoricPredictionForDiagnosis,
-            setConsent: _setConsent,
             getSrsForDiagnoseOnly: _getSrsForDiagnoseOnly,
             logSrsLoaded: function(userClientContext, intygsId, caregiverId, careUnitId, diagnosisCode) {
                 _logSrsMonitor('SRS_LOADED', userClientContext, intygsId, caregiverId, careUnitId, diagnosisCode);},
@@ -227,8 +214,6 @@ angular.module('common').factory('common.srsProxy', ['common.ObjectHelper', '$ht
                 _logSrsMonitor('SRS_PANEL_ACTIVATED', userClientContext, intygsId, caregiverId, careUnitId);},
             logSrsMeasuresDisplayed: function(userClientContext, intygsId, caregiverId, careUnitId) {
                 _logSrsMonitor('SRS_MEASURES_DISPLAYED', userClientContext, intygsId, caregiverId, careUnitId);},
-            logSrsConsentAnswered: function(userClientContext, intygsId, caregiverId, careUnitId) {
-                _logSrsMonitor('SRS_CONSENT_ANSWERED', userClientContext, intygsId, caregiverId, careUnitId);},
             logSrsQuestionAnswered: function(userClientContext, intygsId, caregiverId, careUnitId) {
                 _logSrsMonitor('SRS_QUESTION_ANSWERED', userClientContext, intygsId, caregiverId, careUnitId);},
             logSrsCalculateClicked: function(userClientContext, intygsId, caregiverId, careUnitId) {
@@ -249,7 +234,7 @@ angular.module('common').factory('common.srsProxy', ['common.ObjectHelper', '$ht
                 _logSrsMonitor('SRS_STATISTICS_LINK_CLICKED', userClientContext, intygsId, caregiverId, careUnitId);},
 
             __test__: {
-                getPredictionFromResponseData: _getPredictionFromResponseData,
+                getPredictionsFromResponseData: _getPredictionsFromResponseData,
                 getStatistikFromResponseData: _getStatistikFromResponseData,
                 logSrsMonitoring: _logSrsMonitor
             }

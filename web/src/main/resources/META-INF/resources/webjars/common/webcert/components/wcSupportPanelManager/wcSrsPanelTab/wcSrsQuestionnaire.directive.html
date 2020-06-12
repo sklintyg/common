@@ -1,4 +1,4 @@
-<div id="questionnaire" class="intyg-block__titlerow ng-scope">
+<div id="questionnaire">
     <section>
         <div >
             <div ng-repeat="question in srs.questions track by $index" class="srs-question-element">
@@ -7,7 +7,7 @@
                     <div class="srs-question-answer srs-option-grid-cell"
                          ng-repeat="answer in question.answerOptions track by $index" for="{{answer}}">
                         <wc-radio-wrapper>
-                            <input type="radio" ng-disabled="(srs.srsConsentNeeded && srs.consent !== 'JA') || srs.isForlangning" ng-change="change()"
+                            <input type="radio" ng-disabled="false" ng-change="change()"
                                    id="q-{{question.questionId}}-a-{{answer.id}}"
                                    name="q{{question.questionId}}" ng-model="question.model" ng-value="answer" />
                             <label class="option-label" for="q-{{question.questionId}}-a-{{answer.id}}">{{answer.text}}</label>
@@ -18,16 +18,18 @@
         </div>
 
         <div class="srs-questions-submit">
-            <button type="button" id="showBtn-a8722b69-ae4c-4d28-bdf4-9af526c29a44" class="floatLeft btn btn-secondary ng-binding"
+            <button type="button" class="btn btn-secondary ng-binding"
+                    aria-controls="questions"
+                    data-toggle="collapse"
+                    aria-expanded="!srs.isQuestionsCollapsed"
+
                     ng-click="calculateClicked()"
-                    ng-disabled="!srs.showVisaKnapp || (srs.srsConsentNeeded && srs.consent !== 'JA') || srs.isForlangning"
-                    ng-if="!srs.isForlangning"
+                    ng-disabled="!srs.showVisaKnapp"
 
                     popover-popup-delay="300" popover-append-to-body="true"
-                popover-placement="auto top">
+                    popover-placement="auto top">
                     Beräkna
             </button>
         </div>
     </section>
-    <br><br>
 </div>

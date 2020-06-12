@@ -31,7 +31,9 @@ angular.module('common').factory('common.wcSrsChartFactory',
             high: '#E10934',
             medium: '#FFBA3E',
             low: '#799745',
-            risk: '#CDCED6',
+            risk: '#5C6381',
+            meanRiskColor: '#CDCED6',
+            earlierRiskColor: ' #A7ACC1',
             other: [
                 '#E11964',
                 '#032C53',
@@ -145,6 +147,21 @@ angular.module('common').factory('common.wcSrsChartFactory',
             return 40;
         }
 
+        function _opinionToText(opinion) {
+            switch (opinion) {
+                case 'HOGRE':
+                    return 'Högre';
+                case 'KORREKT':
+                    return 'Korrekt';
+                case 'LAGRE':
+                    return 'Lägre';
+                case 'KAN_EJ_BEDOMA':
+                    return 'Kan ej bedöma';
+                default:
+                    return 'Bedömning ej tillgänglig';
+            }
+        }
+
         function _getTooltip(percentChart, unit, chartType, usingAndel, maxWidth) {
 
             var formatter;
@@ -168,7 +185,14 @@ angular.module('common').factory('common.wcSrsChartFactory',
                         title = title.oldName ? title.oldName : title.name;
                     }
 
-                    return title + ' <b>' + value + unit + '</b>' ;
+                    var popupText =  '<b>' + title + ':</b> ' + value + unit;
+                    if (this.point.date) {
+                        popupText = popupText + '<br/> <b>Beräknades:</b> ' + this.point.date;
+                    }
+                    if (this.point.opinion) {
+                        popupText = popupText + '<br/> <b>Läkarens bedömning:</b> ' + _opinionToText(this.point.opinion);
+                    }
+                    return  popupText;
                 };
             }
 
@@ -258,10 +282,8 @@ angular.module('common').factory('common.wcSrsChartFactory',
                     type: options.type,
                     backgroundColor : null, //transparent
                     plotBorderWidth: options.borderWidth ? options.borderWidth : 1,
-                    // marginLeft: options.marginLeft ? options.marginLeft : 42,
                     marginRight: options.marginRight ? options.marginRight : undefined,
                     width: options.width ? options.width : 360,
-                    // height: 360 + labelHeight,
                     marginBottom: options.verticalLabel ? labelHeight + 25 : null
                 },
                 title: {
@@ -274,7 +296,7 @@ angular.module('common').factory('common.wcSrsChartFactory',
                 legend: {},
                 xAxis : {
                     labels : {
-                        rotation : 0, //options.verticalLabel ? -90 : 320,
+                        rotation : 0,
                         align : 'center',
                         style: {
                             textAlign: 'center'
@@ -396,7 +418,9 @@ angular.module('common').factory('common.wcSrsChartFactory',
             var colorSelector = 0;
 
             var colors = COLORS.other,
-            riskColor = COLORS.risk;
+            riskColor = COLORS.risk,
+            meanRiskColor = COLORS.meanRiskColor,
+            earlierRisk = COLORS.earlierRiskColor;
 
             angular.forEach(rawData, function (data) {
                 // continue if color is set
@@ -406,6 +430,10 @@ angular.module('common').factory('common.wcSrsChartFactory',
 
                 if (data.type === 'RISK') {
                     data.color = riskColor;
+                } else if (data.type === 'GENOMSNITT_RISK') {
+                    data.color = meanRiskColor;
+                } else if (data.type === 'TIDIGARE_RISK') {
+                    data.color = earlierRisk;
                 } else if (data.type === 'ÅTERGÅNG') {
                     data.color = colors.overview;
                 } else {

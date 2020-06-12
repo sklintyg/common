@@ -782,7 +782,7 @@
             'fmb.varning.error': 'På grund av ett tekniskt fel kan vi just nu inte räkna ut om patienten överskrider FMB:s rekommenderade sjukskrivningslängd.',
 
             // SRS texts
-            'srs.warn.no-diagnosis-set': 'Ange en eller flera diagnoser för att få stöd från Risk och råd.',
+            'srs.warn.no-diagnosis-set': 'Ange minst en diagnos för att få stöd för sjukskrivning.',
             // Old SRS
             'srs.srsfordiagnose.load.message': 'Laddar Stöd för bedömning vid sjukskrivning...',
             'srs.srsfordiagnose.load.error': 'Tekniskt fel, stöd för bedömning kan inte visas.',
