@@ -15,7 +15,7 @@
                         <input type="radio" id="srs-view-new-btn"
                                name="selected-view" ng-value="'NEW'"
                                ng-model="srs.selectedView"
-                               ng-disabled="srs.isReadOnly"
+                               ng-disabled="srs.isReadOnly || srs.isForlangning"
                                ng-change="setSelectedView('NEW')"/>
                         <label class="option-label" for="srs-view-new-btn">Ny sjukskrivning</label>
                     </wc-radio-wrapper>
