@@ -97,6 +97,15 @@ wc-srs-panel-tab {
     }
   }
 
+  .srs-calclulate-risk-header.inactive {
+    background: $wc-color-13;
+    color: $wc-color-22;
+    .glyphicon {
+      color: $wc-color-22;
+      cursor: default;
+    }
+  }
+
   hr.srs-calclulate-risk-footer {
     background: $srs-wc-color-02-variation;
     overflow: hidden;
