@@ -162,6 +162,17 @@ angular.module('common').factory('common.wcSrsChartFactory',
             }
         }
 
+        function _getLabelForDaysIntoSickLeave(daysIntoSickLeave) {
+            switch (daysIntoSickLeave) {
+                case 15:
+                    return 'Ny sjukskrivning';
+                case 45:
+                    return 'Förlängning';
+                default:
+                    return 'Okänd sjukskrivningsdag';
+            }
+        }
+
         function _getTooltip(percentChart, unit, chartType, usingAndel, maxWidth) {
 
             var formatter;
@@ -186,6 +197,9 @@ angular.module('common').factory('common.wcSrsChartFactory',
                     }
 
                     var popupText =  '<b>' + title + ':</b> ' + value + unit;
+                    if (this.point.daysIntoSickLeave) {
+                        popupText = popupText + '<br/> <b>Riskberäkningen gäller:</b> ' + _getLabelForDaysIntoSickLeave(this.point.daysIntoSickLeave);
+                    }
                     if (this.point.date) {
                         popupText = popupText + '<br/> <b>Beräknades:</b> ' + this.point.date;
                     }

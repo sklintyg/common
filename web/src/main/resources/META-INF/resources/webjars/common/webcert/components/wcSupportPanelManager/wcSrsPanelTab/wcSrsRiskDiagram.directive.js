@@ -297,6 +297,7 @@ angular.module('common').directive('wcSrsRiskDiagram',
                             chartData.risk.chartData[0].y = 0;
                             chartData.risk.chartData[0].name = '';
                             chartData.risk.chartData[0].date = null;
+                            chartData.risk.chartData[0].daysIntoSickLeave = null;
                             chartData.risk.chartData[0].opinion = null;
                         }
 
@@ -308,12 +309,14 @@ angular.module('common').directive('wcSrsRiskDiagram',
                             chartData.risk.chartData[1].enabled = true;
                             chartData.risk.chartData[1].y = Math.round(newPredictions[1].probabilityOverLimit * 100);
                             chartData.risk.chartData[1].date = newPredictions[1].date;
+                            chartData.risk.chartData[1].daysIntoSickLeave = newPredictions[1].daysIntoSickLeave;
                             chartData.risk.chartData[1].opinion = newPredictions[1].opinion;
                             // add current prediction if available
                             if (newPredictions[0].probabilityOverLimit !== null) { // if we also have a current prediction newPrediction[1] add that to the right
                                 chartData.risk.chartData[2].enabled = true;
                                 chartData.risk.chartData[2].y = Math.round(newPredictions[0].probabilityOverLimit * 100);
                                 chartData.risk.chartData[2].date = newPredictions[0].date;
+                                chartData.risk.chartData[2].daysIntoSickLeave = newPredictions[0].daysIntoSickLeave;
                                 chartData.risk.chartData[2].opinion = newPredictions[0].opinion;
                             }
                             // name/title is set via updateResponsiveDesign
@@ -323,6 +326,7 @@ angular.module('common').directive('wcSrsRiskDiagram',
                             chartData.risk.chartData[1].enabled = true;
                             chartData.risk.chartData[1].y = Math.round(newPredictions[0].probabilityOverLimit * 100);
                             chartData.risk.chartData[1].date = newPredictions[0].date;
+                            chartData.risk.chartData[1].daysIntoSickLeave = newPredictions[0].daysIntoSickLeave;
                             chartData.risk.chartData[1].opinion = newPredictions[0].opinion;
                         }
                         // No prediction
@@ -331,6 +335,7 @@ angular.module('common').directive('wcSrsRiskDiagram',
                             chartData.risk.chartData[1].y = null;
                             chartData.risk.chartData[1].name = '';
                             chartData.risk.chartData[1].date = null;
+                            chartData.risk.chartData[1].daysIntoSickLeave = null;
                             chartData.risk.chartData[1].opinion = null;
                         }
                         dataReceivedSuccess(chartData);

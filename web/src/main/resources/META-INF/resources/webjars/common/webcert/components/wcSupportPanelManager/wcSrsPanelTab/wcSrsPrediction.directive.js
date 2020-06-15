@@ -69,6 +69,14 @@ angular.module('common').directive('wcSrsPrediction', [
                         .then(
                             function(predictions) {
                                 scope.srs.predictions = predictions;
+
+                                if (scope.srs.predictions[0].modelVersion === '2.1') {
+                                    scope.srs.differingModelVersionInfo = 'Tidigare risk beräknades med annan version av prediktionsmodellen.\n ' +
+                                        'Svaren nedan är inte därför inte patientens tidigare svar utan en grundinställning för respektive fråga.';
+                                } else {
+                                    scope.srs.differingModelVersionInfo = '';
+                                }
+
                             }, function(error) {
                                 scope.srs.predictions = 'error';
                             }

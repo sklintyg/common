@@ -54,7 +54,10 @@ angular.module('common').directive('wcSrsPanelTab',
                         $scope.srs.predictions = data.prediktioner || 'error';
 
                         // Update the selected answers to the received stored answer
-                        if ($scope.srs.predictions[0].questionsResponses) {
+                        if ($scope.srs.predictions[0].modelVersion === '2.1') {
+                            $scope.srs.differingModelVersionInfo = 'Tidigare risk beräknades med annan version av prediktionsmodellen.\n ' +
+                                'Svaren nedan är inte därför inte patientens tidigare svar utan en grundinställning för respektive fråga.';
+                        } else if ($scope.srs.predictions[0].questionsResponses) {
                             $scope.srs.predictions[0].questionsResponses.forEach(function(qnr) {
                                 // Find correct question and answer option (in the scope) for received qnr
                                 var correspondingQuestion = $scope.srs.questions.filter(function(q) {
