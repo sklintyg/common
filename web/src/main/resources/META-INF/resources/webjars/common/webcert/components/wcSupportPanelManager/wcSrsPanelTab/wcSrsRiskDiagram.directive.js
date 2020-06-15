@@ -275,7 +275,7 @@ angular.module('common').directive('wcSrsRiskDiagram',
                     $scope.$watch('srs.selectedView', function(newSelectedView, oldSelectedView) {
                         updateResponsiveDesign();
                         riskChart = paintBarChart('riskChart', chartData.risk.chartData);
-                    })
+                    });
                     $scope.$watchCollection('srs.predictions', function(newPredictions, oldPredictions) {
                         // Reset
                         chartData.risk.chartData.forEach(function(cd) {
