@@ -31,6 +31,9 @@ angular.module('common').directive('wcSrsPrediction', [
                 scope.questionsCollapserClicked = function($event) {
                     $event.preventDefault();
                     $event.stopPropagation();
+                    if (scope.srs.selectedView === 'LATE_EXT') {
+                        return;
+                    }
                     if (scope.srs.isQuestionsCollapsed) {
                         srsProxy.logSrsShowQuestionsClicked(scope.srs.userClientContext, scope.srs.intygId,
                             scope.srs.vardgivareHsaId, scope.srs.hsaId);

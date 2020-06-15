@@ -125,16 +125,16 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         return newSize;
                     };
 
-                    function setBarNames(chartData, meanName, currentName, previousName, calculateRisk) {
+                    function setBarNames(chartData, meanName, currentName, previousName, calculateRisk, cannotCalculate) {
                         chartData[0].name = meanName;
                         chartData[0].type = 'GENOMSNITT_RISK';
                         if (!chartData[2] || chartData[2].enabled===false) {
-                            chartData[1].name = chartData[1].y?currentName:calculateRisk;
+                            chartData[1].name = $scope.srs.selectedView==='LATE_EXT'?cannotCalculate:chartData[1].y?currentName:calculateRisk;
                             chartData[1].type = 'RISK';
                         } else if (chartData[2] && chartData[2].enabled===true) {
                             chartData[1].name = previousName;
                             chartData[1].type = 'TIDIGARE_RISK';
-                            chartData[2].name = chartData[2].y?currentName:calculateRisk;
+                            chartData[2].name = $scope.srs.selectedView==='LATE_EXT'?cannotCalculate:chartData[2].y?currentName:calculateRisk;
                             chartData[2].type = 'RISK';
                         }
                     }
@@ -154,16 +154,24 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         }
 
                         if (responsiveSize === 'smallest' && chartData.risk) {
-                            setBarNames(chartData.risk.chartData, 'Gen.sn.', 'Akt.', 'Tid.', 'Ber.');
+                            setBarNames(chartData.risk.chartData, 'Gen.sn.', 'Akt.', 'Tid.', 'Ber.', 'Kan ej ber.');
                         } else if (responsiveSize === 'smaller' && chartData.risk) {
-                            setBarNames(chartData.risk.chartData, 'Genomsnitt', 'Aktuell', 'Tidigare', 'Beräkna');
+                            setBarNames(chartData.risk.chartData, 'Genomsnitt', 'Aktuell', 'Tidigare', 'Beräkna', 'Kan ej beräknas');
                         } else if (chartData.risk) {
-                            setBarNames(chartData.risk.chartData, 'Genomsnittlig risk', 'Aktuell risk', 'Tidigare risk', 'Beräkna aktuell risk');
+                            setBarNames(chartData.risk.chartData, 'Genomsnittlig risk', 'Aktuell risk', 'Tidigare risk', 'Beräkna aktuell risk', 'Kan ej beräknas');
                         }
                     }
 
                     function onResize(event) {
                         updateResponsiveDesign();
+                    }
+
+                    function getDiagnosisGroup(diagnosisCode) {
+                        if (!diagnosisCode || diagnosisCode.length === 0) {
+                            return '';
+                        } else {
+                            return diagnosisCode.substring(0, 3);
+                        }
                     }
 
                     function paintBarChart(containerId, chartData) {
@@ -264,7 +272,10 @@ angular.module('common').directive('wcSrsRiskDiagram',
                             riskChart.destroy();
                         }
                     });
-
+                    $scope.$watch('srs.selectedView', function(newSelectedView, oldSelectedView) {
+                        updateResponsiveDesign();
+                        riskChart = paintBarChart('riskChart', chartData.risk.chartData);
+                    });
                     $scope.$watchCollection('srs.predictions', function(newPredictions, oldPredictions) {
                         // Reset
                         chartData.risk.chartData.forEach(function(cd) {
@@ -290,7 +301,10 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         }
 
                         // Previous prediction (if we have a previous prediction newPrediction[1], add it on position 1)
-                        if (newPredictions[1] && newPredictions[1].probabilityOverLimit !== null) {
+                        // only do this if the first three characters of diagnosis code (the diagnosis group) is the same,
+                        // i.e. the main diagnosis hasn't changed since the first certificate
+                        if (newPredictions[1] && newPredictions[1].probabilityOverLimit !== null &&
+                            getDiagnosisGroup(newPredictions[1].diagnosisCode) === getDiagnosisGroup(newPredictions[0].diagnosisCode)) {
                             chartData.risk.chartData[1].enabled = true;
                             chartData.risk.chartData[1].y = Math.round(newPredictions[1].probabilityOverLimit * 100);
                             chartData.risk.chartData[1].date = newPredictions[1].date;
