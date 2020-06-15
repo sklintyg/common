@@ -1,7 +1,7 @@
 <!-- EN REKOMMENDATIONSLISTA -->
 <div class="recommendation-list">
     <h3>{{title}}</h3>
-    <b>{{diagnosisCode}} - {{diagnosisDescription}}</b>
+    <b ng-if="srs.isReadOnly!==true">{{diagnosisCode}} - {{diagnosisDescription}}</b>
         <wc-srs-recommendation atgard="recommendation" srs-scope="srs"  ng-repeat="(key,recommendation) in firstRecommendations"/>
     <div ng-if="moreRecommendations">
         <div class="fullWidth" class="collapseMoreRecommendations" ng-if="!isMoreCollapsed">

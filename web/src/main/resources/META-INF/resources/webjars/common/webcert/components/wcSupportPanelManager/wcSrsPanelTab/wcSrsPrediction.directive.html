@@ -66,7 +66,7 @@
 <div ng-if="!srs.isReadOnly">
 <div id="risk-calculation-input-container" class="srs-panel-body-content">
     <!-- BERÄKNA RISK: FRÅGOR -->
-    <div class="srs-calclulate-risk-header" ng-class="{'open': !srs.isQuestionsCollapsed}">
+    <div class="srs-calclulate-risk-header" ng-class="{'inactive': srs.selectedView == 'LATE_EXT'}" ng-class="{'open': !srs.isQuestionsCollapsed}" ng-click="questionsCollapserClicked($event);">
         <h3 class="floatLeft">Beräkna risk här</h3>
         <div class="line">
             <a id="questionsCollapser" ng-click="questionsCollapserClicked($event);"
