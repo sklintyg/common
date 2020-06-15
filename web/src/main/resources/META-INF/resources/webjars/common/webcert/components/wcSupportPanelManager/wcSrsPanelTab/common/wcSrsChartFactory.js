@@ -196,17 +196,29 @@ angular.module('common').factory('common.wcSrsChartFactory',
                         title = title.oldName ? title.oldName : title.name;
                     }
 
-                    var popupText =  '<b>' + title + ':</b> ' + value + unit;
+                    var popupText = [];
                     if (this.point.daysIntoSickLeave) {
-                        popupText = popupText + '<br/> <b>Riskberäkningen gäller:</b> ' + _getLabelForDaysIntoSickLeave(this.point.daysIntoSickLeave);
+                        popupText.push('<b>Riskberäkningen gäller:</b> ');
+                        popupText.push(_getLabelForDaysIntoSickLeave(this.point.daysIntoSickLeave));
+                    }
+                    if (popupText.length !== 0) {
+                        popupText.push('<br/>');
+                    }
+                    popupText.push('<b>' + title + ':</b> ');
+                    if (value !== '0') {
+                        popupText.push(value + unit);
+                    } else {
+                        popupText.push('Ej beräknad');
                     }
                     if (this.point.date) {
-                        popupText = popupText + '<br/> <b>Beräknades:</b> ' + this.point.date;
+                        popupText.push('<br/> <b>Beräknades:</b> ');
+                        popupText.push(this.point.date);
                     }
                     if (this.point.opinion) {
-                        popupText = popupText + '<br/> <b>Läkarens bedömning:</b> ' + _opinionToText(this.point.opinion);
+                        popupText.push('<br/> <b>Läkarens bedömning:</b> ');
+                        popupText.push(_opinionToText(this.point.opinion));
                     }
-                    return  popupText;
+                    return  popupText.join('');
                 };
             }
 
@@ -365,7 +377,11 @@ angular.module('common').factory('common.wcSrsChartFactory',
                             crop: false,
                             overflow: 'none',
                             formatter: function() {
-                                return this.y + (options.unit ? options.unit : '');
+                                if (this.y === 0) {
+                                    return '-';
+                                } else {
+                                    return this.y + (options.unit ? options.unit : '');
+                                }
                             }
                         }
                     },
