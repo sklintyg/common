@@ -11,17 +11,17 @@
     <div>
         <wc-srs-risk-diagram />
     </div>
-    <div ng-show="(srs.srsConsentNeeded === false || srs.consent === 'JA') && !srs.consentError">
+    <div>
         <!-- LÄKARENS EGEN BEDÖMNING --->
-        <div id="srs-own-opinion" ng-if="srs.prediction.probabilityOverLimit">
+        <div id="srs-own-opinion" ng-if="srs.predictions[0].probabilityOverLimit">
             <hr/>
             <p><b>Enligt min läkarbedömning anser jag att patientens risk är</b></p>
             <div class="srs-question srs-option-grid">
                 <div class="srs-option-grid-cell">
                     <wc-radio-wrapper>
                         <input type="radio" id="risk-opinion-higher"
-                               name="risk-opinion" ng-value="'HOGRE'" ng-model="srs.prediction.opinion"
-                               ng-disabled="srs.isForlangning || srs.isReadOnly"
+                               name="risk-opinion" ng-value="'HOGRE'" ng-model="srs.predictions[0].opinion"
+                               ng-disabled="srs.isReadOnly"
                                ng-change="setOpinion('HOGRE')"/>
                         <label for="risk-opinion-higher">Högre</label>
                     </wc-radio-wrapper>
@@ -29,8 +29,8 @@
                 <div class="srs-option-grid-cell">
                     <wc-radio-wrapper>
                         <input type="radio" id="risk-opinion-correct"
-                               name="risk-opinion" ng-value="'KORREKT'" ng-model="srs.prediction.opinion"
-                               ng-disabled="srs.isForlangning || srs.isReadOnly"
+                               name="risk-opinion" ng-value="'KORREKT'" ng-model="srs.predictions[0].opinion"
+                               ng-disabled="srs.isReadOnly"
                                ng-change="setOpinion('KORREKT')"/>
                         <label for="risk-opinion-correct">Korrekt</label>
                     </wc-radio-wrapper>
@@ -38,8 +38,8 @@
                 <div class="srs-option-grid-cell">
                     <wc-radio-wrapper>
                         <input type="radio" id="risk-opinion-lower"
-                               name="risk-opinion" ng-value="'LAGRE'" ng-model="srs.prediction.opinion"
-                               ng-disabled="srs.isForlangning || srs.isReadOnly"
+                               name="risk-opinion" ng-value="'LAGRE'" ng-model="srs.predictions[0].opinion"
+                               ng-disabled="srs.isReadOnly"
                                ng-change="setOpinion('LAGRE')"/>
                         <label for="risk-opinion-lower">Lägre</label>
                     </wc-radio-wrapper>
@@ -47,38 +47,39 @@
                 <div class="srs-option-grid-cell">
                     <wc-radio-wrapper>
                         <input type="radio" id="risk-opinion-kanejbedoma"
-                               name="risk-opinion" ng-value="'KAN_EJ_BEDOMA'" ng-model="srs.prediction.opinion"
-                               ng-disabled="srs.isForlangning || srs.isReadOnly"
+                               name="risk-opinion" ng-value="'KAN_EJ_BEDOMA'" ng-model="srs.predictions[0].opinion"
+                               ng-disabled="srs.isReadOnly"
                                ng-change="setOpinion('KAN_EJ_BEDOMA')"/>
                         <label for="risk-opinion-kanejbedoma">Kan ej bedöma</label>
                     </wc-radio-wrapper>
                 </div>
 
             </div>
-            <div ng-if="srs.prediction.opinionError">
-                <wc-srs-error-box message-string="srs.prediction.opinionError"></wc-srs-error-box>
+            <div ng-if="srs.predictions[0].opinionError">
+                <wc-srs-error-box message-string="srs.predictions[0].opinionError"></wc-srs-error-box>
             </div>
             <br />
         </div>
     </div>
 </div>
-<div ng-if="!srs.isReadOnly && (!srs.isForlangning || (srs.isForlangning && srs.prediction.probabilityOverLimit))">
-<hr class="srs-thick-divider"/>
-<div class="srs-panel-body-content">
+<!--<div ng-if="!srs.isReadOnly && (!srs.isForlangning || (srs.isForlangning && srs.predictions[0].probabilityOverLimit))">-->
+<div ng-if="!srs.isReadOnly">
+<div id="risk-calculation-input-container" class="srs-panel-body-content">
     <!-- BERÄKNA RISK: FRÅGOR -->
-
-    <h3 class="floatLeft">Beräkna patientens risk</h3>
-    <div class="line" ng-if="!srs.isForlangning">
-        <a id="questionsCollapser" data-toggle="collapse" ng-click="questionsCollapserClicked()"
-           href="#questions" aria-expanded="!srs.isQuestionsCollapsed" aria-controls="questions">
-            <i class="glyphicon glyphicon-menu-down"
-               ng-class="{'glyphicon-menu-down': srs.isQuestionsCollapsed, 'glyphicon-menu-up': !srs.isQuestionsCollapsed}"></i>
-        </a>
+    <div class="srs-calclulate-risk-header" ng-class="{'inactive': srs.selectedView == 'LATE_EXT'}" ng-class="{'open': !srs.isQuestionsCollapsed}" ng-click="questionsCollapserClicked($event);">
+        <h3 class="floatLeft">Beräkna risk här</h3>
+        <div class="line">
+            <a id="questionsCollapser" ng-click="questionsCollapserClicked($event);"
+               href="#questions" aria-expanded="!srs.isQuestionsCollapsed" aria-controls="questions">
+                <i class="glyphicon glyphicon-menu-down"
+                   ng-class="{'glyphicon-menu-down': srs.isQuestionsCollapsed, 'glyphicon-menu-up': !srs.isQuestionsCollapsed}"></i>
+            </a>
+        </div>
     </div>
-    <br/>
-    <br/>
-    <div id="questions" class="panel-collapse collapse in">
+
+    <div id="questions" class="panel-collapse" ng-class="{'collapse': srs.isQuestionsCollapsed}">
         <wc-srs-questionnaire></wc-srs-questionnaire>
+        <hr class="srs-calclulate-risk-footer"/>
     </div>
 </div>
 </div>

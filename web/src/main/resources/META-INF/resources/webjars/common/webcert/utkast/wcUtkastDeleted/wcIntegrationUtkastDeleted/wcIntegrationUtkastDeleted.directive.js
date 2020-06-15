@@ -18,7 +18,7 @@
  */
 
 angular.module('common').directive('wcIntegrationUtkastDeleted',
-    ['$stateParams', function($stateParams) {
+    ['$stateParams', 'common.IntygViewStateService', function($stateParams, IntygViewState) {
             'use strict';
 
             return {
@@ -26,6 +26,9 @@ angular.module('common').directive('wcIntegrationUtkastDeleted',
                 transclude: false,
                 scope: {
                 },
-                templateUrl: '/web/webjars/common/webcert/utkast/wcUtkastDeleted/wcIntegrationUtkastDeleted/wcIntegrationUtkastDeleted.directive.html'
+                templateUrl: '/web/webjars/common/webcert/utkast/wcUtkastDeleted/wcIntegrationUtkastDeleted/wcIntegrationUtkastDeleted.directive.html',
+              link: function($scope) {
+                IntygViewState.deletedDraft = false;
+              }
             };
         }]);

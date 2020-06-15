@@ -18,11 +18,11 @@
  */
 angular.module('common').directive('wcUtkastButtonBar', ['$log', '$stateParams', '$timeout', '$window', '$location',
     'common.authorityService', 'common.featureService', 'common.messageService', 'common.UtkastViewStateService',
-    'common.dialogService',
+    'common.dialogService', 'common.IntygHeaderViewState',
     'common.PatientProxy', 'common.statService', 'common.UtkastProxy', 'common.UserModel', 'common.IntygMakulera',
     'common.ResourceLinkService', 'common.IntygViewStateService',
     function($log, $stateParams, $timeout, $window, $location,
-        authorityService, featureService, messageService, CommonViewState, dialogService,
+        authorityService, featureService, messageService, CommonViewState, dialogService, IntygHeaderViewState,
         PatientProxy, statService, UtkastProxy, UserModel, IntygMakulera, ResourceLinkService, IntygViewState) {
         'use strict';
 
@@ -244,6 +244,7 @@ angular.module('common').directive('wcUtkastButtonBar', ['$log', '$stateParams',
 
                                         $location.url('/' + data.intygsTyp + '/' + data.intygTypeVersion + '/edit/' +
                                             data.intygsUtkastId + '/', true);
+                                        IntygHeaderViewState.utkastCreatedFrom = $stateParams.certificateId;
                                     },
                                     function(error) {
                                         dialogModel.acceptprogressdone = true;

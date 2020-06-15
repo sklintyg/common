@@ -30,60 +30,66 @@ describe('srsProxy', function() {
         SrsProxy = _SrsProxy_;
     }]));
 
-    it('getPredictionFromResponseData should return according to data', function() {
+    it('getPredictionsFromResponseData should return according to data', function() {
 
         var data = {
-            predictionDiagnosisDescription: 'pdd',
-            predictionDiagnosisCode: 'pdc',
-            predictionDescription: 'pd',
-            predictionLevel: 'pl',
-            predictionStatusCode: 'psc',
-            predictionProbabilityOverLimit: 'ppol',
-            predictionPrevalence: 'pp',
-            predictionPhysiciansOwnOpinionRisk: 'ppoor',
-            predictionQuestionsResponses: 'pqr',
-            predictionTimestamp: '2019-06-11T09:34:04.000',
-            somethingCompletelyDifferent: 'FOO'
+            predictions: [{
+                diagnosisDescription: 'pdd',
+                diagnosisCode: 'pdc',
+                description: 'pd',
+                level: 'pl',
+                statusCode: 'psc',
+                probabilityOverLimit: 'ppol',
+                prevalence: 'pp',
+                physiciansOwnOpinionRisk: 'ppoor',
+                questionsResponses: 'pqr',
+                timestamp: '2019-06-11T09:34:04.000',
+                somethingCompletelyDifferent: 'FOO'
+            }]
         };
-        var r = SrsProxy.__test__.getPredictionFromResponseData(data);
+        var r = SrsProxy.__test__.getPredictionsFromResponseData(data);
 
-        expect(r.predictionDiagnosisDescription).toEqual('pdd');
-        expect(r.description).toEqual('pd');
-        expect(r.statusCode).toEqual('psc');
-        expect(r.predictionTimestamp).toEqual('2019-06-11T09:34:04.000');
-        expect(r.predictionDate).toEqual('2019-06-11');
-        expect(r.somethingCompletelyDifferent).toEqual(undefined);
+        expect(r.length).toEqual(1);
+        expect(r[0].diagnosisDescription).toEqual('pdd');
+        expect(r[0].description).toEqual('pd');
+        expect(r[0].statusCode).toEqual('psc');
+        expect(r[0].timestamp).toEqual('2019-06-11T09:34:04.000');
+        expect(r[0].date).toEqual('2019-06-11');
+        expect(r[0].somethingCompletelyDifferent).toEqual(undefined);
 
     });
 
-    it('getPredictionFromResponseData should not fail on undefined entries', function() {
+    it('getPredictionsFromResponseData should not fail on undefined entries', function() {
 
         var data = {
-            predictionDiagnosisDescription: 'pdd',
-            predictionDiagnosisCode: 'pdc',
-            predictionDescription: 'pd',
-            predictionLevel: 'pl',
-            predictionStatusCode: 'psc',
-            predictionProbabilityOverLimit: 'ppol',
-            predictionPrevalence: 'pp',
-            predictionPhysiciansOwnOpinionRisk: 'ppoor',
-            predictionQuestionsResponses: 'pqr',
-            somethingCompletelyDifferent: 'FOO'
+            predictions: [{
+                diagnosisDescription: 'pdd',
+                diagnosisCode: 'pdc',
+                description: 'pd',
+                level: 'pl',
+                statusCode: 'psc',
+                probabilityOverLimit: 'ppol',
+                prevalence: 'pp',
+                physiciansOwnOpinionRisk: 'ppoor',
+                questionsResponses: 'pqr',
+                completelyDifferent: 'FOO'
+            }]
         };
-        var r = SrsProxy.__test__.getPredictionFromResponseData(data);
+        var r = SrsProxy.__test__.getPredictionsFromResponseData(data);
 
-        expect(r.predictionDiagnosisDescription).toEqual('pdd');
-        expect(r.description).toEqual('pd');
-        expect(r.statusCode).toEqual('psc');
-        expect(r.predictionTimestamp).toEqual(undefined);
-        expect(r.predictionDate).toEqual(undefined);
-        expect(r.somethingCompletelyDifferent).toEqual(undefined);
+        expect(r.length).toEqual(1);
+        expect(r[0].diagnosisDescription).toEqual('pdd');
+        expect(r[0].description).toEqual('pd');
+        expect(r[0].statusCode).toEqual('psc');
+        expect(r[0].timestamp).toEqual(undefined);
+        expect(r[0].date).toEqual(undefined);
+        expect(r[0].somethingCompletelyDifferent).toEqual(undefined);
 
     });
 
-    it('getPredictionFromResponseData should return error on error', function() {
+    it('getPredictionsFromResponseData should return error on error', function() {
         var data = 'error';
-        var r = SrsProxy.__test__.getPredictionFromResponseData(data);
+        var r = SrsProxy.__test__.getPredictionsFromResponseData(data);
         expect(r).toEqual('error');
 
     });
