@@ -63,6 +63,11 @@ angular.module('common').directive('wcSrsPrediction', [
                         scope.setPredictionRiskLevel();
                     });
                 };
+                scope.$watch('srs.selectedView', function(newVal, oldVal) {
+                    if (newVal === 'LATE_EXT' && scope.srs.isQuestionsCollapsed === false) {
+                        scope.srs.isQuestionsCollapsed = true;
+                    }
+                });
                 scope.retrieveAndSetPrediction = function() {
                     var qaIds = scope.getSelectedAnswerOptions();
                     return srsProxy.getPredictions(scope.srs.intygId, scope.srs.personId, scope.srs.diagnosKod, qaIds, scope.srs.daysIntoSickLeave)
