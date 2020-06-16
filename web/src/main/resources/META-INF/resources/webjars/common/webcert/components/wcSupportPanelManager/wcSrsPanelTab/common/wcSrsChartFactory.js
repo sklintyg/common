@@ -200,8 +200,6 @@ angular.module('common').factory('common.wcSrsChartFactory',
                     if (this.point.daysIntoSickLeave) {
                         popupText.push('<b>Riskberäkningen gäller:</b> ');
                         popupText.push(_getLabelForDaysIntoSickLeave(this.point.daysIntoSickLeave));
-                    }
-                    if (popupText.length !== 0) {
                         popupText.push('<br/>');
                     }
                     popupText.push('<b>' + title + ':</b> ');
