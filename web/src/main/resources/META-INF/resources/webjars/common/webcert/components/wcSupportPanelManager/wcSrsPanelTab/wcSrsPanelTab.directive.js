@@ -54,8 +54,12 @@ angular.module('common').directive('wcSrsPanelTab',
                         $scope.srs.predictions = data.prediktioner || 'error';
 
                         // Update the selected answers to the received stored answer
-                        if ($scope.srs.predictions[0].questionsResponses) {
-                            $scope.srs.predictions[0].questionsResponses.forEach(function(qnr) {
+                        if ($scope.srs.predictions[0].modelVersion === '2.1') {
+                            $scope.srs.differingModelVersionInfo = 'Tidigare risk beräknades med annan version av prediktionsmodellen.\n ' +
+                                'Svaren nedan är inte därför inte patientens tidigare svar utan en grundinställning för respektive fråga.';
+                        } else if ($scope.srs.predictions[0].questionsResponses || ($scope.srs.predictions[1] && $scope.srs.predictions[1].questionsResponses)) {
+                            var qResponses= $scope.srs.predictions[0].questionsResponses ? $scope.srs.predictions[0].questionsResponses : $scope.srs.predictions[1].questionsResponses;
+                            qResponses.forEach(function(qnr) {
                                 // Find correct question and answer option (in the scope) for received qnr
                                 var correspondingQuestion = $scope.srs.questions.filter(function(q) {
                                     return qnr.questionId===q.questionId;
@@ -141,6 +145,7 @@ angular.module('common').directive('wcSrsPanelTab',
              * or the editor is reloaded.
              */
             $scope.$on('intyg.loaded', function(event, content) {
+                reset();
                 if (content.grundData.relation.relationKod === 'FRLANG') {
                     $scope.srs.isForlangning = true;
                     // $scope.srs.extensionFromIntygId = content.grundData.relation.relationIntygsId;
@@ -368,7 +373,8 @@ angular.module('common').directive('wcSrsPanelTab',
                         $scope.srs.showVisaKnapp = $scope.srs.allQuestionsAnswered;
                     }
                     $scope.retrieveAndSetAtgarderAndStatistikAndHistoricPrediction().then(function () {
-                        $scope.srs.selectedView = getSelectedViewFromExtensionChain($scope.srs.extensionChain);
+                        var defaultSelectedView = getSelectedViewFromExtensionChain($scope.srs.extensionChain);
+                        $scope.srs.selectedView = $scope.srs.selectedView !== null ? $scope.srs.selectedView : defaultSelectedView;
                         setAtgarderMessages();
                         setStatistikMessages();
                         $scope.setPrediktionMessages();
@@ -429,33 +435,26 @@ angular.module('common').directive('wcSrsPanelTab',
 
                 $scope.srs.prediktionInfo = '';
                 $scope.srs.prediktionError = '';
+
+                $scope.srs.differingModelVersionInfo = '';
             }
 
             function reset() {
-                // On forlangning we want to preserve the latest prediction
-                // TODO: check if this (the if statement) is still needed after getting the extension chain
-                $scope.isLoaded = false;
-                if ($scope.srs.isForlangning) {
-                    $scope.srs.statistik = {};
-                    $scope.srs.atgarder = {};
-                    // $scope.srs.predictions = [];
-                    $scope.srs.srsApplicable = false;
-                    $scope.srs.activeTab = 'atgarder';
-                } else {
-                    $scope.srs.questions = [];
-                    $scope.srs.statistik = {};
-                    $scope.srs.atgarder = {};
-                    $scope.srs.predictions = [];
-                    $scope.srs.shownFirstTime = false;
-                    $scope.srs.activatedFirstTime = false;
-                    $scope.srs.measuresDisplayedFirstTime = false;
-                    $scope.srs.srsApplicable = false;
-                    $scope.srs.errorMessage = '';
-                    $scope.srs.allQuestionsAnswered = false;
-                    $scope.srs.showVisaKnapp = false;
-                    $scope.srs.riskImage = '';
-                    $scope.srs.activeTab = 'atgarder';
-                }
+                // $scope.isLoaded = false;
+                $scope.srs.selectedView = null;
+                $scope.srs.questions = [];
+                $scope.srs.statistik = {};
+                $scope.srs.atgarder = {};
+                $scope.srs.predictions = [];
+                $scope.srs.shownFirstTime = false;
+                $scope.srs.activatedFirstTime = false;
+                $scope.srs.measuresDisplayedFirstTime = false;
+                $scope.srs.srsApplicable = false;
+                $scope.srs.errorMessage = '';
+                $scope.srs.allQuestionsAnswered = false;
+                $scope.srs.showVisaKnapp = false;
+                $scope.srs.riskImage = '';
+                $scope.srs.activeTab = 'atgarder';
             }
 
             $scope.$on('panel.activated', function(event, activatedPanelId) {
