@@ -158,14 +158,6 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         updateResponsiveDesign();
                     }
 
-                    function getDiagnosisGroup(diagnosisCode) {
-                        if (!diagnosisCode || diagnosisCode.length === 0) {
-                            return '';
-                        } else {
-                            return diagnosisCode.substring(0, 3);
-                        }
-                    }
-
                     function paintBarChart(containerId, chartData) {
                         var series = [
                             {
@@ -265,10 +257,25 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         }
                     });
                     $scope.$watch('srs.selectedView', function(newSelectedView, oldSelectedView) {
+                        if (newSelectedView === 'LATE_EXT' && chartData.risk.chartData[2].enabled === true) {
+                            chartData.risk.hiddenRisk = {};
+                            Object.assign(chartData.risk.hiddenRisk, chartData.risk.chartData[2]);
+                            chartData.risk.chartData[2].enabled = true;
+                            chartData.risk.chartData[2].y = 0;
+                            chartData.risk.chartData[2].date = null;
+                            chartData.risk.chartData[2].daysIntoSickLeave = null;
+                            chartData.risk.chartData[2].opinion = null;
+                        }
+                        if (oldSelectedView === 'LATE_EXT' && newSelectedView !== 'LATE_EXT' && chartData.risk.hiddenRisk) {
+                            chartData.risk.chartData[2] = chartData.risk.hiddenRisk;
+                        }
+
                         updateResponsiveDesign();
                         riskChart = paintBarChart('riskChart', chartData.risk.chartData);
                     });
                     $scope.$watchCollection('srs.predictions', function(newPredictions, oldPredictions) {
+                        // reset any hidden risk prediction when we get new data
+                        chartData.risk.hiddenRisk = null;
                         // Reset
                         chartData.risk.chartData.forEach(function(cd) {
                             cd.y=0;
@@ -296,20 +303,32 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         // Previous prediction (if we have a previous prediction newPrediction[1], add it on position 1)
                         // only do this if the first three characters of diagnosis code (the diagnosis group) is the same,
                         // i.e. the main diagnosis hasn't changed since the first certificate
-                        if (newPredictions[1] && //newPredictions[1].probabilityOverLimit !== null &&
-                            getDiagnosisGroup(newPredictions[1].diagnosisCode) === getDiagnosisGroup(newPredictions[0].diagnosisCode)) {
+                        if (newPredictions[1]) { //newPredictions[1].probabilityOverLimit !== null &&) {
                             chartData.risk.chartData[1].enabled = true;
-                            chartData.risk.chartData[1].y = newPredictions[1].probabilityOverLimit ? Math.round(newPredictions[1].probabilityOverLimit * 100) : 0;
-                            chartData.risk.chartData[1].date = newPredictions[1].date;
-                            chartData.risk.chartData[1].daysIntoSickLeave = newPredictions[1].daysIntoSickLeave;
-                            chartData.risk.chartData[1].opinion = newPredictions[1].opinion;
+                            if (newPredictions[1].probabilityOverLimit) {
+                                chartData.risk.chartData[1].y = Math.round(newPredictions[1].probabilityOverLimit * 100);
+                                chartData.risk.chartData[1].date = newPredictions[1].date;
+                                chartData.risk.chartData[1].daysIntoSickLeave = newPredictions[1].daysIntoSickLeave;
+                                chartData.risk.chartData[1].opinion = newPredictions[1].opinion;
+                            } else {
+                                chartData.risk.chartData[1].y = 0;
+                                chartData.risk.chartData[1].date = null;
+                                chartData.risk.chartData[1].daysIntoSickLeave = null;
+                                chartData.risk.chartData[1].opinion = null;
+                            }
                             // add current prediction if available
-                            if (newPredictions[0].probabilityOverLimit !== null) { // if we also have a current prediction newPrediction[1] add that to the right
+                            if (newPredictions[0].probabilityOverLimit && $scope.srs.selectedView !== 'LATE_EXT') { // if we also have a current prediction in newPrediction[0] add that to the right
                                 chartData.risk.chartData[2].enabled = true;
                                 chartData.risk.chartData[2].y = Math.round(newPredictions[0].probabilityOverLimit * 100);
                                 chartData.risk.chartData[2].date = newPredictions[0].date;
                                 chartData.risk.chartData[2].daysIntoSickLeave = newPredictions[0].daysIntoSickLeave;
                                 chartData.risk.chartData[2].opinion = newPredictions[0].opinion;
+                            } else {
+                                chartData.risk.chartData[2].enabled = true;
+                                chartData.risk.chartData[2].y = 0;
+                                chartData.risk.chartData[2].date = null;
+                                chartData.risk.chartData[2].daysIntoSickLeave = null;
+                                chartData.risk.chartData[2].opinion = null;
                             }
                             // name/title is set via updateResponsiveDesign
                         }
