@@ -49,7 +49,7 @@ angular.module('common').factory('common.UtkastSignService',
                 } else if (UserModel.user.authenticationMethod === 'NET_ID' || UserModel.user.authenticationMethod === 'SITHS' || UserModel.user.authenticationMethod === 'EFOS') {
 
                     // Use iid_IsExplorer() to determine whether to use NetiD Plugin or NetiD Access
-                    if (iid_IsExplorer()) { // jshint ignore:line
+                    if (iid_IsExplorer() && !UserModel.user.useSigningService) { // jshint ignore:line
                         _signeraKlient(intygsTyp, $stateParams.certificateId, version, deferred);
                     } else {
                         // _signeraServerUsingNias(intygsTyp, $stateParams.certificateId, version, deferred);
