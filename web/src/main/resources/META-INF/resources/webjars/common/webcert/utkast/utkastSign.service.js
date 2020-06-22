@@ -48,11 +48,11 @@ angular.module('common').factory('common.UtkastSignService',
                     _signeraServerFake(intygsTyp, $stateParams.certificateId, version, deferred);
                 } else if (UserModel.user.authenticationMethod === 'NET_ID' || UserModel.user.authenticationMethod === 'SITHS' || UserModel.user.authenticationMethod === 'EFOS') {
 
-                    // Use iid_IsExplorer() to determine whether to use NetiD Plugin or NetiD Access
+                    // Use iid_IsExplorer() to determine whether to use NetiD Plugin or Signing Service
+                    // Whitelist can change this behaviour
                     if (iid_IsExplorer() && !UserModel.user.useSigningService) { // jshint ignore:line
                         _signeraKlient(intygsTyp, $stateParams.certificateId, version, deferred);
                     } else {
-                        // _signeraServerUsingNias(intygsTyp, $stateParams.certificateId, version, deferred);
                         _signWithSignService(intygsTyp, $stateParams.certificateId, version, deferred);
                     }
                 } else {
@@ -91,7 +91,7 @@ angular.module('common').factory('common.UtkastSignService',
                 // Get formdata from WC backend
                 UtkastProxy.startSigningProcess(intygsId, intygsTyp, version, 'SIGN_SERVICE', function(formData) {
 
-                    _openSignServiceFormModal(formData);
+                    _submitSignServiceForm(formData);
 
                 }, function(error) {
                     deferred.resolve({});
@@ -99,31 +99,20 @@ angular.module('common').factory('common.UtkastSignService',
                 });
             }
 
-            /**
-             * Opens a model with SignService form that automatically will be POST-ed to the SignService.
-             */
-            function _openSignServiceFormModal(formData) {
+            function _submitSignServiceForm(formData) {
+                var inputs = '';
 
-                return $uibModal.open({
-                    templateUrl: '/app/views/signserviceDialog/signservice.dialog.html',
-                    size: 'lg',
-                    controller: function($scope, $uibModalInstance, transactionId, actionUrl, signRequest) {
-                        $scope.transactionId = transactionId;
-                        $scope.actionUrl = actionUrl;
-                        $scope.signRequest = signRequest;
-                    },
-                    resolve: {
-                        transactionId: function() {
-                            return angular.copy(formData.id);
-                        },
-                        actionUrl: function() {
-                            return $sce.trustAsResourceUrl(angular.copy(formData.actionUrl));
-                        },
-                        signRequest: function() {
-                            return angular.copy(formData.signRequest);
-                        }
-                    }
-                });
+                inputs += _addInput('Binding', 'POST/XML/1.0');
+                inputs += _addInput('RelayState', formData.id);
+                inputs += _addInput('EidSignRequest', formData.signRequest);
+
+                //send request via temporary added form and remove from dom directly
+                $window.jQuery('<form action="' + $sce.trustAsResourceUrl(formData.actionUrl) + '" method="POST">' + inputs + '</form>')
+                .appendTo('body').submit().remove();
+            }
+
+            function _addInput(name, item) {
+                return '<input type="hidden" name="' + name + '" value="' + item + '" />';
             }
 
             /**
