@@ -50,6 +50,8 @@ angular.module('common').factory('common.srsProxy', ['common.ObjectHelper', '$ht
                     prevalence: p.prevalence,
                     opinion: p.physiciansOwnOpinionRisk,
                     questionsResponses: p.questionsResponses,
+                    daysIntoSickLeave: p.daysIntoSickLeave,
+                    modelVersion: p.modelVersion,
                     timestamp: p.timestamp,
                     date: p.timestamp?moment(Date.parse(p.timestamp)).format('YYYY-MM-DD'):undefined
                 };
