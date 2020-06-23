@@ -18,7 +18,7 @@
                 </div>
     <!-- ÅTGÄRDER - Förlängning -->
                 <wc-srs-recommendation-list
-                        ng-if="srs.isForlangning"
+                        ng-if="srs.selectedView == 'EXT' || srs.selectedView == 'LATE_EXT'"
                         title="Tänk på att vid förlängning"
                         recommendations="srs.atgarder.atgarderExt"
                         srs-scope="srs"/>
