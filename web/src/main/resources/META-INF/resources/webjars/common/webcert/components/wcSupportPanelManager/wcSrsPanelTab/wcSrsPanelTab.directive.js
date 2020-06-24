@@ -42,6 +42,24 @@ angular.module('common').directive('wcSrsPanelTab',
                 return true;
             };
 
+            function getSelectedViewFromPredictions(predictions) {
+                var latestDaysInto = null;
+                predictions.forEach(function(p) {
+                    if (p.daysIntoSickLeave) {
+                        latestDaysInto = p.daysIntoSickLeave;
+                    }
+                });
+                if (latestDaysInto !== null) {
+                    switch (latestDaysInto) {
+                        case 15: return 'NEW';
+                        case 45: return 'EXT';
+                        case 75: return 'LATE_EXT';
+                        default: return null;
+                    }
+                }
+                return null;
+            }
+
             $scope.retrieveAndSetAtgarderAndStatistikAndHistoricPrediction = function() {
                 // var predictionIntygId = $scope.srs.userClientContext === 'SRS_FRL' ? $scope.srs.extensionFromIntygId : $scope.srs.intygId;
                 var predictionIntygId = $scope.srs.intygId;
@@ -52,28 +70,6 @@ angular.module('common').directive('wcSrsPanelTab',
                         $scope.srs.atgarder = data.atgarder || 'error';
                         $scope.srs.extensionChain = data.forlangningskedja || 'error';
                         $scope.srs.predictions = data.prediktioner || 'error';
-
-                        // Update the selected answers to the received stored answer
-                        if ($scope.srs.predictions[0].modelVersion === '2.1') {
-                            $scope.srs.differingModelVersionInfo = 'Tidigare risk beräknades med annan version av prediktionsmodellen.\n ' +
-                                'Svaren nedan är inte därför inte patientens tidigare svar utan en grundinställning för respektive fråga.';
-                        } else if ($scope.srs.predictions[0].questionsResponses || ($scope.srs.predictions[1] && $scope.srs.predictions[1].questionsResponses)) {
-                            var qResponses= $scope.srs.predictions[0].questionsResponses ? $scope.srs.predictions[0].questionsResponses : $scope.srs.predictions[1].questionsResponses;
-                            qResponses.forEach(function(qnr) {
-                                // Find correct question and answer option (in the scope) for received qnr
-                                var correspondingQuestion = $scope.srs.questions.filter(function(q) {
-                                    return qnr.questionId===q.questionId;
-                                })[0];
-                                // Some prediction params like "Region" aren't reflected as questions in the gui so if we don't get a
-                                // match, ignore that one
-                                if (correspondingQuestion) {
-                                    var storedAnswer = correspondingQuestion.answerOptions.filter(function (a) {
-                                        return qnr.answerId === a.id;
-                                    })[0];
-                                    correspondingQuestion.model = storedAnswer;
-                                }
-                            });
-                        }
                     }, function(error) {
                         $scope.srs.statistik = 'error';
                         $scope.srs.atgarder = 'error';
@@ -370,8 +366,43 @@ angular.module('common').directive('wcSrsPanelTab',
                         $scope.srs.showVisaKnapp = $scope.srs.allQuestionsAnswered;
                     }
                     $scope.retrieveAndSetAtgarderAndStatistikAndHistoricPrediction().then(function () {
-                        var defaultSelectedView = getSelectedViewFromExtensionChain($scope.srs.extensionChain);
-                        $scope.srs.selectedView = $scope.srs.selectedView !== null ? $scope.srs.selectedView : defaultSelectedView;
+                        if ($scope.srs.predictions !== 'error') {
+                            // First try to set the selected view using the latest historic risk prediction, if any
+                            var selectedViewFromPredictions = getSelectedViewFromPredictions($scope.srs.predictions);
+                            if (selectedViewFromPredictions) {
+                                $scope.setSelectedView(selectedViewFromPredictions);
+                            }
+                            // Update the selected answers to the received stored answer
+                            if ($scope.srs.predictions[0].modelVersion === '2.1') {
+                                $scope.srs.differingModelVersionInfo =
+                                    'Tidigare risk beräknades med annan version av prediktionsmodellen.\n ' +
+                                    'Svaren nedan är inte därför inte patientens tidigare svar utan en grundinställning för respektive fråga.';
+                            } else if ($scope.srs.predictions[0].questionsResponses || ($scope.srs.predictions[1]
+                                && $scope.srs.predictions[1].questionsResponses)) {
+                                var qResponses = $scope.srs.predictions[0].questionsResponses ? $scope.srs.predictions[0].questionsResponses
+                                    : $scope.srs.predictions[1].questionsResponses;
+                                qResponses.forEach(function(qnr) {
+                                    // Find correct question and answer option (in the scope) for received qnr
+                                    var correspondingQuestion = $scope.srs.questions.filter(function(q) {
+                                        return qnr.questionId === q.questionId;
+                                    })[0];
+                                    // Some prediction params like "Region" aren't reflected as questions in the gui so if we don't get a
+                                    // match, ignore that one
+                                    if (correspondingQuestion) {
+                                        var storedAnswer = correspondingQuestion.answerOptions.filter(function(a) {
+                                            return qnr.answerId === a.id;
+                                        })[0];
+                                        correspondingQuestion.model = storedAnswer;
+                                    }
+                                });
+                            }
+                        }
+                        // If we don't have a value for selected view yet, make it default to the correct spot based on the extension chain
+                        if (!$scope.srs.selectedView) {
+                            var defaultSelectedView = getSelectedViewFromExtensionChain($scope.srs.extensionChain);
+                            $scope.setSelectedView(defaultSelectedView);
+                        }
+                        // $scope.srs.selectedView = $scope.srs.selectedView !== null ? $scope.srs.selectedView : defaultSelectedView;
                         setAtgarderMessages();
                         setStatistikMessages();
                         $scope.setPrediktionMessages();
