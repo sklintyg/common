@@ -34,9 +34,6 @@ import jdk.nashorn.api.scripting.NashornException;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
-//import jdk.nashorn.internal.runtime.ECMAException;
-//import jdk.nashorn.internal.runtime.Undefined;
-
 /**
  * The table component is somewhat complex since table data can be either property- or function-based.
  */
@@ -77,7 +74,7 @@ public class UVTable extends UVComponent {
             throw new IllegalArgumentException("Table valueProps must be of type array.");
         }
 
-        ScriptObjectMirror modelValue = null; // (ScriptObjectMirror) renderer.evalValueFromModel(modelProp);
+        ScriptObjectMirror modelValue = (ScriptObjectMirror) renderer.evalValueFromModel(modelProp);
 
         List<List<String>> data = new ArrayList<>();
 
@@ -121,17 +118,17 @@ public class UVTable extends UVComponent {
                     Object result;
                     try {
                         result = function.call(null, som, row, col++, colProp);
-                    } catch (NashornException /*ECMAException*/ e) {
+                    } catch (NashornException e) {
                         result = EJ_ANGIVET_STR;
                     }
-                    if (result != null && !(result.toString().equals("undefined") /*instanceof Undefined*/)) {
+                    if (result != null && !(result.toString().equals("undefined"))) {
                         String text = renderer.getText(result.toString());
                         if (text != null) {
                             columnValues.add(text);
                         } else {
                             columnValues.add(result.toString());
                         }
-                    } else if (result != null && result.toString().equals("undefined") /*instanceof Undefined*/) {
+                    } else if (result != null && result.toString().equals("undefined")) {
                         columnValues.add(EJ_ANGIVET_STR);
                     } else {
                         columnValues.add("");
