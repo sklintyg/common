@@ -7,7 +7,7 @@
 <wc-support-panel-scrollable-body dom-id="srs-panel-scrollable-body">
 
     <!-- VIEW SELECTION SECTION--->
-    <div class="srs-view-selection-row" ng-show="srs.diagnosKod && srs.srsApplicable">
+    <div class="srs-view-selection-row" ng-show="srs.diagnosKod && srs.srsApplicable && !srs.isReadOnly">
         <div class="srs-view-selector">
             <p><b>Riskberäkningen gäller:</b></p>
             <div class="srs-question srs-view-selection-grid">
