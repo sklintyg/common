@@ -46,7 +46,8 @@ angular.module('common').directive('wcSrsPanelTab',
                 var latestDaysInto = null;
                 predictions.forEach(function(p, i) {
                     // if we found the first daysIntoSickLeave or a new highest value
-                    if (i !== 0 && p.daysIntoSickLeave && (!latestDaysInto || latestDaysInto < p.daysIntoSickLeave)) {
+                    if ((isReadOnly || (!isReadOnly && i !== 0)) && p.daysIntoSickLeave &&
+                        (!latestDaysInto || latestDaysInto < p.daysIntoSickLeave)) {
                         latestDaysInto = p.daysIntoSickLeave;
                     }
                 });
@@ -425,7 +426,6 @@ angular.module('common').directive('wcSrsPanelTab',
                             var defaultSelectedView = getSelectedViewFromExtensionChain($scope.srs.extensionChain);
                             $scope.setSelectedView(defaultSelectedView);
                         }
-                        // $scope.srs.selectedView = $scope.srs.selectedView !== null ? $scope.srs.selectedView : defaultSelectedView;
                         setAtgarderMessages();
                         setStatistikMessages();
                         $scope.setPrediktionMessages();
