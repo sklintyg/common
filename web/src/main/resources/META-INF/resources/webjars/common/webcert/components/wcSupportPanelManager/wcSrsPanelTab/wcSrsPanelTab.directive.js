@@ -83,7 +83,7 @@ angular.module('common').directive('wcSrsPanelTab',
                         $scope.srs.ownOpinion = null;
                     }
                 }
-            }
+            };
 
             $scope.retrieveAndSetAtgarderAndStatistikAndHistoricPrediction = function() {
                 // var predictionIntygId = $scope.srs.userClientContext === 'SRS_FRL' ? $scope.srs.extensionFromIntygId : $scope.srs.intygId;

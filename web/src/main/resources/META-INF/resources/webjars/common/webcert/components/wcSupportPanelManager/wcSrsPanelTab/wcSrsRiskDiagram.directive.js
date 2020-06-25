@@ -189,7 +189,7 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         };
 
                         var chartOptions = chartFactory.getHighChartConfigBase(chartConfigOptions);
-                        chartOptions.title.text = "Riskdiagram";
+                        chartOptions.title.text = 'Riskdiagram';
                         chartOptions.chart.width = chartWidth;
                         chartOptions.chart.height = chartHeight;
                         chartOptions.chart.plotBorderWidth = 0;
