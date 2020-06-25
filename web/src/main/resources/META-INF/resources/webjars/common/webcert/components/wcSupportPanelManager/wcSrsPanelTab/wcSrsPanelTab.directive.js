@@ -42,22 +42,44 @@ angular.module('common').directive('wcSrsPanelTab',
                 return true;
             };
 
-            function getSelectedViewFromPredictions(predictions) {
+            function getSelectedViewFromPredictions(predictions, isReadOnly) {
                 var latestDaysInto = null;
-                predictions.forEach(function(p) {
-                    if (p.daysIntoSickLeave) {
+                predictions.forEach(function(p, i) {
+                    // if we found the first daysIntoSickLeave or a new highest value
+                    if (i !== 0 && p.daysIntoSickLeave && (!latestDaysInto || latestDaysInto < p.daysIntoSickLeave)) {
                         latestDaysInto = p.daysIntoSickLeave;
                     }
                 });
                 if (latestDaysInto !== null) {
                     switch (latestDaysInto) {
-                        case 15: return 'NEW';
-                        case 45: return 'EXT';
+                        case 15: return isReadOnly ? 'NEW' : 'EXT';
+                        case 45: return isReadOnly ? 'EXT' : 'LATE_EXT';
                         case 75: return 'LATE_EXT';
                         default: return null;
                     }
                 }
                 return null;
+            }
+
+            $scope.setPredictionsOnScope = function(predictions) {
+                $scope.srs.predictions = predictions || 'error';
+                if ($scope.srs.predictions !== 'error') {
+                    $scope.srs.currentPrediction = $scope.srs.predictions[0];
+                    $scope.srs.previousPrediction = null;
+                    $scope.srs.predictions.forEach(function(p) {
+                        if ($scope.srs.previousPrediction === null && p !== $scope.srs.currentPrediction && p.probabilityOverLimit) {
+                            $scope.srs.previousPrediction = p;
+                        }
+                    });
+                    if (!$scope.srs.currentPrediction.probabilityOverLimit &&
+                        $scope.srs.previousPrediction && $scope.srs.previousPrediction.opinion) {
+                        $scope.srs.ownOpinion = $scope.srs.previousPrediction.opinion;
+                    } else if ($scope.srs.currentPrediction && $scope.srs.currentPrediction.opinion) {
+                        $scope.srs.ownOpinion = $scope.srs.currentPrediction.opinion;
+                    } else {
+                        $scope.srs.ownOpinion = null;
+                    }
+                }
             }
 
             $scope.retrieveAndSetAtgarderAndStatistikAndHistoricPrediction = function() {
@@ -69,7 +91,7 @@ angular.module('common').directive('wcSrsPanelTab',
                         $scope.srs.statistik = data.statistik || 'error';
                         $scope.srs.atgarder = data.atgarder || 'error';
                         $scope.srs.extensionChain = data.forlangningskedja || 'error';
-                        $scope.srs.predictions = data.prediktioner || 'error';
+                        $scope.setPredictionsOnScope(data.prediktioner);
                     }, function(error) {
                         $scope.srs.statistik = 'error';
                         $scope.srs.atgarder = 'error';
@@ -116,7 +138,7 @@ angular.module('common').directive('wcSrsPanelTab',
                         $scope.srs.predictions[0] = copyOfCurrentPrediction;
                     },
                     function(error) {
-                        $scope.srs.predictions[0].opinionError = 'Fel när egen bedömning skulle sparas';
+                        $scope.srs.opinionError = 'Fel när egen bedömning skulle sparas';
                     });
             };
 
@@ -368,17 +390,18 @@ angular.module('common').directive('wcSrsPanelTab',
                     $scope.retrieveAndSetAtgarderAndStatistikAndHistoricPrediction().then(function () {
                         if ($scope.srs.predictions !== 'error') {
                             // First try to set the selected view using the latest historic risk prediction, if any
-                            var selectedViewFromPredictions = getSelectedViewFromPredictions($scope.srs.predictions);
+                            var selectedViewFromPredictions = getSelectedViewFromPredictions($scope.srs.predictions, $scope.srs.isReadOnly);
                             if (selectedViewFromPredictions) {
                                 $scope.setSelectedView(selectedViewFromPredictions);
                             }
                             // Update the selected answers to the received stored answer
-                            if ($scope.srs.predictions[0].modelVersion === '2.1') {
-                                $scope.srs.differingModelVersionInfo =
-                                    'Tidigare risk beräknades med annan version av prediktionsmodellen.\n ' +
+                            if ($scope.srs.predictions[0].probabilityOverLimit && $scope.srs.predictions[0].modelVersion === '2.1' ||
+                                (!$scope.srs.predictions[0].probabilityOverLimit && $scope.srs.predictions[1] &&
+                                    $scope.srs.predictions[1].probabilityOverLimit && $scope.srs.predictions[1].modelVersion === '2.1')) {
+                                $scope.srs.differingModelVersionInfo = 'Tidigare risk beräknades med annan version av prediktionsmodellen.\n ' +
                                     'Svaren nedan är inte därför inte patientens tidigare svar utan en grundinställning för respektive fråga.';
-                            } else if ($scope.srs.predictions[0].questionsResponses || ($scope.srs.predictions[1]
-                                && $scope.srs.predictions[1].questionsResponses)) {
+                            } else if ($scope.srs.predictions[0].questionsResponses || ($scope.srs.predictions[1] &&
+                                $scope.srs.predictions[1].questionsResponses)) {
                                 var qResponses = $scope.srs.predictions[0].questionsResponses ? $scope.srs.predictions[0].questionsResponses
                                     : $scope.srs.predictions[1].questionsResponses;
                                 qResponses.forEach(function(qnr) {
@@ -472,6 +495,11 @@ angular.module('common').directive('wcSrsPanelTab',
                 // thus we don't alter that here.
                 // In the read only mode (in rehabstöd) originalDiagnosKod is updated in panel.activated below
                 // $scope.isLoaded = false;
+                $scope.srs.currentPrediction = null;
+                $scope.srs.previousPrediction = null;
+                $scope.srs.ownOpinion = null;
+                $scope.srs.opinionError = null;
+
                 $scope.srs.selectedView = null;
                 $scope.srs.questions = [];
                 $scope.srs.statistik = {};
