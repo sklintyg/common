@@ -26,7 +26,7 @@
                         <input type="radio" id="srs-view-ext-btn"
                                name="selected-view" ng-value="'EXT'"
                                ng-model="srs.selectedView"
-                               ng-disabled="srs.isReadOnly || (srs.extensionChain && srs.extensionChain.length>2)"
+                               ng-disabled="srs.isReadOnly"
                                ng-change="setSelectedView('EXT')"/>
                         <label class="option-label" for="srs-view-ext-btn">Förlängning</label>
                     </wc-radio-wrapper>

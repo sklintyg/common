@@ -52,11 +52,13 @@ angular.module('common').directive('wcSrsPanelTab',
                     }
                 });
                 if (latestDaysInto !== null) {
-                    switch (latestDaysInto) {
-                        case 15: return isReadOnly ? 'NEW' : 'EXT';
-                        case 45: return isReadOnly ? 'EXT' : 'LATE_EXT';
-                        case 75: return 'LATE_EXT';
-                        default: return null;
+                    if (latestDaysInto === 15) {
+                        // In Rehabstöd/readonly 15 means the existing calculation is for a new prediction
+                        // In Webcert it means we are working on an extension
+                        return isReadOnly ? 'NEW' : 'EXT';
+                    }
+                    else if (latestDaysInto > 15) {
+                        return 'EXT';
                     }
                 }
                 return null;
@@ -205,7 +207,7 @@ angular.module('common').directive('wcSrsPanelTab',
                     case 'EXT':
                         return 45; // Middle of 30..60
                     case 'LATE_EXT':
-                        return 75; // Not used at the moment
+                        return 75; // Currently not used since we don't allow predictions on late extensions at the moment
                     default:
                         break;
                 }
@@ -215,20 +217,16 @@ angular.module('common').directive('wcSrsPanelTab',
             }
 
             function getSelectedViewFromExtensionChain(extensionChain) {
-                if (extensionChain && extensionChain.length > 0) {
-                    switch (extensionChain.length) {
-                        case 1:
-                            return 'NEW';
-                        case 2:
-                            return 'EXT';
-                        case 3:
-                            return 'LATE_EXT';
-                        default:
-                            break;
+                if (extensionChain) {
+                    if (extensionChain.length === 1) {
+                        return 'NEW';
+                    } else if (extensionChain.length > 1) {
+                        // LATE_EXT shall always be an active choice by the user
+                        // So if we have a chain of 2 or more we always set EXT
+                        return 'EXT';
                     }
                 }
-                // We shouldn't end up here.
-                // If we can't figure out which view to show, use NEW
+                // We shouldn't end up here but if we can't figure out which view to show, use NEW
                 return 'NEW';
             }
 
