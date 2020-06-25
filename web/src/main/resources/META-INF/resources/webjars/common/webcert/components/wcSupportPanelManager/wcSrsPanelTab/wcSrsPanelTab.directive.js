@@ -176,10 +176,7 @@ angular.module('common').directive('wcSrsPanelTab',
                         $scope.srs.daysIntoSickLeave = getDaysIntoSickLeaveApproximationFromSelectedView(newVal);
                     });
                 }
-                // In SRS_UTK applyForDiagnosis will be triggered by initial automatic change to srs.originalDiagnosKod
-                if ($scope.srs.userClientContext !== 'SRS_UTK') {
-                    applySrsForDiagnosisCode();
-                }
+                applySrsForDiagnosisCode();
             });
 
             function getDaysIntoSickLeaveApproximationFromSelectedView(selectedView) {
@@ -440,6 +437,9 @@ angular.module('common').directive('wcSrsPanelTab',
             }
 
             function reset() {
+                // originalDiagnosKod is normally updated by the Webcert framework when updating the main diagnosis
+                // thus we don't alter that here.
+                // In the read only mode (in rehabstöd) originalDiagnosKod is updated in panel.activated below
                 // $scope.isLoaded = false;
                 $scope.srs.selectedView = null;
                 $scope.srs.questions = [];
