@@ -76,6 +76,14 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         chartFactory.addColor(result.risk.chartData);
                         updateResponsiveDesign();
                         riskChart = paintBarChart('riskChart', result.risk.chartData);
+                        // Make the tooltip appear at startup on the latest calculation
+                        if (riskChart.series && riskChart.series[0] && riskChart.series[0].points) {
+                            if(riskChart.series[0].points.length > 2 && riskChart.series[0].points[2].y !== 0) {
+                                riskChart.tooltip.refresh(riskChart.series[0].points[2]);
+                            } else if(riskChart.series[0].points.length > 1 && riskChart.series[0].points[1].y !== 0) {
+                                riskChart.tooltip.refresh(riskChart.series[0].points[1]);
+                            }
+                        }
                     };
 
                     var dataReceivedSuccess = function(result) {
@@ -181,6 +189,7 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         };
 
                         var chartOptions = chartFactory.getHighChartConfigBase(chartConfigOptions);
+                        chartOptions.title.text = "Riskdiagram";
                         chartOptions.chart.width = chartWidth;
                         chartOptions.chart.height = chartHeight;
                         chartOptions.chart.plotBorderWidth = 0;
