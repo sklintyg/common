@@ -38,13 +38,19 @@ angular.module('common').service('common.receiverService', [
         };
 
         this.updatePossibleReceivers = function(intygtyp) {
+            var deferred = $q.defer();
+
             this.reset();
             state.intygtyp = intygtyp;
             ReceiversProxy.getPossibleReceivers(intygtyp, function success(response) {
                 state.possibleReceivers = response;
+                deferred.resolve(response);
             }, function err(data) {
                 //cant do much here - let possible receivers be empty
+                deferred.reject(false);
             });
+
+            return deferred.promise;
         };
 
         this.getApprovedReceivers = function(intygtyp, intygid, useCache) {

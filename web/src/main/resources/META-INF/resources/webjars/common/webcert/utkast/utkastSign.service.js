@@ -77,10 +77,10 @@ angular.module('common').factory('common.UtkastSignService',
             /**
              * Init point for signering using NIAS (EFOS + NetiD Access Server)
              */
-            function _signeraServerUsingNias(intygsTyp, intygsId, version, deferred) {
-                var signModel = {};
-                _confirmSigneraMedNias(signModel, intygsTyp, intygsId, version, deferred);
-            }
+            // function _signeraServerUsingNias(intygsTyp, intygsId, version, deferred) {
+            //     var signModel = {};
+            //     _confirmSigneraMedNias(signModel, intygsTyp, intygsId, version, deferred);
+            // }
 
             /**
              * Init point for signing using SignService
@@ -172,50 +172,50 @@ angular.module('common').factory('common.UtkastSignService',
             }
 
 
-            // EFOS / NetiD Access Server
-            function _confirmSigneraMedNias(signModel, intygsTyp, intygsId, version, deferred) {
-
-                // Anropa server, starta signering med GRP
-                UtkastProxy.startSigningProcess(intygsId, intygsTyp, version, 'NETID_ACCESS', function(ticket) {
-
-                    var templateUrl = '/app/views/signeraNiasDialog/signera.nias.dialog.html';
-                    _handleBearbetar(signModel, intygsTyp, intygsId, ticket, deferred, _openNiasSigningModal(templateUrl));
-
-                }, function(error) {
-                    deferred.resolve({});
-                    _showSigneringsError(signModel, error, intygsTyp);
-                });
-            }
+            // // EFOS / NetiD Access Server
+            // function _confirmSigneraMedNias(signModel, intygsTyp, intygsId, version, deferred) {
+            //
+            //     // Anropa server, starta signering med GRP
+            //     UtkastProxy.startSigningProcess(intygsId, intygsTyp, version, 'NETID_ACCESS', function(ticket) {
+            //
+            //         var templateUrl = '/app/views/signeraNiasDialog/signera.nias.dialog.html';
+            //         _handleBearbetar(signModel, intygsTyp, intygsId, ticket, deferred, _openNiasSigningModal(templateUrl));
+            //
+            //     }, function(error) {
+            //         deferred.resolve({});
+            //         _showSigneringsError(signModel, error, intygsTyp);
+            //     });
+            // }
 
             /**
              * Opens a custom (almost) full-screen modal for NetiD Access Server signing. The biljettStatus() function
              * in the internal controller is used for updating texts within the modal as GRP state changes are propagated
              * to the GUI.
              */
-            function _openNiasSigningModal(templateUrl) {
-
-                return $uibModal.open({
-                    templateUrl: templateUrl,
-                    backdrop: 'static',
-                    keyboard: false,
-                    windowClass: 'nias-signera-modal',
-                    controller: function($scope, $uibModalInstance, ticketStatus) {
-
-                        $scope.close = function() {
-                            $uibModalInstance.close();
-                        };
-
-                        $scope.biljettStatus = function() {
-                            return ticketStatus.status;
-                        };
-                    },
-                    resolve: {
-                        ticketStatus : function() {
-                            return ticketStatus;
-                        }
-                    }
-                });
-            }
+            // function _openNiasSigningModal(templateUrl) {
+            //
+            //     return $uibModal.open({
+            //         templateUrl: templateUrl,
+            //         backdrop: 'static',
+            //         keyboard: false,
+            //         windowClass: 'nias-signera-modal',
+            //         controller: function($scope, $uibModalInstance, ticketStatus) {
+            //
+            //             $scope.close = function() {
+            //                 $uibModalInstance.close();
+            //             };
+            //
+            //             $scope.biljettStatus = function() {
+            //                 return ticketStatus.status;
+            //             };
+            //         },
+            //         resolve: {
+            //             ticketStatus : function() {
+            //                 return ticketStatus;
+            //             }
+            //         }
+            //     });
+            // }
 
 
             // net id - telia och siths
@@ -480,7 +480,7 @@ angular.module('common').factory('common.UtkastSignService',
                 return errorMap.hasOwnProperty(error.errorCode) ? errorMap[error.errorCode] : 'common.modal.title.sign.error';
             }
 
-            function _showSigneringsError(signModel, error, intygsTyp) {
+            function _showSigneringsError(signModel, error, intygsTyp, callback) {
                 var errorMessage,
                     variables = null,
                     modalTitle = _setErrorModalTitle(error, intygsTyp),
@@ -494,14 +494,59 @@ angular.module('common').factory('common.UtkastSignService',
                 if (error.errorCode === 'PU_PROBLEM') {
                     dialogService.showMessageDialog('common.error.pu_problem.title', errorMessage);
                 } else {
-                    dialogService.showErrorMessageDialog(errorMessage, undefined, modalTitle);
+                    dialogService.showErrorMessageDialog(errorMessage, callback, modalTitle);
                 }
                 signModel.signingWithSITHSInProgress = false;
+            }
+
+            function _showSignServiceError(intygsType, ticketId){
+                var signModel = {};
+
+                function _clearQueryParamsFromUrl(){
+                    $location.replace();
+                    $location.search('error', null);
+                    $location.search('ticket', null);
+                }
+
+                function getSigneringsstatus() {
+                    UtkastProxy.getSigneringsstatus(ticketId, intygsType, function(ticket) {
+                        ticketStatus.status = ticket.status;
+
+                        if (!knownSignStatuses.hasOwnProperty(ticket.status)) {
+                            _showSigneringsError(signModel, {errorCode: 'SIGNERROR'}, intygsType, _clearQueryParamsFromUrl);
+                        }
+                    }, function(error) {
+                        _showSigneringsError(signModel, {errorCode: 'SIGNERROR'}, intygsType, _clearQueryParamsFromUrl);
+                    });
+                }
+
+                if (ticketId === null) {
+                    _clearQueryParamsFromUrl();
+                }else {
+                    getSigneringsstatus();
+                }
+            }
+
+            function _checkForApprovalOfReceivers(intygstype, intygsId, onSuccess, onError) {
+                if (receiverService.getData().possibleReceivers.length === 0){
+                    receiverService.updatePossibleReceivers(intygstype).then(function(possibleReceivers) {
+                        UtkastProxy.allowToApprovedReceivers(intygsId, function(result) {
+                            return onSuccess(result && possibleReceivers.length > 1);
+                        }, onError);
+                    });
+                }
+                else {
+                    UtkastProxy.allowToApprovedReceivers(intygsId, function(result) {
+                        return onSuccess(result && receiverService.getData().possibleReceivers.length > 1);
+                    }, onError);
+                }
             }
 
             // Return public API for the service
             return {
                 signera: _signera,
+                showSignServiceError: _showSignServiceError,
+                checkForApprovalOfReceivers: _checkForApprovalOfReceivers,
 
                 __test__: {
                     confirmSignera: _confirmSigneraMedFake,

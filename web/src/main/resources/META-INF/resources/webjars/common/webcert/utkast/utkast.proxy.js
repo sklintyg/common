@@ -249,6 +249,21 @@ angular.module('common').factory('common.UtkastProxy',
             });
         }
 
+      /*
+       * Check if intyg can be approved for receivers
+       */
+      function _allowToApprovedReceivers(intygsId, onSuccess, onError) {
+        $log.debug('_allowToApprovedReceivers');
+        var restPath = '/api/intyg/allowToApprovedReceivers/' + intygsId;
+        $http.get(restPath).then(function(response) {
+          $log.debug('_allowToApprovedReceivers got data:' + response.data);
+          onSuccess(response.data);
+        }, function(response) {
+          $log.debug('_allowToApprovedReceivers error :' + response.status);
+          onError(response.data);
+        });
+      }
+
         // Return public API for the service
         return {
             getUtkast: _getUtkast,
@@ -262,6 +277,7 @@ angular.module('common').factory('common.UtkastProxy',
             getSigneringsstatus: _getSigneringsstatus,
             fejkSignera: _fejkSignera,
             signeraUtkastWithSignatur: _signeraUtkastWithSignatur,
-            getPrevious: _getPrevious
+            getPrevious: _getPrevious,
+            allowToApprovedReceivers: _allowToApprovedReceivers
         };
     });
