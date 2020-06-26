@@ -95,19 +95,30 @@ angular.module('common').factory('common.wcSrsChartFactory',
         function _formatter(value, numberOfChars) {
             var textToFormat;
             var tooltip;
+            var info;
 
             var isObject = angular.isObject(value);
 
             if (isObject) {
                 textToFormat = value.name;
                 tooltip = value.tooltip;
+                info = value.info;
             } else {
                 textToFormat = value;
                 tooltip = value;
+                info = null;
             }
 
             var text = textToFormat.length > numberOfChars ? textToFormat.substring(0, numberOfChars) + '...' : textToFormat;
-            return '<span data-original-title="' + tooltip + '" data-placement="auto right" data-toggle="tooltip">' + text + '</span>';
+            if (info) {
+                // popover attributes is used for info messages, data-* can be activated using jquery (see wcSrsRiskDiagram)
+                return '<span uib-popover="' + info + '" popover-popup-delay="300" popover-append-to-body="true"' +
+                    ' popover-placement="top" data-original-title="' + tooltip + '" data-placement="auto right" data-toggle="tooltip">' +
+                    text + ' <i class="material-icons md-18 diagnosinfo">info_outline</i></span>';
+            } else {
+                return '<span data-original-title="' + tooltip + '" data-placement="auto right" data-toggle="tooltip">' + text + '</span>';
+            }
+
         }
 
         function _getMaxLength(maxLength) {
@@ -257,11 +268,12 @@ angular.module('common').factory('common.wcSrsChartFactory',
             }
 
             return categories && Array.isArray(categories) && categories.map(function(category) {
-                var tooltip = category.tooltip ? category.tooltip : category.name;
-
+                var tooltip = category.tooltip ? category.tooltip : '';
+                var info = category.info ? category.info : '';
                 return {
                     name: ControllerCommons.htmlsafe(category.name),
                     tooltip: ControllerCommons.htmlsafe(tooltip),
+                    info: ControllerCommons.htmlsafe(info),
                     marked: category.marked
                 };
             });
