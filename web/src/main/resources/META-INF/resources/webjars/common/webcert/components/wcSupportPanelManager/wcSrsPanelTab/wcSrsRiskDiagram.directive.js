@@ -19,8 +19,8 @@
 
 /* globals Highcharts */
 angular.module('common').directive('wcSrsRiskDiagram',
-    [ 'common.srsViewState', 'common.wcSrsChartFactory', '$timeout', '$window',
-        function(srsViewState, chartFactory, $timeout, $window) {
+    [ 'common.srsViewState', 'common.wcSrsChartFactory', '$timeout', '$window', '$compile',
+        function(srsViewState, chartFactory, $timeout, $window, $compile) {
             'use strict';
 
             return {
@@ -76,6 +76,14 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         chartFactory.addColor(result.risk.chartData);
                         updateResponsiveDesign();
                         riskChart = paintBarChart('riskChart', result.risk.chartData);
+                        // Make the tooltip appear at startup on the latest calculation
+                        if (riskChart.series && riskChart.series[0] && riskChart.series[0].points) {
+                            if(riskChart.series[0].points.length > 2 && riskChart.series[0].points[2].y && riskChart.series[0].points[2].y !== 0) {
+                                riskChart.tooltip.refresh(riskChart.series[0].points[2]);
+                            } else if(riskChart.series[0].points.length > 1 && riskChart.series[0].points[1].y && riskChart.series[0].points[1].y !== 0) {
+                                riskChart.tooltip.refresh(riskChart.series[0].points[1]);
+                            }
+                        }
                     };
 
                     var dataReceivedSuccess = function(result) {
@@ -150,7 +158,7 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         } else if (responsiveSize === 'smaller' && chartData.risk) {
                             setBarNames(chartData.risk.chartData, 'Gen.snitt', 'Aktuell', 'Tidigare', 'Beräkna', 'Kan ej beräknas', 'Tidigare');
                         } else if (chartData.risk) {
-                            setBarNames(chartData.risk.chartData, 'Genomsnittlig risk', 'Aktuell risk', 'Tidigare risk', 'Beräkna aktuell risk', 'Kan ej beräknas', 'Tidigare beräkning');
+                            setBarNames(chartData.risk.chartData, 'Genomsnittlig risk', 'Aktuell risk', 'Tidigare risk', 'Beräkna aktuell risk', 'Kan ej beräknas', 'Tidigare beräk.');
                         }
                     }
 
@@ -167,7 +175,11 @@ angular.module('common').directive('wcSrsRiskDiagram',
                             }
                         ];
                         var categories = chartData.map(function (e) {
-                            return {name: e.name};
+                            return {
+                                name: e.name,
+                                tooltip: e.tooltip,
+                                info: e.info
+                            };
                         });
 
                         var chartConfigOptions = {
@@ -181,6 +193,8 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         };
 
                         var chartOptions = chartFactory.getHighChartConfigBase(chartConfigOptions);
+                        chartOptions.title.text = 'Riskdiagram';
+                        chartOptions.title.style.display = 'none';
                         chartOptions.chart.width = chartWidth;
                         chartOptions.chart.height = chartHeight;
                         chartOptions.chart.plotBorderWidth = 0;
@@ -247,6 +261,9 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         chartOptions.accessibility = {
                             description: 'Riskdiagram'
                         };
+                        $timeout(function() {
+                            initToolTip();
+                        }, 200);
                         return new Highcharts.Chart(chartOptions);
                     }
 
@@ -257,29 +274,52 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         }
                     });
                     $scope.$watch('srs.selectedView', function(newSelectedView, oldSelectedView) {
-                        if (newSelectedView === 'LATE_EXT' && chartData.risk.chartData[2].enabled === true) {
-                            chartData.risk.hiddenRisk = {};
-                            Object.assign(chartData.risk.hiddenRisk, chartData.risk.chartData[2]);
-                            chartData.risk.chartData[2].enabled = true;
-                            chartData.risk.chartData[2].y = 0;
-                            chartData.risk.chartData[2].date = null;
-                            chartData.risk.chartData[2].daysIntoSickLeave = null;
-                            chartData.risk.chartData[2].opinion = null;
+                        if (newSelectedView === 'LATE_EXT') {
+                            if (chartData.risk.chartData[2].enabled === true) {
+                                chartData.risk.hiddenRisk = {};
+                                Object.assign(chartData.risk.hiddenRisk, chartData.risk.chartData[2]);
+                                chartData.risk.chartData[2].enabled = true;
+                                chartData.risk.chartData[2].y = 0;
+                                chartData.risk.chartData[2].date = null;
+                                chartData.risk.chartData[2].daysIntoSickLeave = null;
+                                chartData.risk.chartData[2].opinion = null;
+                                chartData.risk.chartData[2].info = 'Det går inte att beräkna nuvarande risk - ' +
+                                    'sjukskrivningen har pågått över 60 dagar';
+                            } else {
+                                chartData.risk.hiddenRisk = {};
+                                Object.assign(chartData.risk.hiddenRisk, chartData.risk.chartData[1]);
+                                chartData.risk.chartData[1].enabled = true;
+                                chartData.risk.chartData[1].y = 0;
+                                chartData.risk.chartData[1].date = null;
+                                chartData.risk.chartData[1].daysIntoSickLeave = null;
+                                chartData.risk.chartData[1].opinion = null;
+                                chartData.risk.chartData[1].info = 'Det går inte att beräkna nuvarande risk - ' +
+                                    'sjukskrivningen har pågått över 60 dagar';
+                            }
                         }
                         if (oldSelectedView === 'LATE_EXT' && newSelectedView !== 'LATE_EXT' && chartData.risk.hiddenRisk) {
-                            chartData.risk.chartData[2] = chartData.risk.hiddenRisk;
+                            if (chartData.risk.chartData[2].enabled === true) {
+                                chartData.risk.chartData[2] = chartData.risk.hiddenRisk;
+                            } else {
+                                chartData.risk.chartData[1] = chartData.risk.hiddenRisk;
+                            }
                         }
 
                         updateResponsiveDesign();
                         riskChart = paintBarChart('riskChart', chartData.risk.chartData);
                     });
-                    $scope.$watchCollection('srs.predictions', function(newPredictions, oldPredictions) {
+
+
+                    function updateWithPredictions(newPredictions) {
+                        /*jshint maxcomplexity:12 */
+
                         // reset any hidden risk prediction when we get new data
                         chartData.risk.hiddenRisk = null;
                         // Reset
                         chartData.risk.chartData.forEach(function(cd) {
                             cd.y=0;
                             cd.enabled = false;
+                            cd.info = null;
                         });
                         // if we change to nothing then just return after the reset
                         if (!newPredictions || !newPredictions[0]) {
@@ -303,7 +343,7 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         // Previous prediction (if we have a previous prediction newPrediction[1], add it on position 1)
                         // only do this if the first three characters of diagnosis code (the diagnosis group) is the same,
                         // i.e. the main diagnosis hasn't changed since the first certificate
-                        if (newPredictions[1]) { //newPredictions[1].probabilityOverLimit !== null &&) {
+                        if (newPredictions[1]) {
                             chartData.risk.chartData[1].enabled = true;
                             if (newPredictions[1].probabilityOverLimit) {
                                 chartData.risk.chartData[1].y = Math.round(newPredictions[1].probabilityOverLimit * 100);
@@ -315,6 +355,9 @@ angular.module('common').directive('wcSrsRiskDiagram',
                                 chartData.risk.chartData[1].date = null;
                                 chartData.risk.chartData[1].daysIntoSickLeave = null;
                                 chartData.risk.chartData[1].opinion = null;
+                                if (newPredictions[1].diagnosisCode !== newPredictions[0].diagnosisCode) {
+                                    chartData.risk.chartData[1].info = 'På grund av diagnosbyte visas ej tidigare beräknade risker';
+                                }
                             }
                             // add current prediction if available
                             if (newPredictions[0].probabilityOverLimit && $scope.srs.selectedView !== 'LATE_EXT') { // if we also have a current prediction in newPrediction[0] add that to the right
@@ -329,11 +372,17 @@ angular.module('common').directive('wcSrsRiskDiagram',
                                 chartData.risk.chartData[2].date = null;
                                 chartData.risk.chartData[2].daysIntoSickLeave = null;
                                 chartData.risk.chartData[2].opinion = null;
+                                if ($scope.srs.selectedView === 'LATE_EXT') {
+                                    chartData.risk.chartData[2].info = 'Det går inte att beräkna nuvarande risk - ' +
+                                        'sjukskrivningen har pågått över 60 dagar';
+                                } else {
+                                    chartData.risk.chartData[2].info = 'OBS ingen riskberäkning är gjord';
+                                }
                             }
                             // name/title is set via updateResponsiveDesign
                         }
                         // No previous prediction but current (if we don't have a previous one, just add the current at the middle spot)
-                        else if (newPredictions[0].probabilityOverLimit !== null) {
+                        else if (newPredictions[0].probabilityOverLimit) {
                             chartData.risk.chartData[1].enabled = true;
                             chartData.risk.chartData[1].y = Math.round(newPredictions[0].probabilityOverLimit * 100);
                             chartData.risk.chartData[1].date = newPredictions[0].date;
@@ -342,14 +391,25 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         }
                         // No prediction
                         else {
-                            chartData.risk.chartData[1].enabled = false;
-                            chartData.risk.chartData[1].y = null;
-                            chartData.risk.chartData[1].name = '';
+                            chartData.risk.chartData[1].enabled = true;
+                            chartData.risk.chartData[1].y = 0;
+                            // chartData.risk.chartData[1].name = '';
                             chartData.risk.chartData[1].date = null;
                             chartData.risk.chartData[1].daysIntoSickLeave = null;
                             chartData.risk.chartData[1].opinion = null;
+                            if ($scope.srs.selectedView === 'LATE_EXT') {
+                                chartData.risk.chartData[1].info = 'Det går inte att beräkna nuvarande risk - ' +
+                                    'sjukskrivningen har pågått över 60 dagar';
+                            } else {
+                                chartData.risk.chartData[1].info = 'OBS ingen riskberäkning är gjord';
+                            }
                         }
+
                         dataReceivedSuccess(chartData);
+                    }
+
+                    $scope.$watchCollection('srs.predictions', function(newPredictions, oldPredictions) {
+                        updateWithPredictions(newPredictions);
                     });
 
                     // Initialize
@@ -357,6 +417,17 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         $window.removeEventListener('resize', onResize);
                         $window.addEventListener('resize', onResize);
                     });
+
+                    function initToolTip() {
+                        // Recompile the chart element to enable popovers
+                        var chartElement = angular.element( document.querySelector( '#riskChart' ) );
+                        $compile(chartElement)($scope);
+                        // The following lines enables tooltips on labels using jquery
+                        // If there is a need for enabling this, make sure jquery is ok to use
+                        // $('[data-toggle="tooltip"]').tooltip({
+                        //     container: '#srsDiagramLabelTooltip'
+                        // });
+                    }
 
                 }
         };
