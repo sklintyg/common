@@ -308,7 +308,10 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         riskChart = paintBarChart('riskChart', chartData.risk.chartData);
                     });
 
+
                     function updateWithPredictions(newPredictions) {
+                        /*jshint maxcomplexity:12 */
+
                         // reset any hidden risk prediction when we get new data
                         chartData.risk.hiddenRisk = null;
                         // Reset
