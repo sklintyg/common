@@ -99,6 +99,8 @@ angular.module('common').factory('common.UtkastSignService',
                 inputs += _addInput('EidSignRequest', formData.signRequest);
 
                 //send request via temporary added form and remove from dom directly
+                // Add stateParam to prevent automatic logout by onbeforeonload in app.js
+                $stateParams.signServiceSubmit = true;
                 $window.jQuery('<form action="' + $sce.trustAsResourceUrl(formData.actionUrl) + '" method="POST">' + inputs + '</form>')
                 .appendTo('body').submit().remove();
             }
