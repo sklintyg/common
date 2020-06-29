@@ -46,7 +46,7 @@ angular.module('common').factory('common.UtkastSignService',
                 var deferred = $q.defer();
                 if (_endsWith(UserModel.user.authenticationScheme, ':fake') && UserModel.user.authenticationMethod === 'FAKE') {
                     _signeraServerFake(intygsTyp, $stateParams.certificateId, version, deferred);
-                } else if (UserModel.user.authenticationMethod === 'NET_ID' || UserModel.user.authenticationMethod === 'SITHS' || UserModel.user.authenticationMethod === 'EFOS') {
+                } else if (UserModel.user.authenticationMethod === 'NET_ID' || UserModel.user.authenticationMethod === 'SITHS') {
 
                     // Use iid_IsExplorer() to determine whether to use NetiD Plugin or Signing Service
                     // Whitelist can change this behaviour
@@ -73,14 +73,6 @@ angular.module('common').factory('common.UtkastSignService',
                 var signModel = {};
                 _confirmSigneraMedBankID(signModel, intygsTyp, intygsId, version, deferred);
             }
-
-            /**
-             * Init point for signering using NIAS (EFOS + NetiD Access Server)
-             */
-            // function _signeraServerUsingNias(intygsTyp, intygsId, version, deferred) {
-            //     var signModel = {};
-            //     _confirmSigneraMedNias(signModel, intygsTyp, intygsId, version, deferred);
-            // }
 
             /**
              * Init point for signing using SignService
@@ -170,52 +162,6 @@ angular.module('common').factory('common.UtkastSignService',
                     }
                 });
             }
-
-
-            // // EFOS / NetiD Access Server
-            // function _confirmSigneraMedNias(signModel, intygsTyp, intygsId, version, deferred) {
-            //
-            //     // Anropa server, starta signering med GRP
-            //     UtkastProxy.startSigningProcess(intygsId, intygsTyp, version, 'NETID_ACCESS', function(ticket) {
-            //
-            //         var templateUrl = '/app/views/signeraNiasDialog/signera.nias.dialog.html';
-            //         _handleBearbetar(signModel, intygsTyp, intygsId, ticket, deferred, _openNiasSigningModal(templateUrl));
-            //
-            //     }, function(error) {
-            //         deferred.resolve({});
-            //         _showSigneringsError(signModel, error, intygsTyp);
-            //     });
-            // }
-
-            /**
-             * Opens a custom (almost) full-screen modal for NetiD Access Server signing. The biljettStatus() function
-             * in the internal controller is used for updating texts within the modal as GRP state changes are propagated
-             * to the GUI.
-             */
-            // function _openNiasSigningModal(templateUrl) {
-            //
-            //     return $uibModal.open({
-            //         templateUrl: templateUrl,
-            //         backdrop: 'static',
-            //         keyboard: false,
-            //         windowClass: 'nias-signera-modal',
-            //         controller: function($scope, $uibModalInstance, ticketStatus) {
-            //
-            //             $scope.close = function() {
-            //                 $uibModalInstance.close();
-            //             };
-            //
-            //             $scope.biljettStatus = function() {
-            //                 return ticketStatus.status;
-            //             };
-            //         },
-            //         resolve: {
-            //             ticketStatus : function() {
-            //                 return ticketStatus;
-            //             }
-            //         }
-            //     });
-            // }
 
 
             // net id - telia och siths
@@ -337,7 +283,7 @@ angular.module('common').factory('common.UtkastSignService',
 
                     if (UserModel.user.authenticationMethod === 'NET_ID') {
                         iid_SetProperty('Subjects', 'SERIALNUMBER=' + UserModel.user.personId); // jshint ignore:line
-                    } else if (UserModel.user.authenticationMethod === 'SITHS' || UserModel.user.authenticationMethod === 'EFOS') {
+                    } else if (UserModel.user.authenticationMethod === 'SITHS') {
                         iid_SetProperty('Subjects', 'SERIALNUMBER=' + UserModel.user.hsaId); // jshint ignore:line
                     }
 
