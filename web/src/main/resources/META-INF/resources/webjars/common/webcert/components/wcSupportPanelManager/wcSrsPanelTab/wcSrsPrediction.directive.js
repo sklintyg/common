@@ -73,15 +73,7 @@ angular.module('common').directive('wcSrsPrediction', [
                     return srsProxy.getPredictions(scope.srs.intygId, scope.srs.personId, scope.srs.diagnosKod, qaIds, scope.srs.daysIntoSickLeave)
                         .then(
                             function(predictions) {
-                                scope.srs.predictions = predictions;
-
-                                if (scope.srs.predictions[0].modelVersion === '2.1') {
-                                    scope.srs.differingModelVersionInfo = 'Tidigare risk beräknades med annan version av prediktionsmodellen.\n ' +
-                                        'Svaren nedan är inte därför inte patientens tidigare svar utan en grundinställning för respektive fråga.';
-                                } else {
-                                    scope.srs.differingModelVersionInfo = '';
-                                }
-
+                                scope.setPredictionsOnScope(predictions);
                             }, function(error) {
                                 scope.srs.predictions = 'error';
                             }
