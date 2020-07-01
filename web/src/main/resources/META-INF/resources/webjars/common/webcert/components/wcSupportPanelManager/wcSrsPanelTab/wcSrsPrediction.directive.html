@@ -13,7 +13,7 @@
     </div>
     <div>
         <!-- LÄKARENS EGEN BEDÖMNING --->
-        <div id="srs-own-opinion" ng-if="srs.currentPrediction.probabilityOverLimit || srs.previousPrediction.probabilityOverLimit">
+        <div id="srs-own-opinion" ng-if="srs.currentPrediction.probabilityOverLimit && !srs.isReadOnly && srs.selectedView != 'LATE_EXT'">
             <hr/>
             <p><b>Enligt min läkarbedömning anser jag att patientens risk är</b></p>
             <div class="srs-question srs-option-grid">
