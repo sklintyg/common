@@ -335,7 +335,8 @@ angular.module('common').factory('common.wcSrsChartFactory',
                         rotation : 0,
                         align : 'center',
                         style: {
-                            textAlign: 'center'
+                            textAlign: 'center',
+                            fontSize: '14px'
                         },
                         useHTML: true,
                         formatter: labelFormatter(_getMaxLength(options.labelMaxLength), options.verticalLabel),
