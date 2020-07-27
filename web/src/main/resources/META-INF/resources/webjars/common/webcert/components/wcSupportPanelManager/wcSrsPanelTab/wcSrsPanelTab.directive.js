@@ -419,8 +419,9 @@ angular.module('common').directive('wcSrsPanelTab',
                                 });
                             }
                         }
-                        // If we don't have a value for selected view yet, make it default to the correct spot based on the extension chain
-                        if (!$scope.srs.selectedView) {
+                        // If we don't have a value for selected view yet or if we don't know if this is an extension,
+                        // make it default to the correct spot based on the extension chain
+                        if (!$scope.srs.selectedView || $scope.srs.selectedView === 'NEW') {
                             var defaultSelectedView = getSelectedViewFromExtensionChain($scope.srs.extensionChain);
                             $scope.setSelectedView(defaultSelectedView);
                         }
