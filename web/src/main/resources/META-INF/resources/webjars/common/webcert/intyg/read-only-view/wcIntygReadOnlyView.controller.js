@@ -49,7 +49,11 @@ angular.module('common').controller(
                             });
                     }
 
-                    ViewState.common.updateIntygProperties(result, ViewState.intygModel.id);
+                    if(ViewState.intygModel) {
+                      ViewState.common.updateIntygProperties(result, ViewState.intygModel.id);
+                    } else {
+                      ViewState.common.updateIntygProperties(result, ViewState.cert.id);
+                    }
 
 
                     // Construct panel config

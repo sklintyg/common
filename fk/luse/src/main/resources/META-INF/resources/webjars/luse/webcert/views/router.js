@@ -115,5 +115,23 @@ angular.module('luse').config(function($stateProvider) {
                     controller: 'common.IntygHeader'
                 }
             }
-        });
+        }).state('luse-readonly', {
+        data: {intygType: 'luse'},
+        url: '/intyg-read-only/luse/:intygTypeVersion/:certificateId',
+        resolve: {
+            ViewState: 'luse.IntygController.ViewStateService',
+            ViewConfigFactory: viewConfig,
+            DiagnosExtractor: function() {
+                return function(luseModel) {
+                    return luseModel.diagnosKod;
+                };
+            }
+        },
+        views: {
+            'content@': {
+                templateUrl: commonPath + 'intyg/read-only-view/wcIntygReadOnlyView.template.html',
+                controller: 'common.wcIntygReadOnlyViewController'
+            }
+        }
+    });
 });
