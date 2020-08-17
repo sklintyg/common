@@ -49,7 +49,11 @@ angular.module('common').controller(
                             });
                     }
 
-                    ViewState.common.updateIntygProperties(result, ViewState.intygModel.id);
+                    if(ViewState.intygModel) {
+                        ViewState.common.updateIntygProperties(result, ViewState.intygModel.id);
+                    } else {
+                        ViewState.common.updateIntygProperties(result, ViewState.cert.id);
+                    }
 
 
                     // Construct panel config
@@ -63,15 +67,17 @@ angular.module('common').controller(
                         }
                     };
                     //Kompletteringpanel is always enabled
-                    panelConfig.tabs.push({
-                        id: 'wc-komplettering-read-only-panel-tab',
-                        title: 'common.supportpanel.ro-kompletteringar.title',
-                        tooltip: 'common.supportpanel.ro-kompletteringar.tooltip',
-                        config: {
-                            intygContext: panelConfig.intygContext
-                        },
-                        active: true
-                    });
+                    if (ViewState.cert.typ !== 'ag114' && ViewState.cert.typ !== 'ag7804') {
+                        panelConfig.tabs.push({
+                            id: 'wc-komplettering-read-only-panel-tab',
+                            title: 'common.supportpanel.ro-kompletteringar.title',
+                            tooltip: 'common.supportpanel.ro-kompletteringar.tooltip',
+                            config: {
+                                intygContext: panelConfig.intygContext
+                            },
+                            active: true
+                        });
+                    }
                     // SRS read only view
                     if (authorityService.isAuthorityActive(
                         {feature: 'SRS', intygstyp: ViewState.common.intygProperties.type})) {

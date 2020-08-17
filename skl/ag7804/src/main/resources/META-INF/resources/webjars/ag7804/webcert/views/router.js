@@ -92,5 +92,24 @@ angular.module('ag7804').config(function($stateProvider) {
                     controller: 'common.IntygHeader'
                 }
             }
+        }).
+        state('ag7804-readonly', {
+            data: { intygType: 'ag7804' },
+            url: '/intyg-read-only/ag7804/:intygTypeVersion/:certificateId',
+            resolve: {
+                ViewState: 'ag7804.IntygController.ViewStateService',
+                ViewConfigFactory: viewConfig,
+                DiagnosExtractor: function() {
+                    return function (ag7804Model) {
+                        return ag7804Model.diagnoser[0].diagnosKod;
+                    };
+                }
+            },
+            views: {
+                'content@': {
+                    templateUrl: commonPath + 'intyg/read-only-view/wcIntygReadOnlyView.template.html',
+                    controller: 'common.wcIntygReadOnlyViewController'
+                }
+            }
         });
 });
