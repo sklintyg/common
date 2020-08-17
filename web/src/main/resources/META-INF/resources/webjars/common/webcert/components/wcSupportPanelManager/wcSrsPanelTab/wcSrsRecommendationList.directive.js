@@ -31,6 +31,7 @@ angular.module('common').directive('wcSrsRecommendationList', [
                 moreTitle: '@',
                 lessTitle: '@',
                 recommendations: '=',
+                hideDiagnosisTitle: '@',
                 srs: '=srsScope'
             },
             link: function($scope, element, $attrs) {

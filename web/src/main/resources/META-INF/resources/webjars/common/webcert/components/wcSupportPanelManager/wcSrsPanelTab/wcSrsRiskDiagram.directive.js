@@ -154,11 +154,13 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         }
 
                         if (responsiveSize === 'smallest' && chartData.risk) {
-                            setBarNames(chartData.risk.chartData, 'Gen.', 'Akt.', 'Tid.', 'Ber.', 'Kan ej ber.', 'Tid.');
+                            setBarNames(chartData.risk.chartData, 'G.', 'A.', 'T.', 'A.', 'K.', 'T.');
                         } else if (responsiveSize === 'smaller' && chartData.risk) {
-                            setBarNames(chartData.risk.chartData, 'Gen.snitt', 'Aktuell', 'Tidigare', 'Beräkna', 'Kan ej beräknas', 'Tidigare');
+                            setBarNames(chartData.risk.chartData, 'G.snitt', 'Akt.', 'Tidig.', 'Akt.', 'Kan ej.', 'Tidig.');
+                        } else if (responsiveSize === 'normal' && chartData.risk) {
+                            setBarNames(chartData.risk.chartData, 'Genomsnittlig risk', 'Aktuell risk', 'Tidigare risk', 'Aktuell risk', 'Kan ej ber.', 'Tidigare ber.');
                         } else if (chartData.risk) {
-                            setBarNames(chartData.risk.chartData, 'Genomsnittlig risk', 'Aktuell risk', 'Tidigare risk', 'Beräkna aktuell risk', 'Kan ej beräknas', 'Tidigare beräk.');
+                            setBarNames(chartData.risk.chartData, 'Genomsnittlig risk', 'Aktuell risk', 'Tidigare risk', 'Aktuell risk', 'Kan ej beräknas', 'Tidigare beräk.');
                         }
                     }
 
