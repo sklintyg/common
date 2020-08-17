@@ -115,5 +115,23 @@ angular.module('luae_fs').config(function($stateProvider) {
                     controller: 'common.IntygHeader'
                 }
             }
-        });
+        }).state('luae_fs-readonly', {
+        data: {intygType: 'luae_fs'},
+        url: '/intyg-read-only/luae_fs/:intygTypeVersion/:certificateId',
+        resolve: {
+            ViewState: 'luae_fs.IntygController.ViewStateService',
+            ViewConfigFactory: viewConfig,
+            DiagnosExtractor: function() {
+                return function(luseModel) {
+                    return luseModel.diagnosKod;
+                };
+            }
+        },
+        views: {
+            'content@': {
+                templateUrl: commonPath + 'intyg/read-only-view/wcIntygReadOnlyView.template.html',
+                controller: 'common.wcIntygReadOnlyViewController'
+            }
+        }
+    });
 });

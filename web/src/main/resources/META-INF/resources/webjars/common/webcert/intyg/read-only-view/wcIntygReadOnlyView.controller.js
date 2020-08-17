@@ -50,9 +50,9 @@ angular.module('common').controller(
                     }
 
                     if(ViewState.intygModel) {
-                        ViewState.common.updateIntygProperties(result, ViewState.intygModel.id);
+                      ViewState.common.updateIntygProperties(result, ViewState.intygModel.id);
                     } else {
-                        ViewState.common.updateIntygProperties(result, ViewState.cert.id);
+                      ViewState.common.updateIntygProperties(result, ViewState.cert.id);
                     }
 
 
