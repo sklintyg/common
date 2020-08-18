@@ -21,10 +21,10 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
         'common.UserModel', 'ViewState',
         'ViewConfigFactory', 'common.dynamicLabelService', 'common.IntygViewStateService', 'uvUtil',
         'supportPanelConfigFactory',
-        'common.receiverService', 'common.authorityService',
+        'common.receiverService', 'common.authorityService', 'common.UtkastSignService',
         function($log, $timeout, $rootScope, $stateParams, $scope, $state, IntygProxy,
             UserModel, ViewState, viewConfigFactory, DynamicLabelService, IntygViewStateService, uvUtil,
-            supportPanelConfigFactory, receiverService, authorityService) {
+            supportPanelConfigFactory, receiverService, authorityService, utkastSignService) {
             'use strict';
 
             ViewState.reset();
@@ -44,18 +44,32 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
 
             $scope.uvConfig = viewConfigFactory.getViewConfig(true);
 
-            //Did we just sign this intyg, and was it determined that we need to show approve receivers dialog for it?
-            if ($stateParams.signed && receiverService.getData().showApproveDialog) {
+            //Did we just sign this intyg, and do we need to show approve receivers dialog for it?
+            if ($stateParams.signed){
+                if(receiverService.getData().showApproveDialog){
+                    handleApprovalOfReceiversDialog();
+                }
+                else {
+                    utkastSignService.checkForApprovalOfReceivers(ViewState.common.intygProperties.type, $stateParams.certificateId,
+                        function(result) {
+                            if (result) {
+                                handleApprovalOfReceiversDialog();
+                            } else if (authorityService.isAuthorityActive({
+                                authority: UserModel.privileges.GODKANNA_MOTTAGARE,
+                                intygstyp: ViewState.common.intygProperties.type
+                            })) {
+                                // potentially this intyg/user could require approval of receivers. If this is the case - we prefetch the configuration of approved receivers for
+                                // this intyg right now, so that other components, such as wcApproveReceiversButton can determine it's enabled state without delay.
+                                receiverService.getApprovedReceivers(ViewState.common.intygProperties.type, $stateParams.certificateId);
+                            }
+                        });
+                }
+            }
+
+            function handleApprovalOfReceiversDialog(){
                 receiverService.getData().showApproveDialog = false;
                 receiverService.openConfigDialogForIntyg(ViewState.common.intygProperties.type,
                     $stateParams.certificateId, false);
-            } else if (authorityService.isAuthorityActive({
-                authority: UserModel.privileges.GODKANNA_MOTTAGARE,
-                intygstyp: ViewState.common.intygProperties.type
-            })) {
-                // potentially this intyg/user could require approval of receivers. If this is the case - we prefetch the configuration of approved receivers for
-                // this intyg right now, so that other components, such as wcApproveReceiversButton can determine it's enabled state without delay.
-                receiverService.getApprovedReceivers(ViewState.common.intygProperties.type, $stateParams.certificateId);
             }
 
             /**
