@@ -21,7 +21,7 @@ package se.inera.intyg.common.support.common.enumerations;
 
 import java.util.stream.Stream;
 
-public enum EventKod {
+public enum EventCode {
 
     SKAPAT("SKAPAT", "Skapat"),
     RADERAT("RADERAT", "Raderat"),
@@ -30,7 +30,7 @@ public enum EventKod {
     SIGNAT("SIGNAT", "Signerat"),
     SKICKAT("SKICKAT", "Skickat"),
     NYFRFM("NYFRFM", "Ny fråga från mottagare"),
-    HANFRFM("HANFRFM", "Hanterad fråga fråm mottagare"),
+    HANFRFM("HANFRFM", "Hanterad fråga från mottagare"),
     NYFRFV("NYFRFV", "Ny fråga från vården"),
     NYSVFM("NYSVFM", "Nytt svar från mottagare"),
     HANFRFV("HANFRFV", "Hanterad fråga från vården"),
@@ -43,23 +43,23 @@ public enum EventKod {
 
 
     private final String value;
-    private final String klartext;
+    private final String description;
 
-    EventKod(String value, String description) {
+    EventCode(String value, String description) {
         this.value = value;
-        this.klartext = description;
+        this.description = description;
     }
 
     public String value() {
         return value;
     }
 
-    public String getKlartext() {
-        return this.klartext;
+    public String getDescription() {
+        return this.description;
     }
 
-    public static EventKod fromValue(String value) {
-        return Stream.of(EventKod.values()).filter(s -> value.equals(s.value())).findFirst()
+    public static EventCode fromValue(String value) {
+        return Stream.of(EventCode.values()).filter(s -> value.equals(s.value())).findFirst()
             .orElseThrow(() -> new IllegalArgumentException(value));
     }
 
