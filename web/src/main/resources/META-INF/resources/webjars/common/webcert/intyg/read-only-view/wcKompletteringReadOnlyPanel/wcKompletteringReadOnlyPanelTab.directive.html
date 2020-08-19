@@ -1,9 +1,28 @@
 <wc-spinner label="common.loading.existing.arenden" show-spinner="!viewState.doneLoading">
-
   <wc-support-panel-scrollable-body dom-id="arende-panel-scrollable-body">
+    <div class="tab-content-title-row">
+      <ul class="nav navbar-nav">
+        <li ng-class="{active: isFilterKomplettering}">
+          <a ng-click="setFilterKomplettering(true)" id="arende-filter-kompletteringsbegaran">
+            Kompletteringsbegäran
+            <span id="arende-kompletteringsbegaran-count" ng-if="unhandledKompletteringCount > 0" class="badge badge__stat">
+              {{unhandledKompletteringCount}}
+            </span>
+          </a>
+        </li>
+        <li ng-class="{active: !isFilterKomplettering}">
+          <a ng-click="setFilterKomplettering(false)" id="arende-filter-administrativafragor">
+            Administrativa frågor
+            <span id="arende-administrativafragor-count" ng-if="unhandledQuestionsCount > 0" class="badge badge__stat">
+            {{unhandledQuestionsCount}}
+          </span>
+          </a>
+        </li>
+      </ul>
+    </div>
     <div
         ng-repeat="arendeListItem in viewState.arendeList | filter:kompletteringarFilter | orderBy:['-arende.senasteHandelse'] as kompletteringarList"
-        class="arende-item">
+        class="arende-item" ng-if="isFilterKomplettering">
       <arende-panel
           last-card="$last"
           panel-id="kompletteringar"
@@ -13,15 +32,31 @@
           config="config">
       </arende-panel>
     </div>
-    <wc-error error="viewState.activeErrorMessageKey" ng-if="viewState.activeErrorMessageKey"></wc-error>
-
-    <div ng-if="!viewState.activeErrorMessageKey && kompletteringarList.length === 0" class="no-kompletteringar-container">
-
+    <div
+        ng-repeat="arendeListItem in viewState.arendeList | filter:questionsFilter | orderBy:['-arende.senasteHandelse'] as questionsList"
+        class="arende-item" ng-if="!isFilterKomplettering">
+      <arende-panel
+          last-card="$last"
+          panel-id="administrativa-fragor"
+          arende-list-item="arendeListItem"
+          arende-list="viewState.arendeList"
+          parent-view-state="viewState"
+          config="config">
+      </arende-panel>
+    </div>
+    <div ng-if="!viewState.activeErrorMessageKey && isFilterKomplettering && unhandledKompletteringCount === 0" class="no-kompletteringar-container">
       <div><img
           src="/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/wcArendeNoKompletteringarMessage/fragor_svar_nodata.svg">
       </div>
-      <div>Det finns inga obesvarade kompletteringar</div>
+      <span dynamic-label key="common.supportpanel.ro.no-kompl"></span>
     </div>
+    <div ng-if="!viewState.activeErrorMessageKey && !isFilterKomplettering && unhandledQuestionsCount === 0" class="no-kompletteringar-container">
+      <div><img
+          src="/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/wcArendeNoKompletteringarMessage/fragor_svar_nodata.svg">
+      </div>
+      <span dynamic-label key="common.supportpanel.ro.no-qa"></span>
+    </div>
+    <wc-error error="viewState.activeErrorMessageKey" ng-if="viewState.activeErrorMessageKey"></wc-error>
   </wc-support-panel-scrollable-body>
 
 </wc-spinner>
