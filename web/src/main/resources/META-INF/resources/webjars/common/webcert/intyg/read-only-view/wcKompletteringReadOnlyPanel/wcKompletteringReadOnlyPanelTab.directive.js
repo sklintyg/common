@@ -37,6 +37,7 @@ angular.module('common').directive('wcKompletteringReadOnlyPanelTab', [
             ArendeListViewState.intyg = null;
             $scope.viewState = ArendeListViewState;
             $scope.unhandledKompletteringCount = 0;
+            $scope.unhandledQuestionsCount = 0;
 
             $scope.$on('$destroy', function() {
                 //Since ArendeListViewState is a service that's used elsewhere we need to clean up
@@ -44,6 +45,11 @@ angular.module('common').directive('wcKompletteringReadOnlyPanelTab', [
                 ArendeListViewState.reset();
             });
 
+            $scope.isFilterKomplettering = !($scope.unhandledKompletteringCount === 0 && $scope.unhandledQuestionsCount > 0);
+
+            $scope.setFilterKomplettering = function(value) {
+                $scope.isFilterKomplettering = value;
+            };
 
             var abortFetchArenden;
             $scope.$on('$destroy', function() {
@@ -66,6 +72,8 @@ angular.module('common').directive('wcKompletteringReadOnlyPanelTab', [
                     angular.forEach(ArendeListViewState.arendeList, function(arendeListItem) {
                         if (arendeListItem.isOpen() && arendeListItem.isKomplettering()) {
                             $scope.unhandledKompletteringCount++;
+                        } else if(arendeListItem.isOpen () && !arendeListItem.isKomplettering()) {
+                            $scope.unhandledQuestionsCount++;
                         }
                     });
 
@@ -82,8 +90,13 @@ angular.module('common').directive('wcKompletteringReadOnlyPanelTab', [
 
                 });
             }
+
             $scope.kompletteringarFilter = function(arendeListItem) {
                 return arendeListItem.isOpen() && arendeListItem.isKomplettering();
+            };
+
+            $scope.questionsFilter = function(arendeListItem) {
+                return arendeListItem.isOpen() && !arendeListItem.isKomplettering();
             };
 
             fetchArenden($stateParams.certificateId, $state.current.data.intygType);
