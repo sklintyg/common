@@ -59,4 +59,61 @@ wc-komplettering-read-only-panel-tab {
   }
 
 
+  .navbar-nav {
+    > li > a {
+      @extend %wc-typo-06;
+      background-color: $wc-color-00;
+      color: $wc-color-19;
+      line-height: normal;
+      border: 1px solid transparent;
+      border-radius: 22.5px;
+      padding: 5px 15px;
+      margin-right: 13px;
+      text-decoration: none;
+      height: 32px;
+
+      .badge__stat {
+        @extend %wc-typo-13;
+        margin-left: 10px;
+        background-color: $wc-color-00;
+        border: 1px solid $wc-color-19;
+        color: $wc-color-19;
+      }
+
+      &:hover,
+      &:focus {
+        background-color: $wc-color-00;
+        border-color: $wc-color-19;
+        color: $wc-color-19;
+      }
+    }
+
+    > .active > a {
+      &,
+      &:hover,
+      &:focus {
+        background-color: $wc-color-21;
+        border-color: $wc-color-21;
+        color: $wc-color-00;
+      }
+
+      .badge__stat {
+        background-color: $wc-color-00;
+        border-color: $wc-color-00;
+        color: $wc-color-19;
+      }
+    }
+  }
+
+  .tab-content-title-row {
+    @extend %wc-typo-05;
+    color: $wc-color-07;
+    background-color: $wc-color-15;
+    padding: 10px 5px 10px 10px;
+    min-height: 70px;
+
+    .navbar-nav > li{
+      margin-top: 10px;
+    }
+  }
 }
