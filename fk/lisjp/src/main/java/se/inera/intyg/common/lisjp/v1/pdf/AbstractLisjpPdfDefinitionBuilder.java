@@ -895,14 +895,13 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         }
     }
 
-    void printElectronicCopy(List<PdfComponent<?>> allElements) {
-        FkLabel elektroniskKopia = new FkLabel(PdfConstants.ELECTRONIC_COPY_WATERMARK_TEXT)
-            .offset(14f, 50f)
-            .withHorizontalAlignment(PdfPCell.ALIGN_CENTER)
-            .withVerticalAlignment(Element.ALIGN_MIDDLE)
-            .size(70f, 12f)
-            .withFont(PdfConstants.FONT_BOLD_9)
-            .withBorders(Rectangle.BOX, BaseColor.RED);
+    void printElectronicCopySignature(List<PdfComponent<?>> allElements) {
+        FkLabel elektroniskKopia = new FkLabel(PdfConstants.ELECTRONIC_COPY_WATERMARK_TEXT_SIGNATURE)
+            .offset(59.5f, 72.5f)
+            .withHorizontalAlignment(PdfPCell.ALIGN_LEFT)
+            .withVerticalAlignment(Element.ALIGN_LEFT)
+            .size(180f, 10f)
+            .withFont(PdfConstants.FONT_ELECTRONICALLY_SIGNED_SIGNATURE);
         allElements.add(elektroniskKopia);
     }
 
