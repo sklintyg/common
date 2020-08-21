@@ -66,8 +66,8 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
             showFkAddress = !isSentToFk(statuses);
         }
 
-        if (!isUtkast && !isLockedUtkast) {
-            printElectronicCopy(allElements);
+        if (isSigned(isUtkast, isLockedUtkast)) {
+            printElectronicCopyTitle(allElements);
         }
 
         addPage1MiscFields(intyg, showFkAddress, allElements);
@@ -80,6 +80,10 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
         FkPage thisPage = new FkPage();
         thisPage.getChildren().addAll(allElements);
         return thisPage;
+    }
+
+    private boolean isSigned(boolean isUtkast, boolean isLockedUtkast) {
+        return !isUtkast && !isLockedUtkast;
     }
 
     private FkPage createPage2(LisjpUtlatandeV1 intyg) throws IOException, DocumentException {

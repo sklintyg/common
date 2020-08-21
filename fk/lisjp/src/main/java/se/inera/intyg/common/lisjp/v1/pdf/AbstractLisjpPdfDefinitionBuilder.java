@@ -906,6 +906,26 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         allElements.add(elektroniskKopia);
     }
 
+    void printElectronicCopyTitle(List<PdfComponent<?>> allElements) {
+        FkLabel elektroniskKopiaTitle = new FkLabel(PdfConstants.ELECTRONIC_COPY_WATERMARK_TEXT_TITLE)
+            .offset(14, 55)
+            .withHorizontalAlignment(PdfPCell.ALIGN_LEFT)
+            .withVerticalAlignment(Element.ALIGN_LEFT)
+            .size(180f, 10f)
+            .withFont(PdfConstants.FONT_ELECTRONICALLY_SIGNED_TITLE);
+
+        allElements.add(elektroniskKopiaTitle);
+
+        FkLabel elektroniskKopiaSubTitle = new FkLabel(PdfConstants.ELECTRONIC_COPY_WATERMARK_TEXT_SUBTITLE)
+            .offset(14, 65)
+            .withHorizontalAlignment(PdfPCell.ALIGN_LEFT)
+            .withVerticalAlignment(Element.ALIGN_LEFT)
+            .size(180f, 10f)
+            .withFont(PdfConstants.FONT_ELECTRONICALLY_SIGNED_SUBTITLE);
+
+        allElements.add(elektroniskKopiaSubTitle);
+    }
+
     FkPage tillaggsfragorPage(LisjpUtlatandeV1 intyg) throws IOException, DocumentException {
 
         List<PdfComponent<?>> allElements = new ArrayList<>();
