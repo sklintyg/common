@@ -82,6 +82,10 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
         return thisPage;
     }
 
+    private boolean isSigned(boolean isUtkast, boolean isLockedUtkast) {
+        return !isUtkast && !isLockedUtkast;
+    }
+
     private FkPage createPage2(LisjpUtlatandeV1 intyg) throws IOException, DocumentException {
         List<PdfComponent<?>> allElements = new ArrayList<>();
 
@@ -116,7 +120,7 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
         allElements.add(fraga12(intyg));
         allElements.add(fraga13(intyg));
 
-        if (!isUtkast && !isLockedUtkast) {
+        if (isSigned(isUtkast, isLockedUtkast)) {
             printElectronicCopySignature(allElements);
         }
 
