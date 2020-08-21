@@ -66,7 +66,7 @@ angular.module('common').controller(
                             intygTypeVersion: $scope.viewState.cert.textVersion
                         }
                     };
-                    //Kompletteringpanel is always enabled
+                    //Kompletteringpanel is enabled for all certificate types except ag-certificates
                     if (ViewState.cert.typ !== 'ag114' && ViewState.cert.typ !== 'ag7804') {
                         panelConfig.tabs.push({
                             id: 'wc-komplettering-read-only-panel-tab',
