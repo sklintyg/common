@@ -34,6 +34,8 @@ public enum EventCode {
     NYFRFV("NYFRFV", "Ny fråga från vården"),
     NYSVFM("NYSVFM", "Nytt svar från mottagare"),
     HANFRFV("HANFRFV", "Hanterad fråga från vården"),
+    PAMINNELSE("PAMINNELSE", "Påminnelse"),
+    KOMPLBEGARAN("KOMPLBEGARAN", "Kompletteringsbegäran"),
     MAKULERAT("MAKULERAT", "Makulerat"),
     ERSATTER("ERSATTER", "Ersätter"),
     KOMPLETTERAR("KOMPLETTERAR", "Kompletterar"),
