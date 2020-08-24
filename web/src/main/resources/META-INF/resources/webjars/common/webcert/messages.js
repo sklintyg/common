@@ -829,8 +829,10 @@
             'common.supportpanel.help.title.minimized': 'Om intyget',
             'common.supportpanel.help.tooltip.minimized': 'Öppnar fliken med information om intyget.',
             'common.supportpanel.minimize.tooltip': 'Döljer högerfätet',
-            'common.supportpanel.ro-kompletteringar.title': 'Obesvarade kompletteringar',
+            'common.supportpanel.ro-kompletteringar.title': 'Ärendekommunikation',
             'common.supportpanel.ro-kompletteringar.tooltip': 'Visar obesvarade kompletteringar för intyget.',
+            'common.supportpanel.ro.no-kompl': 'Det finns inga obesvarade kompletteringar',
+            'common.supportpanel.ro.no-qa': 'Det finns inga obesvarade administrativa frågor eller svar',
 
             // Approve receivers related resources
             'common.receivers.save.btn': 'Spara',
