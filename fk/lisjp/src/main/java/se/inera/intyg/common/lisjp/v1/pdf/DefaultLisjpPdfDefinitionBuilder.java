@@ -43,7 +43,7 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
         pdfDefinition.addChild(createPage1(intyg, isUtkast, isLockedUtkast, statuses, applicationOrigin));
         pdfDefinition.addChild(createPage2(intyg));
         pdfDefinition.addChild(createPage3(intyg));
-        pdfDefinition.addChild(createPage4(intyg));
+        pdfDefinition.addChild(createPage4(intyg, isUtkast, isLockedUtkast));
         // Only add tillaggsfragor page if there are some
         if (intyg.getTillaggsfragor() != null && intyg.getTillaggsfragor().size() > 0) {
             final FkPage tillaggsfragorPage = tillaggsfragorPage(intyg);
@@ -82,6 +82,10 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
         return thisPage;
     }
 
+    private boolean isSigned(boolean isUtkast, boolean isLockedUtkast) {
+        return !isUtkast && !isLockedUtkast;
+    }
+
     private FkPage createPage2(LisjpUtlatandeV1 intyg) throws IOException, DocumentException {
         List<PdfComponent<?>> allElements = new ArrayList<>();
 
@@ -110,11 +114,15 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
         return thisPage;
     }
 
-    private FkPage createPage4(LisjpUtlatandeV1 intyg) throws IOException, DocumentException {
+    private FkPage createPage4(LisjpUtlatandeV1 intyg, boolean isUtkast, boolean isLockedUtkast) throws IOException, DocumentException {
         List<PdfComponent<?>> allElements = new ArrayList<>();
 
         allElements.add(fraga12(intyg));
         allElements.add(fraga13(intyg));
+
+        if (isSigned(isUtkast, isLockedUtkast)) {
+            printElectronicCopySignature(allElements);
+        }
 
         FkPage thisPage = new FkPage();
         thisPage.getChildren().addAll(allElements);
