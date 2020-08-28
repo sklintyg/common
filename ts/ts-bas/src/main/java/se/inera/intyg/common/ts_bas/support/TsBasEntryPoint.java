@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.ts_bas.support;
 
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
@@ -25,15 +26,13 @@ import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 
-import java.util.Optional;
-
 @Component("TsBasEntryPoint")
 public class TsBasEntryPoint implements ModuleEntryPoint {
 
     public static final String MODULE_ID = "ts-bas";
     public static final String MODULE_NAME = "Transportstyrelsens läkarintyg högre körkortsbehörighet";
     public static final String ISSUER_MODULE_NAME = "Transportstyrelsens läkarintyg";
-    public static final String SCHEMATRON_FILE = "tstrk1007.v6.sch";
+    public static final String SCHEMATRON_FILE = "tstrk1007.v7.sch";
     public static final String KV_UTLATANDETYP_INTYG_CODE = "TSTRK1007";
     // CHECKSTYLE:OFF LineLength
     private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
