@@ -115,5 +115,23 @@ angular.module('ag114').config(function($stateProvider) {
                     controller: 'common.IntygHeader'
                 }
             }
-        });
+        }).state('ag114-readonly', {
+        data: { intygType: 'ag114' },
+        url: '/intyg-read-only/ag114/:intygTypeVersion/:certificateId',
+        resolve: {
+            ViewState: 'ag114.IntygController.ViewStateService',
+            ViewConfigFactory: viewConfig,
+            DiagnosExtractor: function() {
+                return function (ag114Model) {
+                    return ag114Model.diagnoser[0].diagnosKod;
+                };
+            }
+        },
+        views: {
+            'content@': {
+                templateUrl: commonPath + 'intyg/read-only-view/wcIntygReadOnlyView.template.html',
+                controller: 'common.wcIntygReadOnlyViewController'
+            }
+        }
+    });
 });
