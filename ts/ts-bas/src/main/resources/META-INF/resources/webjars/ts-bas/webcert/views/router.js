@@ -43,7 +43,7 @@ angular.module('ts-bas').config(function($stateProvider) {
         }).
         state('ts-bas.utkast', {
             data: { defaultActive : 'index', intygType: 'ts-bas' },
-            url: '/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url: '/:intygTypeVersion/edit/:certificateId/:focusOn?:error&:ticket',
             params: {
                 focusOn: ''
             },

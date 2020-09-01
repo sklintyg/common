@@ -40,7 +40,7 @@ angular.module('db').config(function($stateProvider) {
         }).
         state('db.utkast', {
             data: { defaultActive : 'index', intygType: 'db', useFmb: false },
-            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url : '/:intygTypeVersion/edit/:certificateId/:focusOn?:error&:ticket',
             params: {
                 focusOn: ''
             },

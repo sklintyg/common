@@ -20,10 +20,10 @@ angular.module('common').controller('smi.EditCertCtrl',
     ['$scope', '$state', '$stateParams',
         'common.UtkastService', 'common.UserModel', 'common.fmbService', 'common.fmbViewState',
         'ViewState', 'UtkastConfigFactory', 'common.PrefilledUserDataService', 'supportPanelConfigFactory',
-        'common.receiverService', 'common.ResourceLinkService',
+        'common.receiverService', 'common.ResourceLinkService', 'common.UtkastSignService',
         function($scope, $state, $stateParams,
             UtkastService, UserModel, fmbService, fmbViewState, viewState, utkastConfigFactory,
-            prefilledUserDataService, supportPanelConfigFactory, receiverService, ResourceLinkService) {
+            prefilledUserDataService, supportPanelConfigFactory, receiverService, ResourceLinkService, UtkastSignService) {
             'use strict';
 
             /**********************************************************************************
@@ -78,6 +78,10 @@ angular.module('common').controller('smi.EditCertCtrl',
                             }, function(error) {
                                 // Error
                             });
+                    }
+
+                    if ($stateParams.error) {
+                        UtkastSignService.showSignServiceError(viewState.common.intyg.type, $stateParams.ticket);
                     }
                 });
             }

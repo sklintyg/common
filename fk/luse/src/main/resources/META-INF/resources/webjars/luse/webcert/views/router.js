@@ -39,7 +39,7 @@ angular.module('luse').config(function($stateProvider) {
         }).
         state('luse.utkast', {
             data: { defaultActive : 'index', intygType: 'luse' },
-            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url : '/:intygTypeVersion/edit/:certificateId/:focusOn?:error&:ticket',
             params: {
                 focusOn: ''
             },
