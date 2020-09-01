@@ -47,7 +47,7 @@ angular.module('ts-diabetes').config(function($stateProvider) {
         }).
         state('ts-diabetes.utkast', {
             data: { defaultActive : 'index', intygType: 'ts-diabetes' },
-            url: '/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url: '/:intygTypeVersion/edit/:certificateId/:focusOn?:error&:ticket',
             params: {
                 focusOn: ''
             },

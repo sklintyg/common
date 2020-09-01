@@ -145,9 +145,6 @@
             'common.modal.label.signing.mobilt.noclient': 'Mobilt BankID-servern får ej kontakt med din enhet. Kontrollera att du har startat Mobilt BankID på din enhet.',
             'common.modal.label.signing.bankid.noclient': 'BankID-servern får ej kontakt med ditt BankID säkerhetsprogram. Kontrollera att du har startat BankID säkerhetsprogram på din dator.',
 
-            'common.modal.label.signing.open.nias': 'Starta NetiD Access programmet på den enhet du har det installerat.',
-            'common.modal.label.signing.nias.noclient': 'NetiD Access Server får ej kontakt med din enhet. Kontrollera att du har startat NetiD-programmet på din enhet.',
-
 
             'common.modal.label.print.sekretessmarkerad.title': 'Skriv ut intyg',
             'common.modal.label.print.sekretessmarkerad.title.draft': 'Skriv ut utkast',

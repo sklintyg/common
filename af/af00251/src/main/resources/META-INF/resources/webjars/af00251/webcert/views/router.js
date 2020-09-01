@@ -39,7 +39,7 @@ angular.module('af00251').config(function($stateProvider) {
         }).
         state('af00251.utkast', {
             data: { defaultActive : 'index', intygType: 'af00251', useFmb: false },
-            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url : '/:intygTypeVersion/edit/:certificateId/:focusOn?:error&:ticket',
             params: {
                 focusOn: ''
             },

@@ -39,7 +39,7 @@ angular.module('luae_fs').config(function($stateProvider) {
         }).
         state('luae_fs.utkast', {
             data: { defaultActive : 'index', intygType: 'luae_fs' },
-            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url : '/:intygTypeVersion/edit/:certificateId/:focusOn?:error&:ticket',
             params: {
                 focusOn: ''
             },
