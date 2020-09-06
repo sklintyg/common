@@ -40,7 +40,7 @@ angular.module('doi').config(function($stateProvider) {
         }).
         state('doi.utkast', {
             data: { defaultActive : 'index', intygType: 'doi', useFmb: false },
-            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url : '/:intygTypeVersion/edit/:certificateId/:focusOn?:error&:ticket',
             params: {
                 focusOn: ''
             },

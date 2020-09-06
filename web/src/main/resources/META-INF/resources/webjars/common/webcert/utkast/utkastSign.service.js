@@ -20,11 +20,11 @@
  * Common certificate management methods between certificate modules
  */
 angular.module('common').factory('common.UtkastSignService',
-    ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
+    ['$sce', '$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.UtkastProxy', 'common.dialogService', 'common.messageService', 'common.statService',
         'common.UserModel', '$uibModal', 'common.authorityService', 'common.receiverService',
         'common.MonitoringLogService',
-        function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q,
+        function($sce, $rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q,
             UtkastProxy, dialogService, messageService, statService, UserModel, $uibModal,
             authorityService, receiverService, monitoringService) {
             'use strict';
@@ -46,13 +46,14 @@ angular.module('common').factory('common.UtkastSignService',
                 var deferred = $q.defer();
                 if (_endsWith(UserModel.user.authenticationScheme, ':fake') && UserModel.user.authenticationMethod === 'FAKE') {
                     _signeraServerFake(intygsTyp, $stateParams.certificateId, version, deferred);
-                } else if (UserModel.user.authenticationMethod === 'NET_ID' || UserModel.user.authenticationMethod === 'SITHS' || UserModel.user.authenticationMethod === 'EFOS') {
+                } else if (UserModel.user.authenticationMethod === 'NET_ID' || UserModel.user.authenticationMethod === 'SITHS') {
 
-                    // Use iid_IsExplorer() to determine whether to use NetiD Plugin or NetiD Access
-                    if (iid_IsExplorer()) { // jshint ignore:line
+                    // Use iid_IsExplorer() to determine whether to use NetiD Plugin or Signing Service
+                    // Whitelist can change this behaviour
+                    if (iid_IsExplorer() && !UserModel.user.useSigningService) { // jshint ignore:line
                         _signeraKlient(intygsTyp, $stateParams.certificateId, version, deferred);
                     } else {
-                        _signeraServerUsingNias(intygsTyp, $stateParams.certificateId, version, deferred);
+                        _signWithSignService(intygsTyp, $stateParams.certificateId, version, deferred);
                     }
                 } else {
                     _signeraServerUsingGrp(intygsTyp, $stateParams.certificateId, version, deferred);
@@ -74,11 +75,38 @@ angular.module('common').factory('common.UtkastSignService',
             }
 
             /**
-             * Init point for signering using NIAS (EFOS + NetiD Access Server)
+             * Init point for signing using SignService
              */
-            function _signeraServerUsingNias(intygsTyp, intygsId, version, deferred) {
+            function _signWithSignService(intygsTyp, intygsId, version, deferred) {
                 var signModel = {};
-                _confirmSigneraMedNias(signModel, intygsTyp, intygsId, version, deferred);
+
+                // Get formdata from WC backend
+                UtkastProxy.startSigningProcess(intygsId, intygsTyp, version, 'SIGN_SERVICE', function(formData) {
+
+                    _submitSignServiceForm(formData);
+
+                }, function(error) {
+                    deferred.resolve({});
+                    _showSigneringsError(signModel, error, intygsTyp);
+                });
+            }
+
+            function _submitSignServiceForm(formData) {
+                var inputs = '';
+
+                inputs += _addInput('Binding', 'POST/XML/1.0');
+                inputs += _addInput('RelayState', formData.id);
+                inputs += _addInput('EidSignRequest', formData.signRequest);
+
+                //send request via temporary added form and remove from dom directly
+                // Add stateParam to prevent automatic logout by onbeforeonload in app.js
+                $stateParams.signServiceSubmit = true;
+                $window.jQuery('<form action="' + $sce.trustAsResourceUrl(formData.actionUrl) + '" method="POST">' + inputs + '</form>')
+                .appendTo('body').submit().remove();
+            }
+
+            function _addInput(name, item) {
+                return '<input type="hidden" name="' + name + '" value="' + item + '" />';
             }
 
             /**
@@ -119,52 +147,6 @@ angular.module('common').factory('common.UtkastSignService',
                     backdrop: 'static',
                     keyboard: false,
                     windowClass: 'bankid-signera-modal',
-                    controller: function($scope, $uibModalInstance, ticketStatus) {
-
-                        $scope.close = function() {
-                            $uibModalInstance.close();
-                        };
-
-                        $scope.biljettStatus = function() {
-                            return ticketStatus.status;
-                        };
-                    },
-                    resolve: {
-                        ticketStatus : function() {
-                            return ticketStatus;
-                        }
-                    }
-                });
-            }
-
-
-            // EFOS / NetiD Access Server
-            function _confirmSigneraMedNias(signModel, intygsTyp, intygsId, version, deferred) {
-
-                // Anropa server, starta signering med GRP
-                UtkastProxy.startSigningProcess(intygsId, intygsTyp, version, 'NETID_ACCESS', function(ticket) {
-
-                    var templateUrl = '/app/views/signeraNiasDialog/signera.nias.dialog.html';
-                    _handleBearbetar(signModel, intygsTyp, intygsId, ticket, deferred, _openNiasSigningModal(templateUrl));
-
-                }, function(error) {
-                    deferred.resolve({});
-                    _showSigneringsError(signModel, error, intygsTyp);
-                });
-            }
-
-            /**
-             * Opens a custom (almost) full-screen modal for NetiD Access Server signing. The biljettStatus() function
-             * in the internal controller is used for updating texts within the modal as GRP state changes are propagated
-             * to the GUI.
-             */
-            function _openNiasSigningModal(templateUrl) {
-
-                return $uibModal.open({
-                    templateUrl: templateUrl,
-                    backdrop: 'static',
-                    keyboard: false,
-                    windowClass: 'nias-signera-modal',
                     controller: function($scope, $uibModalInstance, ticketStatus) {
 
                         $scope.close = function() {
@@ -303,7 +285,7 @@ angular.module('common').factory('common.UtkastSignService',
 
                     if (UserModel.user.authenticationMethod === 'NET_ID') {
                         iid_SetProperty('Subjects', 'SERIALNUMBER=' + UserModel.user.personId); // jshint ignore:line
-                    } else if (UserModel.user.authenticationMethod === 'SITHS' || UserModel.user.authenticationMethod === 'EFOS') {
+                    } else if (UserModel.user.authenticationMethod === 'SITHS') {
                         iid_SetProperty('Subjects', 'SERIALNUMBER=' + UserModel.user.hsaId); // jshint ignore:line
                     }
 
@@ -446,7 +428,7 @@ angular.module('common').factory('common.UtkastSignService',
                 return errorMap.hasOwnProperty(error.errorCode) ? errorMap[error.errorCode] : 'common.modal.title.sign.error';
             }
 
-            function _showSigneringsError(signModel, error, intygsTyp) {
+            function _showSigneringsError(signModel, error, intygsTyp, callback) {
                 var errorMessage,
                     variables = null,
                     modalTitle = _setErrorModalTitle(error, intygsTyp),
@@ -460,14 +442,59 @@ angular.module('common').factory('common.UtkastSignService',
                 if (error.errorCode === 'PU_PROBLEM') {
                     dialogService.showMessageDialog('common.error.pu_problem.title', errorMessage);
                 } else {
-                    dialogService.showErrorMessageDialog(errorMessage, undefined, modalTitle);
+                    dialogService.showErrorMessageDialog(errorMessage, callback, modalTitle);
                 }
                 signModel.signingWithSITHSInProgress = false;
+            }
+
+            function _showSignServiceError(intygsType, ticketId){
+                var signModel = {};
+
+                function _clearQueryParamsFromUrl(){
+                    $location.replace();
+                    $location.search('error', null);
+                    $location.search('ticket', null);
+                }
+
+                function getSigneringsstatus() {
+                    UtkastProxy.getSigneringsstatus(ticketId, intygsType, function(ticket) {
+                        ticketStatus.status = ticket.status;
+
+                        if (!knownSignStatuses.hasOwnProperty(ticket.status)) {
+                            _showSigneringsError(signModel, {errorCode: 'SIGNERROR'}, intygsType, _clearQueryParamsFromUrl);
+                        }
+                    }, function(error) {
+                        _showSigneringsError(signModel, {errorCode: 'SIGNERROR'}, intygsType, _clearQueryParamsFromUrl);
+                    });
+                }
+
+                if (ticketId === null) {
+                    _clearQueryParamsFromUrl();
+                }else {
+                    getSigneringsstatus();
+                }
+            }
+
+            function _checkForApprovalOfReceivers(intygstype, intygsId, onSuccess, onError) {
+                if (receiverService.getData().possibleReceivers.length === 0){
+                    receiverService.updatePossibleReceivers(intygstype).then(function(possibleReceivers) {
+                        UtkastProxy.allowToApprovedReceivers(intygsId, function(result) {
+                            return onSuccess(result && possibleReceivers.length > 1);
+                        }, onError);
+                    });
+                }
+                else {
+                    UtkastProxy.allowToApprovedReceivers(intygsId, function(result) {
+                        return onSuccess(result && receiverService.getData().possibleReceivers.length > 1);
+                    }, onError);
+                }
             }
 
             // Return public API for the service
             return {
                 signera: _signera,
+                showSignServiceError: _showSignServiceError,
+                checkForApprovalOfReceivers: _checkForApprovalOfReceivers,
 
                 __test__: {
                     confirmSignera: _confirmSigneraMedFake,

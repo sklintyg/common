@@ -43,7 +43,7 @@ angular.module('tstrk1009').config(function($stateProvider) {
         }).
         state('tstrk1009.utkast', {
             data: { defaultActive : 'index', intygType: 'tstrk1009' },
-            url: '/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url: '/:intygTypeVersion/edit/:certificateId/:focusOn?:error&:ticket',
             params: {
                 focusOn: ''
             },

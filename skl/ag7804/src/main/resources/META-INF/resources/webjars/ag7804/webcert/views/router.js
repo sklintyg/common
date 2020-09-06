@@ -39,7 +39,7 @@ angular.module('ag7804').config(function($stateProvider) {
         }).
         state('ag7804.utkast', {
             data: { defaultActive : 'index', intygType: 'ag7804', useFmb: false },
-            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url : '/:intygTypeVersion/edit/:certificateId/:focusOn?:error&:ticket',
             params: {
                 focusOn: ''
             },
@@ -90,6 +90,25 @@ angular.module('ag7804').config(function($stateProvider) {
                 'header@webcert.intyg.ag7804' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
                     controller: 'common.IntygHeader'
+                }
+            }
+        }).
+        state('ag7804-readonly', {
+            data: { intygType: 'ag7804' },
+            url: '/intyg-read-only/ag7804/:intygTypeVersion/:certificateId',
+            resolve: {
+                ViewState: 'ag7804.IntygController.ViewStateService',
+                ViewConfigFactory: viewConfig,
+                DiagnosExtractor: function() {
+                    return function (ag7804Model) {
+                        return ag7804Model.diagnoser[0].diagnosKod;
+                    };
+                }
+            },
+            views: {
+                'content@': {
+                    templateUrl: commonPath + 'intyg/read-only-view/wcIntygReadOnlyView.template.html',
+                    controller: 'common.wcIntygReadOnlyViewController'
                 }
             }
         });

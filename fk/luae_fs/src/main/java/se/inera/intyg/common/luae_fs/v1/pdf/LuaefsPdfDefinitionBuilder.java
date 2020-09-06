@@ -295,7 +295,7 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
         // Meta information text(s) etc.
         if (!isUtkast && !isLocked) {
-            FkLabel elektroniskKopia = new FkLabel(PdfConstants.ELECTRONIC_COPY_WATERMARK_TEXT)
+            FkLabel elektroniskKopia = new FkLabel(PdfConstants.ELECTRONIC_COPY_WATERMARK_TEXT_SIGNATURE)
                 .offset(18f, 60f)
                 .withHorizontalAlignment(PdfPCell.ALIGN_CENTER)
                 .withVerticalAlignment(Element.ALIGN_MIDDLE)

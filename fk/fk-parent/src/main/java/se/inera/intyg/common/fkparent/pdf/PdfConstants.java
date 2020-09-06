@@ -36,7 +36,7 @@ import static com.itextpdf.text.pdf.BaseFont.createFont;
 // CHECKSTYLE:OFF LineLength
 public final class PdfConstants {
 
-    public static final String ELECTRONIC_COPY_WATERMARK_TEXT = "Detta är en utskrift av ett elektroniskt intyg. Intyget har signerats elektroniskt av intygsutfärdaren.";
+    public static final String ELECTRONIC_COPY_WATERMARK_TEXT_SIGNATURE = "Detta är en utskrift av ett elektroniskt intyg. Intyget har signerats elektroniskt av intygsutfärdaren.";
     public static final String MINIMAL_ELECTRONIC_COPY_WATERMARK_TEXT = "Detta är en utskrift av ett elektroniskt intyg med minimalt innehåll. Det uppfyller sjuklönelagens krav, om inget annat regleras i kollektivavtal. Det minimala intyget kan ge arbetsgivaren sämre möjligheter att bedöma behovet av rehabilitering än ett fullständigt intyg. Intyget har signerats elektroniskt av intygsutfärdaren.";
 
     public static final String ELECTRONIC_COPY_WATERMARK_TEXT_TITLE = "Detta intyg har skickats in digitalt till försäkringskassan";
@@ -71,8 +71,12 @@ public final class PdfConstants {
     public static final Font FONT_STAMPER_LABEL;
     public static final Font FONT_PAGE_NUMBERING;
 
+    public static final Font FONT_ELECTRONICALLY_SIGNED_SIGNATURE;
+
     public static final Font FONT_ELECTRONICALLY_SIGNED_TITLE;
     public static final Font FONT_ELECTRONICALLY_SIGNED_SUBTITLE;
+
+
     static {
         try {
             FONT_FRAGERUBRIK = new Font(createFont(ARIAL_BOLD_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 11f,
@@ -111,6 +115,10 @@ public final class PdfConstants {
             FONT_BOLD_10 = new Font(createFont(ARIAL_BOLD_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 10f, Font.NORMAL);
             FONT_BOLD_9 = new Font(createFont(ARIAL_BOLD_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 9f, Font.NORMAL);
             FONT_BOLD_8 = new Font(createFont(ARIAL_BOLD_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 8f, Font.NORMAL);
+
+            FONT_ELECTRONICALLY_SIGNED_SIGNATURE = new Font(createFont(ARIAL_BOLD_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED),
+                8f, Font.NORMAL, BaseColor.GRAY);
+
             FONT_ELECTRONICALLY_SIGNED_TITLE = new Font(
                 createFont(ARIAL_REGULAR_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 21f, Font.NORMAL,
                 BaseColor.GRAY);
