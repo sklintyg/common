@@ -66,6 +66,10 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
             showFkAddress = !isSentToFk(statuses);
         }
 
+        if (isSigned(isUtkast, isLockedUtkast)) {
+            printElectronicCopyTitle(allElements);
+        }
+
         addPage1MiscFields(intyg, showFkAddress, allElements);
 
         allElements.add(fraga1(intyg));
