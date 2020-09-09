@@ -76,7 +76,7 @@ angular.module('common').factory('common.dialogService',
             // Apply default dialog behaviour values
             scope.dialog = {
                 acceptprogressdone: true,
-                focus: false,
+                focus: true,
                 errormessageid: '',
                 showerror: false
             };
@@ -121,6 +121,16 @@ angular.module('common').factory('common.dialogService',
                 button1click, button2click, button3click, button2visible, button3visible,
                 button1text, button2text, button3text, autoClose) {
 
+                $scope.$emit('dialogOpen', true);
+
+                $scope.onKeydown = function(e) {
+                    if (e.keyCode === 27) {
+                        $uibModalInstance.dismiss('esc dismiss');
+                        e.preventDefault();
+                        $scope.$emit('dialogOpen', false);
+                    }
+                };
+
                 $scope.model = model;
                 $scope.dialogId = dialogId;
                 $scope.titleId = titleId;
@@ -131,6 +141,7 @@ angular.module('common').factory('common.dialogService',
                     if (autoClose) {
                         $uibModalInstance.close(result);
                     }
+                    $scope.$emit('dialogOpen', false);
                 };
                 $scope.button2visible = button2visible;
                 if ($scope.button2visible !== undefined) {
@@ -139,6 +150,7 @@ angular.module('common').factory('common.dialogService',
                             button2click();
                         }
                         $uibModalInstance.dismiss('button2 dismiss');
+                        $scope.$emit('dialogOpen', false);
                     };
                 }
                 $scope.button3visible = button3visible;
@@ -148,6 +160,7 @@ angular.module('common').factory('common.dialogService',
                             button3click();
                         }
                         $uibModalInstance.dismiss('button3 dismiss');
+                        $scope.$emit('dialogOpen', false);
                     };
                 } else {
                     $scope.button3visible = false;
