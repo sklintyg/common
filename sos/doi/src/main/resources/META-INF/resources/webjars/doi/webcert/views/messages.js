@@ -62,7 +62,8 @@ angular.module('doi').constant('doi.messages', {
         '<li>Referenser som intyget baseras på.</li></ul>',
 
         'doi.status.revoke.requested': '<strong>Status:</strong> Intyget är makulerat.',
-        'doi.status.revoke.confirmed': '<strong>Status:</strong> Intyget är makulerat.'
+        'doi.status.revoke.confirmed': '<strong>Status:</strong> Intyget är makulerat.',
+        'doi.modal.copy-from-candidate.text': 'Det finns ett signerat dödsbevis (från den ${createdDate}) för detta personnummer på samma vårdenhet som du är inloggad. Vill du kopiera de svar som givits i det intyget till detta intygsutkast?'
     },
     'en': {
         'doi.label.pagetitle': 'Show Certificate'
