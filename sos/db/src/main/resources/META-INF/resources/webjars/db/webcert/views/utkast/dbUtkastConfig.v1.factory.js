@@ -83,7 +83,7 @@ angular.module('db').factory('db.UtkastConfigFactory.v1',
                             type: 'ue-radiogroup',
                             modelProp: 'undersokningYttre',
                             choices: [
-                                {label:'DETALJER_UNDERSOKNING.JA.RBK', id:'JA'},
+                                {label:'SVAR_JA.RBK', id:'JA'},
                                 {label:'DETALJER_UNDERSOKNING.UNDERSOKNING_SKA_GORAS.RBK', id:'UNDERSOKNING_SKA_GORAS'},
                                 {label:'DETALJER_UNDERSOKNING.UNDERSOKNING_GJORT_KORT_FORE_DODEN.RBK', id:'UNDERSOKNING_GJORT_KORT_FORE_DODEN'}
                             ],
