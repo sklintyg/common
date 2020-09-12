@@ -64,47 +64,58 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
     // Type TEXT
     private static final String FIELD_POSTNUMMER_2 = "Postnummer_2";
 
-    // Type RADIOBUTTON - values [säkert,ej säkert]
-    //private static final String FIELD_GROUP2 = "Group2";
-    private static final String FIELD_SAKERT = "Säkert";
-    private static final String FIELD_EJ_SAKERT = "Ej säkert";
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_DODSDATUM_SAKERT = "Säkert";
+
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_DODSDATUM_EJ_SAKERT = "Ej säkert";
 
     // Type TEXT
     private static final String FIELD_POSTORT_2 = "Postort_2";
 
-    // Type RADIOBUTTON - values [implantat Ja,Inplantat nej]
-    //private static final String FIELD_GROUP5 = "Group5";
+    // Type CHECKBOX - values [Ja]
     private static final String FIELD_JA_IMPLANTAT = "Ja";
+
+    // Type CHECKBOX - values [Ja]
     private static final String FIELD_NEJ_IMPLANTAT = "Nej";
 
-    // Type RADIOBUTTON - values [avlägsnats nej,avlägsnats]
-    //private static final String FIELD_GROUP6 = "Group6";
+    // Type CHECKBOX - values [Ja]
     private static final String FIELD_JA_IMPLANTAT_AVLAGSNAT = "Ja implantat";
+
+    // Type CHECKBOX - values [Ja]
     private static final String FIELD_NEJ_IMPLANTAT_AVLAGSNAT = "nej implantat";
 
     // Type TEXT
     private static final String FIELD_POSTORT = "Postort";
 
-    // Type RADIOBUTTON - values [Sjukhus,Särskilt boende,Ordinärt boende,Annan / Okänd]
-    //private static final String FIELD_GROUP3 = "Group3";
+    // Type CHECKBOX - values [Ja]
     private static final String FIELD_SJUKHUS = "Sjukhus";
+
+    // Type CHECKBOX - values [Ja]
     private static final String FIELD_ORDINART_BOENDE = "Ordinärt boende";
+
+    // Type CHECKBOX - values [Ja]
     private static final String FIELD_SARSKILT_BOENDE = "Särskild boende";
+
+    // Type CHECKBOX - values [Ja]
     private static final String FIELD_ANNAN_OKANT = "Annan/okänd";
 
-    // Type RADIOBUTTON - values [dödfött,avlidet inom 28]
-    //private static final String FIELD_GROUP4 = "Group4";
-    //private static final String FIELD_DODFOTT = "Dödfött";
-    private static final String FIELD_AVLIDET_INOM_28 = "Avlidit";
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_AVLIDET_INOM_28_DAGAR = "Avlidit";
 
-    // Type RADIOBUTTON - values [Yttre undersök ja,Yttre undersök nej]
-    //private static final String FIELD_GROUP7 = "Group7";
+    // Type CHECKBOX - values [Ja]
     private static final String FIELD_YTTRE_UNDERSOKNING_JA = "Yttre Ja";
+
+    // Type CHECKBOX - values [Ja]
     private static final String FIELD_YTTRE_UNDERSOKNING_NEJ = "Yttre nej";
 
-    // Type RADIOBUTTON - values [Polisanm,Polisanm nej]
-    //private static final String FIELD_GROUP8 = "Group8";
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_NEJ_SKA_GORAS = "Yttre Nej, rättsmedicinsk";
+
+    // Type CHECKBOX - values [Ja]
     private static final String FIELD_POLISANMALAN_JA = "Polisanmälan Ja";
+
+    // Type CHECKBOX - values [Ja]
     private static final String FIELD_POLISANMALAN_NEJ = "Polisanmälan_nej";
 
     // Type TEXT
@@ -118,9 +129,6 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
 
     // Type TEXT
     private static final String FIELD_AR_MAN_DAG = "År mån dag dödsdatum";
-
-    // Type CHECKBOX - values [Ja]
-    private static final String FIELD_NEJ_SKA_GORAS = "Yttre Nej, rättsmedicinsk";
 
     // Type TEXT
     private static final String FIELD_EPOST = "Epost";
@@ -194,14 +202,13 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
     private void fillAcroformFields() {
         fillRelation();
         fillPatientDetails();
-        fillDodsDatum();
-        fillDodsPlats();
-        fillBarnAvlidet();
-        fillExplosivaImplantat();
-        fillYttreUndersokning();
-        fillPolisanmalan();
-        fillUnderskrift(dbUtlatandeV1.getGrundData().getSigneringsdatum(), dbUtlatandeV1.getGrundData().getSkapadAv());
-
+        fillDateOfDeath();
+        fillPlaceOfDeath();
+        fillDeathOfChild();
+        fillExplosiveImplant();
+        fillExternalExamination();
+        fillPoliceReport();
+        fillSignature(dbUtlatandeV1.getGrundData().getSigneringsdatum(), dbUtlatandeV1.getGrundData().getSkapadAv());
     }
 
     private void fillRelation() {
@@ -211,7 +218,7 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
         }
     }
 
-    private void fillUnderskrift(LocalDateTime signeringsDatum, HoSPersonal skapadAv) {
+    private void fillSignature(LocalDateTime signeringsDatum, HoSPersonal skapadAv) {
         fillText(FIELD_ORT_OCH_DATUM, signeringsDatum != null ? signeringsDatum.format(DATE_FORMAT) : "");
         fillText(FIELD_LAKARENS_EFTERNAMN_OCH_FORNAMN, skapadAv.getFullstandigtNamn());
         fillText(FIELD_BEFATTNING, String.join(", ", skapadAv.getBefattningar()));
@@ -224,35 +231,30 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
         fillText(FIELD_EPOST, skapadAv.getVardenhet().getEpost());
     }
 
-    private void fillPolisanmalan() {
-        // Type RADIOBUTTON - values [Polisanm,Polisanm nej,]
-        // NOTE: checkbox values are for some reason reversed in the pdf, so to check the Ja box, we must use the value
-        // "Polisanm nej"!
+    private void fillPoliceReport() {
         Boolean policeReport = dbUtlatandeV1.getPolisanmalan();
         if (policeReport != null) {
             if (policeReport) {
+                // Type CHECKBOX - values [Ja]
                 checkCheckboxField(FIELD_POLISANMALAN_JA, "Ja");
             } else {
+                // Type CHECKBOX - values [Ja]
                 checkCheckboxField(FIELD_POLISANMALAN_NEJ, "Ja");
             }
         }
-
-        //checkCheckboxField(FIELD_POLISANMALAN_JA, getRadioValueFromBoolean(dbUtlatandeV1.getPolisanmalan(), "", "Polisanmälan Ja", ""));
-        //checkCheckboxField(FIELD_POLISANMALAN_NEJ, getRadioValueFromBoolean(dbUtlatandeV1.getPolisanmalan(), "", "", "Polisanmälan_nej"));
-
     }
 
-    private void fillYttreUndersokning() {
+    private void fillExternalExamination() {
 
         if (dbUtlatandeV1.getUndersokningYttre() != null) {
             if (dbUtlatandeV1.getUndersokningYttre() == Undersokning.JA) {
-                // Type RADIOBUTTON - values [Yttre undersök ja,Yttre undersök nej,]
+                // Type CHECKBOX - values [Ja]
                 checkCheckboxField(FIELD_YTTRE_UNDERSOKNING_JA, "Ja");
             } else if (dbUtlatandeV1.getUndersokningYttre() == Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN) {
-                // Type RADIOBUTTON - values [Yttre undersök ja,Yttre undersök nej,]
+                // Type CHECKBOX - values [Ja]
                 checkCheckboxField(FIELD_YTTRE_UNDERSOKNING_NEJ, "Ja");
             } else if (dbUtlatandeV1.getUndersokningYttre() == Undersokning.UNDERSOKNING_SKA_GORAS) {
-                // Type CHECKBOX - values [Ja,]
+                // Type CHECKBOX - values [Ja]
                 checkCheckboxField(FIELD_NEJ_SKA_GORAS, "Ja");
             }
         }
@@ -260,75 +262,77 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
         fillText(FIELD_YTTRE_UNDERSOKNING_AR_MAN_DAG, dbUtlatandeV1.getUndersokningDatum());
     }
 
-    private void fillExplosivaImplantat() {
-        // Type RADIOBUTTON - values [implantat Ja,Inplantat nej,]
+    private void fillExplosiveImplant() {
+
         Boolean explosiveImplant = dbUtlatandeV1.getExplosivImplantat();
         if (explosiveImplant != null) {
             if (explosiveImplant) {
+                // Type CHECKBOX - values [Ja]
                 checkCheckboxField(FIELD_JA_IMPLANTAT, "Ja");
             } else {
+                // Type CHECKBOX - values [Ja]
                 checkCheckboxField(FIELD_NEJ_IMPLANTAT, "Ja");
             }
         }
 
-        // Type RADIOBUTTON - values [avlägsnats nej,avlägsnats,]
         Boolean explosiveImplantRemoved = dbUtlatandeV1.getExplosivAvlagsnat();
         if (explosiveImplantRemoved != null) {
             if (explosiveImplantRemoved) {
+                // Type CHECKBOX - values [Ja]
                 checkCheckboxField(FIELD_JA_IMPLANTAT_AVLAGSNAT, "Ja");
             } else {
+                // Type CHECKBOX - values [Ja]
                 checkCheckboxField(FIELD_NEJ_IMPLANTAT_AVLAGSNAT, "Ja");
             }
         }
     }
 
-    private void fillBarnAvlidet() {
-        // Type RADIOBUTTON - values [dödfött,avlidet inom 28,]
-        // NOTE: kan aldrig vara dödfött när utfärdat i WC
-        //checkRadioField(FIELD_GROUP4, Boolean.TRUE.equals(dbUtlatandeV1.getBarn()) ? "avlidet inom 28" : "");
-        //checkCheckboxField(FIELD_AVLIDET_INOM_28, Boolean.TRUE.equals(dbUtlatandeV1.getBarn()) ? "Ja" : "");
-        Boolean childDeadWithin28Days = dbUtlatandeV1.getBarn())
+    private void fillDeathOfChild() {
+        // NOTE: The db form option 'dödfött' is not possible in certificates issued in Webcert.
+        Boolean childDeadWithin28Days = dbUtlatandeV1.getBarn();
         if (childDeadWithin28Days != null && childDeadWithin28Days) {
-            checkCheckboxField(FIELD_AVLIDET_INOM_28, "Ja");
+            // Type CHECKBOX - values [Ja]
+            checkCheckboxField(FIELD_AVLIDET_INOM_28_DAGAR, "Ja");
         }
     }
 
-    private void fillDodsDatum() {
-        // Dödsdatum Säkert / ej säkert
+    private void fillDateOfDeath() {
+
         Boolean certainDateOfDeath = dbUtlatandeV1.getDodsdatumSakert();
         if (certainDateOfDeath != null) {
             if (certainDateOfDeath) {
-                checkCheckboxField(FIELD_SAKERT, "Ja");
+                // Type CHECKBOX - values [Ja]
+                checkCheckboxField(FIELD_DODSDATUM_SAKERT, "Ja");
             } else {
-                checkCheckboxField(FIELD_EJ_SAKERT, "Ja");
+                // Type CHECKBOX - values [Ja]
+                checkCheckboxField(FIELD_DODSDATUM_EJ_SAKERT, "Ja");
             }
         }
-        //checkCheckboxField(FIELD_SAKERT, getRadioValueFromBoolean(dbUtlatandeV1.getDodsdatumSakert(), "", "Ja", ""));
-        //checkCheckboxField(FIELD_EJ_SAKERT, getRadioValueFromBoolean(dbUtlatandeV1.getDodsdatumSakert(), "", "", "Nej"));
 
         fillText(FIELD_AR_MAN_DAG, dbUtlatandeV1.getDodsdatum());
         fillText(FIELD_OM_DODSDATUM_EJ_SAKERT_AR_MAN_DAG_ANTRAFFAD_DOD, dbUtlatandeV1.getAntraffatDodDatum());
     }
 
-    private void fillDodsPlats() {
-        // Type RADIOBUTTON - values [Sjukhus,Särskilt boende,Ordinärt boende,Annan / Okänd,]
-        // Pdf equivalent values are [Sjukhus,Särskilt boende,Ordinärt boende,Annan / Okänd,]
-        //checkRadioField(FIELD_GROUP3, modelToPdf(dbUtlatandeV1.getDodsplatsBoende()));
-        DodsplatsBoende dodsplatsBoende = dbUtlatandeV1.getDodsplatsBoende();
+    private void fillPlaceOfDeath() {
 
+        DodsplatsBoende dodsplatsBoende = dbUtlatandeV1.getDodsplatsBoende();
         if (dodsplatsBoende != null) {
 
             switch (dodsplatsBoende) {
                 case SJUKHUS:
+                    // Type CHECKBOX - values [Ja]
                     checkCheckboxField(FIELD_SJUKHUS, "Ja");
                     break;
                 case ORDINART_BOENDE:
+                    // Type CHECKBOX - values [Ja]
                     checkCheckboxField(FIELD_ORDINART_BOENDE, "Ja");
                     break;
                 case SARSKILT_BOENDE:
+                    // Type CHECKBOX - values [Ja]
                     checkCheckboxField(FIELD_SARSKILT_BOENDE, "Ja");
                     break;
                 case ANNAN:
+                    // Type CHECKBOX - values [Ja]
                     checkCheckboxField(FIELD_ANNAN_OKANT, "Ja");
             }
         }
@@ -347,25 +351,4 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
 
         fillText(FIELD_IDENTITETEN_STYRKT_GENOM, dbUtlatandeV1.getIdentitetStyrkt());
     }
-
-    /**
-     * Converts a {@link DodsplatsBoende} to the corresponding pdf template field value.
-     */
-   /* private String modelToPdf(DodsplatsBoende dodsplatsBoende) {
-        if (dodsplatsBoende != null) {
-            // Pdf equivalent values are [Sjukhus,Särskilt boende,Ordinärt boende,Annan / Okänd,]
-            switch (dodsplatsBoende) {
-                case ANNAN:
-                    return "Annan / Okänd";
-                case SJUKHUS:
-                    return "Sjukhus";
-                case ORDINART_BOENDE:
-                    return "Ordinärt boende";
-                case SARSKILT_BOENDE:
-                    return "Särskilt boende";
-            }
-        }
-        return "";
-    }*/
-
 }
