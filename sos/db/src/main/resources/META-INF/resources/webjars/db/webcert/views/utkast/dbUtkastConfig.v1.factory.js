@@ -64,7 +64,9 @@ angular.module('db').factory('db.UtkastConfigFactory.v1',
                                 helpKey: 'DFR_5.1.HLP',
                                 required: true,
                                 requiredProp: 'explosivImplantat'
-                            }
+                            },
+                            yesLabel: 'SVAR_JA.RBK',
+                            noLabel: 'SVAR_NEJ.RBK'
                         },{
                             type: 'ue-radio',
                             modelProp: 'explosivAvlagsnat',
@@ -73,7 +75,9 @@ angular.module('db').factory('db.UtkastConfigFactory.v1',
                                 key: 'DFR_5.2.RBK',
                                 helpKey: 'DFR_5.2.HLP',
                                 required: true,
-                                requiredProp: 'explosivAvlagsnat'
+                                requiredProp: 'explosivAvlagsnat',
+                                yesLabel: 'SVAR_JA.RBK',
+                                noLabel: 'SVAR_NEJ.RBK'
                             }
                         }])
                     ]),

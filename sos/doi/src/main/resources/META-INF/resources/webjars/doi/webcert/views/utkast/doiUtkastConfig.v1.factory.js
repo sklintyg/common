@@ -184,7 +184,9 @@ angular.module('doi').factory('doi.UtkastConfigFactory.v1',
                                     key: 'DFR_12.1.RBK',
                                     required: true,
                                     requiredProp: 'forgiftning'
-                                }
+                                },
+                                yesLabel: 'SVAR_JA.RBK',
+                                noLabel: 'SVAR_NEJ.RBK'
                             }]),
                         fraga(12, '', '', { hideExpression: 'model.forgiftning !== true' /* R14 */ }, [
                             {

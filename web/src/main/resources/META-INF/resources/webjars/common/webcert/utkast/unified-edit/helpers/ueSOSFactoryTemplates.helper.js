@@ -155,6 +155,8 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                             modelProp: 'barn',
                             type: 'ue-radio',
                             label: {key: 'DFR_4.1.RBK', helpKey: 'DFR_4.1.HLP', required: true, requiredProp: 'barn'},
+                            yesLabel: 'SVAR_JA.RBK',
+                            noLabel: 'SVAR_NEJ.RBK',
                             disabledExpression: 'form.formState.barnForced',
                             watcher: {
                                 expression: 'model.dodsdatumSakert ? model.dodsdatum : null',
