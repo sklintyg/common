@@ -18,6 +18,11 @@
  */
 package se.inera.intyg.common.db.v1.pdf;
 
+import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.PdfArray;
+import com.itextpdf.text.pdf.PdfDictionary;
+import com.itextpdf.text.pdf.PdfName;
+import com.itextpdf.text.pdf.PdfNumber;
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,6 +35,7 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.sos_parent.pdf.AbstractSoSPdfGenerator;
 import se.inera.intyg.common.sos_parent.pdf.SoSPdfGeneratorException;
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -128,7 +134,7 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
     private static final String FIELD_IDENTITETEN_STYRKT_GENOM = "Identiteten styrkt genom";
 
     // Type TEXT
-    private static final String FIELD_AR_MAN_DAG = "År mån dag dödsdatum";
+    private static final String FIELD_AR_MAN_DAG_DODSDATUM = "År mån dag dödsdatum";
 
     // Type TEXT
     private static final String FIELD_EPOST = "Epost";
@@ -214,21 +220,21 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
     private void fillRelation() {
         if (ersatterTidigareIntyg(dbUtlatandeV1.getGrundData().getRelation())) {
             // Type CHECKBOX - values [Ja]
-            checkCheckboxField(FIELD_ERSATTER_TIDIGARE_UTFARDAT_DODSBEVIS, "Ja");
+            processCheckBoxField(FIELD_ERSATTER_TIDIGARE_UTFARDAT_DODSBEVIS, "Ja");
         }
     }
 
     private void fillSignature(LocalDateTime signeringsDatum, HoSPersonal skapadAv) {
-        fillText(FIELD_ORT_OCH_DATUM, signeringsDatum != null ? signeringsDatum.format(DATE_FORMAT) : "");
-        fillText(FIELD_LAKARENS_EFTERNAMN_OCH_FORNAMN, skapadAv.getFullstandigtNamn());
-        fillText(FIELD_BEFATTNING, String.join(", ", skapadAv.getBefattningar()));
-        fillText(FIELD_TJANSTESTALLE, String.join(", ", skapadAv.getVardenhet().getEnhetsnamn()
+        processTextField(FIELD_ORT_OCH_DATUM, signeringsDatum != null ? signeringsDatum.format(DATE_FORMAT) : "");
+        processTextField(FIELD_LAKARENS_EFTERNAMN_OCH_FORNAMN, skapadAv.getFullstandigtNamn());
+        processTextField(FIELD_BEFATTNING, String.join(", ", skapadAv.getBefattningar()));
+        processTextField(FIELD_TJANSTESTALLE, String.join(", ", skapadAv.getVardenhet().getEnhetsnamn()
             + ", " + skapadAv.getVardenhet().getVardgivare().getVardgivarnamn()));
-        fillText(FIELD_UTDELNINGSADRESS, skapadAv.getVardenhet().getPostadress());
-        fillText(FIELD_POSTNUMMER_2, skapadAv.getVardenhet().getPostnummer());
-        fillText(FIELD_POSTORT_2, skapadAv.getVardenhet().getPostort());
-        fillText(FIELD_TELEFON_INKL_RIKTNUMMER, skapadAv.getVardenhet().getTelefonnummer());
-        fillText(FIELD_EPOST, skapadAv.getVardenhet().getEpost());
+        processTextField(FIELD_UTDELNINGSADRESS, skapadAv.getVardenhet().getPostadress());
+        processTextField(FIELD_POSTNUMMER_2, skapadAv.getVardenhet().getPostnummer());
+        processTextField(FIELD_POSTORT_2, skapadAv.getVardenhet().getPostort());
+        processTextField(FIELD_TELEFON_INKL_RIKTNUMMER, skapadAv.getVardenhet().getTelefonnummer());
+        processTextField(FIELD_EPOST, skapadAv.getVardenhet().getEpost());
     }
 
     private void fillPoliceReport() {
@@ -236,10 +242,10 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
         if (policeReport != null) {
             if (policeReport) {
                 // Type CHECKBOX - values [Ja]
-                checkCheckboxField(FIELD_POLISANMALAN_JA, "Ja");
+                processCheckBoxField(FIELD_POLISANMALAN_JA, "Ja");
             } else {
                 // Type CHECKBOX - values [Ja]
-                checkCheckboxField(FIELD_POLISANMALAN_NEJ, "Ja");
+                processCheckBoxField(FIELD_POLISANMALAN_NEJ, "Ja");
             }
         }
     }
@@ -249,17 +255,17 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
         if (dbUtlatandeV1.getUndersokningYttre() != null) {
             if (dbUtlatandeV1.getUndersokningYttre() == Undersokning.JA) {
                 // Type CHECKBOX - values [Ja]
-                checkCheckboxField(FIELD_YTTRE_UNDERSOKNING_JA, "Ja");
+                processCheckBoxField(FIELD_YTTRE_UNDERSOKNING_JA, "Ja");
             } else if (dbUtlatandeV1.getUndersokningYttre() == Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN) {
                 // Type CHECKBOX - values [Ja]
-                checkCheckboxField(FIELD_YTTRE_UNDERSOKNING_NEJ, "Ja");
+                processCheckBoxField(FIELD_YTTRE_UNDERSOKNING_NEJ, "Ja");
             } else if (dbUtlatandeV1.getUndersokningYttre() == Undersokning.UNDERSOKNING_SKA_GORAS) {
                 // Type CHECKBOX - values [Ja]
-                checkCheckboxField(FIELD_NEJ_SKA_GORAS, "Ja");
+                processCheckBoxField(FIELD_NEJ_SKA_GORAS, "Ja");
             }
         }
 
-        fillText(FIELD_YTTRE_UNDERSOKNING_AR_MAN_DAG, dbUtlatandeV1.getUndersokningDatum());
+        processDateField(FIELD_YTTRE_UNDERSOKNING_AR_MAN_DAG, dbUtlatandeV1.getUndersokningDatum());
     }
 
     private void fillExplosiveImplant() {
@@ -268,10 +274,10 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
         if (explosiveImplant != null) {
             if (explosiveImplant) {
                 // Type CHECKBOX - values [Ja]
-                checkCheckboxField(FIELD_JA_IMPLANTAT, "Ja");
+                processCheckBoxField(FIELD_JA_IMPLANTAT, "Ja");
             } else {
                 // Type CHECKBOX - values [Ja]
-                checkCheckboxField(FIELD_NEJ_IMPLANTAT, "Ja");
+                processCheckBoxField(FIELD_NEJ_IMPLANTAT, "Ja");
             }
         }
 
@@ -279,10 +285,10 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
         if (explosiveImplantRemoved != null) {
             if (explosiveImplantRemoved) {
                 // Type CHECKBOX - values [Ja]
-                checkCheckboxField(FIELD_JA_IMPLANTAT_AVLAGSNAT, "Ja");
+                processCheckBoxField(FIELD_JA_IMPLANTAT_AVLAGSNAT, "Ja");
             } else {
                 // Type CHECKBOX - values [Ja]
-                checkCheckboxField(FIELD_NEJ_IMPLANTAT_AVLAGSNAT, "Ja");
+                processCheckBoxField(FIELD_NEJ_IMPLANTAT_AVLAGSNAT, "Ja");
             }
         }
     }
@@ -292,7 +298,7 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
         Boolean childDeadWithin28Days = dbUtlatandeV1.getBarn();
         if (childDeadWithin28Days != null && childDeadWithin28Days) {
             // Type CHECKBOX - values [Ja]
-            checkCheckboxField(FIELD_AVLIDET_INOM_28_DAGAR, "Ja");
+            processCheckBoxField(FIELD_AVLIDET_INOM_28_DAGAR, "Ja");
         }
     }
 
@@ -302,14 +308,14 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
         if (certainDateOfDeath != null) {
             if (certainDateOfDeath) {
                 // Type CHECKBOX - values [Ja]
-                checkCheckboxField(FIELD_DODSDATUM_SAKERT, "Ja");
+                processCheckBoxField(FIELD_DODSDATUM_SAKERT, "Ja");
             } else {
                 // Type CHECKBOX - values [Ja]
-                checkCheckboxField(FIELD_DODSDATUM_EJ_SAKERT, "Ja");
+                processCheckBoxField(FIELD_DODSDATUM_EJ_SAKERT, "Ja");
             }
         }
 
-        fillText(FIELD_AR_MAN_DAG, dbUtlatandeV1.getDodsdatum());
+        processDateField(FIELD_AR_MAN_DAG_DODSDATUM, dbUtlatandeV1.getDodsdatum());
         fillText(FIELD_OM_DODSDATUM_EJ_SAKERT_AR_MAN_DAG_ANTRAFFAD_DOD, dbUtlatandeV1.getAntraffatDodDatum());
     }
 
@@ -321,34 +327,68 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
             switch (dodsplatsBoende) {
                 case SJUKHUS:
                     // Type CHECKBOX - values [Ja]
-                    checkCheckboxField(FIELD_SJUKHUS, "Ja");
+                    processCheckBoxField(FIELD_SJUKHUS, "Ja");
                     break;
                 case ORDINART_BOENDE:
                     // Type CHECKBOX - values [Ja]
-                    checkCheckboxField(FIELD_ORDINART_BOENDE, "Ja");
+                    processCheckBoxField(FIELD_ORDINART_BOENDE, "Ja");
                     break;
                 case SARSKILT_BOENDE:
                     // Type CHECKBOX - values [Ja]
-                    checkCheckboxField(FIELD_SARSKILT_BOENDE, "Ja");
+                    processCheckBoxField(FIELD_SARSKILT_BOENDE, "Ja");
                     break;
                 case ANNAN:
                     // Type CHECKBOX - values [Ja]
-                    checkCheckboxField(FIELD_ANNAN_OKANT, "Ja");
+                    processCheckBoxField(FIELD_ANNAN_OKANT, "Ja");
             }
         }
 
-        fillText(FIELD_KOMMUN_OM_OKAND_DODSPLATS, dbUtlatandeV1.getDodsplatsKommun());
+        processTextField(FIELD_KOMMUN_OM_OKAND_DODSPLATS, dbUtlatandeV1.getDodsplatsKommun());
         fillText(FIELD_OM_DODSDATUM_EJ_SAKERT_AR_MAN_DAG_ANTRAFFAD_DOD, dbUtlatandeV1.getAntraffatDodDatum());
     }
 
     protected void fillPatientDetails() {
-        fillText(FIELD_PERSONNUMMERSAMORDNINGSNUMMER_12_SIFFROR, dbUtlatandeV1.getGrundData().getPatient().getPersonId().getPersonnummer());
-        fillText(FIELD_EFTERNAMN, dbUtlatandeV1.getGrundData().getPatient().getEfternamn());
-        fillText(FIELD_FORNAMN, dbUtlatandeV1.getGrundData().getPatient().getFornamn());
-        fillText(FIELD_BOSTADSADRESS, dbUtlatandeV1.getGrundData().getPatient().getPostadress());
-        fillText(FIELD_POSTNUMMER, dbUtlatandeV1.getGrundData().getPatient().getPostnummer());
-        fillText(FIELD_POSTORT, dbUtlatandeV1.getGrundData().getPatient().getPostort());
+        processTextField(FIELD_PERSONNUMMERSAMORDNINGSNUMMER_12_SIFFROR, dbUtlatandeV1.getGrundData().getPatient().getPersonId()
+            .getPersonnummer());
+        processTextField(FIELD_EFTERNAMN, dbUtlatandeV1.getGrundData().getPatient().getEfternamn());
+        processTextField(FIELD_FORNAMN, dbUtlatandeV1.getGrundData().getPatient().getFornamn());
+        processTextField(FIELD_BOSTADSADRESS, dbUtlatandeV1.getGrundData().getPatient().getPostadress());
+        processTextField(FIELD_POSTNUMMER, dbUtlatandeV1.getGrundData().getPatient().getPostnummer());
+        processTextField(FIELD_POSTORT, dbUtlatandeV1.getGrundData().getPatient().getPostort());
 
-        fillText(FIELD_IDENTITETEN_STYRKT_GENOM, dbUtlatandeV1.getIdentitetStyrkt());
+        processTextField(FIELD_IDENTITETEN_STYRKT_GENOM, dbUtlatandeV1.getIdentitetStyrkt());
+    }
+
+    private PdfArray getFieldCoordinates(String fieldId) {
+        AcroFields.Item field = fields.getFieldItem(fieldId);
+        PdfDictionary pdfDictionary = field.getWidget(0);
+        return pdfDictionary.getAsArray(PdfName.RECT);
+    }
+
+    @SuppressWarnings("CheckStyle")
+    private void processCheckBoxField(String fieldId, String value) {
+        PdfArray fieldCoordinates = getFieldCoordinates(fieldId);
+        fieldCoordinates.set(1, new PdfNumber(fieldCoordinates.getAsNumber(1).doubleValue() - 0.85));
+        fieldCoordinates.set(3, new PdfNumber(fieldCoordinates.getAsNumber(3).doubleValue() - 0.85));
+        fieldCoordinates.set(0, new PdfNumber(fieldCoordinates.getAsNumber(0).doubleValue() - 1));
+        fieldCoordinates.set(2, new PdfNumber(fieldCoordinates.getAsNumber(2).doubleValue() - 1));
+        checkCheckboxField(fieldId, value);
+    }
+
+    @SuppressWarnings("CheckStyle")
+    private void processTextField(String fieldId, String value) {
+        PdfArray fieldCoordinates = getFieldCoordinates(fieldId);
+        double adjustment = fieldId.equals(FIELD_PERSONNUMMERSAMORDNINGSNUMMER_12_SIFFROR)
+            || fieldId.equals(FIELD_KOMMUN_OM_OKAND_DODSPLATS) ? 8.0 : 6.0;
+        fieldCoordinates.set(3, new PdfNumber(fieldCoordinates.getAsNumber(3).doubleValue() - adjustment));
+        fillText(fieldId, value);
+    }
+
+    @SuppressWarnings("CheckStyle")
+    private void processDateField(String fieldId, InternalDate date) {
+        PdfArray fieldCoordinates = getFieldCoordinates(fieldId);
+        double adjustment = fieldId.equals(FIELD_AR_MAN_DAG_DODSDATUM) ? 3.0 : 5.0;
+        fieldCoordinates.set(3, new PdfNumber(fieldCoordinates.getAsNumber(3).doubleValue() - adjustment));
+        fillText(fieldId, date);
     }
 }
