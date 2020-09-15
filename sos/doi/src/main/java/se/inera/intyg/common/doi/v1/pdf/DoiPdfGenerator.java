@@ -43,7 +43,7 @@ import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
  */
 public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
 
-    public static final String DEFAULT_PDF_TEMPLATE = "pdf/blankett-dodsorsaksintyg-sosfs201419.pdf";
+    public static final String DEFAULT_PDF_TEMPLATE = "pdf/Blankett-Dodsorsaksintyg-2018-54.pdf";
 
     /*
      * Acrofield names and values (extracted from pdf template file using util class
@@ -66,6 +66,8 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
 
     // Type RADIOBUTTON - values [dödfött,avlidet inom 28]
     private static final String FIELD_BARN_SOM_AVLIDIT = "Barn som avlidit";
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_AVLIDET_INOM_28_DYGN = "Avlidet inom 28 dygn";
 
     // Type TEXT
     private static final String FIELD_LAND_OM_EJ_STADIGVARANDE_BOSATT_I_SVERIGE = "Land om ej stadigvarande bosatt i Sverige";
@@ -91,11 +93,23 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
     // Type TEXT
     private static final String FIELD_EPOST = "Epost";
 
-    // Type RADIOBUTTON - values [säkert,ej säkert]
-    private static final String FIELD_DODSDATUM_SAKERT_EJ_SAKERT = "Dödsdatum säkert/ej säkert";
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_DODSDATUM_SAKERT = "Säkert";
 
-    // Type RADIOBUTTON - values [olycksfall,oklart,avsiktligt vållad av annan,självmord]
-    private static final String FIELD_SKADA_FORGIFTNING = "Skada/förgiftning";
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_DODSDATUM_EJ_SAKERT = "Ej säkert";
+
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_OLYCKSFALL = "Olycksfall";
+
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_AVSIKTLIGT_VALLAD_AV_ANNAN = "Avsiktligt vållad av annan";
+
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_SJALVMORD = "Självmord";
+
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_OKLART_OM_AVSIKT_FORELEGAT = "Oklart om avsikt förelegat";
 
     // Type TEXT
     private static final String FIELD_LAKARENS_EFTERNAMN_OCH_FORNAMN = "Läkarens efternamn och förnamn";
@@ -104,13 +118,22 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
     private static final String FIELD_BEFATTNING = "Befattning";
 
     // Type CHECKBOX - values [Ja]
-    private static final String FIELD_RATTSMEDICINSK_LIKBESIKTNING = "Rättsmedicinsk Likbesiktning";
+    private static final String FIELD_RATTSMEDICINSK_LIKBESIKTNING = "Rättsmedicinsk likbesiktning";
 
     // Type CHECKBOX - values [Ja]
-    private static final String FIELD_ERSATTER_TIDIGARE_UTFARDAT_INTYG = "Ersätter tidigare utfärdat intyg";
+    private static final String FIELD_ERSATTER_TIDIGARE_UTFARDAT_INTYG = "Ersätter tidigare";
 
-    // Type RADIOBUTTON - values [annan okänd,särskilt boende,sjukhus,ordinärt boende]
-    private static final String FIELD_DODSPLATS = "Dödsplats";
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_DODSPLATS_SJUKUS = "Sjukhus";
+
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_DODSPLATS_ORDINART_BOENDE = "Ordinärt boende";
+
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_DODSPLATS_SARSKILT_BOENDE = "Särskilt boende";
+
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_DODSPLATS_ANNAN_OKAND = "Annan/okänd";
 
     // Type TEXT
     private static final String FIELD_FORNAMN = "Förnamn";
@@ -119,17 +142,23 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
     private static final String FIELD_IDENTITETEN_STYRKT_GENOM = "Identiteten styrkt genom";
 
     // Type TEXT
-    private static final String FIELD_DODSDATUM = "Dödsdatum";
+    private static final String FIELD_DODSDATUM = "Dödsdatum år mån dag";
 
-    // Type RADIOBUTTON - values [Nej,Uppgift saknas,Ja]
-    private static final String FIELD_OPERERAD_INOM_FYRA_VECKOR = "Opererad inom fyra veckor";
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_OPERERAD_JA = "Opererad ja";
+
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_OPERERAD_NEJ = "Opererad nej";
+
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_OPERERAD_UPPGIFT_SAKNAS = "Uppgift om operation saknas";
 
     // Type TEXT
     private static final String FIELD_KOMMUN_OM_OKAND_DODSPLATS_KOMMUNEN_DAR_KROPPEN_PATRAFFADES = "Kommun om okänd "
         + "dödsplats kommunen där kroppen påträffades";
 
     // Type CHECKBOX - values [Ja]
-    private static final String FIELD_YTTRE_UNDERSOKNING_EFTER_DODEN = "Yttre undersökning efter döden";
+    private static final String FIELD_YTTRE_UNDERSOKNING_EFTER_DODEN = "Yttre efter döden";
 
     // Type TEXT
     private static final String FIELD_TELEFON_INKL_RIKTNUMMER = "Telefon inkl riktnummer";
@@ -144,10 +173,10 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
     private static final String FIELD_POSTORT = "Postort";
 
     // Type CHECKBOX - values [Ja]
-    private static final String FIELD_KLINISK = "Klinisk";
+    private static final String FIELD_KLINISK_OBDUKTION = "Klinisk obduktion";
 
     // Type TEXT
-    private static final String FIELD_PERSONNUMMERSAMORDNINGSNUMMER_12_SIFFROR = "Personnummersamordningsnummer 12 siffror";
+    private static final String FIELD_PERSONNUMMER = "Personnummer";
 
     // Type CHECKBOX - values [Ja]
     private static final String FIELD_UNDERSOKNING_FORE_DODEN = "Undersökning före döden";
@@ -159,16 +188,17 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
     private static final String FIELD_KORT_BESKRIVNING_AV_HUR_SKADANFORGIFTNINGEN_UPPKOM = "Kort beskrivning av hur skadanförgiftningen"
         + " uppkom utan att röja eventuellt andra inblandades identiteter";
 
-    // Dynamic fieldnames (A, B C etc)
-    private static final String FIELD_DODSORSAK_FIRSTROW_BESKRIVNING = "Den terminala dödsorsaken %s";
-    private static final String FIELD_DODSORSAK_ROW_BESKRIVNING = "Den terminala dödsorsaken var %s";
-    private static final String FIELD_DODSORSAK_ROW_UNGEFARLIG_DEBUT = "Ungefärlig debut %s";
-    private static final String FIELD_DODSORSAK_ROW_AKUT = "%s Akut";
-    private static final String FIELD_DODSORSAK_ROW_KRONISK = "%s Kronisk";
-    private static final String FIELD_DODSORSAK_ROW_INGEN_UPPGIFT = "%s Uppgift saknas";
+    // Dynamic fieldnames (1, 2, 3 etc)
+    private static final String FIELD_DODSORSAK_FIRSTROW_BESKRIVNING = "Den terminala dödsorsaken var_%s";
+    private static final String FIELD_DODSORSAK_ROW_BESKRIVNING = "Den terminala dödsorsaken var_%s";
+    private static final String FIELD_DODSORSAK_ROW_UNGEFARLIG_DEBUT = "Ungefärlig debut år mån dag_%s";
+    private static final String FIELD_DODSORSAK_ROW_AKUT = "Akut_%s";
+    private static final String FIELD_DODSORSAK_ROW_KRONISK = "Kronisk_%s";
+    private static final String FIELD_DODSORSAK_ROW_INGEN_UPPGIFT = "Uppgift saknas_%s";
 
-    private static final String FIELD_BIDRAGANDE_DODSORSAK_ROW_BESKRIVNING = "Andra sjukdomar eller skador %d";
-    private static final String FIELD_BIDRAGANDE_DODSORSAK_ROW_UNGEFARLIG_DEBUT = "Ungefärlig debut %d";
+    private static final String FIELD_BIDRAGANDE_DODSORSAK_ROW_BESKRIVNING = "Andra sjukdomar eller skador som bidragit till"
+        + " dödsfalletRow%d";
+    private static final String FIELD_BIDRAGANDE_DODSORSAK_ROW_UNGEFARLIG_DEBUT = "Ungefärlig debut år mån dag_%d";
     private DoiUtlatandeV1 doiUtlatandeV1;
 
     public DoiPdfGenerator(DoiUtlatandeV1 intyg, IntygTexts intygTexts, List<Status> statuses, UtkastStatus utkastStatus)
@@ -229,7 +259,7 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
     private void fillDodsorsaksGrunder() {
         checkCheckboxField(FIELD_UNDERSOKNING_FORE_DODEN, hasDodsorsaksGrund(Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN) ? "Ja" : "");
         checkCheckboxField(FIELD_YTTRE_UNDERSOKNING_EFTER_DODEN, hasDodsorsaksGrund(Dodsorsaksgrund.UNDERSOKNING_EFTER_DODEN) ? "Ja" : "");
-        checkCheckboxField(FIELD_KLINISK, hasDodsorsaksGrund(Dodsorsaksgrund.KLINISK_OBDUKTION) ? "Ja" : "");
+        checkCheckboxField(FIELD_KLINISK_OBDUKTION, hasDodsorsaksGrund(Dodsorsaksgrund.KLINISK_OBDUKTION) ? "Ja" : "");
         checkCheckboxField(FIELD_RATTSMEDICINSK_OBDUKTION, hasDodsorsaksGrund(Dodsorsaksgrund.RATTSMEDICINSK_OBDUKTION) ? "Ja" : "");
         checkCheckboxField(FIELD_RATTSMEDICINSK_LIKBESIKTNING, hasDodsorsaksGrund(Dodsorsaksgrund.RATTSMEDICINSK_BESIKTNING) ? "Ja" : "");
 
@@ -243,16 +273,26 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
     }
 
     private void fillSkadaForgiftning() {
-        // Type RADIOBUTTON - values [olycksfall,oklart,avsiktligt vållad av annan,självmord]
-        checkRadioField(FIELD_SKADA_FORGIFTNING, modelToPdf(doiUtlatandeV1.getForgiftningOrsak()));
+        ForgiftningOrsak causeOfInjury = doiUtlatandeV1.getForgiftningOrsak();
+        if (causeOfInjury != null) {
+            String fieldToCheckForCauseOfInjury = getFieldToCheckForCauseOfInjury(causeOfInjury);
+            checkCheckboxField(fieldToCheckForCauseOfInjury, "Ja");
+        }
+
         fillText(FIELD_DATUM_FOR_SKADAFORGIFTNING_AR_MAN_DAG, doiUtlatandeV1.getForgiftningDatum());
         fillText(FIELD_KORT_BESKRIVNING_AV_HUR_SKADANFORGIFTNINGEN_UPPKOM,
             doiUtlatandeV1.getForgiftningUppkommelse());
     }
 
+
+
     private void fillOperation() {
-        // Type RADIOBUTTON - values [Nej,Uppgift saknas,Ja]
-        checkRadioField(FIELD_OPERERAD_INOM_FYRA_VECKOR, modelToPdf(doiUtlatandeV1.getOperation()));
+        OmOperation operation = doiUtlatandeV1.getOperation();
+        if (operation != null) {
+            String fieldToCheckForCauseOfInjury = getFieldToCheckForOperation(operation);
+            checkCheckboxField(fieldToCheckForCauseOfInjury, "Ja");
+        }
+
         fillText(FIELD_OPERATIONSDATUM_AR_MAN_DAG, doiUtlatandeV1.getOperationDatum());
         fillText(FIELD_TILLSTAND_SOM_FORANLEDDE_INGREPPET, doiUtlatandeV1.getOperationAnledning());
     }
@@ -267,6 +307,7 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
 
     }
 
+    @SuppressWarnings("CheckStyle")
     private void fillBidragandeOrsaksRow(int index, Dodsorsak orsak) {
         String fieldBeskrivning;
         String fieldDebut;
@@ -276,9 +317,12 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
 
         fieldBeskrivning = String.format(FIELD_BIDRAGANDE_DODSORSAK_ROW_BESKRIVNING, index);
         fieldDebut = String.format(FIELD_BIDRAGANDE_DODSORSAK_ROW_UNGEFARLIG_DEBUT, index);
-        fieldAkut = String.format(FIELD_DODSORSAK_ROW_AKUT, addChar('D', index));
-        fieldKronisk = String.format(FIELD_DODSORSAK_ROW_KRONISK, addChar('D', index));
-        fieldUppgiftSaknas = String.format(FIELD_DODSORSAK_ROW_INGEN_UPPGIFT, addChar('D', index));
+        //fieldAkut = String.format(FIELD_DODSORSAK_ROW_AKUT, addChar('D', index));
+        //fieldKronisk = String.format(FIELD_DODSORSAK_ROW_KRONISK, addChar('D', index));
+        //fieldUppgiftSaknas = String.format(FIELD_DODSORSAK_ROW_INGEN_UPPGIFT, addChar('D', index));
+        fieldAkut = String.format(FIELD_DODSORSAK_ROW_AKUT, 4 + index);
+        fieldKronisk = String.format(FIELD_DODSORSAK_ROW_KRONISK, 4 + index);
+        fieldUppgiftSaknas = String.format(FIELD_DODSORSAK_ROW_INGEN_UPPGIFT, 4 + index);
 
         setOrsakFields(orsak, fieldBeskrivning, fieldDebut, fieldAkut, fieldKronisk, fieldUppgiftSaknas);
     }
@@ -305,16 +349,22 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
 
         if (index == 0) {
             // A (Terminal orsak)
-            fieldBeskrivning = String.format(FIELD_DODSORSAK_FIRSTROW_BESKRIVNING, "A");
+            //fieldBeskrivning = String.format(FIELD_DODSORSAK_FIRSTROW_BESKRIVNING, "A");
+            fieldBeskrivning = String.format(FIELD_DODSORSAK_FIRSTROW_BESKRIVNING, 1);
         } else {
             // A (Terminal orsak)
-            fieldBeskrivning = String.format(FIELD_DODSORSAK_ROW_BESKRIVNING, addChar('A', index));
+            //fieldBeskrivning = String.format(FIELD_DODSORSAK_ROW_BESKRIVNING, addChar('A', index));
+            fieldBeskrivning = String.format(FIELD_DODSORSAK_ROW_BESKRIVNING, 1 + index);
         }
 
-        fieldDebut = String.format(FIELD_DODSORSAK_ROW_UNGEFARLIG_DEBUT, addChar('A', index));
-        fieldAkut = String.format(FIELD_DODSORSAK_ROW_AKUT, addChar('A', index));
-        fieldKronisk = String.format(FIELD_DODSORSAK_ROW_KRONISK, addChar('A', index));
-        fieldUppgiftSaknas = String.format(FIELD_DODSORSAK_ROW_INGEN_UPPGIFT, addChar('A', index));
+        //fieldDebut = String.format(FIELD_DODSORSAK_ROW_UNGEFARLIG_DEBUT, addChar('A', index));
+        //fieldAkut = String.format(FIELD_DODSORSAK_ROW_AKUT, addChar('A', index));
+        //fieldKronisk = String.format(FIELD_DODSORSAK_ROW_KRONISK, addChar('A', index));
+        //fieldUppgiftSaknas = String.format(FIELD_DODSORSAK_ROW_INGEN_UPPGIFT, addChar('A', index));
+        fieldDebut = String.format(FIELD_DODSORSAK_ROW_UNGEFARLIG_DEBUT, 1 + index);
+        fieldAkut = String.format(FIELD_DODSORSAK_ROW_AKUT, 1 + index);
+        fieldKronisk = String.format(FIELD_DODSORSAK_ROW_KRONISK, 1 + index);
+        fieldUppgiftSaknas = String.format(FIELD_DODSORSAK_ROW_INGEN_UPPGIFT, 1 + index);
 
         setOrsakFields(orsak, fieldBeskrivning, fieldDebut, fieldAkut, fieldKronisk, fieldUppgiftSaknas);
     }
@@ -335,7 +385,7 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
     }
 
     protected void fillPatientDetails() {
-        fillText(FIELD_PERSONNUMMERSAMORDNINGSNUMMER_12_SIFFROR,
+        fillText(FIELD_PERSONNUMMER,
             doiUtlatandeV1.getGrundData().getPatient().getPersonId().getPersonnummerWithDash());
         fillText(FIELD_EFTERNAMN, doiUtlatandeV1.getGrundData().getPatient().getEfternamn());
         fillText(FIELD_FORNAMN, doiUtlatandeV1.getGrundData().getPatient().getFornamn());
@@ -370,13 +420,29 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
     private void fillBarnAvlidet() {
         // Type RADIOBUTTON - values [dödfött,avlidet inom 28]
         // NOTE: kan aldrig vara dödfött när utfärdat i WC
-        checkRadioField(FIELD_BARN_SOM_AVLIDIT, Boolean.TRUE.equals(doiUtlatandeV1.getBarn()) ? "avlidet inom 28" : "");
+        //checkRadioField(FIELD_BARN_SOM_AVLIDIT, Boolean.TRUE.equals(doiUtlatandeV1.getBarn()) ? "avlidet inom 28" : "");
+        // NOTE: The db form option 'dödfött' is not possible in certificates issued in Webcert.
+        Boolean childDeadWithin28Days = doiUtlatandeV1.getBarn();
+        if (childDeadWithin28Days != null && childDeadWithin28Days) {
+            // Type CHECKBOX - values [Ja]
+            checkCheckboxField(FIELD_AVLIDET_INOM_28_DYGN, "Ja");
+        }
     }
 
     private void fillDodsDatum() {
         // Type RADIOBUTTON - values [säkert,ej säkert]
-        checkRadioField(FIELD_DODSDATUM_SAKERT_EJ_SAKERT, getRadioValueFromBoolean(doiUtlatandeV1.getDodsdatumSakert(), "", "säkert",
-            "ej säkert"));
+        //checkRadioField(FIELD_DODSDATUM_SAKERT_EJ_SAKERT, getRadioValueFromBoolean(doiUtlatandeV1.getDodsdatumSakert(), "", "säkert",
+        //    "ej säkert"));
+        Boolean certainDateOfDeath = doiUtlatandeV1.getDodsdatumSakert();
+        if (certainDateOfDeath != null) {
+            if (certainDateOfDeath) {
+                // Type CHECKBOX - values [Ja]
+                checkCheckboxField(FIELD_DODSDATUM_SAKERT, "Ja");
+            } else {
+                // Type CHECKBOX - values [Ja]
+                checkCheckboxField(FIELD_DODSDATUM_EJ_SAKERT, "Ja");
+            }
+        }
         // Type TEXT
         fillText(FIELD_DODSDATUM, doiUtlatandeV1.getDodsdatum());
 
@@ -387,11 +453,31 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
     private void fillDodsPlats() {
 
         // Type RADIOBUTTON - values [Sjukhus,Särskilt boende,Ordinärt boende,Annan / Okänd,]
-
-        checkRadioField(FIELD_DODSPLATS, modelToPdf(doiUtlatandeV1.getDodsplatsBoende()));
+        //checkRadioField(FIELD_DODSPLATS, modelToPdf(doiUtlatandeV1.getDodsplatsBoende()));
+        DodsplatsBoende accomodation = doiUtlatandeV1.getDodsplatsBoende();
+        if (accomodation != null) {
+            String fieldToCheckForAccomodation = getFieldToCheckForAccomodation(accomodation);
+            checkCheckboxField(fieldToCheckForAccomodation, "Ja");
+        }
 
         fillText(FIELD_KOMMUN_OM_OKAND_DODSPLATS_KOMMUNEN_DAR_KROPPEN_PATRAFFADES, doiUtlatandeV1.getDodsplatsKommun());
         fillText(FIELD_OM_DODSDATUM_EJ_SAKERT_AR_MAN_DAG_ANTRAFFAD_DOD, doiUtlatandeV1.getAntraffatDodDatum());
+    }
+
+    private String getFieldToCheckForAccomodation(DodsplatsBoende accomodation) {
+
+        switch (accomodation) {
+            case SJUKHUS :
+                return FIELD_DODSPLATS_SJUKUS;
+            case ORDINART_BOENDE :
+                return FIELD_DODSPLATS_ORDINART_BOENDE;
+            case SARSKILT_BOENDE :
+                return FIELD_DODSPLATS_SARSKILT_BOENDE;
+            case ANNAN :
+                return FIELD_DODSPLATS_ANNAN_OKAND;
+            default :
+                return "";
+        }
     }
 
     /**
@@ -399,6 +485,7 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
      *
      * @return pdf value
      */
+
     private String modelToPdf(DodsplatsBoende dodsplatsBoende) {
         if (dodsplatsBoende != null) {
             // Pdf equivalent values are
@@ -417,47 +504,31 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
         return "";
     }
 
-    /**
-     * Converts a {@link ForgiftningOrsak} to the corresponding pdf template field value.
-     *
-     * @return pdf value
-     */
-    private String modelToPdf(ForgiftningOrsak forgiftningOrsak) {
-        if (forgiftningOrsak != null) {
-
-            // Pdf equivalent values are [olycksfall,oklart,avsiktligt vållad av annan,självmord]
-            switch (forgiftningOrsak) {
-                case OLYCKSFALL:
-                    return "olycksfall";
-                case SJALVMORD:
-                    return "självmord";
-                case AVSIKTLIGT_VALLAD:
-                    return "avsiktligt vållad av annan";
-                case OKLART:
-                    return "oklart";
-            }
+    private String getFieldToCheckForCauseOfInjury(ForgiftningOrsak causeOfInjury) {
+        switch (causeOfInjury) {
+            case OLYCKSFALL :
+                return FIELD_OLYCKSFALL;
+            case SJALVMORD :
+                return FIELD_SJALVMORD;
+            case AVSIKTLIGT_VALLAD :
+                return FIELD_AVSIKTLIGT_VALLAD_AV_ANNAN;
+            case OKLART:
+                return FIELD_OKLART_OM_AVSIKT_FORELEGAT;
+            default :
+                return "";
         }
-        return "";
     }
 
-    /**
-     * Converts a {@link OmOperation} to the corresponding pdf template field value.
-     *
-     * @return pdf value
-     */
-    private String modelToPdf(OmOperation operation) {
-
-        if (operation != null) {
-            // Pdf equivalent values are [Nej,Uppgift saknas,Ja]
-            switch (operation) {
-                case JA:
-                    return "Ja";
-                case NEJ:
-                    return "Nej";
-                case UPPGIFT_SAKNAS:
-                    return "Uppgift saknas";
-            }
+    private String getFieldToCheckForOperation(OmOperation operation) {
+        switch (operation) {
+            case JA :
+                return FIELD_OPERERAD_JA;
+            case NEJ :
+                return FIELD_OPERERAD_NEJ;
+            case UPPGIFT_SAKNAS :
+                return FIELD_OPERERAD_UPPGIFT_SAKNAS;
+            default :
+                return "";
         }
-        return "";
     }
 }
