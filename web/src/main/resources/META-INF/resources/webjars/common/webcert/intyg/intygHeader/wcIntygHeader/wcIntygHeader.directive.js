@@ -31,6 +31,26 @@ angular.module('common').directive('wcIntygHeader', [ '$window', '$state', 'comm
             $scope.certificateName = moduleService.getModuleName(IntygHeaderViewState.intygType);
             $scope.backState = $state.$current.parent.data.backState; // backstate is defined in webcert.intyg state data in router.js
             $scope.intygHeaderViewState = IntygHeaderViewState;
+            $scope.intygHeaderViewState.isReadingView = false;
+
+            $scope.checkUnit = function() {
+                var skapadAv = $scope.intygViewState.intygModel.grundData.skapadAv;
+                var isSameVardgivare = skapadAv.vardenhet.vardgivare.vardgivarid === UserModel.user.valdVardgivare.id;
+                var isDifferentUnit = skapadAv.vardenhet.enhetsid !== UserModel.user.valdVardenhet.id;
+                return isSameVardgivare && isDifferentUnit;
+            };
+
+             function updateShowHeaderBanner() {
+                 var isSkapadAvDefined = $scope.intygViewState.intygModel !== undefined &&
+                     $scope.intygViewState.intygModel.grundData!== undefined &&
+                     $scope.intygViewState.intygModel.grundData.skapadAv !== undefined;
+                  if(UserModel.isDjupintegration() && isSkapadAvDefined && $scope.checkUnit()) {
+                      var skapadAv =  $scope.intygViewState.intygModel.grundData.skapadAv;
+                      $scope.intygHeaderViewState.isReadingView = true;
+                      $scope.bannerTitle = 'Utfärdat på: ';
+                      $scope.bannerMessage = skapadAv.vardenhet.vardgivare.vardgivarnamn + ' - ' + skapadAv.vardenhet.enhetsnamn;
+                  }
+            }
 
             function updatePersonId() {
                 if ($scope.intygViewState.intygModel.grundData) {
@@ -44,6 +64,7 @@ angular.module('common').directive('wcIntygHeader', [ '$window', '$state', 'comm
 
             updatePersonId();
             $scope.$on('intyg.loaded', updatePersonId);
+            $scope.$on('intyg.loaded', updateShowHeaderBanner);
         }
     };
 } ]);

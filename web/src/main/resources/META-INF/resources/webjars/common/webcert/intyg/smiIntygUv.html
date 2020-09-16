@@ -1,5 +1,5 @@
 <div ui-view="header" class="webcert-workarea-intyg-header"></div>
-<div class="webcert-workarea-wrapper">
+<div class="webcert-workarea-wrapper" ng-class="{'reading-view-content' : intygHeaderViewState.isReadingView}">
 
   <!-- page error message -->
   <wc-error error="viewState.common.activeErrorMessageKey" ng-if="viewState.common.activeErrorMessageKey && viewState.common.doneLoading"></wc-error>

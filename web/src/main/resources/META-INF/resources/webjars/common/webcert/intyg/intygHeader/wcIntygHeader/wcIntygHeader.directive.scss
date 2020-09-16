@@ -9,7 +9,40 @@ wc-intyg-header {
     color: $wc-color-06;
     margin-right: 38px;
   }
+
+  .reading-view-banner {
+    @extend %wc-typo-07;
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    padding: 8px 9px 7px 38px;
+    width: 100%;
+    margin-bottom: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .reading-view-banner-icon {
+    position: absolute;
+    top: 5px;
+    left: 6px;
+    font-size: 20px;
+  }
+
+  .reading-view-banner-title {
+    @extend %wc-typo-06;
+  }
 }
+
+.reading-view-content {
+    border: 5px solid $wc-color-03 !important;
+    border-top: none !important;
+}
+
+.reading-view-header {
+  border-right: 5px solid $wc-color-03 !important;
+  border-left: 5px solid $wc-color-03 !important;
+}
+
 
 .page-header-divider {
   border-bottom: 1px solid $wc-color-15;
