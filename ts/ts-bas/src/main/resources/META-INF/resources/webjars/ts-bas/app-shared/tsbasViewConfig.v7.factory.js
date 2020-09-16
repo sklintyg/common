@@ -128,7 +128,14 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory.v7', [
                     {
                         type: 'uv-fraga',
                         labelKey: 'FRG_8.RBK',
-                        components: [
+                        components: [{
+                            type: 'uv-del-fraga',
+                            labelKey: 'FRG_8.1.RBK',
+                            components: [{
+                                type: 'uv-boolean-value',
+                                modelProp: 'syn.synskarpaSkickasSeparat'
+                            }]
+                            },
                             {
                                 type: 'uv-del-fraga',
                                 components: [{

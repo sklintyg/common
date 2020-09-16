@@ -21,13 +21,20 @@ package se.inera.intyg.common.ts_bas.v7.model.converter;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getBooleanContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BINOKULART_MED_KORREKTION_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BINOKULART_UTAN_KORREKTION_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HOGER_OGA_MED_KORREKTION_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HOGER_OGA_UTAN_KORREKTION_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KONTAKTLINSER_HOGER_OGA_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KONTAKTLINSER_VANSTER_OGA_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VANSTER_OGA_MED_KORREKTION_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VANSTER_OGA_UTAN_KORREKTION_DELSVAR_ID_8;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID_29;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_SVAR_ID_29;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.BALANSRUBBNINGAR_YRSEL_DELSVAR_ID_10;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.BALANSRUBBNINGAR_YRSEL_SVAR_ID_10;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.BEHANDLING_DIABETES_SVAR_ID_19;
-import static se.inera.intyg.common.ts_parent.codes.RespConstants.BINOKULART_MED_KORREKTION_DELSVAR_ID_8;
-import static se.inera.intyg.common.ts_parent.codes.RespConstants.BINOKULART_UTAN_KORREKTION_DELSVAR_ID_8;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.BOR_UNDERSOKAS_AV_SPECIALISTLAKARE_DELSVAR_ID_34;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.BOR_UNDERSOKAS_AV_SPECIALISTLAKARE_SVAR_ID_34;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.DUBBELSEENDE_DELSVAR_ID_6;
@@ -41,15 +48,11 @@ import static se.inera.intyg.common.ts_parent.codes.RespConstants.HAR_DIABETES_D
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.HAR_DIABETES_SVAR_ID_17;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.HJART_ELLER_KARLSJUKDOM_DELSVAR_ID_14;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.HJART_ELLER_KARLSJUKDOM_SVAR_ID_14;
-import static se.inera.intyg.common.ts_parent.codes.RespConstants.HOGER_OGA_MED_KORREKTION_DELSVAR_ID_8;
-import static se.inera.intyg.common.ts_parent.codes.RespConstants.HOGER_OGA_UTAN_KORREKTION_DELSVAR_ID_8;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.IDENTITET_STYRKT_GENOM_ID_2;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID_2;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.INSULINBEHANDLING_DELSVAR_ID_19;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_DELSVAR_ID_1;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_SVAR_ID_1;
-import static se.inera.intyg.common.ts_parent.codes.RespConstants.KONTAKTLINSER_HOGER_OGA_DELSVAR_ID_8;
-import static se.inera.intyg.common.ts_parent.codes.RespConstants.KONTAKTLINSER_VANSTER_OGA_DELSVAR_ID_8;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.KOSTBEHANDLING_DELSVAR_ID_19;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID_26;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31;
@@ -104,8 +107,6 @@ import static se.inera.intyg.common.ts_parent.codes.RespConstants.UPPFATTA_SAMTA
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.UPPFATTA_SAMTALSTAMMA_SVAR_ID_11;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.UPPFYLLER_KRAV_FOR_BEHORIGHET_DELSVAR_ID_33;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.UPPFYLLER_KRAV_FOR_BEHORIGHET_SVAR_ID_33;
-import static se.inera.intyg.common.ts_parent.codes.RespConstants.VANSTER_OGA_MED_KORREKTION_DELSVAR_ID_8;
-import static se.inera.intyg.common.ts_parent.codes.RespConstants.VANSTER_OGA_UTAN_KORREKTION_DELSVAR_ID_8;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID_25;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.VARDKONTAKT_TYP;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.VARD_SJUKHUS_KONTAKT_LAKARE_SVAR_ID_30;
@@ -436,6 +437,9 @@ public final class TransportToInternal {
                     }
                     binokulart.setMedKorrektion(Double.valueOf(getStringContent(delsvar)));
                     break;
+                case SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID_8:
+                    syn.setSynskarpaSkickasSeparat(getBooleanContent(delsvar));
+                    break;
             }
         }
         if (hogerOga != null) {
@@ -446,9 +450,6 @@ public final class TransportToInternal {
         }
         if (binokulart != null) {
             syn.setBinokulart(binokulart.build());
-        }
-        if (false) { //TODO
-            syn.setSynskarpaSkickasSeparat(false);
         }
     }
 

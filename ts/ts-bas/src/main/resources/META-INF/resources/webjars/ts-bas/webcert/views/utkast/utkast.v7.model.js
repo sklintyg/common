@@ -79,6 +79,7 @@ angular.module('ts-bas').factory('ts-bas.Domain.IntygModel.v7',
                         'progressivOgonsjukdom': undefined,
                         'diplopi': undefined,
                         'nystagmus': undefined,
+                        'synskarpaSkickasSeparat': false,
                         'hogerOga': {
                             'utanKorrektion': undefined,
                             'medKorrektion': undefined,

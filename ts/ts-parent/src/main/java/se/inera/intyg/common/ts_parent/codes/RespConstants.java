@@ -55,7 +55,6 @@ public final class RespConstants {
     public static final String BINOKULART_MED_KORREKTION_DELSVAR_ID_8 = "8.6";
     public static final String KONTAKTLINSER_HOGER_OGA_DELSVAR_ID_8 = "8.7";
     public static final String KONTAKTLINSER_VANSTER_OGA_DELSVAR_ID_8 = "8.8";
-    public static final String SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID_8 = "8.1";  //TODO id?
 
     public static final String UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID_9 = "9";
     public static final String UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_DELSVAR_ID_9 = "9.1";

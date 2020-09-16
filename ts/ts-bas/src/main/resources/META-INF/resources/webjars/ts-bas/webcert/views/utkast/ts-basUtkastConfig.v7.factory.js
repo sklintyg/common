@@ -179,6 +179,13 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                             modelProp: 'syn.nystagmus'
                         }]),
                         fraga(8, 'FRG_8.RBK', 'FRG_8.HLP', {}, [{
+                            type: 'ue-checkbox',
+                            label: {
+                                key: 'FRG_8.1.RBK'
+                            },
+                            modelProp: 'syn.synskarpaSkickasSeparat',
+                            paddingBottom: true
+                        },{
                             type: 'ue-grid',
                             independentRowValidation: true,
                             components: [
