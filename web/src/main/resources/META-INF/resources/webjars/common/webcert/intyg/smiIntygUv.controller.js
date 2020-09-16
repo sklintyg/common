@@ -21,14 +21,15 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
         'common.UserModel', 'ViewState',
         'ViewConfigFactory', 'common.dynamicLabelService', 'common.IntygViewStateService', 'uvUtil',
         'supportPanelConfigFactory',
-        'common.receiverService', 'common.authorityService', 'common.UtkastSignService',
+        'common.receiverService', 'common.authorityService', 'common.UtkastSignService', 'common.IntygHeaderViewState',
         function($log, $timeout, $rootScope, $stateParams, $scope, $state, IntygProxy,
             UserModel, ViewState, viewConfigFactory, DynamicLabelService, IntygViewStateService, uvUtil,
-            supportPanelConfigFactory, receiverService, authorityService, utkastSignService) {
+            supportPanelConfigFactory, receiverService, authorityService, utkastSignService, IntygHeaderViewState) {
             'use strict';
 
             ViewState.reset();
             $scope.viewState = ViewState;
+            $scope.intygHeaderViewState = IntygHeaderViewState;
 
             // Check if the user used the special qa-link to get here.
             if ($stateParams.qaOnly) {
