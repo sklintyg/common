@@ -35,7 +35,7 @@ public class ListAcrofields {
 
     public static void main(String[] args) throws Exception {
 
-        final File file = new ClassPathResource("pdf/Blankett-Dodsbevis-2016-53.pdf").getFile();
+        final File file = new ClassPathResource("pdf/Blankett-Dodsbevis-2018-54.pdf").getFile();
         PdfReader pdfReader = new PdfReader(file.getAbsolutePath());
         final AcroFields acroFields = pdfReader.getAcroFields();
         final Set<String> fieldNames = acroFields.getFields().keySet();
