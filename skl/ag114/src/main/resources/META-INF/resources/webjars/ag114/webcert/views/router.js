@@ -39,7 +39,7 @@ angular.module('ag114').config(function($stateProvider) {
         }).
         state('ag114.utkast', {
             data: { defaultActive : 'index', intygType: 'ag114' },
-            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url : '/:intygTypeVersion/edit/:certificateId/:focusOn?:error&:ticket',
             params: {
                 focusOn: ''
             },

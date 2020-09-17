@@ -145,9 +145,6 @@
             'common.modal.label.signing.mobilt.noclient': 'Mobilt BankID-servern får ej kontakt med din enhet. Kontrollera att du har startat Mobilt BankID på din enhet.',
             'common.modal.label.signing.bankid.noclient': 'BankID-servern får ej kontakt med ditt BankID säkerhetsprogram. Kontrollera att du har startat BankID säkerhetsprogram på din dator.',
 
-            'common.modal.label.signing.open.nias': 'Starta NetiD Access programmet på den enhet du har det installerat.',
-            'common.modal.label.signing.nias.noclient': 'NetiD Access Server får ej kontakt med din enhet. Kontrollera att du har startat NetiD-programmet på din enhet.',
-
 
             'common.modal.label.print.sekretessmarkerad.title': 'Skriv ut intyg',
             'common.modal.label.print.sekretessmarkerad.title.draft': 'Skriv ut utkast',
@@ -840,18 +837,19 @@
             'common.receivers.save.error': 'Kunde inte spara mottagare på grund av ett tekniskt fel. Försök igen och kontakta supporten om problemet kvarstår.',
 
             // Varning om att skapa intyg som redan finns
-            'db.warn.previouscertificate.samevg': 'Dödsbevis finns för detta personnummer. Du kan inte skapa ett nytt dödsbevis men kan däremot välja att ersätta det befintliga dödsbeviset.',
-            'db.warn.previouscertificate.samevg.differentenhet': 'Det finns ett dödsbevis utfärdat på ${enhetName} för detta personnummer. Du kan inte skapa ett nytt dödsbevis men kan däremot välja att ersätta det befintliga dödsbeviset.',
-            'db.warn.previouscertificate.differentvg': 'Dödsbevis finns för detta personnummer hos annan vårdgivare. Det är inte möjligt att skapa ett nytt dödsbevis.',
-            'db.warn.previousdraft.samevg': 'Utkast på dödsbevis finns för detta personnummer. Du kan inte skapa ett nytt utkast men kan däremot välja att fortsätta med det befintliga utkastet.',
-            'db.warn.previousdraft.samevg.differentenhet': 'Det finns ett påbörjat utkast för dödsbevis på ${enhetName} för detta personnummer. Du kan inte skapa ett nytt utkast men kan däremot välja att fortsätta med det befintliga utkastet.',
-            'db.warn.previousdraft.differentvg': 'Utkast på dödsbevis finns för detta personnummer hos annan vårdgivare. Senast skapade dödsbevis är det som gäller. Om du fortsätter och lämnar in dödsbeviset så blir det därför detta dödsbevis som gäller.',
-            'doi.warn.previouscertificate.samevg': 'Dödsorsaksintyg finns för detta personnummer. Du kan inte skapa ett nytt dödsorsaksintyg men kan däremot välja att ersätta det befintliga dödsorsaksintyget.',
-            'doi.warn.previouscertificate.samevg.differentenhet': 'Det finns ett dödsorsaksintyg utfärdat på ${enhetName} för detta personnummer. Du kan inte skapa ett nytt dödsorsaksintyg men kan däremot välja att ersätta det befintliga dödsorsaksintyget.',
-            'doi.warn.previouscertificate.differentvg': 'Dödsorsaksintyg finns för detta personnummer hos annan vårdgivare. Senast skapade dödsorsaksintyg är det som gäller. Om du fortsätter och lämnar in dödsorsaksintyget så blir det därför detta dödsorsaksintyg som gäller.',
-            'doi.warn.previousdraft.samevg': 'Utkast på dödsorsaksintyg finns för detta personnummer. Du kan inte skapa ett nytt utkast men kan däremot välja att fortsätta med det befintliga utkastet.',
-            'doi.warn.previousdraft.samevg.differentenhet': 'Det finns ett påbörjat utkast på ${enhetName} för detta personnummer. Du kan inte skapa ett nytt utkast men kan däremot välja att fortsätta med det befintliga utkastet.',
-            'doi.warn.previousdraft.differentvg': 'Utkast på dödsorsaksintyg finns för detta personnummer hos annan vårdgivare. Senast skapade dödsorsaksintyg är det som gäller. Om du fortsätter och lämnar in dödsorsaksintyget så blir det därför detta dödsorsaksintyg som gäller.'
+            'db.warn.previouscertificate.samevg': 'Det finns ett signerat dödsbevis för detta personnummer. Du kan inte skapa ett nytt dödsbevis men kan däremot välja att ersätta det befintliga dödsbeviset.',
+            'db.warn.previouscertificate.samevg.differentenhet': 'Det finns ett signerat dödsbevis utfärdat på ${enhetName} för detta personnummer. Du kan inte skapa ett nytt dödsbevis men kan däremot välja att ersätta det befintliga dödsbeviset.',
+            'db.warn.previouscertificate.differentvg': 'Det finns ett signerat dödsbevis för detta personnummer hos annan vårdgivare. Det är inte möjligt att skapa ett nytt dödsbevis.',
+            'db.warn.previousdraft.samevg': 'Det finns ett utkast på dödsbevis för detta personnummer. Du kan inte skapa ett nytt utkast men kan däremot välja att fortsätta med det befintliga utkastet.',
+            'db.warn.previousdraft.samevg.differentenhet': 'Det finns ett påbörjat utkast på dödsbevis på ${enhetName} för detta personnummer. Du kan inte skapa ett nytt utkast men kan däremot välja att fortsätta med det befintliga utkastet.',
+            'db.warn.previousdraft.differentvg': 'Det finns ett utkast på dödsbevis för detta personnummer hos annan vårdgivare. Senast skapade dödsbevis är det som gäller. Om du fortsätter och lämnar in dödsbeviset så blir det därför detta dödsbevis som gäller.',
+
+            'doi.warn.previouscertificate.samevg': 'Det finns ett signerat dödsorsaksintyg för detta personnummer. Du kan inte skapa ett nytt dödsorsaksintyg men kan däremot välja att ersätta det befintliga dödsorsaksintyget.',
+            'doi.warn.previouscertificate.samevg.differentenhet': 'Det finns ett signerat dödsorsaksintyg utfärdat på ${enhetName} för detta personnummer. Du kan inte skapa ett nytt dödsorsaksintyg men kan däremot välja att ersätta det befintliga dödsorsaksintyget.',
+            'doi.warn.previouscertificate.differentvg': 'Det finns ett signerat dödsorsaksintyg för detta personnummer hos annan vårdgivare. Senast skapade dödsorsaksintyg är det som gäller. Om du fortsätter och lämnar in dödsorsaksintyget så blir det därför detta dödsorsaksintyg som gäller.',
+            'doi.warn.previousdraft.samevg': 'Det finns ett utkast på dödsorsaksintyg för detta personnummer. Du kan inte skapa ett nytt utkast men kan däremot välja att fortsätta med det befintliga utkastet.',
+            'doi.warn.previousdraft.samevg.differentenhet': 'Det finns ett påbörjat utkast på dödsorsaksintyg på ${enhetName} för detta personnummer. Du kan inte skapa ett nytt utkast men kan däremot välja att fortsätta med det befintliga utkastet.',
+            'doi.warn.previousdraft.differentvg': 'Det finns ett utkast på dödsorsaksintyg för detta personnummer hos annan vårdgivare. Senast skapade dödsorsaksintyg är det som gäller. Om du fortsätter och lämnar in dödsorsaksintyget så blir det därför detta dödsorsaksintyg som gäller.'
 
         },
         'en': {

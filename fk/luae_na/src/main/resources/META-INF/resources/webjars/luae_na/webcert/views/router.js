@@ -39,7 +39,7 @@ angular.module('luae_na').config(function($stateProvider) {
         }).
         state('luae_na.utkast', {
             data: { defaultActive : 'index', intygType: 'luae_na' },
-            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url : '/:intygTypeVersion/edit/:certificateId/:focusOn?:error&:ticket',
             params: {
                 focusOn: ''
             },

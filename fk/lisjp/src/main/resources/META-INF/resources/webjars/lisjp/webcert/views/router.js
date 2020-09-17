@@ -39,7 +39,7 @@ angular.module('lisjp').config(function($stateProvider) {
         }).
         state('lisjp.utkast', {
             data: { defaultActive : 'index', intygType: 'lisjp', useFmb: true },
-            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url : '/:intygTypeVersion/edit/:certificateId/:focusOn?:error&:ticket',
             params: {
                 focusOn: ''
             },

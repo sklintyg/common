@@ -64,7 +64,9 @@ angular.module('db').factory('db.UtkastConfigFactory.v1',
                                 helpKey: 'DFR_5.1.HLP',
                                 required: true,
                                 requiredProp: 'explosivImplantat'
-                            }
+                            },
+                            yesLabel: 'SVAR_JA.RBK',
+                            noLabel: 'SVAR_NEJ.RBK'
                         },{
                             type: 'ue-radio',
                             modelProp: 'explosivAvlagsnat',
@@ -73,7 +75,9 @@ angular.module('db').factory('db.UtkastConfigFactory.v1',
                                 key: 'DFR_5.2.RBK',
                                 helpKey: 'DFR_5.2.HLP',
                                 required: true,
-                                requiredProp: 'explosivAvlagsnat'
+                                requiredProp: 'explosivAvlagsnat',
+                                yesLabel: 'SVAR_JA.RBK',
+                                noLabel: 'SVAR_NEJ.RBK'
                             }
                         }])
                     ]),
@@ -83,7 +87,7 @@ angular.module('db').factory('db.UtkastConfigFactory.v1',
                             type: 'ue-radiogroup',
                             modelProp: 'undersokningYttre',
                             choices: [
-                                {label:'DETALJER_UNDERSOKNING.JA.RBK', id:'JA'},
+                                {label:'SVAR_JA.RBK', id:'JA'},
                                 {label:'DETALJER_UNDERSOKNING.UNDERSOKNING_SKA_GORAS.RBK', id:'UNDERSOKNING_SKA_GORAS'},
                                 {label:'DETALJER_UNDERSOKNING.UNDERSOKNING_GJORT_KORT_FORE_DODEN.RBK', id:'UNDERSOKNING_GJORT_KORT_FORE_DODEN'}
                             ],

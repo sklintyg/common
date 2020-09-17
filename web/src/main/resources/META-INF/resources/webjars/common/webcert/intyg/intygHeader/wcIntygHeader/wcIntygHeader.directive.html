@@ -1,5 +1,13 @@
+<div ng-if="intygHeaderViewState.isReadingView" class="alert alert-info reading-view-banner">
+  <div class="reading-view-text-container">
+    <div class="alert-icon">
+      <i class="reading-view-banner-icon material-icons icon-wc-ikon-14"></i>
+    </div>
+    <span class="reading-view-banner-title">{{bannerTitle}}</span>{{bannerMessage}}
+  </div>
+</div>
 <div>
-<div class="wc-page-header" ng-if="!intygViewState.common.activeErrorMessageKey">
+<div class="wc-page-header" ng-if="!intygViewState.common.activeErrorMessageKey" ng-class="{'reading-view-header' : intygHeaderViewState.isReadingView}">
   <wc-spinner label="common.load.certificate" show-spinner="!intygHeaderViewState.intygLoaded || !intygHeaderViewState.arendenLoaded">
     <div class="centered-constrained-content">
 

@@ -39,6 +39,8 @@ public final class PdfConstants {
     public static final String ELECTRONIC_COPY_WATERMARK_TEXT_SIGNATURE = "Detta är en utskrift av ett elektroniskt intyg. Intyget har signerats elektroniskt av intygsutfärdaren.";
     public static final String MINIMAL_ELECTRONIC_COPY_WATERMARK_TEXT = "Detta är en utskrift av ett elektroniskt intyg med minimalt innehåll. Det uppfyller sjuklönelagens krav, om inget annat regleras i kollektivavtal. Det minimala intyget kan ge arbetsgivaren sämre möjligheter att bedöma behovet av rehabilitering än ett fullständigt intyg. Intyget har signerats elektroniskt av intygsutfärdaren.";
 
+    public static final String ELECTRONIC_COPY_WATERMARK_TEXT_TITLE = "Detta intyg har skickats in digitalt till försäkringskassan";
+    public static final String ELECTRONIC_COPY_WATERMARK_TEXT_SUBTITLE = "Du kan se intyget genom att logga in på www.minaintyg.se";
     /**
      * * Fonts that will be used in FK SIT-type PDFs.
      */
@@ -70,6 +72,10 @@ public final class PdfConstants {
     public static final Font FONT_PAGE_NUMBERING;
 
     public static final Font FONT_ELECTRONICALLY_SIGNED_SIGNATURE;
+
+    public static final Font FONT_ELECTRONICALLY_SIGNED_TITLE;
+    public static final Font FONT_ELECTRONICALLY_SIGNED_SUBTITLE;
+
 
     static {
         try {
@@ -112,6 +118,13 @@ public final class PdfConstants {
 
             FONT_ELECTRONICALLY_SIGNED_SIGNATURE = new Font(createFont(ARIAL_BOLD_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED),
                 8f, Font.NORMAL, BaseColor.GRAY);
+
+            FONT_ELECTRONICALLY_SIGNED_TITLE = new Font(
+                createFont(ARIAL_REGULAR_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 21f, Font.NORMAL,
+                BaseColor.GRAY);
+            FONT_ELECTRONICALLY_SIGNED_SUBTITLE = new Font(
+                createFont(ARIAL_REGULAR_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 14f, Font.NORMAL,
+                BaseColor.GRAY);
         } catch (DocumentException | IOException e) {
             throw new RuntimeException("Failed to initialize fonts", e);
         }
