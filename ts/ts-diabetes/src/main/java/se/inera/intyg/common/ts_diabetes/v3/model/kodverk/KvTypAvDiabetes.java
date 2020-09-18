@@ -21,7 +21,6 @@ package se.inera.intyg.common.ts_diabetes.v3.model.kodverk;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
-
 import java.util.stream.Stream;
 
 /**
@@ -33,6 +32,7 @@ public enum KvTypAvDiabetes {
     TYP2("E11", "Diabetes mellitus typ 2"),
     ANNAN("E13", "Annan typ av diabetes");
 
+    public static final String CODE_SYSTEM = "1.2.752.116.1.1.1.1.3";
     final String code;
     final String description;
 
