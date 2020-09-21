@@ -475,85 +475,104 @@ public class InternalValidatorInstance {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.nystagmus", ValidationMessageType.EMPTY);
         }
 
-        if (syn.getSynskarpaSkickasSeparat() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.synskarpaSkickasSeparat", ValidationMessageType.EMPTY);
-        }
+        if (syn.getSynskarpaSkickasSeparat() == null || !syn.getSynskarpaSkickasSeparat()) { //R37
+            if (syn.getHogerOga() == null) {
+                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga", ValidationMessageType.EMPTY,
+                    "ts-bas.validation.syn.hogeroga.missing");
+            } else {
+                if (syn.getHogerOga().getUtanKorrektion() == null) {
+                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga.utanKorrektion",
+                        ValidationMessageType.EMPTY);
 
-        if (syn.getHogerOga() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga", ValidationMessageType.EMPTY,
-                "ts-bas.validation.syn.hogeroga.missing");
-        } else {
-            if (syn.getHogerOga().getUtanKorrektion() == null) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga.utanKorrektion",
-                    ValidationMessageType.EMPTY);
-
-            } else if (syn.getHogerOga().getUtanKorrektion() < 0.0 || syn.getHogerOga().getUtanKorrektion() > 2.0) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga.utanKorrektion",
-                    ValidationMessageType.INVALID_FORMAT,
-                    "ts-bas.validation.syn.out-of-bounds");
-            }
-
-            if (syn.getHogerOga().getMedKorrektion() != null) {
-                if (syn.getHogerOga().getMedKorrektion() < 0.0 || syn.getHogerOga().getMedKorrektion() > 2.0) {
-                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga.medKorrektion",
+                } else if (syn.getHogerOga().getUtanKorrektion() < 0.0 || syn.getHogerOga().getUtanKorrektion() > 2.0) {
+                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga.utanKorrektion",
                         ValidationMessageType.INVALID_FORMAT,
                         "ts-bas.validation.syn.out-of-bounds");
                 }
-            }
-        }
 
-        if (syn.getVansterOga() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga", ValidationMessageType.EMPTY,
-                "ts-bas.validation.syn.vansteroga.missing");
-        } else {
-            if (syn.getVansterOga().getUtanKorrektion() == null) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga.utanKorrektion",
-                    ValidationMessageType.EMPTY);
-
-            } else if (syn.getVansterOga().getUtanKorrektion() < 0.0 || syn.getVansterOga().getUtanKorrektion() > 2.0) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga.utanKorrektion",
-                    ValidationMessageType.INVALID_FORMAT,
-                    "ts-bas.validation.syn.out-of-bounds");
+                if (syn.getHogerOga().getMedKorrektion() != null) {
+                    if (syn.getHogerOga().getMedKorrektion() < 0.0 || syn.getHogerOga().getMedKorrektion() > 2.0) {
+                        ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga.medKorrektion",
+                            ValidationMessageType.INVALID_FORMAT,
+                            "ts-bas.validation.syn.out-of-bounds");
+                    }
+                }
             }
 
-            if (syn.getVansterOga().getMedKorrektion() != null) {
-                if (syn.getVansterOga().getMedKorrektion() < 0.0 || syn.getVansterOga().getMedKorrektion() > 2.0) {
-                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga.medKorrektion",
+            if (syn.getVansterOga() == null) {
+                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga", ValidationMessageType.EMPTY,
+                    "ts-bas.validation.syn.vansteroga.missing");
+            } else {
+                if (syn.getVansterOga().getUtanKorrektion() == null) {
+                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga.utanKorrektion",
+                        ValidationMessageType.EMPTY);
+
+                } else if (syn.getVansterOga().getUtanKorrektion() < 0.0 || syn.getVansterOga().getUtanKorrektion() > 2.0) {
+                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga.utanKorrektion",
                         ValidationMessageType.INVALID_FORMAT,
                         "ts-bas.validation.syn.out-of-bounds");
                 }
-            }
-        }
 
-        if (syn.getBinokulart() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.binokulart", ValidationMessageType.EMPTY,
-                "ts-bas.validation.syn.binokulart.missing");
-        } else {
-            if (syn.getBinokulart().getUtanKorrektion() == null) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.binokulart.utanKorrektion",
-                    ValidationMessageType.EMPTY);
-
-            } else if (syn.getBinokulart().getUtanKorrektion() < 0.0 || syn.getBinokulart().getUtanKorrektion() > 2.0) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.binokulart.utanKorrektion",
-                    ValidationMessageType.INVALID_FORMAT,
-                    "ts-bas.validation.syn.out-of-bounds");
+                if (syn.getVansterOga().getMedKorrektion() != null) {
+                    if (syn.getVansterOga().getMedKorrektion() < 0.0 || syn.getVansterOga().getMedKorrektion() > 2.0) {
+                        ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga.medKorrektion",
+                            ValidationMessageType.INVALID_FORMAT,
+                            "ts-bas.validation.syn.out-of-bounds");
+                    }
+                }
             }
 
-            if (syn.getBinokulart().getMedKorrektion() != null) {
-                if (syn.getBinokulart().getMedKorrektion() < 0.0 || syn.getBinokulart().getMedKorrektion() > 2.0) {
-                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.binokulart.medKorrektion",
+            if (syn.getBinokulart() == null) {
+                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.binokulart", ValidationMessageType.EMPTY,
+                    "ts-bas.validation.syn.binokulart.missing");
+            } else {
+                if (syn.getBinokulart().getUtanKorrektion() == null) {
+                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.binokulart.utanKorrektion",
+                        ValidationMessageType.EMPTY);
+
+                } else if (syn.getBinokulart().getUtanKorrektion() < 0.0 || syn.getBinokulart().getUtanKorrektion() > 2.0) {
+                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.binokulart.utanKorrektion",
                         ValidationMessageType.INVALID_FORMAT,
                         "ts-bas.validation.syn.out-of-bounds");
                 }
+
+                if (syn.getBinokulart().getMedKorrektion() != null) {
+                    if (syn.getBinokulart().getMedKorrektion() < 0.0 || syn.getBinokulart().getMedKorrektion() > 2.0) {
+                        ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.binokulart.medKorrektion",
+                            ValidationMessageType.INVALID_FORMAT,
+                            "ts-bas.validation.syn.out-of-bounds");
+                    }
+                }
+            }
+
+            validateSynKorrektionsRegler(utlatande, syn);
+        } else { //R37
+            if (syn.getHogerOga() != null) {
+                if (syn.getHogerOga().getUtanKorrektion() != null
+                    || syn.getHogerOga().getMedKorrektion() != null
+                    || (syn.getHogerOga().getKontaktlins() != null || syn.getHogerOga().getKontaktlins())) {
+                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga",
+                        ValidationMessageType.INCORRECT_COMBINATION, "ts-bas.validation.syn.R37");
+                }
+            }
+            if (syn.getVansterOga() != null) {
+                if (syn.getVansterOga().getUtanKorrektion() != null
+                    || syn.getVansterOga().getMedKorrektion() != null
+                    || (syn.getVansterOga().getKontaktlins() != null || syn.getVansterOga().getKontaktlins())) {
+                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga",
+                        ValidationMessageType.INCORRECT_COMBINATION, "ts-bas.validation.syn.R37");
+                }
+            }
+            if (syn.getBinokulart() != null
+                && (syn.getBinokulart().getUtanKorrektion() != null || syn.getBinokulart().getMedKorrektion() != null)) {
+                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.binokulart",
+                    ValidationMessageType.INCORRECT_COMBINATION, "ts-bas.validation.syn.R37");
             }
         }
-
-        validateSynKorrektionsRegler(utlatande, syn);
     }
 
     private void validateSynKorrektionsRegler(TsBasUtlatandeV7 utlatande, Syn syn) {
         // CHECKSTYLE:OFF MagicNumber
-        //TODO R37
         if (syn.getBinokulart() != null && syn.getHogerOga() != null && syn.getVansterOga() != null
             && utlatande.getIntygAvser() != null && utlatande.getIntygAvser().getKorkortstyp() != null) {
             // R33

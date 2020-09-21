@@ -104,18 +104,26 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                 function korrektionRequired(model) {
                     var antalIntyg = getNumberOfSelectedKortkortstyper(model);
 
-                    if((antalIntyg > 0 && !(antalIntyg === 1 && isAnnatSelected(model)) &&
+                    if(!model.syn.synskarpaSkickasSeparat &&
+                        ((antalIntyg > 0 && !(antalIntyg === 1 && isAnnatSelected(model)) &&
                         ((isSetAndLessThan(model.syn.hogerOga.utanKorrektion, '0.8') &&
                         isSetAndLessThan(model.syn.vansterOga.utanKorrektion,'0.8')) || 
                         (isSetAndLessThan(model.syn.hogerOga.utanKorrektion,'0.1') ||
                         isSetAndLessThan(model.syn.vansterOga.utanKorrektion, '0.1')))) ||
                         (antalIntyg > 0 && isAnnatSelected(model) &&
-                        isSetAndLessThan(model.syn.binokulart.utanKorrektion, '0.5'))) {
+                        isSetAndLessThan(model.syn.binokulart.utanKorrektion, '0.5')))) {
                         if (!model.syn.hogerOga.medKorrektion ||
                             !model.syn.vansterOga.medKorrektion ||
                             !model.syn.binokulart.medKorrektion ) {
                                 return true;
                             }
+                    }
+                    return false;
+                }
+
+                function noCorrectionRequired(model) {
+                    if (!model.syn.synskarpaSkickasSeparat && (!model.syn.hogerOga.utanKorrektion || !model.syn.vansterOga.utanKorrektion || !model.syn.binokulart.utanKorrektion)) {
+                        return true;
                     }
                     return false;
                 }
@@ -195,8 +203,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                                     type: 'ue-form-label',
                                     key: 'ts-bas.label.syn.utankorrektion',
                                     required: true,
-                                    requiredMode: 'AND',
-                                    requiredProp: ['syn.hogerOga.utanKorrektion', 'syn.vansterOga.utanKorrektion', 'syn.binokulart.utanKorrektion']
+                                    requiredProp: noCorrectionRequired
                                 },{
                                     type: 'ue-form-label',
                                     key: 'ts-bas.label.syn.medkorrektion',
@@ -214,12 +221,15 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                                     }
                                 },{
                                     type: 'ue-synskarpa',
+                                    disabled: 'model.syn.synskarpaSkickasSeparat',
                                     modelProp: 'syn.hogerOga.utanKorrektion'
                                 },{
                                     type: 'ue-synskarpa',
+                                    disabled: 'model.syn.synskarpaSkickasSeparat',
                                     modelProp: 'syn.hogerOga.medKorrektion'
                                 },{
                                     type: 'ue-checkbox',
+                                    disabled: 'model.syn.synskarpaSkickasSeparat',
                                     modelProp: 'syn.hogerOga.kontaktlins'
                                 }],
                                 // Row 3
@@ -230,12 +240,15 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                                     }
                                 },{
                                     type: 'ue-synskarpa',
+                                    disabled: 'model.syn.synskarpaSkickasSeparat',
                                     modelProp: 'syn.vansterOga.utanKorrektion'
                                 },{
                                     type: 'ue-synskarpa',
+                                    disabled: 'model.syn.synskarpaSkickasSeparat',
                                     modelProp: 'syn.vansterOga.medKorrektion'
                                 },{
                                     type: 'ue-checkbox',
+                                    disabled: 'model.syn.synskarpaSkickasSeparat',
                                     modelProp: 'syn.vansterOga.kontaktlins'
                                 }],
                                 // Row 4
@@ -246,9 +259,11 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                                     }
                                 },{
                                     type: 'ue-synskarpa',
+                                    disabled: 'model.syn.synskarpaSkickasSeparat',
                                     modelProp: 'syn.binokulart.utanKorrektion'
                                 },{
                                     type: 'ue-synskarpa',
+                                    disabled: 'model.syn.synskarpaSkickasSeparat',
                                     modelProp: 'syn.binokulart.medKorrektion'
                                 },{
                                 }]
