@@ -21,6 +21,7 @@ package se.inera.intyg.common.db.v1.model.converter;
 import se.inera.intyg.common.db.model.internal.Undersokning;
 import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
+import se.inera.intyg.common.support.common.enumerations.PatientInfo;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
@@ -61,7 +62,8 @@ public final class TransportToInternal {
         DbUtlatandeV1.Builder utlatande = DbUtlatandeV1.builder();
         utlatande.setId(intyg.getIntygsId().getExtension());
         utlatande.setTextVersion(intyg.getVersion());
-        utlatande.setGrundData(TransportConverterUtil.getGrundData(intyg, true));
+        utlatande.setGrundData(TransportConverterUtil.getGrundData(intyg,
+                PatientInfo.EXTENDED_WITH_ADDRESS_DETAILS_SOURCE));
         utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(intyg.getUnderskrift()));
         setSvar(utlatande, intyg);
         return utlatande.build();

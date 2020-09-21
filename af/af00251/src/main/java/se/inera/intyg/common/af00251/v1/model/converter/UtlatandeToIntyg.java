@@ -62,6 +62,7 @@ import se.inera.intyg.common.af00251.v1.model.internal.BegransningSjukfranvaro;
 import se.inera.intyg.common.af00251.v1.model.internal.PrognosAtergang;
 import se.inera.intyg.common.af00251.v1.model.internal.Sjukfranvaro;
 import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
+import se.inera.intyg.common.support.common.enumerations.PatientInfo;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -76,7 +77,7 @@ public final class UtlatandeToIntyg {
     }
 
     public static Intyg convert(AF00251UtlatandeV1 utlatande) {
-        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, false);
+        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, PatientInfo.BASIC);
         intyg.setTyp(getTypAvIntyg(KvIntygstyp.AF00251));
         intyg.getSvar()
             .addAll(getSvar(utlatande));
