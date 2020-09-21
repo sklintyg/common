@@ -49,10 +49,8 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
 import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder;
@@ -152,24 +150,6 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
         } catch (ConverterException | MarshallingFailureException e) {
             LOG.error("Could not get utlatande from xml: {}", e.getMessage());
             throw new ModuleException("Could not get utlatande from xml", e);
-        }
-    }
-
-    @Override
-    public String updateBeforeViewing(String internalModel, Patient patient) throws ModuleException {
-        try {
-            Utlatande utlatande = this.getInternal(internalModel);
-            String postadress = utlatande.getGrundData().getPatient().getPostadress();
-            String postort = utlatande.getGrundData().getPatient().getPostort();
-            String postnummer = utlatande.getGrundData().getPatient().getPostnummer();
-
-            WebcertModelFactoryUtil.populateWithPatientInfo(utlatande.getGrundData(), patient);
-            utlatande.getGrundData().getPatient().setPostadress(postadress);
-            utlatande.getGrundData().getPatient().setPostort(postort);
-            utlatande.getGrundData().getPatient().setPostnummer(postnummer);
-            return this.toInternalModelResponse(utlatande);
-        } catch (ConverterException | ModuleException var4) {
-            throw new ModuleException("Error while updating internal model", var4);
         }
     }
 
