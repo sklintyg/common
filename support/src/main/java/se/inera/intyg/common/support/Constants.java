@@ -38,6 +38,11 @@ public final class Constants {
     public static final String KV_OMFATTNING_ARBETSMARKNADSPOLITISKT_PROGRAM_CODE_SYSTEM = "1.2.752.129.5.1.2";
     public static final String KV_PROGNOS_ATERGANG_ARBETSMARKNADSPOLITISKT_PROGRAM_CODE_SYSTEM = "1.2.752.129.5.1.3";
     public static final String KV_V3_CODE_SYSTEM_NULLFLAVOR_CODE_SYSTEM = "2.16.840.1.113883.5.1008";
+    public static final String ADDRESS_DETAILS_SOURCE_CODE_SYSTEM = "4ade8de2-effe-41d0-b177-fedc820e69fa";
+    public static final String ADDRESS_DETAILS_SOURCE_PU_CODE = "PU";
+    public static final String ADDRESS_DETAILS_SOURCE_PU_NAME = "Personuppgiftstjänsten";
+    public static final String ADDRESS_DETAILS_SOURCE_USER_CODE = "ANVANDARE";
+    public static final String ADDRESS_DETAILS_SOURCE_USER_NAME = "Person som använder systemet";
 
     private Constants() { }
 }

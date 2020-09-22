@@ -77,6 +77,7 @@ import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
+import se.inera.intyg.common.support.common.enumerations.PatientInfo;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
@@ -97,7 +98,7 @@ public final class TransportToInternal {
     public static LisjpUtlatandeV1 convert(Intyg source) throws ConverterException {
         LisjpUtlatandeV1.Builder utlatande = LisjpUtlatandeV1.builder();
         utlatande.setId(source.getIntygsId().getExtension());
-        utlatande.setGrundData(TransportConverterUtil.getGrundData(source, false));
+        utlatande.setGrundData(TransportConverterUtil.getGrundData(source, PatientInfo.BASIC));
         utlatande.setTextVersion(source.getVersion());
         utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(source.getUnderskrift()));
         setSvar(utlatande, source);

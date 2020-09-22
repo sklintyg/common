@@ -32,6 +32,7 @@ angular.module('common').factory('common.Domain.PatientModel',
             this.postadress = undefined;
             this.postnummer = undefined;
             this.postort = undefined;
+            this.addressDetailsSourcePU = undefined;
             this.samordningsNummer = undefined;
             this.sekretessmarkering = undefined;
             this.avliden = undefined;
@@ -52,6 +53,7 @@ angular.module('common').factory('common.Domain.PatientModel',
             this.postadress = patient.postadress;
             this.postnummer = patient.postnummer;
             this.postort = patient.postort;
+            this.addressDetailsSourcePU = patient.addressDetailsSourcePU;
             this.samordningsNummer = patient.samordningsNummer;
             this.sekretessmarkering = patient.sekretessmarkering;
             this.avliden = patient.avliden;

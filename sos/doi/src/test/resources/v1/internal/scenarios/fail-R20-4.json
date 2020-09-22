@@ -36,7 +36,8 @@
       "postadress": "Segemyhr, Segergatan 1, PL 1234",
       "postnummer": "12345",
       "postort": "Storholm",
-      "personId": "19540187-5769"
+      "personId": "19540187-5769",
+      "addressDetailsSourcePU": false
     },
     "skapadAv": {
       "vardenhet": {

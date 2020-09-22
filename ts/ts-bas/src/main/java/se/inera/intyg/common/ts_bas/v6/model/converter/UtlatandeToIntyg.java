@@ -20,6 +20,7 @@ package se.inera.intyg.common.ts_bas.v6.model.converter;
 
 import com.google.common.base.Strings;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
+import se.inera.intyg.common.support.common.enumerations.PatientInfo;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil.*;
 import se.inera.intyg.common.ts_bas.v6.codes.TsBasKorkortsbehorighetKod;
@@ -50,7 +51,7 @@ public final class UtlatandeToIntyg {
     }
 
     public static Intyg convert(TsBasUtlatandeV6 utlatande) {
-        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, true);
+        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, PatientInfo.EXTENDED);
 
         complementArbetsplatskodIfMissing(intyg);
 
