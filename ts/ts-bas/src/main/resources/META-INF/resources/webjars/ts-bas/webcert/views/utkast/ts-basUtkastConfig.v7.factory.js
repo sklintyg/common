@@ -189,6 +189,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                                 key: 'FRG_8.1.RBK'
                             },
                             modelProp: 'syn.synskarpaSkickasSeparat',
+                            disabled: '(model.syn.hogerOga.utanKorrektion || model.syn.hogerOga.medKorrektion || model.syn.hogerOga.kontaktlins || model.syn.vansterOga.utanKorrektion || model.syn.vansterOga.medKorrektion || model.syn.vansterOga.kontaktlins || model.syn.binokulart.utanKorrektion || model.syn.binokulart.medKorrektion)',
                             paddingBottom: true
                         },{
                             type: 'ue-grid',
