@@ -21,7 +21,6 @@ package se.inera.intyg.common.ts_bas.v7.rest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
@@ -75,7 +74,6 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.ts_bas.v7.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_bas.v7.model.converter.WebcertModelFactoryImpl;
-import se.inera.intyg.common.ts_bas.v7.model.internal.BedomningKorkortstyp;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 import se.inera.intyg.common.ts_bas.v7.utils.Scenario;
 import se.inera.intyg.common.ts_bas.v7.utils.ScenarioFinder;
@@ -383,60 +381,6 @@ public class TsBasModuleApiTest {
 
         verify(revokeCertificateClient, times(1)).revokeMedicalCertificate(any(AttributedURIType.class),
             any(RevokeMedicalCertificateRequestType.class));
-    }
-
-    @Test
-    public void testReadAndWriteOfOldJsonFormatOfBedomningKanInteTaStallning() throws IOException, ModuleException {
-        String originalJson = getResourceAsString(
-            new ClassPathResource("v7/scenarios/internal/ts-bas-bedomning-kan-inte-ta-stallning-old-format.json"));
-        TsBasUtlatandeV7 originalUtlatande = (TsBasUtlatandeV7) moduleApi.getUtlatandeFromJson(originalJson);
-        assertEquals(originalUtlatande.getBedomning().getKorkortstyp().size(), 1);
-        assertTrue(originalUtlatande.getBedomning().getKorkortstyp().contains(BedomningKorkortstyp.KAN_INTE_TA_STALLNING));
-
-        String updatedJson = moduleApi.updateBeforeSave(originalJson, createHosPersonal());
-        TsBasUtlatandeV7 updatedUtlatande = (TsBasUtlatandeV7) moduleApi.getUtlatandeFromJson(updatedJson);
-        assertEquals(updatedUtlatande.getBedomning().getKorkortstyp().size(), 1);
-        assertTrue(updatedUtlatande.getBedomning().getKorkortstyp().contains(BedomningKorkortstyp.KAN_INTE_TA_STALLNING));
-    }
-
-    @Test
-    public void testReadAndWriteOfOldJsonFormatOfBedomningC() throws IOException, ModuleException {
-        String originalJson = getResourceAsString(new ClassPathResource("v7/scenarios/internal/ts-bas-bedomning-c-old-format.json"));
-        TsBasUtlatandeV7 originalUtlatande = (TsBasUtlatandeV7) moduleApi.getUtlatandeFromJson(originalJson);
-        assertEquals(originalUtlatande.getBedomning().getKorkortstyp().size(), 1);
-        assertTrue(originalUtlatande.getBedomning().getKorkortstyp().contains(BedomningKorkortstyp.C));
-
-        String updatedJson = moduleApi.updateBeforeSave(originalJson, createHosPersonal());
-        TsBasUtlatandeV7 updatedUtlatande = (TsBasUtlatandeV7) moduleApi.getUtlatandeFromJson(updatedJson);
-        assertEquals(updatedUtlatande.getBedomning().getKorkortstyp().size(), 1);
-        assertTrue(updatedUtlatande.getBedomning().getKorkortstyp().contains(BedomningKorkortstyp.C));
-    }
-
-    @Test
-    public void testReadAndWriteOfChangedJsonFormatOfBedomningKanInteTaStallning() throws IOException, ModuleException {
-        String originalJson = getResourceAsString(
-            new ClassPathResource("v7/scenarios/internal/ts-bas-bedomning-kan-inte-ta-stallning-changed-format.json"));
-        TsBasUtlatandeV7 originalUtlatande = (TsBasUtlatandeV7) moduleApi.getUtlatandeFromJson(originalJson);
-        assertEquals(originalUtlatande.getBedomning().getKorkortstyp().size(), 1);
-        assertTrue(originalUtlatande.getBedomning().getKorkortstyp().contains(BedomningKorkortstyp.KAN_INTE_TA_STALLNING));
-
-        String updatedJson = moduleApi.updateBeforeSave(originalJson, createHosPersonal());
-        TsBasUtlatandeV7 updatedUtlatande = (TsBasUtlatandeV7) moduleApi.getUtlatandeFromJson(updatedJson);
-        assertEquals(updatedUtlatande.getBedomning().getKorkortstyp().size(), 1);
-        assertTrue(updatedUtlatande.getBedomning().getKorkortstyp().contains(BedomningKorkortstyp.KAN_INTE_TA_STALLNING));
-    }
-
-    @Test
-    public void testReadAndWriteOfChangedJsonFormatOfBedomningC() throws IOException, ModuleException {
-        String originalJson = getResourceAsString(new ClassPathResource("v7/scenarios/internal/ts-bas-bedomning-c-changed-format.json"));
-        TsBasUtlatandeV7 originalUtlatande = (TsBasUtlatandeV7) moduleApi.getUtlatandeFromJson(originalJson);
-        assertEquals(originalUtlatande.getBedomning().getKorkortstyp().size(), 1);
-        assertTrue(originalUtlatande.getBedomning().getKorkortstyp().contains(BedomningKorkortstyp.C));
-
-        String updatedJson = moduleApi.updateBeforeSave(originalJson, createHosPersonal());
-        TsBasUtlatandeV7 updatedUtlatande = (TsBasUtlatandeV7) moduleApi.getUtlatandeFromJson(updatedJson);
-        assertEquals(updatedUtlatande.getBedomning().getKorkortstyp().size(), 1);
-        assertTrue(updatedUtlatande.getBedomning().getKorkortstyp().contains(BedomningKorkortstyp.C));
     }
 
     private CreateNewDraftHolder createNewDraftHolder() {
