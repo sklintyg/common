@@ -550,7 +550,7 @@ public class InternalValidatorInstance {
             if (syn.getHogerOga() != null) {
                 if (syn.getHogerOga().getUtanKorrektion() != null
                     || syn.getHogerOga().getMedKorrektion() != null
-                    || (syn.getHogerOga().getKontaktlins() != null || syn.getHogerOga().getKontaktlins())) {
+                    || (syn.getHogerOga().getKontaktlins() != null && syn.getHogerOga().getKontaktlins())) {
                     ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga",
                         ValidationMessageType.INCORRECT_COMBINATION, "ts-bas.validation.syn.R37");
                 }
@@ -558,7 +558,7 @@ public class InternalValidatorInstance {
             if (syn.getVansterOga() != null) {
                 if (syn.getVansterOga().getUtanKorrektion() != null
                     || syn.getVansterOga().getMedKorrektion() != null
-                    || (syn.getVansterOga().getKontaktlins() != null || syn.getVansterOga().getKontaktlins())) {
+                    || (syn.getVansterOga().getKontaktlins() != null && syn.getVansterOga().getKontaktlins())) {
                     ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga",
                         ValidationMessageType.INCORRECT_COMBINATION, "ts-bas.validation.syn.R37");
                 }

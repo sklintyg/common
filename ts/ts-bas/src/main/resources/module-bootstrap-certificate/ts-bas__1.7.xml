@@ -28,7 +28,7 @@
       <ns3:codeSystem>f6fb361a-e31d-48b8-8657-99b63912dd9b</ns3:codeSystem>
       <ns3:displayName>Transportstyrelsens läkarintyg</ns3:displayName>
     </typ>
-    <version>6.8</version>
+    <version>7.0</version>
     <signeringstidpunkt>2016-08-10T16:03:07</signeringstidpunkt>
     <skickatTidpunkt>2016-08-10T16:03:07</skickatTidpunkt>
     <patient>
