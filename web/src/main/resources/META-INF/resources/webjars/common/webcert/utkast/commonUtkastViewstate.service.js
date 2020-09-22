@@ -30,6 +30,7 @@ angular.module('common').service('common.UtkastViewStateService',
             this.intyg = {
                 isComplete : false,
                 isRevoked: false,
+                certificateId: undefined,
                 type : undefined
             };
             //some drafts will be presented using uv-framwork, and need the "raw" utlatande-json as input.
@@ -76,6 +77,7 @@ angular.module('common').service('common.UtkastViewStateService',
                 this.isSigned = draftModel.isSigned();
                 this.intyg.isComplete = draftModel.isSigned() || draftModel.isDraftComplete();
                 this.intyg.isRevoked = draftModel.isRevoked();
+                this.intyg.certificateId = data.content.id;
 
                 this.validPatientAddressAquiredFromPU = data.validPatientAddressAquiredFromPU;
 
