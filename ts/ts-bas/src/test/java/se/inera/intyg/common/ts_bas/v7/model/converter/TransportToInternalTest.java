@@ -73,7 +73,7 @@ public class TransportToInternalTest {
 
     @Test
     public void testConvert() throws Exception {
-        RegisterCertificateType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel();
+        RegisterCertificateType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
         transportModel.getIntyg().setSkapadAv(buildHosPersonal());
         TsBasUtlatandeV7 res = TransportToInternal.convert(transportModel.getIntyg());
         assertEquals(LocalDateTime.of(2013, 8, 12, 15, 57, 0), res.getGrundData().getSigneringsdatum());
@@ -99,7 +99,7 @@ public class TransportToInternalTest {
         final Specialistkompetens specialistkompetens = new Specialistkompetens();
         specialistkompetens.setCode("kod");
         specialistkompetens.setDisplayName("Hörselrubbningar");
-        RegisterCertificateType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel();
+        RegisterCertificateType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
         transportModel.getIntyg().getSkapadAv().getSpecialistkompetens().clear();
         transportModel.getIntyg().getSkapadAv().getSpecialistkompetens().add(specialistkompetens);
         TsBasUtlatandeV7 res = TransportToInternal.convert(transportModel.getIntyg());
@@ -113,7 +113,7 @@ public class TransportToInternalTest {
         final Befattning befattning = new Befattning();
         befattning.setCode("203010");
         befattning.setDisplayName("Läkare legitimerad, specialiseringstjänstgöring");
-        RegisterCertificateType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel();
+        RegisterCertificateType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
         transportModel.getIntyg().getSkapadAv().getBefattning().clear();
         transportModel.getIntyg().getSkapadAv().getBefattning().add(befattning);
         TsBasUtlatandeV7 res = TransportToInternal.convert(transportModel.getIntyg());
@@ -126,7 +126,7 @@ public class TransportToInternalTest {
     public void testConvertKeepBefattningCodeIfDescriptionNotFound() throws ScenarioNotFoundException, ConverterException {
         final Befattning befattning = new Befattning();
         befattning.setCode("kod");
-        RegisterCertificateType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel();
+        RegisterCertificateType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
         transportModel.getIntyg().getSkapadAv().getBefattning().clear();
         transportModel.getIntyg().getSkapadAv().getBefattning().add(befattning);
         TsBasUtlatandeV7 res = TransportToInternal.convert(transportModel.getIntyg());

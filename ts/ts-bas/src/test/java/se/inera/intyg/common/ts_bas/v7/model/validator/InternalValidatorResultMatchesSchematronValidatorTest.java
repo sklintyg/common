@@ -127,7 +127,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
 
         ValidateDraftResponse internalValidationResponse = internalValidator.validate(utlatandeFromJson);
 
-        RegisterCertificateType intyg = scenario.asRivtaV3TransportModel();
+        RegisterCertificateType intyg = scenario.asTransportModel();
         String convertedXML = getXmlFromIntyg(intyg);
 
         RegisterCertificateValidator validator = new RegisterCertificateValidator(TsBasEntryPoint.SCHEMATRON_FILE);

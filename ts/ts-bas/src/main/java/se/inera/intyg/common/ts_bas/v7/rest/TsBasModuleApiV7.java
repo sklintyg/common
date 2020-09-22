@@ -20,8 +20,6 @@ package se.inera.intyg.common.ts_bas.v7.rest;
 
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS;
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
-import static se.inera.intyg.common.support.modules.transformer.XslTransformerUtil.isRegisterCertificateV3;
-import static se.inera.intyg.common.support.modules.transformer.XslTransformerUtil.isRegisterTsBas;
 
 import java.io.StringReader;
 import java.util.Arrays;
@@ -64,7 +62,6 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.InternalToTransport;
 import se.inera.intyg.common.ts_bas.v7.model.converter.TransportToInternal;
 import se.inera.intyg.common.ts_bas.v7.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
-import se.inera.intyg.common.ts_bas.v7.model.transformer.TsBasTransformerType;
 import se.inera.intyg.common.ts_bas.v7.pdf.PdfGenerator;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.ts_parent.integration.SendTSClientFactory;
@@ -125,8 +122,7 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
     @Override
     public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException {
         try {
-            String transformedPayload = transformPayload(xmlBody);
-            SOAPMessage response = sendTsBasClient.registerCertificate(transformedPayload, logicalAddress);
+            SOAPMessage response = sendTsBasClient.registerCertificate(xmlBody, logicalAddress);
             SOAPEnvelope contents = response.getSOAPPart().getEnvelope();
             if (contents.getBody().hasFault()) {
                 throw new ExternalServiceCallException(contents.getBody().getFault().getTextContent());
@@ -140,12 +136,7 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
     @Override
     public TsBasUtlatandeV7 getUtlatandeFromXml(String xmlBody) throws ModuleException {
         try {
-            String xml = xmlBody;
-            if (isRegisterTsBas(xml)) {
-                xml = TsBasTransformerType.TRANSPORT_TO_V3.getTransformer().transform(xml);
-            }
-
-            JAXBElement<RegisterCertificateType> el = XmlMarshallerHelper.unmarshal(xml);
+            JAXBElement<RegisterCertificateType> el = XmlMarshallerHelper.unmarshal(xmlBody);
             return transportToInternal(el.getValue().getIntyg());
         } catch (ConverterException | MarshallingFailureException e) {
             LOG.error("Could not get utlatande from xml: {}", e.getMessage());
@@ -171,38 +162,6 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
     @Override
     protected TsBasUtlatandeV7 transportToInternal(Intyg intyg) throws ConverterException {
         return TransportToInternal.convert(intyg);
-    }
-
-    String transformPayload(String xmlBody) throws ModuleException {
-        // Ta reda på om innehållet är på formatet
-        // 'RegisterTsBas' eller 'RegisterCertificate V3'
-        if (isRegisterTsBas(xmlBody)) {
-            if (shouldTransformToV1()) {
-                return TsBasTransformerType.TRANSPORT_TO_V1.getTransformer().transform(xmlBody);
-            } else if (shouldTransformToV3()) {
-                return TsBasTransformerType.TRANSPORT_TO_V3.getTransformer().transform(xmlBody);
-            } else {
-                String msg = String.format("Error in sendCertificateToRecipient. Cannot decide type of transformer."
-                    + "Property registercertificate.version = '%s'", registerCertificateVersion);
-                throw new ModuleException(msg);
-            }
-        } else if (isRegisterCertificateV3(xmlBody)) {
-            if (shouldTransformToV1()) {
-                // Here we need to transform from V3 to V1
-                return TsBasTransformerType.V3_TO_V1.getTransformer().transform(xmlBody);
-            }
-        }
-
-        // Input is already at V3 format and doesn't, we don't need to transform
-        return xmlBody;
-    }
-
-    private boolean shouldTransformToV1() {
-        return registerCertificateVersion != null && registerCertificateVersion.equals(REGISTER_CERTIFICATE_VERSION1);
-    }
-
-    private boolean shouldTransformToV3() {
-        return registerCertificateVersion != null && registerCertificateVersion.equals(REGISTER_CERTIFICATE_VERSION3);
     }
 
     @Override

@@ -19,7 +19,6 @@
 package se.inera.intyg.common.ts_bas.v7.utils;
 
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
-import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 /**
@@ -47,24 +46,7 @@ public interface Scenario {
      * @return The scenario as a transport model.
      * @throws ScenarioNotFoundException if the scenario wasn't found.
      */
-    RegisterTSBasType asTransportModel() throws ScenarioNotFoundException;
-
-    /**
-     * Returns the scenario as a rivta v3 transport model.
-     *
-     * @return The scenario as a rivta v3 transport model.
-     * @throws ScenarioNotFoundException if the scenario wasn't found.
-     */
-    RegisterCertificateType asRivtaV3TransportModel() throws ScenarioNotFoundException;
-
-    /**
-     * Returns the scenario as a transformed transport model.
-     *
-     * @return The scenario as a transformed transport model.
-     * @throws ScenarioNotFoundException if the scenario wasn't found.
-     */
-    se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType asRivtaV1TransportModel()
-        throws ScenarioNotFoundException;
+    RegisterCertificateType asTransportModel() throws ScenarioNotFoundException;
 
     /**
      * Returns the scenario as a internal Mina Intyg model.

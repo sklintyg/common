@@ -31,7 +31,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.ts_parent.rest.TsParentModuleApi.REGISTER_CERTIFICATE_VERSION1;
-import static se.inera.intyg.common.ts_parent.rest.TsParentModuleApi.REGISTER_CERTIFICATE_VERSION3;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
@@ -45,7 +44,6 @@ import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -74,7 +72,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHold
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
-import se.inera.intyg.common.support.modules.transformer.XslTransformerUtil;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.ts_bas.v7.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_bas.v7.model.converter.WebcertModelFactoryImpl;
@@ -85,7 +82,6 @@ import se.inera.intyg.common.ts_bas.v7.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
-import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -100,7 +96,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 @ContextConfiguration(classes = {BefattningService.class})
 public class TsBasModuleApiTest {
 
-    private static final String INTYG_TYPE_VERSION_6_8 = "6.8";
+    private static final String INTYG_TYPE_VERSION_7_0 = "7.0";
     @InjectMocks
     @Spy
     private final TsBasModuleApiV7 moduleApi = new TsBasModuleApiV7();
@@ -153,51 +149,10 @@ public class TsBasModuleApiTest {
     }
 
     @Test
-    public void testXmlPayloadIsRegisterTsBas() throws Exception {
-        // We don't test the actual transformation, only the logic within
-        // the transformaPayload method
-        final String xmlBody = getResourceAsString(new ClassPathResource("v7/scenarios/transport/valid-minimal.xml"));
-        boolean result = XslTransformerUtil.isRegisterTsBas(xmlBody);
-        assertTrue(result);
-    }
-
-    @Test
-    public void testTransformPayload_TransportToV1() throws Exception {
-        // We don't test the actual transformation, only the logic within
-        // the transformaPayload method
-        final String xmlBody = getResourceAsString(new ClassPathResource("v7/scenarios/transport/valid-minimal.xml"));
-
-        moduleApi.transformPayload(xmlBody);
-    }
-
-    @Test
-    public void testTransformPayload_TransportToV3() throws Exception {
-        setRegisterCertificateVersion(REGISTER_CERTIFICATE_VERSION3);
-
-        // We don't test the actual transformation, only the logic within
-        // the transformaPayload method
-        final String xmlBody = getResourceAsString(new ClassPathResource("v7/scenarios/transport/valid-minimal.xml"));
-
-        moduleApi.transformPayload(xmlBody);
-    }
-
-    @Test
-    public void testTransformPayload_V3ToV1() throws Exception {
-        // We don't test the actual transformation, only the logic within
-        // the transformaPayload method
-        final String xmlBody = getResourceAsString(new ClassPathResource("v7/scenarios/rivtav3/valid-minimal.xml"));
-
-        moduleApi.transformPayload(xmlBody);
-    }
-
-    @Test
     public void testSendCertificateToRecipient() throws Exception {
         final String xmlBody = "xmlBody";
         final String logicalAddress = "logicalAddress";
         final String recipientId = "recipient";
-        final String transformedXml = "transformedXml";
-
-        doReturn(transformedXml).when(moduleApi).transformPayload(xmlBody);
 
         SOAPMessage response = mock(SOAPMessage.class);
         when(response.getSOAPPart()).thenReturn(mock(SOAPPart.class));
@@ -205,12 +160,11 @@ public class TsBasModuleApiTest {
         when(response.getSOAPPart().getEnvelope().getBody()).thenReturn(mock(SOAPBody.class));
         when(response.getSOAPPart().getEnvelope().getBody().hasFault()).thenReturn(false);
 
-        when(sendTsBasClient.registerCertificate(transformedXml, logicalAddress)).thenReturn(response);
+        when(sendTsBasClient.registerCertificate(xmlBody, logicalAddress)).thenReturn(response);
 
         moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId);
 
-        verify(moduleApi).transformPayload(xmlBody);
-        verify(sendTsBasClient).registerCertificate(transformedXml, logicalAddress);
+        verify(sendTsBasClient).registerCertificate(xmlBody, logicalAddress);
     }
 
     @Test(expected = ModuleException.class)
@@ -218,32 +172,21 @@ public class TsBasModuleApiTest {
         final String xmlBody = "xmlBody";
         final String logicalAddress = "logicalAddress";
         final String recipientId = "recipient";
-        final String transformedXml = "transformedXml";
-
-        when(moduleApi.transformPayload(xmlBody)).thenReturn(transformedXml);
 
         SOAPMessage response = mock(SOAPMessage.class);
         when(response.getSOAPPart()).thenReturn(mock(SOAPPart.class));
         when(response.getSOAPPart().getEnvelope()).thenReturn(mock(SOAPEnvelope.class));
         when(response.getSOAPPart().getEnvelope().getBody()).thenReturn(mock(SOAPBody.class));
         when(response.getSOAPPart().getEnvelope().getBody().hasFault()).thenReturn(true);
-        when(sendTsBasClient.registerCertificate(transformedXml, logicalAddress)).thenReturn(response);
+        when(sendTsBasClient.registerCertificate(xmlBody, logicalAddress)).thenReturn(response);
 
         moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId);
     }
 
     @Test
     public void testGetUtlatandeWhenXmlIsInTransportFormat() throws Exception {
-        final String originalXml = xmlToString(ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel());
+        final String xml = getResourceAsString(new ClassPathResource("v7/scenarios/rivtav3/valid-minimal.xml"));
 
-        TsBasUtlatandeV7 res = moduleApi.getUtlatandeFromXml(originalXml);
-        assertNotNull(res);
-    }
-
-    @Test
-    @Ignore
-    public void testGetUtlatandeWhenXmlIsInV3Format() throws Exception {
-        String xml = xmlToString(ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel());
         TsBasUtlatandeV7 res = moduleApi.getUtlatandeFromXml(xml);
         assertNotNull(res);
     }
@@ -502,7 +445,7 @@ public class TsBasModuleApiTest {
         patient.setFornamn("Kalle");
         patient.setEfternamn("Kula");
         patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-        return new CreateNewDraftHolder("Id1", INTYG_TYPE_VERSION_6_8, hosPersonal, patient);
+        return new CreateNewDraftHolder("Id1", INTYG_TYPE_VERSION_7_0, hosPersonal, patient);
     }
 
     private CreateDraftCopyHolder createNewDraftCopyHolder() {
@@ -533,12 +476,6 @@ public class TsBasModuleApiTest {
 
     private void setRegisterCertificateVersion(String version) {
         ReflectionTestUtils.setField(moduleApi, "registerCertificateVersion", version);
-    }
-
-    private String xmlToString(RegisterTSBasType registerCertificateType) {
-        StringWriter stringWriter = new StringWriter();
-        JAXB.marshal(registerCertificateType, stringWriter);
-        return stringWriter.toString();
     }
 
     private String xmlToString(RegisterCertificateType registerCertificateType) {

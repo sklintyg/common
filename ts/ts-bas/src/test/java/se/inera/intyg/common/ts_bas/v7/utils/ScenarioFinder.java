@@ -29,7 +29,6 @@ import org.springframework.core.io.Resource;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
-import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 /**
@@ -40,11 +39,7 @@ public final class ScenarioFinder {
     private ScenarioFinder() {
     }
 
-    private static final String TRANSPORT_MODEL_PATH = "classpath:/v7/scenarios/transport/";
-
     private static final String RIVTA_V3_TRANSPORT_MODEL_PATH = "classpath:/v7/scenarios/rivtav3/";
-
-    private static final String RIVTA_V1_TRANSPORT_MODEL_PATH = "classpath:/v7/scenarios/rivtav1/";
 
     private static final String INTERNAL_MODEL_PATH = "classpath:/v7/scenarios/internal/";
 
@@ -60,7 +55,7 @@ public final class ScenarioFinder {
      * @throws ScenarioNotFoundException If no scenarios could be found.
      */
     public static List<Scenario> getTransportScenarios(String scenarioWithWildcards) throws ScenarioNotFoundException {
-        return getScenarios(scenarioWithWildcards + TRANSPORT_MODEL_EXT, TRANSPORT_MODEL_PATH, "transport");
+        return getScenarios(scenarioWithWildcards + TRANSPORT_MODEL_EXT, RIVTA_V3_TRANSPORT_MODEL_PATH, "transport");
     }
 
     /**
@@ -102,7 +97,7 @@ public final class ScenarioFinder {
      * @throws ScenarioNotFoundException If no scenario could be found.
      */
     public static Scenario getTransportScenario(String filename) throws ScenarioNotFoundException {
-        return getScenario(filename + TRANSPORT_MODEL_EXT, TRANSPORT_MODEL_PATH, "transport");
+        return getScenario(filename + TRANSPORT_MODEL_EXT, RIVTA_V3_TRANSPORT_MODEL_PATH, "transport");
     }
 
     /**
@@ -154,42 +149,13 @@ public final class ScenarioFinder {
          * {@inheritDoc}
          */
         @Override
-        public RegisterTSBasType asTransportModel() throws ScenarioNotFoundException {
-            try {
-                JAXBElement<RegisterTSBasType> el = XmlMarshallerHelper.unmarshal(
-                    getTransportModelFor(getName(), TRANSPORT_MODEL_PATH));
-                return el.getValue();
-            } catch (IOException e) {
-                throw new ScenarioNotFoundException(getName(), "transport", e);
-            }
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public RegisterCertificateType asRivtaV3TransportModel() throws ScenarioNotFoundException {
+        public RegisterCertificateType asTransportModel() throws ScenarioNotFoundException {
             try {
                 JAXBElement<RegisterCertificateType> el = XmlMarshallerHelper.unmarshal(
                     getTransportModelFor(getName(), RIVTA_V3_TRANSPORT_MODEL_PATH));
                 return el.getValue();
             } catch (IOException e) {
-                throw new ScenarioNotFoundException(getName(), "rivta v3 transport", e);
-            }
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType asRivtaV1TransportModel()
-            throws ScenarioNotFoundException {
-            try {
-                JAXBElement<se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType> el =
-                    XmlMarshallerHelper.unmarshal(getTransportModelFor(getName(), RIVTA_V1_TRANSPORT_MODEL_PATH));
-                return el.getValue();
-            } catch (IOException e) {
-                throw new ScenarioNotFoundException(getName(), "transformed transport", e);
+                throw new ScenarioNotFoundException(getName(), "transport", e);
             }
         }
 

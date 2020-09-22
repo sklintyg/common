@@ -28,7 +28,7 @@
             <ns3:codeSystem>f6fb361a-e31d-48b8-8657-99b63912dd9b</ns3:codeSystem>
             <ns3:displayName>Transportstyrelsens läkarintyg</ns3:displayName>
         </typ>
-        <version>6.7</version>
+        <version>7.0</version>
         <signeringstidpunkt>2013-08-12T15:57:00</signeringstidpunkt>
         <skickatTidpunkt>2013-08-12T15:57:00</skickatTidpunkt>
         <patient>
@@ -106,11 +106,12 @@
             <delsvar id="7.1">false</delsvar>
         </svar>
         <svar id="8">
-            <delsvar id="8.1">0.0</delsvar>
-            <delsvar id="8.2">0.8</delsvar>
+            <delsvar id="8.1">false</delsvar>
+            <delsvar id="8.2">0.0</delsvar>
             <delsvar id="8.3">0.8</delsvar>
-            <delsvar id="8.7">false</delsvar>
+            <delsvar id="8.4">0.8</delsvar>
             <delsvar id="8.8">false</delsvar>
+            <delsvar id="8.9">false</delsvar>
         </svar>
         <svar id="10">
             <delsvar id="10.1">false</delsvar>

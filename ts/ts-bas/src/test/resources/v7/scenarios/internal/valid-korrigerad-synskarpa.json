@@ -1,7 +1,7 @@
 {
     "id": "987654321",
     "typ": "ts-bas",
-    "textVersion": "6.7",
+    "textVersion": "7.0",
     "grundData": {
         "signeringsdatum": "2013-08-12T15:57:00.000",
         "skapadAv": {
@@ -54,6 +54,7 @@
         "progressivOgonsjukdom" : false,
         "diplopi" : false,
         "nystagmus" : false,
+        "synskarpaSkickasSeparat" : false,
         "hogerOga" : {
         	"utanKorrektion" : 0.0,
           	"medKorrektion" : 0.0,

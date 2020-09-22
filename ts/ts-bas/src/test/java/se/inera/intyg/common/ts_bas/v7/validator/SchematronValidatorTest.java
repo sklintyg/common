@@ -85,12 +85,6 @@ public class SchematronValidatorTest {
     }
 
     @Test
-    public void validVersion0608XmlPassesTest() throws Exception {
-        String inputXml = Resources.toString(getResource("v7/scenarios/rivtav3/valid-version0608.xml"), Charsets.UTF_8);
-        doTest(inputXml);
-    }
-
-    @Test
     public void validR34PassesTest() throws Exception {
         String inputXml = Resources.toString(getResource("v7/scenarios/rivtav3/valid-rule34.xml"), Charsets.UTF_8);
         doTest(inputXml);

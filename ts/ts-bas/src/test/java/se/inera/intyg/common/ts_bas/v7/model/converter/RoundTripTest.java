@@ -82,7 +82,7 @@ public class RoundTripTest {
         Marshaller marshaller = jaxbContext.createMarshaller();
         StringWriter expected = new StringWriter();
         StringWriter actual = new StringWriter();
-        marshaller.marshal(wrapJaxb(scenario.asRivtaV3TransportModel()), expected);
+        marshaller.marshal(wrapJaxb(scenario.asTransportModel()), expected);
         marshaller.marshal(wrapJaxb(transport), actual);
 
         Diff diff = DiffBuilder
@@ -107,7 +107,7 @@ public class RoundTripTest {
     @Test
     public void testRoundTripTransportFirst() throws Exception {
         CustomObjectMapper objectMapper = new CustomObjectMapper();
-        TsBasUtlatandeV7 internal = TransportToInternal.convert(scenario.asRivtaV3TransportModel().getIntyg());
+        TsBasUtlatandeV7 internal = TransportToInternal.convert(scenario.asTransportModel().getIntyg());
 
         JsonNode tree = objectMapper.valueToTree(internal);
         JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
@@ -117,7 +117,7 @@ public class RoundTripTest {
         Marshaller marshaller = jaxbContext.createMarshaller();
         StringWriter expected = new StringWriter();
         StringWriter actual = new StringWriter();
-        marshaller.marshal(wrapJaxb(scenario.asRivtaV3TransportModel()), expected);
+        marshaller.marshal(wrapJaxb(scenario.asTransportModel()), expected);
         marshaller.marshal(wrapJaxb(InternalToTransport.convert(internal)), actual);
 
         Diff diff = DiffBuilder

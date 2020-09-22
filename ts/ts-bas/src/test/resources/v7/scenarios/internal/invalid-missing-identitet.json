@@ -53,6 +53,7 @@
         "progressivOgonsjukdom" : false,
         "diplopi" : false,
         "nystagmus" : false,
+        "synskarpaSkickasSeparat" : false,
         "hogerOga" : {
         	"utanKorrektion" : 1.0,
         	"kontaktlins" : false

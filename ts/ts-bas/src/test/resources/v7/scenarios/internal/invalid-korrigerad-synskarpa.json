@@ -54,6 +54,7 @@
         "progressivOgonsjukdom" : false,
         "diplopi" : false,
         "nystagmus" : false,
+        "synskarpaSkickasSeparat" : false,
         "hogerOga" : {
         	"utanKorrektion" : 0.0,
           	"medKorrektion" : 0.0,
