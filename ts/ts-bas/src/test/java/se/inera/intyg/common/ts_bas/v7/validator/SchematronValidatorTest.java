@@ -91,6 +91,12 @@ public class SchematronValidatorTest {
     }
 
     @Test
+    public void validSynskarpaSkickasSeparatTest() throws Exception {
+        String inputXml = Resources.toString(getResource("v7/scenarios/rivtav3/valid-synskarpa-skickas-separat.xml"), Charsets.UTF_8);
+        doTest(inputXml);
+    }
+
+    @Test
     public void invalidMinimalTestFails() throws Exception {
         String inputXml = Resources.toString(getResource("v7/scenarios/rivtav3/fail-minimal.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
@@ -118,6 +124,19 @@ public class SchematronValidatorTest {
         assertEquals(response.getValidationErrors().stream().collect(Collectors.joining(", ")), 1, response.getValidationErrors().size());
     }
 
+    @Test
+    public void invalidSynskarpaSkickasSeparatTestFails() throws Exception {
+        String inputXml = Resources.toString(getResource("v7/scenarios/rivtav3/fail-synskarpa-skickas-separat.xml"), Charsets.UTF_8);
+        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+        assertEquals(response.getValidationErrors().stream().collect(Collectors.joining(", ")), 1, response.getValidationErrors().size());
+    }
+
+    @Test
+    public void invalidR37TestFails() throws Exception {
+        String inputXml = Resources.toString(getResource("v7/scenarios/rivtav3/invalid-rule37.xml"), Charsets.UTF_8);
+        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+        assertEquals(response.getValidationErrors().stream().collect(Collectors.joining(", ")), 1, response.getValidationErrors().size());
+    }
 
     private void doTest(String inputXml) throws ModuleException {
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
