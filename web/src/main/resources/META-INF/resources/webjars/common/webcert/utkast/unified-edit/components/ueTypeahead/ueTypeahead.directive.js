@@ -36,9 +36,20 @@ angular.module('common').directive('ueTypeahead', [ '$http', '$log', 'ueUtil',
                 $scope.values = [];
                 $http.get($scope.config.valuesUrl).then(function(response) {
                     $scope.values = response.data;
+                    if($scope.config.orderByBeginning) {
+                      $scope.values.sort();
+                    }
                 }, function(response) {
                     $log.error('failed to load typeahead values. Error ' + response.status);
                 });
+
+                $scope.orderBy = function(viewValue) {
+                    if($scope.config.orderByBeginning) {
+                        return function(element) {
+                            return element.substr(0, viewValue.length).toLowerCase() !== viewValue.toLowerCase();
+                        };
+                    }
+                };
 
             }
         };

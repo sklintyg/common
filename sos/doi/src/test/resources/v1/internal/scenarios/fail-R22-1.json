@@ -35,7 +35,8 @@
       "postort": "Småmåla",
       "sekretessmarkering": false,
       "avliden": false,
-      "samordningsNummer": false
+      "samordningsNummer": false,
+      "addressDetailsSourcePU": false
     },
     "skapadAv": {
       "personId": "TSTNMT2321000156-1079",

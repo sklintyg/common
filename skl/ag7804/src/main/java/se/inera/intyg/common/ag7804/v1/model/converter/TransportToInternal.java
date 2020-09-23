@@ -79,6 +79,7 @@ import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning.SjukskrivningsG
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.agparent.model.internal.Diagnos;
+import se.inera.intyg.common.support.common.enumerations.PatientInfo;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -96,7 +97,7 @@ public final class TransportToInternal {
     public static Ag7804UtlatandeV1 convert(Intyg source) throws ConverterException {
         Ag7804UtlatandeV1.Builder utlatande = Ag7804UtlatandeV1.builder();
         utlatande.setId(source.getIntygsId().getExtension());
-        utlatande.setGrundData(TransportConverterUtil.getGrundData(source, false));
+        utlatande.setGrundData(TransportConverterUtil.getGrundData(source, PatientInfo.BASIC));
         utlatande.setTextVersion(source.getVersion());
         utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(source.getUnderskrift()));
         setSvar(utlatande, source);

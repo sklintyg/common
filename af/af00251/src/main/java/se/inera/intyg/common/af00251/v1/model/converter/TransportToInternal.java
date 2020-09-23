@@ -55,6 +55,7 @@ import se.inera.intyg.common.af00251.v1.model.internal.ArbetsmarknadspolitisktPr
 import se.inera.intyg.common.af00251.v1.model.internal.BegransningSjukfranvaro;
 import se.inera.intyg.common.af00251.v1.model.internal.PrognosAtergang;
 import se.inera.intyg.common.af00251.v1.model.internal.Sjukfranvaro;
+import se.inera.intyg.common.support.common.enumerations.PatientInfo;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -73,7 +74,7 @@ public final class TransportToInternal {
         AF00251UtlatandeV1.Builder utlatande = AF00251UtlatandeV1.builder();
         utlatande.setId(source.getIntygsId()
             .getExtension());
-        utlatande.setGrundData(TransportConverterUtil.getGrundData(source, false));
+        utlatande.setGrundData(TransportConverterUtil.getGrundData(source, PatientInfo.BASIC));
         utlatande.setTextVersion(source.getVersion());
         utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(source.getUnderskrift()));
         setSvar(utlatande, source);

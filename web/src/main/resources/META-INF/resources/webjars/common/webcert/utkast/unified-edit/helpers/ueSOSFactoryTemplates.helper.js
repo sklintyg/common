@@ -119,6 +119,7 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                             type: 'ue-typeahead',
                             htmlMaxlength: 100,
                             valuesUrl: '/api/config/kommuner',
+                            orderByBeginning: true,
                             label: {
                                 key: 'DFR_3.1.RBK',
                                 helpKey: 'DFR_3.1.HLP',

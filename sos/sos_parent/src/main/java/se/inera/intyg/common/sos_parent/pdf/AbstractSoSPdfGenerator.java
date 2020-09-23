@@ -18,6 +18,10 @@
  */
 package se.inera.intyg.common.sos_parent.pdf;
 
+import com.itextpdf.text.pdf.PdfArray;
+import com.itextpdf.text.pdf.PdfDictionary;
+import com.itextpdf.text.pdf.PdfName;
+import com.itextpdf.text.pdf.PdfNumber;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -162,6 +166,33 @@ public abstract class AbstractSoSPdfGenerator {
         } catch (IOException | DocumentException e) {
             throw new IllegalArgumentException("Could not check checkboxfield '" + fieldId + "'", e);
         }
+    }
+
+    // Adjusts the position of the upper edge (array index 3) of a form field (InternalDate parameter)
+    protected void adjustAndFill(String fieldId, InternalDate date, double adjustment) {
+        if (date != null) {
+            PdfArray fieldCoordinates = getFieldCoordinates(fieldId);
+            //noinspection CheckStyle
+            fieldCoordinates.set(3, new PdfNumber(fieldCoordinates.getAsNumber(3).doubleValue() - adjustment));
+            fillText(fieldId, date);
+        }
+    }
+
+    // Adjusts the position of the upper edge (array index 3) of a form field (String parameter)
+    protected void adjustAndFill(String fieldId, String value, double adjustment) {
+        if (value != null) {
+            PdfArray fieldCoordinates = getFieldCoordinates(fieldId);
+            //noinspection CheckStyle
+            fieldCoordinates.set(3, new PdfNumber(fieldCoordinates.getAsNumber(3).doubleValue() - adjustment));
+            fillText(fieldId, value);
+        }
+    }
+
+    // Returns array holding the coordinates of the specified form field
+    protected PdfArray getFieldCoordinates(String fieldId) {
+        AcroFields.Item field = fields.getFieldItem(fieldId);
+        PdfDictionary pdfDictionary = field.getWidget(0);
+        return pdfDictionary.getAsArray(PdfName.RECT);
     }
 
     // Mark this document as a copy of an electronically signed document

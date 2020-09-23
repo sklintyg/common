@@ -45,6 +45,8 @@ public class Patient {
 
     private String postort;
 
+    private boolean addressDetailsSourcePU;
+
     private boolean sekretessmarkering;
 
     private boolean avliden;
@@ -68,6 +70,7 @@ public class Patient {
             && Objects.equals(this.postadress, that.postadress)
             && Objects.equals(this.postnummer, that.postnummer)
             && Objects.equals(this.postort, that.postort)
+            && Objects.equals(this.addressDetailsSourcePU, that.addressDetailsSourcePU)
             && Objects.equals(this.sekretessmarkering, that.sekretessmarkering)
             && Objects.equals(this.avliden, that.avliden)
             && Objects.equals(this.testIndicator, that.testIndicator);
@@ -76,7 +79,8 @@ public class Patient {
     @Override
     public int hashCode() {
         return Objects.hash(this.personId, this.fullstandigtNamn, this.fornamn, this.mellannamn, this.efternamn,
-            this.postadress, this.postnummer, this.postort, this.sekretessmarkering, this.avliden, this.testIndicator);
+                this.postadress, this.postnummer, this.postort, this.addressDetailsSourcePU, this.sekretessmarkering,
+                this.avliden, this.testIndicator);
     }
 
     public boolean isSamordningsNummer() {
@@ -155,6 +159,14 @@ public class Patient {
 
     public void setPostort(String postort) {
         this.postort = postort;
+    }
+
+    public boolean isAddressDetailsSourcePU() {
+        return addressDetailsSourcePU;
+    }
+
+    public void setAddressDetailsSourcePU(boolean addressDetailsSourcePU) {
+        this.addressDetailsSourcePU = addressDetailsSourcePU;
     }
 
     public boolean isSekretessmarkering() {

@@ -55,6 +55,7 @@ import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
 import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
+import se.inera.intyg.common.support.common.enumerations.PatientInfo;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
@@ -67,7 +68,7 @@ public final class UtlatandeToIntyg {
     }
 
     public static Intyg convert(LuaefsUtlatandeV1 utlatande, WebcertModuleService webcertModuleService) {
-        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, false);
+        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, PatientInfo.BASIC);
         intyg.setTyp(getTypAvIntyg(KvIntygstyp.LUAE_FS));
         intyg.getSvar().addAll(getSvar(utlatande, webcertModuleService));
         intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));

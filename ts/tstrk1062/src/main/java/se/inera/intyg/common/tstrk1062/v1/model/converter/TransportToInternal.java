@@ -59,6 +59,7 @@ import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Consta
 import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.SYMPTOM_PROGNOS_SVAR_ID;
 import static se.inera.intyg.common.tstrk1062.v1.model.internal.PrognosTillstand.PrognosTillstandTyp;
 
+import se.inera.intyg.common.support.common.enumerations.PatientInfo;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
@@ -94,7 +95,7 @@ public final class TransportToInternal {
         utlatande.setId(source.getIntygsId().getExtension());
         utlatande.setTextVersion(source.getVersion());
 
-        final GrundData grundData = TransportConverterUtil.getGrundData(source, false);
+        final GrundData grundData = TransportConverterUtil.getGrundData(source, PatientInfo.BASIC);
         utlatande.setGrundData(grundData);
 
         final String signature = TransportConverterUtil.signatureTypeToBase64(source.getUnderskrift());

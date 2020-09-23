@@ -43,7 +43,7 @@ import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
  */
 public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
 
-    public static final String DEFAULT_PDF_TEMPLATE = "pdf/blankett-dodsorsaksintyg-sosfs201419.pdf";
+    public static final String DEFAULT_PDF_TEMPLATE = "pdf/Blankett-Dodsorsaksintyg-2018-54.pdf";
 
     /*
      * Acrofield names and values (extracted from pdf template file using util class
@@ -52,123 +52,134 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
      * Maybe in the future, the issuer of the template (Socialstyrelsen) will provide a more programmer-friendly
      * version where values/names are more logical. But for now - this is what we have to work with.
      */
+
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_ERSATTER_TIDIGARE_UTFARDAT_INTYG = "Ersätter tidigare";
+    // Type TEXT
+    private static final String FIELD_PERSONNUMMER = "Personnummer";
     // Type TEXT
     private static final String FIELD_EFTERNAMN = "Efternamn";
-
-    // Type TEXT
-    private static final String FIELD_BOSTADSADRESS = "Bostadsadress";
-
-    // Type TEXT
-    private static final String FIELD_TJANSTESTALLE = "Tjänsteställe";
-
-    // Type TEXT
-    private static final String FIELD_POSTORT_2 = "Postort_2";
-
-    // Type RADIOBUTTON - values [dödfött,avlidet inom 28]
-    private static final String FIELD_BARN_SOM_AVLIDIT = "Barn som avlidit";
-
-    // Type TEXT
-    private static final String FIELD_LAND_OM_EJ_STADIGVARANDE_BOSATT_I_SVERIGE = "Land om ej stadigvarande bosatt i Sverige";
-
-    // Type TEXT
-    private static final String FIELD_POSTNUMMER = "Postnummer";
-
-    // Type TEXT
-    private static final String FIELD_UTDELNINGSADRESS = "Utdelningsadress";
-
-    // Type TEXT
-    private static final String FIELD_ORT_OCH_DATUM = "Ort och datum";
-
-    // Type TEXT
-    private static final String FIELD_OPERATIONSDATUM_AR_MAN_DAG = "Operationsdatum år mån dag";
-
-    // Type TEXT
-    private static final String FIELD_TILLSTAND_SOM_FORANLEDDE_INGREPPET = "Tillstånd som föranledde ingreppet";
-
-    // Type CHECKBOX - values [Ja]
-    private static final String FIELD_RATTSMEDICINSK_OBDUKTION = "Rättsmedicinsk obduktion";
-
-    // Type TEXT
-    private static final String FIELD_EPOST = "Epost";
-
-    // Type RADIOBUTTON - values [säkert,ej säkert]
-    private static final String FIELD_DODSDATUM_SAKERT_EJ_SAKERT = "Dödsdatum säkert/ej säkert";
-
-    // Type RADIOBUTTON - values [olycksfall,oklart,avsiktligt vållad av annan,självmord]
-    private static final String FIELD_SKADA_FORGIFTNING = "Skada/förgiftning";
-
-    // Type TEXT
-    private static final String FIELD_LAKARENS_EFTERNAMN_OCH_FORNAMN = "Läkarens efternamn och förnamn";
-
-    // Type TEXT
-    private static final String FIELD_BEFATTNING = "Befattning";
-
-    // Type CHECKBOX - values [Ja]
-    private static final String FIELD_RATTSMEDICINSK_LIKBESIKTNING = "Rättsmedicinsk Likbesiktning";
-
-    // Type CHECKBOX - values [Ja]
-    private static final String FIELD_ERSATTER_TIDIGARE_UTFARDAT_INTYG = "Ersätter tidigare utfärdat intyg";
-
-    // Type RADIOBUTTON - values [annan okänd,särskilt boende,sjukhus,ordinärt boende]
-    private static final String FIELD_DODSPLATS = "Dödsplats";
-
     // Type TEXT
     private static final String FIELD_FORNAMN = "Förnamn";
-
+    // Type TEXT
+    private static final String FIELD_BOSTADSADRESS = "Bostadsadress";
+    // Type TEXT
+    private static final String FIELD_POSTNUMMER = "Postnummer";
+    // Type TEXT
+    private static final String FIELD_POSTORT = "Postort";
+    // Type TEXT
+    private static final String FIELD_LAND_OM_EJ_STADIGVARANDE_BOSATT_I_SVERIGE = "Land om ej stadigvarande bosatt i Sverige";
     // Type TEXT
     private static final String FIELD_IDENTITETEN_STYRKT_GENOM = "Identiteten styrkt genom";
 
-    // Type TEXT
-    private static final String FIELD_DODSDATUM = "Dödsdatum";
 
-    // Type RADIOBUTTON - values [Nej,Uppgift saknas,Ja]
-    private static final String FIELD_OPERERAD_INOM_FYRA_VECKOR = "Opererad inom fyra veckor";
+    // Type TEXT
+    private static final String FIELD_DODSDATUM = "Dödsdatum år mån dag";
+    // Type CHECKBOX - values [On]
+    private static final String FIELD_DODSDATUM_SAKERT = "Säkert";
+    // Type CHECKBOX - values [On]
+    private static final String FIELD_DODSDATUM_EJ_SAKERT = "Ej Säkert";
+    // Type TEXT
+    private static final String FIELD_OM_DODSDATUM_EJ_SAKERT_AR_MAN_DAG_ANTRAFFAD_DOD = "Om dödsdatum ej säkert År mån dag anträffad död";
+
 
     // Type TEXT
     private static final String FIELD_KOMMUN_OM_OKAND_DODSPLATS_KOMMUNEN_DAR_KROPPEN_PATRAFFADES = "Kommun om okänd "
         + "dödsplats kommunen där kroppen påträffades";
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_DODSPLATS_SJUKUS = "Sjukhus";
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_DODSPLATS_ORDINART_BOENDE = "Ordinärt boende";
+    // Type CHECKBOX - values [On]
+    private static final String FIELD_DODSPLATS_SARSKILT_BOENDE = "Särskilt boende";
+    // Type CHECKBOX - values [On]
+    private static final String FIELD_DODSPLATS_ANNAN_OKAND = "Annan/okänd";
+
+
+    // Type CHECKBOX - values [On]
+    private static final String FIELD_AVLIDET_INOM_28_DYGN = "Avlidet inom 28 dygn";
+
+
+    // Dynamic fieldnames (1, 2, 3 etc)
+    private static final String FIELD_DODSORSAK_FIRSTROW_BESKRIVNING = "Den terminala dödsorsaken var_%s";
+    private static final String FIELD_DODSORSAK_ROW_BESKRIVNING = "Den terminala dödsorsaken var_%s";
+    private static final String FIELD_DODSORSAK_ROW_UNGEFARLIG_DEBUT = "Ungefärlig debut år mån dag_%s";
+    private static final String FIELD_DODSORSAK_ROW_AKUT = "Akut_%s";
+    private static final String FIELD_DODSORSAK_ROW_KRONISK = "Kronisk_%s";
+    private static final String FIELD_DODSORSAK_ROW_INGEN_UPPGIFT = "Uppgift saknas_%s";
+    private static final String FIELD_BIDRAGANDE_DODSORSAK_ROW_BESKRIVNING = "Andra sjukdomar eller skador som bidragit till"
+        + " dödsfalletRow%d";
+    private static final String FIELD_BIDRAGANDE_DODSORSAK_ROW_UNGEFARLIG_DEBUT = "Ungefärlig debut år mån dag_%d";
+
+
+    // Type CHECKBOX - values [On]
+    private static final String FIELD_OPERERAD_JA = "Opererad ja";
+    // Type CHECKBOX - values [On]
+    private static final String FIELD_OPERERAD_NEJ = "Opererad nej";
+    // Type CHECKBOX - values [On]
+    private static final String FIELD_OPERERAD_UPPGIFT_SAKNAS = "Uppgift om operation saknas";
+    // Type TEXT
+    private static final String FIELD_OPERATIONSDATUM_AR_MAN_DAG = "Operationsdatum år mån dag";
+    // Type TEXT
+    private static final String FIELD_TILLSTAND_SOM_FORANLEDDE_INGREPPET = "Tillstånd som föranledde ingreppet";
+
 
     // Type CHECKBOX - values [Ja]
-    private static final String FIELD_YTTRE_UNDERSOKNING_EFTER_DODEN = "Yttre undersökning efter döden";
-
-    // Type TEXT
-    private static final String FIELD_TELEFON_INKL_RIKTNUMMER = "Telefon inkl riktnummer";
-
+    private static final String FIELD_OLYCKSFALL = "Olycksfall";
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_AVSIKTLIGT_VALLAD_AV_ANNAN = "Avsiktligt vållad av annan";
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_SJALVMORD = "Självmord";
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_OKLART_OM_AVSIKT_FORELEGAT = "Oklart om avsikt förelegat";
     // Type TEXT
     private static final String FIELD_DATUM_FOR_SKADAFORGIFTNING_AR_MAN_DAG = "Datum för skadaförgiftning år mån dag";
-
-    // Type TEXT
-    private static final String FIELD_POSTNUMMER_2 = "Postnummer_2";
-
-    // Type TEXT
-    private static final String FIELD_POSTORT = "Postort";
-
-    // Type CHECKBOX - values [Ja]
-    private static final String FIELD_KLINISK = "Klinisk";
-
-    // Type TEXT
-    private static final String FIELD_PERSONNUMMERSAMORDNINGSNUMMER_12_SIFFROR = "Personnummersamordningsnummer 12 siffror";
-
-    // Type CHECKBOX - values [Ja]
-    private static final String FIELD_UNDERSOKNING_FORE_DODEN = "Undersökning före döden";
-
-    // Type TEXT
-    private static final String FIELD_OM_DODSDATUM_EJ_SAKERT_AR_MAN_DAG_ANTRAFFAD_DOD = "Om dödsdatum ej säkert År mån dag anträffad död";
-
     // Type TEXT
     private static final String FIELD_KORT_BESKRIVNING_AV_HUR_SKADANFORGIFTNINGEN_UPPKOM = "Kort beskrivning av hur skadanförgiftningen"
         + " uppkom utan att röja eventuellt andra inblandades identiteter";
 
-    // Dynamic fieldnames (A, B C etc)
-    private static final String FIELD_DODSORSAK_FIRSTROW_BESKRIVNING = "Den terminala dödsorsaken %s";
-    private static final String FIELD_DODSORSAK_ROW_BESKRIVNING = "Den terminala dödsorsaken var %s";
-    private static final String FIELD_DODSORSAK_ROW_UNGEFARLIG_DEBUT = "Ungefärlig debut %s";
-    private static final String FIELD_DODSORSAK_ROW_AKUT = "%s Akut";
-    private static final String FIELD_DODSORSAK_ROW_KRONISK = "%s Kronisk";
-    private static final String FIELD_DODSORSAK_ROW_INGEN_UPPGIFT = "%s Uppgift saknas";
 
-    private static final String FIELD_BIDRAGANDE_DODSORSAK_ROW_BESKRIVNING = "Andra sjukdomar eller skador %d";
-    private static final String FIELD_BIDRAGANDE_DODSORSAK_ROW_UNGEFARLIG_DEBUT = "Ungefärlig debut %d";
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_UNDERSOKNING_FORE_DODEN = "Undersökning före döden";
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_RATTSMEDICINSK_OBDUKTION = "Rättsmedicinsk obduktion";
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_YTTRE_UNDERSOKNING_EFTER_DODEN = "Yttre efter döden";
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_RATTSMEDICINSK_LIKBESIKTNING = "Rättsmedicinsk likbesiktning";
+    // Type CHECKBOX - values [Ja]
+    private static final String FIELD_KLINISK_OBDUKTION = "Klinisk obduktion";
+
+
+    // Type TEXT
+    private static final String FIELD_ORT_OCH_DATUM = "Ort och datum";
+    // Type TEXT
+    private static final String FIELD_LAKARENS_EFTERNAMN_OCH_FORNAMN = "Läkarens efternamn och förnamn";
+    // Type TEXT
+    private static final String FIELD_BEFATTNING = "Befattning";
+    // Type TEXT
+    private static final String FIELD_TJANSTESTALLE = "Tjänsteställe";
+    // Type TEXT
+    private static final String FIELD_UTDELNINGSADRESS = "Utdelningsadress";
+    // Type TEXT
+    private static final String FIELD_POSTNUMMER_2 = "Postnummer_2";
+    // Type TEXT
+    private static final String FIELD_POSTORT_2 = "Postort_2";
+    // Type TEXT
+    private static final String FIELD_TELEFON_INKL_RIKTNUMMER = "Telefon inkl riktnummer";
+    // Type TEXT
+    private static final String FIELD_EPOST = "Epost";
+
+    private static final double ADJUST_BY_1 = 1.0;
+    private static final double ADJUST_BY_3 = 3.0;
+    private static final double ADJUST_BY_4 = 4.0;
+    private static final double ADJUST_BY_5 = 5.0;
+    private static final double ADJUST_BY_6 = 6.0;
+    private static final double ADJUST_BY_9 = 9.0;
+
+    private static final int FIELD_INDEX_4 = 4;
+
+
     private DoiUtlatandeV1 doiUtlatandeV1;
 
     public DoiPdfGenerator(DoiUtlatandeV1 intyg, IntygTexts intygTexts, List<Status> statuses, UtkastStatus utkastStatus)
@@ -213,130 +224,26 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
     private void fillAcroformFields() {
         fillRelation();
         fillPatientDetails();
-        fillDodsDatum();
-        fillDodsPlats();
-        fillBarnAvlidet();
-        fillOrsak();
-        fillBidragandeOrsaker();
-        fillOperation();
-        fillSkadaForgiftning();
-        fillDodsorsaksGrunder();
-
-        fillUnderskrift(doiUtlatandeV1.getGrundData().getSigneringsdatum(), doiUtlatandeV1.getGrundData().getSkapadAv());
-
+        fillDateOfDeath();
+        fillPlaceOfDeath();
+        fillDeathOfChild();
+        fillCauseOfDeath();
+        fillContributingCauses();
+        fillSurgery();
+        fillInjuryPoisoning();
+        fillBasisForCauseOfDeath();
+        fillSignature(doiUtlatandeV1.getGrundData().getSigneringsdatum(), doiUtlatandeV1.getGrundData().getSkapadAv());
     }
 
-    private void fillDodsorsaksGrunder() {
-        checkCheckboxField(FIELD_UNDERSOKNING_FORE_DODEN, hasDodsorsaksGrund(Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN) ? "Ja" : "");
-        checkCheckboxField(FIELD_YTTRE_UNDERSOKNING_EFTER_DODEN, hasDodsorsaksGrund(Dodsorsaksgrund.UNDERSOKNING_EFTER_DODEN) ? "Ja" : "");
-        checkCheckboxField(FIELD_KLINISK, hasDodsorsaksGrund(Dodsorsaksgrund.KLINISK_OBDUKTION) ? "Ja" : "");
-        checkCheckboxField(FIELD_RATTSMEDICINSK_OBDUKTION, hasDodsorsaksGrund(Dodsorsaksgrund.RATTSMEDICINSK_OBDUKTION) ? "Ja" : "");
-        checkCheckboxField(FIELD_RATTSMEDICINSK_LIKBESIKTNING, hasDodsorsaksGrund(Dodsorsaksgrund.RATTSMEDICINSK_BESIKTNING) ? "Ja" : "");
-
-    }
-
-    private boolean hasDodsorsaksGrund(Dodsorsaksgrund dodsorsaksgrund) {
-        if (doiUtlatandeV1.getGrunder() != null) {
-            return doiUtlatandeV1.getGrunder().contains(dodsorsaksgrund);
+    private void fillRelation() {
+        if (ersatterTidigareIntyg(doiUtlatandeV1.getGrundData().getRelation())) {
+            checkCheckboxField(FIELD_ERSATTER_TIDIGARE_UTFARDAT_INTYG, "Ja");
         }
-        return false;
-    }
-
-    private void fillSkadaForgiftning() {
-        // Type RADIOBUTTON - values [olycksfall,oklart,avsiktligt vållad av annan,självmord]
-        checkRadioField(FIELD_SKADA_FORGIFTNING, modelToPdf(doiUtlatandeV1.getForgiftningOrsak()));
-        fillText(FIELD_DATUM_FOR_SKADAFORGIFTNING_AR_MAN_DAG, doiUtlatandeV1.getForgiftningDatum());
-        fillText(FIELD_KORT_BESKRIVNING_AV_HUR_SKADANFORGIFTNINGEN_UPPKOM,
-            doiUtlatandeV1.getForgiftningUppkommelse());
-    }
-
-    private void fillOperation() {
-        // Type RADIOBUTTON - values [Nej,Uppgift saknas,Ja]
-        checkRadioField(FIELD_OPERERAD_INOM_FYRA_VECKOR, modelToPdf(doiUtlatandeV1.getOperation()));
-        fillText(FIELD_OPERATIONSDATUM_AR_MAN_DAG, doiUtlatandeV1.getOperationDatum());
-        fillText(FIELD_TILLSTAND_SOM_FORANLEDDE_INGREPPET, doiUtlatandeV1.getOperationAnledning());
-    }
-
-    private void fillBidragandeOrsaker() {
-        // Andra bidragande orsaker (1..8)
-        if (doiUtlatandeV1.getBidragandeSjukdomar() != null) {
-            for (int i = 0; i < doiUtlatandeV1.getBidragandeSjukdomar().size(); i++) {
-                fillBidragandeOrsaksRow(i + 1, doiUtlatandeV1.getBidragandeSjukdomar().get(i));
-            }
-        }
-
-    }
-
-    private void fillBidragandeOrsaksRow(int index, Dodsorsak orsak) {
-        String fieldBeskrivning;
-        String fieldDebut;
-        String fieldAkut;
-        String fieldKronisk;
-        String fieldUppgiftSaknas;
-
-        fieldBeskrivning = String.format(FIELD_BIDRAGANDE_DODSORSAK_ROW_BESKRIVNING, index);
-        fieldDebut = String.format(FIELD_BIDRAGANDE_DODSORSAK_ROW_UNGEFARLIG_DEBUT, index);
-        fieldAkut = String.format(FIELD_DODSORSAK_ROW_AKUT, addChar('D', index));
-        fieldKronisk = String.format(FIELD_DODSORSAK_ROW_KRONISK, addChar('D', index));
-        fieldUppgiftSaknas = String.format(FIELD_DODSORSAK_ROW_INGEN_UPPGIFT, addChar('D', index));
-
-        setOrsakFields(orsak, fieldBeskrivning, fieldDebut, fieldAkut, fieldKronisk, fieldUppgiftSaknas);
-    }
-
-    private void fillOrsak() {
-        // Terminal dödsorsak
-        fillDodsOrsaksRow(0, doiUtlatandeV1.getTerminalDodsorsak());
-
-        // Följder (B,C,D)
-        if (doiUtlatandeV1.getFoljd() != null) {
-            for (int i = 0; i < doiUtlatandeV1.getFoljd().size(); i++) {
-                fillDodsOrsaksRow(i + 1, doiUtlatandeV1.getFoljd().get(i));
-            }
-        }
-    }
-
-    private void fillDodsOrsaksRow(int index, Dodsorsak orsak) {
-
-        String fieldBeskrivning;
-        String fieldDebut;
-        String fieldAkut;
-        String fieldKronisk;
-        String fieldUppgiftSaknas;
-
-        if (index == 0) {
-            // A (Terminal orsak)
-            fieldBeskrivning = String.format(FIELD_DODSORSAK_FIRSTROW_BESKRIVNING, "A");
-        } else {
-            // A (Terminal orsak)
-            fieldBeskrivning = String.format(FIELD_DODSORSAK_ROW_BESKRIVNING, addChar('A', index));
-        }
-
-        fieldDebut = String.format(FIELD_DODSORSAK_ROW_UNGEFARLIG_DEBUT, addChar('A', index));
-        fieldAkut = String.format(FIELD_DODSORSAK_ROW_AKUT, addChar('A', index));
-        fieldKronisk = String.format(FIELD_DODSORSAK_ROW_KRONISK, addChar('A', index));
-        fieldUppgiftSaknas = String.format(FIELD_DODSORSAK_ROW_INGEN_UPPGIFT, addChar('A', index));
-
-        setOrsakFields(orsak, fieldBeskrivning, fieldDebut, fieldAkut, fieldKronisk, fieldUppgiftSaknas);
-    }
-
-    private void setOrsakFields(Dodsorsak orsak, String fieldBeskrivning, String fieldDebut, String fieldAkut, String fieldKronisk,
-        String fieldUppgiftSaknas) {
-        if (orsak != null) {
-            fillText(fieldBeskrivning, orsak.getBeskrivning());
-            fillText(fieldDebut, orsak.getDatum());
-            checkCheckboxField(fieldAkut, Specifikation.PLOTSLIG == orsak.getSpecifikation() ? "Ja" : "");
-            checkCheckboxField(fieldKronisk, Specifikation.KRONISK == orsak.getSpecifikation() ? "Ja" : "");
-            checkCheckboxField(fieldUppgiftSaknas, Specifikation.UPPGIFT_SAKNAS == orsak.getSpecifikation() ? "Ja" : "");
-        }
-    }
-
-    private String addChar(char a, int i) {
-        return Character.toString((char) (a + i));
     }
 
     protected void fillPatientDetails() {
-        fillText(FIELD_PERSONNUMMERSAMORDNINGSNUMMER_12_SIFFROR,
-            doiUtlatandeV1.getGrundData().getPatient().getPersonId().getPersonnummerWithDash());
+        fillText(FIELD_PERSONNUMMER,
+            doiUtlatandeV1.getGrundData().getPatient().getPersonId().getPersonnummer());
         fillText(FIELD_EFTERNAMN, doiUtlatandeV1.getGrundData().getPatient().getEfternamn());
         fillText(FIELD_FORNAMN, doiUtlatandeV1.getGrundData().getPatient().getFornamn());
         fillText(FIELD_BOSTADSADRESS, doiUtlatandeV1.getGrundData().getPatient().getPostadress());
@@ -347,117 +254,210 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
         fillText(FIELD_LAND_OM_EJ_STADIGVARANDE_BOSATT_I_SVERIGE, doiUtlatandeV1.getLand());
     }
 
-    private void fillRelation() {
-        if (ersatterTidigareIntyg(doiUtlatandeV1.getGrundData().getRelation())) {
-            // Type CHECKBOX - values [Ja]
-            checkCheckboxField(FIELD_ERSATTER_TIDIGARE_UTFARDAT_INTYG, "Ja");
-        }
-    }
-
-    private void fillUnderskrift(LocalDateTime signeringsDatum, HoSPersonal skapadAv) {
-        fillText(FIELD_ORT_OCH_DATUM, signeringsDatum != null ? signeringsDatum.format(DATE_FORMAT) : "");
-        fillText(FIELD_LAKARENS_EFTERNAMN_OCH_FORNAMN, skapadAv.getFullstandigtNamn());
-        fillText(FIELD_BEFATTNING, String.join(", ", skapadAv.getBefattningar()));
-        fillText(FIELD_TJANSTESTALLE, String.join(", ", skapadAv.getVardenhet().getEnhetsnamn()
-            + ", " + skapadAv.getVardenhet().getVardgivare().getVardgivarnamn()));
-        fillText(FIELD_UTDELNINGSADRESS, skapadAv.getVardenhet().getPostadress());
-        fillText(FIELD_POSTNUMMER_2, skapadAv.getVardenhet().getPostnummer());
-        fillText(FIELD_POSTORT_2, skapadAv.getVardenhet().getPostort());
-        fillText(FIELD_TELEFON_INKL_RIKTNUMMER, skapadAv.getVardenhet().getTelefonnummer());
-        fillText(FIELD_EPOST, skapadAv.getVardenhet().getEpost());
-    }
-
-    private void fillBarnAvlidet() {
-        // Type RADIOBUTTON - values [dödfött,avlidet inom 28]
-        // NOTE: kan aldrig vara dödfött när utfärdat i WC
-        checkRadioField(FIELD_BARN_SOM_AVLIDIT, Boolean.TRUE.equals(doiUtlatandeV1.getBarn()) ? "avlidet inom 28" : "");
-    }
-
-    private void fillDodsDatum() {
-        // Type RADIOBUTTON - values [säkert,ej säkert]
-        checkRadioField(FIELD_DODSDATUM_SAKERT_EJ_SAKERT, getRadioValueFromBoolean(doiUtlatandeV1.getDodsdatumSakert(), "", "säkert",
-            "ej säkert"));
-        // Type TEXT
-        fillText(FIELD_DODSDATUM, doiUtlatandeV1.getDodsdatum());
-
-        // Type TEXT
-        fillText(FIELD_OM_DODSDATUM_EJ_SAKERT_AR_MAN_DAG_ANTRAFFAD_DOD, doiUtlatandeV1.getAntraffatDodDatum());
-    }
-
-    private void fillDodsPlats() {
-
-        // Type RADIOBUTTON - values [Sjukhus,Särskilt boende,Ordinärt boende,Annan / Okänd,]
-
-        checkRadioField(FIELD_DODSPLATS, modelToPdf(doiUtlatandeV1.getDodsplatsBoende()));
-
-        fillText(FIELD_KOMMUN_OM_OKAND_DODSPLATS_KOMMUNEN_DAR_KROPPEN_PATRAFFADES, doiUtlatandeV1.getDodsplatsKommun());
-        fillText(FIELD_OM_DODSDATUM_EJ_SAKERT_AR_MAN_DAG_ANTRAFFAD_DOD, doiUtlatandeV1.getAntraffatDodDatum());
-    }
-
-    /**
-     * Converts a {@link DodsplatsBoende} to the corresponding pdf template field value.
-     *
-     * @return pdf value
-     */
-    private String modelToPdf(DodsplatsBoende dodsplatsBoende) {
-        if (dodsplatsBoende != null) {
-            // Pdf equivalent values are
-            // Type RADIOBUTTON - values [annan okänd,särskilt boende,sjukhus,ordinärt boende]
-            switch (dodsplatsBoende) {
-                case ANNAN:
-                    return "annan okänd";
-                case SJUKHUS:
-                    return "sjukhus";
-                case ORDINART_BOENDE:
-                    return "ordinärt boende";
-                case SARSKILT_BOENDE:
-                    return "särskilt boende";
+    private void fillDateOfDeath() {
+        Boolean certainDateOfDeath = doiUtlatandeV1.getDodsdatumSakert();
+        if (certainDateOfDeath != null) {
+            if (certainDateOfDeath) {
+                checkCheckboxField(FIELD_DODSDATUM_SAKERT, "On");
+            } else {
+                checkCheckboxField(FIELD_DODSDATUM_EJ_SAKERT, "On");
             }
         }
-        return "";
+        // Type TEXT
+        adjustAndFill(FIELD_DODSDATUM, doiUtlatandeV1.getDodsdatum(), ADJUST_BY_5);
+
+        // Type TEXT
+        adjustAndFill(FIELD_OM_DODSDATUM_EJ_SAKERT_AR_MAN_DAG_ANTRAFFAD_DOD, doiUtlatandeV1.getAntraffatDodDatum(), ADJUST_BY_5);
     }
 
-    /**
-     * Converts a {@link ForgiftningOrsak} to the corresponding pdf template field value.
-     *
-     * @return pdf value
-     */
-    private String modelToPdf(ForgiftningOrsak forgiftningOrsak) {
-        if (forgiftningOrsak != null) {
+    private void fillPlaceOfDeath() {
 
-            // Pdf equivalent values are [olycksfall,oklart,avsiktligt vållad av annan,självmord]
-            switch (forgiftningOrsak) {
-                case OLYCKSFALL:
-                    return "olycksfall";
-                case SJALVMORD:
-                    return "självmord";
-                case AVSIKTLIGT_VALLAD:
-                    return "avsiktligt vållad av annan";
-                case OKLART:
-                    return "oklart";
+        DodsplatsBoende accomodation = doiUtlatandeV1.getDodsplatsBoende();
+        if (accomodation != null) {
+            String fieldToCheckForAccomodation = getFieldToCheckForAccomodation(accomodation);
+            if (fieldToCheckForAccomodation.equals(FIELD_DODSPLATS_SJUKUS)
+                || fieldToCheckForAccomodation.equals(FIELD_DODSPLATS_ORDINART_BOENDE)) {
+                checkCheckboxField(fieldToCheckForAccomodation, "Ja");
+            } else {
+                checkCheckboxField(fieldToCheckForAccomodation, "On");
             }
         }
-        return "";
+
+        adjustAndFill(FIELD_KOMMUN_OM_OKAND_DODSPLATS_KOMMUNEN_DAR_KROPPEN_PATRAFFADES, doiUtlatandeV1.getDodsplatsKommun(), ADJUST_BY_9);
     }
 
-    /**
-     * Converts a {@link OmOperation} to the corresponding pdf template field value.
-     *
-     * @return pdf value
-     */
-    private String modelToPdf(OmOperation operation) {
+    private void fillDeathOfChild() {
+        // NOTE: The doi form option 'dödfött' is not possible in certificates issued in Webcert.
+        Boolean childDeadWithin28Days = doiUtlatandeV1.getBarn();
+        if (childDeadWithin28Days != null && childDeadWithin28Days) {
+            checkCheckboxField(FIELD_AVLIDET_INOM_28_DYGN, "On");
+        }
+    }
 
+    private void fillCauseOfDeath() {
+        // Terminal cause of death (1)
+        fillCauseOfDeathRow(0, doiUtlatandeV1.getTerminalDodsorsak(), ADJUST_BY_1);
+
+        // Contributing factors (2,3,4)
+        if (doiUtlatandeV1.getFoljd() != null) {
+            for (int i = 0; i < doiUtlatandeV1.getFoljd().size(); i++) {
+                fillCauseOfDeathRow(i + 1, doiUtlatandeV1.getFoljd().get(i), ADJUST_BY_3);
+            }
+        }
+    }
+
+    private void fillCauseOfDeathRow(int index, Dodsorsak orsak, double adjustment) {
+
+        String fieldDescription;
+        String fieldDebut;
+        String fieldAcute;
+        String fieldChronic;
+        String fieldNotAvailable;
+
+        if (index == 0) {
+            // Terminal cause of death (1)
+            fieldDescription = String.format(FIELD_DODSORSAK_FIRSTROW_BESKRIVNING, 1);
+        } else {
+            // Contributing factors (2,3,4)
+            fieldDescription = String.format(FIELD_DODSORSAK_ROW_BESKRIVNING, 1 + index);
+        }
+
+        fieldDebut = String.format(FIELD_DODSORSAK_ROW_UNGEFARLIG_DEBUT, 1 + index);
+        fieldAcute = String.format(FIELD_DODSORSAK_ROW_AKUT, 1 + index);
+        fieldChronic = String.format(FIELD_DODSORSAK_ROW_KRONISK, 1 + index);
+        fieldNotAvailable = String.format(FIELD_DODSORSAK_ROW_INGEN_UPPGIFT, 1 + index);
+
+        setCauseOfDeathFields(orsak, fieldDescription, adjustment, fieldDebut, fieldAcute, fieldChronic, fieldNotAvailable);
+    }
+
+    private void fillContributingCauses() {
+
+        // Other contributing factors (1..8)
+        if (doiUtlatandeV1.getBidragandeSjukdomar() != null) {
+            for (int i = 0; i < doiUtlatandeV1.getBidragandeSjukdomar().size(); i++) {
+                fillContributingCauseRow(i + 1, doiUtlatandeV1.getBidragandeSjukdomar().get(i));
+            }
+        }
+    }
+
+    private void fillContributingCauseRow(int index, Dodsorsak cause) {
+        String fieldDescription;
+        String fieldDebut;
+        String fieldAcute;
+        String fieldChronic;
+        String fieldNotAvailable;
+
+        fieldDescription = String.format(FIELD_BIDRAGANDE_DODSORSAK_ROW_BESKRIVNING, index);
+        fieldDebut = String.format(FIELD_BIDRAGANDE_DODSORSAK_ROW_UNGEFARLIG_DEBUT, FIELD_INDEX_4 + index);
+        fieldAcute = String.format(FIELD_DODSORSAK_ROW_AKUT, FIELD_INDEX_4 + index);
+        fieldChronic = String.format(FIELD_DODSORSAK_ROW_KRONISK, FIELD_INDEX_4 + index);
+        fieldNotAvailable = String.format(FIELD_DODSORSAK_ROW_INGEN_UPPGIFT, FIELD_INDEX_4 + index);
+
+        setCauseOfDeathFields(cause, fieldDescription, ADJUST_BY_6, fieldDebut, fieldAcute, fieldChronic, fieldNotAvailable);
+    }
+
+    private void setCauseOfDeathFields(Dodsorsak cause, String fieldDescription, double adjustment, String fieldDebut, String fieldAcute,
+        String fieldKronisk, String fieldNotAvailable) {
+        if (cause != null) {
+            adjustAndFill(fieldDescription, cause.getBeskrivning(), adjustment);
+            adjustAndFill(fieldDebut, cause.getDatum(), ADJUST_BY_6);
+            checkCheckboxField(fieldAcute, Specifikation.PLOTSLIG == cause.getSpecifikation() ? "Ja" : "");
+            checkCheckboxField(fieldKronisk, Specifikation.KRONISK == cause.getSpecifikation() ? "Ja" : "");
+            checkCheckboxField(fieldNotAvailable, Specifikation.UPPGIFT_SAKNAS == cause.getSpecifikation() ? "Ja" : "");
+        }
+    }
+
+    private void fillSurgery() {
+        OmOperation operation = doiUtlatandeV1.getOperation();
         if (operation != null) {
-            // Pdf equivalent values are [Nej,Uppgift saknas,Ja]
-            switch (operation) {
-                case JA:
-                    return "Ja";
-                case NEJ:
-                    return "Nej";
-                case UPPGIFT_SAKNAS:
-                    return "Uppgift saknas";
-            }
+            String fieldToCheckForCauseOfInjury = getFieldToCheckForSurgery(operation);
+            checkCheckboxField(fieldToCheckForCauseOfInjury, "On");
         }
-        return "";
+
+        fillText(FIELD_OPERATIONSDATUM_AR_MAN_DAG, doiUtlatandeV1.getOperationDatum());
+        adjustAndFill(FIELD_TILLSTAND_SOM_FORANLEDDE_INGREPPET, doiUtlatandeV1.getOperationAnledning(), ADJUST_BY_4);
+    }
+
+    private void fillInjuryPoisoning() {
+        ForgiftningOrsak causeOfInjury = doiUtlatandeV1.getForgiftningOrsak();
+        if (causeOfInjury != null) {
+            String fieldToCheckForCauseOfInjury = getFieldToCheckForCauseOfInjury(causeOfInjury);
+            checkCheckboxField(fieldToCheckForCauseOfInjury, "Ja");
+        }
+
+        fillText(FIELD_DATUM_FOR_SKADAFORGIFTNING_AR_MAN_DAG, doiUtlatandeV1.getForgiftningDatum());
+        adjustAndFill(FIELD_KORT_BESKRIVNING_AV_HUR_SKADANFORGIFTNINGEN_UPPKOM,
+            doiUtlatandeV1.getForgiftningUppkommelse(), ADJUST_BY_1);
+    }
+
+    private void fillBasisForCauseOfDeath() {
+        checkCheckboxField(FIELD_UNDERSOKNING_FORE_DODEN, hasDodsorsaksGrund(Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN) ? "Ja" : "");
+        checkCheckboxField(FIELD_YTTRE_UNDERSOKNING_EFTER_DODEN, hasDodsorsaksGrund(Dodsorsaksgrund.UNDERSOKNING_EFTER_DODEN) ? "Ja" : "");
+        checkCheckboxField(FIELD_KLINISK_OBDUKTION, hasDodsorsaksGrund(Dodsorsaksgrund.KLINISK_OBDUKTION) ? "Ja" : "");
+        checkCheckboxField(FIELD_RATTSMEDICINSK_OBDUKTION, hasDodsorsaksGrund(Dodsorsaksgrund.RATTSMEDICINSK_OBDUKTION) ? "Ja" : "");
+        checkCheckboxField(FIELD_RATTSMEDICINSK_LIKBESIKTNING, hasDodsorsaksGrund(Dodsorsaksgrund.RATTSMEDICINSK_BESIKTNING) ? "Ja" : "");
+    }
+
+    private boolean hasDodsorsaksGrund(Dodsorsaksgrund dodsorsaksgrund) {
+        if (doiUtlatandeV1.getGrunder() != null) {
+            return doiUtlatandeV1.getGrunder().contains(dodsorsaksgrund);
+        }
+        return false;
+    }
+
+    private void fillSignature(LocalDateTime signeringsDatum, HoSPersonal skapadAv) {
+        adjustAndFill(FIELD_ORT_OCH_DATUM, signeringsDatum != null ? signeringsDatum.format(DATE_FORMAT) : "", ADJUST_BY_6);
+        adjustAndFill(FIELD_LAKARENS_EFTERNAMN_OCH_FORNAMN, skapadAv.getFullstandigtNamn(), ADJUST_BY_6);
+        adjustAndFill(FIELD_BEFATTNING, String.join(", ", skapadAv.getBefattningar()), ADJUST_BY_6);
+        adjustAndFill(FIELD_TJANSTESTALLE, String.join(", ", skapadAv.getVardenhet().getEnhetsnamn()
+            + ", " + skapadAv.getVardenhet().getVardgivare().getVardgivarnamn()), ADJUST_BY_6);
+        adjustAndFill(FIELD_UTDELNINGSADRESS, skapadAv.getVardenhet().getPostadress(), ADJUST_BY_6);
+        adjustAndFill(FIELD_POSTNUMMER_2, skapadAv.getVardenhet().getPostnummer(), ADJUST_BY_3);
+        adjustAndFill(FIELD_POSTORT_2, skapadAv.getVardenhet().getPostort(), ADJUST_BY_3);
+        adjustAndFill(FIELD_TELEFON_INKL_RIKTNUMMER, skapadAv.getVardenhet().getTelefonnummer(), ADJUST_BY_6);
+        adjustAndFill(FIELD_EPOST, skapadAv.getVardenhet().getEpost(), ADJUST_BY_6);
+    }
+
+    private String getFieldToCheckForAccomodation(DodsplatsBoende accomodation) {
+        switch (accomodation) {
+            case SJUKHUS :
+                return FIELD_DODSPLATS_SJUKUS;
+            case ORDINART_BOENDE :
+                return FIELD_DODSPLATS_ORDINART_BOENDE;
+            case SARSKILT_BOENDE :
+                return FIELD_DODSPLATS_SARSKILT_BOENDE;
+            case ANNAN :
+                return FIELD_DODSPLATS_ANNAN_OKAND;
+            default :
+                return "";
+        }
+    }
+
+    private String getFieldToCheckForCauseOfInjury(ForgiftningOrsak causeOfInjury) {
+        switch (causeOfInjury) {
+            case OLYCKSFALL :
+                return FIELD_OLYCKSFALL;
+            case SJALVMORD :
+                return FIELD_SJALVMORD;
+            case AVSIKTLIGT_VALLAD :
+                return FIELD_AVSIKTLIGT_VALLAD_AV_ANNAN;
+            case OKLART:
+                return FIELD_OKLART_OM_AVSIKT_FORELEGAT;
+            default :
+                return "";
+        }
+    }
+
+    private String getFieldToCheckForSurgery(OmOperation operation) {
+        switch (operation) {
+            case JA :
+                return FIELD_OPERERAD_JA;
+            case NEJ :
+                return FIELD_OPERERAD_NEJ;
+            case UPPGIFT_SAKNAS :
+                return FIELD_OPERERAD_UPPGIFT_SAKNAS;
+            default :
+                return "";
+        }
     }
 }
