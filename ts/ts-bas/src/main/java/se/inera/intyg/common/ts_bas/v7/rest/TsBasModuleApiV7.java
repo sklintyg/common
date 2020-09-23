@@ -134,7 +134,7 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
 
     @Override
     protected RegisterCertificateValidator getRegisterCertificateValidator() {
-        return new RegisterCertificateValidator(TsBasEntryPoint.SCHEMATRON_FILE);
+        return new RegisterCertificateValidator(TsBasEntryPoint.SCHEMATRON_FILE_V7);
     }
 
     @Override

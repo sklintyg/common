@@ -22,19 +22,19 @@ angular.module('ts-bas').service('ts-bas.PatientHelperService.v7',
 
             // PS-004: Show for ts utkast
             function _showPatientNameChangedIntegration(isIntyg) {
-                return !isIntyg;
+                return true;
             }
             // PS-005: Show for signed ts
             function _showPatientNameChangedPU(isIntyg) {
-                return isIntyg;
+                return false;
             }
             // PS-006: Show for signed ts
             function _showPatientAddressChangedPU(isIntyg) {
-                return isIntyg;
+                return false;
             }
             // INTYG-5146: Show for ts utkast
             function _showMissingAddressParameter(isIntyg) {
-                return !isIntyg;
+                return false;
             }
 
             return {

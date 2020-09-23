@@ -34,7 +34,7 @@ import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 
 public class SchematronValidatorTest {
 
-    private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator(TsBasEntryPoint.SCHEMATRON_FILE);
+    private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator(TsBasEntryPoint.SCHEMATRON_FILE_V7);
 
     @Test
     public void validMaximalXmlPassesTest() throws Exception {
