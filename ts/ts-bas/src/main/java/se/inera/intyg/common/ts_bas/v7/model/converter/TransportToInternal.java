@@ -114,6 +114,7 @@ import static se.inera.intyg.common.ts_parent.codes.RespConstants.VARD_SJUKHUS_K
 import java.util.EnumSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import se.inera.intyg.common.support.common.enumerations.PatientInfo;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.ts_bas.v7.codes.TsBasKorkortsbehorighetKod;
@@ -156,7 +157,7 @@ public final class TransportToInternal {
     public static TsBasUtlatandeV7 convert(Intyg source) throws ConverterException {
         TsBasUtlatandeV7.Builder utlatande = TsBasUtlatandeV7.builder();
         utlatande.setId(source.getIntygsId().getExtension());
-        utlatande.setGrundData(TransportConverterUtil.getGrundData(source, false));
+        utlatande.setGrundData(TransportConverterUtil.getGrundData(source, PatientInfo.BASIC));
         utlatande.setTextVersion(source.getVersion());
         utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(source.getUnderskrift()));
         setSvar(utlatande, source);
