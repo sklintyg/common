@@ -23,6 +23,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -55,12 +56,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.util.ReflectionTestUtils;
-import org.w3.wsaddressing10.AttributedURIType;
-import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
-import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateRequestType;
-import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateResponseType;
-import se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum;
-import se.inera.ifv.insuranceprocess.healthreporting.v2.ResultOfCall;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -81,8 +76,14 @@ import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponderInterface;
+import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponseType;
+import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
+import se.riv.clinicalprocess.healthcond.certificate.v3.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
@@ -112,7 +113,7 @@ public class TsBasModuleApiTest {
     private SendTSClient sendTsBasClient;
 
     @Mock
-    private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
+    private RevokeCertificateResponderInterface revokeCertificateClient;
 
     public TsBasModuleApiTest() {
         MockitoAnnotations.initMocks(this);
@@ -310,20 +311,20 @@ public class TsBasModuleApiTest {
 
         final String xmlBody = moduleApi.createRevokeRequest(utlatande, skapatAv, meddelande);
 
-        ResultOfCall result = mock(ResultOfCall.class);
-        doReturn(ResultCodeEnum.OK).when(result).getResultCode();
+        ResultType result = mock(ResultType.class);
+        doReturn(ResultCodeType.OK).when(result).getResultCode();
 
-        RevokeMedicalCertificateResponseType response = mock(RevokeMedicalCertificateResponseType.class);
+        RevokeCertificateResponseType response = mock(RevokeCertificateResponseType.class);
         doReturn(result).when(response).getResult();
 
-        doReturn(response).when(revokeCertificateClient).revokeMedicalCertificate(any(AttributedURIType.class),
-            any(RevokeMedicalCertificateRequestType.class));
+        doReturn(response).when(revokeCertificateClient).revokeCertificate(anyString(),
+            any(RevokeCertificateType.class));
 
         final String logicalAddress = "Logical address";
         moduleApi.revokeCertificate(xmlBody, logicalAddress);
 
-        verify(revokeCertificateClient, times(1)).revokeMedicalCertificate(any(AttributedURIType.class),
-            any(RevokeMedicalCertificateRequestType.class));
+        verify(revokeCertificateClient, times(1)).revokeCertificate(anyString(),
+            any(RevokeCertificateType.class));
     }
 
     @Test
@@ -334,20 +335,27 @@ public class TsBasModuleApiTest {
 
         final String xmlBody = moduleApi.createRevokeRequest(utlatande, skapatAv, meddelande);
 
-        ResultOfCall result = mock(ResultOfCall.class);
-        doReturn(ResultCodeEnum.INFO).when(result).getResultCode();
+        ResultType result = mock(ResultType.class);
+        doReturn(ResultCodeType.INFO).when(result).getResultCode();
 
-        RevokeMedicalCertificateResponseType response = mock(RevokeMedicalCertificateResponseType.class);
+        RevokeCertificateResponseType response = mock(RevokeCertificateResponseType.class);
         doReturn(result).when(response).getResult();
 
-        doReturn(response).when(revokeCertificateClient).revokeMedicalCertificate(any(AttributedURIType.class),
-            any(RevokeMedicalCertificateRequestType.class));
+        doReturn(response).when(revokeCertificateClient).revokeCertificate(anyString(),
+            any(RevokeCertificateType.class));
 
         final String logicalAddress = "Logical address";
-        moduleApi.revokeCertificate(xmlBody, logicalAddress);
 
-        verify(revokeCertificateClient, times(1)).revokeMedicalCertificate(any(AttributedURIType.class),
-            any(RevokeMedicalCertificateRequestType.class));
+        final String expectedMessage = "Could not send revoke to " + logicalAddress;
+        try {
+            moduleApi.revokeCertificate(xmlBody, logicalAddress);
+            fail();
+        } catch (ExternalServiceCallException ex) {
+            assertEquals(expectedMessage, ex.getMessage());
+        }
+
+        verify(revokeCertificateClient, times(1)).revokeCertificate(anyString(),
+            any(RevokeCertificateType.class));
     }
 
     @Test
@@ -358,20 +366,19 @@ public class TsBasModuleApiTest {
 
         final String xmlBody = moduleApi.createRevokeRequest(utlatande, skapatAv, meddelande);
 
-        final String errorMessage = "felmeddelande";
-        ResultOfCall result = mock(ResultOfCall.class);
-        doReturn(ResultCodeEnum.ERROR).when(result).getResultCode();
-        doReturn(errorMessage).when(result).getErrorText();
+        ResultType result = mock(ResultType.class);
+        doReturn(ResultCodeType.ERROR).when(result).getResultCode();
+        doReturn(ErrorIdType.APPLICATION_ERROR).when(result).getErrorId();
 
-        RevokeMedicalCertificateResponseType response = mock(RevokeMedicalCertificateResponseType.class);
+        RevokeCertificateResponseType response = mock(RevokeCertificateResponseType.class);
         doReturn(result).when(response).getResult();
 
-        doReturn(response).when(revokeCertificateClient).revokeMedicalCertificate(any(AttributedURIType.class),
-            any(RevokeMedicalCertificateRequestType.class));
+        doReturn(response).when(revokeCertificateClient).revokeCertificate(anyString(),
+            any(RevokeCertificateType.class));
 
         final String logicalAddress = "Logical address";
 
-        final String expectedMessage = "Revoke sent to " + logicalAddress + " failed with error: " + errorMessage;
+        final String expectedMessage = "Could not send revoke to " + logicalAddress;
         try {
             moduleApi.revokeCertificate(xmlBody, logicalAddress);
             fail();
@@ -379,8 +386,8 @@ public class TsBasModuleApiTest {
             assertEquals(expectedMessage, ex.getMessage());
         }
 
-        verify(revokeCertificateClient, times(1)).revokeMedicalCertificate(any(AttributedURIType.class),
-            any(RevokeMedicalCertificateRequestType.class));
+        verify(revokeCertificateClient, times(1)).revokeCertificate(anyString(),
+            any(RevokeCertificateType.class));
     }
 
     private CreateNewDraftHolder createNewDraftHolder() {

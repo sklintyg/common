@@ -148,13 +148,13 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public final class UtlatandeToIntyg {
 
-    private static final String DEFAULT_VERSION = "6.7";
+    private static final String DEFAULT_VERSION = "7.0";
 
     private UtlatandeToIntyg() {
     }
 
     public static Intyg convert(TsBasUtlatandeV7 utlatande) {
-        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, true);
+        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, false);
 
         complementArbetsplatskodIfMissing(intyg);
 

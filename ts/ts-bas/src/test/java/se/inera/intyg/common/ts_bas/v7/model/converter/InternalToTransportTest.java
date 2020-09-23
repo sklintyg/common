@@ -210,8 +210,8 @@ public class InternalToTransportTest {
 
     @Test
     public void testConvertSetsDefaultVersionAndUtgavaIfTextVersionIsNullOrEmpty() throws ScenarioNotFoundException, ConverterException {
-        final String defaultVersion = "6";
-        final String defaultUtgava = "7";
+        final String defaultVersion = "7";
+        final String defaultUtgava = "0";
         TsBasUtlatandeV7 utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
         utlatande = utlatande.toBuilder().setTextVersion(null).build();
         RegisterCertificateType res = InternalToTransport.convert(utlatande);

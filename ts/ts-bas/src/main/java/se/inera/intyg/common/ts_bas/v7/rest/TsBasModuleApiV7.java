@@ -18,40 +18,23 @@
  */
 package se.inera.intyg.common.ts_bas.v7.rest;
 
-import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS;
-import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
-
-import java.io.StringReader;
-import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBElement;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
-import javax.xml.transform.stream.StreamSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.MarshallingFailureException;
 import org.springframework.stereotype.Component;
-import org.w3.wsaddressing10.AttributedURIType;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
-import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.ObjectFactory;
-import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateRequestType;
-import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateResponseType;
-import se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum;
-import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter.ModelConverter;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
-import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
@@ -164,35 +147,4 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
         return TransportToInternal.convert(intyg);
     }
 
-    @Override
-    public PatientDetailResolveOrder getPatientDetailResolveOrder() {
-        List<ResolveOrder> adressStrat = Arrays.asList(PARAMS, PU);
-        List<ResolveOrder> otherStrat = Arrays.asList(PU, PARAMS);
-
-        return new PatientDetailResolveOrder(null, adressStrat, otherStrat);
-    }
-
-    @Override
-    public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
-        AttributedURIType uri = new AttributedURIType();
-        uri.setValue(logicalAddress);
-
-        RevokeMedicalCertificateRequestType request = JAXB.unmarshal(new StreamSource(new StringReader(xmlBody)),
-            RevokeMedicalCertificateRequestType.class);
-        RevokeMedicalCertificateResponseType response = revokeCertificateClient.revokeMedicalCertificate(uri, request);
-        if (response.getResult().getResultCode().equals(ResultCodeEnum.ERROR)) {
-            String message = "Revoke sent to " + logicalAddress + " failed with error: " + response.getResult().getErrorText();
-            LOG.error(message);
-            throw new ExternalServiceCallException(message);
-        }
-    }
-
-    @Override
-    public String createRevokeRequest(Utlatande utlatande, HoSPersonal skapatAv, String meddelande) throws ModuleException {
-        RevokeMedicalCertificateRequestType request = new RevokeMedicalCertificateRequestType();
-        request.setRevoke(ModelConverter.buildRevokeTypeFromUtlatande(utlatande, meddelande));
-
-        JAXBElement<RevokeMedicalCertificateRequestType> el = new ObjectFactory().createRevokeMedicalCertificateRequest(request);
-        return XmlMarshallerHelper.marshal(el);
-    }
 }

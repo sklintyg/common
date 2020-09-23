@@ -36,11 +36,11 @@
                 <ns3:root>1.2.752.129.2.1.3.1</ns3:root>
                 <ns3:extension>191212121212</ns3:extension>
             </person-id>
-            <fornamn>Herr</fornamn>
-            <efternamn>Dundersjuk</efternamn>
-            <postadress>Testvägen 12</postadress>
-            <postnummer>12345</postnummer>
-            <postort>Testort</postort>
+            <fornamn></fornamn>
+            <efternamn></efternamn>
+            <postadress></postadress>
+            <postnummer></postnummer>
+            <postort></postort>
         </patient>
         <skapadAv>
             <personal-id>
