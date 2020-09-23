@@ -60,20 +60,25 @@ angular.module('common').directive('wcUtkastStatus', [
                     CertificateEventProxy.getCertificateEvents(id, function(response) {
                         if (response !== null) {
                             angular.forEach(response, function(event) {
-                                if (event.eventCode === 'SKAPAT' || event.eventCode === 'SKAPATFRAN') {
-                                    addToStatusEvents('us-006', event.timestamp);
-
-                                } else if (event.eventCode === 'LAST') {
-                                    addToStatusEvents('lus-01', event.timestamp);
-
-                                } else if (event.eventCode === 'MAKULERAT') {
-                                    addToStatusEvents('lus-02', event.timestamp);
-
-                                } else if (event.eventCode === 'FORLANGER' ||
-                                            event.eventCode === 'ERSATTER' ||
-                                            event.eventCode === 'KOMPLETTERAR') {
-
-                                    addRelationalStatus(event, response);
+                                switch (event.eventCode) {
+                                    case 'SKAPAT':
+                                    case 'SKAPATFRAN':
+                                        addToStatusEvents('us-006', event.timestamp);
+                                        break;
+                                    case 'LAST':
+                                        addToStatusEvents('lus-01', event.timestamp);
+                                        break;
+                                    case 'MAKULERAT':
+                                        addToStatusEvents('lus-02', event.timestamp);
+                                        break;
+                                    case 'KOPIERATFRAN':
+                                    case 'ERSATTER':
+                                    case 'KOMPLETTERAR':
+                                    case 'FORLANGER':
+                                        addRelationalStatus(event, response);
+                                        break;
+                                    default:
+                                        break;
                                 }
                             });
                             IntygStatusService.sortByStatusAndTimestamp($scope.statusEvents);
@@ -89,13 +94,9 @@ angular.module('common').directive('wcUtkastStatus', [
                         vars = getMessageVars(event.extendedMessage);
                     }
 
-                    var code = (event.eventCode === 'KOMPLETTERAR') ? 'us-007' :
-                        (event.eventCode === 'FORLANGER' ? 'ua-008' :
-                            'us-009');
+                    if (event.eventCode === 'KOPIERATFRAN') {
+                        addToStatusEvents('us-010', event.timestamp, vars);
 
-                    addToStatusEvents(code, event.timestamp, vars);
-
-                    if (event.eventCode !== 'KOMPLETTERAR') {
                         var revokedEvent = response.find(function(elem) {
                             return elem.eventCode === 'MAKULERAT';
                         });
@@ -108,9 +109,18 @@ angular.module('common').directive('wcUtkastStatus', [
                             $scope.varsForLink = vars;
                             addToStatusEvents('lus-03', revokedEvent.timestamp, vars);
                         }
+                    } else {
+                        if (event.eventCode === 'KOMPLETTERAR') {
+                            addToStatusEvents('us-007', event.timestamp, vars);
+                        }
+                        if (event.eventCode === 'FORLANGER') {
+                            addToStatusEvents('us-008', event.timestamp, vars);
+                        }
+                        if (event.eventCode === 'ERSATTER') {
+                            addToStatusEvents('us-009', event.timestamp, vars);
+                        }
                     }
                 }
-
 
                 function dateToString(timestamp) {
                     // timestamp is sometimes JS date objects, convert those to a comparable string
