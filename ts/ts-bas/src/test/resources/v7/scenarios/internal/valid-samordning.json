@@ -24,13 +24,7 @@
 
         },
         "patient": {
-            "personId": "19800191-0002",
-            "fullstandigtNamn": " ",
-            "fornamn": "",
-            "efternamn": "",
-            "postadress": "",
-            "postnummer": "",
-            "postort": ""
+            "personId": "19800191-0002"
         }
     },
     "vardkontakt" : {

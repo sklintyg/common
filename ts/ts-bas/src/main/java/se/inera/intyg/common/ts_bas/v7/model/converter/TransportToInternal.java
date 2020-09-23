@@ -156,7 +156,7 @@ public final class TransportToInternal {
     public static TsBasUtlatandeV7 convert(Intyg source) throws ConverterException {
         TsBasUtlatandeV7.Builder utlatande = TsBasUtlatandeV7.builder();
         utlatande.setId(source.getIntygsId().getExtension());
-        utlatande.setGrundData(TransportConverterUtil.getGrundData(source, true));
+        utlatande.setGrundData(TransportConverterUtil.getGrundData(source, false));
         utlatande.setTextVersion(source.getVersion());
         utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(source.getUnderskrift()));
         setSvar(utlatande, source);
