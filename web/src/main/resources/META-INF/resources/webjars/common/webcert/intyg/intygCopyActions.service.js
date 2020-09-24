@@ -317,7 +317,7 @@ angular.module('common').factory('common.IntygCopyActions',
                     },
                     button1text: createFromTemplateDialogModel.confirmCreateButtonMessageKey,
                     button2text: 'common.createfromtemplate.cancel',
-                    bodyText: intygCreateFromTemplateRequest.intygType + '.createfromtemplate.' + newIntygType + '.modal.text',
+                    bodyTextId: intygCreateFromTemplateRequest.intygType + '.createfromtemplate.' + newIntygType + '.modal.text',
                     autoClose: false
                 });
 

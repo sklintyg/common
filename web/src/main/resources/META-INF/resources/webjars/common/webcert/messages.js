@@ -72,6 +72,7 @@
             'common.ersatt.tooltip': 'Skapar en kopia av detta intyg som du kan redigera.',
             'common.ersatt.unhandledkomplettering.tooltip': 'Intyget har minst en ohanterad kompletteringsbegäran och går inte att ersätta.',
             'common.open': 'Öppna',
+            'common.close': 'Stäng',
             'common.show': 'Visa',
             'common.show.tooltip': 'Öppnar intyget/utkastet.',
             'common.delete': 'Radera',
