@@ -302,7 +302,7 @@ public final class TransportToInternal {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case INTYG_AVSER_DELSVAR_ID_1:
-                    intygAvserSet.add(IntygAvserKategori.valueOf(IntygAvserKod.fromCode(getCVSvarContent(delsvar).getCode()).name()));
+                    intygAvserSet.add(IntygAvserKategori.valueOf(IntygAvserKod.fromCode(getCVSvarContent(delsvar).getCode()).getCode()));
                     break;
                 default:
                     throw new IllegalArgumentException();
@@ -315,7 +315,7 @@ public final class TransportToInternal {
             switch (delsvar.getId()) {
                 case IDENTITET_STYRKT_GENOM_ID_2:
                     utlatande.setVardkontakt(Vardkontakt.create(VARDKONTAKT_TYP,
-                        IdKontrollKod.fromCode(getCVSvarContent(delsvar).getCode()).name()));
+                        IdKontrollKod.fromCode(getCVSvarContent(delsvar).getCode()).getCode()));
                     break;
                 default:
                     throw new IllegalArgumentException();
@@ -792,7 +792,7 @@ public final class TransportToInternal {
                 case UPPFYLLER_KRAV_FOR_BEHORIGHET_DELSVAR_ID_33:
                     TsBasKorkortsbehorighetKod korkortsbehorighetKod =
                         TsBasKorkortsbehorighetKod.fromCode(getCVSvarContent(delsvar).getCode());
-                    BedomningKorkortstyp bedomningKorkortstyp = BedomningKorkortstyp.valueOf(korkortsbehorighetKod.name());
+                    BedomningKorkortstyp bedomningKorkortstyp = BedomningKorkortstyp.valueOf(korkortsbehorighetKod.getCode());
                     bedomningsSet.add(bedomningKorkortstyp);
                     break;
                 default:

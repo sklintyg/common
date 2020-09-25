@@ -22,9 +22,9 @@ import com.google.common.collect.ImmutableSet;
 import java.util.Set;
 
 public enum IntygAvserKategori {
-    C1, C1E, C, CE, D1, D1E, D, DE, TAXI, ANNAT;
+    IAV1, IAV2, IAV3, IAV4, IAV5, IAV6, IAV7, IAV8, IAV9, IAV10;
 
     public static Set<IntygAvserKategori> getNormalCategories() {
-        return ImmutableSet.of(C1, C1E, C, CE, D1, D1E, D, DE, TAXI);
+        return ImmutableSet.of(IAV1, IAV2, IAV3, IAV4, IAV5, IAV6, IAV7, IAV8, IAV9);
     }
 }

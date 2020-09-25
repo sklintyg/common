@@ -26,11 +26,11 @@
     },
     "vardkontakt" : {
     	"typ" : "5880005", 
-    	"idkontroll" : "PASS"
+    	"idkontroll" : "IDK6"
     },
     "intygAvser" : {
         "korkortstyp" : [
-            {"type": "C", "selected": true}
+            {"type": "IAV3", "selected": true}
         ]
     },
     "syn" : {
@@ -121,7 +121,7 @@
     
     "bedomning" : {
       "korkortstyp" : [
-        {"type": "C", "selected": true}
+        {"type": "VAR3", "selected": true}
       ]
     }
     

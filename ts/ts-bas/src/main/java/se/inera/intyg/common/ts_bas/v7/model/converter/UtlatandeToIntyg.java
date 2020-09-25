@@ -197,7 +197,7 @@ public final class UtlatandeToIntyg {
 
         if (source.getIntygAvser() != null) {
             for (IntygAvserKategori korkortstyp : source.getIntygAvser().getKorkortstyp()) {
-                IntygAvserKod intygAvser = IntygAvserKod.valueOf(korkortstyp.name());
+                IntygAvserKod intygAvser = IntygAvserKod.fromCode(korkortstyp.name());
                 svars.add(aSvar(INTYG_AVSER_SVAR_ID_1, intygAvserInstans++)
                     .withDelsvar(INTYG_AVSER_DELSVAR_ID_1,
                         aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvser.getCode(), intygAvser.getDescription()))
@@ -206,7 +206,7 @@ public final class UtlatandeToIntyg {
         }
 
         if (source.getVardkontakt() != null && source.getVardkontakt().getIdkontroll() != null) {
-            IdKontrollKod idKontroll = IdKontrollKod.valueOf(source.getVardkontakt().getIdkontroll());
+            IdKontrollKod idKontroll = IdKontrollKod.fromCode(source.getVardkontakt().getIdkontroll());
             svars.add(aSvar(IDENTITET_STYRKT_GENOM_SVAR_ID_2)
                 .withDelsvar(IDENTITET_STYRKT_GENOM_ID_2,
                     aCV(KV_ID_KONTROLL_CODE_SYSTEM, idKontroll.getCode(), idKontroll.getDescription()))
@@ -479,7 +479,7 @@ public final class UtlatandeToIntyg {
         int behorighetInstans = 1;
         if (source.getKorkortstyp() != null) {
             for (BedomningKorkortstyp korkortstyp : source.getKorkortstyp()) {
-                TsBasKorkortsbehorighetKod korkortsbehorighet = TsBasKorkortsbehorighetKod.valueOf(korkortstyp.name());
+                TsBasKorkortsbehorighetKod korkortsbehorighet = TsBasKorkortsbehorighetKod.fromCode(korkortstyp.name());
                 svars.add(aSvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_SVAR_ID_33, behorighetInstans++)
                     .withDelsvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_DELSVAR_ID_33,
                         aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, korkortsbehorighet.getCode(), korkortsbehorighet.getDescription()))

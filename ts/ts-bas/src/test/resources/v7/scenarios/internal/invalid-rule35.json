@@ -26,11 +26,11 @@
     },
     "vardkontakt" : {
     	"typ" : "5880005", 
-    	"idkontroll" : "PASS"
+    	"idkontroll" : "IDK6"
     },
     "intygAvser" : {
         "korkortstyp" : [
-            {"type": "C", "selected": true}
+            {"type": "IAV3", "selected": true}
         ]
     },
     "syn" : {
@@ -39,7 +39,7 @@
         "progressivOgonsjukdom" : false,
         "diplopi" : false,
         "nystagmus" : false,
-      "synskarpaSkickasSeparat" : false,
+        "synskarpaSkickasSeparat" : false,
         "hogerOga" : {
         	"utanKorrektion" : 0.0,
         	"kontaktlins" : false
@@ -118,7 +118,7 @@
     
     "bedomning" : {
       "korkortstyp" : [
-        {"type": "C", "selected": true}
+        {"type": "VAR3", "selected": true}
       ]
     }
     

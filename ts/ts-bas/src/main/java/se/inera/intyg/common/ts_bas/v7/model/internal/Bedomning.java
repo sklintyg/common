@@ -72,7 +72,7 @@ public final class Bedomning {
                     throw new IllegalStateException("Both kanInteTaStallning and korkortstyp is set in the Bedomning object read from "
                         + "the database. This indicates that the code is not working as excepted.");
                 }
-                this.korkortstyp = EnumSet.of(BedomningKorkortstyp.KAN_INTE_TA_STALLNING);
+                this.korkortstyp = EnumSet.of(BedomningKorkortstyp.VAR11);
             }
             return this;
         }

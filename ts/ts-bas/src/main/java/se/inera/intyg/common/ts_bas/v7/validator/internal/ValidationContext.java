@@ -32,7 +32,7 @@ public class ValidationContext {
 
     public boolean isPersontransportContext() {
         for (IntygAvserKategori intygAvser : utlatande.getIntygAvser().getKorkortstyp()) {
-            IntygAvserKod intygAvserEnum = IntygAvserKod.valueOf(intygAvser.name());
+            IntygAvserKod intygAvserEnum = IntygAvserKod.fromCode(intygAvser.name());
             if (intygAvserEnum != null && IntygAvserKod.isPersontransport(intygAvserEnum)) {
                 return true;
             }

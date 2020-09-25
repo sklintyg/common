@@ -29,7 +29,7 @@ var viewConfig = [
                     type: 'uv-del-fraga',
                     components: [{
                         type: 'uv-list',
-                        labelKey: 'KORKORT.{var}.RBK',
+                        labelKey: 'KV_INTYGET_AVSER.{0}.RBK',
                         useLabelKeyForPrint: true,
                         listKey: function(model) {
                             return model.selected ? model.type : null;
@@ -50,7 +50,7 @@ var viewConfig = [
             components: [{
                 type: 'uv-kodverk-value',
                 kvModelProps: ['vardkontakt.idkontroll'],
-                kvLabelKeys: ['IDENTITET_{var}.RBK']
+                kvLabelKeys: ['KV_ID_KONTROLL.{var}.RBK']
             }]
         }]
     },
@@ -127,7 +127,7 @@ var viewConfig = [
                 labelKey: 'FRG_8.RBK',
                 components: [{
                     type: 'uv-del-fraga',
-                    labelKey: 'FRG_8.1.RBK',
+                    labelKey: 'DFR_8.1.RBK',
                     components: [{
                         type: 'uv-boolean-value',
                         modelProp: 'syn.synskarpaSkickasSeparat'
@@ -500,7 +500,7 @@ var viewConfig = [
                     },
                     {
                         type: 'uv-del-fraga',
-                        labelKey: 'DFR_26.1.RBK',
+                        labelKey: 'DFR_26.2.RBK',
                         components: [{
                             type: 'uv-simple-value',
                             modelProp: 'narkotikaLakemedel.lakemedelOchDos'
@@ -650,7 +650,7 @@ var viewConfig = [
                         labelKey: 'DFR_33.1.RBK',
                         components: [{
                             type: 'uv-list',
-                            labelKey: 'KORKORT.{var}.RBK',
+                            labelKey: 'KV_KORKORTSBEHORIGHET.{0}.RBK',
                             useLabelKeyForPrint: true,
                             listKey: function(model) {
                                 return model.selected ? model.type : null;

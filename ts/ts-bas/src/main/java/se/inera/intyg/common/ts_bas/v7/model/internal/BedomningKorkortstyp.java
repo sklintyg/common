@@ -19,15 +19,5 @@
 package se.inera.intyg.common.ts_bas.v7.model.internal;
 
 public enum BedomningKorkortstyp {
-    C1,
-    C1E,
-    C,
-    CE,
-    D1,
-    D1E,
-    D,
-    DE,
-    TAXI,
-    ANNAT,
-    KAN_INTE_TA_STALLNING
+    VAR1, VAR2, VAR3, VAR4, VAR5, VAR6, VAR7, VAR8, VAR9, VAR10, VAR11
 }

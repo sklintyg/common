@@ -29,20 +29,20 @@
     "kommentar" : "Här kommer en övrig kommentar",
     "vardkontakt" : {
     	"typ" : "5880005", 
-    	"idkontroll" : "PASS"
+    	"idkontroll" : "IDK6"
     },
     "intygAvser" : {
         "korkortstyp" : [
-            {"type": "C1", "selected": true},
-            {"type": "C1E", "selected": true},
-            {"type": "C", "selected": true},
-            {"type": "CE", "selected": true},
-            {"type": "D1", "selected": true},
-            {"type": "D1E", "selected": true},
-            {"type": "D", "selected": true},
-            {"type": "DE", "selected": true},
-            {"type": "TAXI", "selected": true},
-            {"type": "ANNAT", "selected": true}
+            {"type": "IAV1", "selected": true},
+            {"type": "IAV2", "selected": true},
+            {"type": "IAV3", "selected": true},
+            {"type": "IAV4", "selected": true},
+            {"type": "IAV5", "selected": true},
+            {"type": "IAV6", "selected": true},
+            {"type": "IAV7", "selected": true},
+            {"type": "IAV8", "selected": true},
+            {"type": "IAV9", "selected": true},
+            {"type": "IAV10", "selected": true}
         ]
     },
     "syn" : {
@@ -148,16 +148,16 @@
     
     "bedomning" : {
         "korkortstyp" : [
-            {"type": "C1", "selected": true},
-            {"type": "C1E", "selected": true},
-            {"type": "C", "selected": true},
-            {"type": "CE", "selected": true},
-            {"type": "D1", "selected": true},
-            {"type": "D1E", "selected": true},
-            {"type": "D", "selected": true},
-            {"type": "DE", "selected": true},
-            {"type": "TAXI", "selected": true},
-            {"type": "ANNAT", "selected": true}
+            {"type": "VAR1", "selected": true},
+            {"type": "VAR2", "selected": true},
+            {"type": "VAR3", "selected": true},
+            {"type": "VAR4", "selected": true},
+            {"type": "VAR5", "selected": true},
+            {"type": "VAR6", "selected": true},
+            {"type": "VAR7", "selected": true},
+            {"type": "VAR8", "selected": true},
+            {"type": "VAR9", "selected": true},
+            {"type": "VAR10", "selected": true}
         ],
         "kanInteTaStallning" : false,
         "lakareSpecialKompetens" : "Spektralanalys"

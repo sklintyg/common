@@ -137,7 +137,7 @@ public class UtlatandeToIntygTest {
     @Test
     public void testAddIntygAvserSvar() {
         TsBasUtlatandeV7 utlatande = buildUtlatande();
-        EnumSet<IntygAvserKategori> intygAvserKategorier = EnumSet.of(IntygAvserKategori.C1, IntygAvserKategori.TAXI);
+        EnumSet<IntygAvserKategori> intygAvserKategorier = EnumSet.of(IntygAvserKategori.IAV1, IntygAvserKategori.IAV9);
         utlatande = utlatande.toBuilder().setIntygAvser(IntygAvser.create(intygAvserKategorier)).build();
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);

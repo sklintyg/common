@@ -574,7 +574,7 @@ public class InternalValidatorInstance {
         if (syn.getBinokulart() != null && syn.getHogerOga() != null && syn.getVansterOga() != null
             && utlatande.getIntygAvser() != null && utlatande.getIntygAvser().getKorkortstyp() != null) {
             // R33
-            if (utlatande.getIntygAvser().getKorkortstyp().contains(IntygAvserKategori.ANNAT)
+            if (utlatande.getIntygAvser().getKorkortstyp().contains(IntygAvserKategori.IAV10)
                 && syn.getBinokulart().getUtanKorrektion() != null
                 && syn.getBinokulart().getUtanKorrektion() < 0.5) {
                 if (syn.getHogerOga().getMedKorrektion() == null) {

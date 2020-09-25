@@ -27,19 +27,20 @@
     },
     "vardkontakt" : {
     	"typ" : "5880005", 
-    	"idkontroll" : "PASS"
+    	"idkontroll" : "IDK6"
     },
     "intygAvser" : {
         "korkortstyp" : [
-            {"type": "C1", "selected": false},
-            {"type": "C1E", "selected": false},
-            {"type": "C", "selected": true},
-            {"type": "CE", "selected": false},
-            {"type": "D1", "selected": false},
-            {"type": "D1E", "selected": false},
-            {"type": "D", "selected": false},
-            {"type": "DE", "selected": false},
-            {"type": "TAXI", "selected": false}
+            {"type": "IAV1", "selected": false},
+            {"type": "IAV2", "selected": false},
+            {"type": "IAV3", "selected": true},
+            {"type": "IAV4", "selected": false},
+            {"type": "IAV5", "selected": false},
+            {"type": "IAV6", "selected": false},
+            {"type": "IAV7", "selected": false},
+            {"type": "IAV8", "selected": false},
+            {"type": "IAV9", "selected": false},
+            {"type": "IAV10", "selected": false}
         ]
     },
     "syn" : {
@@ -128,16 +129,16 @@
     
     "bedomning" : {
         "korkortstyp" : [
-            {"type": "C1", "selected": false},
-            {"type": "C1E", "selected": false},
-            {"type": "C", "selected": true},
-            {"type": "CE", "selected": false},
-            {"type": "D1", "selected": false},
-            {"type": "D1E", "selected": false},
-            {"type": "D", "selected": false},
-            {"type": "DE", "selected": false},
-            {"type": "TAXI", "selected": false},
-            {"type": "ANNAT", "selected": false}
+            {"type": "VAR1", "selected": false},
+            {"type": "VAR2", "selected": false},
+            {"type": "VAR3", "selected": true},
+            {"type": "VAR4", "selected": false},
+            {"type": "VAR5", "selected": false},
+            {"type": "VAR6", "selected": false},
+            {"type": "VAR7", "selected": false},
+            {"type": "VAR8", "selected": false},
+            {"type": "VAR9", "selected": false},
+            {"type": "VAR10", "selected": false}
         ]
     }
     

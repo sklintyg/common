@@ -57,7 +57,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                         return true;
                     }
                     var korkortstyp = scope.model.intygAvser.korkortstyp;
-                    var targetTypes = ['D1', 'D1E', 'D', 'DE', 'TAXI'];
+                    var targetTypes = ['IAV5', 'IAV6', 'IAV7', 'IAV8', 'IAV9'];
                     for (var i = 0; i < korkortstyp.length; i++) {
                         for (var j = 0; j < targetTypes.length; j++) {
                             if (korkortstyp[i].type === targetTypes[j] && korkortstyp[i].selected) {
@@ -89,7 +89,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                 }
                 function isAnnatSelected(model) {
                     for (var i = 0; i < model.intygAvser.korkortstyp.length; i++) {
-                        if (model.intygAvser.korkortstyp[i].type === 'ANNAT' && model.intygAvser.korkortstyp[i].selected) {
+                        if (model.intygAvser.korkortstyp[i].type === 'IAV10' && model.intygAvser.korkortstyp[i].selected) {
                             return true;
                         }
                     }
@@ -134,7 +134,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                         fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', {required: true, requiredProp: requiredKorkortProperties('intygAvser')}, [{
                             type: 'ue-checkgroup-ts',
                             modelProp: 'intygAvser.korkortstyp',
-                            labelTemplate:'KORKORT.{0}.RBK'
+                            labelTemplate:'KV_INTYGET_AVSER.{0}.RBK'
                         }])
                     ]),
 
@@ -146,12 +146,12 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                             htmlClass: 'col-md-6 no-padding',
                             paddingBottom: true,
                             choices: [
-                                {label: 'ts-bas.label.identitet.id_kort', id: 'ID_KORT'},
-                                {label: 'ts-bas.label.identitet.foretag_eller_tjanstekort', id: 'FORETAG_ELLER_TJANSTEKORT'},
-                                {label: 'ts-bas.label.identitet.korkort', id: 'KORKORT'},
-                                {label: 'ts-bas.label.identitet.pers_kannedom', id: 'PERS_KANNEDOM'},
-                                {label: 'ts-bas.label.identitet.forsakran_kap18', id: 'FORSAKRAN_KAP18'},
-                                {label: 'ts-bas.label.identitet.pass', id: 'PASS'}
+                                {label: 'KV_ID_KONTROLL.IDK1.RBK', id: 'IDK1'},
+                                {label: 'KV_ID_KONTROLL.IDK2.RBK', id: 'IDK2'},
+                                {label: 'KV_ID_KONTROLL.IDK3.RBK', id: 'IDK3'},
+                                {label: 'KV_ID_KONTROLL.IDK4.RBK', id: 'IDK4'},
+                                {label: 'KV_ID_KONTROLL.IDK5.RBK', id: 'IDK5'},
+                                {label: 'KV_ID_KONTROLL.IDK6.RBK', id: 'IDK6'}
                             ]
                         }])
                     ]),
@@ -186,7 +186,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                         fraga(8, 'FRG_8.RBK', 'FRG_8.HLP', {}, [{
                             type: 'ue-checkbox',
                             label: {
-                                key: 'FRG_8.1.RBK'
+                                key: 'DFR_8.1.RBK'
                             },
                             modelProp: 'syn.synskarpaSkickasSeparat',
                             disabled: '(model.syn.hogerOga.utanKorrektion || model.syn.hogerOga.medKorrektion || model.syn.hogerOga.kontaktlins' +
@@ -201,7 +201,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                                 [{
                                 },{
                                     type: 'ue-form-label',
-                                    key: 'ts-bas.label.syn.utankorrektion',
+                                    key: 'DFR_8.2.RBK',
                                     required: true,
                                     requiredProp: noCorrectionRequired
                                 },{
@@ -276,7 +276,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                         fraga(9, 'FRG_9.RBK', '', { }, [{
                             type: 'ue-checkbox',
                             label: {
-                                key: 'FRG_9.1.RBK',
+                                key: 'DFR_9.1.RBK',
                                 helpKey: 'FRG_9.HLP'
                             },
                             modelProp: 'syn.korrektionsglasensStyrka',
@@ -478,7 +478,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                             htmlMaxlength: 180,
                             rows: 3,
                             label: {
-                                key: 'DFR_26.1.RBK',
+                                key: 'DFR_26.2.RBK',
                                 required: true,
                                 requiredProp: 'narkotikaLakemedel.lakemedelOchDos'
                             }
@@ -578,10 +578,10 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                                 requiredProp: requiredKorkortProperties('bedomning')
                             },
                             [{
-                                labelTemplate:'KORKORT.{0}.RBK',
+                                labelTemplate:'KV_KORKORTSBEHORIGHET.{0}.RBK',
                                 type: 'ue-checkgroup-ts',
                                 modelProp: 'bedomning.korkortstyp',
-                                watcher: ueTSFactoryTemplates.getBedomningListenerConfig('korkortstyp', 'KAN_INTE_TA_STALLNING')
+                                watcher: ueTSFactoryTemplates.getBedomningListenerConfig('korkortstyp', 'VAR11')
                             }]
                         ),
                         fraga(34, 'FRG_34.RBK', 'FRG_34.HLP', { }, [{
@@ -592,15 +592,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                         }])
                     ]),
 
-                    ueFactoryTemplates.vardenhet/*,
-
-    Befattning and specialitet was present in code but not working in 5.4
-                kategori(null, '', '', {}, [
-                    fraga(null, '', '', {}, [{
-                        type: 'ue-befattning-specialitet'
-                    }])
-                ])
-*/
+                    ueFactoryTemplates.vardenhet
                 ];
                 return config;
             }
