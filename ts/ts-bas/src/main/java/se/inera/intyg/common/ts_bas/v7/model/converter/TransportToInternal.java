@@ -112,6 +112,7 @@ import static se.inera.intyg.common.ts_parent.codes.RespConstants.VARDKONTAKT_TY
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.VARD_SJUKHUS_KONTAKT_LAKARE_SVAR_ID_30;
 
 import java.util.EnumSet;
+import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.inera.intyg.common.support.common.enumerations.PatientInfo;
@@ -443,15 +444,9 @@ public final class TransportToInternal {
                     break;
             }
         }
-        if (hogerOga != null) {
-            syn.setHogerOga(hogerOga.build());
-        }
-        if (vansterOga != null) {
-            syn.setVansterOga(vansterOga.build());
-        }
-        if (binokulart != null) {
-            syn.setBinokulart(binokulart.build());
-        }
+        syn.setHogerOga(Objects.requireNonNullElseGet(hogerOga, Synskarpevarden::builder).build());
+        syn.setVansterOga(Objects.requireNonNullElseGet(vansterOga, Synskarpevarden::builder).build());
+        syn.setBinokulart(Objects.requireNonNullElseGet(binokulart, Synskarpevarden::builder).build());
     }
 
     private static void handleUndersokning8DioptriersKorrektionsgrad(Syn.Builder syn, Svar svar) {
