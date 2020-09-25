@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-describe('ts-basUtkastConfigFactory', function() {
+describe('ts-basUtkastConfigFactoryV7', function() {
     'use strict';
 
     var element;
@@ -52,30 +52,30 @@ describe('ts-basUtkastConfigFactory', function() {
         }
 
         it('should show extra fields when some "korkortstyp"-options are selected', function() {
-            checkKorkortstyp('D1', true);
-            checkKorkortstyp('D1E', true);
-            checkKorkortstyp('D', true);
-            checkKorkortstyp('DE', true);
-            checkKorkortstyp('TAXI', true);
-            checkKorkortstyp('ANNAT', false);
-            checkKorkortstyp('C1', false);
+            checkKorkortstyp('IAV5', true);
+            checkKorkortstyp('IAV6', true);
+            checkKorkortstyp('IAV7', true);
+            checkKorkortstyp('IAV8', true);
+            checkKorkortstyp('IAV9', true);
+            checkKorkortstyp('IAV10', false);
+            checkKorkortstyp('IAV1', false);
         });
 
         it('should reset hidden fields when some "korkortstyp"-options are deselected', function() {
 
-            getCheckboxForKorkortstyp('D1').selected = true;
+            getCheckboxForKorkortstyp('IAV5').selected = true;
             $scope.$digest();
 
             $scope.model.horselBalans.svartUppfattaSamtal4Meter = true;
             $scope.model.funktionsnedsattning.otillrackligRorelseformaga = true;
-            getCheckboxForKorkortstyp('D1').selected = false;
+            getCheckboxForKorkortstyp('IAV5').selected = false;
             $scope.$digest();
 
             expect($scope.model.horselBalans.svartUppfattaSamtal4Meter).toBeUndefined();
             expect($scope.model.funktionsnedsattning.otillrackligRorelseformaga).toBeUndefined();
 
             // Attic
-            getCheckboxForKorkortstyp('D1').selected = true;
+            getCheckboxForKorkortstyp('IAV5').selected = true;
             $scope.$digest();
 
             expect($scope.model.horselBalans.svartUppfattaSamtal4Meter).toBeTruthy();
@@ -84,7 +84,7 @@ describe('ts-basUtkastConfigFactory', function() {
             // Check that 2b and 3b still are selected if you select another high körkortstyp after it already is set to high.
             $scope.model.horselBalans.svartUppfattaSamtal4Meter = true;
             $scope.model.funktionsnedsattning.otillrackligRorelseformaga = true;
-            getCheckboxForKorkortstyp('D1E').selected = true;
+            getCheckboxForKorkortstyp('IAV6').selected = true;
             $scope.$digest();
 
             expect($scope.model.horselBalans.svartUppfattaSamtal4Meter).toBeTruthy();
