@@ -51,30 +51,11 @@ angular.module('ts-bas').service('ts-bas.UtkastController.ViewStateService.v7',
             };
 
             this.reset = function() {
-                this.korkortd = false;
-                this.identitet = [
-                    {label: 'ID-kort ¹', id: 'ID_KORT'},
-                    {label: 'Företagskort eller tjänstekort ²', id: 'FORETAG_ELLER_TJANSTEKORT'},
-                    {label: 'Svenskt körkort', id: 'KORKORT'},
-                    {label: 'Personlig kännedom', id: 'PERS_KANNEDOM'},
-                    {label: 'Försäkran enligt 18 kap. 4§ ³', id: 'FORSAKRAN_KAP18'},
-                    {label: 'Pass ⁴', id: 'PASS'}
-                ];
-                this.behorighet = null;
-                this.kravYtterligareUnderlag = false; // if any field is set to JA this should be true to show info.
 
                 CommonViewState.reset();
                 CommonViewState.intyg.type = 'ts-bas';
                 this.setDraftModel(IntygModel._members.build());
                 return this;
-            };
-
-            this.setBehorighet = function(model){
-                if (model.bedomning && model.bedomning.kanInteTaStallning) {
-                    this.behorighet = 'KANINTETASTALLNING';
-                } else {
-                    this.behorighet = 'BEDOMNING';
-                }
             };
 
             /* jshint ignore:start */

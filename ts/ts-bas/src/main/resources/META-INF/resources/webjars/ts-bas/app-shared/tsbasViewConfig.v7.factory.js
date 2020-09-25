@@ -147,8 +147,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory.v7', [
                                     colProps: ['hogerOga', 'vansterOga', 'binokulart'],
                                     valueProps: [
                                         function(model, rowIndex, colIndex, colProp) {
-                                            var message = 'ts-bas.label.syn.' + colProp.toLowerCase();
-                                            return message;
+                                            return 'ts-bas.label.syn.' + colProp.toLowerCase();
                                         },
                                         function(model) {
                                             return $filter('number')(model.utanKorrektion, 1);

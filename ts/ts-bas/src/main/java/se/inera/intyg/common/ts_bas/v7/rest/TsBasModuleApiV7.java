@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.ts_bas.v7.rest;
 
+import java.nio.charset.Charset;
+import java.util.Base64;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.xml.bind.JAXBElement;
@@ -145,6 +147,29 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
     @Override
     protected TsBasUtlatandeV7 transportToInternal(Intyg intyg) throws ConverterException {
         return TransportToInternal.convert(intyg);
+    }
+
+    @Override
+    public String updateAfterSigning(String jsonModel, String signatureXml) throws ModuleException {
+        if (signatureXml == null) {
+            return jsonModel;
+        }
+        String base64EncodedSignatureXml = Base64.getEncoder().encodeToString(signatureXml.getBytes(Charset.forName("UTF-8")));
+        return updateInternalAfterSigning(jsonModel, base64EncodedSignatureXml);
+    }
+
+    private String updateInternalAfterSigning(String internalModel, String base64EncodedSignatureXml)
+        throws ModuleException {
+        try {
+            TsBasUtlatandeV7 utlatande = decorateWithSignature(getInternal(internalModel), base64EncodedSignatureXml);
+            return toInternalModelResponse(utlatande);
+        } catch (ModuleException e) {
+            throw new ModuleException("Error while updating internal model with signature", e);
+        }
+    }
+
+    private TsBasUtlatandeV7 decorateWithSignature(TsBasUtlatandeV7 utlatande, String base64EncodedSignatureXml) {
+        return utlatande.toBuilder().setSignature(base64EncodedSignatureXml).build();
     }
 
 }

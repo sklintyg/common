@@ -29,7 +29,7 @@ var viewConfig = [
                     type: 'uv-del-fraga',
                     components: [{
                         type: 'uv-list',
-                        labelKey: 'KV_INTYGET_AVSER.{0}.RBK',
+                        labelKey: 'KV_INTYGET_AVSER.{var}.RBK',
                         useLabelKeyForPrint: true,
                         listKey: function(model) {
                             return model.selected ? model.type : null;
@@ -144,8 +144,7 @@ var viewConfig = [
                             colProps: ['hogerOga', 'vansterOga', 'binokulart'],
                             valueProps: [
                                 function(model, rowIndex, colIndex, colProp) {
-                                    var message = 'ts-bas.label.syn.' + colProp.toLowerCase();
-                                    return message;
+                                    return 'ts-bas.label.syn.' + colProp.toLowerCase();
                                 },
                                 function(model) {
                                     return $filter('number')(model.utanKorrektion, 1);
@@ -650,7 +649,7 @@ var viewConfig = [
                         labelKey: 'DFR_33.1.RBK',
                         components: [{
                             type: 'uv-list',
-                            labelKey: 'KV_KORKORTSBEHORIGHET.{0}.RBK',
+                            labelKey: 'KV_KORKORTSBEHORIGHET.{var}.RBK',
                             useLabelKeyForPrint: true,
                             listKey: function(model) {
                                 return model.selected ? model.type : null;
