@@ -194,7 +194,7 @@ angular.module('common').factory('common.UtkastService',
                 // If death certificate was issued on vårdenhet other than the currently selected,
                 // copy is not permitted, display information dialog.
                 if (utlatandeJson.candidateMetaData.intygType.toLowerCase() === 'db' && !utlatandeJson.candidateMetaData.sameVardenhet) {
-                    _showCandidateVardenhetInfo(utlatandeJson.candidateMetaData.vardenhetName);
+                    _showCandidateVardenhetInfo(utlatandeJson.candidateMetaData.enhetName);
                 } else {
                     // Else display dialog with option to perform copy from candidate, or cancel.
                     var defer = $q.defer();
