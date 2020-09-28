@@ -47,11 +47,6 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Utvecklingsstorning;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Vardkontakt;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 
-/**
- * Class for validating drafts of the internal model.
- *
- * @author erik
- */
 public class InternalValidatorInstance {
 
     private static final String CATEGORY_INTYG_AVSER = "intygAvser";

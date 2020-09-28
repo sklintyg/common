@@ -24,12 +24,6 @@ import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
-/**
- * Convert from {@link TsBasUtlatande} to the external {@link TSBasIntyg}
- * model.
- *
- * @author erik
- */
 public final class InternalToTransport {
 
     private InternalToTransport() {

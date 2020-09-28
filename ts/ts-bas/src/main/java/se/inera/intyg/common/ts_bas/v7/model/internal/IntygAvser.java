@@ -29,11 +29,6 @@ import javax.annotation.Nullable;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetDeserializer;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 
-/**
- * The Korkortstyp[er] a specific Utlatande concerns.
- *
- * @author erik
- */
 @AutoValue
 public abstract class IntygAvser {
 

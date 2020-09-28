@@ -23,11 +23,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import javax.annotation.Nullable;
 
-/**
- * Class encapsulating the values for synskarpa for a single eye.
- *
- * @author erik
- */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Synskarpevarden.Builder.class)
 public abstract class Synskarpevarden {
