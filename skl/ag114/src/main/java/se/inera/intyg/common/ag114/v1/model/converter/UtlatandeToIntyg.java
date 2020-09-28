@@ -61,6 +61,7 @@ import se.inera.intyg.common.ag114.model.converter.RespConstants;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
 import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
+import se.inera.intyg.common.support.common.enumerations.PatientInfo;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
@@ -78,7 +79,7 @@ public final class UtlatandeToIntyg {
         if (utlatande == null) {
             throw new ConverterException("Source utlatande was null, cannot convert");
         }
-        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, false);
+        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, PatientInfo.BASIC);
         intyg.setTyp(getTypAvIntyg(KvIntygstyp.AG1_14));
         intyg.getSvar().addAll(getSvar(utlatande, webcertModuleService));
         intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));

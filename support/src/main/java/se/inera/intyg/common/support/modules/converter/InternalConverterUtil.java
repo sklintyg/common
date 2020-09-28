@@ -19,12 +19,7 @@
 package se.inera.intyg.common.support.modules.converter;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static se.inera.intyg.common.support.Constants.ARBETSPLATS_KOD_OID;
-import static se.inera.intyg.common.support.Constants.BEFATTNING_KOD_OID;
-import static se.inera.intyg.common.support.Constants.HSA_ID_OID;
-import static se.inera.intyg.common.support.Constants.KV_RELATION_CODE_SYSTEM;
-import static se.inera.intyg.common.support.Constants.PERSON_ID_OID;
-import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
+import static se.inera.intyg.common.support.Constants.*;
 
 import com.google.common.base.Strings;
 import java.time.LocalDate;
@@ -38,6 +33,7 @@ import java.util.regex.Pattern;
 import javax.xml.bind.JAXBElement;
 import org.w3._2000._09.xmldsig_.SignatureType;
 import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
+import se.inera.intyg.common.support.common.enumerations.PatientInfo;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.ModelException;
@@ -48,21 +44,7 @@ import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.schemas.contract.Personnummer;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.ArbetsplatsKod;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.Befattning;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.HsaId;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.ObjectFactory;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.PQType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.PersonId;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.Specialistkompetens;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvRelation;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.UnderskriftType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.*;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Enhet;
 import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -106,18 +88,18 @@ public final class InternalConverterUtil {
      *
      * @param source
      *            the source Utlatande
-     * @param extendedPatientInfo
-     *            if the certificate should support patients with sekretessmarkering
+     * @param patientInfo
+     *            detail level of patient information
      * @return the converted Intyg
      */
-    public static Intyg getIntyg(Utlatande source, boolean extendedPatientInfo) {
+    public static Intyg getIntyg(Utlatande source, PatientInfo patientInfo) {
         Intyg intyg = new Intyg();
         intyg.setIntygsId(getIntygsId(source));
         intyg.setVersion(getTextVersion(source));
         intyg.setSigneringstidpunkt(source.getGrundData().getSigneringsdatum());
         intyg.setSkickatTidpunkt(source.getGrundData().getSigneringsdatum());
         intyg.setSkapadAv(getSkapadAv(source.getGrundData().getSkapadAv()));
-        intyg.setPatient(getPatient(source.getGrundData().getPatient(), extendedPatientInfo));
+        intyg.setPatient(getPatient(source.getGrundData().getPatient(), patientInfo));
         decorateWithRelation(intyg, source);
         return intyg;
     }
@@ -460,7 +442,7 @@ public final class InternalConverterUtil {
     }
 
     private static Patient getPatient(se.inera.intyg.common.support.model.common.internal.Patient sourcePatient,
-            boolean extendedPatientInfo) {
+            PatientInfo patientInfo) {
 
         String pnr = sourcePatient.getPersonId().getPersonnummer();
         Personnummer personnummer = Personnummer.createPersonnummer(pnr).get();
@@ -468,13 +450,16 @@ public final class InternalConverterUtil {
         Patient patient = new se.riv.clinicalprocess.healthcond.certificate.v3.Patient();
         patient.setPersonId(getPersonId(personnummer));
 
-        if (extendedPatientInfo) {
+        if (patientInfo == PatientInfo.EXTENDED || patientInfo == PatientInfo.EXTENDED_WITH_ADDRESS_DETAILS_SOURCE) {
             patient.setEfternamn(emptyStringIfNull(sourcePatient.getEfternamn()));
             patient.setFornamn(emptyStringIfNull(sourcePatient.getFornamn()));
             patient.setMellannamn(sourcePatient.getMellannamn());
             patient.setPostadress(emptyStringIfNull(sourcePatient.getPostadress()));
             patient.setPostnummer(emptyStringIfNull(sourcePatient.getPostnummer()));
             patient.setPostort(emptyStringIfNull(sourcePatient.getPostort()));
+            if (patientInfo == PatientInfo.EXTENDED_WITH_ADDRESS_DETAILS_SOURCE) {
+                patient.setKallaAdressuppgifter(getKallaAdressuppgifterType(sourcePatient.isAddressDetailsSourcePU()));
+            }
         } else {
             patient.setEfternamn("");
             patient.setFornamn("");
@@ -483,6 +468,19 @@ public final class InternalConverterUtil {
             patient.setPostort("");
         }
         return patient;
+    }
+
+    private static KallaAdressuppgifterType getKallaAdressuppgifterType(boolean addressDetailsSourcePU) {
+        var addressDetailsSource = new KallaAdressuppgifterType();
+        addressDetailsSource.setCodeSystem(ADDRESS_DETAILS_SOURCE_CODE_SYSTEM);
+        if (addressDetailsSourcePU) {
+            addressDetailsSource.setCode(ADDRESS_DETAILS_SOURCE_PU_CODE);
+            addressDetailsSource.setDisplayName(ADDRESS_DETAILS_SOURCE_PU_NAME);
+        } else {
+            addressDetailsSource.setCode(ADDRESS_DETAILS_SOURCE_USER_CODE);
+            addressDetailsSource.setDisplayName(ADDRESS_DETAILS_SOURCE_USER_NAME);
+        }
+        return addressDetailsSource;
     }
 
     private static String getTextVersion(Utlatande source) {

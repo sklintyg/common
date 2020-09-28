@@ -49,7 +49,7 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                         {
                             modelProp: 'identitetStyrkt',
                             type: 'ue-textfield',
-                            htmlMaxlength: 100,
+                            htmlMaxlength: 27,
                             label: {
                                 key: 'DFR_1.1.RBK',
                                 helpKey: 'DFR_1.1.HLP',
@@ -65,7 +65,7 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                         {
                             modelProp: 'land',
                             type: 'ue-textfield',
-                            htmlMaxlength: 100,
+                            htmlMaxlength: 24,
                             label: {
                                 key: 'DFR_14.1.RBK',
                                 helpKey: 'DFR_14.1.HLP',
@@ -117,7 +117,7 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                         {
                             modelProp: 'dodsplatsKommun',
                             type: 'ue-typeahead',
-                            htmlMaxlength: 100,
+                            htmlMaxlength: 28,
                             valuesUrl: '/api/config/kommuner',
                             orderByBeginning: true,
                             label: {

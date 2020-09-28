@@ -23,6 +23,7 @@ import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetai
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import java.util.Optional;
@@ -131,7 +132,7 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
 
     @Override
     public PatientDetailResolveOrder getPatientDetailResolveOrder() {
-        List<ResolveOrder> adressStrat = Arrays.asList(PREDECESSOR, PU);
+        List<ResolveOrder> adressStrat = Collections.singletonList(PU);
         List<ResolveOrder> otherStrat = Arrays.asList(PREDECESSOR, PU);
 
         return new PatientDetailResolveOrder("db", adressStrat, otherStrat);

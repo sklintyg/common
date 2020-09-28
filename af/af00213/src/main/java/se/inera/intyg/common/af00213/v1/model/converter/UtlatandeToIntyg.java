@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
+import se.inera.intyg.common.support.common.enumerations.PatientInfo;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
@@ -51,7 +52,7 @@ public final class UtlatandeToIntyg {
     }
 
     public static Intyg convert(Af00213UtlatandeV1 utlatande) {
-        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, false);
+        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, PatientInfo.BASIC);
         intyg.setTyp(getTypAvIntyg(KvIntygstyp.AF00213));
         intyg.getSvar().addAll(getSvar(utlatande));
         intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));

@@ -88,6 +88,7 @@ import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
+import se.inera.intyg.common.support.common.enumerations.PatientInfo;
 import se.inera.intyg.common.support.model.ModelException;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
@@ -115,7 +116,7 @@ public final class UtlatandeToIntyg {
     }
 
     public static Intyg convert(TsDiabetesUtlatandeV2 utlatande) {
-        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, true);
+        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, PatientInfo.EXTENDED);
         complementArbetsplatskodIfMissing(intyg);
         intyg.setTyp(getTypAvIntyg());
         intyg.getSvar().addAll(getSvar(utlatande));

@@ -35,6 +35,7 @@ import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTR
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
 
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
+import se.inera.intyg.common.support.common.enumerations.PatientInfo;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -49,7 +50,7 @@ public final class TransportToInternal {
     public static Af00213UtlatandeV1 convert(Intyg source) throws ConverterException {
         Af00213UtlatandeV1.Builder utlatande = Af00213UtlatandeV1.builder();
         utlatande.setId(source.getIntygsId().getExtension());
-        utlatande.setGrundData(TransportConverterUtil.getGrundData(source, false));
+        utlatande.setGrundData(TransportConverterUtil.getGrundData(source, PatientInfo.BASIC));
         utlatande.setTextVersion(source.getVersion());
         utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(source.getUnderskrift()));
         setSvar(utlatande, source);

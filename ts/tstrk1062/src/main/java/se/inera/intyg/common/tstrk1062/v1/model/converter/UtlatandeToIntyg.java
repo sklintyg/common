@@ -72,6 +72,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
+import se.inera.intyg.common.support.common.enumerations.PatientInfo;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
@@ -98,7 +99,7 @@ public final class UtlatandeToIntyg {
     }
 
     public static Intyg convert(TsTrk1062UtlatandeV1 utlatande, WebcertModuleService webcertModuleService) {
-        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, false);
+        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, PatientInfo.BASIC);
 
         intyg.setTyp(getTypAvIntyg(KvIntygstyp.TSTRK1062));
         intyg.getSvar().addAll(getSvar(utlatande, webcertModuleService));

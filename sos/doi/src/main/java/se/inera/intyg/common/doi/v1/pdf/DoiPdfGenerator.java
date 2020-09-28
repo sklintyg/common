@@ -18,7 +18,9 @@
  */
 package se.inera.intyg.common.doi.v1.pdf;
 
+import com.itextpdf.text.DocumentException;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -221,7 +223,7 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
         }
     }
 
-    private void fillAcroformFields() {
+    private void fillAcroformFields() throws IOException, DocumentException {
         fillRelation();
         fillPatientDetails();
         fillDateOfDeath();
@@ -241,14 +243,15 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
         }
     }
 
-    protected void fillPatientDetails() {
+    protected void fillPatientDetails() throws IOException, DocumentException {
         fillText(FIELD_PERSONNUMMER,
             doiUtlatandeV1.getGrundData().getPatient().getPersonId().getPersonnummer());
         fillText(FIELD_EFTERNAMN, doiUtlatandeV1.getGrundData().getPatient().getEfternamn());
         fillText(FIELD_FORNAMN, doiUtlatandeV1.getGrundData().getPatient().getFornamn());
-        fillText(FIELD_BOSTADSADRESS, doiUtlatandeV1.getGrundData().getPatient().getPostadress());
+        fillText(FIELD_BOSTADSADRESS,
+            truncateTextIfNeeded(doiUtlatandeV1.getGrundData().getPatient().getPostadress(), FIELD_BOSTADSADRESS));
         fillText(FIELD_POSTNUMMER, doiUtlatandeV1.getGrundData().getPatient().getPostnummer());
-        fillText(FIELD_POSTORT, doiUtlatandeV1.getGrundData().getPatient().getPostort());
+        fillText(FIELD_POSTORT, truncateTextIfNeeded(doiUtlatandeV1.getGrundData().getPatient().getPostort(), FIELD_POSTORT));
 
         fillText(FIELD_IDENTITETEN_STYRKT_GENOM, doiUtlatandeV1.getIdentitetStyrkt());
         fillText(FIELD_LAND_OM_EJ_STADIGVARANDE_BOSATT_I_SVERIGE, doiUtlatandeV1.getLand());
@@ -405,15 +408,16 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
         return false;
     }
 
-    private void fillSignature(LocalDateTime signeringsDatum, HoSPersonal skapadAv) {
+    private void fillSignature(LocalDateTime signeringsDatum, HoSPersonal skapadAv) throws IOException, DocumentException {
         adjustAndFill(FIELD_ORT_OCH_DATUM, signeringsDatum != null ? signeringsDatum.format(DATE_FORMAT) : "", ADJUST_BY_6);
         adjustAndFill(FIELD_LAKARENS_EFTERNAMN_OCH_FORNAMN, skapadAv.getFullstandigtNamn(), ADJUST_BY_6);
         adjustAndFill(FIELD_BEFATTNING, String.join(", ", skapadAv.getBefattningar()), ADJUST_BY_6);
         adjustAndFill(FIELD_TJANSTESTALLE, String.join(", ", skapadAv.getVardenhet().getEnhetsnamn()
             + ", " + skapadAv.getVardenhet().getVardgivare().getVardgivarnamn()), ADJUST_BY_6);
-        adjustAndFill(FIELD_UTDELNINGSADRESS, skapadAv.getVardenhet().getPostadress(), ADJUST_BY_6);
+        adjustAndFill(FIELD_UTDELNINGSADRESS, truncateTextIfNeeded(skapadAv.getVardenhet().getPostadress(),
+            FIELD_UTDELNINGSADRESS), ADJUST_BY_6);
         adjustAndFill(FIELD_POSTNUMMER_2, skapadAv.getVardenhet().getPostnummer(), ADJUST_BY_3);
-        adjustAndFill(FIELD_POSTORT_2, skapadAv.getVardenhet().getPostort(), ADJUST_BY_3);
+        adjustAndFill(FIELD_POSTORT_2, truncateTextIfNeeded(skapadAv.getVardenhet().getPostort(), FIELD_POSTORT_2), ADJUST_BY_3);
         adjustAndFill(FIELD_TELEFON_INKL_RIKTNUMMER, skapadAv.getVardenhet().getTelefonnummer(), ADJUST_BY_6);
         adjustAndFill(FIELD_EPOST, skapadAv.getVardenhet().getEpost(), ADJUST_BY_6);
     }

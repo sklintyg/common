@@ -72,7 +72,7 @@ angular.module('doi').factory('doi.UtkastConfigFactory.v1',
                                 'UPPGIFT_SAKNAS'
                             ],
                             letter: 'A',
-                            htmlMaxlength: 140,
+                            htmlMaxlength: 72,
                             beskrivningLabel: 'DELAT_TEXT.BESKRIVNING',
                             datumLabel: 'DELAT_TEXT.DEBUT',
                             orsakLabel: 'DELAT_TEXT.SPECIFIKATION',
@@ -91,7 +91,7 @@ angular.module('doi').factory('doi.UtkastConfigFactory.v1',
                                     key: 'FRG_9.RBK',
                                     helpKey: 'FRG_9.HLP'
                                 },
-                                htmlMaxlength: 140,
+                                htmlMaxlength: 24,
                                 letter: ['B', 'C', 'D'],
                                 maxRows: 3,
                                 beskrivningLabel: 'DELAT_TEXT.BESKRIVNING',
@@ -115,7 +115,7 @@ angular.module('doi').factory('doi.UtkastConfigFactory.v1',
                                 modelProp: 'bidragandeSjukdomar',
                                 type: 'ue-dodsorsak-multi', // R11
                                 maxRows: 8,
-                                htmlMaxlength: 45,
+                                htmlMaxlength: 28,
                                 maxDate: today,
                                 orsaksTyper: [
                                     'PLOTSLIG',
@@ -171,7 +171,7 @@ angular.module('doi').factory('doi.UtkastConfigFactory.v1',
                             {
                                 modelProp: 'operationAnledning',
                                 type: 'ue-textfield',
-                                label: {key: 'DFR_11.3.RBK', required: true, requiredProp: 'operationAnledning'}, htmlMaxlength: 100
+                                label: {key: 'DFR_11.3.RBK', required: true, requiredProp: 'operationAnledning'}, htmlMaxlength: 31
                             }
                         ])
                     ]),
@@ -231,7 +231,7 @@ angular.module('doi').factory('doi.UtkastConfigFactory.v1',
                                     helpKey: 'DFR_12.4.HLP',
                                     required: true,
                                     requiredProp: 'forgiftningUppkommelse'
-                                }, htmlMaxlength: 400
+                                }, htmlMaxlength: 150
                             }
                         ])
                     ]),
