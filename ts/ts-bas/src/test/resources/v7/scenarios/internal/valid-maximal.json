@@ -1,0 +1,166 @@
+{
+    "id": "intygsId0",
+    "typ": "ts-bas",
+    "textVersion": "7.0",
+    "grundData": {
+        "signeringsdatum": "2013-08-12T15:57:00.000",
+        "skapadAv": {
+            "personId": "SE0000000000-1333",
+            "fullstandigtNamn": "Doktor Thompson",
+            "vardenhet": {
+                "enhetsid": "SE0000000000-1337",
+                "enhetsnamn": "Vårdenhet Väst",
+                "postadress": "Enhetsvägen 12",
+                "postnummer": "54321",
+                "postort": "Tumba",
+                "telefonnummer": "08-1337",
+                "vardgivare": {
+                    "vardgivarid": "SE0000000000-HAHAHHSAA",
+                    "vardgivarnamn": "Vårdgivarnamn"
+                }
+            },
+            "befattningar": ["ST_LAKARE"],
+            "specialiteter" : ["SPECIALITET"]
+        },
+        "patient": {
+            "personId": "19121212-1212"
+        }
+    },
+    "kommentar" : "Här kommer en övrig kommentar",
+    "vardkontakt" : {
+    	"typ" : "5880005", 
+    	"idkontroll" : "IDK6"
+    },
+    "intygAvser" : {
+        "korkortstyp" : [
+            {"type": "IAV1", "selected": true},
+            {"type": "IAV2", "selected": true},
+            {"type": "IAV3", "selected": true},
+            {"type": "IAV4", "selected": true},
+            {"type": "IAV5", "selected": true},
+            {"type": "IAV6", "selected": true},
+            {"type": "IAV7", "selected": true},
+            {"type": "IAV8", "selected": true},
+            {"type": "IAV9", "selected": true},
+            {"type": "IAV10", "selected": true}
+        ]
+    },
+    "syn" : {
+        "synfaltsdefekter" :  true,
+        "nattblindhet" : true,
+        "progressivOgonsjukdom" : true,
+        "diplopi" : true,
+        "nystagmus" : true,
+      "synskarpaSkickasSeparat" : false,
+        "hogerOga" : {
+        	"utanKorrektion" : 0.0,
+        	"medKorrektion" : 0.0,
+        	"kontaktlins" : true
+        },
+        
+        "vansterOga" : {
+        	"utanKorrektion" : 0.0,
+        	"medKorrektion" : 0.0,
+        	"kontaktlins" : true
+        },
+
+        "binokulart" : {
+        	"utanKorrektion" : 0.0,
+        	"medKorrektion" : 0.0
+        },
+        "korrektionsglasensStyrka" : true
+    },
+    
+    "horselBalans" : {
+    	"balansrubbningar" : true,
+    	"svartUppfattaSamtal4Meter" : true
+    },
+    
+    "funktionsnedsattning" : {
+    	"funktionsnedsattning" : true,
+    	"otillrackligRorelseformaga" : true,
+    	"beskrivning" : "Spik i foten"
+    	
+    },
+    
+    "hjartKarl" : {
+    	"hjartKarlSjukdom" : true,
+    	"hjarnskadaEfterTrauma" : true,
+    	"riskfaktorerStroke" : true,
+    	"beskrivningRiskfaktorer" : "Förkärlek för Elvismackor"
+    },
+    
+    "diabetes" : {
+    	"harDiabetes" : true,
+    	"diabetesTyp" : "DIABETES_TYP_2",
+    	"kost" : true
+    },
+    
+    "neurologi" : {
+    	"neurologiskSjukdom" : true
+    },
+    
+    "medvetandestorning" : {
+    	"medvetandestorning" : true,
+    	"beskrivning" : "Beskrivning"
+    },
+    
+    "njurar" : {
+    	"nedsattNjurfunktion" : true
+    },
+    
+    "kognitivt" : {
+    	"sviktandeKognitivFunktion" : true
+    },
+    
+    "somnVakenhet" : {
+    	"teckenSomnstorningar" : true
+    },
+    
+    "narkotikaLakemedel" : {
+        "teckenMissbruk" : true,
+        "foremalForVardinsats" : true, 
+        "lakarordineratLakemedelsbruk" : true,
+        "lakemedelOchDos" : "Läkemedel och dos",
+        "provtagningBehovs" : true
+    },
+    
+    "psykiskt" : {
+    	"psykiskSjukdom" : true
+    },
+    
+    "utvecklingsstorning" : {
+    	"psykiskUtvecklingsstorning" : true,
+    	"harSyndrom" : true
+    },
+    
+    "sjukhusvard" : {
+    	"sjukhusEllerLakarkontakt" : true,
+    	"tidpunkt" : "20 Januari",
+    	"vardinrattning" : "Vårdcentralen",
+    	"anledning" : "Akut lungsot"
+    },
+    
+    "medicinering" : {
+    	"stadigvarandeMedicinering" : true,
+    	"beskrivning" : "Alvedon"
+    },
+    
+    "bedomning" : {
+        "korkortstyp" : [
+            {"type": "VAR1", "selected": true},
+            {"type": "VAR2", "selected": true},
+            {"type": "VAR3", "selected": true},
+            {"type": "VAR4", "selected": true},
+            {"type": "VAR5", "selected": true},
+            {"type": "VAR6", "selected": true},
+            {"type": "VAR7", "selected": true},
+            {"type": "VAR8", "selected": true},
+            {"type": "VAR9", "selected": true},
+            {"type": "VAR10", "selected": true}
+        ],
+        "kanInteTaStallning" : false,
+        "lakareSpecialKompetens" : "Spektralanalys"
+    }
+    
+}

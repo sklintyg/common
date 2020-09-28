@@ -126,7 +126,8 @@ angular.module('ts-bas').constant('ts-bas.messages', {
         'ts-bas.validation.syn.out-of-bounds': 'Ange synskärpa i intervallet 0,0 - 2,0.',
         'ts-bas.validation.syn.r33': 'Ange ett svar.',
         'ts-bas.validation.syn.r34': 'Ange ett svar.',
-        'ts-bas.validation.syn.r35': 'Ange ett svar.'
+        'ts-bas.validation.syn.r35': 'Ange ett svar.',
+        'ts-bas.validation.syn.r37': 'Synskärpa skickas senare är vald.'
     },
     'en': {
         'ts-bas.label.pagetitle': 'Show Certificate'

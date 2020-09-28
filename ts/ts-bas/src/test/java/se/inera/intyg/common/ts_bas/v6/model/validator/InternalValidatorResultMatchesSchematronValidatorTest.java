@@ -21,6 +21,9 @@ package se.inera.intyg.common.ts_bas.v6.model.validator;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.google.common.base.Charsets;
+import com.helger.commons.debug.GlobalDebug;
+import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
@@ -28,23 +31,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 import javax.xml.transform.stream.StreamSource;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-
-import com.google.common.base.Charsets;
-import com.helger.commons.debug.GlobalDebug;
-import com.helger.schematron.svrl.SVRLHelper;
-
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
@@ -134,7 +130,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
         RegisterCertificateType intyg = scenario.asRivtaV3TransportModel();
         String convertedXML = getXmlFromIntyg(intyg);
 
-        RegisterCertificateValidator validator = new RegisterCertificateValidator(TsBasEntryPoint.SCHEMATRON_FILE);
+        RegisterCertificateValidator validator = new RegisterCertificateValidator(TsBasEntryPoint.SCHEMATRON_FILE_V6);
         SchematronOutputType result = validator
             .validateSchematron(new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
 
