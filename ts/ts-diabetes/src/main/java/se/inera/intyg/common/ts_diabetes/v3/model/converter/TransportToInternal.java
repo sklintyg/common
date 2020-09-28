@@ -25,6 +25,7 @@ import static se.inera.intyg.common.support.modules.converter.TransportConverter
 
 import java.util.EnumSet;
 import java.util.Set;
+import se.inera.intyg.common.support.common.enumerations.PatientInfo;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
@@ -53,7 +54,7 @@ public final class TransportToInternal {
     public static TsDiabetesUtlatandeV3 convert(Intyg source) throws ConverterException {
         TsDiabetesUtlatandeV3.Builder utlatande = TsDiabetesUtlatandeV3.builder();
         utlatande.setId(source.getIntygsId().getExtension());
-        utlatande.setGrundData(TransportConverterUtil.getGrundData(source, false));
+        utlatande.setGrundData(TransportConverterUtil.getGrundData(source, PatientInfo.BASIC));
         utlatande.setTextVersion(source.getVersion());
         utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(source.getUnderskrift()));
         setSvar(utlatande, source);

@@ -51,6 +51,7 @@ import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Optional;
 import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
+import se.inera.intyg.common.support.common.enumerations.PatientInfo;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.KorkortBehorighetGrupp;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsbehorighet;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
@@ -66,7 +67,7 @@ public final class UtlatandeToIntyg {
     }
 
     public static Intyg convert(Tstrk1009UtlatandeV1 utlatande) {
-        Intyg intyg = getIntyg(utlatande, false);
+        Intyg intyg = getIntyg(utlatande, PatientInfo.BASIC);
 
         complementArbetsplatskodIfMissing(intyg);
 

@@ -195,6 +195,37 @@ public abstract class AbstractSoSPdfGenerator {
         return pdfDictionary.getAsArray(PdfName.RECT);
     }
 
+    protected double getFieldWidth(String fieldId) {
+        PdfArray fieldCoordinates = getFieldCoordinates(fieldId);
+        return fieldCoordinates.getAsNumber(2).doubleValue() - fieldCoordinates.getAsNumber(0).doubleValue();
+    }
+
+    protected String truncateTextIfNeeded(String text, String fieldId) throws IOException, DocumentException {
+        AcroFields.Item field = fields.getFieldItem(fieldId);
+        PdfDictionary pdfDictionary = field.getWidget(0);
+        String[] fontValues = pdfDictionary.getAsString(PdfName.DA).toString().split(" ");
+        BaseFont bf = BaseFont.createFont();
+        Font font = new Font(bf, Integer.parseInt(fontValues[1]));
+        double fieldWidth = getFieldWidth(fieldId);
+        if (text != null && !text.isEmpty()) {
+            int rightIndex = text.length() - 1;
+            float textWidth = font.getCalculatedBaseFont(true).getWidthPoint(text, font.getCalculatedSize());
+            float symbolWidth = font.getCalculatedBaseFont(true).getWidthPoint(" ... ", font.getCalculatedSize());
+            while (textWidth > fieldWidth) {
+                rightIndex--;
+                textWidth = symbolWidth
+                    + font.getCalculatedBaseFont(true).getWidthPoint(text.substring(0, rightIndex), font.getCalculatedSize());
+            }
+            if (rightIndex != text.length() - 1) {
+                if (text.charAt(rightIndex) == ' ') {
+                    rightIndex--;
+                }
+                return text.substring(0, rightIndex) + "...";
+            }
+        }
+        return text;
+    }
+
     // Mark this document as a copy of an electronically signed document
     protected void markAsElectronicCopy(PdfStamper pdfStamper) throws DocumentException, IOException {
         mark(pdfStamper, ELECTRONIC_COPY_WATERMARK_TEXT, MARK_AS_COPY_START_X, MARK_AS_COPY_START_Y, MARK_AS_COPY_HEIGTH,

@@ -41,6 +41,7 @@ public enum EventCode {
     KOMPLETTERAR("KOMPLETTERAR", "Kompletterar"),
     FORLANGER("FORLANGER", "Förlänger"),
     SKAPATFRAN("SKAPATFRAN", "Skapat från"),
+    KOPIERATFRAN("KOPIERATFRAN", "Kopierat från"),
     RELINTYGMAKULE("RELINTYGMAKULE", "Relaterat intyg makulerat");
 
 

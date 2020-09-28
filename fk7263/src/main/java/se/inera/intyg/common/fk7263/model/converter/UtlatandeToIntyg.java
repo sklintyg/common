@@ -25,6 +25,7 @@ import se.inera.intyg.common.fk7263.model.internal.PrognosBedomning;
 import se.inera.intyg.common.fk7263.model.internal.Rehabilitering;
 import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
+import se.inera.intyg.common.support.common.enumerations.PatientInfo;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil.SvarBuilder;
@@ -100,7 +101,7 @@ public final class UtlatandeToIntyg {
     }
 
     public static Intyg convert(Fk7263Utlatande source) {
-        Intyg intyg = getIntyg(source, false);
+        Intyg intyg = getIntyg(source, PatientInfo.BASIC);
         // NOTE: See INTYG-7211: versionerade intyg kräver att alla intyg har en version (textVersion) så Fk7263Utlatande har
         // fått hårdkodad "1.0" istf null. Fk7263 Roundtriptester däremot kräver idag (av en god anledning?) empty versionstag
         // för fk7263 - what to do...

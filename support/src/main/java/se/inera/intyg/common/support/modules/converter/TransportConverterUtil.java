@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 import org.w3._2000._09.xmldsig_.ObjectFactory;
 import org.w3._2000._09.xmldsig_.SignatureType;
 import org.w3c.dom.Node;
+import se.inera.intyg.common.support.common.enumerations.PatientInfo;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
@@ -52,14 +53,7 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.schemas.contract.Personnummer;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.Befattning;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.PQType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.Specialistkompetens;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.UnderskriftType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.*;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Enhet;
 import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -68,6 +62,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static se.inera.intyg.common.support.Constants.ADDRESS_DETAILS_SOURCE_PU_CODE;
 
 /**
  * Provides utility methods for converting domain objects from transport format to internal Java format.
@@ -264,14 +259,13 @@ public final class TransportConverterUtil {
      *
      * @param source
      *            the certificate to be converted
-     * @param extendedPatientInfo
-     *            boolean flag to determine if all patient info should be included (should never be used for certificates
-     *            on patients with sekretessmarkering)
+     * @param patientInfo
+     *            detail level of patient information
      * @return the converted GrundData
      */
-    public static GrundData getGrundData(Intyg source, boolean extendedPatientInfo) {
+    public static GrundData getGrundData(Intyg source, PatientInfo patientInfo) {
         GrundData grundData = new GrundData();
-        grundData.setPatient(getPatient(source.getPatient(), extendedPatientInfo));
+        grundData.setPatient(getPatient(source.getPatient(), patientInfo));
         grundData.setSkapadAv(getSkapadAv(source.getSkapadAv()));
         grundData.setSigneringsdatum(source.getSigneringstidpunkt());
         if (!isNullOrEmpty(source.getRelation())) {
@@ -440,25 +434,28 @@ public final class TransportConverterUtil {
      *
      * @param source
      *            the transport representation
-     * @param extendedPatientInfo
-     *            if sensitive patient data should be included
-     *            (should never be used for certificates which can be used for patients with sekretessmarkering)
+     * @param patientInfo
+     *            detail level of patient information
      * @return the converted patient
      */
-    public static Patient getPatient(se.riv.clinicalprocess.healthcond.certificate.v3.Patient source, boolean extendedPatientInfo) {
+    public static Patient getPatient(se.riv.clinicalprocess.healthcond.certificate.v3.Patient source,
+                                     PatientInfo patientInfo) {
         String pnr = source.getPersonId().getExtension();
         Personnummer personnummer = Personnummer.createPersonnummer(pnr).get();
 
         Patient patient = new Patient();
         patient.setPersonId(personnummer);
 
-        if (extendedPatientInfo) {
+        if (patientInfo == PatientInfo.EXTENDED || patientInfo == PatientInfo.EXTENDED_WITH_ADDRESS_DETAILS_SOURCE) {
             patient.setEfternamn(source.getEfternamn());
             patient.setFornamn(source.getFornamn());
             patient.setMellannamn(source.getMellannamn());
             patient.setPostort(source.getPostort());
             patient.setPostnummer(source.getPostnummer());
             patient.setPostadress(source.getPostadress());
+            if (patientInfo == PatientInfo.EXTENDED_WITH_ADDRESS_DETAILS_SOURCE) {
+                patient.setAddressDetailsSourcePU(getAddressDetailsSourcePU(source.getKallaAdressuppgifter()));
+            }
 
             if (Strings.nullToEmpty(source.getMellannamn()).trim().isEmpty()) {
                 patient.setFullstandigtNamn(source.getFornamn() + " " + source.getEfternamn());
@@ -467,6 +464,13 @@ public final class TransportConverterUtil {
             }
         }
         return patient;
+    }
+
+    private static boolean getAddressDetailsSourcePU(
+            se.riv.clinicalprocess.healthcond.certificate.types.v3.KallaAdressuppgifterType kallaAdressuppgifterType) {
+        return kallaAdressuppgifterType != null
+                && kallaAdressuppgifterType.getCode() != null
+                && kallaAdressuppgifterType.getCode().equals(ADDRESS_DETAILS_SOURCE_PU_CODE);
     }
 
     public static String signatureTypeToBase64(UnderskriftType underskriftType) throws ConverterException {

@@ -18,9 +18,11 @@
  */
 package se.inera.intyg.common.db.v1.pdf;
 
+import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfArray;
 import com.itextpdf.text.pdf.PdfNumber;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -188,7 +190,7 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
         }
     }
 
-    private void fillAcroformFields() {
+    private void fillAcroformFields() throws IOException, DocumentException {
         fillRelation();
         fillPatientDetails();
         fillDateOfDeath();
@@ -206,15 +208,16 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
         }
     }
 
-    private void fillSignature(LocalDateTime signeringsDatum, HoSPersonal skapadAv) {
+    private void fillSignature(LocalDateTime signeringsDatum, HoSPersonal skapadAv) throws IOException, DocumentException {
         adjustAndFill(FIELD_ORT_OCH_DATUM, signeringsDatum != null ? signeringsDatum.format(DATE_FORMAT) : "", ADJUST_BY_6);
         adjustAndFill(FIELD_LAKARENS_EFTERNAMN_OCH_FORNAMN, skapadAv.getFullstandigtNamn(), ADJUST_BY_6);
         adjustAndFill(FIELD_BEFATTNING, String.join(", ", skapadAv.getBefattningar()), ADJUST_BY_6);
         adjustAndFill(FIELD_TJANSTESTALLE, String.join(", ", skapadAv.getVardenhet().getEnhetsnamn()
             + ", " + skapadAv.getVardenhet().getVardgivare().getVardgivarnamn()), ADJUST_BY_6);
-        adjustAndFill(FIELD_UTDELNINGSADRESS, skapadAv.getVardenhet().getPostadress(), ADJUST_BY_6);
+        adjustAndFill(FIELD_UTDELNINGSADRESS,
+            truncateTextIfNeeded(skapadAv.getVardenhet().getPostadress(), FIELD_UTDELNINGSADRESS), ADJUST_BY_6);
         adjustAndFill(FIELD_POSTNUMMER_2, skapadAv.getVardenhet().getPostnummer(), ADJUST_BY_6);
-        adjustAndFill(FIELD_POSTORT_2, skapadAv.getVardenhet().getPostort(), ADJUST_BY_6);
+        adjustAndFill(FIELD_POSTORT_2, truncateTextIfNeeded(skapadAv.getVardenhet().getPostort(), FIELD_POSTORT_2), ADJUST_BY_6);
         adjustAndFill(FIELD_TELEFON_INKL_RIKTNUMMER, skapadAv.getVardenhet().getTelefonnummer(), ADJUST_BY_6);
         adjustAndFill(FIELD_EPOST, skapadAv.getVardenhet().getEpost(), ADJUST_BY_6);
     }
@@ -301,14 +304,16 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
         fillText(FIELD_OM_DODSDATUM_EJ_SAKERT_AR_MAN_DAG_ANTRAFFAD_DOD, dbUtlatandeV1.getAntraffatDodDatum());
     }
 
-    protected void fillPatientDetails() {
+    protected void fillPatientDetails() throws IOException, DocumentException {
         adjustAndFill(FIELD_PERSONNUMMERSAMORDNINGSNUMMER_12_SIFFROR, dbUtlatandeV1.getGrundData().getPatient().getPersonId()
             .getPersonnummer(), ADJUST_BY_9);
         adjustAndFill(FIELD_EFTERNAMN, dbUtlatandeV1.getGrundData().getPatient().getEfternamn(), ADJUST_BY_6);
         adjustAndFill(FIELD_FORNAMN, dbUtlatandeV1.getGrundData().getPatient().getFornamn(), ADJUST_BY_6);
-        adjustAndFill(FIELD_BOSTADSADRESS, dbUtlatandeV1.getGrundData().getPatient().getPostadress(), ADJUST_BY_6);
+        adjustAndFill(FIELD_BOSTADSADRESS,
+            truncateTextIfNeeded(dbUtlatandeV1.getGrundData().getPatient().getPostadress(), FIELD_BOSTADSADRESS), ADJUST_BY_6);
         adjustAndFill(FIELD_POSTNUMMER, dbUtlatandeV1.getGrundData().getPatient().getPostnummer(), ADJUST_BY_6);
-        adjustAndFill(FIELD_POSTORT, dbUtlatandeV1.getGrundData().getPatient().getPostort(), ADJUST_BY_6);
+        adjustAndFill(FIELD_POSTORT,
+            truncateTextIfNeeded(dbUtlatandeV1.getGrundData().getPatient().getPostort(), FIELD_POSTORT), ADJUST_BY_6);
 
         adjustAndFill(FIELD_IDENTITETEN_STYRKT_GENOM, dbUtlatandeV1.getIdentitetStyrkt(), ADJUST_BY_6);
     }

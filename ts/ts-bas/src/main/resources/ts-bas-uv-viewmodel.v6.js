@@ -148,7 +148,7 @@ var viewConfig = [
                                 },
                                 function(model, rowIndex) {
                                     if(rowIndex === 2){
-                                        return null; // no value for kontaktlins binokulart
+                                        return "-"; // no value for kontaktlins binokulart
                                     }
                                     return $filter('uvBoolFilter')(model.kontaktlins);
                                 }

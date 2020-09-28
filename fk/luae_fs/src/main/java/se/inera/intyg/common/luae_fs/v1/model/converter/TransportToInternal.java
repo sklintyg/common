@@ -26,6 +26,7 @@ import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
+import se.inera.intyg.common.support.common.enumerations.PatientInfo;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -72,7 +73,7 @@ public final class TransportToInternal {
     public static LuaefsUtlatandeV1 convert(Intyg source) throws ConverterException {
         LuaefsUtlatandeV1.Builder utlatande = LuaefsUtlatandeV1.builder();
         utlatande.setId(source.getIntygsId().getExtension());
-        utlatande.setGrundData(getGrundData(source, false));
+        utlatande.setGrundData(getGrundData(source, PatientInfo.BASIC));
         utlatande.setTextVersion(source.getVersion());
         utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(source.getUnderskrift()));
         setSvar(utlatande, source);

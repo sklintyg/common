@@ -13,8 +13,7 @@
   </span>
 
   <span id="utkast-created" ng-if="utkastViewState.draftModel.created">
-    <span dynamic-label key="common.label.utkastcreated"></span>
-    {{utkastViewState.draftModel.created | date : 'yyyy-MM-dd HH:mm'}}
+    <a id="showallstatusesLink" ng-click="openAllStatusesModal()"><span dynamic-label key="common.label.showallstatuses"></span>
   </span>
 
 </span>

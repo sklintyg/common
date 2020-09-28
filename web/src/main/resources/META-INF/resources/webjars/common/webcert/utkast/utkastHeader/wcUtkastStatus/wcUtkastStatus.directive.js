@@ -17,9 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('wcUtkastStatus', [
-    '$rootScope',
-    'common.moduleService', 'common.messageService', 'common.UtkastViewStateService', 'common.IntygStatusService',
-    function($rootScope, moduleService, messageService, CommonViewState, IntygStatusService) {
+    '$rootScope', '$uibModal',
+    'common.moduleService', 'common.messageService', 'common.UtkastViewStateService', 'common.UtkastHeaderViewState',
+    'common.IntygStatusService', 'common.certificateEventProxy',
+    function($rootScope, $uibModal,
+        moduleService, messageService, CommonViewState, HeaderViewState, IntygStatusService, CertificateEventProxy) {
         'use strict';
 
         return {
@@ -33,6 +35,105 @@ angular.module('common').directive('wcUtkastStatus', [
 
                 $scope.intygstatus1 = {};
                 $scope.intygstatus2 = {};
+
+                $scope.statusEvents = [];
+                $scope.varsForLink = undefined;
+
+
+                $scope.$on('intyg.loaded', getAllStatuses);
+                $scope.$on('intygstatus.updated', getAllStatuses);
+
+                function addToStatusEvents(statusCode, timestamp, vars) {
+                    $scope.statusEvents.push({
+                        code: statusCode,
+                        text: IntygStatusService.getMessageForIntygStatus(statusCode, vars),
+                        timestamp: dateToString(timestamp),
+                        modal: true
+                    });
+                }
+
+                function getAllStatuses() {
+                    $scope.statusEvents = [];
+                    $scope.varsForLink = undefined;
+                    var id = CommonViewState.intyg.certificateId;
+
+                    CertificateEventProxy.getCertificateEvents(id, function(response) {
+                        if (response !== null) {
+                            angular.forEach(response, function(event) {
+                                switch (event.eventCode) {
+                                    case 'SKAPAT':
+                                    case 'SKAPATFRAN':
+                                        addToStatusEvents('us-006', event.timestamp);
+                                        break;
+                                    case 'LAST':
+                                        addToStatusEvents('lus-01', event.timestamp);
+                                        break;
+                                    case 'MAKULERAT':
+                                        addToStatusEvents('lus-02', event.timestamp);
+                                        break;
+                                    case 'KOPIERATFRAN':
+                                    case 'ERSATTER':
+                                    case 'KOMPLETTERAR':
+                                    case 'FORLANGER':
+                                        addRelationalStatus(event, response);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            });
+                            IntygStatusService.sortByStatusAndTimestamp($scope.statusEvents);
+                        }
+                    }, function(error) {
+                        CommonViewState.inlineErrorMessageKey = 'common.error.intyg.status.failed.load';
+                    });
+                }
+
+                function addRelationalStatus(event, response) {
+                    var vars;
+                    if (event.extendedMessage) {
+                        vars = getMessageVars(event.extendedMessage);
+                    }
+
+                    if (event.eventCode === 'KOPIERATFRAN') {
+                        addToStatusEvents('us-010', event.timestamp, vars);
+
+                        var revokedEvent = response.find(function(elem) {
+                            return elem.eventCode === 'MAKULERAT';
+                        });
+
+                        var lockedEvent = response.find(function(elem) {
+                            return elem.eventCode === 'LAST';
+                        });
+
+                        if (revokedEvent !== undefined && lockedEvent !== undefined) {
+                            $scope.varsForLink = vars;
+                            addToStatusEvents('lus-03', revokedEvent.timestamp, vars);
+                        }
+                    } else {
+                        if (event.eventCode === 'KOMPLETTERAR') {
+                            addToStatusEvents('us-007', event.timestamp, vars);
+                        }
+                        if (event.eventCode === 'FORLANGER') {
+                            addToStatusEvents('us-008', event.timestamp, vars);
+                        }
+                        if (event.eventCode === 'ERSATTER') {
+                            addToStatusEvents('us-009', event.timestamp, vars);
+                        }
+                    }
+                }
+
+                function dateToString(timestamp) {
+                    // timestamp is sometimes JS date objects, convert those to a comparable string
+                    return typeof timestamp === 'object' ? moment(timestamp).format('YYYY-MM-DD[T]HH:mm:ss.SSS') : timestamp;
+                }
+
+                function getMessageVars(message) {
+                    return {
+                        intygsid: message.originalCertificateId,
+                        intygstyp: message.originalCertificateType,
+                        intygTypeVersion: message.originalCertificateTypeVersion
+                    };
+                }
 
                 $scope.getIntygStatus1 = function() {
                     // Just in case (should never be here for a signed utkast)
@@ -53,9 +154,9 @@ angular.module('common').directive('wcUtkastStatus', [
                 };
 
                 $scope.getIntygStatus2 = function() {
-                    if (CommonViewState.isLocked) {
-                        return;
-                    } else if (CommonViewState.saving) {
+                    if ($scope.varsForLink !== undefined){
+                        return setIntygStatus($scope.intygstatus2, 'lus-03', $scope.varsForLink);
+                    }  else if (CommonViewState.saving) {
                         return setIntygStatus($scope.intygstatus2, 'is-013');
                     }
                     else if ($scope.certForm && $scope.certForm.$pristine) {
@@ -69,6 +170,22 @@ angular.module('common').directive('wcUtkastStatus', [
                     scopeObj.modal =  IntygStatusService.intygStatusHasModal(intygStatus);
                     return scopeObj;
                 }
+
+                $scope.openAllStatusesModal = function() {
+                    var allStatuses = $scope.statusEvents;
+                    var allStatusesModalInstance = $uibModal.open({
+                        templateUrl: '/web/webjars/common/webcert/intyg/intygHeader/wcIntygStatus/wcIntygStatusModal.template.html',
+                        size: 'md',
+                        controller: function($scope) {
+                            $scope.statuses = allStatuses;
+                        }
+                    }).result.then(function() {
+                        allStatusesModalInstance = undefined;
+                    },function() {
+                        allStatusesModalInstance = undefined;
+                    });
+                };
+
             }
         };
     }

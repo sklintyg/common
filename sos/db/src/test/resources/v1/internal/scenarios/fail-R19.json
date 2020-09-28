@@ -21,7 +21,8 @@
       "postadress": "Testgatan 1",
       "postnummer": "111 11",
       "postort": "Teststaden",
-      "personId": "19270310-4321"
+      "personId": "19270310-4321",
+      "addressDetailsSourcePU": false
     },
     "skapadAv": {
       "vardenhet": {

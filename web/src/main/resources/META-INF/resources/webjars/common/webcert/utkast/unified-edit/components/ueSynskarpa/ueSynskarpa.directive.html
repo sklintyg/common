@@ -5,7 +5,7 @@
              ng-model="modelGetterSetter"
              ng-model-options="{ getterSetter: true }"
              ng-blur="updateValidation()"
-             ng-disabled="::config.disabled"
+             ng-disabled="$eval(config.disabled)"
              ue-decimal-ts-syn="2"
              maxlength="4">
     </div>

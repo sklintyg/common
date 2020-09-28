@@ -1,0 +1,125 @@
+{
+    "id": "987654321",
+    "typ": "ts-bas",
+    "textVersion": "7.0",
+    "grundData": {
+        "signeringsdatum": "2013-08-12T15:57:00.000",
+        "skapadAv": {
+            "personId": "SE0000000000-1333",
+            "fullstandigtNamn": "Doktor Thompson",
+            "vardenhet": {
+                "enhetsid": "SE0000000000-1337",
+                "enhetsnamn": "Vårdenhet Väst",
+                "postadress": "Enhetsvägen 12",
+                "postnummer": "54321",
+                "postort": "Tumba",
+                "telefonnummer": "08-1337",
+                "vardgivare": {
+                    "vardgivarid": "SE0000000000-HAHAHHSAA",
+                    "vardgivarnamn": "Vårdgivarnamn"
+                }
+            }
+        },
+        "patient": {
+            "personId": "19121212-1212"
+        }
+    },
+    "vardkontakt" : {
+    	"typ" : "5880005", 
+    	"idkontroll" : "IDK6"
+    },
+    "intygAvser" : {
+        "korkortstyp" : [
+            {"type": "IAV3", "selected": true}
+        ]
+    },
+    "syn" : {
+        "synfaltsdefekter" :  false,
+        "nattblindhet" : false,
+        "progressivOgonsjukdom" : false,
+        "diplopi" : false,
+        "nystagmus" : false,
+      "synskarpaSkickasSeparat" : false,
+        "hogerOga" : {
+        	"utanKorrektion" : 0.4,
+        	"kontaktlins" : false
+        },
+        
+        "vansterOga" : {
+        	"utanKorrektion" : 0.4,
+        	"kontaktlins" : false
+        },
+
+        "binokulart" : {
+        	"utanKorrektion" : 0.4
+        }
+    },
+    
+    "horselBalans" : {
+    	"balansrubbningar" : false
+    },
+    
+    "funktionsnedsattning" : {
+    	"funktionsnedsattning" : false
+    },
+    
+    "hjartKarl" : {
+    	"hjartKarlSjukdom" : false,
+    	"hjarnskadaEfterTrauma" : false,
+    	"riskfaktorerStroke" : false
+    },
+    
+    "diabetes" : {
+    	"harDiabetes" : false
+    },
+    
+    "neurologi" : {
+    	"neurologiskSjukdom" : false
+    },
+    
+    "medvetandestorning" : {
+    	"medvetandestorning" : false
+    },
+    
+    "njurar" : {
+    	"nedsattNjurfunktion" : false
+    },
+    
+    "kognitivt" : {
+    	"sviktandeKognitivFunktion" : false
+    },
+    
+    "somnVakenhet" : {
+    	"teckenSomnstorningar" : false
+    },
+    
+    "narkotikaLakemedel" : {
+        "teckenMissbruk" : false,
+        "foremalForVardinsats" : false, 
+        "lakarordineratLakemedelsbruk" : false
+    },
+    
+    "psykiskt" : {
+    	"psykiskSjukdom" : false
+    },
+    
+    "utvecklingsstorning" : {
+    	"psykiskUtvecklingsstorning" : false,
+    	"harSyndrom" : false
+    },
+    
+    "sjukhusvard" : {
+    	"sjukhusEllerLakarkontakt" : false
+    },
+    
+    "medicinering" : {
+    	"stadigvarandeMedicinering" : false
+    },
+    
+    "bedomning" : {
+      "korkortstyp" : [
+        {"type": "VAR3", "selected": true}
+      ]
+    }
+    
+}

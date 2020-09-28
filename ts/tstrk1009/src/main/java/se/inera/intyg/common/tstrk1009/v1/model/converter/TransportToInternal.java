@@ -38,6 +38,7 @@ import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.S
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import se.inera.intyg.common.support.common.enumerations.PatientInfo;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import java.util.EnumSet;
@@ -69,7 +70,7 @@ public final class TransportToInternal {
 
     private static void setMetaData(final Tstrk1009UtlatandeV1.Builder utlatande, final Intyg intygSource) throws ConverterException {
         utlatande.setId(intygSource.getIntygsId().getExtension());
-        utlatande.setGrundData(TransportConverterUtil.getGrundData(intygSource, false));
+        utlatande.setGrundData(TransportConverterUtil.getGrundData(intygSource, PatientInfo.BASIC));
         utlatande.setTextVersion(intygSource.getVersion());
         utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(intygSource.getUnderskrift()));
     }
