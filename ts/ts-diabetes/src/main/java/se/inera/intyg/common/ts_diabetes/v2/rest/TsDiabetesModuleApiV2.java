@@ -21,11 +21,10 @@ package se.inera.intyg.common.ts_diabetes.v2.rest;
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS;
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
 
-
+import java.io.IOException;
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.ws.rs.NotSupportedException;
 import javax.xml.bind.JAXB;
@@ -34,7 +33,6 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
-
 import javax.xml.transform.stream.StreamSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +40,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.w3.wsaddressing10.AttributedURIType;
-
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.ObjectFactory;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateRequestType;
@@ -67,6 +64,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
+import se.inera.intyg.common.support.modules.support.facade.dto.CertificateDTO;
 import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
@@ -307,4 +305,13 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
         return new PatientDetailResolveOrder(null, adressStrat, otherStrat);
     }
 
+    @Override
+    public CertificateDTO getCertificateDTOFromJson(String certificateAsJson) throws ModuleException, IOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String getJsonFromCertificateDTO(CertificateDTO certificate, String certificateAsJson) throws ModuleException, IOException {
+        throw new UnsupportedOperationException();
+    }
 }

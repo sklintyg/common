@@ -23,6 +23,7 @@ package se.inera.intyg.common.af00213.v1.model.converter;
  */
 public final class RespConstants {
 
+    public static final String FUNKTIONSNEDSATTNING_CATEGORY_ID = "funktionsnedsattning";
     public static final String FUNKTIONSNEDSATTNING_SVAR_ID_1 = "1";
     public static final String FUNKTIONSNEDSATTNING_DELSVAR_ID_11 = "1.1";
     public static final String FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11 = "harFunktionsnedsattning";
@@ -30,18 +31,21 @@ public final class RespConstants {
     public static final String FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12 = "funktionsnedsattning";
 
 
+    public static final String AKTIVITETSBEGRANSNING_CATEGORY_ID = "aktivitetsbegransning";
     public static final String AKTIVITETSBEGRANSNING_SVAR_ID_2 = "2";
     public static final String AKTIVITETSBEGRANSNING_DELSVAR_ID_21 = "2.1";
     public static final String AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21 = "harAktivitetsbegransning";
     public static final String AKTIVITETSBEGRANSNING_DELSVAR_ID_22 = "2.2";
     public static final String AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22 = "aktivitetsbegransning";
 
+    public static final String UTREDNING_BEHANDLING_CATEGORY_ID = "utredningBehandling";
     public static final String UTREDNING_BEHANDLING_SVAR_ID_3 = "3";
     public static final String UTREDNING_BEHANDLING_DELSVAR_ID_31 = "3.1";
     public static final String UTREDNING_BEHANDLING_SVAR_JSON_ID_31 = "harUtredningBehandling";
     public static final String UTREDNING_BEHANDLING_DELSVAR_ID_32 = "3.2";
     public static final String UTREDNING_BEHANDLING_SVAR_JSON_ID_32 = "utredningBehandling";
 
+    public static final String ARBETETS_PAVERKAN_CATEGORY_ID = "arbetsPaverkan";
     public static final String ARBETETS_PAVERKAN_SVAR_ID_4 = "4";
     public static final String ARBETETS_PAVERKAN_DELSVAR_ID_41 = "4.1";
     public static final String ARBETETS_PAVERKAN_SVAR_JSON_ID_41 = "harArbetetsPaverkan";
@@ -49,6 +53,7 @@ public final class RespConstants {
     public static final String ARBETETS_PAVERKAN_SVAR_JSON_ID_42 = "arbetetsPaverkan";
 
 
+    public static final String OVRIGT_CATEGORY_ID = "ovrigt";
     public static final String OVRIGT_SVAR_ID_5 = "5";
     public static final String OVRIGT_DELSVAR_ID_5 = "5.1";
     public static final String OVRIGT_SVAR_JSON_ID_5 = "ovrigt";
