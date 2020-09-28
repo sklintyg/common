@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ns2:RegisterCertificate xmlns="urn:riv:clinicalprocess:healthcond:certificate:3"
-                         xmlns:ns2="urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3"
-                         xmlns:ns3="urn:riv:clinicalprocess:healthcond:certificate:types:3">
+    xmlns:ns2="urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3"
+    xmlns:ns3="urn:riv:clinicalprocess:healthcond:certificate:types:3">
   <ns2:intyg>
     <intygs-id>
       <ns3:root>123456789</ns3:root>
@@ -248,171 +248,78 @@
       </delsvar>
     </svar>
     <svar id="18">
-      <delsvar id="18.1">
-        <ns3:cv>
-          <ns3:code>E13</ns3:code>
-          <ns3:codeSystem>1.2.752.116.1.1.1.1.3</ns3:codeSystem>
-          <ns3:displayName>Annan diabetes</ns3:displayName>
-        </ns3:cv>
-      </delsvar>
       <delsvar id="18.2">Annan diabetes</delsvar>
     </svar>
     <svar id="109">
       <delsvar id="109.1">true</delsvar>
       <delsvar id="109.2">true</delsvar>
       <delsvar id="109.3">true</delsvar>
-      <delsvar id="109.4">true</delsvar>
-      <delsvar id="109.5">
+      <delsvar id="109.4">
         <ns3:partialDate>
           <ns3:format>YYYY</ns3:format>
           <ns3:value>2010</ns3:value>
         </ns3:partialDate>
       </delsvar>
-      <delsvar id="109.6">true</delsvar>
-      <delsvar id="109.7">Annan behandling</delsvar>
+      <delsvar id="109.5">true</delsvar>
+      <delsvar id="109.6">Annan behandling</delsvar>
+      <delsvar id="109.7">true</delsvar>
     </svar>
-    <svar id="100">
-      <delsvar id="100.1">true</delsvar>
+    <svar id="41">
+      <delsvar id="41.1">true</delsvar>
     </svar>
     <svar id="37">
       <delsvar id="37.1">true</delsvar>
     </svar>
-    <svar id="101">
-      <delsvar id="101.1">true</delsvar>
+    <svar id="100">
+      <delsvar id="100.1">true</delsvar>
     </svar>
-    <svar id="102">
-      <delsvar id="102.1">true</delsvar>
-    </svar>
-    <svar id="38">
-      <delsvar id="38.1">true</delsvar>
-    </svar>
-    <svar id="36">
-      <delsvar id="36.1">true</delsvar>
-    </svar>
-    <svar id="105">
-      <delsvar id="105.1">true</delsvar>
+    <svar id="110">
+      <delsvar id="110.1">true</delsvar>
     </svar>
     <svar id="106">
       <delsvar id="106.1">true</delsvar>
-      <delsvar id="106.2">2018-09-10</delsvar>
+      <delsvar id="106.2">
+        <ns3:partialDate>
+          <ns3:format>YYYY-MM-DD</ns3:format>
+          <ns3:value>2018-09-10</ns3:value>
+        </ns3:partialDate>
+      </delsvar>
     </svar>
     <svar id="107">
       <delsvar id="107.1">true</delsvar>
-      <delsvar id="107.2">2018-09-10</delsvar>
+      <delsvar id="107.2">
+        <ns3:partialDate>
+          <ns3:format>YYYY-MM-DD</ns3:format>
+          <ns3:value>2018-09-10</ns3:value>
+        </ns3:partialDate>
+      </delsvar>
     </svar>
     <svar id="108">
       <delsvar id="108.1">true</delsvar>
-      <delsvar id="108.2">2018-09-10</delsvar>
+      <delsvar id="108.2">
+        <ns3:partialDate>
+          <ns3:format>YYYY-MM-DD</ns3:format>
+          <ns3:value>2018-09-10</ns3:value>
+        </ns3:partialDate>
+      </delsvar>
     </svar>
     <svar id="103">
       <delsvar id="103.1">true</delsvar>
     </svar>
-    <svar id="104">
-      <delsvar id="104.1">true</delsvar>
-    </svar>
     <svar id="8">
-      <delsvar id="8.1">0.1</delsvar>
-      <delsvar id="8.4">0.2</delsvar>
-      <delsvar id="8.2">0.3</delsvar>
-      <delsvar id="8.5">0.4</delsvar>
-      <delsvar id="8.3">0.5</delsvar>
-      <delsvar id="8.6">0.6</delsvar>
+      <delsvar id="8.1">false</delsvar>
+      <delsvar id="8.2">0.1</delsvar>
+      <delsvar id="8.3">0.3</delsvar>
+      <delsvar id="8.4">0.5</delsvar>
+      <delsvar id="8.5">0.2</delsvar>
+      <delsvar id="8.6">0.4</delsvar>
+      <delsvar id="8.7">0.6</delsvar>
     </svar>
     <svar id="32">
       <delsvar id="32.1">Övrigt</delsvar>
     </svar>
     <svar id="33">
       <instans>1</instans>
-      <delsvar id="33.1">
-        <ns3:cv>
-          <ns3:code>VAR1</ns3:code>
-          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
-          <ns3:displayName>C1</ns3:displayName>
-        </ns3:cv>
-      </delsvar>
-    </svar>
-    <svar id="33">
-      <instans>2</instans>
-      <delsvar id="33.1">
-        <ns3:cv>
-          <ns3:code>VAR2</ns3:code>
-          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
-          <ns3:displayName>C1E</ns3:displayName>
-        </ns3:cv>
-      </delsvar>
-    </svar>
-    <svar id="33">
-      <instans>3</instans>
-      <delsvar id="33.1">
-        <ns3:cv>
-          <ns3:code>VAR3</ns3:code>
-          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
-          <ns3:displayName>C</ns3:displayName>
-        </ns3:cv>
-      </delsvar>
-    </svar>
-    <svar id="33">
-      <instans>4</instans>
-      <delsvar id="33.1">
-        <ns3:cv>
-          <ns3:code>VAR4</ns3:code>
-          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
-          <ns3:displayName>CE</ns3:displayName>
-        </ns3:cv>
-      </delsvar>
-    </svar>
-    <svar id="33">
-      <instans>5</instans>
-      <delsvar id="33.1">
-        <ns3:cv>
-          <ns3:code>VAR5</ns3:code>
-          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
-          <ns3:displayName>D1</ns3:displayName>
-        </ns3:cv>
-      </delsvar>
-    </svar>
-    <svar id="33">
-      <instans>6</instans>
-      <delsvar id="33.1">
-        <ns3:cv>
-          <ns3:code>VAR6</ns3:code>
-          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
-          <ns3:displayName>D1E</ns3:displayName>
-        </ns3:cv>
-      </delsvar>
-    </svar>
-    <svar id="33">
-      <instans>7</instans>
-      <delsvar id="33.1">
-        <ns3:cv>
-          <ns3:code>VAR7</ns3:code>
-          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
-          <ns3:displayName>D</ns3:displayName>
-        </ns3:cv>
-      </delsvar>
-    </svar>
-    <svar id="33">
-      <instans>8</instans>
-      <delsvar id="33.1">
-        <ns3:cv>
-          <ns3:code>VAR8</ns3:code>
-          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
-          <ns3:displayName>DE</ns3:displayName>
-        </ns3:cv>
-      </delsvar>
-    </svar>
-    <svar id="33">
-      <instans>9</instans>
-      <delsvar id="33.1">
-        <ns3:cv>
-          <ns3:code>VAR9</ns3:code>
-          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
-          <ns3:displayName>Taxi</ns3:displayName>
-        </ns3:cv>
-      </delsvar>
-    </svar>
-    <svar id="33">
-      <instans>10</instans>
       <delsvar id="33.1">
         <ns3:cv>
           <ns3:code>VAR12</ns3:code>
@@ -422,7 +329,7 @@
       </delsvar>
     </svar>
     <svar id="33">
-      <instans>11</instans>
+      <instans>2</instans>
       <delsvar id="33.1">
         <ns3:cv>
           <ns3:code>VAR13</ns3:code>
@@ -432,7 +339,7 @@
       </delsvar>
     </svar>
     <svar id="33">
-      <instans>12</instans>
+      <instans>3</instans>
       <delsvar id="33.1">
         <ns3:cv>
           <ns3:code>VAR14</ns3:code>
@@ -442,7 +349,7 @@
       </delsvar>
     </svar>
     <svar id="33">
-      <instans>13</instans>
+      <instans>4</instans>
       <delsvar id="33.1">
         <ns3:cv>
           <ns3:code>VAR15</ns3:code>
@@ -452,7 +359,7 @@
       </delsvar>
     </svar>
     <svar id="33">
-      <instans>14</instans>
+      <instans>5</instans>
       <delsvar id="33.1">
         <ns3:cv>
           <ns3:code>VAR16</ns3:code>
@@ -462,7 +369,7 @@
       </delsvar>
     </svar>
     <svar id="33">
-      <instans>15</instans>
+      <instans>6</instans>
       <delsvar id="33.1">
         <ns3:cv>
           <ns3:code>VAR17</ns3:code>
@@ -472,12 +379,102 @@
       </delsvar>
     </svar>
     <svar id="33">
-      <instans>16</instans>
+      <instans>7</instans>
       <delsvar id="33.1">
         <ns3:cv>
           <ns3:code>VAR18</ns3:code>
           <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
           <ns3:displayName>Traktor</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="33">
+      <instans>8</instans>
+      <delsvar id="33.1">
+        <ns3:cv>
+          <ns3:code>VAR1</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>C1</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="33">
+      <instans>9</instans>
+      <delsvar id="33.1">
+        <ns3:cv>
+          <ns3:code>VAR2</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>C1E</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="33">
+      <instans>10</instans>
+      <delsvar id="33.1">
+        <ns3:cv>
+          <ns3:code>VAR3</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>C</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="33">
+      <instans>11</instans>
+      <delsvar id="33.1">
+        <ns3:cv>
+          <ns3:code>VAR4</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>CE</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="33">
+      <instans>12</instans>
+      <delsvar id="33.1">
+        <ns3:cv>
+          <ns3:code>VAR5</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>D1</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="33">
+      <instans>13</instans>
+      <delsvar id="33.1">
+        <ns3:cv>
+          <ns3:code>VAR6</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>D1E</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="33">
+      <instans>14</instans>
+      <delsvar id="33.1">
+        <ns3:cv>
+          <ns3:code>VAR7</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>D</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="33">
+      <instans>15</instans>
+      <delsvar id="33.1">
+        <ns3:cv>
+          <ns3:code>VAR8</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>DE</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="33">
+      <instans>16</instans>
+      <delsvar id="33.1">
+        <ns3:cv>
+          <ns3:code>VAR9</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>Taxi</ns3:displayName>
         </ns3:cv>
       </delsvar>
     </svar>

@@ -31,15 +31,14 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import java.io.IOException;
 import java.io.StringReader;
-
 import javax.xml.bind.JAXB;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFactory;
 import javax.xml.ws.soap.SOAPFaultException;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,10 +51,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.oxm.UnmarshallingFailureException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -135,7 +130,7 @@ public class TsDiabetesModuleApiV3Test {
     public void testSendCertificateShouldUseXml() {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any())).thenReturn(createReturnVal(ResultCodeType.OK));
         try {
-            String xmlContents = Resources.toString(Resources.getResource("v3/transport/ts-diabetes-v3.xml"), Charsets.UTF_8);
+            String xmlContents = Resources.toString(Resources.getResource("v3/transport/scenarios/pass-complete.xml"), Charsets.UTF_8);
             moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
 
             verify(registerCertificateResponderInterface, times(1)).registerCertificate(same(LOGICAL_ADDRESS), any());
@@ -150,7 +145,7 @@ public class TsDiabetesModuleApiV3Test {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
             .thenReturn(createReturnVal(ResultCodeType.ERROR));
         try {
-            String xmlContents = Resources.toString(Resources.getResource("v3/transport/ts-diabetes-v3.xml"), Charsets.UTF_8);
+            String xmlContents = Resources.toString(Resources.getResource("v3/transport/scenarios/pass-complete.xml"), Charsets.UTF_8);
             moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
         } catch (IOException e) {
             fail();
