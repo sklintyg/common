@@ -78,7 +78,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.Domain.IntygModel.v3',
                         // Kategori 5
                         synfunktion: {
                             misstankeOgonsjukdom: undefined,
-                            skickasSeparat: undefined,
+                            skickasSeparat: false,
                             hoger: {
                                 utanKorrektion: undefined,
                                 medKorrektion: undefined

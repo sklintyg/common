@@ -292,6 +292,13 @@ angular.module('ts-diabetes').factory('ts-diabetes.viewConfigFactory.v3', [
                                 modelProp: 'synfunktion.misstankeOgonsjukdom'
                             }
                         ]
+                    },
+                    {
+                        type: 'uv-alert-value',
+                        labelKey: 'TSDIA-001.ALERT',
+                        alertLevel: 'warning',
+                        showExpression: function(model) {
+                            return model.synfunktion && model.synfunktion.misstankeOgonsjukdom === true;}
                     }]
                 },
                 {
@@ -300,10 +307,8 @@ angular.module('ts-diabetes').factory('ts-diabetes.viewConfigFactory.v3', [
                     components: [
                         {
                             type: 'uv-alert-value',
-                            labelKey: 'TSDIA-001.ALERT',
-                            alertLevel: 'warning',
-                            showExpression: function(model) {
-                                return model.synfunktion && model.synfunktion.misstankeOgonsjukdom === true;}
+                            labelKey: 'TSDIA-002.ALERT',
+                            alertLevel: 'info'
                         },
                         {
                             type: 'uv-del-fraga',

@@ -286,6 +286,13 @@ var viewConfig = [
                         {
                             type: 'uv-boolean-value',
                             modelProp: 'synfunktion.misstankeOgonsjukdom'
+                        },
+                        {
+                            type: 'uv-alert-value',
+                            labelKey: 'TSDIA-001.ALERT',
+                            alertLevel: 'warning',
+                            showExpression: function(model) {
+                                return model.synfunktion && model.synfunktion.misstankeOgonsjukdom === true;}
                         }
                     ]
                 }]
@@ -296,10 +303,8 @@ var viewConfig = [
                 components: [
                     {
                         type: 'uv-alert-value',
-                        labelKey: 'TSDIA-001.ALERT',
-                        alertLevel: 'warning',
-                        showExpression: function(model) {
-                            return model.synfunktion && model.synfunktion.misstankeOgonsjukdom === true;}
+                        labelKey: 'TSDIA-002.ALERT',
+                        alertLevel: 'info'
                     },
                     {
                         type: 'uv-del-fraga',

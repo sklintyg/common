@@ -56,8 +56,6 @@ import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v3.validator.InternalDraftValidatorImpl.SynfunktionTyp.VANSTER_MED_KORREKTION;
-import static se.inera.intyg.common.ts_diabetes.v3.validator.InternalDraftValidatorImpl.SynfunktionTyp.VANSTER_UTAN_KORREKTION;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
@@ -677,20 +675,20 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
 
     private void validateVanster(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
         Synskarpevarden vanster = utlatande.getSynfunktion().getVanster();
-        validateSynskarpaVarden(vanster, SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID, utlatande, validationMessages);
+        validateSynskarpaVarden(vanster, "VANSTER", SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID, utlatande, validationMessages);
     }
 
     private void validateHoger(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
         Synskarpevarden hoger = utlatande.getSynfunktion().getHoger();
-        validateSynskarpaVarden(hoger, SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID, utlatande, validationMessages);
+        validateSynskarpaVarden(hoger, "HOGER", SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID, utlatande, validationMessages);
     }
 
     private void validateBinokulart(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
         Synskarpevarden binokulart = utlatande.getSynfunktion().getBinokulart();
-        validateSynskarpaVarden(binokulart, SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID, utlatande, validationMessages);
+        validateSynskarpaVarden(binokulart, "BINOKULART", SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID, utlatande, validationMessages);
     }
 
-    private void validateSynskarpaVarden(Synskarpevarden varden, String field, TsDiabetesUtlatandeV3 utlatande,
+    private void validateSynskarpaVarden(Synskarpevarden varden, String synvardeTyp, String field, TsDiabetesUtlatandeV3 utlatande,
         List<ValidationMessage> validationMessages) {
 
         if (isFalse(utlatande.getSynfunktion().getSkickasSeparat())) {
@@ -712,7 +710,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             }
 
             // R19
-            if (eligibleForRule19(utlatande, VANSTER_UTAN_KORREKTION) && invalidSynskarpeVarde(varden.getUtanKorrektion())) {
+            if (eligibleForRule19(utlatande, SynfunktionTyp.valueOf(synvardeTyp + "_UTAN_KORREKTION")) && invalidSynskarpeVarde(
+                varden.getUtanKorrektion())) {
                 addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
                     (SYNFUNKTION_JSON_ID + "." + field + "."
                         + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
@@ -729,7 +728,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             }
 
             // R19
-            if (eligibleForRule19(utlatande, VANSTER_MED_KORREKTION) && invalidSynskarpeVarde(varden.getMedKorrektion())) {
+            if (eligibleForRule19(utlatande, SynfunktionTyp.valueOf(synvardeTyp + "_MED_KORREKTION")) && invalidSynskarpeVarde(
+                varden.getMedKorrektion())) {
                 addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
                     (SYNFUNKTION_JSON_ID + "." + field + "."
                         + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
@@ -785,8 +785,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         }
     }
 
-    private static boolean invalidSynskarpeVarde(final double synskarpeVarde) {
-        return synskarpeVarde > MAX_SYNSKARPA_VARDE;
+    private static boolean invalidSynskarpeVarde(final Double synskarpeVarde) {
+        return synskarpeVarde == null || synskarpeVarde > MAX_SYNSKARPA_VARDE;
     }
 
     enum SynfunktionTyp {
