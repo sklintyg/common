@@ -38,43 +38,42 @@
   "intygAvser": {
     "kategorier": [
       {
-        "type": "A",
+        "type": "IAV14",
         "selected": true
       }
     ]
   },
   "identitetStyrktGenom":{
-    "typ":"PASS"
+    "typ":"IDK6"
   },
   "allmant":{
     "diabetesDiagnosAr":"1990",
     "typAvDiabetes":"TYP1",
     "behandling":{
       "insulin":true,
-      "insulinSedanAr":"1991"
+      "insulinSedanAr":"2999"
     }
   },
   "hypoglykemier":{
-    "sjukdomenUnderKontroll":false,
-    "nedsattHjarnfunktion":false,
-    "forstarRisker":false,
-    "fortrogenMedSymptom":false,
-    "saknarFormagaVarningstecken":false,
-    "kunskapLampligaAtgarder":false,
-    "egenkontrollBlodsocker":false,
+    "sjukdomenUnderKontroll":true,
+    "nedsattHjarnfunktion":true,
+    "formagaVarningstecken":true,
+    "egenkontrollBlodsocker":true,
     "aterkommandeSenasteAret":true,
-    "aterkommandeSenasteTidpunkt":"2017-11-04",
-    "aterkommandeSenasteKvartalet":false,
-    "forekomstTrafik":false
+    "aterkommandeSenasteTidpunkt":"2018-09-10",
+    "aterkommandeSenasteKvartalet":true,
+    "senasteTidpunktVaken":"2018-09-10",
+    "forekomstTrafik":true,
+    "forekomstTrafikTidpunkt":"2018-09-10"
   },
   "synfunktion":{
     "misstankeOgonsjukdom":false,
-    "ogonbottenFotoSaknas":true
+    "skickasSeparat":true
   },
   "bedomning":{
     "uppfyllerBehorighetskrav":[
       {
-        "type":"KANINTETASTALLNING",
+        "type":"VAR11",
         "selected":true
       }
     ]

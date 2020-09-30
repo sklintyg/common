@@ -38,13 +38,13 @@
   "intygAvser": {
     "kategorier": [
       {
-        "type": "C1",
+        "type": "IAV1",
         "selected": true
       }
     ]
   },
   "identitetStyrktGenom":{
-    "typ":"PASS"
+    "typ":"IDK6"
   },
   "allmant":{
     "diabetesDiagnosAr":"1990",
@@ -57,7 +57,7 @@
   },
   "synfunktion":{
     "misstankeOgonsjukdom":true,
-    "ogonbottenFotoSaknas":true,
+    "skickasSeparat":false,
     "vanster":{
       "utanKorrektion":0.3
     },
@@ -71,7 +71,7 @@
   "bedomning":{
     "uppfyllerBehorighetskrav":[
       {
-        "type":"KANINTETASTALLNING",
+        "type":"VAR11",
         "selected":true
       }
     ],

@@ -114,7 +114,7 @@
     "behandling":{
       "endastKost":true,
       "tabletter":true,
-      "tablettRiskHypoglykemi":true,
+      "riskHypoglykemi":true,
       "insulin":true,
       "insulinSedanAr":"2010",
       "annanBehandling":true,
@@ -124,10 +124,7 @@
   "hypoglykemier":{
     "sjukdomenUnderKontroll":true,
     "nedsattHjarnfunktion":true,
-    "forstarRisker":true,
-    "fortrogenMedSymptom":true,
-    "saknarFormagaVarningstecken":true,
-    "kunskapLampligaAtgarder":true,
+    "formagaVarningstecken":true,
     "egenkontrollBlodsocker":true,
     "aterkommandeSenasteAret":true,
     "aterkommandeSenasteTidpunkt":"2018-09-10",

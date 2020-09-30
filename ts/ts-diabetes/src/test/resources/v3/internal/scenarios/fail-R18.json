@@ -38,31 +38,32 @@
   "intygAvser": {
     "kategorier": [
       {
-        "type": "A",
+        "type": "IAV14",
         "selected": true
       }
     ]
   },
   "identitetStyrktGenom":{
-    "typ":"PASS"
+    "typ":"IDK6"
   },
   "allmant":{
     "diabetesDiagnosAr":"1990",
     "typAvDiabetes":"TYP1",
     "behandling":{
-      "annanBehandling":true
+      "annanBehandling":true,
+      "riskHypoglykemi":false
     }
   },
   "hypoglykemier":{
   },
   "synfunktion":{
     "misstankeOgonsjukdom":false,
-    "ogonbottenFotoSaknas":true
+    "skickasSeparat":true
   },
   "bedomning":{
     "uppfyllerBehorighetskrav":[
       {
-        "type":"KANINTETASTALLNING",
+        "type":"VAR11",
         "selected":true
       }
     ]

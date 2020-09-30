@@ -50,7 +50,8 @@
     "diabetesDiagnosAr":"1990",
     "typAvDiabetes":"TYP1",
     "behandling":{
-      "insulin":true
+      "insulin":true,
+      "insulinSedanAr":"1926"
     }
   },
   "hypoglykemier":{

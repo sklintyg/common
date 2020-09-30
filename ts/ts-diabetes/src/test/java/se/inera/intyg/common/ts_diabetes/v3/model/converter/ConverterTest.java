@@ -27,35 +27,34 @@ import com.google.common.io.Resources;
 import com.helger.schematron.svrl.AbstractSVRLMessage;
 import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import se.inera.intyg.common.support.services.BefattningService;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
-import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.URL;
 import java.util.stream.Collectors;
+import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.transform.stream.StreamSource;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
 import se.inera.intyg.common.ts_diabetes.v3.rest.TsDiabetesModuleApiV3;
 import se.inera.intyg.common.ts_diabetes.v3.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
@@ -72,7 +71,7 @@ public class ConverterTest {
 
     @Test
     public void doSchematronValidationTsDiabetesV3() throws Exception {
-        String xmlContents = Resources.toString(getResource("v3/transport/ts-diabetes-v3.xml"), Charsets.UTF_8);
+        String xmlContents = Resources.toString(getResource("v3/transport/scenarios/pass-complete.xml"), Charsets.UTF_8);
 
         RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
         assertTrue(generalValidator.validateGeneral(xmlContents));
@@ -87,7 +86,7 @@ public class ConverterTest {
     @Test
     public void outputJsonFromXml() throws Exception {
 
-        String xmlContents = Resources.toString(getResource("v3/transport/ts-diabetes-v3.xml"), Charsets.UTF_8);
+        String xmlContents = Resources.toString(getResource("v3/transport/scenarios/pass-complete.xml"), Charsets.UTF_8);
         RegisterCertificateType transport = JAXB.unmarshal(new StringReader(xmlContents), RegisterCertificateType.class);
 
         String json = getJsonFromTransport(transport);

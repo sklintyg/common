@@ -35,9 +35,40 @@
     },
     "signeringsdatum": "2015-12-07T15:48:05.000"
   },
-  "harFunktionsnedsattning": true,
-  "funktionsnedsattning": "Kommer inte in i bilen",
-  "harArbetetsPaverkan": true,
-  "arbetetsPaverkan": "Massor",
-  "harUtredningBehandling": false
+  "intygAvser": {
+    "kategorier": [
+      {
+        "type": "IAV14",
+        "selected": true
+      }
+    ]
+  },
+  "identitetStyrktGenom":{
+    "typ":"IDK6"
+  },
+  "allmant":{
+    "diabetesDiagnosAr":"1990",
+    "typAvDiabetes":"TYP1",
+    "behandling":{
+      "endastKost":true
+    }
+  },
+  "hypoglykemier":{
+  },
+  "synfunktion":{
+    "misstankeOgonsjukdom":false,
+    "skickasSeparat":true
+  },
+  "bedomning":{
+    "uppfyllerBehorighetskrav":[
+      {
+        "type":"VAR18",
+        "selected":true
+      },
+      {
+        "type":"VAR11",
+        "selected":true
+      }
+    ]
+  }
 }
