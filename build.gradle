@@ -13,8 +13,6 @@ ext {
 
     schemasContractVersion = "2.1.8"
 
-    fkEIntygAdapterVersion = "2.2-RC3-INTYG"
-
     autovalueVersion = "1.7"
     cxfVersion = "3.2.4"
     commonsCollectionsVersion = "4.4"

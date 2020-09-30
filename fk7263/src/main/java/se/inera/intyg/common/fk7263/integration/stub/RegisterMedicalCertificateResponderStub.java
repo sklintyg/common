@@ -24,25 +24,20 @@ import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.PERSON
 
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.xml.ws.WebServiceProvider;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3.wsaddressing10.AttributedURIType;
-
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificate.rivtabp20.v3.RegisterMedicalCertificateResponderInterface;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateResponseType;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
+import se.inera.intyg.common.fk7263.model.converter.TransportToInternal;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.utils.ResultOfCallUtil;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.stub.MedicalCertificatesStore;
-import se.inera.intyg.common.support.validate.CertificateValidationException;
-import se.inera.intyg.common.fk7263.model.converter.TransportToInternal;
-import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
-import se.skl.skltpservices.adapter.fk.regmedcert.Vard2FkValidator;
 
 /**
  * @author par.wenaker
@@ -57,8 +52,6 @@ public class RegisterMedicalCertificateResponderStub implements RegisterMedicalC
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RegisterMedicalCertificateResponderStub.class);
 
-    private Vard2FkValidator validator = new Vard2FkValidator();
-
     @Autowired(required = false)
     private MedicalCertificatesStore medicalCertificatesStore;
 
@@ -69,7 +62,6 @@ public class RegisterMedicalCertificateResponderStub implements RegisterMedicalC
         RegisterMedicalCertificateResponseType response = new RegisterMedicalCertificateResponseType();
 
         try {
-            validateTransport(request);
             Fk7263Utlatande utlatande = TransportToInternal.convert(request.getLakarutlatande());
             String id = utlatande.getId();
 
@@ -82,23 +74,12 @@ public class RegisterMedicalCertificateResponderStub implements RegisterMedicalC
 
             LOGGER.info("STUB Received request");
             medicalCertificatesStore.addCertificate(id, props);
-        } catch (CertificateValidationException e) {
-            response.setResult(ResultOfCallUtil.failResult(e.getMessage()));
-            return response;
         } catch (ConverterException e) {
             response.setResult(ResultOfCallUtil.failResult("Unable to convert certificate to internal format"));
             return response;
         }
         response.setResult(ResultOfCallUtil.okResult());
         return response;
-    }
-
-    protected void validateTransport(RegisterMedicalCertificateType registerMedicalCertificate) throws CertificateValidationException {
-        try {
-            validator.validateRequest(registerMedicalCertificate);
-        } catch (Exception e) {
-            throw new CertificateValidationException(e.getMessage());
-        }
     }
 
 }
