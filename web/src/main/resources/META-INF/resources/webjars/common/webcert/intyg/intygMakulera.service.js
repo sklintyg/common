@@ -17,10 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.IntygMakulera',
-    [ '$log', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.UtkastProxy', 'common.ObjectHelper', 'common.IntygCopyRequestModel',
+    [ '$log', '$rootScope', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.UtkastProxy', 'common.ObjectHelper', 'common.IntygCopyRequestModel',
         'common.IntygHelper', 'common.IntygViewStateService', 'common.ArendeListViewStateService', 'common.moduleService', 'common.featureService',
         'common.messageService',
-        function($log, $stateParams, dialogService, IntygProxy, UtkastProxy, ObjectHelper, IntygCopyRequestModel, IntygHelper,
+        function($log, $rootScope, $stateParams, dialogService, IntygProxy, UtkastProxy, ObjectHelper, IntygCopyRequestModel, IntygHelper,
             CommonViewState, ArendeListViewStateService, moduleService, featureService,
             messageService) {
             'use strict';
@@ -49,6 +49,7 @@ angular.module('common').factory('common.IntygMakulera',
                 function onMakuleraComplete() {
                     dialogModel.makuleraProgressDone = true;
                     makuleraDialog.close();
+                    $rootScope.$broadcast('intygstatus.updated');
                     onSuccess();
                 }
 
