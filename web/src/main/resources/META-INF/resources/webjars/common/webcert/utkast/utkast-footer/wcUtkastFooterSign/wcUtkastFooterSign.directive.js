@@ -75,26 +75,12 @@ angular
                         }
 
                         utkastValidationViewState.reset();
-                        if(viewState.common.intyg.type.toLowerCase() === 'doi'){
-                            signDoi();
+                        if(featureService.isFeatureActive(featureService.features.UNIKT_INTYG, viewState.common.intyg.type) ||
+                            featureService.isFeatureActive(featureService.features.UNIKT_INTYG_INOM_VG, viewState.common.intyg.type)){
+                            validateSigning();
                         } else {
                             doSignRequest();
                         }
-                    };
-
-                    $scope.disableSign = function() {
-                        var previousIntyg = false;
-                        if (featureService.isFeatureActive(featureService.features.UNIKT_INTYG, viewState.common.intyg.type) &&
-                            previousIntygWarnings !== undefined) {
-
-                            previousIntyg = previousIntygWarnings[viewState.common.intyg.type];
-
-                            if (previousIntyg && !previousIntyg.sameVardgivare) {
-                                previousWarningMessage = viewState.common.intyg.type + '.warn.previouscertificate.differentvg';
-                            }
-                        }
-
-                        return previousIntyg;
                     };
 
                     function doSignRequest() {
@@ -109,28 +95,39 @@ angular
                         );
                     }
 
-                    function signDoi() {
-                        /*
-                        * Fetch previous intyg to see if there's an addiction to signed DOIs
-                        * */
+                    function validateSigning() {
                         getPreviousIntyg(function() {
+                            var previousCertificate = previousIntygWarnings[viewState.common.intyg.type];
+                            var previousDraft = previousUtkastWarnings[viewState.common.intyg.type];
 
-                            // Display modal if we already have a signed doi
-                            if(previousIntygWarnings &&
-                                typeof previousIntygWarnings.doi !== 'undefined' &&
-                                !previousIntygWarnings.doi.sameVardgivare) {
-                                showDoiForceSignModal();
+                            var message = '';
+                            var title = '';
+                            if (featureService.isFeatureActive(featureService.features.UNIKT_INTYG, viewState.common.intyg.type) &&
+                                previousCertificate && !previousCertificate.sameVardgivare) {
+                                message = viewState.common.intyg.type + '.warn.previouscertificate.differentvg.sign';
+                                title = viewState.common.intyg.type + '.warn.previouscertificate.title';
+                                showSignNotPossibleModal(message, title);
+                                return;
+                            } else if (previousCertificate && !previousCertificate.sameVardgivare) {
+                                message = viewState.common.intyg.type + '.warn.previouscertificate.differentvg';
+                                title = viewState.common.intyg.type + '.warn.previouscertificate.title';
+                            } else if (previousDraft && !previousDraft.sameVardgivare) {
+                                message = viewState.common.intyg.type + '.warn.previousdraft.differentvg';
+                                title = viewState.common.intyg.type + '.warn.previousdraft.title';
+                            }
+                            if(message !== '' && title !== '') {
+                                showSignModal(message, title);
                                 return;
                             }
                             doSignRequest();
                         });
                     }
 
-                    function showDoiForceSignModal() {
+                    function showSignModal(message, title) {
                         dialogService.showDialog({
-                            dialogId: 'doi-already-signed-dialog',
-                            titleText: 'doi.error.sign.intyg_of_type_exists.other_vardgivare.title',
-                            templateUrl: '/app/partials/doiInfo.dialog.html',
+                            dialogId: 'sign-dialog',
+                            titleText: title,
+                            templateUrl: '/app/partials/uniqueInfo.dialog.html',
                             button1click: function (modalInstance) {
                                 modalInstance.close();
                                 doSignRequest();
@@ -138,9 +135,24 @@ angular
                             button2click: function (modalInstance) {
                                 modalInstance.close();
                             },
-                            button1text: 'doi.error.sign.intyg_of_type_exists.other_vardgivare.sign',
-                            button2text: 'common.createfromtemplate.cancel',
-                            bodyText: 'doi.error.sign.intyg_of_type_exists.other_vardgivare',
+                            button1text: 'common.shortsign',
+                            button2text: 'common.cancel',
+                            bodyText: message,
+                            autoClose: false
+                        });
+                    }
+
+                    function showSignNotPossibleModal(message, title) {
+                        dialogService.showDialog({
+                            dialogId: 'sign-not-possible-dialog',
+                            titleText: title,
+                            templateUrl: '/app/partials/uniqueInfo.dialog.html',
+                            button1click: function (modalInstance) {
+                                modalInstance.close();
+                            },
+                            button1text: 'common.close',
+                            button2visible: false,
+                            bodyText: message,
                             autoClose: false
                         });
                     }
@@ -172,7 +184,7 @@ angular
 
                         previousWarningMessage = {};
 
-                        commonUtkastProxy.getPrevious(viewState.intygModel.grundData.patient.personId, function(existing) {
+                        commonUtkastProxy.getPrevious(viewState.intygModel.grundData.patient.personId, viewState.common.intyg.certificateId, function(existing) {
                             previousUtkastWarnings = existing.utkast;
                             previousIntygWarnings = existing.intyg;
                             if(typeof onComplete === 'function') {
