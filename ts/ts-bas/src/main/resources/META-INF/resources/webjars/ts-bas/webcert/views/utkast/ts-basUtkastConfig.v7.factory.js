@@ -18,8 +18,8 @@
  */
 
 angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
-    ['$log', '$timeout', 'common.ueFactoryTemplatesHelper', 'common.ueTSFactoryTemplatesHelper',
-        function($log, $timeout, ueFactoryTemplates, ueTSFactoryTemplates) {
+    ['$log', '$timeout', 'common.ObjectHelper', 'common.ueFactoryTemplatesHelper', 'common.ueTSFactoryTemplatesHelper',
+        function($log, $timeout, ObjectHelper, ueFactoryTemplates, ueTSFactoryTemplates) {
             'use strict';
 
             function _getCategoryIds() {
@@ -94,7 +94,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                         }
                     }
                     return false;
-                } 
+                }
 
                 function isSetAndLessThan(value, max) {
                     return !(value === undefined || value === null) && value < max;
@@ -106,7 +106,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                     if(!model.syn.synskarpaSkickasSeparat &&
                         ((antalIntyg > 0 && !(antalIntyg === 1 && isAnnatSelected(model)) &&
                         ((isSetAndLessThan(model.syn.hogerOga.utanKorrektion, '0.8') &&
-                        isSetAndLessThan(model.syn.vansterOga.utanKorrektion,'0.8')) || 
+                        isSetAndLessThan(model.syn.vansterOga.utanKorrektion,'0.8')) ||
                         (isSetAndLessThan(model.syn.hogerOga.utanKorrektion,'0.1') ||
                         isSetAndLessThan(model.syn.vansterOga.utanKorrektion, '0.1')))) ||
                         (antalIntyg > 0 && isAnnatSelected(model) &&
@@ -125,6 +125,13 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                         return true;
                     }
                     return false;
+                }
+
+                function disableSkickasSeparat(scope){
+                    var synfunktion = scope.model.syn;
+                    return ObjectHelper.isDefined(synfunktion.hogerOga.utanKorrektion) || ObjectHelper.isDefined(synfunktion.hogerOga.medKorrektion) || synfunktion.hogerOga.kontaktlins ||
+                        ObjectHelper.isDefined(synfunktion.vansterOga.utanKorrektion) || ObjectHelper.isDefined(synfunktion.vansterOga.medKorrektion) || synfunktion.vansterOga.kontaktlins ||
+                        ObjectHelper.isDefined(synfunktion.binokulart.utanKorrektion) || ObjectHelper.isDefined(synfunktion.binokulart.medKorrektion);
                 }
 
                 var config = [
@@ -189,9 +196,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                                 key: 'DFR_8.1.RBK'
                             },
                             modelProp: 'syn.synskarpaSkickasSeparat',
-                            disabled: '(model.syn.hogerOga.utanKorrektion || model.syn.hogerOga.medKorrektion || model.syn.hogerOga.kontaktlins' +
-                                 ' || model.syn.vansterOga.utanKorrektion || model.syn.vansterOga.medKorrektion || model.syn.vansterOga.kontaktlins' +
-                                 ' || model.syn.binokulart.utanKorrektion || model.syn.binokulart.medKorrektion)',
+                            disabled: function(scope){return disableSkickasSeparat(scope);},
                             paddingBottom: true
                         },{
                             type: 'ue-grid',

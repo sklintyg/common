@@ -14,7 +14,6 @@ dependencies {
     compile "org.springframework:spring-tx"
 
     compile "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schemas:${intygClinicalprocessSchemasVersion}"
-    compile "se.skltp.adapterservices.insuranceprocess.healthreporting:FkEintygAdapterIC-validator:${fkEIntygAdapterVersion}"
     compile "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schematron:${intygClinicalprocessSchematronVersion}"
 
     testRuntime "javax.servlet:javax.servlet-api"

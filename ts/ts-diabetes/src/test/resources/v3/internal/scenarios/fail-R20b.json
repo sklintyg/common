@@ -50,20 +50,19 @@
     "diabetesDiagnosAr":"1990",
     "typAvDiabetes":"TYP1",
     "behandling":{
-      "insulin":true
+      "insulin":true,
+      "insulinSedanAr":"1991"
     }
   },
   "hypoglykemier":{
-    "sjukdomenUnderKontroll":true,
-    "nedsattHjarnfunktion":true,
-    "formagaVarningstecken":true,
-    "egenkontrollBlodsocker":true,
+    "sjukdomenUnderKontroll":false,
+    "nedsattHjarnfunktion":false,
+    "formagaVarningstecken":false,
+    "egenkontrollBlodsocker":false,
     "aterkommandeSenasteAret":true,
-    "aterkommandeSenasteTidpunkt":"2018-09-10",
-    "aterkommandeSenasteKvartalet":true,
-    "senasteTidpunktVaken":"2018-09-10",
-    "forekomstTrafik":true,
-    "forekomstTrafikTidpunkt":"2018-09-10"
+    "aterkommandeSenasteTidpunkt":"2099-11-04",
+    "aterkommandeSenasteKvartalet":false,
+    "forekomstTrafik":false
   },
   "synfunktion":{
     "misstankeOgonsjukdom":false,

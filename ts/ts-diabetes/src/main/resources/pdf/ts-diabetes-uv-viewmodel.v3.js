@@ -28,7 +28,7 @@ var viewConfig = [
                     type: 'uv-del-fraga',
                     components: [{
                         type: 'uv-list',
-                        labelKey: 'KORKORT_{var}.RBK',
+                        labelKey: 'KV_INTYGET_AVSER.{var}.RBK',
                         useLabelKeyForPrint: true,
                         listKey: function(model) {
                             return model.selected ? model.type : null;
@@ -49,7 +49,7 @@ var viewConfig = [
             components: [{
                 type: 'uv-kodverk-value',
                 kvModelProps: ['identitetStyrktGenom.typ'],
-                kvLabelKeys: ['IDENTITET_{var}.RBK']
+                kvLabelKeys: ['KV_ID_KONTROLL.{var}.RBK']
             }]
         }]
     },
@@ -98,7 +98,7 @@ var viewConfig = [
                             type: 'uv-list',
                             labelKey: 'DFR_109.{var}.RBK',
                             listKey: function(model, index) {
-                                    switch (index) {
+                                switch (index) {
                                     case 0: //endastKost
                                         index = 1; //DRF_109.1.RBK
                                         break;
@@ -106,10 +106,10 @@ var viewConfig = [
                                         index = 2; //DRF_109.2.RBK
                                         break;
                                     case 2: //insulin
-                                        index = 4; //DRF_109.4.RBK
+                                        index = 3; //DRF_109.3.RBK
                                         break;
                                     case 3: //annanBehandling
-                                        index = 6; //DRF_109.6.RBK
+                                        index = 5; //DRF_109.5.RBK
                                         break;
                                     default:
                                         index = 0;
@@ -122,15 +122,7 @@ var viewConfig = [
                         },
                         {
                             type: 'uv-del-fraga',
-                            labelKey: 'DFR_109.3.RBK',
-                            components: [{
-                                type: 'uv-boolean-value',
-                                modelProp: 'allmant.behandling.tablettRiskHypoglykemi'
-                            }]
-                        },
-                        {
-                            type: 'uv-del-fraga',
-                            labelKey: 'DFR_109.5.RBK',
+                            labelKey: 'DFR_109.4.RBK',
                             components: [{
                                 type: 'uv-simple-value',
                                 modelProp: 'allmant.behandling.insulinSedanAr'
@@ -138,10 +130,18 @@ var viewConfig = [
                         },
                         {
                             type: 'uv-del-fraga',
-                            labelKey: 'DFR_109.7.RBK',
+                            labelKey: 'DFR_109.6.RBK',
                             components: [{
                                 type: 'uv-simple-value',
                                 modelProp: 'allmant.behandling.annanBehandlingBeskrivning'
+                            }]
+                        },
+                        {
+                            type: 'uv-del-fraga',
+                            labelKey: 'DFR_109.7.RBK',
+                            components: [{
+                                type: 'uv-boolean-value',
+                                modelProp: 'allmant.behandling.riskHypoglykemi'
                             }]
                         }
                     ]
@@ -155,13 +155,13 @@ var viewConfig = [
         components: [
             {
                 type: 'uv-fraga',
-                labelKey: 'FRG_100.RBK',
+                labelKey: 'FRG_41.RBK',
                 components: [{
                     type: 'uv-del-fraga',
                     components: [
                         {
                             type: 'uv-boolean-value',
-                            modelProp: 'hypoglykemier.sjukdomenUnderKontroll'
+                            modelProp: 'hypoglykemier.egenkontrollBlodsocker'
                         }
                     ]
                 }]
@@ -181,65 +181,26 @@ var viewConfig = [
             },
             {
                 type: 'uv-fraga',
-                labelKey: 'FRG_101.RBK',
+                labelKey: 'FRG_100.RBK',
                 components: [{
                     type: 'uv-del-fraga',
                     components: [
                         {
                             type: 'uv-boolean-value',
-                            modelProp: 'hypoglykemier.forstarRisker'
+                            modelProp: 'hypoglykemier.sjukdomenUnderKontroll'
                         }
                     ]
                 }]
             },
             {
                 type: 'uv-fraga',
-                labelKey: 'FRG_102.RBK',
+                labelKey: 'FRG_110.RBK',
                 components: [{
                     type: 'uv-del-fraga',
                     components: [
                         {
                             type: 'uv-boolean-value',
-                            modelProp: 'hypoglykemier.fortrogenMedSymptom'
-                        }
-                    ]
-                }]
-            },
-            {
-                type: 'uv-fraga',
-                labelKey: 'FRG_38.RBK',
-                components: [{
-                    type: 'uv-del-fraga',
-                    components: [
-                        {
-                            type: 'uv-boolean-value',
-                            modelProp: 'hypoglykemier.saknarFormagaVarningstecken'
-                        }
-                    ]
-                }]
-            },
-            {
-                type: 'uv-fraga',
-                labelKey: 'FRG_36.RBK',
-                components: [{
-                    type: 'uv-del-fraga',
-                    components: [
-                        {
-                            type: 'uv-boolean-value',
-                            modelProp: 'hypoglykemier.kunskapLampligaAtgarder'
-                        }
-                    ]
-                }]
-            },
-            {
-                type: 'uv-fraga',
-                labelKey: 'FRG_105.RBK',
-                components: [{
-                    type: 'uv-del-fraga',
-                    components: [
-                        {
-                            type: 'uv-boolean-value',
-                            modelProp: 'hypoglykemier.egenkontrollBlodsocker'
+                            modelProp: 'hypoglykemier.formagaVarningstecken'
                         }
                     ]
                 }]
@@ -325,19 +286,13 @@ var viewConfig = [
                         {
                             type: 'uv-boolean-value',
                             modelProp: 'synfunktion.misstankeOgonsjukdom'
-                        }
-                    ]
-                }]
-            },
-            {
-                type: 'uv-fraga',
-                labelKey: 'FRG_104.RBK',
-                components: [{
-                    type: 'uv-del-fraga',
-                    components: [
+                        },
                         {
-                            type: 'uv-boolean-value',
-                            modelProp: 'synfunktion.ogonbottenFotoSaknas'
+                            type: 'uv-alert-value',
+                            labelKey: 'TSDIA-001.ALERT',
+                            alertLevel: 'warning',
+                            showExpression: function(model) {
+                                return model.synfunktion && model.synfunktion.misstankeOgonsjukdom === true;}
                         }
                     ]
                 }]
@@ -348,10 +303,16 @@ var viewConfig = [
                 components: [
                     {
                         type: 'uv-alert-value',
-                        labelKey: 'TSDIA-001.ALERT',
-                        alertLevel: 'warning',
-                        showExpression: function(model) {
-                            return model.synfunktion && model.synfunktion.misstankeOgonsjukdom === true;}
+                        labelKey: 'TSDIA-002.ALERT',
+                        alertLevel: 'info'
+                    },
+                    {
+                        type: 'uv-del-fraga',
+                        labelKey: 'DFR_8.1.RBK',
+                        components: [{
+                            type: 'uv-boolean-value',
+                            modelProp: 'synfunktion.skickasSeparat'
+                        }]
                     },
                     {
                         type: 'uv-del-fraga',
@@ -417,25 +378,14 @@ var viewConfig = [
                         labelKey: 'DFR_33.1.RBK',
                         components: [{
                             type: 'uv-list',
-                            labelKey: 'KV_KORKORTSBEHORIGHET_{var}.RBK',
+                            labelKey: 'KV_KORKORTSBEHORIGHET.{var}.RBK',
                             useLabelKeyForPrint: true,
                             listKey: function(model) {
                                 return model.selected ? model.type : null;
                             },
                             separator: ', ',
-                            modelProp: 'bedomning.uppfyllerBehorighetskrav',
-                            noValue: 'DFR_33.2.RBK'
+                            modelProp: 'bedomning.uppfyllerBehorighetskrav'
                         }]
-                    }
-                ]
-            },
-            {
-                type: 'uv-fraga',
-                labelKey: 'FRG_34.RBK',
-                components: [
-                    {
-                        type: 'uv-simple-value',
-                        modelProp: 'bedomning.borUndersokasBeskrivning'
                     }
                 ]
             },
@@ -446,6 +396,16 @@ var viewConfig = [
                     {
                         type: 'uv-boolean-value',
                         modelProp: 'bedomning.lampligtInnehav'
+                    }
+                ]
+            },
+            {
+                type: 'uv-fraga',
+                labelKey: 'FRG_34.RBK',
+                components: [
+                    {
+                        type: 'uv-simple-value',
+                        modelProp: 'bedomning.borUndersokasBeskrivning'
                     }
                 ]
             }

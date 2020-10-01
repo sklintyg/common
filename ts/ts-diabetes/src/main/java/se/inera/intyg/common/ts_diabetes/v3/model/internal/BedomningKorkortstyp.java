@@ -21,28 +21,25 @@ package se.inera.intyg.common.ts_diabetes.v3.model.internal;
 /**
  * This is a subset (VAR1-9, VAR11-18) of "Kv körkortsbehörighet"
  * {@link se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod}.
- * The subset is in specified in
- * https://inera-certificate.atlassian.net/wiki/spaces/IT/pages/459374755/
- * Informationsspecifikation+TS+Diabetes+-+nytt+intygsformat+ppen+info
  *
- * Note - the order is also adjusted to match requirements above.
+ * Note - the order is adjusted to match requirements.
  */
 public enum BedomningKorkortstyp {
-    AM,
-    A1,
-    A2,
-    A,
-    B,
-    BE,
-    TRAKTOR,
-    C1,
-    C1E,
-    C,
-    CE,
-    D1,
-    D1E,
-    D,
-    DE,
-    TAXI,
-    KANINTETASTALLNING
+    VAR12,
+    VAR13,
+    VAR14,
+    VAR15,
+    VAR16,
+    VAR17,
+    VAR18,
+    VAR1,
+    VAR2,
+    VAR3,
+    VAR4,
+    VAR5,
+    VAR6,
+    VAR7,
+    VAR8,
+    VAR9,
+    VAR11
 }

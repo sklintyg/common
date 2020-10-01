@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ns2:RegisterCertificate xmlns="urn:riv:clinicalprocess:healthcond:certificate:3"
-                         xmlns:ns2="urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3"
-                         xmlns:ns3="urn:riv:clinicalprocess:healthcond:certificate:types:3">
+    xmlns:ns2="urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3"
+    xmlns:ns3="urn:riv:clinicalprocess:healthcond:certificate:types:3">
   <ns2:intyg>
     <intygs-id>
       <ns3:root>123456789</ns3:root>
@@ -248,75 +248,72 @@
       </delsvar>
     </svar>
     <svar id="18">
-      <delsvar id="18.1">
-        <ns3:cv>
-          <ns3:code>E13</ns3:code>
-          <ns3:codeSystem>1.2.752.116.1.1.1.1.3</ns3:codeSystem>
-          <ns3:displayName>Annan typ av diabetes</ns3:displayName>
-        </ns3:cv>
-      </delsvar>
       <delsvar id="18.2">Annan diabetes</delsvar>
     </svar>
     <svar id="109">
       <delsvar id="109.1">true</delsvar>
       <delsvar id="109.2">true</delsvar>
       <delsvar id="109.3">true</delsvar>
-      <delsvar id="109.4">true</delsvar>
-      <delsvar id="109.5">
+      <delsvar id="109.4">
         <ns3:partialDate>
           <ns3:format>YYYY</ns3:format>
           <ns3:value>2010</ns3:value>
         </ns3:partialDate>
       </delsvar>
-      <delsvar id="109.6">true</delsvar>
-      <delsvar id="109.7">Annan behandling</delsvar>
+      <delsvar id="109.5">true</delsvar>
+      <delsvar id="109.6">Annan behandling</delsvar>
+      <delsvar id="109.7">true</delsvar>
     </svar>
-    <svar id="100">
-      <delsvar id="100.1">true</delsvar>
+    <svar id="41">
+      <delsvar id="41.1">true</delsvar>
     </svar>
     <svar id="37">
       <delsvar id="37.1">true</delsvar>
     </svar>
-    <svar id="101">
-      <delsvar id="101.1">true</delsvar>
+    <svar id="100">
+      <delsvar id="100.1">true</delsvar>
     </svar>
-    <svar id="102">
-      <delsvar id="102.1">true</delsvar>
-    </svar>
-    <svar id="38">
-      <delsvar id="38.1">true</delsvar>
-    </svar>
-    <svar id="36">
-      <delsvar id="36.1">true</delsvar>
-    </svar>
-    <svar id="105">
-      <delsvar id="105.1">true</delsvar>
+    <svar id="110">
+      <delsvar id="110.1">true</delsvar>
     </svar>
     <svar id="106">
       <delsvar id="106.1">true</delsvar>
-      <delsvar id="106.2">2018-09-10</delsvar>
+      <delsvar id="106.2">
+        <ns3:partialDate>
+          <ns3:format>YYYY-MM-DD</ns3:format>
+          <ns3:value>2018-09-10</ns3:value>
+        </ns3:partialDate>
+      </delsvar>
     </svar>
     <svar id="107">
       <delsvar id="107.1">true</delsvar>
-      <delsvar id="107.2">2018-09-10</delsvar>
+      <delsvar id="107.2">
+        <ns3:partialDate>
+          <ns3:format>YYYY-MM-DD</ns3:format>
+          <ns3:value>2018-09-10</ns3:value>
+        </ns3:partialDate>
+      </delsvar>
     </svar>
     <svar id="108">
       <delsvar id="108.1">true</delsvar>
-      <delsvar id="108.2">2018-09-10</delsvar>
+      <delsvar id="108.2">
+        <ns3:partialDate>
+          <ns3:format>YYYY-MM-DD</ns3:format>
+          <ns3:value>2018-09-10</ns3:value>
+        </ns3:partialDate>
+      </delsvar>
     </svar>
     <svar id="103">
       <delsvar id="103.1">true</delsvar>
     </svar>
-    <svar id="104">
-      <delsvar id="104.1">true</delsvar>
-    </svar>
     <svar id="8">
-      <delsvar id="8.1">0.1</delsvar>
-      <delsvar id="8.4">0.2</delsvar>
-      <delsvar id="8.2">0.3</delsvar>
-      <delsvar id="8.5">0.4</delsvar>
-      <delsvar id="8.3">0.5</delsvar>
-      <delsvar id="8.6">0.6</delsvar>
+      <delsvar id="8.1">false</delsvar>
+      <delsvar id="8.2">0.1</delsvar>
+      <delsvar id="8.3">0.3</delsvar>
+      <delsvar id="8.4">0.5</delsvar>
+      <delsvar id="8.5">0.2</delsvar>
+      <delsvar id="8.6">0.4</delsvar>
+      <delsvar id="8.7">0.6</delsvar>
     </svar>
     <svar id="32">
       <delsvar id="32.1">Övrigt</delsvar>

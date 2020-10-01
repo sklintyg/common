@@ -32,12 +32,10 @@ import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYNFUNKTION_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.TEXTVERSION_JSON_ID;
 
-import javax.annotation.Nullable;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
-
+import javax.annotation.Nullable;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
@@ -67,36 +65,30 @@ public abstract class TsDiabetesUtlatandeV3 implements Utlatande {
     public abstract String getSignature();
 
     // Kategori 1 - Intyget avser
-
-    // Fråga 1 - Intyget avser behörighet
-    // Fråga 1.1 - Intyget avser behörighet
     @Nullable
     public abstract IntygAvser getIntygAvser();
 
     // Kategori 2 - Identitet
-    // Fråga 2 - Identitet Styrkt genom
-    // Fråga 2.1 - Identitet Styrkt genom
     @Nullable
     public abstract IdKontroll getIdentitetStyrktGenom();
 
-
-    // Kategori 3 - Allmänt (Fråga 35, 18, 109)
+    // Kategori 3 - Allmänt
     @Nullable
     public abstract Allmant getAllmant();
 
-    // Kategori 4 - Hypoglykemier (Fråga 100, 37, 101, 102, 38, 36, 105, 106, 107, 108)
+    // Kategori 4 - Hypoglykemier
     @Nullable
     public abstract Hypoglykemier getHypoglykemier();
 
-    // Kategori 5 - Synfunktion (Fråga 103, 104, 8)
+    // Kategori 5 - Synfunktion
     @Nullable
     public abstract Synfunktion getSynfunktion();
 
-    // Kategori 6 - Övrigt (Fråga 32)
+    // Kategori 6 - Övrigt
     @Nullable
     public abstract String getOvrigt();
 
-    // Kategori 7 - Bedomning (Fråga 33, 45, 34)
+    // Kategori 7 - Bedomning
     @Nullable
     public abstract Bedomning getBedomning();
 

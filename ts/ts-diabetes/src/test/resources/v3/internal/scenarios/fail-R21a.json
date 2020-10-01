@@ -38,13 +38,13 @@
   "intygAvser": {
     "kategorier": [
       {
-        "type": "A",
+        "type": "IAV14",
         "selected": true
       }
     ]
   },
   "identitetStyrktGenom":{
-    "typ":"PASS"
+    "typ":"IDK6"
   },
   "allmant":{
     "diabetesDiagnosAr":"1990",
@@ -57,24 +57,21 @@
   "hypoglykemier":{
     "sjukdomenUnderKontroll":false,
     "nedsattHjarnfunktion":false,
-    "forstarRisker":false,
-    "fortrogenMedSymptom":false,
-    "saknarFormagaVarningstecken":false,
-    "kunskapLampligaAtgarder":false,
+    "formagaVarningstecken":false,
     "egenkontrollBlodsocker":false,
     "aterkommandeSenasteAret":false,
-    "aterkommandeSenasteKvartalet":false,
-    "forekomstTrafik":true,
-    "forekomstTrafikTidpunkt":"2017-11-04"
+    "aterkommandeSenasteKvartalet":true,
+    "senasteTidpunktVaken":"1910-08-04",
+    "forekomstTrafik":false
   },
   "synfunktion":{
     "misstankeOgonsjukdom":false,
-    "ogonbottenFotoSaknas":true
+    "skickasSeparat":true
   },
   "bedomning":{
     "uppfyllerBehorighetskrav":[
       {
-        "type":"KANINTETASTALLNING",
+        "type":"VAR11",
         "selected":true
       }
     ]
