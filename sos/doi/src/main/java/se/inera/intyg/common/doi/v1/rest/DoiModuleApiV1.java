@@ -63,7 +63,6 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
     private static final Logger LOG = LoggerFactory.getLogger(DoiModuleApiV1.class);
     private static final String PDF_FILENAME_PREFIX = "dodsorsaksintyg";
 
-    private static final int COPY_FROM_DB_MAX_AGE_DAYS = 365;
     private static final String SUPPORTED_DB_MAJOR_VERSION = "1";
 
     public DoiModuleApiV1() {
@@ -127,7 +126,7 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
 
     @Override
     public Optional<GetCopyFromCriteria> getCopyFromCriteria() {
-        return Optional.of(new GetCopyFromCriteria(DbModuleEntryPoint.MODULE_ID, SUPPORTED_DB_MAJOR_VERSION, COPY_FROM_DB_MAX_AGE_DAYS));
+        return Optional.of(new GetCopyFromCriteria(DbModuleEntryPoint.MODULE_ID, SUPPORTED_DB_MAJOR_VERSION, -1));
     }
 
     @Override
