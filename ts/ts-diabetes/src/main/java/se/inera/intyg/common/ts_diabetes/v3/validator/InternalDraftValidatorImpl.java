@@ -418,7 +418,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         }
 
         // R2
-        if (ValidatorUtil.isYearBeforeBirth(parsedYear.toString(), utlatande.getGrundData().getPatient().getPersonId())) {
+        if (ValidatorUtil.isYearBeforeBirth(parsedYear, utlatande.getGrundData().getPatient().getPersonId())) {
             addValidationError(validationMessages, CATEGORY_ALLMANT, diabetesSedanArFieldPath,
                 ValidationMessageType.OTHER, "common.validation.d-05");
         }
@@ -481,7 +481,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
                 }
 
                 // R7: Årtal för 'insulinbehandling sedan' måste vara efter patienten är född, och senast innevarande år
-                if (ValidatorUtil.isYearBeforeBirth(cleanedInsulinSedanArString,
+                if (ValidatorUtil.isYearBeforeBirth(parsedYear,
                     utlatande.getGrundData().getPatient().getPersonId())) {
                     addValidationError(validationMessages, CATEGORY_ALLMANT, insulinSedanArFieldPath,
                         ValidationMessageType.OTHER, "common.validation.d-05");
