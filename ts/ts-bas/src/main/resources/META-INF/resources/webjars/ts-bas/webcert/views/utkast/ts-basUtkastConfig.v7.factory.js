@@ -111,9 +111,9 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                         isSetAndLessThan(model.syn.vansterOga.utanKorrektion, '0.1')))) ||
                         (antalIntyg > 0 && isAnnatSelected(model) &&
                         isSetAndLessThan(model.syn.binokulart.utanKorrektion, '0.5')))) {
-                        if (!model.syn.hogerOga.medKorrektion ||
-                            !model.syn.vansterOga.medKorrektion ||
-                            !model.syn.binokulart.medKorrektion ) {
+                        if (!ObjectHelper.isDefined(model.syn.hogerOga.medKorrektion) ||
+                            !ObjectHelper.isDefined(model.syn.vansterOga.medKorrektion) ||
+                            !ObjectHelper.isDefined(model.syn.binokulart.medKorrektion) ) {
                                 return true;
                             }
                     }
@@ -121,7 +121,8 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                 }
 
                 function noCorrectionRequired(model) {
-                    if (!model.syn.synskarpaSkickasSeparat && (!model.syn.hogerOga.utanKorrektion || !model.syn.vansterOga.utanKorrektion || !model.syn.binokulart.utanKorrektion)) {
+                    if (!model.syn.synskarpaSkickasSeparat && (!ObjectHelper.isDefined(model.syn.hogerOga.utanKorrektion) ||
+                        !ObjectHelper.isDefined(model.syn.vansterOga.utanKorrektion) || !ObjectHelper.isDefined(model.syn.binokulart.utanKorrektion))) {
                         return true;
                     }
                     return false;
@@ -206,7 +207,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                                 [{
                                 },{
                                     type: 'ue-form-label',
-                                    key: 'DFR_8.2.RBK',
+                                    key: 'ts-bas.label.syn.utankorrektion',
                                     required: true,
                                     requiredProp: noCorrectionRequired
                                 },{
@@ -519,6 +520,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                         fraga(30, '', '', { hideExpression: '!model.sjukhusvard.sjukhusEllerLakarkontakt' }, [{
                             type: 'ue-textfield',
                             modelProp: 'sjukhusvard.tidpunkt',
+                            size: '40-width',
                             htmlMaxlength: 40,
                             label: {
                                 key: 'DFR_30.2.RBK',
@@ -529,6 +531,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                         fraga(30, '', '', { hideExpression: '!model.sjukhusvard.sjukhusEllerLakarkontakt' }, [{
                             type: 'ue-textfield',
                             modelProp: 'sjukhusvard.vardinrattning',
+                            size: '40-width',
                             htmlMaxlength: 40,
                             label: {
                                 key: 'DFR_30.3.RBK',
@@ -539,6 +542,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v7',
                         fraga(30, '', '', { hideExpression: '!model.sjukhusvard.sjukhusEllerLakarkontakt' }, [{
                             type: 'ue-textfield',
                             modelProp: 'sjukhusvard.anledning',
+                            size: '50-width',
                             htmlMaxlength: 50,
                             label: {
                                 key: 'DFR_30.4.RBK',
