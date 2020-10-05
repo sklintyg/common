@@ -56,7 +56,7 @@ angular.module('common').factory('common.UtkastService',
 
             function _updatePreviousIntygUtkast(personId) {
                 var def = $q.defer();
-                UtkastProxy.getPrevious(personId, function(existing) {
+                UtkastProxy.getPrevious(personId, undefined, function(existing) {
                     CommonViewState.setPreviousIntygUtkast(existing.intyg, existing.utkast);
 
                     def.resolve();
