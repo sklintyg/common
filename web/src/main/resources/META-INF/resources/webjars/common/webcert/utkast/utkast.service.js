@@ -191,70 +191,101 @@ angular.module('common').factory('common.UtkastService',
 
             function _copyFromCandidate(utlatandeJson) {
 
-                var defer = $q.defer();
+                // If death certificate was issued on vårdenhet other than the currently selected,
+                // copy is not permitted, display information dialog.
+                if (utlatandeJson.candidateMetaData.intygType.toLowerCase() === 'db' && !utlatandeJson.candidateMetaData.sameVardenhet) {
+                    _showCandidateVardenhetInfo(utlatandeJson.candidateMetaData.enhetName);
+                } else {
+                    // Else display dialog with option to perform copy from candidate, or cancel.
+                    var defer = $q.defer();
 
-                var dialogModel = {
-                    isOpen: null,
-                    copyFromId: null,
-                    copyFromType: null,
-                    copyFromCreatedDate: null,
-                    copyToId: null,
-                    copyToType: null,
-                    copyToTypeVersion: null,
-                    patientId: null,
-                    bodyText: null
-                };
+                    var dialogModel = {
+                        isOpen: null,
+                        copyFromId: null,
+                        copyFromType: null,
+                        copyFromCreatedDate: null,
+                        copyToId: null,
+                        copyToType: null,
+                        copyToTypeVersion: null,
+                        patientId: null,
+                        bodyText: null
+                    };
 
-                var copyFromCandidateDialogModel = angular.copy(dialogModel);
+                    var copyFromCandidateDialogModel = angular.copy(dialogModel);
 
-                copyFromCandidateDialogModel.copyFromId = utlatandeJson.candidateMetaData.intygId;
-                copyFromCandidateDialogModel.copyFromType = utlatandeJson.candidateMetaData.intygType;
-                copyFromCandidateDialogModel.copyFromCreatedDate = utlatandeJson.candidateMetaData.intygCreated;
-                copyFromCandidateDialogModel.copyToId =  utlatandeJson.content.id;
-                copyFromCandidateDialogModel.copyToType = utlatandeJson.content.typ;
-                copyFromCandidateDialogModel.copyToTypeVersion = utlatandeJson.content.textVersion;
+                    copyFromCandidateDialogModel.copyFromId = utlatandeJson.candidateMetaData.intygId;
+                    copyFromCandidateDialogModel.copyFromType = utlatandeJson.candidateMetaData.intygType;
+                    copyFromCandidateDialogModel.copyFromCreatedDate = utlatandeJson.candidateMetaData.intygCreated;
+                    copyFromCandidateDialogModel.copyToId = utlatandeJson.content.id;
+                    copyFromCandidateDialogModel.copyToType = utlatandeJson.content.typ;
+                    copyFromCandidateDialogModel.copyToTypeVersion = utlatandeJson.content.textVersion;
 
-                var bodyMessageKey = copyFromCandidateDialogModel.copyToType.toLowerCase() + '.modal.copy-from-candidate.text';
-                if (messageService.propertyExists(bodyMessageKey)) {
-                    copyFromCandidateDialogModel.bodyText = messageService.getProperty(bodyMessageKey, {createdDate:  moment(copyFromCandidateDialogModel.copyFromCreatedDate).format('YYYY-MM-DD')});
-                }
+                    var bodyMessageKey = copyFromCandidateDialogModel.copyToType.toLowerCase() + '.modal.copy-from-candidate.text';
+                    if (messageService.propertyExists(bodyMessageKey)) {
+                        copyFromCandidateDialogModel.bodyText = messageService.getProperty(bodyMessageKey,
+                            {createdDate: moment(copyFromCandidateDialogModel.copyFromCreatedDate).format('YYYY-MM-DD')});
+                    }
 
-                var copyFromCandidateDialog = dialogService.showDialog({
-                    dialogId: 'copy-from-candidate-dialog',
-                    titleId: 'common.modal.copy-from-candidate.title',
-                    bodyText: copyFromCandidateDialogModel.bodyText,
-                    button1click: function() {
-                        $log.debug('copying data from certificate candidate');
-                        _copyFromCandidateToUtkast(
-                            copyFromCandidateDialogModel.copyToId,
-                            copyFromCandidateDialogModel.copyToType,
-                            copyFromCandidateDialogModel.copyToTypeVersion,
-                            copyFromCandidateDialogModel.copyFromId,
-                            copyFromCandidateDialogModel.copyFromType)
-                        .then(function(success) {
+                    var copyFromCandidateDialog = dialogService.showDialog({
+                        dialogId: 'copy-from-candidate-dialog',
+                        titleId: 'common.modal.copy-from-candidate.title',
+                        templateUrl: 'app/partials/createfromtemplate-dialog.html',
+                        bodyText: copyFromCandidateDialogModel.bodyText,
+                        button1click: function() {
+                            $log.debug('copying data from certificate candidate');
+                            _copyFromCandidateToUtkast(
+                                copyFromCandidateDialogModel.copyToId,
+                                copyFromCandidateDialogModel.copyToType,
+                                copyFromCandidateDialogModel.copyToTypeVersion,
+                                copyFromCandidateDialogModel.copyFromId,
+                                copyFromCandidateDialogModel.copyFromType)
+                            .then(function(success) {
                                 defer.resolve(success);
-                        }, function(error) {
+                            }, function(error) {
                                 defer.reject(error);
-                        });
+                            });
 
-                        // close dialog when done
-                        copyFromCandidateDialog.close();
+                            // close dialog when done
+                            copyFromCandidateDialog.close();
+                        },
+                        button2click: function() {
+                            copyFromCandidateDialog.close();
+                            defer.reject();
+                        },
+                        button1id: 'copy-from-candidate-dialog-button1',
+                        button1text: 'common.copy',
+                        button2id: 'copy-from-candidate-dialog-button2',
+                        button2text: 'common.cancel',
+                        autoClose: false
+                    });
+
+                    return defer.promise;
+                }
+            }
+
+            function _showCandidateVardenhetInfo(candidateUnitName) {
+
+                dialogService.showDialog({
+                    dialogId: 'show-candidate-vardenhet-info',
+                    titleId: 'doi.modal.show-candidate-vardenhet-info.title',
+                    templateUrl: 'app/partials/createfromtemplate-dialog.html',
+                    bodyTextId: 'doi.modal.show-candidate-vardenhet-info.text',
+                    button1click: function(modalInstance) {
+                        $log.debug('Displaying vardenhet details for candidate');
+                        modalInstance.close();
+                        dialogService.showMessageDialog('doi.modal.show-candidate-vardenhet-details.title',
+                            messageService.getProperty('doi.modal.show-candidate-vardenhet-details.text',
+                                {candidateUnitName: candidateUnitName}));
                     },
-                    button2click: function() {
-                        copyFromCandidateDialog.close();
-                        defer.reject();
+                    button2click: function(modalInstance) {
+                        modalInstance.close();
                     },
-                    button1id: 'copy-from-candidate-dialog-button1',
-                    button1text: 'common.copy',
-                    button1icon: 'icon-ok',
-                    button2id: 'copy-from-candidate-dialog-button2',
+                    button1id: 'show-candidate-vardenhet-info-button1',
+                    button1text: 'common.show',
+                    button2id: 'show-candidate-vardenhet-info-button2',
                     button2text: 'common.cancel',
-                    button2icon: 'icon-cancel',
-                    button2class: 'btn-secondary',
                     autoClose: false
                 });
-
-                return defer.promise;
             }
 
             /**
