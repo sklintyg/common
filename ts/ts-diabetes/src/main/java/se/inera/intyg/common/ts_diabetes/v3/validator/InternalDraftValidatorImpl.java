@@ -91,6 +91,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     private static final double RULE_15_CUTOFF = 0.1;
     private static final double MAX_SYNSKARPA_VARDE = 2.0;
     private static final int MAX_OVRIGT_CHARS = 189;
+    private static final int MAX_ANNAN_BEHANDLING_CHARS = 53;
+    private static final int MAX_ANNAN_DIABETES_CHARS = 53;
     private static final int MAX_UNDERSOKAS_SPECIALIST_CHARS = 71;
 
     protected static final String CATEGORY_INTYGET_AVSER_BEHORIGHET = "intygAvser";
@@ -418,7 +420,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         }
 
         // R2
-        if (ValidatorUtil.isYearBeforeBirth(parsedYear.toString(), utlatande.getGrundData().getPatient().getPersonId())) {
+        if (ValidatorUtil.isYearBeforeBirth(parsedYear, utlatande.getGrundData().getPatient().getPersonId())) {
             addValidationError(validationMessages, CATEGORY_ALLMANT, diabetesSedanArFieldPath,
                 ValidationMessageType.OTHER, "common.validation.d-05");
         }
@@ -440,6 +442,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         if (eligibleForRule3(utlatande) && Strings.nullToEmpty(allmant.getBeskrivningAnnanTypAvDiabetes()).trim().isEmpty()) {
             addValidationError(validationMessages, CATEGORY_ALLMANT, annanTypAvDiabetesBeskrivningFieldPath,
                 ValidationMessageType.EMPTY);
+        } else if (eligibleForRule3(utlatande)
+            && Strings.nullToEmpty(allmant.getBeskrivningAnnanTypAvDiabetes()).trim().length() > MAX_ANNAN_DIABETES_CHARS) {
+            addValidationError(validationMessages, CATEGORY_ALLMANT, annanTypAvDiabetesBeskrivningFieldPath, ValidationMessageType.OTHER);
         }
     }
 
@@ -481,7 +486,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
                 }
 
                 // R7: Årtal för 'insulinbehandling sedan' måste vara efter patienten är född, och senast innevarande år
-                if (ValidatorUtil.isYearBeforeBirth(cleanedInsulinSedanArString,
+                if (ValidatorUtil.isYearBeforeBirth(parsedYear,
                     utlatande.getGrundData().getPatient().getPersonId())) {
                     addValidationError(validationMessages, CATEGORY_ALLMANT, insulinSedanArFieldPath,
                         ValidationMessageType.OTHER, "common.validation.d-05");
@@ -506,6 +511,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             addValidationError(validationMessages, CATEGORY_ALLMANT,
                 BEHANDLING_ROOT_FIELD_PATH + ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID,
                 ValidationMessageType.EMPTY);
+        } else if (eligibleForRule18(utlatande)
+            && Strings.nullToEmpty(behandling.getAnnanBehandlingBeskrivning()).trim().length() > MAX_ANNAN_BEHANDLING_CHARS) {
+            addValidationError(validationMessages, CATEGORY_ALLMANT,
+                BEHANDLING_ROOT_FIELD_PATH + ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID, ValidationMessageType.OTHER);
         }
     }
 

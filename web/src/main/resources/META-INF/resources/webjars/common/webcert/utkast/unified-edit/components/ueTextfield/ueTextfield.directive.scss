@@ -13,6 +13,18 @@ ue-textfield {
       width: 100%;
       max-width: 100%;
     }
+    &.input-40-width {
+      width: 330px;
+      max-width: 100%;
+    }
+    &.input-50-width {
+      width: 410px;
+      max-width: 100%;
+    }
+    &.input-53-width {
+      width: 440px;
+      max-width: 100%;
+    }
     &:disabled, fieldset[disabled] & {
       background-color: $wc-color-20;
       color: $wc-color-09;
