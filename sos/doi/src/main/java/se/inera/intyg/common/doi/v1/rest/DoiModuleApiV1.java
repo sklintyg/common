@@ -22,9 +22,7 @@ import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetai
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -42,6 +40,7 @@ import se.inera.intyg.common.doi.support.DoiModuleEntryPoint;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.sos_parent.pdf.SoSPdfGeneratorException;
 import se.inera.intyg.common.sos_parent.rest.SosParentModuleApi;
+import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -51,10 +50,12 @@ import se.inera.intyg.common.support.modules.support.api.GetCopyFromCriteria;
 import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftCreationResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 
 @Component(value = "moduleapi.doi.v1")
 public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
@@ -140,6 +141,15 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
     @Override
     public Optional<Mapper> getMapper() {
         return Optional.of(new DbToDoiMapper(objectMapper));
+    }
+
+    @Override
+    public Optional<ValidateDraftCreationResponse> validateDraftCreation(Set<String> existingRelatedCertificates) {
+        if (existingRelatedCertificates.stream().noneMatch(KvIntygstyp.DB.getCodeValue()::equalsIgnoreCase)) {
+            return Optional.of(new ValidateDraftCreationResponse("Det finns inget dödsbevis i nuläget inom "
+                    + "vårdgivaren. Dödsorsaksintyget bör alltid skapas efter dödsbeviset.", ResultCodeType.INFO));
+        }
+        return Optional.empty();
     }
 
 }

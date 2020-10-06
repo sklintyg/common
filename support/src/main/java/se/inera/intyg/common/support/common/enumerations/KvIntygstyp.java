@@ -70,5 +70,13 @@ public enum KvIntygstyp {
         return displayName;
     }
 
+    public static String getDisplayNameFromCodeValue(String codeValue) {
+        for (var intygstyp : KvIntygstyp.values()) {
+            if (intygstyp.getCodeValue().equalsIgnoreCase(codeValue)) {
+                return intygstyp.getDisplayName();
+            }
+        }
+        return "Unknown";
+    }
 
 }
