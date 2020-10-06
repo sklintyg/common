@@ -437,13 +437,12 @@
 
             'common.label.intygstatus.lus-01': 'Utkastet är låst',
             'common.label.intygstatus.lus-02': 'Utkastet är makulerat',
-            'common.label.intygstatus.lus-03': 'Det låsta utkastet kopierades från ett tidigare låst utkast som också kan behöva makuleras. <a href="#/intyg/${intygstyp}/${intygTypeVersion}/${intygsid}/?forcelink">Öppna utkastet</a>',
 
             'common.label.intygstatus.us-006': 'Utkastet är skapat',
             'common.label.intygstatus.us-007': 'Utkastet är skapat för att komplettera ett tidigare intyg. <a href="#/intyg/${intygstyp}/${intygTypeVersion}/${intygsid}/?forcelink">Öppna intyget</a>',
             'common.label.intygstatus.us-008': 'Utkastet är skapat för att förnya ett tidigare intyg. <a href="#/intyg/${intygstyp}/${intygTypeVersion}/${intygsid}/?forcelink">Öppna intyget</a>',
             'common.label.intygstatus.us-009': 'Utkastet är skapat för att ersätta ett tidigare intyg. <a href="#/intyg/${intygstyp}/${intygTypeVersion}/${intygsid}/?forcelink">Öppna intyget</a>',
-            'common.label.intygstatus.us-010': 'Utkastet är skapat som en kopia på ett låst utkast. <a href="#/intyg/${intygstyp}/${intygTypeVersion}/${intygsid}/?forcelink">Öppna utkastet</a>',
+            'common.label.intygstatus.us-010': 'Utkastet är skapat som en kopia på ett låst utkast. <a href="#/${intygstyp}/${intygTypeVersion}/edit/${intygsid}/?forcelink">Öppna utkastet</a>',
 
             'common.modalheader.intygstatus.is-004': 'Intyget är makulerat',
             'common.modalbody.intygstatus.is-004': 'Intyget är inte längre tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>.',
