@@ -35,7 +35,7 @@ angular.module('common').service('common.IntygHeaderService',
 
             this.updatePreviousIntygUtkast = function(intyg) {
                 if (IntygHeaderViewState.currentCreateFromTemplateConfig && intyg) {
-                    UtkastProxy.getPrevious(intyg.grundData.patient.personId, function(existing) {
+                    UtkastProxy.getPrevious(intyg.grundData.patient.personId, undefined, function(existing) {
                         IntygHeaderViewState.setPreviousIntygUtkast(existing.intyg, existing.utkast);
                     });
                 }

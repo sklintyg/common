@@ -237,9 +237,9 @@ angular.module('common').factory('common.UtkastProxy',
         /*
          * Load all intygstyper about which there should be a warning shown for preexisting intyg
          */
-        function _getPrevious(patientId, onSuccess, onError) {
+        function _getPrevious(patientId, currentDraftId, onSuccess, onError) {
             $log.debug('_getPrevious');
-            var restPath = '/api/utkast/previousIntyg/' + patientId;
+            var restPath = '/api/utkast/previousIntyg/' + patientId + '/' + currentDraftId;
             $http.get(restPath).then(function(response) {
                 $log.debug('_getPrevious got data:' + response.data);
                 onSuccess(response.data);

@@ -26,14 +26,17 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import se.inera.intyg.common.db.support.DbModuleEntryPoint;
 import se.inera.intyg.common.doi.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.doi.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.doi.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
+import se.inera.intyg.common.doi.v1.model.mapper.DbToDoiMapper;
 import se.inera.intyg.common.doi.v1.pdf.DoiPdfGenerator;
 import se.inera.intyg.common.doi.support.DoiModuleEntryPoint;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
@@ -42,7 +45,9 @@ import se.inera.intyg.common.sos_parent.rest.SosParentModuleApi;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.mapper.Mapper;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.support.modules.support.api.GetCopyFromCriteria;
 import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder;
@@ -57,6 +62,8 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
     public static final String SCHEMATRON_FILE = "doi.v1.sch";
     private static final Logger LOG = LoggerFactory.getLogger(DoiModuleApiV1.class);
     private static final String PDF_FILENAME_PREFIX = "dodsorsaksintyg";
+
+    private static final String SUPPORTED_DB_MAJOR_VERSION = "1";
 
     public DoiModuleApiV1() {
         super(DoiUtlatandeV1.class);
@@ -118,11 +125,21 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
     }
 
     @Override
+    public Optional<GetCopyFromCriteria> getCopyFromCriteria() {
+        return Optional.of(new GetCopyFromCriteria(DbModuleEntryPoint.MODULE_ID, SUPPORTED_DB_MAJOR_VERSION, -1));
+    }
+
+    @Override
     public PatientDetailResolveOrder getPatientDetailResolveOrder() {
         List<ResolveOrder> adressStrat = Collections.singletonList(PU);
         List<ResolveOrder> otherStrat = Arrays.asList(PREDECESSOR, PU);
 
         return new PatientDetailResolveOrder("db", adressStrat, otherStrat);
+    }
+
+    @Override
+    public Optional<Mapper> getMapper() {
+        return Optional.of(new DbToDoiMapper(objectMapper));
     }
 
 }

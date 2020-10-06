@@ -90,7 +90,7 @@ describe('IntygHeaderService', function() {
 
             it('should be enabled if no previous intyg exists', function() {
 
-                spyOn(UtkastProxy, 'getPrevious').and.callFake(function(patient, onSuccess) {
+                spyOn(UtkastProxy, 'getPrevious').and.callFake(function(patient, undefined, onSuccess) {
                     onSuccess({});
                 });
 
@@ -103,7 +103,7 @@ describe('IntygHeaderService', function() {
 
                 IntygHeaderViewState.warningForCreateTemplate = null;
 
-                spyOn(UtkastProxy, 'getPrevious').and.callFake(function(patient, onSuccess) {
+                spyOn(UtkastProxy, 'getPrevious').and.callFake(function(patient, undefined, onSuccess) {
                     onSuccess({
                         intyg: {
                             doi: {

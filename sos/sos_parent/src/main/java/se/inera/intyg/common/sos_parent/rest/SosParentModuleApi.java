@@ -93,7 +93,7 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
     private InternalDraftValidator<T> internalDraftValidator;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    protected ObjectMapper objectMapper;
 
     @Autowired(required = false)
     @Qualifier("registerCertificateClient")
