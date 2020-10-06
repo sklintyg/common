@@ -68,7 +68,7 @@ angular.module('doi').constant('doi.messages', {
         'doi.modal.show-candidate-vardenhet-info.title': 'Information om dödsbevis',
         'doi.modal.show-candidate-vardenhet-details.title': 'Information om vårdenhet',
         'doi.modal.show-candidate-vardenhet-info.text': 'Det finns ett signerat dödsbevis för detta personnummer på annan vårdenhet än den du är inloggad på. Vill du se information om vilken vårdenhet det handlar om?',
-        'doi.modal.show-candidate-vardenhet-details.text': 'Det finns ett signerat dödsbevis för detta personnummer på ${candidateUnitName}. Det är tyvärr inte möjligt att kopiera de svar som givits i det intyget till detta intygsutkast.',
+        'doi.modal.show-candidate-vardenhet-details.text': 'Det finns ett signerat dödsbevis för detta personnummer på ${candidateUnitName}. Det är tyvärr inte möjligt att kopiera de svar som givits i det intyget till detta intygsutkast.'
     },
     'en': {
         'doi.label.pagetitle': 'Show Certificate'
