@@ -171,7 +171,9 @@ angular.module('doi').factory('doi.UtkastConfigFactory.v1',
                             {
                                 modelProp: 'operationAnledning',
                                 type: 'ue-textfield',
-                                label: {key: 'DFR_11.3.RBK', required: true, requiredProp: 'operationAnledning'}, htmlMaxlength: 31
+                                label: {key: 'DFR_11.3.RBK', required: true, requiredProp: 'operationAnledning'},
+                                htmlMaxlength: 31,
+                                size: '25'
                             }
                         ])
                     ]),
@@ -231,7 +233,9 @@ angular.module('doi').factory('doi.UtkastConfigFactory.v1',
                                     helpKey: 'DFR_12.4.HLP',
                                     required: true,
                                     requiredProp: 'forgiftningUppkommelse'
-                                }, htmlMaxlength: 150
+                                },
+                                htmlMaxlength: 150,
+                                rows: 3
                             }
                         ])
                     ]),
