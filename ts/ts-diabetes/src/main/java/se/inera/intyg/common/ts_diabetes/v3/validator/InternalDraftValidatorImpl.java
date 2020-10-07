@@ -778,7 +778,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
                 "ts-diabetes.validation.blanksteg.otillatet");
             return;
         }
-        if (utlatande.getOvrigt() != null && utlatande.getOvrigt().length() > MAX_UNDERSOKAS_SPECIALIST_CHARS) {
+        if (utlatande.getBedomning().getBorUndersokasBeskrivning() != null
+            && utlatande.getBedomning().getBorUndersokasBeskrivning().length() > MAX_UNDERSOKAS_SPECIALIST_CHARS) {
             addValidationError(validationMessages, CATEGORY_BEDOMNING, BEDOMNING_BOR_UNDERSOKAS_JSON_ID, ValidationMessageType.OTHER);
         }
     }
