@@ -182,7 +182,14 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
         metadata.setCertificateType(internalCertificate.getTyp());
         metadata.setCertificateTypeVersion(internalCertificate.getTextVersion());
         metadata.setCertificateName("Arbetsförmedlingens medicinska utlåtande");
-        metadata.setCertificateDescription("Här är beskrivningen...");
+        metadata.setCertificateDescription(
+            "Arbetsförmedlingen behöver ett medicinskt utlåtande för en arbetssökande som har ett behov av fördjupat stöd.\n"
+                + "\n"
+                + "Vi behöver ett utlåtande för att kunna:\n"
+                + "\n"
+                + "• utreda och bedöma om den arbetssökande har en funktionsnedsättning som medför nedsatt arbetsförmåga\n"
+                + "• bedöma om vi behöver göra anpassningar i program eller insatser\n"
+                + "• erbjuda lämpliga utredande, vägledande, rehabiliterande eller arbetsförberedande insatser.");
         metadata.setTestCertificate(internalCertificate.getGrundData().isTestIntyg());
         metadata.setCertificateStatus(
             internalCertificate.getSignature() != null ? CertificateStatusDTO.SIGNED : CertificateStatusDTO.UNSIGNED);
