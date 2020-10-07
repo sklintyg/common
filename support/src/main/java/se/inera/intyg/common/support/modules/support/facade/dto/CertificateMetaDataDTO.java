@@ -12,6 +12,7 @@ public class CertificateMetaDataDTO {
     private CertificateStaffDTO issuedBy;
     private CertificateUnitDTO unit;
     private CertificatePatientDTO patient;
+    private CertificateRelationsDTO relations;
     private long version;
 
     public String getCertificateId() {
@@ -94,6 +95,14 @@ public class CertificateMetaDataDTO {
         this.patient = patient;
     }
 
+    public CertificateRelationsDTO getRelations() {
+        return relations;
+    }
+
+    public void setRelations(CertificateRelationsDTO relations) {
+        this.relations = relations;
+    }
+    
     public long getVersion() {
         return version;
     }
