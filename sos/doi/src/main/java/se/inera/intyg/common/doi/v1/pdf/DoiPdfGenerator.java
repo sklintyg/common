@@ -239,7 +239,7 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
 
     private void fillRelation() {
         if (ersatterTidigareIntyg(doiUtlatandeV1.getGrundData().getRelation())) {
-            checkCheckboxField(FIELD_ERSATTER_TIDIGARE_UTFARDAT_INTYG, "Ja");
+            checkCheckboxField(FIELD_ERSATTER_TIDIGARE_UTFARDAT_INTYG, "On");
         }
     }
 
