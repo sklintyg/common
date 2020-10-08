@@ -18,18 +18,17 @@
  */
 package se.inera.intyg.common.pdf.model;
 
+import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
+
 import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Paragraph;
-import jdk.nashorn.api.scripting.ScriptObjectMirror;
-//import jdk.nashorn.internal.runtime.Undefined;
-import se.inera.intyg.common.pdf.renderer.UVRenderer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
+import jdk.nashorn.api.scripting.ScriptObjectMirror;
+import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
 /**
  * Base class for all UV / Unified Print components. Contains constants and helper functions.
@@ -52,6 +51,7 @@ public abstract class UVComponent {
     static final String SHOW_EXPRESSION = "showExpression";
 
     protected static final String EJ_ANGIVET_STR = "Ej angivet";
+    protected static final String EJ_ANGIVET_TABLE_STR = "-";
 
     protected final UVRenderer renderer;
 
@@ -218,7 +218,7 @@ public abstract class UVComponent {
         if (res == null) {
             return false;
         }
-        if (res.toString() /*instanceof Undefined*/ .equals("undefined")) {
+        if (res.toString() /*instanceof Undefined*/.equals("undefined")) {
             return false;
         }
         if (res instanceof Boolean) {

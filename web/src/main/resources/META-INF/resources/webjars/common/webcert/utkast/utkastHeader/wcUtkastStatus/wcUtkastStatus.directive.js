@@ -37,8 +37,6 @@ angular.module('common').directive('wcUtkastStatus', [
                 $scope.intygstatus2 = {};
 
                 $scope.statusEvents = [];
-                $scope.varsForLink = undefined;
-
 
                 $scope.$on('intyg.loaded', getAllStatuses);
                 $scope.$on('intygstatus.updated', getAllStatuses);
@@ -54,7 +52,6 @@ angular.module('common').directive('wcUtkastStatus', [
 
                 function getAllStatuses() {
                     $scope.statusEvents = [];
-                    $scope.varsForLink = undefined;
                     var id = CommonViewState.intyg.certificateId;
 
                     CertificateEventProxy.getCertificateEvents(id, function(response) {
@@ -71,11 +68,11 @@ angular.module('common').directive('wcUtkastStatus', [
                                     case 'MAKULERAT':
                                         addToStatusEvents('lus-02', event.timestamp);
                                         break;
-                                    case 'KOPIERATFRAN':
-                                    case 'ERSATTER':
                                     case 'KOMPLETTERAR':
                                     case 'FORLANGER':
-                                        addRelationalStatus(event, response);
+                                    case 'ERSATTER':
+                                    case 'KOPIERATFRAN':
+                                        addRelationalStatus(event);
                                         break;
                                     default:
                                         break;
@@ -88,28 +85,11 @@ angular.module('common').directive('wcUtkastStatus', [
                     });
                 }
 
-                function addRelationalStatus(event, response) {
+                function addRelationalStatus(event) {
                     var vars;
                     if (event.extendedMessage) {
                         vars = getMessageVars(event.extendedMessage);
-                    }
 
-                    if (event.eventCode === 'KOPIERATFRAN') {
-                        addToStatusEvents('us-010', event.timestamp, vars);
-
-                        var revokedEvent = response.find(function(elem) {
-                            return elem.eventCode === 'MAKULERAT';
-                        });
-
-                        var lockedEvent = response.find(function(elem) {
-                            return elem.eventCode === 'LAST';
-                        });
-
-                        if (revokedEvent !== undefined && lockedEvent !== undefined) {
-                            $scope.varsForLink = vars;
-                            addToStatusEvents('lus-03', revokedEvent.timestamp, vars);
-                        }
-                    } else {
                         if (event.eventCode === 'KOMPLETTERAR') {
                             addToStatusEvents('us-007', event.timestamp, vars);
                         }
@@ -118,6 +98,9 @@ angular.module('common').directive('wcUtkastStatus', [
                         }
                         if (event.eventCode === 'ERSATTER') {
                             addToStatusEvents('us-009', event.timestamp, vars);
+                        }
+                        if (event.eventCode === 'KOPIERATFRAN') {
+                            addToStatusEvents('us-010', event.timestamp, vars);
                         }
                     }
                 }
@@ -144,7 +127,6 @@ angular.module('common').directive('wcUtkastStatus', [
                         if (CommonViewState.isRevoked()) {
                             return setIntygStatus($scope.intygstatus1, 'lus-02');
                         }
-
                         return setIntygStatus($scope.intygstatus1, 'lus-01');
                     }
                     else if (CommonViewState.intyg.isComplete) {
@@ -154,8 +136,8 @@ angular.module('common').directive('wcUtkastStatus', [
                 };
 
                 $scope.getIntygStatus2 = function() {
-                    if ($scope.varsForLink !== undefined){
-                        return setIntygStatus($scope.intygstatus2, 'lus-03', $scope.varsForLink);
+                    if (CommonViewState.isLocked){
+                        return;
                     }  else if (CommonViewState.saving) {
                         return setIntygStatus($scope.intygstatus2, 'is-013');
                     }
@@ -185,7 +167,6 @@ angular.module('common').directive('wcUtkastStatus', [
                         allStatusesModalInstance = undefined;
                     });
                 };
-
             }
         };
     }

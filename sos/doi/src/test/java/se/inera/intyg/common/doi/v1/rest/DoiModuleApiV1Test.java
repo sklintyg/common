@@ -28,7 +28,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.doi.v1.model.converter.WebcertModelFactoryImpl;
@@ -37,6 +36,7 @@ import se.inera.intyg.common.doi.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.doi.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.doi.v1.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
+import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -68,6 +68,7 @@ import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFactory;
 import javax.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
+import java.util.Collections;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -403,6 +404,13 @@ public class DoiModuleApiV1Test {
         } catch (ModuleException | IOException e) {
             fail();
         }
+    }
+
+    @Test
+    public void testCanOnlyCreateDOIWhenDBExists() {
+        assertTrue(moduleApi.validateDraftCreation(Collections.emptySet()).isPresent());
+        assertTrue(moduleApi.validateDraftCreation(Collections.singleton(KvIntygstyp.DOI.getCodeValue())).isPresent());
+        assertTrue(moduleApi.validateDraftCreation(Collections.singleton(KvIntygstyp.DB.getCodeValue())).isEmpty());
     }
 
     private Utlatande createUtlatande() {

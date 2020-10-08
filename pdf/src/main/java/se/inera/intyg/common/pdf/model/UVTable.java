@@ -129,7 +129,7 @@ public class UVTable extends UVComponent {
                             columnValues.add(result.toString());
                         }
                     } else if (result != null && result.toString().equals("undefined")) {
-                        columnValues.add(EJ_ANGIVET_STR);
+                        columnValues.add(EJ_ANGIVET_TABLE_STR);
                     } else {
                         columnValues.add("");
                     }
