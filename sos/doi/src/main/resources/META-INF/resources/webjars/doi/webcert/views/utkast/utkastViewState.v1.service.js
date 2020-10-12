@@ -86,10 +86,7 @@ angular.module('doi').service('doi.EditCertCtrl.ViewStateService.v1',
                         return [{
                             severity: 'info',
                             id: 'intyg-previousutkast-warning-' + intygsTyp,
-                            text: intygsTyp + '.warn.previousdraft.samevg.differentenhet',
-                            params: {
-                                enhetName: previousUtkast.enhetName
-                            }
+                            text: intygsTyp + '.warn.previousdraft.samevg.differentenhet'
                         }];
                     }
 
@@ -105,10 +102,7 @@ angular.module('doi').service('doi.EditCertCtrl.ViewStateService.v1',
                         return [{
                             severity: 'info',
                             id: 'intyg-previousintyg-warning-' + intygsTyp,
-                            text: intygsTyp + '.warn.previouscertificate.samevg.differentenhet',
-                            params: {
-                                enhetName: previousIntyg.enhetName
-                            }
+                            text: intygsTyp + '.warn.previouscertificate.samevg.differentenhet'
                         }];
                     }
 

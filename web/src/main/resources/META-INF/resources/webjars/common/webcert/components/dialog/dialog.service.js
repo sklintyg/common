@@ -126,6 +126,7 @@ angular.module('common').factory('common.dialogService',
          button1text: (optional) message id on button 1 text. default: OK
          button2text: (optional) message id on button 2 text. default: Cancel
          button3text: (optional) message id on button 3 text. default: No, don't ask
+         button2visible: (optional) whether button 2 should be visible. default: true if button2text is specified, otherwise false
          button3visible: (optional) whether button 3 should be visible. default: true if button3text is specified, otherwise false
          autoClose: whether dialog should close on button click. If false, use .close() on return value from showDialog to close dialog later
          */
@@ -162,7 +163,8 @@ angular.module('common').factory('common.dialogService',
 
         var DialogInstanceCtrl = function($scope, $uibModalInstance, model, dialogId, titleId, titleText, bodyTextId,
                     bodyText,
-                    button1id, button2id, button3id, button1click, button2click, button3click, button3visible,
+                    button1id, button2id, button3id, button1click, button2click, button3click,
+                    button2visible, button3visible,
                     button1text,
                     button2text, button3text, autoClose, title) {
 
@@ -179,14 +181,19 @@ angular.module('common').factory('common.dialogService',
                             $uibModalInstance.close(result);
                         }
                     };
-                    $scope.button2click = function() {
-                        if (button2click) {
-                            button2click($uibModalInstance);
-                        }
-                        if(autoClose) {
-                            $uibModalInstance.dismiss('button2 dismiss');
-                        }
-                    };
+                    $scope.button2visible = button2visible;
+                    if ($scope.button2visible !== undefined) {
+                        $scope.button2click = function() {
+                            if (button2click) {
+                                button2click($uibModalInstance);
+                            }
+                            if(autoClose) {
+                                $uibModalInstance.dismiss('button2 dismiss');
+                            }
+                        };
+                    } else {
+                        $scope.button2visible = false;
+                    }
                     $scope.button3visible = button3visible;
                     if ($scope.button3visible !== undefined) {
                         $scope.button3click = function() {
@@ -240,6 +247,7 @@ angular.module('common').factory('common.dialogService',
             options.button1text = options.button1text === undefined ? 'common.ok' : options.button1text;
             options.button2text = options.button2text === undefined ? 'common.cancel' : options.button2text;
             options.button3text = options.button3text === undefined ? undefined : options.button3text;
+            options.button2visible = options.button2visible === undefined ? options.button2text !== undefined : options.button2visible;
             options.button3visible = options.button3visible === undefined ? options.button3text !== undefined : options.button3visible;
             options.button1id = options.button1id === undefined ? 'button1' + options.dialogId : options.button1id;
             options.button2id = options.button2id === undefined ? 'button2' + options.dialogId : options.button2id;
@@ -304,6 +312,9 @@ angular.module('common').factory('common.dialogService',
                 },
                 button3text: function() {
                     return angular.copy(options.button3text);
+                },
+                button2visible: function() {
+                    return angular.copy(options.button2visible);
                 },
                 button3visible: function() {
                     return angular.copy(options.button3visible);

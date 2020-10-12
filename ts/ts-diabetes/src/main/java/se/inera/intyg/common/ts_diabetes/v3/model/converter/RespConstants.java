@@ -48,40 +48,31 @@ public final class RespConstants {
     public static final String ALLMANT_BEHANDLING_ENDAST_KOST_JSON_ID = "endastKost";
     public static final String ALLMANT_BEHANDLING_TABLETTER_DELSVAR_ID = "109.2";
     public static final String ALLMANT_BEHANDLING_TABLETTER_JSON_ID = "tabletter";
-    public static final String ALLMANT_BEHANDLING_TABLETTER_RISK_HYPOGLYKEMI_DELSVAR_ID = "109.3";
-    public static final String ALLMANT_BEHANDLING_TABLETTER_RISK_HYPOGLYKEMI_JSON_ID = "tablettRiskHypoglykemi";
-    public static final String ALLMANT_BEHANDLING_INSULIN_DELSVAR_ID = "109.4";
+    public static final String ALLMANT_BEHANDLING_INSULIN_DELSVAR_ID = "109.3";
     public static final String ALLMANT_BEHANDLING_INSULIN_JSON_ID = "insulin";
-    public static final String ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_DELSVAR_ID = "109.5";
+    public static final String ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_DELSVAR_ID = "109.4";
     public static final String ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID = "insulinSedanAr";
-    public static final String ALLMANT_BEHANDLING_ANNAN_BEHANDLING_DELSVAR_ID = "109.6";
+    public static final String ALLMANT_BEHANDLING_ANNAN_BEHANDLING_DELSVAR_ID = "109.5";
     public static final String ALLMANT_BEHANDLING_ANNAN_BEHANDLING_JSON_ID = "annanBehandling";
-    public static final String ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_DELSVAR_ID = "109.7";
+    public static final String ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_DELSVAR_ID = "109.6";
     public static final String ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID = "annanBehandlingBeskrivning";
+    public static final String ALLMANT_BEHANDLING_RISK_HYPOGLYKEMI_DELSVAR_ID = "109.7";
+    public static final String ALLMANT_BEHANDLING_RISK_HYPOGLYKEMI_JSON_ID = "riskHypoglykemi";
 
     // Kat 4 - Hypoglykemier
-    public static final String HYPOGLYKEMIER_SVAR_ID = "100";
     public static final String HYPOGLYKEMIER_JSON_ID = "hypoglykemier";
-    public static final String HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_DELSVAR_ID = "100.1";
-    public static final String HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID = "sjukdomenUnderKontroll";
+    public static final String HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_SVAR_ID = "41";
+    public static final String HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_DELSVAR_ID = "41.1";
+    public static final String HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_JSON_ID = "egenkontrollBlodsocker";
     public static final String HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_SVAR_ID = "37";
     public static final String HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_DELSVAR_ID = "37.1";
     public static final String HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_JSON_ID = "nedsattHjarnfunktion";
-    public static final String HYPOGLYKEMIER_FORSTAR_RISKER_SVAR_ID = "101";
-    public static final String HYPOGLYKEMIER_FORSTAR_RISKER_DELSVAR_ID = "101.1";
-    public static final String HYPOGLYKEMIER_FORSTAR_RISKER_JSON_ID = "forstarRisker";
-    public static final String HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_SVAR_ID = "102";
-    public static final String HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_DELSVAR_ID = "102.1";
-    public static final String HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_JSON_ID = "fortrogenMedSymptom";
-    public static final String HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_SVAR_ID = "38";
-    public static final String HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_DELSVAR_ID = "38.1";
-    public static final String HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_JSON_ID = "saknarFormagaVarningstecken";
-    public static final String HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_ATGARDER_SVAR_ID = "36";
-    public static final String HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_DELSVAR_ID = "36.1";
-    public static final String HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_JSON_ID = "kunskapLampligaAtgarder";
-    public static final String HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_SVAR_ID = "105";
-    public static final String HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_DELSVAR_ID = "105.1";
-    public static final String HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_JSON_ID = "egenkontrollBlodsocker";
+    public static final String HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_SVAR_ID = "100";
+    public static final String HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_DELSVAR_ID = "100.1";
+    public static final String HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID = "sjukdomenUnderKontroll";
+    public static final String HYPOGLYKEMIER_FORMAGA_VARNINGSTECKEN_SVAR_ID = "110";
+    public static final String HYPOGLYKEMIER_FORMAGA_VARNINGSTECKEN_DELSVAR_ID = "110.1";
+    public static final String HYPOGLYKEMIER_FORMAGA_VARNINGSTECKEN_JSON_ID = "formagaVarningstecken";
     public static final String HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_SVAR_ID = "106";
     public static final String HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_DELSVAR_ID = "106.1";
     public static final String HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_JSON_ID = "aterkommandeSenasteAret";
@@ -99,15 +90,15 @@ public final class RespConstants {
     public static final String HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID = "forekomstTrafikTidpunkt";
 
     // Kat 5 - Synfunktion
-    public static final String SYNFUNKTION_SVAR_ID = "103";
     public static final String SYNFUNKTION_JSON_ID = "synfunktion";
+    public static final String SYNFUNKTION_MISSTANKE_OGONSJUKDOM_SVAR_ID = "103";
     public static final String SYNFUNKTION_MISSTANKE_OGONSJUKDOM_DELSVAR_ID = "103.1";
     public static final String SYNFUNKTION_MISSTANKE_OGONSJUKDOM_JSON_ID = "misstankeOgonsjukdom";
-    public static final String SYNFUNKTION_OGONBOTTENFOTO_SAKNAS_SVAR_ID = "104";
-    public static final String SYNFUNKTION_OGONBOTTENFOTO_SAKNAS_DELSVAR_ID = "104.1";
-    public static final String SYNFUNKTION_OGONBOTTENFOTO_SAKNAS_JSON_ID = "ogonbottenFotoSaknas";
 
     public static final String SYNFUNKTION_SYNSKARPA_SVAR_ID = "8";
+    public static final String SYNFUNKTION_SYNSKARPA_SKICKAS_SEPARAT_DELSVAR_ID = "8.1";
+    public static final String SYNFUNKTION_SYNSKARPA_SKICKAS_SEPARAT_JSON_ID = "skickasSeparat";
+
     public static final String SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID = "hoger";
     public static final String SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID = "vanster";
     public static final String SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID = "binokulart";
@@ -116,12 +107,12 @@ public final class RespConstants {
 
     public static final String SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID = "utanKorrektion";
     public static final String SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID = "medKorrektion";
-    public static final String SYNFUNKTION_SYNSKARPA_HOGER_UTAN_KORREKTION_DELSVAR_ID = "8.1";
-    public static final String SYNFUNKTION_SYNSKARPA_VANSTER_UTAN_KORREKTION_DELSVAR_ID = "8.2";
-    public static final String SYNFUNKTION_SYNSKARPA_BINOKULART_UTAN_KORREKTION_DELSVAR_ID = "8.3";
-    public static final String SYNFUNKTION_SYNSKARPA_HOGER_MED_KORREKTION_DELSVAR_ID = "8.4";
-    public static final String SYNFUNKTION_SYNSKARPA_VANSTER_MED_KORREKTION_DELSVAR_ID = "8.5";
-    public static final String SYNFUNKTION_SYNSKARPA_BINOKULART_MED_KORREKTION_DELSVAR_ID = "8.6";
+    public static final String SYNFUNKTION_SYNSKARPA_HOGER_UTAN_KORREKTION_DELSVAR_ID = "8.2";
+    public static final String SYNFUNKTION_SYNSKARPA_VANSTER_UTAN_KORREKTION_DELSVAR_ID = "8.3";
+    public static final String SYNFUNKTION_SYNSKARPA_BINOKULART_UTAN_KORREKTION_DELSVAR_ID = "8.4";
+    public static final String SYNFUNKTION_SYNSKARPA_HOGER_MED_KORREKTION_DELSVAR_ID = "8.5";
+    public static final String SYNFUNKTION_SYNSKARPA_VANSTER_MED_KORREKTION_DELSVAR_ID = "8.6";
+    public static final String SYNFUNKTION_SYNSKARPA_BINOKULART_MED_KORREKTION_DELSVAR_ID = "8.7";
 
     // Kat 6 - Övrigt
     public static final String OVRIGT_SVAR_ID = "32";

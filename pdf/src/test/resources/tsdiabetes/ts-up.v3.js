@@ -123,7 +123,7 @@ var viewConfig = [
                             labelKey: 'DFR_109.3.RBK',
                             components: [{
                                 type: 'uv-boolean-value',
-                                modelProp: 'allmant.behandling.tablettRiskHypoglykemi'
+                                modelProp: 'allmant.behandling.riskHypoglykemi'
                             }]
                         },
                         {
@@ -179,52 +179,13 @@ var viewConfig = [
             },
             {
                 type: 'uv-fraga',
-                labelKey: 'FRG_101.RBK',
-                components: [{
-                    type: 'uv-del-fraga',
-                    components: [
-                        {
-                            type: 'uv-boolean-value',
-                            modelProp: 'hypoglykemier.forstarRisker'
-                        }
-                    ]
-                }]
-            },
-            {
-                type: 'uv-fraga',
-                labelKey: 'FRG_102.RBK',
-                components: [{
-                    type: 'uv-del-fraga',
-                    components: [
-                        {
-                            type: 'uv-boolean-value',
-                            modelProp: 'hypoglykemier.fortrogenMedSymptom'
-                        }
-                    ]
-                }]
-            },
-            {
-                type: 'uv-fraga',
                 labelKey: 'FRG_38.RBK',
                 components: [{
                     type: 'uv-del-fraga',
                     components: [
                         {
                             type: 'uv-boolean-value',
-                            modelProp: 'hypoglykemier.saknarFormagaVarningstecken'
-                        }
-                    ]
-                }]
-            },
-            {
-                type: 'uv-fraga',
-                labelKey: 'FRG_36.RBK',
-                components: [{
-                    type: 'uv-del-fraga',
-                    components: [
-                        {
-                            type: 'uv-boolean-value',
-                            modelProp: 'hypoglykemier.kunskapLampligaAtgarder'
+                            modelProp: 'hypoglykemier.formagaVarningstecken'
                         }
                     ]
                 }]

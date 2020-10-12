@@ -326,9 +326,14 @@ public final class ValidatorUtil {
     }
 
     public static boolean isYearBeforeBirth(String year, Personnummer personnummer) {
-        // CHECKSTYLE:OFF MagicNumber
-        return Year.parse(year).isBefore(Year.from(getBirthDateFromPersonnummer(personnummer)));
-        // CHECKSTYLE:ON MagicNumber
+        return isYearBeforeBirth(Year.parse(year), personnummer);
+    }
+
+    public static boolean isYearBeforeBirth(Year year, Personnummer personnummer) {
+        if (year == null) {
+            throw new NullPointerException("Year must not be null");
+        }
+        return year.isBefore(Year.from(getBirthDateFromPersonnummer(personnummer)));
     }
 
     public static LocalDate getBirthDateFromPersonnummer(Personnummer personnummer) {

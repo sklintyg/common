@@ -41,6 +41,7 @@
             'common.nodontask': 'Nej, fråga inte igen',
             'common.ok': 'OK',
             'common.cancel': 'Avbryt',
+            'common.close': 'Stäng',
             'common.canceldontrevoke': 'Avbryt, makulera ej',
             'common.goback': 'Tillbaka',
             'common.createfromtemplate': 'Skapa ${intygName}',
@@ -50,6 +51,7 @@
             'common.makulera.tooltip': 'Öppnar ett fönster där du kan välja att makulera intyget.',
             'common.makulera.locked.tooltip': 'Öppnar ett fönster där du kan välja att makulera det låsta utkastet.',
             'common.sign': 'Signera intyget',
+            'common.shortsign': 'Signera',
             'common.sign.tooltip': 'Intyget signeras.',
             'common.signsend': 'Signera och skicka',
             'common.signsend.tooltip': 'Intyget skickas direkt till ${recipient}.',
@@ -435,13 +437,12 @@
 
             'common.label.intygstatus.lus-01': 'Utkastet är låst',
             'common.label.intygstatus.lus-02': 'Utkastet är makulerat',
-            'common.label.intygstatus.lus-03': 'Det låsta utkastet kopierades från ett tidigare låst utkast som också kan behöva makuleras. <a href="#/intyg/${intygstyp}/${intygTypeVersion}/${intygsid}/?forcelink">Öppna utkastet</a>',
 
             'common.label.intygstatus.us-006': 'Utkastet är skapat',
             'common.label.intygstatus.us-007': 'Utkastet är skapat för att komplettera ett tidigare intyg. <a href="#/intyg/${intygstyp}/${intygTypeVersion}/${intygsid}/?forcelink">Öppna intyget</a>',
             'common.label.intygstatus.us-008': 'Utkastet är skapat för att förnya ett tidigare intyg. <a href="#/intyg/${intygstyp}/${intygTypeVersion}/${intygsid}/?forcelink">Öppna intyget</a>',
             'common.label.intygstatus.us-009': 'Utkastet är skapat för att ersätta ett tidigare intyg. <a href="#/intyg/${intygstyp}/${intygTypeVersion}/${intygsid}/?forcelink">Öppna intyget</a>',
-            'common.label.intygstatus.us-010': 'Utkastet är skapat som en kopia på ett låst utkast. <a href="#/intyg/${intygstyp}/${intygTypeVersion}/${intygsid}/?forcelink">Öppna utkastet</a>',
+            'common.label.intygstatus.us-010': 'Utkastet är skapat som en kopia på ett låst utkast. <a href="#/${intygstyp}/${intygTypeVersion}/edit/${intygsid}/?forcelink">Öppna utkastet</a>',
 
             'common.modalheader.intygstatus.is-004': 'Intyget är makulerat',
             'common.modalbody.intygstatus.is-004': 'Intyget är inte längre tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>.',
@@ -570,7 +571,6 @@
             'doi.error.sign.intyg_of_type_exists.same_vardgivare.title': 'Dödsorsaksintyg har utfärdats under tiden',
             'doi.error.sign.intyg_of_type_exists.other_vardgivare': 'Dödsorsaksintyg för detta personnummer har utfärdats av någon annan hos annan vårdgivare under tiden du har arbetat med detta utkast. Senast skapade dödsorsaksintyg är det som gäller. Om du fortsätter och lämnar in dödsorsaksintyget så blir det därför detta dödsorsaksintyg som gäller.',
             'doi.error.sign.intyg_of_type_exists.other_vardgivare.title': 'Dödsorsaksintyg har utfärdats under tiden hos annan vårdgivare',
-            'doi.error.sign.intyg_of_type_exists.other_vardgivare.sign': 'Signera',
 
             // PU down, cannot print draft
             'common.error_could_not_print_draft_no_pu': '<strong>Det går inte att skriva ut utkastet!</strong><br><br>På grund av tekniskt fel går det inte att skriva ut utkastet. Försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.',
@@ -724,6 +724,7 @@
             'common.validation.d-04': 'Ange ett datum inom det senaste året.',
             'common.validation.d-05': 'Ange ett år, senare än patientens födelseår.',
             'common.validation.d-06': 'Ange ett år, årets eller tidigare.',
+            'common.validation.d-08': 'Ange dagens eller ett tidigare datum.',
             'common.validation.d-09': 'Ange ett datum som infaller under de senaste tolv månaderna',
             'common.validation.d-10': 'Ange ett datum som infaller under de senaste tre månaderna',
             'common.validation.c-05': 'Fyll i den översta raden först.',
@@ -843,20 +844,25 @@
             'common.receivers.loading.text': 'Hämtar intygsmottagare...',
             'common.receivers.save.error': 'Kunde inte spara mottagare på grund av ett tekniskt fel. Försök igen och kontakta supporten om problemet kvarstår.',
 
-            // Varning om att skapa intyg som redan finns
             'db.warn.previouscertificate.samevg': 'Det finns ett signerat dödsbevis för detta personnummer. Du kan inte skapa ett nytt dödsbevis men kan däremot välja att ersätta det befintliga dödsbeviset.',
-            'db.warn.previouscertificate.samevg.differentenhet': 'Det finns ett signerat dödsbevis utfärdat på ${enhetName} för detta personnummer. Du kan inte skapa ett nytt dödsbevis men kan däremot välja att ersätta det befintliga dödsbeviset.',
+            'db.warn.previouscertificate.samevg.differentenhet': 'Det finns ett signerat dödsbevis för detta personnummer på annan vårdenhet. Du kan inte skapa ett nytt dödsbevis men kan däremot välja att ersätta det befintliga dödsbeviset.',
             'db.warn.previouscertificate.differentvg': 'Det finns ett signerat dödsbevis för detta personnummer hos annan vårdgivare. Det är inte möjligt att skapa ett nytt dödsbevis.',
+            'db.warn.previouscertificate.differentvg.sign': 'Det finns ett signerat dödsbevis för detta personnummer hos annan vårdgivare. Det är därför inte möjligt att signera detta dödsbevis.',
+            'db.warn.previouscertificate.title': 'Signerat dödsbevis finns',
             'db.warn.previousdraft.samevg': 'Det finns ett utkast på dödsbevis för detta personnummer. Du kan inte skapa ett nytt utkast men kan däremot välja att fortsätta med det befintliga utkastet.',
-            'db.warn.previousdraft.samevg.differentenhet': 'Det finns ett påbörjat utkast på dödsbevis på ${enhetName} för detta personnummer. Du kan inte skapa ett nytt utkast men kan däremot välja att fortsätta med det befintliga utkastet.',
+            'db.warn.previousdraft.samevg.differentenhet': 'Det finns ett utkast på dödsbevis för detta personnummer på annan vårdenhet. Du kan inte skapa ett nytt utkast men kan däremot välja att fortsätta med det befintliga utkastet.',
             'db.warn.previousdraft.differentvg': 'Det finns ett utkast på dödsbevis för detta personnummer hos annan vårdgivare. Senast skapade dödsbevis är det som gäller. Om du fortsätter och lämnar in dödsbeviset så blir det därför detta dödsbevis som gäller.',
+            'db.warn.previousdraft.title': 'Utkast på dödsbevis finns',
+
 
             'doi.warn.previouscertificate.samevg': 'Det finns ett signerat dödsorsaksintyg för detta personnummer. Du kan inte skapa ett nytt dödsorsaksintyg men kan däremot välja att ersätta det befintliga dödsorsaksintyget.',
-            'doi.warn.previouscertificate.samevg.differentenhet': 'Det finns ett signerat dödsorsaksintyg utfärdat på ${enhetName} för detta personnummer. Du kan inte skapa ett nytt dödsorsaksintyg men kan däremot välja att ersätta det befintliga dödsorsaksintyget.',
+            'doi.warn.previouscertificate.samevg.differentenhet': 'Det finns ett signerat dödsorsaksintyg för detta personnummer på annan vårdenhet. Du kan inte skapa ett nytt dödsorsaksintyg men kan däremot välja att ersätta det befintliga dödsorsaksintyget.',
             'doi.warn.previouscertificate.differentvg': 'Det finns ett signerat dödsorsaksintyg för detta personnummer hos annan vårdgivare. Senast skapade dödsorsaksintyg är det som gäller. Om du fortsätter och lämnar in dödsorsaksintyget så blir det därför detta dödsorsaksintyg som gäller.',
+            'doi.warn.previouscertificate.title': 'Signerat dödsorsaksintyg finns',
             'doi.warn.previousdraft.samevg': 'Det finns ett utkast på dödsorsaksintyg för detta personnummer. Du kan inte skapa ett nytt utkast men kan däremot välja att fortsätta med det befintliga utkastet.',
-            'doi.warn.previousdraft.samevg.differentenhet': 'Det finns ett påbörjat utkast på dödsorsaksintyg på ${enhetName} för detta personnummer. Du kan inte skapa ett nytt utkast men kan däremot välja att fortsätta med det befintliga utkastet.',
-            'doi.warn.previousdraft.differentvg': 'Det finns ett utkast på dödsorsaksintyg för detta personnummer hos annan vårdgivare. Senast skapade dödsorsaksintyg är det som gäller. Om du fortsätter och lämnar in dödsorsaksintyget så blir det därför detta dödsorsaksintyg som gäller.'
+            'doi.warn.previousdraft.samevg.differentenhet': 'Det finns ett utkast på dödsorsaksintyg för detta personnummer på annan vårdenhet. Du kan inte skapa ett nytt utkast men kan däremot välja att fortsätta med det befintliga utkastet.',
+            'doi.warn.previousdraft.differentvg': 'Det finns ett utkast på dödsorsaksintyg för detta personnummer hos annan vårdgivare. Senast skapade dödsorsaksintyg är det som gäller. Om du fortsätter och lämnar in dödsorsaksintyget så blir det därför detta dödsorsaksintyg som gäller.',
+            'doi.warn.previousdraft.title': 'Utkast på dödsorsaksintyg finns'
 
         },
         'en': {

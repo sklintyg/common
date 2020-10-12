@@ -23,7 +23,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.Domain.IntygModel.v3',
             'use strict';
 
             var uppfyllerBehorighetskravFromTransform = function(backendValue) {
-                return tsBaseHelper.setupKorkortstypChoices(backendValue, ['KANINTETASTALLNING']);
+                return tsBaseHelper.setupKorkortstypChoices(backendValue, ['VAR11']);
             };
 
 
@@ -53,23 +53,20 @@ angular.module('ts-diabetes').factory('ts-diabetes.Domain.IntygModel.v3',
                             behandling: {
                                 endastKost: undefined,
                                 tabletter: undefined,
-                                tablettRiskHypoglykemi: undefined,
                                 insulin: undefined,
                                 insulinSedanAr: undefined,
                                 annanBehandling: undefined,
-                                annanBehandlingBeskrivning: undefined
+                                annanBehandlingBeskrivning: undefined,
+                                riskHypoglykemi: undefined
                             }
                         },
 
                         // Kategori 4
                         hypoglykemier: {
-                            sjukdomenUnderKontroll: undefined,
-                            nedsattHjarnfunktion: undefined,
-                            forstarRisker: undefined,
-                            fortrogenMedSymptom: undefined,
-                            saknarFormagaVarningstecken: undefined,
-                            kunskapLampligaAtgarder: undefined,
                             egenkontrollBlodsocker: undefined,
+                            nedsattHjarnfunktion: undefined,
+                            sjukdomenUnderKontroll: undefined,
+                            formagaVarningstecken: undefined,
                             aterkommandeSenasteAret: undefined,
                             aterkommandeSenasteTidpunkt: undefined,
                             aterkommandeSenasteKvartalet: undefined,
@@ -81,13 +78,13 @@ angular.module('ts-diabetes').factory('ts-diabetes.Domain.IntygModel.v3',
                         // Kategori 5
                         synfunktion: {
                             misstankeOgonsjukdom: undefined,
-                            ogonbottenFotoSaknas: undefined,
+                            skickasSeparat: false,
                             hoger: {
                                 utanKorrektion: undefined,
                                 medKorrektion: undefined
                             },
                             vanster: {
-                                 utanKorrektion: undefined,
+                                utanKorrektion: undefined,
                                 medKorrektion: undefined
                                 },
                             binokulart: {

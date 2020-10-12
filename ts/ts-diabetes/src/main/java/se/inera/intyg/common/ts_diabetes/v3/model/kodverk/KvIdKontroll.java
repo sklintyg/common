@@ -18,11 +18,10 @@
  */
 package se.inera.intyg.common.ts_diabetes.v3.model.kodverk;
 
-import java.util.stream.Stream;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.stream.Stream;
 
 public enum KvIdKontroll {
 
@@ -33,6 +32,7 @@ public enum KvIdKontroll {
     FORSAKRAN_KAP18("IDK5", "Försäkran enligt 18 kap. 4 §"),
     PASS("IDK6", "Pass");
 
+    public static final String CODE_SYSTEM = "e7cc8f30-a353-4c42-b17a-a189b6876647";
     final String code;
     final String description;
 
@@ -45,7 +45,7 @@ public enum KvIdKontroll {
     public static KvIdKontroll fromId(@JsonProperty("id") String id) {
         String normId = id != null ? id.trim() : null;
         for (KvIdKontroll typ : values()) {
-            if (typ.name().equals(normId)) {
+            if (typ.getCode().equals(normId)) {
                 return typ;
             }
         }
@@ -59,7 +59,7 @@ public enum KvIdKontroll {
 
     @JsonValue
     public String getId() {
-        return this.name();
+        return this.code;
     }
 
     public String getCode() {
