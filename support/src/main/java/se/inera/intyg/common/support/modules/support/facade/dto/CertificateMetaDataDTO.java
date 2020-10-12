@@ -1,5 +1,7 @@
 package se.inera.intyg.common.support.modules.support.facade.dto;
 
+import java.time.LocalDateTime;
+
 public class CertificateMetaDataDTO {
 
     private String certificateId;
@@ -7,6 +9,7 @@ public class CertificateMetaDataDTO {
     private String certificateTypeVersion;
     private String certificateName;
     private String certificateDescription;
+    private LocalDateTime created;
     private boolean testCertificate;
     private CertificateStatusDTO certificateStatus;
     private CertificateStaffDTO issuedBy;
@@ -53,6 +56,14 @@ public class CertificateMetaDataDTO {
 
     public void setCertificateDescription(String certificateDescription) {
         this.certificateDescription = certificateDescription;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
     }
 
     public boolean isTestCertificate() {
@@ -102,7 +113,7 @@ public class CertificateMetaDataDTO {
     public void setRelations(CertificateRelationsDTO relations) {
         this.relations = relations;
     }
-    
+
     public long getVersion() {
         return version;
     }

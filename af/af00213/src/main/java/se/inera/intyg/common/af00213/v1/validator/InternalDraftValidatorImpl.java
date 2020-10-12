@@ -158,8 +158,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Af0021
         }
 
         if (isSetToTrue(utlatande.getHarArbetetsPaverkan()) && Strings.nullToEmpty(utlatande.getArbetetsPaverkan()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, ARBETETS_PAVERKAN_CATEGORY_ID, ARBETETS_PAVERKAN_SVAR_JSON_ID_42,
-                ValidationMessageType.EMPTY, ARBETETS_PAVERKAN_DELSVAR_ID_42);
+            ValidatorUtil
+                .addValidationErrorWithQuestionId(validationMessages, ARBETETS_PAVERKAN_CATEGORY_ID, ARBETETS_PAVERKAN_SVAR_JSON_ID_42,
+                    ValidationMessageType.EMPTY, ARBETETS_PAVERKAN_DELSVAR_ID_42);
         }
     }
 
