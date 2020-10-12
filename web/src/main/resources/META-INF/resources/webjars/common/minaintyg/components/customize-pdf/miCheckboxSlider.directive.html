@@ -1,4 +1,4 @@
-<button ng-click="onToggleRequested()" ng-attr-id="toggle-{{id}}">
+<button role="checkbox" aria-checked={{model}} ng-click="onToggleRequested()" ng-attr-id="toggle-{{id}}">
   <span class="switch-label text-nowrap" ng-class="{'switch-on': model}">{{ model ? checkedText : uncheckedText}}</span><br class="visible-sm visible-md" />
   <span class="switch-widget"><input type="checkbox" ng-model="model"><i ng-class="{'switch-on': model}"></i></span>
 </button>
