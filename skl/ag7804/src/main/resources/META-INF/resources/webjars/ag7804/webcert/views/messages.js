@@ -72,7 +72,7 @@ angular.module('ag7804').constant('ag7804.messages', {
             '</ul>' +
             '<br>Det nya utkastet skapas på den enhet du är  inloggad på.',
 
-        'ag7804.modal.copy-from-candidate.text': 'Det finns ett Läkarintyg för sjukpenning för denna patient som är utfärdat ${createdDate} och som tillhör samma vårdenhet som du är inloggad på. Vill du kopiera de svar som givits i det intyget till detta intygsutkast?'
+        'ag7804.modal.copy-from-candidate.text': 'Det finns ett Läkarintyg för sjukpenning för denna patient som är utfärdat <strong>${createdDate}</strong> och som tillhör samma vårdenhet som du är inloggad på. Vill du kopiera de svar som givits i det intyget till detta intygsutkast?'
     },
     'en': {
         'ag7804.label.pagetitle': 'Show Certificate'

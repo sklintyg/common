@@ -19,7 +19,7 @@
 package se.inera.intyg.common.support.modules.support.api;
 
 /**
- * Defines a source intyg type and max age (in days) for which another intygtype can
+ * Defines a source intyg type for which another intygtype can
  * extract information from.
  *
  * Created by marced on 2018-12-13.
@@ -28,12 +28,10 @@ public class GetCopyFromCriteria {
 
     private final String intygType;
     private final String intygTypeMajorVersion;
-    private final int maxAgeDays;
 
-    public GetCopyFromCriteria(String intygType, String intygTypeMajorVersion, int maxAgeDays) {
+    public GetCopyFromCriteria(String intygType, String intygTypeMajorVersion) {
         this.intygType = intygType;
         this.intygTypeMajorVersion = intygTypeMajorVersion;
-        this.maxAgeDays = maxAgeDays;
     }
 
     public String getIntygType() {
@@ -42,9 +40,5 @@ public class GetCopyFromCriteria {
 
     public String getIntygTypeMajorVersion() {
         return intygTypeMajorVersion;
-    }
-
-    public int getMaxAgeDays() {
-        return maxAgeDays;
     }
 }
