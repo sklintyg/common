@@ -15,7 +15,7 @@
       <div ng-if="customizeViewstate.getUnselected().length > 0">
         <h1>Information din arbetsgivare INTE kan se</h1>
         <p id="warn-for-unselected-important-field" class="alert alert-info" ng-if="customizeViewstate.getUnselected(true).length > 0">
-          <i class="icon icon-attention-circled"></i>
+          <i aria-hidden="true" class="icon icon-attention-circled"></i>
           <span dynamic-label key="modules.customize.message.warning"></span>
         </p>
 
@@ -30,12 +30,12 @@
 
       <!-- Next -->
       <button ui-sref="ag114-customize.step3" id="goto-step-3" class="btn btn-primary">
-        <i class="icon icon-right-1"></i><span dynamic-label key="ag114.customize.step.2.next"></span>
+        <i aria-hidden="true" class="icon icon-right-1"></i><span dynamic-label key="ag114.customize.step.2.next"></span>
       </button>
 
       <!-- Back -->
       <button ui-sref="ag114-customize.step1" id="goto-step-1" class="btn btn-secondary">
-        <i class="icon icon-pencil"></i><span dynamic-label key="ag114.customize.change"></span>
+        <i aria-hidden="true" class="icon icon-pencil"></i><span dynamic-label key="ag114.customize.change"></span>
       </button>
 
     </div>
