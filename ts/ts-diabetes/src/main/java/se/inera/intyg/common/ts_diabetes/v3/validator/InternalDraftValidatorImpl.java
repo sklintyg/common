@@ -501,8 +501,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
 
         // R16: Om tablettbehandling, svara på om tablettbehandling ger risk för hypoglykemi.
         if (eligibleForRule16(utlatande) && utlatande.getAllmant().getBehandling().getRiskHypoglykemi() == null) {
-            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
-                HYPOGLYKEMIER_JSON_ID + "." + ALLMANT_BEHANDLING_RISK_HYPOGLYKEMI_JSON_ID,
+            addValidationError(validationMessages, CATEGORY_ALLMANT,
+                BEHANDLING_ROOT_FIELD_PATH + ALLMANT_BEHANDLING_RISK_HYPOGLYKEMI_JSON_ID,
                 ValidationMessageType.EMPTY);
         }
 
