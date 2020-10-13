@@ -64,7 +64,6 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
 
     private static final Logger LOG = LoggerFactory.getLogger(Ag7804ModuleApiV1.class);
 
-    private static final int COPY_FROM_LISJP_MAX_AGE_DAYS = 14;
     private static final String SUPPORTED_LISJP_MAJOR_VERSION = "1";
 
     public Ag7804ModuleApiV1() {
@@ -165,7 +164,7 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
 
     @Override
     public Optional<GetCopyFromCriteria> getCopyFromCriteria() {
-        return Optional.of(new GetCopyFromCriteria(LisjpEntryPoint.MODULE_ID, SUPPORTED_LISJP_MAJOR_VERSION, COPY_FROM_LISJP_MAX_AGE_DAYS));
+        return Optional.of(new GetCopyFromCriteria(LisjpEntryPoint.MODULE_ID, SUPPORTED_LISJP_MAJOR_VERSION));
     }
 
     @Override
