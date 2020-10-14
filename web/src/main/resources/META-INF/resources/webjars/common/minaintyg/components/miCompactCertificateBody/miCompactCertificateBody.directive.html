@@ -8,8 +8,8 @@
       <div>
         <a ng-click="isCollapsed = !isCollapsed" ng-switch="isCollapsed" data-toggle="collapse" data-target="#intygsIdText-{{certMetaModel.id}}">
            {{isCollapsed ? 'Visa intygs-ID' : 'Dölj intygs-ID'}}
-          <span ng-switch-when="false" data-toggle="collapse" data-target="#intygsIdText-{{certMetaModel.id}}" class="glyphicon glyphicon-chevron-up show-intygs-id-arrow"></span>
-          <span ng-switch-when="true" data-toggle="collapse" data-target="#intygsIdText-{{certMetaModel.id}}" class="glyphicon glyphicon-chevron-down show-intygs-id-arrow"></span>
+          <span ng-switch-when="false" aria-hidden="true" data-toggle="collapse" data-target="#intygsIdText-{{certMetaModel.id}}" class="glyphicon glyphicon-chevron-up show-intygs-id-arrow"></span>
+          <span ng-switch-when="true" aria-hidden="true" data-toggle="collapse" data-target="#intygsIdText-{{certMetaModel.id}}" class="glyphicon glyphicon-chevron-down show-intygs-id-arrow"></span>
         </a>
         <div id="intygsIdText-{{certMetaModel.id}}" class="collapse">
           <span>{{certMetaModel.id}}</span>
@@ -29,7 +29,7 @@
               ng-click="onViewClick({cert:certMetaModel})"
               uib-popover="{{messageService.getProperty('button.show.tooltip')}}"
               popover-popup-delay="300" popover-append-to-body="true" popover-placement="auto top">
-        <i class="icon icon-eye"></i> <span dynamic-label key="button.show"></span>
+        <i aria-hidden="true" class="icon icon-eye"></i> <span dynamic-label key="button.show"></span>
       </button>
 
       <button ng-if="onArchiveClick" type="button" ng-attr-id="archiveCertificateBtn-{{certMetaModel.id}}" class="btn btn-secondary"
@@ -37,7 +37,7 @@
               uib-popover="{{messageService.getProperty('button.archive.tooltip')}}"
               popover-is-open="archiveTooltipOpen"
               popover-popup-delay="300" popover-append-to-body="true" popover-placement="auto top">
-        <i class="icon icon-box"></i> <span dynamic-label key="button.archive"></span>
+        <i aria-hidden="true" class="icon icon-box"></i> <span dynamic-label key="button.archive"></span>
       </button>
 
     </div>
