@@ -247,7 +247,7 @@ describe('UtkastService', function() {
             $httpBackend.flush();
 
             expect(viewState.common.doneLoading).toBeTruthy();
-            expect(viewState.common.error.activeErrorMessageKey).toBe('common.error.authorization_problem');
+            expect(viewState.common.error.activeErrorMessageKey).toBe('common.error.could_not_load_draft_not_auth');
             expect(error).toEqual({ errorCode: 'AUTHORIZATION_PROBLEM' });
         });
 
