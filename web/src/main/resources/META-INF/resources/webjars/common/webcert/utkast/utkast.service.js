@@ -413,7 +413,11 @@ angular.module('common').factory('common.UtkastService',
             function checkSetError(errorCode) {
                 var model = 'common.error.unknown';
                 if (errorCode !== undefined && errorCode !== null) {
-                    model = ('common.error.' + errorCode).toLowerCase();
+                    if (errorCode === 'AUTHORIZATION_PROBLEM') {
+                        model = 'common.error.could_not_load_draft_not_auth';
+                    } else {
+                        model = ('common.error.' + errorCode).toLowerCase();
+                    }
                 }
 
                 return model;
