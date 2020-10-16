@@ -14,6 +14,7 @@ public class CertificateMetaDataDTO {
     private CertificateStatusDTO certificateStatus;
     private CertificateStaffDTO issuedBy;
     private CertificateUnitDTO unit;
+    private CertificateUnitDTO careProvider;
     private CertificatePatientDTO patient;
     private CertificateRelationsDTO relations;
     private long version;
@@ -96,6 +97,14 @@ public class CertificateMetaDataDTO {
 
     public void setUnit(CertificateUnitDTO unit) {
         this.unit = unit;
+    }
+
+    public CertificateUnitDTO getCareProvider() {
+        return careProvider;
+    }
+
+    public void setCareProvider(CertificateUnitDTO careProvider) {
+        this.careProvider = careProvider;
     }
 
     public CertificatePatientDTO getPatient() {

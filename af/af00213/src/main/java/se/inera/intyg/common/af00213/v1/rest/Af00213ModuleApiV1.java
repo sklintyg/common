@@ -206,6 +206,13 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
         // TODO: Manage additional unit information.
         metadata.setUnit(unit);
 
+        final var internalCareProvider = internalCertificate.getGrundData().getSkapadAv().getVardenhet().getVardgivare();
+        final var careProvider = new CertificateUnitDTO();
+        careProvider.setUnitId(internalCareProvider.getVardgivarid());
+        careProvider.setUnitName(internalCareProvider.getVardgivarnamn());
+        // TODO: Manage additional unit information.
+        metadata.setCareProvider(careProvider);
+
         final var internalPatient = internalCertificate.getGrundData().getPatient();
         final var patient = new CertificatePatientDTO();
         patient.setPersonId(internalPatient.getPersonId().getPersonnummer());

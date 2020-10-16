@@ -7,6 +7,7 @@ public class CertificateDTO {
 
     private CertificateMetaDataDTO metadata;
     private Map<String, CertificateDataElementDTO> data = new HashMap<>();
+    private ResourceLinkDTO[] links;
 
     public CertificateMetaDataDTO getMetadata() {
         return metadata;
@@ -23,5 +24,13 @@ public class CertificateDTO {
     public void setData(
         Map<String, CertificateDataElementDTO> data) {
         this.data = data;
+    }
+
+    public ResourceLinkDTO[] getLinks() {
+        return links;
+    }
+
+    public void setLinks(ResourceLinkDTO[] links) {
+        this.links = links;
     }
 }
