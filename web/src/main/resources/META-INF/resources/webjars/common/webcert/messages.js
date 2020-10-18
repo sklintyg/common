@@ -719,7 +719,7 @@
             'common.validation.sjukskrivning_period.tre_fjardedel.invalid_format': 'Datum för nedsatt arbetsförmåga med 75% har angetts på felaktigt format.',
             'common.validation.sjukskrivning_period.helt_nedsatt.invalid_format': 'Datum för nedsatt arbetsförmåga med 100% har angetts på felaktigt format.',
             'common.validation.d-01': 'Ange vilket år behandling med insulin påbörjades.',
-            'common.validation.d-02': 'Ange ett årtal mellan 1900 och innevarande år.',
+            'common.validation.d-02': 'Ange ett årtal mellan patientens födelsedatum och dagens datum.',
             'common.validation.d-03': 'Ange synskärpa i intervallet 0,0 - 2,0.',
             'common.validation.d-04': 'Ange ett datum inom det senaste året.',
             'common.validation.d-05': 'Ange ett år, senare än patientens födelseår.',
@@ -727,10 +727,12 @@
             'common.validation.d-08': 'Ange dagens eller ett tidigare datum.',
             'common.validation.d-09': 'Ange ett datum som infaller under de senaste tolv månaderna',
             'common.validation.d-10': 'Ange ett datum som infaller under de senaste tre månaderna',
+            'common.validation.d-11': 'Ange ett datum som infaller efter patientens födelsedatum.',
             'common.validation.c-05': 'Fyll i den översta raden först.',
             'common.validation.c-06': 'Ange ett giltigt datum. Framtida datum får inte anges.',
             'common.validation.c-13a': 'Ange diagnos på översta raden först.',
             'common.validation.b-04': 'Välj minst ett alternativ.',
+            'common.validation.b-02b': 'Ange ett giltigt årtal.',
             'common.validation.b-03a': 'Ange ett svar.',
 
             // Common errors

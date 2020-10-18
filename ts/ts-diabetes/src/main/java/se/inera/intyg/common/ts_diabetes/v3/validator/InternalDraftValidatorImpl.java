@@ -104,6 +104,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     protected static final String CATEGORY_BEDOMNING = "bedomning";
     protected static final String BEHANDLING_ROOT_FIELD_PATH = ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID + ".";
 
+    private static final String D_02 = "common.validation.d-02";
+    private static final String B_02B = "common.validation.b-02b";
+    private static final String D_03 = "common.validation.d-03";
+    private static final String D_08 = "common.validation.d-08";
+    private static final String D_11 = "common.validation.d-11";
+
     private static final Set<IntygAvserKategori> RULE_1_14_15_LICENSE_SET = ImmutableSet.of(
         IntygAvserKategori.IAV1,
         IntygAvserKategori.IAV2,
@@ -406,7 +412,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         String diabetesSedanArFieldPath = ALLMANT_JSON_ID + "." + ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11;
         String cleanedDiabetesDiagnosAr = Strings.nullToEmpty(utlatande.getAllmant().getDiabetesDiagnosAr()).trim();
         if (cleanedDiabetesDiagnosAr.isEmpty()) {
-            addValidationError(validationMessages, CATEGORY_ALLMANT, diabetesSedanArFieldPath, ValidationMessageType.EMPTY);
+            addValidationError(validationMessages, CATEGORY_ALLMANT, diabetesSedanArFieldPath, ValidationMessageType.EMPTY, B_02B);
             return;
         }
 
@@ -415,18 +421,18 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             parsedYear = Year.parse(cleanedDiabetesDiagnosAr);
         } catch (DateTimeParseException e) {
             addValidationError(validationMessages, CATEGORY_ALLMANT, diabetesSedanArFieldPath,
-                ValidationMessageType.INVALID_FORMAT);
+                ValidationMessageType.INVALID_FORMAT, B_02B);
             return;
         }
 
         // R2
         if (ValidatorUtil.isYearBeforeBirth(parsedYear, utlatande.getGrundData().getPatient().getPersonId())) {
             addValidationError(validationMessages, CATEGORY_ALLMANT, diabetesSedanArFieldPath,
-                ValidationMessageType.OTHER, "common.validation.d-05");
+                ValidationMessageType.OTHER, D_02);
         }
         if (parsedYear.isAfter(Year.now())) {
             addValidationError(validationMessages, CATEGORY_ALLMANT, diabetesSedanArFieldPath,
-                ValidationMessageType.OTHER, "common.validation.d-02");
+                ValidationMessageType.OTHER, D_02);
         }
 
     }
@@ -475,13 +481,14 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
 
                 addValidationError(validationMessages, CATEGORY_ALLMANT,
                     insulinSedanArFieldPath,
-                    ValidationMessageType.EMPTY, "common.validation.d-01");
+                    ValidationMessageType.EMPTY, B_02B);
             } else {
                 Year parsedYear;
                 try {
                     parsedYear = Year.parse(cleanedInsulinSedanArString);
                 } catch (DateTimeParseException e) {
-                    addValidationError(validationMessages, CATEGORY_ALLMANT, insulinSedanArFieldPath, ValidationMessageType.INVALID_FORMAT);
+                    addValidationError(validationMessages, CATEGORY_ALLMANT, insulinSedanArFieldPath,
+                        ValidationMessageType.INVALID_FORMAT, B_02B);
                     return;
                 }
 
@@ -489,11 +496,11 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
                 if (ValidatorUtil.isYearBeforeBirth(parsedYear,
                     utlatande.getGrundData().getPatient().getPersonId())) {
                     addValidationError(validationMessages, CATEGORY_ALLMANT, insulinSedanArFieldPath,
-                        ValidationMessageType.OTHER, "common.validation.d-05");
+                        ValidationMessageType.OTHER, D_02);
                 }
                 if (parsedYear.isAfter(Year.now())) {
                     addValidationError(validationMessages, CATEGORY_ALLMANT, insulinSedanArFieldPath,
-                        ValidationMessageType.OTHER, "common.validation.d-02");
+                        ValidationMessageType.OTHER, D_02);
                 }
             }
 
@@ -574,12 +581,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
                 .isBefore(ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId()))) {
                 addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
                     HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID,
-                    ValidationMessageType.OTHER, "common.validation.d-11");
+                    ValidationMessageType.OTHER, D_11);
             }
             if (senasteTidpunktLocalDate.isAfter(LocalDate.now())) {
                 addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
                     HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID,
-                    ValidationMessageType.OTHER, "common.validation.d-08");
+                    ValidationMessageType.OTHER, D_08);
             }
         }
     }
@@ -608,12 +615,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
                 .isBefore(ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId()))) {
                 addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
                     HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID,
-                    ValidationMessageType.OTHER, "common.validation.d-11");
+                    ValidationMessageType.OTHER, D_11);
             }
             if (senasteTidpunktVakenLocalDate.isAfter(LocalDate.now())) {
                 addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
                     HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID,
-                    ValidationMessageType.OTHER, "common.validation.d-08");
+                    ValidationMessageType.OTHER, D_08);
             }
         }
     }
@@ -642,12 +649,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
                 .isBefore(ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId()))) {
                 addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
                     HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID,
-                    ValidationMessageType.OTHER, "common.validation.d-11");
+                    ValidationMessageType.OTHER, D_11);
             }
             if (forekomstTrafikTidpunktLocalDate.isAfter(LocalDate.now())) {
                 addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
                     HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID,
-                    ValidationMessageType.OTHER, "common.validation.d-08");
+                    ValidationMessageType.OTHER, D_08);
             }
         }
     }
@@ -724,7 +731,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
                 addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
                     (SYNFUNKTION_JSON_ID + "." + field + "."
                         + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
-                    ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format");
+                    ValidationMessageType.INVALID_FORMAT, D_03);
             }
 
             if ((eligibleForRule13(utlatande) || eligibleForRule14(utlatande) || eligibleForRule15(utlatande))
@@ -742,7 +749,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
                 addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
                     (SYNFUNKTION_JSON_ID + "." + field + "."
                         + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                    ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format");
+                    ValidationMessageType.INVALID_FORMAT, D_03);
             }
         }
     }

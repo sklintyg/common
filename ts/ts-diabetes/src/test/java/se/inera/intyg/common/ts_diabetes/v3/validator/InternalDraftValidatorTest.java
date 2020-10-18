@@ -459,23 +459,23 @@ public class InternalDraftValidatorTest {
             new ValidationMessage(CATEGORY_SYNFUNKTION,
                 (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
                     + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
-                ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"),
+                ValidationMessageType.INVALID_FORMAT, "common.validation.d-03"),
             new ValidationMessage(CATEGORY_SYNFUNKTION,
                 (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
                     + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"),
+                ValidationMessageType.INVALID_FORMAT, "common.validation.d-03"),
             new ValidationMessage(CATEGORY_SYNFUNKTION,
                 (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
                     + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
-                ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"),
+                ValidationMessageType.INVALID_FORMAT, "common.validation.d-03"),
             new ValidationMessage(CATEGORY_SYNFUNKTION,
                 (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
                     + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"),
+                ValidationMessageType.INVALID_FORMAT, "common.validation.d-03"),
             new ValidationMessage(CATEGORY_SYNFUNKTION,
                 (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.'
                     + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"));
+                ValidationMessageType.INVALID_FORMAT, "common.validation.d-03"));
 
         assertTrue(res.getValidationErrors().containsAll(expectedErrors));
     }
