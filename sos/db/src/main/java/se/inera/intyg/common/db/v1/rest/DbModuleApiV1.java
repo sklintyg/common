@@ -17,10 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package se.inera.intyg.common.db.v1.rest;
-import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -40,9 +38,7 @@ import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
@@ -112,14 +108,6 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
     public String getAdditionalInfo(Intyg intyg) throws ModuleException {
         // This is used for Mina intyg and since that is unsupported for DOI we return empty string
         return "";
-    }
-
-    @Override
-    public PatientDetailResolveOrder getPatientDetailResolveOrder() {
-        List<ResolveOrder> adressStrat = Collections.singletonList(PU);
-        List<ResolveOrder> otherStrat = Collections.singletonList(PU);
-
-        return new PatientDetailResolveOrder("db", adressStrat, otherStrat);
     }
 
 }
