@@ -18,12 +18,7 @@
  */
 package se.inera.intyg.common.doi.v1.rest;
 
-import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PREDECESSOR;
-import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
-
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -48,8 +43,6 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.mapper.Mapper;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.GetCopyFromCriteria;
-import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
-import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftCreationResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
@@ -129,14 +122,6 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
     @Override
     public Optional<GetCopyFromCriteria> getCopyFromCriteria() {
         return Optional.of(new GetCopyFromCriteria(DbModuleEntryPoint.MODULE_ID, SUPPORTED_DB_MAJOR_VERSION));
-    }
-
-    @Override
-    public PatientDetailResolveOrder getPatientDetailResolveOrder() {
-        List<ResolveOrder> adressStrat = Collections.singletonList(PU);
-        List<ResolveOrder> otherStrat = Arrays.asList(PREDECESSOR, PU);
-
-        return new PatientDetailResolveOrder("db", adressStrat, otherStrat);
     }
 
     @Override
