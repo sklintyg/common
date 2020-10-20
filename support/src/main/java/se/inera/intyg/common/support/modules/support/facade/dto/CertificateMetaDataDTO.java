@@ -10,6 +10,7 @@ public class CertificateMetaDataDTO {
     private String certificateName;
     private String certificateDescription;
     private LocalDateTime created;
+    private boolean isForwarded;
     private boolean testCertificate;
     private CertificateStatusDTO certificateStatus;
     private CertificateStaffDTO issuedBy;
@@ -65,6 +66,14 @@ public class CertificateMetaDataDTO {
 
     public void setCreated(LocalDateTime created) {
         this.created = created;
+    }
+
+    public boolean isForwarded() {
+        return isForwarded;
+    }
+
+    public void setForwarded(boolean forwarded) {
+        isForwarded = forwarded;
     }
 
     public boolean isTestCertificate() {
