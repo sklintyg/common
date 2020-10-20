@@ -189,6 +189,7 @@
             'intyg.status.cancelled': 'Makulerat',
             'intyg.status.unknown': 'Okänd',
             'intyg.status.sent': 'Skickat',
+            'intyg.status.notsent': 'Ej skickat',
             'intyg.status.received': 'Signerat',
             'intyg.status.kompletterat_av_intyg': 'Kompletterat',
             'intyg.status.ersatt_av_intyg': 'Ersatt',
@@ -361,6 +362,7 @@
             'fk7263.error.generic': 'Kunde inte visa intyget',
 
             'common.load.certificate': 'Hämtar intyget..',
+            'common.load.signed-certificates-list': 'Hämtar signerade intyg ..',
 
             'luse.message.certificateloading': 'Hämtar intyg...',
             'luae_na.message.certificateloading': 'Hämtar intyg...',
@@ -702,6 +704,7 @@
             'common.validation.date_out_of_range_no_future': 'Ange ett datum som inte ligger för långt tillbaka i tiden.',
             'common.validation.date_invalid': 'Ange ett giltigt datum.',
             'common.validation.future.datum': 'Ange ett giltigt datum. Framtida datum ger inga resultat.',
+            'common.validation.previous.datum': 'Ange ett giltigt datum. Datumet är för långt bak i tiden.',
             'common.validation.date.today.or.earlier': 'Ange dagens eller ett tidigare datum.',
             'common.validation.date.beforeLastYear': 'Ange ett datum, samma som eller senare än 1 januari föregående året.',
             'common.validation.diagnos.missing': 'Ange minst en diagnos.',
