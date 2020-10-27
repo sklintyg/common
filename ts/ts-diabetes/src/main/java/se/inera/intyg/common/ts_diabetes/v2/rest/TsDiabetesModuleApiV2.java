@@ -246,14 +246,25 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
     public String updateBeforeViewing(String internalModel, Patient patient) throws ModuleException {
         try {
             Utlatande utlatande = this.getInternal(internalModel);
-            String postadress = utlatande.getGrundData().getPatient().getPostadress();
-            String postort = utlatande.getGrundData().getPatient().getPostort();
-            String postnummer = utlatande.getGrundData().getPatient().getPostnummer();
+
+            String fullName = utlatande.getGrundData().getPatient().getFullstandigtNamn();
+            String firstName = utlatande.getGrundData().getPatient().getFornamn();
+            String middleName = utlatande.getGrundData().getPatient().getMellannamn();
+            String lastName = utlatande.getGrundData().getPatient().getEfternamn();
+            String address = utlatande.getGrundData().getPatient().getPostadress();
+            String county = utlatande.getGrundData().getPatient().getPostort();
+            String zipCode = utlatande.getGrundData().getPatient().getPostnummer();
 
             WebcertModelFactoryUtil.populateWithPatientInfo(utlatande.getGrundData(), patient);
-            utlatande.getGrundData().getPatient().setPostadress(postadress);
-            utlatande.getGrundData().getPatient().setPostort(postort);
-            utlatande.getGrundData().getPatient().setPostnummer(postnummer);
+
+            utlatande.getGrundData().getPatient().setFullstandigtNamn(fullName);
+            utlatande.getGrundData().getPatient().setFornamn(firstName);
+            utlatande.getGrundData().getPatient().setMellannamn(middleName);
+            utlatande.getGrundData().getPatient().setEfternamn(lastName);
+            utlatande.getGrundData().getPatient().setPostadress(address);
+            utlatande.getGrundData().getPatient().setPostort(county);
+            utlatande.getGrundData().getPatient().setPostnummer(zipCode);
+
             return this.toInternalModelResponse(utlatande);
         } catch (ConverterException | ModuleException var4) {
             throw new ModuleException("Error while updating internal model", var4);

@@ -19,6 +19,7 @@
 package se.inera.intyg.common.sos_parent.rest;
 
 import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
+import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import javax.xml.bind.JAXBElement;
@@ -52,6 +54,8 @@ import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
+import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
@@ -237,7 +241,25 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
     public String updateBeforeViewing(String internalModel, Patient patient) throws ModuleException {
         try {
             Utlatande utlatande = this.getInternal(internalModel);
+
+            String fullName = utlatande.getGrundData().getPatient().getFullstandigtNamn();
+            String firstName = utlatande.getGrundData().getPatient().getFornamn();
+            String middleName = utlatande.getGrundData().getPatient().getMellannamn();
+            String lastName = utlatande.getGrundData().getPatient().getEfternamn();
+            String address = utlatande.getGrundData().getPatient().getPostadress();
+            String county = utlatande.getGrundData().getPatient().getPostort();
+            String zipCode = utlatande.getGrundData().getPatient().getPostnummer();
+
             WebcertModelFactoryUtil.populateWithPatientInfo(utlatande.getGrundData(), patient);
+
+            utlatande.getGrundData().getPatient().setFullstandigtNamn(fullName);
+            utlatande.getGrundData().getPatient().setFornamn(firstName);
+            utlatande.getGrundData().getPatient().setMellannamn(middleName);
+            utlatande.getGrundData().getPatient().setEfternamn(lastName);
+            utlatande.getGrundData().getPatient().setPostadress(address);
+            utlatande.getGrundData().getPatient().setPostort(county);
+            utlatande.getGrundData().getPatient().setPostnummer(zipCode);
+
             return this.toInternalModelResponse(utlatande);
         } catch (ConverterException | ModuleException var4) {
             throw new ModuleException("Error while updating internal model", var4);
@@ -314,6 +336,14 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
         }
         String base64EncodedSignatureXml = Base64.getEncoder().encodeToString(signatureXml.getBytes(Charset.forName("UTF-8")));
         return updateInternalAfterSigning(jsonModel, base64EncodedSignatureXml);
+    }
+
+    @Override
+    public PatientDetailResolveOrder getPatientDetailResolveOrder() {
+        List<ResolveOrder> addressStrategy = Collections.singletonList(PU);
+        List<ResolveOrder> otherStrategy = Collections.singletonList(PU);
+
+        return new PatientDetailResolveOrder(null, addressStrategy, otherStrategy);
     }
 
     protected IntygTexts getTexts(String intygsTyp, String version) {

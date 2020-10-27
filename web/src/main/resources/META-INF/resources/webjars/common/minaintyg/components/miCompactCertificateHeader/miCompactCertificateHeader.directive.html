@@ -4,8 +4,8 @@
   <div class="row-wrapper">
 
     <div class="icon-wrapper" ng-switch="certMetaModel.isReplaced">
-      <i ng-switch-when="false" class="icon icon-doc-text pull-left"></i>
-      <i ng-switch-when="true" class="icon icon-clone pull-left"></i>
+      <i ng-switch-when="false" aria-hidden="true" class="icon icon-doc-text pull-left"></i>
+      <i ng-switch-when="true" aria-hidden="true" class="icon icon-clone pull-left"></i>
     </div>
     <div class="certificate-header-wrapper">
       <div class="cert-type-title" ng-class="{'center' : !certMetaModel.complementaryInfo}">

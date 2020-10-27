@@ -36,7 +36,7 @@
     <div ng-if="summary && showContent()" class="row summary">
       <div class="col-xs-12 col-sm-4">
         <h3>
-          <i class="icon visible-xs"
+          <i aria-hidden="true" class="icon visible-xs"
              ng-class="{'icon-ok included-icon': fc.selected, 'icon-cancel excluded-icon': !fc.selected}"></i>
           <span dynamic-label key="{{labelKey}}"></span>
         </h3>
@@ -52,7 +52,7 @@
 
       <!-- summary right side decoration -->
       <div class="hidden-xs col-sm-1 text-right">
-        <i class="icon"
+        <i aria-hidden="true" class="icon"
            ng-class="{'icon-ok included-icon': fc.selected, 'icon-cancel excluded-icon': !fc.selected}"></i>
       </div>
 

@@ -49,6 +49,7 @@ import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.validator.InternalDraftValidatorImpl.BEHANDLING_ROOT_FIELD_PATH;
 import static se.inera.intyg.common.ts_diabetes.v3.validator.InternalDraftValidatorImpl.CATEGORY_ALLMANT;
 import static se.inera.intyg.common.ts_diabetes.v3.validator.InternalDraftValidatorImpl.CATEGORY_BEDOMNING;
 import static se.inera.intyg.common.ts_diabetes.v3.validator.InternalDraftValidatorImpl.CATEGORY_HYPOGLYKEMIER;
@@ -400,10 +401,10 @@ public class InternalDraftValidatorTest {
         assertFalse(res.hasWarningMessages());
         assertEquals(1, res.getValidationErrors().size());
         ValidationMessage error = res.getValidationErrors().get(0);
-        assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
+        assertEquals(CATEGORY_ALLMANT, error.getCategory());
         ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
-            new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
-                HYPOGLYKEMIER_JSON_ID + "." + ALLMANT_BEHANDLING_RISK_HYPOGLYKEMI_JSON_ID,
+            new ValidationMessage(CATEGORY_ALLMANT,
+                BEHANDLING_ROOT_FIELD_PATH + ALLMANT_BEHANDLING_RISK_HYPOGLYKEMI_JSON_ID,
                 ValidationMessageType.EMPTY));
         assertTrue(res.getValidationErrors().containsAll(expectedErrors));
     }
@@ -458,23 +459,23 @@ public class InternalDraftValidatorTest {
             new ValidationMessage(CATEGORY_SYNFUNKTION,
                 (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
                     + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
-                ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"),
+                ValidationMessageType.INVALID_FORMAT, "common.validation.d-03"),
             new ValidationMessage(CATEGORY_SYNFUNKTION,
                 (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
                     + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"),
+                ValidationMessageType.INVALID_FORMAT, "common.validation.d-03"),
             new ValidationMessage(CATEGORY_SYNFUNKTION,
                 (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
                     + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
-                ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"),
+                ValidationMessageType.INVALID_FORMAT, "common.validation.d-03"),
             new ValidationMessage(CATEGORY_SYNFUNKTION,
                 (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
                     + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"),
+                ValidationMessageType.INVALID_FORMAT, "common.validation.d-03"),
             new ValidationMessage(CATEGORY_SYNFUNKTION,
                 (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.'
                     + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"));
+                ValidationMessageType.INVALID_FORMAT, "common.validation.d-03"));
 
         assertTrue(res.getValidationErrors().containsAll(expectedErrors));
     }
