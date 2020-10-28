@@ -286,6 +286,7 @@ public final class UtlatandeToIntyg {
             synfunktion.getMisstankeOgonsjukdom());
 
         InternalConverterUtil.SvarBuilder synskarpa = aSvar(SYNFUNKTION_SYNSKARPA_SVAR_ID);
+        boolean hasSynskarpaValues = false;
 
         if (synfunktion.getSkickasSeparat() != null) {
             synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_SKICKAS_SEPARAT_DELSVAR_ID,
@@ -296,9 +297,11 @@ public final class UtlatandeToIntyg {
         if (hoger != null) {
             if (hoger.getUtanKorrektion() != null) {
                 synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_HOGER_UTAN_KORREKTION_DELSVAR_ID, hoger.getUtanKorrektion().toString());
+                hasSynskarpaValues = true;
             }
             if (hoger.getMedKorrektion() != null) {
                 synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_HOGER_MED_KORREKTION_DELSVAR_ID, hoger.getMedKorrektion().toString());
+                hasSynskarpaValues = true;
             }
         }
 
@@ -306,9 +309,11 @@ public final class UtlatandeToIntyg {
         if (vanster != null) {
             if (vanster.getUtanKorrektion() != null) {
                 synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_VANSTER_UTAN_KORREKTION_DELSVAR_ID, vanster.getUtanKorrektion().toString());
+                hasSynskarpaValues = true;
             }
             if (vanster.getMedKorrektion() != null) {
                 synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_VANSTER_MED_KORREKTION_DELSVAR_ID, vanster.getMedKorrektion().toString());
+                hasSynskarpaValues = true;
             }
         }
 
@@ -317,11 +322,21 @@ public final class UtlatandeToIntyg {
             if (binokulart.getUtanKorrektion() != null) {
                 synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_BINOKULART_UTAN_KORREKTION_DELSVAR_ID,
                     binokulart.getUtanKorrektion().toString());
+                hasSynskarpaValues = true;
             }
             if (binokulart.getMedKorrektion() != null) {
                 synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_BINOKULART_MED_KORREKTION_DELSVAR_ID,
                     binokulart.getMedKorrektion().toString());
+                hasSynskarpaValues = true;
             }
+        }
+
+        // Special case to deal with empty synskärpa values and where misstankeÖgonSjukdom is true
+        // In this case synskarpa should be left out.
+        if (Boolean.TRUE.equals(synfunktion.getMisstankeOgonsjukdom())
+            && !synfunktion.getSkickasSeparat()
+            && !hasSynskarpaValues) {
+            synskarpa.delSvars.clear();
         }
 
         if (!synskarpa.delSvars.isEmpty()) {
