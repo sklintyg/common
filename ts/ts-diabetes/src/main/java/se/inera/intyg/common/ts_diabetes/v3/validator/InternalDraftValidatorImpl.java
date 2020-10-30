@@ -68,6 +68,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import org.springframework.stereotype.Component;
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
@@ -566,30 +567,19 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             return;
         }
 
-        // R8
-        if (eligibleForRule8(utlatande)) {
-            if (!ValidatorUtil.validateDate(hypoglykemier.getAterkommandeSenasteTidpunkt(), validationMessages, CATEGORY_HYPOGLYKEMIER,
-                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID, null)) {
-                return;
-            }
-        }
-
-        // R20
-        if (eligibleForRule20(utlatande)) {
-            LocalDate senasteTidpunktLocalDate = hypoglykemier.getAterkommandeSenasteTidpunkt().asLocalDate();
-            if (senasteTidpunktLocalDate
-                .isBefore(ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId()))) {
-                addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
-                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID,
-                    ValidationMessageType.OTHER, D_11);
-            }
-            if (senasteTidpunktLocalDate.isAfter(LocalDate.now())) {
-                addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
-                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID,
-                    ValidationMessageType.OTHER, D_08);
-            }
+        // R8 & R20
+        if (eligibleForRule8(utlatande) || eligibleForRule20(utlatande)) {
+            validateDateWithinInterval(hypoglykemier.getAterkommandeSenasteTidpunkt(),
+                ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId()),
+                LocalDate.now(),
+                validationMessages,
+                CATEGORY_HYPOGLYKEMIER,
+                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID,
+                D_11,
+                D_08);
         }
     }
+
 
     private void validateAterkommandeSenasteKvartalet(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
         Hypoglykemier hypoglykemier = utlatande.getHypoglykemier();
@@ -600,28 +590,16 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             return;
         }
 
-        // R9
-        if (eligibleForRule9(utlatande)) {
-            if (!ValidatorUtil.validateDate(hypoglykemier.getSenasteTidpunktVaken(), validationMessages, CATEGORY_HYPOGLYKEMIER,
-                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID, null)) {
-                return;
-            }
-        }
-
-        // R21
-        if (eligibleForRule21(utlatande)) {
-            LocalDate senasteTidpunktVakenLocalDate = hypoglykemier.getSenasteTidpunktVaken().asLocalDate();
-            if (senasteTidpunktVakenLocalDate
-                .isBefore(ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId()))) {
-                addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
-                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID,
-                    ValidationMessageType.OTHER, D_11);
-            }
-            if (senasteTidpunktVakenLocalDate.isAfter(LocalDate.now())) {
-                addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
-                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID,
-                    ValidationMessageType.OTHER, D_08);
-            }
+        // R9 & R21
+        if (eligibleForRule9(utlatande) || eligibleForRule21(utlatande)) {
+            validateDateWithinInterval(hypoglykemier.getSenasteTidpunktVaken(),
+                ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId()),
+                LocalDate.now(),
+                validationMessages,
+                CATEGORY_HYPOGLYKEMIER,
+                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID,
+                D_11,
+                D_08);
         }
     }
 
@@ -634,28 +612,16 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             return;
         }
 
-        // R10
-        if (eligibleForRule10(utlatande)) {
-            if (!ValidatorUtil.validateDate(hypoglykemier.getForekomstTrafikTidpunkt(), validationMessages, CATEGORY_HYPOGLYKEMIER,
-                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID, null)) {
-                return;
-            }
-        }
-
-        // R22
-        if (eligibleForRule22(utlatande)) {
-            LocalDate forekomstTrafikTidpunktLocalDate = hypoglykemier.getForekomstTrafikTidpunkt().asLocalDate();
-            if (forekomstTrafikTidpunktLocalDate
-                .isBefore(ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId()))) {
-                addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
-                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID,
-                    ValidationMessageType.OTHER, D_11);
-            }
-            if (forekomstTrafikTidpunktLocalDate.isAfter(LocalDate.now())) {
-                addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
-                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID,
-                    ValidationMessageType.OTHER, D_08);
-            }
+        // R10 & R22
+        if (eligibleForRule10(utlatande) || eligibleForRule22(utlatande)) {
+            validateDateWithinInterval(hypoglykemier.getForekomstTrafikTidpunkt(),
+                ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId()),
+                LocalDate.now(),
+                validationMessages,
+                CATEGORY_HYPOGLYKEMIER,
+                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID,
+                D_11,
+                D_08);
         }
     }
 
@@ -804,6 +770,38 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
 
     private static boolean invalidSynskarpeVarde(final Double synskarpeVarde) {
         return synskarpeVarde == null || synskarpeVarde > MAX_SYNSKARPA_VARDE;
+    }
+
+    private boolean validateDateWithinInterval(InternalDate dateToValidate, LocalDate notBeforeDate, LocalDate notAfterDate,
+        List<ValidationMessage> validationMessages, String category,
+        String field, String notBeforeMessage, String notAfterMessage) {
+
+        if (dateToValidate == null) {
+            addValidationError(validationMessages, category, field, ValidationMessageType.EMPTY);
+            return false;
+        }
+
+        if (!dateToValidate.isValidDate()) {
+            if (dateToValidate.isCorrectFormat()) {
+                addValidationError(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT,
+                    "common.validation.date_invalid");
+            } else {
+                addValidationError(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT);
+            }
+            return false;
+        }
+
+        LocalDate dateToValidateLocalDate = dateToValidate.asLocalDate();
+        if (dateToValidateLocalDate.isBefore(notBeforeDate)) {
+            addValidationError(validationMessages, category, field, ValidationMessageType.OTHER, notBeforeMessage);
+            return false;
+        }
+        if (dateToValidateLocalDate.isAfter(notAfterDate)) {
+            addValidationError(validationMessages, category, field, ValidationMessageType.OTHER, notAfterMessage);
+            return false;
+        }
+
+        return true;
     }
 
     enum SynfunktionTyp {
