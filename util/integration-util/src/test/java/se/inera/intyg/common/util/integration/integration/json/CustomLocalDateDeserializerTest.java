@@ -24,17 +24,19 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeParseException;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.fasterxml.jackson.core.*;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import se.inera.intyg.common.util.integration.json.CustomLocalDateDeserializer;
 
 public final class CustomLocalDateDeserializerTest {
@@ -114,7 +116,7 @@ public final class CustomLocalDateDeserializerTest {
     @Test
     public void deserializeWhenDateTimeIsJsonArray() throws JsonParseException, IOException {
 
-        String date = "[2014,9,22,00,00,00,000]";
+        String date = "[2014,9,22]";
         String json = "{\"journalanteckningar\":" + date + "}";
 
         JsonParser jp = factory.createParser(json);
