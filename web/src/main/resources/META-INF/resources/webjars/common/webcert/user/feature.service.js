@@ -63,7 +63,8 @@ angular.module('common').factory('common.featureService',
                 UNIKT_INTYG_INOM_VG: 'UNIKT_INTYG_INOM_VG',
                 UNIKT_UTKAST_INOM_VG: 'UNIKT_UTKAST_INOM_VG',
                 SRS: 'SRS',
-                IDP_CONNECTIVITY_CHECK: 'IDP_CONNECTIVITY_CHECK'
+                IDP_CONNECTIVITY_CHECK: 'IDP_CONNECTIVITY_CHECK',
+                SIGNED_CERTIFICATES_LIST: 'SIGNED_CERTIFICATES_LIST'
             },
             isFeatureActive: _isFeatureActive
         };
