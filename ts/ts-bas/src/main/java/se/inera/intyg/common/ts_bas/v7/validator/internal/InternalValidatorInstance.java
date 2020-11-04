@@ -603,8 +603,14 @@ public class InternalValidatorInstance {
                 }
                 // R35
             } else if (CollectionUtils.containsAny(IntygAvserKategori.getNormalCategories(), utlatande.getIntygAvser().getKorkortstyp())
-                && (syn.getHogerOga().getUtanKorrektion() != null && syn.getVansterOga().getUtanKorrektion() != null)
-                && (syn.getHogerOga().getUtanKorrektion() < 0.1 || syn.getVansterOga().getUtanKorrektion() < 0.1)) {
+                && !(syn.getHogerOga().getUtanKorrektion() == null && syn.getVansterOga().getUtanKorrektion() == null)
+                && ((syn.getHogerOga().getUtanKorrektion() == null
+                && (syn.getVansterOga().getUtanKorrektion() != null && syn.getVansterOga().getUtanKorrektion() < 0.1))
+                || (syn.getVansterOga().getUtanKorrektion() == null
+                && (syn.getHogerOga().getUtanKorrektion() != null && syn.getHogerOga().getUtanKorrektion() < 0.1))
+                || (syn.getHogerOga().getUtanKorrektion() != null && syn.getHogerOga().getUtanKorrektion() < 0.1)
+                || (syn.getVansterOga().getUtanKorrektion() != null && syn.getVansterOga().getUtanKorrektion() < 0.1))
+            ) {
                 if (syn.getHogerOga().getMedKorrektion() == null) {
                     ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga.medKorrektion",
                         ValidationMessageType.EMPTY, "ts-bas.validation.syn.r35");

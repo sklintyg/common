@@ -42,6 +42,8 @@ angular.module('common').directive('wcMainMenu', ['$state', '$location', 'common
                 $scope.stat = message;
             });
 
+            $scope.isDoctor = UserModel.user.isLakareOrPrivat;
+
             $scope.isActive = function(page) {
                 if (!page) {
                     return false;
@@ -58,7 +60,6 @@ angular.module('common').directive('wcMainMenu', ['$state', '$location', 'common
             };
 
             function buildMenu() {
-
                 var menu = [];
                 if (featureService.isFeatureActive(featureService.features.HANTERA_FRAGOR)) {
                     menu.push({
@@ -89,6 +90,16 @@ angular.module('common').directive('wcMainMenu', ['$state', '$location', 'common
                                 'Vårdenheten har ' + $scope.stat.intygValdEnhet + ' ej signerade utkast.';
                             return $scope.stat.intygValdEnhet || '';
                         }
+                    });
+                }
+
+                if (featureService.isFeatureActive(featureService.features.SIGNED_CERTIFICATES_LIST)) {
+                    menu.push({
+                        link: '/#/signed-certificates',
+                        label: 'Signerade intyg',
+                        requiresDoctor: true,
+                        statTooltip: null,
+                        id: 'menu-signed-certificates'
                     });
                 }
 

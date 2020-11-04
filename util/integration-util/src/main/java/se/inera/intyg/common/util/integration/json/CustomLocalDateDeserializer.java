@@ -22,7 +22,6 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-
 import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -82,13 +81,14 @@ public class CustomLocalDateDeserializer extends StdDeserializer<LocalDate> {
 
         switch (jp.getCurrentToken()) {
             case START_ARRAY:
-                // [yyyy,MM,dd,hh,mm,ss,ms]
+                // [yyyy,MM,dd]
                 jp.nextToken(); // VALUE_NUMBER_INT
                 int year = jp.getIntValue();
                 jp.nextToken(); // VALUE_NUMBER_INT
                 int month = jp.getIntValue();
                 jp.nextToken(); // VALUE_NUMBER_INT
                 int day = jp.getIntValue();
+                jp.nextToken(); //END_ARRAY
 
                 // We are only interested in year, month and day
                 // Skip the time and return at date
