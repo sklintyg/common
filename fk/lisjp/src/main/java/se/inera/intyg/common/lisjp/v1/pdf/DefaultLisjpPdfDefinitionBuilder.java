@@ -66,7 +66,7 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
             showFkAddress = !isSentToFk(statuses);
         }
 
-        if (isSigned(isUtkast, isLockedUtkast)) {
+        if (isSigned(isUtkast, isLockedUtkast) && isSentToFk(statuses)) {
             printElectronicCopyTitle(allElements);
         }
 
