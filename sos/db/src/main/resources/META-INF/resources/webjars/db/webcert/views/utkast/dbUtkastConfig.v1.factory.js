@@ -87,9 +87,9 @@ angular.module('db').factory('db.UtkastConfigFactory.v1',
                             type: 'ue-radiogroup',
                             modelProp: 'undersokningYttre',
                             choices: [
-                                {label:'SVAR_JA.RBK', id:'JA'},
-                                {label:'DETALJER_UNDERSOKNING.UNDERSOKNING_SKA_GORAS.RBK', id:'UNDERSOKNING_SKA_GORAS'},
-                                {label:'DETALJER_UNDERSOKNING.UNDERSOKNING_GJORT_KORT_FORE_DODEN.RBK', id:'UNDERSOKNING_GJORT_KORT_FORE_DODEN'}
+                                {label:'SVAR_JA.RBK', id:'SVAR_JA'},
+                                {label:'DETALJER_UNDERSOKNING.UNDERSOKNING_SKA_GORAS.RBK', id:'DETALJER_UNDERSOKNING.UNDERSOKNING_SKA_GORAS'},
+                                {label:'DETALJER_UNDERSOKNING.UNDERSOKNING_GJORT_KORT_FORE_DODEN.RBK', id:'DETALJER_UNDERSOKNING.UNDERSOKNING_GJORT_KORT_FORE_DODEN'}
                             ],
                             label: {
                                 key: 'DFR_6.1.RBK',
@@ -102,7 +102,7 @@ angular.module('db').factory('db.UtkastConfigFactory.v1',
                             minDate: beginningOfLastYear,
                             maxDate: today,
                             modelProp: 'undersokningDatum',
-                            hideExpression: 'model.undersokningYttre != "UNDERSOKNING_GJORT_KORT_FORE_DODEN"',
+                            hideExpression: 'model.undersokningYttre != "DETALJER_UNDERSOKNING.UNDERSOKNING_GJORT_KORT_FORE_DODEN"',
                             label: {
                                 key: 'DFR_6.3.RBK',
                                 helpKey: 'DFR_6.3.HLP',
@@ -138,13 +138,13 @@ angular.module('db').factory('db.UtkastConfigFactory.v1',
                                 required: true,
                                 requiredProp: 'polisanmalan'
                             },
-                            disabledExpression: 'model.undersokningYttre === "UNDERSOKNING_SKA_GORAS"',
+                            disabledExpression: 'model.undersokningYttre === "DETALJER_UNDERSOKNING.UNDERSOKNING_SKA_GORAS"',
                             watcher: {
                                 expression: 'model.undersokningYttre',
                                 listener: function _undersokningYttreListener(newValue, oldValue, scope) {
-                                    if (newValue === 'UNDERSOKNING_SKA_GORAS') {
+                                    if (newValue === 'DETALJER_UNDERSOKNING.UNDERSOKNING_SKA_GORAS') {
                                         scope.model.polisanmalan = true;
-                                    } else if (oldValue === 'UNDERSOKNING_SKA_GORAS') {
+                                    } else if (oldValue === 'DETALJER_UNDERSOKNING.UNDERSOKNING_SKA_GORAS') {
                                         scope.model.polisanmalan = undefined;
                                     }
                                 }
@@ -152,7 +152,7 @@ angular.module('db').factory('db.UtkastConfigFactory.v1',
                         },{
                             type: 'ue-alert',
                             alertType: 'info',
-                            hideExpression: 'model.undersokningYttre !== "UNDERSOKNING_SKA_GORAS"',
+                            hideExpression: 'model.undersokningYttre !== "DETALJER_UNDERSOKNING.UNDERSOKNING_SKA_GORAS"',
                             key: 'DFR_7.1_UNDERSOKNINGS_SKA_GORAS.INFO'
                         },{
                             type: 'ue-alert',

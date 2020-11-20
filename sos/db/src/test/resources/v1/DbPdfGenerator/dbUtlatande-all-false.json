@@ -9,7 +9,7 @@
   "barn": false,
   "explosivImplantat": false,
   "explosivAvlagsnat": false,
-  "undersokningYttre": "UNDERSOKNING_SKA_GORAS",
+  "undersokningYttre": "DETALJER_UNDERSOKNING.UNDERSOKNING_SKA_GORAS",
   "undersokningDatum": "2016-12-31",
   "polisanmalan": false,
   "textVersion": "1.0",
