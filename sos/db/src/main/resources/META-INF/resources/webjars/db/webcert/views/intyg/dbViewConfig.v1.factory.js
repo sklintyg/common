@@ -121,7 +121,7 @@ angular.module('db').factory('db.viewConfigFactory.v1', [ 'uvUtil', function(uvU
             components: [ {
                 type: 'uv-kodverk-value',
                 kvModelProps: ['undersokningYttre'],
-                kvLabelKeys: ['DETALJER_UNDERSOKNING.{var}.RBK']
+                kvLabelKeys: ['{var}.RBK']
             }, {
                 type: 'uv-del-fraga',
                 labelKey: 'DFR_6.3.RBK',
