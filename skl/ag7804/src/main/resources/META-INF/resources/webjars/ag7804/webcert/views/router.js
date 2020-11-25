@@ -76,6 +76,9 @@ angular.module('ag7804').config(function($stateProvider) {
         }).state('webcert.intyg.ag7804', {
             data: { defaultActive : 'index', intygType: 'ag7804' },
             url:'/intyg/ag7804/:intygTypeVersion/:certificateId/:focusOn?:signed',
+            params: {
+                focusOn: ''
+            },
             resolve: {
                 ViewState: 'ag7804.IntygController.ViewStateService',
                 ViewConfigFactory: viewConfig,

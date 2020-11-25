@@ -18,11 +18,16 @@
  */
 package se.inera.intyg.common.db.model.internal;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.stream.Stream;
 
 public enum Undersokning {
+    @JsonProperty("SVAR_JA")
     JA("", ""), // Transport is never used as it is represented as boolean 'true'
+    @JsonProperty("DETALJER_UNDERSOKNING.UNDERSOKNING_GJORT_KORT_FORE_DODEN")
     UNDERSOKNING_GJORT_KORT_FORE_DODEN(UndersokningConstants.UNDERSOKNING_GJORT_TRANSPORT, UndersokningConstants.UNDERSOKNING_GJORT_TEXT),
+    @JsonProperty("DETALJER_UNDERSOKNING.UNDERSOKNING_SKA_GORAS")
     UNDERSOKNING_SKA_GORAS(UndersokningConstants.UNDERSOKNING_SKA_GORAS_TRANSPORT, UndersokningConstants.UNDERSOKNING_SKA_GORAS_TEXT);
 
     private final String transport;
