@@ -8,7 +8,7 @@
   "barn": true,
   "explosivImplantat": true,
   "explosivAvlagsnat": true,
-  "undersokningYttre": "UNDERSOKNING_SKA_GORAS",
+  "undersokningYttre": "DETALJER_UNDERSOKNING.UNDERSOKNING_SKA_GORAS",
   "polisanmalan": true,
   "textVersion": "1.0",
   "grundData": {
