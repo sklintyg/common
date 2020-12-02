@@ -20,7 +20,6 @@ package se.inera.intyg.common.support.modules.support.api;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateRelation;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -45,6 +44,11 @@ public class CertificateHolder {
      * Version of the certificate type.
      */
     private String typeVersion;
+
+    /**
+     * Id of the doctor that signed the certificate.
+     */
+    private String signingDoctorId;
 
     /**
      * Name of the doctor that signed the certificate.
@@ -264,15 +268,23 @@ public class CertificateHolder {
         this.certificateRelation = certificateRelation;
     }
 
+    public String getSigningDoctorId() {
+        return signingDoctorId;
+    }
+
+    public void setSigningDoctorId(String signingDoctorId) {
+        this.signingDoctorId = signingDoctorId;
+    }
+
     @Override
     public String toString() {
         return "CertificateHolder [id=" + id + ", originalCertificate=" + originalCertificate + ", type=" + type + ", typeVersion="
-                + typeVersion
-                + ", signingDoctorName=" + signingDoctorName + ", careUnitId=" + careUnitId + ", careUnitName=" + careUnitName
-                + ", civicRegistrationNumber=" + civicRegistrationNumber.getPersonnummerHash() + ", signedDate=" + signedDate
-                + ", validFromDate=" + validFromDate + ", validToDate=" + validToDate + ", additionalInfo=" + additionalInfo
-                + ", deleted=" + deleted + ", deletedByCareGiver=" + deletedByCareGiver + ", certificateStates=" + certificateStates
-                + ", revoked=" + revoked + ", certificateRelation=" + certificateRelation + "]";
+            + typeVersion + ", signingDoctorId=" + signingDoctorId
+            + ", signingDoctorName=" + signingDoctorName + ", careUnitId=" + careUnitId + ", careUnitName=" + careUnitName
+            + ", civicRegistrationNumber=" + civicRegistrationNumber.getPersonnummerHash() + ", signedDate=" + signedDate
+            + ", validFromDate=" + validFromDate + ", validToDate=" + validToDate + ", additionalInfo=" + additionalInfo
+            + ", deleted=" + deleted + ", deletedByCareGiver=" + deletedByCareGiver + ", certificateStates=" + certificateStates
+            + ", revoked=" + revoked + ", certificateRelation=" + certificateRelation + "]";
     }
 
     @Override
@@ -292,6 +304,7 @@ public class CertificateHolder {
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + (revoked ? 1231 : 1237);
         result = prime * result + ((signedDate == null) ? 0 : signedDate.hashCode());
+        result = prime * result + ((signingDoctorId == null) ? 0 : signingDoctorId.hashCode());
         result = prime * result + ((signingDoctorName == null) ? 0 : signingDoctorName.hashCode());
         result = prime * result + ((type == null) ? 0 : type.hashCode());
         result = prime * result + ((typeVersion == null) ? 0 : typeVersion.hashCode());
@@ -384,6 +397,13 @@ public class CertificateHolder {
                 return false;
             }
         } else if (!signedDate.equals(other.signedDate)) {
+            return false;
+        }
+        if (signingDoctorId == null) {
+            if (other.signingDoctorId != null) {
+                return false;
+            }
+        } else if (!signingDoctorId.equals(other.signingDoctorId)) {
             return false;
         }
         if (signingDoctorName == null) {
