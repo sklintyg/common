@@ -88,6 +88,7 @@ public class ConverterTest {
     @Before
     public void setup() {
         when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
+        when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
     }
 
     @Test

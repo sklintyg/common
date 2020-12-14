@@ -69,8 +69,10 @@ public class PrefillHandlerTest {
     public void setup() {
         webcertModuleService = mock(WebcertModuleService.class);
         when(webcertModuleService.getDescriptionFromDiagnosKod(anyString(), anyString())).thenReturn(UPPSLAGEN_DIAGNOSKODBESKRIVNING);
-        when(webcertModuleService.validateDiagnosisCode(matches("J22|M46|S22"), any(Diagnoskodverk.class)))
+        when(webcertModuleService.validateDiagnosisCode(matches("J22|M46|S22|U07.1"), any(Diagnoskodverk.class)))
             .thenReturn(true);
+        when(webcertModuleService.validateDiagnosisCodeFormat(matches("J22|M46|MX46|S22"))).thenReturn(true);
+        when(webcertModuleService.validateDiagnosisCodeFormat(matches("U07.1"))).thenReturn(false);
         testee = new PrefillHandler(webcertModuleService, INTYGSID, INTYGSTYPE, INTYGSVERSION);
     }
 
@@ -222,6 +224,25 @@ public class PrefillHandlerTest {
             final SvarResult svarResult = message;
             assertEquals(PrefillEventType.WARNING, svarResult.getEventType());
             assertTrue(Arrays.asList(BIDIAGNOS_1_DELSVAR_ID_6, BIDIAGNOS_2_DELSVAR_ID_6).contains(svarResult.getSvarId()));
+        }
+    }
+
+    @Test
+    public void testPrefillDiagnosInvalidIcd10CodeFormat() {
+
+        PrefillScenario scenario = new PrefillScenario("lisjp-ignored-diagnose-code-invalid-format");
+        LisjpUtlatandeV1.Builder template = getEmptyUtlatande();
+
+        final PrefillResult result = testee.prefill(template, scenario.getForifyllnad());
+
+        LisjpUtlatandeV1 utlatande = template.build();
+        Assertions.assertThat(utlatande).isEqualTo(scenario.getUtlatande());
+
+        assertEquals(1, result.getMessages().size());
+        for (SvarResult message : result.getMessages()) {
+            final SvarResult svarResult = message;
+            assertEquals(PrefillEventType.WARNING, svarResult.getEventType());
+            assertTrue(Arrays.asList(BIDIAGNOS_1_DELSVAR_ID_6).contains(svarResult.getSvarId()));
         }
     }
 

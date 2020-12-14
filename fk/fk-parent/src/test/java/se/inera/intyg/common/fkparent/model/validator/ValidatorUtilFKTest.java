@@ -52,6 +52,7 @@ public class ValidatorUtilFKTest {
     private static final String VALID_CODE_2 = "A01";
     private static final String KSH_CODE_SYSTEM = "KSH";
     private static final String INVALID_CODE = "sdfds";
+    private static final String INVALID_CODE_DOT = "U07.1";
 
     @Mock
     private WebcertModuleService moduleService;
@@ -63,12 +64,17 @@ public class ValidatorUtilFKTest {
     public void setup() {
         //Valid with ICD
         when(moduleService.validateDiagnosisCode(VALID_CODE_1, ICD_CODE_SYSTEM)).thenReturn(true);
+        when(moduleService.validateDiagnosisCodeFormat(VALID_CODE_1)).thenReturn(true);
         when(moduleService.validateDiagnosisCode(VALID_CODE_2, ICD_CODE_SYSTEM)).thenReturn(true);
+        when(moduleService.validateDiagnosisCodeFormat(VALID_CODE_2)).thenReturn(true);
 
         //Valid with KSH
         when(moduleService.validateDiagnosisCode(VALID_CODE_2, KSH_CODE_SYSTEM)).thenReturn(true);
 
         when(moduleService.validateDiagnosisCode(eq(INVALID_CODE), anyString())).thenReturn(false);
+        when(moduleService.validateDiagnosisCodeFormat(INVALID_CODE)).thenReturn(true);
+
+        when(moduleService.validateDiagnosisCodeFormat(INVALID_CODE_DOT)).thenReturn(false);
     }
 
     @Test
@@ -110,6 +116,24 @@ public class ValidatorUtilFKTest {
         assertEquals("common.validation.diagnos.invalid", validationMessages.get(0).getMessage());
         verify(moduleService).validateDiagnosisCode(INVALID_CODE, ICD_CODE_SYSTEM);
         verify(moduleService).validateDiagnosisCode(VALID_CODE_2, ICD_CODE_SYSTEM);
+    }
+
+    @Test
+    public void testDiagnosesOneInvalid() {
+        List<Diagnos> source = Arrays
+                .asList(buildDiagnos(VALID_CODE_1, ICD_CODE_SYSTEM, "besk"),
+                        buildDiagnos(INVALID_CODE_DOT, ICD_CODE_SYSTEM, "besk"));
+        List<ValidationMessage> validationMessages = new ArrayList<>();
+        validatorUtil.validateDiagnose(source, validationMessages);
+
+        assertEquals(1, validationMessages.size());
+        assertEquals("diagnos", validationMessages.get(0).getCategory());
+        assertEquals("diagnoser", validationMessages.get(0).getField());
+        assertEquals(ValidationMessageType.INVALID_FORMAT, validationMessages.get(0).getType());
+        assertEquals("common.validation.diagnos.invalid", validationMessages.get(0).getMessage());
+        verify(moduleService).validateDiagnosisCodeFormat(VALID_CODE_1);
+        verify(moduleService).validateDiagnosisCode(VALID_CODE_1, ICD_CODE_SYSTEM);
+        verify(moduleService).validateDiagnosisCodeFormat(INVALID_CODE_DOT);
     }
 
     @Test

@@ -44,6 +44,14 @@ public interface WebcertModuleService {
     boolean validateDiagnosisCode(String codeFragment, Diagnoskodverk codeSystem);
 
     /**
+     * Validates that diagnosis code has a valid format.
+     *
+     * @param code The code to validate
+     * @return true if the code format is valid, false otherwise.
+     */
+    boolean validateDiagnosisCodeFormat(String code);
+
+    /**
      * Gets the description belonging to a diagnosis code.
      * <p>
      * The given code may represent a group of multiple diagnosis codes, and thus generate a list of matches instead of
