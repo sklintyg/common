@@ -63,6 +63,7 @@ public class InternalToTransportTest {
     public void setup() {
         webcertModuleService = Mockito.mock(WebcertModuleService.class);
         when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
+        when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
     }
 
     private static URL getResource(String href) {

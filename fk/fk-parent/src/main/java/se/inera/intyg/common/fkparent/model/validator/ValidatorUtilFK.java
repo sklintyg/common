@@ -169,7 +169,8 @@ public class ValidatorUtilFK {
             return;
         }
 
-        if (!moduleService.validateDiagnosisCode(diagnosKod, kodsystem)) {
+        if (!moduleService.validateDiagnosisCodeFormat(diagnosKod)
+                || !moduleService.validateDiagnosisCode(diagnosKod, kodsystem)) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS, DIAGNOS_SVAR_JSON_ID_6,
                 ValidationMessageType.INVALID_FORMAT, msgKey);
         }

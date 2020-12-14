@@ -597,7 +597,7 @@ public class PrefillHandler {
                     case DIAGNOS_DELSVAR_ID_6:
                         CVType diagnos = getValidatedCVTypeContent(delsvar, VALID_DIAGNOSE_CODESYSTEM_VALUES);
                         //Also verify that the supplied code value is one we have in our diagnose repository
-                        ensureKnownDiagnoseCode(delsvar, diagnos);
+                        ensureKnownAndValidDiagnosisCode(delsvar, diagnos);
                         diagnosKod = diagnos.getCode();
                         diagnosKodSystem = diagnos.getCodeSystem();
                         diagnosDisplayName = diagnos.getDisplayName();
@@ -608,7 +608,7 @@ public class PrefillHandler {
                         break;
                     case BIDIAGNOS_1_DELSVAR_ID_6:
                         CVType bidiagnos1 = getValidatedCVTypeContent(delsvar, VALID_DIAGNOSE_CODESYSTEM_VALUES);
-                        ensureKnownDiagnoseCode(delsvar, bidiagnos1);
+                        ensureKnownAndValidDiagnosisCode(delsvar, bidiagnos1);
                         bidiagnosKod1 = bidiagnos1.getCode();
                         bidiagnosKodSystem1 = bidiagnos1.getCodeSystem();
                         bidiagnosDisplayName1 = bidiagnos1.getDisplayName();
@@ -619,7 +619,7 @@ public class PrefillHandler {
                         break;
                     case BIDIAGNOS_2_DELSVAR_ID_6:
                         CVType bidiagnos2 = getValidatedCVTypeContent(delsvar, VALID_DIAGNOSE_CODESYSTEM_VALUES);
-                        ensureKnownDiagnoseCode(delsvar, bidiagnos2);
+                        ensureKnownAndValidDiagnosisCode(delsvar, bidiagnos2);
                         bidiagnosKod2 = bidiagnos2.getCode();
                         bidiagnosKodSystem2 = bidiagnos2.getCodeSystem();
                         bidiagnosDisplayName2 = bidiagnos2.getDisplayName();
@@ -663,9 +663,10 @@ public class PrefillHandler {
         }
     }
 
-    private void ensureKnownDiagnoseCode(Delsvar delsvar, CVType diagnos) throws PrefillWarningException {
-        if (!moduleService.validateDiagnosisCode(diagnos.getCode(), Diagnoskodverk.getEnumByCodeSystem(diagnos.getCodeSystem()))) {
-            throw new PrefillWarningException(delsvar, WARNING_INVALID_CVTYPE_CODE_VALUE);
+    private void ensureKnownAndValidDiagnosisCode(Delsvar delsvar, CVType diagnos) throws PrefillWarningException {
+        if (!moduleService.validateDiagnosisCodeFormat(diagnos.getCode())
+                || !moduleService.validateDiagnosisCode(diagnos.getCode(), Diagnoskodverk.getEnumByCodeSystem(diagnos.getCodeSystem()))) {
+            throw new PrefillWarningException(delsvar, WARNING_INVALID_CVTYPE_CODE_VALUE + " for diagnosis code " + diagnos.getCode());
         }
     }
 
