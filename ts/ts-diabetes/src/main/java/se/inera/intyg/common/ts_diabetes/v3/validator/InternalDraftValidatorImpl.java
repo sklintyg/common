@@ -186,7 +186,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             IntygAvserKategori.IAV12,
             IntygAvserKategori.IAV13,
             IntygAvserKategori.IAV14,
-            IntygAvserKategori.IAV16,
+            IntygAvserKategori.IAV15,
             IntygAvserKategori.IAV16,
             IntygAvserKategori.IAV17);
         boolean conditionKorkortstyp = !Collections.disjoint(intygAvser, answerRequiringAdditionalData);
