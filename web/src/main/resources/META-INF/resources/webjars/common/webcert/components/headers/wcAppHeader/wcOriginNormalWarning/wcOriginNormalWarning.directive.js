@@ -13,14 +13,14 @@ angular.module('common').directive('wcOriginNormalWarning',
             var showOriginNormalWarningDialog = function() {
               $window.sessionStorage.originalNormalWarningDialogShown = true;
 
-              var careProviderName = UserModel.user.valdVardgivare.namn
+              var careProviderName = UserModel.user.valdVardgivare.namn;
 
               dialogInstance = $uibModal.open({
                 templateUrl:
                     '/web/webjars/common/webcert/components/headers/wcAppHeader/wcOriginNormalWarning/wcOriginNormalWarning.infodialog.html',
                 size: 'md',
                 id: 'OriginNormalWarningId',
-                controller: function($scope, $uibModalInstance) {
+                controller: function($scope) {
                   $scope.careProviderName = careProviderName;
                 }
               });
