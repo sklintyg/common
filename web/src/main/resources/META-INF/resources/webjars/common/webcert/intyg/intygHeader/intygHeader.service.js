@@ -61,7 +61,7 @@ angular.module('common').service('common.IntygHeaderService',
             };
 
             function isBlocked() {
-                return User.getUser().origin === 'NORMAL' && featureService.isFeatureActive(featureService.features.BLOCKERA_FRISTAENDE)
+                return User.getUser().origin === 'NORMAL' && featureService.isFeatureActive(featureService.features.BLOCKERA_FRISTAENDE);
             }
 
             this.showCreateFromTemplate = function() {
