@@ -49,7 +49,7 @@ angular.module('common').directive('wcOriginNormalWarning',
               return UserModel.user.origin === 'NORMAL' &&
                   featureService.isFeatureActive(featureService.features.VARNING_FRISTAENDE) &&
                   !$window.sessionStorage[careProviderHSAWithoutDash];
-            }
+            };
 
             if (shouldOriginNormalWarningDialogBeDisplayed()) {
               showOriginNormalWarningDialog();
