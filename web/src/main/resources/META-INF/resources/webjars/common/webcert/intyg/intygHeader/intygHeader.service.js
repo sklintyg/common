@@ -19,9 +19,9 @@
 angular.module('common').service('common.IntygHeaderService',
     ['$log', '$stateParams', 'common.featureService', 'common.IntygViewStateService', 'common.IntygHeaderViewState',
         'common.UserModel', 'common.User', 'common.IntygCopyActions', 'common.UtkastProxy', 'common.IntygFornyaRequestModel',
-        'common.IntygHelper',
+        'common.IntygHelper', 'common.ResourceLinkService',
         function($log, $stateParams, featureService, CommonIntygViewState, IntygHeaderViewState,
-            UserModel, User, IntygCopyActions, UtkastProxy, IntygFornyaRequestModel, IntygHelper) {
+            UserModel, User, IntygCopyActions, UtkastProxy, IntygFornyaRequestModel, IntygHelper, ResourceLinkService) {
             'use strict';
 
             var _intygActionDialog = null;
@@ -60,21 +60,14 @@ angular.module('common').service('common.IntygHeaderService',
                 );
             };
 
-            function isBlocked() {
-                return User.getUser().origin === 'NORMAL' && featureService.isFeatureActive(featureService.features.BLOCKERA_FRISTAENDE);
-            }
-
             this.showCreateFromTemplate = function() {
-                return IntygHeaderViewState.currentCreateFromTemplateConfig !== undefined &&
+                return ResourceLinkService.isLinkTypeExists(CommonIntygViewState.getLinks(), 'SKAPA_UTKAST_FRAN_INTYG') &&
+                    IntygHeaderViewState.currentCreateFromTemplateConfig !== undefined &&
                     !CommonIntygViewState.isRevoked() &&
                     !CommonIntygViewState.isReplaced() &&
                     !CommonIntygViewState.isComplementedByIntyg() &&
-                    !UserModel.getIntegrationParam('inactiveUnit') &&
                     !this.showGotoCreatedFromTemplate() &&
-                    !isBlocked() &&
-                    this.passesOriginCheck(IntygHeaderViewState.currentCreateFromTemplateConfig.origins, User.getUser().origin) &&
-                    featureService.isFeatureActive(featureService.features.HANTERA_INTYGSUTKAST,
-                        IntygHeaderViewState.currentCreateFromTemplateConfig.moduleId);
+                    this.passesOriginCheck(IntygHeaderViewState.currentCreateFromTemplateConfig.origins, User.getUser().origin);
             };
 
             this.passesOriginCheck = function(validOriginsContraint, actualOrigin) {
