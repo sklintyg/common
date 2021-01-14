@@ -27,6 +27,7 @@ describe('IntygHeaderService', function() {
     var UserModel;
     var UtkastProxy;
     var testIntygViewState;
+    var ResourceLinkService;
 
     beforeEach(angular.mock.module('common'));
     beforeEach(angular.mock.module(function($provide) {
@@ -37,16 +38,17 @@ describe('IntygHeaderService', function() {
 
     beforeEach(angular.mock.inject([
         '$rootScope', 'common.IntygHeaderService', 'common.IntygHeaderViewState', 'common.IntygViewStateService',
-        'common.UserModel', 'common.UtkastProxy',
+        'common.UserModel', 'common.UtkastProxy', 'common.ResourceLinkService',
         function(_$rootScope_, _IntygHeaderService_, _IntygHeaderViewState_, _IntygViewStateService_,
-            _UserModel_, _UtkastProxy_) {
+            _UserModel_, _UtkastProxy_, _ResourceLinkService_) {
             $rootScope = _$rootScope_;
             IntygHeaderService = _IntygHeaderService_;
             IntygHeaderViewState = _IntygHeaderViewState_;
             CommonIntygViewState = _IntygViewStateService_;
             UserModel = _UserModel_;
             UtkastProxy = _UtkastProxy_;
-            UserModel.setUser({parameters:{}});
+            ResourceLinkService = _ResourceLinkService_;
+            UserModel.setUser({parameters: {}});
         }]));
 
     describe('header show button logic', function() {
@@ -79,6 +81,7 @@ describe('IntygHeaderService', function() {
             it('should be shown if intyg type is db and copying is allowed', function() {
                 CommonIntygViewState.isIntygOnRevokeQueue = false;
                 CommonIntygViewState.intygProperties.isRevoked = false;
+                CommonIntygViewState.intygProperties.links = [{type: 'SKAPA_UTKAST_FRAN_INTYG'}];
 
                 expect(IntygHeaderService.showCreateFromTemplate()).toBeTruthy();
             });
@@ -138,9 +141,11 @@ describe('IntygHeaderService', function() {
                 expect(IntygHeaderService.showCreateFromTemplate()).toBeFalsy();
 
                 IntygHeaderViewState.setIntygViewState(testIntygViewState, 'lisjp');
+                CommonIntygViewState.intygProperties.links = [{type: 'SKAPA_UTKAST_FRAN_INTYG'}];
                 expect(IntygHeaderService.showCreateFromTemplate()).toBeTruthy();
 
                 IntygHeaderViewState.setIntygViewState(testIntygViewState, 'luse');
+                CommonIntygViewState.intygProperties.links = [];
                 expect(IntygHeaderService.showCreateFromTemplate()).toBeFalsy();
 
                 IntygHeaderViewState.setIntygViewState(testIntygViewState, 'luae_fs');
