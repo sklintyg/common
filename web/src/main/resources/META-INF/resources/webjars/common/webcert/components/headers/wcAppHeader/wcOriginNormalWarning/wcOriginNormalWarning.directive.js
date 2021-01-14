@@ -27,7 +27,7 @@ angular.module('common').directive('wcOriginNormalWarning',
           template: '',
           link: function() {
             var dialogInstance;
-            var careProviderHSAWithoutDash = UserModel.user.valdVardgivare.id.replaceAll('-', '');
+            var careProviderHSAWithoutDash = UserModel.user.valdVardgivare.id.replace(/-/g, '');
 
             var showOriginNormalWarningDialog = function() {
               var careProviderName = UserModel.user.valdVardgivare.namn;
