@@ -60,6 +60,10 @@ angular.module('common').service('common.IntygHeaderService',
                 );
             };
 
+            function isBlocked() {
+                return User.getUser().origin === 'NORMAL' && featureService.isFeatureActive(featureService.features.BLOCKERA_FRISTAENDE);
+            }
+
             this.showCreateFromTemplate = function() {
                 return IntygHeaderViewState.currentCreateFromTemplateConfig !== undefined &&
                     !CommonIntygViewState.isRevoked() &&
@@ -67,6 +71,7 @@ angular.module('common').service('common.IntygHeaderService',
                     !CommonIntygViewState.isComplementedByIntyg() &&
                     !UserModel.getIntegrationParam('inactiveUnit') &&
                     !this.showGotoCreatedFromTemplate() &&
+                    !isBlocked() &&
                     this.passesOriginCheck(IntygHeaderViewState.currentCreateFromTemplateConfig.origins, User.getUser().origin) &&
                     featureService.isFeatureActive(featureService.features.HANTERA_INTYGSUTKAST,
                         IntygHeaderViewState.currentCreateFromTemplateConfig.moduleId);
