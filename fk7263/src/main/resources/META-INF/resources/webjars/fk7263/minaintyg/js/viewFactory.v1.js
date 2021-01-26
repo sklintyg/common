@@ -22,15 +22,13 @@ angular.module('fk7263').factory('fk7263.viewFactory', [
         'use strict';
 
         var intygsTyp = 'fk7263';
-        var selectRecipientKey = 'modules.page-header.info.select-recipients-and-send';
         
         var _sendUrl = function() {
-            return '/send/' + intygsTyp + '/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/FKASSA';
+            return null;
         };
 
         return {
             intygsTyp: intygsTyp,
-            selectRecipientKey: selectRecipientKey,
             getSendUrl: _sendUrl
         };
     }]);
