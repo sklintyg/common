@@ -175,6 +175,9 @@ angular.module('doi').factory('doi.Domain.IntygModel.v1',
                                         if(item.specifikation === ''){
                                             item.specifikation = null;
                                         }
+                                        if(item.beskrivning === ''){
+                                            item.beskrivning = null;
+                                        }
                                     });
 
                                     return toBackend;
