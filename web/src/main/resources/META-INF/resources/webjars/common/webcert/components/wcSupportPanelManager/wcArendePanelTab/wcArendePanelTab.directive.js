@@ -47,7 +47,9 @@ angular.module('common').directive('wcArendePanelTab', [
                     return !ResourceLinkService.isLinkTypeExists(ArendeListViewState.intygProperties.links,
                         'SKAPA_FRAGA') &&
                         !ResourceLinkService.isLinkTypeExists(ArendeListViewState.intygProperties.links,
-                            'BESVARA_FRAGA');
+                            'BESVARA_FRAGA') &&
+                        !ResourceLinkService.isLinkTypeExists(ArendeListViewState.intygProperties.links,
+                            'MARKERA_FRAGA_SOM_HANTERAD');
                 };
 
                 $scope.isComplementQuestionViewReadOnly = function() {
