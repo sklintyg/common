@@ -64,7 +64,7 @@ angular.module('common').directive('ueVagueDate', [ 'ueUtil', 'common.UtkastVali
                         !!UtkastValidationViewState.messagesByField[$scope.config.modelProp + '.' + field]);
                 };
 
-                $scope.$watch('vagueDateModel.year', function(newValue) {
+                $scope.$watch('vagueDateModel.year', function(newValue, oldValue) {
                     $scope.vagueDateModel.monthEnabled = false;
                     if (newValue !== '') {
                         updateModel();
@@ -72,10 +72,9 @@ angular.module('common').directive('ueVagueDate', [ 'ueUtil', 'common.UtkastVali
                             $scope.vagueDateModel.month = '00';
                             createMonths(false);
                             updateModel();
-                        }
-                        else {
+                        } else {
                             $scope.vagueDateModel.monthEnabled = true;
-                            if ($scope.vagueDateModel.month === '' || $scope.vagueDateModel.month === '00') {
+                            if ($scope.vagueDateModel.month === '' || oldValue === '0000') {
                                 createMonths(true);
                                 $scope.vagueDateModel.month = '';
                                 updateModel();
@@ -89,6 +88,7 @@ angular.module('common').directive('ueVagueDate', [ 'ueUtil', 'common.UtkastVali
                         createYears(true);
                     }
                 });
+
                 $scope.$watch('vagueDateModel.month', function(newValue) {
                     if (newValue !== '') {
                         updateModel();
