@@ -152,7 +152,7 @@ angular.module('common').directive('arendeHantera',
                                 'MARKERA_KOMPLETTERING_SOM_HANTERAD');
                         } else {
                             return ResourceLinkService.isLinkTypeExists($scope.parentViewState.intygProperties.links,
-                                'BESVARA_FRAGA');
+                                'MARKERA_FRAGA_SOM_HANTERAD');
                         }
                     }
 

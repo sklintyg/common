@@ -145,9 +145,13 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
     @Test
     public void testScenarios() throws Exception {
         when(mockModuleService.validateDiagnosisCode(CORRECT_DIAGNOSKOD1, CORRECT_DIAGNOSKODSYSTEM1)).thenReturn(true);
+        when(mockModuleService.validateDiagnosisCodeFormat(CORRECT_DIAGNOSKOD1)).thenReturn(true);
         when(mockModuleService.validateDiagnosisCode(CORRECT_DIAGNOSKOD2, CORRECT_DIAGNOSKODSYSTEM1)).thenReturn(true);
+        when(mockModuleService.validateDiagnosisCodeFormat(CORRECT_DIAGNOSKOD2)).thenReturn(true);
         when(mockModuleService.validateDiagnosisCode(CORRECT_DIAGNOSKOD3, CORRECT_DIAGNOSKODSYSTEM1)).thenReturn(true);
+        when(mockModuleService.validateDiagnosisCodeFormat(CORRECT_DIAGNOSKOD3)).thenReturn(true);
         when(mockModuleService.validateDiagnosisCode(CORRECT_DIAGNOSKOD4, CORRECT_DIAGNOSKODSYSTEM2)).thenReturn(true);
+        when(mockModuleService.validateDiagnosisCodeFormat(CORRECT_DIAGNOSKOD4)).thenReturn(true);
         doInternalAndSchematronValidation(scenario, shouldFail);
     }
 

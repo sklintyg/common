@@ -42,31 +42,38 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class InternalToTransportUtilTest {
 
-    private static final String DIAGNOSE_CODE_S666 = "S666";
-    private static final String DIAGNOSE_CODE_Z731 = "Z731";
-    private static final String DIAGNOSE_CODE_A039 = "A039";
-    private static final String DIAGNOSE_CODE_A00DASH = "A00-";
-    private static final String DIAGNOSE_CODE_INVALID = "INVALID";
+    private static final String DIAGNOSIS_CODE_S666 = "S666";
+    private static final String DIAGNOSIS_CODE_Z731 = "Z731";
+    private static final String DIAGNOSIS_CODE_A039 = "A039";
+    private static final String DIAGNOSIS_CODE_A00DASH = "A00-";
+    private static final String DIAGNOSIS_CODE_INVALID = "INVALID";
+    private static final String DIAGNOSIS_CODE_INVALID_DOT = "U07.1";
 
     @Mock
     private WebcertModuleService webcertModuleService;
 
     @Before
     public void setup() {
-        when(webcertModuleService.validateDiagnosisCode(eq(DIAGNOSE_CODE_S666), anyString())).thenReturn(true);
-        when(webcertModuleService.validateDiagnosisCode(eq(DIAGNOSE_CODE_Z731), anyString())).thenReturn(true);
-        when(webcertModuleService.validateDiagnosisCode(eq(DIAGNOSE_CODE_A039), anyString())).thenReturn(true);
-        when(webcertModuleService.validateDiagnosisCode(eq(DIAGNOSE_CODE_A00DASH), anyString())).thenReturn(true);
-        when(webcertModuleService.validateDiagnosisCode(eq(DIAGNOSE_CODE_INVALID), anyString())).thenReturn(false);
+        when(webcertModuleService.validateDiagnosisCode(eq(DIAGNOSIS_CODE_S666), anyString())).thenReturn(true);
+        when(webcertModuleService.validateDiagnosisCodeFormat(DIAGNOSIS_CODE_S666)).thenReturn(true);
+        when(webcertModuleService.validateDiagnosisCode(eq(DIAGNOSIS_CODE_Z731), anyString())).thenReturn(true);
+        when(webcertModuleService.validateDiagnosisCodeFormat(DIAGNOSIS_CODE_Z731)).thenReturn(true);
+        when(webcertModuleService.validateDiagnosisCode(eq(DIAGNOSIS_CODE_A039), anyString())).thenReturn(true);
+        when(webcertModuleService.validateDiagnosisCodeFormat(DIAGNOSIS_CODE_A039)).thenReturn(true);
+        when(webcertModuleService.validateDiagnosisCode(eq(DIAGNOSIS_CODE_A00DASH), anyString())).thenReturn(true);
+        when(webcertModuleService.validateDiagnosisCodeFormat(DIAGNOSIS_CODE_A00DASH)).thenReturn(true);
+        when(webcertModuleService.validateDiagnosisCode(eq(DIAGNOSIS_CODE_INVALID), anyString())).thenReturn(false);
+        when(webcertModuleService.validateDiagnosisCodeFormat(DIAGNOSIS_CODE_INVALID)).thenReturn(true);
+        when(webcertModuleService.validateDiagnosisCodeFormat(DIAGNOSIS_CODE_INVALID_DOT)).thenReturn(false);
     }
 
     @Test
     public void handleDiagnosSvarTest() throws Exception {
-        final String diagnosKod1 = DIAGNOSE_CODE_S666;
+        final String diagnosKod1 = DIAGNOSIS_CODE_S666;
         final String diagnosKodSystem1 = "ICD_10_SE";
         final String diagnosBeskrivning1 = "Skada på multipla böjmuskler och deras senor på handleds- och handnivå";
         final String diagnosDisplayName1 = "displayName1";
-        final String diagnosKod2 = DIAGNOSE_CODE_Z731;
+        final String diagnosKod2 = DIAGNOSIS_CODE_Z731;
         final String diagnosKodSystem2 = "ICD_10_SE";
         final String diagnosBeskrivning2 = "Accentuering av personlighetsdrag";
         final String diagnosDisplayName2 = "displayName2";
@@ -112,11 +119,11 @@ public class InternalToTransportUtilTest {
 
     @Test
     public void handleDiagnosSvarTwoDiagnoses() throws Exception {
-        final String diagnosKod1 = DIAGNOSE_CODE_S666;
+        final String diagnosKod1 = DIAGNOSIS_CODE_S666;
         final String diagnosKodSystem1 = "ICD_10_SE";
         final String diagnosBeskrivning1 = "Skada på multipla böjmuskler och deras senor på handleds- och handnivå";
         final String diagnosDisplayName1 = "displayName1";
-        final String diagnosKod2 = DIAGNOSE_CODE_Z731;
+        final String diagnosKod2 = DIAGNOSIS_CODE_Z731;
         final String diagnosKodSystem2 = "ICD_10_SE";
         final String diagnosBeskrivning2 = "Accentuering av personlighetsdrag";
         final String diagnosDisplayName2 = "displayName2";
@@ -150,7 +157,7 @@ public class InternalToTransportUtilTest {
 
     @Test
     public void handleDiagnosSvarOneDiagnosis() throws Exception {
-        final String diagnosKod1 = DIAGNOSE_CODE_S666;
+        final String diagnosKod1 = DIAGNOSIS_CODE_S666;
         final String diagnosKodSystem1 = "ICD_10_SE";
         final String diagnosBeskrivning1 = "Skada på multipla böjmuskler och deras senor på handleds- och handnivå";
         final String diagnosDisplayName1 = "displayName1";
@@ -176,7 +183,7 @@ public class InternalToTransportUtilTest {
 
     @Test
     public void handleDiagnosSvarKSH97P() throws Exception {
-        final String diagnosKod1 = DIAGNOSE_CODE_A00DASH;
+        final String diagnosKod1 = DIAGNOSIS_CODE_A00DASH;
         final String diagnosKodSystem1 = "KSH_97_P";
         final String diagnosBeskrivning1 = "Kolera";
         final String diagnosDisplayName1 = "displayName1";
@@ -212,7 +219,7 @@ public class InternalToTransportUtilTest {
 
     @Test
     public void handleDiagnosSvarInvalidDiagnose() {
-        final String diagnosKod1 = DIAGNOSE_CODE_INVALID;
+        final String diagnosKod1 = DIAGNOSIS_CODE_INVALID;
         final String diagnosKodSystem1 = "KSH_97_P";
         final String diagnosBeskrivning1 = "Kolera";
         final String diagnosDisplayName1 = "displayName1";
@@ -224,6 +231,37 @@ public class InternalToTransportUtilTest {
         InternalToTransportUtil.handleDiagnosSvar(res, internal, webcertModuleService);
 
         assertEquals(0, res.size());
+    }
+
+    @Test
+    public void handleDiagnosSvarTwoDiagnosesOneInvalid() throws Exception {
+        final String diagnosKod1 = DIAGNOSIS_CODE_S666;
+        final String diagnosKodSystem1 = "ICD_10_SE";
+        final String diagnosBeskrivning1 = "Skada på multipla böjmuskler och deras senor på handleds- och handnivå";
+        final String diagnosDisplayName1 = "displayName1";
+        final String diagnosKod2 = DIAGNOSIS_CODE_INVALID_DOT;
+        final String diagnosKodSystem2 = "ICD_10_SE";
+        final String diagnosBeskrivning2 = "Accentuering av personlighetsdrag";
+        final String diagnosDisplayName2 = "displayName2";
+
+        List<Svar> res = new ArrayList<>();
+        List<Diagnos> internal = new ArrayList<>();
+        internal.add(Diagnos.create(diagnosKod1, diagnosKodSystem1, diagnosBeskrivning1, diagnosDisplayName1));
+        internal.add(Diagnos.create(diagnosKod2, diagnosKodSystem2, diagnosBeskrivning2, diagnosDisplayName2));
+
+        InternalToTransportUtil.handleDiagnosSvar(res, internal, webcertModuleService);
+
+        assertEquals(1, res.size());
+        assertEquals("6", res.get(0).getId());
+        assertNull(res.get(0).getInstans());
+        assertEquals(2, res.get(0).getDelsvar().size());
+        assertEquals("6.2", res.get(0).getDelsvar().get(0).getId());
+        CVType diagnos1 = TransportConverterUtil.getCVSvarContent(res.get(0).getDelsvar().get(0));
+        assertEquals(diagnosKod1, diagnos1.getCode());
+        assertEquals("1.2.752.116.1.1.1.1.3", diagnos1.getCodeSystem());
+        assertEquals(diagnosDisplayName1, diagnos1.getDisplayName());
+        assertEquals("6.1", res.get(0).getDelsvar().get(1).getId());
+        assertEquals(diagnosBeskrivning1, TransportConverterUtil.getStringContent(res.get(0).getDelsvar().get(1)));
     }
 
 }

@@ -177,6 +177,15 @@ angular.module('doi').factory('doi.Domain.IntygModel.v1',
                                         }
                                     });
 
+                                    for(var i=toBackend.length-1; i>=0; i--) {
+                                        var e1 = ObjectHelper.isEmpty(toBackend[i].beskrivning);
+                                        var e2 = ObjectHelper.isEmpty(toBackend[i].datum);
+                                        var e3 = ObjectHelper.isEmpty(toBackend[i].specifikation);
+                                        if (e1 && e2 && e3) {
+                                            toBackend.splice(i, 1);
+                                        }
+                                    }
+
                                     return toBackend;
                                 }
 

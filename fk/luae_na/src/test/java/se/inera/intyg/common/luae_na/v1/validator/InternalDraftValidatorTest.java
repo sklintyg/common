@@ -89,6 +89,7 @@ public class InternalDraftValidatorTest {
             .setTextVersion("");
 
         when(moduleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
+        when(moduleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
 
         // use reflection to set ValidatorUtilFK in InternalDraftValidator
         Field field = InternalDraftValidatorImpl.class.getDeclaredField("validatorUtilFK");
