@@ -47,6 +47,7 @@ public class TransportToInternalTest {
     public void setup() {
         webcertModuleService = Mockito.mock(WebcertModuleService.class);
         when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
+        when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
     }
 
 

@@ -120,7 +120,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         IntygAvserKategori.IAV6,
         IntygAvserKategori.IAV7,
         IntygAvserKategori.IAV8,
-        IntygAvserKategori.IAV8);
+        IntygAvserKategori.IAV9);
 
     // R1
     private static boolean eligibleForRule1(TsDiabetesUtlatandeV3 utlatande) {
@@ -186,7 +186,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             IntygAvserKategori.IAV12,
             IntygAvserKategori.IAV13,
             IntygAvserKategori.IAV14,
-            IntygAvserKategori.IAV16,
+            IntygAvserKategori.IAV15,
             IntygAvserKategori.IAV16,
             IntygAvserKategori.IAV17);
         boolean conditionKorkortstyp = !Collections.disjoint(intygAvser, answerRequiringAdditionalData);
