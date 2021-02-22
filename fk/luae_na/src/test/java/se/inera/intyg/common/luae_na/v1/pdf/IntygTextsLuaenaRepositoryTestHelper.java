@@ -57,7 +57,28 @@ public class IntygTextsLuaenaRepositoryTestHelper extends IntygTextsRepositoryIm
 
             Properties prop = new Properties();
             prop.putAll(ImmutableMap
-                .of("formId", "FK 7801 (001 F 001) Fastställd av Försäkringskassan", "blankettId", "7801", "blankettVersion", "01"));
+                .of("formId", "FK 7801 (001 F 001) Fastställd av Försäkringskassan",
+                        "blankettId", "7801",
+                        "blankettVersion", "01"));
+
+            super.intygTexts.add(new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, prop));
+
+            e = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+                    .parse(new ClassPathResource("v1/text/texterMU_LUAE_NA_v1.1.xml").getInputStream());
+            root = e.getDocumentElement();
+            version = root.getAttribute("version");
+            intygsTyp = root.getAttribute("typ").toLowerCase();
+            giltigFrom = super.getDate(root, "giltigFrom");
+            giltigTo = super.getDate(root, "giltigTom");
+            texts = super.getTexter(root);
+            tillaggsFragor = this.getTillaggsfragor(e);
+
+            prop = new Properties();
+            prop.putAll(ImmutableMap
+                    .of("formId", "FK 7801 (003 F 001) Fastställd av Försäkringskassan",
+                            "formIdRow2", "i samråd med Socialstyrelsen",
+                            "blankettId", "7801",
+                            "blankettVersion", "01"));
 
             super.intygTexts.add(new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, prop));
         } catch (Exception e1) {

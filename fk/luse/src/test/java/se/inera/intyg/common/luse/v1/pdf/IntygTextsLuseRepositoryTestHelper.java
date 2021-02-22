@@ -56,7 +56,46 @@ public class IntygTextsLuseRepositoryTestHelper extends IntygTextsRepositoryImpl
 
             Properties prop = new Properties();
             prop.putAll(ImmutableMap
-                .of("formId", "FK 7800 (001 F 001) Fastställd av Försäkringskassan (TEST)", "blankettId", "7800", "blankettVersion", "01"));
+                .of("formId", "FK 7800 (001 F 001) Fastställd av Försäkringskassan",
+                        "blankettId", "7800",
+                        "blankettVersion", "01"));
+
+            super.intygTexts.add(new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, prop));
+
+            e = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+                    .parse(new ClassPathResource("v1/text/texterMU_LUSE_v1.1.xml").getInputStream());
+            root = e.getDocumentElement();
+            version = root.getAttribute("version");
+            intygsTyp = root.getAttribute("typ").toLowerCase();
+            giltigFrom = super.getDate(root, "giltigFrom");
+            giltigTo = super.getDate(root, "giltigTom");
+            texts = super.getTexter(root);
+            tillaggsFragor = this.getTillaggsfragor(e);
+
+            prop = new Properties();
+            prop.putAll(ImmutableMap
+                    .of("formId", "FK 7800 (001 F 001) Fastställd av Försäkringskassan",
+                            "blankettId", "7800",
+                            "blankettVersion", "01"));
+
+            super.intygTexts.add(new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, prop));
+
+            e = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+                    .parse(new ClassPathResource("v1/text/texterMU_LUSE_v1.2.xml").getInputStream());
+            root = e.getDocumentElement();
+            version = root.getAttribute("version");
+            intygsTyp = root.getAttribute("typ").toLowerCase();
+            giltigFrom = super.getDate(root, "giltigFrom");
+            giltigTo = super.getDate(root, "giltigTom");
+            texts = super.getTexter(root);
+            tillaggsFragor = this.getTillaggsfragor(e);
+
+            prop = new Properties();
+            prop.putAll(ImmutableMap
+                    .of("formId", "FK 7800 (006 F 001) Fastställd av Försäkringskassan",
+                            "formIdRow2", "i samråd med Socialstyrelsen",
+                            "blankettId", "7800",
+                            "blankettVersion", "02"));
 
             super.intygTexts.add(new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, prop));
         } catch (Exception e1) {

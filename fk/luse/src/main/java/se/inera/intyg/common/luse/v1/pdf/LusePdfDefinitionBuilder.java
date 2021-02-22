@@ -98,9 +98,11 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
             // Add page envent handlers
             def.addPageEvent(new PageNumberingEventHandler());
-            def.addPageEvent(new FkFormIdentityEventHandler(intygTexts.getProperties().getProperty(PROPERTY_KEY_FORMID),
-                intygTexts.getProperties().getProperty(PROPERTY_KEY_BLANKETT_ID),
-                intygTexts.getProperties().getProperty(PROPERTY_KEY_BLANKETT_VERSION)));
+            def.addPageEvent(new FkFormIdentityEventHandler(
+                    intygTexts.getProperties().getProperty(PROPERTY_KEY_FORMID),
+                    intygTexts.getProperties().getProperty(PROPERTY_KEY_FORMID_ROW2),
+                    intygTexts.getProperties().getProperty(PROPERTY_KEY_BLANKETT_ID),
+                    intygTexts.getProperties().getProperty(PROPERTY_KEY_BLANKETT_VERSION)));
             def.addPageEvent(new FkFormPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
             def.addPageEvent(
                 new FkOverflowPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
@@ -318,14 +320,6 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
             .size(67f, 10f)
             .withLeading(.0f, 1.2f);
         allElements.add(fortsBladText);
-
-        FkLabel inteKannerPatientenText = new FkLabel(
-            "Om du inte känner patienten ska hen styrka sin\nidentitet genom legitimation med foto (SOSFS 2005:29).")
-            .offset(17.5f, 31.5f)
-            .withVerticalAlignment(Element.ALIGN_TOP)
-            .size(76f, 10f)
-            .withLeading(.0f, 1.2f);
-        allElements.add(inteKannerPatientenText);
 
         FkLabel mainHeader = new FkLabel("Läkarutlåtande")
             .offset(107.5f, 10f)
