@@ -40,6 +40,10 @@ public class ValidateXmlResponse {
         this.validationErrors = new ArrayList<>(validationErrors);
     }
 
+    public static ValidateXmlResponse createValidResponse() {
+        return new ValidateXmlResponse(ValidationStatus.VALID, new ArrayList<>());
+    }
+
     public boolean hasErrorMessages() {
         return !this.validationErrors.isEmpty();
     }

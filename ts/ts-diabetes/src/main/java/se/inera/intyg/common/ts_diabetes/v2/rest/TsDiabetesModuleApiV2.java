@@ -285,7 +285,7 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
 
     @Override
     public ValidateXmlResponse validateXml(String inputXml) throws ModuleException {
-        throw new NotSupportedException("ts-diabetes.v2 does not support xml validation!");
+        return ValidateXmlResponse.createValidResponse();
     }
 
     @Override
