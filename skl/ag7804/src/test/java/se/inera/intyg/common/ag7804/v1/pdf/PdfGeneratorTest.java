@@ -31,7 +31,6 @@ import java.util.regex.Pattern;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 
 import org.springframework.test.context.ContextConfiguration;
@@ -55,10 +54,26 @@ public class PdfGeneratorTest {
     private PdfGenerator testee = new PdfGenerator();
 
     @Test
-    public void testGeneratePdf() throws IOException, ModuleException {
+    public void testGeneratePdfV1_0() throws IOException, ModuleException {
         IntygTextsAg7804RepositoryTestHelper intygsTextRepositoryHelper = new IntygTextsAg7804RepositoryTestHelper();
         intygsTextRepositoryHelper.update();
         IntygTexts intygTexts = intygsTextRepositoryHelper.getTexts(Ag7804EntryPoint.MODULE_ID, "1.0");
+
+        String jsonModel = IOUtils.toString(new ClassPathResource("v1/internal/scenarios/pass-minimal.json").getInputStream(),
+            Charset.forName("UTF-8"));
+        PdfResponse pdfResponse = testee.generatePdf(UUID.randomUUID().toString(), jsonModel, "1",
+            Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
+            new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED, null);
+        assertNotNull(pdfResponse);
+        Pattern p = Pattern.compile("^" + CERTIFICATE_FILE_BASE_NAME + "[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");
+        assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());
+    }
+
+    @Test
+    public void testGeneratePdfV1_1() throws IOException, ModuleException {
+        IntygTextsAg7804RepositoryTestHelper intygsTextRepositoryHelper = new IntygTextsAg7804RepositoryTestHelper();
+        intygsTextRepositoryHelper.update();
+        IntygTexts intygTexts = intygsTextRepositoryHelper.getTexts(Ag7804EntryPoint.MODULE_ID, "1.1");
 
         String jsonModel = IOUtils.toString(new ClassPathResource("v1/internal/scenarios/pass-minimal.json").getInputStream(),
             Charset.forName("UTF-8"));
