@@ -547,7 +547,7 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     @Override
     public ValidateXmlResponse validateXml(String inputXml) throws ModuleException {
-        throw new UnsupportedOperationException();
+        return ValidateXmlResponse.createValidResponse();
     }
 
     @Override

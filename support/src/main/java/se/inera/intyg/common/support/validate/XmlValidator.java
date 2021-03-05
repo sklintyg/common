@@ -62,7 +62,7 @@ public final class XmlValidator {
                         .forEach(fra -> errorMsgs.add(String.format("TEST: %s, MSG: %s", fra.getTest(), fra.getText())));
                 return new ValidateXmlResponse(ValidationStatus.INVALID, errorMsgs);
             } else {
-                return new ValidateXmlResponse(ValidationStatus.VALID, new ArrayList<>());
+                return ValidateXmlResponse.createValidResponse();
             }
         } catch (Exception e) {
             throw new ModuleException("Failed to validate xml", e);
