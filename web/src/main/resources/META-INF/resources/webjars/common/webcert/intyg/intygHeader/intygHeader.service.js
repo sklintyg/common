@@ -80,14 +80,13 @@ angular.module('common').service('common.IntygHeaderService',
 
             this.showGotoCreatedFromTemplate = function() {
                 var intygTemplateConfig = IntygHeaderViewState.currentCreateFromTemplateConfig;
+
                 if (intygTemplateConfig && intygTemplateConfig.features.indexOf(featureService.features.UNIKT_INTYG_INOM_VG) !== -1 &&
-                    //IntygHeaderViewState.checkIntygModuleId(intygTemplateConfig.moduleId)) {
-                    IntygHeaderViewState.checkIfCertificateFromSameCareUnit(intygTemplateConfig.moduleId)) {
+                    IntygHeaderViewState.checkIfShowDoiEnabledForIntyg(intygTemplateConfig.moduleId)) {
                     return true;
                 }
                 if (intygTemplateConfig && intygTemplateConfig.features.indexOf(featureService.features.UNIKT_UTKAST_INOM_VG) !== -1 &&
-                    //IntygHeaderViewState.checkUtkastModuleId(intygTemplateConfig.moduleId)) {
-                    IntygHeaderViewState.checkIfDraftFromSameCareUnit(intygTemplateConfig.moduleId)) {
+                    IntygHeaderViewState.checkIfShowDoiEnabledForUtkast(intygTemplateConfig.moduleId)) {
                     return true;
                 }
                 return false;

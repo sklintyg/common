@@ -99,12 +99,12 @@ angular.module('common').service('common.IntygHeaderViewState', [
                 previousUtkast = prevUtkast;
             };
 
-            this.checkIfCertificateFromSameCareUnit = function(moduleId){
-                return previousIntyg !== undefined && previousIntyg[moduleId] && previousIntyg[moduleId].sameCareUnit;
+            this.checkIfShowDoiEnabledForIntyg = function(moduleId){
+                return previousIntyg !== undefined && previousIntyg[moduleId] && previousIntyg[moduleId].enableShowDoiButton;
             };
 
-            this.checkIfDraftFromSameCareUnit = function(moduleId){
-                return previousUtkast !== undefined && previousUtkast[moduleId] && previousUtkast[moduleId].sameCareUnit;
+            this.checkIfShowDoiEnabledForUtkast = function(moduleId){
+                return previousUtkast !== undefined && previousUtkast[moduleId] && previousUtkast[moduleId].enableShowDoiButton;
             };
 
             this.checkIntygModuleId = function(moduleId){
