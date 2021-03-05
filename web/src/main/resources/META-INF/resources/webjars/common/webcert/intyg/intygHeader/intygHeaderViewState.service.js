@@ -99,6 +99,14 @@ angular.module('common').service('common.IntygHeaderViewState', [
                 previousUtkast = prevUtkast;
             };
 
+            this.checkIfShowDoiEnabledForIntyg = function(moduleId){
+                return previousIntyg !== undefined && previousIntyg[moduleId] && previousIntyg[moduleId].enableShowDoiButton;
+            };
+
+            this.checkIfShowDoiEnabledForUtkast = function(moduleId){
+                return previousUtkast !== undefined && previousUtkast[moduleId] && previousUtkast[moduleId].enableShowDoiButton;
+            };
+
             this.checkIntygModuleId = function(moduleId){
                 return previousIntyg !== undefined && previousIntyg[moduleId] && previousIntyg[moduleId].sameVardgivare;
             };
