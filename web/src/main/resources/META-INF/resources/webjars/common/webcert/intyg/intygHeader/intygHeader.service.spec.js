@@ -120,7 +120,7 @@ describe('IntygHeaderService', function() {
 
                 expect(IntygHeaderService.enableCreateFromTemplate()).toBeFalsy();
                 expect(IntygHeaderService.showCreateFromTemplate()).toBeFalsy();
-                expect(IntygHeaderService.showGotoCreatedFromTemplate()).toBeTruthy();
+                expect(IntygHeaderService.showGotoCreatedFromTemplate()).toBeFalsy();
                 expect(IntygHeaderViewState.warningForCreateTemplate).not.toBeNull();
             });
 
@@ -155,6 +155,50 @@ describe('IntygHeaderService', function() {
                 expect(IntygHeaderService.showCreateFromTemplate()).toBeFalsy();
             });
 
+        });
+
+        describe('visa doi button', function() {
+            it('should be enabled if enableShowDoiButton is true', function() {
+
+                IntygHeaderViewState.warningForCreateTemplate = null;
+
+                spyOn(UtkastProxy, 'getPrevious').and.callFake(function(patient, undefined, onSuccess) {
+                    onSuccess({
+                        intyg: {
+                            doi: {
+                                sameVardgivare:true,
+                                sameEnhet:false,
+                                enableShowDoiButton:true
+                            }
+                        }
+                    });
+                });
+
+                IntygHeaderService.updatePreviousIntygUtkast(IntygHeaderViewState.intygViewState.intygModel);
+
+                expect(IntygHeaderService.showGotoCreatedFromTemplate()).toBeTruthy();
+            });
+
+            it('should be disabled if enableShowDoiButton is false', function() {
+
+                IntygHeaderViewState.warningForCreateTemplate = null;
+
+                spyOn(UtkastProxy, 'getPrevious').and.callFake(function(patient, undefined, onSuccess) {
+                    onSuccess({
+                        intyg: {
+                            doi: {
+                                sameVardgivare:true,
+                                sameEnhet:false,
+                                enableShowDoiButton:false
+                            }
+                        }
+                    });
+                });
+
+                IntygHeaderService.updatePreviousIntygUtkast(IntygHeaderViewState.intygViewState.intygModel);
+
+                expect(IntygHeaderService.showGotoCreatedFromTemplate()).toBeFalsy();
+            });
         });
     });
 });
