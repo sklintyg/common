@@ -124,6 +124,8 @@ public class CertificateHolder {
      */
     private CertificateRelation certificateRelation;
 
+    private List<String> diagnosisCodes;
+
     public String getId() {
         return id;
     }
@@ -274,6 +276,14 @@ public class CertificateHolder {
 
     public void setSigningDoctorId(String signingDoctorId) {
         this.signingDoctorId = signingDoctorId;
+    }
+
+    public List<String> getDiagnosisCodes() {
+        return diagnosisCodes;
+    }
+
+    public void setDiagnosisCodes(List<String> diagnosisCodes) {
+        this.diagnosisCodes = diagnosisCodes;
     }
 
     @Override
