@@ -197,13 +197,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
         try {
             RegisterCertificateResponseType response = registerCertificateResponderInterface.registerCertificate(logicalAddress, request);
 
-            if (response.getResult() != null && response.getResult().getResultCode() != ResultCodeType.OK) {
-                String message = response.getResult().getResultText();
-                LOG.error("Error occured when sending certificate '{}': {}",
-                    request.getIntyg() != null ? request.getIntyg().getIntygsId() : null,
-                    message);
-                throw new ExternalServiceCallException(message);
-            }
+            handleResponse(response, request);
         } catch (SOAPFaultException e) {
             throw new ExternalServiceCallException(e);
         }
@@ -482,5 +476,26 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
         }
 
         return concatString;
+    }
+
+    protected void handleResponse(RegisterCertificateResponseType response, RegisterCertificateType request)
+        throws ExternalServiceCallException {
+        if (response.getResult() != null && response.getResult().getResultCode() != ResultCodeType.OK) {
+            String certificateId = getCertificateId(request);
+            String message = response.getResult().getResultText();
+
+            if (response.getResult().getResultCode() == ResultCodeType.ERROR) {
+                LOG.error("Error occurred when sending certificate '{}': {}", certificateId, message);
+                throw new ExternalServiceCallException(message);
+            } else if (response.getResult().getResultCode() == ResultCodeType.INFO) {
+                LOG.info("Certificate '{}' was sent, but recipient returned result code {}. Message from recipient: {}",
+                    certificateId, ResultCodeType.INFO, message);
+            }
+        }
+    }
+
+    private String getCertificateId(RegisterCertificateType request) {
+        return (request.getIntyg() != null && request.getIntyg().getIntygsId() != null)
+            ? request.getIntyg().getIntygsId().getExtension() : null;
     }
 }

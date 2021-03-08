@@ -97,6 +97,8 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.Statuskod;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
+import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
@@ -495,6 +497,30 @@ public class TsParentModuleApiTest {
         assertNotNull(resultObject);
         assertEquals(meddelande, resultObject.getMeddelande());
         assertEquals(INTYG_ID, resultObject.getIntygsId().getExtension());
+    }
+
+    @Test
+    public void testHandleResponseInfo() throws Exception {
+        RegisterCertificateResponseType response = createRegisterCertificateResponse(ResultCodeType.INFO);
+        RegisterCertificateType request = new RegisterCertificateType();
+
+        moduleApi.handleResponse(response, request);
+    }
+
+    @Test(expected = ExternalServiceCallException.class)
+    public void testHandleResponseError() throws Exception {
+        RegisterCertificateResponseType response = createRegisterCertificateResponse(ResultCodeType.ERROR);
+        RegisterCertificateType request = new RegisterCertificateType();
+
+        moduleApi.handleResponse(response, request);
+    }
+
+    private RegisterCertificateResponseType createRegisterCertificateResponse(ResultCodeType resultCodeType) {
+        var response = new RegisterCertificateResponseType();
+        ResultType resultType = new ResultType();
+        resultType.setResultCode(resultCodeType);
+        response.setResult(resultType);
+        return response;
     }
 
     private Patient createUpdatedPatient() {
