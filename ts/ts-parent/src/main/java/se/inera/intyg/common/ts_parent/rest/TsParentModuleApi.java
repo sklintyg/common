@@ -403,4 +403,25 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
             throw new ModuleException(e);
         }
     }
+
+    protected void handleResponse(RegisterCertificateResponseType response, RegisterCertificateType request)
+        throws ExternalServiceCallException {
+        if (response.getResult() != null && response.getResult().getResultCode() != ResultCodeType.OK) {
+            String certificateId = getCertificateId(request);
+            String message = response.getResult().getResultText();
+
+            if (response.getResult().getResultCode() == ResultCodeType.ERROR) {
+                LOG.error("Error occurred when sending certificate '{}': {}", certificateId, message);
+                throw new ExternalServiceCallException(message);
+            } else if (response.getResult().getResultCode() == ResultCodeType.INFO) {
+                LOG.info("Certificate '{}' was sent, but recipient returned result code {}. Message from recipient: {}",
+                    certificateId, ResultCodeType.INFO, message);
+            }
+        }
+    }
+
+    private String getCertificateId(RegisterCertificateType request) {
+        return (request.getIntyg() != null && request.getIntyg().getIntygsId() != null)
+            ? request.getIntyg().getIntygsId().getExtension() : null;
+    }
 }

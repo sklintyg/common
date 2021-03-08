@@ -107,13 +107,7 @@ public class Tstrk1009ModuleApiV1 extends TsParentModuleApi<Tstrk1009UtlatandeV1
         try {
             RegisterCertificateResponseType response = registerCertificateResponderInterface.registerCertificate(logicalAddress, request);
 
-            if (response.getResult() != null && response.getResult().getResultCode() != ResultCodeType.OK) {
-                String message = response.getResult().getResultText();
-                LOG.error("Error occured when sending certificate '{}': {}",
-                    request.getIntyg() != null ? request.getIntyg().getIntygsId() : null,
-                    message);
-                throw new ExternalServiceCallException(message);
-            }
+            handleResponse(response, request);
         } catch (SOAPFaultException e) {
             throw new ExternalServiceCallException(e);
         }
