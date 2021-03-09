@@ -326,6 +326,7 @@ public class CertificateHolder {
         result = prime * result + ((validFromDate == null) ? 0 : validFromDate.hashCode());
         result = prime * result + ((validToDate == null) ? 0 : validToDate.hashCode());
         result = prime * result + ((certificateRelation == null) ? 0 : certificateRelation.hashCode());
+        result = prime * result + ((additionalMetaData == null) ? 0 : additionalMetaData.hashCode());
         return result;
         // CHECKSTYLE:ON MagicNumber
     }
@@ -461,6 +462,13 @@ public class CertificateHolder {
                 return false;
             }
         } else if (!certificateRelation.equals(other.certificateRelation)) {
+            return false;
+        }
+        if (additionalMetaData == null) {
+            if (other.additionalMetaData != null) {
+                return false;
+            }
+        } else if (!additionalMetaData.equals(other.additionalMetaData)) {
             return false;
         }
         return true;
