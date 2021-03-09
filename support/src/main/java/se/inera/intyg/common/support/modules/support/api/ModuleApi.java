@@ -450,7 +450,7 @@ public interface ModuleApi {
 
     /**
      * Returns additional metadata that can be stored outside the xml-representation of the certificate. By default no additional
-     * metadata is proovided.
+     * metadata is provided.
      *
      * @param certificate the certificate to get additional information about
      * @return Optional additional metadata or empty
