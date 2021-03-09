@@ -47,14 +47,18 @@ public class DefaultLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinition
 
     protected static final String TEXT_VERSION_1_0 = "1.0";
     protected static final String TEXT_VERSION_1_1 = "1.1";
-    private DefaultLisjpPdfDefinitionBuilder lisjpPdfDefinitionBuilder = new DefaultLisjpPdfDefinitionBuilder();
+    protected static final String TEXT_VERSION_1_2 = "1.2";
+
+    private final DefaultLisjpPdfDefinitionBuilder lisjpPdfDefinitionBuilder = new DefaultLisjpPdfDefinitionBuilder();
 
     @Test
     public void testGenerateNotSentToFK() throws Exception {
-        generate("default-unsent", new ArrayList<>(), ApplicationOrigin.MINA_INTYG, TEXT_VERSION_1_0);
-        generate("default-unsent", new ArrayList<>(), ApplicationOrigin.WEBCERT, TEXT_VERSION_1_0);
-        generate("default-unsent", new ArrayList<>(), ApplicationOrigin.MINA_INTYG, TEXT_VERSION_1_1);
-        generate("default-unsent", new ArrayList<>(), ApplicationOrigin.WEBCERT, TEXT_VERSION_1_1);
+        generate("default-unsent", new ArrayList<>(), ApplicationOrigin.MINA_INTYG, TEXT_VERSION_1_0, UtkastStatus.SIGNED);
+        generate("default-unsent", new ArrayList<>(), ApplicationOrigin.WEBCERT, TEXT_VERSION_1_0, UtkastStatus.SIGNED);
+        generate("default-unsent", new ArrayList<>(), ApplicationOrigin.MINA_INTYG, TEXT_VERSION_1_1, UtkastStatus.SIGNED);
+        generate("default-unsent", new ArrayList<>(), ApplicationOrigin.WEBCERT, TEXT_VERSION_1_1, UtkastStatus.SIGNED);
+        generate("default-unsent", new ArrayList<>(), ApplicationOrigin.MINA_INTYG, TEXT_VERSION_1_2, UtkastStatus.SIGNED);
+        generate("default-unsent", new ArrayList<>(), ApplicationOrigin.WEBCERT, TEXT_VERSION_1_2, UtkastStatus.SIGNED);
     }
 
     @Test
@@ -62,13 +66,19 @@ public class DefaultLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinition
         List<Status> statuses = new ArrayList<>();
         statuses.add(new Status(CertificateState.SENT, "FKASSA", LocalDateTime.now()));
 
-        generate("default-sent", statuses, ApplicationOrigin.MINA_INTYG, TEXT_VERSION_1_0);
-        generate("default-sent", statuses, ApplicationOrigin.WEBCERT, TEXT_VERSION_1_0);
+        generate("default-sent", statuses, ApplicationOrigin.MINA_INTYG, TEXT_VERSION_1_0, UtkastStatus.SIGNED);
+        generate("default-sent", statuses, ApplicationOrigin.WEBCERT, TEXT_VERSION_1_0, UtkastStatus.SIGNED);
+        generate("default-sent", statuses, ApplicationOrigin.MINA_INTYG, TEXT_VERSION_1_1, UtkastStatus.SIGNED);
+        generate("default-sent", statuses, ApplicationOrigin.WEBCERT, TEXT_VERSION_1_1, UtkastStatus.SIGNED);
+        generate("default-sent", statuses, ApplicationOrigin.MINA_INTYG, TEXT_VERSION_1_2, UtkastStatus.SIGNED);
+        generate("default-sent", statuses, ApplicationOrigin.WEBCERT, TEXT_VERSION_1_2, UtkastStatus.SIGNED);
 
         // generate makulerat version
         statuses.clear();
         statuses.add(new Status(CertificateState.CANCELLED, "HSVARD", LocalDateTime.now()));
-        generate("default-sent-makulerat", statuses, ApplicationOrigin.WEBCERT, TEXT_VERSION_1_0);
+        generate("default-sent-makulerat", statuses, ApplicationOrigin.WEBCERT, TEXT_VERSION_1_0, UtkastStatus.SIGNED);
+        generate("default-sent-makulerat", statuses, ApplicationOrigin.WEBCERT, TEXT_VERSION_1_1, UtkastStatus.SIGNED);
+        generate("default-sent-makulerat", statuses, ApplicationOrigin.WEBCERT, TEXT_VERSION_1_2, UtkastStatus.SIGNED);
     }
 
     @Test
@@ -76,12 +86,12 @@ public class DefaultLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinition
         LisjpUtlatandeV1 utkast = objectMapper
             .readValue(new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(), LisjpUtlatandeV1.class);
 
-        byte[] generatorResult = PdfGenerator
-            .generatePdf(lisjpPdfDefinitionBuilder
-                .buildPdfDefinition(utkast, Lists.newArrayList(), ApplicationOrigin.WEBCERT,
-                    intygTextsService.getIntygTextsPojo("lisjp", TEXT_VERSION_1_0), UtkastStatus.DRAFT_LOCKED));
-        assertNotNull(generatorResult);
-        writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "låst-utkast", utkast.getId(), TEXT_VERSION_1_0);
+        generate(utkast, "låst-utkast", Lists.newArrayList(), ApplicationOrigin.WEBCERT, TEXT_VERSION_1_0,
+            UtkastStatus.DRAFT_LOCKED);
+        generate(utkast, "låst-utkast", Lists.newArrayList(), ApplicationOrigin.WEBCERT, TEXT_VERSION_1_1,
+            UtkastStatus.DRAFT_LOCKED);
+        generate(utkast, "låst-utkast", Lists.newArrayList(), ApplicationOrigin.WEBCERT, TEXT_VERSION_1_2,
+            UtkastStatus.DRAFT_LOCKED);
     }
 
     @Test
@@ -89,27 +99,32 @@ public class DefaultLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinition
         LisjpUtlatandeV1 utkast = objectMapper
             .readValue(new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(), LisjpUtlatandeV1.class);
 
-        byte[] generatorResult = PdfGenerator
-            .generatePdf(lisjpPdfDefinitionBuilder
-                .buildPdfDefinition(utkast, Lists.newArrayList(), ApplicationOrigin.WEBCERT,
-                    intygTextsService.getIntygTextsPojo("lisjp", TEXT_VERSION_1_0), UtkastStatus.DRAFT_COMPLETE));
-        assertNotNull(generatorResult);
-        writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "utkast", utkast.getId(), TEXT_VERSION_1_0);
+        generate(utkast, "utkast", Lists.newArrayList(), ApplicationOrigin.WEBCERT, TEXT_VERSION_1_0,
+            UtkastStatus.DRAFT_COMPLETE);
+        generate(utkast, "utkast", Lists.newArrayList(), ApplicationOrigin.WEBCERT, TEXT_VERSION_1_1,
+            UtkastStatus.DRAFT_COMPLETE);
+        generate(utkast, "utkast", Lists.newArrayList(), ApplicationOrigin.WEBCERT, TEXT_VERSION_1_2,
+            UtkastStatus.DRAFT_COMPLETE);
     }
 
-    private void generate(String scenarioName, List<Status> statuses, ApplicationOrigin origin, String textVersion)
+    private void generate(String scenarioName, List<Status> statuses, ApplicationOrigin origin, String textVersion,
+        UtkastStatus utkastStatus)
         throws PdfGeneratorException, IOException {
         for (LisjpUtlatandeV1 intyg : intygList) {
-            FkPdfDefinition pdfDefinition = lisjpPdfDefinitionBuilder
-                .buildPdfDefinition(intyg, statuses, origin, intygTextsService.getIntygTextsPojo("lisjp", textVersion),
-                    UtkastStatus.SIGNED);
-            byte[] generatorResult = PdfGenerator
-                .generatePdf(pdfDefinition);
-
-            assertNotNull(generatorResult);
-
-            writePdfToFile(generatorResult, origin, scenarioName, intyg.getId(), textVersion);
+            generate(intyg, scenarioName, statuses, origin, textVersion, utkastStatus);
         }
+    }
+
+    private void generate(LisjpUtlatandeV1 utlatandeV1, String scenarioName, List<Status> statuses, ApplicationOrigin origin,
+        String textVersion, UtkastStatus utkastStatus)
+        throws PdfGeneratorException, IOException {
+        FkPdfDefinition pdfDefinition = lisjpPdfDefinitionBuilder
+            .buildPdfDefinition(utlatandeV1, statuses, origin,
+                intygTextsService.getIntygTextsPojo("lisjp", textVersion), utkastStatus);
+        byte[] generatorResult = PdfGenerator.generatePdf(pdfDefinition);
+
+        assertNotNull(generatorResult);
+        writePdfToFile(generatorResult, origin, scenarioName, utlatandeV1.getId(), textVersion);
     }
 
 }

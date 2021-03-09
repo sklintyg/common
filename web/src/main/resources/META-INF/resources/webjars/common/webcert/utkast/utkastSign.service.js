@@ -78,8 +78,6 @@ angular.module('common').factory('common.UtkastSignService',
              * Init point for signing using SignService
              */
             function _signWithSignService(intygsTyp, intygsId, version, deferred) {
-                var signModel = {};
-
                 // Get formdata from WC backend
                 UtkastProxy.startSigningProcess(intygsId, intygsTyp, version, 'SIGN_SERVICE', function(formData) {
 
@@ -87,7 +85,7 @@ angular.module('common').factory('common.UtkastSignService',
 
                 }, function(error) {
                     deferred.resolve({});
-                    _showSigneringsError(signModel, error, intygsTyp);
+                    showSignServiceSpecificError();
                 });
             }
 
@@ -447,9 +445,13 @@ angular.module('common').factory('common.UtkastSignService',
                 signModel.signingWithSITHSInProgress = false;
             }
 
-            function _showSignServiceError(intygsType, ticketId){
-                var signModel = {};
+            function showSignServiceSpecificError(callback) {
+                var errorMessage = messageService.getProperty('common.error.sign.only_possible_in_ie');
 
+                dialogService.showErrorMessageDialog(errorMessage, callback, 'common.modal.title.sign.error');
+            }
+
+            function _showSignServiceError(intygsType, ticketId){
                 function _clearQueryParamsFromUrl(){
                     $location.replace();
                     $location.search('error', null);
@@ -461,10 +463,10 @@ angular.module('common').factory('common.UtkastSignService',
                         ticketStatus.status = ticket.status;
 
                         if (!knownSignStatuses.hasOwnProperty(ticket.status)) {
-                            _showSigneringsError(signModel, {errorCode: 'SIGNERROR'}, intygsType, _clearQueryParamsFromUrl);
+                            showSignServiceSpecificError(_clearQueryParamsFromUrl);
                         }
                     }, function(error) {
-                        _showSigneringsError(signModel, {errorCode: 'SIGNERROR'}, intygsType, _clearQueryParamsFromUrl);
+                        showSignServiceSpecificError(_clearQueryParamsFromUrl);
                     });
                 }
 
