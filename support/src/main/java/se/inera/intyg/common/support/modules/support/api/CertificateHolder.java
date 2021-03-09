@@ -20,6 +20,7 @@ package se.inera.intyg.common.support.modules.support.api;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import se.inera.intyg.common.support.modules.support.api.dto.AdditionalMetaData;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateRelation;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -123,6 +124,12 @@ public class CertificateHolder {
      * Parent relationship.
      */
     private CertificateRelation certificateRelation;
+
+    /**
+     * Additional meta data that can be stored
+     */
+    private AdditionalMetaData additionalMetaData;
+
 
     public String getId() {
         return id;
@@ -276,6 +283,14 @@ public class CertificateHolder {
         this.signingDoctorId = signingDoctorId;
     }
 
+    public AdditionalMetaData getAdditionalMetaData() {
+        return additionalMetaData;
+    }
+
+    public void setAdditionalMetaData(AdditionalMetaData additionalMetaData) {
+        this.additionalMetaData = additionalMetaData;
+    }
+
     @Override
     public String toString() {
         return "CertificateHolder [id=" + id + ", originalCertificate=" + originalCertificate + ", type=" + type + ", typeVersion="
@@ -284,7 +299,7 @@ public class CertificateHolder {
             + ", civicRegistrationNumber=" + civicRegistrationNumber.getPersonnummerHash() + ", signedDate=" + signedDate
             + ", validFromDate=" + validFromDate + ", validToDate=" + validToDate + ", additionalInfo=" + additionalInfo
             + ", deleted=" + deleted + ", deletedByCareGiver=" + deletedByCareGiver + ", certificateStates=" + certificateStates
-            + ", revoked=" + revoked + ", certificateRelation=" + certificateRelation + "]";
+            + ", revoked=" + revoked + ", certificateRelation=" + certificateRelation + ", additionalMetaData=" + additionalMetaData + "]";
     }
 
     @Override
@@ -311,6 +326,7 @@ public class CertificateHolder {
         result = prime * result + ((validFromDate == null) ? 0 : validFromDate.hashCode());
         result = prime * result + ((validToDate == null) ? 0 : validToDate.hashCode());
         result = prime * result + ((certificateRelation == null) ? 0 : certificateRelation.hashCode());
+        result = prime * result + ((additionalMetaData == null) ? 0 : additionalMetaData.hashCode());
         return result;
         // CHECKSTYLE:ON MagicNumber
     }
@@ -446,6 +462,13 @@ public class CertificateHolder {
                 return false;
             }
         } else if (!certificateRelation.equals(other.certificateRelation)) {
+            return false;
+        }
+        if (additionalMetaData == null) {
+            if (other.additionalMetaData != null) {
+                return false;
+            }
+        } else if (!additionalMetaData.equals(other.additionalMetaData)) {
             return false;
         }
         return true;

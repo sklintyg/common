@@ -23,7 +23,10 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TILLA
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TILLAGGSFRAGOR_SVAR_JSON_ID;
 import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
 
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
+import com.google.common.primitives.Ints;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
@@ -32,21 +35,16 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.stream.Collectors;
 import javax.xml.bind.JAXBElement;
 import javax.xml.ws.soap.SOAPFaultException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Strings;
-import com.google.common.primitives.Ints;
-
 import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.fkparent.model.converter.SvarIdHelper;
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.StatusKod;
@@ -482,5 +480,12 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
         }
 
         return concatString;
+    }
+
+    protected List<String> getDiagnoses(ImmutableList<Diagnos> diagnoses) {
+        if (diagnoses == null) {
+            return Collections.emptyList();
+        }
+        return diagnoses.stream().map(Diagnos::getDiagnosKod).collect(Collectors.toList());
     }
 }

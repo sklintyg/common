@@ -49,6 +49,7 @@ import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.support.modules.support.api.dto.AdditionalMetaData;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
@@ -207,4 +208,24 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
         }
     }
 
+    @Override
+    public Optional<AdditionalMetaData> getAdditionalMetaData(Intyg certificate) throws ModuleException {
+        final var additionalMetaData = new AdditionalMetaData();
+
+        final var lisjpCertificate = convertToInternal(certificate);
+
+        final var diagnoses = getDiagnoses(lisjpCertificate.getDiagnoser());
+
+        additionalMetaData.setDiagnoses(diagnoses);
+
+        return Optional.of(additionalMetaData);
+    }
+
+    private LisjpUtlatandeV1 convertToInternal(Intyg certificate) throws ModuleException {
+        try {
+            return transportToInternal(certificate);
+        } catch (ConverterException e) {
+            throw new ModuleException("Could convert Intyg to Utlatande", e);
+        }
+    }
 }
