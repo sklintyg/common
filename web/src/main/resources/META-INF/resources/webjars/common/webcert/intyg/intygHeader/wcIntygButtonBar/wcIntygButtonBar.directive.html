@@ -28,6 +28,7 @@
           class="btn btn-success"
           ng-if="IntygHeaderService.showGotoCreatedFromTemplate()"
           ng-click="IntygHeaderService.gotoRelatedFromTemplate();gotoRelatedFromTemplatePopoverOpen=false"
+          uib-popover="{{IntygHeaderService.getCurrentCreateFromTemplate().gotoButtonTooltip}}"
           popover-is-open="gotoRelatedFromTemplatePopoverOpen"
           popover-popup-delay="300"
           popover-append-to-body="true"
