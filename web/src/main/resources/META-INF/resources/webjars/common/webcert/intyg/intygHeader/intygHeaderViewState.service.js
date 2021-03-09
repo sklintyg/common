@@ -82,6 +82,7 @@ angular.module('common').service('common.IntygHeaderViewState', [
                                     currentIntygName: moduleService.getModuleName(intygType)
                                 });
                     }
+                    this.currentCreateFromTemplateConfig.gotoButtonTooltip = messageService.getProperty('db.gotocreatefromtemplate.doi.tooltip');
                 }
 
                 this.recipientId = moduleService.getModule(intygType).defaultRecipient;
