@@ -43,8 +43,8 @@ public class AdditionalMetaData {
 
     @Override
     public String toString() {
-        return "AdditionalMetaData{" +
-            "diagnoses=" + diagnoses +
-            '}';
+        return "AdditionalMetaData{"
+            + "diagnoses=" + diagnoses
+            + '}';
     }
 }
