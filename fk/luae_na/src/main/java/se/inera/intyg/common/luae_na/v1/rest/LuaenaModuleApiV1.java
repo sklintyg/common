@@ -18,32 +18,31 @@
  */
 package se.inera.intyg.common.luae_na.v1.rest;
 
+import com.google.common.collect.ImmutableList;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import com.google.common.collect.ImmutableList;
-
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
 import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
 import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
 import se.inera.intyg.common.fkparent.rest.FkParentModuleApi;
+import se.inera.intyg.common.luae_na.support.LuaenaEntryPoint;
 import se.inera.intyg.common.luae_na.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.luae_na.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.luae_na.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.luae_na.v1.pdf.LuaenaPdfDefinitionBuilder;
-import se.inera.intyg.common.luae_na.support.LuaenaEntryPoint;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.support.modules.support.api.dto.AdditionalMetaData;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
@@ -140,6 +139,26 @@ public class LuaenaModuleApiV1 extends FkParentModuleApi<LuaenaUtlatandeV1> {
             }
         } catch (ConverterException e) {
             throw new ModuleException("Could convert Intyg to Utlatande and as a result could not get additional info", e);
+        }
+    }
+
+    @Override
+    public Optional<AdditionalMetaData> getAdditionalMetaData(Intyg certificate) throws ModuleException {
+        final var additionalMetaData = new AdditionalMetaData();
+
+        final var luaenaCertificate = convertToInternal(certificate);
+        final var diagnoses = getDiagnoses(luaenaCertificate.getDiagnoser());
+
+        additionalMetaData.setDiagnoses(diagnoses);
+
+        return Optional.of(additionalMetaData);
+    }
+
+    private LuaenaUtlatandeV1 convertToInternal(Intyg certificate) throws ModuleException {
+        try {
+            return transportToInternal(certificate);
+        } catch (ConverterException e) {
+            throw new ModuleException("Could convert Intyg to Utlatande", e);
         }
     }
 }

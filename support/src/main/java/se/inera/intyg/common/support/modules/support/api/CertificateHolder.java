@@ -20,6 +20,7 @@ package se.inera.intyg.common.support.modules.support.api;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import se.inera.intyg.common.support.modules.support.api.dto.AdditionalMetaData;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateRelation;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -124,7 +125,11 @@ public class CertificateHolder {
      */
     private CertificateRelation certificateRelation;
 
-    private List<String> diagnosisCodes;
+    /**
+     * Additional meta data that can be stored
+     */
+    private AdditionalMetaData additionalMetaData;
+
 
     public String getId() {
         return id;
@@ -278,12 +283,12 @@ public class CertificateHolder {
         this.signingDoctorId = signingDoctorId;
     }
 
-    public List<String> getDiagnosisCodes() {
-        return diagnosisCodes;
+    public AdditionalMetaData getAdditionalMetaData() {
+        return additionalMetaData;
     }
 
-    public void setDiagnosisCodes(List<String> diagnosisCodes) {
-        this.diagnosisCodes = diagnosisCodes;
+    public void setAdditionalMetaData(AdditionalMetaData additionalMetaData) {
+        this.additionalMetaData = additionalMetaData;
     }
 
     @Override
@@ -294,7 +299,7 @@ public class CertificateHolder {
             + ", civicRegistrationNumber=" + civicRegistrationNumber.getPersonnummerHash() + ", signedDate=" + signedDate
             + ", validFromDate=" + validFromDate + ", validToDate=" + validToDate + ", additionalInfo=" + additionalInfo
             + ", deleted=" + deleted + ", deletedByCareGiver=" + deletedByCareGiver + ", certificateStates=" + certificateStates
-            + ", revoked=" + revoked + ", certificateRelation=" + certificateRelation + "]";
+            + ", revoked=" + revoked + ", certificateRelation=" + certificateRelation + ", additionalMetaData=" + additionalMetaData + "]";
     }
 
     @Override

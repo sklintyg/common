@@ -21,6 +21,7 @@ package se.inera.intyg.common.luse.v1.rest;
 import com.google.common.collect.ImmutableList;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,7 @@ import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.support.modules.support.api.dto.AdditionalMetaData;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
@@ -138,6 +140,26 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
             }
         } catch (ConverterException e) {
             throw new ModuleException("Could convert Intyg to Utlatande and as a result could not get additional info", e);
+        }
+    }
+
+    @Override
+    public Optional<AdditionalMetaData> getAdditionalMetaData(Intyg certificate) throws ModuleException {
+        final var additionalMetaData = new AdditionalMetaData();
+
+        final var luseCertificate = convertToInternal(certificate);
+        final var diagnoses = getDiagnoses(luseCertificate.getDiagnoser());
+
+        additionalMetaData.setDiagnoses(diagnoses);
+
+        return Optional.of(additionalMetaData);
+    }
+
+    private LuseUtlatandeV1 convertToInternal(Intyg certificate) throws ModuleException {
+        try {
+            return transportToInternal(certificate);
+        } catch (ConverterException e) {
+            throw new ModuleException("Could convert Intyg to Utlatande", e);
         }
     }
 }

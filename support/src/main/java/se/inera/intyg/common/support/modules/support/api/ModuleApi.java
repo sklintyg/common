@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -32,7 +31,15 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.modules.mapper.Mapper;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.support.modules.support.api.dto.*;
+import se.inera.intyg.common.support.modules.support.api.dto.AdditionalMetaData;
+import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
+import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftCreationResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
@@ -441,4 +448,15 @@ public interface ModuleApi {
         return Optional.empty();
     }
 
+    /**
+     * Returns additional metadata that can be stored outside the xml-representation of the certificate. By default no additional
+     * metadata is proovided.
+     *
+     * @param certificate the certificate to get additional information about
+     * @return Optional additional metadata or empty
+     * @throws ModuleException if the certificate could not be converted to internal
+     */
+    default Optional<AdditionalMetaData> getAdditionalMetaData(Intyg certificate) throws ModuleException {
+        return Optional.empty();
+    }
 }
