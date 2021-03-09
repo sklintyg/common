@@ -19,7 +19,6 @@
 package se.inera.intyg.common.lisjp.v1.pdf;
 
 import com.google.common.base.Strings;
-import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Rectangle;
@@ -72,6 +71,9 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
     // Tillaggsfragor cant have static names, so by convention they are sent as "<frageId>" from gui , e.g "9001"
+
+    private static final String TEXT_VERSION_1_0 = "1.0";
+    private static final String TEXT_VERSION_1_1 = "1.1";
 
     private static final float KATEGORI_FULL_WIDTH = 180f;
     private static final float KATEGORI_OFFSET_X = 14.5f;
@@ -268,7 +270,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
             .offset(0f, 30f)
             .size(KATEGORI_FULL_WIDTH, 7.5f));
         fraga3.addChild(new FkCheckbox(getText("KV_FKMU_0002.STUDIER.RBK"),
-                intyg.getSysselsattning().stream().map(Sysselsattning::getTyp)
+            intyg.getSysselsattning().stream().map(Sysselsattning::getTyp)
                 .anyMatch(typ -> Sysselsattning.SysselsattningsTyp.STUDIER.equals(typ)))
             .offset(0f, 37.5f)
             .size(KATEGORI_FULL_WIDTH, 7.5f)
@@ -579,16 +581,17 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
             .offset(0f, 1.2f)
             .size(KATEGORI_FULL_WIDTH, 6.8f));
 
+        final var textLength = isBeforeTextChangesInOneDotTwo(intyg) ? 135f : 105f;
         fraga9.addChild(new FkCheckbox(getText("KV_FKMU_0006.ATER_X_ANTAL_DGR.RBK"),
             PrognosTyp.ATER_X_ANTAL_DGR.equals(prognosTyp))
             .offset(0f, 8f)
-            .size(135f, 6.9f));
+            .size(textLength, 6.9f));
 
         fraga9.addChild(
             new FkValueField(PrognosTyp.ATER_X_ANTAL_DGR.equals(prognosTyp) && intyg.getPrognos().getDagarTillArbete() != null
                 ? intyg.getPrognos().getDagarTillArbete().getLabel() : "")
-                .offset(137f, 6f)
-                .size(KATEGORI_FULL_WIDTH - 135f, 6.9f));
+                .offset(textLength + 2f, 6f)
+                .size(KATEGORI_FULL_WIDTH - textLength, 6.9f));
 
         fraga9.addChild(new FkCheckbox(getText("KV_FKMU_0006.SANNOLIKT_INTE.RBK"),
             PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING.equals(prognosTyp))
@@ -600,6 +603,10 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
             .offset(0f, 21.8f)
             .size(KATEGORI_FULL_WIDTH, 6.9f));
         return fraga9;
+    }
+
+    private boolean isBeforeTextChangesInOneDotTwo(LisjpUtlatandeV1 intyg) {
+        return intyg.getTextVersion().equalsIgnoreCase(TEXT_VERSION_1_0) || intyg.getTextVersion().equalsIgnoreCase(TEXT_VERSION_1_1);
     }
 
     FkFieldGroup fraga10(LisjpUtlatandeV1 intyg) {
