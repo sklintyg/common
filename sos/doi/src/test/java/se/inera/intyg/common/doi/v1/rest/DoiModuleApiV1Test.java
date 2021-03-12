@@ -238,6 +238,18 @@ public class DoiModuleApiV1Test {
     }
 
     @Test
+    public void testSendCertificateShouldSucceedWhenInfoIsReturned() throws ModuleException {
+        when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
+            .thenReturn(createReturnVal(ResultCodeType.INFO));
+        try {
+            String xmlContents = Resources.toString(Resources.getResource("v1/doi.xml"), Charsets.UTF_8);
+            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
+        } catch (IOException e) {
+            fail();
+        }
+    }
+
+    @Test
     public void testSendCertificateShouldUseXml() {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any())).thenReturn(createReturnVal(ResultCodeType.OK));
         try {

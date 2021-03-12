@@ -183,6 +183,18 @@ public class LisjpModuleApiTest {
         }
     }
 
+    @Test
+    public void testSendCertificateShouldSucceedWhenInfoIsReturned() throws ModuleException {
+        when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
+            .thenReturn(createReturnVal(ResultCodeType.INFO));
+        try {
+            String xmlContents = Resources.toString(Resources.getResource("v1/transport/lisjp.xml"), Charsets.UTF_8);
+            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
+        } catch (IOException e) {
+            fail();
+        }
+    }
+
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailOnEmptyXml() throws ModuleException {
         moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null);

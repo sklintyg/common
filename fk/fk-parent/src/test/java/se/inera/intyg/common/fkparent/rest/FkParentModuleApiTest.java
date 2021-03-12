@@ -77,6 +77,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -547,6 +549,30 @@ public class FkParentModuleApiTest {
         assertNotNull(resultObject);
         assertEquals(meddelande, resultObject.getMeddelande());
         assertEquals(INTYG_ID, resultObject.getIntygsId().getExtension());
+    }
+
+    @Test
+    public void testHandleResponseInfo() throws Exception {
+        RegisterCertificateResponseType response = createRegisterCertificateResponse(ResultCodeType.INFO);
+        RegisterCertificateType request = new RegisterCertificateType();
+
+        moduleApi.handleResponse(response, request);
+    }
+
+    @Test(expected = ExternalServiceCallException.class)
+    public void testHandleResponseError() throws Exception {
+        RegisterCertificateResponseType response = createRegisterCertificateResponse(ResultCodeType.ERROR);
+        RegisterCertificateType request = new RegisterCertificateType();
+
+        moduleApi.handleResponse(response, request);
+    }
+
+    private RegisterCertificateResponseType createRegisterCertificateResponse(ResultCodeType resultCodeType) {
+        var response = new RegisterCertificateResponseType();
+        ResultType resultType = new ResultType();
+        resultType.setResultCode(resultCodeType);
+        response.setResult(resultType);
+        return response;
     }
 
     private Patient createUpdatedPatient() throws Exception {
