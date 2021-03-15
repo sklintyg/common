@@ -71,6 +71,8 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 // CHECKSTYLE:OFF MethodLength
 public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
+    private static final String TEXT_VERSION_1_0 = "1.0";
+
     public static final float CHECKBOX_UNDER_TOPLABEL_PADDING = 1.5f;
     private static final float KATEGORI_FULL_WIDTH = 180f;
     private static final float KATEGORI_OFFSET_X = 15f;
@@ -331,6 +333,16 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
             .withLeading(.0f, 1.2f);
         allElements.add(fortsBladText);
 
+        if (isBeforeTextChangesInOneDotOne(intyg)) {
+            FkLabel inteKannerPatientenText = new FkLabel(
+                "Om du inte känner patienten ska hen styrka sin\nidentitet genom legitimation med foto (SOSFS 2005:29).")
+                .offset(17.5f, 31.5f)
+                .withVerticalAlignment(Element.ALIGN_TOP)
+                .size(76f, 10f)
+                .withLeading(.0f, 1.2f);
+            allElements.add(inteKannerPatientenText);
+        }
+
         FkLabel mainHeader = new FkLabel("Läkarutlåtande")
             .offset(105.5f, 10f)
             .size(40, 12f)
@@ -394,6 +406,10 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
         allElements.add(luaenaDescriptonText);
 
+    }
+
+    private boolean isBeforeTextChangesInOneDotOne(LuaenaUtlatandeV1 certificate) {
+        return certificate.getTextVersion().equalsIgnoreCase(TEXT_VERSION_1_0);
     }
 
     private FkPage createPage2(LuaenaUtlatandeV1 intyg) throws IOException, DocumentException {
