@@ -69,6 +69,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
+import se.inera.intyg.common.support.modules.support.facade.dto.CertificateDTO;
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
@@ -502,5 +503,15 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
             return Collections.emptyList();
         }
         return diagnoses.stream().map(Diagnos::getDiagnosKod).collect(Collectors.toList());
+    }
+
+    @Override
+    public CertificateDTO getCertificateDTOFromJson(String certificateAsJson) throws ModuleException, IOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String getJsonFromCertificateDTO(CertificateDTO certificate, String certificateAsJson) throws ModuleException, IOException {
+        throw new UnsupportedOperationException();
     }
 }

@@ -29,7 +29,7 @@ angular.module('common').directive('wcPatientStatus', [ function() {
         },
         templateUrl: '/web/webjars/common/webcert/components/wcPatientStatus/wcPatientStatus.directive.html',
         link: function($scope) {
-            console.log($scope.patient);
+
         }
     };
 } ]);

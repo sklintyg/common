@@ -18,9 +18,8 @@
  */
 package se.inera.intyg.common.support.modules.support.api.dto;
 
-import org.springframework.util.Assert;
-
 import com.google.common.base.Objects;
+import org.springframework.util.Assert;
 
 public final class ValidationMessage {
 
@@ -33,6 +32,8 @@ public final class ValidationMessage {
     private final ValidationMessageType type;
 
     private final String dynamicKey;
+
+    private String questionId;
 
     public ValidationMessage(String category, String field, ValidationMessageType type) {
         Assert.hasText(category, "'category' must not be empty");
@@ -70,6 +71,18 @@ public final class ValidationMessage {
         this.dynamicKey = dynamicKey;
     }
 
+    public static ValidationMessage create(String category, String field, ValidationMessageType type, String questionId) {
+        final var validationMessage = new ValidationMessage(category, field, type);
+        validationMessage.questionId = questionId;
+        return validationMessage;
+    }
+
+    public static ValidationMessage create(String category, String field, ValidationMessageType type, String message, String questionId) {
+        final var validationMessage = new ValidationMessage(category, field, type, message);
+        validationMessage.questionId = questionId;
+        return validationMessage;
+    }
+
     public String getCategory() {
         return category;
     }
@@ -90,6 +103,10 @@ public final class ValidationMessage {
         return dynamicKey;
     }
 
+    public String getQuestionId() {
+        return questionId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -103,7 +120,8 @@ public final class ValidationMessage {
             && Objects.equal(field, that.field)
             && Objects.equal(message, that.message)
             && type == that.type
-            && Objects.equal(dynamicKey, that.dynamicKey);
+            && Objects.equal(dynamicKey, that.dynamicKey)
+            && Objects.equal(questionId, that.questionId);
     }
 
     @Override
@@ -114,11 +132,12 @@ public final class ValidationMessage {
             + ", message='" + message + '\''
             + ", type=" + type
             + ", dynamicKey='" + dynamicKey + '\''
+            + ", questionId='" + questionId + '\''
             + '}';
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(category, field, message, type, dynamicKey);
+        return Objects.hashCode(category, field, message, type, dynamicKey, questionId);
     }
 }

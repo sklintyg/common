@@ -95,6 +95,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
+import se.inera.intyg.common.support.modules.support.facade.dto.CertificateDTO;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
@@ -664,5 +665,15 @@ public class Fk7263ModuleApi implements ModuleApi {
     public String updateAfterSigning(String jsonModel, String signatureXml) throws ModuleException {
         // Signatures are not applicable for FK7263.
         return jsonModel;
+    }
+
+    @Override
+    public CertificateDTO getCertificateDTOFromJson(String certificateAsJson) throws ModuleException, IOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String getJsonFromCertificateDTO(CertificateDTO certificate, String certificateAsJson) throws ModuleException, IOException {
+        throw new UnsupportedOperationException();
     }
 }

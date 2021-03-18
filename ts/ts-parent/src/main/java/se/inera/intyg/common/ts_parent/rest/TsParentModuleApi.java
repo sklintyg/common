@@ -22,6 +22,7 @@ import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_DELSVAR_ID_1;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_SVAR_ID_1;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.StringReader;
 import java.time.LocalDateTime;
@@ -29,18 +30,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBElement;
 import javax.xml.ws.soap.SOAPFaultException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
@@ -57,11 +53,18 @@ import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.api.dto.*;
+import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
+import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
+import se.inera.intyg.common.support.modules.support.facade.dto.CertificateDTO;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
@@ -135,7 +138,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
             return convert(getCertificateResponderInterface.getCertificate(logicalAddress, request));
         } catch (SOAPFaultException e) {
             String error = String.format("Could not get certificate with id %s from Intygstjansten. SOAPFault: %s",
-                    certificateId, e.getMessage());
+                certificateId, e.getMessage());
             LOG.error(error);
             throw new ModuleException(error);
         }
@@ -156,9 +159,9 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
         // check whether call was successful or not
         if (response.getResult().getResultCode() == ResultCodeType.INFO) {
             throw new ExternalServiceCallException(response.getResult().getResultText(),
-                    "Certificate already exists".equals(response.getResult().getResultText())
-                            ? ExternalServiceCallException.ErrorIdEnum.VALIDATION_ERROR
-                            : ExternalServiceCallException.ErrorIdEnum.APPLICATION_ERROR);
+                "Certificate already exists".equals(response.getResult().getResultText())
+                    ? ExternalServiceCallException.ErrorIdEnum.VALIDATION_ERROR
+                    : ExternalServiceCallException.ErrorIdEnum.APPLICATION_ERROR);
         } else if (response.getResult().getResultCode() == ResultCodeType.ERROR) {
             throw new ExternalServiceCallException(response.getResult().getErrorId() + " : " + response.getResult().getResultText());
         }
@@ -182,7 +185,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public String createNewInternalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, Utlatande template)
-            throws ModuleException {
+        throws ModuleException {
         try {
             return toInternalModelResponse(webcertModelFactory.createCopy(draftCertificateHolder, template));
         } catch (ConverterException e) {
@@ -193,7 +196,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template)
-            throws ModuleException {
+        throws ModuleException {
         return createNewInternalFromTemplate(draftCopyHolder, template);
     }
 
@@ -209,7 +212,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public String updateBeforeSigning(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
-            throws ModuleException {
+        throws ModuleException {
         return updateInternal(internalModel, hosPerson, signingDate);
     }
 
@@ -220,8 +223,8 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            List<String> optionalFields, UtkastStatus utkastStatus)
-            throws ModuleException {
+        List<String> optionalFields, UtkastStatus utkastStatus)
+        throws ModuleException {
         throw new ModuleException("Feature not supported");
     }
 
@@ -287,9 +290,9 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
         }
 
         return types.stream()
-                .map(cv -> IntygAvserKod.fromCode(cv.getCode()))
-                .map(IntygAvserKod::getDescription)
-                .collect(Collectors.joining(", "));
+            .map(cv -> IntygAvserKod.fromCode(cv.getCode()))
+            .map(IntygAvserKod::getDescription)
+            .collect(Collectors.joining(", "));
     }
 
     @Override
@@ -339,7 +342,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     private String updateInternal(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
-            throws ModuleException {
+        throws ModuleException {
         try {
             T utlatande = decorateDiagnoserWithDescriptions(getInternal(internalModel));
             WebcertModelFactoryUtil.updateSkapadAv(utlatande, hosPerson, signingDate);
@@ -397,7 +400,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
             String internalModel = toInternalModelResponse(utlatande);
             CertificateMetaData metaData = TransportConverterUtil.getMetaData(response.getIntyg(), getAdditionalInfo(response.getIntyg()));
             boolean revoked = response.getIntyg().getStatus().stream()
-                    .anyMatch(status -> StatusKod.CANCEL.name().equals(status.getStatus().getCode()));
+                .anyMatch(status -> StatusKod.CANCEL.name().equals(status.getStatus().getCode()));
             return new CertificateResponse(internalModel, utlatande, metaData, revoked);
         } catch (Exception e) {
             throw new ModuleException(e);
@@ -423,5 +426,15 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     private String getCertificateId(RegisterCertificateType request) {
         return (request.getIntyg() != null && request.getIntyg().getIntygsId() != null)
             ? request.getIntyg().getIntygsId().getExtension() : null;
+    }
+
+    @Override
+    public CertificateDTO getCertificateDTOFromJson(String certificateAsJson) throws ModuleException, IOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String getJsonFromCertificateDTO(CertificateDTO certificate, String certificateAsJson) throws ModuleException, IOException {
+        throw new UnsupportedOperationException();
     }
 }
