@@ -127,7 +127,7 @@ public class PrefillHandler {
     static final String WARNING_INVALID_CVTYPE_CODESYSTEM = "Ignoring - invalid CVType codeSystem";
     static final String WARNING_INVALID_BOOLEAN_FIELD = "Ignoring - expected a String with 'true'/'false'";
     static final String WARNING_INVALID_STRING_FIELD = "Ignoring - expected a String delsvar element";
-    static final String WARNING_INVALID_STRING_MAXLENGTH = "Ignoring - expected a String delsvar with maxlength of %s but was %svar with maxlength of %s but wvar with maxlength of %s but wvar with maxlength of %s but w";
+    static final String WARNING_INVALID_STRING_MAXLENGTH = "Ignoring - expected a String delsvar with maxlength of %s but was %s";
     static final String WARNING_INVALID_DATEPERIOD_CONTENT = "Ignoring - failed to parse DatePeriod";
     static final String WARNING_INVALID_DATE_CONTENT = "Ignoring - expected a date string in format yyyy-MM-dd";
     static final String WARNING_MISSING_DATE_DEFAULTING_TO = "No valid yyyy-MM-dd date provided for delsvar %s - defaulting to %s";
