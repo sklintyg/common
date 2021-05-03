@@ -24,12 +24,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.af00213.pdf.PdfGenerator;
 import se.inera.intyg.common.af00213.support.Af00213EntryPoint;
+import se.inera.intyg.common.af00213.v1.model.converter.CertificateToInternal;
+import se.inera.intyg.common.af00213.v1.model.converter.InternalToCertificate;
 import se.inera.intyg.common.af00213.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.af00213.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.af00213.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.af_parent.rest.AfParentModuleApi;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Relation;
@@ -132,5 +135,18 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
             LOG.error("Could not create a new internal Webcert model", e);
             throw new ModuleConverterException("Could not create a new internal Webcert model", e);
         }
+    }
+
+    @Override
+    public Certificate getCertificateFromJson(String certificateAsJson) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson);
+        return InternalToCertificate.convert(internalCertificate);
+    }
+
+    @Override
+    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson);
+        final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate);
+        return toInternalModelResponse(updateInternalCertificate);
     }
 }

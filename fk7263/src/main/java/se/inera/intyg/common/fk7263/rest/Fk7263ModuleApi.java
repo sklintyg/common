@@ -70,6 +70,7 @@ import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.fk7263.validator.InternalDraftValidator;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter.ModelConverter;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -664,5 +665,15 @@ public class Fk7263ModuleApi implements ModuleApi {
     public String updateAfterSigning(String jsonModel, String signatureXml) throws ModuleException {
         // Signatures are not applicable for FK7263.
         return jsonModel;
+    }
+
+    @Override
+    public Certificate getCertificateFromJson(String certificateAsJson) throws ModuleException, IOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException, IOException {
+        throw new UnsupportedOperationException();
     }
 }

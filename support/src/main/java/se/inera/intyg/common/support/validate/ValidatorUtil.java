@@ -241,6 +241,18 @@ public final class ValidatorUtil {
         LOG.debug(field + " " + type.toString());
     }
 
+    public static void addValidationErrorWithQuestionId(List<ValidationMessage> validationMessages, String category, String field,
+        ValidationMessageType type, String questionId) {
+        validationMessages.add(ValidationMessage.create(category, field, type, questionId));
+        LOG.debug(field + " " + type.toString());
+    }
+
+    public static void addValidationErrorWithQuestionId(List<ValidationMessage> validationMessages, String category,
+        String field, ValidationMessageType type, String message, String questionId) {
+        validationMessages.add(ValidationMessage.create(category, field, type, message, questionId));
+        LOG.debug(field + " " + type.toString());
+    }
+
     /**
      * @param intervals intervals
      * @return boolean
@@ -340,6 +352,7 @@ public final class ValidatorUtil {
         return date2 != null && date2.isValidDate() && date1 != null && date1.isValidDate()
             && date1.asLocalDate().isAfter(date2.asLocalDate());
     }
+
 
     /**
      * Since the validator assertions doesn't throw exceptions on assertion failure, they instead return an assertion
