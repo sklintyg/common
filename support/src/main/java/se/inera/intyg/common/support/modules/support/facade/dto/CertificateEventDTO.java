@@ -1,6 +1,7 @@
 package se.inera.intyg.common.support.modules.support.facade.dto;
 
 import java.time.LocalDateTime;
+import se.inera.intyg.common.support.facade.model.CertificateStatus;
 
 public class CertificateEventDTO {
 
@@ -8,7 +9,7 @@ public class CertificateEventDTO {
     private LocalDateTime timestamp;
     private CertificateEventTypeDTO type;
     private String relatedCertificateId;
-    private CertificateStatusDTO relatedCertificateStatus;
+    private CertificateStatus relatedCertificateStatus;
 
     public String getCertificateId() {
         return certificateId;
@@ -42,11 +43,11 @@ public class CertificateEventDTO {
         this.relatedCertificateId = relatedCertificateId;
     }
 
-    public CertificateStatusDTO getRelatedCertificateStatus() {
+    public CertificateStatus getRelatedCertificateStatus() {
         return relatedCertificateStatus;
     }
 
-    public void setRelatedCertificateStatus(CertificateStatusDTO relatedCertificateStatus) {
+    public void setRelatedCertificateStatus(CertificateStatus relatedCertificateStatus) {
         this.relatedCertificateStatus = relatedCertificateStatus;
     }
 }
