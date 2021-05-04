@@ -1,17 +1,24 @@
 package se.inera.intyg.common.support.facade.model.config;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
+import lombok.Value;
 
-@JsonDeserialize(as = CertificateDataConfigTextArea.class)
-public class CertificateDataConfigTextArea extends CertificateDataConfig {
+@JsonDeserialize(builder = CertificateDataConfigTextArea.CertificateDataConfigTextAreaBuilder.class)
+@Value
+@Builder
+public class CertificateDataConfigTextArea implements CertificateDataConfig {
 
-    private String id;
+    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_TEXTAREA;
+    String header;
+    String icon;
+    String text;
+    String description;
+    String id;
 
-    public String getId() {
-        return id;
-    }
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class CertificateDataConfigTextAreaBuilder {
 
-    public void setId(String id) {
-        this.id = id;
     }
 }

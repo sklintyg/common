@@ -20,35 +20,26 @@
 package se.inera.intyg.common.support.facade.model.config;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
+import lombok.Value;
 
-@JsonDeserialize(as = CertificateDataConfigBoolean.class)
-public class CertificateDataConfigBoolean extends CertificateDataConfig {
+@JsonDeserialize(builder = CertificateDataConfigBoolean.CertificateDataConfigBooleanBuilder.class)
+@Value
+@Builder
+public class CertificateDataConfigBoolean implements CertificateDataConfig {
 
-    private String id;
-    private String selectedText;
-    private String unselectedText;
+    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_RADIO_BOOLEAN;
+    String header;
+    String icon;
+    String text;
+    String description;
+    String id;
+    String selectedText;
+    String unselectedText;
 
-    public String getId() {
-        return id;
-    }
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class CertificateDataConfigBooleanBuilder {
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getSelectedText() {
-        return selectedText;
-    }
-
-    public void setSelectedText(String selectedText) {
-        this.selectedText = selectedText;
-    }
-
-    public String getUnselectedText() {
-        return unselectedText;
-    }
-
-    public void setUnselectedText(String unselectedText) {
-        this.unselectedText = unselectedText;
     }
 }

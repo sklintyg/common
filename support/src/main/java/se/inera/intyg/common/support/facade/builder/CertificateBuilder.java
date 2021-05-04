@@ -25,7 +25,7 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.CertificateMetadata;
 
-public class CertificateBuilder {
+public final class CertificateBuilder {
 
     private Map<String, CertificateDataElement> data = new HashMap<>();
     private CertificateMetadata metadata;
@@ -37,7 +37,7 @@ public class CertificateBuilder {
     private CertificateBuilder() {
 
     }
-    
+
     public CertificateBuilder addElement(CertificateDataElement element) {
         this.data.put(element.getId(), element);
         return this;

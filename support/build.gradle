@@ -22,8 +22,4 @@ dependencies {
 
   testCompileOnly 'org.projectlombok:lombok'
   testAnnotationProcessor 'org.projectlombok:lombok'
-
-  compile "com.google.auto.value:auto-value:${autovalueVersion}"
-  compile "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
-  annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
 }

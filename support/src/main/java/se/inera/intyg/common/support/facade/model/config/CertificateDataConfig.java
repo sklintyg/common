@@ -1,56 +1,26 @@
 package se.inera.intyg.common.support.facade.model.config;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import se.inera.intyg.common.support.facade.util.CertificateDataConfigDeserializer;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-@JsonDeserialize(using = CertificateDataConfigDeserializer.class)
-public class CertificateDataConfig {
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type")
+@JsonSubTypes({
+    @Type(value = CertificateDataConfigBoolean.class, name = "UE_RADIO_BOOLEAN"),
+    @Type(value = CertificateDataConfigCategory.class, name = "CATEGORY"),
+    @Type(value = CertificateDataConfigTextArea.class, name = "UE_TEXTAREA")
+})
+public interface CertificateDataConfig {
 
-    public static final String TYPE_FIELD = "type";
+    CertificateDataConfigTypes getType();
 
-    private String header;
-    private String icon;
-    private String text;
-    private String description;
-    private CertificateDataConfigTypes type;
+    String getHeader();
 
-    public String getHeader() {
-        return header;
-    }
+    String getIcon();
 
-    public void setHeader(String header) {
-        this.header = header;
-    }
+    String getText();
 
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public CertificateDataConfigTypes getType() {
-        return type;
-    }
-
-    public void setType(CertificateDataConfigTypes type) {
-        this.type = type;
-    }
+    String getDescription();
 }

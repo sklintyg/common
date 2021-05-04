@@ -19,8 +19,10 @@
 package se.inera.intyg.common.support.modules.support.api.dto;
 
 import com.google.common.base.Objects;
+import javax.annotation.concurrent.Immutable;
 import org.springframework.util.Assert;
 
+@Immutable
 public final class ValidationMessage {
 
     private final String category;

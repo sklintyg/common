@@ -1,30 +1,21 @@
 package se.inera.intyg.common.support.facade.model.value;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
+import lombok.Value;
 
-@JsonDeserialize(as = CertificateDataTextValue.class)
-public class CertificateDataTextValue extends CertificateDataValue {
+@JsonDeserialize(builder = CertificateDataTextValue.CertificateDataTextValueBuilder.class)
+@Value
+@Builder
+public class CertificateDataTextValue implements CertificateDataValue {
 
-    private String id;
-    private String text;
+    String id;
+    String text;
+    CertificateDataValueType type = CertificateDataValueType.TEXT;
 
-    public CertificateDataTextValue() {
-        setType(CertificateDataValueType.TEXT);
-    }
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class CertificateDataTextValueBuilder {
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 }

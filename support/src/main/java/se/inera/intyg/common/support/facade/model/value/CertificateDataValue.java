@@ -1,19 +1,16 @@
 package se.inera.intyg.common.support.facade.model.value;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import se.inera.intyg.common.support.facade.util.CertificateDataValueDeserializer;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-@JsonDeserialize(using = CertificateDataValueDeserializer.class)
-abstract public class CertificateDataValue {
-
-    public static final String TYPE_FIELD = "type";
-    private CertificateDataValueType type;
-
-    public CertificateDataValueType getType() {
-        return type;
-    }
-
-    public void setType(CertificateDataValueType type) {
-        this.type = type;
-    }
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type")
+@JsonSubTypes({
+    @Type(value = CertificateDataTextValue.class, name = "TEXT"),
+    @Type(value = CertificateDataValueBoolean.class, name = "BOOLEAN")
+})
+public interface CertificateDataValue {
+    CertificateDataValueType getType();
 }

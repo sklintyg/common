@@ -48,18 +48,18 @@ import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.builder.CertificateDataElementBuilder;
 import se.inera.intyg.common.support.facade.builder.CertificateMetadataBuilder;
-import se.inera.intyg.common.support.facade.builder.config.CertificateDataConfigBooleanBuilder;
-import se.inera.intyg.common.support.facade.builder.config.CertificateDataConfigCategoryBuilder;
-import se.inera.intyg.common.support.facade.builder.config.CertificateDataConfigTextAreaBuilder;
-import se.inera.intyg.common.support.facade.builder.validation.CertificateDataValidationMandatoryBuilder;
-import se.inera.intyg.common.support.facade.builder.validation.CertificateDataValidationShowBuilder;
-import se.inera.intyg.common.support.facade.builder.value.CertificateDataTextValueBuilder;
-import se.inera.intyg.common.support.facade.builder.value.CertificateDataValueBooleanBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.CertificateMetadata;
 import se.inera.intyg.common.support.facade.model.Unit;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigBoolean;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 
 public final class InternalToCertificate {
 
@@ -69,6 +69,7 @@ public final class InternalToCertificate {
 
     public static Certificate convert(Af00213UtlatandeV1 internalCertificate) {
         int index = 0;
+
         return CertificateBuilder.create()
             .metadata(createMetadata(internalCertificate))
             .addElement(createFunktionsnedsattningsCategory(index++))
@@ -122,7 +123,7 @@ public final class InternalToCertificate {
             .id(FUNKTIONSNEDSATTNING_CATEGORY_ID)
             .index(index)
             .config(
-                CertificateDataConfigCategoryBuilder.create()
+                CertificateDataConfigCategory.builder()
                     .text("Funktionsnedsättning")
                     .build()
             )
@@ -135,7 +136,7 @@ public final class InternalToCertificate {
             .index(index)
             .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
             .config(
-                CertificateDataConfigBooleanBuilder.create()
+                CertificateDataConfigBoolean.builder()
                     .text("Finns besvär på grund av sjukdom eller skada som medför funktionsnedsättning?")
                     .description("Med besvär avses sådant som påverkar psykiska, psykosociala eller kroppsliga funktioner.")
                     .id(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11)
@@ -144,14 +145,14 @@ public final class InternalToCertificate {
                     .build()
             )
             .value(
-                CertificateDataValueBooleanBuilder.create()
+                CertificateDataValueBoolean.builder()
                     .id(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11)
                     .selected(harFunktionsnedsattning)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
-                    CertificateDataValidationMandatoryBuilder.create()
+                    CertificateDataValidationMandatory.builder()
                         .questionId(FUNKTIONSNEDSATTNING_DELSVAR_ID_11)
                         .expression(singleExpression(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11))
                         .build()
@@ -166,7 +167,7 @@ public final class InternalToCertificate {
             .index(index)
             .parent(FUNKTIONSNEDSATTNING_DELSVAR_ID_11)
             .config(
-                CertificateDataConfigTextAreaBuilder.create()
+                CertificateDataConfigTextArea.builder()
                     .text(
                         "Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.")
                     .description(
@@ -186,18 +187,18 @@ public final class InternalToCertificate {
                     .build()
             )
             .value(
-                CertificateDataTextValueBuilder.create()
+                CertificateDataTextValue.builder()
                     .id(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12)
                     .text(funktionsnedsattning)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
-                    CertificateDataValidationMandatoryBuilder.create()
+                    CertificateDataValidationMandatory.builder()
                         .questionId(FUNKTIONSNEDSATTNING_DELSVAR_ID_12)
                         .expression(singleExpression(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12))
                         .build(),
-                    CertificateDataValidationShowBuilder.create()
+                    CertificateDataValidationShow.builder()
                         .questionId(FUNKTIONSNEDSATTNING_DELSVAR_ID_11)
                         .expression(singleExpression(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11))
                         .build()
@@ -211,13 +212,13 @@ public final class InternalToCertificate {
             .id(AKTIVITETSBEGRANSNING_CATEGORY_ID)
             .index(index)
             .config(
-                CertificateDataConfigCategoryBuilder.create()
+                CertificateDataConfigCategory.builder()
                     .text("Aktivitetsbegränsning")
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
-                    CertificateDataValidationShowBuilder.create()
+                    CertificateDataValidationShow.builder()
                         .questionId(FUNKTIONSNEDSATTNING_DELSVAR_ID_11)
                         .expression(singleExpression(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11))
                         .build()
@@ -232,7 +233,7 @@ public final class InternalToCertificate {
             .parent(AKTIVITETSBEGRANSNING_CATEGORY_ID)
             .index(index)
             .config(
-                CertificateDataConfigBooleanBuilder.create()
+                CertificateDataConfigBoolean.builder()
                     .text("Leder funktionsnedsättningarna till aktivitetsbegränsningar i relation till arbete eller studier?")
                     .description(
                         "Aktivitet innebär personens möjlighet att genomföra en uppgift eller handling. Aktivitetsbegränsning ska bedömas"
@@ -244,18 +245,18 @@ public final class InternalToCertificate {
                     .build()
             )
             .value(
-                CertificateDataValueBooleanBuilder.create()
+                CertificateDataValueBoolean.builder()
                     .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21)
                     .selected(harAktivitetsbegransning)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
-                    CertificateDataValidationMandatoryBuilder.create()
+                    CertificateDataValidationMandatory.builder()
                         .questionId(AKTIVITETSBEGRANSNING_DELSVAR_ID_21)
                         .expression(singleExpression(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21))
                         .build(),
-                    CertificateDataValidationShowBuilder.create()
+                    CertificateDataValidationShow.builder()
                         .questionId(FUNKTIONSNEDSATTNING_DELSVAR_ID_11)
                         .expression(singleExpression(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11))
                         .build()
@@ -270,7 +271,7 @@ public final class InternalToCertificate {
             .parent(AKTIVITETSBEGRANSNING_DELSVAR_ID_21)
             .index(index)
             .config(
-                CertificateDataConfigTextAreaBuilder.create()
+                CertificateDataConfigTextArea.builder()
                     .text("Ange vilka aktivitetsbegränsningar? Ange hur och om möjligt varaktighet/prognos.")
                     .description(
                         "Ge konkreta exempel på aktivitetsbegränsningar utifrån personens planerade insatser hos Arbetsförmedlingen eller "
@@ -286,22 +287,22 @@ public final class InternalToCertificate {
                     .build()
             )
             .value(
-                CertificateDataTextValueBuilder.create()
+                CertificateDataTextValue.builder()
                     .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22)
                     .text(aktivitetsbegransning)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
-                    CertificateDataValidationMandatoryBuilder.create()
+                    CertificateDataValidationMandatory.builder()
                         .questionId(AKTIVITETSBEGRANSNING_DELSVAR_ID_22)
                         .expression(singleExpression(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22))
                         .build(),
-                    CertificateDataValidationShowBuilder.create()
+                    CertificateDataValidationShow.builder()
                         .questionId(FUNKTIONSNEDSATTNING_DELSVAR_ID_11)
                         .expression(singleExpression(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11))
                         .build(),
-                    CertificateDataValidationShowBuilder.create()
+                    CertificateDataValidationShow.builder()
                         .questionId(AKTIVITETSBEGRANSNING_DELSVAR_ID_21)
                         .expression(singleExpression(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21))
                         .build()
@@ -315,7 +316,7 @@ public final class InternalToCertificate {
             .id(UTREDNING_BEHANDLING_CATEGORY_ID)
             .index(index)
             .config(
-                CertificateDataConfigCategoryBuilder.create()
+                CertificateDataConfigCategory.builder()
                     .text("Utredning och behandling")
                     .build()
             )
@@ -328,7 +329,7 @@ public final class InternalToCertificate {
             .index(index)
             .parent(UTREDNING_BEHANDLING_CATEGORY_ID)
             .config(
-                CertificateDataConfigBooleanBuilder.create()
+                CertificateDataConfigBoolean.builder()
                     .text(
                         "Finns pågående eller planerade utredningar/behandlingar som påverkar "
                             + "den planering som Arbetsförmedlingen har beskrivit i förfrågan?")
@@ -340,14 +341,14 @@ public final class InternalToCertificate {
                     .build()
             )
             .value(
-                CertificateDataValueBooleanBuilder.create()
+                CertificateDataValueBoolean.builder()
                     .id(UTREDNING_BEHANDLING_SVAR_JSON_ID_31)
                     .selected(harUtredningBehandling)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
-                    CertificateDataValidationMandatoryBuilder.create()
+                    CertificateDataValidationMandatory.builder()
                         .questionId(UTREDNING_BEHANDLING_DELSVAR_ID_31)
                         .expression(singleExpression(UTREDNING_BEHANDLING_SVAR_JSON_ID_31))
                         .build()
@@ -362,7 +363,7 @@ public final class InternalToCertificate {
             .index(index)
             .parent(UTREDNING_BEHANDLING_DELSVAR_ID_31)
             .config(
-                CertificateDataConfigTextAreaBuilder.create()
+                CertificateDataConfigTextArea.builder()
                     .text(
                         "Hur påverkar utredningarna/behandlingarna planeringen?"
                             + " När planeras utredningarna/behandlingarna att vara avslutade?\n")
@@ -376,18 +377,18 @@ public final class InternalToCertificate {
                     .build()
             )
             .value(
-                CertificateDataTextValueBuilder.create()
+                CertificateDataTextValue.builder()
                     .id(UTREDNING_BEHANDLING_SVAR_JSON_ID_32)
                     .text(utredningBehandling)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
-                    CertificateDataValidationMandatoryBuilder.create()
+                    CertificateDataValidationMandatory.builder()
                         .questionId(UTREDNING_BEHANDLING_DELSVAR_ID_32)
                         .expression(singleExpression(UTREDNING_BEHANDLING_SVAR_JSON_ID_32))
                         .build(),
-                    CertificateDataValidationShowBuilder.create()
+                    CertificateDataValidationShow.builder()
                         .questionId(UTREDNING_BEHANDLING_DELSVAR_ID_31)
                         .expression(singleExpression(UTREDNING_BEHANDLING_SVAR_JSON_ID_31))
                         .build()
@@ -401,7 +402,7 @@ public final class InternalToCertificate {
             .id(ARBETETS_PAVERKAN_CATEGORY_ID)
             .index(index)
             .config(
-                CertificateDataConfigCategoryBuilder.create()
+                CertificateDataConfigCategory.builder()
                     .text("Arbetspåverkan")
                     .build()
             )
@@ -414,7 +415,7 @@ public final class InternalToCertificate {
             .index(index)
             .parent(ARBETETS_PAVERKAN_CATEGORY_ID)
             .config(
-                CertificateDataConfigBooleanBuilder.create()
+                CertificateDataConfigBoolean.builder()
                     .text("Kan sjukdomen/skadan förvärras av vissa arbetsuppgifter/arbetsmoment?")
                     .description(
                         "Utgå från den beskrivning Arbetsförmedlingen har gjort av personen och Arbetsförmedlingens planerade aktiviteter.")
@@ -424,14 +425,14 @@ public final class InternalToCertificate {
                     .build()
             )
             .value(
-                CertificateDataValueBooleanBuilder.create()
+                CertificateDataValueBoolean.builder()
                     .id(ARBETETS_PAVERKAN_SVAR_JSON_ID_41)
                     .selected(harArbetspaverkan)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
-                    CertificateDataValidationMandatoryBuilder.create()
+                    CertificateDataValidationMandatory.builder()
                         .questionId(ARBETETS_PAVERKAN_DELSVAR_ID_41)
                         .expression(singleExpression(ARBETETS_PAVERKAN_SVAR_JSON_ID_41))
                         .build()
@@ -446,7 +447,7 @@ public final class InternalToCertificate {
             .index(index)
             .parent(ARBETETS_PAVERKAN_DELSVAR_ID_41)
             .config(
-                CertificateDataConfigTextAreaBuilder.create()
+                CertificateDataConfigTextArea.builder()
                     .text("Vilken typ av arbetsuppgifter/arbetsmoment?")
                     .description(
                         "Utgå från den beskrivning Arbetsförmedlingen har gjort av personen och Arbetsförmedlingens planerade aktiviteter."
@@ -461,18 +462,18 @@ public final class InternalToCertificate {
                     .build()
             )
             .value(
-                CertificateDataTextValueBuilder.create()
+                CertificateDataTextValue.builder()
                     .id(ARBETETS_PAVERKAN_SVAR_JSON_ID_42)
                     .text(arbetspaverkan)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
-                    CertificateDataValidationMandatoryBuilder.create()
+                    CertificateDataValidationMandatory.builder()
                         .questionId(ARBETETS_PAVERKAN_DELSVAR_ID_42)
                         .expression(singleExpression(ARBETETS_PAVERKAN_SVAR_JSON_ID_42))
                         .build(),
-                    CertificateDataValidationShowBuilder.create()
+                    CertificateDataValidationShow.builder()
                         .questionId(ARBETETS_PAVERKAN_DELSVAR_ID_41)
                         .expression(singleExpression(ARBETETS_PAVERKAN_SVAR_JSON_ID_41))
                         .build()
@@ -486,7 +487,7 @@ public final class InternalToCertificate {
             .id(OVRIGT_CATEGORY_ID)
             .index(index)
             .config(
-                CertificateDataConfigCategoryBuilder.create()
+                CertificateDataConfigCategory.builder()
                     .text("Övrigt")
                     .build()
             )
@@ -499,7 +500,7 @@ public final class InternalToCertificate {
             .index(index)
             .parent(OVRIGT_CATEGORY_ID)
             .config(
-                CertificateDataConfigTextAreaBuilder.create()
+                CertificateDataConfigTextArea.builder()
                     .id(OVRIGT_SVAR_JSON_ID_5)
                     .text("Övrigt som Arbetsförmedlingen bör känna till?")
                     .description(
@@ -507,7 +508,7 @@ public final class InternalToCertificate {
                     .build()
             )
             .value(
-                CertificateDataTextValueBuilder.create()
+                CertificateDataTextValue.builder()
                     .id(OVRIGT_SVAR_JSON_ID_5)
                     .text(ovrigt)
                     .build()

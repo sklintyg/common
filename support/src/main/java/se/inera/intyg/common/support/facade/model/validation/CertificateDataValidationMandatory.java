@@ -19,6 +19,22 @@
 
 package se.inera.intyg.common.support.facade.model.validation;
 
-public class CertificateDataValidationMandatory extends CertificateDataValidation {
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
+import lombok.Value;
 
+@JsonDeserialize(builder = CertificateDataValidationMandatory.CertificateDataValidationMandatoryBuilder.class)
+@Value
+@Builder
+public class CertificateDataValidationMandatory implements CertificateDataValidation {
+
+    CertificateDataValidationType type = CertificateDataValidationType.MANDATORY_VALIDATION;
+    String questionId;
+    String expression;
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class CertificateDataValidationMandatoryBuilder {
+
+    }
 }

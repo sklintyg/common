@@ -18,25 +18,58 @@
  */
 package se.inera.intyg.common.support.model.common.internal;
 
-import javax.annotation.Nullable;
+import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.auto.value.AutoValue;
+public class Tillaggsfraga {
 
-@AutoValue
-public abstract class Tillaggsfraga {
+    private String id;
+    private String svar;
 
-    @JsonCreator
-    public static Tillaggsfraga create(@JsonProperty("id") String id,
-        @JsonProperty("svar") String svar) {
-        return new AutoValue_Tillaggsfraga(id, svar);
+    public static Tillaggsfraga create(String id, String svar) {
+        final var tillaggsfraga = new Tillaggsfraga();
+        tillaggsfraga.id = id;
+        tillaggsfraga.svar = svar;
+        return tillaggsfraga;
     }
 
-    @Nullable
-    public abstract String getId();
+    public String getId() {
+        return id;
+    }
 
-    @Nullable
-    public abstract String getSvar();
+    public void setId(String id) {
+        this.id = id;
+    }
 
+    public String getSvar() {
+        return svar;
+    }
+
+    public void setSvar(String svar) {
+        this.svar = svar;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Tillaggsfraga that = (Tillaggsfraga) o;
+        return Objects.equals(id, that.id) && Objects.equals(svar, that.svar);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, svar);
+    }
+
+    @Override
+    public String toString() {
+        return "Tillaggsfraga{"
+            + "id='" + id + '\''
+            + ", svar='" + svar + '\''
+            + '}';
+    }
 }

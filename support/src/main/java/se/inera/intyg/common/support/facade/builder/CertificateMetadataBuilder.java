@@ -19,11 +19,10 @@
 
 package se.inera.intyg.common.support.facade.builder;
 
-import se.inera.intyg.common.support.facade.builder.config.AbstractCertificateDataConfigBuilder;
 import se.inera.intyg.common.support.facade.model.CertificateMetadata;
 import se.inera.intyg.common.support.facade.model.Unit;
 
-public class CertificateMetadataBuilder {
+public final class CertificateMetadataBuilder {
 
     private String id;
     private String type;

@@ -20,26 +20,21 @@
 package se.inera.intyg.common.support.facade.model.value;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
+import lombok.Value;
 
-@JsonDeserialize(as = CertificateDataValueBoolean.class)
-public class CertificateDataValueBoolean extends CertificateDataValue {
+@JsonDeserialize(builder = CertificateDataValueBoolean.CertificateDataValueBooleanBuilder.class)
+@Value
+@Builder
+public class CertificateDataValueBoolean implements CertificateDataValue {
 
-    private String id;
-    private Boolean selected;
+    String id;
+    Boolean selected;
+    CertificateDataValueType type = CertificateDataValueType.BOOLEAN;
 
-    public String getId() {
-        return id;
-    }
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class CertificateDataValueBooleanBuilder {
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Boolean getSelected() {
-        return selected;
-    }
-
-    public void setSelected(Boolean selected) {
-        this.selected = selected;
     }
 }
