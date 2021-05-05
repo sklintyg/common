@@ -22,6 +22,7 @@ package se.inera.intyg.common.support.facade.model.validation;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.Value;
 
 @JsonDeserialize(builder = CertificateDataValidationShow.CertificateDataValidationShowBuilder.class)
@@ -29,6 +30,7 @@ import lombok.Value;
 @Builder
 public class CertificateDataValidationShow implements CertificateDataValidation {
 
+    @Getter(onMethod = @__(@Override))
     CertificateDataValidationType type = CertificateDataValidationType.SHOW_VALIDATION;
     String questionId;
     String expression;

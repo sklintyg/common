@@ -22,6 +22,7 @@ package se.inera.intyg.common.support.facade.model.value;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.Value;
 
 @JsonDeserialize(builder = CertificateDataValueBoolean.CertificateDataValueBooleanBuilder.class)
@@ -29,9 +30,10 @@ import lombok.Value;
 @Builder
 public class CertificateDataValueBoolean implements CertificateDataValue {
 
+    @Getter(onMethod = @__(@Override))
+    CertificateDataValueType type = CertificateDataValueType.BOOLEAN;
     String id;
     Boolean selected;
-    CertificateDataValueType type = CertificateDataValueType.BOOLEAN;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataValueBooleanBuilder {
