@@ -37,6 +37,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import se.inera.intyg.common.af_parent.model.internal.AfUtlatande;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -420,5 +421,15 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
     private String getCertificateId(RegisterCertificateType request) {
         return (request.getIntyg() != null && request.getIntyg().getIntygsId() != null)
             ? request.getIntyg().getIntygsId().getExtension() : null;
+    }
+
+    @Override
+    public Certificate getCertificateFromJson(String certificateAsJson) throws ModuleException, IOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException, IOException {
+        throw new UnsupportedOperationException();
     }
 }

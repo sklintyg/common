@@ -16,20 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcPatientStatus', [ function() {
-    'use strict';
 
-    return {
-        restrict: 'E',
-        scope: {
-            isIntyg: '=',
-            patient: '=',
-            intygModel: '=',
-            intygProperties: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/components/wcPatientStatus/wcPatientStatus.directive.html',
-        link: function($scope) {
+package se.inera.intyg.common.support.facade.model;
 
-        }
-    };
-} ]);
+public class CertificateRelations {
+
+    private CertificateRelation parent;
+    private CertificateRelation[] children;
+
+    public CertificateRelation getParent() {
+        return parent;
+    }
+
+    public void setParent(CertificateRelation parent) {
+        this.parent = parent;
+    }
+
+    public CertificateRelation[] getChildren() {
+        return children;
+    }
+
+    public void setChildren(CertificateRelation[] children) {
+        this.children = children;
+    }
+}

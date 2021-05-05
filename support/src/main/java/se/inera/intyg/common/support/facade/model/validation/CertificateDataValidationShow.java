@@ -16,20 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcPatientStatus', [ function() {
-    'use strict';
 
-    return {
-        restrict: 'E',
-        scope: {
-            isIntyg: '=',
-            patient: '=',
-            intygModel: '=',
-            intygProperties: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/components/wcPatientStatus/wcPatientStatus.directive.html',
-        link: function($scope) {
+package se.inera.intyg.common.support.facade.model.validation;
 
-        }
-    };
-} ]);
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Value;
+
+@JsonDeserialize(builder = CertificateDataValidationShow.CertificateDataValidationShowBuilder.class)
+@Value
+@Builder
+public class CertificateDataValidationShow implements CertificateDataValidation {
+
+    @Getter(onMethod = @__(@Override))
+    CertificateDataValidationType type = CertificateDataValidationType.SHOW_VALIDATION;
+    String questionId;
+    String expression;
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class CertificateDataValidationShowBuilder {
+
+    }
+}

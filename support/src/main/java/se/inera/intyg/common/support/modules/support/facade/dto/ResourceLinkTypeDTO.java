@@ -16,20 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcPatientStatus', [ function() {
-    'use strict';
+package se.inera.intyg.common.support.modules.support.facade.dto;
 
-    return {
-        restrict: 'E',
-        scope: {
-            isIntyg: '=',
-            patient: '=',
-            intygModel: '=',
-            intygProperties: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/components/wcPatientStatus/wcPatientStatus.directive.html',
-        link: function($scope) {
-
-        }
-    };
-} ]);
+public enum ResourceLinkTypeDTO {
+    EDIT_CERTIFICATE,
+    REMOVE_CERTIFICATE,
+    FORWARD_CERTIFICATE,
+    SIGN_CERTIFICATE,
+    SEND_CERTIFICATE,
+    REVOKE_CERTIFICATE,
+    REPLACE_CERTIFICATE,
+    PRINT_CERTIFICATE,
+    COPY_CERTIFICATE
+}

@@ -16,20 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcPatientStatus', [ function() {
-    'use strict';
+package se.inera.intyg.common.support.facade.model.config;
 
-    return {
-        restrict: 'E',
-        scope: {
-            isIntyg: '=',
-            patient: '=',
-            intygModel: '=',
-            intygProperties: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/components/wcPatientStatus/wcPatientStatus.directive.html',
-        link: function($scope) {
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-        }
-    };
-} ]);
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type")
+@JsonSubTypes({
+    @Type(value = CertificateDataConfigBoolean.class, name = "UE_RADIO_BOOLEAN"),
+    @Type(value = CertificateDataConfigCategory.class, name = "CATEGORY"),
+    @Type(value = CertificateDataConfigTextArea.class, name = "UE_TEXTAREA")
+})
+public interface CertificateDataConfig {
+
+    CertificateDataConfigTypes getType();
+
+    String getHeader();
+
+    String getIcon();
+
+    String getText();
+
+    String getDescription();
+}

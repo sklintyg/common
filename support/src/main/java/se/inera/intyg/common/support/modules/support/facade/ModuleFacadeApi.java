@@ -16,20 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcPatientStatus', [ function() {
-    'use strict';
+package se.inera.intyg.common.support.modules.support.facade;
 
-    return {
-        restrict: 'E',
-        scope: {
-            isIntyg: '=',
-            patient: '=',
-            intygModel: '=',
-            intygProperties: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/components/wcPatientStatus/wcPatientStatus.directive.html',
-        link: function($scope) {
+import java.io.IOException;
+import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 
-        }
-    };
-} ]);
+public interface ModuleFacadeApi {
+
+    Certificate getCertificateFromJson(String certificateAsJson) throws ModuleException, IOException;
+
+    String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException, IOException;
+}
