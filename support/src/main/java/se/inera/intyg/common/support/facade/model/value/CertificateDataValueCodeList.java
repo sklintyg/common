@@ -16,8 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.support.facade.model.validation;
 
-public enum CertificateDataValidationType {
-    SHOW_VALIDATION, HIDE_VALIDATION, MAX_DATE_VALIDATION, TEXT_VALIDATION, MANDATORY_VALIDATION
+package se.inera.intyg.common.support.facade.model.value;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.List;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Value;
+
+@JsonDeserialize(builder = CertificateDataValueCodeList.CertificateDataValueCodeListBuilder.class)
+@Value
+@Builder
+public class CertificateDataValueCodeList implements CertificateDataValue {
+
+    @Getter(onMethod = @__(@Override))
+    CertificateDataValueType type = CertificateDataValueType.CODE_LIST;
+    List<CertificateDataValueCode> list;
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class CertificateDataValueCodeListBuilder {
+
+    }
 }

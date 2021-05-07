@@ -20,17 +20,18 @@ package se.inera.intyg.common.support.facade.model.config;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
 
-@JsonDeserialize(builder = CertificateDataConfigCategory.CertificateDataConfigCategoryBuilder.class)
+@JsonDeserialize(builder = CertificateDataConfigDiagnoses.CertificateDataConfigDiagnosesBuilder.class)
 @Value
 @Builder
-public class CertificateDataConfigCategory implements CertificateDataConfig {
+public class CertificateDataConfigDiagnoses implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.CATEGORY;
+    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_DIAGNOSES;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))
@@ -41,9 +42,11 @@ public class CertificateDataConfigCategory implements CertificateDataConfig {
     String text;
     @Getter(onMethod = @__(@Override))
     String description;
+    List<DiagnosesTerminology> terminology;
+    List<DiagnosesListItem> list;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataConfigCategoryBuilder {
+    public static class CertificateDataConfigDiagnosesBuilder {
 
     }
 }

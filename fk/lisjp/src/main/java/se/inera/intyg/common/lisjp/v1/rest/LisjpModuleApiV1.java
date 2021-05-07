@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.lisjp.v1.rest;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
 import se.inera.intyg.common.fkparent.rest.FkParentModuleApi;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
+import se.inera.intyg.common.lisjp.v1.model.converter.InternalToCertificate;
 import se.inera.intyg.common.lisjp.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.lisjp.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.lisjp.v1.model.converter.UtlatandeToIntyg;
@@ -42,6 +44,7 @@ import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.lisjp.v1.pdf.AbstractLisjpPdfDefinitionBuilder;
 import se.inera.intyg.common.lisjp.v1.pdf.DefaultLisjpPdfDefinitionBuilder;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -227,5 +230,11 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
         } catch (ConverterException e) {
             throw new ModuleException("Could convert Intyg to Utlatande", e);
         }
+    }
+
+    @Override
+    public Certificate getCertificateFromJson(String certificateAsJson) throws ModuleException, IOException {
+        final var internalCertificate = getInternal(certificateAsJson);
+        return InternalToCertificate.convert(internalCertificate);
     }
 }

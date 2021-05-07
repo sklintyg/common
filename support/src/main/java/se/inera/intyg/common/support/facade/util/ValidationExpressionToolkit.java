@@ -19,6 +19,8 @@
 
 package se.inera.intyg.common.support.facade.util;
 
+import java.util.Arrays;
+
 public final class ValidationExpressionToolkit {
 
     private ValidationExpressionToolkit() {
@@ -27,5 +29,33 @@ public final class ValidationExpressionToolkit {
 
     public static String singleExpression(String id) {
         return "$" + id;
+    }
+
+    public static String wrapWithParenthesis(String expression) {
+        return "(" + expression + ")";
+    }
+
+    public static String not(String expression) {
+        return "!" + expression;
+    }
+
+    public static String multipleOrExpression(String... expression) {
+        return Arrays.stream(expression).reduce("", (s, s2) -> {
+            if (!s.isEmpty()) {
+                s += " || ";
+            }
+            s += s2;
+            return s;
+        });
+    }
+
+    public static String multipleAndExpression(String... expression) {
+        return Arrays.stream(expression).reduce("", (s, s2) -> {
+            if (!s.isEmpty()) {
+                s += " && ";
+            }
+            s += s2;
+            return s;
+        });
     }
 }

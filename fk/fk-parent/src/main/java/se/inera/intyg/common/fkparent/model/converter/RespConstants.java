@@ -28,6 +28,7 @@ public final class RespConstants {
     public static final String PROGNOS_CODE_SYSTEM = "KV_FKMU_0006";
     public static final String PROGNOS_DAGAR_TILL_ARBETE_CODE_SYSTEM = "KV_FKMU_0007";
 
+    public static final String GRUNDFORMU_CATEGORY_ID = "grundformu";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1 = "1";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1 = "baseratPa";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1 = "1.1";
@@ -59,6 +60,7 @@ public final class RespConstants {
     public static final String SJUKDOMSFORLOPP_DELSVAR_ID_5 = "5.1";
     public static final String SJUKDOMSFORLOPP_SVAR_JSON_ID_5 = "sjukdomsforlopp";
 
+    public static final String DIAGNOS_CATEGORY_ID = "diagnos";
     public static final String DIAGNOS_SVAR_ID_6 = "6";
     public static final String DIAGNOS_BESKRIVNING_DELSVAR_ID_6 = "6.1";
     public static final String DIAGNOS_DELSVAR_ID_6 = "6.2";
@@ -76,6 +78,8 @@ public final class RespConstants {
     public static final String DIAGNOSGRUND_SVAR_JSON_ID_7 = "diagnosgrund";
     public static final String DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45 = "nyBedomningDiagnosgrund";
     public static final String DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45 = "diagnosForNyBedomning";
+
+    public static final String FUNKTIONSNEDSATTNING_CATEGORY_ID = "funktionsnedsattning";
 
     public static final String FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID_8 = "8";
     public static final String FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_ID_8 = "8.1";
@@ -117,6 +121,8 @@ public final class RespConstants {
     public static final String AKTIVITETSBEGRANSNING_DELSVAR_ID_17 = "17.1";
     public static final String AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17 = "aktivitetsbegransning";
 
+    public static final String MEDICINSKABEHANDLINGAR_CATEGORY_ID = "medicinskabehandlingar";
+
     public static final String AVSLUTADBEHANDLING_SVAR_ID_18 = "18";
     public static final String AVSLUTADBEHANDLING_DELSVAR_ID_18 = "18.1";
     public static final String AVSLUTADBEHANDLING_SVAR_JSON_ID_18 = "avslutadBehandling";
@@ -145,20 +151,24 @@ public final class RespConstants {
     public static final String FORSLAG_TILL_ATGARD_DELSVAR_ID_24 = "24.1";
     public static final String FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24 = "forslagTillAtgard";
 
+    public static final String OVRIGT_CATEGORY_ID = "ovrigt";
     public static final String OVRIGT_SVAR_ID_25 = "25";
     public static final String OVRIGT_DELSVAR_ID_25 = "25.1";
     public static final String OVRIGT_SVAR_JSON_ID_25 = "ovrigt";
 
+    public static final String KONTAKT_CATEGORY_ID = "kontakt";
     public static final String KONTAKT_ONSKAS_SVAR_ID_26 = "26";
     public static final String KONTAKT_ONSKAS_DELSVAR_ID_26 = "26.1";
     public static final String KONTAKT_ONSKAS_SVAR_JSON_ID_26 = "kontaktMedFk";
     public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26 = "anledningTillKontakt";
     public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26 = "26.2";
 
+    public static final String AVSTANGNING_SMITTSKYDD_CATEGORY_ID = "smittbararpenning";
     public static final String AVSTANGNING_SMITTSKYDD_SVAR_ID_27 = "27";
     public static final String AVSTANGNING_SMITTSKYDD_DELSVAR_ID_27 = "27.1";
     public static final String AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27 = "avstangningSmittskydd";
 
+    public static final String SYSSELSATTNING_CATEGORY_ID = "sysselsattning";
     public static final String TYP_AV_SYSSELSATTNING_SVAR_ID_28 = "28";
     public static final String TYP_AV_SYSSELSATTNING_DELSVAR_ID_28 = "28.1";
     public static final String TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_28 = "sysselsattning";
@@ -167,6 +177,7 @@ public final class RespConstants {
     public static final String NUVARANDE_ARBETE_DELSVAR_ID_29 = "29.1";
     public static final String NUVARANDE_ARBETE_SVAR_JSON_ID_29 = "nuvarandeArbete";
 
+    public static final String BEDOMNING_CATEGORY_ID = "bedomning";
     public static final String BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32 = "32";
     public static final String BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32 = "32.1";
     public static final String BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32 = "32.2";
@@ -196,6 +207,7 @@ public final class RespConstants {
     public static final String PROGNOS_DAGAR_TILL_ARBETE_DELSVAR_ID_39 = "39.3";
     public static final String PROGNOS_SVAR_JSON_ID_39 = "prognos";
 
+    public static final String ATGARDER_CATEGORY_ID = "atgarder";
     public static final String ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40 = "40";
     public static final String ARBETSLIVSINRIKTADE_ATGARDER_VAL_DELSVAR_ID_40 = "40.1";
     public static final String ARBETSLIVSINRIKTADE_ATGARDER_SVAR_JSON_ID_40 = "arbetslivsinriktadeAtgarder";

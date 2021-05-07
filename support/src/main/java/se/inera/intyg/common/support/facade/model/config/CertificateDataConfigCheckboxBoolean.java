@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package se.inera.intyg.common.support.facade.model.config;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -23,14 +24,15 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean.CertificateDataConfigCheckboxBooleanBuilder;
 
-@JsonDeserialize(builder = CertificateDataConfigCategory.CertificateDataConfigCategoryBuilder.class)
+@JsonDeserialize(builder = CertificateDataConfigCheckboxBooleanBuilder.class)
 @Value
 @Builder
-public class CertificateDataConfigCategory implements CertificateDataConfig {
+public class CertificateDataConfigCheckboxBoolean implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.CATEGORY;
+    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_CHECKBOX_BOOLEAN;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))
@@ -41,9 +43,12 @@ public class CertificateDataConfigCategory implements CertificateDataConfig {
     String text;
     @Getter(onMethod = @__(@Override))
     String description;
+    String id;
+    String selectedText;
+    String unselectedText;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataConfigCategoryBuilder {
+    public static class CertificateDataConfigCheckboxBooleanBuilder {
 
     }
 }
