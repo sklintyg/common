@@ -28,13 +28,17 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonSubTypes({
     @Type(value = CertificateDataConfigBoolean.class, name = "UE_RADIO_BOOLEAN"),
     @Type(value = CertificateDataConfigCategory.class, name = "CATEGORY"),
-    @Type(value = CertificateDataConfigTextArea.class, name = "UE_TEXTAREA")
+    @Type(value = CertificateDataConfigTextArea.class, name = "UE_TEXTAREA"),
+    @Type(value = CertificateDataConfigCheckboxBoolean.class, name = "UE_CHECKBOX_BOOLEAN"),
+    @Type(value = CertificateDataConfigCheckboxMultipleDate.class, name = "UE_CHECKBOX_MULTIPLE_DATE")
 })
 public interface CertificateDataConfig {
 
     CertificateDataConfigTypes getType();
 
     String getHeader();
+
+    String getLabel();
 
     String getIcon();
 

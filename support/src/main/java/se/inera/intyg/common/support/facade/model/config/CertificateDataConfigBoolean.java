@@ -35,6 +35,8 @@ public class CertificateDataConfigBoolean implements CertificateDataConfig {
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))
+    String label;
+    @Getter(onMethod = @__(@Override))
     String icon;
     @Getter(onMethod = @__(@Override))
     String text;

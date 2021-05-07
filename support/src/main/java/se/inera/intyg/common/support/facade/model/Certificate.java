@@ -21,6 +21,7 @@ package se.inera.intyg.common.support.facade.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.modules.support.facade.dto.ResourceLinkDTO;
 
 public class Certificate {

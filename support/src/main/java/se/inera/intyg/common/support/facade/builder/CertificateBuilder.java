@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.CertificateMetadata;
+import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 
 public final class CertificateBuilder {
 

@@ -46,15 +46,13 @@ import static se.inera.intyg.common.support.facade.util.ValidationExpressionTool
 
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
-import se.inera.intyg.common.support.facade.builder.CertificateDataElementBuilder;
-import se.inera.intyg.common.support.facade.builder.CertificateMetadataBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.CertificateMetadata;
-import se.inera.intyg.common.support.facade.model.Unit;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
+import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
+import se.inera.intyg.common.support.facade.model.metadata.Unit;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
@@ -91,7 +89,7 @@ public final class InternalToCertificate {
 
     private static CertificateMetadata createMetadata(Af00213UtlatandeV1 internalCertificate) {
         final var unit = internalCertificate.getGrundData().getSkapadAv().getVardenhet();
-        return CertificateMetadataBuilder.create()
+        return CertificateMetadata.builder()
             .id(internalCertificate.getId())
             .type(internalCertificate.getTyp())
             .typeVersion(internalCertificate.getTextVersion())
@@ -105,7 +103,7 @@ public final class InternalToCertificate {
                     + "• bedöma om vi behöver göra anpassningar i program eller insatser\n"
                     + "• erbjuda lämpliga utredande, vägledande, rehabiliterande eller arbetsförberedande insatser.")
             .unit(
-                Unit.create()
+                Unit.builder()
                     .unitId(unit.getEnhetsid())
                     .unitName(unit.getEnhetsnamn())
                     .address(unit.getPostadress())
@@ -119,7 +117,7 @@ public final class InternalToCertificate {
     }
 
     private static CertificateDataElement createFunktionsnedsattningsCategory(int index) {
-        return CertificateDataElementBuilder.create()
+        return CertificateDataElement.builder()
             .id(FUNKTIONSNEDSATTNING_CATEGORY_ID)
             .index(index)
             .config(
@@ -131,7 +129,7 @@ public final class InternalToCertificate {
     }
 
     public static CertificateDataElement createHarFunktionsnedsattningsQuestion(Boolean harFunktionsnedsattning, int index) {
-        return CertificateDataElementBuilder.create()
+        return CertificateDataElement.builder()
             .id(FUNKTIONSNEDSATTNING_DELSVAR_ID_11)
             .index(index)
             .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
@@ -162,7 +160,7 @@ public final class InternalToCertificate {
     }
 
     public static CertificateDataElement createFunktionsnedsattningsQuestion(String funktionsnedsattning, int index) {
-        return CertificateDataElementBuilder.create()
+        return CertificateDataElement.builder()
             .id(FUNKTIONSNEDSATTNING_DELSVAR_ID_12)
             .index(index)
             .parent(FUNKTIONSNEDSATTNING_DELSVAR_ID_11)
@@ -208,7 +206,7 @@ public final class InternalToCertificate {
     }
 
     private static CertificateDataElement createAktivitetsbegransningsCategory(int index) {
-        return CertificateDataElementBuilder.create()
+        return CertificateDataElement.builder()
             .id(AKTIVITETSBEGRANSNING_CATEGORY_ID)
             .index(index)
             .config(
@@ -228,7 +226,7 @@ public final class InternalToCertificate {
     }
 
     public static CertificateDataElement createHarAktivitetsbegransningsQuestion(Boolean harAktivitetsbegransning, int index) {
-        return CertificateDataElementBuilder.create()
+        return CertificateDataElement.builder()
             .id(AKTIVITETSBEGRANSNING_DELSVAR_ID_21)
             .parent(AKTIVITETSBEGRANSNING_CATEGORY_ID)
             .index(index)
@@ -266,7 +264,7 @@ public final class InternalToCertificate {
     }
 
     public static CertificateDataElement createAktivitetsbegransningsQuestion(String aktivitetsbegransning, int index) {
-        return CertificateDataElementBuilder.create()
+        return CertificateDataElement.builder()
             .id(AKTIVITETSBEGRANSNING_DELSVAR_ID_22)
             .parent(AKTIVITETSBEGRANSNING_DELSVAR_ID_21)
             .index(index)
@@ -312,7 +310,7 @@ public final class InternalToCertificate {
     }
 
     private static CertificateDataElement createUtredningBehandlingsCategory(int index) {
-        return CertificateDataElementBuilder.create()
+        return CertificateDataElement.builder()
             .id(UTREDNING_BEHANDLING_CATEGORY_ID)
             .index(index)
             .config(
@@ -324,7 +322,7 @@ public final class InternalToCertificate {
     }
 
     public static CertificateDataElement createHarUtredningBehandlingsQuestion(Boolean harUtredningBehandling, int index) {
-        return CertificateDataElementBuilder.create()
+        return CertificateDataElement.builder()
             .id(UTREDNING_BEHANDLING_DELSVAR_ID_31)
             .index(index)
             .parent(UTREDNING_BEHANDLING_CATEGORY_ID)
@@ -358,7 +356,7 @@ public final class InternalToCertificate {
     }
 
     public static CertificateDataElement createUtredningBehandlingsQuestion(String utredningBehandling, int index) {
-        return CertificateDataElementBuilder.create()
+        return CertificateDataElement.builder()
             .id(UTREDNING_BEHANDLING_DELSVAR_ID_32)
             .index(index)
             .parent(UTREDNING_BEHANDLING_DELSVAR_ID_31)
@@ -398,7 +396,7 @@ public final class InternalToCertificate {
     }
 
     private static CertificateDataElement createArbetspaverkansCategory(int index) {
-        return CertificateDataElementBuilder.create()
+        return CertificateDataElement.builder()
             .id(ARBETETS_PAVERKAN_CATEGORY_ID)
             .index(index)
             .config(
@@ -410,7 +408,7 @@ public final class InternalToCertificate {
     }
 
     public static CertificateDataElement createHarArbetspaverkansQuestion(Boolean harArbetspaverkan, int index) {
-        return CertificateDataElementBuilder.create()
+        return CertificateDataElement.builder()
             .id(ARBETETS_PAVERKAN_DELSVAR_ID_41)
             .index(index)
             .parent(ARBETETS_PAVERKAN_CATEGORY_ID)
@@ -442,7 +440,7 @@ public final class InternalToCertificate {
     }
 
     public static CertificateDataElement createArbetspaverkansQuestion(String arbetspaverkan, int index) {
-        return CertificateDataElementBuilder.create()
+        return CertificateDataElement.builder()
             .id(ARBETETS_PAVERKAN_DELSVAR_ID_42)
             .index(index)
             .parent(ARBETETS_PAVERKAN_DELSVAR_ID_41)
@@ -483,7 +481,7 @@ public final class InternalToCertificate {
     }
 
     private static CertificateDataElement createOvrigtCategory(int index) {
-        return CertificateDataElementBuilder.create()
+        return CertificateDataElement.builder()
             .id(OVRIGT_CATEGORY_ID)
             .index(index)
             .config(
@@ -495,7 +493,7 @@ public final class InternalToCertificate {
     }
 
     public static CertificateDataElement createOvrigtQuestion(String ovrigt, int index) {
-        return CertificateDataElementBuilder.create()
+        return CertificateDataElement.builder()
             .id(OVRIGT_DELSVAR_ID_5)
             .index(index)
             .parent(OVRIGT_CATEGORY_ID)

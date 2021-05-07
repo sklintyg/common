@@ -505,7 +505,7 @@ class InternalToCertificateTest {
                     () -> assertEquals(expectedIndex, category.getIndex()),
                     () -> assertNull(category.getParent(), "Should not contain a parent"),
                     () -> assertNull(category.getValue(), "Should not contain a value"),
-                    () -> assertNotNull(category.getValidation(), "Should include config"),
+                    () -> assertNotNull(category.getValidation(), "Should include Validation"),
                     () -> assertNotNull(category.getConfig(), "Should include config")
                 );
             }
@@ -520,6 +520,19 @@ class InternalToCertificateTest {
 
                 assertAll("Validating category configuration",
                     () -> assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text")
+                );
+            }
+
+            @Test
+            void shouldIncludeCategoryValidationShow() {
+                final var certificate = InternalToCertificate.convert(internalCertificate);
+
+                final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_CATEGORY_ID);
+
+                final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[0];
+                assertAll("Validation question validation",
+                    () -> assertEquals(FUNKTIONSNEDSATTNING_DELSVAR_ID_11, certificateDataValidationShow.getQuestionId()),
+                    () -> assertEquals("$" + FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11, certificateDataValidationShow.getExpression())
                 );
             }
         }

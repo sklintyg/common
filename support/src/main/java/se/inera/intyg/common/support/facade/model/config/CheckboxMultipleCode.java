@@ -16,8 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.support.facade.model.validation;
 
-public enum CertificateDataValidationType {
-    SHOW_VALIDATION, HIDE_VALIDATION, MAX_DATE_VALIDATION, TEXT_VALIDATION, MANDATORY_VALIDATION
+package se.inera.intyg.common.support.facade.model.config;
+
+import lombok.Builder;
+import lombok.Value;
+
+@Value
+@Builder
+public class CheckboxMultipleCode {
+
+    String id;
+    String label;
 }

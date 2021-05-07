@@ -16,21 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package se.inera.intyg.common.support.facade.model.config;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleDate.CertificateDataConfigCheckboxMultipleDateBuilder;
 
-@JsonDeserialize(builder = CertificateDataConfigCategory.CertificateDataConfigCategoryBuilder.class)
+@JsonDeserialize(builder = CertificateDataConfigCheckboxMultipleDateBuilder.class)
 @Value
 @Builder
-public class CertificateDataConfigCategory implements CertificateDataConfig {
+public class CertificateDataConfigCheckboxMultipleDate implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.CATEGORY;
+    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_CHECKBOX_MULTIPLE_DATE;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))
@@ -41,9 +44,12 @@ public class CertificateDataConfigCategory implements CertificateDataConfig {
     String text;
     @Getter(onMethod = @__(@Override))
     String description;
+    List<CheckboxMultipleDate> list;
+
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataConfigCategoryBuilder {
+    public static class CertificateDataConfigCheckboxMultipleDateBuilder {
 
     }
 }
+

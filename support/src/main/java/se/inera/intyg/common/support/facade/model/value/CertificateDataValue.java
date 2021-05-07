@@ -27,7 +27,13 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     property = "type")
 @JsonSubTypes({
     @Type(value = CertificateDataTextValue.class, name = "TEXT"),
-    @Type(value = CertificateDataValueBoolean.class, name = "BOOLEAN")
+    @Type(value = CertificateDataValueBoolean.class, name = "BOOLEAN"),
+    @Type(value = CertificateDataValueDateList.class, name = "DATE_LIST"),
+    @Type(value = CertificateDataValueDate.class, name = "DATE"),
+    @Type(value = CertificateDataValueDiagnosisList.class, name = "DIAGNOSIS_LIST"),
+    @Type(value = CertificateDataValueDiagnosis.class, name = "DIAGNOSIS"),
+    @Type(value = CertificateDataValueCodeList.class, name = "CODE_LIST"),
+    @Type(value = CertificateDataValueCode.class, name = "CODE")
 })
 public interface CertificateDataValue {
     CertificateDataValueType getType();
