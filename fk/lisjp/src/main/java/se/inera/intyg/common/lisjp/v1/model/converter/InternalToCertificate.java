@@ -85,6 +85,8 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiag
 
 public final class InternalToCertificate {
 
+    private static final short LIMIT_MOTIVERING_INTE_BASERAT_PA_UNDERLAG = (short) 150;
+
     private InternalToCertificate() {
 
     }
@@ -107,7 +109,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-    @SuppressWarnings("CheckStyle")
+
     private static CertificateMetadata createMetadata(LisjpUtlatandeV1 internalCertificate) {
         final var unit = internalCertificate.getGrundData().getSkapadAv().getVardenhet();
         return CertificateMetadata.builder()
@@ -118,37 +120,57 @@ public final class InternalToCertificate {
             .description("Om du inte känner patienten ska hen styrka sin identitet genom legitimation med foto (HSLF-FS 2018:54).\n"
                 + "\n"
                 + "        Vad är sjukpenning?\n"
-                + "        Sjukpenning är en ersättning för personer som har en nedsatt arbetsförmåga på grund av sjukdom. Beroende på hur mycket arbetsförmågan är nedsatt kan man få en fjärdedels, halv, tre fjärdedels eller hel sjukpenning.\n"
+                + "        Sjukpenning är en ersättning för personer som har en nedsatt arbetsförmåga på grund av sjukdom. Beroende på "
+                + "hur mycket arbetsförmågan är nedsatt kan man få en fjärdedels, halv, tre fjärdedels eller hel sjukpenning.\n"
                 + "\n"
                 + "        Förutsättningar för att få sjukpenning\n"
-                + "        Arbetsförmågan bedöms i förhållande till personens sysselsättning som kan vara nuvarande arbete eller föräldraledighet för vård av barn. För personer som är arbetslösa bedöms arbetsförmågan i förhållandet till att utföra sådant arbete som är normalt förekommande på arbetsmarknaden.\n"
+                + "        Arbetsförmågan bedöms i förhållande till personens sysselsättning som kan vara nuvarande arbete eller "
+                + "föräldraledighet för vård av barn. För personer som är arbetslösa bedöms arbetsförmågan i förhållandet till att utföra "
+                + "sådant arbete som är normalt förekommande på arbetsmarknaden.\n"
                 + "\n"
-                + "        För att få sjukpenning ska man, förutom att ha nedsatt arbetsförmåga, tillhöra svensk socialförsäkring och ha inkomst från arbete. Försäkringskassan beslutar om och hur mycket sjukpenning personen kan få.\n"
+                + "        För att få sjukpenning ska man, förutom att ha nedsatt arbetsförmåga, tillhöra svensk socialförsäkring och ha"
+                + " inkomst från arbete. Försäkringskassan beslutar om och hur mycket sjukpenning personen kan få.\n"
                 + "\n"
-                + "        Från den åttonde dagen i en sjukperiod måste det finnas ett läkarintyg. Läkarintyget ska tydligt beskriva hur patientens sjukdom påverkar patientens förmåga att utföra sin sysselsättning.\n"
+                + "        Från den åttonde dagen i en sjukperiod måste det finnas ett läkarintyg. Läkarintyget ska tydligt beskriva hur"
+                + " patientens sjukdom påverkar patientens förmåga att utföra sin sysselsättning.\n"
                 + "\n"
                 + "        Studerande\n"
-                + "        En person kan få behålla sitt studiemedel om förmågan att studera är helt eller halvt nedsatt på grund av sjukdom. Försäkringskassan bedömer om förmågan är nedsatt och om studieperioden ska godkännas till CSN.\n"
+                + "        En person kan få behålla sitt studiemedel om förmågan att studera är helt eller halvt nedsatt på grund av "
+                + "sjukdom. Försäkringskassan bedömer om förmågan är nedsatt och om studieperioden ska godkännas till CSN.\n"
                 + "\n"
-                + "        Den som ansöker om att få behålla sitt studiemedel ska från och med den femtonde dagen i sjukperioden styrka sin nedsatta studieförmåga med ett läkarintyg.\n"
+                + "        Den som ansöker om att få behålla sitt studiemedel ska från och med den femtonde dagen i sjukperioden styrka"
+                + " sin nedsatta studieförmåga med ett läkarintyg.\n"
                 + "\n"
                 + "        Smittbärarpenning\n"
-                + "        En person kan få ersättning om hen måste avstå från sin sysselsättning på grund av läkarens beslut om avstängning enligt smittskyddslagen eller läkarundersökning alternativt hälsokontroll som syftar till att klarlägga sjukdom, smitta, sår eller annan skada som gör att hen inte får hantera livsmedel.\n"
+                + "        En person kan få ersättning om hen måste avstå från sin sysselsättning på grund av läkarens beslut om "
+                + "avstängning enligt smittskyddslagen eller läkarundersökning alternativt hälsokontroll som syftar till att klarlägga "
+                + "sjukdom, smitta, sår eller annan skada som gör att hen inte får hantera livsmedel.\n"
                 + "\n"
                 + "        Den som ansöker om smittbärarpenning ska skicka med ett läkarintyg.\n"
                 + "\n"
                 + "        Mer om hur Försäkringskassan bedömer arbetsförmågan\n"
                 + "        Försäkringskassan bedömer arbetsförmågan enligt rehabiliteringskedjan, som innebär följande:\n"
-                + "        - Under de första 90 dagarna som personen är sjukskriven kan Försäkringskassan betala sjukpenning om personen inte kan utföra sitt vanliga arbete eller ett annat tillfälligt arbete hos sin arbetsgivare.\n"
-                + "        - Efter 90 dagar kan Försäkringskassan betala sjukpenning om personen inte kan utföra något arbete alls hos sin arbetsgivare.\n"
-                + "        - Efter 180 dagar kan Försäkringskassan betala ut sjukpenning om personen inte kan utföra sådant arbete som är normalt förekommande på arbetsmarknaden. Men detta gäller inte om Försäkringskassan bedömer att personen med stor sannolikhet kommer att kunna gå tillbaka till ett arbete hos sin arbetsgivare innan dag 366. I dessa fall bedöms arbetsförmågan i förhållande till ett arbete hos arbetsgivaren även efter dag 180. Regeln gäller inte heller om det kan anses oskäligt att bedöma personens arbetsförmåga i förhållande till arbete som är normalt förekommande på arbetsmarknaden.\n"
-                + "        - Efter 365 dagar kan Försäkringskassan betala ut sjukpenning om personen inte kan utföra sådant arbete som är normalt förekommande på arbetsmarknaden. Undantag från detta kan göras om det kan anses oskäligt att bedöma personens arbetsförmåga i förhållande till sådant arbete som normalt förekommer på arbetsmarknaden.\n"
+                + "        - Under de första 90 dagarna som personen är sjukskriven kan Försäkringskassan betala sjukpenning om personen "
+                + "inte kan utföra sitt vanliga arbete eller ett annat tillfälligt arbete hos sin arbetsgivare.\n"
+                + "        - Efter 90 dagar kan Försäkringskassan betala sjukpenning om personen inte kan utföra något arbete alls "
+                + "hos sin arbetsgivare.\n"
+                + "        - Efter 180 dagar kan Försäkringskassan betala ut sjukpenning om personen inte kan utföra sådant arbete som är"
+                + " normalt förekommande på arbetsmarknaden. Men detta gäller inte om Försäkringskassan bedömer att personen med stor "
+                + "sannolikhet kommer att kunna gå tillbaka till ett arbete hos sin arbetsgivare innan dag 366. I dessa fall bedöms "
+                + "arbetsförmågan i förhållande till ett arbete hos arbetsgivaren även efter dag 180. Regeln gäller inte heller om det "
+                + "kan anses oskäligt att bedöma personens arbetsförmåga i förhållande till arbete som är normalt förekommande på "
+                + "arbetsmarknaden.\n"
+                + "        - Efter 365 dagar kan Försäkringskassan betala ut sjukpenning om personen inte kan utföra sådant arbete som "
+                + "är normalt förekommande på arbetsmarknaden. Undantag från detta kan göras om det kan anses oskäligt att bedöma personens"
+                + " arbetsförmåga i förhållande till sådant arbete som normalt förekommer på arbetsmarknaden.\n"
                 + "\n"
                 + "        Rehabiliteringskedjan gäller fullt ut bara för den som har en anställning.\n"
                 + "\n"
-                + "        Egna företagares arbetsförmåga bedöms i förhållande till de vanliga arbetsuppgifterna fram till och med dag 180. Sedan bedöms arbetsförmågan i förhållande till sådant arbete som normalt förekommer på arbetsmarknaden.\n"
+                + "        Egna företagares arbetsförmåga bedöms i förhållande till de vanliga arbetsuppgifterna fram till och med dag "
+                + "180. Sedan bedöms arbetsförmågan i förhållande till sådant arbete som normalt förekommer på arbetsmarknaden.\n"
                 + "\n"
-                + "        För arbetslösa bedöms arbetsförmågan i förhållande till arbeten som normalt förekommer på arbetsmarknaden redan från första dagen i sjukperioden.")
+                + "        För arbetslösa bedöms arbetsförmågan i förhållande till arbeten som normalt förekommer på arbetsmarknaden "
+                + "redan från första dagen i sjukperioden.")
             .unit(
                 Unit.builder()
                     .unitId(unit.getEnhetsid())
@@ -163,7 +185,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-    @SuppressWarnings("CheckStyle")
+
     private static CertificateDataElement createSmittbararpenningCategory(int index) {
         return CertificateDataElement.builder()
             .id(AVSTANGNING_SMITTSKYDD_CATEGORY_ID)
@@ -173,13 +195,15 @@ public final class InternalToCertificate {
                     .text("Smittbärarpenning")
                     .description("Fylls i om hon eller han måste avstå från sitt arbete på grund av:\n"
                         + "        - Intygsskrivande läkares beslut enligt smittskyddslagen\n"
-                        + "        - Läkarundersökning eller hälsokontroll som syftar till att klarlägga om hon eller han är smittad av en allmänfarlig sjukdom eller om personen har en sjukdom, en smitta, ett sår eller annan skada som gör att hon eller han inte får hantera livsmedel.")
+                        + "        - Läkarundersökning eller hälsokontroll som syftar till att klarlägga om hon eller han är smittad av "
+                        + "en allmänfarlig sjukdom eller om personen har en sjukdom, en smitta, ett sår eller annan skada som gör att hon"
+                        + " eller han inte får hantera livsmedel.")
                     .build()
             )
             .build();
     }
 
-    @SuppressWarnings("CheckStyle")
+
     private static CertificateDataElement createAvstangningSmittskyddQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
         return CertificateDataElement.builder()
             .id(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
@@ -189,7 +213,8 @@ public final class InternalToCertificate {
                 CertificateDataConfigCheckboxBoolean.builder()
                     .id(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27)
                     .label(
-                        "Avstängning enligt smittskyddslagen på grund av smitta. (Fortsätt till frågorna \"Diagnos\" och \"Nedsättning av arbetsförmåga\".")
+                        "Avstängning enligt smittskyddslagen på grund av smitta. (Fortsätt till frågorna \"Diagnos\" och"
+                            + " \"Nedsättning av arbetsförmåga\".")
                     .selectedText("Ja")
                     .unselectedText("Nej")
                     .build()
@@ -203,7 +228,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-    @SuppressWarnings("CheckStyle")
+
     private static CertificateDataElement createGrundForMUCategory(int index) {
         return CertificateDataElement.builder()
             .id(GRUNDFORMU_CATEGORY_ID)
@@ -224,7 +249,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-    @SuppressWarnings("CheckStyle")
+
     private static CertificateDataElement createIntygetBaseratPa(LisjpUtlatandeV1 internalCertificate, int index) {
         return CertificateDataElement.builder()
             .id(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
@@ -234,9 +259,12 @@ public final class InternalToCertificate {
                 CertificateDataConfigCheckboxMultipleDate.builder()
                     .text("Intyget är baserat på")
                     .description("Enligt Socialstyrelsens föreskrifter (HSLF-FS 2018:54) om att utfärda intyg i hälso- och\n"
-                        + "        sjukvården ska ett läkarintyg innehålla uppgifter om vad som ligger till grund för din bedömning vid utfärdandet\n"
-                        + "        av intyget. Ett intyg ska som huvudregel utfärdas efter en undersökning av patienten. Intyget ska innehålla\n"
-                        + "        uppgift om kontaktsätt vid undersökningen. Om kontaktsättet är videosamtal anger du detta under fältet Övriga\n"
+                        + "        sjukvården ska ett läkarintyg innehålla uppgifter om vad som ligger till grund för din bedömning "
+                        + "vid utfärdandet\n"
+                        + "        av intyget. Ett intyg ska som huvudregel utfärdas efter en undersökning av patienten. Intyget ska "
+                        + "innehålla\n"
+                        + "        uppgift om kontaktsätt vid undersökningen. Om kontaktsättet är videosamtal anger du detta under "
+                        + "fältet Övriga\n"
                         + "        upplysningar.")
                     .list(
                         Arrays.asList(
@@ -371,7 +399,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-    @SuppressWarnings("CheckStyle")
+
     private static CertificateDataElement createMotiveringEjUndersokning(LisjpUtlatandeV1 internalCertificate, int index) {
         return CertificateDataElement.builder()
             .id(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1)
@@ -381,7 +409,9 @@ public final class InternalToCertificate {
                 CertificateDataConfigTextArea.builder()
                     .text("Motivering till varför det medicinska underlaget inte baseras på en undersökning av patienten")
                     .description(
-                        "Observera att detta inte är en fråga från Försäkringskassan. Information om varför sjukskrivningen startar mer än en vecka före dagens datum kan vara till hjälp för Försäkringskassan i deras handläggning.\nInformationen du anger nedan, kommer att överföras till fältet \"Övriga upplysningar\" vid signering.")
+                        "Observera att detta inte är en fråga från Försäkringskassan. Information om varför sjukskrivningen startar "
+                            + "mer än en vecka före dagens datum kan vara till hjälp för Försäkringskassan i deras handläggning.\n"
+                            + "Informationen du anger nedan, kommer att överföras till fältet \"Övriga upplysningar\" vid signering.")
                     .icon("lightbulb_outline")
                     .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1)
                     .build()
@@ -413,7 +443,7 @@ public final class InternalToCertificate {
                         .build(),
                     CertificateDataValidationText.builder()
                         .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1)
-                        .limit((short) 150)
+                        .limit(LIMIT_MOTIVERING_INTE_BASERAT_PA_UNDERLAG)
                         .build()
                 }
             )
@@ -440,7 +470,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-    @SuppressWarnings("CheckStyle")
+
     private static CertificateDataElement createSysselsattningQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
         return CertificateDataElement.builder()
             .id(TYP_AV_SYSSELSATTNING_SVAR_ID_28)
@@ -450,7 +480,8 @@ public final class InternalToCertificate {
                 CertificateDataConfigCheckboxMultipleCode.builder()
                     .text("I relation till vilken sysselsättning bedömer du arbetsförmågan?")
                     .description(
-                        "Om du kryssar i flera val är det viktigt att du tydliggör under \"Övriga upplysningar\" om sjukskrivningens omfattning eller period skiljer sig åt mellan olika sysselsättningar.")
+                        "Om du kryssar i flera val är det viktigt att du tydliggör under \"Övriga upplysningar\" om sjukskrivningens "
+                            + "omfattning eller period skiljer sig åt mellan olika sysselsättningar.")
                     .list(
                         Arrays.asList(
                             CheckboxMultipleCode.builder()
@@ -561,7 +592,6 @@ public final class InternalToCertificate {
             .build();
     }
 
-    @SuppressWarnings("CheckStyle")
     private static CertificateDataElement createDiagnosQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
         return CertificateDataElement.builder()
             .id(DIAGNOS_SVAR_ID_6)
@@ -571,7 +601,9 @@ public final class InternalToCertificate {
                 CertificateDataConfigDiagnoses.builder()
                     .text("Diagnos/diagnoser för sjukdom som orsakar nedsatt arbetsförmåga")
                     .description(
-                        "Ange vilken eller vilka sjukdomar som orsakar nedsatt arbetsförmåga. Den sjukdom som påverkar arbetsförmågan mest anges först. Diagnoskoden anges alltid med så många positioner som möjligt.\n        Om patienten har fler än tre sjukdomar som påverkar arbetsförmågan anges dessa under \"övriga upplysningar\".")
+                        "Ange vilken eller vilka sjukdomar som orsakar nedsatt arbetsförmåga. Den sjukdom som påverkar arbetsförmågan mest"
+                            + " anges först. Diagnoskoden anges alltid med så många positioner som möjligt.\n        Om patienten har fler "
+                            + "än tre sjukdomar som påverkar arbetsförmågan anges dessa under \"övriga upplysningar\".")
                     .terminology(
                         Arrays.asList(
                             DiagnosesTerminology.builder()
