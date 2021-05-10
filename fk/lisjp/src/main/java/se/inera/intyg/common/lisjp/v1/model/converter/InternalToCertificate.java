@@ -19,11 +19,21 @@
 
 package se.inera.intyg.common.lisjp.v1.model.converter;
 
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_SVAR_ID_6;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_35;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_35;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1;
@@ -33,9 +43,14 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSELSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleAndExpression;
@@ -50,6 +65,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
+import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.lisjp.model.internal.Sysselsattning.SysselsattningsTyp;
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
@@ -61,7 +78,9 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCh
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleDate;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDiagnoses;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigSickLeavePeriod;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
+import se.inera.intyg.common.support.facade.model.config.CheckboxDateRange;
 import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleDate;
 import se.inera.intyg.common.support.facade.model.config.DiagnosesListItem;
@@ -80,6 +99,8 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCodeList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateList;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRange;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
 
@@ -106,6 +127,14 @@ public final class InternalToCertificate {
             .addElement(createSysselsattningYrkeQuestion(internalCertificate, index++))
             .addElement(createDiagnosCategory(index++))
             .addElement(createDiagnosQuestion(internalCertificate, index++))
+            .addElement(createFunktionsnedsattningCategory(index++))
+            .addElement(createFunktionsnedsattningQuestion(internalCertificate, index++))
+            .addElement(createAktivitetsbegransningQuestion(internalCertificate, index++))
+            .addElement(createMedicinskaBehandlingarCategory(index++))
+            .addElement(createPagaendeBehandlingQuestion(internalCertificate, index++))
+            .addElement(createPlaneradBehandlingQuestion(internalCertificate, index++))
+            .addElement(createBedomningCategory(index++))
+            .addElement(createBehovAvSjukskrivningQuestion(internalCertificate, index++))
             .build();
     }
 
@@ -680,5 +709,263 @@ public final class InternalToCertificate {
             .code(diagnos.getDiagnosKod())
             .description(diagnos.getDiagnosDisplayName())
             .build();
+    }
+
+    private static CertificateDataElement createFunktionsnedsattningCategory(int index) {
+        return CertificateDataElement.builder()
+            .id(FUNKTIONSNEDSATTNING_CATEGORY_ID)
+            .index(index)
+            .config(
+                CertificateDataConfigCategory.builder()
+                    .text("Sjukdomens konsekvenser")
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    private static CertificateDataElement createFunktionsnedsattningQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+        return CertificateDataElement.builder()
+            .id(FUNKTIONSNEDSATTNING_SVAR_ID_35)
+            .index(index)
+            .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
+            .config(
+                CertificateDataConfigTextArea.builder()
+                    .header("Funktionsnedsättning")
+                    .text("Beskriv undersökningsfynd, testresultat och observationer")
+                    .description(
+                        "Ange observerade nedsättningar (direkt och indirekt), exempelvis\n"
+                            + "- avvikelser i somatiskt och psykiskt status\n        - röntgen- och laboratoriefynd\n")
+                    .id(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35)
+                    .build()
+            )
+            .value(
+                CertificateDataTextValue.builder()
+                    .id(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35)
+                    .text(internalCertificate.getFunktionsnedsattning())
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationMandatory.builder()
+                        .questionId(FUNKTIONSNEDSATTNING_SVAR_ID_35)
+                        .expression(
+                            singleExpression(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35)
+                        )
+                        .build(),
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    private static CertificateDataElement createAktivitetsbegransningQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+        return CertificateDataElement.builder()
+            .id(AKTIVITETSBEGRANSNING_SVAR_ID_17)
+            .index(index)
+            .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
+            .config(
+                CertificateDataConfigTextArea.builder()
+                    .header("Aktivitetsbegränsning")
+                    .text("Beskriv vad patienten inte kan göra på grund av sin sjukdom. Ange vad uppgiften grundas på.")
+                    .description(
+                        "Ge konkreta exempel på situationer och aktiviteter i patientens sysselsättning där svårigheter uppstår."
+                            + " Beskriv hur ofta dessa situationer uppstår och graden av svårigheterna.\\n\\n"
+                            + "Beskriv hur du själv har observerat begränsningarna. "
+                            + "Om uppgiften baseras på anamnes/intervju eller någon annans observationer anger du det.\\n\\n"
+                            + "Ange även om det finns någon typ av aktivitet som patienten bör undvika"
+                            + " på grund av betydande medicinsk risk eller allvarlig olycksrisk.\",\n")
+                    .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
+                    .build()
+            )
+            .value(
+                CertificateDataTextValue.builder()
+                    .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
+                    .text(internalCertificate.getFunktionsnedsattning())
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationMandatory.builder()
+                        .questionId(AKTIVITETSBEGRANSNING_SVAR_ID_17)
+                        .expression(
+                            singleExpression(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
+                        )
+                        .build(),
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    private static CertificateDataElement createMedicinskaBehandlingarCategory(int index) {
+        return CertificateDataElement.builder()
+            .id(MEDICINSKABEHANDLINGAR_CATEGORY_ID)
+            .index(index)
+            .config(
+                CertificateDataConfigCategory.builder()
+                    .text("Medicinsk behandling")
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    private static CertificateDataElement createPagaendeBehandlingQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+        return CertificateDataElement.builder()
+            .id(PAGAENDEBEHANDLING_SVAR_ID_19)
+            .index(index)
+            .parent(MEDICINSKABEHANDLINGAR_CATEGORY_ID)
+            .config(
+                CertificateDataConfigTextArea.builder()
+                    .header("Pågående medicinska behandlingar/åtgärder")
+                    .text("Ange vad syftet är och om möjligt tidplan samt ansvarig vårdenhet.")
+                    .id(PAGAENDEBEHANDLING_SVAR_JSON_ID_19)
+                    .build()
+            )
+            .value(
+                CertificateDataTextValue.builder()
+                    .id(PAGAENDEBEHANDLING_SVAR_JSON_ID_19)
+                    .text(internalCertificate.getPagaendeBehandling())
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    private static CertificateDataElement createPlaneradBehandlingQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+        return CertificateDataElement.builder()
+            .id(PLANERADBEHANDLING_SVAR_ID_20)
+            .index(index)
+            .parent(MEDICINSKABEHANDLINGAR_CATEGORY_ID)
+            .config(
+                CertificateDataConfigTextArea.builder()
+                    .header("Planerade medicinska behandlingar/åtgärder.")
+                    .text("Ange vad syftet är och om möjligt tidplan samt ansvarig vårdenhet.")
+                    .id(PLANERADBEHANDLING_SVAR_JSON_ID_20)
+                    .build()
+            )
+            .value(
+                CertificateDataTextValue.builder()
+                    .id(PLANERADBEHANDLING_SVAR_JSON_ID_20)
+                    .text(internalCertificate.getPlaneradBehandling())
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    private static CertificateDataElement createBedomningCategory(int index) {
+        return CertificateDataElement.builder()
+            .id(BEDOMNING_CATEGORY_ID)
+            .index(index)
+            .config(
+                CertificateDataConfigCategory.builder()
+                    .text("Bedömning")
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{}
+            )
+            .build();
+    }
+
+    private static CertificateDataElement createBehovAvSjukskrivningQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+        return CertificateDataElement.builder()
+            .id(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32)
+            .index(index)
+            .parent(BEDOMNING_CATEGORY_ID)
+            .config(
+                CertificateDataConfigSickLeavePeriod.builder()
+                    .text("Min bedömning av patientens nedsättning av arbetsförmågan")
+                    .description("Utgångspunkten är att patientens arbetsförmåga ska bedömas i förhållande till hens normala arbetstid.")
+                    .list(
+                        Arrays.asList(
+                            CheckboxDateRange.builder()
+                                .id(SjukskrivningsGrad.NEDSATT_1_4.getId())
+                                .label(SjukskrivningsGrad.NEDSATT_1_4.getLabel())
+                                .build(),
+                            CheckboxDateRange.builder()
+                                .id(SjukskrivningsGrad.NEDSATT_HALFTEN.getId())
+                                .label(SjukskrivningsGrad.NEDSATT_HALFTEN.getLabel())
+                                .build(),
+                            CheckboxDateRange.builder()
+                                .id(SjukskrivningsGrad.NEDSATT_3_4.getId())
+                                .label(SjukskrivningsGrad.NEDSATT_3_4.getLabel())
+                                .build(),
+                            CheckboxDateRange.builder()
+                                .id(SjukskrivningsGrad.HELT_NEDSATT.getId())
+                                .label(SjukskrivningsGrad.HELT_NEDSATT.getLabel())
+                                .build()
+                        )
+                    )
+                    .build()
+            )
+            .value(
+                CertificateDataValueDateRangeList.builder()
+                    .list(createSjukskrivningValue(internalCertificate))
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationMandatory.builder()
+                        .questionId(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32)
+                        .expression(multipleOrExpression(
+                            singleExpression(SjukskrivningsGrad.NEDSATT_1_4.getId()),
+                            singleExpression(SjukskrivningsGrad.NEDSATT_HALFTEN.getId()),
+                            singleExpression(SjukskrivningsGrad.NEDSATT_3_4.getId()),
+                            singleExpression(SjukskrivningsGrad.HELT_NEDSATT.getId())
+                        ))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    private static List<CertificateDataValueDateRange> createSjukskrivningValue(LisjpUtlatandeV1 internalCertificate) {
+        if (internalCertificate == null) {
+            return Collections.emptyList();
+        }
+        return internalCertificate.getSjukskrivningar().stream()
+            .map(item -> CertificateDataValueDateRange.builder()
+                .id(item.getSjukskrivningsgrad().getId())
+                .to(item.getPeriod().getTom().asLocalDate())
+                .from(item.getPeriod().getFrom().asLocalDate())
+                .build()
+            ).collect(Collectors.toList());
     }
 }
