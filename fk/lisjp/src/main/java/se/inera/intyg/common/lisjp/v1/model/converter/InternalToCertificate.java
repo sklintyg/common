@@ -22,14 +22,23 @@ package se.inera.intyg.common.lisjp.v1.model.converter;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSRESOR_SVAR_ID_34;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSRESOR_SVAR_JSON_ID_34;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_ID_33;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_SVAR_ID_6;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_35;
@@ -45,12 +54,15 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_ID_39;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSELSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleAndExpression;
@@ -65,6 +77,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.lisjp.model.internal.PrognosDagarTillArbeteTyp;
+import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.lisjp.model.internal.Sysselsattning.SysselsattningsTyp;
@@ -78,6 +92,9 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCh
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleDate;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDiagnoses;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDropdown;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigSickLeavePeriod;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.config.CheckboxDateRange;
@@ -85,9 +102,12 @@ import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleDate;
 import se.inera.intyg.common.support.facade.model.config.DiagnosesListItem;
 import se.inera.intyg.common.support.facade.model.config.DiagnosesTerminology;
+import se.inera.intyg.common.support.facade.model.config.DropdownItem;
+import se.inera.intyg.common.support.facade.model.config.RadioMultipleCode;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.model.metadata.Unit;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationEnable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
@@ -107,6 +127,8 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiag
 public final class InternalToCertificate {
 
     private static final short LIMIT_MOTIVERING_INTE_BASERAT_PA_UNDERLAG = (short) 150;
+    private static final short LIMIT_MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING = (short) 150;
+
 
     private InternalToCertificate() {
 
@@ -135,6 +157,13 @@ public final class InternalToCertificate {
             .addElement(createPlaneradBehandlingQuestion(internalCertificate, index++))
             .addElement(createBedomningCategory(index++))
             .addElement(createBehovAvSjukskrivningQuestion(internalCertificate, index++))
+            .addElement(createMotiveringTidigtStartdatumQuestion(internalCertificate, index++))
+            .addElement(createForsakringsmedicinsktBeslutsstodQuestion(internalCertificate, index++))
+            .addElement(createArbetstidsforlaggningQuestion(internalCertificate, index++))
+            .addElement(createMotiveringArbetstidsforlaggningQuestion(internalCertificate, index++))
+            .addElement(createArbetsresorQuestion(internalCertificate, index++))
+            .addElement(createPrognosQuestion(internalCertificate, index++))
+            .addElement(createPrognosTimeperiodQuestion(internalCertificate, index++))
             .build();
     }
 
@@ -967,5 +996,324 @@ public final class InternalToCertificate {
                 .from(item.getPeriod().getFrom().asLocalDate())
                 .build()
             ).collect(Collectors.toList());
+    }
+
+    private static CertificateDataElement createMotiveringTidigtStartdatumQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+        final var endOfExpression = ".from < -7";
+        return CertificateDataElement.builder()
+            .id(BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32)
+            .index(index)
+            .parent(BEDOMNING_CATEGORY_ID)
+            .config(
+                CertificateDataConfigTextArea.builder()
+                    .text("Ange orsak för att starta perioden mer än 7 dagar bakåt i tiden.")
+                    .description("Observera att detta inte är en fråga från Försäkringskassan. "
+                            + "Information om varför sjukskrivningen startar mer än en vecka före dagens datum kan vara till hjälp för Försäkringskassan"
+                            + "i deras handläggning.\\n' +\n            '\\n' +\n            "
+                            + "'Informationen du anger nedan, kommer att överföras till fältet \"{0}\" vid signering.")
+                    .icon("lightbulb_outline")
+                    .id(MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID)
+                    .build()
+            )
+            .value(
+                CertificateDataTextValue.builder()
+                    .id(MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID)
+                    .text(internalCertificate.getMotiveringTillTidigtStartdatumForSjukskrivning())
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationShow.builder()
+                        .questionId(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32)
+                        .expression(
+                            multipleOrExpression(
+                                wrapWithParenthesis(
+                                    singleExpression(SjukskrivningsGrad.NEDSATT_1_4.getId()) + endOfExpression),
+                                wrapWithParenthesis(
+                                    singleExpression(SjukskrivningsGrad.NEDSATT_HALFTEN.getId()) + endOfExpression),
+                                wrapWithParenthesis(
+                                    singleExpression(SjukskrivningsGrad.NEDSATT_3_4.getId()) + endOfExpression),
+                                wrapWithParenthesis(
+                                    singleExpression(SjukskrivningsGrad.HELT_NEDSATT.getId()) + endOfExpression)
+                            )
+                        )
+                        .build(),
+                    CertificateDataValidationText.builder()
+                        .id(MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID)
+                        .limit(LIMIT_MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING)
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    private static CertificateDataElement createForsakringsmedicinsktBeslutsstodQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+        return CertificateDataElement.builder()
+            .id(FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37)
+            .index(index)
+            .parent(BEDOMNING_CATEGORY_ID)
+            .config(
+                CertificateDataConfigTextArea.builder()
+                    .text("Patientens arbetsförmåga bedöms nedsatt längre tid än den som Socialstyrelsens försäkringsmedicinska beslutsstöd anger, därför att")
+                    .description("- Om sjukdomen inte följer förväntat förlopp ska det framgå på vilket sätt.\n"
+                            + "        - Om det inträffar komplikationer som gör att det tar längre tid att återfå arbetsförmåga ska"
+                            + " du beskriva komplikationerna eller sjukdomstillstånden och skriva en förklaring till varför dessa fördröjer tillfrisknandet.\n"
+                            + "        - Om sjukskrivningstidens längd påverkas av flera sjukdomar som orsakar en längre period med"
+                            + " aktivitetsbegränsning än varje sjukdom för sig, samsjuklighet, ska du beskriva och förklara detta."
+                    )
+                    .id(FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37)
+                    .build()
+            )
+            .value(
+                CertificateDataTextValue.builder()
+                    .id(FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37)
+                    .text(internalCertificate.getForsakringsmedicinsktBeslutsstod())
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    private static CertificateDataElement createArbetstidsforlaggningQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+        return CertificateDataElement.builder()
+            .id(ARBETSTIDSFORLAGGNING_SVAR_ID_33)
+            .index(index)
+            .parent(BEDOMNING_CATEGORY_ID)
+            .config(
+                CertificateDataConfigRadioBoolean.builder()
+                    .id(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33)
+                    .text("Finns det medicinska skäl att förlägga arbetstiden på något"
+                        + " annat sätt än att minska arbetstiden lika mycket varje dag?")
+                    .description("Frågorna besvaras endast vid partiellt nedsatt arbetsförmåga.")
+                    .selectedText("Ja")
+                    .unselectedText("Nej")
+                    .build()
+            )
+            .value(
+                CertificateDataValueBoolean.builder()
+                    .id(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33)
+                    .selected(internalCertificate.getArbetstidsforlaggning())
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationShow.builder()
+                        .questionId(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32)
+                        .expression(multipleOrExpression(
+                            singleExpression(SjukskrivningsGrad.NEDSATT_1_4.getId()),
+                            singleExpression(SjukskrivningsGrad.NEDSATT_HALFTEN.getId()),
+                            singleExpression(SjukskrivningsGrad.NEDSATT_3_4.getId())
+                        ))
+                        .build(),
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    private static CertificateDataElement createMotiveringArbetstidsforlaggningQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+        return CertificateDataElement.builder()
+            .id(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33)
+            .index(index)
+            .parent(BEDOMNING_CATEGORY_ID)
+            .config(
+                CertificateDataConfigTextArea.builder()
+                    .text("Beskriv medicinska skäl till annan förläggning av arbetstiden")
+                    .id(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33)
+                    .build()
+            )
+            .value(
+                CertificateDataTextValue.builder()
+                    .id(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33)
+                    .text(internalCertificate.getArbetstidsforlaggningMotivering())
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationShow.builder()
+                        .questionId(ARBETSTIDSFORLAGGNING_SVAR_ID_33)
+                        .expression(
+                            singleExpression(ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33)
+                        )
+                        .build(),
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    private static CertificateDataElement createArbetsresorQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+        return CertificateDataElement.builder()
+            .id(ARBETSRESOR_SVAR_ID_34)
+            .index(index)
+            .parent(BEDOMNING_CATEGORY_ID)
+            .config(
+                CertificateDataConfigCheckboxBoolean.builder()
+                    .id(ARBETSRESOR_SVAR_JSON_ID_34)
+                    .label("Resor till och från arbetet med annat färdmedel än normalt kan göra det möjligt för"
+                        + " patienten att återgå till arbetet under sjukskrivningsperioden.")
+                    .selectedText("Ja")
+                    .unselectedText("Nej")
+                    .build()
+            )
+            .value(
+                CertificateDataValueBoolean.builder()
+                    .id(ARBETSRESOR_SVAR_JSON_ID_34)
+                    .selected(internalCertificate.getArbetsresor())
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    private static CertificateDataElement createPrognosQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+        return CertificateDataElement.builder()
+            .id(PROGNOS_SVAR_ID_39)
+            .index(index)
+            .parent(BEDOMNING_CATEGORY_ID)
+            .config(
+                CertificateDataConfigRadioMultipleCode.builder()
+                    .text("Prognos för arbetsförmåga utifrån aktuellt undersökningstillfälle")
+                    .description("En viktig information för att underlätta planeringen.")
+                    .list(
+                        Arrays.asList(
+                            RadioMultipleCode.builder()
+                                .id(PrognosTyp.MED_STOR_SANNOLIKHET.getId())
+                                .label(PrognosTyp.MED_STOR_SANNOLIKHET.getLabel())
+                                .build(),
+                            RadioMultipleCode.builder()
+                                .id(PrognosTyp.ATER_X_ANTAL_DGR.getId())
+                                .label(PrognosTyp.ATER_X_ANTAL_DGR.getLabel())
+                                .build(),
+                            RadioMultipleCode.builder()
+                                .id(PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING.getId())
+                                .label(PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING.getLabel())
+                                .build(),
+                            RadioMultipleCode.builder()
+                                .id(PrognosTyp.PROGNOS_OKLAR.getId())
+                                .label(PrognosTyp.PROGNOS_OKLAR.getLabel())
+                                .build()
+                        )
+                    )
+                    .build()
+            )
+            .value(
+                CertificateDataValueCode.builder()
+                    .id(internalCertificate.getPrognos() != null ? internalCertificate.getPrognos().getTyp().getId() : null)
+                    .code(internalCertificate.getPrognos() != null ? internalCertificate.getPrognos().getTyp().getId() : null)
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationMandatory.builder()
+                        .questionId(PROGNOS_SVAR_ID_39)
+                        .expression(
+                            multipleOrExpression(
+                                singleExpression(PrognosTyp.MED_STOR_SANNOLIKHET.getId()),
+                                singleExpression(PrognosTyp.ATER_X_ANTAL_DGR.getId()),
+                                singleExpression(PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING.getId()),
+                                singleExpression(PrognosTyp.PROGNOS_OKLAR.getId())
+                            )
+                        )
+                        .build(),
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    private static CertificateDataElement createPrognosTimeperiodQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+        return CertificateDataElement.builder()
+            .id(PROGNOS_BESKRIVNING_DELSVAR_ID_39)
+            .index(index)
+            .parent(BEDOMNING_CATEGORY_ID)
+            .config(
+                CertificateDataConfigDropdown.builder()
+                    .list(
+                        Arrays.asList(
+                            DropdownItem.builder()
+                                .id("VALJ_TIDSPERIOD")
+                                .label("Välj tidsperiod")
+                                .build(),
+                            DropdownItem.builder()
+                                .id(PrognosDagarTillArbeteTyp.DAGAR_30.getId())
+                                .label(PrognosDagarTillArbeteTyp.DAGAR_30.getLabel())
+                                .build(),
+                            DropdownItem.builder()
+                                .id(PrognosDagarTillArbeteTyp.DAGAR_60.getId())
+                                .label(PrognosDagarTillArbeteTyp.DAGAR_60.getLabel())
+                                .build(),
+                            DropdownItem.builder()
+                                .id(PrognosDagarTillArbeteTyp.DAGAR_90.getId())
+                                .label(PrognosDagarTillArbeteTyp.DAGAR_90.getLabel())
+                                .build(),
+                            DropdownItem.builder()
+                                .id(PrognosDagarTillArbeteTyp.DAGAR_180.getId())
+                                .label(PrognosDagarTillArbeteTyp.DAGAR_180.getLabel())
+                                .build(),
+                            DropdownItem.builder()
+                                .id(PrognosDagarTillArbeteTyp.DAGAR_365.getId())
+                                .label(PrognosDagarTillArbeteTyp.DAGAR_365.getLabel())
+                                .build()
+                        )
+                    )
+                    .build()
+            )
+            .value(
+                CertificateDataValueCode.builder()
+                    .id(internalCertificate.getPrognos() != null && internalCertificate.getPrognos().getDagarTillArbete() != null
+                        ? internalCertificate.getPrognos().getDagarTillArbete().getId() : null)
+                    .code(internalCertificate.getPrognos() != null && internalCertificate.getPrognos().getDagarTillArbete() != null
+                        ? internalCertificate.getPrognos().getDagarTillArbete().getId() : null)
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build(),
+                    CertificateDataValidationMandatory.builder()
+                        .questionId(PROGNOS_BESKRIVNING_DELSVAR_ID_39)
+                        .expression(
+                            multipleOrExpression(
+                                singleExpression(PrognosDagarTillArbeteTyp.DAGAR_30.getId()),
+                                singleExpression(PrognosDagarTillArbeteTyp.DAGAR_60.getId()),
+                                singleExpression(PrognosDagarTillArbeteTyp.DAGAR_90.getId()),
+                                singleExpression(PrognosDagarTillArbeteTyp.DAGAR_180.getId()),
+                                singleExpression(PrognosDagarTillArbeteTyp.DAGAR_365.getId())
+                            )
+                        )
+                        .build(),
+                    CertificateDataValidationEnable.builder()
+                        .questionId(PROGNOS_SVAR_ID_39)
+                        .expression(singleExpression(PrognosTyp.ATER_X_ANTAL_DGR.getId()))
+                        .build()
+                }
+            )
+            .build();
     }
 }
