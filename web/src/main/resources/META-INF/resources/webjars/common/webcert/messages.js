@@ -118,6 +118,13 @@
             'label.makulera.locked.title.radio': 'Ange varför du makulerar det låsta utkastet:',
             'label.makulera.no.recipient.title.radio': 'Ange varför du makulerar intyget',
 
+            // subscription
+            'subscription.during.adjustment.title.text': 'Teckna kundavtal samt beställ Intygstjänster',
+            'subscription.during.adjustment.info.text': '<p>Från och med <em>åååå-mm-dd</em> krävs det att man tecknat Kundavtal samt beställt Intygstjänster för att kunna fortsätta använda Webcert.</p>',
+            'subscription.during.adjustment.eleg.text': '<p>Observera att inloggning med Bank-id eller Telia e-legitimation enbart kommer tillåtas om man har enskild firma (personnumret samma som organisationsnummer) samt ansvarsförsäkring.</p>',
+            'subscription.during.adjustment.link.text': '<p><LINK:kundportalenGetAccount></p><p><LINK:kundportalenGetWebcert></p>',
+            'subscription.sign.agreement.now.label': 'Teckna avtal nu',
+            'subscription.sign.agreement.later.label': 'Inte just nu, tack',
 
             // avtal/terms
             'avtal.title.text': 'Godkännande av användarvillkor',
