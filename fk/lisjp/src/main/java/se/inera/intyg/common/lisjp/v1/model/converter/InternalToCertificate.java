@@ -22,12 +22,16 @@ package se.inera.intyg.common.lisjp.v1.model.converter;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSRESOR_SVAR_ID_34;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSRESOR_SVAR_JSON_ID_34;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_ID_33;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ATGARDER_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
@@ -52,11 +56,17 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
@@ -77,6 +87,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
 import se.inera.intyg.common.lisjp.model.internal.PrognosDagarTillArbeteTyp;
 import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
@@ -107,6 +118,7 @@ import se.inera.intyg.common.support.facade.model.config.RadioMultipleCode;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.model.metadata.Unit;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationEnable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
@@ -128,6 +140,8 @@ public final class InternalToCertificate {
 
     private static final short LIMIT_MOTIVERING_INTE_BASERAT_PA_UNDERLAG = (short) 150;
     private static final short LIMIT_MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING = (short) 150;
+    private static final short LIMIT_OVRIGT = (short) 3296;
+
 
 
     private InternalToCertificate() {
@@ -164,6 +178,13 @@ public final class InternalToCertificate {
             .addElement(createArbetsresorQuestion(internalCertificate, index++))
             .addElement(createPrognosQuestion(internalCertificate, index++))
             .addElement(createPrognosTimeperiodQuestion(internalCertificate, index++))
+            .addElement(createAtgarderCategory(index++))
+            .addElement(createAtgarderQuestion(internalCertificate, index++))
+            .addElement(createAtgarderBeskrivning(internalCertificate, index++))
+            .addElement(createOvrigtCategory(index++))
+            .addElement(createOvrigtQuestion(internalCertificate, index++))
+            .addElement(createKontaktCategory(index++))
+            .addElement(createKontaktQuestion(internalCertificate, index++))
             .build();
     }
 
@@ -1313,6 +1334,291 @@ public final class InternalToCertificate {
                         .expression(singleExpression(PrognosTyp.ATER_X_ANTAL_DGR.getId()))
                         .build()
                 }
+            )
+            .build();
+    }
+
+    private static CertificateDataElement createAtgarderCategory(int index) {
+        return CertificateDataElement.builder()
+            .id(ATGARDER_CATEGORY_ID)
+            .index(index)
+            .config(
+                CertificateDataConfigCategory.builder()
+                    .text("Åtgärder")
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+
+    private static CertificateDataElement createAtgarderQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+        return CertificateDataElement.builder()
+            .id(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
+            .index(index)
+            .parent(ATGARDER_CATEGORY_ID)
+            .config(
+                CertificateDataConfigCheckboxMultipleCode.builder()
+                    .text("Här kan du ange åtgärder som du tror skulle göra det lättare för patienten att återgå i arbete")
+                    .list(
+                        Arrays.asList(
+                            CheckboxMultipleCode.builder()
+                                .id(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId())
+                                .label(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getLabel())
+                                .build(),
+                            CheckboxMultipleCode.builder()
+                                .id(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId())
+                                .label(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getLabel())
+                                .build(),
+                            CheckboxMultipleCode.builder()
+                                .id(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId())
+                                .label(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getLabel())
+                                .build(),
+                            CheckboxMultipleCode.builder()
+                                .id(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId())
+                                .label(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getLabel())
+                                .build(),
+                            CheckboxMultipleCode.builder()
+                                .id(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId())
+                                .label(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getLabel())
+                                .build(),
+                            CheckboxMultipleCode.builder()
+                                .id(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId())
+                                .label(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getLabel())
+                                .build(),
+                            CheckboxMultipleCode.builder()
+                                .id(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId())
+                                .label(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getLabel())
+                                .build(),
+                            CheckboxMultipleCode.builder()
+                                .id(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId())
+                                .label(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getLabel())
+                                .build(),
+                            CheckboxMultipleCode.builder()
+                                .id(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId())
+                                .label(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getLabel())
+                                .build(),
+                            CheckboxMultipleCode.builder()
+                                .id(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId())
+                                .label(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getLabel())
+                                .build(),
+                            CheckboxMultipleCode.builder()
+                                .id(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
+                                .label(ArbetslivsinriktadeAtgarderVal.OVRIGT.getLabel())
+                                .build()
+                        )
+                    )
+                    .build()
+            )
+            .value(
+                CertificateDataValueCodeList.builder()
+                    .list(createAtgarderCodeList(internalCertificate))
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationMandatory.builder()
+                        .questionId(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
+                        .expression(
+                            multipleOrExpression(
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
+                                )
+                        )
+                        .build(),
+                    CertificateDataValidationDisable.builder()
+                        .questionId(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
+                        .expression(
+                            multipleOrExpression(
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
+                            )
+                        )
+                        .id(Arrays.asList(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId()))
+                        .build(),
+                    CertificateDataValidationDisable.builder()
+                        .questionId(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
+                        .expression(
+                            singleExpression(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId())
+                            )
+                        .id(
+                            Arrays.asList(
+                                ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId(),
+                                ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId(),
+                                ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId(),
+                                ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId(),
+                                ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId(),
+                                ArbetslivsinriktadeAtgarderVal.OVRIGT.getId()
+                            )
+                        )
+                        .build(),
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    private static List<CertificateDataValueCode> createAtgarderCodeList(LisjpUtlatandeV1 internalCertificate) {
+        if (internalCertificate.getArbetslivsinriktadeAtgarder() == null) {
+            return Collections.emptyList();
+        }
+
+        return internalCertificate.getArbetslivsinriktadeAtgarder().stream()
+            .map(atgard -> CertificateDataValueCode.builder()
+                .id(atgard.getTyp().getId())
+                .code(atgard.getTyp().getId())
+                .build())
+            .collect(Collectors.toList());
+    }
+
+    private static CertificateDataElement createAtgarderBeskrivning(LisjpUtlatandeV1 internalCertificate, int index) {
+        return CertificateDataElement.builder()
+            .id(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44)
+            .index(index)
+            .parent(ATGARDER_CATEGORY_ID)
+            .config(
+                CertificateDataConfigTextArea.builder()
+                    .text("Här kan du ange fler åtgärder. Du kan också beskriva hur åtgärderna kan underlätta återgång i arbete.")
+                    .id(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44)
+                    .build()
+            )
+            .value(
+                CertificateDataTextValue.builder()
+                    .id(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44)
+                    .text(internalCertificate.getArbetslivsinriktadeAtgarderBeskrivning())
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationShow.builder()
+                        .questionId(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
+                        .expression(
+                            multipleOrExpression(
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
+                            )
+                        )
+                        .build(),
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    private static CertificateDataElement createOvrigtCategory(int index) {
+        return CertificateDataElement.builder()
+            .id(OVRIGT_CATEGORY_ID)
+            .index(index)
+            .config(
+                CertificateDataConfigCategory.builder()
+                    .text("Övriga upplysningar")
+                    .build()
+            )
+            .build();
+    }
+
+    private static CertificateDataElement createOvrigtQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+        return CertificateDataElement.builder()
+            .id(OVRIGT_SVAR_ID_25)
+            .index(index)
+            .parent(OVRIGT_CATEGORY_ID)
+            .config(
+                CertificateDataConfigTextArea.builder()
+                    .id(OVRIGT_SVAR_JSON_ID_25)
+                    .build()
+            )
+            .value(
+                CertificateDataTextValue.builder()
+                    .id(OVRIGT_SVAR_JSON_ID_25)
+                    .text(internalCertificate.getOvrigt())
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationText.builder()
+                        .id(OVRIGT_SVAR_JSON_ID_25)
+                        .limit(LIMIT_OVRIGT)
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    private static CertificateDataElement createKontaktCategory(int index) {
+        return CertificateDataElement.builder()
+            .id(KONTAKT_CATEGORY_ID)
+            .index(index)
+            .config(
+                CertificateDataConfigCategory.builder()
+                    .text("Kontakt")
+                    .build()
+            )
+            .build();
+    }
+
+    private static CertificateDataElement createKontaktQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+        return CertificateDataElement.builder()
+            .id(KONTAKT_ONSKAS_SVAR_ID_26)
+            .index(index)
+            .parent(KONTAKT_CATEGORY_ID)
+            .config(
+                CertificateDataConfigCheckboxBoolean.builder()
+                    .id(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
+                    .text("Kontakt med Försäkringskassan")
+                    .description("Försäkringskassans handläggare tar kontakt med dig när"
+                        + " underlaget har kommit in och handläggningen kan påbörjas.")
+                    .selectedText("Ja")
+                    .unselectedText("Nej")
+                    .label("Jag önskar att Försäkringskassan kontaktar mig.")
+                    .build()
+            )
+            .value(
+                CertificateDataValueBoolean.builder()
+                    .id(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
+                    .selected(internalCertificate.getKontaktMedFk())
+                    .build()
             )
             .build();
     }
