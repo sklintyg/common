@@ -21,6 +21,15 @@ angular.module('common').factory('common.subscriptionService',
     [ 'common.UserModel', 'common.featureService' , function(UserModel, featureService) {
       'use strict';
 
+      var acknowledgedCareUnits = [];
+
+      function _hasAcknowledgedSubscriptionInfoForCareUnit() {
+          return acknowledgedCareUnits.includes(UserModel.user.valdVardenhet.id);
+      }
+
+      function _acknowledgeSubscriptionInfoForCareUnit() {
+          acknowledgedCareUnits.push(UserModel.user.valdVardenhet.id);
+      }
 
       function _isDuringAdjustmentPeriod() {
           return featureService.isFeatureActive('SUBSCRIPTION_DURING_ADJUSTMENT_PERIOD') &&
@@ -53,7 +62,8 @@ angular.module('common').factory('common.subscriptionService',
         }
 
       return {
-          hasAcknowledgedSubscriptionInfo: false,
+          hasAcknowledgedSubscriptionInfoForCareUnit: _hasAcknowledgedSubscriptionInfoForCareUnit,
+          acknowledgeSubscriptionInfoForCareUnit: _acknowledgeSubscriptionInfoForCareUnit,
           isElegUser: _isElegUser,
           isDuringAdjustmentPeriod: _isDuringAdjustmentPeriod,
           isPastAdjustmentPeriod: _isPastAdjustmentPeriod,

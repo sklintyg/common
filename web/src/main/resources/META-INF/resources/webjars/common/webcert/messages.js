@@ -125,6 +125,8 @@
             'subscription.during.adjustment.link.text': '<p><LINK:kundportalenGetAccount></p><p><LINK:kundportalenGetWebcert></p>',
             'subscription.sign.agreement.now.label': 'Teckna avtal nu',
             'subscription.sign.agreement.later.label': 'Inte just nu, tack',
+            'error.auth-exception-subscription.text': '<h2>Abonnemang saknas</h2><p/><p>Abonnemang för Intygstjänsterna saknas. För att använda Webcert krävs att organisationen tecknat avtal med Inera samt har ett aktivt abonnemang på Intygstjänsterna.</p><p/><p><LINK:kundportalenGetAccount></p><p><LINK:kundportalenGetWebcert></p><p>Om du har intyg i tjänsten som du vill exportera: kontakta <LINK:ineraKundserviceAnmalFel></p>',
+
 
             // avtal/terms
             'avtal.title.text': 'Godkännande av användarvillkor',
