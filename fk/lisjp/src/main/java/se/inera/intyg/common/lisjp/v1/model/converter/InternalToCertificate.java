@@ -75,11 +75,14 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGN
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_ID_39;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSELSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.appendAttribute;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleAndExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.not;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.wrapWithParenthesis;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.lessThan;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -87,7 +90,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
+import se.inera.intyg.common.lisjp.model.internal.Prognos;
 import se.inera.intyg.common.lisjp.model.internal.PrognosDagarTillArbeteTyp;
 import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
@@ -142,6 +147,7 @@ public final class InternalToCertificate {
     private static final short LIMIT_MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING = (short) 150;
     private static final short LIMIT_OVRIGT = (short) 3296;
 
+    private static final String VALIDATION_DAYS_TIDIGT_START_DATUM = "-7";
 
 
     private InternalToCertificate() {
@@ -999,7 +1005,7 @@ public final class InternalToCertificate {
             )
             .value(
                 CertificateDataValueDateRangeList.builder()
-                    .list(createSjukskrivningValue(internalCertificate))
+                    .list(createSjukskrivningValue(internalCertificate.getSjukskrivningar()))
                     .build()
             )
             .validation(
@@ -1018,11 +1024,11 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static List<CertificateDataValueDateRange> createSjukskrivningValue(LisjpUtlatandeV1 internalCertificate) {
-        if (internalCertificate == null) {
+    private static List<CertificateDataValueDateRange> createSjukskrivningValue(List<Sjukskrivning> sickLeaves) {
+        if (sickLeaves == null) {
             return Collections.emptyList();
         }
-        return internalCertificate.getSjukskrivningar().stream()
+        return sickLeaves.stream()
             .map(item -> CertificateDataValueDateRange.builder()
                 .id(item.getSjukskrivningsgrad().getId())
                 .to(item.getPeriod().getTom().asLocalDate())
@@ -1032,7 +1038,7 @@ public final class InternalToCertificate {
     }
 
     private static CertificateDataElement createMotiveringTidigtStartdatumQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
-        final var endOfExpression = ".from < -7";
+        var attribute = "from";
         return CertificateDataElement.builder()
             .id(BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32)
             .index(index)
@@ -1041,7 +1047,8 @@ public final class InternalToCertificate {
                 CertificateDataConfigTextArea.builder()
                     .text("Ange orsak för att starta perioden mer än 7 dagar bakåt i tiden.")
                     .description("Observera att detta inte är en fråga från Försäkringskassan. "
-                            + "Information om varför sjukskrivningen startar mer än en vecka före dagens datum kan vara till hjälp för Försäkringskassan"
+                            + "Information om varför sjukskrivningen startar mer än en vecka före"
+                            + " dagens datum kan vara till hjälp för Försäkringskassan"
                             + "i deras handläggning.\\n' +\n            '\\n' +\n            "
                             + "'Informationen du anger nedan, kommer att överföras till fältet \"{0}\" vid signering.")
                     .icon("lightbulb_outline")
@@ -1061,13 +1068,26 @@ public final class InternalToCertificate {
                         .expression(
                             multipleOrExpression(
                                 wrapWithParenthesis(
-                                    singleExpression(SjukskrivningsGrad.NEDSATT_1_4.getId()) + endOfExpression),
+                                    singleExpression(
+                                        lessThan(
+                                            appendAttribute(
+                                                SjukskrivningsGrad.NEDSATT_1_4.getId(), attribute), VALIDATION_DAYS_TIDIGT_START_DATUM))),
                                 wrapWithParenthesis(
-                                    singleExpression(SjukskrivningsGrad.NEDSATT_HALFTEN.getId()) + endOfExpression),
+                                    singleExpression(
+                                        lessThan(
+                                            appendAttribute(
+                                                SjukskrivningsGrad.NEDSATT_HALFTEN.getId(), attribute),
+                                                VALIDATION_DAYS_TIDIGT_START_DATUM))),
                                 wrapWithParenthesis(
-                                    singleExpression(SjukskrivningsGrad.NEDSATT_3_4.getId()) + endOfExpression),
+                                    singleExpression(
+                                        lessThan(
+                                            appendAttribute(
+                                                SjukskrivningsGrad.NEDSATT_3_4.getId(), attribute), VALIDATION_DAYS_TIDIGT_START_DATUM))),
                                 wrapWithParenthesis(
-                                    singleExpression(SjukskrivningsGrad.HELT_NEDSATT.getId()) + endOfExpression)
+                                    singleExpression(
+                                        lessThan(
+                                            appendAttribute(
+                                                SjukskrivningsGrad.HELT_NEDSATT.getId(), attribute), VALIDATION_DAYS_TIDIGT_START_DATUM)))
                             )
                         )
                         .build(),
@@ -1087,10 +1107,12 @@ public final class InternalToCertificate {
             .parent(BEDOMNING_CATEGORY_ID)
             .config(
                 CertificateDataConfigTextArea.builder()
-                    .text("Patientens arbetsförmåga bedöms nedsatt längre tid än den som Socialstyrelsens försäkringsmedicinska beslutsstöd anger, därför att")
+                    .text("Patientens arbetsförmåga bedöms nedsatt längre tid än den som Socialstyrelsens"
+                        + " försäkringsmedicinska beslutsstöd anger, därför att")
                     .description("- Om sjukdomen inte följer förväntat förlopp ska det framgå på vilket sätt.\n"
                             + "        - Om det inträffar komplikationer som gör att det tar längre tid att återfå arbetsförmåga ska"
-                            + " du beskriva komplikationerna eller sjukdomstillstånden och skriva en förklaring till varför dessa fördröjer tillfrisknandet.\n"
+                            + " du beskriva komplikationerna eller sjukdomstillstånden och skriva en förklaring"
+                            + " till varför dessa fördröjer tillfrisknandet.\n"
                             + "        - Om sjukskrivningstidens längd påverkas av flera sjukdomar som orsakar en längre period med"
                             + " aktivitetsbegränsning än varje sjukdom för sig, samsjuklighet, ska du beskriva och förklara detta."
                     )
@@ -1252,8 +1274,8 @@ public final class InternalToCertificate {
             )
             .value(
                 CertificateDataValueCode.builder()
-                    .id(internalCertificate.getPrognos() != null ? internalCertificate.getPrognos().getTyp().getId() : null)
-                    .code(internalCertificate.getPrognos() != null ? internalCertificate.getPrognos().getTyp().getId() : null)
+                    .id(getPrognosValue(internalCertificate.getPrognos()))
+                    .code(getPrognosValue(internalCertificate.getPrognos()))
                     .build()
             )
             .validation(
@@ -1276,6 +1298,10 @@ public final class InternalToCertificate {
                 }
             )
             .build();
+    }
+
+    private static String getPrognosValue(Prognos prognos) {
+        return prognos != null ? prognos.getTyp().getId() : null;
     }
 
     private static CertificateDataElement createPrognosTimeperiodQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
@@ -1317,10 +1343,8 @@ public final class InternalToCertificate {
             )
             .value(
                 CertificateDataValueCode.builder()
-                    .id(internalCertificate.getPrognos() != null && internalCertificate.getPrognos().getDagarTillArbete() != null
-                        ? internalCertificate.getPrognos().getDagarTillArbete().getId() : null)
-                    .code(internalCertificate.getPrognos() != null && internalCertificate.getPrognos().getDagarTillArbete() != null
-                        ? internalCertificate.getPrognos().getDagarTillArbete().getId() : null)
+                    .id(getPrognosDagarTillArbeteValue(internalCertificate.getPrognos()))
+                    .code(getPrognosDagarTillArbeteValue(internalCertificate.getPrognos()))
                     .build()
             )
             .validation(
@@ -1348,6 +1372,10 @@ public final class InternalToCertificate {
                 }
             )
             .build();
+    }
+
+    private static String getPrognosDagarTillArbeteValue(Prognos prognos) {
+        return prognos != null && prognos.getDagarTillArbete() != null ? prognos.getDagarTillArbete().getId() : null;
     }
 
     private static CertificateDataElement createAtgarderCategory(int index) {
@@ -1431,7 +1459,7 @@ public final class InternalToCertificate {
             )
             .value(
                 CertificateDataValueCodeList.builder()
-                    .list(createAtgarderCodeList(internalCertificate))
+                    .list(createAtgarderCodeList(internalCertificate.getArbetslivsinriktadeAtgarder()))
                     .build()
             )
             .validation(
@@ -1501,12 +1529,12 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static List<CertificateDataValueCode> createAtgarderCodeList(LisjpUtlatandeV1 internalCertificate) {
-        if (internalCertificate.getArbetslivsinriktadeAtgarder() == null) {
+    private static List<CertificateDataValueCode> createAtgarderCodeList(List<ArbetslivsinriktadeAtgarder> atgarder) {
+        if (atgarder == null) {
             return Collections.emptyList();
         }
 
-        return internalCertificate.getArbetslivsinriktadeAtgarder().stream()
+        return atgarder.stream()
             .map(atgard -> CertificateDataValueCode.builder()
                 .id(atgard.getTyp().getId())
                 .code(atgard.getTyp().getId())

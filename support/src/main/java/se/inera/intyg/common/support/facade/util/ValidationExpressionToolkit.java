@@ -58,4 +58,16 @@ public final class ValidationExpressionToolkit {
             return s;
         });
     }
+
+    public static String lessThan(String s1, String s2) {
+        return s1 + " < " + s2;
+    }
+
+    public static String moreThan(String s1, String s2) {
+        return s1 + " > " + s2;
+    }
+
+    public static String appendAttribute(String s, String attribute) {
+        return s + '.' + attribute;
+    }
 }
