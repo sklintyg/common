@@ -399,6 +399,10 @@ public final class InternalToCertificate {
                     CertificateDataValidationMaxDate.builder()
                         .id(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
                         .numberOfDays((short) 0)
+                        .build(),
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
                         .build()
                 }
             )
@@ -472,6 +476,10 @@ public final class InternalToCertificate {
                     CertificateDataValidationShow.builder()
                         .questionId(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
                         .expression(singleExpression(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
+                        .build(),
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
                         .build()
                 }
             )
@@ -523,6 +531,10 @@ public final class InternalToCertificate {
                     CertificateDataValidationText.builder()
                         .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1)
                         .limit(LIMIT_MOTIVERING_INTE_BASERAT_PA_UNDERLAG)
+                        .build(),
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
                         .build()
                 }
             )

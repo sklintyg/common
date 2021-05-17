@@ -43,13 +43,11 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTA
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_SVAR_ID_6;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
@@ -817,6 +815,19 @@ class InternalToCertificateTest {
                     () -> assertEquals(0, certificateDataValidationMaxDate.getNumberOfDays())
                 );
             }
+
+            @Test
+            void shouldIncludeCategoryValidationHide() {
+                final var certificate = InternalToCertificate.convert(internalCertificate);
+
+                final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
+
+                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[5];
+                assertAll("Validation question validation",
+                    () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
+                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
+                );
+            }
         }
 
         @Nested
@@ -881,10 +892,10 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1);
 
-                final var certificateDataValueDateList = (CertificateDataTextValue) question.getValue();
+                final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1, certificateDataValueDateList.getId()),
-                    () -> assertEquals(expectedText, certificateDataValueDateList.getText())
+                    () -> assertEquals(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1, certificateDataTextValue.getId()),
+                    () -> assertEquals(expectedText, certificateDataTextValue.getText())
                 );
             }
 
@@ -900,10 +911,10 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1);
 
-                final var certificateDataValueDateList = (CertificateDataTextValue) question.getValue();
+                final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1, certificateDataValueDateList.getId()),
-                    () -> assertNull(certificateDataValueDateList.getText())
+                    () -> assertEquals(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1, certificateDataTextValue.getId()),
+                    () -> assertNull(certificateDataTextValue.getText())
                 );
             }
 
@@ -931,6 +942,19 @@ class InternalToCertificateTest {
                 assertAll("Validation question validation",
                     () -> assertEquals(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, certificateDataValidationShow.getQuestionId()),
                     () -> assertEquals("$" + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1, certificateDataValidationShow.getExpression())
+                );
+            }
+
+            @Test
+            void shouldIncludeCategoryValidationHide() {
+                final var certificate = InternalToCertificate.convert(internalCertificate);
+
+                final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1);
+
+                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[2];
+                assertAll("Validation question validation",
+                    () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
+                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
                 );
             }
         }
@@ -998,10 +1022,10 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1);
 
-                final var certificateDataValueDateList = (CertificateDataTextValue) question.getValue();
+                final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1, certificateDataValueDateList.getId()),
-                    () -> assertEquals(expectedText, certificateDataValueDateList.getText())
+                    () -> assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1, certificateDataTextValue.getId()),
+                    () -> assertEquals(expectedText, certificateDataTextValue.getText())
                 );
             }
 
@@ -1017,10 +1041,10 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1);
 
-                final var certificateDataValueDateList = (CertificateDataTextValue) question.getValue();
+                final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1, certificateDataValueDateList.getId()),
-                    () -> assertNull(certificateDataValueDateList.getText())
+                    () -> assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1, certificateDataTextValue.getId()),
+                    () -> assertNull(certificateDataTextValue.getText())
                 );
             }
 
@@ -1049,6 +1073,19 @@ class InternalToCertificateTest {
                 assertAll("Validation question validation",
                     () -> assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1, certificateDataValidationText.getId()),
                     () -> assertEquals(150, certificateDataValidationText.getLimit())
+                );
+            }
+
+            @Test
+            void shouldIncludeCategoryValidationHide() {
+                final var certificate = InternalToCertificate.convert(internalCertificate);
+
+                final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1);
+
+                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[2];
+                assertAll("Validation question validation",
+                    () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
+                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
                 );
             }
         }
@@ -1242,11 +1279,11 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(TYP_AV_SYSSELSATTNING_SVAR_ID_28);
 
-                final var certificateDataValueDateList = (CertificateDataValueCodeList) question.getValue();
+                final var certificateDataValueCodeList = (CertificateDataValueCodeList) question.getValue();
                 assertAll("Validating question value",
                     () -> assertEquals(expectedSysselsattning.getTyp().getId(),
-                        certificateDataValueDateList.getList().get(0).getId()),
-                    () -> assertEquals(expectedSysselsattning.getTyp().getId(), certificateDataValueDateList.getList().get(0).getCode())
+                        certificateDataValueCodeList.getList().get(0).getId()),
+                    () -> assertEquals(expectedSysselsattning.getTyp().getId(), certificateDataValueCodeList.getList().get(0).getCode())
                 );
             }
 
@@ -1264,11 +1301,11 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(TYP_AV_SYSSELSATTNING_SVAR_ID_28);
 
-                final var certificateDataValueDateList = (CertificateDataValueCodeList) question.getValue();
+                final var certificateDataValueCodeList = (CertificateDataValueCodeList) question.getValue();
                 assertAll("Validating question value",
                     () -> assertEquals(expectedSysselsattning.getTyp().getId(),
-                        certificateDataValueDateList.getList().get(0).getId()),
-                    () -> assertEquals(expectedSysselsattning.getTyp().getId(), certificateDataValueDateList.getList().get(0).getCode())
+                        certificateDataValueCodeList.getList().get(0).getId()),
+                    () -> assertEquals(expectedSysselsattning.getTyp().getId(), certificateDataValueCodeList.getList().get(0).getCode())
                 );
             }
 
@@ -1286,11 +1323,11 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(TYP_AV_SYSSELSATTNING_SVAR_ID_28);
 
-                final var certificateDataValueDateList = (CertificateDataValueCodeList) question.getValue();
+                final var certificateDataValueCodeList = (CertificateDataValueCodeList) question.getValue();
                 assertAll("Validating question value",
                     () -> assertEquals(expectedSysselsattning.getTyp().getId(),
-                        certificateDataValueDateList.getList().get(0).getId()),
-                    () -> assertEquals(expectedSysselsattning.getTyp().getId(), certificateDataValueDateList.getList().get(0).getCode())
+                        certificateDataValueCodeList.getList().get(0).getId()),
+                    () -> assertEquals(expectedSysselsattning.getTyp().getId(), certificateDataValueCodeList.getList().get(0).getCode())
                 );
             }
 
@@ -1308,11 +1345,11 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(TYP_AV_SYSSELSATTNING_SVAR_ID_28);
 
-                final var certificateDataValueDateList = (CertificateDataValueCodeList) question.getValue();
+                final var certificateDataValueCodeList = (CertificateDataValueCodeList) question.getValue();
                 assertAll("Validating question value",
                     () -> assertEquals(expectedSysselsattning.getTyp().getId(),
-                        certificateDataValueDateList.getList().get(0).getId()),
-                    () -> assertEquals(expectedSysselsattning.getTyp().getId(), certificateDataValueDateList.getList().get(0).getCode())
+                        certificateDataValueCodeList.getList().get(0).getId()),
+                    () -> assertEquals(expectedSysselsattning.getTyp().getId(), certificateDataValueCodeList.getList().get(0).getCode())
                 );
             }
 
@@ -1335,24 +1372,24 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(TYP_AV_SYSSELSATTNING_SVAR_ID_28);
 
-                final var certificateDataValueDateList = (CertificateDataValueCodeList) question.getValue();
+                final var certificateDataValueCodeList = (CertificateDataValueCodeList) question.getValue();
                 assertAll("Validating question value",
                     () -> assertEquals(expectedSysselsattning.get(0).getTyp().getId(),
-                        certificateDataValueDateList.getList().get(0).getId()),
+                        certificateDataValueCodeList.getList().get(0).getId()),
                     () -> assertEquals(expectedSysselsattning.get(0).getTyp().getId(),
-                        certificateDataValueDateList.getList().get(0).getCode()),
+                        certificateDataValueCodeList.getList().get(0).getCode()),
                     () -> assertEquals(expectedSysselsattning.get(1).getTyp().getId(),
-                        certificateDataValueDateList.getList().get(1).getId()),
+                        certificateDataValueCodeList.getList().get(1).getId()),
                     () -> assertEquals(expectedSysselsattning.get(1).getTyp().getId(),
-                        certificateDataValueDateList.getList().get(1).getCode()),
+                        certificateDataValueCodeList.getList().get(1).getCode()),
                     () -> assertEquals(expectedSysselsattning.get(2).getTyp().getId(),
-                        certificateDataValueDateList.getList().get(2).getId()),
+                        certificateDataValueCodeList.getList().get(2).getId()),
                     () -> assertEquals(expectedSysselsattning.get(2).getTyp().getId(),
-                        certificateDataValueDateList.getList().get(2).getCode()),
+                        certificateDataValueCodeList.getList().get(2).getCode()),
                     () -> assertEquals(expectedSysselsattning.get(3).getTyp().getId(),
-                        certificateDataValueDateList.getList().get(3).getId()),
+                        certificateDataValueCodeList.getList().get(3).getId()),
                     () -> assertEquals(expectedSysselsattning.get(3).getTyp().getId(),
-                        certificateDataValueDateList.getList().get(3).getCode())
+                        certificateDataValueCodeList.getList().get(3).getCode())
                 );
             }
 
@@ -1446,10 +1483,10 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(NUVARANDE_ARBETE_SVAR_ID_29);
 
-                final var certificateDataValueDateList = (CertificateDataTextValue) question.getValue();
+                final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(NUVARANDE_ARBETE_SVAR_JSON_ID_29, certificateDataValueDateList.getId()),
-                    () -> assertEquals(expectedText, certificateDataValueDateList.getText())
+                    () -> assertEquals(NUVARANDE_ARBETE_SVAR_JSON_ID_29, certificateDataValueText.getId()),
+                    () -> assertEquals(expectedText, certificateDataValueText.getText())
                 );
             }
 
@@ -1465,10 +1502,10 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(NUVARANDE_ARBETE_SVAR_ID_29);
 
-                final var certificateDataValueDateList = (CertificateDataTextValue) question.getValue();
+                final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(NUVARANDE_ARBETE_SVAR_JSON_ID_29, certificateDataValueDateList.getId()),
-                    () -> assertNull(certificateDataValueDateList.getText())
+                    () -> assertEquals(NUVARANDE_ARBETE_SVAR_JSON_ID_29, certificateDataValueText.getId()),
+                    () -> assertNull(certificateDataValueText.getText())
                 );
             }
 
@@ -2695,10 +2732,10 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32);
 
-                final var certificateDataValueDateList = (CertificateDataTextValue) question.getValue();
+                final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID, certificateDataValueDateList.getId()),
-                    () -> assertEquals(expectedText, certificateDataValueDateList.getText())
+                    () -> assertEquals(MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID, certificateDataValueText.getId()),
+                    () -> assertEquals(expectedText, certificateDataValueText.getText())
                 );
             }
 
@@ -2714,10 +2751,10 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32);
 
-                final var certificateDataValueDateList = (CertificateDataTextValue) question.getValue();
+                final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID, certificateDataValueDateList.getId()),
-                    () -> assertNull(certificateDataValueDateList.getText())
+                    () -> assertEquals(MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID, certificateDataValueText.getId()),
+                    () -> assertNull(certificateDataValueText.getText())
                 );
             }
 
@@ -3056,10 +3093,10 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33);
 
-                final var certificateDataValueDateList = (CertificateDataTextValue) question.getValue();
+                final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33, certificateDataValueDateList.getId()),
-                    () -> assertEquals(expectedText, certificateDataValueDateList.getText())
+                    () -> assertEquals(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33, certificateDataTextValue.getId()),
+                    () -> assertEquals(expectedText, certificateDataTextValue.getText())
                 );
             }
 
@@ -3075,10 +3112,10 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33);
 
-                final var certificateDataValueDateList = (CertificateDataTextValue) question.getValue();
+                final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33, certificateDataValueDateList.getId()),
-                    () -> assertNull(certificateDataValueDateList.getText())
+                    () -> assertEquals(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33, certificateDataTextValue.getId()),
+                    () -> assertNull(certificateDataTextValue.getText())
                 );
             }
 
