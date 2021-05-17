@@ -18,57 +18,61 @@
  */
 
 angular.module('common').factory('common.subscriptionService',
-    [ 'common.UserModel', 'common.featureService' , function(UserModel, featureService) {
+    [ 'common.UserModel', function(UserModel) {
       'use strict';
 
-      var acknowledgedCareUnits = [];
-
-      function _hasAcknowledgedSubscriptionInfoForCareUnit() {
-          return acknowledgedCareUnits.includes(UserModel.user.valdVardenhet.id);
+      function _hasAcknowledgedSubscriptionWarning() {
+          return UserModel.user.subscriptionInfo.acknowledgedWarnings.includes(UserModel.user.valdVardenhet.id);
       }
 
-      function _acknowledgeSubscriptionInfoForCareUnit() {
-          acknowledgedCareUnits.push(UserModel.user.valdVardenhet.id);
+      function _setAcknowledgedWarnings(acknowledgedWarnings) {
+          UserModel.user.subscriptionInfo.acknowledgedWarnings = acknowledgedWarnings;
+      }
+
+      function _addAcknowledgedWarning() {
+          UserModel.user.subscriptionInfo.acknowledgedWarnings.push(UserModel.user.valdVardenhet.id);
+      }
+
+      function _shouldDisplaySubscriptionWarning() {
+          if (UserModel.user.hasOwnProperty('valdVardgivare')) {
+              return UserModel.isNormalOrigin() && _isDuringAdjustmentPeriod() && _isCareProviderMissingSubscription();
+          }
+          return false;
       }
 
       function _isDuringAdjustmentPeriod() {
-          return featureService.isFeatureActive('SUBSCRIPTION_DURING_ADJUSTMENT_PERIOD') &&
-              !featureService.isFeatureActive('SUBSCRIPTION_PAST_ADJUSTMENT_PERIOD');
+          return UserModel.user.subscriptionInfo.subscriptionAction === 'MISSING_SUBSCRIPTION_WARN';
       }
 
       function _isPastAdjustmentPeriod() {
-          return featureService.isFeatureActive('SUBSCRIPTION_PAST_ADJUSTMENT_PERIOD');
+          return UserModel.user.subscriptionInfo.subscriptionAction === 'MISSING_SUBSCRIPTION_BLOCK';
       }
 
       function _isAnySubscriptionFeatureActive() {
-          return featureService.isFeatureActive('SUBSCRIPTION_DURING_ADJUSTMENT_PERIOD') ||
-              featureService.isFeatureActive('SUBSCRIPTION_PAST_ADJUSTMENT_PERIOD');
+          return _isDuringAdjustmentPeriod() || _isPastAdjustmentPeriod();
       }
 
-      function _hasCareProviderMissingSubscription() {
-          return UserModel.user.subscriptionInfo.unitHsaIdList.length > 0;
+      function _isCareProviderMissingSubscription() {
+          return UserModel.user.subscriptionInfo.unitHsaIdList.includes(UserModel.user.valdVardgivare.id);
       }
 
-      function _isCareProviderMissingSubscription(careProviderHsaId) {
-          return UserModel.user.subscriptionInfo.unitHsaIdList.indexOf(careProviderHsaId) === -1;
+      function _getSubscriptionBlockStartDate() {
+          return UserModel.user.subscriptionInfo.subscriptionBlockStartDate;
       }
 
       function _isElegUser() {
-          var authScheme = UserModel.user.authenticationScheme;
-          return authScheme === 'urn:inera:webcert:eleg:fake' ||
-              authScheme === 'urn:oasis:names:tc:SAML:2.0:ac:classes:SoftwarePKI' ||
-              authScheme === 'urn:oasis:names:tc:SAML:2.0:ac:classes:SmartcardPKI' ||
-              authScheme === 'urn:oasis:names:tc:SAML:2.0:ac:classes:MobileTwofactorContract';
-        }
+          return UserModel.user.subscriptionInfo.authenticationMethod === 'ELEG';
+      }
 
       return {
-          hasAcknowledgedSubscriptionInfoForCareUnit: _hasAcknowledgedSubscriptionInfoForCareUnit,
-          acknowledgeSubscriptionInfoForCareUnit: _acknowledgeSubscriptionInfoForCareUnit,
+          setAcknowledgedWarnings: _setAcknowledgedWarnings,
+          hasAcknowledgedSubscriptionWarning: _hasAcknowledgedSubscriptionWarning,
+          addAcknowledgedWarning: _addAcknowledgedWarning,
           isElegUser: _isElegUser,
           isDuringAdjustmentPeriod: _isDuringAdjustmentPeriod,
           isPastAdjustmentPeriod: _isPastAdjustmentPeriod,
           isAnySubscriptionFeatureActive: _isAnySubscriptionFeatureActive,
-          hasCareProviderMissingSubscription: _hasCareProviderMissingSubscription,
-          isCareProviderMissingSubscription: _isCareProviderMissingSubscription
+          shouldDisplaySubscriptionWarning: _shouldDisplaySubscriptionWarning,
+          getSubscriptionBlockStartDate: _getSubscriptionBlockStartDate
       };
     }]);

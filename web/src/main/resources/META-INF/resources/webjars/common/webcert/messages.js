@@ -119,10 +119,10 @@
             'label.makulera.no.recipient.title.radio': 'Ange varför du makulerar intyget',
 
             // subscription
-            'subscription.during.adjustment.title.text': 'Teckna kundavtal samt beställ Intygstjänster',
-            'subscription.during.adjustment.info.text': '<p>Från och med <em>åååå-mm-dd</em> krävs det att man tecknat Kundavtal samt beställt Intygstjänster för att kunna fortsätta använda Webcert.</p>',
-            'subscription.during.adjustment.eleg.text': '<p>Observera att inloggning med Bank-id eller Telia e-legitimation enbart kommer tillåtas om man har enskild firma (personnumret samma som organisationsnummer) samt ansvarsförsäkring.</p>',
-            'subscription.during.adjustment.link.text': '<p><LINK:kundportalenGetAccount></p><p><LINK:kundportalenGetWebcert></p>',
+            'subscription.warning.title.text': 'Teckna kundavtal samt beställ Intygstjänster',
+            'subscription.warning.info.text': '<p>Från och med <em>${blockStartDate}</em> krävs det att man tecknat Kundavtal samt beställt Intygstjänster för att kunna fortsätta använda Webcert.</p>',
+            'subscription.warning.eleg.text': '<p>Observera att inloggning med Bank-id eller Telia e-legitimation enbart kommer tillåtas om man har enskild firma (personnumret samma som organisationsnummer) samt ansvarsförsäkring.</p>',
+            'subscription.warning.link.text': '<p><LINK:kundportalenGetAccount></p><p><LINK:kundportalenGetWebcert></p>',
             'subscription.sign.agreement.now.label': 'Teckna avtal nu',
             'subscription.sign.agreement.later.label': 'Inte just nu, tack',
             'error.auth-exception-subscription.text': '<h2>Abonnemang saknas</h2><p/><p>Abonnemang för Intygstjänsterna saknas. För att använda Webcert krävs att organisationen tecknat avtal med Inera samt har ett aktivt abonnemang på Intygstjänsterna.</p><p/><p><LINK:kundportalenGetAccount></p><p><LINK:kundportalenGetWebcert></p><p>Om du har intyg i tjänsten som du vill exportera: kontakta <LINK:ineraKundserviceAnmalFel></p>',
