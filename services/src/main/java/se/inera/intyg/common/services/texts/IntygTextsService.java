@@ -43,7 +43,7 @@ public interface IntygTextsService {
      */
     String getIntygTexts(String intygsTyp, String version);
 
-    boolean isLatestVersion(String certificateType, String version);
+    boolean isLatestMajorVersion(String certificateType, String version);
 
     /**
      * Returns an {@link IntygTexts} representation of the set of texts for the certificate with specified and version.

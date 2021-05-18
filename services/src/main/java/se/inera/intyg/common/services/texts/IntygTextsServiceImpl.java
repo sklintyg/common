@@ -73,8 +73,8 @@ public class IntygTextsServiceImpl implements IntygTextsService {
     }
 
     @Override
-    public boolean isLatestVersion(String certificateType, String version) {
-        return true;
+    public boolean isLatestMajorVersion(String certificateType, String version) {
+        return getLatestVersion(certificateType).split("\\.")[0].equals(version.split("\\.")[0]);
     }
 
     @Override
