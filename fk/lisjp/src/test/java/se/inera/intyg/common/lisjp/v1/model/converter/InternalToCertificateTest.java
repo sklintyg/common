@@ -81,6 +81,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TYP_A
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -2647,6 +2648,23 @@ class InternalToCertificateTest {
                     () -> assertEquals(expectedPeriod.getTom().asLocalDate(), certificateDataValueDateRangeList.getList().get(3).getTo()),
                     () -> assertEquals(expectedPeriod.getFrom().asLocalDate(), certificateDataValueDateRangeList.getList().get(3).getFrom())
                 );
+            }
+
+            @Test
+            void shouldIncludeQuestionValueNone() {
+                internalCertificate = LisjpUtlatandeV1.builder()
+                    .setGrundData(grundData)
+                    .setId("id")
+                    .setTextVersion("TextVersion")
+                    .setSjukskrivningar(Collections.emptyList())
+                    .build();
+
+                final var certificate = InternalToCertificate.convert(internalCertificate);
+
+                final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
+
+                final var certificateDataValueDateRangeList = (CertificateDataValueDateRangeList) question.getValue();
+                assertTrue(certificateDataValueDateRangeList.getList().size() == 0);
             }
 
             @Test
