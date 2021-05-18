@@ -16,8 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package se.inera.intyg.common.support.facade.model.value;
 
-public enum CertificateDataValueType {
-    BOOLEAN, TEXT, DATE, DATE_LIST, DATE_RANGE, DATE_RANGE_LIST, CODE_LIST, CODE, DIAGNOSIS_LIST, DIAGNOSIS, UNKOWN;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.List;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Value;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfig;
+
+@JsonDeserialize(builder = CertificateDataValueDateRangeList.CertificateDataValueDateRangeListBuilder.class)
+@Value
+@Builder
+public class CertificateDataValueDateRangeList implements CertificateDataValue {
+    @Getter(onMethod = @__(@Override))
+    CertificateDataValueType type = CertificateDataValueType.DATE_RANGE_LIST;
+    List<CertificateDataValueDateRange> list;
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class CertificateDataValueDateRangeListBuilder {
+
+    }
 }

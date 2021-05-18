@@ -16,9 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package se.inera.intyg.common.support.facade.model.config;
 
-public enum CertificateDataConfigTypes {
-    CATEGORY, UE_RADIO_BOOLEAN, UE_CHECKBOX_BOOLEAN, UE_CHECKBOX_MULTIPLE_DATE, UE_CHECKBOX_MULTIPLE_CODE, UE_RADIO_MULTIPLE_CODE,
-    UE_DIAGNOSES, UE_SICK_LEAVE_PERIOD, UE_TEXTAREA, UE_DROPDOWN;
+import lombok.Builder;
+import lombok.Value;
+
+@Value
+@Builder
+public class CheckboxDateRange {
+    String id;
+    String label;
 }
