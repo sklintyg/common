@@ -73,13 +73,22 @@ public class IntygTextsServiceImpl implements IntygTextsService {
     }
 
     @Override
-    public boolean isLatestMajorVersion(String certificateType, String version) {
-        return getLatestVersion(certificateType).split("\\.")[0].equals(version.split("\\.")[0]);
+    public boolean isLatestMajorVersion(String certificateType, String versionToCompare) {
+        final var latestVersion = getLatestVersion(certificateType);
+        return sameMajorVersion(versionToCompare, latestVersion);
     }
 
     @Override
     public IntygTexts getIntygTextsPojo(String intygsTyp, String version) {
         return repo.getTexts(intygsTyp, version);
+    }
+
+    private String majorVersion(String version) {
+        return version.split("\\.")[0];
+    }
+
+    private boolean sameMajorVersion(String versionToCompare, String latestVersion) {
+        return majorVersion(latestVersion).equals(majorVersion(versionToCompare));
     }
 
 }
