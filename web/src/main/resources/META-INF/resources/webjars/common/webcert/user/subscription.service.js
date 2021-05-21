@@ -22,7 +22,7 @@ angular.module('common').factory('common.subscriptionService',
       'use strict';
 
       function _hasAcknowledgedSubscriptionWarning() {
-          return UserModel.user.subscriptionInfo.acknowledgedWarnings.includes(UserModel.user.valdVardenhet.id);
+          return UserModel.user.subscriptionInfo.acknowledgedWarnings.includes(UserModel.user.valdVardgivare.id);
       }
 
       function _setAcknowledgedWarnings(acknowledgedWarnings) {
@@ -30,7 +30,7 @@ angular.module('common').factory('common.subscriptionService',
       }
 
       function _addAcknowledgedWarning() {
-          UserModel.user.subscriptionInfo.acknowledgedWarnings.push(UserModel.user.valdVardenhet.id);
+          UserModel.user.subscriptionInfo.acknowledgedWarnings.push(UserModel.user.valdVardgivare.id);
       }
 
       function _shouldDisplaySubscriptionWarning() {
