@@ -28,10 +28,8 @@ public interface IntygTextsService {
     /**
      * Lookup if the version and type of intyg is supported.
      *
-     * @param intygsTyp
-     *              the type of intyg
-     * @param version
-     *              the version of the intyg, described in [major.minor]
+     * @param intygsTyp the type of intyg
+     * @param version the version of the intyg, described in [major.minor]
      * @return boolean if the specific intyg is supported
      */
     boolean isVersionSupported(String intygsTyp, String version);
@@ -39,21 +37,19 @@ public interface IntygTextsService {
     /**
      * Returns the texts for a given type and version as JSON.
      *
-     * @param intygsTyp
-     *            the type
-     * @param version
-     *            the version
+     * @param intygsTyp the type
+     * @param version the version
      * @return the texts as JSON
      */
     String getIntygTexts(String intygsTyp, String version);
 
+    boolean isLatestMajorVersion(String certificateType, String version);
+
     /**
      * Returns an {@link IntygTexts} representation of the set of texts for the certificate with specified and version.
      *
-     * @param intygsTyp
-     *            the type
-     * @param version
-     *            the version
+     * @param intygsTyp the type
+     * @param version the version
      * @return the texts as an {@link IntygTexts} object
      */
     IntygTexts getIntygTextsPojo(String intygsTyp, String version);
@@ -61,8 +57,7 @@ public interface IntygTextsService {
     /**
      * Returns the latest version for <code>intygsTyp</code>.
      *
-     * @param intygsTyp
-     *            the type
+     * @param intygsTyp the type
      * @return the latest version
      */
     String getLatestVersion(String intygsTyp);
@@ -70,8 +65,7 @@ public interface IntygTextsService {
     /**
      * Returns the latest minor version for <code>intygsTyp</code> and <code>major</code>.
      *
-     * @param intygsTyp
-     *            the type
+     * @param intygsTyp the type
      * @return the latest version
      */
     String getLatestVersionForSameMajorVersion(String intygsTyp, String version);
