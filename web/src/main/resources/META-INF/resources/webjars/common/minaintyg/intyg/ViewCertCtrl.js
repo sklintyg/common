@@ -25,7 +25,7 @@ angular.module('common').controller(
             $scope.cert = undefined;
 
             $scope.intygsTyp = viewFactory.intygsTyp;
-            $scope.enableSend = !!viewFactory.getSendUrl();
+            $scope.enableSend = false;
             $scope.selectRecipientKey = viewFactory.selectRecipientKey;
 
             $scope.possibleToCustomize = function() {
@@ -51,6 +51,7 @@ angular.module('common').controller(
                 if (result !== null) {
                     $scope.cert = result.utlatande;
                     $scope.certMeta = result.meta;
+                    $scope.enableSend = !!viewFactory.getSendUrl() && $scope.certMeta.sendToRecipientEnabled;
                     $scope.errorMessage = null;
                 } else {
                     $scope.errorMessage = 'error.certnotfound';
