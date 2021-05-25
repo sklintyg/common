@@ -46,8 +46,8 @@ public class IntygTextsServiceImpl implements IntygTextsService {
         final Integer integerVersion = Ints.tryParse(stringVersion);
 
         final String version = integerVersion != null
-                ? integerVersion.toString() + ".0"
-                : stringVersion;
+            ? integerVersion.toString() + ".0"
+            : stringVersion;
 
         return repo.isVersionSupported(intygsTyp, version);
     }
@@ -73,8 +73,22 @@ public class IntygTextsServiceImpl implements IntygTextsService {
     }
 
     @Override
+    public boolean isLatestMajorVersion(String certificateType, String versionToCompare) {
+        final var latestVersion = getLatestVersion(certificateType);
+        return sameMajorVersion(versionToCompare, latestVersion);
+    }
+
+    @Override
     public IntygTexts getIntygTextsPojo(String intygsTyp, String version) {
         return repo.getTexts(intygsTyp, version);
+    }
+
+    private String majorVersion(String version) {
+        return version.split("\\.")[0];
+    }
+
+    private boolean sameMajorVersion(String versionToCompare, String latestVersion) {
+        return majorVersion(latestVersion).equals(majorVersion(versionToCompare));
     }
 
 }
