@@ -19,12 +19,22 @@
 
 package se.inera.intyg.common.support.facade.util;
 
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCodeList;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateList;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRange;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
 
 public final class ValueToolkit {
 
@@ -58,6 +68,65 @@ public final class ValueToolkit {
         }
 
         return textDataValue.getText();
+    }
+
+    public static LocalDate dateValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
+        final var dataValue = getValue(data, questionId);
+        if (!(dataValue instanceof CertificateDataValueDateList)) {
+            return null;
+        }
+
+        final var dateListDataValue = (CertificateDataValueDateList) dataValue;
+        final var dateValue = dateListDataValue.getList()
+            .stream()
+            .filter(item -> item.getId().equals(valueId))
+            .findAny()
+            .orElse(null);
+        if (dateValue == null) {
+            return null;
+        }
+
+        return dateValue.getDate();
+    }
+
+    public static String codeValue(Map<String, CertificateDataElement> data, String questionId) {
+        final var dataValue = getValue(data, questionId);
+        if (!(dataValue instanceof CertificateDataValueCode)) {
+            return null;
+        }
+
+        final var codeDataValue = (CertificateDataValueCode) dataValue;
+        return codeDataValue.getCode();
+    }
+
+    public static List<CertificateDataValueCode> codeListValue(Map<String, CertificateDataElement> data, String questionId) {
+        final var dataValue = getValue(data, questionId);
+        if (!(dataValue instanceof CertificateDataValueCodeList)) {
+            return Collections.emptyList();
+        }
+
+        final var codeListDataValue = (CertificateDataValueCodeList) dataValue;
+        return codeListDataValue.getList();
+    }
+
+    public static List<CertificateDataValueDiagnosis> diagnosisListValue(Map<String, CertificateDataElement> data, String questionId) {
+        final var dataValue = getValue(data, questionId);
+        if (!(dataValue instanceof CertificateDataValueDiagnosisList)) {
+            return Collections.emptyList();
+        }
+
+        final var diagnosisListDataValue = (CertificateDataValueDiagnosisList) dataValue;
+        return diagnosisListDataValue.getList();
+    }
+
+    public static List<CertificateDataValueDateRange> dateRangeListValue(Map<String, CertificateDataElement> data, String questionId) {
+        final var dataValue = getValue(data, questionId);
+        if (!(dataValue instanceof CertificateDataValueDateRangeList)) {
+            return Collections.emptyList();
+        }
+
+        final var dateRangeListDataValue = (CertificateDataValueDateRangeList) dataValue;
+        return dateRangeListDataValue.getList();
     }
 
     private static CertificateDataValue getValue(Map<String, CertificateDataElement> data, String questionId) {
