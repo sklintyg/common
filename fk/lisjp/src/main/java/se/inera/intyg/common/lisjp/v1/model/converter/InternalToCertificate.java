@@ -19,9 +19,10 @@
 
 package se.inera.intyg.common.lisjp.v1.model.converter;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40;
@@ -38,13 +39,11 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTA
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_SVAR_ID_6;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
@@ -97,6 +96,7 @@ import se.inera.intyg.common.lisjp.model.internal.PrognosDagarTillArbeteTyp;
 import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
+import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
 import se.inera.intyg.common.lisjp.model.internal.Sysselsattning.SysselsattningsTyp;
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
@@ -159,38 +159,40 @@ public final class InternalToCertificate {
         return CertificateBuilder.create()
             .metadata(createMetadata(internalCertificate))
             .addElement(createSmittbararpenningCategory(index++))
-            .addElement(createAvstangningSmittskyddQuestion(internalCertificate, index++))
+            .addElement(createAvstangningSmittskyddQuestion(internalCertificate.getAvstangningSmittskydd(), index++))
             .addElement(createGrundForMUCategory(index++))
             .addElement(createIntygetBaseratPa(internalCertificate, index++))
-            .addElement(createAnnatGrundForBeskrivning(internalCertificate, index++))
-            .addElement(createMotiveringEjUndersokning(internalCertificate, index++))
+            .addElement(createAnnatGrundForMUBeskrivning(internalCertificate.getAnnatGrundForMUBeskrivning(), index++))
+            .addElement(createMotiveringEjUndersokning(internalCertificate.getMotiveringTillInteBaseratPaUndersokning(), index++))
             .addElement(createSysselsattningCategory(index++))
-            .addElement(createSysselsattningQuestion(internalCertificate, index++))
+            .addElement(createSysselsattningQuestion(internalCertificate.getSysselsattning(), index++))
             .addElement(createSysselsattningYrkeQuestion(internalCertificate, index++))
             .addElement(createDiagnosCategory(index++))
-            .addElement(createDiagnosQuestion(internalCertificate, index++))
+            .addElement(createDiagnosQuestion(internalCertificate.getDiagnoser(), index++))
             .addElement(createFunktionsnedsattningCategory(index++))
-            .addElement(createFunktionsnedsattningQuestion(internalCertificate, index++))
-            .addElement(createAktivitetsbegransningQuestion(internalCertificate, index++))
+            .addElement(createFunktionsnedsattningQuestion(internalCertificate.getFunktionsnedsattning(), index++))
+            .addElement(createAktivitetsbegransningQuestion(internalCertificate.getAktivitetsbegransning(), index++))
             .addElement(createMedicinskaBehandlingarCategory(index++))
-            .addElement(createPagaendeBehandlingQuestion(internalCertificate, index++))
-            .addElement(createPlaneradBehandlingQuestion(internalCertificate, index++))
+            .addElement(createPagaendeBehandlingQuestion(internalCertificate.getPagaendeBehandling(), index++))
+            .addElement(createPlaneradBehandlingQuestion(internalCertificate.getPlaneradBehandling(), index++))
             .addElement(createBedomningCategory(index++))
-            .addElement(createBehovAvSjukskrivningQuestion(internalCertificate, index++))
-            .addElement(createMotiveringTidigtStartdatumQuestion(internalCertificate, index++))
-            .addElement(createForsakringsmedicinsktBeslutsstodQuestion(internalCertificate, index++))
-            .addElement(createArbetstidsforlaggningQuestion(internalCertificate, index++))
-            .addElement(createMotiveringArbetstidsforlaggningQuestion(internalCertificate, index++))
-            .addElement(createArbetsresorQuestion(internalCertificate, index++))
-            .addElement(createPrognosQuestion(internalCertificate, index++))
-            .addElement(createPrognosTimeperiodQuestion(internalCertificate, index++))
+            .addElement(createBehovAvSjukskrivningQuestion(internalCertificate.getSjukskrivningar(), index++))
+            .addElement(createMotiveringTidigtStartdatumQuestion(internalCertificate.getMotiveringTillTidigtStartdatumForSjukskrivning(),
+                index++))
+            .addElement(createForsakringsmedicinsktBeslutsstodQuestion(internalCertificate.getForsakringsmedicinsktBeslutsstod(), index++))
+            .addElement(createArbetstidsforlaggningQuestion(internalCertificate.getArbetstidsforlaggning(), index++))
+            .addElement(createMotiveringArbetstidsforlaggningQuestion(internalCertificate.getArbetstidsforlaggningMotivering(), index++))
+            .addElement(createArbetsresorQuestion(internalCertificate.getArbetsresor(), index++))
+            .addElement(createPrognosQuestion(internalCertificate.getPrognos(), index++))
+            .addElement(createPrognosTimeperiodQuestion(internalCertificate.getPrognos(), index++))
             .addElement(createAtgarderCategory(index++))
-            .addElement(createAtgarderQuestion(internalCertificate, index++))
-            .addElement(createAtgarderBeskrivning(internalCertificate, index++))
+            .addElement(createAtgarderQuestion(internalCertificate.getArbetslivsinriktadeAtgarder(), index++))
+            .addElement(createAtgarderBeskrivning(internalCertificate.getArbetslivsinriktadeAtgarderBeskrivning(), index++))
             .addElement(createOvrigtCategory(index++))
-            .addElement(createOvrigtQuestion(internalCertificate, index++))
+            .addElement(createOvrigtQuestion(internalCertificate.getOvrigt(), index++))
             .addElement(createKontaktCategory(index++))
-            .addElement(createKontaktQuestion(internalCertificate, index++))
+            .addElement(createKontaktQuestion(internalCertificate.getKontaktMedFk(), index++))
+            .addElement(createKontaktBeskrivning(internalCertificate.getAnledningTillKontakt(), index++))
             .build();
     }
 
@@ -289,7 +291,7 @@ public final class InternalToCertificate {
     }
 
 
-    private static CertificateDataElement createAvstangningSmittskyddQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+    public static CertificateDataElement createAvstangningSmittskyddQuestion(Boolean value, int index) {
         return CertificateDataElement.builder()
             .id(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
             .index(index)
@@ -307,7 +309,7 @@ public final class InternalToCertificate {
             .value(
                 CertificateDataValueBoolean.builder()
                     .id(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27)
-                    .selected(internalCertificate.getAvstangningSmittskydd())
+                    .selected(value)
                     .build()
             )
             .build();
@@ -335,7 +337,7 @@ public final class InternalToCertificate {
     }
 
 
-    private static CertificateDataElement createIntygetBaseratPa(LisjpUtlatandeV1 internalCertificate, int index) {
+    public static CertificateDataElement createIntygetBaseratPa(LisjpUtlatandeV1 internalCertificate, int index) {
         return CertificateDataElement.builder()
             .id(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
             .index(index)
@@ -456,7 +458,7 @@ public final class InternalToCertificate {
         return values;
     }
 
-    private static CertificateDataElement createAnnatGrundForBeskrivning(LisjpUtlatandeV1 internalCertificate, int index) {
+    public static CertificateDataElement createAnnatGrundForMUBeskrivning(String value, int index) {
         return CertificateDataElement.builder()
             .id(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1)
             .index(index)
@@ -470,7 +472,7 @@ public final class InternalToCertificate {
             .value(
                 CertificateDataTextValue.builder()
                     .id(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1)
-                    .text(internalCertificate.getAnnatGrundForMUBeskrivning())
+                    .text(value)
                     .build()
             )
             .validation(
@@ -493,7 +495,7 @@ public final class InternalToCertificate {
     }
 
 
-    private static CertificateDataElement createMotiveringEjUndersokning(LisjpUtlatandeV1 internalCertificate, int index) {
+    public static CertificateDataElement createMotiveringEjUndersokning(String value, int index) {
         return CertificateDataElement.builder()
             .id(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1)
             .index(index)
@@ -512,7 +514,7 @@ public final class InternalToCertificate {
             .value(
                 CertificateDataTextValue.builder()
                     .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1)
-                    .text(internalCertificate.getMotiveringTillInteBaseratPaUndersokning())
+                    .text(value)
                     .build()
             )
             .validation(
@@ -568,7 +570,7 @@ public final class InternalToCertificate {
     }
 
 
-    private static CertificateDataElement createSysselsattningQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+    public static CertificateDataElement createSysselsattningQuestion(List<Sysselsattning> value, int index) {
         return CertificateDataElement.builder()
             .id(TYP_AV_SYSSELSATTNING_SVAR_ID_28)
             .index(index)
@@ -603,7 +605,7 @@ public final class InternalToCertificate {
             )
             .value(
                 CertificateDataValueCodeList.builder()
-                    .list(createSysselsattningCodeList(internalCertificate))
+                    .list(createSysselsattningCodeList(value))
                     .build()
             )
             .validation(
@@ -628,12 +630,12 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static List<CertificateDataValueCode> createSysselsattningCodeList(LisjpUtlatandeV1 internalCertificate) {
-        if (internalCertificate.getSysselsattning() == null) {
+    private static List<CertificateDataValueCode> createSysselsattningCodeList(List<Sysselsattning> value) {
+        if (value == null) {
             return Collections.emptyList();
         }
 
-        return internalCertificate.getSysselsattning().stream()
+        return value.stream()
             .map(sysselsattning -> CertificateDataValueCode.builder()
                 .id(sysselsattning.getTyp().getId())
                 .code(sysselsattning.getTyp().getId())
@@ -689,7 +691,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static CertificateDataElement createDiagnosQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+    public static CertificateDataElement createDiagnosQuestion(List<Diagnos> value, int index) {
         return CertificateDataElement.builder()
             .id(DIAGNOS_SVAR_ID_6)
             .index(index)
@@ -730,7 +732,7 @@ public final class InternalToCertificate {
             )
             .value(
                 CertificateDataValueDiagnosisList.builder()
-                    .list(createDiagnosValue(internalCertificate))
+                    .list(createDiagnosValue(value))
                     .build()
             )
             .validation(
@@ -744,30 +746,26 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static List<CertificateDataValueDiagnosis> createDiagnosValue(LisjpUtlatandeV1 internalCertificate) {
-        if (isEmpty(internalCertificate)) {
+    private static List<CertificateDataValueDiagnosis> createDiagnosValue(List<Diagnos> diagnoses) {
+        if (diagnoses == null) {
             return Collections.emptyList();
         }
 
-        final List<CertificateDataValueDiagnosis> diagnoses = new ArrayList<>();
-        for (int i = 0; i < internalCertificate.getDiagnoser().size(); i++) {
-            final var diagnos = internalCertificate.getDiagnoser().get(i);
-            if (isInvalid(diagnos)) {
+        final List<CertificateDataValueDiagnosis> newDiagnoses = new ArrayList<>();
+        for (int i = 0; i < diagnoses.size(); i++) {
+            final var diagnosis = diagnoses.get(i);
+            if (isInvalid(diagnosis)) {
                 continue;
             }
 
-            diagnoses.add(createDiagnosis(Integer.toString(i + 1), diagnos));
+            newDiagnoses.add(createDiagnosis(Integer.toString(i + 1), diagnosis));
         }
 
-        return diagnoses;
+        return newDiagnoses;
     }
 
     private static boolean isInvalid(Diagnos diagnos) {
         return diagnos.getDiagnosKod() == null;
-    }
-
-    private static boolean isEmpty(LisjpUtlatandeV1 internalCertificate) {
-        return internalCertificate.getDiagnoser() == null;
     }
 
     private static CertificateDataValueDiagnosis createDiagnosis(String id, Diagnos diagnos) {
@@ -799,7 +797,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static CertificateDataElement createFunktionsnedsattningQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+    public static CertificateDataElement createFunktionsnedsattningQuestion(String value, int index) {
         return CertificateDataElement.builder()
             .id(FUNKTIONSNEDSATTNING_SVAR_ID_35)
             .index(index)
@@ -817,7 +815,7 @@ public final class InternalToCertificate {
             .value(
                 CertificateDataTextValue.builder()
                     .id(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35)
-                    .text(internalCertificate.getFunktionsnedsattning())
+                    .text(value)
                     .build()
             )
             .validation(
@@ -837,7 +835,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static CertificateDataElement createAktivitetsbegransningQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+    public static CertificateDataElement createAktivitetsbegransningQuestion(String value, int index) {
         return CertificateDataElement.builder()
             .id(AKTIVITETSBEGRANSNING_SVAR_ID_17)
             .index(index)
@@ -859,7 +857,7 @@ public final class InternalToCertificate {
             .value(
                 CertificateDataTextValue.builder()
                     .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
-                    .text(internalCertificate.getFunktionsnedsattning())
+                    .text(value)
                     .build()
             )
             .validation(
@@ -899,7 +897,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static CertificateDataElement createPagaendeBehandlingQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+    public static CertificateDataElement createPagaendeBehandlingQuestion(String value, int index) {
         return CertificateDataElement.builder()
             .id(PAGAENDEBEHANDLING_SVAR_ID_19)
             .index(index)
@@ -914,7 +912,7 @@ public final class InternalToCertificate {
             .value(
                 CertificateDataTextValue.builder()
                     .id(PAGAENDEBEHANDLING_SVAR_JSON_ID_19)
-                    .text(internalCertificate.getPagaendeBehandling())
+                    .text(value)
                     .build()
             )
             .validation(
@@ -928,7 +926,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static CertificateDataElement createPlaneradBehandlingQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+    public static CertificateDataElement createPlaneradBehandlingQuestion(String value, int index) {
         return CertificateDataElement.builder()
             .id(PLANERADBEHANDLING_SVAR_ID_20)
             .index(index)
@@ -943,7 +941,7 @@ public final class InternalToCertificate {
             .value(
                 CertificateDataTextValue.builder()
                     .id(PLANERADBEHANDLING_SVAR_JSON_ID_20)
-                    .text(internalCertificate.getPlaneradBehandling())
+                    .text(value)
                     .build()
             )
             .validation(
@@ -972,7 +970,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static CertificateDataElement createBehovAvSjukskrivningQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+    public static CertificateDataElement createBehovAvSjukskrivningQuestion(List<Sjukskrivning> list, int index) {
         return CertificateDataElement.builder()
             .id(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32)
             .index(index)
@@ -1005,7 +1003,7 @@ public final class InternalToCertificate {
             )
             .value(
                 CertificateDataValueDateRangeList.builder()
-                    .list(createSjukskrivningValue(internalCertificate.getSjukskrivningar()))
+                    .list(createSjukskrivningValue(list))
                     .build()
             )
             .validation(
@@ -1037,7 +1035,7 @@ public final class InternalToCertificate {
             ).collect(Collectors.toList());
     }
 
-    private static CertificateDataElement createMotiveringTidigtStartdatumQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+    public static CertificateDataElement createMotiveringTidigtStartdatumQuestion(String value, int index) {
         var attribute = "from";
         return CertificateDataElement.builder()
             .id(BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32)
@@ -1058,7 +1056,7 @@ public final class InternalToCertificate {
             .value(
                 CertificateDataTextValue.builder()
                     .id(MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID)
-                    .text(internalCertificate.getMotiveringTillTidigtStartdatumForSjukskrivning())
+                    .text(value)
                     .build()
             )
             .validation(
@@ -1100,7 +1098,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static CertificateDataElement createForsakringsmedicinsktBeslutsstodQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+    public static CertificateDataElement createForsakringsmedicinsktBeslutsstodQuestion(String value, int index) {
         return CertificateDataElement.builder()
             .id(FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37)
             .index(index)
@@ -1122,7 +1120,7 @@ public final class InternalToCertificate {
             .value(
                 CertificateDataTextValue.builder()
                     .id(FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37)
-                    .text(internalCertificate.getForsakringsmedicinsktBeslutsstod())
+                    .text(value)
                     .build()
             )
             .validation(
@@ -1136,14 +1134,14 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static CertificateDataElement createArbetstidsforlaggningQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+    public static CertificateDataElement createArbetstidsforlaggningQuestion(Boolean value, int index) {
         return CertificateDataElement.builder()
             .id(ARBETSTIDSFORLAGGNING_SVAR_ID_33)
             .index(index)
             .parent(BEDOMNING_CATEGORY_ID)
             .config(
                 CertificateDataConfigRadioBoolean.builder()
-                    .id(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33)
+                    .id(ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33)
                     .text("Finns det medicinska skäl att förlägga arbetstiden på något"
                         + " annat sätt än att minska arbetstiden lika mycket varje dag?")
                     .description("Frågorna besvaras endast vid partiellt nedsatt arbetsförmåga.")
@@ -1153,8 +1151,8 @@ public final class InternalToCertificate {
             )
             .value(
                 CertificateDataValueBoolean.builder()
-                    .id(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33)
-                    .selected(internalCertificate.getArbetstidsforlaggning())
+                    .id(ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33)
+                    .selected(value)
                     .build()
             )
             .validation(
@@ -1176,7 +1174,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static CertificateDataElement createMotiveringArbetstidsforlaggningQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+    public static CertificateDataElement createMotiveringArbetstidsforlaggningQuestion(String value, int index) {
         return CertificateDataElement.builder()
             .id(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33)
             .index(index)
@@ -1190,7 +1188,7 @@ public final class InternalToCertificate {
             .value(
                 CertificateDataTextValue.builder()
                     .id(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33)
-                    .text(internalCertificate.getArbetstidsforlaggningMotivering())
+                    .text(value)
                     .build()
             )
             .validation(
@@ -1210,7 +1208,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static CertificateDataElement createArbetsresorQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+    public static CertificateDataElement createArbetsresorQuestion(Boolean value, int index) {
         return CertificateDataElement.builder()
             .id(ARBETSRESOR_SVAR_ID_34)
             .index(index)
@@ -1227,7 +1225,7 @@ public final class InternalToCertificate {
             .value(
                 CertificateDataValueBoolean.builder()
                     .id(ARBETSRESOR_SVAR_JSON_ID_34)
-                    .selected(internalCertificate.getArbetsresor())
+                    .selected(value)
                     .build()
             )
             .validation(
@@ -1241,7 +1239,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static CertificateDataElement createPrognosQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+    public static CertificateDataElement createPrognosQuestion(Prognos prognos, int index) {
         return CertificateDataElement.builder()
             .id(PROGNOS_SVAR_ID_39)
             .index(index)
@@ -1274,8 +1272,8 @@ public final class InternalToCertificate {
             )
             .value(
                 CertificateDataValueCode.builder()
-                    .id(getPrognosValue(internalCertificate.getPrognos()))
-                    .code(getPrognosValue(internalCertificate.getPrognos()))
+                    .id(getPrognosValue(prognos))
+                    .code(getPrognosValue(prognos))
                     .build()
             )
             .validation(
@@ -1304,7 +1302,7 @@ public final class InternalToCertificate {
         return prognos != null ? prognos.getTyp().getId() : null;
     }
 
-    private static CertificateDataElement createPrognosTimeperiodQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+    public static CertificateDataElement createPrognosTimeperiodQuestion(Prognos prognos, int index) {
         return CertificateDataElement.builder()
             .id(PROGNOS_BESKRIVNING_DELSVAR_ID_39)
             .index(index)
@@ -1343,8 +1341,8 @@ public final class InternalToCertificate {
             )
             .value(
                 CertificateDataValueCode.builder()
-                    .id(getPrognosDagarTillArbeteValue(internalCertificate.getPrognos()))
-                    .code(getPrognosDagarTillArbeteValue(internalCertificate.getPrognos()))
+                    .id(getPrognosDagarTillArbeteValue(prognos))
+                    .code(getPrognosDagarTillArbeteValue(prognos))
                     .build()
             )
             .validation(
@@ -1399,7 +1397,7 @@ public final class InternalToCertificate {
     }
 
 
-    private static CertificateDataElement createAtgarderQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+    public static CertificateDataElement createAtgarderQuestion(List<ArbetslivsinriktadeAtgarder> atgarder, int index) {
         return CertificateDataElement.builder()
             .id(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
             .index(index)
@@ -1459,7 +1457,7 @@ public final class InternalToCertificate {
             )
             .value(
                 CertificateDataValueCodeList.builder()
-                    .list(createAtgarderCodeList(internalCertificate.getArbetslivsinriktadeAtgarder()))
+                    .list(createAtgarderCodeList(atgarder))
                     .build()
             )
             .validation(
@@ -1542,7 +1540,7 @@ public final class InternalToCertificate {
             .collect(Collectors.toList());
     }
 
-    private static CertificateDataElement createAtgarderBeskrivning(LisjpUtlatandeV1 internalCertificate, int index) {
+    public static CertificateDataElement createAtgarderBeskrivning(String value, int index) {
         return CertificateDataElement.builder()
             .id(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44)
             .index(index)
@@ -1556,7 +1554,7 @@ public final class InternalToCertificate {
             .value(
                 CertificateDataTextValue.builder()
                     .id(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44)
-                    .text(internalCertificate.getArbetslivsinriktadeAtgarderBeskrivning())
+                    .text(value)
                     .build()
             )
             .validation(
@@ -1599,7 +1597,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static CertificateDataElement createOvrigtQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+    public static CertificateDataElement createOvrigtQuestion(String value, int index) {
         return CertificateDataElement.builder()
             .id(OVRIGT_SVAR_ID_25)
             .index(index)
@@ -1612,7 +1610,7 @@ public final class InternalToCertificate {
             .value(
                 CertificateDataTextValue.builder()
                     .id(OVRIGT_SVAR_JSON_ID_25)
-                    .text(internalCertificate.getOvrigt())
+                    .text(value)
                     .build()
             )
             .validation(
@@ -1638,7 +1636,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static CertificateDataElement createKontaktQuestion(LisjpUtlatandeV1 internalCertificate, int index) {
+    public static CertificateDataElement createKontaktQuestion(Boolean value, int index) {
         return CertificateDataElement.builder()
             .id(KONTAKT_ONSKAS_SVAR_ID_26)
             .index(index)
@@ -1657,8 +1655,38 @@ public final class InternalToCertificate {
             .value(
                 CertificateDataValueBoolean.builder()
                     .id(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
-                    .selected(internalCertificate.getKontaktMedFk())
+                    .selected(value)
                     .build()
+            )
+            .build();
+    }
+
+    public static CertificateDataElement createKontaktBeskrivning(String value, int index) {
+        return CertificateDataElement.builder()
+            .id(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26)
+            .index(index)
+            .parent(KONTAKT_CATEGORY_ID)
+            .config(
+                CertificateDataConfigTextArea.builder()
+                    .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26)
+                    .text("Ange gärna varför du vill ha kontakt.")
+                    .build()
+            )
+            .value(
+                CertificateDataTextValue.builder()
+                    .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26)
+                    .text(value)
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationShow.builder()
+                        .questionId(KONTAKT_ONSKAS_SVAR_ID_26)
+                        .expression(
+                            singleExpression(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
+                        )
+                        .build()
+                }
             )
             .build();
     }
