@@ -36,6 +36,7 @@ import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
 import se.inera.intyg.common.fkparent.rest.FkParentModuleApi;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
+import se.inera.intyg.common.lisjp.v1.model.converter.CertificateToInternal;
 import se.inera.intyg.common.lisjp.v1.model.converter.InternalToCertificate;
 import se.inera.intyg.common.lisjp.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.lisjp.v1.model.converter.TransportToInternal;
@@ -236,5 +237,12 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
     public Certificate getCertificateFromJson(String certificateAsJson) throws ModuleException, IOException {
         final var internalCertificate = getInternal(certificateAsJson);
         return InternalToCertificate.convert(internalCertificate);
+    }
+
+    @Override
+    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson);
+        final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
+        return toInternalModelResponse(updateInternalCertificate);
     }
 }

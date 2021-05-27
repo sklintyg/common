@@ -62,10 +62,8 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGN
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.lisjp.model.internal.Prognos;
@@ -93,13 +91,12 @@ import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 public final class CertificateToInternal {
 
 
+
     private CertificateToInternal() {
     }
 
-    @Autowired
-    WebcertModuleService moduleService;
-
-    public static LisjpUtlatandeV1 convert(Certificate certificate, LisjpUtlatandeV1 internalCertificate) {
+    public static LisjpUtlatandeV1 convert(Certificate certificate, LisjpUtlatandeV1 internalCertificate,
+        WebcertModuleService moduleService) {
         final var avstangningSmittskydd = getAvstangningSmittskydd(certificate);
         final var undersokningAvPatienten = getGrundForMUUndersokningAvPatienten(certificate);
         final var telefonkontakt = getGrundForMUTelefonkontakt(certificate);
@@ -108,7 +105,7 @@ public final class CertificateToInternal {
         final var annatGrundForMUBeskrivning = getAnnatGrundForMUBeskrivning(certificate);
         final var motiveringTillInteBaseratPaUndersokning = getMotiveringTillInteBaseratPaUndersokning(certificate);
         final var sysselsattning = getSysselsattning(certificate);
-        final var diagnos = getDiagnos(certificate);
+        final var diagnos = getDiagnos(certificate, moduleService);
         final var funktionsnedsattning = getFunktionsnedsattning(certificate);
         final var aktivitetsbegransning = getAktivitetsbegransning(certificate);
         final var pagaendeBehandling = getPagaendeBehandling(certificate);
@@ -207,21 +204,19 @@ public final class CertificateToInternal {
             .collect(Collectors.toList());
     }
 
-    //TODO: Fix description
-    private static List<Diagnos> getDiagnos(Certificate certificate) {
+    private static List<Diagnos> getDiagnos(Certificate certificate, WebcertModuleService moduleService) {
         var diagnosisList = diagnosisListValue(certificate.getData(), DIAGNOS_SVAR_ID_6);
         return diagnosisList
             .stream()
             .map(
                 diagnosis -> Diagnos.create(diagnosis.getCode(), diagnosis.getTerminology(),
-                    getDiagnosisDescription(diagnosis), diagnosis.getDescription())
+                    getDiagnosisDescription(diagnosis, moduleService), diagnosis.getDescription())
             )
             .collect(Collectors.toList());
     }
 
-    private static String getDiagnosisDescription(CertificateDataValueDiagnosis diagnosis) {
-        return "";
-        //moduleService.getDescriptionFromDiagnosKod(diagnosis.getCode(), diagnosis.getTerminology());
+    private static String getDiagnosisDescription(CertificateDataValueDiagnosis diagnosis, WebcertModuleService moduleService) {
+        return moduleService.getDescriptionFromDiagnosKod(diagnosis.getCode(), diagnosis.getTerminology());
     }
 
     private static String getFunktionsnedsattning(Certificate certificate) {
