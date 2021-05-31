@@ -25,9 +25,9 @@ import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfig;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList.CertificateDataValueDateRangeListBuilder;
 
-@JsonDeserialize(builder = CertificateDataValueDateRangeList.CertificateDataValueDateRangeListBuilder.class)
+@JsonDeserialize(builder = CertificateDataValueDateRangeListBuilder.class)
 @Value
 @Builder
 public class CertificateDataValueDateRangeList implements CertificateDataValue {

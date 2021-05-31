@@ -24,8 +24,9 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory.CertificateDataValidationMandatoryBuilder;
 
-@JsonDeserialize(builder = CertificateDataValidationMandatory.CertificateDataValidationMandatoryBuilder.class)
+@JsonDeserialize(builder = CertificateDataValidationMandatoryBuilder.class)
 @Value
 @Builder
 public class CertificateDataValidationMandatory implements CertificateDataValidation {

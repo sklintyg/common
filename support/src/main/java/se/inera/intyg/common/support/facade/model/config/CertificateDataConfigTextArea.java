@@ -23,8 +23,9 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea.CertificateDataConfigTextAreaBuilder;
 
-@JsonDeserialize(builder = CertificateDataConfigTextArea.CertificateDataConfigTextAreaBuilder.class)
+@JsonDeserialize(builder = CertificateDataConfigTextAreaBuilder.class)
 @Value
 @Builder
 public class CertificateDataConfigTextArea implements CertificateDataConfig {

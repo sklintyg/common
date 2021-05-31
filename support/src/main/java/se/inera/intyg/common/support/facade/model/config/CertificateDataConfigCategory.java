@@ -23,8 +23,9 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory.CertificateDataConfigCategoryBuilder;
 
-@JsonDeserialize(builder = CertificateDataConfigCategory.CertificateDataConfigCategoryBuilder.class)
+@JsonDeserialize(builder = CertificateDataConfigCategoryBuilder.class)
 @Value
 @Builder
 public class CertificateDataConfigCategory implements CertificateDataConfig {

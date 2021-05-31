@@ -33,9 +33,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @Type(value = CertificateDataConfigRadioBoolean.class, name = "UE_RADIO_BOOLEAN"),
     @Type(value = CertificateDataConfigRadioMultipleCode.class, name = "UE_RADIO_MULTIPLE_CODE"),
     @Type(value = CertificateDataConfigCheckboxMultipleDate.class, name = "UE_CHECKBOX_MULTIPLE_DATE"),
+    @Type(value = CertificateDataConfigCheckboxMultipleCode.class, name = "UE_CHECKBOX_MULTIPLE_CODE"),
     @Type(value = CertificateDataConfigSickLeavePeriod.class, name = "UE_SICK_LEAVE_PERIOD"),
+    @Type(value = CertificateDataConfigDiagnoses.class, name = "UE_DIAGNOSES"),
     @Type(value = CertificateDataConfigDropdown.class, name = "UE_DROPDOWN")
-
 })
 public interface CertificateDataConfig {
 
