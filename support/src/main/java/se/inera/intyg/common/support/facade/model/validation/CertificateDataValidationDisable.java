@@ -25,8 +25,9 @@ import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisable.CertificateDataValidationDisableBuilder;
 
-@JsonDeserialize(builder = CertificateDataValidationDisable.CertificateDataValidationDisableBuilder.class)
+@JsonDeserialize(builder = CertificateDataValidationDisableBuilder.class)
 @Value
 @Builder
 public class CertificateDataValidationDisable implements CertificateDataValidation {

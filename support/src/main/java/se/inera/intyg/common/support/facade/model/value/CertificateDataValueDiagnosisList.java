@@ -25,8 +25,9 @@ import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList.CertificateDataValueDiagnosisListBuilder;
 
-@JsonDeserialize(builder = CertificateDataValueDiagnosisList.CertificateDataValueDiagnosisListBuilder.class)
+@JsonDeserialize(builder = CertificateDataValueDiagnosisListBuilder.class)
 @Value
 @Builder
 public class CertificateDataValueDiagnosisList implements CertificateDataValue {

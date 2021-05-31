@@ -23,8 +23,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Value;
+import se.inera.intyg.common.support.facade.model.config.DiagnosesListItem.DiagnosesListItemBuilder;
 
-@JsonDeserialize(builder = DiagnosesListItem.DiagnosesListItemBuilder.class)
+@JsonDeserialize(builder = DiagnosesListItemBuilder.class)
 @Value
 @Builder
 public class DiagnosesListItem {

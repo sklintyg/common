@@ -19,12 +19,21 @@
 
 package se.inera.intyg.common.support.facade.model.config;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Value;
+import se.inera.intyg.common.support.facade.model.config.CheckboxDateRange.CheckboxDateRangeBuilder;
 
+@JsonDeserialize(builder = CheckboxDateRangeBuilder.class)
 @Value
 @Builder
 public class CheckboxDateRange {
     String id;
     String label;
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class CheckboxDateRangeBuilder {
+
+    }
 }
