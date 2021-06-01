@@ -18,31 +18,48 @@
  */
 package se.inera.intyg.common.lisjp.v1.validator;
 
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_SVAR_JSON_ID_40;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_ID_33;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ATGARDER_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_ID_39;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_JSON_ID_39;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSELSATTNING_CATEGORY_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_28;
 
 import com.google.common.base.Strings;
@@ -139,8 +156,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
                 && utlatande.getTelefonkontaktMedPatienten() == null
                 && utlatande.getJournaluppgifter() == null
                 && utlatande.getAnnatGrundForMU() == null) {
-                ValidatorUtil.addValidationError(validationMessages, GRUNDFORMU_CATEGORY_ID, GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1,
-                    ValidationMessageType.EMPTY);
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, GRUNDFORMU_CATEGORY_ID,
+                    GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1, ValidationMessageType.EMPTY, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
             }
         }
 
@@ -162,72 +179,73 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
 
         // R2
         if (utlatande.getAnnatGrundForMU() != null && Strings.nullToEmpty(utlatande.getAnnatGrundForMUBeskrivning()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, GRUNDFORMU_CATEGORY_ID,
-                GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1, ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, GRUNDFORMU_CATEGORY_ID,
+                GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1, ValidationMessageType.EMPTY,
+                GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1);
         }
 
         // R3
         if (utlatande.getAnnatGrundForMU() == null && !Strings.isNullOrEmpty(utlatande.getAnnatGrundForMUBeskrivning())) {
-            ValidatorUtil.addValidationError(validationMessages, GRUNDFORMU_CATEGORY_ID, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1,
-                ValidationMessageType.EMPTY,
-                "lisjp.validation.grund-for-mu.annat.beskrivning.invalid_combination");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, GRUNDFORMU_CATEGORY_ID,
+                GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1, ValidationMessageType.EMPTY,
+                "lisjp.validation.grund-for-mu.annat.beskrivning.invalid_combination", GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1);
         }
     }
 
     private void validateSysselsattning(LisjpUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (utlatande.getSysselsattning() == null
             || !utlatande.getSysselsattning().stream().anyMatch(e -> e.getTyp() != null)) {
-            ValidatorUtil.addValidationError(validationMessages, SYSSELSATTNING_CATEGORY_ID, TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_28,
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, SYSSELSATTNING_CATEGORY_ID,
+                TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_28, ValidationMessageType.EMPTY, TYP_AV_SYSSELSATTNING_SVAR_ID_28);
         } else {
 
             // R5
             if (!containsUnique(utlatande.getSysselsattning()
                 .stream().map(Sysselsattning::getTyp).collect(Collectors.toList()))) {
-                ValidatorUtil.addValidationError(validationMessages, SYSSELSATTNING_CATEGORY_ID, TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_28,
-                    ValidationMessageType.INCORRECT_COMBINATION,
-                    "lisjp.validation.sysselsattning.invalid_combination");
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, SYSSELSATTNING_CATEGORY_ID,
+                    TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_28, ValidationMessageType.INCORRECT_COMBINATION,
+                    "lisjp.validation.sysselsattning.invalid_combination", TYP_AV_SYSSELSATTNING_SVAR_ID_28);
             }
 
             // R9
             if (Strings.nullToEmpty(utlatande.getNuvarandeArbete()).trim().isEmpty()
                 && utlatande.getSysselsattning().stream()
                 .anyMatch(e -> e.getTyp() == Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE)) {
-                ValidatorUtil.addValidationError(validationMessages, SYSSELSATTNING_CATEGORY_ID, NUVARANDE_ARBETE_SVAR_JSON_ID_29,
-                    ValidationMessageType.EMPTY);
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, SYSSELSATTNING_CATEGORY_ID,
+                    NUVARANDE_ARBETE_SVAR_JSON_ID_29, ValidationMessageType.EMPTY, NUVARANDE_ARBETE_SVAR_ID_29);
             }
 
             // R10
             if (!Strings.nullToEmpty(utlatande.getNuvarandeArbete()).trim().isEmpty()
                 && !utlatande.getSysselsattning().stream()
                 .anyMatch(e -> e.getTyp() == Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE)) {
-                ValidatorUtil.addValidationError(validationMessages, SYSSELSATTNING_CATEGORY_ID, TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_28,
-                    ValidationMessageType.EMPTY,
-                    "lisjp.validation.sysselsattning.nuvarandearbete.invalid_combination");
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, SYSSELSATTNING_CATEGORY_ID,
+                    TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_28, ValidationMessageType.EMPTY,
+                    "lisjp.validation.sysselsattning.nuvarandearbete.invalid_combination", TYP_AV_SYSSELSATTNING_SVAR_ID_28);
             }
 
             // No more than 4 entries are allowed
             if (utlatande.getSysselsattning().size() > MAX_SYSSELSATTNING) {
-                ValidatorUtil.addValidationError(validationMessages, SYSSELSATTNING_CATEGORY_ID, TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_28,
-                    ValidationMessageType.EMPTY,
-                    "lisjp.validation.sysselsattning.too-many");
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, SYSSELSATTNING_CATEGORY_ID,
+                    TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_28, ValidationMessageType.EMPTY,
+                    "lisjp.validation.sysselsattning.too-many", TYP_AV_SYSSELSATTNING_SVAR_ID_28);
             }
         }
     }
 
     private void validateFunktionsnedsattning(LisjpUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (Strings.nullToEmpty(utlatande.getFunktionsnedsattning()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, FUNKTIONSNEDSATTNING_CATEGORY_ID, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35,
-                ValidationMessageType.EMPTY,
-                "lisjp.validation.funktionsnedsattning.missing");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, FUNKTIONSNEDSATTNING_CATEGORY_ID,
+                FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35, ValidationMessageType.EMPTY,
+                "lisjp.validation.funktionsnedsattning.missing", FUNKTIONSNEDSATTNING_SVAR_ID_35);
         }
     }
 
     private void validateAktivitetsbegransning(LisjpUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (Strings.nullToEmpty(utlatande.getAktivitetsbegransning()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, FUNKTIONSNEDSATTNING_CATEGORY_ID, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17,
-                ValidationMessageType.EMPTY,
-                "lisjp.validation.aktivitetsbegransning.missing");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, FUNKTIONSNEDSATTNING_CATEGORY_ID,
+                AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17, ValidationMessageType.EMPTY,
+                "lisjp.validation.aktivitetsbegransning.missing", AKTIVITETSBEGRANSNING_SVAR_ID_17);
         }
     }
 
@@ -239,18 +257,19 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
         // Prognos
         if (!isAvstangningSmittskydd(utlatande)) {
             if (utlatande.getPrognos() == null || utlatande.getPrognos().getTyp() == null) {
-                ValidatorUtil.addValidationError(validationMessages, BEDOMNING_CATEGORY_ID, PROGNOS_SVAR_JSON_ID_39,
-                    ValidationMessageType.EMPTY);
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, BEDOMNING_CATEGORY_ID, PROGNOS_SVAR_JSON_ID_39,
+                    ValidationMessageType.EMPTY, PROGNOS_SVAR_ID_39);
             } else {
                 // New rule since INTYG-2286
                 if (utlatande.getPrognos().getTyp() == PrognosTyp.ATER_X_ANTAL_DGR && utlatande.getPrognos().getDagarTillArbete() == null) {
                     ValidatorUtil
-                        .addValidationError(validationMessages, BEDOMNING_CATEGORY_ID, PROGNOS_SVAR_JSON_ID_39 + ".dagarTillArbete",
-                            ValidationMessageType.EMPTY);
+                        .addValidationErrorWithQuestionId(validationMessages, BEDOMNING_CATEGORY_ID,
+                            PROGNOS_SVAR_JSON_ID_39 + ".dagarTillArbete", ValidationMessageType.EMPTY, PROGNOS_SVAR_ID_39);
                 } else if (utlatande.getPrognos().getTyp() != PrognosTyp.ATER_X_ANTAL_DGR
                     && utlatande.getPrognos().getDagarTillArbete() != null) {
-                    ValidatorUtil.addValidationError(validationMessages, BEDOMNING_CATEGORY_ID, PROGNOS_SVAR_JSON_ID_39,
-                        ValidationMessageType.EMPTY, "lisjp.validation.bedomning.prognos.dagarTillArbete.invalid_combination");
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, BEDOMNING_CATEGORY_ID, PROGNOS_SVAR_JSON_ID_39,
+                        ValidationMessageType.EMPTY, "lisjp.validation.bedomning.prognos.dagarTillArbete.invalid_combination",
+                        PROGNOS_SVAR_ID_39);
                 }
             }
 
@@ -261,9 +280,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
 
         // Check if there are any at all
         if (utlatande.getSjukskrivningar() == null || utlatande.getSjukskrivningar().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, BEDOMNING_CATEGORY_ID, BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32,
-                ValidationMessageType.EMPTY,
-                "lisjp.validation.bedomning.sjukskrivningar.missing");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, BEDOMNING_CATEGORY_ID,
+                BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32, ValidationMessageType.EMPTY,
+                "lisjp.validation.bedomning.sjukskrivningar.missing", BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
         } else {
 
             // Validate sjukskrivningar, checks that dates exist and are valid
@@ -278,18 +297,21 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
             // Arbetstidsforlaggning R13, R14, R15, R16
             if (isArbetstidsforlaggningMandatory(utlatande)) {
                 if (utlatande.getArbetstidsforlaggning() == null) {
-                    ValidatorUtil.addValidationError(validationMessages, BEDOMNING_CATEGORY_ID, ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33,
-                        ValidationMessageType.EMPTY, "lisjp.validation.bedomning.sjukskrivningar.arbetstidsforlaggning.missing");
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, BEDOMNING_CATEGORY_ID,
+                        ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33, ValidationMessageType.EMPTY,
+                        "lisjp.validation.bedomning.sjukskrivningar.arbetstidsforlaggning.missing", ARBETSTIDSFORLAGGNING_SVAR_ID_33);
                 } else {
                     if (utlatande.getArbetstidsforlaggning()
                         && Strings.nullToEmpty(utlatande.getArbetstidsforlaggningMotivering()).trim().isEmpty()) {
-                        ValidatorUtil.addValidationError(validationMessages, BEDOMNING_CATEGORY_ID,
-                            ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33, ValidationMessageType.EMPTY);
+                        ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, BEDOMNING_CATEGORY_ID,
+                            ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33, ValidationMessageType.EMPTY,
+                            ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33);
                     } else if (!utlatande.getArbetstidsforlaggning()
                         && !Strings.nullToEmpty(utlatande.getArbetstidsforlaggningMotivering()).trim().isEmpty()) {
-                        ValidatorUtil.addValidationError(validationMessages, BEDOMNING_CATEGORY_ID, ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33,
-                            ValidationMessageType.EMPTY,
-                            "lisjp.validation.bedomning.sjukskrivningar.arbetstidsforlaggningmotivering.incorrect");
+                        ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, BEDOMNING_CATEGORY_ID,
+                            ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33, ValidationMessageType.EMPTY,
+                            "lisjp.validation.bedomning.sjukskrivningar.arbetstidsforlaggningmotivering.incorrect",
+                            ARBETSTIDSFORLAGGNING_SVAR_ID_33);
                     }
                 }
             } else if (isArbetstidsforlaggningMotiveringForbidden(utlatande)) {
@@ -297,18 +319,20 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
 
                 // If arbetstidsförläggning is not allowed, we must not have a motivering or a true/false value.
                 if (hasMotivering || utlatande.getArbetstidsforlaggning() != null) {
-                    ValidatorUtil.addValidationError(validationMessages, BEDOMNING_CATEGORY_ID, BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32,
-                        ValidationMessageType.EMPTY,
-                        "lisjp.validation.bedomning.sjukskrivningar.arbetstidsforlaggningmotivering.invalid_combination");
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages,
+                        BEDOMNING_CATEGORY_ID, BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32, ValidationMessageType.EMPTY,
+                        "lisjp.validation.bedomning.sjukskrivningar.arbetstidsforlaggningmotivering.invalid_combination",
+                        BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
                 }
             }
 
             // R22
             if (!containsUnique(utlatande.getSjukskrivningar().stream()
                 .map(Sjukskrivning::getSjukskrivningsgrad).collect(Collectors.toList()))) {
-                ValidatorUtil.addValidationError(validationMessages, BEDOMNING_CATEGORY_ID, BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32,
-                    ValidationMessageType.INCORRECT_COMBINATION,
-                    "lisjp.validation.bedomning.sjukskrivningar.sjukskrivningsgrad.invalid_combination");
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, BEDOMNING_CATEGORY_ID,
+                    BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32, ValidationMessageType.INCORRECT_COMBINATION,
+                    "lisjp.validation.bedomning.sjukskrivningar.sjukskrivningsgrad.invalid_combination",
+                    BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
             }
 
         }
@@ -336,25 +360,25 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
         Optional<Sjukskrivning> overlappingPeriod = getPeriodIntervalsOverlapping(sjukskrivning, sjukskrivningar);
         if (overlappingPeriod.isPresent()) {
             if (sjukskrivning.getPeriod().getFrom().equals(overlappingPeriod.get().getPeriod().getFrom())) {
-                ValidatorUtil.addValidationError(validationMessages,
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages,
                     BEDOMNING_CATEGORY_ID,
                     BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32 + ".period." + sjukskrivning.getSjukskrivningsgrad().getId() + ".from",
-                    ValidationMessageType.PERIOD_OVERLAP);
-                ValidatorUtil.addValidationError(validationMessages,
+                    ValidationMessageType.PERIOD_OVERLAP, BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages,
                     BEDOMNING_CATEGORY_ID,
                     BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32 + ".period." + sjukskrivning.getSjukskrivningsgrad().getId() + ".tom",
-                    ValidationMessageType.PERIOD_OVERLAP);
+                    ValidationMessageType.PERIOD_OVERLAP, BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
             } else if (sjukskrivning.getPeriod().getFrom().asLocalDate()
                 .isBefore(overlappingPeriod.get().getPeriod().getFrom().asLocalDate())) {
-                ValidatorUtil.addValidationError(validationMessages,
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages,
                     BEDOMNING_CATEGORY_ID,
                     BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32 + ".period." + sjukskrivning.getSjukskrivningsgrad().getId() + ".tom",
-                    ValidationMessageType.PERIOD_OVERLAP);
+                    ValidationMessageType.PERIOD_OVERLAP, BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
             } else {
-                ValidatorUtil.addValidationError(validationMessages,
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages,
                     BEDOMNING_CATEGORY_ID,
                     BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32 + ".period." + sjukskrivning.getSjukskrivningsgrad().getId() + ".from",
-                    ValidationMessageType.PERIOD_OVERLAP);
+                    ValidationMessageType.PERIOD_OVERLAP, BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
             }
         }
     }
@@ -372,30 +396,32 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
     private void validateSjukskrivning(List<ValidationMessage> validationMessages, Sjukskrivning sjukskrivning) {
         if (sjukskrivning.getSjukskrivningsgrad() == null) {
             // Should never happen but just in case
-            ValidatorUtil.addValidationError(validationMessages, BEDOMNING_CATEGORY_ID, BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32,
-                ValidationMessageType.EMPTY, "lisjp.validation.bedomning.sjukskrivningar.sjukskrivningsgrad.missing");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, BEDOMNING_CATEGORY_ID,
+                BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32, ValidationMessageType.EMPTY,
+                "lisjp.validation.bedomning.sjukskrivningar.sjukskrivningsgrad.missing", BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
         } else {
             if (sjukskrivning.getPeriod() == null) {
-                ValidatorUtil.addValidationError(validationMessages, BEDOMNING_CATEGORY_ID, BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32,
-                    ValidationMessageType.EMPTY,
-                    "lisjp.validation.bedomning.sjukskrivningar.period" + sjukskrivning.getSjukskrivningsgrad().getId() + ".missing");
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, BEDOMNING_CATEGORY_ID,
+                    BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32, ValidationMessageType.EMPTY,
+                    "lisjp.validation.bedomning.sjukskrivningar.period" + sjukskrivning.getSjukskrivningsgrad().getId() + ".missing",
+                    BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
             } else {
 
                 boolean fromDateValid = ValidatorUtil.validateDate(sjukskrivning.getPeriod().getFrom(), validationMessages,
                     BEDOMNING_CATEGORY_ID,
                     BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32 + ".period." + sjukskrivning.getSjukskrivningsgrad().getId() + ".from",
-                    null);
+                    null, BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
 
                 boolean toDateValid = ValidatorUtil.validateDate(sjukskrivning.getPeriod().getTom(), validationMessages,
                     BEDOMNING_CATEGORY_ID,
                     BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32 + ".period." + sjukskrivning.getSjukskrivningsgrad().getId() + ".tom",
-                    null);
+                    null, BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
 
                 if (fromDateValid && toDateValid && !sjukskrivning.getPeriod().isValid()) {
-                    ValidatorUtil.addValidationError(validationMessages,
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages,
                         BEDOMNING_CATEGORY_ID,
                         BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32 + ".period." + sjukskrivning.getSjukskrivningsgrad().getId(),
-                        ValidationMessageType.INCORRECT_COMBINATION);
+                        ValidationMessageType.INCORRECT_COMBINATION, BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32, BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
                 }
             }
         }
@@ -419,16 +445,17 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
     private void validateAtgarder(LisjpUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         // Anything checked at all?
         if (utlatande.getArbetslivsinriktadeAtgarder() == null || utlatande.getArbetslivsinriktadeAtgarder().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, ATGARDER_CATEGORY_ID, ARBETSLIVSINRIKTADE_ATGARDER_SVAR_JSON_ID_40,
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, ATGARDER_CATEGORY_ID,
+                ARBETSLIVSINRIKTADE_ATGARDER_SVAR_JSON_ID_40, ValidationMessageType.EMPTY, ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
         } else {
 
             // R21 If INTE_AKTUELLT is checked it must be the only selection
             if (utlatande.getArbetslivsinriktadeAtgarder().stream()
                 .anyMatch(e -> e.getTyp() == ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT)
                 && utlatande.getArbetslivsinriktadeAtgarder().size() > 1) {
-                ValidatorUtil.addValidationError(validationMessages, ATGARDER_CATEGORY_ID, ARBETSLIVSINRIKTADE_ATGARDER_SVAR_JSON_ID_40,
-                    ValidationMessageType.EMPTY, "lisjp.validation.atgarder.inte_aktuellt_no_combine");
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, ATGARDER_CATEGORY_ID,
+                    ARBETSLIVSINRIKTADE_ATGARDER_SVAR_JSON_ID_40, ValidationMessageType.EMPTY,
+                    "lisjp.validation.atgarder.inte_aktuellt_no_combine", ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
             }
 
             // R27 If INTE_AKTUELLT is checked utlatande.getArbetslivsinriktadeAtgarderBeskrivning() must not be
@@ -436,22 +463,24 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
             if (utlatande.getArbetslivsinriktadeAtgarder().stream()
                 .anyMatch(e -> e.getTyp() == ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT)
                 && !Strings.nullToEmpty(utlatande.getArbetslivsinriktadeAtgarderBeskrivning()).trim().isEmpty()) {
-                ValidatorUtil.addValidationError(validationMessages, ATGARDER_CATEGORY_ID, ARBETSLIVSINRIKTADE_ATGARDER_SVAR_JSON_ID_40,
-                    ValidationMessageType.EMPTY, "lisjp.validation.atgarder.invalid_combination");
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, ATGARDER_CATEGORY_ID,
+                    ARBETSLIVSINRIKTADE_ATGARDER_SVAR_JSON_ID_40, ValidationMessageType.EMPTY,
+                    "lisjp.validation.atgarder.invalid_combination", ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
             }
 
             // No more than 10 entries are allowed
             if (utlatande.getArbetslivsinriktadeAtgarder().size() > MAX_ARBETSLIVSINRIKTADE_ATGARDER) {
-                ValidatorUtil.addValidationError(validationMessages, ATGARDER_CATEGORY_ID, ARBETSLIVSINRIKTADE_ATGARDER_SVAR_JSON_ID_40,
-                    ValidationMessageType.EMPTY, "lisjp.validation.atgarder.too-many");
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, ATGARDER_CATEGORY_ID,
+                    ARBETSLIVSINRIKTADE_ATGARDER_SVAR_JSON_ID_40, ValidationMessageType.EMPTY,
+                    "lisjp.validation.atgarder.too-many", ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
             }
 
             // R29
             if (!containsUnique(utlatande.getArbetslivsinriktadeAtgarder()
                 .stream().map(ArbetslivsinriktadeAtgarder::getTyp).collect(Collectors.toList()))) {
-                ValidatorUtil.addValidationError(validationMessages, ATGARDER_CATEGORY_ID, ARBETSLIVSINRIKTADE_ATGARDER_SVAR_JSON_ID_40,
-                    ValidationMessageType.INCORRECT_COMBINATION,
-                    "lisjp.validation.atgarder.typ.invalid_combination");
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, ATGARDER_CATEGORY_ID,
+                    ARBETSLIVSINRIKTADE_ATGARDER_SVAR_JSON_ID_40, ValidationMessageType.INCORRECT_COMBINATION,
+                    "lisjp.validation.atgarder.typ.invalid_combination", ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
             }
         }
     }
@@ -459,38 +488,41 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
     private void validateKontakt(LisjpUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (utlatande.getKontaktMedFk() != null && !utlatande.getKontaktMedFk()
             && !Strings.nullToEmpty(utlatande.getAnledningTillKontakt()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, KONTAKT_CATEGORY_ID, KONTAKT_ONSKAS_SVAR_JSON_ID_26,
-                ValidationMessageType.EMPTY, "lisjp.validation.kontakt.invalid_combination");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, KONTAKT_CATEGORY_ID, KONTAKT_ONSKAS_SVAR_JSON_ID_26,
+                ValidationMessageType.EMPTY, "lisjp.validation.kontakt.invalid_combination", KONTAKT_ONSKAS_SVAR_ID_26);
         }
     }
 
     private void validateBlanksForOptionalFields(LisjpUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         // FMB
         if (ValidatorUtil.isBlankButNotNull(utlatande.getForsakringsmedicinsktBeslutsstod())) {
-            ValidatorUtil.addValidationError(validationMessages, BEDOMNING_CATEGORY_ID, FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37,
-                ValidationMessageType.EMPTY, "lisjp.validation.blanksteg.otillatet");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, BEDOMNING_CATEGORY_ID,
+                FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37, ValidationMessageType.EMPTY,
+                "lisjp.validation.blanksteg.otillatet", FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37);
         }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getAnledningTillKontakt())) {
-            ValidatorUtil.addValidationError(validationMessages, KONTAKT_CATEGORY_ID, ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26,
-                ValidationMessageType.EMPTY, "lisjp.validation.blanksteg.otillatet");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, KONTAKT_CATEGORY_ID,
+                ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26, ValidationMessageType.EMPTY,
+                "lisjp.validation.blanksteg.otillatet", ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26);
         }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getAnnatGrundForMUBeskrivning())) {
-            ValidatorUtil.addValidationError(validationMessages, GRUNDFORMU_CATEGORY_ID,
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, GRUNDFORMU_CATEGORY_ID,
                 GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1,
-                ValidationMessageType.EMPTY, "lisjp.validation.blanksteg.otillatet");
+                ValidationMessageType.EMPTY, "lisjp.validation.blanksteg.otillatet", GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1);
         }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getPagaendeBehandling())) {
-            ValidatorUtil.addValidationError(validationMessages,
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages,
                 MEDICINSKABEHANDLINGAR_CATEGORY_ID, PAGAENDEBEHANDLING_SVAR_JSON_ID_19, ValidationMessageType.EMPTY,
-                "lisjp.validation.blanksteg.otillatet");
+                "lisjp.validation.blanksteg.otillatet", PAGAENDEBEHANDLING_SVAR_ID_19);
         }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getPlaneradBehandling())) {
-            ValidatorUtil.addValidationError(validationMessages, MEDICINSKABEHANDLINGAR_CATEGORY_ID, PLANERADBEHANDLING_SVAR_JSON_ID_20,
-                ValidationMessageType.EMPTY, "lisjp.validation.blanksteg.otillatet");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, MEDICINSKABEHANDLINGAR_CATEGORY_ID,
+                PLANERADBEHANDLING_SVAR_JSON_ID_20, ValidationMessageType.EMPTY,
+                "lisjp.validation.blanksteg.otillatet", PLANERADBEHANDLING_SVAR_ID_20);
         }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getOvrigt())) {
-            ValidatorUtil.addValidationError(validationMessages, OVRIGT_CATEGORY_ID, OVRIGT_SVAR_JSON_ID_25, ValidationMessageType.EMPTY,
-                "lisjp.validation.blanksteg.otillatet");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, OVRIGT_CATEGORY_ID, OVRIGT_SVAR_JSON_ID_25,
+                ValidationMessageType.EMPTY, "lisjp.validation.blanksteg.otillatet", OVRIGT_SVAR_ID_25);
         }
     }
 

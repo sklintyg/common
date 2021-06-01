@@ -88,7 +88,11 @@ public final class ValidatorUtil {
      */
     public static boolean validateDate(InternalDate date, List<ValidationMessage> validationMessages, String category,
         String field, String message) {
+        return validateDate(date, validationMessages, category, field, message, null);
+    }
 
+    public static boolean validateDate(InternalDate date, List<ValidationMessage> validationMessages, String category,
+        String field, String message, String questionId) {
         if (date == null) {
             addValidationError(validationMessages, category, field, ValidationMessageType.EMPTY);
             return false;
@@ -96,12 +100,26 @@ public final class ValidatorUtil {
 
         if (!date.isValidDate()) {
             if (date.isCorrectFormat()) {
-                addValidationError(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT,
-                    "common.validation.date_invalid");
+                if (questionId != null) {
+                    addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT,
+                        "common.validation.date_invalid", questionId);
+                } else {
+                    addValidationError(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT,
+                        "common.validation.date_invalid");
+                }
             } else if (message != null) {
-                addValidationError(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT, message);
+                if (questionId != null) {
+                    addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT, message,
+                        questionId);
+                } else {
+                    addValidationError(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT, message);
+                }
             } else {
-                addValidationError(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT);
+                if (questionId != null) {
+                    addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT, questionId);
+                } else {
+                    addValidationError(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT);
+                }
             }
             return false;
         }
@@ -162,12 +180,22 @@ public final class ValidatorUtil {
      */
     public static boolean validateDateAndCheckIfFuture(InternalDate date, List<ValidationMessage> validationMessages,
         String category, String field, String futureErrorMessage) {
+        return validateDateAndCheckIfFuture(date, validationMessages, category, field, futureErrorMessage, null);
+    }
+
+    public static boolean validateDateAndCheckIfFuture(InternalDate date, List<ValidationMessage> validationMessages,
+        String category, String field, String futureErrorMessage, String questionId) {
         boolean isValid = validateDate(date, validationMessages, category, field, null);
 
         // For structurally valid dates, check if it is a future date
         if (date.isValidDate() && date.asLocalDate().isAfter(LocalDate.now())) {
-            ValidatorUtil.addValidationError(validationMessages, category, field, ValidationMessageType.OTHER,
-                futureErrorMessage);
+            if (questionId != null) {
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.OTHER,
+                    futureErrorMessage, questionId);
+            } else {
+                ValidatorUtil.addValidationError(validationMessages, category, field, ValidationMessageType.OTHER,
+                    futureErrorMessage);
+            }
         }
         return isValid;
     }
