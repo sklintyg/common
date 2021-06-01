@@ -1299,7 +1299,7 @@ public final class InternalToCertificate {
     }
 
     private static String getPrognosValue(Prognos prognos) {
-        return prognos != null ? prognos.getTyp().getId() : null;
+        return (prognos != null && prognos.getTyp() != null) ? prognos.getTyp().getId() : null;
     }
 
     public static CertificateDataElement createPrognosTimeperiodQuestion(Prognos prognos, int index) {
