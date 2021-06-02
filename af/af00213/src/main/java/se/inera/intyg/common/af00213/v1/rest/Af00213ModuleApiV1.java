@@ -19,6 +19,7 @@
 package se.inera.intyg.common.af00213.v1.rest;
 
 import java.util.List;
+import java.util.SortedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -140,7 +141,13 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
     @Override
     public Certificate getCertificateFromJson(String certificateAsJson) throws ModuleException {
         final var internalCertificate = getInternal(certificateAsJson);
-        return InternalToCertificate.convert(internalCertificate);
+       final var texts = getMapWithTexts(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+        return InternalToCertificate.convert(internalCertificate, texts);
+    }
+
+    private SortedMap<String, String> getMapWithTexts(String type, String textVersion) {
+        IntygTexts intygTexts = getTexts(type, textVersion);
+        return intygTexts.getTexter();
     }
 
     @Override

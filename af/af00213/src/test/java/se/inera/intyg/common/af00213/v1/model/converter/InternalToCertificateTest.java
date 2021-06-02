@@ -21,6 +21,7 @@ package se.inera.intyg.common.af00213.v1.model.converter;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_21;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_22;
@@ -45,10 +46,14 @@ import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTR
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_31;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_32;
 
+import java.util.SortedMap;
+import java.util.TreeMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
@@ -65,6 +70,8 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 class InternalToCertificateTest {
 
     private GrundData grundData;
+    @Mock
+    private SortedMap<String, String> texts;
 
     @BeforeEach
     void setup() {
@@ -75,6 +82,9 @@ class InternalToCertificateTest {
 
         grundData = new GrundData();
         grundData.setSkapadAv(skapadAv);
+
+        texts = Mockito.mock(TreeMap.class);
+        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
     }
 
     @Nested
@@ -97,7 +107,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeCertificateId() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 assertAll("Validating metadata",
                     () -> assertEquals(internalCertificate.getId(), certificate.getMetadata().getId()),
@@ -132,7 +142,7 @@ class InternalToCertificateTest {
                 final var expectedUnitId = "UnitID";
                 unit.setEnhetsid(expectedUnitId);
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 assertEquals(expectedUnitId, certificate.getMetadata().getUnit().getUnitId());
             }
@@ -142,7 +152,7 @@ class InternalToCertificateTest {
                 final var expectedUnitName = "UnitName";
                 unit.setEnhetsnamn(expectedUnitName);
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 assertEquals(expectedUnitName, certificate.getMetadata().getUnit().getUnitName());
             }
@@ -152,7 +162,7 @@ class InternalToCertificateTest {
                 final var expectedUnitAddress = "UnitAddress";
                 unit.setPostadress(expectedUnitAddress);
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 assertEquals(expectedUnitAddress, certificate.getMetadata().getUnit().getAddress());
             }
@@ -162,7 +172,7 @@ class InternalToCertificateTest {
                 final var expectedUnitZipCode = "UnitZipCode";
                 unit.setPostnummer(expectedUnitZipCode);
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 assertEquals(expectedUnitZipCode, certificate.getMetadata().getUnit().getZipCode());
             }
@@ -172,7 +182,7 @@ class InternalToCertificateTest {
                 final var expectedUnitCity = "UnitCity";
                 unit.setPostort(expectedUnitCity);
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 assertEquals(expectedUnitCity, certificate.getMetadata().getUnit().getCity());
             }
@@ -182,7 +192,7 @@ class InternalToCertificateTest {
                 final var expectedUnitEmail = "UnitEmail";
                 unit.setEpost(expectedUnitEmail);
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 assertEquals(expectedUnitEmail, certificate.getMetadata().getUnit().getEmail());
             }
@@ -192,7 +202,7 @@ class InternalToCertificateTest {
                 final var expectedUnitPhoneNumber = "UnitPhoneNumber";
                 unit.setTelefonnummer(expectedUnitPhoneNumber);
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 assertEquals(expectedUnitPhoneNumber, certificate.getMetadata().getUnit().getPhoneNumber());
             }
@@ -222,7 +232,7 @@ class InternalToCertificateTest {
             void shouldIncludeCategoryElement() {
                 final var expectedIndex = 0;
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var category = certificate.getData().get(FUNKTIONSNEDSATTNING_CATEGORY_ID);
 
@@ -238,14 +248,14 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeCategoryConfig() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var category = certificate.getData().get(FUNKTIONSNEDSATTNING_CATEGORY_ID);
 
                 assertEquals(CertificateDataConfigTypes.CATEGORY, category.getConfig().getType());
 
                 assertAll("Validating category configuration",
-                    () -> assertEquals("Funktionsnedsättning", category.getConfig().getText())
+                    () -> assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text")
                 );
             }
         }
@@ -269,7 +279,7 @@ class InternalToCertificateTest {
             void shouldIncludeQuestionElement() {
                 final var expectedIndex = 1;
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_11);
 
@@ -285,7 +295,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionConfig() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_11);
 
@@ -296,14 +306,14 @@ class InternalToCertificateTest {
                     () -> assertTrue(certificateDataConfigBoolean.getText().trim().length() > 0, "Missing text"),
                     () -> assertTrue(certificateDataConfigBoolean.getDescription().trim().length() > 0, "Missing description"),
                     () -> assertEquals(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11, certificateDataConfigBoolean.getId()),
-                    () -> assertEquals("Ja", certificateDataConfigBoolean.getSelectedText()),
-                    () -> assertEquals("Nej", certificateDataConfigBoolean.getUnselectedText())
+                    () -> assertTrue(certificateDataConfigBoolean.getSelectedText().trim().length() > 0, "Missing selected text"),
+                    () -> assertTrue(certificateDataConfigBoolean.getUnselectedText().trim().length() > 0, "Missing unselected text")
                 );
             }
 
             @Test
             void shouldIncludeQuestionValueTrue() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_11);
 
@@ -323,7 +333,7 @@ class InternalToCertificateTest {
                     .setHarFunktionsnedsattning(false)
                     .build();
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_11);
 
@@ -342,7 +352,7 @@ class InternalToCertificateTest {
                     .setTextVersion("TextVersion")
                     .build();
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_11);
 
@@ -355,7 +365,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValidationMandatory() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_11);
 
@@ -388,7 +398,7 @@ class InternalToCertificateTest {
             void shouldIncludeQuestionElement() {
                 final var expectedIndex = 2;
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_12);
 
@@ -404,7 +414,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionConfig() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_12);
 
@@ -420,7 +430,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValue() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_12);
 
@@ -439,7 +449,7 @@ class InternalToCertificateTest {
                     .setTextVersion("TextVersion")
                     .build();
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_12);
 
@@ -452,7 +462,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValidationMandatory() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_12);
 
@@ -465,7 +475,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValidationShow() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_12);
 
@@ -496,7 +506,7 @@ class InternalToCertificateTest {
             void shouldIncludeCategoryElement() {
                 final var expectedIndex = 3;
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var category = certificate.getData().get(AKTIVITETSBEGRANSNING_CATEGORY_ID);
 
@@ -512,7 +522,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeCategoryConfig() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var category = certificate.getData().get(AKTIVITETSBEGRANSNING_CATEGORY_ID);
 
@@ -525,7 +535,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeCategoryValidationShow() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_CATEGORY_ID);
 
@@ -556,7 +566,7 @@ class InternalToCertificateTest {
             void shouldIncludeQuestionElement() {
                 final var expectedIndex = 4;
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_21);
 
@@ -572,7 +582,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionConfig() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_21);
 
@@ -583,14 +593,14 @@ class InternalToCertificateTest {
                     () -> assertTrue(certificateDataConfigBoolean.getText().trim().length() > 0, "Missing text"),
                     () -> assertTrue(certificateDataConfigBoolean.getDescription().trim().length() > 0, "Missing description"),
                     () -> assertEquals(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21, certificateDataConfigBoolean.getId()),
-                    () -> assertEquals("Ja", certificateDataConfigBoolean.getSelectedText()),
-                    () -> assertEquals("Nej", certificateDataConfigBoolean.getUnselectedText())
+                    () -> assertTrue(certificateDataConfigBoolean.getSelectedText().trim().length() > 0, "Missing selected text"),
+                    () -> assertTrue(certificateDataConfigBoolean.getUnselectedText().trim().length() > 0, "Missing unselected text")
                 );
             }
 
             @Test
             void shouldIncludeQuestionValueTrue() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_21);
 
@@ -610,7 +620,7 @@ class InternalToCertificateTest {
                     .setHarAktivitetsbegransning(false)
                     .build();
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_21);
 
@@ -629,7 +639,7 @@ class InternalToCertificateTest {
                     .setTextVersion("TextVersion")
                     .build();
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_21);
 
@@ -642,7 +652,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValidationMandatory() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_21);
 
@@ -655,7 +665,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValidationShow() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_21);
 
@@ -686,7 +696,7 @@ class InternalToCertificateTest {
             void shouldIncludeQuestionElement() {
                 final var expectedIndex = 5;
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_22);
 
@@ -702,7 +712,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionConfig() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_22);
 
@@ -718,7 +728,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValue() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_22);
 
@@ -737,7 +747,7 @@ class InternalToCertificateTest {
                     .setTextVersion("TextVersion")
                     .build();
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_22);
 
@@ -750,7 +760,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValidationMandatory() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_22);
 
@@ -763,7 +773,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValidationShow() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_22);
 
@@ -776,7 +786,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValidationShowTwo() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_22);
 
@@ -807,7 +817,7 @@ class InternalToCertificateTest {
             void shouldIncludeCategoryElement() {
                 final var expectedIndex = 6;
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var category = certificate.getData().get(UTREDNING_BEHANDLING_CATEGORY_ID);
 
@@ -823,14 +833,14 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeCategoryConfig() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var category = certificate.getData().get(UTREDNING_BEHANDLING_CATEGORY_ID);
 
                 assertEquals(CertificateDataConfigTypes.CATEGORY, category.getConfig().getType());
 
                 assertAll("Validating category configuration",
-                    () -> assertEquals("Utredning och behandling", category.getConfig().getText())
+                    () -> assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text")
                 );
             }
         }
@@ -854,7 +864,7 @@ class InternalToCertificateTest {
             void shouldIncludeQuestionElement() {
                 final var expectedIndex = 7;
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_31);
 
@@ -870,7 +880,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionConfig() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_31);
 
@@ -881,14 +891,14 @@ class InternalToCertificateTest {
                     () -> assertTrue(certificateDataConfigBoolean.getText().trim().length() > 0, "Missing text"),
                     () -> assertTrue(certificateDataConfigBoolean.getDescription().trim().length() > 0, "Missing description"),
                     () -> assertEquals(UTREDNING_BEHANDLING_SVAR_JSON_ID_31, certificateDataConfigBoolean.getId()),
-                    () -> assertEquals("Ja", certificateDataConfigBoolean.getSelectedText()),
-                    () -> assertEquals("Nej", certificateDataConfigBoolean.getUnselectedText())
+                    () -> assertTrue(certificateDataConfigBoolean.getSelectedText().trim().length() > 0, "Missing selected text"),
+                    () -> assertTrue(certificateDataConfigBoolean.getUnselectedText().trim().length() > 0, "Missing unselected text")
                 );
             }
 
             @Test
             void shouldIncludeQuestionValueTrue() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_31);
 
@@ -908,7 +918,7 @@ class InternalToCertificateTest {
                     .setHarUtredningBehandling(false)
                     .build();
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_31);
 
@@ -927,7 +937,7 @@ class InternalToCertificateTest {
                     .setTextVersion("TextVersion")
                     .build();
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_31);
 
@@ -940,7 +950,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValidationMandatory() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_31);
 
@@ -971,7 +981,7 @@ class InternalToCertificateTest {
             void shouldIncludeQuestionElement() {
                 final var expectedIndex = 8;
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_32);
 
@@ -987,7 +997,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionConfig() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_32);
 
@@ -1003,7 +1013,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValue() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_32);
 
@@ -1022,7 +1032,7 @@ class InternalToCertificateTest {
                     .setTextVersion("TextVersion")
                     .build();
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_32);
 
@@ -1035,7 +1045,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValidationMandatory() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_32);
 
@@ -1048,7 +1058,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValidationShow() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_32);
 
@@ -1079,7 +1089,7 @@ class InternalToCertificateTest {
             void shouldIncludeCategoryElement() {
                 final var expectedIndex = 9;
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var category = certificate.getData().get(ARBETETS_PAVERKAN_CATEGORY_ID);
 
@@ -1095,14 +1105,14 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeCategoryConfig() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var category = certificate.getData().get(ARBETETS_PAVERKAN_CATEGORY_ID);
 
                 assertEquals(CertificateDataConfigTypes.CATEGORY, category.getConfig().getType());
 
                 assertAll("Validating category configuration",
-                    () -> assertEquals("Arbetspåverkan", category.getConfig().getText())
+                    () -> assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text")
                 );
             }
         }
@@ -1126,7 +1136,7 @@ class InternalToCertificateTest {
             void shouldIncludeQuestionElement() {
                 final var expectedIndex = 10;
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(ARBETETS_PAVERKAN_DELSVAR_ID_41);
 
@@ -1142,7 +1152,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionConfig() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(ARBETETS_PAVERKAN_DELSVAR_ID_41);
 
@@ -1153,14 +1163,14 @@ class InternalToCertificateTest {
                     () -> assertTrue(certificateDataConfigBoolean.getText().trim().length() > 0, "Missing text"),
                     () -> assertTrue(certificateDataConfigBoolean.getDescription().trim().length() > 0, "Missing description"),
                     () -> assertEquals(ARBETETS_PAVERKAN_SVAR_JSON_ID_41, certificateDataConfigBoolean.getId()),
-                    () -> assertEquals("Ja", certificateDataConfigBoolean.getSelectedText()),
-                    () -> assertEquals("Nej", certificateDataConfigBoolean.getUnselectedText())
+                    () -> assertTrue( certificateDataConfigBoolean.getSelectedText().trim().length() > 0, "Missing selected text"),
+                    () -> assertTrue( certificateDataConfigBoolean.getUnselectedText().trim().length() > 0, "Missing unselected text")
                 );
             }
 
             @Test
             void shouldIncludeQuestionValueTrue() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(ARBETETS_PAVERKAN_DELSVAR_ID_41);
 
@@ -1180,7 +1190,7 @@ class InternalToCertificateTest {
                     .setHarArbetetsPaverkan(false)
                     .build();
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(ARBETETS_PAVERKAN_DELSVAR_ID_41);
 
@@ -1199,7 +1209,7 @@ class InternalToCertificateTest {
                     .setTextVersion("TextVersion")
                     .build();
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(ARBETETS_PAVERKAN_DELSVAR_ID_41);
 
@@ -1212,7 +1222,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValidationMandatory() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(ARBETETS_PAVERKAN_DELSVAR_ID_41);
 
@@ -1243,7 +1253,7 @@ class InternalToCertificateTest {
             void shouldIncludeQuestionElement() {
                 final var expectedIndex = 11;
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(ARBETETS_PAVERKAN_DELSVAR_ID_42);
 
@@ -1259,7 +1269,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionConfig() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(ARBETETS_PAVERKAN_DELSVAR_ID_42);
 
@@ -1275,7 +1285,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValue() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(ARBETETS_PAVERKAN_DELSVAR_ID_42);
 
@@ -1294,7 +1304,7 @@ class InternalToCertificateTest {
                     .setTextVersion("TextVersion")
                     .build();
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(ARBETETS_PAVERKAN_DELSVAR_ID_42);
 
@@ -1307,7 +1317,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValidationMandatory() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(ARBETETS_PAVERKAN_DELSVAR_ID_42);
 
@@ -1320,7 +1330,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValidationShow() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(ARBETETS_PAVERKAN_DELSVAR_ID_42);
 
@@ -1351,7 +1361,7 @@ class InternalToCertificateTest {
             void shouldIncludeCategoryElement() {
                 final var expectedIndex = 12;
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var category = certificate.getData().get(OVRIGT_CATEGORY_ID);
 
@@ -1367,14 +1377,14 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeCategoryConfig() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var category = certificate.getData().get(OVRIGT_CATEGORY_ID);
 
                 assertEquals(CertificateDataConfigTypes.CATEGORY, category.getConfig().getType());
 
                 assertAll("Validating category configuration",
-                    () -> assertEquals("Övrigt", category.getConfig().getText())
+                    () -> assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text")
                 );
             }
         }
@@ -1398,7 +1408,7 @@ class InternalToCertificateTest {
             void shouldIncludeQuestionElement() {
                 final var expectedIndex = 13;
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(OVRIGT_DELSVAR_ID_5);
 
@@ -1414,7 +1424,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionConfig() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(OVRIGT_DELSVAR_ID_5);
 
@@ -1430,7 +1440,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValue() {
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(OVRIGT_DELSVAR_ID_5);
 
@@ -1449,7 +1459,7 @@ class InternalToCertificateTest {
                     .setTextVersion("TextVersion")
                     .build();
 
-                final var certificate = InternalToCertificate.convert(internalCertificate);
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(OVRIGT_DELSVAR_ID_5);
 
