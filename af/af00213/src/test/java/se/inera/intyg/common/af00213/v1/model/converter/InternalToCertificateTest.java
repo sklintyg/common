@@ -19,8 +19,11 @@
 
 package se.inera.intyg.common.af00213.v1.model.converter;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_21;
@@ -46,15 +49,13 @@ import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTR
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_31;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_32;
 
-import java.util.SortedMap;
-import java.util.TreeMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
+import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
@@ -70,8 +71,7 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 class InternalToCertificateTest {
 
     private GrundData grundData;
-    @Mock
-    private SortedMap<String, String> texts;
+    private CertificateTextProvider texts;
 
     @BeforeEach
     void setup() {
@@ -83,7 +83,7 @@ class InternalToCertificateTest {
         grundData = new GrundData();
         grundData.setSkapadAv(skapadAv);
 
-        texts = Mockito.mock(TreeMap.class);
+        texts = Mockito.mock(CertificateTextProvider.class);
         when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
     }
 
@@ -1163,8 +1163,8 @@ class InternalToCertificateTest {
                     () -> assertTrue(certificateDataConfigBoolean.getText().trim().length() > 0, "Missing text"),
                     () -> assertTrue(certificateDataConfigBoolean.getDescription().trim().length() > 0, "Missing description"),
                     () -> assertEquals(ARBETETS_PAVERKAN_SVAR_JSON_ID_41, certificateDataConfigBoolean.getId()),
-                    () -> assertTrue( certificateDataConfigBoolean.getSelectedText().trim().length() > 0, "Missing selected text"),
-                    () -> assertTrue( certificateDataConfigBoolean.getUnselectedText().trim().length() > 0, "Missing unselected text")
+                    () -> assertTrue(certificateDataConfigBoolean.getSelectedText().trim().length() > 0, "Missing selected text"),
+                    () -> assertTrue(certificateDataConfigBoolean.getUnselectedText().trim().length() > 0, "Missing unselected text")
                 );
             }
 

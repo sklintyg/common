@@ -70,8 +70,8 @@ import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTR
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_32;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
-import java.util.SortedMap;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
+import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -93,7 +93,7 @@ public final class InternalToCertificate {
     }
 
 
-    public static Certificate convert(Af00213UtlatandeV1 internalCertificate, SortedMap<String, String> texts) {
+    public static Certificate convert(Af00213UtlatandeV1 internalCertificate, CertificateTextProvider texts) {
         int index = 0;
 
         return CertificateBuilder.create()
@@ -116,7 +116,7 @@ public final class InternalToCertificate {
     }
 
     private static CertificateMetadata createMetadata(Af00213UtlatandeV1 internalCertificate,
-        SortedMap<String, String> texts) {
+        CertificateTextProvider texts) {
         final var unit = internalCertificate.getGrundData().getSkapadAv().getVardenhet();
         return CertificateMetadata.builder()
             .id(internalCertificate.getId())
@@ -138,7 +138,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static CertificateDataElement createFunktionsnedsattningsCategory(int index, SortedMap<String, String> texts) {
+    private static CertificateDataElement createFunktionsnedsattningsCategory(int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(FUNKTIONSNEDSATTNING_CATEGORY_ID)
             .index(index)
@@ -151,7 +151,7 @@ public final class InternalToCertificate {
     }
 
     public static CertificateDataElement createHarFunktionsnedsattningsQuestion(Boolean harFunktionsnedsattning, int index,
-        SortedMap<String, String> texts) {
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(FUNKTIONSNEDSATTNING_DELSVAR_ID_11)
             .index(index)
@@ -183,7 +183,7 @@ public final class InternalToCertificate {
     }
 
     public static CertificateDataElement createFunktionsnedsattningsQuestion(String funktionsnedsattning, int index,
-        SortedMap<String, String> texts) {
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(FUNKTIONSNEDSATTNING_DELSVAR_ID_12)
             .index(index)
@@ -216,7 +216,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static CertificateDataElement createAktivitetsbegransningsCategory(int index, SortedMap<String, String> texts) {
+    private static CertificateDataElement createAktivitetsbegransningsCategory(int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(AKTIVITETSBEGRANSNING_CATEGORY_ID)
             .index(index)
@@ -237,7 +237,7 @@ public final class InternalToCertificate {
     }
 
     public static CertificateDataElement createHarAktivitetsbegransningsQuestion(Boolean harAktivitetsbegransning, int index,
-        SortedMap<String, String> texts) {
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(AKTIVITETSBEGRANSNING_DELSVAR_ID_21)
             .parent(AKTIVITETSBEGRANSNING_CATEGORY_ID)
@@ -273,7 +273,7 @@ public final class InternalToCertificate {
     }
 
     public static CertificateDataElement createAktivitetsbegransningsQuestion(String aktivitetsbegransning, int index,
-        SortedMap<String, String> texts) {
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(AKTIVITETSBEGRANSNING_DELSVAR_ID_22)
             .parent(AKTIVITETSBEGRANSNING_DELSVAR_ID_21)
@@ -311,7 +311,7 @@ public final class InternalToCertificate {
     }
 
     private static CertificateDataElement createUtredningBehandlingsCategory(int index,
-        SortedMap<String, String> texts) {
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(UTREDNING_BEHANDLING_CATEGORY_ID)
             .index(index)
@@ -324,7 +324,7 @@ public final class InternalToCertificate {
     }
 
     public static CertificateDataElement createHarUtredningBehandlingsQuestion(Boolean harUtredningBehandling, int index,
-        SortedMap<String, String> texts) {
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(UTREDNING_BEHANDLING_DELSVAR_ID_31)
             .index(index)
@@ -356,7 +356,7 @@ public final class InternalToCertificate {
     }
 
     public static CertificateDataElement createUtredningBehandlingsQuestion(String utredningBehandling, int index,
-        SortedMap<String, String> texts) {
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(UTREDNING_BEHANDLING_DELSVAR_ID_32)
             .index(index)
@@ -390,7 +390,7 @@ public final class InternalToCertificate {
     }
 
     private static CertificateDataElement createArbetspaverkansCategory(int index,
-        SortedMap<String, String> texts) {
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(ARBETETS_PAVERKAN_CATEGORY_ID)
             .index(index)
@@ -403,7 +403,7 @@ public final class InternalToCertificate {
     }
 
     public static CertificateDataElement createHarArbetspaverkansQuestion(Boolean harArbetspaverkan, int index,
-        SortedMap<String, String> texts) {
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(ARBETETS_PAVERKAN_DELSVAR_ID_41)
             .index(index)
@@ -435,7 +435,7 @@ public final class InternalToCertificate {
     }
 
     public static CertificateDataElement createArbetspaverkansQuestion(String arbetspaverkan, int index,
-        SortedMap<String, String> texts) {
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(ARBETETS_PAVERKAN_DELSVAR_ID_42)
             .index(index)
@@ -468,7 +468,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static CertificateDataElement createOvrigtCategory(int index, SortedMap<String, String> texts) {
+    private static CertificateDataElement createOvrigtCategory(int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(OVRIGT_CATEGORY_ID)
             .index(index)
@@ -481,7 +481,7 @@ public final class InternalToCertificate {
     }
 
     public static CertificateDataElement createOvrigtQuestion(String ovrigt, int index,
-        SortedMap<String, String> texts) {
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(OVRIGT_DELSVAR_ID_5)
             .index(index)
