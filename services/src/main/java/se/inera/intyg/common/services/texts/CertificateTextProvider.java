@@ -21,7 +21,7 @@ package se.inera.intyg.common.services.texts;
 
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 
-public final class CertificateTextProvider {
+public class CertificateTextProvider {
 
     private final IntygTexts intygTexts;
 
