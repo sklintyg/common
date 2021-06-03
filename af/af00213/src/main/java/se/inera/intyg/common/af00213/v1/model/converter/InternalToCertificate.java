@@ -20,31 +20,58 @@
 package se.inera.intyg.common.af00213.v1.model.converter;
 
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_TEXT;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_DESCRIPTION;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_21;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_22;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_TEXT;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_QUESTION_DESCRIPTION;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_QUESTION_TEXT;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ANSWER_NO;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ANSWER_YES;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_CATEGORY_ID;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_CATEGORY_TEXT;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_DELSVAR_DESCRIPTION;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_DELSVAR_ID_41;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_DELSVAR_ID_42;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_DELSVAR_TEXT;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_QUESTION_DESCRIPTION;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_QUESTION_TEXT;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_SVAR_JSON_ID_41;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_SVAR_JSON_ID_42;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.DESCRIPTION;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_TEXT;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_DESCRIPTION;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_11;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_12;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_TEXT;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_QUESTION_DESCRIPTION;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_QUESTION_TEXT;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.OVRIGT_CATEGORY_TEXT;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.OVRIGT_DELSVAR_ID_5;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.OVRIGT_QUESTION_DESCRIPTION;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.OVRIGT_QUESTION_TEXT;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_5;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_CATEGORY_ID;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_CATEGORY_TEXT;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_DELSVAR_DESCRIPTION;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_DELSVAR_ID_31;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_DELSVAR_ID_32;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_DELSVAR_TEXT;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_QUESTION_DESCRIPTION;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_QUESTION_TEXT;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_31;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_32;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
+import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -65,43 +92,38 @@ public final class InternalToCertificate {
 
     }
 
-    public static Certificate convert(Af00213UtlatandeV1 internalCertificate) {
+
+    public static Certificate convert(Af00213UtlatandeV1 internalCertificate, CertificateTextProvider texts) {
         int index = 0;
 
         return CertificateBuilder.create()
-            .metadata(createMetadata(internalCertificate))
-            .addElement(createFunktionsnedsattningsCategory(index++))
-            .addElement(createHarFunktionsnedsattningsQuestion(internalCertificate.getHarFunktionsnedsattning(), index++))
-            .addElement(createFunktionsnedsattningsQuestion(internalCertificate.getFunktionsnedsattning(), index++))
-            .addElement(createAktivitetsbegransningsCategory(index++))
-            .addElement(createHarAktivitetsbegransningsQuestion(internalCertificate.getHarAktivitetsbegransning(), index++))
-            .addElement(createAktivitetsbegransningsQuestion(internalCertificate.getAktivitetsbegransning(), index++))
-            .addElement(createUtredningBehandlingsCategory(index++))
-            .addElement(createHarUtredningBehandlingsQuestion(internalCertificate.getHarUtredningBehandling(), index++))
-            .addElement(createUtredningBehandlingsQuestion(internalCertificate.getUtredningBehandling(), index++))
-            .addElement(createArbetspaverkansCategory(index++))
-            .addElement(createHarArbetspaverkansQuestion(internalCertificate.getHarArbetetsPaverkan(), index++))
-            .addElement(createArbetspaverkansQuestion(internalCertificate.getArbetetsPaverkan(), index++))
-            .addElement(createOvrigtCategory(index++))
-            .addElement(createOvrigtQuestion(internalCertificate.getOvrigt(), index))
+            .metadata(createMetadata(internalCertificate, texts))
+            .addElement(createFunktionsnedsattningsCategory(index++, texts))
+            .addElement(createHarFunktionsnedsattningsQuestion(internalCertificate.getHarFunktionsnedsattning(), index++, texts))
+            .addElement(createFunktionsnedsattningsQuestion(internalCertificate.getFunktionsnedsattning(), index++, texts))
+            .addElement(createAktivitetsbegransningsCategory(index++, texts))
+            .addElement(createHarAktivitetsbegransningsQuestion(internalCertificate.getHarAktivitetsbegransning(), index++, texts))
+            .addElement(createAktivitetsbegransningsQuestion(internalCertificate.getAktivitetsbegransning(), index++, texts))
+            .addElement(createUtredningBehandlingsCategory(index++, texts))
+            .addElement(createHarUtredningBehandlingsQuestion(internalCertificate.getHarUtredningBehandling(), index++, texts))
+            .addElement(createUtredningBehandlingsQuestion(internalCertificate.getUtredningBehandling(), index++, texts))
+            .addElement(createArbetspaverkansCategory(index++, texts))
+            .addElement(createHarArbetspaverkansQuestion(internalCertificate.getHarArbetetsPaverkan(), index++, texts))
+            .addElement(createArbetspaverkansQuestion(internalCertificate.getArbetetsPaverkan(), index++, texts))
+            .addElement(createOvrigtCategory(index++, texts))
+            .addElement(createOvrigtQuestion(internalCertificate.getOvrigt(), index, texts))
             .build();
     }
 
-    private static CertificateMetadata createMetadata(Af00213UtlatandeV1 internalCertificate) {
+    private static CertificateMetadata createMetadata(Af00213UtlatandeV1 internalCertificate,
+        CertificateTextProvider texts) {
         final var unit = internalCertificate.getGrundData().getSkapadAv().getVardenhet();
         return CertificateMetadata.builder()
             .id(internalCertificate.getId())
             .type(internalCertificate.getTyp())
             .typeVersion(internalCertificate.getTextVersion())
             .name("Arbetsförmedlingens medicinska utlåtande")
-            .description(
-                "Arbetsförmedlingen behöver ett medicinskt utlåtande för en arbetssökande som har ett behov av fördjupat stöd.\n"
-                    + "\n"
-                    + "Vi behöver ett utlåtande för att kunna:\n"
-                    + "\n"
-                    + "• utreda och bedöma om den arbetssökande har en funktionsnedsättning som medför nedsatt arbetsförmåga\n"
-                    + "• bedöma om vi behöver göra anpassningar i program eller insatser\n"
-                    + "• erbjuda lämpliga utredande, vägledande, rehabiliterande eller arbetsförberedande insatser.")
+            .description(texts.get(DESCRIPTION))
             .unit(
                 Unit.builder()
                     .unitId(unit.getEnhetsid())
@@ -116,30 +138,31 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static CertificateDataElement createFunktionsnedsattningsCategory(int index) {
+    private static CertificateDataElement createFunktionsnedsattningsCategory(int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(FUNKTIONSNEDSATTNING_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigCategory.builder()
-                    .text("Funktionsnedsättning")
+                    .text(texts.get(FUNKTIONSNEDSATTNING_CATEGORY_TEXT))
                     .build()
             )
             .build();
     }
 
-    public static CertificateDataElement createHarFunktionsnedsattningsQuestion(Boolean harFunktionsnedsattning, int index) {
+    public static CertificateDataElement createHarFunktionsnedsattningsQuestion(Boolean harFunktionsnedsattning, int index,
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(FUNKTIONSNEDSATTNING_DELSVAR_ID_11)
             .index(index)
             .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
             .config(
                 CertificateDataConfigBoolean.builder()
-                    .text("Finns besvär på grund av sjukdom eller skada som medför funktionsnedsättning?")
-                    .description("Med besvär avses sådant som påverkar psykiska, psykosociala eller kroppsliga funktioner.")
+                    .text(texts.get(FUNKTIONSNEDSATTNING_QUESTION_TEXT))
+                    .description(texts.get(FUNKTIONSNEDSATTNING_QUESTION_DESCRIPTION))
                     .id(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11)
-                    .selectedText("Ja")
-                    .unselectedText("Nej")
+                    .selectedText(texts.get(ANSWER_YES))
+                    .unselectedText(texts.get(ANSWER_NO))
                     .build()
             )
             .value(
@@ -159,28 +182,16 @@ public final class InternalToCertificate {
             .build();
     }
 
-    public static CertificateDataElement createFunktionsnedsattningsQuestion(String funktionsnedsattning, int index) {
+    public static CertificateDataElement createFunktionsnedsattningsQuestion(String funktionsnedsattning, int index,
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(FUNKTIONSNEDSATTNING_DELSVAR_ID_12)
             .index(index)
             .parent(FUNKTIONSNEDSATTNING_DELSVAR_ID_11)
             .config(
                 CertificateDataConfigTextArea.builder()
-                    .text(
-                        "Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.")
-                    .description(
-                        "Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n"
-                            + "\n"
-                            + "Till exempel:\n"
-                            + "Medvetenhet, uppmärksamhet, orienteringsförmåga\n"
-                            + "Social interaktion, agitation\n"
-                            + "Kognitiva störningar som t ex minnessvårigheter\n"
-                            + "Störningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\n"
-                            + "Smärta i rörelseorganen\n"
-                            + "Rörelseinskränkning, rörelseomfång, smidighet\n"
-                            + "Uthållighet, koordination\n"
-                            + "\n"
-                            + "Med varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.")
+                    .text(texts.get(FUNKTIONSNEDSATTNING_DELSVAR_TEXT))
+                    .description(texts.get(FUNKTIONSNEDSATTNING_DELSVAR_DESCRIPTION))
                     .id(FUNKTIONSNEDSATTNING_CATEGORY_ID)
                     .build()
             )
@@ -205,13 +216,13 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static CertificateDataElement createAktivitetsbegransningsCategory(int index) {
+    private static CertificateDataElement createAktivitetsbegransningsCategory(int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(AKTIVITETSBEGRANSNING_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigCategory.builder()
-                    .text("Aktivitetsbegränsning")
+                    .text(texts.get(AKTIVITETSBEGRANSNING_CATEGORY_TEXT))
                     .build()
             )
             .validation(
@@ -225,21 +236,19 @@ public final class InternalToCertificate {
             .build();
     }
 
-    public static CertificateDataElement createHarAktivitetsbegransningsQuestion(Boolean harAktivitetsbegransning, int index) {
+    public static CertificateDataElement createHarAktivitetsbegransningsQuestion(Boolean harAktivitetsbegransning, int index,
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(AKTIVITETSBEGRANSNING_DELSVAR_ID_21)
             .parent(AKTIVITETSBEGRANSNING_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigBoolean.builder()
-                    .text("Leder funktionsnedsättningarna till aktivitetsbegränsningar i relation till arbete eller studier?")
-                    .description(
-                        "Aktivitet innebär personens möjlighet att genomföra en uppgift eller handling. Aktivitetsbegränsning ska bedömas"
-                            + " utifrån de begränsningar personen har kopplat till att kunna söka arbete, genomföra en arbetsuppgift/"
-                            + "arbetsuppgifter, kunna studera eller delta i aktivitet hos Arbetsförmedlingen.")
+                    .text(texts.get(AKTIVITETSBEGRANSNING_QUESTION_TEXT))
+                    .description(texts.get(AKTIVITETSBEGRANSNING_QUESTION_DESCRIPTION))
                     .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21)
-                    .selectedText("Ja")
-                    .unselectedText("Nej")
+                    .selectedText(texts.get(ANSWER_YES))
+                    .unselectedText(texts.get(ANSWER_NO))
                     .build()
             )
             .value(
@@ -263,24 +272,16 @@ public final class InternalToCertificate {
             .build();
     }
 
-    public static CertificateDataElement createAktivitetsbegransningsQuestion(String aktivitetsbegransning, int index) {
+    public static CertificateDataElement createAktivitetsbegransningsQuestion(String aktivitetsbegransning, int index,
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(AKTIVITETSBEGRANSNING_DELSVAR_ID_22)
             .parent(AKTIVITETSBEGRANSNING_DELSVAR_ID_21)
             .index(index)
             .config(
                 CertificateDataConfigTextArea.builder()
-                    .text("Ange vilka aktivitetsbegränsningar? Ange hur och om möjligt varaktighet/prognos.")
-                    .description(
-                        "Ge konkreta exempel på aktivitetsbegränsningar utifrån personens planerade insatser hos Arbetsförmedlingen eller "
-                            + "personens möjlighet att söka arbete, genomföra en arbetsuppgift/arbetsuppgifter eller studera."
-                            + " Till exempel:\n"
-                            + "\n"
-                            + "att ta till sig en instruktion\n"
-                            + "att ta reda på och förstå muntlig eller skriftlig information\n"
-                            + "att kunna fokusera\n"
-                            + "att kunna bära eller lyfta\n"
-                            + "att kunna hantera statiskt arbete")
+                    .text(texts.get(AKTIVITETSBEGRANSNING_DELSVAR_TEXT))
+                    .description(texts.get(AKTIVITETSBEGRANSNING_DELSVAR_DESCRIPTION))
                     .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22)
                     .build()
             )
@@ -309,33 +310,32 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static CertificateDataElement createUtredningBehandlingsCategory(int index) {
+    private static CertificateDataElement createUtredningBehandlingsCategory(int index,
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(UTREDNING_BEHANDLING_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigCategory.builder()
-                    .text("Utredning och behandling")
+                    .text(texts.get(UTREDNING_BEHANDLING_CATEGORY_TEXT))
                     .build()
             )
             .build();
     }
 
-    public static CertificateDataElement createHarUtredningBehandlingsQuestion(Boolean harUtredningBehandling, int index) {
+    public static CertificateDataElement createHarUtredningBehandlingsQuestion(Boolean harUtredningBehandling, int index,
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(UTREDNING_BEHANDLING_DELSVAR_ID_31)
             .index(index)
             .parent(UTREDNING_BEHANDLING_CATEGORY_ID)
             .config(
                 CertificateDataConfigBoolean.builder()
-                    .text(
-                        "Finns pågående eller planerade utredningar/behandlingar som påverkar "
-                            + "den planering som Arbetsförmedlingen har beskrivit i förfrågan?")
-                    .description(
-                        "Till exempel remiss för bedömning eller åtgärd inom annan vårdenhet eller aktiviteter inom egna verksamheten.")
+                    .text(texts.get(UTREDNING_BEHANDLING_QUESTION_TEXT))
+                    .description(texts.get(UTREDNING_BEHANDLING_QUESTION_DESCRIPTION))
                     .id(UTREDNING_BEHANDLING_SVAR_JSON_ID_31)
-                    .selectedText("Ja")
-                    .unselectedText("Nej")
+                    .selectedText(texts.get(ANSWER_YES))
+                    .unselectedText(texts.get(ANSWER_NO))
                     .build()
             )
             .value(
@@ -355,22 +355,16 @@ public final class InternalToCertificate {
             .build();
     }
 
-    public static CertificateDataElement createUtredningBehandlingsQuestion(String utredningBehandling, int index) {
+    public static CertificateDataElement createUtredningBehandlingsQuestion(String utredningBehandling, int index,
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(UTREDNING_BEHANDLING_DELSVAR_ID_32)
             .index(index)
             .parent(UTREDNING_BEHANDLING_DELSVAR_ID_31)
             .config(
                 CertificateDataConfigTextArea.builder()
-                    .text(
-                        "Hur påverkar utredningarna/behandlingarna planeringen?"
-                            + " När planeras utredningarna/behandlingarna att vara avslutade?\n")
-                    .description(
-                        "Utgå från den beskrivning Arbetsförmedlingen har gjort av personen och Arbetsförmedlingens"
-                            + " planerade aktiviteter.\n"
-                            + "\n"
-                            + "Ange förväntat resultat för de utredningar eller behandlingar som ska genomföras i vården och när personen"
-                            + " kan genomföra/delta i Arbetsförmedlingens planerade aktiviteter.")
+                    .text(texts.get(UTREDNING_BEHANDLING_DELSVAR_TEXT))
+                    .description(texts.get(UTREDNING_BEHANDLING_DELSVAR_DESCRIPTION))
                     .id(UTREDNING_BEHANDLING_SVAR_JSON_ID_32)
                     .build()
             )
@@ -395,31 +389,32 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static CertificateDataElement createArbetspaverkansCategory(int index) {
+    private static CertificateDataElement createArbetspaverkansCategory(int index,
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(ARBETETS_PAVERKAN_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigCategory.builder()
-                    .text("Arbetspåverkan")
+                    .text(texts.get(ARBETETS_PAVERKAN_CATEGORY_TEXT))
                     .build()
             )
             .build();
     }
 
-    public static CertificateDataElement createHarArbetspaverkansQuestion(Boolean harArbetspaverkan, int index) {
+    public static CertificateDataElement createHarArbetspaverkansQuestion(Boolean harArbetspaverkan, int index,
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(ARBETETS_PAVERKAN_DELSVAR_ID_41)
             .index(index)
             .parent(ARBETETS_PAVERKAN_CATEGORY_ID)
             .config(
                 CertificateDataConfigBoolean.builder()
-                    .text("Kan sjukdomen/skadan förvärras av vissa arbetsuppgifter/arbetsmoment?")
-                    .description(
-                        "Utgå från den beskrivning Arbetsförmedlingen har gjort av personen och Arbetsförmedlingens planerade aktiviteter.")
+                    .text(texts.get(ARBETETS_PAVERKAN_QUESTION_TEXT))
+                    .description(texts.get(ARBETETS_PAVERKAN_QUESTION_DESCRIPTION))
                     .id(ARBETETS_PAVERKAN_SVAR_JSON_ID_41)
-                    .selectedText("Ja")
-                    .unselectedText("Nej")
+                    .selectedText(texts.get(ANSWER_YES))
+                    .unselectedText(texts.get(ANSWER_NO))
                     .build()
             )
             .value(
@@ -439,23 +434,16 @@ public final class InternalToCertificate {
             .build();
     }
 
-    public static CertificateDataElement createArbetspaverkansQuestion(String arbetspaverkan, int index) {
+    public static CertificateDataElement createArbetspaverkansQuestion(String arbetspaverkan, int index,
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(ARBETETS_PAVERKAN_DELSVAR_ID_42)
             .index(index)
             .parent(ARBETETS_PAVERKAN_DELSVAR_ID_41)
             .config(
                 CertificateDataConfigTextArea.builder()
-                    .text("Vilken typ av arbetsuppgifter/arbetsmoment?")
-                    .description(
-                        "Utgå från den beskrivning Arbetsförmedlingen har gjort av personen och Arbetsförmedlingens planerade aktiviteter."
-                            + "\n\n"
-                            + "Till exempel:\n"
-                            + "\n"
-                            + "armarbete ovan axelhöjd\n"
-                            + "arbete på höga höjder\n"
-                            + "skärmarbete vid dator under längre tid\n"
-                            + "statiskt arbete\n")
+                    .text(texts.get(ARBETETS_PAVERKAN_DELSVAR_TEXT))
+                    .description(texts.get(ARBETETS_PAVERKAN_DELSVAR_DESCRIPTION))
                     .id(ARBETETS_PAVERKAN_SVAR_JSON_ID_42)
                     .build()
             )
@@ -480,19 +468,20 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static CertificateDataElement createOvrigtCategory(int index) {
+    private static CertificateDataElement createOvrigtCategory(int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(OVRIGT_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigCategory.builder()
-                    .text("Övrigt")
+                    .text(texts.get(OVRIGT_CATEGORY_TEXT))
                     .build()
             )
             .build();
     }
 
-    public static CertificateDataElement createOvrigtQuestion(String ovrigt, int index) {
+    public static CertificateDataElement createOvrigtQuestion(String ovrigt, int index,
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(OVRIGT_DELSVAR_ID_5)
             .index(index)
@@ -500,9 +489,8 @@ public final class InternalToCertificate {
             .config(
                 CertificateDataConfigTextArea.builder()
                     .id(OVRIGT_SVAR_JSON_ID_5)
-                    .text("Övrigt som Arbetsförmedlingen bör känna till?")
-                    .description(
-                        "Som t ex risker för försämring vid andra aktiviteter än de som Arbetsförmedlingen har beskrivit i förfrågan.")
+                    .text(texts.get(OVRIGT_QUESTION_TEXT))
+                    .description(texts.get(OVRIGT_QUESTION_DESCRIPTION))
                     .build()
             )
             .value(

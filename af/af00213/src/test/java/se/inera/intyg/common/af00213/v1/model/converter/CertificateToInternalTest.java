@@ -20,6 +20,7 @@
 package se.inera.intyg.common.af00213.v1.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,12 +29,22 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mockito;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
+import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 
 @DisplayName("Should convert Certificate to AF00213")
 class CertificateToInternalTest {
+
+    private CertificateTextProvider texts;
+
+    @BeforeEach
+    private void setup() {
+        texts = Mockito.mock(CertificateTextProvider.class);
+        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+    }
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -60,7 +71,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createHarFunktionsnedsattningsQuestion(expectedValue, index))
+                .addElement(InternalToCertificate.createHarFunktionsnedsattningsQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate);
@@ -94,7 +105,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createFunktionsnedsattningsQuestion(expectedValue, index))
+                .addElement(InternalToCertificate.createFunktionsnedsattningsQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate);
@@ -128,7 +139,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createHarAktivitetsbegransningsQuestion(expectedValue, index))
+                .addElement(InternalToCertificate.createHarAktivitetsbegransningsQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate);
@@ -162,7 +173,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createAktivitetsbegransningsQuestion(expectedValue, index))
+                .addElement(InternalToCertificate.createAktivitetsbegransningsQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate);
@@ -196,7 +207,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createHarUtredningBehandlingsQuestion(expectedValue, index))
+                .addElement(InternalToCertificate.createHarUtredningBehandlingsQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate);
@@ -230,7 +241,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createUtredningBehandlingsQuestion(expectedValue, index))
+                .addElement(InternalToCertificate.createUtredningBehandlingsQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate);
@@ -252,6 +263,7 @@ class CertificateToInternalTest {
                 .setId("id")
                 .setTextVersion("TextVersion")
                 .build();
+
         }
 
         Stream<Boolean> booleanValues() {
@@ -264,7 +276,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createHarArbetspaverkansQuestion(expectedValue, index))
+                .addElement(InternalToCertificate.createHarArbetspaverkansQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate);
@@ -298,7 +310,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createArbetspaverkansQuestion(expectedValue, index))
+                .addElement(InternalToCertificate.createArbetspaverkansQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate);
@@ -332,7 +344,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createOvrigtQuestion(expectedValue, index))
+                .addElement(InternalToCertificate.createOvrigtQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate);

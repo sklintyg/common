@@ -23,13 +23,21 @@ package se.inera.intyg.common.af00213.v1.model.converter;
  */
 public final class RespConstants {
 
+    public static final String DESCRIPTION = "FRM_1.RBK";
+    public static final String ANSWER_YES = "SVAR_JA.RBK";
+    public static final String ANSWER_NO = "SVAR_NEJ.RBK";
+
     public static final String FUNKTIONSNEDSATTNING_CATEGORY_ID = "funktionsnedsattning";
     public static final String FUNKTIONSNEDSATTNING_SVAR_ID_1 = "1";
     public static final String FUNKTIONSNEDSATTNING_DELSVAR_ID_11 = "1.1";
     public static final String FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11 = "harFunktionsnedsattning";
     public static final String FUNKTIONSNEDSATTNING_DELSVAR_ID_12 = "1.2";
     public static final String FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12 = "funktionsnedsattning";
-
+    public static final String FUNKTIONSNEDSATTNING_CATEGORY_TEXT = "KAT_1.RBK";
+    public static final String FUNKTIONSNEDSATTNING_QUESTION_TEXT = "FRG_1.RBK";
+    public static final String FUNKTIONSNEDSATTNING_QUESTION_DESCRIPTION = "FRG_1.HLP";
+    public static final String FUNKTIONSNEDSATTNING_DELSVAR_TEXT = "DFR_1.2.RBK";
+    public static final String FUNKTIONSNEDSATTNING_DELSVAR_DESCRIPTION = "DFR_1.2.HLP";
 
     public static final String AKTIVITETSBEGRANSNING_CATEGORY_ID = "aktivitetsbegransning";
     public static final String AKTIVITETSBEGRANSNING_SVAR_ID_2 = "2";
@@ -37,6 +45,11 @@ public final class RespConstants {
     public static final String AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21 = "harAktivitetsbegransning";
     public static final String AKTIVITETSBEGRANSNING_DELSVAR_ID_22 = "2.2";
     public static final String AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22 = "aktivitetsbegransning";
+    public static final String AKTIVITETSBEGRANSNING_CATEGORY_TEXT = "KAT_2.RBK";
+    public static final String AKTIVITETSBEGRANSNING_QUESTION_TEXT = "FRG_2.RBK";
+    public static final String AKTIVITETSBEGRANSNING_QUESTION_DESCRIPTION = "FRG_2.HLP";
+    public static final String AKTIVITETSBEGRANSNING_DELSVAR_TEXT = "DFR_2.2.RBK";
+    public static final String AKTIVITETSBEGRANSNING_DELSVAR_DESCRIPTION = "DFR_2.2.HLP";
 
     public static final String UTREDNING_BEHANDLING_CATEGORY_ID = "utredningBehandling";
     public static final String UTREDNING_BEHANDLING_SVAR_ID_3 = "3";
@@ -44,6 +57,12 @@ public final class RespConstants {
     public static final String UTREDNING_BEHANDLING_SVAR_JSON_ID_31 = "harUtredningBehandling";
     public static final String UTREDNING_BEHANDLING_DELSVAR_ID_32 = "3.2";
     public static final String UTREDNING_BEHANDLING_SVAR_JSON_ID_32 = "utredningBehandling";
+    public static final String UTREDNING_BEHANDLING_CATEGORY_TEXT = "KAT_3.RBK";
+    public static final String UTREDNING_BEHANDLING_QUESTION_TEXT = "FRG_3.RBK";
+    public static final String UTREDNING_BEHANDLING_QUESTION_DESCRIPTION = "FRG_3.HLP";
+    public static final String UTREDNING_BEHANDLING_DELSVAR_TEXT = "DFR_3.2.RBK";
+    public static final String UTREDNING_BEHANDLING_DELSVAR_DESCRIPTION = "DFR_3.2.HLP";
+
 
     public static final String ARBETETS_PAVERKAN_CATEGORY_ID = "arbetsPaverkan";
     public static final String ARBETETS_PAVERKAN_SVAR_ID_4 = "4";
@@ -51,12 +70,20 @@ public final class RespConstants {
     public static final String ARBETETS_PAVERKAN_SVAR_JSON_ID_41 = "harArbetetsPaverkan";
     public static final String ARBETETS_PAVERKAN_DELSVAR_ID_42 = "4.2";
     public static final String ARBETETS_PAVERKAN_SVAR_JSON_ID_42 = "arbetetsPaverkan";
+    public static final String ARBETETS_PAVERKAN_CATEGORY_TEXT = "KAT_4.RBK";
+    public static final String ARBETETS_PAVERKAN_QUESTION_TEXT = "FRG_4.RBK";
+    public static final String ARBETETS_PAVERKAN_QUESTION_DESCRIPTION = "FRG_4.HLP";
+    public static final String ARBETETS_PAVERKAN_DELSVAR_TEXT = "DFR_4.2.RBK";
+    public static final String ARBETETS_PAVERKAN_DELSVAR_DESCRIPTION = "DFR_4.2.HLP";
 
 
     public static final String OVRIGT_CATEGORY_ID = "ovrigt";
     public static final String OVRIGT_SVAR_ID_5 = "5";
     public static final String OVRIGT_DELSVAR_ID_5 = "5.1";
     public static final String OVRIGT_SVAR_JSON_ID_5 = "ovrigt";
+    public static final String OVRIGT_CATEGORY_TEXT = "KAT_5.RBK";
+    public static final String OVRIGT_QUESTION_TEXT = "FRG_5.RBK";
+    public static final String OVRIGT_QUESTION_DESCRIPTION = "FRG_5.HLP";
 
 
     public static final String GRUNDDATA_SVAR_JSON_ID = "grundData";
