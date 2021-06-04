@@ -5,7 +5,8 @@
       <i class="material-icons md-24" ng-attr-id="expand-vg-{{vg.id}}" ng-if="vg.vardenheter.length > 0"
          ng-click="vg.expanded = ! vg.expanded">{{vg.expanded ? 'expand_less': 'expand_more'}}</i>
       <i ng-if="vg.vardenheter.length === 0"></i>
-      {{vg.namn}}
+        {{vg.namn}}
+        <div ng-if="!isSelectable(vg.id)">(abonnemang saknas)</div>
       </div>
 
       <div ng-if="vg.expanded" ng-repeat="enhet in vg.vardenheter | orderBy:'namn'" class="vardenhet">
@@ -13,7 +14,9 @@
 
         <button type="button" class="btn btn-link"
                 ng-attr-id="wc-integration-enhet-selector-select-active-unit-{{enhet.id}}-link"
-                ng-click="itemSelected($event, enhet)">{{enhet.namn}}
+                ng-click="itemSelected($event, enhet)"
+                ng-disabled="!isSelectable(enhet.vardgivareHsaId)">
+          {{enhet.namn}}
         </button>
 
       </div>

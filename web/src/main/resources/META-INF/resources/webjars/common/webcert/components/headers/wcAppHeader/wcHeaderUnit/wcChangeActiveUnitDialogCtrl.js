@@ -157,6 +157,18 @@ angular.module('common').controller(
                         return ($scope.valdEnhet && $scope.valdEnhet.id === id);
                     };
 
+                    $scope.isSelectable = function(vardgivareHsaId, unitId) {
+                        return !$scope.isCurrentlySelected(unitId) && $scope.hasSubscription(vardgivareHsaId);
+                    };
+
+                    $scope.hasSubscription = function(vardgivareHsaId) {
+                        if ($scope.user.subscriptionInfo &&
+                            $scope.user.subscriptionInfo.subscriptionAction === 'MISSING_SUBSCRIPTION_BLOCK') {
+                            return !$scope.user.subscriptionInfo.unitHsaIdList.includes(vardgivareHsaId);
+                        }
+                        return true;
+                    };
+
                     /******************
                      * End of presentation functions
                      ******************/

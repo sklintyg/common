@@ -49,6 +49,18 @@ angular.module('common').directive('wcIntegrationEnhetSelector', function() {
                     enhet: unit
                 });
             };
+
+            $scope.isSelectable = function(vardgivareHsaId) {
+                return hasSubscription(vardgivareHsaId);
+            };
+
+            function hasSubscription(vardgivareHsaId) {
+                if ($scope.user.subscriptionInfo && $scope.user.subscriptionInfo.subscriptionAction === 'MISSING_SUBSCRIPTION_BLOCK') {
+                    return !$scope.user.subscriptionInfo.unitHsaIdList.includes(vardgivareHsaId);
+                }
+                return true;
+            }
+
         }
 
     };
