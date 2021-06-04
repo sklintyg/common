@@ -19,19 +19,20 @@
 package se.inera.intyg.common.services.texts;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
@@ -71,5 +72,26 @@ public class IntygTextsServiceImplTest {
         verify(repo, times(1)).getTexts("LISJP", "0.9");
         verify(mapper, times(1)).writeValueAsString(null);
         assertEquals("result should be what mapper returns", result, "null");
+    }
+
+    @Test
+    public void shallReturnFalseIfNotLatestMajorVersion() {
+        doReturn("2.0").when(repo).getLatestVersion("LISJP");
+        final var actual = service.isLatestMajorVersion("LISJP", "1.2");
+        assertFalse(actual);
+    }
+
+    @Test
+    public void shallReturnTrueIfLatestMajorVersion() {
+        doReturn("2.0").when(repo).getLatestVersion("LISJP");
+        final var actual = service.isLatestMajorVersion("LISJP", "2.0");
+        assertTrue(actual);
+    }
+
+    @Test
+    public void shallReturnTrueIfLatestMajorVersionButDifferentMinorVersion() {
+        doReturn("2.1").when(repo).getLatestVersion("LISJP");
+        final var actual = service.isLatestMajorVersion("LISJP", "2.0");
+        assertTrue(actual);
     }
 }

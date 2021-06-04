@@ -182,7 +182,7 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
     private static final int FIELD_INDEX_4 = 4;
 
 
-    private DoiUtlatandeV1 doiUtlatandeV1;
+    private final DoiUtlatandeV1 doiUtlatandeV1;
 
     public DoiPdfGenerator(DoiUtlatandeV1 intyg, IntygTexts intygTexts, List<Status> statuses, UtkastStatus utkastStatus)
         throws SoSPdfGeneratorException {
@@ -409,9 +409,11 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
     }
 
     private void fillSignature(LocalDateTime signeringsDatum, HoSPersonal skapadAv) throws IOException, DocumentException {
-        adjustAndFill(FIELD_ORT_OCH_DATUM, signeringsDatum != null ? signeringsDatum.format(DATE_FORMAT) : "", ADJUST_BY_6);
-        adjustAndFill(FIELD_LAKARENS_EFTERNAMN_OCH_FORNAMN, skapadAv.getFullstandigtNamn(), ADJUST_BY_6);
-        adjustAndFill(FIELD_BEFATTNING, String.join(", ", skapadAv.getBefattningar()), ADJUST_BY_6);
+        if (signeringsDatum != null) {
+            adjustAndFill(FIELD_ORT_OCH_DATUM, signeringsDatum.format(DATE_FORMAT), ADJUST_BY_6);
+            adjustAndFill(FIELD_LAKARENS_EFTERNAMN_OCH_FORNAMN, skapadAv.getFullstandigtNamn(), ADJUST_BY_6);
+            adjustAndFill(FIELD_BEFATTNING, String.join(", ", skapadAv.getBefattningar()), ADJUST_BY_6);
+        }
         adjustAndFill(FIELD_TJANSTESTALLE, String.join(", ", skapadAv.getVardenhet().getEnhetsnamn()
             + ", " + skapadAv.getVardenhet().getVardgivare().getVardgivarnamn()), ADJUST_BY_6);
         adjustAndFill(FIELD_UTDELNINGSADRESS, truncateTextIfNeeded(skapadAv.getVardenhet().getPostadress(),
