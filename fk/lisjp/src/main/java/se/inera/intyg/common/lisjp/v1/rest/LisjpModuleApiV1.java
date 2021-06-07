@@ -44,6 +44,7 @@ import se.inera.intyg.common.lisjp.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.lisjp.v1.pdf.AbstractLisjpPdfDefinitionBuilder;
 import se.inera.intyg.common.lisjp.v1.pdf.DefaultLisjpPdfDefinitionBuilder;
+import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
@@ -236,7 +237,9 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
     @Override
     public Certificate getCertificateFromJson(String certificateAsJson) throws ModuleException, IOException {
         final var internalCertificate = getInternal(certificateAsJson);
-        return InternalToCertificate.convert(internalCertificate);
+        final var intygTexts = getTexts(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+        final var certificateTextProvider = CertificateTextProvider.create(intygTexts);
+        return InternalToCertificate.convert(internalCertificate, certificateTextProvider);
     }
 
     @Override
