@@ -23,6 +23,7 @@ public class ResourceLinkDTO {
     private ResourceLinkTypeDTO type;
     private String name;
     private String description;
+    private String body;
     private boolean enabled;
 
     public static ResourceLinkDTO create(ResourceLinkTypeDTO type, String name, String description, boolean enabled) {
@@ -30,6 +31,16 @@ public class ResourceLinkDTO {
         resourceLink.setType(type);
         resourceLink.setName(name);
         resourceLink.setDescription(description);
+        resourceLink.setEnabled(enabled);
+        return resourceLink;
+    }
+
+    public static ResourceLinkDTO create(ResourceLinkTypeDTO type, String name, String description, String body, boolean enabled) {
+        final var resourceLink = new ResourceLinkDTO();
+        resourceLink.setType(type);
+        resourceLink.setName(name);
+        resourceLink.setDescription(description);
+        resourceLink.setBody(body);
         resourceLink.setEnabled(enabled);
         return resourceLink;
     }
@@ -56,6 +67,14 @@ public class ResourceLinkDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 
     public boolean isEnabled() {
