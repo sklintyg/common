@@ -22,13 +22,11 @@ package se.inera.intyg.common.support.facade.model;
 import java.util.HashMap;
 import java.util.Map;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
-import se.inera.intyg.common.support.modules.support.facade.dto.ResourceLinkDTO;
 
 public class Certificate {
 
     private CertificateMetadata metadata;
     private Map<String, CertificateDataElement> data = new HashMap<>();
-    private ResourceLinkDTO[] links;
 
     public CertificateMetadata getMetadata() {
         return metadata;
@@ -44,13 +42,5 @@ public class Certificate {
 
     public void setData(Map<String, CertificateDataElement> data) {
         this.data = data;
-    }
-
-    public ResourceLinkDTO[] getLinks() {
-        return links;
-    }
-
-    public void setLinks(ResourceLinkDTO[] links) {
-        this.links = links;
     }
 }
