@@ -44,7 +44,7 @@ public class ResourceLinkDTO {
         resourceLink.setEnabled(enabled);
         return resourceLink;
     }
-    
+
     public ResourceLinkTypeDTO getType() {
         return type;
     }
