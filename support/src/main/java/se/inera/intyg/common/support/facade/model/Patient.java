@@ -19,7 +19,17 @@
 
 package se.inera.intyg.common.support.facade.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
+import lombok.Value;
+import se.inera.intyg.common.support.facade.model.Patient.PatientBuilder;
+
+@JsonDeserialize(builder = PatientBuilder.class)
+@Value
+@Builder
 public class Patient {
+
     private PersonId personId;
     private String firstName;
     private String lastName;
@@ -30,75 +40,8 @@ public class Patient {
     private boolean protectedPerson;
     private boolean deceased;
 
-    public PersonId getPersonId() {
-        return personId;
-    }
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class PatientBuilder {
 
-    public void setPersonId(PersonId personId) {
-        this.personId = personId;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public boolean isCoordinationNumber() {
-        return coordinationNumber;
-    }
-
-    public void setCoordinationNumber(boolean coordinationNumber) {
-        this.coordinationNumber = coordinationNumber;
-    }
-
-    public boolean isTestIndicated() {
-        return testIndicated;
-    }
-
-    public void setTestIndicated(boolean testIndicated) {
-        this.testIndicated = testIndicated;
-    }
-
-    public boolean isProtectedPerson() {
-        return protectedPerson;
-    }
-
-    public void setProtectedPerson(boolean protectedPerson) {
-        this.protectedPerson = protectedPerson;
-    }
-
-    public boolean isDeceased() {
-        return deceased;
-    }
-
-    public void setDeceased(boolean deceased) {
-        this.deceased = deceased;
     }
 }
