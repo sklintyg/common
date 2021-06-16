@@ -285,7 +285,7 @@ public final class CertificateToInternal {
     }
 
     private static PrognosDagarTillArbeteTyp getPrognosDays(String days) {
-        return days != null ? PrognosDagarTillArbeteTyp.fromId(days) : null;
+        return days != null && !days.isEmpty() ? PrognosDagarTillArbeteTyp.fromId(days) : null;
     }
 
     private static List<ArbetslivsinriktadeAtgarder> getAtgarder(Certificate certificate) {
