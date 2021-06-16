@@ -19,23 +19,22 @@
 
 package se.inera.intyg.common.support.facade.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
+import lombok.Value;
+import se.inera.intyg.common.support.facade.model.PersonId.PersonIdBuilder;
+
+@JsonDeserialize(builder = PersonIdBuilder.class)
+@Value
+@Builder
 public class PersonId {
+
     private String type;
     private String id;
 
-    public String getType() {
-        return type;
-    }
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class PersonIdBuilder {
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 }
