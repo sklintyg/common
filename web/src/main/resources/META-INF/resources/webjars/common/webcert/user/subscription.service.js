@@ -60,8 +60,8 @@ angular.module('common').factory('common.subscriptionService',
         return UserModel.user.subscriptionInfo.requireSubscriptionStartDate;
       }
 
-      function _isElegUser() {
-        return UserModel.user.subscriptionInfo.authenticationMethod === 'ELEG';
+      function _hasSubscription(careProviderHsaID) {
+        return !UserModel.user.subscriptionInfo.careProviderHsaIdList.includes(careProviderHsaID);
       }
 
       return {
@@ -72,7 +72,8 @@ angular.module('common').factory('common.subscriptionService',
         isSubscriptionAdaptation: _isSubscriptionAdaptation,
         isSubscriptionRequired: _isSubscriptionRequired,
         isAnySubscriptionFeatureActive: _isAnySubscriptionFeatureActive,
+        isCareProviderMissingSubscription: _isCareProviderMissingSubscription,
         getRequireSubscriptionStartDate: _getRequireSubscriptionStartDate,
-        isElegUser: _isElegUser
+        hasSubscription: _hasSubscription
       };
     }]);

@@ -19,7 +19,8 @@
 angular.module('common').controller(
         'wcChangeActiveUnitDialogCtrl',
         [ '$scope', '$rootScope', '$uibModalInstance', '$window', '$state', '$location', '$cookies', 'common.User', 'common.statService',
-                function($scope, $rootScope, $uibModalInstance, $window, $state, $location, $cookies, User, statService) {
+                'common.subscriptionService', function($scope, $rootScope, $uibModalInstance, $window, $state, $location, $cookies, User,
+                    statService, subscriptionService) {
                     'use strict';
 
                     $scope.user = User.getUser();
@@ -162,9 +163,8 @@ angular.module('common').controller(
                     };
 
                     $scope.hasSubscription = function(vardgivareHsaId) {
-                        if ($scope.user.subscriptionInfo &&
-                            $scope.user.subscriptionInfo.subscriptionState === 'SUBSCRIPTION_REQUIRED') {
-                            return !$scope.user.subscriptionInfo.careProviderHsaIdList.includes(vardgivareHsaId);
+                        if (subscriptionService.isSubscriptionRequired()) {
+                            return subscriptionService.hasSubscription(vardgivareHsaId);
                         }
                         return true;
                     };
