@@ -55,8 +55,8 @@ angular.module('common').directive('wcIntegrationEnhetSelector', function() {
             };
 
             function hasSubscription(vardgivareHsaId) {
-                if ($scope.user.subscriptionInfo && $scope.user.subscriptionInfo.subscriptionAction === 'MISSING_SUBSCRIPTION_BLOCK') {
-                    return !$scope.user.subscriptionInfo.unitHsaIdList.includes(vardgivareHsaId);
+                if ($scope.user.subscriptionInfo && $scope.user.subscriptionInfo.subscriptionState === 'SUBSCRIPTION_REQUIRED') {
+                    return !$scope.user.subscriptionInfo.careProviderHsaIdList.includes(vardgivareHsaId);
                 }
                 return true;
             }
