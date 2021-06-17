@@ -119,14 +119,11 @@
             'label.makulera.no.recipient.title.radio': 'Ange varför du makulerar intyget',
 
             // subscription
-            'subscription.warning.title.text': 'Teckna kundavtal samt beställ Intygstjänster',
-            'subscription.warning.info.text': '<p>Från och med <em>${blockStartDate}</em> krävs det att man tecknat Kundavtal samt beställt Intygstjänster för att kunna fortsätta använda Webcert.</p>',
-            'subscription.warning.eleg.text': '<p>Observera att inloggning med Bank-id eller Telia e-legitimation enbart kommer tillåtas om man har enskild firma (personnumret samma som organisationsnummer) samt ansvarsförsäkring.</p>',
-            'subscription.warning.link.text': '<p><LINK:kundportalenGetAccount></p><p><LINK:kundportalenGetWebcert></p>',
-            'subscription.sign.agreement.now.label': 'Teckna avtal nu',
-            'subscription.sign.agreement.later.label': 'Inte just nu, tack',
-            'error.auth-exception-subscription.text': '<h2>Abonnemang saknas</h2><p/><p>Abonnemang för Intygstjänsterna saknas. För att använda Webcert krävs att organisationen tecknat avtal med Inera samt har ett aktivt abonnemang på Intygstjänsterna.</p><p/><p><LINK:kundportalenGetAccount></p><p><LINK:kundportalenGetWebcert></p><p>Om du har intyg i tjänsten som du vill exportera: kontakta <LINK:ineraKundserviceAnmalFel></p>',
-
+            'subscription.warning.title.text': 'Din verksamhet saknar abonnemang för Webcert',
+            'subscription.warning.info.text': '<p>Från och med <em>${requireSubscriptionStartDate}</em> krävs det att din verksamhet har ett abonnemang för att du ska kunna fortsätta använda Webcert.</p><p/>',
+            'subscription.warning.eleg.text': '<p>Observera att inloggning med e-legitimation enbart kommer att tillåtas om din verksamhet bedrivs som enskild näringsverksamhet/firma (organisationsnumret samma som personnumret) samt innehar en ansvarsförsäkring.</p><p>Om du inte bedriver verksamheten som enskild näringsverksamhet/firma ska du använda Webcert med SITHS-kort.</p><p/>',
+            'subscription.warning.link.text': '<p><LINK:ineraIntygstjansterWebcert></p><p/><p>Om du inte längre vill använda Webcert: kontakta <LINK:ineraBestallningOchTjanster></p>',
+            'error.auth-exception-subscription.text': '<h2>Abonnemang saknas</h2><p/><p>För att använda Webcert krävs det att din verksamhet har ett abonnemang.</p><p/><p>Observera att inloggning med e-legitimation enbart tillåts om din verksamhet bedrivs som enskild näringsverksamhet/firma (organisationsnumret samma som personnumret) samt innehar en ansvarsförsäkring.</p><p>Om du inte bedriver verksamheten som enskild näringsverksamhet/firma ska du använda Webcert med SITHS-kort.</p><p/><p><LINK:ineraIntygstjansterWebcert></p><p/><p>Om abonnemang ej tecknas och du tidigare har använt Webcert behöver du beställa export av dina intyg från Webcert: kontakta <LINK:ineraBestallningOchTjanster></p>',
 
             // avtal/terms
             'avtal.title.text': 'Godkännande av användarvillkor',
