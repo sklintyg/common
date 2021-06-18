@@ -45,6 +45,7 @@ public class CertificateMetadata {
     private CertificateStatus status;
     private boolean testCertificate;
     private boolean forwarded;
+    private boolean sent;
     private CertificateRelations relations;
     private Unit unit;
     private Unit careProvider;
