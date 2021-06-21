@@ -11,7 +11,7 @@
         <div class="row vardgivare">
           <div class="col-xs-5">
             {{vg.namn}}
-            <div ng-if="!hasSubscription(vg.id)">(abonnemang saknas)</div>
+            <div ng-if="!hasSubscription(vg.subscriptionAction)">(abonnemang saknas)</div>
           </div>
           <div class="col-xs-4" wc-authority feature="HANTERA_FRAGOR" intygstyp="">Ej hanterade ärenden</div>
           <div class="col-xs-3" wc-authority feature="HANTERA_INTYGSUTKAST" intygstyp="">Ej signerade utkast</div>
@@ -23,7 +23,7 @@
                  ng-click="toggle(enhet)">{{enhet.showMottagning ? 'expand_less': 'expand_more'}}</i>
               <i ng-if="enhet.mottagningar.length === 0"></i>
 
-              <button type="button" id="select-active-unit-{{enhet.id}}-modal" ng-disabled="!isSelectable(enhet.vardgivareHsaId, enhet.id)"
+              <button type="button" id="select-active-unit-{{enhet.id}}-modal" ng-disabled="!isSelectable(enhet.subscriptionAction, enhet.id)"
                       class="btn btn-link" data-ng-click="selectVardenhet(enhet)">
                 {{enhet.namn}}
                 <span ng-if="isCurrentlySelected(enhet.id)"> (vald enhet)</span>
@@ -46,7 +46,7 @@
 
                 <button type="button" id="select-active-unit-{{mottagning.id}}-modal"
                         class="btn btn-link" data-ng-click="selectVardenhet(mottagning)"
-                        ng-disabled="!isSelectable(enhet.vardgivareHsaId, mottagning.id)">
+                        ng-disabled="!isSelectable(enhet.subscriptionAction, mottagning.id)">
                   {{mottagning.namn}}
                   <span ng-if="isCurrentlySelected(mottagning.id)"> (vald enhet)</span>
                 </button>

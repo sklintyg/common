@@ -158,15 +158,12 @@ angular.module('common').controller(
                         return ($scope.valdEnhet && $scope.valdEnhet.id === id);
                     };
 
-                    $scope.isSelectable = function(vardgivareHsaId, unitId) {
-                        return !$scope.isCurrentlySelected(unitId) && $scope.hasSubscription(vardgivareHsaId);
+                    $scope.isSelectable = function(subscriptionAction, unitId) {
+                        return !$scope.isCurrentlySelected(unitId) && $scope.hasSubscription(subscriptionAction);
                     };
 
-                    $scope.hasSubscription = function(vardgivareHsaId) {
-                        if (subscriptionService.isSubscriptionRequired()) {
-                            return subscriptionService.hasSubscription(vardgivareHsaId);
-                        }
-                        return true;
+                    $scope.hasSubscription = function(subscriptionAction) {
+                        return subscriptionService.hasSubscription(subscriptionAction);
                     };
 
                     /******************

@@ -50,16 +50,9 @@ angular.module('common').directive('wcIntegrationEnhetSelector', [ 'common.subsc
                 });
             };
 
-            $scope.isSelectable = function(vardgivareHsaId) {
-                return hasSubscription(vardgivareHsaId);
+            $scope.isSelectable = function(subscriptionAction) {
+                return subscriptionService.hasSubscription(subscriptionAction);
             };
-
-            function hasSubscription(vardgivareHsaId) {
-                if (subscriptionService.isSubscriptionRequired()) {
-                    return subscriptionService.hasSubscription(vardgivareHsaId);
-                }
-                return true;
-            }
         }
     };
 }]);
