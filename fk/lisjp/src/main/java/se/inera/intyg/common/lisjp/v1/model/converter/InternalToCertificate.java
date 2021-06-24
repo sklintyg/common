@@ -241,7 +241,7 @@ public final class InternalToCertificate {
             .addElement(createMotiveringEjUndersokning(internalCertificate.getMotiveringTillInteBaseratPaUndersokning(), index++, texts))
             .addElement(createSysselsattningCategory(index++, texts))
             .addElement(createSysselsattningQuestion(internalCertificate.getSysselsattning(), index++, texts))
-            .addElement(createSysselsattningYrkeQuestion(internalCertificate, index++, texts))
+            .addElement(createSysselsattningYrkeQuestion(internalCertificate.getNuvarandeArbete(), index++, texts))
             .addElement(createDiagnosCategory(index++, texts))
             .addElement(createDiagnosQuestion(internalCertificate.getDiagnoser(), index++, texts))
             .addElement(createFunktionsnedsattningCategory(index++, texts))
@@ -661,7 +661,7 @@ public final class InternalToCertificate {
             .collect(Collectors.toList());
     }
 
-    private static CertificateDataElement createSysselsattningYrkeQuestion(LisjpUtlatandeV1 internalCertificate, int index,
+    public static CertificateDataElement createSysselsattningYrkeQuestion(String value, int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(NUVARANDE_ARBETE_SVAR_ID_29)
@@ -676,7 +676,7 @@ public final class InternalToCertificate {
             .value(
                 CertificateDataTextValue.builder()
                     .id(NUVARANDE_ARBETE_SVAR_JSON_ID_29)
-                    .text(internalCertificate.getNuvarandeArbete())
+                    .text(value)
                     .build()
             )
             .validation(
