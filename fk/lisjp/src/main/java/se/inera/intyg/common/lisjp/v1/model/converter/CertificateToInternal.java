@@ -32,6 +32,8 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBET
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_ID_33;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_SVAR_ID_6;
@@ -51,6 +53,8 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTA
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
@@ -61,6 +65,12 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGN
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_ID_39;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateRangeListValue;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateValue;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.diagnosisListValue;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -79,17 +89,7 @@ import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateRangeListValue;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateValue;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.diagnosisListValue;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
-
 public final class CertificateToInternal {
-
 
 
     private CertificateToInternal() {
@@ -105,6 +105,7 @@ public final class CertificateToInternal {
         final var annatGrundForMUBeskrivning = getAnnatGrundForMUBeskrivning(certificate);
         final var motiveringTillInteBaseratPaUndersokning = getMotiveringTillInteBaseratPaUndersokning(certificate);
         final var sysselsattning = getSysselsattning(certificate);
+        final var nuvarandeArbete = getNuvarandeArbete(certificate);
         final var diagnos = getDiagnos(certificate, moduleService);
         final var funktionsnedsattning = getFunktionsnedsattning(certificate);
         final var aktivitetsbegransning = getAktivitetsbegransning(certificate);
@@ -135,6 +136,7 @@ public final class CertificateToInternal {
             .setAnnatGrundForMUBeskrivning(annatGrundForMUBeskrivning)
             .setMotiveringTillInteBaseratPaUndersokning(motiveringTillInteBaseratPaUndersokning)
             .setSysselsattning(sysselsattning)
+            .setNuvarandeArbete(nuvarandeArbete)
             .setDiagnoser(diagnos)
             .setFunktionsnedsattning(funktionsnedsattning)
             .setAktivitetsbegransning(aktivitetsbegransning)
@@ -202,6 +204,10 @@ public final class CertificateToInternal {
                 code -> Sysselsattning.create(Sysselsattning.SysselsattningsTyp.fromId(code.getId()))
             )
             .collect(Collectors.toList());
+    }
+
+    private static String getNuvarandeArbete(Certificate certificate) {
+        return textValue(certificate.getData(), NUVARANDE_ARBETE_SVAR_ID_29, NUVARANDE_ARBETE_SVAR_JSON_ID_29);
     }
 
     private static List<Diagnos> getDiagnos(Certificate certificate, WebcertModuleService moduleService) {
