@@ -28,6 +28,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLED
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANSWER_NO;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANSWER_NOT_SELECTED;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANSWER_YES;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44;
@@ -323,7 +324,7 @@ public final class InternalToCertificate {
                     .id(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27)
                     .label(texts.get(AVSTANGNING_SMITTSKYDD_QUESTION_LABEL))
                     .selectedText(texts.get(ANSWER_YES))
-                    .unselectedText(texts.get(ANSWER_NO))
+                    .unselectedText(texts.get(ANSWER_NOT_SELECTED))
                     .build()
             )
             .value(

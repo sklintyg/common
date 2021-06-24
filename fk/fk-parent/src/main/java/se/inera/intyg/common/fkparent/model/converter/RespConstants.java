@@ -23,6 +23,8 @@ public final class RespConstants {
     public static final String DESCRIPTION = "FRM_2.RBK";
     public static final String ANSWER_YES = "Ja";
     public static final String ANSWER_NO = "Nej";
+    public static final String ANSWER_NOT_SELECTED = "Ej angivet";
+
 
     public static final String GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM = "KV_FKMU_0001";
     public static final String TYP_AV_SYSSELSATTNING_CODE_SYSTEM = "KV_FKMU_0002";
