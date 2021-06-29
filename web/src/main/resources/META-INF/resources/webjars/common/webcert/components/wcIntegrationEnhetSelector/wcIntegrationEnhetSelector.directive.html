@@ -11,11 +11,10 @@
 
       <div ng-if="vg.expanded" ng-repeat="enhet in vg.vardenheter | orderBy:'namn'" class="vardenhet">
 
-
         <button type="button" class="btn btn-link"
                 ng-attr-id="wc-integration-enhet-selector-select-active-unit-{{enhet.id}}-link"
                 ng-click="itemSelected($event, enhet)"
-                ng-disabled="!isSelectable(enhet.subscriptionAction)">
+                ng-disabled="!isSelectable(vg.subscriptionAction)">
           {{enhet.namn}}
         </button>
 
