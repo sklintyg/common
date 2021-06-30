@@ -17,26 +17,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.support.facade.model;
+package se.inera.intyg.common.support.facade.model.metadata;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
+import lombok.Value;
+import se.inera.intyg.common.support.facade.model.metadata.CertificateRelations.CertificateRelationsBuilder;
+
+@JsonDeserialize(builder = CertificateRelationsBuilder.class)
+@Value
+@Builder
 public class CertificateRelations {
 
     private CertificateRelation parent;
     private CertificateRelation[] children;
 
-    public CertificateRelation getParent() {
-        return parent;
-    }
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class CertificateRelationsBuilder {
 
-    public void setParent(CertificateRelation parent) {
-        this.parent = parent;
-    }
-
-    public CertificateRelation[] getChildren() {
-        return children;
-    }
-
-    public void setChildren(CertificateRelation[] children) {
-        this.children = children;
     }
 }

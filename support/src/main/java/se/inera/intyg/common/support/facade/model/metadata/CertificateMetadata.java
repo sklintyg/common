@@ -25,7 +25,6 @@ import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
 import se.inera.intyg.common.support.facade.model.CertificateReceiver;
-import se.inera.intyg.common.support.facade.model.CertificateRelations;
 import se.inera.intyg.common.support.facade.model.CertificateStatus;
 import se.inera.intyg.common.support.facade.model.Patient;
 import se.inera.intyg.common.support.facade.model.Staff;

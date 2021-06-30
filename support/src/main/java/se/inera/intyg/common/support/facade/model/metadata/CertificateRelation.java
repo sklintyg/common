@@ -17,10 +17,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.support.facade.model;
+package se.inera.intyg.common.support.facade.model.metadata;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.time.LocalDateTime;
+import lombok.Builder;
+import lombok.Value;
+import se.inera.intyg.common.support.facade.model.CertificateRelationType;
+import se.inera.intyg.common.support.facade.model.CertificateStatus;
+import se.inera.intyg.common.support.facade.model.metadata.CertificateRelation.CertificateRelationBuilder;
 
+@JsonDeserialize(builder = CertificateRelationBuilder.class)
+@Value
+@Builder
 public class CertificateRelation {
 
     private String certificateId;
@@ -28,35 +38,8 @@ public class CertificateRelation {
     private CertificateStatus status;
     private LocalDateTime created;
 
-    public String getCertificateId() {
-        return certificateId;
-    }
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class CertificateRelationBuilder {
 
-    public void setCertificateId(String certificateId) {
-        this.certificateId = certificateId;
-    }
-
-    public CertificateRelationType getType() {
-        return type;
-    }
-
-    public void setType(CertificateRelationType type) {
-        this.type = type;
-    }
-
-    public CertificateStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(CertificateStatus status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
     }
 }
