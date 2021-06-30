@@ -72,6 +72,7 @@ import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.diagnosisListValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
@@ -212,13 +213,17 @@ public final class CertificateToInternal {
 
     private static List<Diagnos> getDiagnos(Certificate certificate, WebcertModuleService moduleService) {
         var diagnosisList = diagnosisListValue(certificate.getData(), DIAGNOS_SVAR_ID_6);
-        return diagnosisList
-            .stream()
-            .map(
-                diagnosis -> Diagnos.create(diagnosis.getCode(), diagnosis.getTerminology(),
-                    getDiagnosisDescription(diagnosis, moduleService), diagnosis.getDescription())
-            )
-            .collect(Collectors.toList());
+        List<Diagnos> newDiagnosisList = new ArrayList<>();
+        diagnosisList.forEach(diagnosis -> {
+            var newDiagnosis = Diagnos.create(diagnosis.getCode(), diagnosis.getTerminology(),
+                getDiagnosisDescription(diagnosis, moduleService), diagnosis.getDescription());
+            var diagnosisIndex = Integer.parseInt(diagnosis.getId()) - 1;
+            while (diagnosisIndex >= newDiagnosisList.size()) {
+                newDiagnosisList.add(Diagnos.create(null, null, null, null));
+            }
+            newDiagnosisList.set(diagnosisIndex, newDiagnosis);
+        });
+        return newDiagnosisList;
     }
 
     private static String getDiagnosisDescription(CertificateDataValueDiagnosis diagnosis, WebcertModuleService moduleService) {
