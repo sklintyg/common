@@ -161,6 +161,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
@@ -269,7 +270,7 @@ public final class InternalToCertificate {
             .addElement(createOvrigtQuestion(internalCertificate.getOvrigt(), index++, texts))
             .addElement(createKontaktCategory(index++, texts))
             .addElement(createKontaktQuestion(internalCertificate.getKontaktMedFk(), index++, texts))
-            .addElement(createKontaktBeskrivning(internalCertificate.getAnledningTillKontakt(), index++, texts))
+            .addElement(createKontaktBeskrivning(internalCertificate.getAnledningTillKontakt(), index, texts))
             .build();
     }
 
@@ -655,7 +656,7 @@ public final class InternalToCertificate {
 
         return value.stream()
             .map(sysselsattning -> CertificateDataValueCode.builder()
-                .id(sysselsattning.getTyp().getId())
+                .id(Objects.requireNonNull(sysselsattning.getTyp()).getId())
                 .code(sysselsattning.getTyp().getId())
                 .build())
             .collect(Collectors.toList());
@@ -1046,8 +1047,8 @@ public final class InternalToCertificate {
         }
         return sickLeaves.stream()
             .map(item -> CertificateDataValueDateRange.builder()
-                .id(item.getSjukskrivningsgrad().getId())
-                .to(item.getPeriod().getTom().asLocalDate())
+                .id(Objects.requireNonNull(item.getSjukskrivningsgrad()).getId())
+                .to(Objects.requireNonNull(item.getPeriod()).getTom().asLocalDate())
                 .from(item.getPeriod().getFrom().asLocalDate())
                 .build()
             ).collect(Collectors.toList());
@@ -1514,7 +1515,7 @@ public final class InternalToCertificate {
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
                             )
                         )
-                        .id(Arrays.asList(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId()))
+                        .id(Collections.singletonList(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId()))
                         .build(),
                     CertificateDataValidationDisable.builder()
                         .questionId(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
@@ -1655,6 +1656,14 @@ public final class InternalToCertificate {
                     .text(texts.get(KONTAKT_CATEGORY_TEXT))
                     .build()
             )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
             .build();
     }
 
@@ -1679,6 +1688,14 @@ public final class InternalToCertificate {
                     .id(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
                     .selected(value)
                     .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
             )
             .build();
     }
@@ -1708,6 +1725,10 @@ public final class InternalToCertificate {
                         .expression(
                             singleExpression(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
                         )
+                        .build(),
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
                         .build()
                 }
             )
