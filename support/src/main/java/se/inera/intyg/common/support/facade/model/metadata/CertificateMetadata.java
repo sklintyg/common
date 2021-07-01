@@ -24,7 +24,6 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
-import se.inera.intyg.common.support.facade.model.CertificateReceiver;
 import se.inera.intyg.common.support.facade.model.CertificateStatus;
 import se.inera.intyg.common.support.facade.model.Patient;
 import se.inera.intyg.common.support.facade.model.Staff;
@@ -51,7 +50,6 @@ public class CertificateMetadata {
     private Patient patient;
     private Staff issuedBy;
     private long version;
-    private CertificateReceiver[] approvedReceivers;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateMetadataBuilder {
