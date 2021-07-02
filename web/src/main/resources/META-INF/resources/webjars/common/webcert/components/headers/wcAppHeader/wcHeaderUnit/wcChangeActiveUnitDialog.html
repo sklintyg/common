@@ -11,7 +11,7 @@
         <div class="row vardgivare">
           <div class="col-xs-5">
             {{vg.namn}}
-            <div ng-if="!hasSubscription(vg.subscriptionAction)">(abonnemang saknas)</div>
+            <div ng-if="!hasSubscription(vg.subscriptionAction)">(Organisationen saknar abonnemang för Webcert)</div>
           </div>
           <div class="col-xs-4" wc-authority feature="HANTERA_FRAGOR" intygstyp="">Ej hanterade ärenden</div>
           <div class="col-xs-3" wc-authority feature="HANTERA_INTYGSUTKAST" intygstyp="">Ej signerade utkast</div>

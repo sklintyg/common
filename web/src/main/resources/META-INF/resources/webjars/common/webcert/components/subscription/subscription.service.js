@@ -20,8 +20,12 @@
 angular.module('common').factory('common.subscriptionService', [ 'common.UserModel', function(UserModel) {
       'use strict';
 
+      function _getSubscriptionAdaptationStartDate() {
+        return UserModel.user.subscriptionStartDates.subscriptionAdaptationStartDate;
+      }
+
       function _getRequireSubscriptionStartDate() {
-        return UserModel.user.requireSubscriptionStartDate;
+        return UserModel.user.subscriptionStartDates.requireSubscriptionStartDate;
       }
 
       function _hasSubscription(subscriptionAction) {
@@ -37,6 +41,7 @@ angular.module('common').factory('common.subscriptionService', [ 'common.UserMod
       }
 
       return {
+        getSubscriptionAdaptationStartDate: _getSubscriptionAdaptationStartDate,
         getRequireSubscriptionStartDate: _getRequireSubscriptionStartDate,
         hasSubscription: _hasSubscription,
         acknowledgeWarning: _acknowledgeWarning,
