@@ -118,6 +118,13 @@
             'label.makulera.locked.title.radio': 'Ange varför du makulerar det låsta utkastet:',
             'label.makulera.no.recipient.title.radio': 'Ange varför du makulerar intyget',
 
+            // subscription
+            'subscription.warning.title.text': 'Din verksamhet saknar abonnemang för Webcert',
+            'subscription.warning.info.check': 'Automatisk avtalskontroll sker för samtliga användare från och med ${subscriptionAdaptationStartDate}.',
+            'subscription.warning.info.general': 'För att er verksamhet fortsatt ska kunna använda Webcert efter <em>${requireSubscriptionStartDate}</em> kräver Inera att ni tecknat kundavtal samt beställt abonnemang för tjänsten Webcert.',
+            'subscription.warning.info.eleg': 'Inloggning med e-legitimation kommer efter <em>${requireSubscriptionStartDate}</em> enbart tillåtas för enskild näringsverksamhet/firma.',
+            'subscription.warning.info.link': 'Läs mer om Webcert och hur du beställer tjänsten <LINK:ineraIntygstjansterWebcert>',
+            'error.auth-exception-subscription.text': '<h2>Abonnemang saknas</h2><p/><p>Er verksamhet saknar abonnemang för Intygstjänster Webcert.</p><p>För att kunna använda Webcert kräver Inera att ni tecknat kundavtal samt beställt abonnemang för tjänsten Webcert.</p><p>Inloggning med e-legitimation är endast tillåten för enskild näringsverksamhet/firma. Om er verksamhet inte bedrivs som enskild näringsverksamhet/firma hänvisar Inera er till att teckna kundavtal och beställa abonnemang för tjänsten enligt övriga erbjudanden för Webcert.</p><br><p>Läs mer om Webcert och hur du beställer tjänsten <LINK:ineraIntygstjansterWebcert></p>',
 
             // avtal/terms
             'avtal.title.text': 'Godkännande av användarvillkor',

@@ -29,7 +29,7 @@ describe('wcHeaderUser Directive', function() {
     var $window;
     var UserModel;
     var initialMockedUser = {
-        'privatLakareAvtalGodkand': false,
+        'userTermsApprovedOrSubscriptionInUse': false,
         'namn': 'Åsa Andersson',
         'vardgivare': [ {
             'id': 'VG1',

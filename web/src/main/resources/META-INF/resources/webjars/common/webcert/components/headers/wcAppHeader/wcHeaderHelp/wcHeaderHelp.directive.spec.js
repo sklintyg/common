@@ -29,7 +29,7 @@ describe('wcHeaderHelp Directive', function() {
     var $window;
     var authorityService;
     var initialMockedUser = {
-        'privatLakareAvtalGodkand': false,
+        'userTermsApprovedOrSubscriptionInUse': false,
         'namn': 'Åsa Andersson',
         'vardgivare': [ {
             'id': 'VG1',
@@ -108,7 +108,7 @@ describe('wcHeaderHelp Directive', function() {
     };
 
     var mockedModuleConfig = {
-        PP_HOST: 'PP_HOST:9998',
+        CGI_FUNKTIONSTJANSTER_IDP_URL: 'CGI_FUNKTIONSTJANSTER_IDP_URL:9998',
         DASHBOARD_URL: 'DASHBOARD_URL'
     };
 
@@ -236,7 +236,7 @@ describe('wcHeaderHelp Directive', function() {
             getCreateAccountLink().click();
 
             //Assert
-            expect($window.location.href).toContain(mockedModuleConfig.PP_HOST);
+            expect($window.location.href).toContain(mockedModuleConfig.CGI_FUNKTIONSTJANSTER_IDP_URL);
         });
 
         it('should navigate to logout url when clicking logout', function() {

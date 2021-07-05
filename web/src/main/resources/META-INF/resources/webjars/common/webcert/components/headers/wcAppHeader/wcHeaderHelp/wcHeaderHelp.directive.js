@@ -49,7 +49,7 @@ angular.module('common').directive('wcHeaderHelp',
                     };
 
                     $scope.onCreateAccountClick = function() {
-                        $window.location.href = moduleConfig.PP_HOST;
+                        $window.location.href = '/saml/login/alias/eleg?idp=' + moduleConfig.CGI_FUNKTIONSTJANSTER_IDP_URL;
                     };
 
                     $scope.onLogoutClick = function() {
