@@ -50,8 +50,8 @@ angular.module('common').directive('wcIntegrationEnhetSelector', [ 'common.subsc
                 });
             };
 
-            $scope.isSelectable = function(subscriptionAction) {
-                return subscriptionService.hasSubscription(subscriptionAction);
+            $scope.isSelectable = function(careProviderId) {
+                return !subscriptionService.missingSubscriptionBlock(careProviderId);
             };
         }
     };

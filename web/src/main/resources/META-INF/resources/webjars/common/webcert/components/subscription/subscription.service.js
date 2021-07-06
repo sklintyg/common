@@ -21,29 +21,39 @@ angular.module('common').factory('common.subscriptionService', [ 'common.UserMod
       'use strict';
 
       function _getSubscriptionAdaptationStartDate() {
-        return UserModel.user.subscriptionStartDates.subscriptionAdaptationStartDate;
+        return UserModel.user.subscriptionInfo.subscriptionAdaptationStartDate;
       }
 
       function _getRequireSubscriptionStartDate() {
-        return UserModel.user.subscriptionStartDates.requireSubscriptionStartDate;
+        return UserModel.user.subscriptionInfo.requireSubscriptionStartDate;
       }
 
-      function _hasSubscription(subscriptionAction) {
-        return subscriptionAction !== 'BLOCK';
+      function _missingSubscriptionBlock(careProviderId) {
+        return UserModel.user.subscriptionInfo.subscriptionAction === 'BLOCK' && missingSubscription(careProviderId);
       }
 
       function _acknowledgeWarning() {
-        UserModel.user.valdVardgivare.subscriptionAction = 'NONE';
+        if (UserModel.user.valdVardgivare) {
+          var index = UserModel.user.subscriptionInfo.careProvidersMissingSubscription.indexOf(UserModel.user.valdVardgivare.id);
+          if (index > -1) {
+            UserModel.user.subscriptionInfo.careProvidersMissingSubscription.splice(index, 1);
+          }
+        }
       }
 
       function _shouldDisplayWarning() {
-        return UserModel.user.hasOwnProperty('valdVardgivare') && UserModel.user.valdVardgivare.subscriptionAction === 'WARN';
+        return UserModel.user.hasOwnProperty('valdVardgivare') && UserModel.user.subscriptionInfo.subscriptionAction === 'WARN' &&
+            missingSubscription(UserModel.user.valdVardgivare.id);
+      }
+
+      function missingSubscription(careProviderId) {
+        return UserModel.user.subscriptionInfo.careProvidersMissingSubscription.includes(careProviderId);
       }
 
       return {
         getSubscriptionAdaptationStartDate: _getSubscriptionAdaptationStartDate,
         getRequireSubscriptionStartDate: _getRequireSubscriptionStartDate,
-        hasSubscription: _hasSubscription,
+        missingSubscriptionBlock: _missingSubscriptionBlock,
         acknowledgeWarning: _acknowledgeWarning,
         shouldDisplayWarning: _shouldDisplayWarning
       };
