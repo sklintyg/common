@@ -19,32 +19,6 @@
 
 package se.inera.intyg.common.support.facade.model.question;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import java.time.LocalDateTime;
-import lombok.Builder;
-import lombok.Value;
-import se.inera.intyg.common.support.facade.model.question.Question.QuestionBuilder;
-
-@JsonDeserialize(builder = QuestionBuilder.class)
-@Value
-@Builder
-public class Question {
-
-    private String id;
-    private QuestionType type;
-    private String subject;
-    private String message;
-    private String author;
-    private LocalDateTime sent;
-    private boolean isHandled;
-    private boolean isForwarded;
-    private Answer answer;
-    private Reminder[] reminders;
-    private LocalDateTime lastUpdate;
-
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class QuestionBuilder {
-
-    }
+public enum QuestionType {
+    COORDINATION, CONTACT, OTHER
 }
