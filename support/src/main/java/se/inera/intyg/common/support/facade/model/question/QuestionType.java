@@ -20,5 +20,5 @@
 package se.inera.intyg.common.support.facade.model.question;
 
 public enum QuestionType {
-    COORDINATION, CONTACT, OTHER
+    MISSING, COORDINATION, CONTACT, OTHER
 }
