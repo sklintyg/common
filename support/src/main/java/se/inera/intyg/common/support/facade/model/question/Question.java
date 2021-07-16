@@ -17,42 +17,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.support.facade.model.metadata;
+package se.inera.intyg.common.support.facade.model.question;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.time.LocalDateTime;
 import lombok.Builder;
-import lombok.Data;
-import se.inera.intyg.common.support.facade.model.CertificateStatus;
-import se.inera.intyg.common.support.facade.model.Patient;
-import se.inera.intyg.common.support.facade.model.Staff;
-import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata.CertificateMetadataBuilder;
+import lombok.Value;
+import se.inera.intyg.common.support.facade.model.question.Question.QuestionBuilder;
 
-@JsonDeserialize(builder = CertificateMetadataBuilder.class)
-@Data
+@JsonDeserialize(builder = QuestionBuilder.class)
+@Value
 @Builder
-public class CertificateMetadata {
+public class Question {
 
     private String id;
-    private String type;
-    private String typeVersion;
-    private String name;
-    private String description;
-    private LocalDateTime created;
-    private CertificateStatus status;
-    private boolean testCertificate;
-    private boolean forwarded;
-    private boolean sent;
-    private CertificateRelations relations;
-    private Unit unit;
-    private Unit careProvider;
-    private Patient patient;
-    private Staff issuedBy;
-    private long version;
+    private QuestionType type;
+    private String subject;
+    private String message;
+    private String author;
+    private LocalDateTime sent;
+    private boolean isHandled;
+    private boolean isForwarded;
+    private Answer answer;
+    private Reminder[] reminders;
+    private LocalDateTime lastUpdate;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateMetadataBuilder {
+    public static class QuestionBuilder {
 
     }
 }

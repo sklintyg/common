@@ -4791,7 +4791,7 @@ class InternalToCertificateTest {
                     () -> assertEquals(expectedIndex, category.getIndex()),
                     () -> assertNull(category.getParent(), "Should not contain a parent"),
                     () -> assertNull(category.getValue(), "Should not contain a value"),
-                    () -> assertNull(category.getValidation(), "Should not include validation"),
+                    () -> assertNotNull(category.getValidation(), "Missing validation"),
                     () -> assertNotNull(category.getConfig(), "Should include config")
                 );
             }
@@ -4807,6 +4807,19 @@ class InternalToCertificateTest {
                 assertAll("Validating category configuration",
                     () -> assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text"),
                     () -> assertNull(category.getConfig().getDescription(), "Should not contain description")
+                );
+            }
+
+            @Test
+            void shouldIncludeValidationHide() {
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var category = certificate.getData().get(KONTAKT_CATEGORY_ID);
+
+                final var certificateDataValidationHide = (CertificateDataValidationHide) category.getValidation()[0];
+                assertAll("Validation question validation",
+                    () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
+                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
                 );
             }
         }
@@ -4838,7 +4851,7 @@ class InternalToCertificateTest {
                     () -> assertEquals(expectedIndex, question.getIndex()),
                     () -> assertEquals(KONTAKT_CATEGORY_ID, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
-                    () -> assertNull(question.getValidation(), "Shouldn't have validation"),
+                    () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
                 );
             }
@@ -4918,6 +4931,19 @@ class InternalToCertificateTest {
                 assertAll("Validating question value",
                     () -> assertEquals(KONTAKT_ONSKAS_SVAR_JSON_ID_26, certificateDataValueBoolean.getId()),
                     () -> assertNull(certificateDataValueBoolean.getSelected())
+                );
+            }
+
+            @Test
+            void shouldIncludeValidationHide() {
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(KONTAKT_ONSKAS_SVAR_ID_26);
+
+                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[0];
+                assertAll("Validation question validation",
+                    () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
+                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
                 );
             }
         }
@@ -5023,6 +5049,19 @@ class InternalToCertificateTest {
                 assertAll("Validation question validation",
                     () -> assertEquals(KONTAKT_ONSKAS_SVAR_ID_26, certificateDataValidationShow.getQuestionId()),
                     () -> assertEquals("$" + KONTAKT_ONSKAS_SVAR_JSON_ID_26, certificateDataValidationShow.getExpression())
+                );
+            }
+
+            @Test
+            void shouldIncludeValidationHide() {
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26);
+
+                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
+                assertAll("Validation question validation",
+                    () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
+                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
                 );
             }
         }
