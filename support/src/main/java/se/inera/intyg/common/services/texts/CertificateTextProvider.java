@@ -17,8 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.support.facade.model.question;
+package se.inera.intyg.common.services.texts;
 
-public enum QuestionType {
-    MISSING, COORDINATION, CONTACT, OTHER, COMPLEMENT
+public interface CertificateTextProvider {
+
+    String get(String key);
 }

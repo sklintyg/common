@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Value;
+import se.inera.intyg.common.support.facade.model.metadata.CertificateRelation;
 import se.inera.intyg.common.support.facade.model.question.Question.QuestionBuilder;
 
 @JsonDeserialize(builder = QuestionBuilder.class)
@@ -37,9 +38,11 @@ public class Question {
     private String message;
     private String author;
     private LocalDateTime sent;
+    private Complement[] complements;
     private boolean isHandled;
     private boolean isForwarded;
     private Answer answer;
+    private CertificateRelation answeredByCertificate;
     private Reminder[] reminders;
     private LocalDateTime lastUpdate;
 
