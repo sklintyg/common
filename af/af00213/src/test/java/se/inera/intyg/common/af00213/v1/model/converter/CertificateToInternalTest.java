@@ -32,7 +32,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.services.texts.DefaultCertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 
@@ -43,7 +42,7 @@ class CertificateToInternalTest {
 
     @BeforeEach
     private void setup() {
-        texts = Mockito.mock(DefaultCertificateTextProvider.class);
+        texts = Mockito.mock(CertificateTextProvider.class);
         when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
     }
 
