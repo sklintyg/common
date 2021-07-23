@@ -69,6 +69,7 @@ import se.inera.intyg.common.fk7263.schemas.clinicalprocess.healthcond.certifica
 import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.fk7263.validator.InternalDraftValidator;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter.ModelConverter;
+import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -674,6 +675,11 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     @Override
     public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException, IOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public CertificateTextProvider getTextProvider(String certificateType, String certificateTypeVersion) {
         throw new UnsupportedOperationException();
     }
 }

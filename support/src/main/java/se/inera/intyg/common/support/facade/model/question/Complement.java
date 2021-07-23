@@ -17,27 +17,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.services.texts;
+package se.inera.intyg.common.support.facade.model.question;
 
-import se.inera.intyg.common.services.texts.model.IntygTexts;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
+import lombok.Value;
+import se.inera.intyg.common.support.facade.model.question.Complement.ComplementBuilder;
 
-public class CertificateTextProvider {
+@JsonDeserialize(builder = ComplementBuilder.class)
+@Value
+@Builder
+public class Complement {
 
-    private final IntygTexts intygTexts;
+    private String questionId;
+    private String questionText;
+    private String valueId;
+    private String message;
 
-    private CertificateTextProvider(IntygTexts intygTexts) {
-        this.intygTexts = intygTexts;
-    }
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class ComplementBuilder {
 
-    public static CertificateTextProvider create(IntygTexts intygTexts) {
-        return new CertificateTextProvider(intygTexts);
-    }
-
-    public String get(String key) {
-        final var value = intygTexts.getTexter().get(key);
-        if (value == null) {
-            return key;
-        }
-        return value;
     }
 }

@@ -45,6 +45,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.fkparent.model.converter.SvarIdHelper;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.services.texts.DefaultCertificateTextProvider;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -513,5 +515,11 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     @Override
     public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException, IOException {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public CertificateTextProvider getTextProvider(String certificateType, String certificateTypeVersion) {
+        final var intygTexts = getTexts(certificateType, certificateTypeVersion);
+        return DefaultCertificateTextProvider.create(intygTexts);
     }
 }

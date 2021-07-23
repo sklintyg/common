@@ -31,7 +31,7 @@ import se.inera.intyg.common.af00213.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.af00213.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.af_parent.rest.AfParentModuleApi;
-import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.services.texts.DefaultCertificateTextProvider;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.Status;
@@ -141,8 +141,7 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
     @Override
     public Certificate getCertificateFromJson(String certificateAsJson) throws ModuleException {
         final var internalCertificate = getInternal(certificateAsJson);
-        final var intygTexts = getTexts(internalCertificate.getTyp(), internalCertificate.getTextVersion());
-        final var textProvider = CertificateTextProvider.create(intygTexts);
+        final var textProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
         return InternalToCertificate.convert(internalCertificate, textProvider);
     }
 
