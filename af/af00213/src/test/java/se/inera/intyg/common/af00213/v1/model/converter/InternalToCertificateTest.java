@@ -84,7 +84,7 @@ class InternalToCertificateTest {
         grundData = new GrundData();
         grundData.setSkapadAv(skapadAv);
 
-        texts = Mockito.mock(DefaultCertificateTextProvider.class);
+        texts = Mockito.mock(CertificateTextProvider.class);
         when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
     }
 
