@@ -34,7 +34,7 @@ public class User {
     private String role;
     private String loggedInUnit;
     private String loggedInCareProvider;
-    private LoginMethod loginMethod;
+    private SigningMethod signingMethod;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class UserBuilder {

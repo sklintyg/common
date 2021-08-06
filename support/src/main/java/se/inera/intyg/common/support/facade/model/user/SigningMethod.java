@@ -19,6 +19,6 @@
 
 package se.inera.intyg.common.support.facade.model.user;
 
-public enum LoginMethod {
-    SITHS, FAKE
+public enum SigningMethod {
+    DSS, FAKE
 }
