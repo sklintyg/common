@@ -47,7 +47,7 @@ angular.module('common').factory('common.subscriptionService', [ 'common.UserMod
       }
 
       function missingSubscription(careProviderId) {
-        return UserModel.user.subscriptionInfo.careProvidersMissingSubscription.includes(careProviderId);
+        return UserModel.user.subscriptionInfo.careProvidersMissingSubscription.indexOf(careProviderId) > -1;
       }
 
       return {

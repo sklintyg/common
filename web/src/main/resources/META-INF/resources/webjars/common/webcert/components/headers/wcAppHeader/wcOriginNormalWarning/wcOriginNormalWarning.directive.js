@@ -26,6 +26,10 @@ angular.module('common').directive('wcOriginNormalWarning',
           scope: {},
           template: '',
           link: function() {
+            if (!UserModel.user.valdVardgivare) {
+              return;
+            }
+
             var dialogInstance;
             var careProviderHSAWithoutDash = UserModel.user.valdVardgivare.id.replace(/-/g, '');
 
