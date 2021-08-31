@@ -19,7 +19,8 @@
 angular.module('common').controller(
         'wcChangeActiveUnitDialogCtrl',
         [ '$scope', '$rootScope', '$uibModalInstance', '$window', '$state', '$location', '$cookies', 'common.User', 'common.statService',
-                function($scope, $rootScope, $uibModalInstance, $window, $state, $location, $cookies, User, statService) {
+                'common.subscriptionService', function($scope, $rootScope, $uibModalInstance, $window, $state, $location, $cookies, User,
+                    statService, subscriptionService) {
                     'use strict';
 
                     $scope.user = User.getUser();
@@ -155,6 +156,14 @@ angular.module('common').controller(
 
                     $scope.isCurrentlySelected = function(id) {
                         return ($scope.valdEnhet && $scope.valdEnhet.id === id);
+                    };
+
+                    $scope.isSelectable = function(careProviderId, unitId) {
+                        return !$scope.isCurrentlySelected(unitId) && !$scope.missingSubscriptionBlock(careProviderId);
+                    };
+
+                    $scope.missingSubscriptionBlock = function(careProviderId) {
+                        return subscriptionService.missingSubscriptionBlock(careProviderId);
                     };
 
                     /******************

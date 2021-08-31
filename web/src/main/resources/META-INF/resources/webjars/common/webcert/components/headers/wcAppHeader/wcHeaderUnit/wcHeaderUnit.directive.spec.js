@@ -31,7 +31,10 @@ describe('wcHeaderUnit Directive', function() {
     var $httpBackend;
     var $state;
     var initialMockedUser = {
-        'privatLakareAvtalGodkand': false,
+        'userTermsApprovedOrSubscriptionInUse': false,
+        'subscriptionInfo': {
+            'subscriptionAction': 'NONE'
+        },
         'namn': 'Åsa Andersson',
         'vardgivare': [ {
             'id': 'VG1',

@@ -42,6 +42,10 @@ angular.module('common').directive('wcMainMenu', ['$state', '$location', 'common
                 $scope.stat = message;
             });
 
+            if (!UserModel.user) {
+                return;
+            }
+
             $scope.isDoctor = UserModel.user.isLakareOrPrivat;
 
             $scope.isActive = function(page) {

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcIntegrationEnhetSelector', function() {
+angular.module('common').directive('wcIntegrationEnhetSelector', [ 'common.subscriptionService', function(subscriptionService) {
     'use strict';
 
     return {
@@ -49,7 +49,10 @@ angular.module('common').directive('wcIntegrationEnhetSelector', function() {
                     enhet: unit
                 });
             };
-        }
 
+            $scope.isSelectable = function(careProviderId) {
+                return !subscriptionService.missingSubscriptionBlock(careProviderId);
+            };
+        }
     };
-});
+}]);
