@@ -1,0 +1,43 @@
+<!--
+  ~ Copyright (C) 2021 Inera AB (http://www.inera.se)
+  ~
+  ~ This file is part of sklintyg (https://github.com/sklintyg).
+  ~
+  ~ sklintyg is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ sklintyg is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<div class="ue-del-fraga">
+  <ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]">
+    <div class="form-{{::config.formType}}" ng-class="::{'row': config.labelColSize}">
+      <div ng-class="::{'col-md-{{::config.labelColSize}}': config.labelColSize}">
+        <ue-label config="::config.label" model="::model"></ue-label>
+      </div>
+      <div class="textarea-wrapper" ng-class="::{'col-md-{{::12 - config.labelColSize}}': config.labelColSize}">
+        <textarea ng-attr-id="{{::config.modelProp|ueDomIdFilter}}" class="form-control"
+                  ng-model="modelGetterSetter"
+                  auto-expand
+                  rows="{{::config.rows || 6}}"
+                  ng-model-options="{ debounce: 500, getterSetter: true }"
+                  ue-filter-latin1
+                  ng-blur="updateValidation()"
+                  ng-disabled="config.disabled(model)"
+                  ng-class="::{ 'input-{{::config.size}}': config.size }"
+                  maxlength="{{::config.htmlMaxlength || 3500}}"
+                  wc-number="{{::config.numbersOnly === true}}"
+                  placeholder="{{::config.placeholder}}">
+        </textarea>
+      </div>
+    </div>
+  </ue-validation-wrapper>
+</div>
