@@ -79,15 +79,16 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
             patient: function(shouldDisableAddressInputWhen, allowUpdaterButton, signingDoctor) {
                 var patient = _kategori('patient', 'common.intyg.patientadress', '', {signingDoctor: signingDoctor}, [
                     _fraga(null, '', '', {}, [{
-                        type: 'ue-textfield',
+                        type: 'ue-address-text-area',
                         modelProp: 'grundData.patient.postadress',
                         label: {
                             key: 'common.postadress',
                             required: true,
                             requiredProp: 'grundData.patient.postadress'
                         },
-                        htmlMaxlength: 50,
+                        htmlMaxlength: 209,
                         size: 'full',
+                        rows: 1,
                         labelColSize: labelColSize,
                         formType: 'horizontal',
                         disabled: shouldDisableAddressInputWhen
@@ -115,7 +116,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                             required: true,
                             requiredProp: 'grundData.patient.postort'
                         },
-                        htmlMaxlength: 25,
+                        htmlMaxlength: 30,
+                        size: '20',
                         labelColSize: labelColSize,
                         formType: 'horizontal',
                         disabled: shouldDisableAddressInputWhen
