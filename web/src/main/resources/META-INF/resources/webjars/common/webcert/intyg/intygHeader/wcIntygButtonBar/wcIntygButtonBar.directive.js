@@ -217,8 +217,7 @@ angular.module('common').directive('wcIntygButtonBar', ['$rootScope', '$timeout'
                                 templateUrl: '/app/partials/employee-print-dialog.html',
                                 model: {patient: patient},
                                 button1click: function(modalInstance) {
-                                    window.open(CommonIntygViewState.intygProperties.pdfUrl + '/arbetsgivarutskrift',
-                                        '_blank');
+                                    window.open(CommonIntygViewState.intygProperties.pdfUrl + '/arbetsgivarutskrift', '_self');
                                     modalInstance.close();
                                 },
                                 button2click: function(modalInstance) {
@@ -237,7 +236,7 @@ angular.module('common').directive('wcIntygButtonBar', ['$rootScope', '$timeout'
                                 templateUrl: '/app/partials/sekretessmarkerad-print-dialog.html',
                                 model: {patient: patient},
                                 button1click: function(modalInstance) {
-                                    window.open(CommonIntygViewState.intygProperties.pdfUrl, '_blank');
+                                    window.open(CommonIntygViewState.intygProperties.pdfUrl, '_self');
                                     modalInstance.close();
                                 },
                                 button2click: function(modalInstance) {
@@ -249,7 +248,7 @@ angular.module('common').directive('wcIntygButtonBar', ['$rootScope', '$timeout'
                             });
                         } else {
                             // Om patienten ej är sekretessmarkerad, skriv ut direkt.
-                            window.open(CommonIntygViewState.intygProperties.pdfUrl, '_blank');
+                            window.open(CommonIntygViewState.intygProperties.pdfUrl, '_self');
                         }
                     };
                     var onNotFoundOrError = function() {
