@@ -137,7 +137,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
             vardenhet: _kategori('vardenhet', 'common.label.vardenhet', 'common.help.vardenhet', {}, [ _fraga('', '', '', {}, [{
                 type: 'ue-labelvardenhet'
             }, {
-                type: 'ue-textfield',
+                type: 'ue-address-text-area',
                 modelProp: 'grundData.skapadAv.vardenhet.postadress',
                 label: {
                     key: 'common.postadress',
@@ -146,6 +146,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                     whitespaceBreak: false
                 },
                 size: 'full',
+                rows: 1,
                 labelColSize: labelColSize,
                 formType: 'horizontal',
                 htmlMaxlength: 209
