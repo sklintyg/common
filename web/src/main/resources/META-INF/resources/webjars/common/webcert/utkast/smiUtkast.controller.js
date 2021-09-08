@@ -41,6 +41,7 @@ angular.module('common').controller('smi.EditCertCtrl',
 
             $scope.editEnabled = false;
             $scope.lockedAlerts = [];
+            $scope.isLatestMajorTextVersion = true;
 
             /**************************************************************************
              * Load certificate and setup form / Constructor ...
@@ -83,6 +84,8 @@ angular.module('common').controller('smi.EditCertCtrl',
                     if ($stateParams.error) {
                         UtkastSignService.showSignServiceError(viewState.common.intyg.type, $stateParams.ticket);
                     }
+
+                    $scope.isLatestMajorTextVersion = viewState.common.__utlatandeJson.latestMajorTextVersion;
                 });
             }
 
