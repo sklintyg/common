@@ -18,6 +18,26 @@
  */
 package se.inera.intyg.common.support.facade.model.value;
 
-public enum CertificateDataValueType {
-    BOOLEAN, TEXT, DATE, DATE_LIST, DATE_RANGE, DATE_RANGE_LIST, CODE_LIST, CODE, DIAGNOSIS_LIST, DIAGNOSIS, ICF, UNKOWN;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.List;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Value;
+
+@JsonDeserialize(builder = CertificateDataIcfValue.CertificateDataIcfValueBuilder.class)
+@Value
+@Builder
+public class CertificateDataIcfValue implements CertificateDataValue {
+
+    @Getter(onMethod = @__(@Override))
+    CertificateDataValueType type = CertificateDataValueType.ICF;
+    String id;
+    String text;
+    List<String> icfCodes;
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class CertificateDataIcfValueBuilder {
+
+    }
 }

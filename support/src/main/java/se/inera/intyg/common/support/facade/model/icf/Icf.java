@@ -16,8 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.support.facade.model.value;
 
-public enum CertificateDataValueType {
-    BOOLEAN, TEXT, DATE, DATE_LIST, DATE_RANGE, DATE_RANGE_LIST, CODE_LIST, CODE, DIAGNOSIS_LIST, DIAGNOSIS, ICF, UNKOWN;
+package se.inera.intyg.common.support.facade.model.icf;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.List;
+import lombok.Builder;
+import lombok.Value;
+import se.inera.intyg.common.support.facade.model.icf.Icf.IcfBuilder;
+
+@JsonDeserialize(builder = IcfBuilder.class)
+@Value
+@Builder
+public class Icf {
+
+    private IcfIcd commonCodes;
+    private List<IcfIcd> uniqueCodes;
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class IcfBuilder {
+
+    }
 }

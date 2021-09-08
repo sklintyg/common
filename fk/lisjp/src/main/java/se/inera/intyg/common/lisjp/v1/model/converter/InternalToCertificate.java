@@ -21,6 +21,8 @@ package se.inera.intyg.common.lisjp.v1.model.converter;
 
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_BESKRIVNING;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_TEXT;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_ICF_COLLECTION;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_ICF_INFO;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_TEXT;
@@ -81,6 +83,8 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKT
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_BESKRIVNING;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_TEXT;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ICF_COLLECTION;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ICF_INFO;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_TEXT;
@@ -185,6 +189,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCh
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleDate;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDiagnoses;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDropdown;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigIcf;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigSickLeavePeriod;
@@ -206,6 +211,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataIcfValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
@@ -246,8 +252,10 @@ public final class InternalToCertificate {
             .addElement(createDiagnosCategory(index++, texts))
             .addElement(createDiagnosQuestion(internalCertificate.getDiagnoser(), index++, texts))
             .addElement(createFunktionsnedsattningCategory(index++, texts))
-            .addElement(createFunktionsnedsattningQuestion(internalCertificate.getFunktionsnedsattning(), index++, texts))
-            .addElement(createAktivitetsbegransningQuestion(internalCertificate.getAktivitetsbegransning(), index++, texts))
+            .addElement(createFunktionsnedsattningQuestion(internalCertificate.getFunktionsnedsattning(),
+                internalCertificate.getFunktionsKategorier(), index++, texts))
+            .addElement(createAktivitetsbegransningQuestion(internalCertificate.getAktivitetsbegransning(),
+                internalCertificate.getAktivitetsKategorier(), index++, texts))
             .addElement(createMedicinskaBehandlingarCategory(index++, texts))
             .addElement(createPagaendeBehandlingQuestion(internalCertificate.getPagaendeBehandling(), index++, texts))
             .addElement(createPlaneradBehandlingQuestion(internalCertificate.getPlaneradBehandling(), index++, texts))
@@ -817,24 +825,28 @@ public final class InternalToCertificate {
             .build();
     }
 
-    public static CertificateDataElement createFunktionsnedsattningQuestion(String value, int index,
+    public static CertificateDataElement createFunktionsnedsattningQuestion(String value,
+        List<String> disabilityCategories, int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(FUNKTIONSNEDSATTNING_SVAR_ID_35)
             .index(index)
             .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
             .config(
-                CertificateDataConfigTextArea.builder()
+                CertificateDataConfigIcf.builder()
                     .header(texts.get(FUNKTIONSNEDSATTNING_SVAR_TEXT))
                     .text(texts.get(FUNKTIONSNEDSATTNING_DELSVAR_TEXT))
                     .description(texts.get(FUNKTIONSNEDSATTNING_DELSVAR_BESKRIVNING))
+                    .modalLabel(FUNKTIONSNEDSATTNING_ICF_INFO)
+                    .collectionsLabel(FUNKTIONSNEDSATTNING_ICF_COLLECTION)
                     .id(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35)
                     .build()
             )
             .value(
-                CertificateDataTextValue.builder()
+                CertificateDataIcfValue.builder()
                     .id(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35)
                     .text(value)
+                    .icfCodes(disabilityCategories)
                     .build()
             )
             .validation(
@@ -854,24 +866,28 @@ public final class InternalToCertificate {
             .build();
     }
 
-    public static CertificateDataElement createAktivitetsbegransningQuestion(String value, int index,
+    public static CertificateDataElement createAktivitetsbegransningQuestion(String value, List<String> activityLimitationCategories,
+        int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(AKTIVITETSBEGRANSNING_SVAR_ID_17)
             .index(index)
             .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
             .config(
-                CertificateDataConfigTextArea.builder()
+                CertificateDataConfigIcf.builder()
                     .header(texts.get(AKTIVITETSBEGRANSNING_SVAR_TEXT))
                     .text(texts.get(AKTIVITETSBEGRANSNING_DELSVAR_TEXT))
                     .description(texts.get(AKTIVITETSBEGRANSNING_DELSVAR_BESKRIVNING))
+                    .modalLabel(AKTIVITETSBEGRANSNING_ICF_INFO)
+                    .collectionsLabel(AKTIVITETSBEGRANSNING_ICF_COLLECTION)
                     .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
                     .build()
             )
             .value(
-                CertificateDataTextValue.builder()
+                CertificateDataIcfValue.builder()
                     .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
                     .text(value)
+                    .icfCodes(activityLimitationCategories)
                     .build()
             )
             .validation(

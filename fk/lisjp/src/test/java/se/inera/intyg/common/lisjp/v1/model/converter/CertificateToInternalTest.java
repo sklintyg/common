@@ -448,7 +448,8 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createFunktionsnedsattningQuestion(expectedValue, index, texts))
+                .addElement(InternalToCertificate.createFunktionsnedsattningQuestion(expectedValue,
+                    internalCertificate.getFunktionsKategorier(), index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -480,14 +481,16 @@ class CertificateToInternalTest {
         @MethodSource("textValues")
         void shouldIncludeFunktionsnedsattningValue(String expectedValue) {
             final var index = 1;
+            final var expectedIcfCodeValues = Arrays.asList("Test 0", "Test 1", "Test 2");
 
             final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createAktivitetsbegransningQuestion(expectedValue, index, texts))
+                .addElement(InternalToCertificate.createAktivitetsbegransningQuestion(expectedValue, expectedIcfCodeValues, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
             assertEquals(expectedValue, updatedCertificate.getAktivitetsbegransning());
+            assertEquals(expectedIcfCodeValues, updatedCertificate.getFunktionsKategorier());
         }
     }
 

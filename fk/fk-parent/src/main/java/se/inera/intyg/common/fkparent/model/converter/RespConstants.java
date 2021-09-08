@@ -148,6 +148,9 @@ public final class RespConstants {
     public static final String AKTIVITETSBEGRANSNING_SVAR_TEXT = "FRG_17.RBK";
     public static final String AKTIVITETSBEGRANSNING_DELSVAR_TEXT = "DFR_17.1.RBK";
     public static final String AKTIVITETSBEGRANSNING_DELSVAR_BESKRIVNING = "DFR_17.1.HLP";
+    public static final String AKTIVITETSBEGRANSNING_ICF_INFO = "Välj enbart de svårigheter som påverkar patientens sysselsättning.";
+    public static final String AKTIVITETSBEGRANSNING_ICF_COLLECTION = "Svårigheter som påverkar patientens sysselsättning:";
+
 
     public static final String MEDICINSKABEHANDLINGAR_CATEGORY_ID = "medicinskabehandlingar";
     public static final String MEDICINSKABEHANDLINGAR_CATEGORY_TEXT = "KAT_5.RBK";
@@ -270,6 +273,9 @@ public final class RespConstants {
     public static final String FUNKTIONSNEDSATTNING_SVAR_TEXT = "FRG_35.RBK";
     public static final String FUNKTIONSNEDSATTNING_DELSVAR_TEXT = "DFR_35.1.RBK";
     public static final String FUNKTIONSNEDSATTNING_DELSVAR_BESKRIVNING = "DFR_35.1.HLP";
+    public static final String FUNKTIONSNEDSATTNING_ICF_INFO = "Välj enbart de problem som påverkar patienten.";
+    public static final String FUNKTIONSNEDSATTNING_ICF_COLLECTION = "Problem som påverkar patientens möjlighet att utföra sin sysselsättning:";
+
 
     public static final String FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37 = "37";
     public static final String FORSAKRINGSMEDICINSKT_BESLUTSSTOD_DELSVAR_ID_37 = "37.1";
