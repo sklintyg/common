@@ -97,7 +97,7 @@ public class IntygTextsServiceImplTest {
     }
 
     @Test
-    public void shallReturnTrueWhenLatestVersionIsNullAsForFk7263() {
+    public void shallReturnTrueForIsLatestMajorVersionWhenGetLatestVersionReturnsNull() {
         doReturn(null).when(repo).getLatestVersion("fk7263");
         final var actual = service.isLatestMajorVersion("fk7263", "1.0");
         assertTrue(actual);
