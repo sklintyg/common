@@ -29,10 +29,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -444,7 +444,7 @@ class CertificateToInternalTest {
 
         @ParameterizedTest
         @MethodSource("textValues")
-        void shouldIncludeFunktionsnedsattningValue(String expectedValue) {
+        void shouldIncludeFunktionsnedsattningValueText(String expectedValue) {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create()
@@ -455,6 +455,24 @@ class CertificateToInternalTest {
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
             assertEquals(expectedValue, updatedCertificate.getFunktionsnedsattning());
+        }
+
+        Stream<List<String>> icfCodeValues() {
+            return Stream.of(Arrays.asList("Test 0", "Test 1", "Test 2"), null, Collections.emptyList());
+        }
+
+        @ParameterizedTest
+        @MethodSource({"icfCodeValues"})
+        void shouldIncludeFunktionsnedsattningValueIcfCodes(List<String> expectedValue) {
+            final var index = 1;
+
+            final var certificate = CertificateBuilder.create()
+                .addElement(InternalToCertificate.createFunktionsnedsattningQuestion("", expectedValue, index, texts))
+                .build();
+
+            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
+
+            assertEquals(expectedValue, updatedCertificate.getFunktionsKategorier());
         }
     }
 
@@ -479,18 +497,34 @@ class CertificateToInternalTest {
 
         @ParameterizedTest
         @MethodSource("textValues")
-        void shouldIncludeFunktionsnedsattningValue(String expectedValue) {
+        void shouldIncludeAktivitetsBegransningValueText(String expectedValue) {
             final var index = 1;
-            final var expectedIcfCodeValues = Arrays.asList("Test 0", "Test 1", "Test 2");
 
             final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createAktivitetsbegransningQuestion(expectedValue, expectedIcfCodeValues, index, texts))
+                .addElement(InternalToCertificate.createAktivitetsbegransningQuestion(expectedValue, Collections.emptyList(), index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
             assertEquals(expectedValue, updatedCertificate.getAktivitetsbegransning());
-            assertEquals(expectedIcfCodeValues, updatedCertificate.getFunktionsKategorier());
+        }
+
+        Stream<List<String>> icfCodeValues() {
+            return Stream.of(Arrays.asList("Test 0", "Test 1", "Test 2"), null, Collections.emptyList());
+        }
+
+        @ParameterizedTest
+        @MethodSource({"icfCodeValues"})
+        void shouldIncludeAktivitetsBegransningValueIcfCodes(List<String> expectedValue) {
+            final var index = 1;
+
+            final var certificate = CertificateBuilder.create()
+                .addElement(InternalToCertificate.createAktivitetsbegransningQuestion("", expectedValue, index, texts))
+                .build();
+
+            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
+
+            assertEquals(expectedValue, updatedCertificate.getAktivitetsKategorier());
         }
     }
 

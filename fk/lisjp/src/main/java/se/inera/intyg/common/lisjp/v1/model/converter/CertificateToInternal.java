@@ -70,6 +70,8 @@ import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateRangeListValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.diagnosisListValue;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.icfCodeValue;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.icfTextValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
 import java.util.ArrayList;
@@ -109,7 +111,9 @@ public final class CertificateToInternal {
         final var nuvarandeArbete = getNuvarandeArbete(certificate);
         final var diagnos = getDiagnos(certificate, moduleService);
         final var funktionsnedsattning = getFunktionsnedsattning(certificate);
+        final var funktionsnedsattningIcfKoder = getFunktionsnedsattningIcfKoder(certificate);
         final var aktivitetsbegransning = getAktivitetsbegransning(certificate);
+        final var aktivitetsBegransningIcfKoder = getAktivitetsbegransningIcfKoder(certificate);
         final var pagaendeBehandling = getPagaendeBehandling(certificate);
         final var planeradBehandling = getPlaneradBehandling(certificate);
         final var motiveringTillTidigtStartdatum = getMotiveringTidigtStartdatum(certificate);
@@ -140,7 +144,9 @@ public final class CertificateToInternal {
             .setNuvarandeArbete(nuvarandeArbete)
             .setDiagnoser(diagnos)
             .setFunktionsnedsattning(funktionsnedsattning)
+            .setFunktionsKategorier(funktionsnedsattningIcfKoder)
             .setAktivitetsbegransning(aktivitetsbegransning)
+            .setAktivitetsKategorier(aktivitetsBegransningIcfKoder)
             .setPagaendeBehandling(pagaendeBehandling)
             .setPlaneradBehandling(planeradBehandling)
             .setSjukskrivningar(sjukskrivningar)
@@ -231,11 +237,19 @@ public final class CertificateToInternal {
     }
 
     private static String getFunktionsnedsattning(Certificate certificate) {
-        return textValue(certificate.getData(), FUNKTIONSNEDSATTNING_SVAR_ID_35, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35);
+        return icfTextValue(certificate.getData(), FUNKTIONSNEDSATTNING_SVAR_ID_35, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35);
+    }
+
+    private static List<String> getFunktionsnedsattningIcfKoder(Certificate certificate) {
+        return icfCodeValue(certificate.getData(), FUNKTIONSNEDSATTNING_SVAR_ID_35, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35);
     }
 
     private static String getAktivitetsbegransning(Certificate certificate) {
-        return textValue(certificate.getData(), AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17);
+        return icfTextValue(certificate.getData(), AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17);
+    }
+
+    private static List<String> getAktivitetsbegransningIcfKoder(Certificate certificate) {
+        return icfCodeValue(certificate.getData(), AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17);
     }
 
     private static String getPagaendeBehandling(Certificate certificate) {
@@ -264,7 +278,7 @@ public final class CertificateToInternal {
 
     private static String getForsakringsmedicinsktBeslutsstod(Certificate certificate) {
         return textValue(certificate.getData(), FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37,
-           FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37);
+            FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37);
     }
 
     private static Boolean getArbetstidsforlaggning(Certificate certificate) {
