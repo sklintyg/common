@@ -215,8 +215,8 @@ public final class CertificateToInternal {
         var diagnosisList = diagnosisListValue(certificate.getData(), DIAGNOS_SVAR_ID_6);
         List<Diagnos> newDiagnosisList = new ArrayList<>();
         diagnosisList.forEach(diagnosis -> {
-            var newDiagnosis = Diagnos.create(diagnosis.getCode(), diagnosis.getTerminology(),
-                getDiagnosisDescription(diagnosis, moduleService), diagnosis.getDescription());
+            var newDiagnosis = Diagnos.create(diagnosis.getCode(), diagnosis.getTerminology(), diagnosis.getDescription(),
+                getDiagnosisDescription(diagnosis, moduleService));
             var diagnosisIndex = Integer.parseInt(diagnosis.getId()) - 1;
             while (diagnosisIndex >= newDiagnosisList.size()) {
                 newDiagnosisList.add(Diagnos.create(null, null, null, null));

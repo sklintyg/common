@@ -792,7 +792,7 @@ public final class InternalToCertificate {
             .id(id)
             .terminology(diagnos.getDiagnosKodSystem())
             .code(diagnos.getDiagnosKod())
-            .description(diagnos.getDiagnosDisplayName())
+            .description(diagnos.getDiagnosBeskrivning())
             .build();
     }
 
