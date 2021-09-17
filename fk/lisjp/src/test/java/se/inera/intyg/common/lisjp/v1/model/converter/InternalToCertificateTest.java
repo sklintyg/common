@@ -1683,7 +1683,7 @@ class InternalToCertificateTest {
                     () -> assertEquals(expectedDiagnos.getDiagnosKodSystem(),
                         certificateDataConfigDiagnoses.getList().get(0).getTerminology()),
                     () -> assertEquals(expectedDiagnos.getDiagnosKod(), certificateDataConfigDiagnoses.getList().get(0).getCode()),
-                    () -> assertEquals(expectedDiagnos.getDiagnosDisplayName(),
+                    () -> assertEquals(expectedDiagnos.getDiagnosBeskrivning(),
                         certificateDataConfigDiagnoses.getList().get(0).getDescription())
                 );
             }
@@ -1711,7 +1711,7 @@ class InternalToCertificateTest {
                     () -> assertEquals(expectedDiagnos.getDiagnosKodSystem(),
                         certificateDataConfigDiagnoses.getList().get(0).getTerminology()),
                     () -> assertEquals(expectedDiagnos.getDiagnosKod(), certificateDataConfigDiagnoses.getList().get(0).getCode()),
-                    () -> assertEquals(expectedDiagnos.getDiagnosDisplayName(),
+                    () -> assertEquals(expectedDiagnos.getDiagnosBeskrivning(),
                         certificateDataConfigDiagnoses.getList().get(0).getDescription())
                 );
             }
@@ -1739,7 +1739,7 @@ class InternalToCertificateTest {
                     () -> assertEquals(expectedDiagnos.getDiagnosKodSystem(),
                         certificateDataConfigDiagnoses.getList().get(0).getTerminology()),
                     () -> assertEquals(expectedDiagnos.getDiagnosKod(), certificateDataConfigDiagnoses.getList().get(0).getCode()),
-                    () -> assertEquals(expectedDiagnos.getDiagnosDisplayName(),
+                    () -> assertEquals(expectedDiagnos.getDiagnosBeskrivning(),
                         certificateDataConfigDiagnoses.getList().get(0).getDescription())
                 );
             }
