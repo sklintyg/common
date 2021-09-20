@@ -370,13 +370,14 @@ class CertificateToInternalTest {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionDiagnos {
 
-        private final String DIAGNOSIS_DESCRIPTION = "Beskrivning";
+        private final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
+        private final String DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION = "Beskrivning utan egen text";
         private LisjpUtlatandeV1 internalCertificate;
 
         @BeforeEach
         void setup() {
             moduleService = mock(WebcertModuleService.class);
-            when(moduleService.getDescriptionFromDiagnosKod(anyString(), anyString())).thenReturn(DIAGNOSIS_DESCRIPTION);
+            when(moduleService.getDescriptionFromDiagnosKod(anyString(), anyString())).thenReturn(DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION);
             internalCertificate = LisjpUtlatandeV1.builder()
                 .setGrundData(new GrundData())
                 .setId("id")
@@ -386,11 +387,11 @@ class CertificateToInternalTest {
 
         Stream<List<Diagnos>> diagnosisListValues() {
             return Stream.of(Arrays.asList(
-                Diagnos.create("F500", "ICD-10", DIAGNOSIS_DESCRIPTION, "Display name")
+                Diagnos.create("F500", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION)
             ), Arrays.asList(
-                Diagnos.create("", "ICD-10", DIAGNOSIS_DESCRIPTION, "Display name"),
-                Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, "Display name"),
-                Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, "Display name")
+                Diagnos.create("", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION),
+                Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION),
+                Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION)
             ), Collections.emptyList());
         }
 
