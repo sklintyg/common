@@ -20,6 +20,11 @@ package se.inera.intyg.common.ag7804.converter;
 
 public final class RespConstants {
 
+    public static final String DESCRIPTION = "FRM_2.RBK";
+    public static final String ANSWER_YES = "Ja";
+    public static final String ANSWER_NO = "Nej";
+    public static final String ANSWER_NOT_SELECTED = "Ej angivet";
+
     public static final String CATEGORY_GRUNDFORMU = "grundformu";
     public static final String CATEGORY_DIAGNOS = "diagnos";
     public static final String CATEGORY_SYSSELSATTNING = "sysselsattning";
@@ -30,6 +35,8 @@ public final class RespConstants {
     public static final String CATEGORY_OVRIGT = "ovrigt";
     public static final String CATEGORY_KONTAKT = "kontakt";
 
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT = "KAT_1.RBK";
+    public static final String GRUNDFORMU_CATEGORY_ID = "grundformu";
 
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1 = "1";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1 = "baseratPa";
@@ -41,6 +48,13 @@ public final class RespConstants {
     public static final String GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1 = "annatGrundForMU";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1 = "telefonkontaktMedPatienten";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1 = "annatGrundForMUBeskrivning";
+
+    public static final String GRUNDFORMU_JOURNALUPPGIFTER_LABEL = "KV_FKMU_0001.JOURNALUPPGIFTER.RBK";
+    public static final String GRUNDFORMU_TELEFONKONTAKT_LABEL = "KV_FKMU_0001.TELEFONKONTAKT.RBK";
+    public static final String GRUNDFORMU_UNDERSOKNING_LABEL = "KV_FKMU_0001.UNDERSOKNING.RBK";
+    public static final String GRUNDFORMU_ANNAT_LABEL = "KV_FKMU_0001.ANNAT.RBK";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT = "FRG_1.RBK";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_BESKRIVNING = "FRG_1.HLP";
 
     public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100 = "100";
     public static final String ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_100 = "100.1";
@@ -82,6 +96,10 @@ public final class RespConstants {
     public static final String AVSTANGNING_SMITTSKYDD_SVAR_ID_27 = "27";
     public static final String AVSTANGNING_SMITTSKYDD_DELSVAR_ID_27 = "27.1";
     public static final String AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27 = "avstangningSmittskydd";
+    public static final String AVSTANGNING_SMITTSKYDD_CATEGORY_TEXT = "KAT_10.RBK";
+    public static final String AVSTANGNING_SMITTSKYDD_CATEGORY_DESCRIPTION = "KAT_10.HLP";
+    public static final String AVSTANGNING_SMITTSKYDD_CATEGORY_ID = "smittbararpenning";
+    public static final String AVSTANGNING_SMITTSKYDD_QUESTION_LABEL = "FRG_27.RBK";
 
     public static final String TYP_AV_SYSSELSATTNING_SVAR_ID_28 = "28";
     public static final String TYP_AV_SYSSELSATTNING_DELSVAR_ID_28 = "28.1";
