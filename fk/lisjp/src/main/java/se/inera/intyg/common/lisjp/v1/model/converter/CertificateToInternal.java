@@ -264,7 +264,7 @@ public final class CertificateToInternal {
 
     private static String getForsakringsmedicinsktBeslutsstod(Certificate certificate) {
         return textValue(certificate.getData(), FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37,
-           FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37);
+            FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37);
     }
 
     private static Boolean getArbetstidsforlaggning(Certificate certificate) {

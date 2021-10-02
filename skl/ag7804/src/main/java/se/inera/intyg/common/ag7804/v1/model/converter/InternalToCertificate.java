@@ -28,25 +28,45 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_S
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.DESCRIPTION;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_BESKRIVNING;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMU_ANNAT_LABEL;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMU_JOURNALUPPGIFTER_LABEL;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMU_TELEFONKONTAKT_LABEL;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMU_UNDERSOKNING_LABEL;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_ARBETE;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_ARBETSSOKANDE;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_CATEGORY_ID;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_CATEGORY_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_FORALDRALEDIG;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_STUDIER;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_SVAR_BESKRIVNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_SVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
+import se.inera.intyg.common.ag7804.model.internal.Sysselsattning.SysselsattningsTyp;
 import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.fkparent.model.converter.RespConstants;
@@ -56,7 +76,10 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleDate;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
+import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleDate;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.model.metadata.Unit;
@@ -64,7 +87,11 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCodeList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateList;
 
@@ -82,6 +109,10 @@ public final class InternalToCertificate {
             .addElement(createAvstangningSmittskyddQuestion(internalCertificate.getAvstangningSmittskydd(), index++, texts))
             .addElement(createGrundForMUCategory(index++, texts))
             .addElement(createIntygetBaseratPa(internalCertificate, index++, texts))
+            .addElement(createAnnatGrundForMUBeskrivning(internalCertificate.getAnnatGrundForMUBeskrivning(), index++, texts))
+            .addElement(createSysselsattningCategory(index++, texts))
+            .addElement(createSysselsattningQuestion(internalCertificate.getSysselsattning(), index++, texts))
+            .addElement(createSysselsattningYrkeQuestion(internalCertificate.getNuvarandeArbete(), index++, texts))
             .build();
     }
 
@@ -124,7 +155,7 @@ public final class InternalToCertificate {
         return CertificateDataElement.builder()
             .id(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
             .index(index)
-            .parent(RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_ID)
+            .parent(AVSTANGNING_SMITTSKYDD_CATEGORY_ID)
             .config(
                 CertificateDataConfigCheckboxBoolean.builder()
                     .id(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27)
@@ -154,8 +185,8 @@ public final class InternalToCertificate {
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationHide.builder()
-                        .questionId(RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
                         .build()
                 }
             )
@@ -167,7 +198,7 @@ public final class InternalToCertificate {
         return CertificateDataElement.builder()
             .id(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
             .index(index)
-            .parent(RespConstants.GRUNDFORMU_CATEGORY_ID)
+            .parent(GRUNDFORMU_CATEGORY_ID)
             .config(
                 CertificateDataConfigCheckboxMultipleDate.builder()
                     .text(texts.get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT))
@@ -228,8 +259,8 @@ public final class InternalToCertificate {
                         .numberOfDays((short) 0)
                         .build(),
                     CertificateDataValidationHide.builder()
-                        .questionId(RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
                         .build()
                 }
             )
@@ -275,5 +306,173 @@ public final class InternalToCertificate {
             );
         }
         return values;
+    }
+
+    public static CertificateDataElement createAnnatGrundForMUBeskrivning(String value, int index,
+        CertificateTextProvider texts) {
+        return CertificateDataElement.builder()
+            .id(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1)
+            .index(index)
+            .parent(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
+            .config(
+                CertificateDataConfigTextArea.builder()
+                    .id(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1)
+                    .text(texts.get(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_TEXT))
+                    .build()
+            )
+            .value(
+                CertificateDataTextValue.builder()
+                    .id(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1)
+                    .text(value)
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationMandatory.builder()
+                        .questionId(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1)
+                        .expression(singleExpression(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1))
+                        .build(),
+                    CertificateDataValidationShow.builder()
+                        .questionId(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
+                        .expression(singleExpression(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
+                        .build(),
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    private static CertificateDataElement createSysselsattningCategory(int index,
+        CertificateTextProvider texts) {
+        return CertificateDataElement.builder()
+            .id(SYSSELSATTNING_CATEGORY_ID)
+            .index(index)
+            .config(
+                CertificateDataConfigCategory.builder()
+                    .text(texts.get(SYSSELSATTNING_CATEGORY_TEXT))
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    public static CertificateDataElement createSysselsattningQuestion(List<Sysselsattning> value, int index,
+        CertificateTextProvider texts) {
+        return CertificateDataElement.builder()
+            .id(TYP_AV_SYSSELSATTNING_SVAR_ID_28)
+            .index(index)
+            .parent(SYSSELSATTNING_CATEGORY_ID)
+            .config(
+                CertificateDataConfigCheckboxMultipleCode.builder()
+                    .text(texts.get(SYSSELSATTNING_SVAR_TEXT))
+                    .description(texts.get(SYSSELSATTNING_SVAR_BESKRIVNING))
+                    .list(
+                        Arrays.asList(
+                            CheckboxMultipleCode.builder()
+                                .id(SysselsattningsTyp.NUVARANDE_ARBETE.getId())
+                                .label(texts.get(SYSSELSATTNING_ARBETE))
+                                .build(),
+                            CheckboxMultipleCode.builder()
+                                .id(SysselsattningsTyp.ARBETSSOKANDE.getId())
+                                .label(texts.get(SYSSELSATTNING_ARBETSSOKANDE))
+                                .build(),
+                            CheckboxMultipleCode.builder()
+                                .id(SysselsattningsTyp.FORADLRARLEDIGHET_VARD_AV_BARN.getId())
+                                .label(texts.get(SYSSELSATTNING_FORALDRALEDIG))
+                                .build(),
+                            CheckboxMultipleCode.builder()
+                                .id(SysselsattningsTyp.STUDIER.getId())
+                                .label(texts.get(SYSSELSATTNING_STUDIER))
+                                .build()
+                        )
+                    )
+                    .build()
+            )
+            .value(
+                CertificateDataValueCodeList.builder()
+                    .list(createSysselsattningCodeList(value))
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationMandatory.builder()
+                        .questionId(TYP_AV_SYSSELSATTNING_SVAR_ID_28)
+                        .expression(
+                            multipleOrExpression(
+                                singleExpression(SysselsattningsTyp.NUVARANDE_ARBETE.getId()),
+                                singleExpression(SysselsattningsTyp.ARBETSSOKANDE.getId()),
+                                singleExpression(SysselsattningsTyp.FORADLRARLEDIGHET_VARD_AV_BARN.getId()),
+                                singleExpression(SysselsattningsTyp.STUDIER.getId())
+                            )
+                        )
+                        .build(),
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    private static List<CertificateDataValueCode> createSysselsattningCodeList(List<Sysselsattning> value) {
+        if (value == null) {
+            return Collections.emptyList();
+        }
+
+        return value.stream()
+            .map(sysselsattning -> CertificateDataValueCode.builder()
+                .id(Objects.requireNonNull(sysselsattning.getTyp()).getId())
+                .code(sysselsattning.getTyp().getId())
+                .build())
+            .collect(Collectors.toList());
+    }
+
+    public static CertificateDataElement createSysselsattningYrkeQuestion(String value, int index,
+        CertificateTextProvider texts) {
+        return CertificateDataElement.builder()
+            .id(NUVARANDE_ARBETE_SVAR_ID_29)
+            .index(index)
+            .parent(RespConstants.SYSSELSATTNING_CATEGORY_ID)
+            .config(
+                CertificateDataConfigTextArea.builder()
+                    .text(texts.get(NUVARANDE_ARBETE_SVAR_TEXT))
+                    .id(NUVARANDE_ARBETE_SVAR_JSON_ID_29)
+                    .build()
+            )
+            .value(
+                CertificateDataTextValue.builder()
+                    .id(NUVARANDE_ARBETE_SVAR_JSON_ID_29)
+                    .text(value)
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationMandatory.builder()
+                        .questionId(NUVARANDE_ARBETE_SVAR_ID_29)
+                        .expression(singleExpression(NUVARANDE_ARBETE_SVAR_JSON_ID_29))
+                        .build(),
+                    CertificateDataValidationShow.builder()
+                        .questionId(TYP_AV_SYSSELSATTNING_SVAR_ID_28)
+                        .expression(singleExpression(
+                            se.inera.intyg.common.lisjp.model.internal.Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE.getId()))
+                        .build(),
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
     }
 }

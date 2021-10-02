@@ -55,6 +55,7 @@ public final class RespConstants {
     public static final String GRUNDFORMU_ANNAT_LABEL = "KV_FKMU_0001.ANNAT.RBK";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT = "FRG_1.RBK";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_BESKRIVNING = "FRG_1.HLP";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_TEXT = "DFR_1.3.RBK";
 
     public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100 = "100";
     public static final String ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_100 = "100.1";
@@ -101,13 +102,22 @@ public final class RespConstants {
     public static final String AVSTANGNING_SMITTSKYDD_CATEGORY_ID = "smittbararpenning";
     public static final String AVSTANGNING_SMITTSKYDD_QUESTION_LABEL = "FRG_27.RBK";
 
+    public static final String SYSSELSATTNING_CATEGORY_ID = "sysselsattning";
+    public static final String SYSSELSATTNING_CATEGORY_TEXT = "KAT_2.RBK";
+    public static final String SYSSELSATTNING_SVAR_TEXT = "FRG_28.RBK";
+    public static final String SYSSELSATTNING_SVAR_BESKRIVNING = "FRG_28.HLP";
     public static final String TYP_AV_SYSSELSATTNING_SVAR_ID_28 = "28";
     public static final String TYP_AV_SYSSELSATTNING_DELSVAR_ID_28 = "28.1";
     public static final String TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_28 = "sysselsattning";
+    public static final String SYSSELSATTNING_ARBETE = "KV_FKMU_0002.NUVARANDE_ARBETE.RBK";
+    public static final String SYSSELSATTNING_STUDIER = "KV_FKMU_0002.STUDIER.RBK";
+    public static final String SYSSELSATTNING_FORALDRALEDIG = "KV_FKMU_0002.FORALDRALEDIG.RBK";
+    public static final String SYSSELSATTNING_ARBETSSOKANDE = "KV_FKMU_0002.ARBETSSOKANDE.RBK";
 
     public static final String NUVARANDE_ARBETE_SVAR_ID_29 = "29";
     public static final String NUVARANDE_ARBETE_DELSVAR_ID_29 = "29.1";
     public static final String NUVARANDE_ARBETE_SVAR_JSON_ID_29 = "nuvarandeArbete";
+    public static final String NUVARANDE_ARBETE_SVAR_TEXT = "FRG_29.RBK";
 
     public static final String BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32 = "32";
     public static final String BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32 = "32.1";
