@@ -19,6 +19,7 @@
 
 package se.inera.intyg.common.ag7804.v1.model.converter;
 
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ANSWER_NO;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ANSWER_NOT_SELECTED;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ANSWER_YES;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_DESCRIPTION;
@@ -28,6 +29,15 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_S
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.DESCRIPTION;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_CATEGORY_ID;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_CATEGORY_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_ICD_10_ID;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_ICD_10_LABEL;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_KSH_97_ID;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_KSH_97_LABEL;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_BESKRIVNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_ID_6;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
@@ -47,6 +57,8 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMU_UN
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_ARBETE;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_ARBETSSOKANDE;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_CATEGORY_ID;
@@ -69,7 +81,7 @@ import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning.SysselsattningsTyp;
 import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
-import se.inera.intyg.common.fkparent.model.converter.RespConstants;
+import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -78,9 +90,13 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCa
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleDate;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDiagnoses;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleDate;
+import se.inera.intyg.common.support.facade.model.config.DiagnosesListItem;
+import se.inera.intyg.common.support.facade.model.config.DiagnosesTerminology;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.model.metadata.Unit;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
@@ -94,6 +110,8 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCodeList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateList;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
 
 public final class InternalToCertificate {
 
@@ -113,6 +131,9 @@ public final class InternalToCertificate {
             .addElement(createSysselsattningCategory(index++, texts))
             .addElement(createSysselsattningQuestion(internalCertificate.getSysselsattning(), index++, texts))
             .addElement(createSysselsattningYrkeQuestion(internalCertificate.getNuvarandeArbete(), index++, texts))
+            .addElement(createDiagnosCategory(index++, texts))
+            .addElement(createShouldIncludeDiagnosesQuestion(internalCertificate.getOnskarFormedlaDiagnos(), index++, texts))
+            .addElement(createDiagnosQuestion(internalCertificate.getDiagnoser(), index++, texts))
             .build();
     }
 
@@ -443,7 +464,7 @@ public final class InternalToCertificate {
         return CertificateDataElement.builder()
             .id(NUVARANDE_ARBETE_SVAR_ID_29)
             .index(index)
-            .parent(RespConstants.SYSSELSATTNING_CATEGORY_ID)
+            .parent(SYSSELSATTNING_CATEGORY_ID)
             .config(
                 CertificateDataConfigTextArea.builder()
                     .text(texts.get(NUVARANDE_ARBETE_SVAR_TEXT))
@@ -473,6 +494,129 @@ public final class InternalToCertificate {
                         .build()
                 }
             )
+            .build();
+    }
+
+    private static CertificateDataElement createDiagnosCategory(int index,
+        CertificateTextProvider texts) {
+        return CertificateDataElement.builder()
+            .id(DIAGNOS_CATEGORY_ID)
+            .index(index)
+            .config(
+                CertificateDataConfigCategory.builder()
+                    .text(texts.get(DIAGNOS_CATEGORY_TEXT))
+                    .build()
+            )
+            .build();
+    }
+
+    public static CertificateDataElement createShouldIncludeDiagnosesQuestion(Boolean value, int index,
+        CertificateTextProvider texts) {
+        return CertificateDataElement.builder()
+            .id(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
+            .index(index)
+            .parent(DIAGNOS_CATEGORY_ID)
+            .config(
+                CertificateDataConfigRadioBoolean.builder()
+                    .id(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100)
+                    .selectedText(texts.get(ANSWER_YES)) // change this!!
+                    .unselectedText(texts.get(ANSWER_NO)) // change this!!
+                    .build()
+            )
+            .value(
+                CertificateDataValueBoolean.builder()
+                    .id(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100)
+                    .selected(value)
+                    .build()
+            )
+            .build();
+    }
+
+    public static CertificateDataElement createDiagnosQuestion(List<Diagnos> value, int index,
+        CertificateTextProvider texts) {
+        return CertificateDataElement.builder()
+            .id(DIAGNOS_SVAR_ID_6)
+            .index(index)
+            .parent(DIAGNOS_CATEGORY_ID)
+            .config(
+                CertificateDataConfigDiagnoses.builder()
+                    .text(texts.get(DIAGNOS_SVAR_TEXT))
+                    .description(texts.get(DIAGNOS_SVAR_BESKRIVNING))
+                    .terminology(
+                        Arrays.asList(
+                            DiagnosesTerminology.builder()
+                                .id(DIAGNOS_ICD_10_ID)
+                                .label(DIAGNOS_ICD_10_LABEL)
+                                .build(),
+                            DiagnosesTerminology.builder()
+                                .id(DIAGNOS_KSH_97_ID)
+                                .label(DIAGNOS_KSH_97_LABEL)
+                                .build()
+                        )
+                    )
+                    .list(
+                        Arrays.asList(
+                            DiagnosesListItem.builder()
+                                .id("1")
+                                .build(),
+                            DiagnosesListItem.builder()
+                                .id("2")
+                                .build(),
+                            DiagnosesListItem.builder()
+                                .id("3")
+                                .build()
+                        )
+                    )
+                    .build()
+            )
+            .value(
+                CertificateDataValueDiagnosisList.builder()
+                    .list(createDiagnosValue(value))
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationMandatory.builder()
+                        .questionId(DIAGNOS_SVAR_ID_6)
+                        .expression(singleExpression("1"))
+                        .build(),
+                    CertificateDataValidationHide.builder()
+                        .questionId(DIAGNOS_SVAR_ID_6)
+                        .expression(singleExpression(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    private static List<CertificateDataValueDiagnosis> createDiagnosValue(List<Diagnos> diagnoses) {
+        if (diagnoses == null) {
+            return Collections.emptyList();
+        }
+
+        final List<CertificateDataValueDiagnosis> newDiagnoses = new ArrayList<>();
+        for (int i = 0; i < diagnoses.size(); i++) {
+            final var diagnosis = diagnoses.get(i);
+            if (isInvalid(diagnosis)) {
+                continue;
+            }
+
+            newDiagnoses.add(createDiagnosis(Integer.toString(i + 1), diagnosis));
+        }
+
+        return newDiagnoses;
+    }
+
+    private static boolean isInvalid(Diagnos diagnos) {
+        return diagnos.getDiagnosKod() == null;
+    }
+
+    private static CertificateDataValueDiagnosis createDiagnosis(String id, Diagnos diagnos) {
+        return CertificateDataValueDiagnosis.builder()
+            .id(id)
+            .terminology(diagnos.getDiagnosKodSystem())
+            .code(diagnos.getDiagnosKod())
+            .description(diagnos.getDiagnosBeskrivning())
             .build();
     }
 }

@@ -57,8 +57,10 @@ public final class RespConstants {
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_BESKRIVNING = "FRG_1.HLP";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_TEXT = "DFR_1.3.RBK";
 
+    public static final String DIAGNOS_CATEGORY_ID = "diagnos";
     public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100 = "100";
     public static final String ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_100 = "100.1";
+    public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100 = "onskarFormedlaDiagnos";
     public static final String ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_JSON_ID_100 = "onskarFormedlaDiagnos";
     public static final String DIAGNOS_SVAR_ID_6 = "6";
     public static final String DIAGNOS_BESKRIVNING_DELSVAR_ID_6 = "6.1";
@@ -68,7 +70,13 @@ public final class RespConstants {
     public static final String BIDIAGNOS_2_BESKRIVNING_DELSVAR_ID_6 = "6.5";
     public static final String BIDIAGNOS_2_DELSVAR_ID_6 = "6.6";
     public static final String DIAGNOS_SVAR_JSON_ID_6 = "diagnoser";
-
+    public static final String DIAGNOS_CATEGORY_TEXT = "KAT_3.RBK";
+    public static final String DIAGNOS_SVAR_TEXT = "FRG_6.RBK";
+    public static final String DIAGNOS_SVAR_BESKRIVNING = "FRG_6.HLP";
+    public static final String DIAGNOS_ICD_10_ID = "ICD_10_SE";
+    public static final String DIAGNOS_ICD_10_LABEL = "ICD-10-SE";
+    public static final String DIAGNOS_KSH_97_ID = "KSH_97_P";
+    public static final String DIAGNOS_KSH_97_LABEL = "KSH97-P (Primärvård)";
 
     public static final String AKTIVITETSBEGRANSNING_SVAR_ID_17 = "17";
     public static final String AKTIVITETSBEGRANSNING_DELSVAR_ID_17 = "17.1";
