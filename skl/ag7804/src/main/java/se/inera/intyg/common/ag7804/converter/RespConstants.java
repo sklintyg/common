@@ -78,10 +78,18 @@ public final class RespConstants {
     public static final String DIAGNOS_KSH_97_ID = "KSH_97_P";
     public static final String DIAGNOS_KSH_97_LABEL = "KSH97-P (Primärvård)";
 
+    public static final String FUNKTIONSNEDSATTNING_CATEGORY_ID = "funktionsnedsattning";
+    public static final String FUNKTIONSNEDSATTNING_CATEGORY_TEXT = "KAT_4.RBK";
+    public static final String FUNKTIONSNEDSATTNING_SVAR_TEXT = "FRG_35.RBK";
+    public static final String FUNKTIONSNEDSATTNING_DELSVAR_TEXT = "DFR_35.1.RBK";
+    public static final String FUNKTIONSNEDSATTNING_DELSVAR_BESKRIVNING = "DFR_35.1.HLP";
+
     public static final String AKTIVITETSBEGRANSNING_SVAR_ID_17 = "17";
     public static final String AKTIVITETSBEGRANSNING_DELSVAR_ID_17 = "17.1";
     public static final String AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17 = "aktivitetsbegransning";
-
+    public static final String AKTIVITETSBEGRANSNING_SVAR_TEXT = "FRG_17.RBK";
+    public static final String AKTIVITETSBEGRANSNING_DELSVAR_TEXT = "DFR_17.1.RBK";
+    public static final String AKTIVITETSBEGRANSNING_DELSVAR_BESKRIVNING = "DFR_17.1.HLP";
 
     public static final String PAGAENDEBEHANDLING_SVAR_ID_19 = "19";
     public static final String PAGAENDEBEHANDLING_DELSVAR_ID_19 = "19.1";
@@ -91,6 +99,13 @@ public final class RespConstants {
     public static final String PLANERADBEHANDLING_DELSVAR_ID_20 = "20.1";
     public static final String PLANERADBEHANDLING_SVAR_JSON_ID_20 = "planeradBehandling";
 
+    public static final String PAGAENDEBEHANDLING_SVAR_TEXT = "FRG_19.RBK";
+    public static final String PAGAENDEBEHANDLING_DELSVAR_TEXT = "DFR_19.1.RBK";
+    public static final String PLANERADBEHANDLING_SVAR_TEXT = "FRG_20.RBK";
+    public static final String PLANERADBEHANDLING_DELSVAR_TEXT = "DFR_20.1.RBK";
+
+    public static final String MEDICINSKABEHANDLINGAR_CATEGORY_ID = "medicinskabehandlingar";
+    public static final String MEDICINSKABEHANDLINGAR_CATEGORY_TEXT = "KAT_5.RBK";
 
     public static final String OVRIGT_SVAR_ID_25 = "25";
     public static final String OVRIGT_DELSVAR_ID_25 = "25.1";

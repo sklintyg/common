@@ -19,6 +19,11 @@
 
 package se.inera.intyg.common.ag7804.v1.model.converter;
 
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_BESKRIVNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ANSWER_NO;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ANSWER_NOT_SELECTED;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ANSWER_YES;
@@ -38,6 +43,13 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_KSH_9
 import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_BESKRIVNING;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_ID_6;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_BESKRIVNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_35;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
@@ -54,11 +66,21 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMU_CA
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMU_JOURNALUPPGIFTER_LABEL;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMU_TELEFONKONTAKT_LABEL;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMU_UNDERSOKNING_LABEL;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_DELSVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PLANERADBEHANDLING_DELSVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PLANERADBEHANDLING_SVAR_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_ARBETE;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_ARBETSSOKANDE;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_CATEGORY_ID;
@@ -82,6 +104,7 @@ import se.inera.intyg.common.ag7804.model.internal.Sysselsattning.Sysselsattning
 import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.agparent.model.internal.Diagnos;
+import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -100,6 +123,7 @@ import se.inera.intyg.common.support.facade.model.config.DiagnosesTerminology;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.model.metadata.Unit;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
@@ -134,6 +158,12 @@ public final class InternalToCertificate {
             .addElement(createDiagnosCategory(index++, texts))
             .addElement(createShouldIncludeDiagnosesQuestion(internalCertificate.getOnskarFormedlaDiagnos(), index++, texts))
             .addElement(createDiagnosQuestion(internalCertificate.getDiagnoser(), index++, texts))
+            .addElement(createFunktionsnedsattningCategory(index++, texts))
+            .addElement(createFunktionsnedsattningQuestion(internalCertificate.getFunktionsnedsattning(), index++, texts))
+            .addElement(createAktivitetsbegransningQuestion(internalCertificate.getAktivitetsbegransning(), index++, texts))
+            .addElement(createMedicinskaBehandlingarCategory(index++, texts))
+            .addElement(createPagaendeBehandlingQuestion(internalCertificate.getPagaendeBehandling(), index++, texts))
+            .addElement(createPlaneradBehandlingQuestion(internalCertificate.getPlaneradBehandling(), index++, texts))
             .build();
     }
 
@@ -583,6 +613,10 @@ public final class InternalToCertificate {
                     CertificateDataValidationHide.builder()
                         .questionId(DIAGNOS_SVAR_ID_6)
                         .expression(singleExpression(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100))
+                        .build(),
+                    CertificateDataValidationDisable.builder()
+                        .questionId(DIAGNOS_SVAR_ID_6)
+                        .expression(singleExpression(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100)) // change this to look for null?
                         .build()
                 }
             )
@@ -617,6 +651,182 @@ public final class InternalToCertificate {
             .terminology(diagnos.getDiagnosKodSystem())
             .code(diagnos.getDiagnosKod())
             .description(diagnos.getDiagnosBeskrivning())
+            .build();
+    }
+
+    private static CertificateDataElement createFunktionsnedsattningCategory(int index,
+        CertificateTextProvider texts) {
+        return CertificateDataElement.builder()
+            .id(FUNKTIONSNEDSATTNING_CATEGORY_ID)
+            .index(index)
+            .config(
+                CertificateDataConfigCategory.builder()
+                    .text(texts.get(FUNKTIONSNEDSATTNING_CATEGORY_TEXT))
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationHide.builder()
+                        .questionId(RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    public static CertificateDataElement createFunktionsnedsattningQuestion(String value, int index,
+        CertificateTextProvider texts) {
+        return CertificateDataElement.builder()
+            .id(FUNKTIONSNEDSATTNING_SVAR_ID_35)
+            .index(index)
+            .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
+            .config(
+                CertificateDataConfigTextArea.builder()
+                    .header(texts.get(FUNKTIONSNEDSATTNING_SVAR_TEXT))
+                    .text(texts.get(FUNKTIONSNEDSATTNING_DELSVAR_TEXT))
+                    .description(texts.get(FUNKTIONSNEDSATTNING_DELSVAR_BESKRIVNING))
+                    .id(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35)
+                    .build()
+            )
+            .value(
+                CertificateDataTextValue.builder()
+                    .id(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35)
+                    .text(value)
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationMandatory.builder()
+                        .questionId(FUNKTIONSNEDSATTNING_SVAR_ID_35)
+                        .expression(
+                            singleExpression(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35)
+                        )
+                        .build(),
+                    CertificateDataValidationHide.builder()
+                        .questionId(RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    public static CertificateDataElement createAktivitetsbegransningQuestion(String value, int index,
+        CertificateTextProvider texts) {
+        return CertificateDataElement.builder()
+            .id(AKTIVITETSBEGRANSNING_SVAR_ID_17)
+            .index(index)
+            .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
+            .config(
+                CertificateDataConfigTextArea.builder()
+                    .header(texts.get(AKTIVITETSBEGRANSNING_SVAR_TEXT))
+                    .text(texts.get(AKTIVITETSBEGRANSNING_DELSVAR_TEXT))
+                    .description(texts.get(AKTIVITETSBEGRANSNING_DELSVAR_BESKRIVNING))
+                    .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
+                    .build()
+            )
+            .value(
+                CertificateDataTextValue.builder()
+                    .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
+                    .text(value)
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationMandatory.builder()
+                        .questionId(AKTIVITETSBEGRANSNING_SVAR_ID_17)
+                        .expression(
+                            singleExpression(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
+                        )
+                        .build(),
+                    CertificateDataValidationHide.builder()
+                        .questionId(RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    private static CertificateDataElement createMedicinskaBehandlingarCategory(int index,
+        CertificateTextProvider texts) {
+        return CertificateDataElement.builder()
+            .id(MEDICINSKABEHANDLINGAR_CATEGORY_ID)
+            .index(index)
+            .config(
+                CertificateDataConfigCategory.builder()
+                    .text(texts.get(MEDICINSKABEHANDLINGAR_CATEGORY_TEXT))
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationHide.builder()
+                        .questionId(RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    public static CertificateDataElement createPagaendeBehandlingQuestion(String value, int index,
+        CertificateTextProvider texts) {
+        return CertificateDataElement.builder()
+            .id(PAGAENDEBEHANDLING_SVAR_ID_19)
+            .index(index)
+            .parent(MEDICINSKABEHANDLINGAR_CATEGORY_ID)
+            .config(
+                CertificateDataConfigTextArea.builder()
+                    .header(texts.get(PAGAENDEBEHANDLING_SVAR_TEXT))
+                    .text(texts.get(PAGAENDEBEHANDLING_DELSVAR_TEXT))
+                    .id(PAGAENDEBEHANDLING_SVAR_JSON_ID_19)
+                    .build()
+            )
+            .value(
+                CertificateDataTextValue.builder()
+                    .id(PAGAENDEBEHANDLING_SVAR_JSON_ID_19)
+                    .text(value)
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationHide.builder()
+                        .questionId(RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    public static CertificateDataElement createPlaneradBehandlingQuestion(String value, int index,
+        CertificateTextProvider texts) {
+        return CertificateDataElement.builder()
+            .id(PLANERADBEHANDLING_SVAR_ID_20)
+            .index(index)
+            .parent(MEDICINSKABEHANDLINGAR_CATEGORY_ID)
+            .config(
+                CertificateDataConfigTextArea.builder()
+                    .header(texts.get(PLANERADBEHANDLING_SVAR_TEXT))
+                    .text(texts.get(PLANERADBEHANDLING_DELSVAR_TEXT))
+                    .id(PLANERADBEHANDLING_SVAR_JSON_ID_20)
+                    .build()
+            )
+            .value(
+                CertificateDataTextValue.builder()
+                    .id(PLANERADBEHANDLING_SVAR_JSON_ID_20)
+                    .text(value)
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationHide.builder()
+                        .questionId(RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
             .build();
     }
 }
