@@ -60,6 +60,7 @@ public final class RespConstants {
     public static final String ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_100 = "100.1";
     public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100 = "onskarFormedlaDiagnos";
     public static final String ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_JSON_ID_100 = "onskarFormedlaDiagnos";
+    public static final String ONSKAR_FORMEDLA_DIAGNOS_TEXT = "FRG_100.RBK";
     public static final String DIAGNOS_SVAR_ID_6 = "6";
     public static final String DIAGNOS_BESKRIVNING_DELSVAR_ID_6 = "6.1";
     public static final String DIAGNOS_DELSVAR_ID_6 = "6.2";

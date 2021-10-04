@@ -115,6 +115,7 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARB
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_CATEGORY_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_ID_25;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
@@ -149,6 +150,7 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNIN
 import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_SVAR_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.not;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import java.util.ArrayList;
@@ -609,8 +611,7 @@ public final class InternalToCertificate {
                         .build(),
                     CertificateDataValidationShow.builder()
                         .questionId(TYP_AV_SYSSELSATTNING_SVAR_ID_28)
-                        .expression(singleExpression(
-                            se.inera.intyg.common.lisjp.model.internal.Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE.getId()))
+                        .expression(singleExpression(SysselsattningsTyp.NUVARANDE_ARBETE.getId()))
                         .build(),
                     CertificateDataValidationHide.builder()
                         .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
@@ -643,8 +644,9 @@ public final class InternalToCertificate {
             .config(
                 CertificateDataConfigRadioBoolean.builder()
                     .id(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100)
-                    .selectedText(texts.get(ANSWER_YES)) // change this!!
-                    .unselectedText(texts.get(ANSWER_NO)) // change this!!
+                    .text(texts.get(ONSKAR_FORMEDLA_DIAGNOS_TEXT))
+                    .selectedText(texts.get(ANSWER_YES))
+                    .unselectedText(texts.get(ANSWER_NO))
                     .build()
             )
             .value(
@@ -705,12 +707,13 @@ public final class InternalToCertificate {
                         .expression(singleExpression("1"))
                         .build(),
                     CertificateDataValidationHide.builder()
-                        .questionId(DIAGNOS_SVAR_ID_6)
-                        .expression(singleExpression(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100))
+                        .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
+                        .expression(not(singleExpression(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100)))
                         .build(),
                     CertificateDataValidationDisable.builder()
-                        .questionId(DIAGNOS_SVAR_ID_6)
-                        .expression(singleExpression(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100)) // change this to look for null?
+                        .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
+                        .expression(
+                            not(singleExpression(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100)))
                         .build()
                 }
             )

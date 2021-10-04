@@ -1511,8 +1511,8 @@ class InternalToCertificateTest {
 
                 final var certificateDataConfigRadioBoolean = (CertificateDataConfigRadioBoolean) question.getConfig();
                 assertAll("Validating question configuration",
-                    () -> assertNull(certificateDataConfigRadioBoolean.getText(), "Should not include text"),
-                    () -> assertNull(certificateDataConfigRadioBoolean.getDescription(), "Should not description"),
+                    () -> assertTrue(certificateDataConfigRadioBoolean.getText().trim().length() > 0, "Missing text"),
+                    () -> assertNull(certificateDataConfigRadioBoolean.getDescription(), "Should not include description"),
                     () -> assertNull(certificateDataConfigRadioBoolean.getHeader(), "Should not include header"),
                     () -> assertNull(certificateDataConfigRadioBoolean.getLabel(), "Should not include label"),
                     () -> assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100, certificateDataConfigRadioBoolean.getId()),
