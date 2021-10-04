@@ -57,7 +57,6 @@ public final class RespConstants {
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_BESKRIVNING = "FRG_1.HLP";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_TEXT = "DFR_1.3.RBK";
 
-    public static final String DIAGNOS_CATEGORY_ID = "diagnos";
     public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100 = "100";
     public static final String ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_100 = "100.1";
     public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100 = "onskarFormedlaDiagnos";
@@ -78,7 +77,6 @@ public final class RespConstants {
     public static final String DIAGNOS_KSH_97_ID = "KSH_97_P";
     public static final String DIAGNOS_KSH_97_LABEL = "KSH97-P (Primärvård)";
 
-    public static final String FUNKTIONSNEDSATTNING_CATEGORY_ID = "funktionsnedsattning";
     public static final String FUNKTIONSNEDSATTNING_CATEGORY_TEXT = "KAT_4.RBK";
     public static final String FUNKTIONSNEDSATTNING_SVAR_TEXT = "FRG_35.RBK";
     public static final String FUNKTIONSNEDSATTNING_DELSVAR_TEXT = "DFR_35.1.RBK";
@@ -104,18 +102,24 @@ public final class RespConstants {
     public static final String PLANERADBEHANDLING_SVAR_TEXT = "FRG_20.RBK";
     public static final String PLANERADBEHANDLING_DELSVAR_TEXT = "DFR_20.1.RBK";
 
-    public static final String MEDICINSKABEHANDLINGAR_CATEGORY_ID = "medicinskabehandlingar";
     public static final String MEDICINSKABEHANDLINGAR_CATEGORY_TEXT = "KAT_5.RBK";
 
     public static final String OVRIGT_SVAR_ID_25 = "25";
     public static final String OVRIGT_DELSVAR_ID_25 = "25.1";
     public static final String OVRIGT_SVAR_JSON_ID_25 = "ovrigt";
+    public static final String OVRIGT_CATEGORY_TEXT = "KAT_8.RBK";
 
+    public static final String KONTAKT_CATEGORY_TEXT = "KAT_9.RBK";
     public static final String KONTAKT_ONSKAS_SVAR_ID_103 = "103";
     public static final String KONTAKT_ONSKAS_DELSVAR_ID_103 = "103.1";
     public static final String KONTAKT_ONSKAS_SVAR_JSON_ID_103 = "kontaktMedAg";
+    public static final String KONTAKT_ONSKAS_SVAR_TEXT = "FRG_26.RBK";
+    public static final String KONTAKT_ONSKAS_SVAR_BESKRIVNING = "FRG_26.HLP";
+    public static final String KONTAKT_ONSKAS_DELSVAR_TEXT = "DFR_26.1.RBK";
     public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_103 = "anledningTillKontakt";
     public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103 = "103.2";
+    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT = "DFR_26.2.RBK";
+
 
     public static final String AVSTANGNING_SMITTSKYDD_SVAR_ID_27 = "27";
     public static final String AVSTANGNING_SMITTSKYDD_DELSVAR_ID_27 = "27.1";
@@ -125,7 +129,6 @@ public final class RespConstants {
     public static final String AVSTANGNING_SMITTSKYDD_CATEGORY_ID = "smittbararpenning";
     public static final String AVSTANGNING_SMITTSKYDD_QUESTION_LABEL = "FRG_27.RBK";
 
-    public static final String SYSSELSATTNING_CATEGORY_ID = "sysselsattning";
     public static final String SYSSELSATTNING_CATEGORY_TEXT = "KAT_2.RBK";
     public static final String SYSSELSATTNING_SVAR_TEXT = "FRG_28.RBK";
     public static final String SYSSELSATTNING_SVAR_BESKRIVNING = "FRG_28.HLP";
@@ -142,20 +145,36 @@ public final class RespConstants {
     public static final String NUVARANDE_ARBETE_SVAR_JSON_ID_29 = "nuvarandeArbete";
     public static final String NUVARANDE_ARBETE_SVAR_TEXT = "FRG_29.RBK";
 
+    public static final String BEDOMNING_CATEGORY_TEXT = "KAT_6.RBK";
+
     public static final String BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32 = "32";
     public static final String BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32 = "32.1";
     public static final String BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32 = "32.2";
     public static final String BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32 = "sjukskrivningar";
+
+    public static final String BEHOV_AV_SJUKSKRIVNING_SVAR_TEXT = "FRG_32.RBK";
+    public static final String BEHOV_AV_SJUKSKRIVNING_SVAR_BESKRIVNING = "FRG_32.HLP";
+    public static final String BEHOV_AV_SJUKSKRIVNING_EN_FJARDEDEL = "KV_FKMU_0003.EN_FJARDEDEL.RBK";
+    public static final String BEHOV_AV_SJUKSKRIVNING_HALFTEN = "KV_FKMU_0003.HALFTEN.RBK";
+    public static final String BEHOV_AV_SJUKSKRIVNING_TRE_FJARDEDEL = "KV_FKMU_0003.TRE_FJARDEDEL.RBK";
+    public static final String BEHOV_AV_SJUKSKRIVNING_HELT_NEDSATT = "KV_FKMU_0003.HELT_NEDSATT.RBK";
 
     public static final String ARBETSTIDSFORLAGGNING_SVAR_ID_33 = "33";
     public static final String ARBETSTIDSFORLAGGNING_OM_DELSVAR_ID_33 = "33.1";
     public static final String ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33 = "33.2";
     public static final String ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33 = "arbetstidsforlaggning";
     public static final String ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33 = "arbetstidsforlaggningMotivering";
+    public static final String ARBETSTIDSFORLAGGNING_SVAR_TEXT = "FRG_33.RBK";
+    public static final String ARBETSTIDSFORLAGGNING_SVAR_BESKRIVNING = "FRG_33.HLP";
+    public static final String ARBETSTIDSFORLAGGNING_MOTIVERING_TEXT = "DFR_33.2.RBK";
+
+    public static final String FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_TEXT = "FRG_37.RBK";
+    public static final String FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_BESKRIVNING = "FRG_37.HLP";
 
     public static final String ARBETSRESOR_SVAR_ID_34 = "34";
     public static final String ARBETSRESOR_OM_DELSVAR_ID_34 = "34.1";
     public static final String ARBETSRESOR_SVAR_JSON_ID_34 = "arbetsresor";
+    public static final String ARBETSRESOR_SVAR_TEXT = "FRG_34.RBK";
 
 
     public static final String FUNKTIONSNEDSATTNING_SVAR_ID_35 = "35";
@@ -170,6 +189,17 @@ public final class RespConstants {
     public static final String PROGNOS_BESKRIVNING_DELSVAR_ID_39 = "39.1";
     public static final String PROGNOS_DAGAR_TILL_ARBETE_DELSVAR_ID_39 = "39.3";
     public static final String PROGNOS_SVAR_JSON_ID_39 = "prognos";
+    public static final String PROGNOS_SVAR_TEXT = "FRG_39.RBK";
+    public static final String PROGNOS_SVAR_BESKRIVNING = "FRG_39.HLP";
+    public static final String PROGNOS_SVAR_ATER_X_ANTAL_DAGAR = "KV_FKMU_0006.ATER_X_ANTAL_DGR.RBK";
+    public static final String PROGNOS_SVAR_PROGNOS_OKLAR = "KV_FKMU_0006.PROGNOS_OKLAR.RBK";
+    public static final String PROGNOS_SVAR_SANNOLIKT_INTE = "KV_FKMU_0006.SANNOLIKT_INTE.RBK";
+    public static final String PROGNOS_SVAR_STOR_SANNOLIKHET = "KV_FKMU_0006.STOR_SANNOLIKHET.RBK";
+    public static final String PROGNOS_DAGAR_30 = "KV_FKMU_0007.TRETTIO_DGR.RBK";
+    public static final String PROGNOS_DAGAR_60 = "KV_FKMU_0007.SEXTIO_DGR.RBK";
+    public static final String PROGNOS_DAGAR_90 = "KV_FKMU_0007.NITTIO_DGR.RBK";
+    public static final String PROGNOS_DAGAR_180 = "KV_FKMU_0007.HUNDRAATTIO_DAGAR.RBK";
+    public static final String PROGNOS_DAGAR_365 = "KV_FKMU_0007.TREHUNDRASEXTIOFEM_DAGAR.RBK";
 
     public static final String ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40 = "40";
     public static final String ARBETSLIVSINRIKTADE_ATGARDER_VAL_DELSVAR_ID_40 = "40.1";
@@ -177,6 +207,9 @@ public final class RespConstants {
     public static final String ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44 = "44";
     public static final String ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_DELSVAR_ID_44 = "44.1";
     public static final String ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44 = "arbetslivsinriktadeAtgarderBeskrivning";
+    public static final String ATGARDER_CATEGORY_TEXT = "KAT_7.RBK";
+    public static final String ARBETSLIVSINRIKTADE_ATGARDER_TEXT = "FRG_40.RBK";
+    public static final String ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_TEXT = "FRG_44.RBK";
 
 
     private RespConstants() {
