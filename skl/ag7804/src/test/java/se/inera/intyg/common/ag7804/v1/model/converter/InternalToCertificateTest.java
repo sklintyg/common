@@ -4506,7 +4506,7 @@ class InternalToCertificateTest {
 
                 final var certificateDataConfigTextArea = (CertificateDataConfigTextArea) question.getConfig();
                 assertAll("Validating question configuration",
-                    () -> assertNull(certificateDataConfigTextArea.getText(), "Should not include text"),
+                    () -> assertTrue(certificateDataConfigTextArea.getText().trim().length() > 0, "Missing text"),
                     () -> assertNull(certificateDataConfigTextArea.getDescription(), "Should not include description"),
                     () -> assertNull(certificateDataConfigTextArea.getHeader(), "Should not include a header"),
                     () -> assertNull(certificateDataConfigTextArea.getLabel(), "Should not include a label"),
