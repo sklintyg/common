@@ -36,7 +36,6 @@ public final class RespConstants {
     public static final String CATEGORY_KONTAKT = "kontakt";
 
     public static final String GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT = "KAT_1.RBK";
-    public static final String GRUNDFORMU_CATEGORY_ID = "grundformu";
 
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1 = "1";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1 = "baseratPa";
@@ -108,17 +107,18 @@ public final class RespConstants {
     public static final String OVRIGT_DELSVAR_ID_25 = "25.1";
     public static final String OVRIGT_SVAR_JSON_ID_25 = "ovrigt";
     public static final String OVRIGT_CATEGORY_TEXT = "KAT_8.RBK";
+    public static final String OVRIGT_SVAR_TEXT = "FRG_25.RBK";
 
     public static final String KONTAKT_CATEGORY_TEXT = "KAT_9.RBK";
     public static final String KONTAKT_ONSKAS_SVAR_ID_103 = "103";
     public static final String KONTAKT_ONSKAS_DELSVAR_ID_103 = "103.1";
     public static final String KONTAKT_ONSKAS_SVAR_JSON_ID_103 = "kontaktMedAg";
-    public static final String KONTAKT_ONSKAS_SVAR_TEXT = "FRG_26.RBK";
-    public static final String KONTAKT_ONSKAS_SVAR_BESKRIVNING = "FRG_26.HLP";
-    public static final String KONTAKT_ONSKAS_DELSVAR_TEXT = "DFR_26.1.RBK";
+    public static final String KONTAKT_ONSKAS_SVAR_TEXT = "FRG_103.RBK";
+    public static final String KONTAKT_ONSKAS_SVAR_BESKRIVNING = "FRG_103.HLP";
+    public static final String KONTAKT_ONSKAS_DELSVAR_TEXT = "DFR_103.1.RBK";
     public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_103 = "anledningTillKontakt";
     public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103 = "103.2";
-    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT = "DFR_26.2.RBK";
+    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT = "DFR_103.2.RBK";
 
 
     public static final String AVSTANGNING_SMITTSKYDD_SVAR_ID_27 = "27";
