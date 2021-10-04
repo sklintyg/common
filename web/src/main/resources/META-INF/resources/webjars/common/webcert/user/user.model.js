@@ -257,7 +257,7 @@ angular.module('common').factory('common.UserModel', [
       setAnvandarPreference: function _setAnvandarPreference(prefKey, prefValue) {
         this.user.anvandarPreference[prefKey] = prefValue;
       },
-      doNotDisplayUserTerms: true,
+
       termsAccepted: false,
       transitioning: false,
       idpConnectivityChecked: false
