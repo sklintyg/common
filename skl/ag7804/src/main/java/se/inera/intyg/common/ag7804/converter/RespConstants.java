@@ -23,6 +23,8 @@ public final class RespConstants {
     public static final String DESCRIPTION = "FRM_2.RBK";
     public static final String ANSWER_YES = "Ja";
     public static final String ANSWER_NO = "Nej";
+    public static final String YES_ID = "YES";
+    public static final String NO_ID = "NO";
     public static final String ANSWER_NOT_SELECTED = "Ej angivet";
 
     public static final String CATEGORY_GRUNDFORMU = "grundformu";

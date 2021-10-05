@@ -110,11 +110,11 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKA
 import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_103;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.NO_ID;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_CATEGORY_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_ID_25;
@@ -149,8 +149,8 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNIN
 import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_SVAR_BESKRIVNING;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_SVAR_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.YES_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.not;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import java.util.ArrayList;
@@ -635,6 +635,16 @@ public final class InternalToCertificate {
             .build();
     }
 
+    private static String convertRadioBooleanToCode(Boolean value) {
+        if (value == null) {
+            return "";
+        } else if (value) {
+            return YES_ID;
+        } else {
+            return NO_ID;
+        }
+    }
+
     public static CertificateDataElement createShouldIncludeDiagnosesQuestion(Boolean value, int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
@@ -642,17 +652,26 @@ public final class InternalToCertificate {
             .index(index)
             .parent(CATEGORY_DIAGNOS)
             .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100)
+                CertificateDataConfigRadioMultipleCode.builder()
                     .text(texts.get(ONSKAR_FORMEDLA_DIAGNOS_TEXT))
-                    .selectedText(texts.get(ANSWER_YES))
-                    .unselectedText(texts.get(ANSWER_NO))
+                    .list(
+                        Arrays.asList(
+                            RadioMultipleCode.builder()
+                                .id(YES_ID)
+                                .label(ANSWER_YES)
+                                .build(),
+                            RadioMultipleCode.builder()
+                                .id(NO_ID)
+                                .label(ANSWER_NO)
+                                .build()
+                        )
+                    )
                     .build()
             )
             .value(
-                CertificateDataValueBoolean.builder()
-                    .id(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100)
-                    .selected(value)
+                CertificateDataValueCode.builder()
+                    .id(convertRadioBooleanToCode(value))
+                    .code(convertRadioBooleanToCode(value))
                     .build()
             )
             .build();
@@ -708,12 +727,11 @@ public final class InternalToCertificate {
                         .build(),
                     CertificateDataValidationHide.builder()
                         .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
-                        .expression(not(singleExpression(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100)))
+                        .expression(singleExpression(NO_ID))
                         .build(),
-                    CertificateDataValidationDisable.builder()
+                    CertificateDataValidationEnable.builder()
                         .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
-                        .expression(
-                            not(singleExpression(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100)))
+                        .expression(multipleOrExpression(YES_ID, NO_ID))
                         .build()
                 }
             )
