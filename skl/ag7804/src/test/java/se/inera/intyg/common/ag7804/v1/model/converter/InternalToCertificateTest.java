@@ -64,10 +64,10 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDIC
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_103;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_103;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.NO_ID;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_ID_25;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
@@ -77,6 +77,7 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.PLANERADBEHAN
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_SVAR_ID_39;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.YES_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
 
 import java.time.LocalDate;
@@ -1507,17 +1508,15 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100);
 
-                assertEquals(CertificateDataConfigTypes.UE_RADIO_BOOLEAN, question.getConfig().getType());
+                assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE, question.getConfig().getType());
 
-                final var certificateDataConfigRadioBoolean = (CertificateDataConfigRadioBoolean) question.getConfig();
+                final var certificateDataConfigRadioCode = (CertificateDataConfigRadioMultipleCode) question.getConfig();
                 assertAll("Validating question configuration",
-                    () -> assertTrue(certificateDataConfigRadioBoolean.getText().trim().length() > 0, "Missing text"),
-                    () -> assertNull(certificateDataConfigRadioBoolean.getDescription(), "Should not include description"),
-                    () -> assertNull(certificateDataConfigRadioBoolean.getHeader(), "Should not include header"),
-                    () -> assertNull(certificateDataConfigRadioBoolean.getLabel(), "Should not include label"),
-                    () -> assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100, certificateDataConfigRadioBoolean.getId()),
-                    () -> assertTrue(certificateDataConfigRadioBoolean.getSelectedText().trim().length() > 0, "Missing selected text"),
-                    () -> assertTrue(certificateDataConfigRadioBoolean.getUnselectedText().trim().length() > 0, "Missing unseselected text")
+                    () -> assertTrue(certificateDataConfigRadioCode.getText().trim().length() > 0, "Missing text"),
+                    () -> assertNull(certificateDataConfigRadioCode.getDescription(), "Should not include description"),
+                    () -> assertNull(certificateDataConfigRadioCode.getHeader(), "Should not include header"),
+                    () -> assertNull(certificateDataConfigRadioCode.getLabel(), "Should not include label"),
+                    () -> assertTrue(certificateDataConfigRadioCode.getList().size() == 2, "Wrong number of codes")
                 );
             }
 
@@ -1534,10 +1533,10 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100);
 
-                final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
+                final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100, certificateDataValueBoolean.getId()),
-                    () -> assertEquals(internalCertificate.getOnskarFormedlaDiagnos(), certificateDataValueBoolean.getSelected())
+                    () -> assertEquals(YES_ID, certificateDataValueCode.getId()),
+                    () -> assertEquals(YES_ID, certificateDataValueCode.getCode())
                 );
             }
 
@@ -1554,10 +1553,10 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100);
 
-                final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
+                final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100, certificateDataValueBoolean.getId()),
-                    () -> assertEquals(internalCertificate.getOnskarFormedlaDiagnos(), certificateDataValueBoolean.getSelected())
+                    () -> assertEquals(NO_ID, certificateDataValueCode.getId()),
+                    () -> assertEquals(NO_ID, certificateDataValueCode.getCode())
                 );
             }
 
@@ -1573,10 +1572,10 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100);
 
-                final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
+                final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100, certificateDataValueBoolean.getId()),
-                    () -> assertNull(certificateDataValueBoolean.getSelected())
+                    () -> assertNull(certificateDataValueCode.getId()),
+                    () -> assertNull(certificateDataValueCode.getCode())
                 );
             }
         }
@@ -1768,21 +1767,21 @@ class InternalToCertificateTest {
 
                 final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
                 assertAll("Validation question validation",
-                    () -> assertEquals(DIAGNOS_SVAR_ID_6, certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals("$onskarFormedlaDiagnos", certificateDataValidationHide.getExpression())
+                    () -> assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100, certificateDataValidationHide.getQuestionId()),
+                    () -> assertEquals("$NO", certificateDataValidationHide.getExpression())
                 );
             }
 
             @Test
-            void shouldIncludeQuestionValidationDisable() {
+            void shouldIncludeQuestionValidationEnable() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(DIAGNOS_SVAR_ID_6);
 
-                final var certificateDataValidationDisable = (CertificateDataValidationDisable) question.getValidation()[2];
+                final var certificateDataValidationEnable = (CertificateDataValidationEnable) question.getValidation()[2];
                 assertAll("Validation question validation",
-                    () -> assertEquals(DIAGNOS_SVAR_ID_6, certificateDataValidationDisable.getQuestionId()),
-                    () -> assertEquals("$onskarFormedlaDiagnos", certificateDataValidationDisable.getExpression())
+                    () -> assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100, certificateDataValidationEnable.getQuestionId()),
+                    () -> assertEquals("YES || NO", certificateDataValidationEnable.getExpression())
                 );
             }
         }

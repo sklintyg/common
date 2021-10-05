@@ -637,7 +637,7 @@ public final class InternalToCertificate {
 
     private static String convertRadioBooleanToCode(Boolean value) {
         if (value == null) {
-            return "";
+            return null;
         } else if (value) {
             return YES_ID;
         } else {
