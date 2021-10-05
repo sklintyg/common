@@ -103,7 +103,7 @@ public final class CertificateToInternal {
         final var annatGrundForMUBeskrivning = getAnnatGrundForMUBeskrivning(certificate);
         final var sysselsattning = getSysselsattning(certificate);
         final var nuvarandeArbete = getNuvarandeArbete(certificate);
-        final var shouldIncludeDiagnoses = getShouldIncludeDiagnoses(certificate)
+        final var shouldIncludeDiagnoses = getShouldIncludeDiagnoses(certificate);
         final var diagnos = getDiagnos(certificate, moduleService);
         final var funktionsnedsattning = getFunktionsnedsattning(certificate);
         final var aktivitetsbegransning = getAktivitetsbegransning(certificate);

@@ -333,6 +333,54 @@ class CertificateToInternalTest {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class QuestionShouldIncludeDiagnoses {
+
+        private Ag7804UtlatandeV1 internalCertificate;
+
+        @BeforeEach
+        void setup() {
+            internalCertificate = Ag7804UtlatandeV1.builder()
+                .setGrundData(new GrundData())
+                .setId("id")
+                .setTextVersion("TextVersion")
+                .build();
+        }
+
+        Stream<Boolean> booleanValues() {
+            return Stream.of(true, false);
+        }
+
+        @ParameterizedTest
+        @MethodSource("booleanValues")
+        void shouldIncludePatientWantsDiagnosesIncludedValue(Boolean expectedValue) {
+            final var index = 1;
+
+            final var certificate = CertificateBuilder.create()
+                .addElement(InternalToCertificate.createShouldIncludeDiagnosesQuestion(expectedValue, index, texts))
+                .build();
+
+            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
+
+            assertEquals(expectedValue, updatedCertificate.getOnskarFormedlaDiagnos());
+        }
+
+        @MethodSource("booleanValues")
+        void shouldIncludePatientWantsDiagnosesIncludedNullValue() {
+            final var index = 1;
+            final var expectedValue = false;
+
+            final var certificate = CertificateBuilder.create()
+                .addElement(InternalToCertificate.createShouldIncludeDiagnosesQuestion(null, index, texts))
+                .build();
+
+            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
+
+            assertEquals(expectedValue, updatedCertificate.getOnskarFormedlaDiagnos());
+        }
+    }
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionDiagnos {
 
         private final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
