@@ -364,7 +364,7 @@ class CertificateToInternalTest {
             assertEquals(expectedValue, updatedCertificate.getOnskarFormedlaDiagnos());
         }
 
-        @MethodSource("booleanValues")
+        @Test
         void shouldIncludePatientWantsDiagnosesIncludedNullValue() {
             final var index = 1;
             final var expectedValue = false;
