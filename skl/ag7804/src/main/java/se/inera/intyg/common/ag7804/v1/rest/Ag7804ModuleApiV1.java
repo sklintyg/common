@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
 import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
+import se.inera.intyg.common.ag7804.v1.model.converter.CertificateToInternal;
 import se.inera.intyg.common.ag7804.v1.model.converter.InternalToCertificate;
 import se.inera.intyg.common.ag7804.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.ag7804.v1.model.converter.TransportToInternal;
@@ -228,5 +229,12 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
         final var internalCertificate = getInternal(certificateAsJson);
         final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
         return InternalToCertificate.convert(internalCertificate, certificateTextProvider);
+    }
+
+    @Override
+    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson);
+        final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
+        return toInternalModelResponse(updateInternalCertificate);
     }
 }
