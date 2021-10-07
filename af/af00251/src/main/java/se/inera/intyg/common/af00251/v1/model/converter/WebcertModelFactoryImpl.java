@@ -60,6 +60,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<AF00251Utlat
         AF00251UtlatandeV1.Builder template = AF00251UtlatandeV1.builder();
         GrundData grundData = new GrundData();
 
+        template.setTextVersion(newDraftData.getIntygTypeVersion());
         populateWithId(template, newDraftData.getCertificateId());
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
         resetDataInGrundData(grundData);
