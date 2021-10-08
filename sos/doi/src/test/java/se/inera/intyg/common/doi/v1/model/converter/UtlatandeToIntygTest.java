@@ -383,16 +383,36 @@ public class UtlatandeToIntygTest {
     @Test
     public void shouldTruncatePatientPostalAddressIfLongerThanFiftyChars() {
         final var patientPostalAddressOf51 = "This test address consists of exactly 51 characters";
+
+        DoiUtlatandeV1 utlatande = createBaseUtlatande();
+        utlatande.getGrundData().getPatient().setPostadress(patientPostalAddressOf51);
+
+        Intyg intygWithTruncatedAddress = UtlatandeToIntyg.convert(utlatande);
+
+        assertEquals(50, intygWithTruncatedAddress.getPatient().getPostadress().length());
+    }
+
+    @Test
+    public void shouldNotTruncatePatientPostalAddressIsFiftyChars() {
+        final var patientPostalAddressOf50 = "This testaddress consists of exactly 50 characters";
+
+        DoiUtlatandeV1 utlatande = createBaseUtlatande();
+        utlatande.getGrundData().getPatient().setPostadress(patientPostalAddressOf50);
+
+        Intyg intygWithNonTruncatedAddress = UtlatandeToIntyg.convert(utlatande);
+
+        assertEquals(50, intygWithNonTruncatedAddress.getPatient().getPostadress().length());
+    }
+
+    @Test
+    public void shouldNotTruncatePatientPostalAddressIfShorterThanFiftyChars() {
         final var patientPostalAddressOf49 = "This test address consists of only 049 characters";
 
         DoiUtlatandeV1 utlatande = createBaseUtlatande();
-
-        utlatande.getGrundData().getPatient().setPostadress(patientPostalAddressOf51);
-        Intyg intygWithTruncatedAddress = UtlatandeToIntyg.convert(utlatande);
-        assertEquals(50, intygWithTruncatedAddress.getPatient().getPostadress().length());
-
         utlatande.getGrundData().getPatient().setPostadress(patientPostalAddressOf49);
+
         Intyg intygWithNonTruncatedAddress = UtlatandeToIntyg.convert(utlatande);
+
         assertEquals(49, intygWithNonTruncatedAddress.getPatient().getPostadress().length());
     }
 
