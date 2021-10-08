@@ -136,32 +136,7 @@ public class UtlatandeToIntygTest {
 
     @Test
     public void testConvert() throws Exception {
-        DoiUtlatandeV1 utlatande = DoiUtlatandeV1.builder()
-            .setId(intygsId)
-            .setTextVersion(textVersion)
-            .setGrundData(createGrundData(enhetsId, enhetsnamn, arbetsplatsKod, postadress, postNummer, postOrt, epost, telefonNummer,
-                vardgivarid, vardgivarNamn, skapadAvFullstandigtNamn, skapadAvPersonId, forskrivarKod, patientPersonId, fornamn,
-                efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort, signeringsdatum))
-            .setIdentitetStyrkt(identitetStyrkt)
-            .setDodsdatumSakert(dodsdatumSakert)
-            .setDodsdatum(dodsdatum)
-            .setAntraffatDodDatum(antraffatDod)
-            .setDodsplatsKommun(kommun)
-            .setDodsplatsBoende(boende)
-            .setBarn(barn)
-            .setTerminalDodsorsak(dodsorsak)
-            .setFoljd(foljd)
-            .setBidragandeSjukdomar(bidragandeSjukdomar)
-            .setOperation(operation)
-            .setOperationDatum(operationDatum)
-            .setOperationAnledning(operationAnledning)
-            .setForgiftning(forgiftning)
-            .setForgiftningOrsak(forgiftningOrsak)
-            .setForgiftningDatum(forgiftningDatum)
-            .setForgiftningUppkommelse(forgiftningUppkommelse)
-            .setGrunder(grunder)
-            .setLand(land)
-            .build();
+        DoiUtlatandeV1 utlatande = createBaseUtlatande();
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
 
@@ -403,6 +378,51 @@ public class UtlatandeToIntygTest {
                     break;
             }
         }
+    }
+
+    @Test
+    public void shouldTruncatePatientPostalAddressIfLongerThanFiftyChars() {
+        final var patientPostalAddressOf51 = "This test address consists of exactly 51 characters";
+        final var patientPostalAddressOf49 = "This test address consists of only 049 characters";
+
+        DoiUtlatandeV1 utlatande = createBaseUtlatande();
+
+        utlatande.getGrundData().getPatient().setPostadress(patientPostalAddressOf51);
+        Intyg intygWithTruncatedAddress = UtlatandeToIntyg.convert(utlatande);
+        assertEquals(50, intygWithTruncatedAddress.getPatient().getPostadress().length());
+
+        utlatande.getGrundData().getPatient().setPostadress(patientPostalAddressOf49);
+        Intyg intygWithNonTruncatedAddress = UtlatandeToIntyg.convert(utlatande);
+        assertEquals(49, intygWithNonTruncatedAddress.getPatient().getPostadress().length());
+    }
+
+    private DoiUtlatandeV1 createBaseUtlatande() {
+        return DoiUtlatandeV1.builder()
+            .setId(intygsId)
+            .setTextVersion(textVersion)
+            .setGrundData(createGrundData(enhetsId, enhetsnamn, arbetsplatsKod, postadress, postNummer, postOrt, epost, telefonNummer,
+                vardgivarid, vardgivarNamn, skapadAvFullstandigtNamn, skapadAvPersonId, forskrivarKod, patientPersonId, fornamn,
+                efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort, signeringsdatum))
+            .setIdentitetStyrkt(identitetStyrkt)
+            .setDodsdatumSakert(dodsdatumSakert)
+            .setDodsdatum(dodsdatum)
+            .setAntraffatDodDatum(antraffatDod)
+            .setDodsplatsKommun(kommun)
+            .setDodsplatsBoende(boende)
+            .setBarn(barn)
+            .setTerminalDodsorsak(dodsorsak)
+            .setFoljd(foljd)
+            .setBidragandeSjukdomar(bidragandeSjukdomar)
+            .setOperation(operation)
+            .setOperationDatum(operationDatum)
+            .setOperationAnledning(operationAnledning)
+            .setForgiftning(forgiftning)
+            .setForgiftningOrsak(forgiftningOrsak)
+            .setForgiftningDatum(forgiftningDatum)
+            .setForgiftningUppkommelse(forgiftningUppkommelse)
+            .setGrunder(grunder)
+            .setLand(land)
+            .build();
     }
 
     private GrundData createGrundData(String enhetsId, String enhetsnamn, String arbetsplatsKod, String postadress,
