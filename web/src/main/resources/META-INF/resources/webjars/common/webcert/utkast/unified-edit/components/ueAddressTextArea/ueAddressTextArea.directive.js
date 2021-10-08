@@ -16,23 +16,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('ts-bas').factory('ts-bas.viewFactory.v7', [
-    '$stateParams',
-    function($stateParams) {
-        'use strict';
 
-        var intygsTyp = 'ts-bas';
-        var selectRecipientKey = 'modules.page-header.info.select-recipients-and-send.ts';
-        var certificateMajorVersionSuffix = '.v7';
-        
-        var _sendUrl = function() {
-            return '/send/' + intygsTyp +'/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/TRANSP';
-        };
+angular.module('common').directive('ueAddressTextArea', [ 'ueUtil',
+  function(ueUtil) {
+    'use strict';
 
-        return {
-            intygsTyp: intygsTyp,
-            selectRecipientKey: selectRecipientKey,
-            certificateMajorVersionSuffix: certificateMajorVersionSuffix,
-            getSendUrl: _sendUrl
-        };
-    }]);
+    return {
+      restrict: 'E',
+      scope: {
+        form: '=',
+        config: '=',
+        model: '='
+      },
+      templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueAddressTextArea/ueAddressTextArea.directive.html',
+      link: function($scope) {
+
+        if(!$scope.config.indent) {
+          $scope.config.indent = false;
+        }
+
+        if(!$scope.config.formType) {
+          $scope.config.formType = 'inline';
+        }
+
+        if (!$scope.config.size) {
+          $scope.config.size = null;
+        }
+
+        ueUtil.standardSetup($scope);
+      }
+    };
+  }]);

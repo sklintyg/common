@@ -42,6 +42,7 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
             ViewState.intygModel = {};
             ViewState.intygModel.filledAlways = true;
             $scope.cert = undefined;
+            $scope.isLatestMajorTextVersion = true;
 
             $scope.uvConfig = viewConfigFactory.getViewConfig(true);
 
@@ -114,6 +115,7 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
                                 ViewState.common.intygProperties.links);
 
                             $scope.cert = result.contents;
+                            $scope.isLatestMajorTextVersion = result.latestMajorTextVersion;
 
                             //The wcArendePanelTab will listen to 'ViewCertCtrl.load' event, so let it render first..
                             $timeout(function() {

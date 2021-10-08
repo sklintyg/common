@@ -20,6 +20,7 @@ package se.inera.intyg.common.services.texts;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
@@ -46,7 +47,7 @@ public class IntygTextsServiceImplTest {
     private CustomObjectMapper mapper;
 
     @InjectMocks
-    private IntygTextsServiceImpl service = new IntygTextsServiceImpl();
+    private final IntygTextsServiceImpl service = new IntygTextsServiceImpl();
 
     @Test
     public void testGetVersion() {
@@ -61,7 +62,7 @@ public class IntygTextsServiceImplTest {
         when(repo.getLatestVersion(any(String.class))).thenReturn(null);
         String result = service.getLatestVersion("LISJP");
         verify(repo, times(1)).getLatestVersion("LISJP");
-        assertEquals("result should be what repo returns", result, null);
+        assertNull("result should be what repo returns", result);
     }
 
     @Test
@@ -92,6 +93,13 @@ public class IntygTextsServiceImplTest {
     public void shallReturnTrueIfLatestMajorVersionButDifferentMinorVersion() {
         doReturn("2.1").when(repo).getLatestVersion("LISJP");
         final var actual = service.isLatestMajorVersion("LISJP", "2.0");
+        assertTrue(actual);
+    }
+
+    @Test
+    public void shallReturnTrueForIsLatestMajorVersionWhenGetLatestVersionReturnsNull() {
+        doReturn(null).when(repo).getLatestVersion("fk7263");
+        final var actual = service.isLatestMajorVersion("fk7263", "1.0");
         assertTrue(actual);
     }
 }
