@@ -68,6 +68,7 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.NO_ID;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_ID_25;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
@@ -97,6 +98,7 @@ import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
 import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning.SysselsattningsTyp;
+import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -194,7 +196,7 @@ class InternalToCertificateTest {
             void shouldIncludeCertificateName() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                assertEquals("Läkarintyg om arbetsförmåga - arbetsgivaren", certificate.getMetadata().getName());
+                assertEquals(Ag7804EntryPoint.MODULE_NAME, certificate.getMetadata().getName());
             }
 
             @Test
@@ -1497,7 +1499,7 @@ class InternalToCertificateTest {
                     () -> assertEquals(expectedIndex, question.getIndex()),
                     () -> assertEquals(CATEGORY_DIAGNOS, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
-                    () -> assertNull(question.getValidation(), "Should not include validation"),
+                    () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
                 );
             }
@@ -1576,6 +1578,19 @@ class InternalToCertificateTest {
                 assertAll("Validating question value",
                     () -> assertNull(certificateDataValueCode.getId()),
                     () -> assertNull(certificateDataValueCode.getCode())
+                );
+            }
+
+            @Test
+            void shouldIncludeQuestionValidationMandatory() {
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100);
+
+                final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
+                assertAll("Validation question validation",
+                    () -> assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100, certificateDataValidationMandatory.getQuestionId()),
+                    () -> assertEquals("$" + ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100, certificateDataValidationMandatory.getExpression())
                 );
             }
         }

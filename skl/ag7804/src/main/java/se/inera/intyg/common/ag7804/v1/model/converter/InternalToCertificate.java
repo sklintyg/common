@@ -115,6 +115,7 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARB
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_CATEGORY_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_ID_25;
@@ -673,6 +674,14 @@ public final class InternalToCertificate {
                     .id(convertRadioBooleanToCode(value))
                     .code(convertRadioBooleanToCode(value))
                     .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationMandatory.builder()
+                        .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
+                        .expression(singleExpression(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100))
+                        .build(),
+                }
             )
             .build();
     }
