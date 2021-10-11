@@ -16,23 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('ts-bas').factory('ts-bas.viewFactory.v7', [
-    '$stateParams',
-    function($stateParams) {
-        'use strict';
 
-        var intygsTyp = 'ts-bas';
-        var selectRecipientKey = 'modules.page-header.info.select-recipients-and-send.ts';
-        var certificateMajorVersionSuffix = '.v7';
-        
-        var _sendUrl = function() {
-            return '/send/' + intygsTyp +'/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/TRANSP';
-        };
+angular.module('common').directive('wcCertificateVersionBanner',
 
-        return {
-            intygsTyp: intygsTyp,
-            selectRecipientKey: selectRecipientKey,
-            certificateMajorVersionSuffix: certificateMajorVersionSuffix,
-            getSendUrl: _sendUrl
-        };
-    }]);
+    function() {
+      'use strict';
+
+      return {
+        restrict: 'E',
+        scope: {
+          isLatestMajorTextVersion: '='
+        },
+        templateUrl: '/web/webjars/common/webcert/components/certificateversionbanner/wcCertificateVersionBanner.directive.html'
+      };
+    });

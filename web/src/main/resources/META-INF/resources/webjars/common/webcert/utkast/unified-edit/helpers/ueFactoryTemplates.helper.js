@@ -79,15 +79,16 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
             patient: function(shouldDisableAddressInputWhen, allowUpdaterButton, signingDoctor) {
                 var patient = _kategori('patient', 'common.intyg.patientadress', '', {signingDoctor: signingDoctor}, [
                     _fraga(null, '', '', {}, [{
-                        type: 'ue-textfield',
+                        type: 'ue-address-text-area',
                         modelProp: 'grundData.patient.postadress',
                         label: {
                             key: 'common.postadress',
                             required: true,
                             requiredProp: 'grundData.patient.postadress'
                         },
-                        htmlMaxlength: 50,
+                        htmlMaxlength: 209,
                         size: 'full',
+                        rows: 1,
                         labelColSize: labelColSize,
                         formType: 'horizontal',
                         disabled: shouldDisableAddressInputWhen
@@ -115,7 +116,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                             required: true,
                             requiredProp: 'grundData.patient.postort'
                         },
-                        htmlMaxlength: 25,
+                        htmlMaxlength: 30,
+                        size: '20',
                         labelColSize: labelColSize,
                         formType: 'horizontal',
                         disabled: shouldDisableAddressInputWhen
@@ -135,7 +137,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
             vardenhet: _kategori('vardenhet', 'common.label.vardenhet', 'common.help.vardenhet', {}, [ _fraga('', '', '', {}, [{
                 type: 'ue-labelvardenhet'
             }, {
-                type: 'ue-textfield',
+                type: 'ue-address-text-area',
                 modelProp: 'grundData.skapadAv.vardenhet.postadress',
                 label: {
                     key: 'common.postadress',
@@ -144,6 +146,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                     whitespaceBreak: false
                 },
                 size: 'full',
+                rows: 1,
                 labelColSize: labelColSize,
                 formType: 'horizontal',
                 htmlMaxlength: 209

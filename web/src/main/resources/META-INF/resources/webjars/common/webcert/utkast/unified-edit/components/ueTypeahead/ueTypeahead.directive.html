@@ -11,7 +11,8 @@
              maxlength="{{config.htmlMaxlength || 3500}}"
              ng-class="::{ 'input-{{::config.size}}': config.size }"
              uib-typeahead="value for value in values | filter:$viewValue | orderBy:orderBy($viewValue) | limitTo:8"
-             typeahead-editable="true">
+             typeahead-editable="true"
+             typeahead-on-select="setDirty()">
     </div>
   </ue-validation-wrapper>
 </div>
