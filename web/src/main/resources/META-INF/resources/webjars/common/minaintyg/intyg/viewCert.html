@@ -10,7 +10,7 @@
         </h1>
 
         <mi-certificate-header-pageingress is-replaced="certMeta.isReplaced"
-                                           default-message-key="{{::intygsTyp}}.label.pageingress"
+                                           default-message-key="{{::intygsTyp}}.label.pageingress{{::certificateMajorVersionSuffix}}"
                                            replaced-message-key="{{::intygsTyp}}.label.pageingress.{{certMeta.replacedBy.relationKod == 'KOMPLT' ? 'kompletterat' : 'ersatt'}}"></mi-certificate-header-pageingress>
 
         <div uib-collapse="!isCollapsed1" class="collapse">

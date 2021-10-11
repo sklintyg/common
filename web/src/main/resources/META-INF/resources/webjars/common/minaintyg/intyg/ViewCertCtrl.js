@@ -27,6 +27,9 @@ angular.module('common').controller(
             $scope.intygsTyp = viewFactory.intygsTyp;
             $scope.enableSend = false;
             $scope.selectRecipientKey = viewFactory.selectRecipientKey;
+            $scope.certificateMajorVersionSuffix =
+                viewFactory.certificateMajorVersionSuffix === undefined || viewFactory.certificateMajorVersionSuffix === null ?
+                    '' : viewFactory.certificateMajorVersionSuffix;
 
             $scope.possibleToCustomize = function() {
                 return angular.isFunction(viewFactory.enableCustomizeCertificate);

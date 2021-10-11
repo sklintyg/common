@@ -50,6 +50,7 @@ public class CertificateMetadata {
     private Patient patient;
     private Staff issuedBy;
     private long version;
+    private boolean latestMajorVersion;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateMetadataBuilder {
