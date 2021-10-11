@@ -36,6 +36,7 @@ public enum CertificateEventTypeDTO {
     REVOKED,
     REPLACED,
     REPLACES,
+    COMPLEMENTS,
     COMPLEMENTED,
     EXTENDED,
     CREATED_FROM,
