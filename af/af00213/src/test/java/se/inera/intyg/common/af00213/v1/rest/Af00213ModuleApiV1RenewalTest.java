@@ -85,6 +85,7 @@ public class Af00213ModuleApiV1RenewalTest {
     private CreateDraftCopyHolder createCopyHolder() {
         CreateDraftCopyHolder draftCopyHolder = new CreateDraftCopyHolder("certificateId",
             createHosPersonal());
+        draftCopyHolder.setIntygTypeVersion("1");
         draftCopyHolder.setRelation(new Relation());
         return draftCopyHolder;
     }

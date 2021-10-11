@@ -27,7 +27,6 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
-
 import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +36,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.core.io.ClassPathResource;
-
 import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
@@ -60,7 +58,7 @@ public class WebcertModelFactoryTest {
 
     private static final String INTYG_ID = "intyg-123";
     private static final String INTYG_TYPE_VERSION_1 = "1.0";
-    private static final String INTYG_TYPE_VERSION_1_2 = "1.2";
+    private static final String INTYG_TYPE_VERSION_1_1 = "1.1";
     private static final String LISJP_TESTFILE_UTLATANDE_TEMPLATE = "v1/WebcertModelFactory/lisjp-template.json";
     private static final String AG7804_TESTFILE_UTLATANDE_EXPECTED = "v1/WebcertModelFactory/ag7804-result-copy.json";
     @InjectMocks
@@ -77,7 +75,7 @@ public class WebcertModelFactoryTest {
     @Before
     public void setUp() {
         when(intygTextsService.getLatestVersionForSameMajorVersion(eq(Ag7804EntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
-            .thenReturn(INTYG_TYPE_VERSION_1_2);
+            .thenReturn(INTYG_TYPE_VERSION_1_1);
     }
 
     @Test
@@ -86,6 +84,7 @@ public class WebcertModelFactoryTest {
         newHosPersonal.setPersonId("3333");
         CreateDraftCopyHolder copyHolder = new CreateDraftCopyHolder("123", newHosPersonal);
 
+        copyHolder.setIntygTypeVersion(INTYG_TYPE_VERSION_1_1);
         Ag7804UtlatandeV1 template = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
         Ag7804UtlatandeV1 draft = modelFactory.createCopy(copyHolder, template);
         assertNotNull(draft);
@@ -93,7 +92,7 @@ public class WebcertModelFactoryTest {
         assertEquals("VE1", draft.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
         assertEquals("3333", draft.getGrundData().getSkapadAv().getPersonId());
         assertEquals("191212121212", draft.getGrundData().getPatient().getPersonId().getPersonnummer());
-        assertEquals(INTYG_TYPE_VERSION_1_2, draft.getTextVersion());
+        assertEquals(INTYG_TYPE_VERSION_1_1, draft.getTextVersion());
     }
 
     @Test
@@ -126,7 +125,7 @@ public class WebcertModelFactoryTest {
         assertEquals("VE1", draft.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
         assertEquals("TST12345678", draft.getGrundData().getSkapadAv().getPersonId());
         assertEquals("191212121212", draft.getGrundData().getPatient().getPersonId().getPersonnummer());
-        assertEquals(INTYG_TYPE_VERSION_1_2, draft.getTextVersion());
+        assertEquals(INTYG_TYPE_VERSION_1_1, draft.getTextVersion());
     }
 
     @Test(expected = IllegalArgumentException.class)

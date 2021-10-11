@@ -59,7 +59,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Af00213Utlat
 
         Af00213UtlatandeV1.Builder template = Af00213UtlatandeV1.builder();
         GrundData grundData = new GrundData();
-
+        template.setTextVersion(newDraftData.getIntygTypeVersion());
         populateWithId(template, newDraftData.getCertificateId());
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
         resetDataInGrundData(grundData);
@@ -84,7 +84,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Af00213Utlat
 
         Af00213UtlatandeV1.Builder templateBuilder = lisjpUtlatande.toBuilder();
         GrundData grundData = lisjpUtlatande.getGrundData();
-
+        templateBuilder.setTextVersion(copyData.getIntygTypeVersion());
         populateWithId(templateBuilder, copyData.getCertificateId());
         WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
 
