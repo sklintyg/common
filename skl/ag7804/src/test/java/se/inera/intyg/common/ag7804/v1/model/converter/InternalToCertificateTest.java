@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.lisjp.v1.model.converter;
+package se.inera.intyg.common.ag7804.v1.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,65 +25,61 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_ICF_COLLECTION;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_ICF_INFO;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSRESOR_SVAR_ID_34;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSRESOR_SVAR_JSON_ID_34;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_ID_33;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ATGARDER_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_SVAR_ID_6;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ICF_COLLECTION;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ICF_INFO;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_35;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_103;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSRESOR_SVAR_ID_34;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSRESOR_SVAR_JSON_ID_34;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_ID_33;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_ID;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_ATGARDER;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_BEDOMNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_DIAGNOS;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_FUNKTIONSNEDSATTNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_GRUNDFORMU;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_MEDICINSKABEHANDLINGAR;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_OVRIGT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_SYSSELSATTNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_ID_6;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_35;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_103;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_103;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.NO_ID;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_ID_25;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_SVAR_ID_39;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.YES_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_ID_39;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSELSATTNING_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -93,24 +89,24 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
-import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
-import se.inera.intyg.common.lisjp.model.internal.Prognos;
-import se.inera.intyg.common.lisjp.model.internal.PrognosDagarTillArbeteTyp;
-import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
-import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
-import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
-import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
-import se.inera.intyg.common.lisjp.model.internal.Sysselsattning.SysselsattningsTyp;
-import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
+import se.inera.intyg.common.ag7804.model.internal.ArbetslivsinriktadeAtgarder;
+import se.inera.intyg.common.ag7804.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
+import se.inera.intyg.common.ag7804.model.internal.Prognos;
+import se.inera.intyg.common.ag7804.model.internal.PrognosDagarTillArbeteTyp;
+import se.inera.intyg.common.ag7804.model.internal.PrognosTyp;
+import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
+import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning.SjukskrivningsGrad;
+import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
+import se.inera.intyg.common.ag7804.model.internal.Sysselsattning.SysselsattningsTyp;
+import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
+import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
+import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleDate;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDiagnoses;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDropdown;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigIcf;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigSickLeavePeriod;
@@ -123,7 +119,6 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataIcfValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
@@ -138,7 +133,7 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 
-@DisplayName("Should convert LisjpUtlatandeV1 to Certificate")
+@DisplayName("Should convert Ag7804UtlatandeV1 to Certificate")
 class InternalToCertificateTest {
 
     private GrundData grundData;
@@ -161,17 +156,17 @@ class InternalToCertificateTest {
     @Nested
     class MetaData {
 
-        private LisjpUtlatandeV1 internalCertificate;
+        private Ag7804UtlatandeV1 internalCertificate;
 
         @Nested
         class CommonMetadata {
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
-                    .setTextVersion("TextVersion")
+                    .setTextVersion("TextVersion 1")
                     .build();
 
             }
@@ -201,7 +196,7 @@ class InternalToCertificateTest {
             void shouldIncludeCertificateName() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                assertEquals("Läkarintyg för sjukpenning", certificate.getMetadata().getName());
+                assertEquals(Ag7804EntryPoint.MODULE_NAME, certificate.getMetadata().getName());
             }
 
             @Test
@@ -223,7 +218,7 @@ class InternalToCertificateTest {
 
                 grundData.getSkapadAv().setVardenhet(unit);
 
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -309,11 +304,11 @@ class InternalToCertificateTest {
         @Nested
         class CategorySmittbararpenning {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -356,11 +351,11 @@ class InternalToCertificateTest {
         @Nested
         class QuestionAvstangningSmittbararpenning {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -421,7 +416,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValueFalse() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -441,7 +436,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValueEmpty() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -462,11 +457,11 @@ class InternalToCertificateTest {
         @Nested
         class CategoryGrundForMU {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -480,10 +475,10 @@ class InternalToCertificateTest {
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var category = certificate.getData().get(GRUNDFORMU_CATEGORY_ID);
+                final var category = certificate.getData().get(CATEGORY_GRUNDFORMU);
 
                 assertAll("Validating category",
-                    () -> assertEquals(GRUNDFORMU_CATEGORY_ID, category.getId()),
+                    () -> assertEquals(CATEGORY_GRUNDFORMU, category.getId()),
                     () -> assertEquals(expectedIndex, category.getIndex()),
                     () -> assertNull(category.getParent(), "Should not contain a parent"),
                     () -> assertNull(category.getValue(), "Should not contain a value"),
@@ -496,7 +491,7 @@ class InternalToCertificateTest {
             void shouldIncludeCategoryConfig() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var category = certificate.getData().get(GRUNDFORMU_CATEGORY_ID);
+                final var category = certificate.getData().get(CATEGORY_GRUNDFORMU);
 
                 assertEquals(CertificateDataConfigTypes.CATEGORY, category.getConfig().getType());
 
@@ -509,7 +504,7 @@ class InternalToCertificateTest {
             void shouldIncludeCategoryValidationHide() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(GRUNDFORMU_CATEGORY_ID);
+                final var question = certificate.getData().get(CATEGORY_GRUNDFORMU);
 
                 final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[0];
                 assertAll("Validation question validation",
@@ -522,11 +517,11 @@ class InternalToCertificateTest {
         @Nested
         class QuestionIntygetBaseratPa {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -544,25 +539,10 @@ class InternalToCertificateTest {
                 assertAll("Validating question",
                     () -> assertEquals(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(GRUNDFORMU_CATEGORY_ID, question.getParent()),
+                    () -> assertEquals(CATEGORY_GRUNDFORMU, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
                     () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionConfig() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
-
-                assertEquals(CertificateDataConfigTypes.UE_CHECKBOX_MULTIPLE_DATE, question.getConfig().getType());
-
-                final var certificateDataConfigCheckboxMultipleDate = (CertificateDataConfigCheckboxMultipleDate) question.getConfig();
-                assertAll("Validating question configuration",
-                    () -> assertTrue(certificateDataConfigCheckboxMultipleDate.getText().trim().length() > 0, "Missing text"),
-                    () -> assertTrue(certificateDataConfigCheckboxMultipleDate.getDescription().trim().length() > 0, "Missing description")
                 );
             }
 
@@ -637,7 +617,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueUndersokningPatienten() {
                 final var expectedDate = new InternalDate(LocalDate.now());
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -659,7 +639,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueTelefonkontakt() {
                 final var expectedDate = new InternalDate(LocalDate.now());
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -681,7 +661,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueJournaluppgifter() {
                 final var expectedDate = new InternalDate(LocalDate.now());
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -703,7 +683,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueAnnat() {
                 final var expectedDate = new InternalDate(LocalDate.now());
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -728,7 +708,7 @@ class InternalToCertificateTest {
                 final var expectedDateTelefon = new InternalDate(LocalDate.now().minusDays(1));
                 final var expectedDateJournal = new InternalDate(LocalDate.now().minusDays(2));
                 final var expectedDateAnnat = new InternalDate(LocalDate.now().minusDays(3));
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -849,11 +829,11 @@ class InternalToCertificateTest {
         @Nested
         class QuestionAnnatGrundFor {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -897,7 +877,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueText() {
                 final var expectedText = "Text value for question";
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -917,7 +897,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValueTextEmpty() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -976,144 +956,13 @@ class InternalToCertificateTest {
         }
 
         @Nested
-        class QuestionMotiveringEjUndersokning {
-
-            private LisjpUtlatandeV1 internalCertificate;
-
-            @BeforeEach
-            void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
-                    .setGrundData(grundData)
-                    .setId("id")
-                    .setTextVersion("TextVersion")
-                    .build();
-            }
-
-            @Test
-            void shouldIncludeQuestionElement() {
-                final var expectedIndex = 5;
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1);
-
-                assertAll("Validating question",
-                    () -> assertEquals(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1, question.getId()),
-                    () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, question.getParent()),
-                    () -> assertNotNull(question.getValue(), "Missing value"),
-                    () -> assertNotNull(question.getValidation(), "Missing validation"),
-                    () -> assertNotNull(question.getConfig(), "Missing config")
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionConfig() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1);
-
-                assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
-
-                final var certificateDataConfigTextArea = (CertificateDataConfigTextArea) question.getConfig();
-                assertAll("Validating question configuration",
-                    () -> assertTrue(certificateDataConfigTextArea.getText().trim().length() > 0, "Missing text"),
-                    () -> assertTrue(certificateDataConfigTextArea.getDescription().trim().length() > 0, "Missing description"),
-                    () -> assertEquals("lightbulb_outline", certificateDataConfigTextArea.getIcon()),
-                    () -> assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1, certificateDataConfigTextArea.getId())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValueText() {
-                final var expectedText = "Text value for question";
-                internalCertificate = LisjpUtlatandeV1.builder()
-                    .setGrundData(grundData)
-                    .setId("id")
-                    .setTextVersion("TextVersion")
-                    .setMotiveringTillInteBaseratPaUndersokning(expectedText)
-                    .build();
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1);
-
-                final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
-                assertAll("Validating question value",
-                    () -> assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1, certificateDataTextValue.getId()),
-                    () -> assertEquals(expectedText, certificateDataTextValue.getText())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValueTextEmpty() {
-                internalCertificate = LisjpUtlatandeV1.builder()
-                    .setGrundData(grundData)
-                    .setId("id")
-                    .setTextVersion("TextVersion")
-                    .build();
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1);
-
-                final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
-                assertAll("Validating question value",
-                    () -> assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1, certificateDataTextValue.getId()),
-                    () -> assertNull(certificateDataTextValue.getText())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValidationShow() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1);
-
-                final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[0];
-                assertAll("Validation question validation",
-                    () -> assertEquals(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, certificateDataValidationShow.getQuestionId()),
-                    () -> assertEquals(
-                        "!$undersokningAvPatienten && ($telefonkontaktMedPatienten || $journaluppgifter || $annatGrundForMU)",
-                        certificateDataValidationShow.getExpression())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValidationText() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1);
-
-                final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[1];
-                assertAll("Validation question validation",
-                    () -> assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1, certificateDataValidationText.getId()),
-                    () -> assertEquals(150, certificateDataValidationText.getLimit())
-                );
-            }
-
-            @Test
-            void shouldIncludeCategoryValidationHide() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1);
-
-                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[2];
-                assertAll("Validation question validation",
-                    () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
-                );
-            }
-        }
-
-        @Nested
         class CategorySysselsattning {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -1123,14 +972,14 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeCategoryElement() {
-                final var expectedIndex = 6;
+                final var expectedIndex = 5;
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var category = certificate.getData().get(SYSSELSATTNING_CATEGORY_ID);
+                final var category = certificate.getData().get(CATEGORY_SYSSELSATTNING);
 
                 assertAll("Validating category",
-                    () -> assertEquals(SYSSELSATTNING_CATEGORY_ID, category.getId()),
+                    () -> assertEquals(CATEGORY_SYSSELSATTNING, category.getId()),
                     () -> assertEquals(expectedIndex, category.getIndex()),
                     () -> assertNull(category.getParent(), "Should not contain a parent"),
                     () -> assertNull(category.getValue(), "Should not contain a value"),
@@ -1143,7 +992,7 @@ class InternalToCertificateTest {
             void shouldIncludeCategoryConfig() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var category = certificate.getData().get(SYSSELSATTNING_CATEGORY_ID);
+                final var category = certificate.getData().get(CATEGORY_SYSSELSATTNING);
 
                 assertEquals(CertificateDataConfigTypes.CATEGORY, category.getConfig().getType());
 
@@ -1156,12 +1005,13 @@ class InternalToCertificateTest {
             void shouldIncludeCategoryValidationHide() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(SYSSELSATTNING_CATEGORY_ID);
+                final var question = certificate.getData().get(CATEGORY_SYSSELSATTNING);
 
                 final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[0];
                 assertAll("Validation question validation",
                     () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
+                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27,
+                        certificateDataValidationHide.getExpression())
                 );
             }
         }
@@ -1169,11 +1019,11 @@ class InternalToCertificateTest {
         @Nested
         class QuestionSysselsattning {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -1182,7 +1032,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionElement() {
-                final var expectedIndex = 7;
+                final var expectedIndex = 6;
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
@@ -1191,7 +1041,7 @@ class InternalToCertificateTest {
                 assertAll("Validating question",
                     () -> assertEquals(TYP_AV_SYSSELSATTNING_SVAR_ID_28, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(SYSSELSATTNING_CATEGORY_ID, question.getParent()),
+                    () -> assertEquals(CATEGORY_SYSSELSATTNING, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
                     () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
@@ -1284,7 +1134,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueNuvarandeArbete() {
                 final var expectedSysselsattning = Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -1306,7 +1156,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueArbetssokande() {
                 final var expectedSysselsattning = Sysselsattning.create(SysselsattningsTyp.ARBETSSOKANDE);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -1328,14 +1178,15 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueForaldraledig() {
                 final var expectedSysselsattning = Sysselsattning.create(SysselsattningsTyp.FORADLRARLEDIGHET_VARD_AV_BARN);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
                     .setSysselsattning(Arrays.asList(expectedSysselsattning))
                     .build();
 
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+                final var certificate = InternalToCertificate
+                    .convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(TYP_AV_SYSSELSATTNING_SVAR_ID_28);
 
@@ -1350,7 +1201,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueStudier() {
                 final var expectedSysselsattning = Sysselsattning.create(SysselsattningsTyp.STUDIER);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -1377,7 +1228,7 @@ class InternalToCertificateTest {
                     Sysselsattning.create(SysselsattningsTyp.FORADLRARLEDIGHET_VARD_AV_BARN),
                     Sysselsattning.create(SysselsattningsTyp.STUDIER)
                 );
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -1432,7 +1283,8 @@ class InternalToCertificateTest {
                 final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
                 assertAll("Validation question validation",
                     () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
+                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27,
+                        certificateDataValidationHide.getExpression())
                 );
             }
         }
@@ -1440,11 +1292,11 @@ class InternalToCertificateTest {
         @Nested
         class QuestionSysselsattningYrkeQuestion {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -1453,7 +1305,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionElement() {
-                final var expectedIndex = 8;
+                final var expectedIndex = 7;
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
@@ -1462,7 +1314,8 @@ class InternalToCertificateTest {
                 assertAll("Validating question",
                     () -> assertEquals(NUVARANDE_ARBETE_SVAR_ID_29, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(SYSSELSATTNING_CATEGORY_ID, question.getParent()),
+                    () -> assertEquals(CATEGORY_SYSSELSATTNING,
+                        question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
                     () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
@@ -1488,7 +1341,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueText() {
                 final var expectedText = "Text value for question";
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -1508,7 +1361,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValueTextEmpty() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -1547,8 +1400,11 @@ class InternalToCertificateTest {
 
                 final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
                 assertAll("Validation question validation",
-                    () -> assertEquals(TYP_AV_SYSSELSATTNING_SVAR_ID_28, certificateDataValidationShow.getQuestionId()),
-                    () -> assertEquals("$" + SysselsattningsTyp.NUVARANDE_ARBETE.getId(), certificateDataValidationShow.getExpression())
+                    () -> assertEquals(TYP_AV_SYSSELSATTNING_SVAR_ID_28,
+                        certificateDataValidationShow.getQuestionId()),
+                    () -> assertEquals(
+                        "$NUVARANDE_ARBETE",
+                        certificateDataValidationShow.getExpression())
                 );
             }
 
@@ -1560,20 +1416,23 @@ class InternalToCertificateTest {
 
                 final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[2];
                 assertAll("Validation question validation",
-                    () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
+                    () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27,
+                        certificateDataValidationHide.getQuestionId()),
+                    () -> assertEquals(
+                        "$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27,
+                        certificateDataValidationHide.getExpression())
                 );
             }
         }
 
         @Nested
-        class CategoryDiagnos {
+        class CategoryDiagnoses {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -1583,14 +1442,14 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeCategoryElement() {
-                final var expectedIndex = 9;
+                final var expectedIndex = 8;
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var category = certificate.getData().get(DIAGNOS_CATEGORY_ID);
+                final var category = certificate.getData().get(CATEGORY_DIAGNOS);
 
                 assertAll("Validating category",
-                    () -> assertEquals(DIAGNOS_CATEGORY_ID, category.getId()),
+                    () -> assertEquals(CATEGORY_DIAGNOS, category.getId()),
                     () -> assertEquals(expectedIndex, category.getIndex()),
                     () -> assertNull(category.getParent(), "Should not contain a parent"),
                     () -> assertNull(category.getValue(), "Should not contain a value"),
@@ -1603,7 +1462,7 @@ class InternalToCertificateTest {
             void shouldIncludeCategoryConfig() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var category = certificate.getData().get(DIAGNOS_CATEGORY_ID);
+                final var category = certificate.getData().get(CATEGORY_DIAGNOS);
 
                 assertEquals(CertificateDataConfigTypes.CATEGORY, category.getConfig().getType());
 
@@ -1614,13 +1473,136 @@ class InternalToCertificateTest {
         }
 
         @Nested
-        class QuestionDiagnos {
+        class QuestionShouldIncludeDiagnoses {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
+                    .setGrundData(grundData)
+                    .setId("id")
+                    .setTextVersion("TextVersion")
+                    .build();
+            }
+
+            @Test
+            void shouldIncludeQuestionElement() {
+                final var expectedIndex = 9;
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100);
+
+                assertAll("Validating question",
+                    () -> assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100, question.getId()),
+                    () -> assertEquals(expectedIndex, question.getIndex()),
+                    () -> assertEquals(CATEGORY_DIAGNOS, question.getParent()),
+                    () -> assertNotNull(question.getValue(), "Missing value"),
+                    () -> assertNotNull(question.getValidation(), "Missing validation"),
+                    () -> assertNotNull(question.getConfig(), "Missing config")
+                );
+            }
+
+            @Test
+            void shouldIncludeQuestionConfig() {
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100);
+
+                assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE, question.getConfig().getType());
+
+                final var certificateDataConfigRadioCode = (CertificateDataConfigRadioMultipleCode) question.getConfig();
+                assertAll("Validating question configuration",
+                    () -> assertTrue(certificateDataConfigRadioCode.getText().trim().length() > 0, "Missing text"),
+                    () -> assertNull(certificateDataConfigRadioCode.getDescription(), "Should not include description"),
+                    () -> assertNull(certificateDataConfigRadioCode.getHeader(), "Should not include header"),
+                    () -> assertNull(certificateDataConfigRadioCode.getLabel(), "Should not include label"),
+                    () -> assertTrue(certificateDataConfigRadioCode.getList().size() == 2, "Wrong number of codes")
+                );
+            }
+
+            @Test
+            void shouldIncludeQuestionValueTrue() {
+                internalCertificate = Ag7804UtlatandeV1.builder()
+                    .setGrundData(grundData)
+                    .setId("id")
+                    .setTextVersion("TextVersion")
+                    .setOnskarFormedlaDiagnos(true)
+                    .build();
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100);
+
+                final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
+                assertAll("Validating question value",
+                    () -> assertEquals(YES_ID, certificateDataValueCode.getId()),
+                    () -> assertEquals(YES_ID, certificateDataValueCode.getCode())
+                );
+            }
+
+            @Test
+            void shouldIncludeQuestionValueFalse() {
+                internalCertificate = Ag7804UtlatandeV1.builder()
+                    .setGrundData(grundData)
+                    .setId("id")
+                    .setTextVersion("TextVersion")
+                    .setOnskarFormedlaDiagnos(false)
+                    .build();
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100);
+
+                final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
+                assertAll("Validating question value",
+                    () -> assertEquals(NO_ID, certificateDataValueCode.getId()),
+                    () -> assertEquals(NO_ID, certificateDataValueCode.getCode())
+                );
+            }
+
+            @Test
+            void shouldIncludeQuestionValueEmpty() {
+                internalCertificate = Ag7804UtlatandeV1.builder()
+                    .setGrundData(grundData)
+                    .setId("id")
+                    .setTextVersion("TextVersion")
+                    .build();
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100);
+
+                final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
+                assertAll("Validating question value",
+                    () -> assertNull(certificateDataValueCode.getId()),
+                    () -> assertNull(certificateDataValueCode.getCode())
+                );
+            }
+
+            @Test
+            void shouldIncludeQuestionValidationMandatory() {
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100);
+
+                final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
+                assertAll("Validation question validation",
+                    () -> assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100, certificateDataValidationMandatory.getQuestionId()),
+                    () -> assertEquals("$" + ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100, certificateDataValidationMandatory.getExpression())
+                );
+            }
+        }
+
+        @Nested
+        class QuestionDiagnos {
+
+            private Ag7804UtlatandeV1 internalCertificate;
+
+            @BeforeEach
+            void createInternalCertificateToConvert() {
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -1638,7 +1620,7 @@ class InternalToCertificateTest {
                 assertAll("Validating question",
                     () -> assertEquals(DIAGNOS_SVAR_ID_6, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(DIAGNOS_CATEGORY_ID, question.getParent(), "Invalid parent"),
+                    () -> assertEquals(CATEGORY_DIAGNOS, question.getParent(), "Invalid parent"),
                     () -> assertNotNull(question.getValue(), "Missing value"),
                     () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
@@ -1670,7 +1652,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeValueFirstDiagnosis() {
                 final var expectedDiagnos = Diagnos.create("A01", "ICD10", "Diagnos beskrivning", "Diagnos display name");
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -1698,7 +1680,7 @@ class InternalToCertificateTest {
             void shouldIncludeValueSecondDiagnosis() {
                 final var emptyDiagnos = Diagnos.create(null, "ICD10", null, null);
                 final var expectedDiagnos = Diagnos.create("A01", "ICD10", "Diagnos beskrivning", "Diagnos display name");
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -1726,7 +1708,7 @@ class InternalToCertificateTest {
             void shouldIncludeValueThirdDiagnosis() {
                 final var emptyDiagnos = Diagnos.create(null, "ICD10", null, null);
                 final var expectedDiagnos = Diagnos.create("A01", "ICD10", "Diagnos beskrivning", "Diagnos display name");
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -1755,7 +1737,7 @@ class InternalToCertificateTest {
                 final var expectedDiagnosFirst = Diagnos.create("A01", "ICD10", "Diagnos beskrivning", "Diagnos display name 1");
                 final var expectedDiagnosSecond = Diagnos.create("A02", "ICD10", "Diagnos beskrivning", "Diagnos display name 2");
                 final var expectedDiagnosThird = Diagnos.create("A03", "ICD10", "Diagnos beskrivning", "Diagnos display name 3");
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -1791,16 +1773,42 @@ class InternalToCertificateTest {
                     () -> assertEquals("$1", certificateDataValidationMandatory.getExpression())
                 );
             }
+
+            @Test
+            void shouldIncludeQuestionValidationHide() {
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(DIAGNOS_SVAR_ID_6);
+
+                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
+                assertAll("Validation question validation",
+                    () -> assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100, certificateDataValidationHide.getQuestionId()),
+                    () -> assertEquals("$NO", certificateDataValidationHide.getExpression())
+                );
+            }
+
+            @Test
+            void shouldIncludeQuestionValidationEnable() {
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(DIAGNOS_SVAR_ID_6);
+
+                final var certificateDataValidationEnable = (CertificateDataValidationEnable) question.getValidation()[2];
+                assertAll("Validation question validation",
+                    () -> assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100, certificateDataValidationEnable.getQuestionId()),
+                    () -> assertEquals("YES || NO", certificateDataValidationEnable.getExpression())
+                );
+            }
         }
 
         @Nested
         class CategoryFunktionsnedsattning {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -1814,10 +1822,10 @@ class InternalToCertificateTest {
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var category = certificate.getData().get(FUNKTIONSNEDSATTNING_CATEGORY_ID);
+                final var category = certificate.getData().get(CATEGORY_FUNKTIONSNEDSATTNING);
 
                 assertAll("Validating category",
-                    () -> assertEquals(FUNKTIONSNEDSATTNING_CATEGORY_ID, category.getId()),
+                    () -> assertEquals(CATEGORY_FUNKTIONSNEDSATTNING, category.getId()),
                     () -> assertEquals(expectedIndex, category.getIndex()),
                     () -> assertNull(category.getParent(), "Should not contain a parent"),
                     () -> assertNull(category.getValue(), "Should not contain a value"),
@@ -1828,9 +1836,10 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeCategoryConfig() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+                final var certificate = InternalToCertificate
+                    .convert(internalCertificate, texts);
 
-                final var category = certificate.getData().get(FUNKTIONSNEDSATTNING_CATEGORY_ID);
+                final var category = certificate.getData().get(CATEGORY_FUNKTIONSNEDSATTNING);
 
                 assertEquals(CertificateDataConfigTypes.CATEGORY, category.getConfig().getType());
 
@@ -1844,12 +1853,13 @@ class InternalToCertificateTest {
             void shouldIncludeValidationHide() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_CATEGORY_ID);
+                final var question = certificate.getData().get(CATEGORY_FUNKTIONSNEDSATTNING);
 
                 final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[0];
                 assertAll("Validation question validation",
                     () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
+                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27,
+                        certificateDataValidationHide.getExpression())
                 );
             }
         }
@@ -1857,11 +1867,11 @@ class InternalToCertificateTest {
         @Nested
         class QuestionFunktionsnedsattning {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -1879,7 +1889,7 @@ class InternalToCertificateTest {
                 assertAll("Validating question",
                     () -> assertEquals(FUNKTIONSNEDSATTNING_SVAR_ID_35, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(FUNKTIONSNEDSATTNING_CATEGORY_ID, question.getParent()),
+                    () -> assertEquals(CATEGORY_FUNKTIONSNEDSATTNING, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
                     () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
@@ -1888,51 +1898,46 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionConfig() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+                final var certificate = InternalToCertificate
+                    .convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_SVAR_ID_35);
 
-                assertEquals(CertificateDataConfigTypes.UE_ICF, question.getConfig().getType());
+                assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
 
-                final var certificateDataConfigIcf = (CertificateDataConfigIcf) question.getConfig();
+                final var certificateDataConfigTextArea = (CertificateDataConfigTextArea) question.getConfig();
                 assertAll("Validating question configuration",
-                    () -> assertTrue(certificateDataConfigIcf.getHeader().trim().length() > 0, "Missing header"),
-                    () -> assertTrue(certificateDataConfigIcf.getText().trim().length() > 0, "Missing text"),
-                    () -> assertTrue(certificateDataConfigIcf.getDescription().trim().length() > 0, "Missing description"),
-                    () -> assertEquals(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35, certificateDataConfigIcf.getId()),
-                    () -> assertEquals(FUNKTIONSNEDSATTNING_ICF_INFO, certificateDataConfigIcf.getModalLabel()),
-                    () -> assertEquals(FUNKTIONSNEDSATTNING_ICF_COLLECTION, certificateDataConfigIcf.getCollectionsLabel())
+                    () -> assertTrue(certificateDataConfigTextArea.getHeader().trim().length() > 0, "Missing header"),
+                    () -> assertTrue(certificateDataConfigTextArea.getText().trim().length() > 0, "Missing text"),
+                    () -> assertTrue(certificateDataConfigTextArea.getDescription().trim().length() > 0, "Missing description"),
+                    () -> assertEquals(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35, certificateDataConfigTextArea.getId())
                 );
-
             }
 
             @Test
-            void shouldIncludeQuestionValueIcf() {
+            void shouldIncludeQuestionValueText() {
                 final var expectedText = "Text value for question";
-                final var expectedIcfValues = Arrays.asList("Test", "Test 2", "Test 3");
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
                     .setFunktionsnedsattning(expectedText)
-                    .setFunktionsKategorier(expectedIcfValues)
                     .build();
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_SVAR_ID_35);
 
-                final var certificateDataValuIcf = (CertificateDataIcfValue) question.getValue();
+                final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35, certificateDataValuIcf.getId()),
-                    () -> assertEquals(expectedText, certificateDataValuIcf.getText()),
-                    () -> assertEquals(expectedIcfValues, certificateDataValuIcf.getIcfCodes())
+                    () -> assertEquals(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35, certificateDataValueText.getId()),
+                    () -> assertEquals(expectedText, certificateDataValueText.getText())
                 );
             }
 
             @Test
             void shouldIncludeQuestionValueTextEmpty() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -1942,29 +1947,10 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_SVAR_ID_35);
 
-                final var certificateDataValueText = (CertificateDataIcfValue) question.getValue();
+                final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
                 assertAll("Validating question value",
                     () -> assertEquals(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35, certificateDataValueText.getId()),
                     () -> assertNull(certificateDataValueText.getText())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValueIcfEmpty() {
-                internalCertificate = LisjpUtlatandeV1.builder()
-                    .setGrundData(grundData)
-                    .setId("id")
-                    .setTextVersion("TextVersion")
-                    .build();
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_SVAR_ID_35);
-
-                final var certificateDataValueText = (CertificateDataIcfValue) question.getValue();
-                assertAll("Validating question value",
-                    () -> assertEquals(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35, certificateDataValueText.getId()),
-                    () -> assertTrue(certificateDataValueText.getIcfCodes().isEmpty())
                 );
             }
 
@@ -1990,7 +1976,8 @@ class InternalToCertificateTest {
                 final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
                 assertAll("Validation question validation",
                     () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
+                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27,
+                        certificateDataValidationHide.getExpression())
                 );
             }
         }
@@ -1998,11 +1985,11 @@ class InternalToCertificateTest {
         @Nested
         class QuestionAktivitetsbegransning {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -2020,7 +2007,7 @@ class InternalToCertificateTest {
                 assertAll("Validating question",
                     () -> assertEquals(AKTIVITETSBEGRANSNING_SVAR_ID_17, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(FUNKTIONSNEDSATTNING_CATEGORY_ID, question.getParent()),
+                    () -> assertEquals(CATEGORY_FUNKTIONSNEDSATTNING, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
                     () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
@@ -2033,46 +2020,41 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_SVAR_ID_17);
 
-                assertEquals(CertificateDataConfigTypes.UE_ICF, question.getConfig().getType());
+                assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
 
-                final var certificateDataConfigIcf = (CertificateDataConfigIcf) question.getConfig();
+                final var certificateDataConfigTextArea = (CertificateDataConfigTextArea) question.getConfig();
                 assertAll("Validating question configuration",
-                    () -> assertTrue(certificateDataConfigIcf.getHeader().trim().length() > 0, "Missing header"),
-                    () -> assertTrue(certificateDataConfigIcf.getText().trim().length() > 0, "Missing text"),
-                    () -> assertTrue(certificateDataConfigIcf.getDescription().trim().length() > 0, "Missing description"),
-                    () -> assertEquals(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17, certificateDataConfigIcf.getId()),
-                    () -> assertEquals(AKTIVITETSBEGRANSNING_ICF_INFO, certificateDataConfigIcf.getModalLabel()),
-                    () -> assertEquals(AKTIVITETSBEGRANSNING_ICF_COLLECTION, certificateDataConfigIcf.getCollectionsLabel())
+                    () -> assertTrue(certificateDataConfigTextArea.getHeader().trim().length() > 0, "Missing header"),
+                    () -> assertTrue(certificateDataConfigTextArea.getText().trim().length() > 0, "Missing text"),
+                    () -> assertTrue(certificateDataConfigTextArea.getDescription().trim().length() > 0, "Missing description"),
+                    () -> assertEquals(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17, certificateDataConfigTextArea.getId())
                 );
             }
 
             @Test
-            void shouldIncludeQuestionValueIcf() {
+            void shouldIncludeQuestionValueText() {
                 final var expectedText = "Text value for question";
-                final var expectedIcfValues = Arrays.asList("Test", "Test 2", "Test 3");
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
                     .setAktivitetsbegransning(expectedText)
-                    .setAktivitetsKategorier(expectedIcfValues)
                     .build();
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_SVAR_ID_17);
 
-                final var certificateDataValueIcf = (CertificateDataIcfValue) question.getValue();
+                final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17, certificateDataValueIcf.getId()),
-                    () -> assertEquals(expectedText, certificateDataValueIcf.getText()),
-                    () -> assertEquals(expectedIcfValues, certificateDataValueIcf.getIcfCodes())
+                    () -> assertEquals(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17, certificateDataValueText.getId()),
+                    () -> assertEquals(expectedText, certificateDataValueText.getText())
                 );
             }
 
             @Test
             void shouldIncludeQuestionValueTextEmpty() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -2082,29 +2064,10 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_SVAR_ID_17);
 
-                final var certificateDataValueText = (CertificateDataIcfValue) question.getValue();
+                final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
                 assertAll("Validating question value",
                     () -> assertEquals(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17, certificateDataValueText.getId()),
                     () -> assertNull(certificateDataValueText.getText())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValueIcfEmpty() {
-                internalCertificate = LisjpUtlatandeV1.builder()
-                    .setGrundData(grundData)
-                    .setId("id")
-                    .setTextVersion("TextVersion")
-                    .build();
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_SVAR_ID_17);
-
-                final var certificateDataValueIcf = (CertificateDataIcfValue) question.getValue();
-                assertAll("Validating question value",
-                    () -> assertEquals(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17, certificateDataValueIcf.getId()),
-                    () -> assertTrue(certificateDataValueIcf.getIcfCodes().isEmpty())
                 );
             }
 
@@ -2130,7 +2093,8 @@ class InternalToCertificateTest {
                 final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
                 assertAll("Validation question validation",
                     () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
+                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27,
+                        certificateDataValidationHide.getExpression())
                 );
             }
         }
@@ -2138,11 +2102,11 @@ class InternalToCertificateTest {
         @Nested
         class CategoryMedicinskaBehandlingar {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -2154,12 +2118,13 @@ class InternalToCertificateTest {
             void shouldIncludeCategoryElement() {
                 final var expectedIndex = 14;
 
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+                final var certificate = InternalToCertificate
+                    .convert(internalCertificate, texts);
 
-                final var category = certificate.getData().get(MEDICINSKABEHANDLINGAR_CATEGORY_ID);
+                final var category = certificate.getData().get(CATEGORY_MEDICINSKABEHANDLINGAR);
 
                 assertAll("Validating category",
-                    () -> assertEquals(MEDICINSKABEHANDLINGAR_CATEGORY_ID, category.getId()),
+                    () -> assertEquals(CATEGORY_MEDICINSKABEHANDLINGAR, category.getId()),
                     () -> assertEquals(expectedIndex, category.getIndex()),
                     () -> assertNull(category.getParent(), "Should not contain a parent"),
                     () -> assertNull(category.getValue(), "Should not contain a value"),
@@ -2172,7 +2137,7 @@ class InternalToCertificateTest {
             void shouldIncludeCategoryConfig() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var category = certificate.getData().get(MEDICINSKABEHANDLINGAR_CATEGORY_ID);
+                final var category = certificate.getData().get(CATEGORY_MEDICINSKABEHANDLINGAR);
 
                 assertEquals(CertificateDataConfigTypes.CATEGORY, category.getConfig().getType());
 
@@ -2186,12 +2151,13 @@ class InternalToCertificateTest {
             void shouldIncludeCategoryValidationHide() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(MEDICINSKABEHANDLINGAR_CATEGORY_ID);
+                final var question = certificate.getData().get(CATEGORY_MEDICINSKABEHANDLINGAR);
 
                 final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[0];
                 assertAll("Validation question validation",
                     () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
+                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27,
+                        certificateDataValidationHide.getExpression())
                 );
             }
         }
@@ -2199,11 +2165,11 @@ class InternalToCertificateTest {
         @Nested
         class QuestionPagaendeBehandling {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -2221,7 +2187,7 @@ class InternalToCertificateTest {
                 assertAll("Validating question",
                     () -> assertEquals(PAGAENDEBEHANDLING_SVAR_ID_19, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(MEDICINSKABEHANDLINGAR_CATEGORY_ID, question.getParent()),
+                    () -> assertEquals(CATEGORY_MEDICINSKABEHANDLINGAR, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
                     () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
@@ -2248,7 +2214,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueText() {
                 final var expectedText = "Text value for question";
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -2268,7 +2234,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValueTextEmpty() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -2294,7 +2260,8 @@ class InternalToCertificateTest {
                 final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[0];
                 assertAll("Validation question validation",
                     () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
+                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27,
+                        certificateDataValidationHide.getExpression())
                 );
             }
         }
@@ -2302,11 +2269,11 @@ class InternalToCertificateTest {
         @Nested
         class QuestionPlaneradBehandling {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -2324,7 +2291,7 @@ class InternalToCertificateTest {
                 assertAll("Validating question",
                     () -> assertEquals(PLANERADBEHANDLING_SVAR_ID_20, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(MEDICINSKABEHANDLINGAR_CATEGORY_ID, question.getParent()),
+                    () -> assertEquals(CATEGORY_MEDICINSKABEHANDLINGAR, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
                     () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
@@ -2351,7 +2318,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueText() {
                 final var expectedText = "Text value for question";
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -2371,7 +2338,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValueTextEmpty() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -2405,11 +2372,11 @@ class InternalToCertificateTest {
         @Nested
         class CategoryBedomning {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -2423,10 +2390,10 @@ class InternalToCertificateTest {
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var category = certificate.getData().get(BEDOMNING_CATEGORY_ID);
+                final var category = certificate.getData().get(CATEGORY_BEDOMNING);
 
                 assertAll("Validating category",
-                    () -> assertEquals(BEDOMNING_CATEGORY_ID, category.getId()),
+                    () -> assertEquals(CATEGORY_BEDOMNING, category.getId()),
                     () -> assertEquals(expectedIndex, category.getIndex()),
                     () -> assertNull(category.getParent(), "Should not contain a parent"),
                     () -> assertNull(category.getValue(), "Should not contain a value"),
@@ -2439,7 +2406,7 @@ class InternalToCertificateTest {
             void shouldIncludeCategoryConfig() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var category = certificate.getData().get(BEDOMNING_CATEGORY_ID);
+                final var category = certificate.getData().get(CATEGORY_BEDOMNING);
 
                 assertEquals(CertificateDataConfigTypes.CATEGORY, category.getConfig().getType());
 
@@ -2452,7 +2419,7 @@ class InternalToCertificateTest {
             @Test
             void shouldNotIncludeAnyValidation() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-                final var question = certificate.getData().get(BEDOMNING_CATEGORY_ID);
+                final var question = certificate.getData().get(CATEGORY_BEDOMNING);
                 assertTrue(question.getValidation().length == 0, "Should not contain any validation");
             }
         }
@@ -2460,11 +2427,11 @@ class InternalToCertificateTest {
         @Nested
         class QuestionBehovAvSjukskrivning {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -2482,7 +2449,7 @@ class InternalToCertificateTest {
                 assertAll("Validating question",
                     () -> assertEquals(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(BEDOMNING_CATEGORY_ID, question.getParent()),
+                    () -> assertEquals(CATEGORY_BEDOMNING, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
                     () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
@@ -2576,7 +2543,7 @@ class InternalToCertificateTest {
                 final var expectedPeriod = new InternalLocalDateInterval("2021-01-01", "2021-02-02");
                 final var expectedGrad = SjukskrivningsGrad.NEDSATT_1_4;
                 final var expectedDateRange = Sjukskrivning.create(expectedGrad, expectedPeriod);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -2601,7 +2568,7 @@ class InternalToCertificateTest {
                 final var expectedPeriod = new InternalLocalDateInterval("2021-01-01", "2021-02-02");
                 final var expectedGrad = SjukskrivningsGrad.NEDSATT_HALFTEN;
                 final var expectedDateRange = Sjukskrivning.create(expectedGrad, expectedPeriod);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -2626,7 +2593,7 @@ class InternalToCertificateTest {
                 final var expectedPeriod = new InternalLocalDateInterval("2021-01-01", "2021-02-02");
                 final var expectedGrad = SjukskrivningsGrad.NEDSATT_3_4;
                 final var expectedDateRange = Sjukskrivning.create(expectedGrad, expectedPeriod);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -2651,7 +2618,7 @@ class InternalToCertificateTest {
                 final var expectedPeriod = new InternalLocalDateInterval("2021-01-01", "2021-02-02");
                 final var expectedGrad = SjukskrivningsGrad.HELT_NEDSATT;
                 final var expectedDateRange = Sjukskrivning.create(expectedGrad, expectedPeriod);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -2682,7 +2649,7 @@ class InternalToCertificateTest {
                 final var expectedDateRangeHalf = Sjukskrivning.create(expectedGradHalf, expectedPeriod);
                 final var expectedGradWhole = SjukskrivningsGrad.HELT_NEDSATT;
                 final var expectedDateRangeWhole = Sjukskrivning.create(expectedGradWhole, expectedPeriod);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -2720,7 +2687,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValueNone() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -2754,13 +2721,13 @@ class InternalToCertificateTest {
         }
 
         @Nested
-        class QuestionMotiveringTidigtStartdatum {
+        class QuestionForsakringsmedicinsktBeslutsstod {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -2773,132 +2740,12 @@ class InternalToCertificateTest {
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32);
-
-                assertAll("Validating question",
-                    () -> assertEquals(BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32, question.getId()),
-                    () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(BEDOMNING_CATEGORY_ID, question.getParent()),
-                    () -> assertNotNull(question.getValue(), "Missing value"),
-                    () -> assertNotNull(question.getValidation(), "Missing validation"),
-                    () -> assertNotNull(question.getConfig(), "Missing config")
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionConfig() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32);
-
-                assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
-
-                final var certificateDataConfigTextArea = (CertificateDataConfigTextArea) question.getConfig();
-                assertAll("Validating question configuration",
-                    () -> assertTrue(certificateDataConfigTextArea.getText().trim().length() > 0, "Missing text"),
-                    () -> assertTrue(certificateDataConfigTextArea.getDescription().trim().length() > 0, "Missing description"),
-                    () -> assertNull(certificateDataConfigTextArea.getHeader(), "Should not include a header"),
-                    () -> assertNull(certificateDataConfigTextArea.getLabel(), "Should not include a label"),
-                    () -> assertEquals("lightbulb_outline", certificateDataConfigTextArea.getIcon(), "Wrong icon"),
-                    () -> assertEquals(MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID, certificateDataConfigTextArea.getId())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValueText() {
-                final var expectedText = "Text value for question";
-                internalCertificate = LisjpUtlatandeV1.builder()
-                    .setGrundData(grundData)
-                    .setId("id")
-                    .setTextVersion("TextVersion")
-                    .setMotiveringTillTidigtStartdatumForSjukskrivning(expectedText)
-                    .build();
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32);
-
-                final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
-                assertAll("Validating question value",
-                    () -> assertEquals(MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID, certificateDataValueText.getId()),
-                    () -> assertEquals(expectedText, certificateDataValueText.getText())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValueTextEmpty() {
-                internalCertificate = LisjpUtlatandeV1.builder()
-                    .setGrundData(grundData)
-                    .setId("id")
-                    .setTextVersion("TextVersion")
-                    .build();
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32);
-
-                final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
-                assertAll("Validating question value",
-                    () -> assertEquals(MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID, certificateDataValueText.getId()),
-                    () -> assertNull(certificateDataValueText.getText())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValidationShow() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32);
-
-                final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[0];
-                assertAll("Validation question validation",
-                    () -> assertEquals(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32, certificateDataValidationShow.getQuestionId()),
-                    () -> assertEquals(
-                        "($EN_FJARDEDEL.from < -7) || ($HALFTEN.from < -7) || ($TRE_FJARDEDEL.from < -7) || ($HELT_NEDSATT.from < -7)",
-                        certificateDataValidationShow.getExpression())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValidationText() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32);
-
-                final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[1];
-                assertAll("Validation question validation",
-                    () -> assertEquals(MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID, certificateDataValidationText.getId()),
-                    () -> assertEquals(150, certificateDataValidationText.getLimit())
-                );
-            }
-        }
-
-        @Nested
-        class QuestionForsakringsmedicinsktBeslutsstod {
-
-            private LisjpUtlatandeV1 internalCertificate;
-
-            @BeforeEach
-            void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
-                    .setGrundData(grundData)
-                    .setId("id")
-                    .setTextVersion("TextVersion")
-                    .build();
-            }
-
-            @Test
-            void shouldIncludeQuestionElement() {
-                final var expectedIndex = 20;
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
                 final var question = certificate.getData().get(FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37);
 
                 assertAll("Validating question",
                     () -> assertEquals(FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(BEDOMNING_CATEGORY_ID, question.getParent()),
+                    () -> assertEquals(CATEGORY_BEDOMNING, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
                     () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
@@ -2925,7 +2772,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueText() {
                 final var expectedText = "Text value for question";
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -2945,7 +2792,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValueTextEmpty() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -2971,7 +2818,8 @@ class InternalToCertificateTest {
                 final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[0];
                 assertAll("Validation question validation",
                     () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
+                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27,
+                        certificateDataValidationHide.getExpression())
                 );
             }
         }
@@ -2979,11 +2827,11 @@ class InternalToCertificateTest {
         @Nested
         class QuestionArbetstidsforlaggning {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -2992,7 +2840,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionElement() {
-                final var expectedIndex = 21;
+                final var expectedIndex = 20;
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
@@ -3001,7 +2849,7 @@ class InternalToCertificateTest {
                 assertAll("Validating question",
                     () -> assertEquals(ARBETSTIDSFORLAGGNING_SVAR_ID_33, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(BEDOMNING_CATEGORY_ID, question.getParent()),
+                    () -> assertEquals(CATEGORY_BEDOMNING, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
                     () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
@@ -3030,7 +2878,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValueTrue() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -3050,7 +2898,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValueFalse() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -3070,7 +2918,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValueEmpty() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -3111,7 +2959,8 @@ class InternalToCertificateTest {
                 final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
                 assertAll("Validation question validation",
                     () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
+                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27,
+                        certificateDataValidationHide.getExpression())
                 );
             }
         }
@@ -3119,11 +2968,11 @@ class InternalToCertificateTest {
         @Nested
         class QuestionMotiveringArbetstidsforlaggning {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -3132,7 +2981,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionElement() {
-                final var expectedIndex = 22;
+                final var expectedIndex = 21;
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
@@ -3141,7 +2990,7 @@ class InternalToCertificateTest {
                 assertAll("Validating question",
                     () -> assertEquals(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(BEDOMNING_CATEGORY_ID, question.getParent()),
+                    () -> assertEquals(CATEGORY_BEDOMNING, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
                     () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
@@ -3168,7 +3017,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueText() {
                 final var expectedText = "Text value for question";
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -3188,7 +3037,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValueTextEmpty() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -3235,11 +3084,11 @@ class InternalToCertificateTest {
         @Nested
         class QuestionArbetsresor {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -3248,7 +3097,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionElement() {
-                final var expectedIndex = 23;
+                final var expectedIndex = 22;
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
@@ -3257,7 +3106,7 @@ class InternalToCertificateTest {
                 assertAll("Validating question",
                     () -> assertEquals(ARBETSRESOR_SVAR_ID_34, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(BEDOMNING_CATEGORY_ID, question.getParent()),
+                    () -> assertEquals(CATEGORY_BEDOMNING, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
                     () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
@@ -3266,7 +3115,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionConfig() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setArbetsresor(true)
@@ -3306,7 +3155,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValueFalse() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -3326,7 +3175,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValueEmpty() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -3360,11 +3209,11 @@ class InternalToCertificateTest {
         @Nested
         class QuestionPrognos {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -3373,7 +3222,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionElement() {
-                final var expectedIndex = 24;
+                final var expectedIndex = 23;
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
@@ -3382,7 +3231,7 @@ class InternalToCertificateTest {
                 assertAll("Validating question",
                     () -> assertEquals(PROGNOS_SVAR_ID_39, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(BEDOMNING_CATEGORY_ID, question.getParent()),
+                    () -> assertEquals(CATEGORY_BEDOMNING, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
                     () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
@@ -3478,7 +3327,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueStorSannolikhet() {
                 final var expectedPrognos = Prognos.create(PrognosTyp.MED_STOR_SANNOLIKHET, null);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -3499,7 +3348,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueAntalDagar() {
                 final var expectedPrognos = Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_30);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -3520,7 +3369,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueSannoliktInte() {
                 final var expectedPrognos = Prognos.create(PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING, null);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -3541,7 +3390,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValuePrognosOklar() {
                 final var expectedPrognos = Prognos.create(PrognosTyp.PROGNOS_OKLAR, null);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -3590,11 +3439,11 @@ class InternalToCertificateTest {
         @Nested
         class QuestionPrognosTimeperiod {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -3603,7 +3452,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionElement() {
-                final var expectedIndex = 25;
+                final var expectedIndex = 24;
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
@@ -3612,7 +3461,7 @@ class InternalToCertificateTest {
                 assertAll("Validating question",
                     () -> assertEquals(PROGNOS_BESKRIVNING_DELSVAR_ID_39, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(BEDOMNING_CATEGORY_ID, question.getParent()),
+                    () -> assertEquals(CATEGORY_BEDOMNING, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
                     () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
@@ -3744,7 +3593,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValue30Days() {
                 final var expectedPrognos = Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_30);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -3765,7 +3614,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValue60Days() {
                 final var expectedPrognos = Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_60);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -3786,7 +3635,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValue90Days() {
                 final var expectedPrognos = Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_90);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -3807,7 +3656,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValue180Days() {
                 final var expectedPrognos = Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_180);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -3828,7 +3677,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValue365Days() {
                 final var expectedPrognos = Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_365);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -3891,11 +3740,11 @@ class InternalToCertificateTest {
         @Nested
         class CategoryAtgarder {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -3905,14 +3754,14 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeCategoryElement() {
-                final var expectedIndex = 26;
+                final var expectedIndex = 25;
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var category = certificate.getData().get(ATGARDER_CATEGORY_ID);
+                final var category = certificate.getData().get(CATEGORY_ATGARDER);
 
                 assertAll("Validating category",
-                    () -> assertEquals(ATGARDER_CATEGORY_ID, category.getId()),
+                    () -> assertEquals(CATEGORY_ATGARDER, category.getId()),
                     () -> assertEquals(expectedIndex, category.getIndex()),
                     () -> assertNull(category.getParent(), "Should not contain a parent"),
                     () -> assertNull(category.getValue(), "Should not contain a value"),
@@ -3925,7 +3774,7 @@ class InternalToCertificateTest {
             void shouldIncludeCategoryConfig() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var category = certificate.getData().get(ATGARDER_CATEGORY_ID);
+                final var category = certificate.getData().get(CATEGORY_ATGARDER);
 
                 assertEquals(CertificateDataConfigTypes.CATEGORY, category.getConfig().getType());
 
@@ -3939,7 +3788,7 @@ class InternalToCertificateTest {
             void shouldIncludeCategoryValidationHide() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(ATGARDER_CATEGORY_ID);
+                final var question = certificate.getData().get(CATEGORY_ATGARDER);
 
                 final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[0];
                 assertAll("Validation question validation",
@@ -3952,11 +3801,11 @@ class InternalToCertificateTest {
         @Nested
         class QuestionAtgarder {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -3965,7 +3814,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionElement() {
-                final var expectedIndex = 27;
+                final var expectedIndex = 26;
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
@@ -3974,7 +3823,7 @@ class InternalToCertificateTest {
                 assertAll("Validating question",
                     () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(ATGARDER_CATEGORY_ID, question.getParent()),
+                    () -> assertEquals(CATEGORY_ATGARDER, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
                     () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
@@ -4057,8 +3906,8 @@ class InternalToCertificateTest {
             }
 
             @Test
-            void shouldIncludeQuestionConfigSokaArbete() {
-                final var expectedChoice = ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE;
+            void shouldIncludeQuestionConfigBesokaArbete() {
+                final var expectedChoice = ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN;
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
@@ -4077,8 +3926,8 @@ class InternalToCertificateTest {
             }
 
             @Test
-            void shouldIncludeQuestionConfigBesokaArbete() {
-                final var expectedChoice = ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN;
+            void shouldIncludeQuestionConfigErgonomisk() {
+                final var expectedChoice = ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING;
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
@@ -4097,8 +3946,8 @@ class InternalToCertificateTest {
             }
 
             @Test
-            void shouldIncludeQuestionConfigErgonomisk() {
-                final var expectedChoice = ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING;
+            void shouldIncludeQuestionConfigHjalpmedel() {
+                final var expectedChoice = ArbetslivsinriktadeAtgarderVal.HJALPMEDEL;
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
@@ -4117,8 +3966,8 @@ class InternalToCertificateTest {
             }
 
             @Test
-            void shouldIncludeQuestionConfigHjalpmedel() {
-                final var expectedChoice = ArbetslivsinriktadeAtgarderVal.HJALPMEDEL;
+            void shouldIncludeQuestionConfigKontaktFHV() {
+                final var expectedChoice = ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD;
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
@@ -4137,8 +3986,8 @@ class InternalToCertificateTest {
             }
 
             @Test
-            void shouldIncludeQuestionConfigKonflikthantering() {
-                final var expectedChoice = ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING;
+            void shouldIncludeQuestionConfigOmfordelning() {
+                final var expectedChoice = ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER;
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
@@ -4157,8 +4006,8 @@ class InternalToCertificateTest {
             }
 
             @Test
-            void shouldIncludeQuestionConfigKontaktFHV() {
-                final var expectedChoice = ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD;
+            void shouldIncludeQuestionConfigOvrigt() {
+                final var expectedChoice = ArbetslivsinriktadeAtgarderVal.OVRIGT;
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
@@ -4177,49 +4026,9 @@ class InternalToCertificateTest {
             }
 
             @Test
-            void shouldIncludeQuestionConfigOmfordelning() {
-                final var expectedChoice = ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER;
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
-
-                assertEquals(CertificateDataConfigTypes.UE_CHECKBOX_MULTIPLE_CODE, question.getConfig().getType());
-
-                final var certificateDataConfigCheckboxMultipleCode = (CertificateDataConfigCheckboxMultipleCode) question.getConfig();
-                assertAll("Validating question configuration",
-                    () -> assertEquals(expectedChoice.getId(),
-                        certificateDataConfigCheckboxMultipleCode.getList().get(9).getId()),
-                    () -> assertTrue(certificateDataConfigCheckboxMultipleCode.getList().get(9).getLabel().trim().length() > 0,
-                        "Missing label"),
-                    () -> assertEquals(expectedChoice.getLabel(),
-                        certificateDataConfigCheckboxMultipleCode.getList().get(9).getLabel())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionConfigOvrigt() {
-                final var expectedChoice = ArbetslivsinriktadeAtgarderVal.OVRIGT;
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
-
-                assertEquals(CertificateDataConfigTypes.UE_CHECKBOX_MULTIPLE_CODE, question.getConfig().getType());
-
-                final var certificateDataConfigCheckboxMultipleCode = (CertificateDataConfigCheckboxMultipleCode) question.getConfig();
-                assertAll("Validating question configuration",
-                    () -> assertEquals(expectedChoice.getId(),
-                        certificateDataConfigCheckboxMultipleCode.getList().get(10).getId()),
-                    () -> assertTrue(certificateDataConfigCheckboxMultipleCode.getList().get(10).getLabel().trim().length() > 0,
-                        "Missing label"),
-                    () -> assertEquals(expectedChoice.getLabel(),
-                        certificateDataConfigCheckboxMultipleCode.getList().get(10).getLabel())
-                );
-            }
-
-            @Test
             void shouldIncludeQuestionValueArbetssokande() {
                 final var expectedAtgard = ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -4240,7 +4049,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueArbetstraning() {
                 final var expectedAtgard = ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -4262,28 +4071,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueArbetsanpassning() {
                 final var expectedAtgard = ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING);
-                internalCertificate = LisjpUtlatandeV1.builder()
-                    .setGrundData(grundData)
-                    .setId("id")
-                    .setTextVersion("TextVersion")
-                    .setArbetslivsinriktadeAtgarder(Arrays.asList(expectedAtgard))
-                    .build();
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
-
-                final var certificateDataValueCodeList = (CertificateDataValueCodeList) question.getValue();
-                assertAll("Validating question value",
-                    () -> assertEquals(expectedAtgard.getTyp().getId(), certificateDataValueCodeList.getList().get(0).getId()),
-                    () -> assertEquals(expectedAtgard.getTyp().getId(), certificateDataValueCodeList.getList().get(0).getCode())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValueNyttArbete() {
-                final var expectedAtgard = ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -4304,7 +4092,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueBesokaArbetsplatsen() {
                 final var expectedAtgard = ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -4325,7 +4113,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueHjalpmedel() {
                 final var expectedAtgard = ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -4346,28 +4134,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueErgonomisk() {
                 final var expectedAtgard = ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING);
-                internalCertificate = LisjpUtlatandeV1.builder()
-                    .setGrundData(grundData)
-                    .setId("id")
-                    .setTextVersion("TextVersion")
-                    .setArbetslivsinriktadeAtgarder(Arrays.asList(expectedAtgard))
-                    .build();
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
-
-                final var certificateDataValueCodeList = (CertificateDataValueCodeList) question.getValue();
-                assertAll("Validating question value",
-                    () -> assertEquals(expectedAtgard.getTyp().getId(), certificateDataValueCodeList.getList().get(0).getId()),
-                    () -> assertEquals(expectedAtgard.getTyp().getId(), certificateDataValueCodeList.getList().get(0).getCode())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValueKonflikthantering() {
-                final var expectedAtgard = ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -4389,7 +4156,7 @@ class InternalToCertificateTest {
             void shouldIncludeQuestionValueOmfordelning() {
                 final var expectedAtgard = ArbetslivsinriktadeAtgarder
                     .create(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -4410,7 +4177,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueKontaktFHV() {
                 final var expectedAtgard = ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -4431,7 +4198,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueOvrigt() {
                 final var expectedAtgard = ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OVRIGT);
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -4454,11 +4221,10 @@ class InternalToCertificateTest {
             void shouldIncludeQuestionValueSeveralOfThem() {
                 final var expectedAtgarder = Arrays.asList(
                     ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING),
                     ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER),
                     ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OVRIGT)
                 );
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -4476,9 +4242,7 @@ class InternalToCertificateTest {
                     () -> assertEquals(expectedAtgarder.get(1).getTyp().getId(),
                         certificateDataValueCodeList.getList().get(1).getId()),
                     () -> assertEquals(expectedAtgarder.get(2).getTyp().getId(),
-                        certificateDataValueCodeList.getList().get(2).getId()),
-                    () -> assertEquals(expectedAtgarder.get(3).getTyp().getId(),
-                        certificateDataValueCodeList.getList().get(3).getId())
+                        certificateDataValueCodeList.getList().get(2).getId())
                 );
             }
 
@@ -4491,8 +4255,8 @@ class InternalToCertificateTest {
                 final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
                 assertAll("Validation question validation",
                     () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, certificateDataValidationMandatory.getQuestionId()),
-                    () -> assertEquals("$EJ_AKTUELLT || $ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS "
-                            + "|| $ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER",
+                    () -> assertEquals("$EJ_AKTUELLT || $ARBETSTRANING || $ARBETSANPASSNING || $BESOK_ARBETSPLATS "
+                            + "|| $ERGONOMISK || $HJALPMEDEL || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER",
                         certificateDataValidationMandatory.getExpression())
                 );
             }
@@ -4508,8 +4272,8 @@ class InternalToCertificateTest {
                     () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, certificateDataValidationDisable.getQuestionId()),
                     () -> assertTrue(certificateDataValidationDisable.getId().size() == 1),
                     () -> assertEquals("EJ_AKTUELLT", certificateDataValidationDisable.getId().get(0)),
-                    () -> assertEquals("$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS "
-                            + "|| $ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER",
+                    () -> assertEquals("$ARBETSTRANING || $ARBETSANPASSNING || $BESOK_ARBETSPLATS "
+                            + "|| $ERGONOMISK || $HJALPMEDEL || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER",
                         certificateDataValidationDisable.getExpression())
                 );
             }
@@ -4523,7 +4287,7 @@ class InternalToCertificateTest {
                 final var certificateDataValidationDisable = (CertificateDataValidationDisable) question.getValidation()[2];
                 assertAll("Validation question validation",
                     () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, certificateDataValidationDisable.getQuestionId()),
-                    () -> assertTrue(certificateDataValidationDisable.getId().size() == 10),
+                    () -> assertTrue(certificateDataValidationDisable.getId().size() == 8),
                     //() -> assertEquals("$EJ_AKTUELLT", certificateDataValidationDisable.getId().get(0)),
                     () -> assertEquals("$EJ_AKTUELLT",
                         certificateDataValidationDisable.getExpression())
@@ -4547,11 +4311,11 @@ class InternalToCertificateTest {
         @Nested
         class QuestionAtgarderBeskrivning {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -4560,7 +4324,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionElement() {
-                final var expectedIndex = 28;
+                final var expectedIndex = 27;
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
@@ -4569,7 +4333,7 @@ class InternalToCertificateTest {
                 assertAll("Validating question",
                     () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(ATGARDER_CATEGORY_ID, question.getParent()),
+                    () -> assertEquals(CATEGORY_ATGARDER, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
                     () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
@@ -4598,7 +4362,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueText() {
                 final var expectedText = "Text value for question";
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -4618,7 +4382,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValueTextEmpty() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -4645,8 +4409,8 @@ class InternalToCertificateTest {
                 assertAll("Validation question validation",
                     () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, certificateDataValidationShow.getQuestionId()),
                     () -> assertEquals(
-                        "$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS || $ERGONOMISK || $HJALPMEDEL ||"
-                            + " $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER",
+                        "$ARBETSTRANING || $ARBETSANPASSNING || $BESOK_ARBETSPLATS || $ERGONOMISK || $HJALPMEDEL ||"
+                            + " $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER",
                         certificateDataValidationShow.getExpression())
                 );
             }
@@ -4665,14 +4429,15 @@ class InternalToCertificateTest {
             }
         }
 
+
         @Nested
         class CategoryOvrigt {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -4682,14 +4447,14 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeCategoryElement() {
-                final var expectedIndex = 29;
+                final var expectedIndex = 28;
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var category = certificate.getData().get(OVRIGT_CATEGORY_ID);
+                final var category = certificate.getData().get(CATEGORY_OVRIGT);
 
                 assertAll("Validating category",
-                    () -> assertEquals(OVRIGT_CATEGORY_ID, category.getId()),
+                    () -> assertEquals(CATEGORY_OVRIGT, category.getId()),
                     () -> assertEquals(expectedIndex, category.getIndex()),
                     () -> assertNull(category.getParent(), "Should not contain a parent"),
                     () -> assertNull(category.getValue(), "Should not contain a value"),
@@ -4702,7 +4467,7 @@ class InternalToCertificateTest {
             void shouldIncludeCategoryConfig() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var category = certificate.getData().get(OVRIGT_CATEGORY_ID);
+                final var category = certificate.getData().get(CATEGORY_OVRIGT);
 
                 assertEquals(CertificateDataConfigTypes.CATEGORY, category.getConfig().getType());
 
@@ -4716,11 +4481,11 @@ class InternalToCertificateTest {
         @Nested
         class QuestionOvrigt {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -4729,7 +4494,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionElement() {
-                final var expectedIndex = 30;
+                final var expectedIndex = 29;
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
@@ -4738,7 +4503,7 @@ class InternalToCertificateTest {
                 assertAll("Validating question",
                     () -> assertEquals(OVRIGT_SVAR_ID_25, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(OVRIGT_CATEGORY_ID, question.getParent()),
+                    () -> assertEquals(CATEGORY_OVRIGT, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
                     () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
@@ -4755,7 +4520,7 @@ class InternalToCertificateTest {
 
                 final var certificateDataConfigTextArea = (CertificateDataConfigTextArea) question.getConfig();
                 assertAll("Validating question configuration",
-                    () -> assertNull(certificateDataConfigTextArea.getText(), "Should not include text"),
+                    () -> assertTrue(certificateDataConfigTextArea.getText().trim().length() > 0, "Missing text"),
                     () -> assertNull(certificateDataConfigTextArea.getDescription(), "Should not include description"),
                     () -> assertNull(certificateDataConfigTextArea.getHeader(), "Should not include a header"),
                     () -> assertNull(certificateDataConfigTextArea.getLabel(), "Should not include a label"),
@@ -4767,7 +4532,7 @@ class InternalToCertificateTest {
             @Test
             void shouldIncludeQuestionValueText() {
                 final var expectedText = "Text value for question";
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -4787,7 +4552,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValueTextEmpty() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -4821,11 +4586,11 @@ class InternalToCertificateTest {
         @Nested
         class CategoryKontakt {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -4835,7 +4600,7 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeCategoryElement() {
-                final var expectedIndex = 31;
+                final var expectedIndex = 30;
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
@@ -4882,11 +4647,11 @@ class InternalToCertificateTest {
         @Nested
         class QuestionKontakt {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -4895,14 +4660,14 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionElement() {
-                final var expectedIndex = 32;
+                final var expectedIndex = 31;
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(KONTAKT_ONSKAS_SVAR_ID_26);
+                final var question = certificate.getData().get(KONTAKT_ONSKAS_SVAR_ID_103);
 
                 assertAll("Validating question",
-                    () -> assertEquals(KONTAKT_ONSKAS_SVAR_ID_26, question.getId()),
+                    () -> assertEquals(KONTAKT_ONSKAS_SVAR_ID_103, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
                     () -> assertEquals(KONTAKT_CATEGORY_ID, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
@@ -4915,7 +4680,7 @@ class InternalToCertificateTest {
             void shouldIncludeQuestionConfig() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(KONTAKT_ONSKAS_SVAR_ID_26);
+                final var question = certificate.getData().get(KONTAKT_ONSKAS_SVAR_ID_103);
 
                 assertEquals(CertificateDataConfigTypes.UE_CHECKBOX_BOOLEAN, question.getConfig().getType());
 
@@ -4924,7 +4689,7 @@ class InternalToCertificateTest {
                     () -> assertTrue(certificateDataConfigCheckboxBoolean.getText().trim().length() > 0, "Missing text"),
                     () -> assertTrue(certificateDataConfigCheckboxBoolean.getLabel().trim().length() > 0, "Missing label"),
                     () -> assertTrue(certificateDataConfigCheckboxBoolean.getDescription().trim().length() > 0, "Missing description"),
-                    () -> assertEquals(KONTAKT_ONSKAS_SVAR_JSON_ID_26, certificateDataConfigCheckboxBoolean.getId()),
+                    () -> assertEquals(KONTAKT_ONSKAS_SVAR_JSON_ID_103, certificateDataConfigCheckboxBoolean.getId()),
                     () -> assertTrue(certificateDataConfigCheckboxBoolean.getSelectedText().trim().length() > 0, "Missing selected text"),
                     () -> assertTrue(certificateDataConfigCheckboxBoolean.getUnselectedText().trim().length() > 0,
                         "Missing unselected text")
@@ -4933,26 +4698,26 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionValueTrue() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
-                    .setKontaktMedFk(true)
+                    .setKontaktMedAg(true)
                     .build();
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(KONTAKT_ONSKAS_SVAR_ID_26);
+                final var question = certificate.getData().get(KONTAKT_ONSKAS_SVAR_ID_103);
 
                 final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(KONTAKT_ONSKAS_SVAR_JSON_ID_26, certificateDataValueBoolean.getId()),
-                    () -> assertEquals(internalCertificate.getKontaktMedFk(), certificateDataValueBoolean.getSelected())
+                    () -> assertEquals(KONTAKT_ONSKAS_SVAR_JSON_ID_103, certificateDataValueBoolean.getId()),
+                    () -> assertEquals(internalCertificate.getKontaktMedAg(), certificateDataValueBoolean.getSelected())
                 );
             }
 
             @Test
             void shouldIncludeQuestionValueFalse() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -4961,18 +4726,18 @@ class InternalToCertificateTest {
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(KONTAKT_ONSKAS_SVAR_ID_26);
+                final var question = certificate.getData().get(KONTAKT_ONSKAS_SVAR_ID_103);
 
                 final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(KONTAKT_ONSKAS_SVAR_JSON_ID_26, certificateDataValueBoolean.getId()),
-                    () -> assertEquals(internalCertificate.getKontaktMedFk(), certificateDataValueBoolean.getSelected())
+                    () -> assertEquals(KONTAKT_ONSKAS_SVAR_JSON_ID_103, certificateDataValueBoolean.getId()),
+                    () -> assertEquals(internalCertificate.getKontaktMedAg(), certificateDataValueBoolean.getSelected())
                 );
             }
 
             @Test
             void shouldIncludeQuestionValueEmpty() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -4980,11 +4745,11 @@ class InternalToCertificateTest {
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(KONTAKT_ONSKAS_SVAR_ID_26);
+                final var question = certificate.getData().get(KONTAKT_ONSKAS_SVAR_ID_103);
 
                 final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(KONTAKT_ONSKAS_SVAR_JSON_ID_26, certificateDataValueBoolean.getId()),
+                    () -> assertEquals(KONTAKT_ONSKAS_SVAR_JSON_ID_103, certificateDataValueBoolean.getId()),
                     () -> assertNull(certificateDataValueBoolean.getSelected())
                 );
             }
@@ -4993,7 +4758,7 @@ class InternalToCertificateTest {
             void shouldIncludeValidationHide() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(KONTAKT_ONSKAS_SVAR_ID_26);
+                final var question = certificate.getData().get(KONTAKT_ONSKAS_SVAR_ID_103);
 
                 final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[0];
                 assertAll("Validation question validation",
@@ -5006,11 +4771,11 @@ class InternalToCertificateTest {
         @Nested
         class QuestionKontaktBeskrivning {
 
-            private LisjpUtlatandeV1 internalCertificate;
+            private Ag7804UtlatandeV1 internalCertificate;
 
             @BeforeEach
             void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -5019,14 +4784,14 @@ class InternalToCertificateTest {
 
             @Test
             void shouldIncludeQuestionElement() {
-                final var expectedIndex = 33;
+                final var expectedIndex = 32;
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26);
+                final var question = certificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103);
 
                 assertAll("Validating question",
-                    () -> assertEquals(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26, question.getId()),
+                    () -> assertEquals(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
                     () -> assertEquals(KONTAKT_CATEGORY_ID, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
@@ -5039,7 +4804,7 @@ class InternalToCertificateTest {
             void shouldIncludeQuestionConfig() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26);
+                final var question = certificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103);
 
                 assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
 
@@ -5050,14 +4815,14 @@ class InternalToCertificateTest {
                     () -> assertNull(certificateDataConfigTextArea.getHeader(), "Should not include header"),
                     () -> assertNull(certificateDataConfigTextArea.getLabel(), "Should not include label"),
                     () -> assertNull(certificateDataConfigTextArea.getIcon(), "Should not include icon"),
-                    () -> assertEquals(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26, certificateDataConfigTextArea.getId())
+                    () -> assertEquals(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_103, certificateDataConfigTextArea.getId())
                 );
             }
 
             @Test
             void shouldIncludeQuestionValueText() {
                 final var expectedText = "Text value for question";
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -5066,18 +4831,18 @@ class InternalToCertificateTest {
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26);
+                final var question = certificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103);
 
                 final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26, certificateDataValueText.getId()),
+                    () -> assertEquals(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_103, certificateDataValueText.getId()),
                     () -> assertEquals(expectedText, certificateDataValueText.getText())
                 );
             }
 
             @Test
             void shouldIncludeQuestionValueTextEmpty() {
-                internalCertificate = LisjpUtlatandeV1.builder()
+                internalCertificate = Ag7804UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
@@ -5085,11 +4850,11 @@ class InternalToCertificateTest {
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26);
+                final var question = certificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103);
 
                 final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26, certificateDataValueText.getId()),
+                    () -> assertEquals(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_103, certificateDataValueText.getId()),
                     () -> assertNull(certificateDataValueText.getText())
                 );
             }
@@ -5098,12 +4863,12 @@ class InternalToCertificateTest {
             void shouldIncludeQuestionValidationShow() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26);
+                final var question = certificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103);
 
                 final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[0];
                 assertAll("Validation question validation",
-                    () -> assertEquals(KONTAKT_ONSKAS_SVAR_ID_26, certificateDataValidationShow.getQuestionId()),
-                    () -> assertEquals("$" + KONTAKT_ONSKAS_SVAR_JSON_ID_26, certificateDataValidationShow.getExpression())
+                    () -> assertEquals(KONTAKT_ONSKAS_SVAR_ID_103, certificateDataValidationShow.getQuestionId()),
+                    () -> assertEquals("$" + KONTAKT_ONSKAS_SVAR_JSON_ID_103, certificateDataValidationShow.getExpression())
                 );
             }
 
@@ -5111,7 +4876,7 @@ class InternalToCertificateTest {
             void shouldIncludeValidationHide() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26);
+                final var question = certificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103);
 
                 final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
                 assertAll("Validation question validation",
@@ -5121,4 +4886,5 @@ class InternalToCertificateTest {
             }
         }
     }
+
 }

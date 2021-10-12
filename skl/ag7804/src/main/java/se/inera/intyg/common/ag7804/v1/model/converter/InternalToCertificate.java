@@ -17,149 +17,142 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.lisjp.v1.model.converter;
+package se.inera.intyg.common.ag7804.v1.model.converter;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_BESKRIVNING;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_ICF_COLLECTION;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_ICF_INFO;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANSWER_NO;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANSWER_NOT_SELECTED;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANSWER_YES;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSRESOR_SVAR_ID_34;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSRESOR_SVAR_JSON_ID_34;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSRESOR_SVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_BESKRIVNING;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_ID_33;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ATGARDER_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ATGARDER_CATEGORY_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_DESCRIPTION;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_QUESTION_LABEL;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEDOMNING_CATEGORY_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_EN_FJARDEDEL;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_HALFTEN;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_HELT_NEDSATT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_BESKRIVNING;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_TRE_FJARDEDEL;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DESCRIPTION;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_CATEGORY_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_ICD_10_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_ICD_10_LABEL;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_KSH_97_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_KSH_97_LABEL;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_SVAR_BESKRIVNING;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_SVAR_ID_6;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_SVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_BESKRIVNING;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_BESKRIVNING;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ICF_COLLECTION;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ICF_INFO;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_35;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_BESKRIVNING;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_ANNAT_LABEL;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_JOURNALUPPGIFTER_LABEL;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_TELEFONKONTAKT_LABEL;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_UNDERSOKNING_LABEL;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_CATEGORY_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_BESKRIVNING;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_CATEGORY_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_DELSVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_DELSVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_DAGAR_180;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_DAGAR_30;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_DAGAR_365;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_DAGAR_60;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_DAGAR_90;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_ATER_X_ANTAL_DAGAR;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_BESKRIVNING;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_ID_39;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_PROGNOS_OKLAR;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_SANNOLIKT_INTE;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_STOR_SANNOLIKHET;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSELSATTNING_ARBETE;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSELSATTNING_ARBETSSOKANDE;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSELSATTNING_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSELSATTNING_CATEGORY_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSELSATTNING_FORALDRALEDIG;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSELSATTNING_STUDIER;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSELSATTNING_SVAR_BESKRIVNING;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSELSATTNING_SVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.appendAttribute;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.lessThan;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleAndExpression;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_BESKRIVNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_103;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ANSWER_NO;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ANSWER_NOT_SELECTED;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ANSWER_YES;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSRESOR_SVAR_ID_34;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSRESOR_SVAR_JSON_ID_34;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSRESOR_SVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_BESKRIVNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_ID_33;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ATGARDER_CATEGORY_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_DESCRIPTION;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_ID;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_QUESTION_LABEL;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.BEDOMNING_CATEGORY_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_EN_FJARDEDEL;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_HALFTEN;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_HELT_NEDSATT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_BESKRIVNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_TRE_FJARDEDEL;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_ATGARDER;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_BEDOMNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_DIAGNOS;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_FUNKTIONSNEDSATTNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_GRUNDFORMU;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_KONTAKT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_MEDICINSKABEHANDLINGAR;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_OVRIGT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_SYSSELSATTNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DESCRIPTION;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_CATEGORY_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_ICD_10_ID;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_ICD_10_LABEL;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_KSH_97_ID;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_KSH_97_LABEL;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_BESKRIVNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_ID_6;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_BESKRIVNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_BESKRIVNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_35;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_BESKRIVNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMU_ANNAT_LABEL;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMU_JOURNALUPPGIFTER_LABEL;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMU_TELEFONKONTAKT_LABEL;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMU_UNDERSOKNING_LABEL;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_CATEGORY_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_BESKRIVNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_103;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_103;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.NO_ID;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_CATEGORY_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_ID_25;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_DELSVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PLANERADBEHANDLING_DELSVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PLANERADBEHANDLING_SVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_DAGAR_180;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_DAGAR_30;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_DAGAR_365;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_DAGAR_60;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_DAGAR_90;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_SVAR_ATER_X_ANTAL_DAGAR;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_SVAR_BESKRIVNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_SVAR_ID_39;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_SVAR_PROGNOS_OKLAR;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_SVAR_SANNOLIKT_INTE;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_SVAR_STOR_SANNOLIKHET;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_SVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_ARBETE;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_ARBETSSOKANDE;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_CATEGORY_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_FORALDRALEDIG;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_STUDIER;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_SVAR_BESKRIVNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_SVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.YES_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.not;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.wrapWithParenthesis;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -167,18 +160,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
-import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
-import se.inera.intyg.common.lisjp.model.internal.Prognos;
-import se.inera.intyg.common.lisjp.model.internal.PrognosDagarTillArbeteTyp;
-import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
-import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
-import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
-import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
-import se.inera.intyg.common.lisjp.model.internal.Sysselsattning.SysselsattningsTyp;
-import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
-import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
+import se.inera.intyg.common.ag7804.model.internal.ArbetslivsinriktadeAtgarder;
+import se.inera.intyg.common.ag7804.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
+import se.inera.intyg.common.ag7804.model.internal.Prognos;
+import se.inera.intyg.common.ag7804.model.internal.PrognosDagarTillArbeteTyp;
+import se.inera.intyg.common.ag7804.model.internal.PrognosTyp;
+import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
+import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning.SjukskrivningsGrad;
+import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
+import se.inera.intyg.common.ag7804.model.internal.Sysselsattning.SysselsattningsTyp;
+import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
+import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
+import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -189,7 +182,6 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCh
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleDate;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDiagnoses;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDropdown;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigIcf;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigSickLeavePeriod;
@@ -211,7 +203,6 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataIcfValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
@@ -225,18 +216,13 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiag
 
 public final class InternalToCertificate {
 
-    private static final short LIMIT_MOTIVERING_INTE_BASERAT_PA_UNDERLAG = (short) 150;
-    private static final short LIMIT_MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING = (short) 150;
-    private static final short LIMIT_OVRIGT = (short) 3296;
-
-    private static final String VALIDATION_DAYS_TIDIGT_START_DATUM = "-7";
-
+    private static final short LIMIT_OVRIGT = 3296;
 
     private InternalToCertificate() {
 
     }
 
-    public static Certificate convert(LisjpUtlatandeV1 internalCertificate, CertificateTextProvider texts) {
+    public static Certificate convert(Ag7804UtlatandeV1 internalCertificate, CertificateTextProvider texts) {
         var index = 0;
         return CertificateBuilder.create()
             .metadata(createMetadata(internalCertificate, texts))
@@ -245,24 +231,20 @@ public final class InternalToCertificate {
             .addElement(createGrundForMUCategory(index++, texts))
             .addElement(createIntygetBaseratPa(internalCertificate, index++, texts))
             .addElement(createAnnatGrundForMUBeskrivning(internalCertificate.getAnnatGrundForMUBeskrivning(), index++, texts))
-            .addElement(createMotiveringEjUndersokning(internalCertificate.getMotiveringTillInteBaseratPaUndersokning(), index++, texts))
             .addElement(createSysselsattningCategory(index++, texts))
             .addElement(createSysselsattningQuestion(internalCertificate.getSysselsattning(), index++, texts))
             .addElement(createSysselsattningYrkeQuestion(internalCertificate.getNuvarandeArbete(), index++, texts))
             .addElement(createDiagnosCategory(index++, texts))
+            .addElement(createShouldIncludeDiagnosesQuestion(internalCertificate.getOnskarFormedlaDiagnos(), index++, texts))
             .addElement(createDiagnosQuestion(internalCertificate.getDiagnoser(), index++, texts))
             .addElement(createFunktionsnedsattningCategory(index++, texts))
-            .addElement(createFunktionsnedsattningQuestion(internalCertificate.getFunktionsnedsattning(),
-                internalCertificate.getFunktionsKategorier(), index++, texts))
-            .addElement(createAktivitetsbegransningQuestion(internalCertificate.getAktivitetsbegransning(),
-                internalCertificate.getAktivitetsKategorier(), index++, texts))
+            .addElement(createFunktionsnedsattningQuestion(internalCertificate.getFunktionsnedsattning(), index++, texts))
+            .addElement(createAktivitetsbegransningQuestion(internalCertificate.getAktivitetsbegransning(), index++, texts))
             .addElement(createMedicinskaBehandlingarCategory(index++, texts))
             .addElement(createPagaendeBehandlingQuestion(internalCertificate.getPagaendeBehandling(), index++, texts))
             .addElement(createPlaneradBehandlingQuestion(internalCertificate.getPlaneradBehandling(), index++, texts))
             .addElement(createBedomningCategory(index++, texts))
             .addElement(createBehovAvSjukskrivningQuestion(internalCertificate.getSjukskrivningar(), index++, texts))
-            .addElement(createMotiveringTidigtStartdatumQuestion(internalCertificate.getMotiveringTillTidigtStartdatumForSjukskrivning(),
-                index++, texts))
             .addElement(
                 createForsakringsmedicinsktBeslutsstodQuestion(internalCertificate.getForsakringsmedicinsktBeslutsstod(), index++, texts))
             .addElement(createArbetstidsforlaggningQuestion(internalCertificate.getArbetstidsforlaggning(), index++, texts))
@@ -277,20 +259,18 @@ public final class InternalToCertificate {
             .addElement(createOvrigtCategory(index++, texts))
             .addElement(createOvrigtQuestion(internalCertificate.getOvrigt(), index++, texts))
             .addElement(createKontaktCategory(index++, texts))
-            .addElement(createKontaktQuestion(internalCertificate.getKontaktMedFk(), index++, texts))
-            .addElement(createKontaktBeskrivning(internalCertificate.getAnledningTillKontakt(), index, texts))
+            .addElement(createKontaktQuestion(internalCertificate.getKontaktMedAg(), index++, texts))
+            .addElement(createKontaktBeskrivning(internalCertificate.getAnledningTillKontakt(), index++, texts))
             .build();
     }
 
-
-    private static CertificateMetadata createMetadata(LisjpUtlatandeV1 internalCertificate,
-        CertificateTextProvider texts) {
+    private static CertificateMetadata createMetadata(Ag7804UtlatandeV1 internalCertificate, CertificateTextProvider texts) {
         final var unit = internalCertificate.getGrundData().getSkapadAv().getVardenhet();
         return CertificateMetadata.builder()
             .id(internalCertificate.getId())
             .type(internalCertificate.getTyp())
             .typeVersion(internalCertificate.getTextVersion())
-            .name(LisjpEntryPoint.MODULE_NAME)
+            .name(Ag7804EntryPoint.MODULE_NAME)
             .description(texts.get(DESCRIPTION))
             .unit(
                 Unit.builder()
@@ -306,9 +286,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-
-    private static CertificateDataElement createSmittbararpenningCategory(int index,
-        CertificateTextProvider texts) {
+    private static CertificateDataElement createSmittbararpenningCategory(int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(AVSTANGNING_SMITTSKYDD_CATEGORY_ID)
             .index(index)
@@ -321,9 +299,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-
-    public static CertificateDataElement createAvstangningSmittskyddQuestion(Boolean value, int index,
-        CertificateTextProvider texts) {
+    public static CertificateDataElement createAvstangningSmittskyddQuestion(Boolean value, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
             .index(index)
@@ -345,11 +321,9 @@ public final class InternalToCertificate {
             .build();
     }
 
-
-    private static CertificateDataElement createGrundForMUCategory(int index,
-        CertificateTextProvider texts) {
+    private static CertificateDataElement createGrundForMUCategory(int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(GRUNDFORMU_CATEGORY_ID)
+            .id(CATEGORY_GRUNDFORMU)
             .index(index)
             .config(
                 CertificateDataConfigCategory.builder()
@@ -367,13 +341,12 @@ public final class InternalToCertificate {
             .build();
     }
 
-
-    public static CertificateDataElement createIntygetBaseratPa(LisjpUtlatandeV1 internalCertificate, int index,
+    public static CertificateDataElement createIntygetBaseratPa(Ag7804UtlatandeV1 internalCertificate, int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
             .index(index)
-            .parent(GRUNDFORMU_CATEGORY_ID)
+            .parent(CATEGORY_GRUNDFORMU)
             .config(
                 CertificateDataConfigCheckboxMultipleDate.builder()
                     .text(texts.get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT))
@@ -442,7 +415,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static List<CertificateDataValueDate> createIntygetBaseratPaValue(LisjpUtlatandeV1 internalCertificate) {
+    private static List<CertificateDataValueDate> createIntygetBaseratPaValue(Ag7804UtlatandeV1 internalCertificate) {
         final List<CertificateDataValueDate> values = new ArrayList<>();
 
         if (internalCertificate.getUndersokningAvPatienten() != null) {
@@ -520,66 +493,10 @@ public final class InternalToCertificate {
             .build();
     }
 
-
-    public static CertificateDataElement createMotiveringEjUndersokning(String value, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1)
-            .index(index)
-            .parent(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .text("Motivering till varför det medicinska underlaget inte baseras på en undersökning av patienten")
-                    .description(
-                        "Observera att detta inte är en fråga från Försäkringskassan. Information om varför sjukskrivningen startar "
-                            + "mer än en vecka före dagens datum kan vara till hjälp för Försäkringskassan i deras handläggning.\n"
-                            + "Informationen du anger nedan, kommer att överföras till fältet \"Övriga upplysningar\" vid signering.")
-                    .icon("lightbulb_outline")
-                    .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1)
-                    .build()
-            )
-            .value(
-                CertificateDataTextValue.builder()
-                    .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1)
-                    .text(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
-                        .expression(
-                            multipleAndExpression(
-                                not(
-                                    singleExpression(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1)
-                                ),
-                                wrapWithParenthesis(
-                                    multipleOrExpression(
-                                        singleExpression(GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1),
-                                        singleExpression(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1),
-                                        singleExpression(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
-                                    )
-                                )
-                            )
-                        )
-                        .build(),
-                    CertificateDataValidationText.builder()
-                        .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1)
-                        .limit(LIMIT_MOTIVERING_INTE_BASERAT_PA_UNDERLAG)
-                        .build(),
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
-            .build();
-    }
-
     private static CertificateDataElement createSysselsattningCategory(int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(SYSSELSATTNING_CATEGORY_ID)
+            .id(CATEGORY_SYSSELSATTNING)
             .index(index)
             .config(
                 CertificateDataConfigCategory.builder()
@@ -597,13 +514,12 @@ public final class InternalToCertificate {
             .build();
     }
 
-
     public static CertificateDataElement createSysselsattningQuestion(List<Sysselsattning> value, int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(TYP_AV_SYSSELSATTNING_SVAR_ID_28)
             .index(index)
-            .parent(SYSSELSATTNING_CATEGORY_ID)
+            .parent(CATEGORY_SYSSELSATTNING)
             .config(
                 CertificateDataConfigCheckboxMultipleCode.builder()
                     .text(texts.get(SYSSELSATTNING_SVAR_TEXT))
@@ -675,7 +591,7 @@ public final class InternalToCertificate {
         return CertificateDataElement.builder()
             .id(NUVARANDE_ARBETE_SVAR_ID_29)
             .index(index)
-            .parent(SYSSELSATTNING_CATEGORY_ID)
+            .parent(CATEGORY_SYSSELSATTNING)
             .config(
                 CertificateDataConfigTextArea.builder()
                     .text(texts.get(NUVARANDE_ARBETE_SVAR_TEXT))
@@ -710,7 +626,7 @@ public final class InternalToCertificate {
     private static CertificateDataElement createDiagnosCategory(int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(DIAGNOS_CATEGORY_ID)
+            .id(CATEGORY_DIAGNOS)
             .index(index)
             .config(
                 CertificateDataConfigCategory.builder()
@@ -720,12 +636,62 @@ public final class InternalToCertificate {
             .build();
     }
 
+    private static String convertRadioBooleanToCode(Boolean value) {
+        if (value == null) {
+            return null;
+        } else if (value) {
+            return YES_ID;
+        } else {
+            return NO_ID;
+        }
+    }
+
+    public static CertificateDataElement createShouldIncludeDiagnosesQuestion(Boolean value, int index,
+        CertificateTextProvider texts) {
+        return CertificateDataElement.builder()
+            .id(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
+            .index(index)
+            .parent(CATEGORY_DIAGNOS)
+            .config(
+                CertificateDataConfigRadioMultipleCode.builder()
+                    .text(texts.get(ONSKAR_FORMEDLA_DIAGNOS_TEXT))
+                    .list(
+                        Arrays.asList(
+                            RadioMultipleCode.builder()
+                                .id(YES_ID)
+                                .label(ANSWER_YES)
+                                .build(),
+                            RadioMultipleCode.builder()
+                                .id(NO_ID)
+                                .label(ANSWER_NO)
+                                .build()
+                        )
+                    )
+                    .build()
+            )
+            .value(
+                CertificateDataValueCode.builder()
+                    .id(convertRadioBooleanToCode(value))
+                    .code(convertRadioBooleanToCode(value))
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationMandatory.builder()
+                        .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
+                        .expression(singleExpression(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100))
+                        .build(),
+                }
+            )
+            .build();
+    }
+
     public static CertificateDataElement createDiagnosQuestion(List<Diagnos> value, int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(DIAGNOS_SVAR_ID_6)
             .index(index)
-            .parent(DIAGNOS_CATEGORY_ID)
+            .parent(CATEGORY_DIAGNOS)
             .config(
                 CertificateDataConfigDiagnoses.builder()
                     .text(texts.get(DIAGNOS_SVAR_TEXT))
@@ -767,6 +733,14 @@ public final class InternalToCertificate {
                     CertificateDataValidationMandatory.builder()
                         .questionId(DIAGNOS_SVAR_ID_6)
                         .expression(singleExpression("1"))
+                        .build(),
+                    CertificateDataValidationHide.builder()
+                        .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
+                        .expression(singleExpression(NO_ID))
+                        .build(),
+                    CertificateDataValidationEnable.builder()
+                        .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
+                        .expression(multipleOrExpression(YES_ID, NO_ID))
                         .build()
                 }
             )
@@ -807,7 +781,7 @@ public final class InternalToCertificate {
     private static CertificateDataElement createFunktionsnedsattningCategory(int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(FUNKTIONSNEDSATTNING_CATEGORY_ID)
+            .id(CATEGORY_FUNKTIONSNEDSATTNING)
             .index(index)
             .config(
                 CertificateDataConfigCategory.builder()
@@ -825,28 +799,24 @@ public final class InternalToCertificate {
             .build();
     }
 
-    public static CertificateDataElement createFunktionsnedsattningQuestion(String value,
-        List<String> disabilityCategories, int index,
+    public static CertificateDataElement createFunktionsnedsattningQuestion(String value, int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(FUNKTIONSNEDSATTNING_SVAR_ID_35)
             .index(index)
-            .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
+            .parent(CATEGORY_FUNKTIONSNEDSATTNING)
             .config(
-                CertificateDataConfigIcf.builder()
+                CertificateDataConfigTextArea.builder()
                     .header(texts.get(FUNKTIONSNEDSATTNING_SVAR_TEXT))
                     .text(texts.get(FUNKTIONSNEDSATTNING_DELSVAR_TEXT))
                     .description(texts.get(FUNKTIONSNEDSATTNING_DELSVAR_BESKRIVNING))
-                    .modalLabel(FUNKTIONSNEDSATTNING_ICF_INFO)
-                    .collectionsLabel(FUNKTIONSNEDSATTNING_ICF_COLLECTION)
                     .id(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35)
                     .build()
             )
             .value(
-                CertificateDataIcfValue.builder()
+                CertificateDataTextValue.builder()
                     .id(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35)
                     .text(value)
-                    .icfCodes(disabilityCategories)
                     .build()
             )
             .validation(
@@ -866,28 +836,24 @@ public final class InternalToCertificate {
             .build();
     }
 
-    public static CertificateDataElement createAktivitetsbegransningQuestion(String value, List<String> activityLimitationCategories,
-        int index,
+    public static CertificateDataElement createAktivitetsbegransningQuestion(String value, int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(AKTIVITETSBEGRANSNING_SVAR_ID_17)
             .index(index)
-            .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
+            .parent(CATEGORY_FUNKTIONSNEDSATTNING)
             .config(
-                CertificateDataConfigIcf.builder()
+                CertificateDataConfigTextArea.builder()
                     .header(texts.get(AKTIVITETSBEGRANSNING_SVAR_TEXT))
                     .text(texts.get(AKTIVITETSBEGRANSNING_DELSVAR_TEXT))
                     .description(texts.get(AKTIVITETSBEGRANSNING_DELSVAR_BESKRIVNING))
-                    .modalLabel(AKTIVITETSBEGRANSNING_ICF_INFO)
-                    .collectionsLabel(AKTIVITETSBEGRANSNING_ICF_COLLECTION)
                     .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
                     .build()
             )
             .value(
-                CertificateDataIcfValue.builder()
+                CertificateDataTextValue.builder()
                     .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
                     .text(value)
-                    .icfCodes(activityLimitationCategories)
                     .build()
             )
             .validation(
@@ -910,7 +876,7 @@ public final class InternalToCertificate {
     private static CertificateDataElement createMedicinskaBehandlingarCategory(int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(MEDICINSKABEHANDLINGAR_CATEGORY_ID)
+            .id(CATEGORY_MEDICINSKABEHANDLINGAR)
             .index(index)
             .config(
                 CertificateDataConfigCategory.builder()
@@ -933,7 +899,7 @@ public final class InternalToCertificate {
         return CertificateDataElement.builder()
             .id(PAGAENDEBEHANDLING_SVAR_ID_19)
             .index(index)
-            .parent(MEDICINSKABEHANDLINGAR_CATEGORY_ID)
+            .parent(CATEGORY_MEDICINSKABEHANDLINGAR)
             .config(
                 CertificateDataConfigTextArea.builder()
                     .header(texts.get(PAGAENDEBEHANDLING_SVAR_TEXT))
@@ -963,7 +929,7 @@ public final class InternalToCertificate {
         return CertificateDataElement.builder()
             .id(PLANERADBEHANDLING_SVAR_ID_20)
             .index(index)
-            .parent(MEDICINSKABEHANDLINGAR_CATEGORY_ID)
+            .parent(CATEGORY_MEDICINSKABEHANDLINGAR)
             .config(
                 CertificateDataConfigTextArea.builder()
                     .header(texts.get(PLANERADBEHANDLING_SVAR_TEXT))
@@ -991,7 +957,7 @@ public final class InternalToCertificate {
     private static CertificateDataElement createBedomningCategory(int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(BEDOMNING_CATEGORY_ID)
+            .id(CATEGORY_BEDOMNING)
             .index(index)
             .config(
                 CertificateDataConfigCategory.builder()
@@ -1009,10 +975,10 @@ public final class InternalToCertificate {
         return CertificateDataElement.builder()
             .id(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32)
             .index(index)
-            .parent(BEDOMNING_CATEGORY_ID)
+            .parent(CATEGORY_BEDOMNING)
             .config(
                 CertificateDataConfigSickLeavePeriod.builder()
-                    .text(texts.get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_TEXT))
+                    .text(texts.get(BEHOV_AV_SJUKSKRIVNING_SVAR_TEXT))
                     .description(texts.get(BEHOV_AV_SJUKSKRIVNING_SVAR_BESKRIVNING))
                     .list(
                         Arrays.asList(
@@ -1070,76 +1036,12 @@ public final class InternalToCertificate {
             ).collect(Collectors.toList());
     }
 
-    public static CertificateDataElement createMotiveringTidigtStartdatumQuestion(String value, int index,
-        CertificateTextProvider texts) {
-        var attribute = "from";
-        return CertificateDataElement.builder()
-            .id(BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32)
-            .index(index)
-            .parent(BEDOMNING_CATEGORY_ID)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .text("Ange orsak för att starta perioden mer än 7 dagar bakåt i tiden.")
-                    .description("Observera att detta inte är en fråga från Försäkringskassan. "
-                        + "Information om varför sjukskrivningen startar mer än en vecka före"
-                        + " dagens datum kan vara till hjälp för Försäkringskassan"
-                        + "i deras handläggning.\\n' +\n            '\\n' +\n            "
-                        + "'Informationen du anger nedan, kommer att överföras till fältet \"{0}\" vid signering.")
-                    .icon("lightbulb_outline")
-                    .id(MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID)
-                    .build()
-            )
-            .value(
-                CertificateDataTextValue.builder()
-                    .id(MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID)
-                    .text(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32)
-                        .expression(
-                            multipleOrExpression(
-                                wrapWithParenthesis(
-                                    singleExpression(
-                                        lessThan(
-                                            appendAttribute(
-                                                SjukskrivningsGrad.NEDSATT_1_4.getId(), attribute), VALIDATION_DAYS_TIDIGT_START_DATUM))),
-                                wrapWithParenthesis(
-                                    singleExpression(
-                                        lessThan(
-                                            appendAttribute(
-                                                SjukskrivningsGrad.NEDSATT_HALFTEN.getId(), attribute),
-                                            VALIDATION_DAYS_TIDIGT_START_DATUM))),
-                                wrapWithParenthesis(
-                                    singleExpression(
-                                        lessThan(
-                                            appendAttribute(
-                                                SjukskrivningsGrad.NEDSATT_3_4.getId(), attribute), VALIDATION_DAYS_TIDIGT_START_DATUM))),
-                                wrapWithParenthesis(
-                                    singleExpression(
-                                        lessThan(
-                                            appendAttribute(
-                                                SjukskrivningsGrad.HELT_NEDSATT.getId(), attribute), VALIDATION_DAYS_TIDIGT_START_DATUM)))
-                            )
-                        )
-                        .build(),
-                    CertificateDataValidationText.builder()
-                        .id(MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID)
-                        .limit(LIMIT_MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING)
-                        .build()
-                }
-            )
-            .build();
-    }
-
     public static CertificateDataElement createForsakringsmedicinsktBeslutsstodQuestion(String value, int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37)
             .index(index)
-            .parent(BEDOMNING_CATEGORY_ID)
+            .parent(CATEGORY_BEDOMNING)
             .config(
                 CertificateDataConfigTextArea.builder()
                     .text(texts.get(FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_TEXT))
@@ -1169,7 +1071,7 @@ public final class InternalToCertificate {
         return CertificateDataElement.builder()
             .id(ARBETSTIDSFORLAGGNING_SVAR_ID_33)
             .index(index)
-            .parent(BEDOMNING_CATEGORY_ID)
+            .parent(CATEGORY_BEDOMNING)
             .config(
                 CertificateDataConfigRadioBoolean.builder()
                     .id(ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33)
@@ -1190,9 +1092,12 @@ public final class InternalToCertificate {
                     CertificateDataValidationShow.builder()
                         .questionId(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32)
                         .expression(multipleOrExpression(
-                            singleExpression(SjukskrivningsGrad.NEDSATT_1_4.getId()),
-                            singleExpression(SjukskrivningsGrad.NEDSATT_HALFTEN.getId()),
-                            singleExpression(SjukskrivningsGrad.NEDSATT_3_4.getId())
+                            singleExpression(
+                                se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad.NEDSATT_1_4.getId()),
+                            singleExpression(
+                                se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad.NEDSATT_HALFTEN.getId()),
+                            singleExpression(
+                                se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad.NEDSATT_3_4.getId())
                         ))
                         .build(),
                     CertificateDataValidationHide.builder()
@@ -1209,7 +1114,7 @@ public final class InternalToCertificate {
         return CertificateDataElement.builder()
             .id(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33)
             .index(index)
-            .parent(BEDOMNING_CATEGORY_ID)
+            .parent(CATEGORY_BEDOMNING)
             .config(
                 CertificateDataConfigTextArea.builder()
                     .text(texts.get(ARBETSTIDSFORLAGGNING_MOTIVERING_TEXT))
@@ -1244,7 +1149,7 @@ public final class InternalToCertificate {
         return CertificateDataElement.builder()
             .id(ARBETSRESOR_SVAR_ID_34)
             .index(index)
-            .parent(BEDOMNING_CATEGORY_ID)
+            .parent(CATEGORY_BEDOMNING)
             .config(
                 CertificateDataConfigCheckboxBoolean.builder()
                     .id(ARBETSRESOR_SVAR_JSON_ID_34)
@@ -1275,7 +1180,7 @@ public final class InternalToCertificate {
         return CertificateDataElement.builder()
             .id(PROGNOS_SVAR_ID_39)
             .index(index)
-            .parent(BEDOMNING_CATEGORY_ID)
+            .parent(CATEGORY_BEDOMNING)
             .config(
                 CertificateDataConfigRadioMultipleCode.builder()
                     .text(texts.get(PROGNOS_SVAR_TEXT))
@@ -1339,7 +1244,7 @@ public final class InternalToCertificate {
         return CertificateDataElement.builder()
             .id(PROGNOS_BESKRIVNING_DELSVAR_ID_39)
             .index(index)
-            .parent(BEDOMNING_CATEGORY_ID)
+            .parent(CATEGORY_BEDOMNING)
             .config(
                 CertificateDataConfigDropdown.builder()
                     .list(
@@ -1412,7 +1317,7 @@ public final class InternalToCertificate {
     private static CertificateDataElement createAtgarderCategory(int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(ATGARDER_CATEGORY_ID)
+            .id(CATEGORY_ATGARDER)
             .index(index)
             .config(
                 CertificateDataConfigCategory.builder()
@@ -1436,7 +1341,7 @@ public final class InternalToCertificate {
         return CertificateDataElement.builder()
             .id(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
             .index(index)
-            .parent(ATGARDER_CATEGORY_ID)
+            .parent(CATEGORY_ATGARDER)
             .config(
                 CertificateDataConfigCheckboxMultipleCode.builder()
                     .text(texts.get(ARBETSLIVSINRIKTADE_ATGARDER_TEXT))
@@ -1455,10 +1360,6 @@ public final class InternalToCertificate {
                                 .label(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getLabel())
                                 .build(),
                             CheckboxMultipleCode.builder()
-                                .id(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId())
-                                .label(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getLabel())
-                                .build(),
-                            CheckboxMultipleCode.builder()
                                 .id(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId())
                                 .label(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getLabel())
                                 .build(),
@@ -1469,10 +1370,6 @@ public final class InternalToCertificate {
                             CheckboxMultipleCode.builder()
                                 .id(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId())
                                 .label(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getLabel())
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId())
-                                .label(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getLabel())
                                 .build(),
                             CheckboxMultipleCode.builder()
                                 .id(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId())
@@ -1504,11 +1401,9 @@ public final class InternalToCertificate {
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId()),
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId()),
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId()),
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId()),
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId()),
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId()),
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId()),
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId()),
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
@@ -1521,11 +1416,9 @@ public final class InternalToCertificate {
                             multipleOrExpression(
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId()),
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId()),
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId()),
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId()),
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId()),
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId()),
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId()),
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
@@ -1542,11 +1435,9 @@ public final class InternalToCertificate {
                             Arrays.asList(
                                 ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId(),
                                 ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId(),
-                                ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId(),
                                 ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId(),
                                 ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId(),
                                 ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId(),
-                                ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId(),
                                 ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId(),
                                 ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId(),
                                 ArbetslivsinriktadeAtgarderVal.OVRIGT.getId()
@@ -1580,7 +1471,7 @@ public final class InternalToCertificate {
         return CertificateDataElement.builder()
             .id(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44)
             .index(index)
-            .parent(ATGARDER_CATEGORY_ID)
+            .parent(CATEGORY_ATGARDER)
             .config(
                 CertificateDataConfigTextArea.builder()
                     .text(texts.get(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_TEXT))
@@ -1601,11 +1492,9 @@ public final class InternalToCertificate {
                             multipleOrExpression(
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId()),
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId()),
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId()),
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId()),
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId()),
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId()),
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId()),
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
@@ -1624,7 +1513,7 @@ public final class InternalToCertificate {
     private static CertificateDataElement createOvrigtCategory(int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(OVRIGT_CATEGORY_ID)
+            .id(CATEGORY_OVRIGT)
             .index(index)
             .config(
                 CertificateDataConfigCategory.builder()
@@ -1639,10 +1528,11 @@ public final class InternalToCertificate {
         return CertificateDataElement.builder()
             .id(OVRIGT_SVAR_ID_25)
             .index(index)
-            .parent(OVRIGT_CATEGORY_ID)
+            .parent(CATEGORY_OVRIGT)
             .config(
                 CertificateDataConfigTextArea.builder()
                     .id(OVRIGT_SVAR_JSON_ID_25)
+                    .text(texts.get(OVRIGT_SVAR_TEXT))
                     .build()
             )
             .value(
@@ -1665,7 +1555,7 @@ public final class InternalToCertificate {
     private static CertificateDataElement createKontaktCategory(int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(KONTAKT_CATEGORY_ID)
+            .id(CATEGORY_KONTAKT)
             .index(index)
             .config(
                 CertificateDataConfigCategory.builder()
@@ -1686,12 +1576,12 @@ public final class InternalToCertificate {
     public static CertificateDataElement createKontaktQuestion(Boolean value, int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(KONTAKT_ONSKAS_SVAR_ID_26)
+            .id(KONTAKT_ONSKAS_SVAR_ID_103)
             .index(index)
-            .parent(KONTAKT_CATEGORY_ID)
+            .parent(CATEGORY_KONTAKT)
             .config(
                 CertificateDataConfigCheckboxBoolean.builder()
-                    .id(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
+                    .id(KONTAKT_ONSKAS_SVAR_JSON_ID_103)
                     .text(texts.get(KONTAKT_ONSKAS_SVAR_TEXT))
                     .description(texts.get(KONTAKT_ONSKAS_SVAR_BESKRIVNING))
                     .selectedText(texts.get(ANSWER_YES))
@@ -1701,7 +1591,7 @@ public final class InternalToCertificate {
             )
             .value(
                 CertificateDataValueBoolean.builder()
-                    .id(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
+                    .id(KONTAKT_ONSKAS_SVAR_JSON_ID_103)
                     .selected(value)
                     .build()
             )
@@ -1719,27 +1609,27 @@ public final class InternalToCertificate {
     public static CertificateDataElement createKontaktBeskrivning(String value, int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26)
+            .id(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103)
             .index(index)
-            .parent(KONTAKT_CATEGORY_ID)
+            .parent(CATEGORY_KONTAKT)
             .config(
                 CertificateDataConfigTextArea.builder()
-                    .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26)
+                    .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_103)
                     .text(texts.get(ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT))
                     .build()
             )
             .value(
                 CertificateDataTextValue.builder()
-                    .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26)
+                    .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_103)
                     .text(value)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationShow.builder()
-                        .questionId(KONTAKT_ONSKAS_SVAR_ID_26)
+                        .questionId(KONTAKT_ONSKAS_SVAR_ID_103)
                         .expression(
-                            singleExpression(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
+                            singleExpression(KONTAKT_ONSKAS_SVAR_JSON_ID_103)
                         )
                         .build(),
                     CertificateDataValidationHide.builder()

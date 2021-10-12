@@ -133,7 +133,7 @@ angular.module('common').directive('wcUtkastButtonBar', ['$log', '$stateParams',
 
                     var onPatientFound = function(patient) {
                         if (!patient.sekretessmarkering) {
-                            window.open(CommonViewState.intyg.pdfUrl, '_self');
+                            window.open(CommonViewState.intyg.pdfUrl, '_blank');
                         } else {
                             // Visa infodialog för vanlig utskrift där patienten är sekretessmarkerad.
                             dialogService.showDialog({
@@ -142,7 +142,7 @@ angular.module('common').directive('wcUtkastButtonBar', ['$log', '$stateParams',
                                 templateUrl: '/app/partials/sekretessmarkerad-print-dialog.html',
                                 model: {patient: patient},
                                 button1click: function(modalInstance) {
-                                    window.open(CommonViewState.intyg.pdfUrl, '_self');
+                                    window.open(CommonViewState.intyg.pdfUrl, '_blank');
                                     modalInstance.close();
                                 },
                                 button2click: function(modalInstance) {

@@ -56,6 +56,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAE
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_ID_39;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_JSON_ID_39;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSELSATTNING_CATEGORY_ID;
@@ -264,7 +265,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
                 if (utlatande.getPrognos().getTyp() == PrognosTyp.ATER_X_ANTAL_DGR && utlatande.getPrognos().getDagarTillArbete() == null) {
                     ValidatorUtil
                         .addValidationErrorWithQuestionId(validationMessages, BEDOMNING_CATEGORY_ID,
-                            PROGNOS_SVAR_JSON_ID_39 + ".dagarTillArbete", ValidationMessageType.EMPTY, PROGNOS_SVAR_ID_39);
+                            PROGNOS_SVAR_JSON_ID_39 + ".dagarTillArbete", ValidationMessageType.EMPTY, PROGNOS_BESKRIVNING_DELSVAR_ID_39);
                 } else if (utlatande.getPrognos().getTyp() != PrognosTyp.ATER_X_ANTAL_DGR
                     && utlatande.getPrognos().getDagarTillArbete() != null) {
                     ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, BEDOMNING_CATEGORY_ID, PROGNOS_SVAR_JSON_ID_39,

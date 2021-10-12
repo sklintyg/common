@@ -50,6 +50,10 @@ angular.module('common').directive('ueTypeahead', [ '$http', '$log', 'ueUtil',
                     }
                 };
 
+                $scope.setDirty = function() {
+                    $scope.form.$setDirty();
+                };
+
             }
         };
     }
