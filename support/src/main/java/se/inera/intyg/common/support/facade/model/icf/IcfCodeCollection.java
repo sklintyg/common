@@ -24,18 +24,18 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.List;
 import lombok.Builder;
 import lombok.Value;
-import se.inera.intyg.common.support.facade.model.icf.IcfIcd.IcfIcdBuilder;
+import se.inera.intyg.common.support.facade.model.icf.IcfCodeCollection.IcfCodeCollectionBuilder;
 
-@JsonDeserialize(builder = IcfIcdBuilder.class)
+@JsonDeserialize(builder = IcfCodeCollectionBuilder.class)
 @Value
 @Builder
-public class IcfIcd {
+public class IcfCodeCollection {
 
+    private List<Icd10Code> icd10Codes;
     private List<IcfCode> icfCodes;
-    private List<IcdCode> icdCodes;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class IcfIcdBuilder {
+    public static class IcfCodeCollectionBuilder {
 
     }
 }

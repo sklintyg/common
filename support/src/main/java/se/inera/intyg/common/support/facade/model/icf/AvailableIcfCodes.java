@@ -21,20 +21,21 @@ package se.inera.intyg.common.support.facade.model.icf;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.List;
 import lombok.Builder;
 import lombok.Value;
-import se.inera.intyg.common.support.facade.model.icf.IcdCode.IcdCodeBuilder;
+import se.inera.intyg.common.support.facade.model.icf.AvailableIcfCodes.AvailableIcfCodesBuilder;
 
-@JsonDeserialize(builder = IcdCodeBuilder.class)
+@JsonDeserialize(builder = AvailableIcfCodesBuilder.class)
 @Value
 @Builder
-public class IcdCode {
+public class AvailableIcfCodes {
 
-    private String title;
-    private String code;
+    private IcfCodeCollection commonCodes;
+    private List<IcfCodeCollection> uniqueCodes;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class IcdCodeBuilder {
+    public static class AvailableIcfCodesBuilder {
 
     }
 }
