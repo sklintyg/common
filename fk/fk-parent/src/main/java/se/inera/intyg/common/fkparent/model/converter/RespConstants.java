@@ -274,7 +274,8 @@ public final class RespConstants {
     public static final String FUNKTIONSNEDSATTNING_DELSVAR_TEXT = "DFR_35.1.RBK";
     public static final String FUNKTIONSNEDSATTNING_DELSVAR_BESKRIVNING = "DFR_35.1.HLP";
     public static final String FUNKTIONSNEDSATTNING_ICF_INFO = "Välj enbart de problem som påverkar patienten.";
-    public static final String FUNKTIONSNEDSATTNING_ICF_COLLECTION = "Problem som påverkar patientens möjlighet att utföra sin sysselsättning:";
+    public static final String FUNKTIONSNEDSATTNING_ICF_COLLECTION = "Problem som påverkar patientens möjlighet att utföra sin "
+        + "sysselsättning:";
 
 
     public static final String FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37 = "37";
