@@ -60,6 +60,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LuseUtlatand
         LuseUtlatandeV1.Builder template = LuseUtlatandeV1.builder();
         GrundData grundData = new GrundData();
 
+        template.setTextVersion(newDraftData.getIntygTypeVersion());
         populateWithId(template, newDraftData.getCertificateId());
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
         resetDataInGrundData(grundData);

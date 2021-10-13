@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.lisjp.v1.model.converter;
+package se.inera.intyg.common.ag7804.v1.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -29,26 +29,26 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
+import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
-import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
-import se.inera.intyg.common.lisjp.model.internal.Prognos;
-import se.inera.intyg.common.lisjp.model.internal.PrognosDagarTillArbeteTyp;
-import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
-import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
-import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
-import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
-import se.inera.intyg.common.lisjp.model.internal.Sysselsattning.SysselsattningsTyp;
-import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
+import se.inera.intyg.common.ag7804.model.internal.ArbetslivsinriktadeAtgarder;
+import se.inera.intyg.common.ag7804.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
+import se.inera.intyg.common.ag7804.model.internal.Prognos;
+import se.inera.intyg.common.ag7804.model.internal.PrognosDagarTillArbeteTyp;
+import se.inera.intyg.common.ag7804.model.internal.PrognosTyp;
+import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
+import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning.SjukskrivningsGrad;
+import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
+import se.inera.intyg.common.ag7804.model.internal.Sysselsattning.SysselsattningsTyp;
+import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
+import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -56,7 +56,7 @@ import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
-@DisplayName("Should convert Certificate to LISJP")
+@DisplayName("Should convert Certificate to AG7804")
 class CertificateToInternalTest {
 
     @Mock
@@ -73,11 +73,11 @@ class CertificateToInternalTest {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionAvstangningSmittskydd {
 
-        private LisjpUtlatandeV1 internalCertificate;
+        private Ag7804UtlatandeV1 internalCertificate;
 
         @BeforeEach
         void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
+            internalCertificate = Ag7804UtlatandeV1.builder()
                 .setGrundData(new GrundData())
                 .setId("id")
                 .setTextVersion("TextVersion")
@@ -93,8 +93,8 @@ class CertificateToInternalTest {
         void shouldIncludeAvstangningSmittskyddValue(Boolean expectedValue) {
             final var index = 1;
 
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createAvstangningSmittskyddQuestion(expectedValue, index, texts))
+            final var certificate = CertificateBuilder.create().addElement(InternalToCertificate
+                .createAvstangningSmittskyddQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -107,11 +107,11 @@ class CertificateToInternalTest {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionGrundForMU {
 
-        private LisjpUtlatandeV1 internalCertificate;
+        private Ag7804UtlatandeV1 internalCertificate;
 
         @BeforeEach
         void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
+            internalCertificate = Ag7804UtlatandeV1.builder()
                 .setGrundData(new GrundData())
                 .setId("id")
                 .setTextVersion("TextVersion")
@@ -128,7 +128,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var utlatande =
-                LisjpUtlatandeV1.builder()
+                Ag7804UtlatandeV1.builder()
                     .setId("id")
                     .setTextVersion("1.0")
                     .setGrundData(new GrundData())
@@ -136,8 +136,7 @@ class CertificateToInternalTest {
                     .build();
 
             final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createIntygetBaseratPa(utlatande, index, texts))
-                .build();
+                .addElement(InternalToCertificate.createIntygetBaseratPa(utlatande, index, texts)).build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
@@ -150,7 +149,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var utlatande =
-                LisjpUtlatandeV1.builder()
+                Ag7804UtlatandeV1.builder()
                     .setId("id")
                     .setTextVersion("1.0")
                     .setGrundData(new GrundData())
@@ -172,7 +171,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var utlatande =
-                LisjpUtlatandeV1.builder()
+                Ag7804UtlatandeV1.builder()
                     .setId("id")
                     .setTextVersion("1.0")
                     .setGrundData(new GrundData())
@@ -194,7 +193,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var utlatande =
-                LisjpUtlatandeV1.builder()
+                Ag7804UtlatandeV1.builder()
                     .setId("id")
                     .setTextVersion("1.0")
                     .setGrundData(new GrundData())
@@ -215,11 +214,11 @@ class CertificateToInternalTest {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionAnnatGrundForMUBeskrivning {
 
-        private LisjpUtlatandeV1 internalCertificate;
+        private Ag7804UtlatandeV1 internalCertificate;
 
         @BeforeEach
         void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
+            internalCertificate = Ag7804UtlatandeV1.builder()
                 .setGrundData(new GrundData())
                 .setId("id")
                 .setTextVersion("TextVersion")
@@ -235,8 +234,8 @@ class CertificateToInternalTest {
         void shouldIncludeAnnatGrundForMUBeskrivningValue(String expectedValue) {
             final var index = 1;
 
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createAnnatGrundForMUBeskrivning(expectedValue, index, texts))
+            final var certificate = CertificateBuilder.create().addElement(InternalToCertificate
+                .createAnnatGrundForMUBeskrivning(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -247,47 +246,13 @@ class CertificateToInternalTest {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionMotiveringEjUndersokning {
-
-        private LisjpUtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<String> textValues() {
-            return Stream.of("Här kommer en text!", "", null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludeMotiveringEjUndersokningValue(String expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createMotiveringEjUndersokning(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getMotiveringTillInteBaseratPaUndersokning());
-        }
-    }
-
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionSysselsattning {
 
-        private LisjpUtlatandeV1 internalCertificate;
+        private Ag7804UtlatandeV1 internalCertificate;
 
         @BeforeEach
         void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
+            internalCertificate = Ag7804UtlatandeV1.builder()
                 .setGrundData(new GrundData())
                 .setId("id")
                 .setTextVersion("TextVersion")
@@ -308,8 +273,8 @@ class CertificateToInternalTest {
         void shouldIncludeSysselsattningValue(List<Sysselsattning> expectedValue) {
             final var index = 1;
 
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createSysselsattningQuestion(expectedValue, index, texts))
+            final var certificate = CertificateBuilder.create().addElement(InternalToCertificate
+                .createSysselsattningQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -336,11 +301,11 @@ class CertificateToInternalTest {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionNuvarandeArbete {
 
-        private LisjpUtlatandeV1 internalCertificate;
+        private Ag7804UtlatandeV1 internalCertificate;
 
         @BeforeEach
         void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
+            internalCertificate = Ag7804UtlatandeV1.builder()
                 .setGrundData(new GrundData())
                 .setId("id")
                 .setTextVersion("TextVersion")
@@ -356,8 +321,8 @@ class CertificateToInternalTest {
         void shouldIncludeNuvarandeArbeteValue(String expectedValue) {
             final var index = 1;
 
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createSysselsattningYrkeQuestion(expectedValue, index, texts))
+            final var certificate = CertificateBuilder.create().addElement(InternalToCertificate
+                .createSysselsattningYrkeQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -368,17 +333,65 @@ class CertificateToInternalTest {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class QuestionShouldIncludeDiagnoses {
+
+        private Ag7804UtlatandeV1 internalCertificate;
+
+        @BeforeEach
+        void setup() {
+            internalCertificate = Ag7804UtlatandeV1.builder()
+                .setGrundData(new GrundData())
+                .setId("id")
+                .setTextVersion("TextVersion")
+                .build();
+        }
+
+        Stream<Boolean> booleanValues() {
+            return Stream.of(true, false);
+        }
+
+        @ParameterizedTest
+        @MethodSource("booleanValues")
+        void shouldIncludePatientWantsDiagnosesIncludedValue(Boolean expectedValue) {
+            final var index = 1;
+
+            final var certificate = CertificateBuilder.create()
+                .addElement(InternalToCertificate.createShouldIncludeDiagnosesQuestion(expectedValue, index, texts))
+                .build();
+
+            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
+
+            assertEquals(expectedValue, updatedCertificate.getOnskarFormedlaDiagnos());
+        }
+
+        @Test
+        void shouldIncludePatientWantsDiagnosesIncludedNullValue() {
+            final var index = 1;
+            final var expectedValue = false;
+
+            final var certificate = CertificateBuilder.create()
+                .addElement(InternalToCertificate.createShouldIncludeDiagnosesQuestion(null, index, texts))
+                .build();
+
+            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
+
+            assertEquals(expectedValue, updatedCertificate.getOnskarFormedlaDiagnos());
+        }
+    }
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionDiagnos {
 
         private final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
         private final String DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION = "Beskrivning utan egen text";
-        private LisjpUtlatandeV1 internalCertificate;
+        private Ag7804UtlatandeV1 internalCertificate;
 
         @BeforeEach
         void setup() {
             moduleService = mock(WebcertModuleService.class);
             when(moduleService.getDescriptionFromDiagnosKod(anyString(), anyString())).thenReturn(DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION);
-            internalCertificate = LisjpUtlatandeV1.builder()
+            internalCertificate = Ag7804UtlatandeV1.builder()
                 .setGrundData(new GrundData())
                 .setId("id")
                 .setTextVersion("TextVersion")
@@ -414,8 +427,7 @@ class CertificateToInternalTest {
             final var index = 1;
             final List<Diagnos> expectedValue = Collections.emptyList();
 
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createDiagnosQuestion(null, index, texts))
+            final var certificate = CertificateBuilder.create().addElement(InternalToCertificate.createDiagnosQuestion(null, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -428,11 +440,11 @@ class CertificateToInternalTest {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionFunktionsnedsattning {
 
-        private LisjpUtlatandeV1 internalCertificate;
+        private Ag7804UtlatandeV1 internalCertificate;
 
         @BeforeEach
         void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
+            internalCertificate = Ag7804UtlatandeV1.builder()
                 .setGrundData(new GrundData())
                 .setId("id")
                 .setTextVersion("TextVersion")
@@ -445,35 +457,16 @@ class CertificateToInternalTest {
 
         @ParameterizedTest
         @MethodSource("textValues")
-        void shouldIncludeFunktionsnedsattningValueText(String expectedValue) {
+        void shouldIncludeFunktionsnedsattningValue(String expectedValue) {
             final var index = 1;
 
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createFunktionsnedsattningQuestion(expectedValue,
-                    internalCertificate.getFunktionsKategorier(), index, texts))
+            final var certificate = CertificateBuilder.create().addElement(InternalToCertificate
+                .createFunktionsnedsattningQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
             assertEquals(expectedValue, updatedCertificate.getFunktionsnedsattning());
-        }
-
-        Stream<List<String>> icfCodeValues() {
-            return Stream.of(Arrays.asList("Test 0", "Test 1", "Test 2"), null, Collections.emptyList());
-        }
-
-        @ParameterizedTest
-        @MethodSource({"icfCodeValues"})
-        void shouldIncludeFunktionsnedsattningValueIcfCodes(List<String> expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createFunktionsnedsattningQuestion("", expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getFunktionsKategorier());
         }
     }
 
@@ -481,11 +474,11 @@ class CertificateToInternalTest {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionAktivitetsbegransning {
 
-        private LisjpUtlatandeV1 internalCertificate;
+        private Ag7804UtlatandeV1 internalCertificate;
 
         @BeforeEach
         void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
+            internalCertificate = Ag7804UtlatandeV1.builder()
                 .setGrundData(new GrundData())
                 .setId("id")
                 .setTextVersion("TextVersion")
@@ -498,34 +491,16 @@ class CertificateToInternalTest {
 
         @ParameterizedTest
         @MethodSource("textValues")
-        void shouldIncludeAktivitetsBegransningValueText(String expectedValue) {
+        void shouldIncludeFunktionsnedsattningValue(String expectedValue) {
             final var index = 1;
 
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createAktivitetsbegransningQuestion(expectedValue, Collections.emptyList(), index, texts))
+            final var certificate = CertificateBuilder.create().addElement(
+                InternalToCertificate.createAktivitetsbegransningQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
             assertEquals(expectedValue, updatedCertificate.getAktivitetsbegransning());
-        }
-
-        Stream<List<String>> icfCodeValues() {
-            return Stream.of(Arrays.asList("Test 0", "Test 1", "Test 2"), null, Collections.emptyList());
-        }
-
-        @ParameterizedTest
-        @MethodSource({"icfCodeValues"})
-        void shouldIncludeAktivitetsBegransningValueIcfCodes(List<String> expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createAktivitetsbegransningQuestion("", expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getAktivitetsKategorier());
         }
     }
 
@@ -533,11 +508,11 @@ class CertificateToInternalTest {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionMedicinskaBehandlingar {
 
-        private LisjpUtlatandeV1 internalCertificate;
+        private Ag7804UtlatandeV1 internalCertificate;
 
         @BeforeEach
         void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
+            internalCertificate = Ag7804UtlatandeV1.builder()
                 .setGrundData(new GrundData())
                 .setId("id")
                 .setTextVersion("TextVersion")
@@ -553,8 +528,8 @@ class CertificateToInternalTest {
         void shouldIncludePagaendeBehandlingValue(String expectedValue) {
             final var index = 1;
 
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createPagaendeBehandlingQuestion(expectedValue, index, texts))
+            final var certificate = CertificateBuilder.create().addElement(
+                InternalToCertificate.createPagaendeBehandlingQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -567,8 +542,8 @@ class CertificateToInternalTest {
         void shouldIncludePlaneradBehandlingValue(String expectedValue) {
             final var index = 1;
 
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createPlaneradBehandlingQuestion(expectedValue, index, texts))
+            final var certificate = CertificateBuilder.create().addElement(
+                InternalToCertificate.createPlaneradBehandlingQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -581,11 +556,11 @@ class CertificateToInternalTest {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionBedomning {
 
-        private LisjpUtlatandeV1 internalCertificate;
+        private Ag7804UtlatandeV1 internalCertificate;
 
         @BeforeEach
         void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
+            internalCertificate = Ag7804UtlatandeV1.builder()
                 .setGrundData(new GrundData())
                 .setId("id")
                 .setTextVersion("TextVersion")
@@ -614,8 +589,8 @@ class CertificateToInternalTest {
         void shouldIncludeBehovAvSjukskrivningValue(List<Sjukskrivning> expectedValue) {
             final var index = 1;
 
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createBehovAvSjukskrivningQuestion(expectedValue, index, texts))
+            final var certificate = CertificateBuilder.create().addElement(
+                InternalToCertificate.createBehovAvSjukskrivningQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -627,8 +602,8 @@ class CertificateToInternalTest {
         void shouldIncludeBehovAvSjukskrivningValueNull() {
             final var index = 1;
 
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createBehovAvSjukskrivningQuestion(null, index, texts))
+            final var certificate = CertificateBuilder.create().addElement(
+                InternalToCertificate.createBehovAvSjukskrivningQuestion(null, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -639,47 +614,13 @@ class CertificateToInternalTest {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionMotiveringTidigtStartdatum {
-
-        private LisjpUtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<String> textValues() {
-            return Stream.of("Här kommer en text!", "", null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludeMotiveringTidigtStartdatumValue(String expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createMotiveringTidigtStartdatumQuestion(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getMotiveringTillTidigtStartdatumForSjukskrivning());
-        }
-    }
-
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionForsakringsmedicinsktBeslutsstod {
 
-        private LisjpUtlatandeV1 internalCertificate;
+        private Ag7804UtlatandeV1 internalCertificate;
 
         @BeforeEach
         void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
+            internalCertificate = Ag7804UtlatandeV1.builder()
                 .setGrundData(new GrundData())
                 .setId("id")
                 .setTextVersion("TextVersion")
@@ -695,8 +636,8 @@ class CertificateToInternalTest {
         void shouldIncludeForsakringsmedicinsktBeslutsstödValue(String expectedValue) {
             final var index = 1;
 
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createForsakringsmedicinsktBeslutsstodQuestion(expectedValue, index, texts))
+            final var certificate = CertificateBuilder.create().addElement(
+                InternalToCertificate.createForsakringsmedicinsktBeslutsstodQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -709,11 +650,11 @@ class CertificateToInternalTest {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionArbetstidsforlaggning {
 
-        private LisjpUtlatandeV1 internalCertificate;
+        private Ag7804UtlatandeV1 internalCertificate;
 
         @BeforeEach
         void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
+            internalCertificate = Ag7804UtlatandeV1.builder()
                 .setGrundData(new GrundData())
                 .setId("id")
                 .setTextVersion("TextVersion")
@@ -729,8 +670,8 @@ class CertificateToInternalTest {
         void shouldIncludeArbetstidsforlaggningValue(Boolean expectedValue) {
             final var index = 1;
 
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createArbetstidsforlaggningQuestion(expectedValue, index, texts))
+            final var certificate = CertificateBuilder.create().addElement(
+                InternalToCertificate.createArbetstidsforlaggningQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -743,11 +684,11 @@ class CertificateToInternalTest {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionMotiveringArbetstidsforlaggning {
 
-        private LisjpUtlatandeV1 internalCertificate;
+        private Ag7804UtlatandeV1 internalCertificate;
 
         @BeforeEach
         void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
+            internalCertificate = Ag7804UtlatandeV1.builder()
                 .setGrundData(new GrundData())
                 .setId("id")
                 .setTextVersion("TextVersion")
@@ -763,8 +704,8 @@ class CertificateToInternalTest {
         void shouldIncludeMotiveringArbetstidsforlaggningValue(String expectedValue) {
             final var index = 1;
 
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createMotiveringArbetstidsforlaggningQuestion(expectedValue, index, texts))
+            final var certificate = CertificateBuilder.create().addElement(
+                InternalToCertificate.createMotiveringArbetstidsforlaggningQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -777,11 +718,11 @@ class CertificateToInternalTest {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionArbetsresor {
 
-        private LisjpUtlatandeV1 internalCertificate;
+        private Ag7804UtlatandeV1 internalCertificate;
 
         @BeforeEach
         void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
+            internalCertificate = Ag7804UtlatandeV1.builder()
                 .setGrundData(new GrundData())
                 .setId("id")
                 .setTextVersion("TextVersion")
@@ -797,8 +738,8 @@ class CertificateToInternalTest {
         void shouldIncludeArbetstidsforlaggningValue(Boolean expectedValue) {
             final var index = 1;
 
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createArbetsresorQuestion(expectedValue, index, texts))
+            final var certificate = CertificateBuilder.create().addElement(
+                InternalToCertificate.createArbetsresorQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -811,11 +752,11 @@ class CertificateToInternalTest {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionPrognos {
 
-        private LisjpUtlatandeV1 internalCertificate;
+        private Ag7804UtlatandeV1 internalCertificate;
 
         @BeforeEach
         void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
+            internalCertificate = Ag7804UtlatandeV1.builder()
                 .setGrundData(new GrundData())
                 .setId("id")
                 .setTextVersion("TextVersion")
@@ -839,8 +780,10 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createPrognosQuestion(expectedValue, index, texts))
-                .addElement(InternalToCertificate.createPrognosTimeperiodQuestion(expectedValue, index, texts))
+                .addElement(
+                    InternalToCertificate.createPrognosQuestion(expectedValue, index, texts))
+                .addElement(InternalToCertificate
+                    .createPrognosTimeperiodQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -853,11 +796,11 @@ class CertificateToInternalTest {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionAtgard {
 
-        private LisjpUtlatandeV1 internalCertificate;
+        private Ag7804UtlatandeV1 internalCertificate;
 
         @BeforeEach
         void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
+            internalCertificate = Ag7804UtlatandeV1.builder()
                 .setGrundData(new GrundData())
                 .setId("id")
                 .setTextVersion("TextVersion")
@@ -875,10 +818,8 @@ class CertificateToInternalTest {
                     ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OVRIGT),
                     ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER),
                     ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING),
                     ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE)
+                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL)
 
                 ),
                 Collections.emptyList());
@@ -890,7 +831,9 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createAtgarderQuestion(expectedValue, index, texts))
+                .addElement(
+                    InternalToCertificate
+                        .createAtgarderQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -903,8 +846,8 @@ class CertificateToInternalTest {
             final var index = 1;
             final List<ArbetslivsinriktadeAtgarder> expectedValue = Collections.emptyList();
 
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createAtgarderQuestion(null, index, texts))
+            final var certificate = CertificateBuilder.create().addElement(
+                InternalToCertificate.createAtgarderQuestion(null, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -917,11 +860,11 @@ class CertificateToInternalTest {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionAtgarderBeskrivning {
 
-        private LisjpUtlatandeV1 internalCertificate;
+        private Ag7804UtlatandeV1 internalCertificate;
 
         @BeforeEach
         void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
+            internalCertificate = Ag7804UtlatandeV1.builder()
                 .setGrundData(new GrundData())
                 .setId("id")
                 .setTextVersion("TextVersion")
@@ -937,8 +880,8 @@ class CertificateToInternalTest {
         void shouldIncludeAtgarderBeskrivningValue(String expectedValue) {
             final var index = 1;
 
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createAtgarderBeskrivning(expectedValue, index, texts))
+            final var certificate = CertificateBuilder.create().addElement(
+                InternalToCertificate.createAtgarderBeskrivning(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -951,11 +894,11 @@ class CertificateToInternalTest {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionOvrigt {
 
-        private LisjpUtlatandeV1 internalCertificate;
+        private Ag7804UtlatandeV1 internalCertificate;
 
         @BeforeEach
         void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
+            internalCertificate = Ag7804UtlatandeV1.builder()
                 .setGrundData(new GrundData())
                 .setId("id")
                 .setTextVersion("TextVersion")
@@ -972,7 +915,8 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createOvrigtQuestion(expectedValue, index, texts))
+                .addElement(
+                    InternalToCertificate.createOvrigtQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -985,11 +929,11 @@ class CertificateToInternalTest {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionKontakt {
 
-        private LisjpUtlatandeV1 internalCertificate;
+        private Ag7804UtlatandeV1 internalCertificate;
 
         @BeforeEach
         void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
+            internalCertificate = Ag7804UtlatandeV1.builder()
                 .setGrundData(new GrundData())
                 .setId("id")
                 .setTextVersion("TextVersion")
@@ -1006,12 +950,13 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createKontaktQuestion(expectedValue, index, texts))
+                .addElement(
+                    InternalToCertificate.createKontaktQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
-            assertEquals(expectedValue, updatedCertificate.getKontaktMedFk());
+            assertEquals(expectedValue, updatedCertificate.getKontaktMedAg());
         }
     }
 
@@ -1019,11 +964,11 @@ class CertificateToInternalTest {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionAnledningKontakt {
 
-        private LisjpUtlatandeV1 internalCertificate;
+        private Ag7804UtlatandeV1 internalCertificate;
 
         @BeforeEach
         void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
+            internalCertificate = Ag7804UtlatandeV1.builder()
                 .setGrundData(new GrundData())
                 .setId("id")
                 .setTextVersion("TextVersion")

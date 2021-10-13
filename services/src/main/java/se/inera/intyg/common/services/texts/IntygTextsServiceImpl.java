@@ -88,7 +88,7 @@ public class IntygTextsServiceImpl implements IntygTextsService {
     }
 
     private boolean sameMajorVersion(String versionToCompare, String latestVersion) {
-        return majorVersion(latestVersion).equals(majorVersion(versionToCompare));
+        return latestVersion == null || majorVersion(latestVersion).equals(majorVersion(versionToCompare));
     }
 
 }

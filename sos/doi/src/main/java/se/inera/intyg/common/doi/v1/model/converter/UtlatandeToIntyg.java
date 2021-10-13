@@ -68,15 +68,25 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public final class UtlatandeToIntyg {
 
+    private static final int ADDRESS_MAX_LENGTH = 50;
+
     private UtlatandeToIntyg() {
     }
 
     public static Intyg convert(DoiUtlatandeV1 utlatande) {
         Intyg intyg = InternalConverterUtil.getIntyg(utlatande, PatientInfo.EXTENDED_WITH_ADDRESS_DETAILS_SOURCE);
+        truncatePatientAddressIfNeeded(intyg);
         intyg.setTyp(getTypAvIntyg(KvIntygstyp.DOI));
         intyg.getSvar().addAll(getSvar(utlatande));
         intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));
         return intyg;
+    }
+
+    private static void truncatePatientAddressIfNeeded(Intyg intyg) {
+        final var patientAddress = intyg.getPatient().getPostadress();
+        if (patientAddress.length() > ADDRESS_MAX_LENGTH) {
+            intyg.getPatient().setPostadress(patientAddress.substring(0, ADDRESS_MAX_LENGTH));
+        }
     }
 
     private static List<Svar> getSvar(DoiUtlatandeV1 utlatande) {

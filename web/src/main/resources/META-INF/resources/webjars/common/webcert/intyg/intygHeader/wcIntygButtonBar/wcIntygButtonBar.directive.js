@@ -217,8 +217,7 @@ angular.module('common').directive('wcIntygButtonBar', ['$rootScope', '$timeout'
                                 templateUrl: '/app/partials/employee-print-dialog.html',
                                 model: {patient: patient},
                                 button1click: function(modalInstance) {
-                                    window.open(CommonIntygViewState.intygProperties.pdfUrl + '/arbetsgivarutskrift',
-                                        '_blank');
+                                    window.open(CommonIntygViewState.intygProperties.pdfUrl + '/arbetsgivarutskrift', '_blank');
                                     modalInstance.close();
                                 },
                                 button2click: function(modalInstance) {

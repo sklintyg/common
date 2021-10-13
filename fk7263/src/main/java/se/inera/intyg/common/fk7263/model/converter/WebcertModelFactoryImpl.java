@@ -18,11 +18,9 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
+import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Strings;
-
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
@@ -79,7 +77,6 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory {
         Fk7263Utlatande fk7263Utlatande = (Fk7263Utlatande) template;
 
         LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), fk7263Utlatande.getId());
-
         populateWithId(fk7263Utlatande, copyData.getCertificateId());
         WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(fk7263Utlatande.getGrundData(), copyData);
 

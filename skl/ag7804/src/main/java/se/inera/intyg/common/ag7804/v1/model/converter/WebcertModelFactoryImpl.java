@@ -18,13 +18,11 @@
  */
 package se.inera.intyg.common.ag7804.v1.model.converter;
 
+import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.google.common.base.Strings;
-
 import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
@@ -92,7 +90,6 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Ag7804Utlata
      * @param copyData the basic draft data
      * @param template the certificate we shall copy data from
      * @return an Utlatande of type AG7804
-     * @throws ConverterException
      */
     private Ag7804UtlatandeV1 createCopyFromAg7804(CreateDraftCopyHolder copyData, Ag7804UtlatandeV1 template) throws ConverterException {
         LOG.trace("Creating copy with id {} from a Ag7804UtlatandeV1 with id {}", copyData.getCertificateId(), template.getId());
@@ -103,6 +100,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Ag7804Utlata
         populateWithId(templateBuilder, copyData.getCertificateId());
 
         GrundData grundData = ag7804pUtlatandeV1.getGrundData();
+        templateBuilder.setTextVersion(copyData.getIntygTypeVersion());
         WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
 
         resetDataInGrundData(grundData);
@@ -116,7 +114,6 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Ag7804Utlata
      * @param copyData the basic draft data
      * @param template the certificate we shall copy data from
      * @return an Utlatande of type AG7804
-     * @throws ConverterException
      */
     private Ag7804UtlatandeV1 createCopyFromFk7804(CreateDraftCopyHolder copyData, LisjpUtlatandeV1 template) throws ConverterException {
         LOG.trace("Creating copy with id {} from a LisjpUtlatandeV1 with id {}", copyData.getCertificateId(), template.getId());
