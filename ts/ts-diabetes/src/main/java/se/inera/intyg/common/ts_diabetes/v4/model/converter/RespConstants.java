@@ -42,6 +42,10 @@ public final class RespConstants {
     public static final String ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID = "18.2";
     public static final String ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID = "beskrivningAnnanTypAvDiabetes";
 
+    public static final String ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID = "207";
+    public static final String ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_DELSVAR_ID = "207.1";
+    public static final String ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID = "medicineringMedforRiskForHypoglykemi";
+
     public static final String ALLMANT_BEHANDLING_SVAR_ID = "109";
     public static final String ALLMANT_BEHANDLING_JSON_ID = "behandling";
     public static final String ALLMANT_BEHANDLING_ENDAST_KOST_DELSVAR_ID = "109.1";

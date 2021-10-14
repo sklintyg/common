@@ -90,6 +90,17 @@ var viewConfig = [
             },
             {
                 type: 'uv-fraga',
+                labelKey: 'FRG_207.RBK',
+                components: [{
+                    type: 'uv-del-fraga',
+                    components: [{
+                        type: 'uv-boolean-value',
+                        modelProp: 'allmant.medicineringMedforRiskForHypoglykemi'
+                    }]
+                }]
+            },
+            {
+                type: 'uv-fraga',
                 labelKey: 'FRG_109.RBK',
                 components: [{
                     type: 'uv-del-fraga',

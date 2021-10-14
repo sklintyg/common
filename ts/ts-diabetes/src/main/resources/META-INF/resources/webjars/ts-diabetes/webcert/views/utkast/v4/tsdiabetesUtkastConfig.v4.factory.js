@@ -209,6 +209,12 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
                                 }
                             }
                         ]),
+                        fraga(207, 'FRG_207.RBK', 'FRG_207.HLP', {required: true, requiredProp: 'allmant.medicineringMedforRiskForHypoglykemi'}, [{
+                            type: 'ue-radio',
+                            yesLabel: 'SVAR_JA.RBK',
+                            noLabel: 'SVAR_NEJ.RBK',
+                            modelProp: 'allmant.medicineringMedforRiskForHypoglykemi'
+                        }]),
                         fraga(109, 'FRG_109.RBK', 'FRG_109.HLP', {
                             validationContext: {key: 'allmant.behandling', type: 'ue-checkgroup'},
                             required: true,

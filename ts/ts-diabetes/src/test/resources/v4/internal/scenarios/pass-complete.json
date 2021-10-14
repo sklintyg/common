@@ -1,0 +1,228 @@
+{
+  "typ": "ts-diabetes",
+  "id": "1234567",
+  "textVersion": "4.0",
+  "grundData": {
+    "patient": {
+      "samordningsNummer": false,
+      "personId": "19270310-4321"
+    },
+    "skapadAv": {
+      "vardenhet": {
+        "arbetsplatsKod": "45312",
+        "vardgivare": {
+          "vardgivarnamn": "VG1",
+          "vardgivarid": "12345678"
+        },
+        "epost": "ve1@vg1.se",
+        "telefonnummer": "0812341234",
+        "postort": "Stadby",
+        "postnummer": "100 10",
+        "postadress": "Enhetsg. 1",
+        "enhetsnamn": "VE1",
+        "enhetsid": "123456789"
+      },
+      "specialiteter": [
+        "Kirurg"
+      ],
+      "befattningar": [
+        "Klinikchef",
+        "Forskningsledare"
+      ],
+      "forskrivarKod": "09874321",
+      "fullstandigtNamn": "Karl Karlsson",
+      "personId": "19650708-1234"
+    },
+    "signeringsdatum": "2015-12-07T15:48:05.000"
+  },
+
+  "intygAvser":{
+    "kategorier":[
+      {
+        "type":"IAV11",
+        "selected":true
+      },
+      {
+        "type":"IAV12",
+        "selected":true
+      },
+      {
+        "type":"IAV13",
+        "selected":true
+      },
+      {
+        "type":"IAV14",
+        "selected":true
+      },
+      {
+        "type":"IAV15",
+        "selected":true
+      },
+      {
+        "type":"IAV16",
+        "selected":true
+      },
+      {
+        "type":"IAV17",
+        "selected":true
+      },
+      {
+        "type":"IAV1",
+        "selected":true
+      },
+      {
+        "type":"IAV2",
+        "selected":true
+      },
+      {
+        "type":"IAV3",
+        "selected":true
+      },
+      {
+        "type":"IAV4",
+        "selected":true
+      },
+      {
+        "type":"IAV5",
+        "selected":true
+      },
+      {
+        "type":"IAV6",
+        "selected":true
+      },
+      {
+        "type":"IAV7",
+        "selected":true
+      },
+      {
+        "type":"IAV8",
+        "selected":true
+      },
+      {
+        "type":"IAV9",
+        "selected":true
+      }
+    ]
+  },
+  "identitetStyrktGenom":{
+    "typ":"IDK1"
+  },
+  "allmant":{
+    "diabetesDiagnosAr":"2000",
+    "typAvDiabetes":"ANNAN",
+    "medicineringMedforRiskForHypoglykemi":true,
+    "beskrivningAnnanTypAvDiabetes":"Annan diabetes",
+    "behandling":{
+      "endastKost":true,
+      "tabletter":true,
+      "riskHypoglykemi":true,
+      "insulin":true,
+      "insulinSedanAr":"2010",
+      "annanBehandling":true,
+      "annanBehandlingBeskrivning":"Annan behandling"
+    }
+  },
+  "hypoglykemier":{
+    "egenkontrollBlodsocker":true,
+    "nedsattHjarnfunktion":true,
+    "sjukdomenUnderKontroll":true,
+    "formagaVarningstecken":true,
+    "aterkommandeSenasteAret":true,
+    "aterkommandeSenasteTidpunkt":"2018-09-10",
+    "aterkommandeSenasteKvartalet":true,
+    "senasteTidpunktVaken":"2018-09-10",
+    "forekomstTrafik":true,
+    "forekomstTrafikTidpunkt":"2018-09-10"
+  },
+  "synfunktion":{
+    "misstankeOgonsjukdom":true,
+    "skickasSeparat":false,
+    "vanster":{
+      "utanKorrektion":0.3,
+      "medKorrektion":0.4
+    },
+    "hoger":{
+      "utanKorrektion":0.1,
+      "medKorrektion":0.2
+    },
+    "binokulart":{
+      "utanKorrektion":0.5,
+      "medKorrektion":0.6
+    }
+  },
+  "ovrigt":"Övrigt",
+  "bedomning":{
+    "uppfyllerBehorighetskrav":[
+      {
+        "type":"VAR1",
+        "selected":true
+      },
+      {
+        "type":"VAR2",
+        "selected":true
+      },
+      {
+        "type":"VAR3",
+        "selected":true
+      },
+      {
+        "type": "VAR4",
+        "selected":true
+      },
+      {
+        "type":"VAR5",
+        "selected":true
+      },
+      {
+        "type":"VAR6",
+        "selected":true
+      },
+      {
+        "type":"VAR7",
+        "selected":true
+      },
+      {
+        "type":"VAR8",
+        "selected":true
+      },
+      {
+        "type":"VAR9",
+        "selected":true
+      },
+      {
+        "type": "VAR12",
+        "selected":true
+      },
+      {
+        "type": "VAR13",
+        "selected":true
+      },
+      {
+        "type": "VAR14",
+        "selected":true
+      },
+      {
+        "type": "VAR15",
+        "selected":true
+      },
+      {
+        "type": "VAR16",
+        "selected":true
+      },
+      {
+        "type": "VAR17",
+        "selected":true
+      },
+      {
+        "type": "VAR18",
+        "selected":true
+      },
+      {
+        "type":"VAR11",
+        "selected":false
+      }
+    ],
+    "lampligtInnehav":true,
+    "borUndersokasBeskrivning":"specialistkompetens"
+  }
+}
