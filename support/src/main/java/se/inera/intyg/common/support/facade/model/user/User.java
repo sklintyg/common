@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Value;
+import se.inera.intyg.common.support.facade.model.metadata.Unit;
 import se.inera.intyg.common.support.facade.model.user.User.UserBuilder;
 
 @JsonDeserialize(builder = UserBuilder.class)
@@ -32,9 +33,9 @@ public class User {
     private String hsaId;
     private String name;
     private String role;
-    private String loggedInUnit;
-    private String loggedInCareProvider;
     private SigningMethod signingMethod;
+    private Unit loggedInUnit;
+    private Unit loggedInCareProvider;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class UserBuilder {
