@@ -2854,7 +2854,7 @@ class InternalToCertificateTest {
                 assertAll("Validation question validation",
                     () -> assertEquals(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32, certificateDataValidationShow.getQuestionId()),
                     () -> assertEquals(
-                        "($EN_FJARDEDEL.from < -7) || ($HALFTEN.from < -7) || ($TRE_FJARDEDEL.from < -7) || ($HELT_NEDSATT.from < -7)",
+                        "($EN_FJARDEDEL.from <= -7) || ($HALFTEN.from <= -7) || ($TRE_FJARDEDEL.from <= -7) || ($HELT_NEDSATT.from <= -7)",
                         certificateDataValidationShow.getExpression())
                 );
             }

@@ -63,6 +63,10 @@ public final class ValidationExpressionToolkit {
         return s1 + " < " + s2;
     }
 
+    public static String lessThanOrEqual(String s1, String s2) {
+        return s1 + " <= " + s2;
+    }
+
     public static String moreThan(String s1, String s2) {
         return s1 + " > " + s2;
     }
