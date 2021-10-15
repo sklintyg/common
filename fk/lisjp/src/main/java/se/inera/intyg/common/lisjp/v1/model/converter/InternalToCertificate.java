@@ -154,7 +154,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSE
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSELSATTNING_SVAR_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.appendAttribute;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.lessThan;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.lessThanOrEqual;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleAndExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.not;
@@ -1103,23 +1103,23 @@ public final class InternalToCertificate {
                             multipleOrExpression(
                                 wrapWithParenthesis(
                                     singleExpression(
-                                        lessThan(
+                                        lessThanOrEqual(
                                             appendAttribute(
                                                 SjukskrivningsGrad.NEDSATT_1_4.getId(), attribute), VALIDATION_DAYS_TIDIGT_START_DATUM))),
                                 wrapWithParenthesis(
                                     singleExpression(
-                                        lessThan(
+                                        lessThanOrEqual(
                                             appendAttribute(
                                                 SjukskrivningsGrad.NEDSATT_HALFTEN.getId(), attribute),
                                             VALIDATION_DAYS_TIDIGT_START_DATUM))),
                                 wrapWithParenthesis(
                                     singleExpression(
-                                        lessThan(
+                                        lessThanOrEqual(
                                             appendAttribute(
                                                 SjukskrivningsGrad.NEDSATT_3_4.getId(), attribute), VALIDATION_DAYS_TIDIGT_START_DATUM))),
                                 wrapWithParenthesis(
                                     singleExpression(
-                                        lessThan(
+                                        lessThanOrEqual(
                                             appendAttribute(
                                                 SjukskrivningsGrad.HELT_NEDSATT.getId(), attribute), VALIDATION_DAYS_TIDIGT_START_DATUM)))
                             )
