@@ -35,10 +35,13 @@ public class Patient {
     private String lastName;
     private String middleName;
     private String fullName;
+    private String reserveId;
     private boolean coordinationNumber;
     private boolean testIndicated;
     private boolean protectedPerson;
     private boolean deceased;
+    private boolean differentNameFromJS;
+    private boolean differentPatientIdFromJS;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class PatientBuilder {
