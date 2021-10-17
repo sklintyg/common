@@ -97,15 +97,13 @@ angular.module('common').directive('wcMainMenu', ['$state', '$location', 'common
                     });
                 }
 
-                if (featureService.isFeatureActive(featureService.features.SIGNED_CERTIFICATES_LIST)) {
-                    menu.push({
-                        link: '/#/signed-certificates',
-                        label: 'Signerade intyg',
-                        requiresDoctor: true,
-                        statTooltip: null,
-                        id: 'menu-signed-certificates'
-                    });
-                }
+                menu.push({
+                    link: '/#/signed-certificates',
+                    label: 'Signerade intyg',
+                    requiresDoctor: true,
+                    statTooltip: null,
+                    id: 'menu-signed-certificates'
+                });
 
                 if (featureService.isFeatureActive(featureService.features.HANTERA_INTYGSUTKAST)) {
                     var writeCertMenuDef = {
