@@ -31,17 +31,17 @@ import se.inera.intyg.common.support.facade.model.Patient.PatientBuilder;
 public class Patient {
 
     private PersonId personId;
+    private PersonId previousPersonId;
     private String firstName;
     private String lastName;
     private String middleName;
     private String fullName;
-    private String reserveId;
     private boolean coordinationNumber;
     private boolean testIndicated;
     private boolean protectedPerson;
     private boolean deceased;
-    private boolean differentNameFromJS;
-    private boolean differentPatientIdFromJS;
+    private boolean differentNameFromEHR;
+    private boolean personIdUpdated;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class PatientBuilder {
