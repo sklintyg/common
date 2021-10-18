@@ -16,29 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.support.facade.model.user;
+
+package se.inera.intyg.common.support.facade.model.icf;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Value;
-import se.inera.intyg.common.support.facade.model.metadata.Unit;
-import se.inera.intyg.common.support.facade.model.user.User.UserBuilder;
+import se.inera.intyg.common.support.facade.model.icf.IcfCode.IcfCodeBuilder;
 
-@JsonDeserialize(builder = UserBuilder.class)
+@JsonDeserialize(builder = IcfCodeBuilder.class)
 @Value
 @Builder
-public class User {
+public class IcfCode {
 
-    private String hsaId;
-    private String name;
-    private String role;
-    private SigningMethod signingMethod;
-    private Unit loggedInUnit;
-    private Unit loggedInCareProvider;
+    private String title;
+    private String description;
+    private String includes;
+    private String code;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class UserBuilder {
+    public static class IcfCodeBuilder {
 
     }
 }
