@@ -27,9 +27,9 @@ public enum KvTypAvDiabetes {
 
     TYP1("E10", "Diabetes mellitus typ 1"),
     TYP2("E11", "Diabetes mellitus typ 2"),
+    LADA("E109", "Diabetes mellitus typ 1-Utan komplikationer"),
     ANNAN("E13", "Annan typ av diabetes");
 
-    public static final String CODE_SYSTEM = "1.2.752.116.1.1.1.1.3";
     final String code;
     final String description;
 
