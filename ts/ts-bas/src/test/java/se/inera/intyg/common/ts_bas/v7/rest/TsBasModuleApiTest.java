@@ -22,8 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -35,6 +34,7 @@ import static se.inera.intyg.common.ts_parent.rest.TsParentModuleApi.REGISTER_CE
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
@@ -43,6 +43,7 @@ import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -76,6 +77,7 @@ import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponderInterface;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponseType;
@@ -116,6 +118,8 @@ public class TsBasModuleApiTest {
     @Mock
     private RegisterCertificateResponderInterface registerCertificateResponderInterface;
 
+    private final String LOGICAL_ADDRESS = "logical address";
+
     public TsBasModuleApiTest() {
         MockitoAnnotations.initMocks(this);
     }
@@ -143,6 +147,64 @@ public class TsBasModuleApiTest {
         CreateNewDraftHolder holder = createNewDraftHolder();
         String response = moduleApi.createNewInternal(holder);
         assertNotNull(response);
+    }
+
+    @Test
+    public void testSendCertificateShouldUseXml() {
+        when(registerCertificateResponderInterface.registerCertificate(anyString(), any())).thenReturn(createReturnVal(ResultCodeType.OK));
+        try {
+            String xmlContents = Resources.toString(Resources.getResource("v7/scenarios/rivtav3/valid-minimal.xml"), Charsets.UTF_8);
+            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
+
+            verify(registerCertificateResponderInterface, times(1)).registerCertificate(same(LOGICAL_ADDRESS), any());
+
+        } catch (ModuleException | IOException e) {
+            fail();
+        }
+    }
+
+    @Test(expected = ModuleException.class)
+    public void testSendCertificateShouldFailWhenErrorIsReturned() throws ModuleException {
+        when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
+                .thenReturn(createReturnVal(ResultCodeType.ERROR));
+        try {
+            String xmlContents = Resources.toString(Resources.getResource("v7/scenarios/rivtav3/valid-minimal.xml"), Charsets.UTF_8);
+            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
+        } catch (IOException e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void testSendCertificateShouldSucceedWhenInfoIsReturned() throws ModuleException {
+        when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
+                .thenReturn(createReturnVal(ResultCodeType.INFO));
+        try {
+            String xmlContents = Resources.toString(Resources.getResource("v7/scenarios/rivtav3/valid-minimal.xml"), Charsets.UTF_8);
+            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
+        } catch (IOException e) {
+            fail();
+        }
+    }
+
+    @Test(expected = ModuleException.class)
+    public void testSendCertificateShouldFailOnEmptyXml() throws ModuleException {
+        moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null);
+    }
+
+    @Test(expected = ModuleException.class)
+    public void testSendCertificateShouldFailOnNullLogicalAddress() throws ModuleException {
+        moduleApi.sendCertificateToRecipient("blaha", null, null);
+    }
+
+    @Test(expected = ModuleException.class)
+    public void testSendCertificateShouldFailOnEmptyLogicalAddress() throws ModuleException {
+        moduleApi.sendCertificateToRecipient("blaha", "", null);
+    }
+
+    @Test(expected = ModuleException.class)
+    public void testSendCertificateShouldFailOnMissingIntygTypeVersion() throws ModuleException {
+        moduleApi.sendCertificateToRecipient("blaha", "", null);
     }
 
     @Test
@@ -258,7 +320,7 @@ public class TsBasModuleApiTest {
 
         final String validMinimalJson = getResourceAsString(new ClassPathResource("v7/scenarios/internal/valid-minimal.json"));
         when(objectMapper.readValue(validMinimalJson, TsBasUtlatandeV7.class)).thenReturn(
-            ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
+                ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
         when(objectMapper.writeValueAsString(any())).thenReturn(validMinimalJson);
         final String res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient);
 
@@ -281,13 +343,13 @@ public class TsBasModuleApiTest {
         doReturn(result).when(response).getResult();
 
         doReturn(response).when(revokeCertificateClient).revokeCertificate(anyString(),
-            any(RevokeCertificateType.class));
+                any(RevokeCertificateType.class));
 
         final String logicalAddress = "Logical address";
         moduleApi.revokeCertificate(xmlBody, logicalAddress);
 
         verify(revokeCertificateClient, times(1)).revokeCertificate(anyString(),
-            any(RevokeCertificateType.class));
+                any(RevokeCertificateType.class));
     }
 
     @Test
@@ -305,7 +367,7 @@ public class TsBasModuleApiTest {
         doReturn(result).when(response).getResult();
 
         doReturn(response).when(revokeCertificateClient).revokeCertificate(anyString(),
-            any(RevokeCertificateType.class));
+                any(RevokeCertificateType.class));
 
         final String logicalAddress = "Logical address";
 
@@ -318,7 +380,7 @@ public class TsBasModuleApiTest {
         }
 
         verify(revokeCertificateClient, times(1)).revokeCertificate(anyString(),
-            any(RevokeCertificateType.class));
+                any(RevokeCertificateType.class));
     }
 
     @Test
@@ -337,7 +399,7 @@ public class TsBasModuleApiTest {
         doReturn(result).when(response).getResult();
 
         doReturn(response).when(revokeCertificateClient).revokeCertificate(anyString(),
-            any(RevokeCertificateType.class));
+                any(RevokeCertificateType.class));
 
         final String logicalAddress = "Logical address";
 
@@ -350,7 +412,7 @@ public class TsBasModuleApiTest {
         }
 
         verify(revokeCertificateClient, times(1)).revokeCertificate(anyString(),
-            any(RevokeCertificateType.class));
+                any(RevokeCertificateType.class));
     }
 
     private CreateNewDraftHolder createNewDraftHolder() {
@@ -388,10 +450,12 @@ public class TsBasModuleApiTest {
         return Resources.toString(cpr.getURL(), Charsets.UTF_8);
     }
 
-    private String xmlToString(RegisterCertificateType registerCertificateType) {
-        StringWriter stringWriter = new StringWriter();
-        JAXB.marshal(registerCertificateType, stringWriter);
-        return stringWriter.toString();
+    private RegisterCertificateResponseType createReturnVal(ResultCodeType res) {
+        RegisterCertificateResponseType retVal = new RegisterCertificateResponseType();
+        ResultType value = new ResultType();
+        value.setResultCode(res);
+        retVal.setResult(value);
+        return retVal;
     }
 
 }
