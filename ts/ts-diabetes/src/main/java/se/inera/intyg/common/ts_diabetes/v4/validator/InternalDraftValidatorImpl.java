@@ -29,6 +29,7 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_BOR_UNDERSOKAS_JSON_ID;
@@ -330,6 +331,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             && isTrue(utlatande.getHypoglykemier().getNedsattHjarnfunktion());
     }
 
+    private static boolean eligibleForRule32(TsDiabetesUtlatandeV4 utlatande) {
+        return utlatande.getAllmant() != null && isTrue(utlatande.getAllmant().getMedicineringForDiabetes());
+    }
+
     @Override
     public ValidateDraftResponse validateDraft(TsDiabetesUtlatandeV4 utlatande) {
         List<ValidationMessage> validationMessages = new ArrayList<>();
@@ -344,6 +349,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         if (utlatande.getAllmant() != null) {
             validateDiagnosAr(utlatande, validationMessages);
             validateTypAvDiabetes(utlatande, validationMessages);
+            validateMedicineringForDiabetes(utlatande, validationMessages);
             validateMedicineringMedforRiskForHypoglykemi(utlatande, validationMessages);
             validateBehandling(utlatande, validationMessages);
         } else {
@@ -457,11 +463,19 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         }
     }
 
-    private void validateMedicineringMedforRiskForHypoglykemi(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        String medicineringMedforRiskForHypoglykemi = ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
+    private void validateMedicineringForDiabetes(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
+        String medicineringForDiabetes = ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID;
         Allmant allmant = utlatande.getAllmant();
-        if (allmant.getMedicineringMedforRiskForHypoglykemi() == null) {
-            addValidationError(validationMessages, CATEGORY_ALLMANT, medicineringMedforRiskForHypoglykemi, ValidationMessageType.EMPTY);
+        if (allmant.getMedicineringForDiabetes() == null) {
+            addValidationError(validationMessages, CATEGORY_ALLMANT, medicineringForDiabetes, ValidationMessageType.EMPTY);
+        }
+    }
+
+    private void validateMedicineringMedforRiskForHypoglykemi(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
+        if (eligibleForRule32(utlatande) && utlatande.getAllmant().getMedicineringMedforRiskForHypoglykemi() == null) {
+            addValidationError(validationMessages, CATEGORY_ALLMANT,
+                ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID,
+                ValidationMessageType.EMPTY);
         }
     }
 

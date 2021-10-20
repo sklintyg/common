@@ -84,6 +84,9 @@ public final class TransportToInternal {
                 case RespConstants.ALLMANT_TYP_AV_DIABETES_SVAR_ID:
                     handleAllmantTypAvDiabetes(allmant, svar);
                     break;
+                case RespConstants.ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID:
+                    handleAllmantMedicineringForDiabetes(allmant, svar);
+                    break;
                 case RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID:
                     handleAllmantMedicineringMedforRiskForHypoglykemi(allmant, svar);
                     break;
@@ -191,6 +194,18 @@ public final class TransportToInternal {
                 case RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID:
                     allmant.setTypAvDiabetes(KvTypAvDiabetes.ANNAN);
                     allmant.setBeskrivningAnnanTypAvDiabetes(getStringContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleAllmantMedicineringForDiabetes(Allmant.Builder allmant, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case RespConstants.ALLMANT_MEDICINERING_FOR_DIABETES_DELSVAR_ID:
+                    allmant.setMedicineringForDiabetes(getBooleanContent(delsvar));
                     break;
                 default:
                     throw new IllegalArgumentException();

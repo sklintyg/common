@@ -1,7 +1,7 @@
 {
   "typ": "ts-diabetes",
   "id": "1234567",
-  "textVersion": "3.0",
+  "textVersion": "4.0",
   "grundData": {
     "patient": {
       "samordningsNummer": false,
@@ -17,7 +17,7 @@
         "epost": "ve1@vg1.se",
         "telefonnummer": "0812341234",
         "postort": "Stadby",
-        "postnummer": "",
+        "postnummer": "100 10",
         "postadress": "Enhetsg. 1",
         "enhetsnamn": "VE1",
         "enhetsid": "123456789"
@@ -49,7 +49,7 @@
   "allmant":{
     "diabetesDiagnosAr":"1990",
     "typAvDiabetes":"TYP1",
-    "medicineringForDiabetes":false,
+    "medicineringForDiabetes":true,
     "behandling":{
       "endastKost":true
     }

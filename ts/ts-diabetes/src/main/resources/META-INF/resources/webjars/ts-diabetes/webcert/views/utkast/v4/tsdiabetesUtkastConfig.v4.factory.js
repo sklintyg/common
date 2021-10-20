@@ -112,6 +112,10 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
                 return ObjectHelper.deepGet(model, 'hypoglykemier.nedsattHjarnfunktion');
             }
 
+            function R32(model) {
+                return ObjectHelper.deepGet(model, 'allmant.medicineringForDiabetes');
+            }
+
             function disableSkickasSeparat(scope){
                 var synfunktion = scope.model.synfunktion;
                 return ObjectHelper.isDefined(synfunktion.hoger.utanKorrektion) || ObjectHelper.isDefined(synfunktion.hoger.medKorrektion) ||
@@ -210,7 +214,19 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
                                 }
                             }
                         ]),
-                        fraga(207, 'FRG_207.RBK', 'FRG_207.HLP', {required: true, requiredProp: 'allmant.medicineringMedforRiskForHypoglykemi'}, [{
+                        fraga(207, 'FRG_207.RBK', 'FRG_207.HLP', {required: true, requiredProp: 'allmant.medicineringForDiabetes'}, [{
+                            type: 'ue-radio',
+                            yesLabel: 'SVAR_JA.RBK',
+                            noLabel: 'SVAR_NEJ.RBK',
+                            modelProp: 'allmant.medicineringForDiabetes'
+                        }]),
+                        fraga(208, 'FRG_208.RBK', 'FRG_208.HLP', {
+                            required: true,
+                            requiredProp: function (model) {
+                                return R32(model) && model.allmant.medicineringMedforRiskForHypoglykemi === undefined;
+                            },
+                            hideExpression: '!model.allmant.medicineringForDiabetes'
+                        }, [{
                             type: 'ue-radio',
                             yesLabel: 'SVAR_JA.RBK',
                             noLabel: 'SVAR_NEJ.RBK',

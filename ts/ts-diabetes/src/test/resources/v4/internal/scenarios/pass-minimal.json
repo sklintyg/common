@@ -49,7 +49,7 @@
   "allmant":{
     "diabetesDiagnosAr":"1990",
     "typAvDiabetes":"TYP1",
-    "medicineringMedforRiskForHypoglykemi":true,
+    "medicineringForDiabetes":false,
     "behandling":{
       "endastKost":true
     }

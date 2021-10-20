@@ -21,6 +21,7 @@ package se.inera.intyg.common.ts_diabetes.v4.model.internal;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_JSON_ID;
 
@@ -42,6 +43,9 @@ public abstract class Allmant {
 
     @Nullable
     public abstract String getBeskrivningAnnanTypAvDiabetes();
+
+    @Nullable
+    public abstract Boolean getMedicineringForDiabetes();
 
     @Nullable
     public abstract Boolean getMedicineringMedforRiskForHypoglykemi();
@@ -67,6 +71,8 @@ public abstract class Allmant {
         @JsonProperty(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID)
         public abstract Builder setBeskrivningAnnanTypAvDiabetes(String value);
 
+        @JsonProperty(ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID)
+        public abstract Builder setMedicineringForDiabetes(Boolean value);
 
         @JsonProperty(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID)
         public abstract Builder setMedicineringMedforRiskForHypoglykemi(Boolean value);

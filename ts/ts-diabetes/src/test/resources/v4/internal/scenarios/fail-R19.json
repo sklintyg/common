@@ -1,7 +1,7 @@
 {
   "typ": "ts-diabetes",
   "id": "1234567",
-  "textVersion": "4.0",
+  "textVersion": "3.0",
   "grundData": {
     "patient": {
       "samordningsNummer": false,
@@ -39,67 +39,67 @@
   "intygAvser":{
     "kategorier":[
       {
-        "type":"IAV11",
+        "type": "IAV11",
         "selected":true
       },
       {
-        "type":"IAV12",
+        "type": "IAV12",
         "selected":true
       },
       {
-        "type":"IAV13",
+        "type": "IAV13",
         "selected":true
       },
       {
-        "type":"IAV14",
+        "type": "IAV14",
         "selected":true
       },
       {
-        "type":"IAV15",
+        "type": "IAV15",
         "selected":true
       },
       {
-        "type":"IAV16",
+        "type": "IAV16",
         "selected":true
       },
       {
-        "type":"IAV17",
+        "type": "IAV17",
         "selected":true
       },
       {
-        "type":"IAV1",
+        "type": "IAV1",
         "selected":true
       },
       {
-        "type":"IAV2",
+        "type": "IAV2",
         "selected":true
       },
       {
-        "type":"IAV3",
+        "type": "IAV3",
         "selected":true
       },
       {
-        "type":"IAV4",
+        "type": "IAV4",
         "selected":true
       },
       {
-        "type":"IAV5",
+        "type": "IAV5",
         "selected":true
       },
       {
-        "type":"IAV6",
+        "type": "IAV6",
         "selected":true
       },
       {
-        "type":"IAV7",
+        "type": "IAV7",
         "selected":true
       },
       {
-        "type":"IAV8",
+        "type": "IAV8",
         "selected":true
       },
       {
-        "type":"IAV9",
+        "type": "IAV9",
         "selected":true
       }
     ]
@@ -110,9 +110,8 @@
   "allmant":{
     "diabetesDiagnosAr":"2000",
     "typAvDiabetes":"ANNAN",
-    "medicineringForDiabetes":true,
-    "medicineringMedforRiskForHypoglykemi":true,
     "beskrivningAnnanTypAvDiabetes":"Annan diabetes",
+    "medicineringForDiabetes":false,
     "behandling":{
       "endastKost":true,
       "tabletter":true,
@@ -124,10 +123,10 @@
     }
   },
   "hypoglykemier":{
-    "egenkontrollBlodsocker":true,
-    "nedsattHjarnfunktion":true,
     "sjukdomenUnderKontroll":true,
+    "nedsattHjarnfunktion":true,
     "formagaVarningstecken":true,
+    "egenkontrollBlodsocker":true,
     "aterkommandeSenasteAret":true,
     "aterkommandeSenasteTidpunkt":"2018-09-10",
     "aterkommandeSenasteKvartalet":true,
@@ -136,19 +135,19 @@
     "forekomstTrafikTidpunkt":"2018-09-10"
   },
   "synfunktion":{
-    "misstankeOgonsjukdom":true,
+    "misstankeOgonsjukdom":false,
     "skickasSeparat":false,
     "vanster":{
-      "utanKorrektion":0.3,
-      "medKorrektion":0.4
+      "utanKorrektion":2.1,
+      "medKorrektion":2.1
     },
     "hoger":{
-      "utanKorrektion":0.1,
-      "medKorrektion":0.2
+      "utanKorrektion":2.3,
+      "medKorrektion":5.1
     },
     "binokulart":{
-      "utanKorrektion":0.5,
-      "medKorrektion":0.6
+      "utanKorrektion":5.3,
+      "medKorrektion":4.2
     }
   },
   "ovrigt":"Övrigt",

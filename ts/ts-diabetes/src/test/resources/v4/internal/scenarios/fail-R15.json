@@ -17,7 +17,7 @@
         "epost": "ve1@vg1.se",
         "telefonnummer": "0812341234",
         "postort": "Stadby",
-        "postnummer": "",
+        "postnummer": "100 10",
         "postadress": "Enhetsg. 1",
         "enhetsnamn": "VE1",
         "enhetsid": "123456789"
@@ -38,7 +38,7 @@
   "intygAvser": {
     "kategorier": [
       {
-        "type": "IAV14",
+        "type": "IAV1",
         "selected": true
       }
     ]
@@ -57,8 +57,17 @@
   "hypoglykemier":{
   },
   "synfunktion":{
-    "misstankeOgonsjukdom":false,
-    "skickasSeparat":true
+    "misstankeOgonsjukdom":true,
+    "skickasSeparat":false,
+    "vanster":{
+      "utanKorrektion":0.9
+    },
+    "hoger":{
+      "utanKorrektion":0.0
+    },
+    "binokulart":{
+      "utanKorrektion":0.5
+    }
   },
   "bedomning":{
     "uppfyllerBehorighetskrav":[
@@ -66,6 +75,7 @@
         "type":"VAR11",
         "selected":true
       }
-    ]
+    ],
+    "lampligtInnehav":true
   }
 }

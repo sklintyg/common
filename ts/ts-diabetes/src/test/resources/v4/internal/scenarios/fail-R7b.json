@@ -17,7 +17,7 @@
         "epost": "ve1@vg1.se",
         "telefonnummer": "0812341234",
         "postort": "Stadby",
-        "postnummer": "",
+        "postnummer": "100 10",
         "postadress": "Enhetsg. 1",
         "enhetsnamn": "VE1",
         "enhetsid": "123456789"
@@ -51,10 +51,21 @@
     "typAvDiabetes":"TYP1",
     "medicineringForDiabetes":false,
     "behandling":{
-      "endastKost":true
+      "insulin":true,
+      "insulinSedanAr":"2999"
     }
   },
   "hypoglykemier":{
+    "sjukdomenUnderKontroll":true,
+    "nedsattHjarnfunktion":true,
+    "formagaVarningstecken":true,
+    "egenkontrollBlodsocker":true,
+    "aterkommandeSenasteAret":true,
+    "aterkommandeSenasteTidpunkt":"2018-09-10",
+    "aterkommandeSenasteKvartalet":true,
+    "senasteTidpunktVaken":"2018-09-10",
+    "forekomstTrafik":true,
+    "forekomstTrafikTidpunkt":"2018-09-10"
   },
   "synfunktion":{
     "misstankeOgonsjukdom":false,

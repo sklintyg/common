@@ -17,7 +17,7 @@
         "epost": "ve1@vg1.se",
         "telefonnummer": "0812341234",
         "postort": "Stadby",
-        "postnummer": "",
+        "postnummer": "100 10",
         "postadress": "Enhetsg. 1",
         "enhetsnamn": "VE1",
         "enhetsid": "123456789"
@@ -47,7 +47,7 @@
     "typ":"IDK6"
   },
   "allmant":{
-    "diabetesDiagnosAr":"1990",
+    "diabetesDiagnosAr":"1926",
     "typAvDiabetes":"TYP1",
     "medicineringForDiabetes":false,
     "behandling":{

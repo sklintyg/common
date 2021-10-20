@@ -50,6 +50,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.Domain.IntygModel.v4',
                             diabetesDiagnosAr: undefined,
                             typAvDiabetes: undefined,
                             beskrivningAnnanTypAvDiabetes: undefined,
+                            medicineringForDiabetes: undefined,
                             medicineringMedforRiskForHypoglykemi: undefined,
                             behandling: {
                                 endastKost: undefined,
