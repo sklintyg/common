@@ -75,6 +75,7 @@ import se.inera.intyg.common.ts_bas.v7.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponseType;
@@ -110,10 +111,10 @@ public class TsBasModuleApiTest {
     private IntygTextsService intygTexts;
 
     @Mock
-    private SendTSClient sendTsBasClient;
+    private RevokeCertificateResponderInterface revokeCertificateClient;
 
     @Mock
-    private RevokeCertificateResponderInterface revokeCertificateClient;
+    private RegisterCertificateResponderInterface registerCertificateResponderInterface;
 
     public TsBasModuleApiTest() {
         MockitoAnnotations.initMocks(this);
@@ -121,9 +122,6 @@ public class TsBasModuleApiTest {
 
     @Before
     public void setup() throws Exception {
-        // Init the default beahviour
-        setRegisterCertificateVersion(REGISTER_CERTIFICATE_VERSION1);
-
         // use reflection to set IntygTextsService mock in webcertModelFactory
         Field field = WebcertModelFactoryImpl.class.getDeclaredField("intygTexts");
         field.setAccessible(true);
@@ -145,41 +143,6 @@ public class TsBasModuleApiTest {
         CreateNewDraftHolder holder = createNewDraftHolder();
         String response = moduleApi.createNewInternal(holder);
         assertNotNull(response);
-    }
-
-    @Test
-    public void testSendCertificateToRecipient() throws Exception {
-        final String xmlBody = "xmlBody";
-        final String logicalAddress = "logicalAddress";
-        final String recipientId = "recipient";
-
-        SOAPMessage response = mock(SOAPMessage.class);
-        when(response.getSOAPPart()).thenReturn(mock(SOAPPart.class));
-        when(response.getSOAPPart().getEnvelope()).thenReturn(mock(SOAPEnvelope.class));
-        when(response.getSOAPPart().getEnvelope().getBody()).thenReturn(mock(SOAPBody.class));
-        when(response.getSOAPPart().getEnvelope().getBody().hasFault()).thenReturn(false);
-
-        when(sendTsBasClient.registerCertificate(xmlBody, logicalAddress)).thenReturn(response);
-
-        moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId);
-
-        verify(sendTsBasClient).registerCertificate(xmlBody, logicalAddress);
-    }
-
-    @Test(expected = ModuleException.class)
-    public void testSendCertificateToRecipientFault() throws Exception {
-        final String xmlBody = "xmlBody";
-        final String logicalAddress = "logicalAddress";
-        final String recipientId = "recipient";
-
-        SOAPMessage response = mock(SOAPMessage.class);
-        when(response.getSOAPPart()).thenReturn(mock(SOAPPart.class));
-        when(response.getSOAPPart().getEnvelope()).thenReturn(mock(SOAPEnvelope.class));
-        when(response.getSOAPPart().getEnvelope().getBody()).thenReturn(mock(SOAPBody.class));
-        when(response.getSOAPPart().getEnvelope().getBody().hasFault()).thenReturn(true);
-        when(sendTsBasClient.registerCertificate(xmlBody, logicalAddress)).thenReturn(response);
-
-        moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId);
     }
 
     @Test
@@ -423,10 +386,6 @@ public class TsBasModuleApiTest {
 
     private String getResourceAsString(ClassPathResource cpr) throws IOException {
         return Resources.toString(cpr.getURL(), Charsets.UTF_8);
-    }
-
-    private void setRegisterCertificateVersion(String version) {
-        ReflectionTestUtils.setField(moduleApi, "registerCertificateVersion", version);
     }
 
     private String xmlToString(RegisterCertificateType registerCertificateType) {
