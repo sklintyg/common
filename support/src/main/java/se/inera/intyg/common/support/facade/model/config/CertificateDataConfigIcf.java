@@ -16,29 +16,38 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.support.facade.model.user;
+package se.inera.intyg.common.support.facade.model.config;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.Value;
-import se.inera.intyg.common.support.facade.model.metadata.Unit;
-import se.inera.intyg.common.support.facade.model.user.User.UserBuilder;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigIcf.CertificateDataConfigIcfBuilder;
 
-@JsonDeserialize(builder = UserBuilder.class)
+@JsonDeserialize(builder = CertificateDataConfigIcfBuilder.class)
 @Value
 @Builder
-public class User {
+public class CertificateDataConfigIcf implements CertificateDataConfig {
 
-    private String hsaId;
-    private String name;
-    private String role;
-    private SigningMethod signingMethod;
-    private Unit loggedInUnit;
-    private Unit loggedInCareProvider;
+    @Getter(onMethod = @__(@Override))
+    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_ICF;
+    @Getter(onMethod = @__(@Override))
+    String header;
+    @Getter(onMethod = @__(@Override))
+    String label;
+    @Getter(onMethod = @__(@Override))
+    String icon;
+    @Getter(onMethod = @__(@Override))
+    String text;
+    @Getter(onMethod = @__(@Override))
+    String description;
+    String id;
+    String modalLabel;
+    String collectionsLabel;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class UserBuilder {
+    public static class CertificateDataConfigIcfBuilder {
 
     }
 }

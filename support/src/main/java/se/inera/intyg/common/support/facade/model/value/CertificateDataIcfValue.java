@@ -16,31 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.support.modules.support.facade.dto;
+package se.inera.intyg.common.support.facade.model.value;
 
-public enum CertificateEventTypeDTO {
-    CREATED,
-    DELETED,
-    LOCKED,
-    READY_FOR_SIGN,
-    SIGNED,
-    SENT,
-    AVAILABLE_FOR_PATIENT,
-    INCOMING_MESSAGE,
-    INCOMING_MESSAGE_HANDLED,
-    OUTGOING_MESSAGE,
-    OUTGOING_MESSAGE_HANDLED,
-    INCOMING_MESSAGE_REMINDER,
-    INCOMING_ANSWER,
-    REQUEST_FOR_COMPLEMENT,
-    REVOKED,
-    REPLACED,
-    REPLACES,
-    COMPLEMENTS,
-    COMPLEMENTED,
-    EXTENDED,
-    CREATED_FROM,
-    COPIED_BY,
-    COPIED_FROM,
-    RELATED_CERTIFICATE_REVOKED
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.List;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Value;
+
+@JsonDeserialize(builder = CertificateDataIcfValue.CertificateDataIcfValueBuilder.class)
+@Value
+@Builder
+public class CertificateDataIcfValue implements CertificateDataValue {
+
+    @Getter(onMethod = @__(@Override))
+    CertificateDataValueType type = CertificateDataValueType.ICF;
+    String id;
+    String text;
+    List<String> icfCodes;
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class CertificateDataIcfValueBuilder {
+
+    }
 }

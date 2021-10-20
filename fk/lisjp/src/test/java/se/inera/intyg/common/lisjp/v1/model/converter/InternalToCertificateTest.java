@@ -25,6 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_ICF_COLLECTION;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_ICF_INFO;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
@@ -50,6 +52,8 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGN
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ICF_COLLECTION;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ICF_INFO;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
@@ -106,6 +110,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCh
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleDate;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDiagnoses;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDropdown;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigIcf;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigSickLeavePeriod;
@@ -118,6 +123,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataIcfValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
@@ -1886,35 +1892,41 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_SVAR_ID_35);
 
-                assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
+                assertEquals(CertificateDataConfigTypes.UE_ICF, question.getConfig().getType());
 
-                final var certificateDataConfigTextArea = (CertificateDataConfigTextArea) question.getConfig();
+                final var certificateDataConfigIcf = (CertificateDataConfigIcf) question.getConfig();
                 assertAll("Validating question configuration",
-                    () -> assertTrue(certificateDataConfigTextArea.getHeader().trim().length() > 0, "Missing header"),
-                    () -> assertTrue(certificateDataConfigTextArea.getText().trim().length() > 0, "Missing text"),
-                    () -> assertTrue(certificateDataConfigTextArea.getDescription().trim().length() > 0, "Missing description"),
-                    () -> assertEquals(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35, certificateDataConfigTextArea.getId())
+                    () -> assertTrue(certificateDataConfigIcf.getHeader().trim().length() > 0, "Missing header"),
+                    () -> assertTrue(certificateDataConfigIcf.getText().trim().length() > 0, "Missing text"),
+                    () -> assertTrue(certificateDataConfigIcf.getDescription().trim().length() > 0, "Missing description"),
+                    () -> assertEquals(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35, certificateDataConfigIcf.getId()),
+                    () -> assertEquals(FUNKTIONSNEDSATTNING_ICF_INFO, certificateDataConfigIcf.getModalLabel()),
+                    () -> assertEquals(FUNKTIONSNEDSATTNING_ICF_COLLECTION, certificateDataConfigIcf.getCollectionsLabel())
                 );
+
             }
 
             @Test
-            void shouldIncludeQuestionValueText() {
+            void shouldIncludeQuestionValueIcf() {
                 final var expectedText = "Text value for question";
+                final var expectedIcfValues = Arrays.asList("Test", "Test 2", "Test 3");
                 internalCertificate = LisjpUtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
                     .setFunktionsnedsattning(expectedText)
+                    .setFunktionsKategorier(expectedIcfValues)
                     .build();
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_SVAR_ID_35);
 
-                final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
+                final var certificateDataValuIcf = (CertificateDataIcfValue) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35, certificateDataValueText.getId()),
-                    () -> assertEquals(expectedText, certificateDataValueText.getText())
+                    () -> assertEquals(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35, certificateDataValuIcf.getId()),
+                    () -> assertEquals(expectedText, certificateDataValuIcf.getText()),
+                    () -> assertEquals(expectedIcfValues, certificateDataValuIcf.getIcfCodes())
                 );
             }
 
@@ -1930,10 +1942,29 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_SVAR_ID_35);
 
-                final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
+                final var certificateDataValueText = (CertificateDataIcfValue) question.getValue();
                 assertAll("Validating question value",
                     () -> assertEquals(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35, certificateDataValueText.getId()),
                     () -> assertNull(certificateDataValueText.getText())
+                );
+            }
+
+            @Test
+            void shouldIncludeQuestionValueIcfEmpty() {
+                internalCertificate = LisjpUtlatandeV1.builder()
+                    .setGrundData(grundData)
+                    .setId("id")
+                    .setTextVersion("TextVersion")
+                    .build();
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_SVAR_ID_35);
+
+                final var certificateDataValueText = (CertificateDataIcfValue) question.getValue();
+                assertAll("Validating question value",
+                    () -> assertEquals(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35, certificateDataValueText.getId()),
+                    () -> assertTrue(certificateDataValueText.getIcfCodes().isEmpty())
                 );
             }
 
@@ -2002,35 +2033,40 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_SVAR_ID_17);
 
-                assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
+                assertEquals(CertificateDataConfigTypes.UE_ICF, question.getConfig().getType());
 
-                final var certificateDataConfigTextArea = (CertificateDataConfigTextArea) question.getConfig();
+                final var certificateDataConfigIcf = (CertificateDataConfigIcf) question.getConfig();
                 assertAll("Validating question configuration",
-                    () -> assertTrue(certificateDataConfigTextArea.getHeader().trim().length() > 0, "Missing header"),
-                    () -> assertTrue(certificateDataConfigTextArea.getText().trim().length() > 0, "Missing text"),
-                    () -> assertTrue(certificateDataConfigTextArea.getDescription().trim().length() > 0, "Missing description"),
-                    () -> assertEquals(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17, certificateDataConfigTextArea.getId())
+                    () -> assertTrue(certificateDataConfigIcf.getHeader().trim().length() > 0, "Missing header"),
+                    () -> assertTrue(certificateDataConfigIcf.getText().trim().length() > 0, "Missing text"),
+                    () -> assertTrue(certificateDataConfigIcf.getDescription().trim().length() > 0, "Missing description"),
+                    () -> assertEquals(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17, certificateDataConfigIcf.getId()),
+                    () -> assertEquals(AKTIVITETSBEGRANSNING_ICF_INFO, certificateDataConfigIcf.getModalLabel()),
+                    () -> assertEquals(AKTIVITETSBEGRANSNING_ICF_COLLECTION, certificateDataConfigIcf.getCollectionsLabel())
                 );
             }
 
             @Test
-            void shouldIncludeQuestionValueText() {
+            void shouldIncludeQuestionValueIcf() {
                 final var expectedText = "Text value for question";
+                final var expectedIcfValues = Arrays.asList("Test", "Test 2", "Test 3");
                 internalCertificate = LisjpUtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
                     .setAktivitetsbegransning(expectedText)
+                    .setAktivitetsKategorier(expectedIcfValues)
                     .build();
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_SVAR_ID_17);
 
-                final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
+                final var certificateDataValueIcf = (CertificateDataIcfValue) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17, certificateDataValueText.getId()),
-                    () -> assertEquals(expectedText, certificateDataValueText.getText())
+                    () -> assertEquals(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17, certificateDataValueIcf.getId()),
+                    () -> assertEquals(expectedText, certificateDataValueIcf.getText()),
+                    () -> assertEquals(expectedIcfValues, certificateDataValueIcf.getIcfCodes())
                 );
             }
 
@@ -2046,10 +2082,29 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_SVAR_ID_17);
 
-                final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
+                final var certificateDataValueText = (CertificateDataIcfValue) question.getValue();
                 assertAll("Validating question value",
                     () -> assertEquals(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17, certificateDataValueText.getId()),
                     () -> assertNull(certificateDataValueText.getText())
+                );
+            }
+
+            @Test
+            void shouldIncludeQuestionValueIcfEmpty() {
+                internalCertificate = LisjpUtlatandeV1.builder()
+                    .setGrundData(grundData)
+                    .setId("id")
+                    .setTextVersion("TextVersion")
+                    .build();
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_SVAR_ID_17);
+
+                final var certificateDataValueIcf = (CertificateDataIcfValue) question.getValue();
+                assertAll("Validating question value",
+                    () -> assertEquals(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17, certificateDataValueIcf.getId()),
+                    () -> assertTrue(certificateDataValueIcf.getIcfCodes().isEmpty())
                 );
             }
 
@@ -2799,7 +2854,7 @@ class InternalToCertificateTest {
                 assertAll("Validation question validation",
                     () -> assertEquals(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32, certificateDataValidationShow.getQuestionId()),
                     () -> assertEquals(
-                        "($EN_FJARDEDEL.from < -7) || ($HALFTEN.from < -7) || ($TRE_FJARDEDEL.from < -7) || ($HELT_NEDSATT.from < -7)",
+                        "($EN_FJARDEDEL.from <= -7) || ($HALFTEN.from <= -7) || ($TRE_FJARDEDEL.from <= -7) || ($HELT_NEDSATT.from <= -7)",
                         certificateDataValidationShow.getExpression())
                 );
             }

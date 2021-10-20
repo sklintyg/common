@@ -16,31 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.support.modules.support.facade.dto;
 
-public enum CertificateEventTypeDTO {
-    CREATED,
-    DELETED,
-    LOCKED,
-    READY_FOR_SIGN,
-    SIGNED,
-    SENT,
-    AVAILABLE_FOR_PATIENT,
-    INCOMING_MESSAGE,
-    INCOMING_MESSAGE_HANDLED,
-    OUTGOING_MESSAGE,
-    OUTGOING_MESSAGE_HANDLED,
-    INCOMING_MESSAGE_REMINDER,
-    INCOMING_ANSWER,
-    REQUEST_FOR_COMPLEMENT,
-    REVOKED,
-    REPLACED,
-    REPLACES,
-    COMPLEMENTS,
-    COMPLEMENTED,
-    EXTENDED,
-    CREATED_FROM,
-    COPIED_BY,
-    COPIED_FROM,
-    RELATED_CERTIFICATE_REVOKED
+package se.inera.intyg.common.support.facade.model.icf;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.List;
+import lombok.Builder;
+import lombok.Value;
+import se.inera.intyg.common.support.facade.model.icf.IcfCodeCollection.IcfCodeCollectionBuilder;
+
+@JsonDeserialize(builder = IcfCodeCollectionBuilder.class)
+@Value
+@Builder
+public class IcfCodeCollection {
+
+    private List<Icd10Code> icd10Codes;
+    private List<IcfCode> icfCodes;
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class IcfCodeCollectionBuilder {
+
+    }
 }

@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataIcfValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
@@ -68,6 +69,34 @@ public final class ValueToolkit {
         }
 
         return textDataValue.getText();
+    }
+
+    public static String icfTextValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
+        final var dataValue = getValue(data, questionId);
+        if (!(dataValue instanceof CertificateDataIcfValue)) {
+            return null;
+        }
+
+        final var icfDataValue = (CertificateDataIcfValue) dataValue;
+        if (!Objects.equals(icfDataValue.getId(), valueId)) {
+            return null;
+        }
+
+        return icfDataValue.getText();
+    }
+
+    public static List<String> icfCodeValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
+        final var dataValue = getValue(data, questionId);
+        if (!(dataValue instanceof CertificateDataIcfValue)) {
+            return null;
+        }
+
+        final var icfDataValue = (CertificateDataIcfValue) dataValue;
+        if (!Objects.equals(icfDataValue.getId(), valueId)) {
+            return null;
+        }
+
+        return icfDataValue.getIcfCodes();
     }
 
     public static LocalDate dateValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
