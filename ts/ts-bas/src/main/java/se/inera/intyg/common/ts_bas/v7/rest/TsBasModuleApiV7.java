@@ -18,20 +18,11 @@
  */
 package se.inera.intyg.common.ts_bas.v7.rest;
 
-import java.nio.charset.Charset;
-import java.util.Base64;
-import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.xml.bind.JAXBElement;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPMessage;
+import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.MarshallingFailureException;
 import org.springframework.stereotype.Component;
-import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -48,12 +39,19 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.TransportToInternal;
 import se.inera.intyg.common.ts_bas.v7.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 import se.inera.intyg.common.ts_bas.v7.pdf.PdfGenerator;
-import se.inera.intyg.common.ts_parent.integration.SendTSClient;
-import se.inera.intyg.common.ts_parent.integration.SendTSClientFactory;
 import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
 import se.inera.intyg.schemas.contract.Personnummer;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+
+import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBElement;
+import javax.xml.ws.soap.SOAPFaultException;
+import java.io.StringReader;
+import java.nio.charset.Charset;
+import java.util.Base64;
+import java.util.List;
 
 /**
  * The contract between the certificate module and the generic components (Intygstjänsten, Mina-Intyg & Webcert).
@@ -63,34 +61,8 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
 
     private static final Logger LOG = LoggerFactory.getLogger(TsBasModuleApiV7.class);
 
-    @Autowired(required = false)
-    @Qualifier("sendTSClientFactory")
-    private SendTSClientFactory sendTSClientFactory;
-
-    @Autowired(required = false)
-    @Qualifier("tsBasRegisterCertificateVersion")
-    private String registerCertificateVersion;
-
-    @Autowired(required = false)
-    private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
-
-    private SendTSClient sendTsBasClient;
-
     public TsBasModuleApiV7() {
         super(TsBasUtlatandeV7.class);
-    }
-
-    @PostConstruct
-    public void init() {
-        if (registerCertificateVersion == null) {
-            registerCertificateVersion = TsParentModuleApi.REGISTER_CERTIFICATE_VERSION3;
-        }
-
-        if (sendTSClientFactory != null) {
-            sendTsBasClient = sendTSClientFactory.get(registerCertificateVersion);
-        } else {
-            LOG.debug("SendTSClientFactory is not injected. RegisterCertificate messages cannot be sent to recipient");
-        }
     }
 
     @Override
@@ -106,15 +78,17 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
 
     @Override
     public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException {
+        if (xmlBody == null || Strings.isNullOrEmpty(logicalAddress)) {
+            throw new ModuleException("Request does not contain the original xml");
+        }
+        RegisterCertificateType request = JAXB.unmarshal(new StringReader(xmlBody), RegisterCertificateType.class);
+
         try {
-            SOAPMessage response = sendTsBasClient.registerCertificate(xmlBody, logicalAddress);
-            SOAPEnvelope contents = response.getSOAPPart().getEnvelope();
-            if (contents.getBody().hasFault()) {
-                throw new ExternalServiceCallException(contents.getBody().getFault().getTextContent());
-            }
-        } catch (Exception e) {
-            LOG.error("Error in sendCertificateToRecipient with msg: {}", e.getMessage());
-            throw new ModuleException("Error in sendCertificateToRecipient.", e);
+            RegisterCertificateResponseType response = registerCertificateResponderInterface.registerCertificate(logicalAddress, request);
+
+            handleResponse(response, request);
+        } catch (SOAPFaultException e) {
+            throw new ExternalServiceCallException(e);
         }
     }
 
