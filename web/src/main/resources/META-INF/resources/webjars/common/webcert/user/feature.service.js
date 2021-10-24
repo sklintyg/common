@@ -65,7 +65,8 @@ angular.module('common').factory('common.featureService',
                 SRS: 'SRS',
                 IDP_CONNECTIVITY_CHECK: 'IDP_CONNECTIVITY_CHECK',
                 BLOCKERA_FRISTAENDE: 'BLOCKERA_FRISTAENDE',
-                VARNING_FRISTAENDE: 'VARNING_FRISTAENDE'
+                VARNING_FRISTAENDE: 'VARNING_FRISTAENDE',
+                SKRIV_UT_I_IFRAME: 'SKRIV_UT_I_IFRAME'
             },
             isFeatureActive: _isFeatureActive
         };
