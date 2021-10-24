@@ -134,7 +134,7 @@ angular.module('common').directive('wcUtkastButtonBar', ['$log', '$stateParams',
                     var getPrintTarget = function() {
                         var targetIframe = featureService.isFeatureActive(featureService.features.SKRIV_UT_I_IFRAME);
                         return targetIframe ? 'printTargetIFrame' : '_blank';
-                    }
+                    };
 
                     var onPatientFound = function(patient) {
                         if (!patient.sekretessmarkering) {
