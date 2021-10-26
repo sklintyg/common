@@ -21,6 +21,7 @@ package se.inera.intyg.common.support.facade.model.question;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Value;
@@ -45,6 +46,7 @@ public class Question {
     private CertificateRelation answeredByCertificate;
     private Reminder[] reminders;
     private LocalDateTime lastUpdate;
+    private LocalDate lastDateToReply;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class QuestionBuilder {
