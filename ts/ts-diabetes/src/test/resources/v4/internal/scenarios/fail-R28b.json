@@ -1,7 +1,7 @@
 {
   "typ": "ts-diabetes",
   "id": "1234567",
-  "textVersion": "3.0",
+  "textVersion": "4.0",
   "grundData": {
     "patient": {
       "samordningsNummer": false,
@@ -38,7 +38,7 @@
   "intygAvser": {
     "kategorier": [
       {
-        "type": "IAV14",
+        "type": "IAV9",
         "selected": true
       }
     ]
@@ -58,16 +58,7 @@
   },
   "synfunktion":{
     "misstankeOgonsjukdom":false,
-    "skickasSeparat":true,
-    "vanster":{
-      "utanKorrektion":2.0
-    },
-    "hoger":{
-      "utanKorrektion":2.0
-    },
-    "binokulart":{
-      "utanKorrektion":2.0
-    }
+    "skickasSeparat":true
   },
   "bedomning":{
     "uppfyllerBehorighetskrav":[
@@ -75,6 +66,7 @@
         "type":"VAR11",
         "selected":true
       }
-    ]
+    ],
+    "lampligtInnehav": true
   }
 }

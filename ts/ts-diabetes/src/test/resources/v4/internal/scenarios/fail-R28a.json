@@ -1,7 +1,7 @@
 {
   "typ": "ts-diabetes",
   "id": "1234567",
-  "textVersion": "3.0",
+  "textVersion": "4.0",
   "grundData": {
     "patient": {
       "samordningsNummer": false,
@@ -38,7 +38,7 @@
   "intygAvser": {
     "kategorier": [
       {
-        "type": "IAV14",
+        "type": "IAV9",
         "selected": true
       }
     ]
@@ -54,9 +54,6 @@
       "endastKost":true
     }
   },
-  "hypoglykemier":{
-    "nedsattHjarnfunktion":true
-  },
   "synfunktion":{
     "misstankeOgonsjukdom":false,
     "skickasSeparat":true
@@ -67,6 +64,7 @@
         "type":"VAR11",
         "selected":true
       }
-    ]
+    ],
+    "lampligtInnehav": true
   }
 }

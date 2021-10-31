@@ -38,7 +38,7 @@
   "intygAvser": {
     "kategorier": [
       {
-        "type": "IAV14",
+        "type": "IAV9",
         "selected": true
       }
     ]
@@ -55,15 +55,10 @@
       "insulinSedanAr":"1991"
     }
   },
-  "hypoglykemier":{
-    "sjukdomenUnderKontroll":false,
-    "nedsattHjarnfunktion":false,
-    "formagaVarningstecken":false,
-    "egenkontrollBlodsocker":false,
-    "aterkommandeSenasteAret":false,
-    "aterkommandeSenasteKvartalet":false,
-    "forekomstTrafik":true,
-    "forekomstTrafikTidpunkt":"2099-11-04"
+  "hypoglykemi":{
+    "allvarligSenasteTolvManaderna": true,
+    "allvarligSenasteTolvManadernaTidpunkt": "2100-01-01",
+    "regelbundnaBlodsockerkontroller": true
   },
   "synfunktion":{
     "misstankeOgonsjukdom":false,
@@ -75,6 +70,7 @@
         "type":"VAR11",
         "selected":true
       }
-    ]
+    ],
+    "lampligtInnehav": true
   }
 }

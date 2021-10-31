@@ -32,17 +32,16 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_LAMPLIGHET_ATT_INNEHA_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_FOREKOMST_TRAFIK_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_FORMAGA_VARNINGSTECKEN_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_KONTROLLERAS_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SYNFUNKTION_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID;
@@ -53,7 +52,7 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.validator.InternalDraftValidatorImpl.BEHANDLING_ROOT_FIELD_PATH;
 import static se.inera.intyg.common.ts_diabetes.v4.validator.InternalDraftValidatorImpl.CATEGORY_ALLMANT;
 import static se.inera.intyg.common.ts_diabetes.v4.validator.InternalDraftValidatorImpl.CATEGORY_BEDOMNING;
-import static se.inera.intyg.common.ts_diabetes.v4.validator.InternalDraftValidatorImpl.CATEGORY_HYPOGLYKEMIER;
+import static se.inera.intyg.common.ts_diabetes.v4.validator.InternalDraftValidatorImpl.CATEGORY_HYPOGLYKEMI;
 import static se.inera.intyg.common.ts_diabetes.v4.validator.InternalDraftValidatorImpl.CATEGORY_SYNFUNKTION;
 
 import com.google.common.collect.ImmutableSet;
@@ -80,10 +79,10 @@ public class InternalDraftValidatorTest {
 
     private static InternalValidatorHelper internalValidatorHelper = new InternalValidatorHelper();
 
-    public static TsDiabetesUtlatandeV4 setupPassingHypoglykemierDates(TsDiabetesUtlatandeV4 utlatande) {
-        internalValidatorHelper.setNowMinusDays(utlatande.getHypoglykemier().getAterkommandeSenasteTidpunkt(), 10);
-        internalValidatorHelper.setNowMinusDays(utlatande.getHypoglykemier().getForekomstTrafikTidpunkt(), 10);
-        internalValidatorHelper.setNowMinusDays(utlatande.getHypoglykemier().getSenasteTidpunktVaken(), 10);
+    public static TsDiabetesUtlatandeV4 setupPassingHypoglykemiDates(TsDiabetesUtlatandeV4 utlatande) {
+        internalValidatorHelper.setNowMinusDays(utlatande.getHypoglykemi().getAterkommandeSenasteAretTidpunkt(), 10);
+        internalValidatorHelper.setNowMinusDays(utlatande.getHypoglykemi().getAterkommandeVaketSenasteTreTidpunkt(), 10);
+        internalValidatorHelper.setNowMinusDays(utlatande.getHypoglykemi().getAllvarligSenasteTolvManadernaTidpunkt(), 10);
         return utlatande;
     }
 
@@ -99,15 +98,13 @@ public class InternalDraftValidatorTest {
 
     @Test
     public void validateCompleteValidUtkast() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = setupPassingHypoglykemierDates(
-            ScenarioFinder.getInternalScenario("pass-complete").asInternalModel());
+        TsDiabetesUtlatandeV4 utlatande = ScenarioFinder.getInternalScenario("pass-complete").asInternalModel();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertFalse(res.hasErrorMessages());
         assertFalse(res.hasWarningMessages());
     }
-
 
     @Test
     public void failureDueToRule1() throws Exception {
@@ -168,10 +165,10 @@ public class InternalDraftValidatorTest {
         Assert.assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID, error.getField());
         assertEquals(ValidationMessageType.EMPTY, error.getType());
     }
-
+/*
     @Test
     public void failureDueToRule5() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = setupPassingHypoglykemierDates(
+        TsDiabetesUtlatandeV4 utlatande = setupPassingHypoglykemiDates(
             se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R5").asInternalModel());
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -187,27 +184,8 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void failureDueToRule6() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R6").asInternalModel();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertTrue(res.hasErrorMessages());
-        assertFalse(res.hasWarningMessages());
-        assertEquals(2, res.getValidationErrors().size());
-        ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
-            new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
-                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_JSON_ID,
-                ValidationMessageType.EMPTY),
-            new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
-                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_JSON_ID,
-                ValidationMessageType.EMPTY));
-        assertTrue(res.getValidationErrors().containsAll(expectedErrors));
-    }
-
-    @Test
     public void failureDueToRule7() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = setupPassingHypoglykemierDates(
+        TsDiabetesUtlatandeV4 utlatande = setupPassingHypoglykemiDates(
             se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R7a").asInternalModel());
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -221,7 +199,7 @@ public class InternalDraftValidatorTest {
             error.getField());
         assertEquals(ValidationMessageType.OTHER, error.getType());
 
-        utlatande = setupPassingHypoglykemierDates(
+        utlatande = setupPassingHypoglykemiDates(
             se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R7b").asInternalModel());
 
         res = validator.validateDraft(utlatande);
@@ -235,58 +213,41 @@ public class InternalDraftValidatorTest {
             error.getField());
         assertEquals(ValidationMessageType.OTHER, error.getType());
     }
-
+*/
     @Test
     public void failureDueToRule8() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = setupPassingHypoglykemierDates(
-            se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R8").asInternalModel());
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+        final var utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R8").asInternalModel();
+        final var res = validator.validateDraft(utlatande);
 
         assertTrue(res.hasErrorMessages());
         assertFalse(res.hasWarningMessages());
-        assertEquals(1, res.getValidationErrors().size());
-        ValidationMessage error = res.getValidationErrors().get(0);
-        assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
-        Assert.assertEquals(HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID, error.getField());
-        assertEquals(ValidationMessageType.EMPTY, error.getType());
+        assertEquals(3, res.getValidationErrors().size());
+
+        ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
+            new ValidationMessage(HYPOGLYKEMI_JSON_ID,
+                (RespConstants.HYPOGLYKEMI_JSON_ID + '.' + RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID),
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(HYPOGLYKEMI_JSON_ID,
+                (RespConstants.HYPOGLYKEMI_JSON_ID + '.' + RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_KONTROLLERAS_JSON_ID),
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(HYPOGLYKEMI_JSON_ID,
+                (RespConstants.HYPOGLYKEMI_JSON_ID + '.' + RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_JSON_ID),
+                ValidationMessageType.EMPTY));
+
+        assertTrue(res.getValidationErrors().containsAll(expectedErrors));
     }
 
     @Test
     public void failureDueToRule9() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R9").asInternalModel();
-        //Test json can't have dynamic dates som we override it here.
-        // Maybe we should allow getInternalScenario to have arguments that replaces tfeilds in the json file when reading?
-        final String lastMonth = LocalDate.now().minus(1, ChronoUnit.MONTHS).format(
-            DateTimeFormatter.ISO_DATE);
-
-        utlatande.getHypoglykemier().getAterkommandeSenasteTidpunkt().setDate(lastMonth);
-        utlatande.getHypoglykemier().getForekomstTrafikTidpunkt().setDate(lastMonth);
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+        final var utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R9").asInternalModel();
+        final var res = validator.validateDraft(utlatande);
 
         assertTrue(res.hasErrorMessages());
         assertFalse(res.hasWarningMessages());
         assertEquals(1, res.getValidationErrors().size());
         ValidationMessage error = res.getValidationErrors().get(0);
-        assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
-        Assert.assertEquals(HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID, error.getField());
-        assertEquals(ValidationMessageType.EMPTY, error.getType());
-    }
-
-    @Test
-    public void failureDueToRule10() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = setupPassingHypoglykemierDates(
-            se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R10").asInternalModel());
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertTrue(res.hasErrorMessages());
-        assertFalse(res.hasWarningMessages());
-        assertEquals(1, res.getValidationErrors().size());
-        ValidationMessage error = res.getValidationErrors().get(0);
-        assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
-        Assert.assertEquals(HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID, error.getField());
+        assertEquals(CATEGORY_HYPOGLYKEMI, error.getCategory());
+        Assert.assertEquals(HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID, error.getField());
         assertEquals(ValidationMessageType.EMPTY, error.getType());
     }
 
@@ -409,27 +370,6 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void failureDueToRule17() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R17").asInternalModel();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertTrue(res.hasErrorMessages());
-        assertFalse(res.hasWarningMessages());
-        assertEquals(2, res.getValidationErrors().size());
-        ValidationMessage error = res.getValidationErrors().get(0);
-        assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
-        ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
-            new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
-                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_JSON_ID,
-                ValidationMessageType.EMPTY),
-            new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
-                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_JSON_ID,
-                ValidationMessageType.EMPTY));
-        assertTrue(res.getValidationErrors().containsAll(expectedErrors));
-    }
-
-    @Test
     public void failureDueToRule18() throws Exception {
         TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R18").asInternalModel();
 
@@ -448,7 +388,7 @@ public class InternalDraftValidatorTest {
 
     @Test
     public void failureDueToRule19() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = setupPassingHypoglykemierDates(
+        TsDiabetesUtlatandeV4 utlatande = setupPassingHypoglykemiDates(
             se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R19").asInternalModel());
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -481,87 +421,81 @@ public class InternalDraftValidatorTest {
 
     @Test
     public void failureDueToRule20() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R20a").asInternalModel();
+        final var utlatande20a = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R20a").asInternalModel();
+        final var res20a = validator.validateDraft(utlatande20a);
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertTrue(res.hasErrorMessages());
-        assertFalse(res.hasWarningMessages());
-        assertEquals(1, res.getValidationErrors().size());
-        ValidationMessage error = res.getValidationErrors().get(0);
-        assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
-        assertEquals(HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID, error.getField());
+        assertTrue(res20a.hasErrorMessages());
+        assertFalse(res20a.hasWarningMessages());
+        assertEquals(1, res20a.getValidationErrors().size());
+        ValidationMessage error = res20a.getValidationErrors().get(0);
+        assertEquals(CATEGORY_HYPOGLYKEMI, error.getCategory());
+        assertEquals(HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID, error.getField());
         assertEquals(ValidationMessageType.OTHER, error.getType());
         assertEquals(error.getMessage(), "common.validation.d-11");
 
-        utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R20b").asInternalModel();
+        final var utlatande20b = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R20b").asInternalModel();
+        final var res20b = validator.validateDraft(utlatande20b);
 
-        res = validator.validateDraft(utlatande);
-
-        assertTrue(res.hasErrorMessages());
-        assertFalse(res.hasWarningMessages());
-        assertEquals(1, res.getValidationErrors().size());
-        error = res.getValidationErrors().get(0);
-        assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
-        assertEquals(HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID, error.getField());
+        assertTrue(res20b.hasErrorMessages());
+        assertFalse(res20b.hasWarningMessages());
+        assertEquals(1, res20b.getValidationErrors().size());
+        error = res20b.getValidationErrors().get(0);
+        assertEquals(CATEGORY_HYPOGLYKEMI, error.getCategory());
+        assertEquals(HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID, error.getField());
         assertEquals(ValidationMessageType.OTHER, error.getType());
         assertEquals(error.getMessage(), "common.validation.d-08");
     }
 
     @Test
     public void failureDueToRules21() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R21a").asInternalModel();
+        final var utlatande21a = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R21a").asInternalModel();
+        final var res21a = validator.validateDraft(utlatande21a);
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertTrue(res.hasErrorMessages());
-        assertFalse(res.hasWarningMessages());
-        assertEquals(1, res.getValidationErrors().size());
-        ValidationMessage error = res.getValidationErrors().get(0);
-        assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
-        assertEquals(HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID, error.getField());
+        assertTrue(res21a.hasErrorMessages());
+        assertFalse(res21a.hasWarningMessages());
+        assertEquals(1, res21a.getValidationErrors().size());
+        ValidationMessage error = res21a.getValidationErrors().get(0);
+        assertEquals(CATEGORY_HYPOGLYKEMI, error.getCategory());
+        assertEquals(HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID, error.getField());
         assertEquals(ValidationMessageType.OTHER, error.getType());
         assertEquals(error.getMessage(), "common.validation.d-11");
 
-        utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R21b").asInternalModel();
+        final var utlatande21b = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R21b").asInternalModel();
+        final var res21b = validator.validateDraft(utlatande21b);
 
-        res = validator.validateDraft(utlatande);
-
-        assertTrue(res.hasErrorMessages());
-        assertFalse(res.hasWarningMessages());
-        assertEquals(1, res.getValidationErrors().size());
-        error = res.getValidationErrors().get(0);
-        assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
-        assertEquals(HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID, error.getField());
+        assertTrue(res21b.hasErrorMessages());
+        assertFalse(res21b.hasWarningMessages());
+        assertEquals(1, res21b.getValidationErrors().size());
+        error = res21b.getValidationErrors().get(0);
+        assertEquals(CATEGORY_HYPOGLYKEMI, error.getCategory());
+        assertEquals(HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID, error.getField());
         assertEquals(ValidationMessageType.OTHER, error.getType());
         assertEquals(error.getMessage(), "common.validation.d-08");
     }
 
     @Test
     public void failureDueToRules22() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R22a").asInternalModel();
+        final var utlatande22a = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R22a").asInternalModel();
+        final var res22a = validator.validateDraft(utlatande22a);
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertTrue(res.hasErrorMessages());
-        assertFalse(res.hasWarningMessages());
-        assertEquals(1, res.getValidationErrors().size());
-        ValidationMessage error = res.getValidationErrors().get(0);
-        assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
-        assertEquals(HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID, error.getField());
+        assertTrue(res22a.hasErrorMessages());
+        assertFalse(res22a.hasWarningMessages());
+        assertEquals(1, res22a.getValidationErrors().size());
+        ValidationMessage error = res22a.getValidationErrors().get(0);
+        assertEquals(CATEGORY_HYPOGLYKEMI, error.getCategory());
+        assertEquals(HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_JSON_ID, error.getField());
         assertEquals(ValidationMessageType.OTHER, error.getType());
         assertEquals(error.getMessage(), "common.validation.d-11");
 
-        utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R22b").asInternalModel();
+        final var utlatande22b = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R22b").asInternalModel();
+        final var res22b = validator.validateDraft(utlatande22b);
 
-        res = validator.validateDraft(utlatande);
-
-        assertTrue(res.hasErrorMessages());
-        assertFalse(res.hasWarningMessages());
-        assertEquals(1, res.getValidationErrors().size());
-        error = res.getValidationErrors().get(0);
-        assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
-        assertEquals(HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID, error.getField());
+        assertTrue(res22b.hasErrorMessages());
+        assertFalse(res22b.hasWarningMessages());
+        assertEquals(1, res22b.getValidationErrors().size());
+        error = res22b.getValidationErrors().get(0);
+        assertEquals(CATEGORY_HYPOGLYKEMI, error.getCategory());
+        assertEquals(HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_JSON_ID, error.getField());
         assertEquals(ValidationMessageType.OTHER, error.getType());
         assertEquals(error.getMessage(), "common.validation.d-08");
     }
@@ -582,37 +516,6 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void failureDueToRules25() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R25").asInternalModel();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertTrue(res.hasErrorMessages());
-        assertFalse(res.hasWarningMessages());
-
-        assertEquals(5, res.getValidationErrors().size());
-
-        ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
-            new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
-                (HYPOGLYKEMIER_JSON_ID + '.' + HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID),
-                ValidationMessageType.EMPTY),
-            new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
-                (HYPOGLYKEMIER_JSON_ID + '.' + HYPOGLYKEMIER_FOREKOMST_TRAFIK_JSON_ID),
-                ValidationMessageType.EMPTY),
-            new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
-                (HYPOGLYKEMIER_JSON_ID + '.' + HYPOGLYKEMIER_FORMAGA_VARNINGSTECKEN_JSON_ID),
-                ValidationMessageType.EMPTY),
-            new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
-                (HYPOGLYKEMIER_JSON_ID + '.' + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_JSON_ID),
-                ValidationMessageType.EMPTY),
-            new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
-                (HYPOGLYKEMIER_JSON_ID + '.' + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_JSON_ID),
-                ValidationMessageType.EMPTY));
-
-        assertTrue(res.getValidationErrors().containsAll(expectedErrors));
-    }
-
-    @Test
     public void failureDueToRules26() throws Exception {
         TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R26").asInternalModel();
 
@@ -628,6 +531,105 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
+    public void failureDueToRules27() throws Exception {
+        final var utlatande27a = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R27a").asInternalModel();
+        final var res27a = validator.validateDraft(utlatande27a);
+
+        assertTrue(res27a.hasErrorMessages());
+        assertFalse(res27a.hasWarningMessages());
+        assertEquals(1, res27a.getValidationErrors().size());
+        ValidationMessage error1 = res27a.getValidationErrors().get(0);
+        assertEquals(CATEGORY_HYPOGLYKEMI, error1.getCategory());
+        assertEquals(HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID, error1.getField());
+        assertEquals(ValidationMessageType.EMPTY, error1.getType());
+
+        final var utlatande27b = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R27b").asInternalModel();
+        final var res27b = validator.validateDraft(utlatande27b);
+
+        assertTrue(res27b.hasErrorMessages());
+        assertFalse(res27b.hasWarningMessages());
+        assertEquals(1, res27b.getValidationErrors().size());
+        ValidationMessage error2 = res27b.getValidationErrors().get(0);
+        assertEquals(CATEGORY_HYPOGLYKEMI, error2.getCategory());
+        assertEquals(HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID, error2.getField());
+        assertEquals(ValidationMessageType.OTHER, error2.getType());
+    }
+
+    @Test
+    public void failureDueToRules28() throws Exception {
+        final var utlatande28a = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R28a").asInternalModel();
+        final var res28a = validator.validateDraft(utlatande28a);
+
+        assertTrue(res28a.hasErrorMessages());
+        assertFalse(res28a.hasWarningMessages());
+        assertEquals(1, res28a.getValidationErrors().size());
+        ValidationMessage error1 = res28a.getValidationErrors().get(0);
+        assertEquals(CATEGORY_HYPOGLYKEMI, error1.getCategory());
+        assertEquals(HYPOGLYKEMI_JSON_ID, error1.getField());
+        assertEquals(ValidationMessageType.EMPTY, error1.getType());
+
+        final var utlatande28b = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R28b").asInternalModel();
+        final var res28b = validator.validateDraft(utlatande28b);
+
+        assertTrue(res28b.hasErrorMessages());
+        assertFalse(res28b.hasWarningMessages());
+        assertEquals(2, res28b.getValidationErrors().size());
+
+        ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
+            new ValidationMessage(HYPOGLYKEMI_JSON_ID,
+                (RespConstants.HYPOGLYKEMI_JSON_ID + '.' + RespConstants.HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_JSON_ID),
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(HYPOGLYKEMI_JSON_ID,
+                (RespConstants.HYPOGLYKEMI_JSON_ID + '.' + RespConstants.HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_JSON_ID),
+                ValidationMessageType.EMPTY));
+
+        assertTrue(res28b.getValidationErrors().containsAll(expectedErrors));
+    }
+
+    @Test
+    public void failureDueToRules30() throws Exception {
+        final var utlatande30a = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R30a").asInternalModel();
+        final var res30a = validator.validateDraft(utlatande30a);
+
+        assertTrue(res30a.hasErrorMessages());
+        assertFalse(res30a.hasWarningMessages());
+        assertEquals(1, res30a.getValidationErrors().size());
+        ValidationMessage error1 = res30a.getValidationErrors().get(0);
+        assertEquals(CATEGORY_HYPOGLYKEMI, error1.getCategory());
+        assertEquals(HYPOGLYKEMI_JSON_ID, error1.getField());
+        assertEquals(ValidationMessageType.EMPTY, error1.getType());
+
+        final var utlatande30b = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R30b").asInternalModel();
+        final var res30b = validator.validateDraft(utlatande30b);
+
+        assertTrue(res30b.hasErrorMessages());
+        assertFalse(res30b.hasWarningMessages());
+        assertEquals(6, res30b.getValidationErrors().size());
+
+        ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
+            new ValidationMessage(HYPOGLYKEMI_JSON_ID,
+                (RespConstants.HYPOGLYKEMI_JSON_ID + '.' + RespConstants.HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_JSON_ID),
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(HYPOGLYKEMI_JSON_ID,
+                (RespConstants.HYPOGLYKEMI_JSON_ID + '.' + RespConstants.HYPOGLYKEMI_FORSTAR_RISKER_MED_HYPOGLYKEMI_JSON_ID),
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(HYPOGLYKEMI_JSON_ID,
+                (RespConstants.HYPOGLYKEMI_JSON_ID + '.' + RespConstants.HYPOGLYKEMI_FORMAGA_KANNA_VARNINGSTECKEN_JSON_ID),
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(HYPOGLYKEMI_JSON_ID,
+                (RespConstants.HYPOGLYKEMI_JSON_ID + '.' + RespConstants.HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_JSON_ID),
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(HYPOGLYKEMI_JSON_ID,
+                (RespConstants.HYPOGLYKEMI_JSON_ID + '.' + RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_JSON_ID),
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(HYPOGLYKEMI_JSON_ID,
+                (RespConstants.HYPOGLYKEMI_JSON_ID + '.' + RespConstants.HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_JSON_ID),
+                ValidationMessageType.EMPTY));
+
+        assertTrue(res30b.getValidationErrors().containsAll(expectedErrors));
+    }
+
+    @Test
     public void failureDueToRules32() throws Exception {
         TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R32").asInternalModel();
 
@@ -639,6 +641,36 @@ public class InternalDraftValidatorTest {
         ValidationMessage error = res.getValidationErrors().get(0);
         assertEquals(CATEGORY_ALLMANT, error.getCategory());
         assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.EMPTY, error.getType());
+    }
+
+    @Test
+    public void failureDueToRules33() throws Exception {
+        final var utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R33").asInternalModel();
+        final var res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals(CATEGORY_HYPOGLYKEMI, error.getCategory());
+        assertEquals(HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.EMPTY, error.getType());
+    }
+
+    @Test
+    public void failureDueToRules34() throws Exception {
+        final var utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R34").asInternalModel();
+        final var res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals(CATEGORY_HYPOGLYKEMI, error.getCategory());
+        assertEquals(HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_JSON_ID, error.getField());
         assertEquals(ValidationMessageType.EMPTY, error.getType());
     }
 

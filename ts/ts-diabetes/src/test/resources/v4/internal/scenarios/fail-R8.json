@@ -38,7 +38,7 @@
   "intygAvser": {
     "kategorier": [
       {
-        "type": "IAV14",
+        "type": "IAV16",
         "selected": true
       }
     ]
@@ -49,22 +49,20 @@
   "allmant":{
     "diabetesDiagnosAr":"1990",
     "typAvDiabetes":"TYP1",
-    "medicineringForDiabetes":false,
+    "medicineringForDiabetes": true,
+    "medicineringMedforRiskForHypoglykemi": true,
     "behandling":{
       "insulin":true,
       "insulinSedanAr":"1991"
     }
   },
-  "hypoglykemier":{
-    "sjukdomenUnderKontroll":true,
-    "nedsattHjarnfunktion":true,
-    "formagaVarningstecken":true,
-    "egenkontrollBlodsocker":true,
-    "aterkommandeSenasteAret":true,
-    "aterkommandeSenasteKvartalet":true,
-    "senasteTidpunktVaken":"2018-09-10",
-    "forekomstTrafik":true,
-    "forekomstTrafikTidpunkt":"2018-09-10"
+  "hypoglykemi": {
+    "kontrollSjukdomstillstand": true,
+    "forstarRiskerMedHypoglykemi": true,
+    "formagaKannaVarningstecken": true,
+    "vidtaAdekvataAtgarder": true,
+    "aterkommandeSenasteAret": true,
+    "aterkommandeVaketSenasteTolv": false
   },
   "synfunktion":{
     "misstankeOgonsjukdom":false,

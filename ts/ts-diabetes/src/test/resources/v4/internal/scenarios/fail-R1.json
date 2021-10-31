@@ -54,7 +54,9 @@
       "endastKost":true
     }
   },
-  "hypoglykemier":{
+  "hypoglykemi":{
+    "allvarligSenasteTolvManaderna": false,
+    "regelbundnaBlodsockerkontroller": false
   },
   "synfunktion":{
     "misstankeOgonsjukdom":false,

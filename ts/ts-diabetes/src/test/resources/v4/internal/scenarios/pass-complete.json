@@ -123,17 +123,22 @@
       "annanBehandlingBeskrivning":"Annan behandling"
     }
   },
-  "hypoglykemier":{
-    "egenkontrollBlodsocker":true,
-    "nedsattHjarnfunktion":true,
-    "sjukdomenUnderKontroll":true,
-    "formagaVarningstecken":true,
-    "aterkommandeSenasteAret":true,
-    "aterkommandeSenasteTidpunkt":"2018-09-10",
-    "aterkommandeSenasteKvartalet":true,
-    "senasteTidpunktVaken":"2018-09-10",
-    "forekomstTrafik":true,
-    "forekomstTrafikTidpunkt":"2018-09-10"
+  "hypoglykemi": {
+    "kontrollSjukdomstillstand": false,
+    "kontrollSjukdomstillstandVarfor": "Varför inte kontroll sjukdomstillstand",
+    "forstarRiskerMedHypoglykemi": true,
+    "formagaKannaVarningstecken": true,
+    "vidtaAdekvataAtgarder": true,
+    "aterkommandeSenasteAret": true,
+    "aterkommandeSenasteAretTidpunkt": "2021-10-30",
+    "aterkommandeSenasteAretKontrolleras": true,
+    "aterkommandeSenasteAretTrafik": true,
+    "aterkommandeVaketSenasteTolv": true,
+    "aterkommandeVaketSenasteTre": true,
+    "aterkommandeVaketSenasteTreTidpunkt": "2021-10-30",
+    "allvarligSenasteTolvManaderna": true,
+    "allvarligSenasteTolvManadernaTidpunkt": "2021-10-30",
+    "regelbundnaBlodsockerkontroller": true
   },
   "synfunktion":{
     "misstankeOgonsjukdom":true,

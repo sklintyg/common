@@ -38,7 +38,7 @@ import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Bedomning;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Behandling;
-import se.inera.intyg.common.ts_diabetes.v4.model.internal.Hypoglykemier;
+import se.inera.intyg.common.ts_diabetes.v4.model.internal.Hypoglykemi;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.IdKontroll;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Synfunktion;
@@ -158,7 +158,7 @@ public class UtlatandeToIntygTest {
             .setAllmant(Allmant.builder()
                 .setBehandling(Behandling.builder().build())
                 .build())
-            .setHypoglykemier(Hypoglykemier.builder().build())
+            .setHypoglykemi(Hypoglykemi.builder().build())
             .setSynfunktion(Synfunktion.builder()
                 .setBinokulart(Synskarpevarden.builder().build())
                 .setHoger(Synskarpevarden.builder().build())

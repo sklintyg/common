@@ -49,22 +49,20 @@
   "allmant":{
     "diabetesDiagnosAr":"1990",
     "typAvDiabetes":"TYP1",
-    "medicineringForDiabetes":false,
+    "medicineringForDiabetes": true,
+    "medicineringMedforRiskForHypoglykemi": true,
     "behandling":{
       "insulin":true,
       "insulinSedanAr":"1991"
     }
   },
-  "hypoglykemier":{
-    "sjukdomenUnderKontroll":true,
-    "nedsattHjarnfunktion":true,
-    "formagaVarningstecken":true,
-    "egenkontrollBlodsocker":true,
-    "aterkommandeSenasteAret":true,
-    "aterkommandeSenasteTidpunkt":"set-in-test",
-    "aterkommandeSenasteKvartalet":true,
-    "forekomstTrafik":true,
-    "forekomstTrafikTidpunkt":"set-in-test"
+  "hypoglykemi": {
+    "kontrollSjukdomstillstand": true,
+    "forstarRiskerMedHypoglykemi": true,
+    "formagaKannaVarningstecken": true,
+    "vidtaAdekvataAtgarder": true,
+    "aterkommandeSenasteAret": false,
+    "aterkommandeVaketSenasteTolv": true
   },
   "synfunktion":{
     "misstankeOgonsjukdom":false,

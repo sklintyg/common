@@ -55,17 +55,7 @@
       "insulinSedanAr":"2999"
     }
   },
-  "hypoglykemier":{
-    "sjukdomenUnderKontroll":true,
-    "nedsattHjarnfunktion":true,
-    "formagaVarningstecken":true,
-    "egenkontrollBlodsocker":true,
-    "aterkommandeSenasteAret":true,
-    "aterkommandeSenasteTidpunkt":"2018-09-10",
-    "aterkommandeSenasteKvartalet":true,
-    "senasteTidpunktVaken":"2018-09-10",
-    "forekomstTrafik":true,
-    "forekomstTrafikTidpunkt":"2018-09-10"
+  "hypoglykemi":{
   },
   "synfunktion":{
     "misstankeOgonsjukdom":false,

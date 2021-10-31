@@ -270,44 +270,51 @@
       <delsvar id="109.6">Annan behandling</delsvar>
       <delsvar id="109.7">true</delsvar>
     </svar>
-    <svar id="41">
-      <delsvar id="41.1">true</delsvar>
+    <svar id="200">
+      <delsvar id="200.1">false</delsvar>
+      <delsvar id="200.2">Varför inte kontroll sjukdomstillstand</delsvar>
     </svar>
-    <svar id="37">
-      <delsvar id="37.1">true</delsvar>
-    </svar>
-    <svar id="100">
-      <delsvar id="100.1">true</delsvar>
+    <svar id="201">
+      <delsvar id="201.1">true</delsvar>
     </svar>
     <svar id="110">
       <delsvar id="110.1">true</delsvar>
+    </svar>
+    <svar id="202">
+      <delsvar id="202.1">true</delsvar>
     </svar>
     <svar id="106">
       <delsvar id="106.1">true</delsvar>
       <delsvar id="106.2">
         <ns3:partialDate>
           <ns3:format>YYYY-MM-DD</ns3:format>
-          <ns3:value>2018-09-10</ns3:value>
+          <ns3:value>2021-10-30</ns3:value>
         </ns3:partialDate>
       </delsvar>
+      <delsvar id="106.3">true</delsvar>
+      <delsvar id="106.5">true</delsvar>
     </svar>
     <svar id="107">
       <delsvar id="107.1">true</delsvar>
-      <delsvar id="107.2">
+      <delsvar id="107.3">true</delsvar>
+      <delsvar id="107.5">
         <ns3:partialDate>
           <ns3:format>YYYY-MM-DD</ns3:format>
-          <ns3:value>2018-09-10</ns3:value>
+          <ns3:value>2021-10-30</ns3:value>
         </ns3:partialDate>
       </delsvar>
     </svar>
-    <svar id="108">
-      <delsvar id="108.1">true</delsvar>
-      <delsvar id="108.2">
+    <svar id="203">
+      <delsvar id="203.1">true</delsvar>
+      <delsvar id="203.2">
         <ns3:partialDate>
           <ns3:format>YYYY-MM-DD</ns3:format>
-          <ns3:value>2018-09-10</ns3:value>
+          <ns3:value>2021-10-30</ns3:value>
         </ns3:partialDate>
       </delsvar>
+    </svar>
+    <svar id="204">
+      <delsvar id="204.1">true</delsvar>
     </svar>
     <svar id="103">
       <delsvar id="103.1">true</delsvar>

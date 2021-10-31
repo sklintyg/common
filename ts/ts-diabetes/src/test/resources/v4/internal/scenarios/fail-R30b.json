@@ -1,7 +1,7 @@
 {
   "typ": "ts-diabetes",
   "id": "1234567",
-  "textVersion": "3.0",
+  "textVersion": "4.0",
   "grundData": {
     "patient": {
       "samordningsNummer": false,
@@ -38,7 +38,7 @@
   "intygAvser": {
     "kategorier": [
       {
-        "type": "IAV14",
+        "type": "IAV16",
         "selected": true
       }
     ]
@@ -49,22 +49,13 @@
   "allmant":{
     "diabetesDiagnosAr":"1990",
     "typAvDiabetes":"TYP1",
-    "medicineringForDiabetes":false,
+    "medicineringForDiabetes":true,
+    "medicineringMedforRiskForHypoglykemi": true,
     "behandling":{
-      "insulin":true,
-      "insulinSedanAr":"1991"
+      "endastKost":true
     }
   },
-  "hypoglykemier":{
-    "sjukdomenUnderKontroll":true,
-    "nedsattHjarnfunktion":true,
-    "formagaVarningstecken":true,
-    "egenkontrollBlodsocker":true,
-    "aterkommandeSenasteAret":true,
-    "aterkommandeSenasteTidpunkt":"2018-09-10",
-    "aterkommandeSenasteKvartalet":true,
-    "senasteTidpunktVaken":"2018-09-10",
-    "forekomstTrafik":true
+  "hypoglykemi":{
   },
   "synfunktion":{
     "misstankeOgonsjukdom":false,
