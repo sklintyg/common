@@ -67,35 +67,53 @@ public final class RespConstants {
     public static final String ALLMANT_BEHANDLING_RISK_HYPOGLYKEMI_DELSVAR_ID = "109.7";
     public static final String ALLMANT_BEHANDLING_RISK_HYPOGLYKEMI_JSON_ID = "riskHypoglykemi";
 
-    // Kat 4 - Hypoglykemier
-    public static final String HYPOGLYKEMIER_JSON_ID = "hypoglykemier";
-    public static final String HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_SVAR_ID = "41";
-    public static final String HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_DELSVAR_ID = "41.1";
-    public static final String HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_JSON_ID = "egenkontrollBlodsocker";
-    public static final String HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_SVAR_ID = "37";
-    public static final String HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_DELSVAR_ID = "37.1";
-    public static final String HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_JSON_ID = "nedsattHjarnfunktion";
-    public static final String HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_SVAR_ID = "100";
-    public static final String HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_DELSVAR_ID = "100.1";
-    public static final String HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID = "sjukdomenUnderKontroll";
-    public static final String HYPOGLYKEMIER_FORMAGA_VARNINGSTECKEN_SVAR_ID = "110";
-    public static final String HYPOGLYKEMIER_FORMAGA_VARNINGSTECKEN_DELSVAR_ID = "110.1";
-    public static final String HYPOGLYKEMIER_FORMAGA_VARNINGSTECKEN_JSON_ID = "formagaVarningstecken";
-    public static final String HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_SVAR_ID = "106";
-    public static final String HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_DELSVAR_ID = "106.1";
-    public static final String HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_JSON_ID = "aterkommandeSenasteAret";
-    public static final String HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID = "106.2";
-    public static final String HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID = "aterkommandeSenasteTidpunkt";
-    public static final String HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_SVAR_ID = "107";
-    public static final String HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_DELSVAR_ID = "107.1";
-    public static final String HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_JSON_ID = "aterkommandeSenasteKvartalet";
-    public static final String HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_DELSVAR_ID = "107.2";
-    public static final String HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID = "senasteTidpunktVaken";
-    public static final String HYPOGLYKEMIER_FOREKOMST_SENASTE_TRAFIK_SVAR_ID = "108";
-    public static final String HYPOGLYKEMIER_FOREKOMST_TRAFIK_SVAR_DELSVAR_ID = "108.1";
-    public static final String HYPOGLYKEMIER_FOREKOMST_TRAFIK_JSON_ID = "forekomstTrafik";
-    public static final String HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_DELSVAR_ID = "108.2";
-    public static final String HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID = "forekomstTrafikTidpunkt";
+    // Kat 4 - Hypoglykemi
+    public static final String HYPOGLYKEMI_JSON_ID = "hypoglykemi";
+    public static final String HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_SVAR_ID = "200";
+    public static final String HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_DELSVAR_ID = "200.1";
+    public static final String HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_JSON_ID = "kontrollSjukdomstillstand";
+    public static final String HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_DELSVAR_ID = "200.2";
+    public static final String HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID = "kontrollSjukdomstillstandVarfor";
+
+    public static final String HYPOGLYKEMI_FORSTAR_RISKER_MED_HYPOGLYKEMI_SVAR_ID = "201";
+    public static final String HYPOGLYKEMI_FORSTAR_RISKER_MED_HYPOGLYKEMI_DELSVAR_ID = "201.1";
+    public static final String HYPOGLYKEMI_FORSTAR_RISKER_MED_HYPOGLYKEMI_JSON_ID = "forstarRiskerMedHypoglykemi";
+
+    public static final String HYPOGLYKEMI_FORMAGA_KANNA_VARNINGSTECKEN_SVAR_ID = "110";
+    public static final String HYPOGLYKEMI_FORMAGA_KANNA_VARNINGSTECKEN_DELSVAR_ID = "110.1";
+    public static final String HYPOGLYKEMI_FORMAGA_KANNA_VARNINGSTECKEN_JSON_ID = "formagaKannaVarningstecken";
+
+    public static final String HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_SVAR_ID = "202";
+    public static final String HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_DELSVAR_ID = "202.1";
+    public static final String HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_JSON_ID = "vidtaAdekvataAtgarder";
+
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_SVAR_ID = "106";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_DELSVAR_ID = "106.1";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_JSON_ID = "aterkommandeSenasteAret";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID = "106.2";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID = "aterkommandeSenasteAretTidpunkt";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_KONTROLLERAS_DELSVAR_ID = "106.3";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_KONTROLLERAS_JSON_ID = "aterkommandeSenasteAretKontrolleras";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_DELSVAR_ID = "106.5";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_JSON_ID = "aterkommandeSenasteAretTrafik";
+
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_SVAR_ID = "107";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_DELSVAR_ID = "107.1";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_JSON_ID = "aterkommandeVaketSenasteTolv";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_DELSVAR_ID = "107.3";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID = "aterkommandeVaketSenasteTre";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_DELSVAR_ID = "107.5";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID = "aterkommandeVaketSenasteTreTidpunkt";
+
+    public static final String HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_SVAR_ID = "203";
+    public static final String HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_DELSVAR_ID = "203.1";
+    public static final String HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_JSON_ID = "allvarligSenasteTolvManaderna";
+    public static final String HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_DELSVAR_ID = "203.2";
+    public static final String HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_JSON_ID = "allvarligSenasteTolvManadernaTidpunkt";
+
+    public static final String HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_SVAR_ID = "204";
+    public static final String HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_DELSVAR_ID = "204.1";
+    public static final String HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_JSON_ID = "regelbundnaBlodsockerkontroller";
 
     // Kat 5 - Synfunktion
     public static final String SYNFUNKTION_JSON_ID = "synfunktion";

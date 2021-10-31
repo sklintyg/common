@@ -64,17 +64,22 @@ angular.module('ts-diabetes').factory('ts-diabetes.Domain.IntygModel.v4',
                         },
 
                         // Kategori 4
-                        hypoglykemier: {
-                            egenkontrollBlodsocker: undefined,
-                            nedsattHjarnfunktion: undefined,
-                            sjukdomenUnderKontroll: undefined,
-                            formagaVarningstecken: undefined,
+                        hypoglykemi: {
+                            kontrollSjukdomstillstand: undefined,
+                            kontrollSjukdomstillstandVarfor: undefined,
+                            forstarRiskerMedHypoglykemi: undefined,
+                            formagaKannaVarningstecken: undefined,
+                            vidtaAdekvataAtgarder: undefined,
                             aterkommandeSenasteAret: undefined,
-                            aterkommandeSenasteTidpunkt: undefined,
-                            aterkommandeSenasteKvartalet: undefined,
-                            senasteTidpunktVaken: undefined,
-                            forekomstTrafik: undefined,
-                            forekomstTrafikTidpunkt: undefined
+                            aterkommandeSenasteAretTidpunkt: undefined,
+                            aterkommandeSenasteAretKontrolleras: undefined,
+                            aterkommandeSenasteAretTrafik: undefined,
+                            aterkommandeVaketSenasteTolv: undefined,
+                            aterkommandeVaketSenasteTre: undefined,
+                            aterkommandeVaketSenasteTreTidpunkt: undefined,
+                            allvarligSenasteTolvManaderna: undefined,
+                            allvarligSenasteTolvManadernaTidpunkt: undefined,
+                            regelbundnaBlodsockerkontroller: undefined
                         },
 
                         // Kategori 5

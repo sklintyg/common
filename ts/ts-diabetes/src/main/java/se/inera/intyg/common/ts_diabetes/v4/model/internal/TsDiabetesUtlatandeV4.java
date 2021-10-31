@@ -23,7 +23,7 @@ package se.inera.intyg.common.ts_diabetes.v4.model.internal;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.GRUNDDATA_SVAR_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ID_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYGETAVSER_SVAR_JSON_ID;
@@ -76,9 +76,9 @@ public abstract class TsDiabetesUtlatandeV4 implements Utlatande {
     @Nullable
     public abstract Allmant getAllmant();
 
-    // Kategori 4 - Hypoglykemier
+    // Kategori 4 - Hypoglykemi
     @Nullable
-    public abstract Hypoglykemier getHypoglykemier();
+    public abstract Hypoglykemi getHypoglykemi();
 
     // Kategori 5 - Synfunktion
     @Nullable
@@ -130,8 +130,8 @@ public abstract class TsDiabetesUtlatandeV4 implements Utlatande {
         @JsonProperty(ALLMANT_JSON_ID)
         public abstract Builder setAllmant(Allmant allmant);
 
-        @JsonProperty(HYPOGLYKEMIER_JSON_ID)
-        public abstract Builder setHypoglykemier(Hypoglykemier hypoglykemier);
+        @JsonProperty(HYPOGLYKEMI_JSON_ID)
+        public abstract Builder setHypoglykemi(Hypoglykemi hypoglykemi);
 
         @JsonProperty(SYNFUNKTION_JSON_ID)
         public abstract Builder setSynfunktion(Synfunktion synfunktion);
@@ -141,8 +141,6 @@ public abstract class TsDiabetesUtlatandeV4 implements Utlatande {
 
         @JsonProperty(BEDOMNING_JSON_ID)
         public abstract Builder setBedomning(Bedomning bedomning);
-
-
     }
 
 }

@@ -50,23 +50,29 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_LAMPLIGHET_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_SVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_SVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_SVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_FOREKOMST_SENASTE_TRAFIK_SVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_FOREKOMST_TRAFIK_SVAR_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_FORMAGA_VARNINGSTECKEN_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_FORMAGA_VARNINGSTECKEN_SVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_SVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_KONTROLLERAS_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_FORMAGA_KANNA_VARNINGSTECKEN_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_FORMAGA_KANNA_VARNINGSTECKEN_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_FORSTAR_RISKER_MED_HYPOGLYKEMI_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_FORSTAR_RISKER_MED_HYPOGLYKEMI_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYGETAVSER_DELSVAR_ID;
@@ -95,7 +101,7 @@ import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Bedomning;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.BedomningKorkortstyp;
-import se.inera.intyg.common.ts_diabetes.v4.model.internal.Hypoglykemier;
+import se.inera.intyg.common.ts_diabetes.v4.model.internal.Hypoglykemi;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Synfunktion;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Synskarpevarden;
@@ -159,9 +165,9 @@ public final class UtlatandeToIntyg {
             buildAllmant(source.getAllmant(), svars);
         }
 
-        // Kat 4 - Hypoglykemier
-        if (source.getHypoglykemier() != null) {
-            buildHypoglykemier(source.getHypoglykemier(), svars);
+        // Kat 4 - Hypoglykemi
+        if (source.getHypoglykemi() != null) {
+            buildHypoglykemi(source.getHypoglykemi(), svars);
         }
 
         // Kat 5 - Synfunktion
@@ -252,52 +258,89 @@ public final class UtlatandeToIntyg {
         }
     }
 
-    private static void buildHypoglykemier(Hypoglykemier hypoglykemier, List<Svar> svars) {
-        InternalConverterUtil.addIfNotNull(svars, HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_SVAR_ID,
-            HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_DELSVAR_ID, hypoglykemier.getEgenkontrollBlodsocker());
+    private static void buildHypoglykemi(Hypoglykemi hypoglykemi, List<Svar> answers) {
 
-        InternalConverterUtil.addIfNotNull(svars, HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_SVAR_ID,
-            HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_DELSVAR_ID, hypoglykemier.getNedsattHjarnfunktion());
+        final var hasControl = hypoglykemi.getKontrollSjukdomstillstand();
+        if (hasControl != null) {
+            final var answerBuilder = aSvar(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_SVAR_ID);
+            answerBuilder.withDelsvar(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_DELSVAR_ID, InternalConverterUtil
+                .getBooleanContent(hasControl));
 
-        InternalConverterUtil.addIfNotNull(svars, HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_SVAR_ID,
-            HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_DELSVAR_ID, hypoglykemier.getSjukdomenUnderKontroll());
-
-        InternalConverterUtil.addIfNotNull(svars, HYPOGLYKEMIER_FORMAGA_VARNINGSTECKEN_SVAR_ID,
-            HYPOGLYKEMIER_FORMAGA_VARNINGSTECKEN_DELSVAR_ID, hypoglykemier.getFormagaVarningstecken());
-
-        if (hypoglykemier.getAterkommandeSenasteAret() != null) {
-            InternalConverterUtil.SvarBuilder svarBuilder = aSvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_SVAR_ID)
-                .withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_DELSVAR_ID,
-                    InternalConverterUtil.getBooleanContent(hypoglykemier.getAterkommandeSenasteAret()));
-            if (hypoglykemier.getAterkommandeSenasteTidpunkt() != null && hypoglykemier.getAterkommandeSenasteTidpunkt().isValidDate()) {
-                svarBuilder.withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID,
-                    aPartialDate(PartialDateTypeFormatEnum.YYYY_MM_DD, hypoglykemier.getAterkommandeSenasteTidpunkt().asLocalDate()));
+            if (!hasControl && hypoglykemi.getKontrollSjukdomstillstandVarfor() != null) {
+                answerBuilder.withDelsvar(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_DELSVAR_ID, hypoglykemi
+                    .getKontrollSjukdomstillstandVarfor());
             }
-            svars.add(svarBuilder.build());
+            answers.add(answerBuilder.build());
         }
 
-        if (hypoglykemier.getAterkommandeSenasteKvartalet() != null) {
-            InternalConverterUtil.SvarBuilder svarBuilder = aSvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_SVAR_ID)
-                .withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_DELSVAR_ID,
-                    InternalConverterUtil.getBooleanContent(hypoglykemier.getAterkommandeSenasteKvartalet()));
-            if (hypoglykemier.getSenasteTidpunktVaken() != null && hypoglykemier.getSenasteTidpunktVaken().isValidDate()) {
-                svarBuilder.withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_DELSVAR_ID,
-                    aPartialDate(PartialDateTypeFormatEnum.YYYY_MM_DD, hypoglykemier.getSenasteTidpunktVaken().asLocalDate()));
+        InternalConverterUtil.addIfNotNull(answers, HYPOGLYKEMI_FORSTAR_RISKER_MED_HYPOGLYKEMI_SVAR_ID,
+            HYPOGLYKEMI_FORSTAR_RISKER_MED_HYPOGLYKEMI_DELSVAR_ID, hypoglykemi.getForstarRiskerMedHypoglykemi());
+
+        InternalConverterUtil.addIfNotNull(answers, HYPOGLYKEMI_FORMAGA_KANNA_VARNINGSTECKEN_SVAR_ID,
+            HYPOGLYKEMI_FORMAGA_KANNA_VARNINGSTECKEN_DELSVAR_ID, hypoglykemi.getFormagaKannaVarningstecken());
+
+        InternalConverterUtil.addIfNotNull(answers, HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_SVAR_ID,
+            HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_DELSVAR_ID, hypoglykemi.getVidtaAdekvataAtgarder());
+
+        final var recurringThisYear = hypoglykemi.getAterkommandeSenasteAret();
+        if (recurringThisYear != null) {
+            final var answerBuilder = aSvar(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_SVAR_ID);
+            answerBuilder.withDelsvar(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_DELSVAR_ID, InternalConverterUtil
+                .getBooleanContent(recurringThisYear));
+
+            if (recurringThisYear && hypoglykemi.getAterkommandeSenasteAretTidpunkt() != null) {
+                answerBuilder.withDelsvar(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID,
+                    aPartialDate(PartialDateTypeFormatEnum.YYYY_MM_DD, hypoglykemi.getAterkommandeSenasteAretTidpunkt().asLocalDate()));
             }
-            svars.add(svarBuilder.build());
+            if (recurringThisYear && hypoglykemi.getAterkommandeSenasteAretKontrolleras() != null) {
+                answerBuilder.withDelsvar(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_KONTROLLERAS_DELSVAR_ID, InternalConverterUtil
+                    .getBooleanContent(hypoglykemi.getAterkommandeSenasteAretKontrolleras()));
+            }
+            if (recurringThisYear && hypoglykemi.getAterkommandeSenasteAretTrafik() != null) {
+                answerBuilder.withDelsvar(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_DELSVAR_ID, InternalConverterUtil
+                    .getBooleanContent(hypoglykemi.getAterkommandeSenasteAretTrafik()));
+            }
+            answers.add(answerBuilder.build());
         }
 
-        if (hypoglykemier.getForekomstTrafik() != null) {
-            InternalConverterUtil.SvarBuilder svarBuilder = aSvar(HYPOGLYKEMIER_FOREKOMST_SENASTE_TRAFIK_SVAR_ID)
-                .withDelsvar(HYPOGLYKEMIER_FOREKOMST_TRAFIK_SVAR_DELSVAR_ID,
-                    InternalConverterUtil.getBooleanContent(hypoglykemier.getForekomstTrafik()));
-            if (hypoglykemier.getForekomstTrafikTidpunkt() != null && hypoglykemier.getForekomstTrafikTidpunkt().isValidDate()) {
-                svarBuilder.withDelsvar(HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_DELSVAR_ID,
-                    aPartialDate(PartialDateTypeFormatEnum.YYYY_MM_DD, hypoglykemier.getForekomstTrafikTidpunkt().asLocalDate()));
+        final var recurringAwakeLastTwelveMonths = hypoglykemi.getAterkommandeVaketSenasteTolv();
+        if (recurringAwakeLastTwelveMonths != null) {
+            final var answerBuilder = aSvar(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_SVAR_ID);
+            answerBuilder.withDelsvar(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_DELSVAR_ID, InternalConverterUtil
+                .getBooleanContent(recurringAwakeLastTwelveMonths));
+
+            final var recurringAwakeLastThreeMonths = hypoglykemi.getAterkommandeVaketSenasteTre();
+            if (recurringAwakeLastTwelveMonths && recurringAwakeLastThreeMonths != null) {
+                answerBuilder.withDelsvar(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_DELSVAR_ID, InternalConverterUtil
+                    .getBooleanContent(recurringAwakeLastThreeMonths));
+
+                final var recurringAwakeLastThreeMonthsTimepoint = hypoglykemi.getAterkommandeVaketSenasteTreTidpunkt();
+                if (recurringAwakeLastThreeMonths && recurringAwakeLastThreeMonthsTimepoint != null) {
+                    answerBuilder.withDelsvar(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_DELSVAR_ID,
+                        aPartialDate(PartialDateTypeFormatEnum.YYYY_MM_DD, recurringAwakeLastThreeMonthsTimepoint.asLocalDate()));
+                }
             }
-            svars.add(svarBuilder.build());
+            answers.add(answerBuilder.build());
         }
+
+        final var seriousLastTwelveMonths = hypoglykemi.getAllvarligSenasteTolvManaderna();
+        if (seriousLastTwelveMonths != null) {
+            final var answerBuilder = aSvar(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_SVAR_ID);
+            answerBuilder.withDelsvar(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_DELSVAR_ID, InternalConverterUtil
+                .getBooleanContent(seriousLastTwelveMonths));
+
+            final var seriousLastTwelveMonthsTimepoint = hypoglykemi.getAllvarligSenasteTolvManadernaTidpunkt();
+            if (seriousLastTwelveMonths && seriousLastTwelveMonthsTimepoint != null) {
+                answerBuilder.withDelsvar(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_DELSVAR_ID,
+                    aPartialDate(PartialDateTypeFormatEnum.YYYY_MM_DD, seriousLastTwelveMonthsTimepoint.asLocalDate()));
+            }
+            answers.add(answerBuilder.build());
+        }
+
+        InternalConverterUtil.addIfNotNull(answers, HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_SVAR_ID,
+            HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_DELSVAR_ID, hypoglykemi.getRegelbundnaBlodsockerkontroller());
     }
+
 
     private static void buildSynfunktion(Synfunktion synfunktion, List<Svar> svars) {
         InternalConverterUtil.addIfNotNull(svars, SYNFUNKTION_MISSTANKE_OGONSJUKDOM_SVAR_ID, SYNFUNKTION_MISSTANKE_OGONSJUKDOM_DELSVAR_ID,

@@ -181,123 +181,156 @@ angular.module('ts-diabetes').factory('ts-diabetes.viewConfigFactory.v4', [
             components: [
                 {
                     type: 'uv-fraga',
-                    labelKey: 'FRG_41.RBK',
-                    components: [{
-                        type: 'uv-del-fraga',
-                        components: [
-                            {
+                    labelKey: 'FRG_200.RBK',
+                    components: [
+                        {
+                            type: 'uv-del-fraga',
+                            components: [{
                                 type: 'uv-boolean-value',
-                                modelProp: 'hypoglykemier.egenkontrollBlodsocker'
-                            }
-                        ]
-                    }]
+                                modelProp: 'hypoglykemi.kontrollSjukdomstillstand'
+                            }]
+                        },
+                        {
+                            type: 'uv-del-fraga',
+                            labelKey: 'DFR_200.2.RBK',
+                            components: [{
+                                type: 'uv-simple-value',
+                                modelProp: 'hypoglykemi.kontrollSjukdomstillstandVarfor'
+                            }]
+                        }]
                 },
                 {
                     type: 'uv-fraga',
-                    labelKey: 'FRG_37.RBK',
-                    components: [{
-                        type: 'uv-del-fraga',
-                        components: [
-                            {
+                    labelKey: 'FRG_201.RBK',
+                    components: [
+                        {
+                            type: 'uv-del-fraga',
+                            components: [{
                                 type: 'uv-boolean-value',
-                                modelProp: 'hypoglykemier.nedsattHjarnfunktion'
-                            }
-                        ]
-                    }]
-                },
-                {
-                    type: 'uv-fraga',
-                    labelKey: 'FRG_100.RBK',
-                    components: [{
-                        type: 'uv-del-fraga',
-                        components: [
-                            {
-                                type: 'uv-boolean-value',
-                                modelProp: 'hypoglykemier.sjukdomenUnderKontroll'
-                            }
-                        ]
-                    }]
+                                modelProp: 'hypoglykemi.forstarRiskerMedHypoglykemi'
+                            }]
+                        }]
                 },
                 {
                     type: 'uv-fraga',
                     labelKey: 'FRG_110.RBK',
-                    components: [{
-                        type: 'uv-del-fraga',
-                        components: [
-                            {
+                    components: [
+                        {
+                            type: 'uv-del-fraga',
+                            components: [{
                                 type: 'uv-boolean-value',
-                                modelProp: 'hypoglykemier.formagaVarningstecken'
-                            }
-                        ]
-                    }]
+                                modelProp: 'hypoglykemi.formagaKannaVarningstecken'
+                            }]
+                        }]
+                },
+                {
+                    type: 'uv-fraga',
+                    labelKey: 'FRG_202.RBK',
+                    components: [
+                        {
+                            type: 'uv-del-fraga',
+                            components: [{
+                                type: 'uv-boolean-value',
+                                modelProp: 'hypoglykemi.vidtaAdekvataAtgarder'
+                            }]
+                        }]
                 },
                 {
                     type: 'uv-fraga',
                     labelKey: 'FRG_106.RBK',
-                    components: [{
-                        type: 'uv-del-fraga',
-                        components: [
-                            {
+                    components: [
+                        {
+                            type: 'uv-del-fraga',
+                            components: [{
                                 type: 'uv-boolean-value',
-                                modelProp: 'hypoglykemier.aterkommandeSenasteAret'
-                            },
-                            {
-                                type: 'uv-del-fraga',
-                                labelKey: 'DFR_106.2.RBK',
-                                components: [{
-                                    type: 'uv-simple-value',
-                                    modelProp: 'hypoglykemier.aterkommandeSenasteTidpunkt'
-                                }]
-                            }
-
-                        ]
-                    }]
+                                modelProp: 'hypoglykemi.aterkommandeSenasteAret'
+                            }]
+                        },
+                        {
+                            type: 'uv-del-fraga',
+                            labelKey: 'DFR_106.2.RBK',
+                            components: [{
+                                type: 'uv-simple-value',
+                                modelProp: 'hypoglykemi.aterkommandeSenasteAretTidpunkt'
+                            }]
+                        },
+                        {
+                            type: 'uv-del-fraga',
+                            labelKey: 'DFR_106.3.RBK',
+                            components: [{
+                                type: 'uv-boolean-value',
+                                modelProp: 'hypoglykemi.aterkommandeSenasteAretKontrolleras'
+                            }]
+                        },
+                        {
+                            type: 'uv-del-fraga',
+                            labelKey: 'DFR_106.5.RBK',
+                            components: [{
+                                type: 'uv-boolean-value',
+                                modelProp: 'hypoglykemi.aterkommandeSenasteAretTrafik'
+                            }]
+                        }]
                 },
                 {
                     type: 'uv-fraga',
                     labelKey: 'FRG_107.RBK',
-                    components: [{
-                        type: 'uv-del-fraga',
-                        components: [
-                            {
+                    components: [
+                        {
+                            type: 'uv-del-fraga',
+                            components: [{
                                 type: 'uv-boolean-value',
-                                modelProp: 'hypoglykemier.aterkommandeSenasteKvartalet'
-                            },
-                            {
-                                type: 'uv-del-fraga',
-                                labelKey: 'DFR_107.2.RBK',
-                                components: [{
-                                    type: 'uv-simple-value',
-                                    modelProp: 'hypoglykemier.senasteTidpunktVaken'
-                                }]
-                            }
-
-                        ]
-                    }]
+                                modelProp: 'hypoglykemi.aterkommandeVaketSenasteTolv'
+                            }]
+                        },
+                        {
+                            type: 'uv-del-fraga',
+                            labelKey: 'DFR_107.3.RBK',
+                            components: [{
+                                type: 'uv-boolean-value',
+                                modelProp: 'hypoglykemi.aterkommandeVaketSenasteTre'
+                            }]
+                        },
+                        {
+                            type: 'uv-del-fraga',
+                            labelKey: 'DFR_107.5.RBK',
+                            components: [{
+                                type: 'uv-simple-value',
+                                modelProp: 'hypoglykemi.aterkommandeVaketSenasteTreTidpunkt'
+                            }]
+                        }]
                 },
                 {
                     type: 'uv-fraga',
-                    labelKey: 'FRG_108.RBK',
-                    components: [{
-                        type: 'uv-del-fraga',
-                        components: [
-                            {
+                    labelKey: 'FRG_203.RBK',
+                    components: [
+                        {
+                            type: 'uv-del-fraga',
+                            components: [{
                                 type: 'uv-boolean-value',
-                                modelProp: 'hypoglykemier.forekomstTrafik'
-                            },
-                            {
-                                type: 'uv-del-fraga',
-                                labelKey: 'DFR_108.2.RBK',
-                                components: [{
-                                    type: 'uv-simple-value',
-                                    modelProp: 'hypoglykemier.forekomstTrafikTidpunkt'
-                                }]
-                            }
-
-                        ]
-                    }]
-                }
-            ]
+                                modelProp: 'hypoglykemi.allvarligSenasteTolvManaderna'
+                            }]
+                        },
+                        {
+                            type: 'uv-del-fraga',
+                            labelKey: 'DFR_203.2.RBK',
+                            components: [{
+                                type: 'uv-simple-value',
+                                modelProp: 'hypoglykemi.allvarligSenasteTolvManadernaTidpunkt'
+                            }]
+                        }]
+                },
+                {
+                    type: 'uv-fraga',
+                    labelKey: 'FRG_204.RBK',
+                    components: [
+                        {
+                            type: 'uv-del-fraga',
+                            components: [{
+                                type: 'uv-boolean-value',
+                                modelProp: 'hypoglykemi.regelbundnaBlodsockerkontroller'
+                            }]
+                        }]
+                }]
         },
         {
             type: 'uv-kategori',

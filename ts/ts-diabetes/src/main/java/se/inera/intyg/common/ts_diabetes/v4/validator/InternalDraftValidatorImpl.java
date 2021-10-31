@@ -36,17 +36,22 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_LAMPLIGHET_ATT_INNEHA_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_FOREKOMST_TRAFIK_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_FORMAGA_VARNINGSTECKEN_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_KONTROLLERAS_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_FORMAGA_KANNA_VARNINGSTECKEN_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_FORSTAR_RISKER_MED_HYPOGLYKEMI_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYGETAVSER_SVAR_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_DELSVAR_JSON_ID;
@@ -78,12 +83,12 @@ import se.inera.intyg.common.support.validate.ValidatorUtil;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.BedomningKorkortstyp;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Behandling;
-import se.inera.intyg.common.ts_diabetes.v4.model.internal.Hypoglykemier;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Synfunktion;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Synskarpevarden;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
 import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvTypAvDiabetes;
+import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
 import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
 
 @Component("ts-diabetes.v4.InternalDraftValidator")
@@ -95,13 +100,13 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     private static final double MAX_SYNSKARPA_VARDE = 2.0;
     private static final int MAX_OVRIGT_CHARS = 189;
     private static final int MAX_ANNAN_BEHANDLING_CHARS = 53;
-    private static final int MAX_ANNAN_DIABETES_CHARS = 53;
+    private static final int MAX_FIFTY_THREE_CHARS = 53;
     private static final int MAX_UNDERSOKAS_SPECIALIST_CHARS = 71;
 
     protected static final String CATEGORY_INTYGET_AVSER_BEHORIGHET = "intygAvser";
     protected static final String CATEGORY_ALLMANT = "allmant";
     protected static final String CATEGORY_IDENTITET = "identitetStyrktGenom";
-    protected static final String CATEGORY_HYPOGLYKEMIER = "hypoglykemier";
+    protected static final String CATEGORY_HYPOGLYKEMI = "hypoglykemi";
     protected static final String CATEGORY_SYNFUNKTION = "synfunktion";
     protected static final String CATEGORY_OVRIGT = "ovrigt";
     protected static final String CATEGORY_BEDOMNING = "bedomning";
@@ -124,6 +129,19 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         IntygAvserKategori.IAV8,
         IntygAvserKategori.IAV9);
 
+    private static final Set<KorkortsbehorighetKod> RULE_28_LICENSE_SET = ImmutableSet.of(
+        KorkortsbehorighetKod.C1,
+        KorkortsbehorighetKod.C1E,
+        KorkortsbehorighetKod.C,
+        KorkortsbehorighetKod.CE,
+        KorkortsbehorighetKod.D1,
+        KorkortsbehorighetKod.D1E,
+        KorkortsbehorighetKod.D,
+        KorkortsbehorighetKod.DE,
+        KorkortsbehorighetKod.TAXI
+    );
+
+
     // R1
     private static boolean eligibleForRule1(TsDiabetesUtlatandeV4 utlatande) {
         if (utlatande.getIntygAvser() == null || utlatande.getIntygAvser().getKategorier() == null) {
@@ -145,26 +163,16 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             && isTrue(utlatande.getAllmant().getBehandling().getInsulin());
     }
 
-    // R6
-    private static boolean eligibleForRule6(TsDiabetesUtlatandeV4 utlatande) {
-        return utlatande.getAllmant() != null && utlatande.getAllmant().getBehandling() != null
-            && isTrue(utlatande.getAllmant().getBehandling().getInsulin());
-    }
-
     // R8
     private static boolean eligibleForRule8(TsDiabetesUtlatandeV4 utlatande) {
-        return utlatande.getHypoglykemier() != null && isTrue(utlatande.getHypoglykemier().getAterkommandeSenasteAret());
+        return utlatande.getHypoglykemi() != null && isTrue(utlatande.getHypoglykemi().getAterkommandeSenasteAret());
     }
 
     // R9
     private static boolean eligibleForRule9(TsDiabetesUtlatandeV4 utlatande) {
-        return utlatande.getHypoglykemier() != null && isTrue(utlatande.getHypoglykemier().getAterkommandeSenasteKvartalet());
+        return utlatande.getHypoglykemi() != null && isTrue(utlatande.getHypoglykemi().getAterkommandeVaketSenasteTolv());
     }
 
-    // R10
-    private static boolean eligibleForRule10(TsDiabetesUtlatandeV4 utlatande) {
-        return utlatande.getHypoglykemier() != null && isTrue(utlatande.getHypoglykemier().getForekomstTrafik());
-    }
 
     // R12
     private static boolean eligibleForRule12(TsDiabetesUtlatandeV4 utlatande) {
@@ -249,12 +257,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             utlatande.getAllmant().getBehandling().getAnnanBehandling()));
     }
 
-    // R17
-    private static boolean eligibleForRule17(TsDiabetesUtlatandeV4 utlatande) {
-        return utlatande.getAllmant() != null && utlatande.getAllmant().getBehandling() != null
-            && isTrue(utlatande.getAllmant().getBehandling().getRiskHypoglykemi());
-    }
-
     // R18
     private static boolean eligibleForRule18(TsDiabetesUtlatandeV4 utlatande) {
         return utlatande.getAllmant() != null && utlatande.getAllmant().getBehandling() != null
@@ -309,30 +311,59 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
 
     // R20
     private static boolean eligibleForRule20(TsDiabetesUtlatandeV4 utlatande) {
-        return utlatande.getHypoglykemier() != null
-            && utlatande.getHypoglykemier().getAterkommandeSenasteTidpunkt() != null;
+        return utlatande.getHypoglykemi() != null
+            && utlatande.getHypoglykemi().getAterkommandeSenasteAretTidpunkt() != null;
     }
 
     // R21
     private static boolean eligibleForRule21(TsDiabetesUtlatandeV4 utlatande) {
-        return utlatande.getHypoglykemier() != null
-            && utlatande.getHypoglykemier().getSenasteTidpunktVaken() != null;
+        return utlatande.getHypoglykemi() != null
+            && utlatande.getHypoglykemi().getAterkommandeVaketSenasteTreTidpunkt() != null;
     }
 
     // R22
     private static boolean eligibleForRule22(TsDiabetesUtlatandeV4 utlatande) {
-        return utlatande.getHypoglykemier() != null
-            && utlatande.getHypoglykemier().getForekomstTrafikTidpunkt() != null;
+        return utlatande.getHypoglykemi() != null
+            && utlatande.getHypoglykemi().getAllvarligSenasteTolvManadernaTidpunkt() != null;
     }
 
-    private static boolean eligibleForRule25(TsDiabetesUtlatandeV4 utlatande) {
-        return utlatande.getHypoglykemier() != null
-            && utlatande.getHypoglykemier().getNedsattHjarnfunktion() != null
-            && isTrue(utlatande.getHypoglykemier().getNedsattHjarnfunktion());
+    private static boolean eligibleForRule27(TsDiabetesUtlatandeV4 utlatande) {
+        return utlatande.getHypoglykemi() != null
+            && utlatande.getHypoglykemi().getKontrollSjukdomstillstand() != null
+            && isFalse(utlatande.getHypoglykemi().getKontrollSjukdomstillstand());
+    }
+
+    private static boolean eligibleForRule28(TsDiabetesUtlatandeV4 utlatande) {
+        if (utlatande.getIntygAvser() == null || utlatande.getIntygAvser().getKategorier() == null) {
+            return false;
+        }
+        //final ImmutableSet<KorkortsbehorighetKod> intygAvser = ImmutableSet.copyOf(utlatande.getIntygAvser().getKategorier());
+        //return !Collections.disjoint(intygAvser, RULE_28_LICENSE_SET);
+
+        final ImmutableSet<IntygAvserKategori> intygAvser = ImmutableSet.copyOf(utlatande.getIntygAvser().getKategorier());
+        return !Collections.disjoint(intygAvser, RULE_1_14_15_LICENSE_SET);
+    }
+
+    private static boolean eligibleForRule30(TsDiabetesUtlatandeV4 utlatande) {
+        final var allmant = utlatande.getAllmant();
+        return allmant != null && allmant.getMedicineringMedforRiskForHypoglykemi() != null
+            && isTrue(allmant.getMedicineringMedforRiskForHypoglykemi());
     }
 
     private static boolean eligibleForRule32(TsDiabetesUtlatandeV4 utlatande) {
         return utlatande.getAllmant() != null && isTrue(utlatande.getAllmant().getMedicineringForDiabetes());
+    }
+
+     private static boolean eligibleForRule33(TsDiabetesUtlatandeV4 utlatande) {
+        return utlatande.getHypoglykemi() != null
+            && utlatande.getHypoglykemi().getAterkommandeVaketSenasteTre() != null
+            && isTrue(utlatande.getHypoglykemi().getAterkommandeVaketSenasteTre());
+    }
+
+    private static boolean eligibleForRule34(TsDiabetesUtlatandeV4 utlatande) {
+        return utlatande.getHypoglykemi() != null
+            && utlatande.getHypoglykemi().getAllvarligSenasteTolvManaderna() != null
+            && isTrue(utlatande.getHypoglykemi().getAllvarligSenasteTolvManaderna());
     }
 
     @Override
@@ -356,22 +387,24 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_JSON_ID, ValidationMessageType.EMPTY);
         }
 
-        // Kategori 4 - Hypoglykemier
-        // R6
-        if (eligibleForRule6(utlatande) || eligibleForRule17(utlatande)) {
-            if (utlatande.getHypoglykemier() != null) {
-                validateEgenkontrollBlodsocker(utlatande, validationMessages);
-                validateNedsattHjarnFunktion(utlatande, validationMessages);
+        // Kategori 4 - Hypoglykemi
+        if (eligibleForRule28(utlatande) || eligibleForRule30(utlatande)) {
+            if (utlatande.getHypoglykemi() == null) {
+                addValidationError(validationMessages, CATEGORY_HYPOGLYKEMI, HYPOGLYKEMI_JSON_ID, ValidationMessageType.EMPTY);
             } else {
-                addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER, HYPOGLYKEMIER_JSON_ID, ValidationMessageType.EMPTY);
+                if (eligibleForRule30(utlatande)) {
+                    validateKontrollSjukdomstillstand(utlatande, validationMessages);
+                    validateForstarRiskerMedHypoglykemi(utlatande, validationMessages);
+                    validateFormagaKannaVarningsTecken(utlatande, validationMessages);
+                    validateVidtaAdekvataAtgarder(utlatande, validationMessages);
+                    validateAterkommandeSenasteAret(utlatande, validationMessages);
+                    validateAterkommandeVaketSenasteTolv(utlatande, validationMessages);
+                }
+                if (eligibleForRule28(utlatande)) {
+                    validateAllvarligSenasteTolvManaderna(utlatande, validationMessages);
+                    validateRegelbundnaBlodsockerkontroller(utlatande, validationMessages);
+                }
             }
-        }
-        if (utlatande.getHypoglykemier() != null) {
-            validateSjukdomenUnderKontroll(utlatande, validationMessages);
-            validateFormagaVarningsTecken(utlatande, validationMessages);
-            validateAterkommandeSenasteAret(utlatande, validationMessages);
-            validateAterkommandeSenasteKvartalet(utlatande, validationMessages);
-            validateForekomstTrafikSenasteAret(utlatande, validationMessages);
         }
 
         // Kategori 5 - Synfunktion
@@ -458,7 +491,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             addValidationError(validationMessages, CATEGORY_ALLMANT, annanTypAvDiabetesBeskrivningFieldPath,
                 ValidationMessageType.EMPTY);
         } else if (eligibleForRule3(utlatande)
-            && Strings.nullToEmpty(allmant.getBeskrivningAnnanTypAvDiabetes()).trim().length() > MAX_ANNAN_DIABETES_CHARS) {
+            && Strings.nullToEmpty(allmant.getBeskrivningAnnanTypAvDiabetes()).trim().length() > MAX_FIFTY_THREE_CHARS) {
             addValidationError(validationMessages, CATEGORY_ALLMANT, annanTypAvDiabetesBeskrivningFieldPath, ValidationMessageType.OTHER);
         }
     }
@@ -550,102 +583,114 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         }
     }
 
-    private void validateSjukdomenUnderKontroll(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        if (eligibleForRule25(utlatande) && utlatande.getHypoglykemier().getSjukdomenUnderKontroll() == null) {
-            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
-                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID,
-                ValidationMessageType.EMPTY);
+
+    private void validateKontrollSjukdomstillstand(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
+        final var hypoglykemi = utlatande.getHypoglykemi();
+        if (hypoglykemi.getKontrollSjukdomstillstand() == null) {
+            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMI,
+                HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_JSON_ID, ValidationMessageType.EMPTY);
+            return;
+        }
+
+        if (eligibleForRule27(utlatande) && Strings.nullToEmpty(hypoglykemi.getKontrollSjukdomstillstandVarfor()).trim().isEmpty()) {
+            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMI, HYPOGLYKEMI_JSON_ID + "."
+                + HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID, ValidationMessageType.EMPTY);
+        } else if (eligibleForRule27(utlatande)
+            && Strings.nullToEmpty(hypoglykemi.getKontrollSjukdomstillstandVarfor()).trim().length() > MAX_FIFTY_THREE_CHARS) {
+            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMI, HYPOGLYKEMI_JSON_ID + "."
+                + HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID, ValidationMessageType.OTHER);
         }
     }
 
-    private void validateNedsattHjarnFunktion(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getHypoglykemier().getNedsattHjarnfunktion() == null) {
-            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
-                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_JSON_ID,
-                ValidationMessageType.EMPTY);
+    private void validateForstarRiskerMedHypoglykemi(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
+        if (utlatande.getHypoglykemi().getForstarRiskerMedHypoglykemi() == null) {
+            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMI,
+                HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_FORSTAR_RISKER_MED_HYPOGLYKEMI_JSON_ID, ValidationMessageType.EMPTY);
         }
     }
 
-    private void validateFormagaVarningsTecken(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        if (eligibleForRule25(utlatande) && utlatande.getHypoglykemier().getFormagaVarningstecken() == null) {
-            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
-                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FORMAGA_VARNINGSTECKEN_JSON_ID,
-                ValidationMessageType.EMPTY);
+    private void validateFormagaKannaVarningsTecken(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
+        if (utlatande.getHypoglykemi().getFormagaKannaVarningstecken() == null) {
+            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMI,
+                HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_FORMAGA_KANNA_VARNINGSTECKEN_JSON_ID, ValidationMessageType.EMPTY);
         }
     }
 
-    private void validateEgenkontrollBlodsocker(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getHypoglykemier().getEgenkontrollBlodsocker() == null) {
-            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
-                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_JSON_ID,
-                ValidationMessageType.EMPTY);
+    private void validateVidtaAdekvataAtgarder(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
+        if (utlatande.getHypoglykemi().getVidtaAdekvataAtgarder() == null) {
+            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMI,
+                HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_JSON_ID, ValidationMessageType.EMPTY);
         }
     }
 
     private void validateAterkommandeSenasteAret(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        Hypoglykemier hypoglykemier = utlatande.getHypoglykemier();
-        if (eligibleForRule25(utlatande) && hypoglykemier.getAterkommandeSenasteAret() == null) {
-            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
-                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_JSON_ID,
-                ValidationMessageType.EMPTY);
+        final var hypoglykemi = utlatande.getHypoglykemi();
+        if (hypoglykemi.getAterkommandeSenasteAret() == null) {
+            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMI,
+                HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_JSON_ID, ValidationMessageType.EMPTY);
             return;
         }
 
-        // R8 & R20
         if (eligibleForRule8(utlatande) || eligibleForRule20(utlatande)) {
-            validateDateWithinInterval(hypoglykemier.getAterkommandeSenasteTidpunkt(),
-                ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId()),
-                LocalDate.now(),
-                validationMessages,
-                CATEGORY_HYPOGLYKEMIER,
-                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID,
-                D_11,
-                D_08);
+            final var patientBirthDate = ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId());
+            validateDateWithinInterval(hypoglykemi.getAterkommandeSenasteAretTidpunkt(), patientBirthDate, LocalDate.now(),
+                validationMessages, CATEGORY_HYPOGLYKEMI,
+                HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID, D_11, D_08);
+        }
+
+        if (eligibleForRule8(utlatande) && hypoglykemi.getAterkommandeSenasteAretKontrolleras() == null) {
+            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMI,
+                HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_KONTROLLERAS_JSON_ID, ValidationMessageType.EMPTY);
+        }
+
+        if (eligibleForRule8(utlatande) && hypoglykemi.getAterkommandeSenasteAretTrafik() == null) {
+            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMI,
+                HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_JSON_ID, ValidationMessageType.EMPTY);
         }
     }
 
-
-    private void validateAterkommandeSenasteKvartalet(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        Hypoglykemier hypoglykemier = utlatande.getHypoglykemier();
-        if (eligibleForRule25(utlatande) && hypoglykemier.getAterkommandeSenasteKvartalet() == null) {
-            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
-                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_JSON_ID,
-                ValidationMessageType.EMPTY);
+    private void validateAterkommandeVaketSenasteTolv(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
+        final var hypoglykemi = utlatande.getHypoglykemi();
+        if (hypoglykemi.getAterkommandeVaketSenasteTolv() == null) {
+            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMI,
+                HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_JSON_ID, ValidationMessageType.EMPTY);
             return;
         }
 
-        // R9 & R21
-        if (eligibleForRule9(utlatande) || eligibleForRule21(utlatande)) {
-            validateDateWithinInterval(hypoglykemier.getSenasteTidpunktVaken(),
-                ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId()),
-                LocalDate.now(),
-                validationMessages,
-                CATEGORY_HYPOGLYKEMIER,
-                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID,
-                D_11,
-                D_08);
+        if (eligibleForRule9(utlatande) && hypoglykemi.getAterkommandeVaketSenasteTre() == null) {
+            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMI,
+                HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID, ValidationMessageType.EMPTY);
+            return;
+        }
+
+        if (eligibleForRule33(utlatande) || eligibleForRule21(utlatande)) {
+            final var patientBirthDate = ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId());
+            validateDateWithinInterval(hypoglykemi.getAterkommandeVaketSenasteTreTidpunkt(), patientBirthDate, LocalDate.now(),
+                validationMessages, CATEGORY_HYPOGLYKEMI,
+                HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID, D_11, D_08);
         }
     }
 
-    private void validateForekomstTrafikSenasteAret(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        Hypoglykemier hypoglykemier = utlatande.getHypoglykemier();
-        if (eligibleForRule25(utlatande) && hypoglykemier.getForekomstTrafik() == null) {
-            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
-                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_JSON_ID,
-                ValidationMessageType.EMPTY);
+    private void validateAllvarligSenasteTolvManaderna(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
+        final var hypoglykemi = utlatande.getHypoglykemi();
+        if (hypoglykemi.getAllvarligSenasteTolvManaderna() == null) {
+            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMI,
+                HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_JSON_ID, ValidationMessageType.EMPTY);
             return;
         }
 
-        // R10 & R22
-        if (eligibleForRule10(utlatande) || eligibleForRule22(utlatande)) {
-            validateDateWithinInterval(hypoglykemier.getForekomstTrafikTidpunkt(),
-                ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId()),
-                LocalDate.now(),
-                validationMessages,
-                CATEGORY_HYPOGLYKEMIER,
-                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID,
-                D_11,
-                D_08);
+        if (eligibleForRule34(utlatande) || eligibleForRule22(utlatande)) {
+            final var patientBirthDate = ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId());
+            validateDateWithinInterval(hypoglykemi.getAllvarligSenasteTolvManadernaTidpunkt(), patientBirthDate, LocalDate.now(),
+                validationMessages, CATEGORY_HYPOGLYKEMI,
+                HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_JSON_ID, D_11, D_08);
+        }
+    }
+
+    private void validateRegelbundnaBlodsockerkontroller(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
+        if (utlatande.getHypoglykemi().getRegelbundnaBlodsockerkontroller() == null) {
+            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMI,
+                HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_JSON_ID, ValidationMessageType.EMPTY);
         }
     }
 
@@ -796,6 +841,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         return synskarpeVarde == null || synskarpeVarde > MAX_SYNSKARPA_VARDE;
     }
 
+    // CHECKSTYLE:OFF ParameterNumber
     private boolean validateDateWithinInterval(InternalDate dateToValidate, LocalDate notBeforeDate, LocalDate notAfterDate,
         List<ValidationMessage> validationMessages, String category,
         String field, String notBeforeMessage, String notAfterMessage) {
@@ -826,7 +872,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         }
 
         return true;
-    }
+    } // CHECKSTYLE:ON ParameterNumber
 
     enum SynfunktionTyp {
         HOGER_UTAN_KORREKTION,

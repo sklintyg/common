@@ -46,6 +46,14 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
                 return _hasAnyOfIntygAvserBehorighet(model, ['IAV1', 'IAV2', 'IAV3', 'IAV4', 'IAV5', 'IAV6', 'IAV7', 'IAV8', 'IAV9']);
             }
 
+            function R8(model) {
+                return ObjectHelper.deepGet(model, 'hypoglykemi.aterkommandeSenasteAret');
+            }
+
+            function R9(model) {
+                return ObjectHelper.deepGet(model, 'hypoglykemi.aterkommandeVaketSenasteTolv');
+            }
+
             /**
              * @return {boolean}
              */
@@ -103,17 +111,30 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
                 return !answeredAll && (R13(model) || R14(model) || R15(model));
             }
 
-            function R6_OR_R17(model) {
-                return ObjectHelper.deepGet(model, 'allmant.behandling.riskHypoglykemi') ||
-                ObjectHelper.deepGet(model, 'allmant.behandling.insulin');
+            function R27(model) {
+                return !ObjectHelper.deepGet(model, 'hypoglykemi.kontrollSjukdomstillstand');
             }
 
-            function R25(model) {
-                return ObjectHelper.deepGet(model, 'hypoglykemier.nedsattHjarnfunktion');
+            // TODO REPLACE IAVs with VARs WHEN QUESTION HAS BEEN UPDATED
+            function R28(model) {
+                return _hasAnyOfIntygAvserBehorighet(model, ['IAV1', 'IAV2', 'IAV3', 'IAV4', 'IAV5', 'IAV6', 'IAV7', 'IAV8', 'IAV9']);
+                //return _hasAnyOfIntygAvserBehorighet(model, ['VAR1', 'VAR2', 'VAR3', 'VAR4', 'VAR5', 'VAR6', 'VAR7', 'VAR8', 'VAR9']);
+            }
+
+            function R30(model) {
+                return ObjectHelper.deepGet(model, 'allmant.medicineringMedforRiskForHypoglykemi');
             }
 
             function R32(model) {
                 return ObjectHelper.deepGet(model, 'allmant.medicineringForDiabetes');
+            }
+
+            function R33(model) {
+                return ObjectHelper.deepGet(model, 'hypoglykemi.aterkommandeVaketSenasteTre');
+            }
+
+            function R34(model) {
+                return ObjectHelper.deepGet(model, 'hypoglykemi.allvarligSenasteTolvManaderna');
             }
 
             function disableSkickasSeparat(scope){
@@ -137,7 +158,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
                     1: 'intygAvser',
                     2: 'identitetStyrktGenom',
                     3: 'allmant',
-                    4: 'hypoglykemier',
+                    4: 'hypoglykemi',
                     5: 'synfunktion',
                     6: 'ovrigt',
                     7: 'bedomning'
@@ -305,135 +326,206 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
                                 }]]
                             }])
                     ]),
-
                     kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {
-                        hideExpression: function (scope) { return !R6_OR_R17(scope.model);}}, [
-                        fraga(41, 'FRG_41.RBK', 'FRG_41.HLP', {
-                            required: true, requiredProp: 'hypoglykemier.egenkontrollBlodsocker'
-                        }, [
-                            {
-                                type: 'ue-radio',
-                                yesLabel: 'SVAR_JA.RBK',
-                                noLabel: 'SVAR_NEJ.RBK',
-                                modelProp: 'hypoglykemier.egenkontrollBlodsocker'
-                            }
-                        ]),
-                        fraga(37, 'FRG_37.RBK', 'FRG_37.HLP', {
-                            required: true, requiredProp: 'hypoglykemier.nedsattHjarnfunktion'
-                        }, [
-                            {
-                                type: 'ue-radio',
-                                yesLabel: 'SVAR_JA.RBK',
-                                noLabel: 'SVAR_NEJ.RBK',
-                                modelProp: 'hypoglykemier.nedsattHjarnfunktion'
-                            }
-                        ]),
-                        fraga(100, 'FRG_100.RBK', 'FRG_100.HLP', {
+                        hideExpression: function(scope) {return !R28(scope.model) && !R30(scope.model);}
+                    }, [
+                        fraga(200, 'FRG_200.RBK', 'FRG_200.HLP', {
+                            hideExpression: function(scope) { return !R30(scope.model); },
                             required: true,
                             requiredProp: function (model) {
-                                return R25(model) && model.hypoglykemier.sjukdomenUnderKontroll === undefined;
+                                return R30(model) && model.hypoglykemi.kontrollSjukdomstillstand === undefined;
                             }
-                        }, [
-                             {
-                                 type: 'ue-radio',
-                                 yesLabel: 'SVAR_JA.RBK',
-                                 noLabel: 'SVAR_NEJ.RBK',
-                                 modelProp: 'hypoglykemier.sjukdomenUnderKontroll'
+                            }, [
+                                {
+                                    type: 'ue-radio',
+                                    yesLabel: 'SVAR_JA.RBK',
+                                    noLabel: 'SVAR_NEJ.RBK',
+                                    modelProp: 'hypoglykemi.kontrollSjukdomstillstand'
+                                },
+                            {
+                                type: 'ue-textfield',
+                                modelProp: 'hypoglykemi.kontrollSjukdomstillstandVarfor',
+                                hideExpression: function(scope) { return !R27(scope.model) || scope.model.hypoglykemi.kontrollSjukdomstillstand === undefined; },
+                                htmlMaxlength: 53,
+                                size: '53-width',
+                                label: {
+                                    key: 'DFR_200.2.RBK',
+                                    required: true,
+                                    requiredProp: 'hypoglykemi.kontrollSjukdomstillstandVarfor'
+                                }
+                            }]
+                        ),
+                        fraga(201, 'FRG_201.RBK', 'FRG_201.HLP', {
+                            hideExpression: function(scope) { return !R30(scope.model); },
+                            required: true,
+                            requiredProp: function (model) {
+                                return R30(model) && model.hypoglykemi.forstarRiskerMedHypoglykemi === undefined;
                             }
-                        ]),
+                            }, [
+                                {
+                                    type: 'ue-radio',
+                                    yesLabel: 'SVAR_JA.RBK',
+                                    noLabel: 'SVAR_NEJ.RBK',
+                                    modelProp: 'hypoglykemi.forstarRiskerMedHypoglykemi'
+                                }]
+                        ),
                         fraga(110, 'FRG_110.RBK', 'FRG_110.HLP', {
+                            hideExpression: function(scope) { return !R30(scope.model); },
                             required: true,
                             requiredProp: function (model) {
-                                return R25(model) && model.hypoglykemier.formagaVarningstecken === undefined;
+                                return R30(model) && model.hypoglykemi.formagaKannaVarningstecken === undefined;
                             }
-                        }, [
-                            {
-                                type: 'ue-radio',
-                                yesLabel: 'SVAR_JA.RBK',
-                                noLabel: 'SVAR_NEJ.RBK',
-                                modelProp: 'hypoglykemier.formagaVarningstecken'
+                            }, [
+                                {
+                                    type: 'ue-radio',
+                                    yesLabel: 'SVAR_JA.RBK',
+                                    noLabel: 'SVAR_NEJ.RBK',
+                                    modelProp: 'hypoglykemi.formagaKannaVarningstecken'
+                                }]
+                        ),
+                        fraga(202, 'FRG_202.RBK', 'FRG_202.HLP', {
+                            hideExpression: function(scope) { return !R30(scope.model); },
+                            required: true,
+                            requiredProp: function (model) {
+                                return R30(model) && model.hypoglykemi.vidtaAdekvataAtgarder === undefined;
                             }
-                        ]),
+                            }, [
+                                {
+                                    type: 'ue-radio',
+                                    yesLabel: 'SVAR_JA.RBK',
+                                    noLabel: 'SVAR_NEJ.RBK',
+                                    modelProp: 'hypoglykemi.vidtaAdekvataAtgarder'
+                                }]
+                        ),
                         fraga(106, 'FRG_106.RBK', 'FRG_106.HLP', {
+                            hideExpression: function(scope) { return !R30(scope.model); },
                             required: true,
                             requiredProp: function (model) {
-                                return R25(model) && model.hypoglykemier.aterkommandeSenasteAret === undefined;
+                                return R30(model) && model.hypoglykemi.aterkommandeSenasteAret === undefined;
                             }
-                        }, [
-                            {
-                                type: 'ue-radio',
-                                yesLabel: 'SVAR_JA.RBK',
-                                noLabel: 'SVAR_NEJ.RBK',
-                                modelProp: 'hypoglykemier.aterkommandeSenasteAret'
-                            },
+                            }, [
+                                {
+                                    type: 'ue-radio',
+                                    yesLabel: 'SVAR_JA.RBK',
+                                    noLabel: 'SVAR_NEJ.RBK',
+                                    modelProp: 'hypoglykemi.aterkommandeSenasteAret'
+                                },
                             {
                                 type: 'ue-date',
                                 minDate: patientBirthDateValue,
                                 maxDate: today,
-                                modelProp: 'hypoglykemier.aterkommandeSenasteTidpunkt',
-                                hideExpression: '!model.hypoglykemier.aterkommandeSenasteAret',
+                                modelProp: 'hypoglykemi.aterkommandeSenasteAretTidpunkt',
+                                hideExpression: function(scope) { return !R8(scope.model); },
                                 label: {
                                     key: 'DFR_106.2.RBK',
-                                    helpKey: 'DFR_106.2.HLP',
                                     required: true,
-                                    requiredProp: 'hypoglykemier.aterkommandeSenasteTidpunkt'
+                                    requiredProp: 'hypoglykemi.aterkommandeSenasteAretTidpunkt'
                                 }
-                            }
-                        ]),
+                            },
+                            {
+                                type: 'ue-radio',
+                                yesLabel: 'SVAR_JA.RBK',
+                                noLabel: 'SVAR_NEJ.RBK',
+                                modelProp: 'hypoglykemi.aterkommandeSenasteAretKontrolleras',
+                                hideExpression: function(scope) { return !R8(scope.model); },
+                                label: {
+                                    key: 'DFR_106.3.RBK',
+                                    required: true,
+                                    requiredProp: 'hypoglykemi.aterkommandeSenasteAretKontrolleras'
+                                }
+                            },
+                            {
+                                type: 'ue-radio',
+                                yesLabel: 'SVAR_JA.RBK',
+                                noLabel: 'SVAR_NEJ.RBK',
+                                modelProp: 'hypoglykemi.aterkommandeSenasteAretTrafik',
+                                hideExpression: function(scope) { return !R8(scope.model); },
+                                label: {
+                                    key: 'DFR_106.5.RBK',
+                                    required: true,
+                                    requiredProp: 'hypoglykemi.aterkommandeSenasteAretTrafik'
+                                }
+                            }]
+                        ),
                         fraga(107, 'FRG_107.RBK', 'FRG_107.HLP', {
+                            hideExpression: function(scope) { return !R30(scope.model); },
                             required: true,
                             requiredProp: function (model) {
-                                return R25(model) && model.hypoglykemier.aterkommandeSenasteKvartalet === undefined;
+                                return R30(model) && model.hypoglykemi.aterkommandeSenasteAret === undefined;
                             }
-                        }, [
+                            }, [
+                                {
+                                    type: 'ue-radio',
+                                    yesLabel: 'SVAR_JA.RBK',
+                                    noLabel: 'SVAR_NEJ.RBK',
+                                    modelProp: 'hypoglykemi.aterkommandeVaketSenasteTolv'
+                                },
                             {
                                 type: 'ue-radio',
                                 yesLabel: 'SVAR_JA.RBK',
                                 noLabel: 'SVAR_NEJ.RBK',
-                                modelProp: 'hypoglykemier.aterkommandeSenasteKvartalet'
+                                modelProp: 'hypoglykemi.aterkommandeVaketSenasteTre',
+                                hideExpression: function(scope) { return !R9(scope.model); },
+                                label: {
+                                    key: 'DFR_107.3.RBK',
+                                    required: true,
+                                    requiredProp: 'hypoglykemi.aterkommandeVaketSenasteTre'
+                                }
                             },
                             {
                                 type: 'ue-date',
                                 minDate: patientBirthDateValue,
                                 maxDate: today,
-                                modelProp: 'hypoglykemier.senasteTidpunktVaken',
-                                hideExpression: '!model.hypoglykemier.aterkommandeSenasteKvartalet',
+                                modelProp: 'hypoglykemi.aterkommandeVaketSenasteTreTidpunkt',
+                                hideExpression: function(scope) { return !R33(scope.model); },
                                 label: {
-                                    key: 'DFR_107.2.RBK',
-                                    helpKey: 'DFR_107.2.HLP',
+                                    key: 'DFR_107.5.RBK',
                                     required: true,
-                                    requiredProp: 'hypoglykemier.senasteTidpunktVaken'
+                                    requiredProp: 'hypoglykemi.aterkommandeVaketSenasteTreTidpunkt'
                                 }
-                            }
-                        ]),
-                        fraga(108, 'FRG_108.RBK', 'FRG_108.HLP', {
+                            }]
+                        ),
+                        fraga(203, 'FRG_203.RBK', 'FRG_203.HLP', {
+                            hideExpression: function(scope) { return !R28(scope.model); },
                             required: true,
                             requiredProp: function (model) {
-                                return R25(model) && model.hypoglykemier.forekomstTrafik === undefined;
+                                return R28(model) && model.hypoglykemi.allvarligSenasteTolvManaderna === undefined;
                             }
-                        }, [
-                            {
-                                type: 'ue-radio',
-                                yesLabel: 'SVAR_JA.RBK',
-                                noLabel: 'SVAR_NEJ.RBK',
-                                modelProp: 'hypoglykemier.forekomstTrafik'
-                            },
+                            }, [
+                                {
+                                    type: 'ue-radio',
+                                    yesLabel: 'SVAR_JA.RBK',
+                                    noLabel: 'SVAR_NEJ.RBK',
+                                    modelProp: 'hypoglykemi.allvarligSenasteTolvManaderna'
+                                },
                             {
                                 type: 'ue-date',
                                 minDate: patientBirthDateValue,
                                 maxDate: today,
-                                modelProp: 'hypoglykemier.forekomstTrafikTidpunkt',
-                                hideExpression: '!model.hypoglykemier.forekomstTrafik',
+                                modelProp: 'hypoglykemi.allvarligSenasteTolvManadernaTidpunkt',
+                                hideExpression: function(scope) { return !R34(scope.model); },
                                 label: {
-                                    key: 'DFR_108.2.RBK',
-                                    helpKey: 'DFR_108.2.HLP',
+                                    key: 'DFR_203.2.RBK',
                                     required: true,
-                                    requiredProp: 'hypoglykemier.forekomstTrafikTidpunkt'
+                                    requiredProp: 'hypoglykemi.allvarligSenasteTolvManadernaTidpunkt'
                                 }
+                            }]
+                        ),
+                        fraga(204, 'FRG_204.RBK', 'FRG_204.HLP', {
+                            hideExpression: function(scope) { return !R28(scope.model); },
+                            required: true,
+                            requiredProp: function (model) {
+                                return R28(model) && model.hypoglykemi.regelbundnaBlodsockerkontroller === undefined;
                             }
-                        ])
+                            }, [
+                                {
+                                    type: 'ue-radio',
+                                    yesLabel: 'SVAR_JA.RBK',
+                                    noLabel: 'SVAR_NEJ.RBK',
+                                    modelProp: 'hypoglykemi.regelbundnaBlodsockerkontroller'
+                                }]
+                        )
                     ]),
-
                     kategori(categoryIds[5], 'KAT_5.RBK', 'KAT_5.HLP', {}, [
                         fraga(103, 'FRG_103.RBK', 'FRG_103.HLP', {
                             required: true, requiredProp: 'synfunktion.misstankeOgonsjukdom'

@@ -280,13 +280,7 @@
       </delsvar>
     </svar>
     <svar id="107">
-      <delsvar id="107.1">true</delsvar>
-      <delsvar id="107.2">
-        <ns3:partialDate>
-          <ns3:format>YYYY-MM-DD</ns3:format>
-          <ns3:value>2010-01-01</ns3:value>
-        </ns3:partialDate>
-      </delsvar>
+      <delsvar id="107.1">false</delsvar>
     </svar>
     <svar id="108">
       <delsvar id="108.1">true</delsvar>
