@@ -47,6 +47,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.Domain.IntygModel.v4',
 
                         // Kategori 3
                         allmant: {
+                            patientenFoljsAv: undefined,
                             diabetesDiagnosAr: undefined,
                             typAvDiabetes: undefined,
                             beskrivningAnnanTypAvDiabetes: undefined,

@@ -22,6 +22,7 @@ import static se.inera.intyg.common.support.Constants.KV_ID_KONTROLL_CODE_SYSTEM
 import static se.inera.intyg.common.support.Constants.KV_INTYGET_AVSER_CODE_SYSTEM;
 import static se.inera.intyg.common.support.Constants.KV_KORKORTSBEHORIGHET_CODE_SYSTEM;
 import static se.inera.intyg.common.support.Constants.KV_UTLATANDETYP_INTYG_CODE_SYSTEM;
+import static se.inera.intyg.common.support.Constants.KV_VARDNIVA_CODE_SYSTEM;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aPartialDate;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
@@ -42,6 +43,8 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_BOR_UNDERSOKAS_DELSVAR_ID;
@@ -172,6 +175,14 @@ public final class UtlatandeToIntyg {
     }
 
     private static void buildAllmant(Allmant allmant, List<Svar> svars) {
+        if (allmant.getPatientenFoljsAv() != null) {
+            svars.add(aSvar(ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID)
+                .withDelsvar(ALLMANT_PATIENTEN_FOLJS_AV_DELSVAR_ID,
+                    aCV(KV_VARDNIVA_CODE_SYSTEM, allmant.getPatientenFoljsAv().getCode(),
+                        allmant.getPatientenFoljsAv().getDescription()))
+                .build());
+        }
+
         if (allmant.getDiabetesDiagnosAr() != null) {
             // If getDiabetesDiagnosAr can not be converted to year getYearContent will return null and the svar will not be added.
             Year diabetesDiagnosAr = getYearContent(allmant.getDiabetesDiagnosAr());

@@ -47,6 +47,7 @@
     "typ":"IDK6"
   },
   "allmant":{
+    "patientenFoljsAv": "VN1",
     "diabetesDiagnosAr":"1990",
     "typAvDiabetes":"TYP1",
     "medicineringForDiabetes":true,

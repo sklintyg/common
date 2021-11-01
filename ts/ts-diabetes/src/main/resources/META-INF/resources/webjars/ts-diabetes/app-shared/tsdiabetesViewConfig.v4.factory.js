@@ -63,6 +63,18 @@ angular.module('ts-diabetes').factory('ts-diabetes.viewConfigFactory.v4', [
             components: [
                 {
                     type: 'uv-fraga',
+                    labelKey: 'FRG_205.RBK',
+                    components: [{
+                        type: 'uv-del-fraga',
+                        components: [{
+                            type: 'uv-kodverk-value',
+                            kvModelProps: ['allmant.patientenFoljsAv'],
+                            kvLabelKeys: ['KV_VARDNIVA_{var}.RBK']
+                        }]
+                    }]
+                },
+                {
+                    type: 'uv-fraga',
                     labelKey: 'FRG_35.RBK',
                     components: [{
                         type: 'uv-del-fraga',

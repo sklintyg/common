@@ -141,6 +141,14 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
                     ]),
 
                     kategori(categoryIds[3], 'KAT_3.RBK', 'KAT_3.HLP', {}, [
+                        fraga(205, 'FRG_205.RBK', 'FRG_205.HLP', {required: true, requiredProp: 'allmant.patientenFoljsAv'}, [{
+                            type: 'ue-radiogroup',
+                            modelProp: 'allmant.patientenFoljsAv',
+                            choices: [
+                                {label: 'KV_VARDNIVA_VN1.RBK', id: 'VN1'},
+                                {label: 'KV_VARDNIVA_VN2.RBK', id: 'VN2'}
+                            ]
+                        }]),
                         fraga(35, 'FRG_35.RBK', 'FRG_35.HLP', {required: true, requiredProp: 'allmant.diabetesDiagnosAr'}, [{
                             type: 'ue-year-picker',
                             modelProp: 'allmant.diabetesDiagnosAr',

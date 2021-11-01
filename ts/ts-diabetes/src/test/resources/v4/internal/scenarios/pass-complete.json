@@ -108,6 +108,7 @@
     "typ":"IDK1"
   },
   "allmant":{
+    "patientenFoljsAv": "VN1",
     "diabetesDiagnosAr":"2000",
     "typAvDiabetes":"ANNAN",
     "medicineringForDiabetes":true,

@@ -40,6 +40,7 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
 import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvIdKontroll;
 import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvTypAvDiabetes;
+import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvVardniva;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
@@ -74,6 +75,9 @@ public final class TransportToInternal {
                     break;
                 case RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID:
                     handleIdentitetStyrkt(utlatande, svar);
+                    break;
+                case RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID:
+                    handleAllmantPatientenFoljsAv(allmant, svar);
                     break;
                 case RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID:
                     handleAllmantDiabetesDiagnosAr(allmant, svar);
@@ -160,6 +164,18 @@ public final class TransportToInternal {
             switch (delsvar.getId()) {
                 case RespConstants.IDENTITET_STYRKT_GENOM_DELSVAR_ID:
                     utlatande.setIdentitetStyrktGenom(IdKontroll.create(KvIdKontroll.fromCode(getCVSvarContent(delsvar).getCode())));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleAllmantPatientenFoljsAv(Allmant.Builder allmant, Svar svar) throws ConverterException {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_DELSVAR_ID:
+                    allmant.setPatientenFoljsAv(KvVardniva.fromCode(getCVSvarContent(delsvar).getCode()));
                     break;
                 default:
                     throw new IllegalArgumentException();

@@ -239,6 +239,15 @@
         </ns3:cv>
       </delsvar>
     </svar>
+    <svar id="205">
+      <delsvar id="205.1">
+        <ns3:cv>
+          <ns3:code>VN1</ns3:code>
+          <ns3:codeSystem>1.2.752.129.5.1.28</ns3:codeSystem>
+          <ns3:displayName>Primärvård</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
     <svar id="35">
       <delsvar id="35.1">
         <ns3:partialDate>

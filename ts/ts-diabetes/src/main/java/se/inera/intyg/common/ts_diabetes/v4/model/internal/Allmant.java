@@ -20,20 +20,24 @@ package se.inera.intyg.common.ts_diabetes.v4.model.internal;
 
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_JSON_ID;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import javax.annotation.Nullable;
 import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvTypAvDiabetes;
+import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvVardniva;
 
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Allmant.Builder.class)
 public abstract class Allmant {
+
+    @Nullable
+    public abstract KvVardniva getPatientenFoljsAv();
 
     @Nullable
     public abstract String getDiabetesDiagnosAr();
@@ -62,7 +66,10 @@ public abstract class Allmant {
 
         public abstract Allmant build();
 
-        @JsonProperty(ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11)
+        @JsonProperty(ALLMANT_PATIENTEN_FOLJS_AV_JSON_ID)
+        public abstract Builder setPatientenFoljsAv(KvVardniva value);
+
+        @JsonProperty(ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID)
         public abstract Builder setDiabetesDiagnosAr(String value);
 
         @JsonProperty(ALLMANT_TYP_AV_DIABETES_JSON_ID)

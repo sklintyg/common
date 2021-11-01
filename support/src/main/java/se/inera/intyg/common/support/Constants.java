@@ -43,6 +43,7 @@ public final class Constants {
     public static final String ADDRESS_DETAILS_SOURCE_PU_NAME = "Personuppgiftstjänsten";
     public static final String ADDRESS_DETAILS_SOURCE_USER_CODE = "ANVANDARE";
     public static final String ADDRESS_DETAILS_SOURCE_USER_NAME = "Person som använder systemet";
+    public static final String KV_VARDNIVA_CODE_SYSTEM = "1.2.752.129.5.1.28";
 
     private Constants() { }
 }

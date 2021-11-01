@@ -32,9 +32,13 @@ public final class RespConstants {
 
     // Kat 3 - Allmänt
     public static final String ALLMANT_JSON_ID = "allmant";
+    public static final String ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID = "205";
+    public static final String ALLMANT_PATIENTEN_FOLJS_AV_DELSVAR_ID = "205.1";
+    public static final String ALLMANT_PATIENTEN_FOLJS_AV_JSON_ID = "patientenFoljsAv";
+
     public static final String ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID = "35";
     public static final String ALLMANT_DIABETES_DIAGNOS_AR_DELSVAR_ID = "35.1";
-    public static final String ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11 = "diabetesDiagnosAr";
+    public static final String ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID = "diabetesDiagnosAr";
 
     public static final String ALLMANT_TYP_AV_DIABETES_SVAR_ID = "18";
     public static final String ALLMANT_TYP_AV_DIABETES_DELSVAR_ID = "18.1";
