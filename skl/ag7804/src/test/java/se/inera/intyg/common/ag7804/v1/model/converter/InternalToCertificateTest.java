@@ -115,6 +115,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTy
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationEnable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHighlight;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
@@ -1591,6 +1592,19 @@ class InternalToCertificateTest {
                 assertAll("Validation question validation",
                     () -> assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100, certificateDataValidationMandatory.getQuestionId()),
                     () -> assertEquals("$" + ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100, certificateDataValidationMandatory.getExpression())
+                );
+            }
+
+            @Test
+            void shouldIncludeQuestionValidationHighlight() {
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100);
+
+                final var certificateDataValidationHighlight = (CertificateDataValidationHighlight) question.getValidation()[1];
+                assertAll("Validation question validation",
+                    () -> assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100, certificateDataValidationHighlight.getQuestionId()),
+                    () -> assertEquals("!YES && !NO", certificateDataValidationHighlight.getExpression())
                 );
             }
         }

@@ -32,8 +32,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @Type(value = CertificateDataValidationMaxDate.class, name = "MAX_DATE_VALIDATION"),
     @Type(value = CertificateDataValidationText.class, name = "TEXT_VALIDATION"),
     @Type(value = CertificateDataValidationEnable.class, name = "ENABLE_VALIDATION"),
-    @Type(value = CertificateDataValidationDisable.class, name = "DISABLE_VALIDATION")
-
+    @Type(value = CertificateDataValidationDisable.class, name = "DISABLE_VALIDATION"),
+    @Type(value = CertificateDataValidationHighlight.class, name = "HIGHLIGHT_VALIDATION")
 })
 public interface CertificateDataValidation {
 
