@@ -37,8 +37,6 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Hypoglykemi;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.IdKontroll;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvserKategori;
-import se.inera.intyg.common.ts_diabetes.v4.model.internal.Synfunktion;
-import se.inera.intyg.common.ts_diabetes.v4.model.internal.Synskarpevarden;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
 import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvIdKontroll;
 import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvTypAvDiabetes;
@@ -68,8 +66,6 @@ public final class TransportToInternal {
         Bedomning.Builder bedomning = Bedomning.builder();
         Set<BedomningKorkortstyp> bedomningUppfyllerBehorighetskrav = EnumSet.noneOf(BedomningKorkortstyp.class);
         Hypoglykemi.Builder hypoglykemi = Hypoglykemi.builder();
-
-        Synfunktion.Builder synfunktion = Synfunktion.builder();
 
         for (Svar svar : source.getSvar()) {
             switch (svar.getId()) {
@@ -119,14 +115,6 @@ public final class TransportToInternal {
                 case RespConstants.HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_SVAR_ID:
                     handleHypoglykemiRegelbundnaBlodsockerkontroller(hypoglykemi, svar);
                     break;
-
-                case RespConstants.SYNFUNKTION_MISSTANKE_OGONSJUKDOM_SVAR_ID:
-                    handleSynfunktion(synfunktion, svar);
-                    break;
-                case RespConstants.SYNFUNKTION_SYNSKARPA_SVAR_ID:
-                    handleSynfunktionSynskarpa(synfunktion, svar);
-                    break;
-
                 case RespConstants.OVRIGT_SVAR_ID:
                     handleOvrigt(utlatande, svar);
                     break;
@@ -153,9 +141,6 @@ public final class TransportToInternal {
         }
         utlatande.setBedomning(bedomning.build());
         utlatande.setHypoglykemi(hypoglykemi.build());
-/*
-        utlatande.setSynfunktion(synfunktion.build());
- */
     }
 
     private static void handleIntygAvser(Set<IntygAvserKategori> intygAvserSet, Svar svar) throws ConverterException {
@@ -386,57 +371,6 @@ public final class TransportToInternal {
             }
         }
     }
-
-    private static void handleSynfunktion(Synfunktion.Builder synfunktion, Svar svar) {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case RespConstants.SYNFUNKTION_MISSTANKE_OGONSJUKDOM_DELSVAR_ID:
-                    synfunktion.setMisstankeOgonsjukdom(getBooleanContent(delsvar));
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
-    }
-
-    private static void handleSynfunktionSynskarpa(Synfunktion.Builder synfunktion, Svar svar) {
-        Synskarpevarden.Builder hoger = Synskarpevarden.builder();
-        Synskarpevarden.Builder vanster = Synskarpevarden.builder();
-        Synskarpevarden.Builder binokulart = Synskarpevarden.builder();
-        Boolean skickasSeparat = Boolean.FALSE;
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case RespConstants.SYNFUNKTION_SYNSKARPA_SKICKAS_SEPARAT_DELSVAR_ID:
-                    skickasSeparat = getBooleanContent(delsvar);
-                    break;
-                case RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_UTAN_KORREKTION_DELSVAR_ID:
-                    hoger.setUtanKorrektion(Double.valueOf(getStringContent(delsvar)));
-                    break;
-                case RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_UTAN_KORREKTION_DELSVAR_ID:
-                    vanster.setUtanKorrektion(Double.valueOf(getStringContent(delsvar)));
-                    break;
-                case RespConstants.SYNFUNKTION_SYNSKARPA_BINOKULART_UTAN_KORREKTION_DELSVAR_ID:
-                    binokulart.setUtanKorrektion(Double.valueOf(getStringContent(delsvar)));
-                    break;
-                case RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_MED_KORREKTION_DELSVAR_ID:
-                    hoger.setMedKorrektion(Double.valueOf(getStringContent(delsvar)));
-                    break;
-                case RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_MED_KORREKTION_DELSVAR_ID:
-                    vanster.setMedKorrektion(Double.valueOf(getStringContent(delsvar)));
-                    break;
-                case RespConstants.SYNFUNKTION_SYNSKARPA_BINOKULART_MED_KORREKTION_DELSVAR_ID:
-                    binokulart.setMedKorrektion(Double.valueOf(getStringContent(delsvar)));
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
-        synfunktion.setSkickasSeparat(skickasSeparat);
-        synfunktion.setHoger(hoger.build());
-        synfunktion.setVanster(vanster.build());
-        synfunktion.setBinokulart(binokulart.build());
-    }
-
     private static void handleOvrigt(TsDiabetesUtlatandeV4.Builder utlatande, Svar svar) {
         Delsvar delsvar = svar.getDelsvar().get(0);
         switch (delsvar.getId()) {

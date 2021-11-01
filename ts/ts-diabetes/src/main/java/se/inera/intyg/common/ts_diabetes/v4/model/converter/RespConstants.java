@@ -115,31 +115,6 @@ public final class RespConstants {
     public static final String HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_DELSVAR_ID = "204.1";
     public static final String HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_JSON_ID = "regelbundnaBlodsockerkontroller";
 
-    // Kat 5 - Synfunktion
-    public static final String SYNFUNKTION_JSON_ID = "synfunktion";
-    public static final String SYNFUNKTION_MISSTANKE_OGONSJUKDOM_SVAR_ID = "103";
-    public static final String SYNFUNKTION_MISSTANKE_OGONSJUKDOM_DELSVAR_ID = "103.1";
-    public static final String SYNFUNKTION_MISSTANKE_OGONSJUKDOM_JSON_ID = "misstankeOgonsjukdom";
-
-    public static final String SYNFUNKTION_SYNSKARPA_SVAR_ID = "8";
-    public static final String SYNFUNKTION_SYNSKARPA_SKICKAS_SEPARAT_DELSVAR_ID = "8.1";
-    public static final String SYNFUNKTION_SYNSKARPA_SKICKAS_SEPARAT_JSON_ID = "skickasSeparat";
-
-    public static final String SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID = "hoger";
-    public static final String SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID = "vanster";
-    public static final String SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID = "binokulart";
-    public static final String SYNFUNKTION_SYNSKARPA_UTAN_KORREKTION_JSON_ID = "utanKorrektion";
-    public static final String SYNFUNKTION_SYNSKARPA_MED_KORREKTION_JSON_ID = "medKorrektion";
-
-    public static final String SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID = "utanKorrektion";
-    public static final String SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID = "medKorrektion";
-    public static final String SYNFUNKTION_SYNSKARPA_HOGER_UTAN_KORREKTION_DELSVAR_ID = "8.2";
-    public static final String SYNFUNKTION_SYNSKARPA_VANSTER_UTAN_KORREKTION_DELSVAR_ID = "8.3";
-    public static final String SYNFUNKTION_SYNSKARPA_BINOKULART_UTAN_KORREKTION_DELSVAR_ID = "8.4";
-    public static final String SYNFUNKTION_SYNSKARPA_HOGER_MED_KORREKTION_DELSVAR_ID = "8.5";
-    public static final String SYNFUNKTION_SYNSKARPA_VANSTER_MED_KORREKTION_DELSVAR_ID = "8.6";
-    public static final String SYNFUNKTION_SYNSKARPA_BINOKULART_MED_KORREKTION_DELSVAR_ID = "8.7";
-
     // Kat 6 - Övrigt
     public static final String OVRIGT_SVAR_ID = "32";
     public static final String OVRIGT_DELSVAR_ID = "32.1";

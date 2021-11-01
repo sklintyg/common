@@ -56,10 +56,6 @@
   },
   "hypoglykemier":{
   },
-  "synfunktion":{
-    "misstankeOgonsjukdom":false,
-    "skickasSeparat":true
-  },
   "bedomning":{
     "uppfyllerBehorighetskrav":[
       {

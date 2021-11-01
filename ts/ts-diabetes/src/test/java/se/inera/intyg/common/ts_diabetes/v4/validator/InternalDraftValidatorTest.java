@@ -22,7 +22,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_RISK_HYPOGLYKEMI_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID;
@@ -32,33 +31,18 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_LAMPLIGHET_ATT_INNEHA_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_KONTROLLERAS_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SYNFUNKTION_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_SKICKAS_SEPARAT_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.validator.InternalDraftValidatorImpl.BEHANDLING_ROOT_FIELD_PATH;
 import static se.inera.intyg.common.ts_diabetes.v4.validator.InternalDraftValidatorImpl.CATEGORY_ALLMANT;
 import static se.inera.intyg.common.ts_diabetes.v4.validator.InternalDraftValidatorImpl.CATEGORY_BEDOMNING;
 import static se.inera.intyg.common.ts_diabetes.v4.validator.InternalDraftValidatorImpl.CATEGORY_HYPOGLYKEMI;
-import static se.inera.intyg.common.ts_diabetes.v4.validator.InternalDraftValidatorImpl.CATEGORY_SYNFUNKTION;
 
 import com.google.common.collect.ImmutableSet;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -252,106 +236,6 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void failureDueToRule12() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R12").asInternalModel();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertTrue(res.hasErrorMessages());
-        assertFalse(res.hasWarningMessages());
-        assertEquals(3, res.getValidationErrors().size());
-        ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
-            new ValidationMessage(CATEGORY_SYNFUNKTION,
-                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
-                    + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
-                ValidationMessageType.EMPTY),
-            new ValidationMessage(CATEGORY_SYNFUNKTION,
-                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
-                    + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
-                ValidationMessageType.EMPTY),
-            new ValidationMessage(CATEGORY_SYNFUNKTION,
-                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.'
-                    + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
-                ValidationMessageType.EMPTY));
-        assertTrue(res.getValidationErrors().containsAll(expectedErrors));
-    }
-
-    @Test
-    public void failureDueToRule13() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R13").asInternalModel();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertTrue(res.hasErrorMessages());
-        assertFalse(res.hasWarningMessages());
-        assertEquals(3, res.getValidationErrors().size());
-        ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
-            new ValidationMessage(CATEGORY_SYNFUNKTION,
-                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
-                    + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                ValidationMessageType.EMPTY),
-            new ValidationMessage(CATEGORY_SYNFUNKTION,
-                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
-                    + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                ValidationMessageType.EMPTY),
-            new ValidationMessage(CATEGORY_SYNFUNKTION,
-                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.'
-                    + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                ValidationMessageType.EMPTY));
-        assertTrue(res.getValidationErrors().containsAll(expectedErrors));
-    }
-
-    @Test
-    public void failureDueToRule14() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R14").asInternalModel();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertTrue(res.hasErrorMessages());
-        assertFalse(res.hasWarningMessages());
-        assertEquals(3, res.getValidationErrors().size());
-        ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
-            new ValidationMessage(CATEGORY_SYNFUNKTION,
-                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
-                    + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                ValidationMessageType.EMPTY),
-            new ValidationMessage(CATEGORY_SYNFUNKTION,
-                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
-                    + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                ValidationMessageType.EMPTY),
-            new ValidationMessage(CATEGORY_SYNFUNKTION,
-                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.'
-                    + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                ValidationMessageType.EMPTY));
-        assertTrue(res.getValidationErrors().containsAll(expectedErrors));
-    }
-
-    @Test
-    public void failureDueToRule15() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R15").asInternalModel();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertTrue(res.hasErrorMessages());
-        assertFalse(res.hasWarningMessages());
-        assertEquals(3, res.getValidationErrors().size());
-        ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
-            new ValidationMessage(CATEGORY_SYNFUNKTION,
-                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
-                    + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                ValidationMessageType.EMPTY),
-            new ValidationMessage(CATEGORY_SYNFUNKTION,
-                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
-                    + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                ValidationMessageType.EMPTY),
-            new ValidationMessage(CATEGORY_SYNFUNKTION,
-                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.'
-                    + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                ValidationMessageType.EMPTY));
-        assertTrue(res.getValidationErrors().containsAll(expectedErrors));
-    }
-
-    @Test
     public void failureDueToRule16() throws Exception {
         TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R16").asInternalModel();
 
@@ -384,39 +268,6 @@ public class InternalDraftValidatorTest {
             ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID + "." + ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID,
             error.getField());
         assertEquals(ValidationMessageType.EMPTY, error.getType());
-    }
-
-    @Test
-    public void failureDueToRule19() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = setupPassingHypoglykemiDates(
-            se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R19").asInternalModel());
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(6, res.getValidationErrors().size());
-
-        ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
-            new ValidationMessage(CATEGORY_SYNFUNKTION,
-                (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
-                    + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
-                ValidationMessageType.INVALID_FORMAT, "common.validation.d-03"),
-            new ValidationMessage(CATEGORY_SYNFUNKTION,
-                (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
-                    + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                ValidationMessageType.INVALID_FORMAT, "common.validation.d-03"),
-            new ValidationMessage(CATEGORY_SYNFUNKTION,
-                (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
-                    + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
-                ValidationMessageType.INVALID_FORMAT, "common.validation.d-03"),
-            new ValidationMessage(CATEGORY_SYNFUNKTION,
-                (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
-                    + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                ValidationMessageType.INVALID_FORMAT, "common.validation.d-03"),
-            new ValidationMessage(CATEGORY_SYNFUNKTION,
-                (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.'
-                    + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                ValidationMessageType.INVALID_FORMAT, "common.validation.d-03"));
-
-        assertTrue(res.getValidationErrors().containsAll(expectedErrors));
     }
 
     @Test
@@ -512,21 +363,6 @@ public class InternalDraftValidatorTest {
         ValidationMessage error = res.getValidationErrors().get(0);
         assertEquals(CATEGORY_BEDOMNING, error.getCategory());
         assertEquals(BEDOMNING_JSON_ID + "." + BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID, error.getField());
-        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, error.getType());
-    }
-
-    @Test
-    public void failureDueToRules26() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R26").asInternalModel();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertTrue(res.hasErrorMessages());
-        assertFalse(res.hasWarningMessages());
-        assertEquals(1, res.getValidationErrors().size());
-        ValidationMessage error = res.getValidationErrors().get(0);
-        assertEquals(CATEGORY_SYNFUNKTION, error.getCategory());
-        assertEquals(SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_SKICKAS_SEPARAT_JSON_ID, error.getField());
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, error.getType());
     }
 

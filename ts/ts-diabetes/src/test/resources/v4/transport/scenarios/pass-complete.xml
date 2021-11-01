@@ -316,18 +316,6 @@
     <svar id="204">
       <delsvar id="204.1">true</delsvar>
     </svar>
-    <svar id="103">
-      <delsvar id="103.1">true</delsvar>
-    </svar>
-    <svar id="8">
-      <delsvar id="8.1">false</delsvar>
-      <delsvar id="8.2">0.1</delsvar>
-      <delsvar id="8.3">0.3</delsvar>
-      <delsvar id="8.4">0.5</delsvar>
-      <delsvar id="8.5">0.2</delsvar>
-      <delsvar id="8.6">0.4</delsvar>
-      <delsvar id="8.7">0.6</delsvar>
-    </svar>
     <svar id="32">
       <delsvar id="32.1">Övrigt</delsvar>
     </svar>

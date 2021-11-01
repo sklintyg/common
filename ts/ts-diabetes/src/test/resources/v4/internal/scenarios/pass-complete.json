@@ -140,22 +140,6 @@
     "allvarligSenasteTolvManadernaTidpunkt": "2021-10-30",
     "regelbundnaBlodsockerkontroller": true
   },
-  "synfunktion":{
-    "misstankeOgonsjukdom":true,
-    "skickasSeparat":false,
-    "vanster":{
-      "utanKorrektion":0.3,
-      "medKorrektion":0.4
-    },
-    "hoger":{
-      "utanKorrektion":0.1,
-      "medKorrektion":0.2
-    },
-    "binokulart":{
-      "utanKorrektion":0.5,
-      "medKorrektion":0.6
-    }
-  },
   "ovrigt":"Övrigt",
   "bedomning":{
     "uppfyllerBehorighetskrav":[

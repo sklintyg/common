@@ -60,10 +60,6 @@
     "allvarligSenasteTolvManadernaTidpunkt": "1901-01-01",
     "regelbundnaBlodsockerkontroller": true
   },
-  "synfunktion":{
-    "misstankeOgonsjukdom":false,
-    "skickasSeparat":true
-  },
   "bedomning":{
     "uppfyllerBehorighetskrav":[
       {

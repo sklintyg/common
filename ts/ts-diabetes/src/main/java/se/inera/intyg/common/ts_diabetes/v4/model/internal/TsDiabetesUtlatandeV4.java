@@ -29,7 +29,6 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYGETAVSER_SVAR_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_DELSVAR_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SIGNATURE;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SYNFUNKTION_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.TEXTVERSION_JSON_ID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -80,10 +79,6 @@ public abstract class TsDiabetesUtlatandeV4 implements Utlatande {
     @Nullable
     public abstract Hypoglykemi getHypoglykemi();
 
-    // Kategori 5 - Synfunktion
-    @Nullable
-    public abstract Synfunktion getSynfunktion();
-
     // Kategori 6 - Övrigt
     @Nullable
     public abstract String getOvrigt();
@@ -132,9 +127,6 @@ public abstract class TsDiabetesUtlatandeV4 implements Utlatande {
 
         @JsonProperty(HYPOGLYKEMI_JSON_ID)
         public abstract Builder setHypoglykemi(Hypoglykemi hypoglykemi);
-
-        @JsonProperty(SYNFUNKTION_JSON_ID)
-        public abstract Builder setSynfunktion(Synfunktion synfunktion);
 
         @JsonProperty(OVRIGT_DELSVAR_JSON_ID)
         public abstract Builder setOvrigt(String ovrigt);

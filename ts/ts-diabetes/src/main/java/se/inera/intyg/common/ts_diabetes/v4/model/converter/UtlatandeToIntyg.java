@@ -79,16 +79,6 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYGETAVSER_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_SVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SYNFUNKTION_MISSTANKE_OGONSJUKDOM_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SYNFUNKTION_MISSTANKE_OGONSJUKDOM_SVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_BINOKULART_MED_KORREKTION_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_BINOKULART_UTAN_KORREKTION_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_MED_KORREKTION_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_UTAN_KORREKTION_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_SKICKAS_SEPARAT_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_SVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_MED_KORREKTION_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_UTAN_KORREKTION_DELSVAR_ID;
 
 import com.google.common.base.Strings;
 import java.time.Year;
@@ -103,8 +93,6 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Bedomning;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.BedomningKorkortstyp;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Hypoglykemi;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvserKategori;
-import se.inera.intyg.common.ts_diabetes.v4.model.internal.Synfunktion;
-import se.inera.intyg.common.ts_diabetes.v4.model.internal.Synskarpevarden;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
 import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvTypAvDiabetes;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
@@ -170,15 +158,9 @@ public final class UtlatandeToIntyg {
             buildHypoglykemi(source.getHypoglykemi(), svars);
         }
 
-        // Kat 5 - Synfunktion
-        if (source.getSynfunktion() != null) {
-            buildSynfunktion(source.getSynfunktion(), svars);
-        }
-
         // Kat 6 - Övrigt
         if (source.getOvrigt() != null) {
             addIfNotBlank(svars, OVRIGT_SVAR_ID, OVRIGT_DELSVAR_ID, buildOvrigaUpplysningar(source));
-
         }
 
         // Kat 7 - Bedömning
@@ -339,70 +321,6 @@ public final class UtlatandeToIntyg {
 
         InternalConverterUtil.addIfNotNull(answers, HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_SVAR_ID,
             HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_DELSVAR_ID, hypoglykemi.getRegelbundnaBlodsockerkontroller());
-    }
-
-
-    private static void buildSynfunktion(Synfunktion synfunktion, List<Svar> svars) {
-        InternalConverterUtil.addIfNotNull(svars, SYNFUNKTION_MISSTANKE_OGONSJUKDOM_SVAR_ID, SYNFUNKTION_MISSTANKE_OGONSJUKDOM_DELSVAR_ID,
-            synfunktion.getMisstankeOgonsjukdom());
-
-        InternalConverterUtil.SvarBuilder synskarpa = aSvar(SYNFUNKTION_SYNSKARPA_SVAR_ID);
-        boolean hasSynskarpaValues = false;
-
-        if (synfunktion.getSkickasSeparat() != null) {
-            synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_SKICKAS_SEPARAT_DELSVAR_ID,
-                InternalConverterUtil.getBooleanContent(synfunktion.getSkickasSeparat()));
-        }
-
-        final Synskarpevarden hoger = synfunktion.getHoger();
-        if (hoger != null) {
-            if (hoger.getUtanKorrektion() != null) {
-                synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_HOGER_UTAN_KORREKTION_DELSVAR_ID, hoger.getUtanKorrektion().toString());
-                hasSynskarpaValues = true;
-            }
-            if (hoger.getMedKorrektion() != null) {
-                synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_HOGER_MED_KORREKTION_DELSVAR_ID, hoger.getMedKorrektion().toString());
-                hasSynskarpaValues = true;
-            }
-        }
-
-        final Synskarpevarden vanster = synfunktion.getVanster();
-        if (vanster != null) {
-            if (vanster.getUtanKorrektion() != null) {
-                synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_VANSTER_UTAN_KORREKTION_DELSVAR_ID, vanster.getUtanKorrektion().toString());
-                hasSynskarpaValues = true;
-            }
-            if (vanster.getMedKorrektion() != null) {
-                synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_VANSTER_MED_KORREKTION_DELSVAR_ID, vanster.getMedKorrektion().toString());
-                hasSynskarpaValues = true;
-            }
-        }
-
-        final Synskarpevarden binokulart = synfunktion.getBinokulart();
-        if (binokulart != null) {
-            if (binokulart.getUtanKorrektion() != null) {
-                synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_BINOKULART_UTAN_KORREKTION_DELSVAR_ID,
-                    binokulart.getUtanKorrektion().toString());
-                hasSynskarpaValues = true;
-            }
-            if (binokulart.getMedKorrektion() != null) {
-                synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_BINOKULART_MED_KORREKTION_DELSVAR_ID,
-                    binokulart.getMedKorrektion().toString());
-                hasSynskarpaValues = true;
-            }
-        }
-
-        // Special case to deal with empty synskärpa values and where misstankeÖgonSjukdom is true
-        // In this case synskarpa should be left out.
-        if (Boolean.TRUE.equals(synfunktion.getMisstankeOgonsjukdom())
-            && !synfunktion.getSkickasSeparat()
-            && !hasSynskarpaValues) {
-            synskarpa.delSvars.clear();
-        }
-
-        if (!synskarpa.delSvars.isEmpty()) {
-            svars.add(synskarpa.build());
-        }
     }
 
     private static String buildOvrigaUpplysningar(TsDiabetesUtlatandeV4 source) {

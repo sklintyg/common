@@ -64,10 +64,6 @@
     "aterkommandeSenasteAret": false,
     "aterkommandeVaketSenasteTolv": true
   },
-  "synfunktion":{
-    "misstankeOgonsjukdom":false,
-    "skickasSeparat":true
-  },
   "bedomning":{
     "uppfyllerBehorighetskrav":[
       {

@@ -66,10 +66,6 @@
     "aterkommandeVaketSenasteTre": true,
     "aterkommandeVaketSenasteTreTidpunkt": "1901-01-01"
   },
-  "synfunktion":{
-    "misstankeOgonsjukdom":false,
-    "skickasSeparat":true
-  },
   "bedomning":{
     "uppfyllerBehorighetskrav":[
       {

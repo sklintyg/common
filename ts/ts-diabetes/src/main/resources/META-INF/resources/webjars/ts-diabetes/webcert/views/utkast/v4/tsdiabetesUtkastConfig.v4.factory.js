@@ -54,63 +54,6 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
                 return ObjectHelper.deepGet(model, 'hypoglykemi.aterkommandeVaketSenasteTolv');
             }
 
-            /**
-             * @return {boolean}
-             */
-            function R11(scope) {
-                return ObjectHelper.deepGet(scope, 'model.synfunktion.misstankeOgonsjukdom') === true;
-            }
-
-            /**
-             * @return {boolean}
-             */
-            function R12(model) {
-                //Om nej på båda och någon saknas i utan korrektion
-                return (ObjectHelper.deepGet(model, 'synfunktion.skickasSeparat') !== true &&
-                    ObjectHelper.deepGet(model, 'synfunktion.misstankeOgonsjukdom') === false) &&
-                    ((_synvarde(model, 'synfunktion.hoger.utanKorrektion', -1) === -1) ||
-                    (_synvarde(model, 'synfunktion.vanster.utanKorrektion', -1) === -1) ||
-                    (_synvarde(model, 'synfunktion.binokulart.utanKorrektion', -1) === -1));
-            }
-
-            function _synvarde(model, synProperty, elseValue) {
-                return ObjectHelper.getFloatOr(ObjectHelper.deepGet(model, synProperty), elseValue);
-            }
-
-            /**
-             * @return {boolean}
-             */
-            function R13(model) {
-                var binokulartUtanKorr = _synvarde(model, 'synfunktion.binokulart.utanKorrektion', 99);
-                return (binokulartUtanKorr < 0.5) && _hasAnyOfIntygAvserBehorighet(model, ['IAV11', 'IAV12', 'IAV13', 'IAV14', 'IAV15', 'IAV16', 'IAV17']);
-            }
-
-            /**
-             * @return {boolean}
-             */
-            function R14(model) {
-                var hogerUtanKorr = _synvarde(model, 'synfunktion.hoger.utanKorrektion', 99);
-                var vansterUtanKorr =_synvarde(model, 'synfunktion.vanster.utanKorrektion', 99);
-                return (hogerUtanKorr < 0.8 && vansterUtanKorr < 0.8) && _hasAnyOfIntygAvserBehorighet(model, ['IAV1', 'IAV2', 'IAV3', 'IAV4', 'IAV5', 'IAV6', 'IAV7', 'IAV8', 'IAV9']);
-            }
-
-            /**
-             * @return {boolean}
-             */
-            function R15(model) {
-                var hogerUtanKorr = _synvarde(model, 'synfunktion.hoger.utanKorrektion', 99);
-                var vansterUtanKorr = _synvarde(model, 'synfunktion.vanster.utanKorrektion', 99);
-                return (hogerUtanKorr < 0.1 || vansterUtanKorr < 0.1) && _hasAnyOfIntygAvserBehorighet(model, ['IAV1', 'IAV2', 'IAV3', 'IAV4', 'IAV5', 'IAV6', 'IAV7', 'IAV8', 'IAV9']);
-            }
-
-
-            function medKorrigeringRequired(model) {
-                var answeredAll = (_synvarde(model, 'synfunktion.hoger.medKorrektion', -1) > -1) &&
-                                    (_synvarde(model, 'synfunktion.vanster.medKorrektion', -1) > -1) &&
-                                    (_synvarde(model, 'synfunktion.binokulart.medKorrektion', -1) > -1);
-                return !answeredAll && (R13(model) || R14(model) || R15(model));
-            }
-
             function R27(model) {
                 return !ObjectHelper.deepGet(model, 'hypoglykemi.kontrollSjukdomstillstand');
             }
@@ -137,13 +80,6 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
                 return ObjectHelper.deepGet(model, 'hypoglykemi.allvarligSenasteTolvManaderna');
             }
 
-            function disableSkickasSeparat(scope){
-                var synfunktion = scope.model.synfunktion;
-                return ObjectHelper.isDefined(synfunktion.hoger.utanKorrektion) || ObjectHelper.isDefined(synfunktion.hoger.medKorrektion) ||
-                    ObjectHelper.isDefined(synfunktion.vanster.utanKorrektion) || ObjectHelper.isDefined(synfunktion.vanster.medKorrektion) ||
-                    ObjectHelper.isDefined(synfunktion.binokulart.utanKorrektion) || ObjectHelper.isDefined(synfunktion.binokulart.medKorrektion);
-            }
-
             function requiredKorkortProperties(field, antalKorkort, extraproperty) {
                 var korkortsarray = [];
                 for (var i = 0; i < antalKorkort; i++) {
@@ -159,7 +95,6 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
                     2: 'identitetStyrktGenom',
                     3: 'allmant',
                     4: 'hypoglykemi',
-                    5: 'synfunktion',
                     6: 'ovrigt',
                     7: 'bedomning'
                 };
@@ -326,6 +261,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
                                 }]]
                             }])
                     ]),
+
                     kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {
                         hideExpression: function(scope) {return !R28(scope.model) && !R30(scope.model);}
                     }, [
@@ -526,113 +462,6 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
                                 }]
                         )
                     ]),
-                    kategori(categoryIds[5], 'KAT_5.RBK', 'KAT_5.HLP', {}, [
-                        fraga(103, 'FRG_103.RBK', 'FRG_103.HLP', {
-                            required: true, requiredProp: 'synfunktion.misstankeOgonsjukdom'
-                        }, [
-                            {
-                                type: 'ue-radio',
-                                yesLabel: 'SVAR_JA.RBK',
-                                noLabel: 'SVAR_NEJ.RBK',
-                                modelProp: 'synfunktion.misstankeOgonsjukdom'
-                            },
-                            {
-                                type: 'ue-alert',
-                                alertType: 'warning',
-                                key: 'TSDIA-001.ALERT',
-                                hideExpression: function(scope) {return !R11(scope);}
-                            }
-                        ]),
-                        fraga(8, 'FRG_8.RBK', 'FRG_8.HLP', {
-                                required: true,
-                                requiredProp: function(model) {
-                                    return R12(model);
-                                }
-                        }, [
-                            {
-                                type: 'ue-alert',
-                                alertType: 'info',
-                                key: 'TSDIA-002.ALERT'
-                            },
-                            {
-                                type: 'ue-checkbox',
-                                label: {
-                                    key: 'DFR_8.1.RBK'
-                                },
-                                modelProp: 'synfunktion.skickasSeparat',
-                                disabled: function(scope){return disableSkickasSeparat(scope);},
-                                paddingBottom: true
-                            },
-                            {
-                                type: 'ue-grid',
-                                independentRowValidation: true,
-                                components: [
-                                    // Row 1
-                                    [{}, {
-                                        type: 'ue-form-label',
-                                        key: 'ts-diabetes.label.syn.utankorrektion',
-                                        required: true,
-                                        requiredProp: function(model) {
-                                            return R12(model);
-                                        }
-                                    }, {
-                                        type: 'ue-form-label',
-                                        key: 'ts-diabetes.label.syn.medkorrektion',
-                                        required: true,
-                                        requiredProp: function(model) {
-                                            return medKorrigeringRequired(model);
-                                        }
-                                    }],
-                                    // Row 2
-                                    [{
-                                        type: 'ue-text',
-                                        label: {
-                                            key: 'ts-diabetes.label.syn.hogeroga'
-                                        }
-                                    }, {
-                                        type: 'ue-synskarpa',
-                                        disabled: 'model.synfunktion.skickasSeparat',
-                                        modelProp: 'synfunktion.hoger.utanKorrektion'
-                                    }, {
-                                        type: 'ue-synskarpa',
-                                        disabled: 'model.synfunktion.skickasSeparat',
-                                        modelProp: 'synfunktion.hoger.medKorrektion'
-                                    }],
-                                    // Row 3
-                                    [{
-                                        type: 'ue-text',
-                                        label: {
-                                            key: 'ts-diabetes.label.syn.vansteroga'
-                                        }
-                                    }, {
-                                        type: 'ue-synskarpa',
-                                        disabled: 'model.synfunktion.skickasSeparat',
-                                        modelProp: 'synfunktion.vanster.utanKorrektion'
-                                    }, {
-                                        type: 'ue-synskarpa',
-                                        disabled: 'model.synfunktion.skickasSeparat',
-                                        modelProp: 'synfunktion.vanster.medKorrektion'
-                                    }],
-                                    // Row 4
-                                    [{
-                                        type: 'ue-text',
-                                        label: {
-                                            key: 'ts-diabetes.label.syn.binokulart'
-                                        }
-                                    }, {
-                                        type: 'ue-synskarpa',
-                                        disabled: 'model.synfunktion.skickasSeparat',
-                                        modelProp: 'synfunktion.binokulart.utanKorrektion'
-                                    }, {
-                                        type: 'ue-synskarpa',
-                                        disabled: 'model.synfunktion.skickasSeparat',
-                                        modelProp: 'synfunktion.binokulart.medKorrektion'
-                                    }]
-                                ]
-
-                            }
-                        ])
-                    ]),
 
                     kategori(categoryIds[6], 'KAT_6.RBK', 'KAT_6.HLP', {}, [
                         fraga(32, 'FRG_32.RBK', 'FRG_32.HLP', {}, [{
@@ -642,7 +471,6 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
                             rows: 3
                         }])
                     ]),
-
 
                     kategori(categoryIds[7], 'KAT_7.RBK', 'KAT_7.HLP', {}, [
                         fraga(33, 'FRG_33.RBK', 'FRG_33.HLP', {

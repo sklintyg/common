@@ -82,23 +82,6 @@ angular.module('ts-diabetes').factory('ts-diabetes.Domain.IntygModel.v4',
                             regelbundnaBlodsockerkontroller: undefined
                         },
 
-                        // Kategori 5
-                        synfunktion: {
-                            misstankeOgonsjukdom: undefined,
-                            skickasSeparat: false,
-                            hoger: {
-                                utanKorrektion: undefined,
-                                medKorrektion: undefined
-                            },
-                            vanster: {
-                                utanKorrektion: undefined,
-                                medKorrektion: undefined
-                                },
-                            binokulart: {
-                                utanKorrektion: undefined,
-                                medKorrektion: undefined
-                                }
-                        },
                         // Kategori 6
                         ovrigt: undefined,
 

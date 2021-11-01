@@ -58,10 +58,6 @@
     "allvarligSenasteTolvManaderna": true,
     "regelbundnaBlodsockerkontroller": true
   },
-  "synfunktion":{
-    "misstankeOgonsjukdom":false,
-    "skickasSeparat":true
-  },
   "bedomning":{
     "uppfyllerBehorighetskrav":[
       {
