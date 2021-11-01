@@ -151,7 +151,9 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNIN
 import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_SVAR_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.YES_ID;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleAndExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.not;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import java.util.ArrayList;
@@ -199,6 +201,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationEnable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHighlight;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
@@ -680,6 +683,10 @@ public final class InternalToCertificate {
                     CertificateDataValidationMandatory.builder()
                         .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
                         .expression(singleExpression(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100))
+                        .build(),
+                    CertificateDataValidationHighlight.builder()
+                        .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
+                        .expression(multipleAndExpression(not(YES_ID), not(NO_ID)))
                         .build(),
                 }
             )
