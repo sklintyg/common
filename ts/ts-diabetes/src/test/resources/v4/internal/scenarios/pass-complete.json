@@ -115,14 +115,12 @@
     "medicineringMedforRiskForHypoglykemi":true,
     "beskrivningAnnanTypAvDiabetes":"Annan diabetes",
     "behandling":{
-      "endastKost":true,
-      "tabletter":true,
-      "riskHypoglykemi":true,
       "insulin":true,
-      "insulinSedanAr":"2010",
-      "annanBehandling":true,
-      "annanBehandlingBeskrivning":"Annan behandling"
-    }
+      "tabletter":true,
+      "annan":true,
+      "annanAngeVilken":"Annan behandling"
+    },
+    "medicineringMedforRiskForHypoglykemiTidpunkt": "2021-10-30"
   },
   "hypoglykemi": {
     "kontrollSjukdomstillstand": false,

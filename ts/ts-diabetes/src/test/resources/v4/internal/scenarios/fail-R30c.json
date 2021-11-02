@@ -1,7 +1,7 @@
 {
   "typ": "ts-diabetes",
   "id": "1234567",
-  "textVersion": "3.0",
+  "textVersion": "4.0",
   "grundData": {
     "patient": {
       "samordningsNummer": false,
@@ -51,11 +51,25 @@
     "diabetesDiagnosAr":"1990",
     "typAvDiabetes":"TYP1",
     "medicineringForDiabetes":false,
-    "behandling":{
-      "tabletter":true
-    }
+    "medicineringMedforRiskForHypoglykemi": true,
+    "medicineringMedforRiskForHypoglykemiTidpunkt": "2021-10-30"
   },
-  "hypoglykemi":{
+  "hypoglykemi": {
+    "kontrollSjukdomstillstand": false,
+    "kontrollSjukdomstillstandVarfor": "Varför inte kontroll sjukdomstillstand",
+    "forstarRiskerMedHypoglykemi": true,
+    "formagaKannaVarningstecken": true,
+    "vidtaAdekvataAtgarder": true,
+    "aterkommandeSenasteAret": true,
+    "aterkommandeSenasteAretTidpunkt": "2021-10-30",
+    "aterkommandeSenasteAretKontrolleras": true,
+    "aterkommandeSenasteAretTrafik": true,
+    "aterkommandeVaketSenasteTolv": true,
+    "aterkommandeVaketSenasteTre": true,
+    "aterkommandeVaketSenasteTreTidpunkt": "2021-10-30",
+    "allvarligSenasteTolvManaderna": true,
+    "allvarligSenasteTolvManadernaTidpunkt": "2021-10-30",
+    "regelbundnaBlodsockerkontroller": true
   },
   "bedomning":{
     "uppfyllerBehorighetskrav":[

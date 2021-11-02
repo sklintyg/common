@@ -265,19 +265,19 @@
     <svar id="208">
       <delsvar id="208.1">true</delsvar>
     </svar>
-    <svar id="109">
-      <delsvar id="109.1">true</delsvar>
-      <delsvar id="109.2">true</delsvar>
-      <delsvar id="109.3">true</delsvar>
-      <delsvar id="109.4">
+    <svar id="209">
+      <delsvar id="209.1">true</delsvar>
+      <delsvar id="209.2">true</delsvar>
+      <delsvar id="209.3">true</delsvar>
+      <delsvar id="209.4">Annan behandling</delsvar>
+    </svar>
+    <svar id="210">
+      <delsvar id="210.1">
         <ns3:partialDate>
-          <ns3:format>YYYY</ns3:format>
-          <ns3:value>2010</ns3:value>
+          <ns3:format>YYYY-MM-DD</ns3:format>
+          <ns3:value>2021-10-30</ns3:value>
         </ns3:partialDate>
       </delsvar>
-      <delsvar id="109.5">true</delsvar>
-      <delsvar id="109.6">Annan behandling</delsvar>
-      <delsvar id="109.7">true</delsvar>
     </svar>
     <svar id="200">
       <delsvar id="200.1">false</delsvar>

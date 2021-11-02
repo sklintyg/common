@@ -28,12 +28,9 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getYearContent;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_BEHANDLING_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ENDAST_KOST_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_INSULIN_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_RISK_HYPOGLYKEMI_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_TABLETTER_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID;
@@ -43,6 +40,8 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_DELSVAR_ID;
@@ -223,31 +222,29 @@ public final class UtlatandeToIntyg {
         }
 
         if (allmant.getBehandling() != null) {
-
-            // If getInsulinSedanAr can not be converted to year getYearContent will return null and the delsvar will not be added.
-            Year insulinSedanAr = getYearContent(allmant.getBehandling().getInsulinSedanAr());
-
             // Here we rely on withDelsvar not adding a delsvar if content is null
             Svar behandlingSvar = aSvar(ALLMANT_BEHANDLING_SVAR_ID)
-                .withDelsvar(ALLMANT_BEHANDLING_ENDAST_KOST_DELSVAR_ID,
-                    InternalConverterUtil.getBooleanContent(allmant.getBehandling().getEndastKost()))
-                .withDelsvar(ALLMANT_BEHANDLING_TABLETTER_DELSVAR_ID,
-                    InternalConverterUtil.getBooleanContent(allmant.getBehandling().getTabletter()))
                 .withDelsvar(ALLMANT_BEHANDLING_INSULIN_DELSVAR_ID,
                     InternalConverterUtil.getBooleanContent(allmant.getBehandling().getInsulin()))
-                .withDelsvar(ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_DELSVAR_ID,
-                    insulinSedanAr != null ? aPartialDate(PartialDateTypeFormatEnum.YYYY, insulinSedanAr) : null)
-                .withDelsvar(ALLMANT_BEHANDLING_ANNAN_BEHANDLING_DELSVAR_ID,
-                    InternalConverterUtil.getBooleanContent(allmant.getBehandling().getAnnanBehandling()))
-                .withDelsvar(ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_DELSVAR_ID,
-                    allmant.getBehandling().getAnnanBehandlingBeskrivning())
-                .withDelsvar(ALLMANT_BEHANDLING_RISK_HYPOGLYKEMI_DELSVAR_ID,
-                    InternalConverterUtil.getBooleanContent(allmant.getBehandling().getRiskHypoglykemi()))
+                .withDelsvar(ALLMANT_BEHANDLING_TABLETTER_DELSVAR_ID,
+                    InternalConverterUtil.getBooleanContent(allmant.getBehandling().getTabletter()))
+                .withDelsvar(ALLMANT_BEHANDLING_ANNAN_DELSVAR_ID,
+                    InternalConverterUtil.getBooleanContent(allmant.getBehandling().getAnnan()))
+                .withDelsvar(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID,
+                    allmant.getBehandling().getAnnanAngeVilken())
                 .build();
             boolean validElementInIntygXmlSchema = behandlingSvar.getDelsvar().size() != 0;
             if (validElementInIntygXmlSchema) {
                 svars.add(behandlingSvar);
             }
+        }
+
+        if (allmant.getMedicineringMedforRiskForHypoglykemiTidpunkt() != null) {
+            svars.add(aSvar(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID)
+                .withDelsvar(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_DELSVAR_ID,
+                    aPartialDate(PartialDateTypeFormatEnum.YYYY_MM_DD,
+                        allmant.getMedicineringMedforRiskForHypoglykemiTidpunkt().asLocalDate()))
+                .build());
         }
     }
 

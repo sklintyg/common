@@ -53,8 +53,9 @@
     "medicineringForDiabetes":true,
     "medicineringMedforRiskForHypoglykemi": true,
     "behandling":{
-      "endastKost":true
-    }
+      "insulin":true
+    },
+    "medicineringMedforRiskForHypoglykemiTidpunkt": "2021-10-30"
   },
   "bedomning":{
     "uppfyllerBehorighetskrav":[
