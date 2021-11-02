@@ -84,15 +84,18 @@ angular.module('ts-diabetes').factory('ts-diabetes.Domain.IntygModel.v4',
                         },
 
                         // Kategori 6
-                        ovrigt: undefined,
+                        ovrigt: {
+                            komplikationerAvSjukdomen: undefined,
+                            komplikationerAvSjukdomenAnges: undefined,
+                            borUndersokasAvSpecialist: undefined
+                        },
 
                         // Kategori 7
                         bedomning: {
                             uppfyllerBehorighetskrav: new ModelAttr('uppfyllerBehorighetskrav', {
                                 fromTransform: uppfyllerBehorighetskravFromTransform
                             }),
-                            lampligtInnehav: undefined,
-                            borUndersokasBeskrivning: undefined
+                            ovrigaKommentarer: undefined
                         }
                     });
                 },

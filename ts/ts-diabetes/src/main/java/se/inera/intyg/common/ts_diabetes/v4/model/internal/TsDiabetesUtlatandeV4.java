@@ -27,7 +27,7 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ID_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYGETAVSER_SVAR_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SIGNATURE;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.TEXTVERSION_JSON_ID;
 
@@ -81,7 +81,7 @@ public abstract class TsDiabetesUtlatandeV4 implements Utlatande {
 
     // Kategori 6 - Övrigt
     @Nullable
-    public abstract String getOvrigt();
+    public abstract Ovrigt getOvrigt();
 
     // Kategori 7 - Bedomning
     @Nullable
@@ -128,8 +128,8 @@ public abstract class TsDiabetesUtlatandeV4 implements Utlatande {
         @JsonProperty(HYPOGLYKEMI_JSON_ID)
         public abstract Builder setHypoglykemi(Hypoglykemi hypoglykemi);
 
-        @JsonProperty(OVRIGT_DELSVAR_JSON_ID)
-        public abstract Builder setOvrigt(String ovrigt);
+        @JsonProperty(OVRIGT_JSON_ID)
+        public abstract Builder setOvrigt(Ovrigt ovrigt);
 
         @JsonProperty(BEDOMNING_JSON_ID)
         public abstract Builder setBedomning(Bedomning bedomning);

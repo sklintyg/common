@@ -68,6 +68,9 @@
     "aterkommandeSenasteAretTrafik": true,
     "aterkommandeVaketSenasteTolv": false
   },
+  "ovrigt": {
+    "komplikationerAvSjukdomen": false
+  },
   "bedomning":{
     "uppfyllerBehorighetskrav":[
       {

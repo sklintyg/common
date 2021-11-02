@@ -39,6 +39,7 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Bedomning;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.BedomningKorkortstyp;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvserKategori;
+import se.inera.intyg.common.ts_diabetes.v4.model.internal.Ovrigt;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
 
 @Component("ts-diabetes.v4.WebcertModelFactoryImpl")
@@ -70,6 +71,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetesUt
         // initialize otherwise empty utlatande
         template.setIntygAvser(IntygAvser.create(EnumSet.noneOf(IntygAvserKategori.class)));
         template.setAllmant(Allmant.builder().build());
+        template.setOvrigt(Ovrigt.builder().build());
         template.setBedomning(Bedomning.builder().setUppfyllerBehorighetskrav(EnumSet.noneOf(BedomningKorkortstyp.class)).build());
 
         // Default to latest minor version available for major version of intygtype

@@ -55,6 +55,9 @@
   },
   "hypoglykemi":{
   },
+  "ovrigt": {
+    "komplikationerAvSjukdomen": false
+  },
   "bedomning":{
     "uppfyllerBehorighetskrav":[
       {

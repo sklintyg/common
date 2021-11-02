@@ -33,9 +33,8 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_BOR_UNDERSOKAS_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_LAMPLIGHET_ATT_INNEHA_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_JSON_ID;
@@ -55,7 +54,10 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYGETAVSER_SVAR_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
@@ -84,10 +86,10 @@ import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
 @Component("ts-diabetes.v4.InternalDraftValidator")
 public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiabetesUtlatandeV4> {
 
-    private static final int MAX_OVRIGT_CHARS = 189;
     private static final int MAX_ANNAN_BEHANDLING_CHARS = 53;
     private static final int MAX_FIFTY_THREE_CHARS = 53;
-    private static final int MAX_UNDERSOKAS_SPECIALIST_CHARS = 71;
+    private static final int MAX_SEVENTY_ONE_CHARS = 71;
+    private static final int MAX_HUNDRED_EIGHTY_NINE_CHARS = 189;
 
     protected static final String CATEGORY_INTYGET_AVSER_BEHORIGHET = "intygAvser";
     protected static final String CATEGORY_ALLMANT = "allmant";
@@ -124,16 +126,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         KorkortsbehorighetKod.DE,
         KorkortsbehorighetKod.TAXI
     );
-
-
-    // R1
-    private static boolean eligibleForRule1(TsDiabetesUtlatandeV4 utlatande) {
-        if (utlatande.getIntygAvser() == null || utlatande.getIntygAvser().getKategorier() == null) {
-            return false;
-        }
-        final ImmutableSet<IntygAvserKategori> intygAvser = ImmutableSet.copyOf(utlatande.getIntygAvser().getKategorier());
-        return !Collections.disjoint(intygAvser, RULE_1_14_15_LICENSE_SET);
-    }
 
     // R3
     private static boolean eligibleForRule3(TsDiabetesUtlatandeV4 utlatande) {
@@ -205,6 +197,11 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         return !Collections.disjoint(intygAvser, RULE_1_14_15_LICENSE_SET);
     }
 
+    private static boolean eligibleForRule29(TsDiabetesUtlatandeV4 utlatande) {
+        final var ovrigt = utlatande.getOvrigt();
+        return ovrigt != null && ovrigt.getKomplikationerAvSjukdomen() != null && isTrue(ovrigt.getKomplikationerAvSjukdomen());
+    }
+
     private static boolean eligibleForRule30(TsDiabetesUtlatandeV4 utlatande) {
         final var allmant = utlatande.getAllmant();
         return allmant != null && allmant.getMedicineringMedforRiskForHypoglykemi() != null
@@ -270,13 +267,17 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         }
 
         // Kategori 6 – Övrigt
-        validateOvrigt(utlatande, validationMessages);
+        if (utlatande.getOvrigt() != null) {
+            validateKomplikationerAvSjukdomen(utlatande, validationMessages);
+            validateBorBedomasAvSpecialist(utlatande, validationMessages);
+        } else {
+            addValidationError(validationMessages, CATEGORY_OVRIGT, OVRIGT_JSON_ID, ValidationMessageType.EMPTY);
+        }
 
         // Kategori 7 - Bedömning
         if (utlatande.getBedomning() != null) {
             validateUppfyllerBehorighetskrav(utlatande, validationMessages);
-            validateLampligtInnehav(utlatande, validationMessages);
-            validateBorUndersokasBeskrivning(utlatande, validationMessages);
+            validateOvrigaKommentarer(utlatande, validationMessages);
         } else {
             addValidationError(validationMessages, CATEGORY_BEDOMNING, BEDOMNING_JSON_ID, ValidationMessageType.EMPTY);
         }
@@ -552,6 +553,32 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         }
     }
 
+    private void validateKomplikationerAvSjukdomen(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
+        final var ovrigt = utlatande.getOvrigt();
+        if (ovrigt.getKomplikationerAvSjukdomen() == null) {
+            addValidationError(validationMessages, CATEGORY_OVRIGT,
+                OVRIGT_JSON_ID + "." + OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID, ValidationMessageType.EMPTY);
+            return;
+        }
+
+        if (eligibleForRule29(utlatande) && Strings.nullToEmpty(ovrigt.getKomplikationerAvSjukdomenAnges()).trim().isEmpty()) {
+            addValidationError(validationMessages, CATEGORY_OVRIGT, OVRIGT_JSON_ID + "."
+                + OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID, ValidationMessageType.EMPTY);
+        } else if (eligibleForRule29(utlatande)
+            && Strings.nullToEmpty(ovrigt.getKomplikationerAvSjukdomenAnges()).trim().length() > MAX_HUNDRED_EIGHTY_NINE_CHARS) {
+            addValidationError(validationMessages, CATEGORY_OVRIGT, OVRIGT_JSON_ID + "."
+                + OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID, ValidationMessageType.OTHER);
+        }
+    }
+
+    private void validateBorBedomasAvSpecialist(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
+        final var shouldBeExaminedBySpecialist = utlatande.getOvrigt().getBorUndersokasAvSpecialist();
+        if (shouldBeExaminedBySpecialist != null && shouldBeExaminedBySpecialist.length() > MAX_SEVENTY_ONE_CHARS) {
+            addValidationError(validationMessages, CATEGORY_OVRIGT, OVRIGT_JSON_ID + "."
+                + OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_JSON_ID, ValidationMessageType.OTHER);
+        }
+    }
+
     private void validateUppfyllerBehorighetskrav(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
         // Minst 1 behörighetskrav behöver vara markerat.
         if (utlatande.getBedomning() == null || utlatande.getBedomning().getUppfyllerBehorighetskrav() == null || utlatande.getBedomning()
@@ -570,33 +597,11 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         }
     }
 
-    private void validateLampligtInnehav(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        if (eligibleForRule1(utlatande) && utlatande.getBedomning().getLampligtInnehav() == null) {
-            addValidationError(validationMessages, CATEGORY_BEDOMNING, BEDOMNING_JSON_ID + "." + BEDOMNING_LAMPLIGHET_ATT_INNEHA_JSON_ID,
-                ValidationMessageType.EMPTY);
-        }
-    }
-
-    private void validateBorUndersokasBeskrivning(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        if (ValidatorUtil.isBlankButNotNull(utlatande.getBedomning().getBorUndersokasBeskrivning())) {
-            addValidationError(validationMessages, CATEGORY_BEDOMNING, BEDOMNING_BOR_UNDERSOKAS_JSON_ID, ValidationMessageType.BLANK,
-                "ts-diabetes.validation.blanksteg.otillatet");
-            return;
-        }
-        if (utlatande.getBedomning().getBorUndersokasBeskrivning() != null
-            && utlatande.getBedomning().getBorUndersokasBeskrivning().length() > MAX_UNDERSOKAS_SPECIALIST_CHARS) {
-            addValidationError(validationMessages, CATEGORY_BEDOMNING, BEDOMNING_BOR_UNDERSOKAS_JSON_ID, ValidationMessageType.OTHER);
-        }
-    }
-
-    private void validateOvrigt(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        if (ValidatorUtil.isBlankButNotNull(utlatande.getOvrigt())) {
-            addValidationError(validationMessages, CATEGORY_OVRIGT, OVRIGT_DELSVAR_JSON_ID, ValidationMessageType.BLANK,
-                "ts-diabetes.validation.blanksteg.otillatet");
-            return;
-        }
-        if (utlatande.getOvrigt() != null && utlatande.getOvrigt().length() > MAX_OVRIGT_CHARS) {
-            addValidationError(validationMessages, CATEGORY_OVRIGT, OVRIGT_DELSVAR_JSON_ID, ValidationMessageType.OTHER);
+    private void validateOvrigaKommentarer(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
+        final var commentsAndInfo = utlatande.getBedomning().getOvrigaKommentarer();
+        if (commentsAndInfo != null && commentsAndInfo.length() > MAX_HUNDRED_EIGHTY_NINE_CHARS) {
+            addValidationError(validationMessages, CATEGORY_BEDOMNING, BEDOMNING_JSON_ID + "."
+                + BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID, ValidationMessageType.OTHER);
         }
     }
 

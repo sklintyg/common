@@ -350,13 +350,36 @@ angular.module('ts-diabetes').factory('ts-diabetes.viewConfigFactory.v4', [
             components: [
                 {
                     type: 'uv-fraga',
-                    labelKey: 'FRG_32.RBK',
+                    labelKey: 'FRG_206.RBK',
                     components: [
                         {
-                            type: 'uv-simple-value',
-                            modelProp: 'ovrigt'
+                            type: 'uv-del-fraga',
+                            components: [{
+                                type: 'uv-boolean-value',
+                                modelProp: 'ovrigt.komplikationerAvSjukdomen'
+                            }]
+                        },
+                        {
+                            type: 'uv-del-fraga',
+                            labelKey: 'DFR_206.2.RBK',
+                            components: [{
+                                type: 'uv-simple-value',
+                                modelProp: 'ovrigt.komplikationerAvSjukdomenAnges'
+                            }]
                         }
                     ]
+                },
+                {
+                    type: 'uv-fraga',
+                    labelKey: 'FRG_34.RBK',
+                    components: [
+                        {
+                            type: 'uv-del-fraga',
+                            components: [{
+                                type: 'uv-simple-value',
+                                modelProp: 'ovrigt.borUndersokasAvSpecialist'
+                            }]
+                        }]
                 }]
         },
         {
@@ -384,25 +407,16 @@ angular.module('ts-diabetes').factory('ts-diabetes.viewConfigFactory.v4', [
                 },
                 {
                     type: 'uv-fraga',
-                    labelKey: 'FRG_45.RBK',
+                    labelKey: 'FRG_32.RBK',
                     components: [
                         {
-                            type: 'uv-boolean-value',
-                            modelProp: 'bedomning.lampligtInnehav'
-                        }
-                    ]
-                },
-                {
-                    type: 'uv-fraga',
-                    labelKey: 'FRG_34.RBK',
-                    components: [
-                        {
-                            type: 'uv-simple-value',
-                            modelProp: 'bedomning.borUndersokasBeskrivning'
-                        }
-                    ]
-                }
-            ]
+                            type: 'uv-del-fraga',
+                            components: [{
+                                type: 'uv-simple-value',
+                                modelProp: 'bedomning.ovrigaKommentarer'
+                            }]
+                        }]
+                }]
         },
         {
             type: 'uv-skapad-av',

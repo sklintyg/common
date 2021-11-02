@@ -55,13 +55,15 @@
       "endastKost":true
     }
   },
+  "ovrigt": {
+    "komplikationerAvSjukdomen": false
+  },
   "bedomning":{
     "uppfyllerBehorighetskrav":[
       {
         "type":"VAR11",
         "selected":true
       }
-    ],
-    "lampligtInnehav": true
+    ]
   }
 }

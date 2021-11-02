@@ -141,7 +141,11 @@
     "allvarligSenasteTolvManadernaTidpunkt": "2021-10-30",
     "regelbundnaBlodsockerkontroller": true
   },
-  "ovrigt":"Övrigt",
+  "ovrigt": {
+    "komplikationerAvSjukdomen": true,
+    "komplikationerAvSjukdomenAnges": "Komplikationer anges",
+    "borUndersokasAvSpecialist": "Bör undersökas av specialistläkare"
+  },
   "bedomning":{
     "uppfyllerBehorighetskrav":[
       {
@@ -213,7 +217,6 @@
         "selected":false
       }
     ],
-    "lampligtInnehav":true,
-    "borUndersokasBeskrivning":"specialistkompetens"
+    "ovrigaKommentarer": "Övriga kommentarer"
   }
 }

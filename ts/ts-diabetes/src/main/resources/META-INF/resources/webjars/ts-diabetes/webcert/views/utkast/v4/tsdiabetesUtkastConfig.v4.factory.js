@@ -39,13 +39,6 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
 
             }
 
-            /**
-             * @return {boolean}
-             */
-            function R1(model) {
-                return _hasAnyOfIntygAvserBehorighet(model, ['IAV1', 'IAV2', 'IAV3', 'IAV4', 'IAV5', 'IAV6', 'IAV7', 'IAV8', 'IAV9']);
-            }
-
             function R8(model) {
                 return ObjectHelper.deepGet(model, 'hypoglykemi.aterkommandeSenasteAret');
             }
@@ -62,6 +55,10 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
             function R28(model) {
                 return _hasAnyOfIntygAvserBehorighet(model, ['IAV1', 'IAV2', 'IAV3', 'IAV4', 'IAV5', 'IAV6', 'IAV7', 'IAV8', 'IAV9']);
                 //return _hasAnyOfIntygAvserBehorighet(model, ['VAR1', 'VAR2', 'VAR3', 'VAR4', 'VAR5', 'VAR6', 'VAR7', 'VAR8', 'VAR9']);
+            }
+
+            function R29(model) {
+                return ObjectHelper.deepGet(model, 'ovrigt.komplikationerAvSjukdomen');
             }
 
             function R30(model) {
@@ -472,10 +469,34 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
                     ]),
 
                     kategori(categoryIds[6], 'KAT_6.RBK', 'KAT_6.HLP', {}, [
-                        fraga(32, 'FRG_32.RBK', 'FRG_32.HLP', {}, [{
-                            modelProp: 'ovrigt',
+                        fraga(206, 'FRG_206.RBK', 'FRG_206.HLP', {
+                                required: true,
+                                requiredProp: 'ovrigt.komplikationerAvSjukdomen'
+                            }, [
+                                {
+                                    type: 'ue-radio',
+                                    yesLabel: 'SVAR_JA.RBK',
+                                    noLabel: 'SVAR_NEJ.RBK',
+                                    modelProp: 'ovrigt.komplikationerAvSjukdomen'
+                                },
+                                {
+                                    type: 'ue-textarea',
+                                    modelProp: 'ovrigt.komplikationerAvSjukdomenAnges',
+                                    hideExpression: function(scope) { return !R29(scope.model); },
+                                    htmlMaxlength: 189,
+                                    rows: 3,
+                                    label: {
+                                        key: 'DFR_206.2.RBK',
+                                        helpKey: 'DFR_206.2.HLP',
+                                        required: true,
+                                        requiredProp: 'ovrigt.komplikationerAvSjukdomenAnges'
+                                    }
+                                }]
+                        ),
+                        fraga(34, 'FRG_34.RBK', 'FRG_34.HLP', {}, [{
                             type: 'ue-textarea',
-                            htmlMaxlength: 189,
+                            modelProp: 'ovrigt.borUndersokasAvSpecialist',
+                            htmlMaxlength: 71,
                             rows: 3
                         }])
                     ]),
@@ -492,19 +513,10 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
                                 watcher: ueTSFactoryTemplates.getBedomningListenerConfig('uppfyllerBehorighetskrav', 'VAR11')
                             }]
                         ),
-                        fraga(45, 'FRG_45.RBK', 'FRG_45.HLP', {
-                            required: true,
-                            requiredProp: function(model) {return R1(model) && model.bedomning.lampligtInnehav === undefined;}
-                        }, [{
-                            type: 'ue-radio',
-                            yesLabel: 'SVAR_JA.RBK',
-                            noLabel: 'SVAR_NEJ.RBK',
-                            modelProp: 'bedomning.lampligtInnehav'
-                        }]),
-                        fraga(34, 'FRG_34.RBK', 'FRG_34.HLP', { }, [{
+                        fraga(32, 'FRG_32.RBK', 'FRG_32.HLP', { }, [{
                             type: 'ue-textarea',
-                            modelProp: 'bedomning.borUndersokasBeskrivning',
-                            htmlMaxlength: 71,
+                            modelProp: 'bedomning.ovrigaKommentarer',
+                            htmlMaxlength: 189,
                             rows: 3
                         }])
                     ]),

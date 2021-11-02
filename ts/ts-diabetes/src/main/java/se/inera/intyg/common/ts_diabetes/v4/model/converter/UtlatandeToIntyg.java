@@ -26,7 +26,6 @@ import static se.inera.intyg.common.support.Constants.KV_VARDNIVA_CODE_SYSTEM;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aPartialDate;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getYearContent;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_BEHANDLING_DELSVAR_ID;
@@ -47,10 +46,8 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_SVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_BOR_UNDERSOKAS_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_BOR_UNDERSOKAS_SVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_LAMPLIGHET_ATT_INNEHA_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_LAMPLIGHET_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_OVRIGA_KOMMENTARER_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_OVRIGA_KOMMENTARER_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_DELSVAR_ID;
@@ -80,8 +77,11 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYGETAVSER_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYGETAVSER_SVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID;
 
 import com.google.common.base.Strings;
 import java.time.Year;
@@ -96,6 +96,7 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Bedomning;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.BedomningKorkortstyp;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Hypoglykemi;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvserKategori;
+import se.inera.intyg.common.ts_diabetes.v4.model.internal.Ovrigt;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
 import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvTypAvDiabetes;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
@@ -163,7 +164,7 @@ public final class UtlatandeToIntyg {
 
         // Kat 6 - Övrigt
         if (source.getOvrigt() != null) {
-            addIfNotBlank(svars, OVRIGT_SVAR_ID, OVRIGT_DELSVAR_ID, buildOvrigaUpplysningar(source));
+            buildOvrigt(source.getOvrigt(), svars);
         }
 
         // Kat 7 - Bedömning
@@ -334,13 +335,24 @@ public final class UtlatandeToIntyg {
             HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_DELSVAR_ID, hypoglykemi.getRegelbundnaBlodsockerkontroller());
     }
 
-    private static String buildOvrigaUpplysningar(TsDiabetesUtlatandeV4 source) {
-        String ovrigt = null;
+    private static void buildOvrigt(Ovrigt ovrigt, List<Svar> answers) {
+        final var hasComplications = ovrigt.getKomplikationerAvSjukdomen();
+        if (hasComplications != null) {
+            final var answerBuilder = aSvar(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID);
+            answerBuilder.withDelsvar(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_DELSVAR_ID, InternalConverterUtil
+                .getBooleanContent(hasComplications));
 
-        if (!Strings.nullToEmpty(source.getOvrigt()).trim().isEmpty()) {
-            ovrigt = source.getOvrigt();
+            if (hasComplications && ovrigt.getKomplikationerAvSjukdomenAnges() != null) {
+                answerBuilder.withDelsvar(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DELSVAR_ID, ovrigt.getKomplikationerAvSjukdomenAnges());
+            }
+
+            answers.add(answerBuilder.build());
         }
-        return ovrigt;
+
+        final var shouldBeExamined = ovrigt.getBorUndersokasAvSpecialist();
+        final var resolvedShouldBeExamined = !Strings.nullToEmpty(shouldBeExamined).trim().isEmpty() ? shouldBeExamined : null;
+        InternalConverterUtil.addIfNotBlank(answers, OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_SVAR_ID,
+            OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_DELSVAR_ID, resolvedShouldBeExamined);
     }
 
     private static void buildBedomning(Bedomning bedomning, List<Svar> svars) {
@@ -356,11 +368,10 @@ public final class UtlatandeToIntyg {
             }
         }
 
-        InternalConverterUtil.addIfNotNull(svars, BEDOMNING_LAMPLIGHET_SVAR_ID, BEDOMNING_LAMPLIGHET_ATT_INNEHA_DELSVAR_ID,
-            bedomning.getLampligtInnehav());
-
-        InternalConverterUtil.addIfNotBlank(svars, BEDOMNING_BOR_UNDERSOKAS_SVAR_ID, BEDOMNING_BOR_UNDERSOKAS_DELSVAR_ID,
-            bedomning.getBorUndersokasBeskrivning());
+        final var comments = bedomning.getOvrigaKommentarer();
+        final var resolvedComments = !Strings.nullToEmpty(comments).trim().isEmpty() ? comments : null;
+        InternalConverterUtil.addIfNotBlank(svars, BEDOMNING_OVRIGA_KOMMENTARER_SVAR_ID, BEDOMNING_OVRIGA_KOMMENTARER_DELSVAR_ID,
+            resolvedComments);
     }
 
 }

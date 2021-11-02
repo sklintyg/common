@@ -65,6 +65,9 @@
     "aterkommandeSenasteAret": false,
     "aterkommandeVaketSenasteTolv": true
   },
+  "ovrigt": {
+    "komplikationerAvSjukdomen": false
+  },
   "bedomning":{
     "uppfyllerBehorighetskrav":[
       {

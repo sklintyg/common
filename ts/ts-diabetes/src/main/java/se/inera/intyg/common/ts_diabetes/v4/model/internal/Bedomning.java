@@ -18,8 +18,7 @@
  */
 package se.inera.intyg.common.ts_diabetes.v4.model.internal;
 
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_BOR_UNDERSOKAS_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_LAMPLIGHET_ATT_INNEHA_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -41,10 +40,7 @@ public abstract class Bedomning {
     public abstract Set<BedomningKorkortstyp> getUppfyllerBehorighetskrav();
 
     @Nullable
-    public abstract Boolean getLampligtInnehav();
-
-    @Nullable
-    public abstract String getBorUndersokasBeskrivning();
+    public abstract String getOvrigaKommentarer();
 
     public static class BedomningKorkortstypSetEnumSetSerializer extends AbstractEnumSetSerializer<BedomningKorkortstyp> {
 
@@ -73,10 +69,7 @@ public abstract class Bedomning {
         @JsonDeserialize(using = Bedomning.BedomningKorkortstypSetDeserializer.class)
         public abstract Builder setUppfyllerBehorighetskrav(Set<BedomningKorkortstyp> uppfyllerBehorighetskrav);
 
-        @JsonProperty(BEDOMNING_LAMPLIGHET_ATT_INNEHA_JSON_ID)
-        public abstract Builder setLampligtInnehav(Boolean lampligtInnehav);
-
-        @JsonProperty(BEDOMNING_BOR_UNDERSOKAS_JSON_ID)
-        public abstract Builder setBorUndersokasBeskrivning(String borUndersokasBeskrivning);
+        @JsonProperty(BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID)
+        public abstract Builder setOvrigaKommentarer(String ovrigaKommentarer);
     }
 }

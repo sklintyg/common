@@ -59,6 +59,9 @@
     "allvarligSenasteTolvManaderna": true,
     "regelbundnaBlodsockerkontroller": true
   },
+  "ovrigt": {
+    "komplikationerAvSjukdomen": false
+  },
   "bedomning":{
     "uppfyllerBehorighetskrav":[
       {

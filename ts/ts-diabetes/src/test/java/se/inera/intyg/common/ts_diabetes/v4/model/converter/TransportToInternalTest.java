@@ -28,6 +28,7 @@ import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Bedomning;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Hypoglykemi;
+import se.inera.intyg.common.ts_diabetes.v4.model.internal.Ovrigt;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
@@ -44,7 +45,7 @@ public class TransportToInternalTest {
         utlatande.setAllmant(Allmant.builder().build());
         utlatande.setBedomning(Bedomning.builder().build());
         utlatande.setHypoglykemi(Hypoglykemi.builder().build());
-        utlatande.setOvrigt("Ingen kommentar");
+        utlatande.setOvrigt(Ovrigt.builder().build());
 
         return utlatande.build();
     }

@@ -120,21 +120,27 @@ public final class RespConstants {
     public static final String HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_JSON_ID = "regelbundnaBlodsockerkontroller";
 
     // Kat 6 - Övrigt
-    public static final String OVRIGT_SVAR_ID = "32";
-    public static final String OVRIGT_DELSVAR_ID = "32.1";
-    public static final String OVRIGT_DELSVAR_JSON_ID = "ovrigt";
+    public static final String OVRIGT_JSON_ID = "ovrigt";
+    public static final String OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID = "206";
+    public static final String OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_DELSVAR_ID = "206.1";
+    public static final String OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID = "komplikationerAvSjukdomen";
+    public static final String OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DELSVAR_ID = "206.2";
+    public static final String OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID = "komplikationerAvSjukdomenAnges";
+
+    public static final String OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_SVAR_ID = "34";
+    public static final String OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_DELSVAR_ID = "34.1";
+    public static final String OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_JSON_ID = "borUndersokasAvSpecialist";
 
     // Kat 7 - Bedömning
     public static final String BEDOMNING_SVAR_ID = "33";
     public static final String BEDOMNING_JSON_ID = "bedomning";
     public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID = "33.1";
     public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID = "uppfyllerBehorighetskrav";
-    public static final String BEDOMNING_LAMPLIGHET_SVAR_ID = "45";
-    public static final String BEDOMNING_LAMPLIGHET_ATT_INNEHA_DELSVAR_ID = "45.1";
-    public static final String BEDOMNING_LAMPLIGHET_ATT_INNEHA_JSON_ID = "lampligtInnehav";
-    public static final String BEDOMNING_BOR_UNDERSOKAS_SVAR_ID = "34";
-    public static final String BEDOMNING_BOR_UNDERSOKAS_DELSVAR_ID = "34.1";
-    public static final String BEDOMNING_BOR_UNDERSOKAS_JSON_ID = "borUndersokasBeskrivning";
+
+    public static final String BEDOMNING_OVRIGA_KOMMENTARER_SVAR_ID = "32";
+    public static final String BEDOMNING_OVRIGA_KOMMENTARER_DELSVAR_ID = "32.1";
+    public static final String BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID = "ovrigaKommentarer";
+
 
     public static final String GRUNDDATA_SVAR_JSON_ID = "grundData";
     public static final String TEXTVERSION_JSON_ID = "textVersion";

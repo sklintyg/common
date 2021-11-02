@@ -1,7 +1,7 @@
 {
   "typ": "ts-diabetes",
   "id": "1234567",
-  "textVersion": "3.0",
+  "textVersion": "4.0",
   "grundData": {
     "patient": {
       "samordningsNummer": false,
@@ -38,7 +38,7 @@
   "intygAvser": {
     "kategorier": [
       {
-        "type": "IAV1",
+        "type": "IAV16",
         "selected": true
       }
     ]
@@ -55,9 +55,16 @@
       "endastKost":true
     }
   },
-  "hypoglykemi":{
-    "allvarligSenasteTolvManaderna": false,
-    "regelbundnaBlodsockerkontroller": false
+  "hypoglykemi": {
+    "kontrollSjukdomstillstand": false,
+    "forstarRiskerMedHypoglykemi": true,
+    "formagaKannaVarningstecken": true,
+    "vidtaAdekvataAtgarder": true,
+    "aterkommandeSenasteAret": false,
+    "aterkommandeVaketSenasteTolv": false
+  },
+  "ovrigt": {
+    "komplikationerAvSjukdomen": true
   },
   "bedomning":{
     "uppfyllerBehorighetskrav":[

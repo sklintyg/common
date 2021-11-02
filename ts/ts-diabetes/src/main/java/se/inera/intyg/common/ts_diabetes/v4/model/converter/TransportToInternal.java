@@ -37,6 +37,7 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Hypoglykemi;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.IdKontroll;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvserKategori;
+import se.inera.intyg.common.ts_diabetes.v4.model.internal.Ovrigt;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
 import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvIdKontroll;
 import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvTypAvDiabetes;
@@ -61,12 +62,12 @@ public final class TransportToInternal {
     }
 
     private static void setSvar(TsDiabetesUtlatandeV4.Builder utlatande, Intyg source) throws ConverterException {
-
         Set<IntygAvserKategori> intygAvserSet = EnumSet.noneOf(IntygAvserKategori.class);
         Allmant.Builder allmant = Allmant.builder();
         Bedomning.Builder bedomning = Bedomning.builder();
         Set<BedomningKorkortstyp> bedomningUppfyllerBehorighetskrav = EnumSet.noneOf(BedomningKorkortstyp.class);
         Hypoglykemi.Builder hypoglykemi = Hypoglykemi.builder();
+        Ovrigt.Builder ovrigt = Ovrigt.builder();
 
         for (Svar svar : source.getSvar()) {
             switch (svar.getId()) {
@@ -119,19 +120,21 @@ public final class TransportToInternal {
                 case RespConstants.HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_SVAR_ID:
                     handleHypoglykemiRegelbundnaBlodsockerkontroller(hypoglykemi, svar);
                     break;
-                case RespConstants.OVRIGT_SVAR_ID:
-                    handleOvrigt(utlatande, svar);
+
+                case RespConstants.OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID:
+                    handleKomplikationerAvSjukdomen(ovrigt, svar);
                     break;
+                case RespConstants.OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_SVAR_ID:
+                    handleBorUndersokasAvSpecialist(ovrigt, svar);
+                    break;
+
                 case RespConstants.BEDOMNING_SVAR_ID:
                     handleBedomning(bedomningUppfyllerBehorighetskrav, svar);
                     break;
-                case RespConstants.BEDOMNING_LAMPLIGHET_SVAR_ID:
-                    handleBedomningLamplighet(bedomning, svar);
+                case RespConstants.BEDOMNING_OVRIGA_KOMMENTARER_SVAR_ID:
+                    handleOvrigaKommentarer(bedomning, svar);
                     break;
-                case RespConstants.BEDOMNING_BOR_UNDERSOKAS_SVAR_ID:
-                    handleBedomningBorUndersokas(bedomning, svar);
-                    break;
-                default:
+                 default:
                     break;
             }
         }
@@ -145,6 +148,7 @@ public final class TransportToInternal {
         }
         utlatande.setBedomning(bedomning.build());
         utlatande.setHypoglykemi(hypoglykemi.build());
+        utlatande.setOvrigt(ovrigt.build());
     }
 
     private static void handleIntygAvser(Set<IntygAvserKategori> intygAvserSet, Svar svar) throws ConverterException {
@@ -387,14 +391,31 @@ public final class TransportToInternal {
             }
         }
     }
-    private static void handleOvrigt(TsDiabetesUtlatandeV4.Builder utlatande, Svar svar) {
-        Delsvar delsvar = svar.getDelsvar().get(0);
-        switch (delsvar.getId()) {
-            case RespConstants.OVRIGT_DELSVAR_ID:
-                utlatande.setOvrigt(getStringContent(delsvar));
-                break;
-            default:
-                throw new IllegalArgumentException();
+
+    private static void handleKomplikationerAvSjukdomen(Ovrigt.Builder ovrigt, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case RespConstants.OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_DELSVAR_ID:
+                    ovrigt.setKomplikationerAvSjukdomen(getBooleanContent(delsvar));
+                    break;
+                case RespConstants.OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DELSVAR_ID:
+                    ovrigt.setKomplikationerAvSjukdomenAnges(getStringContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleBorUndersokasAvSpecialist(Ovrigt.Builder ovrigt, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case RespConstants.OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_DELSVAR_ID:
+                    ovrigt.setBorUndersokasAvSpecialist(getStringContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
         }
     }
 
@@ -410,23 +431,11 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleBedomningLamplighet(Bedomning.Builder bedomning, Svar svar) {
+    private static void handleOvrigaKommentarer(Bedomning.Builder bedomning, Svar svar) {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
-                case RespConstants.BEDOMNING_LAMPLIGHET_ATT_INNEHA_DELSVAR_ID:
-                    bedomning.setLampligtInnehav(getBooleanContent(delsvar));
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
-    }
-
-    private static void handleBedomningBorUndersokas(Bedomning.Builder bedomning, Svar svar) {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case RespConstants.BEDOMNING_BOR_UNDERSOKAS_DELSVAR_ID:
-                    bedomning.setBorUndersokasBeskrivning(getStringContent(delsvar));
+                case RespConstants.BEDOMNING_OVRIGA_KOMMENTARER_DELSVAR_ID:
+                    bedomning.setOvrigaKommentarer(getStringContent(delsvar));
                     break;
                 default:
                     throw new IllegalArgumentException();

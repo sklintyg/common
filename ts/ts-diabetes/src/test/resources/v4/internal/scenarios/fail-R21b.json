@@ -67,6 +67,9 @@
     "aterkommandeVaketSenasteTre": true,
     "aterkommandeVaketSenasteTreTidpunkt": "2100-01-01"
   },
+  "ovrigt": {
+    "komplikationerAvSjukdomen": false
+  },
   "bedomning":{
     "uppfyllerBehorighetskrav":[
       {

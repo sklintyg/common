@@ -61,13 +61,15 @@
     "allvarligSenasteTolvManadernaTidpunkt": "1901-01-01",
     "regelbundnaBlodsockerkontroller": true
   },
+  "ovrigt": {
+    "komplikationerAvSjukdomen": false
+  },
   "bedomning":{
     "uppfyllerBehorighetskrav":[
       {
         "type":"VAR11",
         "selected":true
       }
-    ],
-    "lampligtInnehav": true
+    ]
   }
 }

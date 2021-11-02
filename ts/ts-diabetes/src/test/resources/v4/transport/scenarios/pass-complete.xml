@@ -325,8 +325,12 @@
     <svar id="204">
       <delsvar id="204.1">true</delsvar>
     </svar>
-    <svar id="32">
-      <delsvar id="32.1">Övrigt</delsvar>
+    <svar id="206">
+      <delsvar id="206.1">true</delsvar>
+      <delsvar id="206.2">Komplikationer anges</delsvar>
+    </svar>
+    <svar id="34">
+      <delsvar id="34.1">Bör undersökas av specialistläkare</delsvar>
     </svar>
     <svar id="33">
       <instans>1</instans>
@@ -488,11 +492,8 @@
         </ns3:cv>
       </delsvar>
     </svar>
-    <svar id="45">
-      <delsvar id="45.1">true</delsvar>
-    </svar>
-    <svar id="34">
-      <delsvar id="34.1">specialistkompetens</delsvar>
+    <svar id="32">
+      <delsvar id="32.1">Övriga kommentarer</delsvar>
     </svar>
   </ns2:intyg>
 </ns2:RegisterCertificate>
