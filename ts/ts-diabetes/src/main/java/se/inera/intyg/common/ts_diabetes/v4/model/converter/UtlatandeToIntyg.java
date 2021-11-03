@@ -19,7 +19,6 @@
 package se.inera.intyg.common.ts_diabetes.v4.model.converter;
 
 import static se.inera.intyg.common.support.Constants.KV_ID_KONTROLL_CODE_SYSTEM;
-import static se.inera.intyg.common.support.Constants.KV_INTYGET_AVSER_CODE_SYSTEM;
 import static se.inera.intyg.common.support.Constants.KV_KORKORTSBEHORIGHET_CODE_SYSTEM;
 import static se.inera.intyg.common.support.Constants.KV_UTLATANDETYP_INTYG_CODE_SYSTEM;
 import static se.inera.intyg.common.support.Constants.KV_VARDNIVA_CODE_SYSTEM;
@@ -98,7 +97,6 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Ovrigt;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
 import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvTypAvDiabetes;
-import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
@@ -134,10 +132,10 @@ public final class UtlatandeToIntyg {
             && source.getIntygAvser().getKategorier().size() > 0) {
             int intygAvserInstans = 1;
             for (IntygAvserKategori intygAvserKategori : source.getIntygAvser().getKategorier()) {
-                IntygAvserKod intygAvserKod = IntygAvserKod.fromCode(intygAvserKategori.name());
+                final var korkortsbehorighetKod = KorkortsbehorighetKod.fromCode(intygAvserKategori.name());
                 svars.add(aSvar(INTYGETAVSER_SVAR_ID, intygAvserInstans++)
                     .withDelsvar(INTYGETAVSER_DELSVAR_ID,
-                        aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvserKod.getCode(), intygAvserKod.getDescription()))
+                        aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, korkortsbehorighetKod.getCode(), korkortsbehorighetKod.getDescription()))
                     .build());
             }
         }

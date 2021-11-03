@@ -79,13 +79,11 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Behandling;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
 import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvTypAvDiabetes;
-import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
 import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
 
 @Component("ts-diabetes.v4.InternalDraftValidator")
 public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiabetesUtlatandeV4> {
 
-    private static final int MAX_ANNAN_BEHANDLING_CHARS = 53;
     private static final int MAX_FIFTY_THREE_CHARS = 53;
     private static final int MAX_SEVENTY_ONE_CHARS = 71;
     private static final int MAX_HUNDRED_EIGHTY_NINE_CHARS = 189;
@@ -103,27 +101,16 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     private static final String D_08 = "common.validation.d-08";
     private static final String D_11 = "common.validation.d-11";
 
-    private static final Set<IntygAvserKategori> RULE_1_14_15_LICENSE_SET = ImmutableSet.of(
-        IntygAvserKategori.IAV1,
-        IntygAvserKategori.IAV2,
-        IntygAvserKategori.IAV3,
-        IntygAvserKategori.IAV4,
-        IntygAvserKategori.IAV5,
-        IntygAvserKategori.IAV6,
-        IntygAvserKategori.IAV7,
-        IntygAvserKategori.IAV8,
-        IntygAvserKategori.IAV9);
-
-    private static final Set<KorkortsbehorighetKod> RULE_28_LICENSE_SET = ImmutableSet.of(
-        KorkortsbehorighetKod.C1,
-        KorkortsbehorighetKod.C1E,
-        KorkortsbehorighetKod.C,
-        KorkortsbehorighetKod.CE,
-        KorkortsbehorighetKod.D1,
-        KorkortsbehorighetKod.D1E,
-        KorkortsbehorighetKod.D,
-        KorkortsbehorighetKod.DE,
-        KorkortsbehorighetKod.TAXI
+    private static final Set<IntygAvserKategori> RULE_28_LICENSE_SET = ImmutableSet.of(
+        IntygAvserKategori.VAR1,
+        IntygAvserKategori.VAR2,
+        IntygAvserKategori.VAR3,
+        IntygAvserKategori.VAR4,
+        IntygAvserKategori.VAR5,
+        IntygAvserKategori.VAR6,
+        IntygAvserKategori.VAR7,
+        IntygAvserKategori.VAR8,
+        IntygAvserKategori.VAR9
     );
 
     // R3
@@ -182,11 +169,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         if (utlatande.getIntygAvser() == null || utlatande.getIntygAvser().getKategorier() == null) {
             return false;
         }
-        //final ImmutableSet<KorkortsbehorighetKod> intygAvser = ImmutableSet.copyOf(utlatande.getIntygAvser().getKategorier());
-        //return !Collections.disjoint(intygAvser, RULE_28_LICENSE_SET);
-
         final ImmutableSet<IntygAvserKategori> intygAvser = ImmutableSet.copyOf(utlatande.getIntygAvser().getKategorier());
-        return !Collections.disjoint(intygAvser, RULE_1_14_15_LICENSE_SET);
+        return !Collections.disjoint(intygAvser, RULE_28_LICENSE_SET);
     }
 
     private static boolean eligibleForRule29(TsDiabetesUtlatandeV4 utlatande) {
@@ -387,7 +371,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
                     BEHANDLING_ROOT_FIELD_PATH + ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID,
                     ValidationMessageType.EMPTY);
             } else if (eligibleForRule18(utlatande)
-                && Strings.nullToEmpty(behandling.getAnnanAngeVilken()).trim().length() > MAX_ANNAN_BEHANDLING_CHARS) {
+                && Strings.nullToEmpty(behandling.getAnnanAngeVilken()).trim().length() > MAX_FIFTY_THREE_CHARS) {
                 addValidationError(validationMessages, CATEGORY_ALLMANT,
                     BEHANDLING_ROOT_FIELD_PATH + ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID, ValidationMessageType.OTHER);
             }

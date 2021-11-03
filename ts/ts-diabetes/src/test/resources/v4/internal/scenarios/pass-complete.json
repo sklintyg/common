@@ -39,67 +39,67 @@
   "intygAvser":{
     "kategorier":[
       {
-        "type":"IAV11",
+        "type":"VAR12",
         "selected":true
       },
       {
-        "type":"IAV12",
+        "type":"VAR13",
         "selected":true
       },
       {
-        "type":"IAV13",
+        "type":"VAR14",
         "selected":true
       },
       {
-        "type":"IAV14",
+        "type":"VAR15",
         "selected":true
       },
       {
-        "type":"IAV15",
+        "type":"VAR16",
         "selected":true
       },
       {
-        "type":"IAV16",
+        "type":"VAR17",
         "selected":true
       },
       {
-        "type":"IAV17",
+        "type":"VAR18",
         "selected":true
       },
       {
-        "type":"IAV1",
+        "type":"VAR1",
         "selected":true
       },
       {
-        "type":"IAV2",
+        "type":"VAR2",
         "selected":true
       },
       {
-        "type":"IAV3",
+        "type":"VAR3",
         "selected":true
       },
       {
-        "type":"IAV4",
+        "type":"VAR4",
         "selected":true
       },
       {
-        "type":"IAV5",
+        "type":"VAR5",
         "selected":true
       },
       {
-        "type":"IAV6",
+        "type":"VAR6",
         "selected":true
       },
       {
-        "type":"IAV7",
+        "type":"VAR7",
         "selected":true
       },
       {
-        "type":"IAV8",
+        "type":"VAR8",
         "selected":true
       },
       {
-        "type":"IAV9",
+        "type":"VAR9",
         "selected":true
       }
     ]

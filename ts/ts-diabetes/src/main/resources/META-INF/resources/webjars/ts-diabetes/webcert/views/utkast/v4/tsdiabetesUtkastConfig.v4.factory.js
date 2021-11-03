@@ -51,10 +51,8 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
                 return !ObjectHelper.deepGet(model, 'hypoglykemi.kontrollSjukdomstillstand');
             }
 
-            // TODO REPLACE IAVs with VARs WHEN QUESTION HAS BEEN UPDATED
             function R28(model) {
-                return _hasAnyOfIntygAvserBehorighet(model, ['IAV1', 'IAV2', 'IAV3', 'IAV4', 'IAV5', 'IAV6', 'IAV7', 'IAV8', 'IAV9']);
-                //return _hasAnyOfIntygAvserBehorighet(model, ['VAR1', 'VAR2', 'VAR3', 'VAR4', 'VAR5', 'VAR6', 'VAR7', 'VAR8', 'VAR9']);
+                return _hasAnyOfIntygAvserBehorighet(model, ['VAR1', 'VAR2', 'VAR3', 'VAR4', 'VAR5', 'VAR6', 'VAR7', 'VAR8', 'VAR9']);
             }
 
             function R29(model) {
@@ -112,11 +110,14 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
                     // Intyget avser
                     kategori(categoryIds[1], 'KAT_1.RBK', {}, {signingDoctor: true}, [
                         fraga(1, 'FRG_1.RBK', 'FRG_1.HLP',
-                            {required: true, requiredProp: requiredKorkortProperties('intygAvser.kategorier', 16)}, [{
+                            {
+                                required: true,
+                                requiredProp: requiredKorkortProperties('intygAvser.kategorier', 16)
+                            }, [{
                                 type: 'ue-checkgroup-ts',
                                 modelProp: 'intygAvser.kategorier',
                                 htmlClass: 'no-padding',
-                                labelTemplate: 'KV_INTYGET_AVSER.{0}.RBK'
+                                labelTemplate: 'KV_KORKORTSBEHORIGHET.{0}.RBK'
                             }])
                     ]),
 
@@ -198,9 +199,9 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
                             required: true,
                             requiredProp: function (model) {
                                 return R30(model) &&
-                                    model.allmant.behandling.insulin === undefined &&
-                                    model.allmant.behandling.tabletter === undefined &&
-                                    model.allmant.behandling.annan === undefined;
+                                    (model.allmant.behandling.insulin === undefined || model.allmant.behandling.insulin === false) &&
+                                    (model.allmant.behandling.tabletter === undefined || model.allmant.behandling.tabletter === false) &&
+                                    (model.allmant.behandling.annan === undefined || model.allmant.behandling.annan === false);
                             },
                                 hideExpression: '!model.allmant.medicineringMedforRiskForHypoglykemi'
                             },
@@ -383,7 +384,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
                             hideExpression: function(scope) { return !R30(scope.model); },
                             required: true,
                             requiredProp: function (model) {
-                                return R30(model) && model.hypoglykemi.aterkommandeSenasteAret === undefined;
+                                return R30(model) && model.hypoglykemi.aterkommandeVaketSenasteTolv === undefined;
                             }
                             }, [
                                 {

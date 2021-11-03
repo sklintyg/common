@@ -28,7 +28,7 @@ var viewConfig = [
                     type: 'uv-del-fraga',
                     components: [{
                         type: 'uv-list',
-                        labelKey: 'KV_INTYGET_AVSER.{var}.RBK',
+                        labelKey: 'KV_KORKORTSBEHORIGHET.{var}.RBK',
                         useLabelKeyForPrint: true,
                         listKey: function(model) {
                             return model.selected ? model.type : null;

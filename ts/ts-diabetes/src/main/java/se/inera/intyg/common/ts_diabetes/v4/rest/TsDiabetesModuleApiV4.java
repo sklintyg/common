@@ -56,7 +56,7 @@ import se.inera.intyg.common.ts_diabetes.v4.model.converter.TransportToInternal;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
 import se.inera.intyg.common.ts_diabetes.v4.pdf.PdfGenerator;
-import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
+import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
 import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponseType;
@@ -169,8 +169,8 @@ public class TsDiabetesModuleApiV4 extends TsParentModuleApi<TsDiabetesUtlatande
         }
 
         return types.stream()
-            .map(cv -> IntygAvserKod.fromCode(cv.getCode()))
-            .map(IntygAvserKod::getDescription)
+            .map(cv -> KorkortsbehorighetKod.fromCode(cv.getCode()))
+            .map(KorkortsbehorighetKod::getDescription)
             .collect(Collectors.joining(", "));
     }
 

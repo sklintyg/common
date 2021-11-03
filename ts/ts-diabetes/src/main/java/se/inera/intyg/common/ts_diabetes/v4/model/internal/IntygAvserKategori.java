@@ -19,24 +19,24 @@
 package se.inera.intyg.common.ts_diabetes.v4.model.internal;
 
 /**
- * This is a subset (IAV1-IAV9, IAV11-IAV17) of "Kv intyget avser"
- * {@link se.inera.intyg.common.ts_parent.codes.IntygAvserKod}.
+ * This is a subset (VAR1-VAR9, VAR12-VAR18) of "Kv KorkortsbehorighetsKod"
+ * {@link se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod}.
  */
 public enum IntygAvserKategori {
-    IAV11,
-    IAV12,
-    IAV13,
-    IAV14,
-    IAV15,
-    IAV16,
-    IAV17,
-    IAV1,
-    IAV2,
-    IAV3,
-    IAV4,
-    IAV5,
-    IAV6,
-    IAV7,
-    IAV8,
-    IAV9
+    VAR12,
+    VAR13,
+    VAR14,
+    VAR15,
+    VAR16,
+    VAR17,
+    VAR18,
+    VAR1,
+    VAR2,
+    VAR3,
+    VAR4,
+    VAR5,
+    VAR6,
+    VAR7,
+    VAR8,
+    VAR9
 }

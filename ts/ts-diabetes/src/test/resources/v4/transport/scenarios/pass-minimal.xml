@@ -71,8 +71,8 @@
 			<instans>1</instans>
 			<delsvar id="1.1">
 				<ns3:cv>
-					<ns3:code>IAV14</ns3:code>
-					<ns3:codeSystem>24c41b8d-258a-46bf-a08a-b90738b28770</ns3:codeSystem>
+					<ns3:code>VAR15</ns3:code>
+					<ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
 					<ns3:displayName>A</ns3:displayName>
 				</ns3:cv>
 			</delsvar>
