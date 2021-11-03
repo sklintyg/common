@@ -54,22 +54,21 @@ public final class RespConstants {
     public static final String ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_DELSVAR_ID = "208.1";
     public static final String ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID = "medicineringMedforRiskForHypoglykemi";
 
-    public static final String ALLMANT_BEHANDLING_SVAR_ID = "109";
+    public static final String ALLMANT_BEHANDLING_SVAR_ID = "209";
     public static final String ALLMANT_BEHANDLING_JSON_ID = "behandling";
-    public static final String ALLMANT_BEHANDLING_ENDAST_KOST_DELSVAR_ID = "109.1";
-    public static final String ALLMANT_BEHANDLING_ENDAST_KOST_JSON_ID = "endastKost";
-    public static final String ALLMANT_BEHANDLING_TABLETTER_DELSVAR_ID = "109.2";
-    public static final String ALLMANT_BEHANDLING_TABLETTER_JSON_ID = "tabletter";
-    public static final String ALLMANT_BEHANDLING_INSULIN_DELSVAR_ID = "109.3";
+    public static final String ALLMANT_BEHANDLING_INSULIN_DELSVAR_ID = "209.1";
     public static final String ALLMANT_BEHANDLING_INSULIN_JSON_ID = "insulin";
-    public static final String ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_DELSVAR_ID = "109.4";
-    public static final String ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID = "insulinSedanAr";
-    public static final String ALLMANT_BEHANDLING_ANNAN_BEHANDLING_DELSVAR_ID = "109.5";
-    public static final String ALLMANT_BEHANDLING_ANNAN_BEHANDLING_JSON_ID = "annanBehandling";
-    public static final String ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_DELSVAR_ID = "109.6";
-    public static final String ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID = "annanBehandlingBeskrivning";
-    public static final String ALLMANT_BEHANDLING_RISK_HYPOGLYKEMI_DELSVAR_ID = "109.7";
-    public static final String ALLMANT_BEHANDLING_RISK_HYPOGLYKEMI_JSON_ID = "riskHypoglykemi";
+    public static final String ALLMANT_BEHANDLING_TABLETTER_DELSVAR_ID = "209.2";
+    public static final String ALLMANT_BEHANDLING_TABLETTER_JSON_ID = "tabletter";
+    public static final String ALLMANT_BEHANDLING_ANNAN_DELSVAR_ID = "209.3";
+    public static final String ALLMANT_BEHANDLING_ANNAN_JSON_ID = "annan";
+    public static final String ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID = "209.4";
+    public static final String ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID = "annanAngeVilken";
+
+    public static final String ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID = "210";
+    public static final String ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_DELSVAR_ID = "210.1";
+    public static final String ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID
+        = "medicineringMedforRiskForHypoglykemiTidpunkt";
 
     // Kat 4 - Hypoglykemi
     public static final String HYPOGLYKEMI_JSON_ID = "hypoglykemi";

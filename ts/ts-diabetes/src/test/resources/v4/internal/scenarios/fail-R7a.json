@@ -50,11 +50,7 @@
     "patientenFoljsAv": "VN1",
     "diabetesDiagnosAr":"1990",
     "typAvDiabetes":"TYP1",
-    "medicineringForDiabetes":false,
-    "behandling":{
-      "insulin":true,
-      "insulinSedanAr":"1926"
-    }
+    "medicineringForDiabetes":false
   },
   "hypoglykemi":{
   },

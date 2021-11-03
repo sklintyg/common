@@ -53,9 +53,9 @@
     "medicineringForDiabetes": true,
     "medicineringMedforRiskForHypoglykemi": true,
     "behandling":{
-      "insulin":true,
-      "insulinSedanAr":"1991"
-    }
+      "insulin":true
+    },
+    "medicineringMedforRiskForHypoglykemiTidpunkt": "2021-10-30"
   },
   "hypoglykemi": {
     "kontrollSjukdomstillstand": true,

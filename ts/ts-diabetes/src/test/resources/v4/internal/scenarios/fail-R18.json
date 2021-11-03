@@ -51,12 +51,28 @@
     "diabetesDiagnosAr":"1990",
     "typAvDiabetes":"TYP1",
     "medicineringForDiabetes":false,
+    "medicineringMedforRiskForHypoglykemi": true,
     "behandling":{
-      "annanBehandling":true,
-      "riskHypoglykemi":false
-    }
+      "annan":true
+    },
+    "medicineringMedforRiskForHypoglykemiTidpunkt": "2021-10-30"
   },
-  "hypoglykemi":{
+  "hypoglykemi": {
+    "kontrollSjukdomstillstand": false,
+    "kontrollSjukdomstillstandVarfor": "Varför inte kontroll sjukdomstillstand",
+    "forstarRiskerMedHypoglykemi": true,
+    "formagaKannaVarningstecken": true,
+    "vidtaAdekvataAtgarder": true,
+    "aterkommandeSenasteAret": true,
+    "aterkommandeSenasteAretTidpunkt": "2021-10-30",
+    "aterkommandeSenasteAretKontrolleras": true,
+    "aterkommandeSenasteAretTrafik": true,
+    "aterkommandeVaketSenasteTolv": true,
+    "aterkommandeVaketSenasteTre": true,
+    "aterkommandeVaketSenasteTreTidpunkt": "2021-10-30",
+    "allvarligSenasteTolvManaderna": true,
+    "allvarligSenasteTolvManadernaTidpunkt": "2021-10-30",
+    "regelbundnaBlodsockerkontroller": true
   },
   "ovrigt": {
     "komplikationerAvSjukdomen": false

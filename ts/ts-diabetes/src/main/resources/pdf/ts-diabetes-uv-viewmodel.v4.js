@@ -124,26 +124,23 @@ var viewConfig = [
             },
             {
                 type: 'uv-fraga',
-                labelKey: 'FRG_109.RBK',
+                labelKey: 'FRG_209.RBK',
                 components: [{
                     type: 'uv-del-fraga',
                     components: [
                         {
                             type: 'uv-list',
-                            labelKey: 'DFR_109.{var}.RBK',
+                            labelKey: 'DFR_209.{var}.RBK',
                             listKey: function(model, index) {
                                 switch (index) {
-                                    case 0: //endastKost
-                                        index = 1; //DRF_109.1.RBK
+                                    case 0: //insulin
+                                        index = 1; //DRF_209.1.RBK
                                         break;
                                     case 1: //tabletter
-                                        index = 2; //DRF_109.2.RBK
+                                        index = 2; //DRF_209.2.RBK
                                         break;
-                                    case 2: //insulin
-                                        index = 3; //DRF_109.3.RBK
-                                        break;
-                                    case 3: //annanBehandling
-                                        index = 5; //DRF_109.5.RBK
+                                    case 2: //annan
+                                        index = 3; //DRF_209.3.RBK
                                         break;
                                     default:
                                         index = 0;
@@ -151,34 +148,28 @@ var viewConfig = [
                                 return model ? index : null; // return index for {var} if true, otherwise null -> list item will not be shown
                             },
                             separator: ', ',
-                            modelProp: ['allmant.behandling.endastKost', 'allmant.behandling.tabletter',
-                                'allmant.behandling.insulin','allmant.behandling.annanBehandling']
+                            modelProp: ['allmant.behandling.insulin', 'allmant.behandling.tabletter', 'allmant.behandling.annan']
                         },
                         {
                             type: 'uv-del-fraga',
-                            labelKey: 'DFR_109.4.RBK',
+                            labelKey: 'DFR_209.4.RBK',
                             components: [{
                                 type: 'uv-simple-value',
-                                modelProp: 'allmant.behandling.insulinSedanAr'
-                            }]
-                        },
-                        {
-                            type: 'uv-del-fraga',
-                            labelKey: 'DFR_109.6.RBK',
-                            components: [{
-                                type: 'uv-simple-value',
-                                modelProp: 'allmant.behandling.annanBehandlingBeskrivning'
-                            }]
-                        },
-                        {
-                            type: 'uv-del-fraga',
-                            labelKey: 'DFR_109.7.RBK',
-                            components: [{
-                                type: 'uv-boolean-value',
-                                modelProp: 'allmant.behandling.riskHypoglykemi'
+                                modelProp: 'allmant.behandling.annanAngeVilken'
                             }]
                         }
                     ]
+                }]
+            },
+            {
+                type: 'uv-fraga',
+                labelKey: 'FRG_210.RBK',
+                components: [{
+                    type: 'uv-del-fraga',
+                    components: [{
+                        type: 'uv-simple-value',
+                        modelProp: 'allmant.medicineringMedforRiskForHypoglykemiTidpunkt'
+                    }]
                 }]
             }
         ]

@@ -50,10 +50,7 @@
     "patientenFoljsAv": "VN1",
     "diabetesDiagnosAr":"1990",
     "typAvDiabetes":"ANNAN",
-    "medicineringForDiabetes":false,
-    "behandling":{
-      "endastKost":true
-    }
+    "medicineringForDiabetes":false
   },
   "hypoglykemi":{
   },

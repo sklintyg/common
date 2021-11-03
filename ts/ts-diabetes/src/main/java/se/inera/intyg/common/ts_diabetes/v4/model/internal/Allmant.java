@@ -23,12 +23,14 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_JSON_ID;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import javax.annotation.Nullable;
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvTypAvDiabetes;
 import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvVardniva;
 
@@ -56,6 +58,9 @@ public abstract class Allmant {
 
     @Nullable
     public abstract Behandling getBehandling();
+
+    @Nullable
+    public abstract InternalDate getMedicineringMedforRiskForHypoglykemiTidpunkt();
 
     public static Builder builder() {
         return new AutoValue_Allmant.Builder();
@@ -86,6 +91,9 @@ public abstract class Allmant {
 
         @JsonProperty(ALLMANT_BEHANDLING_JSON_ID)
         public abstract Builder setBehandling(Behandling value);
+
+        @JsonProperty(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID)
+        public abstract Builder setMedicineringMedforRiskForHypoglykemiTidpunkt(InternalDate value);
 
     }
 }

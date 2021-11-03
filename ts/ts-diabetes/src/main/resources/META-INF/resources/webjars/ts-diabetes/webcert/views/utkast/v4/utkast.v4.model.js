@@ -54,14 +54,12 @@ angular.module('ts-diabetes').factory('ts-diabetes.Domain.IntygModel.v4',
                             medicineringForDiabetes: undefined,
                             medicineringMedforRiskForHypoglykemi: undefined,
                             behandling: {
-                                endastKost: undefined,
-                                tabletter: undefined,
                                 insulin: undefined,
-                                insulinSedanAr: undefined,
-                                annanBehandling: undefined,
-                                annanBehandlingBeskrivning: undefined,
-                                riskHypoglykemi: undefined
-                            }
+                                tabletter: undefined,
+                                annan: undefined,
+                                annanAngeVilken: undefined
+                            },
+                            medicineringMedforRiskForHypoglykemiTidpunkt: undefined
                         },
 
                         // Kategori 4

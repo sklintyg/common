@@ -95,7 +95,9 @@ public final class TransportToInternal {
                 case RespConstants.ALLMANT_BEHANDLING_SVAR_ID:
                     handleAllmantBehandling(allmant, svar);
                     break;
-
+                case RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID:
+                    handleAllmantMedicineringMedforRiskForHypoglykemiTidpunkt(allmant, svar);
+                    break;
                 case RespConstants.HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_SVAR_ID:
                     handleHypoglykemiKontrollSjukdomstillstand(hypoglykemi, svar);
                     break;
@@ -243,32 +245,37 @@ public final class TransportToInternal {
         Behandling.Builder behandling = Behandling.builder();
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
-                case RespConstants.ALLMANT_BEHANDLING_ENDAST_KOST_DELSVAR_ID:
-                    behandling.setEndastKost(getBooleanContent(delsvar));
+                case RespConstants.ALLMANT_BEHANDLING_INSULIN_DELSVAR_ID:
+                    behandling.setInsulin(getBooleanContent(delsvar));
                     break;
                 case RespConstants.ALLMANT_BEHANDLING_TABLETTER_DELSVAR_ID:
                     behandling.setTabletter(getBooleanContent(delsvar));
                     break;
-                case RespConstants.ALLMANT_BEHANDLING_INSULIN_DELSVAR_ID:
-                    behandling.setInsulin(getBooleanContent(delsvar));
+                case RespConstants.ALLMANT_BEHANDLING_ANNAN_DELSVAR_ID:
+                    behandling.setAnnan(getBooleanContent(delsvar));
                     break;
-                case RespConstants.ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_DELSVAR_ID:
-                    behandling.setInsulinSedanAr(getPartialDateContent(delsvar).getValue().toString());
-                    break;
-                case RespConstants.ALLMANT_BEHANDLING_ANNAN_BEHANDLING_DELSVAR_ID:
-                    behandling.setAnnanBehandling(getBooleanContent(delsvar));
-                    break;
-                case RespConstants.ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_DELSVAR_ID:
-                    behandling.setAnnanBehandlingBeskrivning(getStringContent(delsvar));
-                    break;
-                case RespConstants.ALLMANT_BEHANDLING_RISK_HYPOGLYKEMI_DELSVAR_ID:
-                    behandling.setRiskHypoglykemi(getBooleanContent(delsvar));
+                case RespConstants.ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID:
+                    behandling.setAnnanAngeVilken(getStringContent(delsvar));
                     break;
                 default:
                     throw new IllegalArgumentException();
             }
         }
         allmant.setBehandling(behandling.build());
+    }
+
+    private static void handleAllmantMedicineringMedforRiskForHypoglykemiTidpunkt(Allmant.Builder allmant, Svar svar)
+        throws ConverterException {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_DELSVAR_ID:
+                    allmant.setMedicineringMedforRiskForHypoglykemiTidpunkt(
+                        new InternalDate(getPartialDateContent(delsvar).getValue().toString()));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
     }
 
     private static void handleHypoglykemiKontrollSjukdomstillstand(Hypoglykemi.Builder hypoglykemi, Svar svar) {
