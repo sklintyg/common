@@ -148,6 +148,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             && isTrue(utlatande.getAllmant().getBehandling().getAnnan());
     }
 
+    // R19
+    private static boolean eligibleForRule19(TsDiabetesUtlatandeV4 utlatande) {
+        return utlatande.getAllmant() != null
+            && utlatande.getAllmant().getMedicineringMedforRiskForHypoglykemiTidpunkt() != null;
+    }
+
     // R20
     private static boolean eligibleForRule20(TsDiabetesUtlatandeV4 utlatande) {
         return utlatande.getHypoglykemi() != null
@@ -394,6 +400,14 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             addValidationError(validationMessages, CATEGORY_ALLMANT,
                 ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID,
                 ValidationMessageType.EMPTY);
+        }
+
+        if (eligibleForRule19(utlatande)) {
+            final var patientBirthDate = ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId());
+            validateDateWithinInterval(utlatande.getAllmant().getMedicineringMedforRiskForHypoglykemiTidpunkt(), patientBirthDate,
+                LocalDate.now(),
+                validationMessages, CATEGORY_ALLMANT,
+                ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID, D_11, D_08);
         }
     }
 

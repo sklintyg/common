@@ -252,6 +252,8 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
                                 hideExpression: '!model.allmant.medicineringMedforRiskForHypoglykemi'
                             }, [{
                                 type: 'ue-date',
+                                minDate: patientBirthDateValue,
+                                maxDate: today,
                                 modelProp: 'allmant.medicineringMedforRiskForHypoglykemiTidpunkt'
                             }])
                     ]),

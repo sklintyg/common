@@ -1,7 +1,7 @@
 {
   "typ": "ts-diabetes",
   "id": "1234567",
-  "textVersion": "3.0",
+  "textVersion": "4.0",
   "grundData": {
     "patient": {
       "samordningsNummer": false,
@@ -50,9 +50,23 @@
     "patientenFoljsAv": "VN1",
     "diabetesDiagnosAr":"1990",
     "typAvDiabetes":"TYP1",
-    "medicineringForDiabetes":false
+    "medicineringForDiabetes": true,
+    "medicineringMedforRiskForHypoglykemi": true,
+    "behandling":{
+      "insulin":true
+    },
+    "medicineringMedforRiskForHypoglykemiTidpunkt": "1927-03-09"
   },
-  "hypoglykemi":{
+  "hypoglykemi": {
+    "kontrollSjukdomstillstand": true,
+    "forstarRiskerMedHypoglykemi": true,
+    "formagaKannaVarningstecken": true,
+    "vidtaAdekvataAtgarder": true,
+    "aterkommandeSenasteAret": true,
+    "aterkommandeSenasteAretTidpunkt": "2021-10-30",
+    "aterkommandeSenasteAretKontrolleras": true,
+    "aterkommandeSenasteAretTrafik": true,
+    "aterkommandeVaketSenasteTolv": false
   },
   "ovrigt": {
     "komplikationerAvSjukdomen": false
