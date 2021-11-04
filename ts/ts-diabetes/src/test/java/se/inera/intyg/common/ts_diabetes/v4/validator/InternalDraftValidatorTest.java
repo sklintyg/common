@@ -488,6 +488,36 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
+    public void failureDueToRule35a() throws Exception {
+        final var utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R35a").asInternalModel();
+        final var res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals(CATEGORY_BEDOMNING, error.getCategory());
+        assertEquals(BEDOMNING_JSON_ID + "." + BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, error.getType());
+        assertEquals(error.getMessage(), "common.validation.d-12");
+    }
+
+    @Test
+    public void failureDueToRule35b() throws Exception {
+        final var utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R35b").asInternalModel();
+        final var res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals(CATEGORY_BEDOMNING, error.getCategory());
+        assertEquals(BEDOMNING_JSON_ID + "." + BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, error.getType());
+        assertEquals(error.getMessage(), "common.validation.d-12");
+    }
+
+    @Test
     public void failureDueToMissingVardenhetPostnummer() throws Exception {
         TsDiabetesUtlatandeV4 utlatande = ScenarioFinder.getInternalScenario("fail-vardenhetensPostNummerSaknas").asInternalModel();
         ValidateDraftResponse res = validator.validateDraft(utlatande);

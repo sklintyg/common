@@ -65,6 +65,7 @@ import java.time.Year;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.springframework.stereotype.Component;
@@ -74,11 +75,11 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
-import se.inera.intyg.common.ts_diabetes.v4.model.internal.BedomningKorkortstyp;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Behandling;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
 import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvTypAvDiabetes;
+import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
 import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
 
 @Component("ts-diabetes.v4.InternalDraftValidator")
@@ -100,17 +101,18 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     private static final String B_02B = "common.validation.b-02b";
     private static final String D_08 = "common.validation.d-08";
     private static final String D_11 = "common.validation.d-11";
+    private static final String D_12 = "common.validation.d-12";
 
-    private static final Set<IntygAvserKategori> RULE_28_LICENSE_SET = ImmutableSet.of(
-        IntygAvserKategori.VAR1,
-        IntygAvserKategori.VAR2,
-        IntygAvserKategori.VAR3,
-        IntygAvserKategori.VAR4,
-        IntygAvserKategori.VAR5,
-        IntygAvserKategori.VAR6,
-        IntygAvserKategori.VAR7,
-        IntygAvserKategori.VAR8,
-        IntygAvserKategori.VAR9
+    private static final Set<KorkortsbehorighetKod> HIGHER_LICENCE_TYPES = ImmutableSet.of(
+        KorkortsbehorighetKod.C1,
+        KorkortsbehorighetKod.C1E,
+        KorkortsbehorighetKod.C,
+        KorkortsbehorighetKod.CE,
+        KorkortsbehorighetKod.D1,
+        KorkortsbehorighetKod.D1E,
+        KorkortsbehorighetKod.D,
+        KorkortsbehorighetKod.DE,
+        KorkortsbehorighetKod.TAXI
     );
 
     // R3
@@ -169,8 +171,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         if (utlatande.getIntygAvser() == null || utlatande.getIntygAvser().getKategorier() == null) {
             return false;
         }
-        final ImmutableSet<IntygAvserKategori> intygAvser = ImmutableSet.copyOf(utlatande.getIntygAvser().getKategorier());
-        return !Collections.disjoint(intygAvser, RULE_28_LICENSE_SET);
+        final var selectedKategorier = getLicenceTypes(utlatande.getIntygAvser().getKategorier());
+        return !Collections.disjoint(selectedKategorier, HIGHER_LICENCE_TYPES);
     }
 
     private static boolean eligibleForRule29(TsDiabetesUtlatandeV4 utlatande) {
@@ -198,6 +200,20 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         return utlatande.getHypoglykemi() != null
             && utlatande.getHypoglykemi().getAllvarligSenasteTolvManaderna() != null
             && isTrue(utlatande.getHypoglykemi().getAllvarligSenasteTolvManaderna());
+    }
+
+    private static boolean eligibleForRule35(TsDiabetesUtlatandeV4 utlatande) {
+        if (utlatande.getBedomning() == null
+            || utlatande.getBedomning().getUppfyllerBehorighetskrav() == null
+            || utlatande.getBedomning().getUppfyllerBehorighetskrav().isEmpty()
+            || utlatande.getIntygAvser() == null
+            || utlatande.getIntygAvser().getKategorier() == null
+            || utlatande.getIntygAvser().getKategorier().isEmpty()) {
+            return false;
+        }
+
+        final var selectedBehorigheter = getLicenceTypes(utlatande.getBedomning().getUppfyllerBehorighetskrav());
+        return !Collections.disjoint(selectedBehorigheter, HIGHER_LICENCE_TYPES);
     }
 
     @Override
@@ -541,12 +557,22 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
                 ValidationMessageType.EMPTY);
             return;
         }
-        Set<BedomningKorkortstyp> behorighet = utlatande.getBedomning().getUppfyllerBehorighetskrav();
 
-        if (behorighet.size() > 1 && behorighet.contains(BedomningKorkortstyp.VAR11)) {
+        final var selectedBehorigheter = getLicenceTypes(utlatande.getBedomning().getUppfyllerBehorighetskrav());
+        if (selectedBehorigheter.contains(KorkortsbehorighetKod.KANINTETASTALLNING) && selectedBehorigheter.size() > 1) {
             addValidationError(validationMessages, CATEGORY_BEDOMNING,
-                BEDOMNING_JSON_ID + "." + BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID,
-                ValidationMessageType.INCORRECT_COMBINATION);
+                BEDOMNING_JSON_ID + "." + BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID, ValidationMessageType.INCORRECT_COMBINATION);
+        }
+
+        if (eligibleForRule35(utlatande)) {
+            final var selectedKategorier = getLicenceTypes(utlatande.getIntygAvser().getKategorier());
+            final var selectedBehorigheterMutable = new HashSet<>(selectedBehorigheter);
+            selectedBehorigheterMutable.retainAll(HIGHER_LICENCE_TYPES);
+            if (!selectedKategorier.containsAll(selectedBehorigheterMutable)) {
+                addValidationError(validationMessages, CATEGORY_BEDOMNING,
+                    BEDOMNING_JSON_ID + "." + BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID,
+                    ValidationMessageType.INCORRECT_COMBINATION, D_12);
+            }
         }
     }
 
@@ -556,6 +582,13 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             addValidationError(validationMessages, CATEGORY_BEDOMNING, BEDOMNING_JSON_ID + "."
                 + BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID, ValidationMessageType.OTHER);
         }
+    }
+
+    private static <T extends Enum<?>> Set<KorkortsbehorighetKod> getLicenceTypes(Set<T> enumCodes) {
+        if (enumCodes == null) {
+            return ImmutableSet.of();
+        }
+        return enumCodes.stream().map(code -> KorkortsbehorighetKod.fromCode(code.name())).collect(ImmutableSet.toImmutableSet());
     }
 
     // CHECKSTYLE:OFF ParameterNumber

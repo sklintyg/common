@@ -38,7 +38,15 @@
   "intygAvser": {
     "kategorier": [
       {
-        "type": "VAR9",
+        "type": "VAR1",
+        "selected": true
+      },
+      {
+        "type": "VAR2",
+        "selected": true
+      },
+      {
+        "type": "VAR16",
         "selected": true
       }
     ]
@@ -52,9 +60,9 @@
     "typAvDiabetes":"TYP1",
     "medicineringForDiabetes":false
   },
-  "hypoglykemi": {
-    "allvarligSenasteTolvManaderna": true,
-    "regelbundnaBlodsockerkontroller": true
+  "hypoglykemi":{
+    "allvarligSenasteTolvManaderna": false,
+    "regelbundnaBlodsockerkontroller": false
   },
   "ovrigt": {
     "komplikationerAvSjukdomen": false
@@ -62,8 +70,16 @@
   "bedomning":{
     "uppfyllerBehorighetskrav":[
       {
-        "type":"VAR11",
-        "selected":true
+        "type": "VAR1",
+        "selected": true
+      },
+      {
+        "type": "VAR2",
+        "selected": true
+      },
+      {
+        "type": "VAR3",
+        "selected": true
       }
     ]
   }

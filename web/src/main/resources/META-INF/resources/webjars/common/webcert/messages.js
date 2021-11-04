@@ -738,6 +738,7 @@
             'common.validation.d-09': 'Ange ett datum som infaller under de senaste tolv månaderna',
             'common.validation.d-10': 'Ange ett datum som infaller under de senaste tre månaderna',
             'common.validation.d-11': 'Ange ett datum som infaller efter patientens födelsedatum.',
+            'common.validation.d-12': 'Vald behörighet överensstämmer inte med vilken behörighet intyget avser.',
             'common.validation.c-05': 'Fyll i den översta raden först.',
             'common.validation.c-06': 'Ange ett giltigt datum. Framtida datum får inte anges.',
             'common.validation.c-13a': 'Ange diagnos på översta raden först.',
