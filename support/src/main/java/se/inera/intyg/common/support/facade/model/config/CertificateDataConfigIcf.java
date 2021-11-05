@@ -45,6 +45,7 @@ public class CertificateDataConfigIcf implements CertificateDataConfig {
     String id;
     String modalLabel;
     String collectionsLabel;
+    String placeholder;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataConfigIcfBuilder {
