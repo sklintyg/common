@@ -23,6 +23,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIV
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_ICF_COLLECTION;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_ICF_INFO;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_ICF_PLACEHOLDER;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_TEXT;
@@ -85,6 +86,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKT
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ICF_COLLECTION;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ICF_INFO;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ICF_PLACEHOLDER;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_TEXT;
@@ -840,6 +842,7 @@ public final class InternalToCertificate {
                     .modalLabel(FUNKTIONSNEDSATTNING_ICF_INFO)
                     .collectionsLabel(FUNKTIONSNEDSATTNING_ICF_COLLECTION)
                     .id(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35)
+                    .placeholder(FUNKTIONSNEDSATTNING_ICF_PLACEHOLDER)
                     .build()
             )
             .value(
@@ -881,6 +884,7 @@ public final class InternalToCertificate {
                     .modalLabel(AKTIVITETSBEGRANSNING_ICF_INFO)
                     .collectionsLabel(AKTIVITETSBEGRANSNING_ICF_COLLECTION)
                     .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
+                    .placeholder(AKTIVITETSBEGRANSNING_ICF_PLACEHOLDER)
                     .build()
             )
             .value(
