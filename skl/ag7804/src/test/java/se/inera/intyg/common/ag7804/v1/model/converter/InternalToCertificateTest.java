@@ -68,7 +68,6 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.NO_ID;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_ID_25;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
@@ -115,6 +114,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTy
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationEnable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHighlight;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
@@ -1590,7 +1590,20 @@ class InternalToCertificateTest {
                 final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
                 assertAll("Validation question validation",
                     () -> assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100, certificateDataValidationMandatory.getQuestionId()),
-                    () -> assertEquals("$" + ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100, certificateDataValidationMandatory.getExpression())
+                    () -> assertEquals("YES || NO", certificateDataValidationMandatory.getExpression())
+                );
+            }
+
+            @Test
+            void shouldIncludeQuestionValidationHighlight() {
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100);
+
+                final var certificateDataValidationHighlight = (CertificateDataValidationHighlight) question.getValidation()[1];
+                assertAll("Validation question validation",
+                    () -> assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100, certificateDataValidationHighlight.getQuestionId()),
+                    () -> assertEquals("YES || NO || !YES || !NO", certificateDataValidationHighlight.getExpression())
                 );
             }
         }
@@ -2951,12 +2964,26 @@ class InternalToCertificateTest {
             }
 
             @Test
+            void shouldIncludeQuestionValidationMandatory() {
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(ARBETSTIDSFORLAGGNING_SVAR_ID_33);
+
+                final var certificateDataValidation = (CertificateDataValidationMandatory) question.getValidation()[1];
+                assertAll("Validation question validation",
+                    () -> assertEquals(ARBETSTIDSFORLAGGNING_SVAR_ID_33, certificateDataValidation.getQuestionId()),
+                    () -> assertEquals("$" + ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33,
+                        certificateDataValidation.getExpression())
+                );
+            }
+
+            @Test
             void shouldIncludeCategoryValidationHide() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(ARBETSTIDSFORLAGGNING_SVAR_ID_33);
 
-                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
+                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[2];
                 assertAll("Validation question validation",
                     () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
                     () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27,
@@ -3055,6 +3082,20 @@ class InternalToCertificateTest {
             }
 
             @Test
+            void shouldIncludeQuestionValidationMandatory() {
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33);
+
+                final var certificateDataValidation = (CertificateDataValidationMandatory) question.getValidation()[1];
+                assertAll("Validation question validation",
+                    () -> assertEquals(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33, certificateDataValidation.getQuestionId()),
+                    () -> assertEquals("$" + ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33,
+                        certificateDataValidation.getExpression())
+                );
+            }
+
+            @Test
             void shouldIncludeQuestionValidationShow() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
@@ -3073,7 +3114,7 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33);
 
-                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
+                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[2];
                 assertAll("Validation question validation",
                     () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
                     () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
@@ -4688,7 +4729,7 @@ class InternalToCertificateTest {
                 assertAll("Validating question configuration",
                     () -> assertTrue(certificateDataConfigCheckboxBoolean.getText().trim().length() > 0, "Missing text"),
                     () -> assertTrue(certificateDataConfigCheckboxBoolean.getLabel().trim().length() > 0, "Missing label"),
-                    () -> assertTrue(certificateDataConfigCheckboxBoolean.getDescription().trim().length() > 0, "Missing description"),
+                    () -> assertNull(certificateDataConfigCheckboxBoolean.getDescription(), "Should not have description"),
                     () -> assertEquals(KONTAKT_ONSKAS_SVAR_JSON_ID_103, certificateDataConfigCheckboxBoolean.getId()),
                     () -> assertTrue(certificateDataConfigCheckboxBoolean.getSelectedText().trim().length() > 0, "Missing selected text"),
                     () -> assertTrue(certificateDataConfigCheckboxBoolean.getUnselectedText().trim().length() > 0,

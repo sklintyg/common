@@ -16,39 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.support.facade.model.config;
+
+package se.inera.intyg.common.support.facade.model.validation;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigIcf.CertificateDataConfigIcfBuilder;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHighlight.CertificateDataValidationHighlightBuilder;
 
-@JsonDeserialize(builder = CertificateDataConfigIcfBuilder.class)
+@JsonDeserialize(builder = CertificateDataValidationHighlightBuilder.class)
 @Value
 @Builder
-public class CertificateDataConfigIcf implements CertificateDataConfig {
+public class CertificateDataValidationHighlight implements CertificateDataValidation {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_ICF;
-    @Getter(onMethod = @__(@Override))
-    String header;
-    @Getter(onMethod = @__(@Override))
-    String label;
-    @Getter(onMethod = @__(@Override))
-    String icon;
-    @Getter(onMethod = @__(@Override))
-    String text;
-    @Getter(onMethod = @__(@Override))
-    String description;
-    String id;
-    String modalLabel;
-    String collectionsLabel;
-    String placeholder;
+    CertificateDataValidationType type = CertificateDataValidationType.HIGHLIGHT_VALIDATION;
+    String questionId;
+    String expression;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataConfigIcfBuilder {
+    public static class CertificateDataValidationHighlightBuilder {
 
     }
 }

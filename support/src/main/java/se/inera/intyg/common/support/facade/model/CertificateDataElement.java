@@ -28,6 +28,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.ValidationError;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 
+
 @JsonDeserialize(builder = CertificateDataElementBuilder.class)
 @Value
 @Builder
@@ -40,6 +41,7 @@ public class CertificateDataElement {
     private CertificateDataValue value;
     private CertificateDataValidation[] validation;
     private ValidationError[] validationError;
+    private CertificateDataElementStyleEnum style;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataElementBuilder {

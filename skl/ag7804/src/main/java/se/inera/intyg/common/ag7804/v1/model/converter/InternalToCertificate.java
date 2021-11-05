@@ -105,7 +105,6 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMU_TE
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMU_UNDERSOKNING_LABEL;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_CATEGORY_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_TEXT;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_BESKRIVNING;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_103;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_103;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_TEXT;
@@ -115,7 +114,6 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARB
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_CATEGORY_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_ID_25;
@@ -152,6 +150,7 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNIN
 import static se.inera.intyg.common.ag7804.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.YES_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.not;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import java.util.ArrayList;
@@ -199,6 +198,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationEnable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHighlight;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
@@ -679,7 +679,11 @@ public final class InternalToCertificate {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
-                        .expression(singleExpression(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_100))
+                        .expression(multipleOrExpression(YES_ID, NO_ID))
+                        .build(),
+                    CertificateDataValidationHighlight.builder()
+                        .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
+                        .expression(multipleOrExpression(YES_ID, NO_ID, not(YES_ID), not(NO_ID)))
                         .build(),
                 }
             )
@@ -1100,6 +1104,10 @@ public final class InternalToCertificate {
                                 se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad.NEDSATT_3_4.getId())
                         ))
                         .build(),
+                    CertificateDataValidationMandatory.builder()
+                        .questionId(ARBETSTIDSFORLAGGNING_SVAR_ID_33)
+                        .expression(singleExpression(ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33))
+                        .build(),
                     CertificateDataValidationHide.builder()
                         .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
                         .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
@@ -1133,6 +1141,12 @@ public final class InternalToCertificate {
                         .questionId(ARBETSTIDSFORLAGGNING_SVAR_ID_33)
                         .expression(
                             singleExpression(ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33)
+                        )
+                        .build(),
+                    CertificateDataValidationMandatory.builder()
+                        .questionId(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33)
+                        .expression(
+                            singleExpression(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33)
                         )
                         .build(),
                     CertificateDataValidationHide.builder()
@@ -1583,7 +1597,6 @@ public final class InternalToCertificate {
                 CertificateDataConfigCheckboxBoolean.builder()
                     .id(KONTAKT_ONSKAS_SVAR_JSON_ID_103)
                     .text(texts.get(KONTAKT_ONSKAS_SVAR_TEXT))
-                    .description(texts.get(KONTAKT_ONSKAS_SVAR_BESKRIVNING))
                     .selectedText(texts.get(ANSWER_YES))
                     .unselectedText(texts.get(ANSWER_NO))
                     .label(texts.get(KONTAKT_ONSKAS_DELSVAR_TEXT))
