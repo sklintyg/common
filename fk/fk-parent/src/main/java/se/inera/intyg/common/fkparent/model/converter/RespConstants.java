@@ -150,7 +150,8 @@ public final class RespConstants {
     public static final String AKTIVITETSBEGRANSNING_DELSVAR_BESKRIVNING = "DFR_17.1.HLP";
     public static final String AKTIVITETSBEGRANSNING_ICF_INFO = "Välj enbart de svårigheter som påverkar patientens sysselsättning.";
     public static final String AKTIVITETSBEGRANSNING_ICF_COLLECTION = "Svårigheter som påverkar patientens sysselsättning:";
-    public static final String AKTIVITETSBEGRANSNING_ICF_PLACEHOLDER = "Hur begränsar ovanstående patientens sysselsättning och i vilken utsträckning?";
+    public static final String AKTIVITETSBEGRANSNING_ICF_PLACEHOLDER = "Hur begränsar ovanstående patientens sysselsättning och i "
+        + "vilken utsträckning?";
 
 
     public static final String MEDICINSKABEHANDLINGAR_CATEGORY_ID = "medicinskabehandlingar";
@@ -277,7 +278,8 @@ public final class RespConstants {
     public static final String FUNKTIONSNEDSATTNING_ICF_INFO = "Välj enbart de problem som påverkar patienten.";
     public static final String FUNKTIONSNEDSATTNING_ICF_COLLECTION = "Problem som påverkar patientens möjlighet att utföra sin "
         + "sysselsättning:";
-    public static final String FUNKTIONSNEDSATTNING_ICF_PLACEHOLDER = "Vad grundar sig bedömningen på? På vilket sätt och i vilken utsträckning är patienten påverkad?";
+    public static final String FUNKTIONSNEDSATTNING_ICF_PLACEHOLDER = "Vad grundar sig bedömningen på? På vilket sätt och i vilken "
+        + "utsträckning är patienten påverkad?";
 
 
     public static final String FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37 = "37";
