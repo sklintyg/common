@@ -1105,7 +1105,7 @@ public final class InternalToCertificate {
                         ))
                         .build(),
                     CertificateDataValidationMandatory.builder()
-                        .questionId(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32)
+                        .questionId(ARBETSTIDSFORLAGGNING_SVAR_ID_33)
                         .expression(singleExpression(ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33))
                         .build(),
                     CertificateDataValidationHide.builder()
@@ -1144,9 +1144,9 @@ public final class InternalToCertificate {
                         )
                         .build(),
                     CertificateDataValidationMandatory.builder()
-                        .questionId(ARBETSTIDSFORLAGGNING_SVAR_ID_33)
+                        .questionId(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33)
                         .expression(
-                            singleExpression(ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33)
+                            singleExpression(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33)
                         )
                         .build(),
                     CertificateDataValidationHide.builder()
