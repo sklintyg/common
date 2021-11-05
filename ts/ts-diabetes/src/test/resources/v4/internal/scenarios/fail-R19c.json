@@ -50,7 +50,23 @@
     "patientenFoljsAv": "VN1",
     "diabetesDiagnosAr":"1990",
     "typAvDiabetes":"TYP1",
-    "medicineringForDiabetes":false
+    "medicineringForDiabetes": true,
+    "medicineringMedforRiskForHypoglykemi": true,
+    "behandling":{
+      "insulin":true
+    },
+    "medicineringMedforRiskForHypoglykemiTidpunkt": "2021-13-01"
+  },
+  "hypoglykemi": {
+    "kontrollSjukdomstillstand": true,
+    "forstarRiskerMedHypoglykemi": true,
+    "formagaKannaVarningstecken": true,
+    "vidtaAdekvataAtgarder": true,
+    "aterkommandeSenasteAret": true,
+    "aterkommandeSenasteAretTidpunkt": "2021-10-30",
+    "aterkommandeSenasteAretKontrolleras": true,
+    "aterkommandeSenasteAretTrafik": true,
+    "aterkommandeVaketSenasteTolv": false
   },
   "ovrigt": {
     "komplikationerAvSjukdomen": false

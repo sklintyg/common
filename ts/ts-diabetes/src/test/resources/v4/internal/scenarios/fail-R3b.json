@@ -49,8 +49,11 @@
   "allmant":{
     "patientenFoljsAv": "VN1",
     "diabetesDiagnosAr":"1990",
-    "typAvDiabetes":"TYP1",
-    "medicineringForDiabetes":false
+    "typAvDiabetes":"ANNAN",
+    "medicineringForDiabetes":false,
+    "beskrivningAnnanTypAvDiabetes":"This example string is certainly longer than than 53 characters"
+  },
+  "hypoglykemi":{
   },
   "ovrigt": {
     "komplikationerAvSjukdomen": false

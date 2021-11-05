@@ -84,8 +84,8 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void failureDueToRule2() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R2").asInternalModel();
+    public void failureDueToRule2a() throws Exception {
+        TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R2a").asInternalModel();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -96,11 +96,44 @@ public class InternalDraftValidatorTest {
         assertEquals(CATEGORY_ALLMANT, error.getCategory());
         Assert.assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID, error.getField());
         assertEquals(ValidationMessageType.OTHER, error.getType());
+        assertEquals("common.validation.d-02", error.getMessage());
     }
 
     @Test
-    public void failureDueToRule3() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R3").asInternalModel();
+    public void failureDueToRule2b() throws Exception {
+        TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R2b").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals(CATEGORY_ALLMANT, error.getCategory());
+        Assert.assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.OTHER, error.getType());
+        assertEquals("common.validation.d-02", error.getMessage());
+    }
+
+    @Test
+    public void failureDueToRule2c() throws Exception {
+        TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R2c").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals(CATEGORY_ALLMANT, error.getCategory());
+        Assert.assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.INVALID_FORMAT, error.getType());
+        assertEquals("common.validation.b-02b", error.getMessage());
+    }
+
+    @Test
+    public void failureDueToRule3a() throws Exception {
+        TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R3a").asInternalModel();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -111,6 +144,21 @@ public class InternalDraftValidatorTest {
         assertEquals(CATEGORY_ALLMANT, error.getCategory());
         Assert.assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID, error.getField());
         assertEquals(ValidationMessageType.EMPTY, error.getType());
+    }
+
+    @Test
+    public void failureDueToRule3b() throws Exception {
+        TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R3b").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals(CATEGORY_ALLMANT, error.getCategory());
+        Assert.assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.OTHER, error.getType());
     }
 
     @Test
@@ -166,8 +214,8 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void failureDueToRule18() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R18").asInternalModel();
+    public void failureDueToRule18a() throws Exception {
+        TsDiabetesUtlatandeV4 utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R18a").asInternalModel();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -180,6 +228,21 @@ public class InternalDraftValidatorTest {
             ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID + "." + ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID,
             error.getField());
         assertEquals(ValidationMessageType.EMPTY, error.getType());
+    }
+
+
+    @Test
+    public void failureDueToRule18b() throws Exception {
+        TsDiabetesUtlatandeV4 utlatande = ScenarioFinder.getInternalScenario("fail-R18b").asInternalModel();
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals(CATEGORY_ALLMANT, error.getCategory());
+        Assert.assertEquals(CATEGORY_ALLMANT + "." + ALLMANT_BEHANDLING_JSON_ID + "." + ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.OTHER, error.getType());
     }
 
     @Test
@@ -211,6 +274,20 @@ public class InternalDraftValidatorTest {
         assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID, error.getField());
         assertEquals(ValidationMessageType.OTHER, error.getType());
         assertEquals(error.getMessage(), "common.validation.d-08");
+    }
+
+    @Test
+    public void failureDueToRule19c() throws Exception {
+        final var utlatande19 = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R19c").asInternalModel();
+        final var res19 = validator.validateDraft(utlatande19);
+
+        assertTrue(res19.hasErrorMessages());
+        assertFalse(res19.hasWarningMessages());
+        assertEquals(1, res19.getValidationErrors().size());
+        ValidationMessage error = res19.getValidationErrors().get(0);
+        assertEquals(CATEGORY_ALLMANT, error.getCategory());
+        assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.INVALID_FORMAT, error.getType());
     }
 
     @Test
@@ -369,8 +446,8 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void failureDueToRule29() throws Exception {
-        final var utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R29").asInternalModel();
+    public void failureDueToRule29a() throws Exception {
+        final var utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R29a").asInternalModel();
         final var res = validator.validateDraft(utlatande);
 
         assertTrue(res.hasErrorMessages());
@@ -380,6 +457,20 @@ public class InternalDraftValidatorTest {
         assertEquals(CATEGORY_OVRIGT, error.getCategory());
         assertEquals(OVRIGT_JSON_ID + "." + OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID, error.getField());
         assertEquals(ValidationMessageType.EMPTY, error.getType());
+    }
+
+    @Test
+    public void failureDueToRule29b() throws Exception {
+        final var utlatande = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R29b").asInternalModel();
+        final var res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals(CATEGORY_OVRIGT, error.getCategory());
+        assertEquals(OVRIGT_JSON_ID + "." + OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.OTHER, error.getType());
     }
 
     @Test
@@ -439,6 +530,20 @@ public class InternalDraftValidatorTest {
         ValidationMessage error = res30.getValidationErrors().get(0);
         assertEquals(CATEGORY_ALLMANT, error.getCategory());
         assertEquals(CATEGORY_ALLMANT + "." + ALLMANT_BEHANDLING_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.EMPTY, error.getType());
+    }
+
+    @Test
+    public void failureDueToRules30d() throws Exception {
+        final var utlatande30 = se.inera.intyg.common.ts_diabetes.v4.utils.ScenarioFinder.getInternalScenario("fail-R30d").asInternalModel();
+        final var res30 = validator.validateDraft(utlatande30);
+
+        assertTrue(res30.hasErrorMessages());
+        assertFalse(res30.hasWarningMessages());
+        assertEquals(1, res30.getValidationErrors().size());
+        ValidationMessage error = res30.getValidationErrors().get(0);
+        assertEquals(CATEGORY_ALLMANT, error.getCategory());
+        assertEquals(CATEGORY_ALLMANT + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID, error.getField());
         assertEquals(ValidationMessageType.EMPTY, error.getType());
     }
 
@@ -527,8 +632,8 @@ public class InternalDraftValidatorTest {
         assertEquals(1, res.getValidationErrors().size());
         ValidationMessage error = res.getValidationErrors().get(0);
         assertEquals("vardenhet", error.getCategory());
-        Assert.assertEquals("grunddata.skapadAv.vardenhet.postnummer",
-            error.getField());
+        Assert.assertEquals("grunddata.skapadAv.vardenhet.postnummer", error.getField());
         assertEquals(ValidationMessageType.EMPTY, error.getType());
     }
+
 }
