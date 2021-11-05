@@ -117,7 +117,6 @@ public final class RespConstants {
     public static final String KONTAKT_ONSKAS_DELSVAR_ID_103 = "103.1";
     public static final String KONTAKT_ONSKAS_SVAR_JSON_ID_103 = "kontaktMedAg";
     public static final String KONTAKT_ONSKAS_SVAR_TEXT = "FRG_103.RBK";
-    public static final String KONTAKT_ONSKAS_SVAR_BESKRIVNING = "FRG_103.HLP";
     public static final String KONTAKT_ONSKAS_DELSVAR_TEXT = "DFR_103.1.RBK";
     public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_103 = "anledningTillKontakt";
     public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103 = "103.2";
