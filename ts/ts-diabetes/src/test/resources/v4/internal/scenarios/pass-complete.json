@@ -1,0 +1,220 @@
+{
+  "typ": "ts-diabetes",
+  "id": "1234567",
+  "textVersion": "4.0",
+  "grundData": {
+    "patient": {
+      "samordningsNummer": false,
+      "personId": "19270310-4321"
+    },
+    "skapadAv": {
+      "vardenhet": {
+        "arbetsplatsKod": "45312",
+        "vardgivare": {
+          "vardgivarnamn": "VG1",
+          "vardgivarid": "12345678"
+        },
+        "epost": "ve1@vg1.se",
+        "telefonnummer": "0812341234",
+        "postort": "Stadby",
+        "postnummer": "100 10",
+        "postadress": "Enhetsg. 1",
+        "enhetsnamn": "VE1",
+        "enhetsid": "123456789"
+      },
+      "specialiteter": [
+        "Kirurg"
+      ],
+      "befattningar": [
+        "Klinikchef",
+        "Forskningsledare"
+      ],
+      "forskrivarKod": "09874321",
+      "fullstandigtNamn": "Karl Karlsson",
+      "personId": "19650708-1234"
+    },
+    "signeringsdatum": "2015-12-07T15:48:05.000"
+  },
+
+  "intygAvser":{
+    "kategorier":[
+      {
+        "type":"VAR12",
+        "selected":true
+      },
+      {
+        "type":"VAR13",
+        "selected":true
+      },
+      {
+        "type":"VAR14",
+        "selected":true
+      },
+      {
+        "type":"VAR15",
+        "selected":true
+      },
+      {
+        "type":"VAR16",
+        "selected":true
+      },
+      {
+        "type":"VAR17",
+        "selected":true
+      },
+      {
+        "type":"VAR18",
+        "selected":true
+      },
+      {
+        "type":"VAR1",
+        "selected":true
+      },
+      {
+        "type":"VAR2",
+        "selected":true
+      },
+      {
+        "type":"VAR3",
+        "selected":true
+      },
+      {
+        "type":"VAR4",
+        "selected":true
+      },
+      {
+        "type":"VAR5",
+        "selected":true
+      },
+      {
+        "type":"VAR6",
+        "selected":true
+      },
+      {
+        "type":"VAR7",
+        "selected":true
+      },
+      {
+        "type":"VAR8",
+        "selected":true
+      },
+      {
+        "type":"VAR9",
+        "selected":true
+      }
+    ]
+  },
+  "identitetStyrktGenom":{
+    "typ":"IDK1"
+  },
+  "allmant":{
+    "patientenFoljsAv": "VN1",
+    "diabetesDiagnosAr":"2000",
+    "typAvDiabetes":"ANNAN",
+    "medicineringForDiabetes":true,
+    "medicineringMedforRiskForHypoglykemi":true,
+    "beskrivningAnnanTypAvDiabetes":"Annan diabetes",
+    "behandling":{
+      "insulin":true,
+      "tabletter":true,
+      "annan":true,
+      "annanAngeVilken":"Annan behandling"
+    },
+    "medicineringMedforRiskForHypoglykemiTidpunkt": "2021-10-30"
+  },
+  "hypoglykemi": {
+    "kontrollSjukdomstillstand": false,
+    "kontrollSjukdomstillstandVarfor": "Varför inte kontroll sjukdomstillstand",
+    "forstarRiskerMedHypoglykemi": true,
+    "formagaKannaVarningstecken": true,
+    "vidtaAdekvataAtgarder": true,
+    "aterkommandeSenasteAret": true,
+    "aterkommandeSenasteAretTidpunkt": "2021-10-30",
+    "aterkommandeSenasteAretKontrolleras": true,
+    "aterkommandeSenasteAretTrafik": true,
+    "aterkommandeVaketSenasteTolv": true,
+    "aterkommandeVaketSenasteTre": true,
+    "aterkommandeVaketSenasteTreTidpunkt": "2021-10-30",
+    "allvarligSenasteTolvManaderna": true,
+    "allvarligSenasteTolvManadernaTidpunkt": "2021-10-30",
+    "regelbundnaBlodsockerkontroller": true
+  },
+  "ovrigt": {
+    "komplikationerAvSjukdomen": true,
+    "komplikationerAvSjukdomenAnges": "Komplikationer anges",
+    "borUndersokasAvSpecialist": "Bör undersökas av specialistläkare"
+  },
+  "bedomning":{
+    "uppfyllerBehorighetskrav":[
+      {
+        "type":"VAR1",
+        "selected":true
+      },
+      {
+        "type":"VAR2",
+        "selected":true
+      },
+      {
+        "type":"VAR3",
+        "selected":true
+      },
+      {
+        "type": "VAR4",
+        "selected":true
+      },
+      {
+        "type":"VAR5",
+        "selected":true
+      },
+      {
+        "type":"VAR6",
+        "selected":true
+      },
+      {
+        "type":"VAR7",
+        "selected":true
+      },
+      {
+        "type":"VAR8",
+        "selected":true
+      },
+      {
+        "type":"VAR9",
+        "selected":true
+      },
+      {
+        "type": "VAR12",
+        "selected":true
+      },
+      {
+        "type": "VAR13",
+        "selected":true
+      },
+      {
+        "type": "VAR14",
+        "selected":true
+      },
+      {
+        "type": "VAR15",
+        "selected":true
+      },
+      {
+        "type": "VAR16",
+        "selected":true
+      },
+      {
+        "type": "VAR17",
+        "selected":true
+      },
+      {
+        "type": "VAR18",
+        "selected":true
+      },
+      {
+        "type":"VAR11",
+        "selected":false
+      }
+    ],
+    "ovrigaKommentarer": "Övriga kommentarer"
+  }
+}

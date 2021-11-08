@@ -1,0 +1,80 @@
+{
+  "typ": "ts-diabetes",
+  "id": "1234567",
+  "textVersion": "4.0",
+  "grundData": {
+    "patient": {
+      "samordningsNummer": false,
+      "personId": "19270310-4321"
+    },
+    "skapadAv": {
+      "vardenhet": {
+        "arbetsplatsKod": "45312",
+        "vardgivare": {
+          "vardgivarnamn": "VG1",
+          "vardgivarid": "12345678"
+        },
+        "epost": "ve1@vg1.se",
+        "telefonnummer": "0812341234",
+        "postort": "Stadby",
+        "postnummer": "100 10",
+        "postadress": "Enhetsg. 1",
+        "enhetsnamn": "VE1",
+        "enhetsid": "123456789"
+      },
+      "specialiteter": [
+        "Kirurg"
+      ],
+      "befattningar": [
+        "Klinikchef",
+        "Forskningsledare"
+      ],
+      "forskrivarKod": "09874321",
+      "fullstandigtNamn": "Karl Karlsson",
+      "personId": "19650708-1234"
+    },
+    "signeringsdatum": "2015-12-07T15:48:05.000"
+  },
+  "intygAvser": {
+    "kategorier": [
+      {
+        "type": "VAR17",
+        "selected": true
+      }
+    ]
+  },
+  "identitetStyrktGenom":{
+    "typ":"IDK6"
+  },
+  "allmant":{
+    "patientenFoljsAv": "VN1",
+    "diabetesDiagnosAr":"1990",
+    "typAvDiabetes":"TYP1",
+    "medicineringForDiabetes":true,
+    "medicineringMedforRiskForHypoglykemi": true,
+    "behandling":{
+      "insulin":true
+    },
+    "medicineringMedforRiskForHypoglykemiTidpunkt": "2021-10-30"
+  },
+  "hypoglykemi": {
+    "kontrollSjukdomstillstand": false,
+    "kontrollSjukdomstillstandVarfor": "This example string is certainly longer than than 53 characters",
+    "forstarRiskerMedHypoglykemi": true,
+    "formagaKannaVarningstecken": true,
+    "vidtaAdekvataAtgarder": true,
+    "aterkommandeSenasteAret": false,
+    "aterkommandeVaketSenasteTolv": false
+  },
+  "ovrigt": {
+    "komplikationerAvSjukdomen": false
+  },
+  "bedomning":{
+    "uppfyllerBehorighetskrav":[
+      {
+        "type":"VAR11",
+        "selected":true
+      }
+    ]
+  }
+}
