@@ -1793,6 +1793,18 @@ class InternalToCertificateTest {
                     () -> assertEquals("$1", certificateDataValidationMandatory.getExpression())
                 );
             }
+
+            @Test
+            void shouldIncludeQuestionValidationText() {
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(DIAGNOS_SVAR_ID_6);
+
+                final var certificateDataValidation = (CertificateDataValidationText) question.getValidation()[1];
+                assertAll("Validation question validation",
+                    () -> assertEquals(81, certificateDataValidation.getLimit())
+                );
+            }
         }
 
         @Nested
@@ -4817,7 +4829,7 @@ class InternalToCertificateTest {
                 final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[0];
                 assertAll("Validation question validation",
                     () -> assertEquals(OVRIGT_SVAR_JSON_ID_25, certificateDataValidationText.getId()),
-                    () -> assertEquals(3296, certificateDataValidationText.getLimit())
+                    () -> assertEquals(2700, certificateDataValidationText.getLimit())
                 );
             }
         }

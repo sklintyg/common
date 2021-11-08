@@ -229,7 +229,8 @@ public final class InternalToCertificate {
 
     private static final short LIMIT_MOTIVERING_INTE_BASERAT_PA_UNDERLAG = (short) 150;
     private static final short LIMIT_MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING = (short) 150;
-    private static final short LIMIT_OVRIGT = (short) 3296;
+    private static final short LIMIT_OVRIGT = (short) 2700;
+    private static final short LIMIT_DIAGNOSIS_DESC = (short) 81;
 
     private static final String VALIDATION_DAYS_TIDIGT_START_DATUM = "-7";
 
@@ -769,6 +770,9 @@ public final class InternalToCertificate {
                     CertificateDataValidationMandatory.builder()
                         .questionId(DIAGNOS_SVAR_ID_6)
                         .expression(singleExpression("1"))
+                        .build(),
+                    CertificateDataValidationText.builder()
+                        .limit(LIMIT_DIAGNOSIS_DESC)
                         .build()
                 }
             )
