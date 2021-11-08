@@ -18,9 +18,7 @@
  */
 package se.inera.intyg.common.ts_diabetes.v4.model.converter;
 
-import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
@@ -34,9 +32,8 @@ public final class InternalToTransport {
             throw new ConverterException("Source utlatande was null, cannot convert");
         }
 
-        RegisterCertificateType transport = new RegisterCertificateType();
+        final var transport = new RegisterCertificateType();
         transport.setIntyg(UtlatandeToIntyg.convert(source));
-        transport.setSvarPa(InternalConverterUtil.getMeddelandeReferensOfType(source, RelationKod.KOMPLT));
         return transport;
     }
 }

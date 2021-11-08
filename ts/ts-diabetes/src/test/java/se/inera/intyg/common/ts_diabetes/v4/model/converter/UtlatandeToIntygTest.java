@@ -121,21 +121,6 @@ public class UtlatandeToIntygTest {
     }
 
     @Test
-    public void testConvertWithRelation() {
-        RelationKod relationKod = RelationKod.FRLANG;
-        String relationIntygsId = "relationIntygsId";
-        TsDiabetesUtlatandeV4 utlatande = buildUtlatande(relationKod, relationIntygsId).build();
-
-        Intyg intyg = se.inera.intyg.common.ts_diabetes.v4.model.converter.UtlatandeToIntyg.convert(utlatande);
-        assertNotNull(intyg.getRelation());
-        assertEquals(1, intyg.getRelation().size());
-        assertEquals(relationKod.value(), intyg.getRelation().get(0).getTyp().getCode());
-        assertNotNull(intyg.getRelation().get(0).getTyp().getCodeSystem());
-        assertEquals(relationIntygsId, intyg.getRelation().get(0).getIntygsId().getExtension());
-        assertNotNull(intyg.getRelation().get(0).getIntygsId().getRoot());
-    }
-
-    @Test
     public void emptyUtlatandeShouldHaveNoIncompleteSvar() {
         // Given
         TsDiabetesUtlatandeV4 utlatande = buildUtlatande().build();

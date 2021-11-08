@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.ts_diabetes.v4.model.internal;
 
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.KATEGORIER_JSON_ID;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -32,7 +34,7 @@ import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 public abstract class IntygAvser {
 
     @JsonCreator
-    public static IntygAvser create(@JsonProperty("kategorier") Set<IntygAvserKategori> kategorier) {
+    public static IntygAvser create(@JsonProperty(KATEGORIER_JSON_ID) Set<IntygAvserKategori> kategorier) {
         return new AutoValue_IntygAvser(kategorier);
     }
 

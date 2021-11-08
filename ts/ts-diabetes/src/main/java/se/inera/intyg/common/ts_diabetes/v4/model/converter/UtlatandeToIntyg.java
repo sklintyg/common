@@ -82,7 +82,6 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID;
 
 import com.google.common.base.Strings;
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
@@ -109,7 +108,7 @@ public final class UtlatandeToIntyg {
     }
 
     public static Intyg convert(TsDiabetesUtlatandeV4 utlatande) {
-        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, PatientInfo.BASIC);
+        final var intyg = InternalConverterUtil.getIntyg(utlatande, PatientInfo.BASIC);
         intyg.setTyp(getTypAvIntyg());
         intyg.getSvar().addAll(getSvar(utlatande));
         intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));
@@ -117,7 +116,7 @@ public final class UtlatandeToIntyg {
     }
 
     private static TypAvIntyg getTypAvIntyg() {
-        TypAvIntyg typAvIntyg = new TypAvIntyg();
+        final var typAvIntyg = new TypAvIntyg();
         typAvIntyg.setCode(TsDiabetesEntryPoint.KV_UTLATANDETYP_INTYG_CODE);
         typAvIntyg.setCodeSystem(KV_UTLATANDETYP_INTYG_CODE_SYSTEM);
         typAvIntyg.setDisplayName(TsDiabetesEntryPoint.ISSUER_MODULE_NAME);
@@ -125,7 +124,7 @@ public final class UtlatandeToIntyg {
     }
 
     private static List<Svar> getSvar(TsDiabetesUtlatandeV4 source) {
-        List<Svar> svars = new ArrayList<>();
+        final var svars = new ArrayList<Svar>();
 
         // Kat 1 - Intyget avser
         if (source.getIntygAvser() != null && source.getIntygAvser().getKategorier() != null
@@ -183,7 +182,7 @@ public final class UtlatandeToIntyg {
 
         if (allmant.getDiabetesDiagnosAr() != null) {
             // If getDiabetesDiagnosAr can not be converted to year getYearContent will return null and the svar will not be added.
-            Year diabetesDiagnosAr = getYearContent(allmant.getDiabetesDiagnosAr());
+            final var diabetesDiagnosAr = getYearContent(allmant.getDiabetesDiagnosAr());
             if (diabetesDiagnosAr != null) {
                 svars.add(aSvar(ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID)
                     .withDelsvar(ALLMANT_DIABETES_DIAGNOS_AR_DELSVAR_ID,
@@ -222,7 +221,7 @@ public final class UtlatandeToIntyg {
 
         if (allmant.getBehandling() != null) {
             // Here we rely on withDelsvar not adding a delsvar if content is null
-            Svar behandlingSvar = aSvar(ALLMANT_BEHANDLING_SVAR_ID)
+            final var behandlingSvar = aSvar(ALLMANT_BEHANDLING_SVAR_ID)
                 .withDelsvar(ALLMANT_BEHANDLING_INSULIN_DELSVAR_ID,
                     InternalConverterUtil.getBooleanContent(allmant.getBehandling().getInsulin()))
                 .withDelsvar(ALLMANT_BEHANDLING_TABLETTER_DELSVAR_ID,
@@ -232,7 +231,7 @@ public final class UtlatandeToIntyg {
                 .withDelsvar(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID,
                     allmant.getBehandling().getAnnanAngeVilken())
                 .build();
-            boolean validElementInIntygXmlSchema = behandlingSvar.getDelsvar().size() != 0;
+            final var validElementInIntygXmlSchema = behandlingSvar.getDelsvar().size() != 0;
             if (validElementInIntygXmlSchema) {
                 svars.add(behandlingSvar);
             }

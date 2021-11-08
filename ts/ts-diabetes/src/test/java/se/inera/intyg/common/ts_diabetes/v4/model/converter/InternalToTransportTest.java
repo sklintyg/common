@@ -92,39 +92,4 @@ public class InternalToTransportTest {
     public void testInternalToTransportSourceNull() throws Exception {
         se.inera.intyg.common.ts_diabetes.v4.model.converter.InternalToTransport.convert(null);
     }
-
-    @Test
-    public void convertDecorateSvarPaTest() throws Exception {
-        final String meddelandeId = "meddelandeId";
-        final String referensId = "referensId";
-        TsDiabetesUtlatandeV4 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, referensId);
-        RegisterCertificateType transport = se.inera.intyg.common.ts_diabetes.v4.model.converter.InternalToTransport.convert(utlatande);
-        assertNotNull(transport.getSvarPa());
-        assertEquals(meddelandeId, transport.getSvarPa().getMeddelandeId());
-        assertEquals(referensId, transport.getSvarPa().getReferensId());
-    }
-
-    @Test
-    public void convertDecorateSvarPaReferensIdNullTest() throws Exception {
-        final String meddelandeId = "meddelandeId";
-        TsDiabetesUtlatandeV4 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, null);
-        RegisterCertificateType transport = se.inera.intyg.common.ts_diabetes.v4.model.converter.InternalToTransport.convert(utlatande);
-        assertNotNull(transport.getSvarPa());
-        assertEquals(meddelandeId, transport.getSvarPa().getMeddelandeId());
-        assertNull(transport.getSvarPa().getReferensId());
-    }
-
-    @Test
-    public void convertDecorateSvarPaNoRelationTest() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = getUtlatande();
-        RegisterCertificateType transport = se.inera.intyg.common.ts_diabetes.v4.model.converter.InternalToTransport.convert(utlatande);
-        assertNull(transport.getSvarPa());
-    }
-
-    @Test
-    public void convertDecorateSvarPaNotKompltTest() throws Exception {
-        TsDiabetesUtlatandeV4 utlatande = getUtlatande(RelationKod.FRLANG, null, null);
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
-        assertNull(transport.getSvarPa());
-    }
 }

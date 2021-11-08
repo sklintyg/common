@@ -74,9 +74,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
-import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
-import se.inera.intyg.common.ts_diabetes.v4.model.internal.Behandling;
-import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
 import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvTypAvDiabetes;
 import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
@@ -218,7 +215,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
 
     @Override
     public ValidateDraftResponse validateDraft(TsDiabetesUtlatandeV4 utlatande) {
-        List<ValidationMessage> validationMessages = new ArrayList<>();
+        final var validationMessages = new ArrayList<ValidationMessage>();
 
         // Kategori 1 - Intyget avser
         validateIntygetAvser(utlatande, validationMessages);
@@ -281,7 +278,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     }
 
     private void validateIntygetAvser(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        Set<IntygAvserKategori> intygAvser = utlatande.getIntygAvser() == null ? null : utlatande.getIntygAvser().getKategorier();
+        final var intygAvser = utlatande.getIntygAvser() == null ? null : utlatande.getIntygAvser().getKategorier();
         if (intygAvser == null || intygAvser.isEmpty()) {
             addValidationError(validationMessages, CATEGORY_INTYGET_AVSER_BEHORIGHET, INTYGETAVSER_SVAR_JSON_ID + ".kategorier",
                 ValidationMessageType.EMPTY);
@@ -303,8 +300,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     }
 
     private void validateDiagnosAr(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        String diabetesSedanArFieldPath = ALLMANT_JSON_ID + "." + ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID;
-        String cleanedDiabetesDiagnosAr = Strings.nullToEmpty(utlatande.getAllmant().getDiabetesDiagnosAr()).trim();
+        final var diabetesSedanArFieldPath = ALLMANT_JSON_ID + "." + ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID;
+        final var cleanedDiabetesDiagnosAr = Strings.nullToEmpty(utlatande.getAllmant().getDiabetesDiagnosAr()).trim();
         if (cleanedDiabetesDiagnosAr.isEmpty()) {
             addValidationError(validationMessages, CATEGORY_ALLMANT, diabetesSedanArFieldPath, ValidationMessageType.EMPTY, B_02B);
             return;
@@ -332,9 +329,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     }
 
     private void validateTypAvDiabetes(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        String typAvDiabetesFieldPath = ALLMANT_JSON_ID + "." + ALLMANT_TYP_AV_DIABETES_JSON_ID;
-        String annanTypAvDiabetesBeskrivningFieldPath = ALLMANT_JSON_ID + "." + ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID;
-        Allmant allmant = utlatande.getAllmant();
+        final var typAvDiabetesFieldPath = ALLMANT_JSON_ID + "." + ALLMANT_TYP_AV_DIABETES_JSON_ID;
+        final var annanTypAvDiabetesBeskrivningFieldPath = ALLMANT_JSON_ID + "." + ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID;
+        final var allmant = utlatande.getAllmant();
         if (allmant.getTypAvDiabetes() == null) {
             addValidationError(validationMessages, CATEGORY_ALLMANT, typAvDiabetesFieldPath, ValidationMessageType.EMPTY);
         }
@@ -349,8 +346,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     }
 
     private void validateMedicineringForDiabetes(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        String medicineringForDiabetes = ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID;
-        Allmant allmant = utlatande.getAllmant();
+        final var medicineringForDiabetes = ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID;
+        final var allmant = utlatande.getAllmant();
         if (allmant.getMedicineringForDiabetes() == null) {
             addValidationError(validationMessages, CATEGORY_ALLMANT, medicineringForDiabetes, ValidationMessageType.EMPTY);
         }
@@ -366,7 +363,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
 
     private void validateBehandling(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
         if (eligibleForRule30(utlatande)) {
-            Behandling behandling = utlatande.getAllmant().getBehandling();
+            final var behandling = utlatande.getAllmant().getBehandling();
             if (behandling == null) {
                 addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID,
                     ValidationMessageType.EMPTY, "common.validation.ue-checkgroup.empty");
@@ -611,7 +608,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             return false;
         }
 
-        LocalDate dateToValidateLocalDate = dateToValidate.asLocalDate();
+        final var dateToValidateLocalDate = dateToValidate.asLocalDate();
         if (dateToValidateLocalDate.isBefore(notBeforeDate)) {
             addValidationError(validationMessages, category, field, ValidationMessageType.OTHER, notBeforeMessage);
             return false;

@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.ts_diabetes.v4.model.internal;
 
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.TYP_JSON_ID;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.auto.value.AutoValue;
@@ -28,7 +30,7 @@ import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvIdKontroll;
 public abstract class IdKontroll {
 
     @JsonCreator
-    public static IdKontroll create(@JsonProperty("typ") KvIdKontroll typ) {
+    public static IdKontroll create(@JsonProperty(TYP_JSON_ID) KvIdKontroll typ) {
         return new AutoValue_IdKontroll(typ);
     }
 

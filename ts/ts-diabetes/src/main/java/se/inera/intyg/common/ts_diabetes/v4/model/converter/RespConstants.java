@@ -145,6 +145,8 @@ public final class RespConstants {
     public static final String TEXTVERSION_JSON_ID = "textVersion";
     public static final String ID_JSON_ID = "id";
     public static final String SIGNATURE = "signature";
+    public static final String KATEGORIER_JSON_ID = "kategorier";
+    public static final String TYP_JSON_ID = "typ";
 
     private RespConstants() {
     }

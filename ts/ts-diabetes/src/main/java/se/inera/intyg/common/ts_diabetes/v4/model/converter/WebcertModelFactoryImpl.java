@@ -61,8 +61,8 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetesUt
 
         LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
 
-        TsDiabetesUtlatandeV4.Builder template = TsDiabetesUtlatandeV4.builder();
-        GrundData grundData = new GrundData();
+        final var template = TsDiabetesUtlatandeV4.builder();
+        final var grundData = new GrundData();
 
         populateWithId(template, newDraftData.getCertificateId());
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
@@ -83,16 +83,16 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetesUt
 
     @Override
     public TsDiabetesUtlatandeV4 createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException {
-        if (!TsDiabetesUtlatandeV4.class.isInstance(template)) {
+        if (!(template instanceof TsDiabetesUtlatandeV4)) {
             throw new ConverterException("Template is not of type TsDiabetesUtlatandeV4");
         }
 
-        TsDiabetesUtlatandeV4 tsDiabetesUtlatandeV4 = (TsDiabetesUtlatandeV4) template;
+        final var tsDiabetesUtlatandeV4 = (TsDiabetesUtlatandeV4) template;
 
         LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), tsDiabetesUtlatandeV4.getId());
 
-        TsDiabetesUtlatandeV4.Builder templateBuilder = tsDiabetesUtlatandeV4.toBuilder();
-        GrundData grundData = tsDiabetesUtlatandeV4.getGrundData();
+        final var templateBuilder = tsDiabetesUtlatandeV4.toBuilder();
+        final var grundData = tsDiabetesUtlatandeV4.getGrundData();
 
         populateWithId(templateBuilder, copyData.getCertificateId());
         WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
@@ -110,7 +110,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetesUt
     }
 
     private void resetDataInGrundData(GrundData grundData) {
-        Patient patient = new Patient();
+        final var patient = new Patient();
         patient.setPersonId(grundData.getPatient().getPersonId());
         grundData.setPatient(patient);
 

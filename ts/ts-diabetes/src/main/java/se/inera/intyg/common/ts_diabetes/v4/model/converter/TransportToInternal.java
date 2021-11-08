@@ -52,7 +52,7 @@ public final class TransportToInternal {
     }
 
     public static TsDiabetesUtlatandeV4 convert(Intyg source) throws ConverterException {
-        TsDiabetesUtlatandeV4.Builder utlatande = TsDiabetesUtlatandeV4.builder();
+        final var utlatande = TsDiabetesUtlatandeV4.builder();
         utlatande.setId(source.getIntygsId().getExtension());
         utlatande.setGrundData(TransportConverterUtil.getGrundData(source, PatientInfo.BASIC));
         utlatande.setTextVersion(source.getVersion());
@@ -62,12 +62,12 @@ public final class TransportToInternal {
     }
 
     private static void setSvar(TsDiabetesUtlatandeV4.Builder utlatande, Intyg source) throws ConverterException {
-        Set<IntygAvserKategori> intygAvserSet = EnumSet.noneOf(IntygAvserKategori.class);
-        Allmant.Builder allmant = Allmant.builder();
-        Bedomning.Builder bedomning = Bedomning.builder();
-        Set<BedomningKorkortstyp> bedomningUppfyllerBehorighetskrav = EnumSet.noneOf(BedomningKorkortstyp.class);
-        Hypoglykemi.Builder hypoglykemi = Hypoglykemi.builder();
-        Ovrigt.Builder ovrigt = Ovrigt.builder();
+        final var intygAvserSet = EnumSet.noneOf(IntygAvserKategori.class);
+        final var allmant = Allmant.builder();
+        final var bedomning = Bedomning.builder();
+        final var bedomningUppfyllerBehorighetskrav = EnumSet.noneOf(BedomningKorkortstyp.class);
+        final var hypoglykemi = Hypoglykemi.builder();
+        final var ovrigt = Ovrigt.builder();
 
         for (Svar svar : source.getSvar()) {
             switch (svar.getId()) {
@@ -160,7 +160,7 @@ public final class TransportToInternal {
                     intygAvserSet.add(IntygAvserKategori.valueOf(getCVSvarContent(delsvar).getCode()));
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Invalid delsvar id received, expected id IntigetAvser.");
             }
         }
     }
@@ -172,7 +172,8 @@ public final class TransportToInternal {
                     utlatande.setIdentitetStyrktGenom(IdKontroll.create(KvIdKontroll.fromCode(getCVSvarContent(delsvar).getCode())));
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Unexpected delsvar id '" + delsvar.getId()
+                        + "' received in method 'handleIdentitetStyrkt'.");
             }
         }
     }
@@ -184,7 +185,8 @@ public final class TransportToInternal {
                     allmant.setPatientenFoljsAv(KvVardniva.fromCode(getCVSvarContent(delsvar).getCode()));
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Unexpected delsvar id '" + delsvar.getId()
+                        + "' received in method 'handleAllmantPatientenFoljsAv'.");
             }
         }
     }
@@ -196,7 +198,8 @@ public final class TransportToInternal {
                     allmant.setDiabetesDiagnosAr(getPartialDateContent(delsvar).getValue().toString());
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Unexpected delsvar id '" + delsvar.getId()
+                        + "' received in method 'handleAllmantDiabetesDiagnosAr'.");
             }
         }
     }
@@ -212,7 +215,8 @@ public final class TransportToInternal {
                     allmant.setBeskrivningAnnanTypAvDiabetes(getStringContent(delsvar));
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Unexpected delsvar id '" + delsvar.getId()
+                        + "' received in method 'handleAllmantTypAvDiabetes'.");
             }
         }
     }
@@ -224,7 +228,8 @@ public final class TransportToInternal {
                     allmant.setMedicineringForDiabetes(getBooleanContent(delsvar));
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Unexpected delsvar id '" + delsvar.getId()
+                        + "' received in method 'handleAllmantMedicineringForDiabetes'.");
             }
         }
     }
@@ -236,7 +241,8 @@ public final class TransportToInternal {
                     allmant.setMedicineringMedforRiskForHypoglykemi(getBooleanContent(delsvar));
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Unexpected delsvar id '" + delsvar.getId()
+                        + "' received in method 'handleAllmantMedicineringMedforRiskForHypoglykemi'.");
             }
         }
     }
@@ -258,7 +264,8 @@ public final class TransportToInternal {
                     behandling.setAnnanAngeVilken(getStringContent(delsvar));
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Unexpected delsvar id '" + delsvar.getId()
+                        + "' received in method 'handleAllmantBehandling'.");
             }
         }
         allmant.setBehandling(behandling.build());
@@ -273,7 +280,8 @@ public final class TransportToInternal {
                         new InternalDate(getPartialDateContent(delsvar).getValue().toString()));
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Unexpected delsvar id '" + delsvar.getId()
+                        + "' received in method 'handleAllmantMedicineringMedforRiskForHypoglykemiTidpunkt'.");
             }
         }
     }
@@ -288,7 +296,8 @@ public final class TransportToInternal {
                     hypoglykemi.setKontrollSjukdomstillstandVarfor(getStringContent(delsvar));
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Unexpected delsvar id '" + delsvar.getId()
+                        + "' received in method 'handleHypoglykemiKontrollSjukdomstillstand'.");
             }
         }
     }
@@ -300,7 +309,8 @@ public final class TransportToInternal {
                     hypoglykemi.setForstarRiskerMedHypoglykemi(getBooleanContent(delsvar));
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Unexpected delsvar id '" + delsvar.getId()
+                        + "' received in method 'handleHypoglykemiForstarRiskerMedHypoglykemi'.");
             }
         }
     }
@@ -312,7 +322,8 @@ public final class TransportToInternal {
                     hypoglykemi.setFormagaKannaVarningstecken(getBooleanContent(delsvar));
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Unexpected delsvar id '" + delsvar.getId()
+                        + "' received in method 'handleHypoglykemiFormagaKannaVarningstecken'.");
             }
         }
     }
@@ -324,7 +335,8 @@ public final class TransportToInternal {
                     hypoglykemi.setVidtaAdekvataAtgarder(getBooleanContent(delsvar));
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Unexpected delsvar id '" + delsvar.getId()
+                        + "' received in method 'handleHypoglykemiVidtaAdekvataAtgarder'.");
             }
         }
     }
@@ -345,7 +357,8 @@ public final class TransportToInternal {
                     hypoglykemi.setAterkommandeSenasteAretTrafik(getBooleanContent(delsvar));
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Unexpected delsvar id '" + delsvar.getId()
+                        + "' received in method 'handleHypoglykemiAterkommandeSenasteAret'.");
             }
         }
     }
@@ -365,7 +378,8 @@ public final class TransportToInternal {
                         .toString()));
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Unexpected delsvar id '" + delsvar.getId()
+                        + "' received in method 'handleHypoglykemiAterkommandeVaketSenasteTolv'.");
             }
         }
     }
@@ -382,7 +396,8 @@ public final class TransportToInternal {
                         .toString()));
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Unexpected delsvar id '" + delsvar.getId()
+                        + "' received in method 'handleHypoglykemiAllvarligSenasteTolvManaderna'.");
             }
         }
     }
@@ -394,7 +409,8 @@ public final class TransportToInternal {
                     hypoglykemi.setRegelbundnaBlodsockerkontroller(getBooleanContent(delsvar));
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Unexpected delsvar id '" + delsvar.getId()
+                        + "' received in method 'handleHypoglykemiRegelbundnaBlodsockerkontroller'.");
             }
         }
     }
@@ -409,7 +425,8 @@ public final class TransportToInternal {
                     ovrigt.setKomplikationerAvSjukdomenAnges(getStringContent(delsvar));
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Unexpected delsvar id '" + delsvar.getId()
+                        + "' received in method 'handleKomplikationerAvSjukdomen'.");
             }
         }
     }
@@ -421,7 +438,8 @@ public final class TransportToInternal {
                     ovrigt.setBorUndersokasAvSpecialist(getStringContent(delsvar));
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Unexpected delsvar id '" + delsvar.getId()
+                        + "' received in method 'handleBorUndersokasAvSpecialist'.");
             }
         }
     }
@@ -433,7 +451,8 @@ public final class TransportToInternal {
                     bedomningUppfyllerBehorighetskrav.add(BedomningKorkortstyp.valueOf(getCVSvarContent(delsvar).getCode()));
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Unexpected delsvar id '" + delsvar.getId()
+                        + "' received in method 'handleBedomning'.");
             }
         }
     }
@@ -445,7 +464,8 @@ public final class TransportToInternal {
                     bedomning.setOvrigaKommentarer(getStringContent(delsvar));
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Unexpected delsvar id '" + delsvar.getId()
+                        + "' received in method 'handleOvrigaKommentarer'.");
             }
         }
     }
