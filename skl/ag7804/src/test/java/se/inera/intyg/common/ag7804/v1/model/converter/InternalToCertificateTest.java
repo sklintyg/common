@@ -100,6 +100,7 @@ import se.inera.intyg.common.ag7804.model.internal.Sysselsattning.Sysselsattning
 import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.agparent.model.internal.Diagnos;
+import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
@@ -1810,6 +1811,18 @@ class InternalToCertificateTest {
                 assertAll("Validation question validation",
                     () -> assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100, certificateDataValidationEnable.getQuestionId()),
                     () -> assertEquals("YES || NO", certificateDataValidationEnable.getExpression())
+                );
+            }
+
+            @Test
+            void shouldIncludeQuestionValidationText() {
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(RespConstants.DIAGNOS_SVAR_ID_6);
+
+                final var certificateDataValidation = (CertificateDataValidationText) question.getValidation()[3];
+                assertAll("Validation question validation",
+                    () -> assertEquals(250, certificateDataValidation.getLimit())
                 );
             }
         }
@@ -4619,7 +4632,7 @@ class InternalToCertificateTest {
                 final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[0];
                 assertAll("Validation question validation",
                     () -> assertEquals(OVRIGT_SVAR_JSON_ID_25, certificateDataValidationText.getId()),
-                    () -> assertEquals(3296, certificateDataValidationText.getLimit())
+                    () -> assertEquals(4000, certificateDataValidationText.getLimit())
                 );
             }
         }

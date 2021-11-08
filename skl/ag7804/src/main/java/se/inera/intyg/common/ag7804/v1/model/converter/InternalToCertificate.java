@@ -216,7 +216,8 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiag
 
 public final class InternalToCertificate {
 
-    private static final short LIMIT_OVRIGT = 3296;
+    private static final short LIMIT_OVRIGT = 4000;
+    private static final short LIMIT_DIAGNOSIS_DESC = (short) 250;
 
     private InternalToCertificate() {
 
@@ -745,6 +746,9 @@ public final class InternalToCertificate {
                     CertificateDataValidationEnable.builder()
                         .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
                         .expression(multipleOrExpression(YES_ID, NO_ID))
+                        .build(),
+                    CertificateDataValidationText.builder()
+                        .limit(LIMIT_DIAGNOSIS_DESC)
                         .build()
                 }
             )
