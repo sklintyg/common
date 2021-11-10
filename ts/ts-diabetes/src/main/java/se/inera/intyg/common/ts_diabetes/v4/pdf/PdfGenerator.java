@@ -36,6 +36,7 @@ import org.springframework.core.io.ClassPathResource;
 import se.inera.intyg.common.pdf.model.Summary;
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
+import se.inera.intyg.common.pdf.util.HtmlParser;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
@@ -64,6 +65,9 @@ public class PdfGenerator {
     public PdfResponse generatePdf(String intygsId, String jsonModel, Personnummer personId, IntygTexts intygTexts, List<Status> statuses,
         ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
 
+        final var intygTextsDeepCopy = intygTexts.deepCopy();
+        replaceHtmlContent(intygTextsDeepCopy, "FRG_33.RBK");
+
         try {
             String cleanedJson = cleanJsonModel(jsonModel);
             String upJsModel = loadUvViewConfig();
@@ -82,7 +86,7 @@ public class PdfGenerator {
                 .withPersonnummer(personId.getPersonnummerWithDash())
                 .withInfoText(buildInfoText(isUtkast || isLockedUtkast, statuses))
                 .withSummary(new Summary()
-                    .add(null, intygTexts.getTexter().get("FRM_1.RBK"))
+                    .add(null, intygTextsDeepCopy.getTexter().get("FRM_1.RBK"))
                     .add(UTSK001_HEADER, UTSK001_BODY))
                 .withLeftMarginTypText(TsDiabetesEntryPoint.KV_UTLATANDETYP_INTYG_CODE + " - Fastställd av Transportstyrelsen")
                 .withUtfardarLogotyp(logoData)
@@ -92,7 +96,7 @@ public class PdfGenerator {
                 .withApplicationOrigin(applicationOrigin)
                 .build();
 
-            byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+            byte[] data = new UVRenderer().startRendering(printConfig, intygTextsDeepCopy);
             return new PdfResponse(data, buildFilename());
         } catch (IOException e) {
             LOG.error("Error generating PDF for ts-diabetes: " + e.getMessage());
@@ -132,7 +136,6 @@ public class PdfGenerator {
         return upJsModel;
     }
 
-    // af_medicinskt_utlatande_åå_mm_dd_ttmm
     private String buildFilename() {
         LocalDateTime now = LocalDateTime.now();
         return CERTIFICATE_FILE_PREFIX + now.format(DateTimeFormatter.ofPattern("yy_MM_dd_HHmm")) + ".pdf";
@@ -141,4 +144,10 @@ public class PdfGenerator {
     private JsonNode toIntygJsonNode(String jsonModel) throws IOException {
         return new ObjectMapper().readTree(jsonModel);
     }
+
+    private void replaceHtmlContent(IntygTexts intygTexts, String key) {
+        final var stringWithoutHtml = HtmlParser.toTextExcludeElement(intygTexts.getTexter().get(key), "i");
+        intygTexts.getTexter().put(key, stringWithoutHtml);
+    }
+
 }
