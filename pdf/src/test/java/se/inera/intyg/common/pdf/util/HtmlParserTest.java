@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 public class HtmlParserTest {
 
     @Test
-    public void tesParserTextContainingHtmlRemoveAllPTags() {
+    public void testParserTextContainingHtmlRemoveAllPTags() {
 
         final var text = "<!DOCTYPE html>\n"
             + "<html>\n"
@@ -44,7 +44,7 @@ public class HtmlParserTest {
     }
 
     @Test
-    public void tesParserTextContainingHtmlNoPTag() {
+    public void testParserTextContainingHtmlNoPTag() {
 
         final var text = "<!DOCTYPE html>\n"
             + "<html>\n"
@@ -63,7 +63,7 @@ public class HtmlParserTest {
     }
 
     @Test
-    public void tesParserTextContainingNoHtml() {
+    public void testParserTextContainingNoHtml() {
 
         final var text = "Just a regular string";
 
@@ -73,7 +73,7 @@ public class HtmlParserTest {
     }
 
     @Test
-    public void tesParserTextContainingNotCompleteHtmlRemoveAllPTags() {
+    public void testParserTextContainingNotCompleteHtmlRemoveAllPTags() {
 
         final var text = "<p>Hello World!</p>Hello World!";
 
