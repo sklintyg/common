@@ -18,7 +18,9 @@
  */
 package se.inera.intyg.common.services.texts.model;
 
+import com.google.common.collect.Maps;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -58,6 +60,20 @@ public final class IntygTexts {
             Collections.sort(this.tillaggsfragor);
         }
         this.properties = properties;
+    }
+
+    public IntygTexts deepCopy() {
+        SortedMap<String, String> textsDeepCopy = Maps.newTreeMap();
+        for (final var key : this.texter.keySet()) {
+            textsDeepCopy.put(key, this.texter.get(key));
+        }
+
+        List<Tillaggsfraga> additionalQuestionsDeepCopy = new ArrayList<>(this.tillaggsfragor);
+
+        final var propertiesDeepCopy = (Properties) this.properties.clone();
+
+        return new IntygTexts(this.version, this.intygsTyp, this.validFrom, this.validTo, textsDeepCopy, additionalQuestionsDeepCopy,
+            propertiesDeepCopy);
     }
 
     public static int compareVersions(IntygTexts candidate1, IntygTexts candidate2) {
