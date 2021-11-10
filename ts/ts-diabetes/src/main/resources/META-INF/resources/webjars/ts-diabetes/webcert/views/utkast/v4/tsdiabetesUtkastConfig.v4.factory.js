@@ -335,49 +335,54 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v4',
                             required: true,
                             requiredProp: function (model) {
                                 return R30(model) && model.hypoglykemi.aterkommandeSenasteAret === undefined;
-                            }
-                            }, [
-                                {
-                                    type: 'ue-radio',
-                                    yesLabel: 'SVAR_JA.RBK',
-                                    noLabel: 'SVAR_NEJ.RBK',
-                                    modelProp: 'hypoglykemi.aterkommandeSenasteAret'
-                                },
-                            {
-                                type: 'ue-date',
-                                minDate: patientBirthDateValue,
-                                maxDate: today,
-                                modelProp: 'hypoglykemi.aterkommandeSenasteAretTidpunkt',
-                                hideExpression: function(scope) { return !R8(scope.model); },
-                                label: {
-                                    key: 'DFR_106.2.RBK',
-                                    required: true,
-                                    requiredProp: 'hypoglykemi.aterkommandeSenasteAretTidpunkt'
-                                }
-                            },
-                            {
-                                type: 'ue-radio',
-                                yesLabel: 'SVAR_JA.RBK',
-                                noLabel: 'SVAR_NEJ.RBK',
-                                modelProp: 'hypoglykemi.aterkommandeSenasteAretKontrolleras',
-                                hideExpression: function(scope) { return !R8(scope.model); },
-                                label: {
-                                    key: 'DFR_106.3.RBK',
-                                    required: true,
-                                    requiredProp: 'hypoglykemi.aterkommandeSenasteAretKontrolleras'
-                                }
-                            },
-                            {
-                                type: 'ue-radio',
-                                yesLabel: 'SVAR_JA.RBK',
-                                noLabel: 'SVAR_NEJ.RBK',
-                                modelProp: 'hypoglykemi.aterkommandeSenasteAretTrafik',
-                                hideExpression: function(scope) { return !R8(scope.model); },
-                                label: {
-                                    key: 'DFR_106.5.RBK',
-                                    required: true,
-                                    requiredProp: 'hypoglykemi.aterkommandeSenasteAretTrafik'
-                                }
+                            }},
+                            [{
+                                type: 'ue-grid',
+                                independentRowValidation: true,
+                                components: [
+                                    [{
+                                        type: 'ue-radio',
+                                        yesLabel: 'SVAR_JA.RBK',
+                                        noLabel: 'SVAR_NEJ.RBK',
+                                        modelProp: 'hypoglykemi.aterkommandeSenasteAret'
+                                    }],
+                                    [{
+                                        type: 'ue-date',
+                                        minDate: patientBirthDateValue,
+                                        maxDate: today,
+                                        modelProp: 'hypoglykemi.aterkommandeSenasteAretTidpunkt',
+                                        hideExpression: function(scope) { return !R8(scope.model); },
+                                        label: {
+                                            key: 'DFR_106.2.RBK',
+                                            required: true,
+                                            requiredProp: 'hypoglykemi.aterkommandeSenasteAretTidpunkt'
+                                        }
+                                    }],
+                                    [{
+                                        type: 'ue-radio',
+                                        yesLabel: 'SVAR_JA.RBK',
+                                        noLabel: 'SVAR_NEJ.RBK',
+                                        modelProp: 'hypoglykemi.aterkommandeSenasteAretKontrolleras',
+                                        hideExpression: function(scope) { return !R8(scope.model); },
+                                        label: {
+                                            key: 'DFR_106.3.RBK',
+                                            required: true,
+                                            requiredProp: 'hypoglykemi.aterkommandeSenasteAretKontrolleras'
+                                        }
+                                    }],
+                                    [{
+                                        type: 'ue-radio',
+                                        yesLabel: 'SVAR_JA.RBK',
+                                        noLabel: 'SVAR_NEJ.RBK',
+                                        modelProp: 'hypoglykemi.aterkommandeSenasteAretTrafik',
+                                        hideExpression: function(scope) { return !R8(scope.model); },
+                                        label: {
+                                            key: 'DFR_106.5.RBK',
+                                            required: true,
+                                            requiredProp: 'hypoglykemi.aterkommandeSenasteAretTrafik'
+                                        }
+                                    }]
+                                ]
                             }]
                         ),
                         fraga(107, 'FRG_107.RBK', 'FRG_107.HLP', {
