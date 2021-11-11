@@ -111,9 +111,9 @@
     "patientenFoljsAv": "VN1",
     "diabetesDiagnosAr":"2000",
     "typAvDiabetes":"ANNAN",
+    "beskrivningAnnanTypAvDiabetes":"Annan diabetes",
     "medicineringForDiabetes":true,
     "medicineringMedforRiskForHypoglykemi":true,
-    "beskrivningAnnanTypAvDiabetes":"Annan diabetes",
     "behandling":{
       "insulin":true,
       "tabletter":true,

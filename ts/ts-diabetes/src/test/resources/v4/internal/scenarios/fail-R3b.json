@@ -50,8 +50,8 @@
     "patientenFoljsAv": "VN1",
     "diabetesDiagnosAr":"1990",
     "typAvDiabetes":"ANNAN",
-    "medicineringForDiabetes":false,
-    "beskrivningAnnanTypAvDiabetes":"This example string is certainly longer than than 53 characters"
+    "beskrivningAnnanTypAvDiabetes":"This example string is certainly longer than than 53 characters",
+    "medicineringForDiabetes":false
   },
   "hypoglykemi":{
   },
