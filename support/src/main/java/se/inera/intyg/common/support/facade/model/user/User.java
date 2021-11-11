@@ -36,6 +36,7 @@ public class User {
     private SigningMethod signingMethod;
     private Unit loggedInUnit;
     private Unit loggedInCareProvider;
+    private boolean protectedPerson;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class UserBuilder {
