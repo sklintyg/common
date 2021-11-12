@@ -1206,7 +1206,11 @@ public final class InternalToCertificate {
                     CertificateDataValidationHide.builder()
                         .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
                         .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
+                        .build(),
+                    CertificateDataValidationMandatory.builder()
+                        .questionId(ARBETSTIDSFORLAGGNING_SVAR_ID_33)
+                        .expression(singleExpression(ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33))
+                        .build(),
                 }
             )
             .build();
@@ -1241,7 +1245,11 @@ public final class InternalToCertificate {
                     CertificateDataValidationHide.builder()
                         .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
                         .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
+                        .build(),
+                    CertificateDataValidationMandatory.builder()
+                        .questionId(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33)
+                        .expression(singleExpression(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33))
+                        .build(),
                 }
             )
             .build();

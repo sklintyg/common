@@ -3130,6 +3130,19 @@ class InternalToCertificateTest {
                     () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
                 );
             }
+
+            @Test
+            void shouldIncludeCategoryValidationMandatory() {
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(ARBETSTIDSFORLAGGNING_SVAR_ID_33);
+
+                final var certificateDataValidation = (CertificateDataValidationMandatory) question.getValidation()[2];
+                assertAll("Question validation",
+                    () -> assertEquals(ARBETSTIDSFORLAGGNING_SVAR_ID_33, certificateDataValidation.getQuestionId()),
+                    () -> assertEquals("$" + ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33, certificateDataValidation.getExpression())
+                );
+            }
         }
 
         @Nested
@@ -3244,6 +3257,19 @@ class InternalToCertificateTest {
                 assertAll("Validation question validation",
                     () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
                     () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
+                );
+            }
+
+            @Test
+            void shouldIncludeCategoryValidationMandatory() {
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33);
+
+                final var certificateDataValidation = (CertificateDataValidationMandatory) question.getValidation()[2];
+                assertAll("Question validation",
+                    () -> assertEquals(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33, certificateDataValidation.getQuestionId()),
+                    () -> assertEquals("$" + ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33, certificateDataValidation.getExpression())
                 );
             }
         }
