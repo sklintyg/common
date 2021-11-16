@@ -39,7 +39,28 @@ public final class DefaultCertificateTextProvider implements CertificateTextProv
         if (value == null) {
             return getQuestionHeader(key);
         }
-        return value;
+        return parseText(value);
+    }
+
+    private String parseText(String value) {
+        StringBuilder result = new StringBuilder();
+        var parts = value.split("(\n\\s+-)|\n-|•|^-");
+
+        if (parts.length <= 1) {
+            return value;
+        }
+
+        var count = 0;
+        while (count < parts.length) {
+            if (count == 0) {
+                result.append(parts[count++]).append("<ul><li>");
+            } else if (count == parts.length - 1) {
+                result.append(parts[count++]).append("</li></ul>");
+            } else {
+                result.append(parts[count++]).append("</li><li>");
+            }
+        }
+        return result.toString().replace("\n", "");
     }
 
     private String getQuestionHeader(String key) {

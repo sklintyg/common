@@ -19,7 +19,7 @@
 
 package se.inera.intyg.common.services.texts;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -33,12 +33,30 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 class DefaultCertificateTextProviderTest {
 
     private CertificateTextProvider defaultCertificateTextProvider;
+    private final String KEY_WITH_DASH_AS_LIST = "key_with_dash_as_list";
+    private final String KEY_WITH_DASH_AS_TEXT = "key_with_dash_as_text";
+    private final String KEY_WITH_DOT = "key_with_dot";
+    private final String KEY_WITHOUT_SYMBOLS = "key";
+    private final String VALUE_WITHOUT_SYMBOLS = "This is a text without symbols";
+    private final String VALUE_WITH_DASH_AS_LIST = "This is \n     - a text with \n- symbols";
+    private final String VALUE_WITH_DASH_AS_TEXT = "This is- a text with- symbols";
+    private final String VALUE_WITH_DOT = "This is • a text with • symbols";
+    private final String VALUE_WITH_LIST_TAGS = "This is <ul><li> a text with </li><li> symbols</li></ul>";
+    private final String VALUE_STARTING_WITH_DASH_AS_LIST = "- This is \n - My list";
+    private final String KEY_WITH_LIST_TAGS_IN_FRONT = "key_front";
+    private final String VALUE_WITH_LIST_TAGS_IN_FRONT = "<ul><li> This is </li><li> My list</li></ul>";
+
 
     @BeforeEach
     void setUp() {
         final SortedMap<String, String> texts = new TreeMap<>();
         texts.put("FRG_6.RBK", "Detta är fråga nr 6!");
         texts.put("DFR_6.1.RBK", "Detta är delfråga nr 6.1!");
+        texts.put(KEY_WITHOUT_SYMBOLS, VALUE_WITHOUT_SYMBOLS);
+        texts.put(KEY_WITH_DASH_AS_LIST, VALUE_WITH_DASH_AS_LIST);
+        texts.put(KEY_WITH_DASH_AS_TEXT, VALUE_WITH_DASH_AS_TEXT);
+        texts.put(KEY_WITH_DOT, VALUE_WITH_DOT);
+        texts.put(KEY_WITH_LIST_TAGS_IN_FRONT, VALUE_STARTING_WITH_DASH_AS_LIST);
 
         final var intygTexts = new IntygTexts(
             "1.0",
@@ -75,5 +93,37 @@ class DefaultCertificateTextProviderTest {
     void shallReturnKeyIfKeyAndQuestionHeaderMissing() {
         final var actualText = defaultCertificateTextProvider.get("FRG_99.RBK");
         assertEquals("FRG_99.RBK", actualText);
+    }
+
+    @Test
+    void shallReturnOriginalValueIfTextHasNoSymbolsToParse() {
+        final var actualText = defaultCertificateTextProvider.get(KEY_WITHOUT_SYMBOLS);
+        assertEquals(VALUE_WITHOUT_SYMBOLS, actualText);
+
+    }
+
+    @Test
+    void shallRemoveDashAndAddListItems() {
+        final var actualText = defaultCertificateTextProvider.get(KEY_WITH_DASH_AS_LIST);
+        assertEquals(VALUE_WITH_LIST_TAGS, actualText);
+    }
+
+    @Test
+    void shallNotRemoveDashWhenInsideText() {
+        final var actualText = defaultCertificateTextProvider.get(KEY_WITH_DASH_AS_TEXT);
+        assertEquals(VALUE_WITH_DASH_AS_TEXT, actualText);
+
+    }
+
+    @Test
+    void shallRemoveDotAndAddListItems() {
+        final var actualText = defaultCertificateTextProvider.get(KEY_WITH_DOT);
+        assertEquals(VALUE_WITH_LIST_TAGS, actualText);
+    }
+
+    @Test
+    void shallRemoveDashAsFirstCharAndAddListItems() {
+        final var actualText = defaultCertificateTextProvider.get(KEY_WITH_LIST_TAGS_IN_FRONT);
+        assertEquals(VALUE_WITH_LIST_TAGS_IN_FRONT, actualText);
     }
 }
