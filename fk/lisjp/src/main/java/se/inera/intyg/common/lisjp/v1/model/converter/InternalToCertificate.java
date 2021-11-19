@@ -1071,12 +1071,19 @@ public final class InternalToCertificate {
     }
 
     private static String getPreviousSickLeavePeriod(Relation relation) {
-        return relation != null && relation.getRelationKod() == RelationKod.FRLANG ?
-            String.format(
-                "På det ursprungliga intyget var slutdatumet för den sista sjukskrivningsperioden %s "
-                    + "och sjukskrivningsgraden var %s.",
-                DateTimeFormatter.ofPattern("yyyy-MM-dd").format(relation.getSistaGiltighetsDatum()), relation.getSistaSjukskrivningsgrad())
-            : null;
+        return hasRenewalRelation(relation) ? getPreviousSickLeavePeriodText(relation) : null;
+    }
+
+    private static String getPreviousSickLeavePeriodText(Relation relation) {
+        return String.format(
+            "På det ursprungliga intyget var slutdatumet för den sista sjukskrivningsperioden %s och sjukskrivningsgraden var %s.",
+            DateTimeFormatter.ofPattern("yyyy-MM-dd").format(relation.getSistaGiltighetsDatum()),
+            relation.getSistaSjukskrivningsgrad()
+        );
+    }
+
+    private static boolean hasRenewalRelation(Relation relation) {
+        return relation != null && relation.getRelationKod() == RelationKod.FRLANG;
     }
 
     private static List<CertificateDataValueDateRange> createSjukskrivningValue(List<Sjukskrivning> sickLeaves) {
