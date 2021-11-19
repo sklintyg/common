@@ -94,7 +94,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create().addElement(InternalToCertificate
-                .createAvstangningSmittskyddQuestion(expectedValue, index, texts))
+                    .createAvstangningSmittskyddQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -235,7 +235,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create().addElement(InternalToCertificate
-                .createAnnatGrundForMUBeskrivning(expectedValue, index, texts))
+                    .createAnnatGrundForMUBeskrivning(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -274,7 +274,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create().addElement(InternalToCertificate
-                .createSysselsattningQuestion(expectedValue, index, texts))
+                    .createSysselsattningQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -322,7 +322,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create().addElement(InternalToCertificate
-                .createSysselsattningYrkeQuestion(expectedValue, index, texts))
+                    .createSysselsattningYrkeQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -461,7 +461,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create().addElement(InternalToCertificate
-                .createFunktionsnedsattningQuestion(expectedValue, index, texts))
+                    .createFunktionsnedsattningQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -495,7 +495,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create().addElement(
-                InternalToCertificate.createAktivitetsbegransningQuestion(expectedValue, index, texts))
+                    InternalToCertificate.createAktivitetsbegransningQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -529,7 +529,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create().addElement(
-                InternalToCertificate.createPagaendeBehandlingQuestion(expectedValue, index, texts))
+                    InternalToCertificate.createPagaendeBehandlingQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -543,7 +543,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create().addElement(
-                InternalToCertificate.createPlaneradBehandlingQuestion(expectedValue, index, texts))
+                    InternalToCertificate.createPlaneradBehandlingQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -590,7 +590,8 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create().addElement(
-                InternalToCertificate.createBehovAvSjukskrivningQuestion(expectedValue, index, texts))
+                    InternalToCertificate.createBehovAvSjukskrivningQuestion(expectedValue, index, texts, internalCertificate.getGrundData()
+                        .getRelation()))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -603,7 +604,8 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create().addElement(
-                InternalToCertificate.createBehovAvSjukskrivningQuestion(null, index, texts))
+                    InternalToCertificate.createBehovAvSjukskrivningQuestion(null, index, texts, internalCertificate.getGrundData()
+                        .getRelation()))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -637,7 +639,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create().addElement(
-                InternalToCertificate.createForsakringsmedicinsktBeslutsstodQuestion(expectedValue, index, texts))
+                    InternalToCertificate.createForsakringsmedicinsktBeslutsstodQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -671,7 +673,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create().addElement(
-                InternalToCertificate.createArbetstidsforlaggningQuestion(expectedValue, index, texts))
+                    InternalToCertificate.createArbetstidsforlaggningQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -705,7 +707,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create().addElement(
-                InternalToCertificate.createMotiveringArbetstidsforlaggningQuestion(expectedValue, index, texts))
+                    InternalToCertificate.createMotiveringArbetstidsforlaggningQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -739,7 +741,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create().addElement(
-                InternalToCertificate.createArbetsresorQuestion(expectedValue, index, texts))
+                    InternalToCertificate.createArbetsresorQuestion(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -847,7 +849,7 @@ class CertificateToInternalTest {
             final List<ArbetslivsinriktadeAtgarder> expectedValue = Collections.emptyList();
 
             final var certificate = CertificateBuilder.create().addElement(
-                InternalToCertificate.createAtgarderQuestion(null, index, texts))
+                    InternalToCertificate.createAtgarderQuestion(null, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -881,7 +883,7 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create().addElement(
-                InternalToCertificate.createAtgarderBeskrivning(expectedValue, index, texts))
+                    InternalToCertificate.createAtgarderBeskrivning(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
