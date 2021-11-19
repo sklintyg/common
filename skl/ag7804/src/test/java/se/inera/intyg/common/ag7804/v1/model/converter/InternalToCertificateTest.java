@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag7804.v1.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -81,6 +80,7 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.YES_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
@@ -98,10 +98,12 @@ import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning.SjukskrivningsG
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning.SysselsattningsTyp;
 import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
+import se.inera.intyg.common.ag7804.v1.model.converter.InternalToCertificate;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleDate;
@@ -132,6 +134,7 @@ import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 
 @DisplayName("Should convert Ag7804UtlatandeV1 to Certificate")
@@ -2495,6 +2498,61 @@ class InternalToCertificateTest {
                     () -> assertTrue(certificateDataConfigSickLeavePeriod.getText().trim().length() > 0, "Missing text"),
                     () -> assertTrue(certificateDataConfigSickLeavePeriod.getDescription().trim().length() > 0, "Missing description")
                 );
+            }
+
+            @Test
+            void shouldIncludeQuestionConfigPreviousSickLeavePeriod() {
+                final var expectedPreviousSickLeavePeriod = "På det ursprungliga intyget var slutdatumet för den sista "
+                    + "sjukskrivningsperioden 2020-01-01 och sjukskrivningsgraden var 75%.";
+
+                internalCertificate.getGrundData().setRelation(new Relation());
+                internalCertificate.getGrundData().getRelation().setRelationKod(RelationKod.FRLANG);
+                internalCertificate.getGrundData().getRelation().setSistaSjukskrivningsgrad("75%");
+                internalCertificate.getGrundData().getRelation()
+                    .setSistaGiltighetsDatum(LocalDate.parse("2020-01-01", DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
+
+                assertEquals(CertificateDataConfigTypes.UE_SICK_LEAVE_PERIOD, question.getConfig().getType());
+
+                final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigSickLeavePeriod) question.getConfig();
+                assertEquals(expectedPreviousSickLeavePeriod, certificateDataConfigSickLeavePeriod.getPreviousSickLeavePeriod());
+            }
+
+            @Test
+            void shouldNotIncludeQuestionConfigPreviousSickLeavePeriodIfNotRenewRelation() {
+                final String expectedPreviousSickLeavePeriod = null;
+
+                internalCertificate.getGrundData().setRelation(new Relation());
+                internalCertificate.getGrundData().getRelation().setRelationKod(RelationKod.ERSATT);
+                internalCertificate.getGrundData().getRelation().setSistaSjukskrivningsgrad("75%");
+                internalCertificate.getGrundData().getRelation()
+                    .setSistaGiltighetsDatum(LocalDate.parse("2020-01-01", DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
+
+                assertEquals(CertificateDataConfigTypes.UE_SICK_LEAVE_PERIOD, question.getConfig().getType());
+
+                final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigSickLeavePeriod) question.getConfig();
+                assertEquals(expectedPreviousSickLeavePeriod, certificateDataConfigSickLeavePeriod.getPreviousSickLeavePeriod());
+            }
+
+            @Test
+            void shouldNotIncludeQuestionConfigPreviousSickLeavePeriodIfNoRelation() {
+                final String expectedPreviousSickLeavePeriod = null;
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
+
+                assertEquals(CertificateDataConfigTypes.UE_SICK_LEAVE_PERIOD, question.getConfig().getType());
+
+                final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigSickLeavePeriod) question.getConfig();
+                assertEquals(expectedPreviousSickLeavePeriod, certificateDataConfigSickLeavePeriod.getPreviousSickLeavePeriod());
             }
 
             @Test
