@@ -615,7 +615,8 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createBehovAvSjukskrivningQuestion(expectedValue, index, texts))
+                .addElement(InternalToCertificate.createBehovAvSjukskrivningQuestion(expectedValue, index, texts,
+                    internalCertificate.getGrundData().getRelation()))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -628,7 +629,8 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createBehovAvSjukskrivningQuestion(null, index, texts))
+                .addElement(InternalToCertificate.createBehovAvSjukskrivningQuestion(null, index, texts,
+                    internalCertificate.getGrundData().getRelation()))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);

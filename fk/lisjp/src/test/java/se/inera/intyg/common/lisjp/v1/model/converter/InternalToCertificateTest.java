@@ -88,6 +88,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSE
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
@@ -107,6 +108,7 @@ import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
 import se.inera.intyg.common.lisjp.model.internal.Sysselsattning.SysselsattningsTyp;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleDate;
@@ -138,6 +140,7 @@ import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 
 @DisplayName("Should convert LisjpUtlatandeV1 to Certificate")
@@ -2518,6 +2521,61 @@ class InternalToCertificateTest {
                     () -> assertTrue(certificateDataConfigSickLeavePeriod.getText().trim().length() > 0, "Missing text"),
                     () -> assertTrue(certificateDataConfigSickLeavePeriod.getDescription().trim().length() > 0, "Missing description")
                 );
+            }
+
+            @Test
+            void shouldIncludeQuestionConfigPreviousSickLeavePeriod() {
+                final var expectedPreviousSickLeavePeriod = "På det ursprungliga intyget var slutdatumet för den sista "
+                    + "sjukskrivningsperioden 2020-01-01 och sjukskrivningsgraden var 75%.";
+
+                internalCertificate.getGrundData().setRelation(new Relation());
+                internalCertificate.getGrundData().getRelation().setRelationKod(RelationKod.FRLANG);
+                internalCertificate.getGrundData().getRelation().setSistaSjukskrivningsgrad("75%");
+                internalCertificate.getGrundData().getRelation()
+                    .setSistaGiltighetsDatum(LocalDate.parse("2020-01-01", DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
+
+                assertEquals(CertificateDataConfigTypes.UE_SICK_LEAVE_PERIOD, question.getConfig().getType());
+
+                final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigSickLeavePeriod) question.getConfig();
+                assertEquals(expectedPreviousSickLeavePeriod, certificateDataConfigSickLeavePeriod.getPreviousSickLeavePeriod());
+            }
+
+            @Test
+            void shouldNotIncludeQuestionConfigPreviousSickLeavePeriodIfNotRenewRelation() {
+                final String expectedPreviousSickLeavePeriod = null;
+
+                internalCertificate.getGrundData().setRelation(new Relation());
+                internalCertificate.getGrundData().getRelation().setRelationKod(RelationKod.ERSATT);
+                internalCertificate.getGrundData().getRelation().setSistaSjukskrivningsgrad("75%");
+                internalCertificate.getGrundData().getRelation()
+                    .setSistaGiltighetsDatum(LocalDate.parse("2020-01-01", DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
+
+                assertEquals(CertificateDataConfigTypes.UE_SICK_LEAVE_PERIOD, question.getConfig().getType());
+
+                final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigSickLeavePeriod) question.getConfig();
+                assertEquals(expectedPreviousSickLeavePeriod, certificateDataConfigSickLeavePeriod.getPreviousSickLeavePeriod());
+            }
+
+            @Test
+            void shouldNotIncludeQuestionConfigPreviousSickLeavePeriodIfNoRelation() {
+                final String expectedPreviousSickLeavePeriod = null;
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
+
+                assertEquals(CertificateDataConfigTypes.UE_SICK_LEAVE_PERIOD, question.getConfig().getType());
+
+                final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigSickLeavePeriod) question.getConfig();
+                assertEquals(expectedPreviousSickLeavePeriod, certificateDataConfigSickLeavePeriod.getPreviousSickLeavePeriod());
             }
 
             @Test

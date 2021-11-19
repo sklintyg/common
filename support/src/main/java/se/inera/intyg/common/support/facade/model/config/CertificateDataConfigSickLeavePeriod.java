@@ -44,6 +44,7 @@ public class CertificateDataConfigSickLeavePeriod implements CertificateDataConf
     String text;
     @Getter(onMethod = @__(@Override))
     String description;
+    String previousSickLeavePeriod;
     List<CheckboxDateRange> list;
 
     @JsonPOJOBuilder(withPrefix = "")

@@ -163,6 +163,7 @@ import static se.inera.intyg.common.support.facade.util.ValidationExpressionTool
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.wrapWithParenthesis;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -182,6 +183,7 @@ import se.inera.intyg.common.lisjp.model.internal.Sysselsattning.Sysselsattnings
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -224,6 +226,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
+import se.inera.intyg.common.support.model.common.internal.Relation;
 
 public final class InternalToCertificate {
 
@@ -263,7 +266,8 @@ public final class InternalToCertificate {
             .addElement(createPagaendeBehandlingQuestion(internalCertificate.getPagaendeBehandling(), index++, texts))
             .addElement(createPlaneradBehandlingQuestion(internalCertificate.getPlaneradBehandling(), index++, texts))
             .addElement(createBedomningCategory(index++, texts))
-            .addElement(createBehovAvSjukskrivningQuestion(internalCertificate.getSjukskrivningar(), index++, texts))
+            .addElement(createBehovAvSjukskrivningQuestion(internalCertificate.getSjukskrivningar(), index++, texts,
+                internalCertificate.getGrundData().getRelation()))
             .addElement(createMotiveringTidigtStartdatumQuestion(internalCertificate.getMotiveringTillTidigtStartdatumForSjukskrivning(),
                 index++, texts))
             .addElement(
@@ -1013,7 +1017,7 @@ public final class InternalToCertificate {
     }
 
     public static CertificateDataElement createBehovAvSjukskrivningQuestion(List<Sjukskrivning> list, int index,
-        CertificateTextProvider texts) {
+        CertificateTextProvider texts, Relation relation) {
         return CertificateDataElement.builder()
             .id(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32)
             .index(index)
@@ -1042,6 +1046,7 @@ public final class InternalToCertificate {
                                 .build()
                         )
                     )
+                    .previousSickLeavePeriod(getPreviousSickLeavePeriod(relation))
                     .build()
             )
             .value(
@@ -1063,6 +1068,15 @@ public final class InternalToCertificate {
                 }
             )
             .build();
+    }
+
+    private static String getPreviousSickLeavePeriod(Relation relation) {
+        return relation != null && relation.getRelationKod() == RelationKod.FRLANG ?
+            String.format(
+                "På det ursprungliga intyget var slutdatumet för den sista sjukskrivningsperioden %s "
+                    + "och sjukskrivningsgraden var %s.",
+                DateTimeFormatter.ofPattern("yyyy-MM-dd").format(relation.getSistaGiltighetsDatum()), relation.getSistaSjukskrivningsgrad())
+            : null;
     }
 
     private static List<CertificateDataValueDateRange> createSjukskrivningValue(List<Sjukskrivning> sickLeaves) {
