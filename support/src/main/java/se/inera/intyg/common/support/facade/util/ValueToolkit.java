@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
+import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataIcfValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
@@ -36,6 +37,9 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 
 public final class ValueToolkit {
 
@@ -165,5 +169,21 @@ public final class ValueToolkit {
         }
 
         return element.getValue();
+    }
+
+    public static GrundData grundData(CertificateMetadata metadata, GrundData grundData) {
+        if (metadata == null) {
+            return grundData;
+        }
+        var updatedGrundData = grundData;
+        var updatedStaff = grundData.getSkapadAv() != null ? grundData.getSkapadAv() : new HoSPersonal();
+        var updatedCareUnit = updatedStaff.getVardenhet() != null ? updatedStaff.getVardenhet() : new Vardenhet();
+        updatedCareUnit.setPostadress(metadata.getUnit().getAddress());
+        updatedCareUnit.setPostort(metadata.getUnit().getCity());
+        updatedCareUnit.setPostnummer(metadata.getUnit().getZipCode());
+        updatedCareUnit.setTelefonnummer(metadata.getUnit().getPhoneNumber());
+        updatedStaff.setVardenhet(updatedCareUnit);
+        updatedGrundData.setSkapadAv(updatedStaff);
+        return updatedGrundData;
     }
 }
