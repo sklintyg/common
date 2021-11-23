@@ -38,10 +38,13 @@ import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTR
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_31;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_32;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.grundData;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
 
 public final class CertificateToInternal {
 
@@ -59,11 +62,12 @@ public final class CertificateToInternal {
         final var harArbetspaverkan = getHarArbetspaverkan(certificate);
         final var arbetspaverkan = getArbetspaverkan(certificate);
         final var ovrigt = getOvrigt(certificate);
+        final var grundData = getGrundData(certificate.getMetadata(), internalCertificate.getGrundData());
 
         return Af00213UtlatandeV1.builder()
             .setId(internalCertificate.getId())
             .setTextVersion(internalCertificate.getTextVersion())
-            .setGrundData(internalCertificate.getGrundData())
+            .setGrundData(grundData)
             .setHarFunktionsnedsattning(harFunktionsnedsattning)
             .setFunktionsnedsattning(funktionsnedsattning)
             .setHarAktivitetsbegransning(harAktivitetsbegransning)
@@ -111,5 +115,9 @@ public final class CertificateToInternal {
 
     private static String getOvrigt(Certificate certificate) {
         return textValue(certificate.getData(), OVRIGT_DELSVAR_ID_5, OVRIGT_SVAR_JSON_ID_5);
+    }
+
+    private static GrundData getGrundData(CertificateMetadata metadata, GrundData grundData) {
+        return grundData(metadata, grundData);
     }
 }

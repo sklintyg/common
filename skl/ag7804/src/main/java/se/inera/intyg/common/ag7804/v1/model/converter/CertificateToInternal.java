@@ -68,6 +68,7 @@ import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateRangeListValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.diagnosisListValue;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.grundData;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
 import java.util.ArrayList;
@@ -83,9 +84,11 @@ import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
 public final class CertificateToInternal {
@@ -120,11 +123,12 @@ public final class CertificateToInternal {
         final var kontakt = getKontakt(certificate);
         final var kontaktBeskrivning = getKontaktBeskrivning(certificate);
         final var sjukskrivningar = getSjukskrivningar(certificate);
+        final var grundData = getGrundData(certificate.getMetadata(), internalCertificate.getGrundData());
 
         return Ag7804UtlatandeV1.builder()
             .setId(internalCertificate.getId())
             .setTextVersion(internalCertificate.getTextVersion())
-            .setGrundData(internalCertificate.getGrundData())
+            .setGrundData(grundData)
             .setAvstangningSmittskydd(avstangningSmittskydd)
             .setUndersokningAvPatienten(undersokningAvPatienten)
             .setTelefonkontaktMedPatienten(telefonkontakt)
@@ -318,5 +322,9 @@ public final class CertificateToInternal {
 
     private static String getKontaktBeskrivning(Certificate certificate) {
         return textValue(certificate.getData(), ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103, ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_103);
+    }
+
+    private static GrundData getGrundData(CertificateMetadata metadata, GrundData grundData) {
+        return grundData(metadata, grundData);
     }
 }

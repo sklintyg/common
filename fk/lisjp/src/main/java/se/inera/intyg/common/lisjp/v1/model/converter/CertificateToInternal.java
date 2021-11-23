@@ -70,6 +70,7 @@ import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateRangeListValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.diagnosisListValue;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.grundData;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.icfCodeValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.icfTextValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
@@ -87,9 +88,11 @@ import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGr
 import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
 public final class CertificateToInternal {
@@ -128,11 +131,12 @@ public final class CertificateToInternal {
         final var kontakt = getKontakt(certificate);
         final var kontaktBeskrivning = getKontaktBeskrivning(certificate);
         final var sjukskrivningar = getSjukskrivningar(certificate);
+        final var grundData = getGrundData(certificate.getMetadata(), internalCertificate.getGrundData());
 
         return LisjpUtlatandeV1.builder()
             .setId(internalCertificate.getId())
             .setTextVersion(internalCertificate.getTextVersion())
-            .setGrundData(internalCertificate.getGrundData())
+            .setGrundData(grundData)
             .setAvstangningSmittskydd(avstangningSmittskydd)
             .setUndersokningAvPatienten(undersokningAvPatienten)
             .setTelefonkontaktMedPatienten(telefonkontakt)
@@ -338,6 +342,10 @@ public final class CertificateToInternal {
 
     private static String getKontaktBeskrivning(Certificate certificate) {
         return textValue(certificate.getData(), ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26, ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26);
+    }
+
+    private static GrundData getGrundData(CertificateMetadata metadata, GrundData grundData) {
+        return grundData(metadata, grundData);
     }
 }
 
