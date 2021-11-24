@@ -37,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.MarshallingFailureException;
+import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.services.texts.DefaultCertificateTextProvider;
 import se.inera.intyg.common.services.texts.IntygTextsService;
@@ -471,4 +472,10 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
         final var intygTexts = getTexts(certificateType, certificateTypeVersion);
         return DefaultCertificateTextProvider.create(intygTexts);
     }
+
+    @Override
+    public CertificateMessagesProvider getMessagesProvider() {
+        throw new UnsupportedOperationException();
+    }
+
 }

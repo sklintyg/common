@@ -1,0 +1,3 @@
+No start or end position.
+
+    will result in exception.

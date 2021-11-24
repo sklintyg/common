@@ -18,9 +18,12 @@
  */
 package se.inera.intyg.common.af00213.v1.rest;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.af00213.pdf.PdfGenerator;
 import se.inera.intyg.common.af00213.support.Af00213EntryPoint;
@@ -31,6 +34,9 @@ import se.inera.intyg.common.af00213.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.af00213.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.af_parent.rest.AfParentModuleApi;
+import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
+import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvider;
+import se.inera.intyg.common.services.messages.MessagesParser;
 import se.inera.intyg.common.services.texts.DefaultCertificateTextProvider;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -54,8 +60,23 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
     private static final Logger LOG = LoggerFactory.getLogger(Af00213ModuleApiV1.class);
     public static final String SCHEMATRON_FILE = "af00213.v1.sch";
 
+    private Map<String, String> validationMessages;
+
     public Af00213ModuleApiV1() {
         super(Af00213UtlatandeV1.class);
+        init();
+    }
+
+    private void init() {
+        try {
+            final var inputStream1 = new ClassPathResource("/META-INF/resources/webjars/common/webcert/messages.js").getInputStream();
+            final var inputStream2
+                = new ClassPathResource("/META-INF/resources/webjars/af00213/webcert/views/messages.js").getInputStream();
+            validationMessages = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
+        } catch (IOException exception) {
+            LOG.error("Error during initialization. Could not read messages files");
+            throw new RuntimeException("Error during initialization. Could not read messages files", exception);
+        }
     }
 
     /**
@@ -151,4 +172,10 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
         final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate);
         return toInternalModelResponse(updateInternalCertificate);
     }
+
+    @Override
+    public CertificateMessagesProvider getMessagesProvider() {
+        return DefaultCertificateMessagesProvider.create(validationMessages);
+    }
+
 }
