@@ -54,6 +54,8 @@ import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
 @DisplayName("Should convert Certificate to LISJP")
@@ -1048,6 +1050,130 @@ class CertificateToInternalTest {
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
             assertEquals(expectedValue, updatedCertificate.getAnledningTillKontakt());
+        }
+    }
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class GrundDataTest {
+
+        private LisjpUtlatandeV1 internalCertificate;
+
+        @BeforeEach
+        void setup() {
+            internalCertificate = LisjpUtlatandeV1.builder()
+                .setGrundData(new GrundData())
+                .setId("id")
+                .setTextVersion("TextVersion")
+                .build();
+        }
+
+        Stream<String> values() {
+            return Stream.of("test string", "", null);
+        }
+
+        @ParameterizedTest
+        @MethodSource("values")
+        void shouldIncludeUnitAddress(String expectedValue) {
+            var grundData = new GrundData();
+            var hosPersonal = new HoSPersonal();
+            var vardenhet = new Vardenhet();
+            vardenhet.setPostadress(expectedValue);
+            hosPersonal.setVardenhet(vardenhet);
+            grundData.setSkapadAv(hosPersonal);
+
+            final var utlatande =
+                LisjpUtlatandeV1.builder()
+                    .setId("id")
+                    .setTextVersion("1.0")
+                    .setGrundData(grundData)
+                    .build();
+
+            final var certificate = CertificateBuilder.create()
+                .metadata(InternalToCertificate.createMetadata(utlatande, texts))
+                .build();
+
+            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
+
+            assertEquals(expectedValue, updatedCertificate.getGrundData().getSkapadAv().getVardenhet().getPostadress());
+        }
+
+        @ParameterizedTest
+        @MethodSource("values")
+        void shouldIncludeUnitCity(String expectedValue) {
+            var grundData = new GrundData();
+            var hosPersonal = new HoSPersonal();
+            var vardenhet = new Vardenhet();
+            vardenhet.setPostort(expectedValue);
+            hosPersonal.setVardenhet(vardenhet);
+            grundData.setSkapadAv(hosPersonal);
+
+            final var utlatande =
+                LisjpUtlatandeV1.builder()
+                    .setId("id")
+                    .setTextVersion("1.0")
+                    .setGrundData(grundData)
+                    .build();
+
+            final var certificate = CertificateBuilder.create()
+                .metadata(InternalToCertificate.createMetadata(utlatande, texts))
+                .build();
+
+            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
+
+            assertEquals(expectedValue, updatedCertificate.getGrundData().getSkapadAv().getVardenhet().getPostort());
+        }
+
+        @ParameterizedTest
+        @MethodSource("values")
+        void shouldIncludeUnitZipCode(String expectedValue) {
+            var grundData = new GrundData();
+            var hosPersonal = new HoSPersonal();
+            var vardenhet = new Vardenhet();
+            vardenhet.setPostnummer(expectedValue);
+            hosPersonal.setVardenhet(vardenhet);
+            grundData.setSkapadAv(hosPersonal);
+
+            final var utlatande =
+                LisjpUtlatandeV1.builder()
+                    .setId("id")
+                    .setTextVersion("1.0")
+                    .setGrundData(grundData)
+                    .build();
+
+            final var certificate = CertificateBuilder.create()
+                .metadata(InternalToCertificate.createMetadata(utlatande, texts))
+                .build();
+
+            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
+
+            assertEquals(expectedValue, updatedCertificate.getGrundData().getSkapadAv().getVardenhet().getPostnummer());
+        }
+
+        @ParameterizedTest
+        @MethodSource("values")
+        void shouldIncludeUnitPhonenumber(String expectedValue) {
+            var grundData = new GrundData();
+            var hosPersonal = new HoSPersonal();
+            var vardenhet = new Vardenhet();
+            vardenhet.setTelefonnummer(expectedValue);
+            hosPersonal.setVardenhet(vardenhet);
+            grundData.setSkapadAv(hosPersonal);
+
+            final var utlatande =
+                LisjpUtlatandeV1.builder()
+                    .setId("id")
+                    .setTextVersion("1.0")
+                    .setGrundData(grundData)
+                    .build();
+
+            final var certificate = CertificateBuilder.create()
+                .metadata(InternalToCertificate.createMetadata(utlatande, texts))
+                .build();
+
+            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
+
+            assertEquals(expectedValue, updatedCertificate.getGrundData().getSkapadAv().getVardenhet().getTelefonnummer());
         }
     }
 }

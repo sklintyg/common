@@ -115,7 +115,7 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static CertificateMetadata createMetadata(Af00213UtlatandeV1 internalCertificate,
+    public static CertificateMetadata createMetadata(Af00213UtlatandeV1 internalCertificate,
         CertificateTextProvider texts) {
         final var unit = internalCertificate.getGrundData().getSkapadAv().getVardenhet();
         return CertificateMetadata.builder()

@@ -290,7 +290,7 @@ public final class InternalToCertificate {
     }
 
 
-    private static CertificateMetadata createMetadata(LisjpUtlatandeV1 internalCertificate,
+    public static CertificateMetadata createMetadata(LisjpUtlatandeV1 internalCertificate,
         CertificateTextProvider texts) {
         final var unit = internalCertificate.getGrundData().getSkapadAv().getVardenhet();
         return CertificateMetadata.builder()
