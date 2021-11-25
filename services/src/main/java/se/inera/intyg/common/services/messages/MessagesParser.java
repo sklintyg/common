@@ -41,6 +41,9 @@ import org.slf4j.LoggerFactory;
 public final class MessagesParser {
 
     private static final Logger LOG = LoggerFactory.getLogger(MessagesParser.class);
+    private static final Pattern START_POSITION_PATTERN = Pattern.compile("^\\s*[\\'\\\"]sv[\\'\\\"]\\s?:\\s?\\{");
+    private static final Pattern END_POSITION_PATTERN = Pattern.compile("^\\s*\\},");
+    private static final String STRING_CONCAT_REGEXP = "[\\'\\\"]\\s*\\+\\s*[\\'\\\"]";
 
     private List<Map<String, String>> list;
 
@@ -111,7 +114,7 @@ public final class MessagesParser {
 
     private void validateParsedResult(boolean startPositionFound, boolean endPositionFound) {
         if (!startPositionFound || !endPositionFound) {
-            final var message = String.format("No starta or end position found. Start position found: %s. End position found: %s",
+            final var message = String.format("No start or end position found. Start position found: %s. End position found: %s",
                 startPositionFound, endPositionFound);
             LOG.error(message);
             throw new RuntimeException(message);
@@ -119,15 +122,15 @@ public final class MessagesParser {
     }
 
     private boolean findStartPosition(String line) {
-        return Pattern.compile("^\\s*[\\'\\\"]sv[\\'\\\"]\\s?:\\s?\\{").matcher(line).matches();
+        return START_POSITION_PATTERN.matcher(line).matches();
     }
 
     private boolean findEndPosition(String line) {
-        return Pattern.compile("^\\s*\\},").matcher(line).matches();
+        return END_POSITION_PATTERN.matcher(line).matches();
     }
 
     private String removeStringConcatinations(String json) {
-        return json.replaceAll("[\\'\\\"]\\s*\\+\\s*[\\'\\\"]", "");
+        return json.replaceAll(STRING_CONCAT_REGEXP, "");
     }
 
     private Map<String, String> jsonToMap(String json) {

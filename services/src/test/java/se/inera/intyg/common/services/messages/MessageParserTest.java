@@ -78,7 +78,7 @@ class MessageParserTest {
             MessagesParser.create().parse(inputStream);
         });
 
-        assertEquals("No starta or end position found. Start position found: false. End position found: false", exception.getMessage());
+        assertEquals("No start or end position found. Start position found: false. End position found: false", exception.getMessage());
     }
 
     @Test
