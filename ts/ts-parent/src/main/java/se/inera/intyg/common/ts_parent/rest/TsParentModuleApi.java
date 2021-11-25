@@ -37,6 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.services.texts.DefaultCertificateTextProvider;
 import se.inera.intyg.common.services.texts.IntygTextsService;
@@ -445,4 +446,10 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
         final var intygTexts = getTexts(certificateType, certificateTypeVersion);
         return DefaultCertificateTextProvider.create(intygTexts);
     }
+
+    @Override
+    public CertificateMessagesProvider getMessagesProvider() {
+        throw new UnsupportedOperationException();
+    }
+
 }

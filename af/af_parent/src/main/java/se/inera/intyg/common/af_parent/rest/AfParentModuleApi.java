@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import se.inera.intyg.common.af_parent.model.internal.AfUtlatande;
+import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.services.texts.DefaultCertificateTextProvider;
 import se.inera.intyg.common.services.texts.IntygTextsService;
@@ -440,4 +441,10 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
         final var intygTexts = getTexts(certificateType, certificateTypeVersion);
         return DefaultCertificateTextProvider.create(intygTexts);
     }
+
+    @Override
+    public CertificateMessagesProvider getMessagesProvider() {
+        throw new UnsupportedOperationException();
+    }
+
 }
