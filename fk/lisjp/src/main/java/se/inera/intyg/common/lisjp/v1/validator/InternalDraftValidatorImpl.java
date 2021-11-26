@@ -422,7 +422,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
                     ValidatorUtil.addValidationErrorWithQuestionId(validationMessages,
                         BEDOMNING_CATEGORY_ID,
                         BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32 + ".period." + sjukskrivning.getSjukskrivningsgrad().getId(),
-                        ValidationMessageType.INCORRECT_COMBINATION, BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32, BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
+                        ValidationMessageType.INCORRECT_COMBINATION, BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
                 }
             }
         }
