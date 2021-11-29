@@ -20,6 +20,7 @@ package se.inera.intyg.common.support.facade.model.user;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.Map;
 import lombok.Builder;
 import lombok.Value;
 import se.inera.intyg.common.support.facade.model.metadata.Unit;
@@ -36,6 +37,7 @@ public class User {
     private SigningMethod signingMethod;
     private Unit loggedInUnit;
     private Unit loggedInCareProvider;
+    private Map<String, String> preferences;
     private boolean protectedPerson;
 
     @JsonPOJOBuilder(withPrefix = "")
