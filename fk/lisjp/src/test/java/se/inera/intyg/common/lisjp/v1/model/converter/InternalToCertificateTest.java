@@ -3747,7 +3747,7 @@ class InternalToCertificateTest {
 
                 final var certificateDataConfigDropdown = (CertificateDataConfigDropdown) question.getConfig();
                 assertAll("Validating question configuration",
-                    () -> assertEquals("VALJ_TIDSPERIOD",
+                    () -> assertEquals("",
                         certificateDataConfigDropdown.getList().get(0).getId()),
                     () -> assertTrue(certificateDataConfigDropdown.getList().get(0).getLabel().trim().length() > 0,
                         "Missing label"),
