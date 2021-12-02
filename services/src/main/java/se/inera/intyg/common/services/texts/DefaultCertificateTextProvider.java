@@ -39,28 +39,64 @@ public final class DefaultCertificateTextProvider implements CertificateTextProv
         if (value == null) {
             return getQuestionHeader(key);
         }
-        return parseText(value);
+
+        return parseText(value, key);
     }
 
-    private String parseText(String value) {
-        StringBuilder result = new StringBuilder();
-        var parts = value.split("(\n\\s+-)|\n-|•|^-");
+    private boolean isHeadline(String key) {
+        return key.contains(".RBK");
+    }
 
-        if (parts.length <= 1) {
-            return value;
+    private String parseText(String value, String key) {
+        StringBuilder stringBuilder = new StringBuilder();
+        var parts = value.split("\n\n+");
+        var result = "";
+
+        for (int i = 0; i < parts.length; i++) {
+            parseList(stringBuilder, parts[i], i == parts.length - 1);
         }
 
+        if (!isHeadline(key)) {
+            result = fixSpacingOfText(stringBuilder);
+        } else {
+            result = stringBuilder.toString();
+        }
+        return result;
+    }
+
+    private String fixSpacingOfText(StringBuilder stringBuilder) {
+        String result;
+        result = stringBuilder.toString().replaceAll("^\n+|^\\s+", "");
+        result = result.replaceAll("\n\n+", "**");
+        result = result.replaceAll("\n|\t", "");
+        result = result.replaceAll("\\s\\s+", " ");
+        result = result.replaceAll("\\*\\*", "\n\n");
+        return result;
+    }
+
+    private void parseList(StringBuilder stringBuilder, String value, boolean isLast) {
+        var parts = value.split("(\n+\\s+-)|\n+-|•|^-");
+        if (parts.length <= 1) {
+            stringBuilder.append(value);
+            appendNewLine(stringBuilder, isLast);
+            return;
+        }
         var count = 0;
         while (count < parts.length) {
             if (count == 0) {
-                result.append(parts[count++]).append("<ul><li>");
+                stringBuilder.append(parts[count++]).append("<ul><li>");
             } else if (count == parts.length - 1) {
-                result.append(parts[count++]).append("</li></ul>");
+                stringBuilder.append(parts[count++]).append("</li></ul>");
             } else {
-                result.append(parts[count++]).append("</li><li>");
+                stringBuilder.append(parts[count++]).append("</li><li>");
             }
         }
-        return result.toString().replace("\n", "");
+    }
+
+    private void appendNewLine(StringBuilder stringBuilder, boolean isLast) {
+        if (!isLast) {
+            stringBuilder.append("\n\n");
+        }
     }
 
     private String getQuestionHeader(String key) {
