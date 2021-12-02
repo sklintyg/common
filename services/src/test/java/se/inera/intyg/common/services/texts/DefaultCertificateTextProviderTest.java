@@ -38,14 +38,14 @@ class DefaultCertificateTextProviderTest {
     private final String KEY_WITH_DOT = "key_with_dot";
     private final String KEY_WITHOUT_SYMBOLS = "key";
     private final String VALUE_WITHOUT_SYMBOLS = "This is a text without symbols";
-    private final String VALUE_WITH_DASH_AS_LIST = "This is \n     - a text with \n- symbols";
+    private final String VALUE_WITH_DASH_AS_LIST = "\n\nThis is \n     - a text with \n- symbols";
     private final String VALUE_WITH_DASH_AS_TEXT = "This is- a text with- symbols";
-    private final String VALUE_WITH_DOT = "This is • a text with • symbols";
+    private final String VALUE_WITH_DOT = "\nThis is • a text with • symbols";
     private final String VALUE_WITH_LIST_TAGS = "This is <ul><li> a text with </li><li> symbols</li></ul>";
     private final String VALUE_STARTING_WITH_DASH_AS_LIST = "- This is \n - My list\n\nWith an extra paragraph";
     private final String KEY_WITH_LIST_TAGS_IN_FRONT = "key_front";
     private final String VALUE_WITH_LIST_TAGS_IN_FRONT = "<ul><li> This is </li><li> My list</li></ul>With an extra paragraph";
-    private final String VALUE_WITH_SEVERAL_NEW_LINES = "Testing\n\n\n\nTesting";
+    private final String VALUE_WITH_SEVERAL_NEW_LINES = "  Testing\n\n\n\nTesting";
     private final String EXPECTED_VALUE_WITH_SEVERAL_NEW_LINES = "Testing\n\nTesting";
     private final String KEY_SEVERAL_NEW_LINES = "key_lines";
     private final String VALUE_WITH_TAB = "This\tis\tmy\ttext";

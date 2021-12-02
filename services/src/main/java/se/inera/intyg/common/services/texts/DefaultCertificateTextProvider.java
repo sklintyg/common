@@ -66,7 +66,8 @@ public final class DefaultCertificateTextProvider implements CertificateTextProv
 
     private String fixSpacingOfText(StringBuilder stringBuilder) {
         String result;
-        result = stringBuilder.toString().replaceAll("\n\n+", "**");
+        result = stringBuilder.toString().replaceAll("^\n+|^\\s+", "");
+        result = result.replaceAll("\n\n+", "**");
         result = result.replaceAll("\n|\t", "");
         result = result.replaceAll("\\s\\s+", " ");
         result = result.replaceAll("\\*\\*", "\n\n");
