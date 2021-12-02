@@ -42,9 +42,20 @@ class DefaultCertificateTextProviderTest {
     private final String VALUE_WITH_DASH_AS_TEXT = "This is- a text with- symbols";
     private final String VALUE_WITH_DOT = "This is • a text with • symbols";
     private final String VALUE_WITH_LIST_TAGS = "This is <ul><li> a text with </li><li> symbols</li></ul>";
-    private final String VALUE_STARTING_WITH_DASH_AS_LIST = "- This is \n - My list";
+    private final String VALUE_STARTING_WITH_DASH_AS_LIST = "- This is \n - My list\n\nWith an extra paragraph";
     private final String KEY_WITH_LIST_TAGS_IN_FRONT = "key_front";
-    private final String VALUE_WITH_LIST_TAGS_IN_FRONT = "<ul><li> This is </li><li> My list</li></ul>";
+    private final String VALUE_WITH_LIST_TAGS_IN_FRONT = "<ul><li> This is </li><li> My list</li></ul>With an extra paragraph";
+    private final String VALUE_WITH_SEVERAL_NEW_LINES = "Testing\n\n\n\nTesting";
+    private final String EXPECTED_VALUE_WITH_SEVERAL_NEW_LINES = "Testing\n\nTesting";
+    private final String KEY_SEVERAL_NEW_LINES = "key_lines";
+    private final String VALUE_WITH_TAB = "This\tis\tmy\ttext";
+    private final String VALUE_WITHOUT_TAB = "Thisismytext";
+    private final String KEY_TAB = "key_tab";
+    private final String VALUE_WITH_EXTRA_SPACE = "This       is      extra   spacing";
+    private final String VALUE_WITHOUT_EXTRA_SPACE = "This is extra spacing";
+    private final String KEY_SPACING = "key_spacing";
+    private final String HEADER_TEXT = "Header \n Text";
+    private final String HEADER_KEY = "key.RBK";
 
 
     @BeforeEach
@@ -57,6 +68,10 @@ class DefaultCertificateTextProviderTest {
         texts.put(KEY_WITH_DASH_AS_TEXT, VALUE_WITH_DASH_AS_TEXT);
         texts.put(KEY_WITH_DOT, VALUE_WITH_DOT);
         texts.put(KEY_WITH_LIST_TAGS_IN_FRONT, VALUE_STARTING_WITH_DASH_AS_LIST);
+        texts.put(KEY_SEVERAL_NEW_LINES, VALUE_WITH_SEVERAL_NEW_LINES);
+        texts.put(KEY_TAB, VALUE_WITH_TAB);
+        texts.put(KEY_SPACING, VALUE_WITH_EXTRA_SPACE);
+        texts.put(HEADER_KEY, HEADER_TEXT);
 
         final var intygTexts = new IntygTexts(
             "1.0",
@@ -125,5 +140,29 @@ class DefaultCertificateTextProviderTest {
     void shallRemoveDashAsFirstCharAndAddListItems() {
         final var actualText = defaultCertificateTextProvider.get(KEY_WITH_LIST_TAGS_IN_FRONT);
         assertEquals(VALUE_WITH_LIST_TAGS_IN_FRONT, actualText);
+    }
+
+    @Test
+    void shallRemoveSeveralNewLinesAndAddOneNewLine() {
+        final var actualText = defaultCertificateTextProvider.get(KEY_SEVERAL_NEW_LINES);
+        assertEquals(EXPECTED_VALUE_WITH_SEVERAL_NEW_LINES, actualText);
+    }
+
+    @Test
+    void shallRemoveTab() {
+        final var actualText = defaultCertificateTextProvider.get(KEY_TAB);
+        assertEquals(VALUE_WITHOUT_TAB, actualText);
+    }
+
+    @Test
+    void shallRemoveExtraSpacing() {
+        final var actualText = defaultCertificateTextProvider.get(KEY_SPACING);
+        assertEquals(VALUE_WITHOUT_EXTRA_SPACE, actualText);
+    }
+
+    @Test
+    void shallNotParseExtraSpacingOfHeaderText() {
+        final var actualText = defaultCertificateTextProvider.get(HEADER_KEY);
+        assertEquals(HEADER_TEXT, actualText);
     }
 }
