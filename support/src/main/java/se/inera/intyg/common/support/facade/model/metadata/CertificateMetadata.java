@@ -46,6 +46,7 @@ public class CertificateMetadata {
     private boolean sent;
     private CertificateRelations relations;
     private Unit unit;
+    private Unit careUnit;
     private Unit careProvider;
     private Patient patient;
     private Staff issuedBy;
