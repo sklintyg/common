@@ -1382,7 +1382,7 @@ public final class InternalToCertificate {
                     .list(
                         Arrays.asList(
                             DropdownItem.builder()
-                                .id("VALJ_TIDSPERIOD")
+                                .id("")
                                 .label("Välj tidsperiod")
                                 .build(),
                             DropdownItem.builder()
