@@ -36,6 +36,7 @@ public class User {
     private String role;
     private SigningMethod signingMethod;
     private Unit loggedInUnit;
+    private Unit loggedInCareUnit;
     private Unit loggedInCareProvider;
     private Map<String, String> preferences;
     private boolean protectedPerson;
