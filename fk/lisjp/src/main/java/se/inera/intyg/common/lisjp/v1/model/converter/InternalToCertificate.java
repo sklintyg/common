@@ -1109,11 +1109,11 @@ public final class InternalToCertificate {
             .config(
                 CertificateDataConfigTextArea.builder()
                     .text("Ange orsak för att starta perioden mer än 7 dagar bakåt i tiden.")
-                    .description("Observera att detta inte är en fråga från Försäkringskassan. "
+                    .description("Observera att detta inte är en fråga från Försäkringskassan."
                         + "Information om varför sjukskrivningen startar mer än en vecka före"
-                        + " dagens datum kan vara till hjälp för Försäkringskassan"
-                        + "i deras handläggning.\\n' +\n            '\\n' +\n            "
-                        + "'Informationen du anger nedan, kommer att överföras till fältet \"{0}\" vid signering.")
+                        + " dagens datum kan vara till hjälp för Försäkringskassan "
+                        + "i deras handläggning.</br></br>"
+                        + "Informationen du anger nedan, kommer att överföras till fältet \"Övriga upplysningar\" vid signering.")
                     .icon("lightbulb_outline")
                     .id(MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID)
                     .build()
