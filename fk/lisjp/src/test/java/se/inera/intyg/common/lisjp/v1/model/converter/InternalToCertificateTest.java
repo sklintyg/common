@@ -110,6 +110,7 @@ import se.inera.intyg.common.lisjp.model.internal.Sysselsattning.Sysselsattnings
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
+import se.inera.intyg.common.support.facade.model.CertificateDataElementStyleEnum;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleDate;
@@ -3521,9 +3522,6 @@ class InternalToCertificateTest {
                 assertAll("Validating question configuration",
                     () -> assertEquals(PrognosTyp.MED_STOR_SANNOLIKHET.getId(),
                         certificateDataConfigMultipleCodeOptionalDropdown.getList().get(0).getId()),
-                    () -> assertEquals(RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39,
-                        certificateDataConfigMultipleCodeOptionalDropdown.getList().get(1).getDropdownQuestionId(),
-                        "missing dropdown question id"),
                     () -> assertTrue(certificateDataConfigMultipleCodeOptionalDropdown.getList().get(0).getLabel().trim().length() > 0,
                         "Missing label")
                 );
@@ -3541,6 +3539,9 @@ class InternalToCertificateTest {
                 assertAll("Validating question configuration",
                     () -> assertEquals(PrognosTyp.ATER_X_ANTAL_DGR.getId(),
                         certificateDataConfigMultipleCodeOptionalDropdown.getList().get(1).getId()),
+                    () -> assertEquals(RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39,
+                        certificateDataConfigMultipleCodeOptionalDropdown.getList().get(1).getDropdownQuestionId(),
+                        "missing dropdown question id"),
                     () -> assertTrue(certificateDataConfigMultipleCodeOptionalDropdown.getList().get(1).getLabel().trim().length() > 0,
                         "Missing label")
                 );
@@ -3989,6 +3990,18 @@ class InternalToCertificateTest {
                     () -> assertEquals(PROGNOS_SVAR_ID_39, certificateDataValidationEnable.getQuestionId()),
                     () -> assertEquals("$" + PrognosTyp.ATER_X_ANTAL_DGR.getId(),
                         certificateDataValidationEnable.getExpression())
+                );
+            }
+
+            @Test
+            void shouldIncludeQuestionConfigHiddenStyle() {
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
+
+                final var certificateDataConfigStyle = question.getStyle();
+                assertAll("Validation question config style",
+                    () -> assertEquals(certificateDataConfigStyle, CertificateDataElementStyleEnum.HIDDEN)
                 );
             }
         }

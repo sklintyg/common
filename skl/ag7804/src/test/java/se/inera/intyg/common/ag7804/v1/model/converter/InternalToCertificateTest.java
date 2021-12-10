@@ -103,6 +103,7 @@ import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
+import se.inera.intyg.common.support.facade.model.CertificateDataElementStyleEnum;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleDate;
@@ -3849,6 +3850,18 @@ class InternalToCertificateTest {
                     () -> assertEquals(PROGNOS_SVAR_ID_39, certificateDataValidationEnable.getQuestionId()),
                     () -> assertEquals("$" + PrognosTyp.ATER_X_ANTAL_DGR.getId(),
                         certificateDataValidationEnable.getExpression())
+                );
+            }
+
+            @Test
+            void shouldIncludeQuestionConfigHiddenStyle() {
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39);
+
+                final var certificateDataConfigStyle = question.getStyle();
+                assertAll("Validation question config style",
+                    () -> assertEquals(certificateDataConfigStyle, CertificateDataElementStyleEnum.HIDDEN)
                 );
             }
         }
