@@ -3398,6 +3398,9 @@ class InternalToCertificateTest {
                 assertAll("Validating question configuration",
                     () -> assertEquals(PrognosTyp.ATER_X_ANTAL_DGR.getId(),
                         certificateDataConfigMultipleCodeOptionalDropdown.getList().get(1).getId()),
+                    () -> assertEquals(RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39,
+                        certificateDataConfigMultipleCodeOptionalDropdown.getList().get(1).getDropdownQuestionId(),
+                        "missing dropdown question id"),
                     () -> assertTrue(certificateDataConfigMultipleCodeOptionalDropdown.getList().get(1).getLabel().trim().length() > 0,
                         "Missing label")
                 );

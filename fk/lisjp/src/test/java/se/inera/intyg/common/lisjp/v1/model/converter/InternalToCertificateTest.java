@@ -96,6 +96,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
@@ -3520,6 +3521,9 @@ class InternalToCertificateTest {
                 assertAll("Validating question configuration",
                     () -> assertEquals(PrognosTyp.MED_STOR_SANNOLIKHET.getId(),
                         certificateDataConfigMultipleCodeOptionalDropdown.getList().get(0).getId()),
+                    () -> assertEquals(RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39,
+                        certificateDataConfigMultipleCodeOptionalDropdown.getList().get(1).getDropdownQuestionId(),
+                        "missing dropdown question id"),
                     () -> assertTrue(certificateDataConfigMultipleCodeOptionalDropdown.getList().get(0).getLabel().trim().length() > 0,
                         "Missing label")
                 );
