@@ -172,11 +172,13 @@ import se.inera.intyg.common.ag7804.model.internal.Sysselsattning.Sysselsattning
 import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.agparent.model.internal.Diagnos;
+import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
+import se.inera.intyg.common.support.facade.model.CertificateDataElementStyleEnum;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
@@ -185,6 +187,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDi
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDropdown;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioMultipleCode;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioMultipleCodeOptionalDropdown;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigSickLeavePeriod;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.config.CheckboxDateRange;
@@ -194,6 +197,7 @@ import se.inera.intyg.common.support.facade.model.config.DiagnosesListItem;
 import se.inera.intyg.common.support.facade.model.config.DiagnosesTerminology;
 import se.inera.intyg.common.support.facade.model.config.DropdownItem;
 import se.inera.intyg.common.support.facade.model.config.RadioMultipleCode;
+import se.inera.intyg.common.support.facade.model.config.RadioMultipleCodeOptionalDropdown;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.model.metadata.Unit;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
@@ -1221,24 +1225,25 @@ public final class InternalToCertificate {
             .index(index)
             .parent(CATEGORY_BEDOMNING)
             .config(
-                CertificateDataConfigRadioMultipleCode.builder()
+                CertificateDataConfigRadioMultipleCodeOptionalDropdown.builder()
                     .text(texts.get(PROGNOS_SVAR_TEXT))
                     .description(texts.get(PROGNOS_SVAR_BESKRIVNING))
                     .list(
                         Arrays.asList(
-                            RadioMultipleCode.builder()
+                            RadioMultipleCodeOptionalDropdown.builder()
                                 .id(PrognosTyp.MED_STOR_SANNOLIKHET.getId())
                                 .label(texts.get(PROGNOS_SVAR_STOR_SANNOLIKHET))
                                 .build(),
-                            RadioMultipleCode.builder()
+                            RadioMultipleCodeOptionalDropdown.builder()
                                 .id(PrognosTyp.ATER_X_ANTAL_DGR.getId())
                                 .label(texts.get(PROGNOS_SVAR_ATER_X_ANTAL_DAGAR))
+                                .dropdownQuestionId(RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39)
                                 .build(),
-                            RadioMultipleCode.builder()
+                            RadioMultipleCodeOptionalDropdown.builder()
                                 .id(PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING.getId())
                                 .label(texts.get(PROGNOS_SVAR_SANNOLIKT_INTE))
                                 .build(),
-                            RadioMultipleCode.builder()
+                            RadioMultipleCodeOptionalDropdown.builder()
                                 .id(PrognosTyp.PROGNOS_OKLAR.getId())
                                 .label(texts.get(PROGNOS_SVAR_PROGNOS_OKLAR))
                                 .build()
@@ -1346,6 +1351,7 @@ public final class InternalToCertificate {
                         .build()
                 }
             )
+            .style(CertificateDataElementStyleEnum.HIDDEN)
             .build();
     }
 

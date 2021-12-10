@@ -103,6 +103,7 @@ import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
+import se.inera.intyg.common.support.facade.model.CertificateDataElementStyleEnum;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleDate;
@@ -110,6 +111,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDi
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDropdown;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioMultipleCode;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioMultipleCodeOptionalDropdown;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigSickLeavePeriod;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
@@ -3355,15 +3357,16 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
 
-                assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE, question.getConfig().getType());
+                assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
 
-                final var certificateDataConfigMultipleCode = (CertificateDataConfigRadioMultipleCode) question.getConfig();
+                final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
                 assertAll("Validating question configuration",
-                    () -> assertTrue(certificateDataConfigMultipleCode.getText().trim().length() > 0, "Missing text"),
-                    () -> assertTrue(certificateDataConfigMultipleCode.getDescription().trim().length() > 0, "Missing description"),
-                    () -> assertNull(certificateDataConfigMultipleCode.getHeader(), "Should not have a header"),
-                    () -> assertNull(certificateDataConfigMultipleCode.getIcon(), "Should not have an iconr"),
-                    () -> assertNull(certificateDataConfigMultipleCode.getLabel(), "Should not have a label")
+                    () -> assertTrue(certificateDataConfigMultipleCodeOptionalDropdown.getText().trim().length() > 0, "Missing text"),
+                    () -> assertTrue(certificateDataConfigMultipleCodeOptionalDropdown.getDescription().trim().length() > 0,
+                        "Missing description"),
+                    () -> assertNull(certificateDataConfigMultipleCodeOptionalDropdown.getHeader(), "Should not have a header"),
+                    () -> assertNull(certificateDataConfigMultipleCodeOptionalDropdown.getIcon(), "Should not have an iconr"),
+                    () -> assertNull(certificateDataConfigMultipleCodeOptionalDropdown.getLabel(), "Should not have a label")
                 );
             }
 
@@ -3373,13 +3376,13 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
 
-                assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE, question.getConfig().getType());
+                assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
 
-                final var certificateDataConfigMultipleCode = (CertificateDataConfigRadioMultipleCode) question.getConfig();
+                final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
                 assertAll("Validating question configuration",
                     () -> assertEquals(PrognosTyp.MED_STOR_SANNOLIKHET.getId(),
-                        certificateDataConfigMultipleCode.getList().get(0).getId()),
-                    () -> assertTrue(certificateDataConfigMultipleCode.getList().get(0).getLabel().trim().length() > 0,
+                        certificateDataConfigMultipleCodeOptionalDropdown.getList().get(0).getId()),
+                    () -> assertTrue(certificateDataConfigMultipleCodeOptionalDropdown.getList().get(0).getLabel().trim().length() > 0,
                         "Missing label")
                 );
             }
@@ -3390,13 +3393,16 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
 
-                assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE, question.getConfig().getType());
+                assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
 
-                final var certificateDataConfigMultipleCode = (CertificateDataConfigRadioMultipleCode) question.getConfig();
+                final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
                 assertAll("Validating question configuration",
                     () -> assertEquals(PrognosTyp.ATER_X_ANTAL_DGR.getId(),
-                        certificateDataConfigMultipleCode.getList().get(1).getId()),
-                    () -> assertTrue(certificateDataConfigMultipleCode.getList().get(1).getLabel().trim().length() > 0,
+                        certificateDataConfigMultipleCodeOptionalDropdown.getList().get(1).getId()),
+                    () -> assertEquals(RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39,
+                        certificateDataConfigMultipleCodeOptionalDropdown.getList().get(1).getDropdownQuestionId(),
+                        "missing dropdown question id"),
+                    () -> assertTrue(certificateDataConfigMultipleCodeOptionalDropdown.getList().get(1).getLabel().trim().length() > 0,
                         "Missing label")
                 );
             }
@@ -3407,13 +3413,13 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
 
-                assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE, question.getConfig().getType());
+                assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
 
-                final var certificateDataConfigMultipleCode = (CertificateDataConfigRadioMultipleCode) question.getConfig();
+                final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
                 assertAll("Validating question configuration",
                     () -> assertEquals(PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING.getId(),
-                        certificateDataConfigMultipleCode.getList().get(2).getId()),
-                    () -> assertTrue(certificateDataConfigMultipleCode.getList().get(2).getLabel().trim().length() > 0,
+                        certificateDataConfigMultipleCodeOptionalDropdown.getList().get(2).getId()),
+                    () -> assertTrue(certificateDataConfigMultipleCodeOptionalDropdown.getList().get(2).getLabel().trim().length() > 0,
                         "Missing label")
                 );
             }
@@ -3424,13 +3430,13 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
 
-                assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE, question.getConfig().getType());
+                assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
 
-                final var certificateDataConfigMultipleCode = (CertificateDataConfigRadioMultipleCode) question.getConfig();
+                final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
                 assertAll("Validating question configuration",
                     () -> assertEquals(PrognosTyp.PROGNOS_OKLAR.getId(),
-                        certificateDataConfigMultipleCode.getList().get(3).getId()),
-                    () -> assertTrue(certificateDataConfigMultipleCode.getList().get(3).getLabel().trim().length() > 0,
+                        certificateDataConfigMultipleCodeOptionalDropdown.getList().get(3).getId()),
+                    () -> assertTrue(certificateDataConfigMultipleCodeOptionalDropdown.getList().get(3).getLabel().trim().length() > 0,
                         "Missing label")
                 );
             }
@@ -3844,6 +3850,18 @@ class InternalToCertificateTest {
                     () -> assertEquals(PROGNOS_SVAR_ID_39, certificateDataValidationEnable.getQuestionId()),
                     () -> assertEquals("$" + PrognosTyp.ATER_X_ANTAL_DGR.getId(),
                         certificateDataValidationEnable.getExpression())
+                );
+            }
+
+            @Test
+            void shouldIncludeQuestionConfigHiddenStyle() {
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39);
+
+                final var certificateDataConfigStyle = question.getStyle();
+                assertAll("Validation question config style",
+                    () -> assertEquals(certificateDataConfigStyle, CertificateDataElementStyleEnum.HIDDEN)
                 );
             }
         }
