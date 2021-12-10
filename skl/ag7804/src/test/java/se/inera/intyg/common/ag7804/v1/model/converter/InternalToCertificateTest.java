@@ -98,7 +98,6 @@ import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning.SjukskrivningsG
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning.SysselsattningsTyp;
 import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
-import se.inera.intyg.common.ag7804.v1.model.converter.InternalToCertificate;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.converter.RespConstants;
@@ -3608,7 +3607,7 @@ class InternalToCertificateTest {
 
                 final var certificateDataConfigDropdown = (CertificateDataConfigDropdown) question.getConfig();
                 assertAll("Validating question configuration",
-                    () -> assertEquals("VALJ_TIDSPERIOD",
+                    () -> assertEquals("",
                         certificateDataConfigDropdown.getList().get(0).getId()),
                     () -> assertTrue(certificateDataConfigDropdown.getList().get(0).getLabel().trim().length() > 0,
                         "Missing label"),
