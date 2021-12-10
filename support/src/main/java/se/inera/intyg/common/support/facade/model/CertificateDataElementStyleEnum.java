@@ -20,5 +20,5 @@
 package se.inera.intyg.common.support.facade.model;
 
 public enum CertificateDataElementStyleEnum {
-    NORMAL, HIGHLIGHTED
+    NORMAL, HIGHLIGHTED, HIDDEN
 }
