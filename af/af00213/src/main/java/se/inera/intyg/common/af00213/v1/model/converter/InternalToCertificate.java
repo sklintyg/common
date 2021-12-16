@@ -75,6 +75,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
+import se.inera.intyg.common.support.facade.model.Staff;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
@@ -133,6 +134,12 @@ public final class InternalToCertificate {
                     .city(unit.getPostort())
                     .email(unit.getEpost())
                     .phoneNumber(unit.getTelefonnummer())
+                    .build()
+            )
+            .issuedBy(
+                Staff.builder()
+                    .personId(internalCertificate.getGrundData().getSkapadAv().getPersonId())
+                    .fullName(internalCertificate.getGrundData().getSkapadAv().getFullstandigtNamn())
                     .build()
             )
             .build();

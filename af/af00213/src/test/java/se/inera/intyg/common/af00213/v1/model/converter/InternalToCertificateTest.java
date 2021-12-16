@@ -207,6 +207,39 @@ class InternalToCertificateTest {
                 assertEquals(expectedUnitPhoneNumber, certificate.getMetadata().getUnit().getPhoneNumber());
             }
         }
+
+        @Nested
+        class ValidateIssuedBy {
+
+            @BeforeEach
+            void createInternalCertificateToConvert() {
+                internalCertificate = Af00213UtlatandeV1.builder()
+                    .setGrundData(grundData)
+                    .setId("id")
+                    .setTextVersion("TextVersion")
+                    .build();
+            }
+
+            @Test
+            void shallIncludePersonId() {
+                final var expectedPersonId = "PersonId";
+                grundData.getSkapadAv().setPersonId(expectedPersonId);
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                assertEquals(expectedPersonId, certificate.getMetadata().getIssuedBy().getPersonId());
+            }
+
+            @Test
+            void shallIncludeFullName() {
+                final var expectedFullName = "Fullname";
+                grundData.getSkapadAv().setPersonId(expectedFullName);
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                assertEquals(expectedFullName, certificate.getMetadata().getIssuedBy().getFullName());
+            }
+        }
     }
 
     @Nested
