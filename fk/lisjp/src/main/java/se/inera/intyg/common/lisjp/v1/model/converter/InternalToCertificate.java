@@ -188,6 +188,7 @@ import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.CertificateDataElementStyleEnum;
+import se.inera.intyg.common.support.facade.model.Staff;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
@@ -290,7 +291,6 @@ public final class InternalToCertificate {
             .build();
     }
 
-
     public static CertificateMetadata createMetadata(LisjpUtlatandeV1 internalCertificate,
         CertificateTextProvider texts) {
         final var unit = internalCertificate.getGrundData().getSkapadAv().getVardenhet();
@@ -311,9 +311,14 @@ public final class InternalToCertificate {
                     .phoneNumber(unit.getTelefonnummer())
                     .build()
             )
+            .issuedBy(
+                Staff.builder()
+                    .personId(internalCertificate.getGrundData().getSkapadAv().getPersonId())
+                    .fullName(internalCertificate.getGrundData().getSkapadAv().getFullstandigtNamn())
+                    .build()
+            )
             .build();
     }
-
 
     private static CertificateDataElement createSmittbararpenningCategory(int index,
         CertificateTextProvider texts) {

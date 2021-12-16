@@ -19,32 +19,23 @@
 
 package se.inera.intyg.common.support.facade.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
+import lombok.Value;
+import se.inera.intyg.common.support.facade.model.Staff.StaffBuilder;
+
+@JsonDeserialize(builder = StaffBuilder.class)
+@Value
+@Builder
 public class Staff {
+
     private String personId;
     private String fullName;
     private String prescriptionCode;
 
-    public String getPersonId() {
-        return personId;
-    }
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class StaffBuilder {
 
-    public void setPersonId(String personId) {
-        this.personId = personId;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getPrescriptionCode() {
-        return prescriptionCode;
-    }
-
-    public void setPrescriptionCode(String prescriptionCode) {
-        this.prescriptionCode = prescriptionCode;
     }
 }
