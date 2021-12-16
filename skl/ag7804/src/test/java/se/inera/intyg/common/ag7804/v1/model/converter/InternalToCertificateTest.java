@@ -326,7 +326,7 @@ class InternalToCertificateTest {
             @Test
             void shallIncludeFullName() {
                 final var expectedFullName = "Fullname";
-                grundData.getSkapadAv().setPersonId(expectedFullName);
+                grundData.getSkapadAv().setFullstandigtNamn(expectedFullName);
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
