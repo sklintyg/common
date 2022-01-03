@@ -198,6 +198,13 @@ class InternalToCertificateTest {
             }
 
             @Test
+            void shouldIncludeCertificateTypeName() {
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                assertEquals("FK 7804", certificate.getMetadata().getTypeName());
+            }
+
+            @Test
             void shouldIncludeCertificateTypeVersion() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
@@ -3499,7 +3506,8 @@ class InternalToCertificateTest {
 
                 assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
 
-                final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
+                final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question
+                    .getConfig();
                 assertAll("Validating question configuration",
                     () -> assertTrue(certificateDataConfigMultipleCodeOptionalDropdown.getText().trim().length() > 0, "Missing text"),
                     () -> assertTrue(certificateDataConfigMultipleCodeOptionalDropdown.getDescription().trim().length() > 0,
@@ -3518,7 +3526,8 @@ class InternalToCertificateTest {
 
                 assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
 
-                final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
+                final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question
+                    .getConfig();
                 assertAll("Validating question configuration",
                     () -> assertEquals(PrognosTyp.MED_STOR_SANNOLIKHET.getId(),
                         certificateDataConfigMultipleCodeOptionalDropdown.getList().get(0).getId()),
@@ -3535,7 +3544,8 @@ class InternalToCertificateTest {
 
                 assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
 
-                final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
+                final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question
+                    .getConfig();
                 assertAll("Validating question configuration",
                     () -> assertEquals(PrognosTyp.ATER_X_ANTAL_DGR.getId(),
                         certificateDataConfigMultipleCodeOptionalDropdown.getList().get(1).getId()),
@@ -3555,7 +3565,8 @@ class InternalToCertificateTest {
 
                 assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
 
-                final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
+                final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question
+                    .getConfig();
                 assertAll("Validating question configuration",
                     () -> assertEquals(PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING.getId(),
                         certificateDataConfigMultipleCodeOptionalDropdown.getList().get(2).getId()),
@@ -3572,7 +3583,8 @@ class InternalToCertificateTest {
 
                 assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
 
-                final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
+                final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question
+                    .getConfig();
                 assertAll("Validating question configuration",
                     () -> assertEquals(PrognosTyp.PROGNOS_OKLAR.getId(),
                         certificateDataConfigMultipleCodeOptionalDropdown.getList().get(3).getId()),

@@ -297,6 +297,7 @@ public final class InternalToCertificate {
         return CertificateMetadata.builder()
             .id(internalCertificate.getId())
             .type(internalCertificate.getTyp())
+            .typeName(LisjpEntryPoint.ISSUER_TYPE_ID)
             .typeVersion(internalCertificate.getTextVersion())
             .name(LisjpEntryPoint.MODULE_NAME)
             .description(texts.get(DESCRIPTION))

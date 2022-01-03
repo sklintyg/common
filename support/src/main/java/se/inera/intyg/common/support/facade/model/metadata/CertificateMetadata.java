@@ -37,6 +37,7 @@ public class CertificateMetadata {
     private String id;
     private String type;
     private String typeVersion;
+    private String typeName;
     private String name;
     private String description;
     private LocalDateTime created;
