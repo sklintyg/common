@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Inera AB (http://www.inera.se)
+ * Copyright (C) 2022 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.af00213.v1.model.converter;
 
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
@@ -75,6 +74,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
+import se.inera.intyg.common.support.facade.model.Staff;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
@@ -133,6 +133,12 @@ public final class InternalToCertificate {
                     .city(unit.getPostort())
                     .email(unit.getEpost())
                     .phoneNumber(unit.getTelefonnummer())
+                    .build()
+            )
+            .issuedBy(
+                Staff.builder()
+                    .personId(internalCertificate.getGrundData().getSkapadAv().getPersonId())
+                    .fullName(internalCertificate.getGrundData().getSkapadAv().getFullstandigtNamn())
                     .build()
             )
             .build();

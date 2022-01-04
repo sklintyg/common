@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Inera AB (http://www.inera.se)
+ * Copyright (C) 2022 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.af00213.v1.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -205,6 +204,39 @@ class InternalToCertificateTest {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 assertEquals(expectedUnitPhoneNumber, certificate.getMetadata().getUnit().getPhoneNumber());
+            }
+        }
+
+        @Nested
+        class ValidateIssuedBy {
+
+            @BeforeEach
+            void createInternalCertificateToConvert() {
+                internalCertificate = Af00213UtlatandeV1.builder()
+                    .setGrundData(grundData)
+                    .setId("id")
+                    .setTextVersion("TextVersion")
+                    .build();
+            }
+
+            @Test
+            void shallIncludePersonId() {
+                final var expectedPersonId = "PersonId";
+                grundData.getSkapadAv().setPersonId(expectedPersonId);
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                assertEquals(expectedPersonId, certificate.getMetadata().getIssuedBy().getPersonId());
+            }
+
+            @Test
+            void shallIncludeFullName() {
+                final var expectedFullName = "Fullname";
+                grundData.getSkapadAv().setFullstandigtNamn(expectedFullName);
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                assertEquals(expectedFullName, certificate.getMetadata().getIssuedBy().getFullName());
             }
         }
     }

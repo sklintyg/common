@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Inera AB (http://www.inera.se)
+ * Copyright (C) 2022 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,35 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.support.facade.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
+import lombok.Value;
+import se.inera.intyg.common.support.facade.model.Staff.StaffBuilder;
+
+@JsonDeserialize(builder = StaffBuilder.class)
+@Value
+@Builder
 public class Staff {
+
     private String personId;
     private String fullName;
     private String prescriptionCode;
 
-    public String getPersonId() {
-        return personId;
-    }
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class StaffBuilder {
 
-    public void setPersonId(String personId) {
-        this.personId = personId;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getPrescriptionCode() {
-        return prescriptionCode;
-    }
-
-    public void setPrescriptionCode(String prescriptionCode) {
-        this.prescriptionCode = prescriptionCode;
     }
 }
