@@ -120,6 +120,11 @@ allprojects {
             authentication(userName: System.properties['ineraNexusUsername'], password: System.properties['ineraNexusPassword'])
         }
     }
+
+    buildScan {
+        termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+        termsOfServiceAgree = 'yes'
+    }
 }
 
 configure(subprojects.findAll {
