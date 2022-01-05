@@ -18,7 +18,7 @@ node {
     }
 
     stage('tag and upload') {
-        shgradle11 "uploadArchives tagRelease -DbuildVersion=${buildVersion}"
+        shgradle11 "--debug uploadArchives tagRelease -DbuildVersion=${buildVersion}"
     }
 
     stage('notify') {
