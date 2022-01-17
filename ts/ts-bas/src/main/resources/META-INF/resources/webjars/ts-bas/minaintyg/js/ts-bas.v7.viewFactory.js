@@ -23,8 +23,7 @@ angular.module('ts-bas').factory('ts-bas.viewFactory.v7', [
 
         var intygsTyp = 'ts-bas';
         var selectRecipientKey = 'modules.page-header.info.select-recipients-and-send.ts';
-        var certificateMajorVersionSuffix = '.v7';
-        
+
         var _sendUrl = function() {
             return '/send/' + intygsTyp +'/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/TRANSP';
         };
@@ -32,7 +31,6 @@ angular.module('ts-bas').factory('ts-bas.viewFactory.v7', [
         return {
             intygsTyp: intygsTyp,
             selectRecipientKey: selectRecipientKey,
-            certificateMajorVersionSuffix: certificateMajorVersionSuffix,
             getSendUrl: _sendUrl
         };
     }]);
