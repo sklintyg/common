@@ -22,7 +22,7 @@ angular.module('af00213').constant('af00213.messages', {
         // Composite keys - used with dynamic prefix such as <intygstype> or suffixes <true/false> etc.
         // Be careful to investigate if they are used before removing them.
 
-        'af00213.label.pageingress': 'Här visas hela ditt intyg. Från den här sidan kan du ladda ned intyget som PDF och arkivera intyget. För medicinska frågor som rör ditt intyg ska du kontakta den som utfärdade ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat. Intyget har redan skickats till Arbetsförmedlingen via vården.',
+        'af00213.label.pageingress.active.major.version': 'Här visas hela ditt intyg. Från den här sidan kan du ladda ned intyget som PDF och arkivera intyget. För medicinska frågor som rör ditt intyg ska du kontakta den som utfärdade ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat. Intyget har redan skickats till Arbetsförmedlingen via vården.',
         'af00213.label.pageingress.ersatt': 'Här visas hela ditt ersatta läkarintyg. Klicka på länken i den gula inforutan för att komma till det nya intyget som detta blev ersatt med. Klicka på knappen Arkivera intyg för att flytta intyget till <i>Arkiverade intyg</i>. Du kan när som helst återställa intyget igen.',
         'af00213.label.pageingress.kompletterat': 'Här visas hela ditt kompletterade läkarintyg. Klicka på länken i den gula inforutan för att komma till det nya intyget som detta blev kompletterat med. Klicka på knappen Arkivera intyg för att flytta intyget till <i>Arkiverade intyg</i>. Du kan när som helst återställa intyget igen.',
 
