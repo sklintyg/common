@@ -26,7 +26,7 @@ angular.module('ag114').constant('ag114.messages', {
         // Be careful to investigate if they are used before removing them.
         'ag114.inbox.complementaryinfo': 'Gäller intygsperiod',
         'ag114.compact-header.complementaryinfo-prefix': 'Gäller intygsperiod:',
-        'ag114.label.pageingress': 'Här visas hela ditt intyg. Från den här sidan kan du välja att dölja din diagnos för arbetsgivare, ladda ner intyget som PDF och arkivera intyget. För medicinska frågor som rör ditt intyg ska du kontakta den som utfärdade ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
+        'ag114.label.pageingress.active.major.version': 'Här visas hela ditt intyg. Från den här sidan kan du välja att dölja din diagnos för arbetsgivare, ladda ner intyget som PDF och arkivera intyget. För medicinska frågor som rör ditt intyg ska du kontakta den som utfärdade ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
         'ag114.label.pageingress.ersatt': 'Här visas hela ditt ersatta läkarintyg. Klicka på länken i den gula inforutan för att komma till det nya intyget som detta blev ersatt med. Klicka på knappen Arkivera intyg för att flytta intyget till <i>Arkiverade intyg</i>. Du kan när som helst återställa intyget igen.',
         'ag114.label.pageingress.kompletterat': 'Här visas hela ditt kompletterade läkarintyg. Klicka på länken i den gula inforutan för att komma till det nya intyget som detta blev kompletterat med. Klicka på knappen Arkivera intyg för att flytta intyget till <i>Arkiverade intyg</i>. Du kan när som helst återställa intyget igen.',
 

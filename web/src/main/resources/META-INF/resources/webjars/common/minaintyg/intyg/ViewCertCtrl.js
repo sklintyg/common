@@ -27,9 +27,7 @@ angular.module('common').controller(
             $scope.intygsTyp = viewFactory.intygsTyp;
             $scope.enableSend = false;
             $scope.selectRecipientKey = viewFactory.selectRecipientKey;
-            $scope.certificateMajorVersionSuffix =
-                viewFactory.certificateMajorVersionSuffix === undefined || viewFactory.certificateMajorVersionSuffix === null ?
-                    '' : viewFactory.certificateMajorVersionSuffix;
+            $scope.activeMajorVersionSuffix = '.active.major.version';
 
             $scope.possibleToCustomize = function() {
                 return angular.isFunction(viewFactory.enableCustomizeCertificate);
@@ -54,7 +52,9 @@ angular.module('common').controller(
                 if (result !== null) {
                     $scope.cert = result.utlatande;
                     $scope.certMeta = result.meta;
-                    $scope.enableSend = !!viewFactory.getSendUrl() && $scope.certMeta.sendToRecipientEnabled;
+                    $scope.enableSend = !!viewFactory.getSendUrl() && $scope.certMeta.majorVersionActive;
+                    $scope.activeMajorVersionSuffix = $scope.certMeta.majorVersionActive ?
+                        '.active.major.version' : '.inactive.major.version';
                     $scope.errorMessage = null;
                 } else {
                     $scope.errorMessage = 'error.certnotfound';
