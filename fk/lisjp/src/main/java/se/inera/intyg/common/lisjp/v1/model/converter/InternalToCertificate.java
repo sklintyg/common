@@ -227,6 +227,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 
 public final class InternalToCertificate {
@@ -458,7 +459,7 @@ public final class InternalToCertificate {
     private static List<CertificateDataValueDate> createIntygetBaseratPaValue(LisjpUtlatandeV1 internalCertificate) {
         final List<CertificateDataValueDate> values = new ArrayList<>();
 
-        if (internalCertificate.getUndersokningAvPatienten() != null) {
+        if (validDate(internalCertificate.getUndersokningAvPatienten())) {
             values.add(
                 CertificateDataValueDate.builder()
                     .id(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1)
@@ -467,7 +468,7 @@ public final class InternalToCertificate {
             );
         }
 
-        if (internalCertificate.getTelefonkontaktMedPatienten() != null) {
+        if (validDate(internalCertificate.getTelefonkontaktMedPatienten())) {
             values.add(
                 CertificateDataValueDate.builder()
                     .id(GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1)
@@ -476,7 +477,7 @@ public final class InternalToCertificate {
             );
         }
 
-        if (internalCertificate.getJournaluppgifter() != null) {
+        if (validDate(internalCertificate.getJournaluppgifter())) {
             values.add(
                 CertificateDataValueDate.builder()
                     .id(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1)
@@ -485,7 +486,7 @@ public final class InternalToCertificate {
             );
         }
 
-        if (internalCertificate.getAnnatGrundForMU() != null) {
+        if (validDate(internalCertificate.getAnnatGrundForMU())) {
             values.add(
                 CertificateDataValueDate.builder()
                     .id(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
@@ -494,6 +495,10 @@ public final class InternalToCertificate {
             );
         }
         return values;
+    }
+
+    private static boolean validDate(InternalDate date) {
+        return date == null ? false : date.isValidDate();
     }
 
     public static CertificateDataElement createAnnatGrundForMUBeskrivning(String value, int index,

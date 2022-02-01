@@ -703,6 +703,24 @@ class InternalToCertificateTest {
             }
 
             @Test
+            void shouldExcludeQuestionValueUndersokningPatientenWhenDateIsNotValid() {
+                final var expectedDate = new InternalDate("2022-");
+                internalCertificate = LisjpUtlatandeV1.builder()
+                    .setGrundData(grundData)
+                    .setId("id")
+                    .setTextVersion("TextVersion")
+                    .setUndersokningAvPatienten(expectedDate)
+                    .build();
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
+
+                final var certificateDataValueDateList = (CertificateDataValueDateList) question.getValue();
+                assertEquals(0, certificateDataValueDateList.getList().size());
+            }
+
+            @Test
             void shouldIncludeQuestionValueTelefonkontakt() {
                 final var expectedDate = new InternalDate(LocalDate.now());
                 internalCertificate = LisjpUtlatandeV1.builder()
@@ -722,6 +740,24 @@ class InternalToCertificateTest {
                         certificateDataValueDateList.getList().get(0).getId()),
                     () -> assertEquals(expectedDate.asLocalDate(), certificateDataValueDateList.getList().get(0).getDate())
                 );
+            }
+
+            @Test
+            void shouldExcludeQuestionValueTelefonkontaktWhenDateIsNotValid() {
+                final var expectedDate = new InternalDate("2022-");
+                internalCertificate = LisjpUtlatandeV1.builder()
+                    .setGrundData(grundData)
+                    .setId("id")
+                    .setTextVersion("TextVersion")
+                    .setTelefonkontaktMedPatienten(expectedDate)
+                    .build();
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
+
+                final var certificateDataValueDateList = (CertificateDataValueDateList) question.getValue();
+                assertEquals(0, certificateDataValueDateList.getList().size());
             }
 
             @Test
@@ -747,6 +783,24 @@ class InternalToCertificateTest {
             }
 
             @Test
+            void shouldExcludeQuestionValueJournaluppgifterWhenDateIsNotValid() {
+                final var expectedDate = new InternalDate("2022-");
+                internalCertificate = LisjpUtlatandeV1.builder()
+                    .setGrundData(grundData)
+                    .setId("id")
+                    .setTextVersion("TextVersion")
+                    .setJournaluppgifter(expectedDate)
+                    .build();
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
+
+                final var certificateDataValueDateList = (CertificateDataValueDateList) question.getValue();
+                assertEquals(0, certificateDataValueDateList.getList().size());
+            }
+
+            @Test
             void shouldIncludeQuestionValueAnnat() {
                 final var expectedDate = new InternalDate(LocalDate.now());
                 internalCertificate = LisjpUtlatandeV1.builder()
@@ -766,6 +820,24 @@ class InternalToCertificateTest {
                         certificateDataValueDateList.getList().get(0).getId()),
                     () -> assertEquals(expectedDate.asLocalDate(), certificateDataValueDateList.getList().get(0).getDate())
                 );
+            }
+
+            @Test
+            void shouldIncludeQuestionValueAnnatWhenDateIsNotValid() {
+                final var expectedDate = new InternalDate("2022-");
+                internalCertificate = LisjpUtlatandeV1.builder()
+                    .setGrundData(grundData)
+                    .setId("id")
+                    .setTextVersion("TextVersion")
+                    .setAnnatGrundForMU(expectedDate)
+                    .build();
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
+
+                final var certificateDataValueDateList = (CertificateDataValueDateList) question.getValue();
+                assertEquals(0, certificateDataValueDateList.getList().size());
             }
 
             @Test
