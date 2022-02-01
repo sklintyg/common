@@ -2787,6 +2787,48 @@ class InternalToCertificateTest {
             }
 
             @Test
+            void shouldExcludeSickleavePeriodWithMissingStart() {
+                final var expectedPeriod = new InternalLocalDateInterval();
+                expectedPeriod.setFrom(new InternalDate("2021-01-01"));
+                final var expectedGrad = SjukskrivningsGrad.HELT_NEDSATT;
+                final var expectedDateRange = Sjukskrivning.create(expectedGrad, expectedPeriod);
+                internalCertificate = LisjpUtlatandeV1.builder()
+                    .setGrundData(grundData)
+                    .setId("id")
+                    .setTextVersion("TextVersion")
+                    .setSjukskrivningar(Arrays.asList(expectedDateRange))
+                    .build();
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
+
+                final var certificateDataValueDateRangeList = (CertificateDataValueDateRangeList) question.getValue();
+                assertEquals(0, certificateDataValueDateRangeList.getList().size());
+            }
+
+            @Test
+            void shouldExcludeSickleavePeriodWithMissingEnd() {
+                final var expectedPeriod = new InternalLocalDateInterval();
+                expectedPeriod.setTom(new InternalDate("2021-01-01"));
+                final var expectedGrad = SjukskrivningsGrad.HELT_NEDSATT;
+                final var expectedDateRange = Sjukskrivning.create(expectedGrad, expectedPeriod);
+                internalCertificate = LisjpUtlatandeV1.builder()
+                    .setGrundData(grundData)
+                    .setId("id")
+                    .setTextVersion("TextVersion")
+                    .setSjukskrivningar(Arrays.asList(expectedDateRange))
+                    .build();
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
+
+                final var certificateDataValueDateRangeList = (CertificateDataValueDateRangeList) question.getValue();
+                assertEquals(0, certificateDataValueDateRangeList.getList().size());
+            }
+
+            @Test
             void shouldIncludeQuestionValueAllOfThem() {
                 final var expectedPeriod = new InternalLocalDateInterval("2021-01-01", "2021-02-02");
                 final var expectedGradOneFourth = SjukskrivningsGrad.NEDSATT_1_4;
