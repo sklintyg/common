@@ -2859,6 +2859,26 @@ class InternalToCertificateTest {
             }
 
             @Test
+            void shouldExcludeSickleavePeriodWithPeriodNull() {
+                final var expectedGrad = SjukskrivningsGrad.HELT_NEDSATT;
+                final var expectedDateRange = Sjukskrivning.create(expectedGrad, null);
+                internalCertificate = LisjpUtlatandeV1.builder()
+                    .setGrundData(grundData)
+                    .setId("id")
+                    .setTextVersion("TextVersion")
+                    .setSjukskrivningar(Arrays.asList(expectedDateRange))
+                    .build();
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
+
+                final var certificateDataValueDateRangeList = (CertificateDataValueDateRangeList) question.getValue();
+                assertEquals(0, certificateDataValueDateRangeList.getList().size());
+            }
+
+
+            @Test
             void shouldExcludeSickleavePeriodWithMissingStart() {
                 final var expectedPeriod = new InternalLocalDateInterval();
                 expectedPeriod.setFrom(new InternalDate("2021-01-01"));

@@ -1072,7 +1072,7 @@ public final class InternalToCertificate {
             return Collections.emptyList();
         }
         return sickLeaves.stream()
-            .filter(item -> item.getPeriod().isValid())
+            .filter(item -> item.getPeriod() != null && item.getPeriod().isValid())
             .map(item -> CertificateDataValueDateRange.builder()
                 .id(Objects.requireNonNull(item.getSjukskrivningsgrad()).getId())
                 .to(Objects.requireNonNull(item.getPeriod()).getTom().asLocalDate())
