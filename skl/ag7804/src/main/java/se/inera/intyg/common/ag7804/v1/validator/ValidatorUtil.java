@@ -20,6 +20,7 @@ package se.inera.intyg.common.ag7804.v1.validator;
 
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_DIAGNOS;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_ID_6;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_GRUNDFORMU;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_JSON_ID_6;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
@@ -61,9 +62,9 @@ public class ValidatorUtil {
 
         // R35: For syntactically valid dates, verify it's not a future date
         if (isValid && date.asLocalDate().isAfter(LocalDate.now())) {
-            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU,
-                type.getFieldName(), ValidationMessageType.OTHER,
-                "common.validation.c-06", DIAGNOS_SVAR_ID_6);
+            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(validationMessages,
+                    CATEGORY_GRUNDFORMU, type.getFieldName(), ValidationMessageType.OTHER,
+                "common.validation.c-06", GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
         }
 
 
@@ -72,17 +73,16 @@ public class ValidatorUtil {
     public void validateDiagnose(List<Diagnos> diagnoser, List<ValidationMessage> validationMessages) {
 
         if (diagnoser == null || diagnoser.isEmpty()) {
-            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS,
-                DIAGNOS_SVAR_JSON_ID_6,
-                ValidationMessageType.EMPTY,
-                "common.validation.diagnos.missing", DIAGNOS_SVAR_ID_6);
+            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(validationMessages,
+                    CATEGORY_DIAGNOS, DIAGNOS_SVAR_JSON_ID_6, ValidationMessageType.EMPTY,
+                    "common.validation.diagnos.missing", DIAGNOS_SVAR_ID_6);
             return;
         }
 
         if (diagnoser.size() > 1 && !validateFirstDiagnosIsPresent(diagnoser)) {
             // Om första diagnosen saknas, så ska det visas fel för hela första raden. Då ska inga andra fel visas.
-            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS,
-                DIAGNOS_SVAR_JSON_ID_6 + "[0].row",
+            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(validationMessages,
+                    CATEGORY_DIAGNOS, DIAGNOS_SVAR_JSON_ID_6 + "[0].row",
                 ValidationMessageType.INCORRECT_COMBINATION, "common.validation.c-13a", DIAGNOS_SVAR_ID_6);
             return;
         }
