@@ -703,6 +703,24 @@ class InternalToCertificateTest {
             }
 
             @Test
+            void shouldExcludeQuestionValueUndersokningPatientenWhenDateIsNotValid() {
+                final var expectedDate = new InternalDate("2022-");
+                internalCertificate = LisjpUtlatandeV1.builder()
+                    .setGrundData(grundData)
+                    .setId("id")
+                    .setTextVersion("TextVersion")
+                    .setUndersokningAvPatienten(expectedDate)
+                    .build();
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
+
+                final var certificateDataValueDateList = (CertificateDataValueDateList) question.getValue();
+                assertEquals(0, certificateDataValueDateList.getList().size());
+            }
+
+            @Test
             void shouldIncludeQuestionValueTelefonkontakt() {
                 final var expectedDate = new InternalDate(LocalDate.now());
                 internalCertificate = LisjpUtlatandeV1.builder()
@@ -722,6 +740,24 @@ class InternalToCertificateTest {
                         certificateDataValueDateList.getList().get(0).getId()),
                     () -> assertEquals(expectedDate.asLocalDate(), certificateDataValueDateList.getList().get(0).getDate())
                 );
+            }
+
+            @Test
+            void shouldExcludeQuestionValueTelefonkontaktWhenDateIsNotValid() {
+                final var expectedDate = new InternalDate("2022-");
+                internalCertificate = LisjpUtlatandeV1.builder()
+                    .setGrundData(grundData)
+                    .setId("id")
+                    .setTextVersion("TextVersion")
+                    .setTelefonkontaktMedPatienten(expectedDate)
+                    .build();
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
+
+                final var certificateDataValueDateList = (CertificateDataValueDateList) question.getValue();
+                assertEquals(0, certificateDataValueDateList.getList().size());
             }
 
             @Test
@@ -747,6 +783,24 @@ class InternalToCertificateTest {
             }
 
             @Test
+            void shouldExcludeQuestionValueJournaluppgifterWhenDateIsNotValid() {
+                final var expectedDate = new InternalDate("2022-");
+                internalCertificate = LisjpUtlatandeV1.builder()
+                    .setGrundData(grundData)
+                    .setId("id")
+                    .setTextVersion("TextVersion")
+                    .setJournaluppgifter(expectedDate)
+                    .build();
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
+
+                final var certificateDataValueDateList = (CertificateDataValueDateList) question.getValue();
+                assertEquals(0, certificateDataValueDateList.getList().size());
+            }
+
+            @Test
             void shouldIncludeQuestionValueAnnat() {
                 final var expectedDate = new InternalDate(LocalDate.now());
                 internalCertificate = LisjpUtlatandeV1.builder()
@@ -766,6 +820,24 @@ class InternalToCertificateTest {
                         certificateDataValueDateList.getList().get(0).getId()),
                     () -> assertEquals(expectedDate.asLocalDate(), certificateDataValueDateList.getList().get(0).getDate())
                 );
+            }
+
+            @Test
+            void shouldIncludeQuestionValueAnnatWhenDateIsNotValid() {
+                final var expectedDate = new InternalDate("2022-");
+                internalCertificate = LisjpUtlatandeV1.builder()
+                    .setGrundData(grundData)
+                    .setId("id")
+                    .setTextVersion("TextVersion")
+                    .setAnnatGrundForMU(expectedDate)
+                    .build();
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
+
+                final var certificateDataValueDateList = (CertificateDataValueDateList) question.getValue();
+                assertEquals(0, certificateDataValueDateList.getList().size());
             }
 
             @Test
@@ -2784,6 +2856,68 @@ class InternalToCertificateTest {
                     () -> assertEquals(expectedPeriod.getTom().asLocalDate(), certificateDataValueDateRangeList.getList().get(0).getTo()),
                     () -> assertEquals(expectedPeriod.getFrom().asLocalDate(), certificateDataValueDateRangeList.getList().get(0).getFrom())
                 );
+            }
+
+            @Test
+            void shouldExcludeSickleavePeriodWithPeriodNull() {
+                final var expectedGrad = SjukskrivningsGrad.HELT_NEDSATT;
+                final var expectedDateRange = Sjukskrivning.create(expectedGrad, null);
+                internalCertificate = LisjpUtlatandeV1.builder()
+                    .setGrundData(grundData)
+                    .setId("id")
+                    .setTextVersion("TextVersion")
+                    .setSjukskrivningar(Arrays.asList(expectedDateRange))
+                    .build();
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
+
+                final var certificateDataValueDateRangeList = (CertificateDataValueDateRangeList) question.getValue();
+                assertEquals(0, certificateDataValueDateRangeList.getList().size());
+            }
+
+
+            @Test
+            void shouldExcludeSickleavePeriodWithMissingStart() {
+                final var expectedPeriod = new InternalLocalDateInterval();
+                expectedPeriod.setFrom(new InternalDate("2021-01-01"));
+                final var expectedGrad = SjukskrivningsGrad.HELT_NEDSATT;
+                final var expectedDateRange = Sjukskrivning.create(expectedGrad, expectedPeriod);
+                internalCertificate = LisjpUtlatandeV1.builder()
+                    .setGrundData(grundData)
+                    .setId("id")
+                    .setTextVersion("TextVersion")
+                    .setSjukskrivningar(Arrays.asList(expectedDateRange))
+                    .build();
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
+
+                final var certificateDataValueDateRangeList = (CertificateDataValueDateRangeList) question.getValue();
+                assertEquals(0, certificateDataValueDateRangeList.getList().size());
+            }
+
+            @Test
+            void shouldExcludeSickleavePeriodWithMissingEnd() {
+                final var expectedPeriod = new InternalLocalDateInterval();
+                expectedPeriod.setTom(new InternalDate("2021-01-01"));
+                final var expectedGrad = SjukskrivningsGrad.HELT_NEDSATT;
+                final var expectedDateRange = Sjukskrivning.create(expectedGrad, expectedPeriod);
+                internalCertificate = LisjpUtlatandeV1.builder()
+                    .setGrundData(grundData)
+                    .setId("id")
+                    .setTextVersion("TextVersion")
+                    .setSjukskrivningar(Arrays.asList(expectedDateRange))
+                    .build();
+
+                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+                final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
+
+                final var certificateDataValueDateRangeList = (CertificateDataValueDateRangeList) question.getValue();
+                assertEquals(0, certificateDataValueDateRangeList.getList().size());
             }
 
             @Test
