@@ -18,7 +18,19 @@
  */
 package se.inera.intyg.common.doi.v1.pdf;
 
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.ColumnText;
+import com.itextpdf.text.pdf.GrayColor;
+import com.itextpdf.text.pdf.PdfArray;
+import com.itextpdf.text.pdf.PdfDictionary;
+import com.itextpdf.text.pdf.PdfName;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -173,14 +185,18 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
     private static final String FIELD_EPOST = "Epost";
 
     private static final double ADJUST_BY_1 = 1.0;
+    private static final double ADJUST_BY_2 = 2.0;
     private static final double ADJUST_BY_3 = 3.0;
     private static final double ADJUST_BY_4 = 4.0;
     private static final double ADJUST_BY_5 = 5.0;
     private static final double ADJUST_BY_6 = 6.0;
     private static final double ADJUST_BY_9 = 9.0;
 
+    private static final int FIELD_INDEX_3 = 3;
     private static final int FIELD_INDEX_4 = 4;
 
+    private static final float MAX_FONT_SIZE = 9f;
+    private static final float MIN_FONT_SIZE = 5f;
 
     private final DoiUtlatandeV1 doiUtlatandeV1;
 
@@ -266,15 +282,11 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
                 checkCheckboxField(FIELD_DODSDATUM_EJ_SAKERT, "On");
             }
         }
-        // Type TEXT
         adjustAndFill(FIELD_DODSDATUM, doiUtlatandeV1.getDodsdatum(), ADJUST_BY_5);
-
-        // Type TEXT
         adjustAndFill(FIELD_OM_DODSDATUM_EJ_SAKERT_AR_MAN_DAG_ANTRAFFAD_DOD, doiUtlatandeV1.getAntraffatDodDatum(), ADJUST_BY_5);
     }
 
     private void fillPlaceOfDeath() {
-
         DodsplatsBoende accomodation = doiUtlatandeV1.getDodsplatsBoende();
         if (accomodation != null) {
             String fieldToCheckForAccomodation = getFieldToCheckForAccomodation(accomodation);
@@ -297,43 +309,32 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
         }
     }
 
-    private void fillCauseOfDeath() {
+    private void fillCauseOfDeath() throws DocumentException, IOException {
         // Terminal cause of death (1)
-        fillCauseOfDeathRow(0, doiUtlatandeV1.getTerminalDodsorsak(), ADJUST_BY_1);
+        final var fieldDescriptionMainCause = String.format(FIELD_DODSORSAK_FIRSTROW_BESKRIVNING, 1);
+        fillCauseOfDeathRow(1, fieldDescriptionMainCause, doiUtlatandeV1.getTerminalDodsorsak());
 
         // Contributing factors (2,3,4)
         if (doiUtlatandeV1.getFoljd() != null) {
+            final var drDictionary = fields.getFieldItem(fieldDescriptionMainCause).getMerged(0).getAsDict(PdfName.DR);
             for (int i = 0; i < doiUtlatandeV1.getFoljd().size(); i++) {
-                fillCauseOfDeathRow(i + 1, doiUtlatandeV1.getFoljd().get(i), ADJUST_BY_3);
+                final var fieldDescriptionSecondaryCause = String.format(FIELD_DODSORSAK_ROW_BESKRIVNING, 2 + i);
+                setFieldFont(drDictionary, fieldDescriptionSecondaryCause);
+                fillCauseOfDeathRow(2 + i, fieldDescriptionSecondaryCause, doiUtlatandeV1.getFoljd().get(i));
             }
         }
     }
 
-    private void fillCauseOfDeathRow(int index, Dodsorsak orsak, double adjustment) {
+    private void fillCauseOfDeathRow(int index, String fieldDescription, Dodsorsak orsak) throws DocumentException, IOException {
+        final var fieldDebut = String.format(FIELD_DODSORSAK_ROW_UNGEFARLIG_DEBUT, index);
+        final var fieldAcute = String.format(FIELD_DODSORSAK_ROW_AKUT, index);
+        final var fieldChronic = String.format(FIELD_DODSORSAK_ROW_KRONISK, index);
+        final var fieldNotAvailable = String.format(FIELD_DODSORSAK_ROW_INGEN_UPPGIFT, index);
 
-        String fieldDescription;
-        String fieldDebut;
-        String fieldAcute;
-        String fieldChronic;
-        String fieldNotAvailable;
-
-        if (index == 0) {
-            // Terminal cause of death (1)
-            fieldDescription = String.format(FIELD_DODSORSAK_FIRSTROW_BESKRIVNING, 1);
-        } else {
-            // Contributing factors (2,3,4)
-            fieldDescription = String.format(FIELD_DODSORSAK_ROW_BESKRIVNING, 1 + index);
-        }
-
-        fieldDebut = String.format(FIELD_DODSORSAK_ROW_UNGEFARLIG_DEBUT, 1 + index);
-        fieldAcute = String.format(FIELD_DODSORSAK_ROW_AKUT, 1 + index);
-        fieldChronic = String.format(FIELD_DODSORSAK_ROW_KRONISK, 1 + index);
-        fieldNotAvailable = String.format(FIELD_DODSORSAK_ROW_INGEN_UPPGIFT, 1 + index);
-
-        setCauseOfDeathFields(orsak, fieldDescription, adjustment, fieldDebut, fieldAcute, fieldChronic, fieldNotAvailable);
+        setCauseOfDeathFields(orsak, fieldDescription, ADJUST_BY_1, fieldDebut, fieldAcute, fieldChronic, fieldNotAvailable);
     }
 
-    private void fillContributingCauses() {
+    private void fillContributingCauses() throws DocumentException, IOException {
 
         // Other contributing factors (1..8)
         if (doiUtlatandeV1.getBidragandeSjukdomar() != null) {
@@ -343,27 +344,22 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
         }
     }
 
-    private void fillContributingCauseRow(int index, Dodsorsak cause) {
-        String fieldDescription;
-        String fieldDebut;
-        String fieldAcute;
-        String fieldChronic;
-        String fieldNotAvailable;
+    private void fillContributingCauseRow(int index, Dodsorsak cause) throws DocumentException, IOException {
+        final var fieldDescription = String.format(FIELD_BIDRAGANDE_DODSORSAK_ROW_BESKRIVNING, index);
+        final var fieldDebut = String.format(FIELD_BIDRAGANDE_DODSORSAK_ROW_UNGEFARLIG_DEBUT, FIELD_INDEX_4 + index);
+        final var fieldAcute = String.format(FIELD_DODSORSAK_ROW_AKUT, FIELD_INDEX_4 + index);
+        final var fieldChronic = String.format(FIELD_DODSORSAK_ROW_KRONISK, FIELD_INDEX_4 + index);
+        final var fieldNotAvailable = String.format(FIELD_DODSORSAK_ROW_INGEN_UPPGIFT, FIELD_INDEX_4 + index);
 
-        fieldDescription = String.format(FIELD_BIDRAGANDE_DODSORSAK_ROW_BESKRIVNING, index);
-        fieldDebut = String.format(FIELD_BIDRAGANDE_DODSORSAK_ROW_UNGEFARLIG_DEBUT, FIELD_INDEX_4 + index);
-        fieldAcute = String.format(FIELD_DODSORSAK_ROW_AKUT, FIELD_INDEX_4 + index);
-        fieldChronic = String.format(FIELD_DODSORSAK_ROW_KRONISK, FIELD_INDEX_4 + index);
-        fieldNotAvailable = String.format(FIELD_DODSORSAK_ROW_INGEN_UPPGIFT, FIELD_INDEX_4 + index);
-
-        setCauseOfDeathFields(cause, fieldDescription, ADJUST_BY_6, fieldDebut, fieldAcute, fieldChronic, fieldNotAvailable);
+        setCauseOfDeathFields(cause, fieldDescription, ADJUST_BY_2, fieldDebut, fieldAcute, fieldChronic, fieldNotAvailable);
     }
 
     private void setCauseOfDeathFields(Dodsorsak cause, String fieldDescription, double adjustment, String fieldDebut, String fieldAcute,
-        String fieldKronisk, String fieldNotAvailable) {
+        String fieldKronisk, String fieldNotAvailable) throws DocumentException, IOException {
         if (cause != null) {
+            setCauseOfDeathFieldFontSize(fieldDescription, cause.getBeskrivning());
             adjustAndFill(fieldDescription, cause.getBeskrivning(), adjustment);
-            adjustAndFill(fieldDebut, cause.getDatum(), ADJUST_BY_6);
+            adjustAndFill(fieldDebut, cause.getDatum(), ADJUST_BY_5);
             checkCheckboxField(fieldAcute, Specifikation.PLOTSLIG == cause.getSpecifikation() ? "Ja" : "");
             checkCheckboxField(fieldKronisk, Specifikation.KRONISK == cause.getSpecifikation() ? "Ja" : "");
             checkCheckboxField(fieldNotAvailable, Specifikation.UPPGIFT_SAKNAS == cause.getSpecifikation() ? "Ja" : "");
@@ -464,6 +460,59 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
                 return FIELD_OPERERAD_UPPGIFT_SAKNAS;
             default :
                 return "";
+        }
+    }
+
+    private void setFieldFont(PdfDictionary drDictionary, String fieldDescriptionSecondaryCause) {
+        // Sets font in causeOfDeathFields B-D based on font in field A. This is done because fields B-D
+        // get deviating font from original PDF form.
+        if (drDictionary != null && drDictionary.isDictionary()) {
+            fields.getFieldItem(fieldDescriptionSecondaryCause).getMerged(0).put(PdfName.DR, drDictionary);
+        }
+    }
+
+    private void setCauseOfDeathFieldFontSize(String fieldDescription, String text) throws DocumentException, IOException {
+        final var calculatedFontSize = calculateFontSize(fieldDescription, text);
+        fields.setFieldProperty(fieldDescription, "textsize", calculatedFontSize, null);
+    }
+
+    private float calculateFontSize(String fieldDescription, String text) throws DocumentException, IOException {
+        final var fieldCoordinates = getFieldCoordinates(fieldDescription);
+        final var fieldArea = getFieldRectangle(fieldCoordinates);
+        final var fieldHeight = fieldArea.getHeight();
+        final var fieldWidth = fieldArea.getWidth() - 4f;
+        BaseFont baseFont = BaseFont.createFont();
+        final var phrase = new Phrase(new Chunk(text, new Font(baseFont, 0, 0, GrayColor.GRAYBLACK)));
+        final var leadingFactor = baseFont.getFontDescriptor(BaseFont.BBOXURY, 1) - baseFont.getFontDescriptor(BaseFont.BBOXLLY, 1);
+
+        final var columnText = new ColumnText(null);
+        columnText.setSimpleColumn(0, -fieldHeight, fieldWidth, 0);
+        columnText.setAlignment(Element.ALIGN_LEFT);
+        columnText.setRunDirection(PdfWriter.RUN_DIRECTION_NO_BIDI);
+
+        final var step = 0.2f;
+        float fontSize = MAX_FONT_SIZE;
+        for (; fontSize > MIN_FONT_SIZE; fontSize -= step) {
+            columnText.setYLine(0);
+            changeFontSize(phrase, fontSize);
+            columnText.setText(phrase);
+            columnText.setLeading(leadingFactor * fontSize);
+            if ((columnText.go(true) & ColumnText.NO_MORE_COLUMN) == 0) {
+                return fontSize;
+            }
+        }
+
+        return MIN_FONT_SIZE;
+    }
+
+    private Rectangle getFieldRectangle(PdfArray fieldCoordinates) {
+        return new Rectangle(fieldCoordinates.getAsNumber(0).floatValue(), fieldCoordinates.getAsNumber(1).floatValue(),
+            fieldCoordinates.getAsNumber(2).floatValue(), fieldCoordinates.getAsNumber(FIELD_INDEX_3).floatValue() - 1f);
+    }
+
+    private void changeFontSize(Phrase phrase, float size) {
+        for (Element element : phrase) {
+            ((Chunk) element).getFont().setSize(size);
         }
     }
 }
