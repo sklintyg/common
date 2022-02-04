@@ -481,7 +481,7 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
         final var fieldArea = getFieldRectangle(fieldCoordinates);
         final var fieldHeight = fieldArea.getHeight();
         final var fieldWidth = fieldArea.getWidth() - 4f;
-        BaseFont baseFont = BaseFont.createFont();
+        final var baseFont = BaseFont.createFont();
         final var phrase = new Phrase(new Chunk(text, new Font(baseFont, 0, 0, GrayColor.GRAYBLACK)));
         final var leadingFactor = baseFont.getFontDescriptor(BaseFont.BBOXURY, 1) - baseFont.getFontDescriptor(BaseFont.BBOXLLY, 1);
 
