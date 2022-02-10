@@ -114,7 +114,7 @@ angular.module('doi').factory('doi.UtkastConfigFactory.v1',
                                 modelProp: 'bidragandeSjukdomar',
                                 type: 'ue-dodsorsak-multi', // R11
                                 maxRows: 8,
-                                htmlMaxlength: 45,
+                                htmlMaxlength: 55,
                                 maxDate: today,
                                 orsaksTyper: [
                                     'PLOTSLIG',
