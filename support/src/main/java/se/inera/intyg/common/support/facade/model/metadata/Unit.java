@@ -36,6 +36,7 @@ public class Unit {
     private String city;
     private String phoneNumber;
     private String email;
+    private Boolean isInactive;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class UnitBuilder {
