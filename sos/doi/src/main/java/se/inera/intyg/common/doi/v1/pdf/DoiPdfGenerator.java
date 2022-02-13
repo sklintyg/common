@@ -477,6 +477,10 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
     }
 
     private float calculateFontSize(String fieldDescription, String text) throws DocumentException, IOException {
+        if (text == null) {
+            return MAX_FONT_SIZE;
+        }
+
         final var fieldCoordinates = getFieldCoordinates(fieldDescription);
         final var fieldArea = getFieldRectangle(fieldCoordinates);
         final var fieldHeight = fieldArea.getHeight();
