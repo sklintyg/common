@@ -65,7 +65,7 @@ public enum PrognosDagarTillArbeteTyp {
     }
 
     @JsonCreator
-    public static PrognosDagarTillArbeteTyp fromId(@JsonProperty("id") String id) {
+    public static PrognosDagarTillArbeteTyp fromId(String id) {
         String normId = id != null ? id.trim() : null;
         for (PrognosDagarTillArbeteTyp typ : values()) {
             if (typ.id.equals(normId)) {

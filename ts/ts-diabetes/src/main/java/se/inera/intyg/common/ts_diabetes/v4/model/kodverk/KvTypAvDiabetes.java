@@ -39,7 +39,7 @@ public enum KvTypAvDiabetes {
     }
 
     @JsonCreator
-    public static KvTypAvDiabetes fromId(@JsonProperty("id") String id) {
+    public static KvTypAvDiabetes fromId(String id) {
         String normId = id != null ? id.trim() : null;
         for (KvTypAvDiabetes typ : values()) {
             if (typ.name().equals(normId)) {

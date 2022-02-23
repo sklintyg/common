@@ -37,7 +37,7 @@ public enum KvVardniva {
     }
 
     @JsonCreator
-    public static KvVardniva fromId(@JsonProperty("id") String id) {
+    public static KvVardniva fromId(String id) {
         String normId = id != null ? id.trim() : null;
         for (KvVardniva typ : values()) {
             if (typ.getCode().equals(normId)) {

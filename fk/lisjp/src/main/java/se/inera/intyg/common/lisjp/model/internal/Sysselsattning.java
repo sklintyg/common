@@ -59,7 +59,7 @@ public abstract class Sysselsattning {
         }
 
         @JsonCreator
-        public static SysselsattningsTyp fromId(@JsonProperty("id") String id) {
+        public static SysselsattningsTyp fromId(String id) {
             String normId = id != null ? id.trim() : null;
             for (SysselsattningsTyp typ : values()) {
                 if (typ.id.equals(normId)) {

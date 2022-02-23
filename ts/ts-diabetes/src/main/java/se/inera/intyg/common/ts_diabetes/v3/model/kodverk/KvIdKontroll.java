@@ -42,7 +42,7 @@ public enum KvIdKontroll {
     }
 
     @JsonCreator
-    public static KvIdKontroll fromId(@JsonProperty("id") String id) {
+    public static KvIdKontroll fromId(String id) {
         String normId = id != null ? id.trim() : null;
         for (KvIdKontroll typ : values()) {
             if (typ.getCode().equals(normId)) {

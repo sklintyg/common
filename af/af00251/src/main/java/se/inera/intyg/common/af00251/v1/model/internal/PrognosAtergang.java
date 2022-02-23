@@ -88,7 +88,7 @@ public abstract class PrognosAtergang {
         }
 
         @JsonCreator
-        public static Prognos fromId(@JsonProperty("id") String id) {
+        public static Prognos fromId(String id) {
             String normId = id != null ? id.trim() : null;
             for (Prognos typ : values()) {
                 if (typ.id.equals(normId)) {

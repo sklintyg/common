@@ -89,7 +89,7 @@ public abstract class ArbetsmarknadspolitisktProgram {
         }
 
         @JsonCreator
-        public static Omfattning fromId(@JsonProperty("id") String id) {
+        public static Omfattning fromId(String id) {
             String normId = id != null ? id.trim() : null;
             for (Omfattning typ : values()) {
                 if (typ.id.equals(normId)) {

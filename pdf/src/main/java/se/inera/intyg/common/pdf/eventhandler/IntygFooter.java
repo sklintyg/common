@@ -27,7 +27,7 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Canvas;
-import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.properties.TextAlignment;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
 import static se.inera.intyg.common.pdf.model.UVComponent.SVAR_FONT_SIZE;
@@ -79,7 +79,7 @@ public class IntygFooter implements IEventHandler {
         PdfCanvas pdfCanvas = new PdfCanvas(
             page.newContentStreamBefore(), page.getResources(), pdf);
 
-        Canvas canvas = new Canvas(pdfCanvas, pdf, pageSize);
+        Canvas canvas = new Canvas(pdfCanvas, pageSize);
         canvas.setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
         canvas.showTextAligned("Utskriften skapades med " + appName + " - en tjänst som drivs av Inera AB\nwww.inera.se",
             millimetersToPoints(PAGE_MARGIN_LEFT),

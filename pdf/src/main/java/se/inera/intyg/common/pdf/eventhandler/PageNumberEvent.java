@@ -29,7 +29,7 @@ import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.kernel.pdf.xobject.PdfFormXObject;
 import com.itextpdf.layout.Canvas;
 import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.properties.TextAlignment;
 
 import static se.inera.intyg.common.pdf.model.UVComponent.SVAR_FONT_SIZE;
 import static se.inera.intyg.common.pdf.renderer.UVRenderer.PAGE_MARGIN_LEFT;
@@ -65,7 +65,7 @@ public class PageNumberEvent implements IEventHandler {
         Rectangle pageSize = page.getPageSize();
         PdfCanvas pdfCanvas = new PdfCanvas(
             page.newContentStreamBefore(), page.getResources(), pdf);
-        Canvas canvas = new Canvas(pdfCanvas, pdf, pageSize);
+        Canvas canvas = new Canvas(pdfCanvas, pageSize);
         Paragraph p = new Paragraph()
             .add("Sida ").add(String.valueOf(pageNumber) + "(")
             .setFont(svarFont).setFontSize(SVAR_FONT_SIZE);

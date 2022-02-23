@@ -43,8 +43,8 @@ import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Canvas;
 import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.property.TextAlignment;
-import com.itextpdf.layout.property.VerticalAlignment;
+import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.properties.VerticalAlignment;
 
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 
@@ -97,7 +97,7 @@ public class IntygHeader implements IEventHandler {
         Rectangle pageSize = page.getPageSize();
         PdfCanvas pdfCanvas = new PdfCanvas(
             page.newContentStreamBefore(), page.getResources(), pdf);
-        Canvas canvas = new Canvas(pdfCanvas, pdf, pageSize);
+        Canvas canvas = new Canvas(pdfCanvas, pageSize);
 
         // Logotyp
         renderLogotype(pageSize, pdfCanvas);
@@ -134,19 +134,22 @@ public class IntygHeader implements IEventHandler {
     private void renderLogotype(Rectangle pageSize, PdfCanvas pdfCanvas) {
         // We need to constrain the logotype either by width or by height. Typically width.
         if (logotypeData.getWidth() > LOGOTYPE_MAX_WIDTH) {
-            float ratio = LOGOTYPE_MAX_WIDTH / logotypeData.getWidth();
-            float widthHeightRatio = logotypeData.getWidth() / logotypeData.getHeight();
-            // Decide on constraint depending on how quadratic the logo image is determined to be
-            if (widthHeightRatio < WIDTH_SCALE_THRESHOLD) {
-                // Height constraint, add bottom padding
-                pdfCanvas.addImage(logotypeData, millimetersToPoints(PAGE_MARGIN_LEFT),
-                    pageSize.getTop() - LOGOTYPE_Y_TOP_OFFSET - LOGOTYPE_MAX_HEIGHT + DEFAULT_PADDING,
-                    LOGOTYPE_MAX_HEIGHT, false, false);
-            } else {
-                // Width constraint
-                pdfCanvas.addImage(logotypeData, millimetersToPoints(PAGE_MARGIN_LEFT),
-                    pageSize.getTop() - LOGOTYPE_Y_TOP_OFFSET - (logotypeData.getHeight() * ratio), LOGOTYPE_MAX_WIDTH, false);
-            }
+//            float ratio = LOGOTYPE_MAX_WIDTH / logotypeData.getWidth();
+//            float widthHeightRatio = logotypeData.getWidth() / logotypeData.getHeight();
+            pdfCanvas.addImageAt(logotypeData, millimetersToPoints(PAGE_MARGIN_LEFT),
+                pageSize.getTop() - LOGOTYPE_Y_TOP_OFFSET - LOGOTYPE_MAX_HEIGHT + DEFAULT_PADDING,
+                false);
+//            // Decide on constraint depending on how quadratic the logo image is determined to be
+//            if (widthHeightRatio < WIDTH_SCALE_THRESHOLD) {
+//                // Height constraint, add bottom padding
+//                pdfCanvas.addImage(logotypeData, millimetersToPoints(PAGE_MARGIN_LEFT),
+//                    pageSize.getTop() - LOGOTYPE_Y_TOP_OFFSET - LOGOTYPE_MAX_HEIGHT + DEFAULT_PADDING,
+//                    LOGOTYPE_MAX_HEIGHT, false, false);
+//            } else {
+//                // Width constraint
+//                pdfCanvas.addImage(logotypeData, millimetersToPoints(PAGE_MARGIN_LEFT),
+//                    pageSize.getTop() - LOGOTYPE_Y_TOP_OFFSET - (logotypeData.getHeight() * ratio), LOGOTYPE_MAX_WIDTH, false);
+//            }
         }
     }
 

@@ -32,8 +32,8 @@ import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Canvas;
 
-import com.itextpdf.layout.property.TextAlignment;
-import com.itextpdf.layout.property.VerticalAlignment;
+import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.properties.VerticalAlignment;
 
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 
@@ -68,7 +68,7 @@ public class SignBox implements IEventHandler {
         PdfCanvas pdfCanvas = new PdfCanvas(
             page.newContentStreamBefore(), page.getResources(), pdf);
 
-        Canvas canvas = new Canvas(pdfCanvas, pdf, pageSize);
+        Canvas canvas = new Canvas(pdfCanvas, pageSize);
         canvas.setFont(svarFont).setFontSize(FONT_SIZE);
         pdfCanvas.setLineWidth(LINE_WIDTH);
 
