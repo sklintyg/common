@@ -28,7 +28,8 @@ angular.module('common').factory('common.subscriptionService', [ 'common.UserMod
       }
 
       function _missingSubscriptionBlock(careProviderId) {
-        return UserModel.user.subscriptionInfo.subscriptionAction === 'BLOCK' && missingSubscription(careProviderId);
+        return UserModel.user.subscriptionInfo.subscriptionAction === 'BLOCK' && missingSubscription(careProviderId,
+            UserModel.user.subscriptionInfo.careProvidersMissingSubscriptionUnmodifiable);
       }
 
       function _acknowledgeWarning() {
@@ -42,11 +43,20 @@ angular.module('common').factory('common.subscriptionService', [ 'common.UserMod
 
       function _shouldDisplayWarning() {
         return UserModel.user.hasOwnProperty('valdVardgivare') && UserModel.user.subscriptionInfo.subscriptionAction === 'WARN' &&
-            missingSubscription(UserModel.user.valdVardgivare.id);
+            missingSubscription(UserModel.user.valdVardgivare.id, UserModel.user.subscriptionInfo.careProvidersMissingSubscription);
       }
 
-      function missingSubscription(careProviderId) {
-        return UserModel.user.subscriptionInfo.careProvidersMissingSubscription.indexOf(careProviderId) > -1;
+      function _shouldDisplayMissingSubscriptionBanner() {
+        return UserModel.user.hasOwnProperty('valdVardgivare') && _missingSubscriptionBlock(UserModel.user.valdVardgivare.id);
+      }
+
+    function _shouldDisplayMissingSubscriptionModal() {
+      return UserModel.user.hasOwnProperty('valdVardgivare') && UserModel.user.subscriptionInfo.subscriptionAction === 'BLOCK' &&
+          missingSubscription(UserModel.user.valdVardgivare.id, UserModel.user.subscriptionInfo.careProvidersMissingSubscription);
+    }
+
+      function missingSubscription(careProviderId, careProviders) {
+        return careProviders.indexOf(careProviderId) > -1;
       }
 
       return {
@@ -54,6 +64,8 @@ angular.module('common').factory('common.subscriptionService', [ 'common.UserMod
         getRequireSubscriptionStartDate: _getRequireSubscriptionStartDate,
         missingSubscriptionBlock: _missingSubscriptionBlock,
         acknowledgeWarning: _acknowledgeWarning,
-        shouldDisplayWarning: _shouldDisplayWarning
+        shouldDisplayWarning: _shouldDisplayWarning,
+        shouldDisplayMissingSubscriptionBanner: _shouldDisplayMissingSubscriptionBanner,
+        shouldDisplayMissingSubscriptionModal: _shouldDisplayMissingSubscriptionModal
       };
     }]);
