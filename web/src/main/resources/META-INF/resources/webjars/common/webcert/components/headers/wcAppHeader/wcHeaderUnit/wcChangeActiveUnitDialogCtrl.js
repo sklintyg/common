@@ -158,8 +158,8 @@ angular.module('common').controller(
                         return ($scope.valdEnhet && $scope.valdEnhet.id === id);
                     };
 
-                    $scope.missingSubscriptionBlock = function(careProviderId) {
-                        return subscriptionService.missingSubscriptionBlock(careProviderId);
+                    $scope.missingSubscriptionWhenRequired = function(careProviderId) {
+                        return subscriptionService.missingSubscriptionWhenRequired(careProviderId);
                     };
 
                     /******************

@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcMissingSubscriptionBanner', [ 'common.subscriptionService', function(SubScritptionService) {
+angular.module('common').directive('wcMissingSubscriptionBanner', [ 'common.subscriptionService', function(SubScriptionService) {
   'use strict';
 
       return {
@@ -27,7 +27,7 @@ angular.module('common').directive('wcMissingSubscriptionBanner', [ 'common.subs
         controller: function($scope) {
 
           $scope.displayMissingSubscriptionBanner = function () {
-            return SubScritptionService.shouldDisplayMissingSubscriptionBanner();
+            return SubScriptionService.shouldDisplayMissingSubscriptionBanner();
           };
 
         }

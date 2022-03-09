@@ -27,32 +27,32 @@ angular.module('common').factory('common.subscriptionService', [ 'common.UserMod
         return UserModel.user.subscriptionInfo.requireSubscriptionStartDate;
       }
 
-      function _missingSubscriptionBlock(careProviderId) {
+      function _missingSubscriptionWhenRequired(careProviderId) {
         return UserModel.user.subscriptionInfo.subscriptionAction === 'BLOCK' && missingSubscription(careProviderId,
-            UserModel.user.subscriptionInfo.careProvidersMissingSubscriptionUnmodifiable);
+            UserModel.user.subscriptionInfo.careProvidersMissingSubscription);
       }
 
-      function _acknowledgeWarning() {
+      function _acknowledgeSubscriptionModal() {
         if (UserModel.user.valdVardgivare) {
-          var index = UserModel.user.subscriptionInfo.careProvidersMissingSubscription.indexOf(UserModel.user.valdVardgivare.id);
+          var index = UserModel.user.subscriptionInfo.careProvidersForSubscriptionModal.indexOf(UserModel.user.valdVardgivare.id);
           if (index > -1) {
-            UserModel.user.subscriptionInfo.careProvidersMissingSubscription.splice(index, 1);
+            UserModel.user.subscriptionInfo.careProvidersForSubscriptionModal.splice(index, 1);
           }
         }
       }
 
       function _shouldDisplayWarning() {
         return UserModel.user.hasOwnProperty('valdVardgivare') && UserModel.user.subscriptionInfo.subscriptionAction === 'WARN' &&
-            missingSubscription(UserModel.user.valdVardgivare.id, UserModel.user.subscriptionInfo.careProvidersMissingSubscription);
+            missingSubscription(UserModel.user.valdVardgivare.id, UserModel.user.subscriptionInfo.careProvidersForSubscriptionModal);
       }
 
       function _shouldDisplayMissingSubscriptionBanner() {
-        return UserModel.user.hasOwnProperty('valdVardgivare') && _missingSubscriptionBlock(UserModel.user.valdVardgivare.id);
+        return UserModel.user.hasOwnProperty('valdVardgivare') && _missingSubscriptionWhenRequired(UserModel.user.valdVardgivare.id);
       }
 
     function _shouldDisplayMissingSubscriptionModal() {
       return UserModel.user.hasOwnProperty('valdVardgivare') && UserModel.user.subscriptionInfo.subscriptionAction === 'BLOCK' &&
-          missingSubscription(UserModel.user.valdVardgivare.id, UserModel.user.subscriptionInfo.careProvidersMissingSubscription);
+          missingSubscription(UserModel.user.valdVardgivare.id, UserModel.user.subscriptionInfo.careProvidersForSubscriptionModal);
     }
 
       function missingSubscription(careProviderId, careProviders) {
@@ -62,8 +62,8 @@ angular.module('common').factory('common.subscriptionService', [ 'common.UserMod
       return {
         getSubscriptionAdaptationStartDate: _getSubscriptionAdaptationStartDate,
         getRequireSubscriptionStartDate: _getRequireSubscriptionStartDate,
-        missingSubscriptionBlock: _missingSubscriptionBlock,
-        acknowledgeWarning: _acknowledgeWarning,
+        missingSubscriptionWhenRequired: _missingSubscriptionWhenRequired,
+        acknowledgeSubscriptionModal: _acknowledgeSubscriptionModal,
         shouldDisplayWarning: _shouldDisplayWarning,
         shouldDisplayMissingSubscriptionBanner: _shouldDisplayMissingSubscriptionBanner,
         shouldDisplayMissingSubscriptionModal: _shouldDisplayMissingSubscriptionModal

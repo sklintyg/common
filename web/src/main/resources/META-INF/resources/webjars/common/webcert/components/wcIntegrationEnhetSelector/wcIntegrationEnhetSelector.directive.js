@@ -51,7 +51,7 @@ angular.module('common').directive('wcIntegrationEnhetSelector', [ 'common.subsc
             };
 
             $scope.missingSubscriptionWhenRequired = function(careProviderId) {
-                return subscriptionService.missingSubscriptionBlock(careProviderId);
+                return subscriptionService.missingSubscriptionWhenRequired(careProviderId);
             };
         }
     };

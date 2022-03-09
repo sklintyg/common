@@ -19,17 +19,17 @@
 angular.module('common').factory('common.SubscriptionProxy', ['$http', '$log', function($http, $log) {
         'use strict';
 
-        function _acknowledgeWarning(onResponse) {
-            var restPath = '/api/subscription/acknowledgeWarning';
+        function _acknowledgeSubscriptionModal(onResponse) {
+            var restPath = '/api/subscription/acknowledgeSubscriptionModal';
             $http.get(restPath).then(function() {
                 onResponse();
             }, function(response) {
-                $log.error('Failed api call for acknowledging subscription warning modal: ' + response.status);
+                $log.error('Failed api call for acknowledging subscription modal: ' + response.status);
                 onResponse();
             });
         }
 
         return {
-            acknowledgeWarning: _acknowledgeWarning
+          acknowledgeSubscriptionModal: _acknowledgeSubscriptionModal
         };
     }]);
