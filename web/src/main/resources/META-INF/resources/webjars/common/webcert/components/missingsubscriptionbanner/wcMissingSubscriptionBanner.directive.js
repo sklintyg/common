@@ -16,20 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').factory('common.SubscriptionProxy', ['$http', '$log', function($http, $log) {
-        'use strict';
 
-        function _acknowledgeSubscriptionModal(onResponse) {
-            var restPath = '/api/subscription/acknowledgeSubscriptionModal';
-            $http.get(restPath).then(function() {
-                onResponse();
-            }, function(response) {
-                $log.error('Failed api call for acknowledging subscription modal: ' + response.status);
-                onResponse();
-            });
+angular.module('common').directive('wcMissingSubscriptionBanner', [ 'common.subscriptionService', function(SubScriptionService) {
+  'use strict';
+
+      return {
+        restrict: 'E',
+        scope: {},
+        templateUrl: '/web/webjars/common/webcert/components/missingsubscriptionbanner/wcMissingSubscriptionBanner.directive.html',
+        controller: function($scope) {
+
+          $scope.displayMissingSubscriptionBanner = function () {
+            return SubScriptionService.shouldDisplayMissingSubscriptionBanner();
+          };
+
         }
-
-        return {
-          acknowledgeSubscriptionModal: _acknowledgeSubscriptionModal
-        };
+      };
     }]);

@@ -117,6 +117,11 @@
             'subscription.warning.info.link': 'Läs mer om Webcert och hur du beställer tjänsten <LINK:ineraIntygstjansterWebcert>',
             'error.auth-exception-subscription.text': '<h2>Abonnemang saknas</h2><p/><p>Er verksamhet saknar abonnemang för Intygstjänster Webcert.</p><p>För att kunna använda Webcert kräver Inera att ni tecknar kundavtal samt beställer abonnemang för tjänsten Webcert.</p><br><p>Läs mer om Webcert och hur du beställer tjänsten <LINK:ineraIntygstjansterWebcert></p>',
 
+            'subscription.missing.title.text': 'Abonnemang för Webcert saknas',
+            'subscription.missing.info.check': 'Du ser detta meddelande för att du eller din verksamhet saknar abonnemang.',
+            'subscription.missing.info.general': '<p>För att kunna skriva intyg i Webcert behöver du eller din verksamhet teckna kundavtal med Inera samt beställa abonnemang för tjänsten.</p><p>Utan abonnemang kan du endast läsa och makulera eventuella tidigare utfärdade intyg.</p><p>Läs mer om Webcert och hur du beställer <LINK:ineraIntygstjansterWebcert></p>',
+            'subscription.missing.info.link': 'Om du tidigare använt Webcert och inte längre vill nyttja tjänsten måste du eller din verksamhet inkomma med avslutsbegäran. Den reglerar din verksamhets skyldighet att omhänderta intygsinformation <LINK:ineraAvslutaTjansten>',
+
             // avtal/terms
             'avtal.title.text': 'Godkännande av användarvillkor',
             'avtal.approve.label': 'Jag godkänner villkoren',
