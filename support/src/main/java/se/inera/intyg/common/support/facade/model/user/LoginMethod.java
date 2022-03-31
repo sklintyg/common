@@ -19,5 +19,5 @@
 package se.inera.intyg.common.support.facade.model.user;
 
 public enum LoginMethod {
-    NET_ID, BANK_ID, SITHS, FAKE
+    BANK_ID, SITHS, FAKE
 }
