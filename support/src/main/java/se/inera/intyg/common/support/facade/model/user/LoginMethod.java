@@ -18,6 +18,6 @@
  */
 package se.inera.intyg.common.support.facade.model.user;
 
-public enum SigningMethod {
-    DSS, FAKE, BANK_ID
+public enum LoginMethod {
+    BANK_ID, SITHS, FAKE
 }
