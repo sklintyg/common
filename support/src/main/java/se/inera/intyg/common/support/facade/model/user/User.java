@@ -35,6 +35,7 @@ public class User {
     private String name;
     private String role;
     private SigningMethod signingMethod;
+    private LoginMethod loginMethod;
     private Unit loggedInUnit;
     private Unit loggedInCareUnit;
     private Unit loggedInCareProvider;
