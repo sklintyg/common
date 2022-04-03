@@ -42,12 +42,14 @@ angular.module('common').factory('common.subscriptionService', [ 'common.UserMod
       }
 
       function _shouldDisplayWarning() {
-        return UserModel.user.hasOwnProperty('valdVardgivare') && UserModel.user.subscriptionInfo.subscriptionAction === 'WARN' &&
+        return UserModel.user && UserModel.user.hasOwnProperty('valdVardgivare') &&
+            UserModel.user.subscriptionInfo.subscriptionAction === 'WARN' &&
             missingSubscription(UserModel.user.valdVardgivare.id, UserModel.user.subscriptionInfo.careProvidersForSubscriptionModal);
       }
 
       function _shouldDisplayMissingSubscriptionBanner() {
-        return UserModel.user.hasOwnProperty('valdVardgivare') && _missingSubscriptionWhenRequired(UserModel.user.valdVardgivare.id);
+        return UserModel.user && UserModel.user.hasOwnProperty('valdVardgivare') &&
+            _missingSubscriptionWhenRequired(UserModel.user.valdVardgivare.id);
       }
 
     function _shouldDisplayMissingSubscriptionModal() {
