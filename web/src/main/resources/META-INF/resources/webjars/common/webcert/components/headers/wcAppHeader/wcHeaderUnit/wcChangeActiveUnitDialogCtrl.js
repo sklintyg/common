@@ -158,6 +158,10 @@ angular.module('common').controller(
                         return ($scope.valdEnhet && $scope.valdEnhet.id === id);
                     };
 
+                    $scope.isSelectable = function(careProviderId, unitId) {
+                        return !$scope.isCurrentlySelected(unitId);
+                    };
+
                     $scope.missingSubscriptionWhenRequired = function(careProviderId) {
                         return subscriptionService.missingSubscriptionWhenRequired(careProviderId);
                     };
