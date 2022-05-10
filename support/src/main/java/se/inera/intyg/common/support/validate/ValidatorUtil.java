@@ -125,8 +125,13 @@ public final class ValidatorUtil {
         }
 
         if (!date.isReasonable()) {
-            addValidationError(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT,
-                "common.validation.date_out_of_range");
+            if (questionId != null) {
+                addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT,
+                        "common.validation.date_out_of_range", questionId);
+            } else {
+                addValidationError(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT,
+                        "common.validation.date_out_of_range");
+            }
             return false;
         }
         return true;
@@ -185,7 +190,7 @@ public final class ValidatorUtil {
 
     public static boolean validateDateAndCheckIfFuture(InternalDate date, List<ValidationMessage> validationMessages,
         String category, String field, String futureErrorMessage, String questionId) {
-        boolean isValid = validateDate(date, validationMessages, category, field, null);
+        boolean isValid = validateDate(date, validationMessages, category, field, null, questionId);
 
         // For structurally valid dates, check if it is a future date
         if (date.isValidDate() && date.asLocalDate().isAfter(LocalDate.now())) {
