@@ -58,7 +58,8 @@ public class ValidatorUtil {
 
     public static void validateGrundForMuDate(InternalDate date, List<ValidationMessage> validationMessages, GrundForMu type) {
 
-        boolean isValid = validateDate(date, validationMessages, CATEGORY_GRUNDFORMU, type.getFieldName(), null, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
+        boolean isValid = validateDate(date, validationMessages, CATEGORY_GRUNDFORMU, type.getFieldName(), null,
+                GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
 
         // R35: For syntactically valid dates, verify it's not a future date
         if (isValid && date.asLocalDate().isAfter(LocalDate.now())) {
