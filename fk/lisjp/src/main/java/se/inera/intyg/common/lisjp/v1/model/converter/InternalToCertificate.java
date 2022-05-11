@@ -1772,7 +1772,7 @@ public final class InternalToCertificate {
         return CertificateDataElement.builder()
             .id(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26)
             .index(index)
-            .parent(KONTAKT_CATEGORY_ID)
+            .parent(KONTAKT_ONSKAS_SVAR_ID_26)
             .config(
                 CertificateDataConfigTextArea.builder()
                     .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26)
