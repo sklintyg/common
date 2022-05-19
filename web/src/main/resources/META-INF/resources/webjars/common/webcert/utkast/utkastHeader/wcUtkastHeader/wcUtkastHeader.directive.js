@@ -96,7 +96,7 @@ angular.module('common').directive('wcUtkastHeader',
                   dialogId: 'db-info-dialog',
                   titleText: 'db.label.titleText',
                   templateUrl: '/app/partials/dbInfo.dialog.html',
-                  bodyText: 'db.label.bodyText',
+                  bodyText: 'db.draft.label.bodyText',
                   model: dialogModel,
 
                   button2click: function() {
@@ -160,7 +160,8 @@ angular.module('common').directive('wcUtkastHeader',
                   button1id: 'button1id',
                   button1text: 'db.label.button1text',
                   button2text: 'common.delete',
-                  autoClose: false
+                  autoClose: false,
+                  disableClose: true
                 });
               }
             }

@@ -129,6 +129,7 @@ angular.module('common').factory('common.dialogService',
          button2visible: (optional) whether button 2 should be visible. default: true if button2text is specified, otherwise false
          button3visible: (optional) whether button 3 should be visible. default: true if button3text is specified, otherwise false
          autoClose: whether dialog should close on button click. If false, use .close() on return value from showDialog to close dialog later
+         disableClose: if set to true prevent dialog to be closed when clicking outside of the dialog.
          */
         function _showDialog( options ) {
             var dialogOptions, msgbox;
@@ -166,7 +167,7 @@ angular.module('common').factory('common.dialogService',
                     button1id, button2id, button3id, button1click, button2click, button3click,
                     button2visible, button3visible,
                     button1text,
-                    button2text, button3text, autoClose, title) {
+                    button2text, button3text, autoClose, title, disableClose) {
 
                     $scope.model = model;
                     $scope.dialogId = dialogId;
@@ -175,6 +176,7 @@ angular.module('common').factory('common.dialogService',
                     $scope.titleId = titleId;
                     $scope.bodyTextId = bodyTextId;
                     $scope.bodyText = bodyText;
+                    $scope.disableClose = disableClose;
                     $scope.button1click = function(result) {
                         button1click($uibModalInstance);
                         if(autoClose) {
@@ -223,6 +225,11 @@ angular.module('common').factory('common.dialogService',
                 resolve: dialogCustomState( options )
             };
 
+            if(options.disableClose){
+                dialogOptions.backdrop = 'static';
+                dialogOptions.keyboard = false;
+            }
+
             if(options.windowClass !== undefined) {
                 dialogOptions.windowClass = options.windowClass;
             }
@@ -253,6 +260,7 @@ angular.module('common').factory('common.dialogService',
             options.button2id = options.button2id === undefined ? 'button2' + options.dialogId : options.button2id;
             options.button3id = options.button3id === undefined ? 'button3' + options.dialogId : options.button3id;
             options.autoClose = options.autoClose === undefined ? true : options.autoClose;
+            options.disableClose = options.disableClose === undefined ? false : options.disableClose;
             options.templateUrl = options.templateUrl === undefined ? '/app/partials/common-dialog.html' : options.templateUrl;
             options.model = options.model === undefined ? {} : options.model;
 
@@ -321,6 +329,9 @@ angular.module('common').factory('common.dialogService',
                 },
                 autoClose: function() {
                     return angular.copy(options.autoClose);
+                },
+                disableClose: function() {
+                    return angular.copy(options.disableClose);
                 }
             };
         }
