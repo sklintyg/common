@@ -18,7 +18,10 @@
  */
 angular.module('common').directive('wcUtkastHeader',
     ['$window', '$state', 'common.moduleService', 'common.UtkastHeaderViewState', 'common.UserModel',
-      function($window, $state, moduleService, UtkastHeaderViewState, UserModel) {
+      '$log', 'common.messageService', 'common.dialogService', '$timeout', 'common.statService',
+      'common.IntygViewStateService', 'common.authorityService', 'common.UtkastViewStateService', 'common.UtkastProxy', '$stateParams',
+      function($window, $state, moduleService, UtkastHeaderViewState, UserModel, $log, messageService,
+          dialogService, $timeout, statService, IntygViewState, authorityService, CommonViewState, UtkastProxy, $stateParams) {
         'use strict';
 
         return {
@@ -64,8 +67,102 @@ angular.module('common').directive('wcUtkastHeader',
               }
             }
 
+            function discardModal() {
+              if(UserModel.user.origin === 'DJUPINTEGRATION' && $scope.utkastViewState.draftModel.content.name ==='dbModel') {
+                var patient = $scope.utkastViewState.intygModel.grundData.patient;
+                var dialogModel = {
+                  acceptprogressdone: false,
+                  errormessageid: 'Error',
+                  showerror: false,
+                  info: messageService.getProperty('db.label.info',
+                      {fornamn: patient.fornamn,
+                        efternamn: patient.efternamn,
+                        personnummer: patient.personId}),
+                  toggleProceed: function() {
+                    document.getElementById('button1id').disabled =
+                        !document.getElementById('checkboxId').checked;
+                  },
+                  checkboxId: 'checkboxId',
+                  checkboxText: 'db.label.checkbox.text'
+                };
+
+                var draftDeleteDialog = {};
+                draftDeleteDialog = dialogService.showDialog({
+                  dialogId: 'db-info-dialog',
+                  titleText: 'db.label.titleText',
+                  templateUrl: '/app/partials/dbInfo.dialog.html',
+                  bodyText: 'db.draft.label.bodyText',
+                  model: dialogModel,
+
+                  button2click: function() {
+                    dialogModel.acceptprogressdone = false;
+                    var back = function() {
+                      // IE9 infinite digest workaround
+                      $timeout(function() {
+                        $window.history.back();
+                      });
+                    };
+
+                    function afterDelete() {
+                      statService.refreshStat(); // Update statistics to reflect change
+                      IntygViewState.deletedDraft = true;
+                      if (!authorityService.isAuthorityActive({authority: 'NAVIGERING'})) {
+                        if (CommonViewState.isCreatedFromIntygInSession()) {
+                          CommonViewState.clearUtkastCreatedFrom();
+                          draftDeleteDialog.close({direct: back});
+                        } else {
+                          CommonViewState.deleted = true;
+                          CommonViewState.error.activeErrorMessageKey = 'error';
+                          draftDeleteDialog.close();
+                        }
+                      } else {
+                        draftDeleteDialog.close({direct: back});
+                      }
+                    }
+                    UtkastProxy.discardUtkast($stateParams.certificateId, CommonViewState.intyg.type,
+                        $scope.utkastViewState.draftModel.version, function() {
+                          dialogModel.acceptprogressdone = true;
+
+                          afterDelete();
+                        }, function(error) {
+                          dialogModel.acceptprogressdone = true;
+                          if (error.errorCode === 'DATA_NOT_FOUND') { // Godtagbart, intyget var redan borta.
+                            afterDelete();
+                          } else if (error.errorCode === 'CONCURRENT_MODIFICATION') {
+                            dialogModel.showerror = true;
+                            var errorMessageId = 'common.error.discard.concurrent_modification';
+                            // In the case of concurrent modification we should have the name of the user making trouble in the message.
+                            dialogModel.errormessage =
+                                messageService.getProperty(errorMessageId, {name: error.message},
+                                    errorMessageId);
+                            dialogModel.errormessageid = '';
+                          } else {
+                            dialogModel.showerror = true;
+                            dialogModel.errormessage = '';
+                            if (error === '') {
+                              dialogModel.errormessageid = 'common.error.cantconnect';
+                            } else {
+                              dialogModel.errormessageid =
+                                  ('common.error.' + error.errorCode).toLowerCase();
+                            }
+                          }
+                        });
+                  },
+                  button1click: function(modalInstance) {
+                    modalInstance.close();
+                  },
+                  button1id: 'button1id',
+                  button1text: 'db.label.button1text',
+                  button2text: 'common.delete',
+                  autoClose: false,
+                  disableClose: true
+                });
+              }
+            }
+
             updatePersonId();
             $scope.$on('intyg.loaded', updatePersonId);
+            $scope.$on('intyg.loaded', discardModal);
           }
         };
       }]);
