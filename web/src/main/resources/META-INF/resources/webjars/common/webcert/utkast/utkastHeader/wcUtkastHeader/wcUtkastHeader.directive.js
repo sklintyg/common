@@ -74,10 +74,9 @@ angular.module('common').directive('wcUtkastHeader',
                   acceptprogressdone: false,
                   errormessageid: 'Error',
                   showerror: false,
-                  info: messageService.getProperty('db.label.info',
-                      {fornamn: patient.fornamn,
-                        efternamn: patient.efternamn,
-                        personnummer: patient.personId}),
+                  fornamn: patient.fornamn,
+                  efternamn: patient.efternamn,
+                  personnummer: patient.personId,
                   toggleProceed: function() {
                     document.getElementById('button1id').disabled =
                         !document.getElementById('checkboxId').checked;
