@@ -68,7 +68,7 @@ angular.module('common').directive('wcUtkastHeader',
             }
 
             function discardModal() {
-              if(UserModel.user.origin === 'DJUPINTEGRATION' && $scope.utkastViewState.draftModel.content.name ==='dbModel') {
+              if(UserModel.user.origin === 'DJUPINTEGRATION' && $scope.utkastViewState.draftModel.content.name ==='dbModel'  && authorityService.isAuthorityActive({authority: 'SIGNERA_INTYG'})) {
                 var patient = $scope.utkastViewState.intygModel.grundData.patient;
                 var namn = patient.fornamn;
                 if(patient.mellannamn !== undefined){
