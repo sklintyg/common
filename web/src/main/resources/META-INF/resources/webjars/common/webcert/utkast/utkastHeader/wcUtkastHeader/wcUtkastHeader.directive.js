@@ -70,13 +70,18 @@ angular.module('common').directive('wcUtkastHeader',
             function discardModal() {
               if(UserModel.user.origin === 'DJUPINTEGRATION' && $scope.utkastViewState.draftModel.content.name ==='dbModel') {
                 var patient = $scope.utkastViewState.intygModel.grundData.patient;
+                var namn = patient.fornamn;
+                if(patient.mellannamn !== undefined){
+                  namn = namn + ' ' + patient.mellannamn;
+                }
+                namn = namn + ' ' + patient.efternamn;
+
                 var dialogModel = {
                   acceptprogressdone: false,
                   errormessageid: 'Error',
                   showerror: false,
-                  fornamn: patient.fornamn,
-                  efternamn: patient.efternamn,
-                  personnummer: patient.personId,
+                  namn: namn,
+                  personnummer: patient.personId.slice(0, 7) + '-' + patient.personId.slice(8),
                   toggleProceed: function() {
                     document.getElementById('button1id').disabled =
                         !document.getElementById('checkboxId').checked;
