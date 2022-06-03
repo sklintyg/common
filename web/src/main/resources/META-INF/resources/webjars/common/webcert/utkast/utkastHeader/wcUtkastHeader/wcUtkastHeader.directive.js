@@ -19,9 +19,11 @@
 angular.module('common').directive('wcUtkastHeader',
     ['$window', '$state', 'common.moduleService', 'common.UtkastHeaderViewState', 'common.UserModel',
       '$log', 'common.messageService', 'common.dialogService', '$timeout', 'common.statService',
-      'common.IntygViewStateService', 'common.authorityService', 'common.UtkastViewStateService', 'common.UtkastProxy', '$stateParams',
+      'common.IntygViewStateService', 'common.authorityService', 'common.UtkastViewStateService',
+      'common.UtkastProxy', '$stateParams','common.ResourceLinkService',
       function($window, $state, moduleService, UtkastHeaderViewState, UserModel, $log, messageService,
-          dialogService, $timeout, statService, IntygViewState, authorityService, CommonViewState, UtkastProxy, $stateParams) {
+          dialogService, $timeout, statService, IntygViewState, authorityService, CommonViewState,
+          UtkastProxy, $stateParams, ResourceLinkService) {
         'use strict';
 
         return {
@@ -68,7 +70,10 @@ angular.module('common').directive('wcUtkastHeader',
             }
 
             function discardModal() {
-              if(UserModel.user.origin === 'DJUPINTEGRATION' && $scope.utkastViewState.draftModel.content.name ==='dbModel'  && authorityService.isAuthorityActive({authority: 'SIGNERA_INTYG'})) {
+              if(UserModel.user.origin === 'DJUPINTEGRATION'
+                  && $scope.utkastViewState.draftModel.content.name ==='dbModel'
+                  && authorityService.isAuthorityActive({authority: 'SIGNERA_INTYG'})
+                  && ResourceLinkService.isLinkTypeExists($scope.utkastViewState.draftModel.links, 'REDIGERA_UTKAST')) {
                 var patient = $scope.utkastViewState.intygModel.grundData.patient;
                 var namn = patient.fornamn;
                 if(patient.mellannamn !== undefined){
