@@ -19,6 +19,7 @@
 package se.inera.intyg.common.support.facade.builder;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -39,6 +40,13 @@ public final class CertificateBuilder {
 
     public CertificateBuilder addElement(CertificateDataElement element) {
         this.data.put(element.getId(), element);
+        return this;
+    }
+
+    public CertificateBuilder addElements(List<CertificateDataElement> elements) {
+        for (CertificateDataElement element : elements) {
+            this.data.put(element.getId(), element);
+        }
         return this;
     }
 

@@ -36,7 +36,7 @@ public final class DefaultCertificateTextProvider implements CertificateTextProv
     public String get(String key) {
         final var value = intygTexts.getTexter().get(key);
         if (value == null) {
-            return getQuestionHeader(key);
+            return "";
         }
 
         return parseText(value, key);
