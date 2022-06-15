@@ -10,6 +10,7 @@ node {
 
     stage('build') {
         try {
+            // TODO Reactivate js tests.
             shgradle11 "--refresh-dependencies clean build -x jsTests -PcodeQuality -DgruntColors=false -DbuildVersion=${buildVersion}"
         } finally {
             publishHTML allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'build/reports/allTests', \
