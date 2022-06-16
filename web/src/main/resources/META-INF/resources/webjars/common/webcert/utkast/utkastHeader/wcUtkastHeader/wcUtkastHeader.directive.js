@@ -86,7 +86,7 @@ angular.module('common').directive('wcUtkastHeader',
                   errormessageid: 'Error',
                   showerror: false,
                   namn: namn,
-                  personnummer: patient.personId.slice(0, 7) + '-' + patient.personId.slice(8),
+                  personnummer: patient.personId.slice(0, 8) + '-' + patient.personId.slice(8),
                   toggleProceed: function() {
                     document.getElementById('button1id').disabled =
                         !document.getElementById('checkboxId').checked;
