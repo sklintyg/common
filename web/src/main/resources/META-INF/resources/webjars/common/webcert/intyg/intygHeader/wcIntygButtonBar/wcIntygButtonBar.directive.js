@@ -273,8 +273,6 @@ angular.module('common').directive('wcIntygButtonBar', ['$rootScope', '$timeout'
                         }
                     };
 
-
-
                     var onNotFoundOrError = function() {
                         // If patient couldn't be looked up in PU-service, show modal with intygstyp-specific message.
                         var errorMsg = messageService.getProperty(intyg.typ + '.error_could_not_print_cert_no_pu');
