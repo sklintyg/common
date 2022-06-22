@@ -214,6 +214,23 @@ angular.module('common').directive('wcIntygButtonBar', ['$rootScope', '$timeout'
                         return targetIframe ? 'printTargetIFrame' : '_blank';
                     };
 
+                    var printOrDownload = function() {
+                        var isIEBrowser = /(?:Trident\/\d+)|(?:MSIE \d+)/.test(window.navigator.userAgent);
+                        var urlExtension = isEmployeeCopy ? '/arbetsgivarutskrift' : '';
+                        if (isIEBrowser) {
+                            window.open(CommonIntygViewState.intygProperties.pdfUrl + urlExtension, getPrintTarget());
+                        } else {
+                            var iframe = document.getElementById('printTargetIFrame');
+                            iframe.onload = function() {
+                                setTimeout(function() {
+                                    iframe.focus();
+                                    iframe.contentWindow.print();
+                                }, 1);
+                            };
+                            iframe.src = CommonIntygViewState.intygProperties.pdfUrl + urlExtension;
+                        }
+                    };
+
                     var onPatientFound = function(patient) {
                         if (isEmployeeCopy) {
                             DialogService.showDialog({
@@ -222,8 +239,7 @@ angular.module('common').directive('wcIntygButtonBar', ['$rootScope', '$timeout'
                                 templateUrl: '/app/partials/employee-print-dialog.html',
                                 model: {patient: patient},
                                 button1click: function(modalInstance) {
-                                    window.open(CommonIntygViewState.intygProperties.pdfUrl + '/arbetsgivarutskrift',
-                                        getPrintTarget());
+                                    printOrDownload();
                                     modalInstance.close();
                                 },
                                 button2click: function(modalInstance) {
@@ -242,7 +258,7 @@ angular.module('common').directive('wcIntygButtonBar', ['$rootScope', '$timeout'
                                 templateUrl: '/app/partials/sekretessmarkerad-print-dialog.html',
                                 model: {patient: patient},
                                 button1click: function(modalInstance) {
-                                    window.open(CommonIntygViewState.intygProperties.pdfUrl, getPrintTarget());
+                                    printOrDownload();
                                     modalInstance.close();
                                 },
                                 button2click: function(modalInstance) {
@@ -253,10 +269,10 @@ angular.module('common').directive('wcIntygButtonBar', ['$rootScope', '$timeout'
                                 autoClose: false
                             });
                         } else {
-                            // Om patienten ej är sekretessmarkerad, skriv ut direkt.
-                            window.open(CommonIntygViewState.intygProperties.pdfUrl, getPrintTarget());
+                            printOrDownload();
                         }
                     };
+
                     var onNotFoundOrError = function() {
                         // If patient couldn't be looked up in PU-service, show modal with intygstyp-specific message.
                         var errorMsg = messageService.getProperty(intyg.typ + '.error_could_not_print_cert_no_pu');

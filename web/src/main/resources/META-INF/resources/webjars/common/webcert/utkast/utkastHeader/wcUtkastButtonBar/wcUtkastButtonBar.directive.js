@@ -136,9 +136,25 @@ angular.module('common').directive('wcUtkastButtonBar', ['$log', '$stateParams',
                         return targetIframe ? 'printTargetIFrame' : '_blank';
                     };
 
+                    var printOrDownload = function() {
+                        var isIEBrowser = /(?:Trident\/\d+)|(?:MSIE \d+)/.test(window.navigator.userAgent);
+                        if (isIEBrowser) {
+                            window.open(CommonViewState.intyg.pdfUrl, getPrintTarget());
+                        } else {
+                            var iframe = document.getElementById('printTargetIFrame');
+                            iframe.onload = function() {
+                                setTimeout(function() {
+                                    iframe.focus();
+                                    iframe.contentWindow.print();
+                                }, 1);
+                            };
+                            iframe.src = CommonViewState.intyg.pdfUrl;
+                        }
+                    };
+
                     var onPatientFound = function(patient) {
                         if (!patient.sekretessmarkering) {
-                            window.open(CommonViewState.intyg.pdfUrl, getPrintTarget());
+                            printOrDownload();
                         } else {
                             // Visa infodialog för vanlig utskrift där patienten är sekretessmarkerad.
                             dialogService.showDialog({
@@ -147,7 +163,7 @@ angular.module('common').directive('wcUtkastButtonBar', ['$log', '$stateParams',
                                 templateUrl: '/app/partials/sekretessmarkerad-print-dialog.html',
                                 model: {patient: patient},
                                 button1click: function(modalInstance) {
-                                    window.open(CommonViewState.intyg.pdfUrl, getPrintTarget());
+                                    printOrDownload();
                                     modalInstance.close();
                                 },
                                 button2click: function(modalInstance) {
