@@ -40,7 +40,8 @@ public class Patient {
     private boolean protectedPerson;
     private boolean deceased;
     private boolean differentNameFromEHR;
-    private boolean personIdUpdated;
+    private boolean personIdChanged;
+    private boolean reserveId;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class PatientBuilder {
