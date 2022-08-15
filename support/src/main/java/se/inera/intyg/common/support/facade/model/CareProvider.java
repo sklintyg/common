@@ -33,6 +33,7 @@ public class CareProvider {
     private String id;
     private String name;
     private List<CareUnit> careUnits;
+    private boolean missingSubscription;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CareProviderBuilder {
