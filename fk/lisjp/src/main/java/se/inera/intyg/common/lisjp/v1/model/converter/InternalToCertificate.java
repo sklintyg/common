@@ -1254,7 +1254,7 @@ public final class InternalToCertificate {
         return CertificateDataElement.builder()
             .id(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33)
             .index(index)
-            .parent(BEDOMNING_CATEGORY_ID)
+            .parent(ARBETSTIDSFORLAGGNING_SVAR_ID_33)
             .config(
                 CertificateDataConfigTextArea.builder()
                     .text(texts.get(ARBETSTIDSFORLAGGNING_MOTIVERING_TEXT))
