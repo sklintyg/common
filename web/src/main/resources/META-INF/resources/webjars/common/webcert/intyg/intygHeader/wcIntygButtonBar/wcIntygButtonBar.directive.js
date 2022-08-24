@@ -55,17 +55,19 @@ angular.module('common').directive('wcIntygButtonBar', ['$rootScope', '$timeout'
                 $scope.ersattBtnTooltipText = messageService.getProperty('common.ersatt.tooltip');
                 $scope.makuleraBtnTooltipText = messageService.getProperty('common.makulera.tooltip');
                 $scope.normalPrintBtnTooltipText =
-                    messageService.getProperty('common.button.save.as.pdf.intyg.tooltip');
+                    messageService.getProperty(isIEBrowser() ? 'common.button.save.as.pdf.intyg.tooltip' : 'common.button.save.or.print.intyg.tooltip');
                 $scope.selectPrintBtnTooltipText =
                     messageService.getProperty('common.button.save.as.pdf.intyg.select.tooltip');
-                $scope.normalPrintBtnTooltipText =
-                    messageService.getProperty('common.button.save.as.pdf.intyg.tooltip');
                 $scope.sendBtnTooltipText = messageService.getProperty('common.send.tooltip', {
                     'recipient': messageService.getProperty(
                         'common.recipient.' + moduleService.getModule(intygType).defaultRecipient.toLowerCase())
                 });
 
                 $scope.ersattButtonDisabled = false;
+
+                function isIEBrowser() {
+                    return /(?:Trident\/\d+)|(?:MSIE \d+)/.test(window.navigator.userAgent);
+                }
 
                 function _updateErsattButton() {
                     if (ArendeListViewStateService.getUnhandledKompletteringCount() > 0) {
@@ -215,9 +217,8 @@ angular.module('common').directive('wcIntygButtonBar', ['$rootScope', '$timeout'
                     };
 
                     var printOrDownload = function() {
-                        var isIEBrowser = /(?:Trident\/\d+)|(?:MSIE \d+)/.test(window.navigator.userAgent);
                         var urlExtension = isEmployeeCopy ? '/arbetsgivarutskrift' : '';
-                        if (isIEBrowser) {
+                        if (isIEBrowser()) {
                             window.open(CommonIntygViewState.intygProperties.pdfUrl + urlExtension, getPrintTarget());
                         } else {
                             var iframe = document.getElementById('printTargetIFrame');
