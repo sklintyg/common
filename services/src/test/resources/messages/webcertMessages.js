@@ -71,9 +71,11 @@
             'common.delete.tooltip': 'Raderar intygsutkastet.',
             'common.sign.intyg': 'Signera intyget',
             'common.button.save.as.pdf': 'Skriv ut',
-            'common.button.save.as.pdf.intyg.tooltip': 'Öppnar ett fönster där du kan välja att skriva ut eller spara intyget som PDF.',
+            'common.button.save.as.pdf.intyg.tooltip': 'Laddar ned intyget för utskrift.',
+            'common.button.save.or.print.intyg.tooltip': 'Öppnar ett fönster där du kan välja att skriva ut eller spara intyget som PDF.',
             'common.button.save.as.pdf.intyg.select.tooltip': 'Välj att ladda ned ett fullständigt intyg, eller ett minimalt intyg som uppfyller sjuklönelagens krav på intyg som kan lämnas till arbetsgivaren.',
-            'common.button.save.as.pdf.utkast.tooltip': 'Öppnar ett fönster där du kan välja att skriva ut eller spara intygsutkastet som PDF.',
+            'common.button.save.as.pdf.utkast.tooltip': 'Laddar ned intygsutkastet för utskrift.',
+            'common.button.save.or.print.utkast.tooltip': 'Öppnar ett fönster där du kan välja att skriva ut eller spara intygsutkastet som PDF.',
             'common.button.save.as.pdf.full': 'Fullständigt intyg',
             'common.button.save.as.pdf.minimal': 'Minimalt intyg',
 

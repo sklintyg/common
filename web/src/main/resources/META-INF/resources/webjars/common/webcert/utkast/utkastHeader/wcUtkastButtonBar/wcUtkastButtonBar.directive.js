@@ -36,10 +36,15 @@ angular.module('common').directive('wcUtkastButtonBar', ['$log', '$stateParams',
 
                 $scope.CommonViewState = CommonViewState;
 
-                $scope.printBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.utkast.tooltip');
+                $scope.printBtnTooltipText = messageService.getProperty(isIEBrowser() ?'common.button.save.as.pdf.utkast.tooltip' :
+                    'common.button.save.or.print.utkast.tooltip');
                 $scope.copyBtnTooltipText = messageService.getProperty('common.copy.utkast.tooltip');
                 $scope.deleteBtnTooltipText = messageService.getProperty('common.delete.tooltip');
                 $scope.makuleraBtnTooltipText = messageService.getProperty('common.makulera.locked.tooltip');
+
+                function isIEBrowser() {
+                    return /(?:Trident\/\d+)|(?:MSIE \d+)/.test(window.navigator.userAgent);
+                }
 
                 /**
                  * Action to discard the certificate draft and return to WebCert again.
@@ -137,8 +142,7 @@ angular.module('common').directive('wcUtkastButtonBar', ['$log', '$stateParams',
                     };
 
                     var printOrDownload = function() {
-                        var isIEBrowser = /(?:Trident\/\d+)|(?:MSIE \d+)/.test(window.navigator.userAgent);
-                        if (isIEBrowser) {
+                        if (isIEBrowser()) {
                             window.open(CommonViewState.intyg.pdfUrl, getPrintTarget());
                         } else {
                             var iframe = document.getElementById('printTargetIFrame');
