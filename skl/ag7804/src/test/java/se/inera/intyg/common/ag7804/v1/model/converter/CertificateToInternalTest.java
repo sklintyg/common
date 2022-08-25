@@ -639,15 +639,15 @@ class CertificateToInternalTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create().addElement(
-                            InternalToCertificate.createBehovAvSjukskrivningQuestion(manySickLeaveValues(), index, texts, internalCertificate.getGrundData()
-                                    .getRelation()))
+                            InternalToCertificate.createBehovAvSjukskrivningQuestion(
+                                    manySickLeaveValues(), index, texts, internalCertificate.getGrundData().getRelation()))
                     .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
             assertEquals(SjukskrivningsGrad.HELT_NEDSATT, updatedCertificate.getSjukskrivningar().get(0).getSjukskrivningsgrad());
             assertEquals(SjukskrivningsGrad.NEDSATT_HALFTEN, updatedCertificate.getSjukskrivningar().get(1).getSjukskrivningsgrad());
-            assertEquals(SjukskrivningsGrad.NEDSATT_1_4, updatedCertificate.getSjukskrivningar().get(1).getSjukskrivningsgrad());
+            assertEquals(SjukskrivningsGrad.NEDSATT_1_4, updatedCertificate.getSjukskrivningar().get(2).getSjukskrivningsgrad());
         }
     }
 
