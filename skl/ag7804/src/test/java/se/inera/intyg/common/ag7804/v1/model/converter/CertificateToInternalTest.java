@@ -585,6 +585,26 @@ class CertificateToInternalTest {
             );
         }
 
+        List<Sjukskrivning> manySickLeaveValues() {
+            return List.of(
+                Sjukskrivning.create(
+                        SjukskrivningsGrad.NEDSATT_1_4, new InternalLocalDateInterval(
+                                new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now())
+                        )
+                ),
+                Sjukskrivning.create(
+                        SjukskrivningsGrad.HELT_NEDSATT, new InternalLocalDateInterval(
+                                new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now())
+                        )
+                ),
+                Sjukskrivning.create(
+                        SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
+                                new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now())
+                        )
+                )
+            );
+        }
+
         @ParameterizedTest
         @MethodSource("sickLeaveValues")
         void shouldIncludeBehovAvSjukskrivningValue(List<Sjukskrivning> expectedValue) {
@@ -612,6 +632,22 @@ class CertificateToInternalTest {
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
             assertEquals(Collections.emptyList(), updatedCertificate.getSjukskrivningar());
+        }
+
+        @Test
+        void shouldSortSickleaveValuesFromLargestToSmallestDegree() {
+            final var index = 1;
+
+            final var certificate = CertificateBuilder.create().addElement(
+                            InternalToCertificate.createBehovAvSjukskrivningQuestion(manySickLeaveValues(), index, texts, internalCertificate.getGrundData()
+                                    .getRelation()))
+                    .build();
+
+            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
+
+            assertEquals(SjukskrivningsGrad.HELT_NEDSATT, updatedCertificate.getSjukskrivningar().get(0).getSjukskrivningsgrad());
+            assertEquals(SjukskrivningsGrad.NEDSATT_HALFTEN, updatedCertificate.getSjukskrivningar().get(1).getSjukskrivningsgrad());
+            assertEquals(SjukskrivningsGrad.NEDSATT_1_4, updatedCertificate.getSjukskrivningar().get(1).getSjukskrivningsgrad());
         }
     }
 

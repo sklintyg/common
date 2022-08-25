@@ -71,6 +71,7 @@ import static se.inera.intyg.common.support.facade.util.ValueToolkit.grundData;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import se.inera.intyg.common.ag7804.model.internal.ArbetslivsinriktadeAtgarder;
@@ -256,7 +257,15 @@ public final class CertificateToInternal {
                     new InternalDate(item.getFrom()), new InternalDate(item.getTo())
                 )
             )
-        ).collect(Collectors.toList());
+        )
+                .sorted(
+                        Comparator.comparing(
+                                (s) -> Integer.parseInt(
+                                        s.getSjukskrivningsgrad().getLabel().replace("%", "")
+                                ), Comparator.reverseOrder()
+                        )
+                )
+                .collect(Collectors.toList());
     }
 
     private static String getForsakringsmedicinsktBeslutsstod(Certificate certificate) {
