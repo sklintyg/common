@@ -3403,7 +3403,7 @@ class InternalToCertificateTest {
                 assertAll("Validating question",
                     () -> assertEquals(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(BEDOMNING_CATEGORY_ID, question.getParent()),
+                    () -> assertEquals(ARBETSTIDSFORLAGGNING_SVAR_ID_33, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
                     () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
