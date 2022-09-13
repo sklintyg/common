@@ -18,7 +18,7 @@
  */
 angular.module('common').factory('common.srsLinkCreator', [function() {
     'use strict';
-    var baseUrl = 'http://rattsjukskrivning.se/';
+    var baseUrl = 'http://skr.se/';
 
     function _createAtgardsekommendationLink(diagnosKod) {
         if (!angular.isString(diagnosKod)) {
