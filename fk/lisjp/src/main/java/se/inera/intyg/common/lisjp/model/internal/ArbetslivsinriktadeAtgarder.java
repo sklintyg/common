@@ -64,7 +64,7 @@ public abstract class ArbetslivsinriktadeAtgarder {
             return label;
         }
 
-        @JsonCreator
+        @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
         public static ArbetslivsinriktadeAtgarderVal fromId(@JsonProperty("id") String id) {
             String normId = id != null ? id.trim() : null;
             for (ArbetslivsinriktadeAtgarderVal typ : values()) {

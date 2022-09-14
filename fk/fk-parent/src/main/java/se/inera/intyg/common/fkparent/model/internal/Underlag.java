@@ -76,7 +76,7 @@ public abstract class Underlag {
             return label;
         }
 
-        @JsonCreator
+        @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
         public static UnderlagsTyp fromId(@JsonProperty("id") String id) {
             String normId = id != null ? id.trim() : null;
             for (UnderlagsTyp typ : values()) {

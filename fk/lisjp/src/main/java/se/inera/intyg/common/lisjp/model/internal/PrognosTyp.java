@@ -62,7 +62,7 @@ public enum PrognosTyp {
         return label;
     }
 
-    @JsonCreator
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static PrognosTyp fromId(@JsonProperty("id") String id) {
         String normId = id != null ? id.trim() : null;
         for (PrognosTyp typ : values()) {

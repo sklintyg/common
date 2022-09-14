@@ -129,7 +129,7 @@ public class TsTrk1062ModuleApiV1Test {
         final ApplicationOrigin mockApplicationOrigin = ApplicationOrigin.WEBCERT;
         final UtkastStatus mockUtkastStatus = UtkastStatus.SIGNED;
         final PdfResponse expectedPdfResponse = mock(PdfResponse.class);
-        final List statuses = new ArrayList<Status>();
+        final List<Status> statuses = new ArrayList<>();
 
         doReturn(mockUtlatande).when(objectMapper).readValue(INTERNAL_MODEL, TsTrk1062UtlatandeV1.class);
         doReturn(TEXT_VERSION).when(mockUtlatande).getTextVersion();
@@ -270,7 +270,7 @@ public class TsTrk1062ModuleApiV1Test {
         final PatientDetailResolveOrder actualPatientDetailResolveOrder = moduleApi.getPatientDetailResolveOrder();
 
         assertNotNull("PatientDetailResolveOrder", actualPatientDetailResolveOrder);
-        final List actualAdressOrder = actualPatientDetailResolveOrder.getAdressStrategy();
+        final List<PatientDetailResolveOrder.ResolveOrder> actualAdressOrder = actualPatientDetailResolveOrder.getAdressStrategy();
         assertNotNull("AddressResolveOrder should not be null", actualAdressOrder);
         assertEquals("AddressResolveOrder not equal length ", expectedAddressOrder.size(), actualAdressOrder.size());
         for (int i = 0; i < expectedAddressOrder.size(); i++) {
@@ -285,7 +285,7 @@ public class TsTrk1062ModuleApiV1Test {
         final PatientDetailResolveOrder actualPatientDetailResolveOrder = moduleApi.getPatientDetailResolveOrder();
 
         assertNotNull("PatientDetailResolveOrder", actualPatientDetailResolveOrder);
-        final List actualOtherOrder = actualPatientDetailResolveOrder.getOtherStrategy();
+        final List<PatientDetailResolveOrder.ResolveOrder> actualOtherOrder = actualPatientDetailResolveOrder.getOtherStrategy();
         assertNotNull("OtherResolveOrder should not be null", actualOtherOrder);
         assertEquals("OtherResolveOrder not equal length ", expectedOtherOrder.size(), actualOtherOrder.size());
         for (int i = 0; i < expectedOtherOrder.size(); i++) {
@@ -309,7 +309,7 @@ public class TsTrk1062ModuleApiV1Test {
         final DiagnosKodad expectedDiagnosKodad = DiagnosKodad.create("A01", "ICD10",
             "Diagnosbeskrivning", null, "Årtal");
 
-        final List<DiagnosKodad> expectedDiagnosKodadList = new ArrayList<DiagnosKodad>(1);
+        final List<DiagnosKodad> expectedDiagnosKodadList = new ArrayList<>(1);
         expectedDiagnosKodadList.add(expectedDiagnosKodad);
 
         final TsTrk1062UtlatandeV1 utlatande = TsTrk1062UtlatandeV1.builder()
