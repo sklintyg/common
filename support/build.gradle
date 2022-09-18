@@ -13,7 +13,7 @@ dependencies {
   compile "com.fasterxml.jackson.core:jackson-databind"
   compile "com.google.guava:guava:${guavaVersion}"
   compile "net.sf.saxon:Saxon-HE:${saxonVersion}"
-  compile "org.apache.commons:commons-csv:${commonsTextVersion}"
+  compile "org.apache.commons:commons-csv:${commonsCsvVersion}"
 
   testCompile "org.assertj:assertj-core"
 

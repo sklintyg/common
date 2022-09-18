@@ -1,4 +1,4 @@
-plugins {
+ plugins {
     id "se.inera.intyg.plugin.common" version "3.2.0" apply false
     id "nebula.node" version "1.4.2" apply false
     id "io.spring.dependency-management" version "1.0.13.RELEASE"
@@ -13,21 +13,22 @@ ext {
 
     schemasContractVersion = "2.1.8"
 
-    autovalueVersion = "1.7"
+    autovalueVersion = "1.9"
     cxfVersion = "3.5.3"
     commonsCollectionsVersion = "4.4"
-    commonsTextVersion = "1.8"
-    commonsIoVersion = "2.6"
-    guavaVersion = "28.2-jre"
+    commonsTextVersion = "1.9"
+    commonsCsvVersion = "1.9.0"
+    commonsIoVersion = "2.11.0"
+    guavaVersion = "31.1-jre"
     itextVersion = "5.5.13" //5.5.13.1 not working (tests never finish)
     itext7Version = "7.1.10"
     itextPdfHtmlVersion = "2.1.7"
-    jakartaJwsApiVersion = "2.1.0"
-    phSchematronVersion = "5.5.0"
-    saxonVersion = "9.9.1-6"
+    jakartaJwsApiVersion = "3.0.0"
+    phSchematronVersion = "5.6.5"
+    saxonVersion = "11.4"
 
     unitilsCoreVersion = "3.4.6"
-    equalsVerifierVersion = "3.1.12"
+    equalsVerifierVersion = "3.10.1"
 
     nodeJsVersion = "12.22.12"
     npmVersion = "6.14.16"
