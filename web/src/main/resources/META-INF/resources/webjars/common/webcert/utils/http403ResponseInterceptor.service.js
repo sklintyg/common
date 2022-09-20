@@ -31,55 +31,58 @@
  */
 angular.module('common').provider('common.http403ResponseInterceptor',
     function() {
-        'use strict';
+      'use strict';
 
-        /**
-         * Object that holds config and default values.
-         */
-        this.config = {
-            redirectUrl: '/'
+      /**
+       * Object that holds config and default values.
+       */
+      this.config = {
+        redirectUrl: '/'
+      };
+
+      /**
+       * Setter for configuring the redirectUrl
+       */
+      this.setRedirectUrl = function(url) {
+        this.config.redirectUrl = url;
+      };
+
+      /**
+       * Mandatory provider $get function. Here we can inject the dependencies the
+       * actual implementation needs.
+       */
+      this.$get = ['$q', '$window', 'common.authorityService', function($q, $window, authorityService) {
+        //Ref our config object
+        var config = this.config;
+        // Add our interceptor implementation (accessing the config set during app config phase)
+        return {
+          responseError: function(response) {
+            // for 403 responses - redirect browser to configured redirect url
+            if (response.status === 403) {
+              var redirectUrl = config.redirectUrl;
+              if (redirectUrl.indexOf('?') >= 0) {
+                redirectUrl = redirectUrl.substring(0, redirectUrl.indexOf('?'));
+              }
+              redirectUrl += '?reason=';
+
+              // if we aren't allowed to navigate we are most likely djupintegrerade.
+              //TODO: use sessionType or something better than NAVIGERING to determine
+              //which redirectUrl to use.
+              if (response.data && response.data.message && response.data.message === 'Invalid launchId') {
+                redirectUrl += 'another-session-active';
+              } else if (!authorityService.isAuthorityActive({authority: 'NAVIGERING'})) {
+                redirectUrl += 'timeout_integration';
+              } else {
+                redirectUrl += 'timeout';
+              }
+              if (!$window.location.href.includes(redirectUrl)) {
+                $window.location.href = redirectUrl;
+              }
+            }
+            // signal rejection (arguably not meaningful here since we just
+            // issued a redirect)
+            return $q.reject(response);
+          }
         };
-
-        /**
-         * Setter for configuring the redirectUrl
-         */
-        this.setRedirectUrl = function(url) {
-            this.config.redirectUrl = url;
-        };
-
-        /**
-         * Mandatory provider $get function. Here we can inject the dependencies the
-         * actual implementation needs.
-         */
-        this.$get = ['$q', '$window', 'common.authorityService', function($q, $window, authorityService) {
-            //Ref our config object
-            var config = this.config;
-            // Add our interceptor implementation (accessing the config set during app config phase)
-            return {
-                responseError: function(response) {
-                    // for 403 responses - redirect browser to configured redirect url
-                    if (response.status === 403) {
-                        var redirectUrl = config.redirectUrl;
-                        if (redirectUrl.indexOf('?') >= 0) {
-                            redirectUrl = redirectUrl.substring(0, redirectUrl.indexOf('?'));
-                        }
-                        redirectUrl += '?reason=';
-
-                        // if we aren't allowed to navigate we are most likely djupintegrerade.
-                        //TODO: use sessionType or something better than NAVIGERING to determine
-                        //which redirectUrl to use.
-                        if (!authorityService.isAuthorityActive({authority: 'NAVIGERING'})) {
-                            redirectUrl += 'timeout_integration';
-                        }
-                        else {
-                            redirectUrl += 'timeout';
-                        }
-                        $window.location.href = redirectUrl;
-                    }
-                    // signal rejection (arguably not meaningful here since we just
-                    // issued a redirect)
-                    return $q.reject(response);
-                }
-            };
-        }];
+      }];
     });

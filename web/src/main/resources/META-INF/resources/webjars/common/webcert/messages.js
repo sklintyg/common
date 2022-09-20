@@ -180,6 +180,9 @@
             'wc.modal.survey.text': 'Vi genomför en användarundersökning för intygsapplikationen Webcert och vore mycket tacksamma om du kan tänka dig att dela dina synpunkter med oss. Undersökningen tar några minuter att fylla i och är helt anonym. Du kan närsomhelst avbryta undersökningen om så önskas. \n' +
                 'Vill du hjälpa oss att förbättra tjänsten genom ditt deltagande?',
 
+            // launchId
+            'error.launchId.text': '<h2>Intyget är ej längre tillgängligt.</h2><br><p>Intyget är ej längre tillgängligt eftersom du har öppnat ett annat intyg.</p>',
+
             // common intyg view messages
             'common.label.ovanstaende-har-bekraftats': 'Ovanstående uppgifter och bedömningar bekräftas',
             'common.label.kontakt-info': 'Namn och kontaktuppgifter till vårdenheten',
