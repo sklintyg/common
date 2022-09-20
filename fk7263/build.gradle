@@ -6,7 +6,6 @@ dependencies {
     compile project(":common-schemas")
 
     compile "com.itextpdf:itextpdf:${itextVersion}"
-    //compile "com.helger:ph-schematron:${phSchematronVersion}"
     compile group: 'com.helger', name: 'ph-schematron', version: "${phSchematronVersion}",
             {
                 exclude group: "com.helger", module: "ph-jaxb-pom"
