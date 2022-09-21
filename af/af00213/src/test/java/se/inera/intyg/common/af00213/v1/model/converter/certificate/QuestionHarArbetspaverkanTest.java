@@ -25,9 +25,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_11;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_CATEGORY_ID;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_DELSVAR_ID_41;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_SVAR_JSON_ID_41;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,7 +55,7 @@ import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionHarFunktionsnedsattningTest {
+class QuestionHarArbetspaverkanTest {
 
     @Mock
     private CertificateTextProvider texts;
@@ -68,7 +68,6 @@ class QuestionHarFunktionsnedsattningTest {
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class ToInternal {
-
         private Af00213UtlatandeV1 internalCertificate;
 
         @BeforeEach
@@ -78,6 +77,7 @@ class QuestionHarFunktionsnedsattningTest {
                 .setId("id")
                 .setTextVersion("TextVersion")
                 .build();
+
         }
 
         Stream<Boolean> booleanValues() {
@@ -86,16 +86,16 @@ class QuestionHarFunktionsnedsattningTest {
 
         @ParameterizedTest
         @MethodSource("booleanValues")
-        void shouldIncludeHarFunktionsnedsattningValue(Boolean expectedValue) {
+        void shouldIncludeHarArbetetspaverkanValue(Boolean expectedValue) {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create()
-                .addElement(QuestionHarFunktionsnedsattning.toCertificate(expectedValue, index, texts))
+                .addElement(QuestionHarArbetspaverkan.toCertificate(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate);
 
-            assertEquals(expectedValue, updatedCertificate.getHarFunktionsnedsattning());
+            assertEquals(expectedValue, updatedCertificate.getHarArbetetsPaverkan());
         }
     }
 
@@ -117,7 +117,7 @@ class QuestionHarFunktionsnedsattningTest {
         }
 
         @Nested
-        class QuestionHarFunktionsnedsattning {
+        class QuestionHarArbetspaverkan {
 
             private Af00213UtlatandeV1 internalCertificate;
 
@@ -127,25 +127,25 @@ class QuestionHarFunktionsnedsattningTest {
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
-                    .setHarFunktionsnedsattning(true)
+                    .setHarArbetetsPaverkan(true)
                     .build();
             }
 
             @Test
             void shouldIncludeQuestionElement() {
-                final var expectedIndex = 1;
+                final var expectedIndex = 10;
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_11);
+                final var question = certificate.getData().get(ARBETETS_PAVERKAN_DELSVAR_ID_41);
 
-                assertAll("Validating question HarFunktionsnedsättning",
-                    () -> assertEquals(FUNKTIONSNEDSATTNING_DELSVAR_ID_11, question.getId()),
+                assertAll("Validating question HarUtredning/Behandling",
+                    () -> assertEquals(ARBETETS_PAVERKAN_DELSVAR_ID_41, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(FUNKTIONSNEDSATTNING_CATEGORY_ID, question.getParent()),
-                    () -> assertNotNull(question.getValue()),
-                    () -> assertNotNull(question.getValidation()),
-                    () -> assertNotNull(question.getConfig())
+                    () -> assertEquals(ARBETETS_PAVERKAN_CATEGORY_ID, question.getParent()),
+                    () -> assertNotNull(question.getValue(), "Should include a value"),
+                    () -> assertNotNull(question.getValidation(), "Should include validation"),
+                    () -> assertNotNull(question.getConfig(), "Should include config")
                 );
             }
 
@@ -153,7 +153,7 @@ class QuestionHarFunktionsnedsattningTest {
             void shouldIncludeQuestionConfig() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_11);
+                final var question = certificate.getData().get(ARBETETS_PAVERKAN_DELSVAR_ID_41);
 
                 assertEquals(CertificateDataConfigTypes.UE_RADIO_BOOLEAN, question.getConfig().getType());
 
@@ -161,7 +161,7 @@ class QuestionHarFunktionsnedsattningTest {
                 assertAll("Validating question configuration",
                     () -> assertTrue(certificateDataConfigBoolean.getText().trim().length() > 0, "Missing text"),
                     () -> assertTrue(certificateDataConfigBoolean.getDescription().trim().length() > 0, "Missing description"),
-                    () -> assertEquals(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11, certificateDataConfigBoolean.getId()),
+                    () -> assertEquals(ARBETETS_PAVERKAN_SVAR_JSON_ID_41, certificateDataConfigBoolean.getId()),
                     () -> assertTrue(certificateDataConfigBoolean.getSelectedText().trim().length() > 0, "Missing selected text"),
                     () -> assertTrue(certificateDataConfigBoolean.getUnselectedText().trim().length() > 0, "Missing unselected text")
                 );
@@ -171,12 +171,12 @@ class QuestionHarFunktionsnedsattningTest {
             void shouldIncludeQuestionValueTrue() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_11);
+                final var question = certificate.getData().get(ARBETETS_PAVERKAN_DELSVAR_ID_41);
 
                 final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11, certificateDataValueBoolean.getId()),
-                    () -> assertEquals(internalCertificate.getHarFunktionsnedsattning(), certificateDataValueBoolean.getSelected())
+                    () -> assertEquals(ARBETETS_PAVERKAN_SVAR_JSON_ID_41, certificateDataValueBoolean.getId()),
+                    () -> assertEquals(internalCertificate.getHarArbetetsPaverkan(), certificateDataValueBoolean.getSelected())
                 );
             }
 
@@ -186,17 +186,17 @@ class QuestionHarFunktionsnedsattningTest {
                     .setGrundData(grundData)
                     .setId("id")
                     .setTextVersion("TextVersion")
-                    .setHarFunktionsnedsattning(false)
+                    .setHarArbetetsPaverkan(false)
                     .build();
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_11);
+                final var question = certificate.getData().get(ARBETETS_PAVERKAN_DELSVAR_ID_41);
 
                 final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11, certificateDataValueBoolean.getId()),
-                    () -> assertEquals(internalCertificate.getHarFunktionsnedsattning(), certificateDataValueBoolean.getSelected())
+                    () -> assertEquals(ARBETETS_PAVERKAN_SVAR_JSON_ID_41, certificateDataValueBoolean.getId()),
+                    () -> assertEquals(internalCertificate.getHarArbetetsPaverkan(), certificateDataValueBoolean.getSelected())
                 );
             }
 
@@ -210,11 +210,11 @@ class QuestionHarFunktionsnedsattningTest {
 
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_11);
+                final var question = certificate.getData().get(ARBETETS_PAVERKAN_DELSVAR_ID_41);
 
                 final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
                 assertAll("Validating question value",
-                    () -> assertEquals(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11, certificateDataValueBoolean.getId()),
+                    () -> assertEquals(ARBETETS_PAVERKAN_SVAR_JSON_ID_41, certificateDataValueBoolean.getId()),
                     () -> assertNull(certificateDataValueBoolean.getSelected())
                 );
             }
@@ -223,17 +223,14 @@ class QuestionHarFunktionsnedsattningTest {
             void shouldIncludeQuestionValidationMandatory() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-                final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_11);
-
-                assertEquals(1, question.getValidation().length);
+                final var question = certificate.getData().get(ARBETETS_PAVERKAN_DELSVAR_ID_41);
 
                 final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
                 assertAll("Validation question validation",
-                    () -> assertEquals(FUNKTIONSNEDSATTNING_DELSVAR_ID_11, certificateDataValidationMandatory.getQuestionId()),
-                    () -> assertEquals("$" + FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11, certificateDataValidationMandatory.getExpression())
+                    () -> assertEquals(ARBETETS_PAVERKAN_DELSVAR_ID_41, certificateDataValidationMandatory.getQuestionId()),
+                    () -> assertEquals("$" + ARBETETS_PAVERKAN_SVAR_JSON_ID_41, certificateDataValidationMandatory.getExpression())
                 );
             }
         }
-
     }
 }
