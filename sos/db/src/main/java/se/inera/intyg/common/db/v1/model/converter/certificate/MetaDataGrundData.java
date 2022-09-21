@@ -17,26 +17,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.af00213.v1.model.converter.certificate;
+package se.inera.intyg.common.db.v1.model.converter.certificate;
 
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.DESCRIPTION;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.grundData;
+import static se.inera.intyg.common.db.support.DbModuleEntryPoint.DETAILED_DESCRIPTION_TEXT_KEY;
+import static se.inera.intyg.common.db.support.DbModuleEntryPoint.MODULE_DESCRIPTION;
 
-import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
+import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.util.MetaDataToolkit;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
 
 public class MetaDataGrundData {
 
-    public static CertificateMetadata toCertificate(Af00213UtlatandeV1 internalCertificate, CertificateTextProvider texts) {
+    public static CertificateMetadata toCertificate(DbUtlatandeV1 internalCertificate, CertificateTextProvider texts) {
         return CertificateMetadata.builder()
             .id(internalCertificate.getId())
             .type(internalCertificate.getTyp())
             .typeVersion(internalCertificate.getTextVersion())
-            .name("Arbetsförmedlingens medicinska utlåtande")
-            .description(texts.get(DESCRIPTION))
+            .name(MODULE_DESCRIPTION)
+            .description(texts.get(DETAILED_DESCRIPTION_TEXT_KEY))
             .unit(
                 MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getSkapadAv().getVardenhet())
             )
@@ -44,9 +43,5 @@ public class MetaDataGrundData {
                 MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getSkapadAv())
             )
             .build();
-    }
-
-    public static GrundData toInternal(CertificateMetadata metadata, GrundData grundData) {
-        return grundData(metadata, grundData);
     }
 }
