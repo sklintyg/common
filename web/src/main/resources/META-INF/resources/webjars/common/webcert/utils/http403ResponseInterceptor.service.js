@@ -68,8 +68,8 @@ angular.module('common').provider('common.http403ResponseInterceptor',
                         // if we aren't allowed to navigate we are most likely djupintegrerade.
                         //TODO: use sessionType or something better than NAVIGERING to determine
                         //which redirectUrl to use.
-                        if (response.data && response.data.message && response.data.message === 'Invalid launchId') {
-                            redirectUrl += 'another-session-active';
+                        if (response.data && response.data.INVALID_LAUNCHID) {
+                            redirectUrl += 'invalid-launchid';
                         }
                         else if (!authorityService.isAuthorityActive({authority: 'NAVIGERING'})) {
                             redirectUrl += 'timeout_integration';

@@ -881,7 +881,7 @@
             'doi.warn.previousdraft.title': 'Utkast på dödsorsaksintyg finns',
   
             // launchId
-            'error.launchId.text': '<h2>Intyget är ej längre tillgängligt.</h2><br><p>Intyget är ej längre tillgängligt eftersom du har öppnat ett annat intyg.</p>'
+            'error.launchId.text': '<h2>Intyget kan inte visas</h2><br><p>Detta intyg kan inte visas eftersom du har öppnat ett annat intyg.</p>'
 
         },
         'en': {
