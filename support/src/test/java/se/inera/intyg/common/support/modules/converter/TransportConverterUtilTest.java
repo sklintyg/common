@@ -29,7 +29,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.dom.DOMResult;
 import org.junit.Test;
 import org.w3c.dom.Node;
@@ -59,13 +58,13 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare;
 
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
-import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
 public class TransportConverterUtilTest {
 
@@ -114,7 +113,7 @@ public class TransportConverterUtilTest {
         status.getStatus().setCode(StatusKod.SENTTO.name());
         status.setTidpunkt(statustidpunkt);
 
-        Intyg intyg = buildIntyg(intygId, intygstyp, skapadAvFullstandigtNamn, enhetsnamn, signeringstidpunkt, Arrays.asList(status));
+        Intyg intyg = buildIntyg(intygId, intygstyp, skapadAvFullstandigtNamn, enhetsnamn, signeringstidpunkt, List.of(status));
 
 
         CertificateMetaData res = TransportConverterUtil.getMetaData(intyg, additionalInfo);
@@ -214,7 +213,10 @@ public class TransportConverterUtilTest {
         expected.setDisplayName("displayName");
         expected.setOriginalText("originalText");
         CVType actual = TransportConverterUtil.getCVSvarContent(buildDelsvar(toNode(expected)));
-        assertReflectionEquals(expected, actual);
+        assertThat(actual)
+            .usingRecursiveComparison()
+            .withStrictTypeChecking()
+            .isEqualTo(expected);
     }
 
     @Test(expected = ConverterException.class)
@@ -230,7 +232,10 @@ public class TransportConverterUtilTest {
         expected.setUnit("cm");
         expected.setValue(100);
         PQType actual = TransportConverterUtil.getPQSvarContent(buildDelsvar(toNode(expected)));
-        assertReflectionEquals(expected, actual);
+        assertThat(actual)
+            .usingRecursiveComparison()
+            .withStrictTypeChecking()
+            .isEqualTo(expected);
     }
 
     @Test
@@ -239,7 +244,10 @@ public class TransportConverterUtilTest {
         expected.setStart(LocalDate.now());
         expected.setEnd(LocalDate.now().plusDays(2));
         DatePeriodType actual = TransportConverterUtil.getDatePeriodTypeContent(buildDelsvar(toNode(expected)));
-        assertReflectionEquals(expected, actual);
+        assertThat(actual)
+            .usingRecursiveComparison()
+            .withStrictTypeChecking()
+            .isEqualTo(expected);
     }
 
     @Test
@@ -248,7 +256,10 @@ public class TransportConverterUtilTest {
         expected.setValue(Year.parse("2019"));
         expected.setFormat(PartialDateTypeFormatEnum.YYYY);
         PartialDateType actual = TransportConverterUtil.getPartialDateContent(buildDelsvar(toNode(expected)));
-        assertReflectionEquals(expected, actual);
+        assertThat(actual)
+            .usingRecursiveComparison()
+            .withStrictTypeChecking()
+            .isEqualTo(expected);
     }
 
     @Test
@@ -257,7 +268,10 @@ public class TransportConverterUtilTest {
         expected.setValue(YearMonth.parse("2019-01"));
         expected.setFormat(PartialDateTypeFormatEnum.YYYY_MM);
         PartialDateType actual = TransportConverterUtil.getPartialDateContent(buildDelsvar(toNode(expected)));
-        assertReflectionEquals(expected, actual);
+        assertThat(actual)
+            .usingRecursiveComparison()
+            .withStrictTypeChecking()
+            .isEqualTo(expected);
     }
 
     @Test
@@ -266,7 +280,10 @@ public class TransportConverterUtilTest {
         expected.setValue(LocalDate.parse("2019-02-02", DateTimeFormatter.ISO_LOCAL_DATE));
         expected.setFormat(PartialDateTypeFormatEnum.YYYY_MM_DD);
         PartialDateType actual = TransportConverterUtil.getPartialDateContent(buildDelsvar(toNode(expected)));
-        assertReflectionEquals(expected, actual);
+        assertThat(actual)
+            .usingRecursiveComparison()
+            .withStrictTypeChecking()
+            .isEqualTo(expected);
     }
 
     @Test(expected = ConverterException.class)
@@ -290,7 +307,7 @@ public class TransportConverterUtilTest {
 
 
     @Test
-    public void testGetStringContentWithWhitespaceSuccess() throws ParserConfigurationException {
+    public void testGetStringContentWithWhitespaceSuccess() {
         String expected = "String with freetext";
         Delsvar delsvar = buildDelsvar(Arrays.asList("\n", "    ", expected, "\n", "    "));
         String actual = TransportConverterUtil.getStringContent(delsvar);
@@ -338,7 +355,7 @@ public class TransportConverterUtilTest {
     }
 
     @Test
-    public void shouldThrowConverterExceptionWithUnexpectedOutComeMessage() throws Exception {
+    public void shouldThrowConverterExceptionWithUnexpectedOutComeMessage() {
         Delsvar delsvar = new Delsvar();
         delsvar.getContent().add(1);
         Exception exception =
@@ -347,7 +364,7 @@ public class TransportConverterUtilTest {
     }
 
     @Test
-    public void shouldThrowConverterExceptionWithUnexpectedOutComeMessage2() throws Exception {
+    public void shouldThrowConverterExceptionWithUnexpectedOutComeMessage2() {
         Delsvar delsvar = new Delsvar();
         delsvar.getContent().add(null);
         Exception exception =
@@ -411,7 +428,7 @@ public class TransportConverterUtilTest {
     }
 
     private Delsvar buildDelsvar(Object content) {
-        return buildDelsvar(Arrays.asList(content));
+        return buildDelsvar(List.of(content));
     }
 
     private CVType buildCVType(String code, String codeSystem, String codeSystemName, String codeSystemVersion, String displayName,

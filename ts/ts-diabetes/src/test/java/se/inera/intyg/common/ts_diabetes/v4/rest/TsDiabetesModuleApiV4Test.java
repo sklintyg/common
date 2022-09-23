@@ -19,6 +19,7 @@
 package se.inera.intyg.common.ts_diabetes.v4.rest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
@@ -39,7 +40,7 @@ import javax.xml.bind.JAXB;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFactory;
 import javax.xml.ws.soap.SOAPFaultException;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -96,7 +97,6 @@ public class TsDiabetesModuleApiV4Test {
     public static final String TESTFILE_UTLATANDE = "v4/internal/scenarios/pass-minimal.json";
 
     private final String LOGICAL_ADDRESS = "logical address";
-    private final String PNR_TOLVAN = "19121212-1212";
 
     @Mock
     private RegisterCertificateResponderInterface registerCertificateResponderInterface;
@@ -123,7 +123,7 @@ public class TsDiabetesModuleApiV4Test {
     private TsDiabetesModuleApiV4 moduleApi;
 
     public TsDiabetesModuleApiV4Test() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -238,7 +238,7 @@ public class TsDiabetesModuleApiV4Test {
         verify(getCertificateResponder, times(1)).getCertificate(eq(logicalAddress), captor.capture());
         assertEquals(certificateId, captor.getValue().getIntygsId().getExtension());
         assertEquals(internalModel, certificate.getInternalModel());
-        assertEquals(false, certificate.isRevoked());
+        assertFalse(certificate.isRevoked());
     }
 
     @Test(expected = ModuleException.class)
@@ -475,6 +475,7 @@ public class TsDiabetesModuleApiV4Test {
     }
 
     private Patient createPatient() {
+        String PNR_TOLVAN = "19121212-1212";
         return createPatient("fornamn", "efternamn", PNR_TOLVAN);
     }
 
@@ -491,7 +492,7 @@ public class TsDiabetesModuleApiV4Test {
     }
 
     private Personnummer createPnr(String civicRegistrationNumber) {
-        return Personnummer.createPersonnummer(civicRegistrationNumber).get();
+        return Personnummer.createPersonnummer(civicRegistrationNumber).orElseThrow();
     }
 
     private RegisterCertificateResponseType createReturnVal(ResultCodeType res) {

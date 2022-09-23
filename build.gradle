@@ -19,6 +19,7 @@ ext {
     commonsTextVersion = "1.9"
     commonsCsvVersion = "1.9.0"
     commonsIoVersion = "2.11.0"
+    equalsVerifierVersion = "3.10.1"
     guavaVersion = "31.1-jre"
     itextVersion = "5.5.13.3"
     itext7Version = "7.2.3"
@@ -26,9 +27,6 @@ ext {
     jakartaJwsApiVersion = "3.0.0"
     phSchematronVersion = "5.6.5"
     saxonVersion = "11.4"
-
-    unitilsCoreVersion = "3.4.6"
-    equalsVerifierVersion = "3.10.1"
 
     nodeJsVersion = "12.22.12"
     npmVersion = "6.14.16"
@@ -92,7 +90,7 @@ allprojects {
         testCompile "org.mockito:mockito-core"
         testCompile "org.skyscreamer:jsonassert"
         testCompile "org.springframework:spring-test"
-        testCompile "org.unitils:unitils-core:${unitilsCoreVersion}"
+        testCompile "org.assertj:assertj-core"
         testCompile "org.xmlunit:xmlunit-core"
         testCompile "nl.jqno.equalsverifier:equalsverifier:${equalsVerifierVersion}"
 
