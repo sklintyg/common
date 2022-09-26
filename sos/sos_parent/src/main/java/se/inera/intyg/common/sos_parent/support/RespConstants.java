@@ -32,6 +32,8 @@ public final class RespConstants {
     public static final String ANTRAFFAD_DOD_QUESTION_TEXT_ID = "DFR_2.3.RBK";
     public static final String DODSPLATS_QUESTION_TEXT_ID = "DFR_3.RBK";
     public static final String DODSPLATS_KOMMUN_LABEL_TEXT_ID = "DFR_3.1.RBK";
+    public static final String DODSPLATS_BOENDE_QUESTION_TEXT_ID = "DFR_3.2.RBK";
+    public static final String DODSPLATS_BOENDE_QUESTION_DESCRIPTION_ID = "DFR_3.2.HLP";
 
     public static final String IDENTITET_STYRKT_JSON_ID = "identitetStyrkt";
     public static final String DODSDATUM_JSON_ID = "dodsdatum";
