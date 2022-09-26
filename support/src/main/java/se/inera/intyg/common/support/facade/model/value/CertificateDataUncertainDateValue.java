@@ -16,9 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.support.facade.model.config;
+package se.inera.intyg.common.support.facade.model.value;
 
-public enum CertificateDataConfigTypes {
-    CATEGORY, UE_RADIO_BOOLEAN, UE_CHECKBOX_BOOLEAN, UE_CHECKBOX_MULTIPLE_DATE, UE_CHECKBOX_MULTIPLE_CODE, UE_RADIO_MULTIPLE_CODE,
-    UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, UE_DIAGNOSES, UE_SICK_LEAVE_PERIOD, UE_TEXTAREA, UE_DROPDOWN, UE_ICF, UE_DATE, UE_UNCERTAIN_DATE;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Value;
+
+@JsonDeserialize(builder = CertificateDataUncertainDateValue.CertificateDataUncertainDateValueBuilder.class)
+@Value
+@Builder
+public class CertificateDataUncertainDateValue implements CertificateDataValue {
+
+    @Getter(onMethod = @__(@Override))
+    CertificateDataValueType type = CertificateDataValueType.UNCERTAIN_DATE;
+    String id;
+    String value;
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class CertificateDataUncertainDateValueBuilder {
+
+    }
 }

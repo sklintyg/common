@@ -73,4 +73,8 @@ public final class ValidationExpressionToolkit {
     public static String appendAttribute(String s, String attribute) {
         return s + '.' + attribute;
     }
+
+    public static String equalsWith(String s, String value) {
+        return s + "===" + value;
+    }
 }

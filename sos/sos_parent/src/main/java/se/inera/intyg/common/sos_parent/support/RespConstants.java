@@ -84,6 +84,7 @@ public final class RespConstants {
     public static final String IDENTITET_STYRKT_DELSVAR_ID = "1.1";
     public static final String DODSDATUM_SAKERT_DELSVAR_ID = "2.1";
     public static final String DODSDATUM_DELSVAR_ID = "2.2";
+    public static final String DODSDATUM_OSAKERT_DELSVAR_ID = "2.2.1";
     public static final String ANTRAFFAT_DOD_DATUM_DELSVAR_ID = "2.3";
     public static final String DODSPLATS_KOMMUN_DELSVAR_ID = "3.1";
     public static final String DODSPLATS_BOENDE_DELSVAR_ID = "3.2";
