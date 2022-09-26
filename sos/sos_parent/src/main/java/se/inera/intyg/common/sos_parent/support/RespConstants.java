@@ -70,6 +70,8 @@ public final class RespConstants {
     public static final String KOMPLETTERANDE_PATIENTUPPGIFTER_TEXT_ID = "KAT_1.RBK";
     public static final String DODSDATUM_DODSPLATS_CATEGORY_ID = "dodsdatumDodsplats";
     public static final String DODSDATUM_DODSPLATS_TEXT_ID = "KAT_2.RBK";
+    public static final String BARN_CATEGORY_ID = "barn";
+    public static final String BARN_CATEGORY_TEXT_ID = "KAT_3.RBK";
 
     public static final String IDENTITET_STYRKT_SVAR_ID = "1";
     public static final String DODSDATUM_SVAR_ID = "2";
