@@ -19,7 +19,10 @@
 
 package se.inera.intyg.common.db.v1.model.converter;
 
+import se.inera.intyg.common.db.v1.model.converter.certificate.CategoryDodsdatumDodsplats;
+import se.inera.intyg.common.db.v1.model.converter.certificate.CategoryKompletterandePatientuppgifter;
 import se.inera.intyg.common.db.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionIdentitetenStyrkt;
 import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
@@ -37,6 +40,15 @@ public class InternalToCertificate {
         return CertificateBuilder.create()
             .metadata(
                 MetaDataGrundData.toCertificate(internalCertificate, texts)
+            )
+            .addElement(
+                CategoryKompletterandePatientuppgifter.toCertificate(index, texts)
+            )
+            .addElement(
+                QuestionIdentitetenStyrkt.toCertificate(internalCertificate.getIdentitetStyrkt(), index, texts)
+            )
+            .addElement(
+                CategoryDodsdatumDodsplats.toCertificate(index, texts)
             )
             .build();
     }

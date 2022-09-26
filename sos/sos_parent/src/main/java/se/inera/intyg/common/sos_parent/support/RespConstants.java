@@ -25,6 +25,11 @@ public final class RespConstants {
     public static final String TEXTVERSION_JSON_ID = "textVersion";
     public static final String SIGNATURE = "signature";
 
+    public static final String IDENTITET_STYRKT_QUESTION_TEXT_ID = "DFR_1.1.RBK";
+    public static final String DODSDATUM_SAKERT_QUESTION_TEXT_ID = "DFR_2.1.RBK";
+    public static final String DODSDATUM_SAKERT_QUESTION_DESCRIPTION_ID = "DFR_2.1.HLP";
+    public static final String DODSDATUM_QUESTION_TEXT_ID = "DFR_2.2.RBK";
+
     public static final String IDENTITET_STYRKT_JSON_ID = "identitetStyrkt";
     public static final String DODSDATUM_JSON_ID = "dodsdatum";
     public static final String DODSDATUM_SAKERT_JSON_ID = "dodsdatumSakert";
@@ -55,6 +60,11 @@ public final class RespConstants {
     public static final String FORGIFTNING_UPPKOMMELSE_JSON_ID = "forgiftningUppkommelse";
     public static final String GRUNDER_JSON_ID = "grunder";
     public static final String LAND_JSON_ID = "land";
+
+    public static final String KOMPLETTERANDE_PATIENTUPPGIFTER_CATEGORY_ID = "kompletterandePatientuppgifter";
+    public static final String KOMPLETTERANDE_PATIENTUPPGIFTER_TEXT_ID = "KAT_1.RBK";
+    public static final String DODSDATUM_DODSPLATS_CATEGORY_ID = "dodsdatumDodsplats";
+    public static final String DODSDATUM_DODSPLATS_TEXT_ID = "KAT_2.RBK";
 
     public static final String IDENTITET_STYRKT_SVAR_ID = "1";
     public static final String DODSDATUM_SVAR_ID = "2";

@@ -17,57 +17,43 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.db.v1.model.converter;
+package se.inera.intyg.common.db.v1.model.converter.certificate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.KOMPLETTERANDE_PATIENTUPPGIFTER_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 
-class InternalToCertificateTest {
-
-    private GrundData grundData;
+class CategoryKompletterandePatientuppgifterTest {
     private CertificateTextProvider texts;
-    private DbUtlatandeV1 internalCertificate;
 
     @BeforeEach
     void setup() {
-        final var unit = new Vardenhet();
-
-        final var skapadAv = new HoSPersonal();
-        skapadAv.setVardenhet(unit);
-
-        grundData = new GrundData();
-        grundData.setSkapadAv(skapadAv);
-
-        internalCertificate = DbUtlatandeV1.builder()
-            .setGrundData(grundData)
-            .setId("id")
-            .setTextVersion("TextVersion")
-            .build();
-
         texts = Mockito.mock(CertificateTextProvider.class);
         when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
     }
 
     @Test
-    void shallIncludeMetaData() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
-        assertNotNull(actualCertificate.getMetadata(), "Metadata is missing!");
+    void shouldIncludeId() {
+        final var category = CategoryKompletterandePatientuppgifter.toCertificate(0, texts);
+        assertEquals(KOMPLETTERANDE_PATIENTUPPGIFTER_CATEGORY_ID, category.getId());
     }
 
     @Test
-    void shallIncludeCategoryKompletterandePatientuppgifterInCorrectPosition() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
-        assertEquals(0, actualCertificate.getData().get(KOMPLETTERANDE_PATIENTUPPGIFTER_CATEGORY_ID).getIndex());
+    void shouldIncludeIndex() {
+        final var expectedIndex = 3;
+        final var category = CategoryKompletterandePatientuppgifter.toCertificate(expectedIndex, texts);
+        assertEquals(expectedIndex, category.getIndex());
+    }
+
+    @Test
+    void shouldIncludeCategoryConfig() {
+        final var category = CategoryKompletterandePatientuppgifter.toCertificate(0, texts);
+        assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
     }
 }

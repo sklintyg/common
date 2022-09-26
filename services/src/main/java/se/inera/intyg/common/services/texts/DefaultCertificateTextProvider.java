@@ -33,7 +33,8 @@ public final class DefaultCertificateTextProvider implements CertificateTextProv
     }
 
     @Override
-    public String get(String key) {
+    public String
+    get(String key) {
         final var value = intygTexts.getTexter().get(key);
         if (value == null) {
             return getQuestionHeader(key);

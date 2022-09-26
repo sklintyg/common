@@ -17,23 +17,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.af00213.v1.model.converter.certificate;
+package se.inera.intyg.common.db.v1.model.converter.certificate;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_11;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DODSPLATS_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 
-class CategoryAktivitetsbegransningTest {
+class CategoryDodsdatumDodsplatsTest {
 
     private CertificateTextProvider texts;
 
@@ -45,30 +41,20 @@ class CategoryAktivitetsbegransningTest {
 
     @Test
     void shouldIncludeId() {
-        final var category = CategoryAktivitetsbegransning.toCertificate(0, texts);
-        assertEquals(AKTIVITETSBEGRANSNING_CATEGORY_ID, category.getId());
+        final var category = CategoryDodsdatumDodsplats.toCertificate(0, texts);
+        assertEquals(DODSDATUM_DODSPLATS_CATEGORY_ID, category.getId());
     }
 
     @Test
     void shouldIncludeIndex() {
         final var expectedIndex = 3;
-        final var category = CategoryAktivitetsbegransning.toCertificate(expectedIndex, texts);
+        final var category = CategoryDodsdatumDodsplats.toCertificate(expectedIndex, texts);
         assertEquals(expectedIndex, category.getIndex());
     }
 
     @Test
     void shouldIncludeCategoryConfig() {
-        final var category = CategoryAktivitetsbegransning.toCertificate(0, texts);
+        final var category = CategoryDodsdatumDodsplats.toCertificate(0, texts);
         assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
-    }
-
-    @Test
-    void shouldIncludeCategoryValidationShow() {
-        final var category = CategoryAktivitetsbegransning.toCertificate(0, texts);
-        final var certificateDataValidationShow = (CertificateDataValidationShow) category.getValidation()[0];
-        assertAll("Validation question validation",
-            () -> assertEquals(FUNKTIONSNEDSATTNING_DELSVAR_ID_11, certificateDataValidationShow.getQuestionId()),
-            () -> assertEquals("$" + FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11, certificateDataValidationShow.getExpression())
-        );
     }
 }
