@@ -72,7 +72,6 @@ angular.module('common').directive('wcUtkastHeader',
             function discardModal() {
               if(UserModel.user.origin === 'DJUPINTEGRATION' &&
                   $scope.utkastViewState.draftModel.content.name ==='dbModel' &&
-                  authorityService.isAuthorityActive({authority: 'SIGNERA_INTYG'}) &&
                   ResourceLinkService.isLinkTypeExists($scope.utkastViewState.draftModel.links, 'REDIGERA_UTKAST')) {
                 var patient = $scope.utkastViewState.intygModel.grundData.patient;
                 var namn = patient.fornamn;

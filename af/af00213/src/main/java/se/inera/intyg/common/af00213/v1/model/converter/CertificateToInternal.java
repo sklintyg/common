@@ -18,32 +18,18 @@
  */
 package se.inera.intyg.common.af00213.v1.model.converter;
 
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_21;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_22;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_DELSVAR_ID_41;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_DELSVAR_ID_42;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_SVAR_JSON_ID_41;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_SVAR_JSON_ID_42;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_11;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_12;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.OVRIGT_DELSVAR_ID_5;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_5;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_DELSVAR_ID_31;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_DELSVAR_ID_32;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_31;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_32;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.grundData;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
-
+import se.inera.intyg.common.af00213.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.af00213.v1.model.converter.certificate.QuestionAktivitetsbegransning;
+import se.inera.intyg.common.af00213.v1.model.converter.certificate.QuestionArbetspaverkan;
+import se.inera.intyg.common.af00213.v1.model.converter.certificate.QuestionFunktionsnedsattning;
+import se.inera.intyg.common.af00213.v1.model.converter.certificate.QuestionHarAktivitetsbegransning;
+import se.inera.intyg.common.af00213.v1.model.converter.certificate.QuestionHarArbetspaverkan;
+import se.inera.intyg.common.af00213.v1.model.converter.certificate.QuestionHarFunktionsnedsattning;
+import se.inera.intyg.common.af00213.v1.model.converter.certificate.QuestionHarUtredningBehandling;
+import se.inera.intyg.common.af00213.v1.model.converter.certificate.QuestionOvrigt;
+import se.inera.intyg.common.af00213.v1.model.converter.certificate.QuestionUtredningBehandling;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.support.facade.model.Certificate;
-import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
 
 public final class CertificateToInternal {
 
@@ -52,71 +38,19 @@ public final class CertificateToInternal {
     }
 
     public static Af00213UtlatandeV1 convert(Certificate certificate, Af00213UtlatandeV1 internalCertificate) {
-        final var harFunktionsnedsattning = getHarFunktionsnedsattning(certificate);
-        final var funktionsnedsattning = getFunktionsnedsattning(certificate);
-        final var harAktivitetsbegransning = getHarAktivitetsbegransning(certificate);
-        final var aktivitetsbegransning = getAktivitetsbegransning(certificate);
-        final var harUtredningBehandling = getHarUtredningBehandling(certificate);
-        final var utredningBehandling = getUtredningBehandling(certificate);
-        final var harArbetspaverkan = getHarArbetspaverkan(certificate);
-        final var arbetspaverkan = getArbetspaverkan(certificate);
-        final var ovrigt = getOvrigt(certificate);
-        final var grundData = getGrundData(certificate.getMetadata(), internalCertificate.getGrundData());
-
         return Af00213UtlatandeV1.builder()
             .setId(internalCertificate.getId())
             .setTextVersion(internalCertificate.getTextVersion())
-            .setGrundData(grundData)
-            .setHarFunktionsnedsattning(harFunktionsnedsattning)
-            .setFunktionsnedsattning(funktionsnedsattning)
-            .setHarAktivitetsbegransning(harAktivitetsbegransning)
-            .setAktivitetsbegransning(aktivitetsbegransning)
-            .setHarUtredningBehandling(harUtredningBehandling)
-            .setUtredningBehandling(utredningBehandling)
-            .setHarArbetetsPaverkan(harArbetspaverkan)
-            .setArbetetsPaverkan(arbetspaverkan)
-            .setOvrigt(ovrigt)
+            .setGrundData(MetaDataGrundData.toInternal(certificate.getMetadata(), internalCertificate.getGrundData()))
+            .setHarFunktionsnedsattning(QuestionHarFunktionsnedsattning.toInternal(certificate))
+            .setFunktionsnedsattning(QuestionFunktionsnedsattning.toInternal(certificate))
+            .setHarAktivitetsbegransning(QuestionHarAktivitetsbegransning.toInternal(certificate))
+            .setAktivitetsbegransning(QuestionAktivitetsbegransning.toInternal(certificate))
+            .setHarUtredningBehandling(QuestionHarUtredningBehandling.toInternal(certificate))
+            .setUtredningBehandling(QuestionUtredningBehandling.toInternal(certificate))
+            .setHarArbetetsPaverkan(QuestionHarArbetspaverkan.toInternal(certificate))
+            .setArbetetsPaverkan(QuestionArbetspaverkan.toInternal(certificate))
+            .setOvrigt(QuestionOvrigt.toInternal(certificate))
             .build();
-    }
-
-
-    private static Boolean getHarFunktionsnedsattning(Certificate certificate) {
-        return booleanValue(certificate.getData(), FUNKTIONSNEDSATTNING_DELSVAR_ID_11, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11);
-    }
-
-    private static String getFunktionsnedsattning(Certificate certificate) {
-        return textValue(certificate.getData(), FUNKTIONSNEDSATTNING_DELSVAR_ID_12, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12);
-    }
-
-    private static Boolean getHarAktivitetsbegransning(Certificate certificate) {
-        return booleanValue(certificate.getData(), AKTIVITETSBEGRANSNING_DELSVAR_ID_21, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21);
-    }
-
-    private static String getAktivitetsbegransning(Certificate certificate) {
-        return textValue(certificate.getData(), AKTIVITETSBEGRANSNING_DELSVAR_ID_22, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22);
-    }
-
-    private static Boolean getHarUtredningBehandling(Certificate certificate) {
-        return booleanValue(certificate.getData(), UTREDNING_BEHANDLING_DELSVAR_ID_31, UTREDNING_BEHANDLING_SVAR_JSON_ID_31);
-    }
-
-    private static String getUtredningBehandling(Certificate certificate) {
-        return textValue(certificate.getData(), UTREDNING_BEHANDLING_DELSVAR_ID_32, UTREDNING_BEHANDLING_SVAR_JSON_ID_32);
-    }
-
-    private static Boolean getHarArbetspaverkan(Certificate certificate) {
-        return booleanValue(certificate.getData(), ARBETETS_PAVERKAN_DELSVAR_ID_41, ARBETETS_PAVERKAN_SVAR_JSON_ID_41);
-    }
-
-    private static String getArbetspaverkan(Certificate certificate) {
-        return textValue(certificate.getData(), ARBETETS_PAVERKAN_DELSVAR_ID_42, ARBETETS_PAVERKAN_SVAR_JSON_ID_42);
-    }
-
-    private static String getOvrigt(Certificate certificate) {
-        return textValue(certificate.getData(), OVRIGT_DELSVAR_ID_5, OVRIGT_SVAR_JSON_ID_5);
-    }
-
-    private static GrundData getGrundData(CertificateMetadata metadata, GrundData grundData) {
-        return grundData(metadata, grundData);
     }
 }
