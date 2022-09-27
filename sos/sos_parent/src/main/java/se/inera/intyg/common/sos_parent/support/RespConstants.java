@@ -36,6 +36,7 @@ public final class RespConstants {
     public static final String DODSPLATS_BOENDE_QUESTION_DESCRIPTION_ID = "DFR_3.2.HLP";
     public static final String BARN_QUESTION_TEXT_ID = "DFR_4.1.RBK";
     public static final String EXPLOSIVT_IMPLANTAT_QUESTION_TEXT_ID = "DFR_5.1.RBK";
+    public static final String EXPLOSIVT_AVLAGSNAT_QUESTION_TEXT_ID = "DFR_5.2.RBK";
 
     public static final String IDENTITET_STYRKT_JSON_ID = "identitetStyrkt";
     public static final String DODSDATUM_JSON_ID = "dodsdatum";
