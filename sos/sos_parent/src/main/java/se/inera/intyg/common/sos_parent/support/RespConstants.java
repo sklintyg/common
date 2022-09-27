@@ -78,6 +78,8 @@ public final class RespConstants {
     public static final String EXPLOSIVT_IMPLANTAT_CATEGORY_ID = "explosivtImplantat";
     public static final String EXPLOSIVT_IMPLANTAT_CATEGORY_TEXT_ID = "KAT_4.RBK";
     public static final String EXPLOSIVT_IMPLANTAT_CATEGORY_DESCRIPTION_ID = "KAT_4.HLP";
+    public static final String UNDERSOKNING_YTTRE_CATEGORY_ID = "undersokningYttre";
+    public static final String UNDERSOKNING_YTTRE_CATEGORY_TEXT_ID = "KAT_5.RBK";
 
     public static final String IDENTITET_STYRKT_SVAR_ID = "1";
     public static final String DODSDATUM_SVAR_ID = "2";
