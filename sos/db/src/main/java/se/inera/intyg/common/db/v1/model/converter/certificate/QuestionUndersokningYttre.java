@@ -19,10 +19,9 @@
 
 package se.inera.intyg.common.db.v1.model.converter.certificate;
 
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_BOENDE_QUESTION_DESCRIPTION_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_DELSVAR_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
@@ -45,8 +44,7 @@ public class QuestionUndersokningYttre {
             .index(index)
             .config(
                 CertificateDataConfigRadioMultipleCode.builder()
-                    .text(texts.get(UNDERSOKNING_YTTRE_JSON_ID))
-                    .description(texts.get(DODSPLATS_BOENDE_QUESTION_DESCRIPTION_ID))
+                    .text(texts.get(UNDERSOKNING_YTTRE_QUESTION_TEXT_ID))
                     .list(
                         Arrays.asList(
                             RadioMultipleCode.builder()
