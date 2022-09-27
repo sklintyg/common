@@ -65,9 +65,6 @@ angular.module('common').provider('common.http403ResponseInterceptor',
                         }
                         redirectUrl += '?reason=';
 
-                        // if we aren't allowed to navigate we are most likely djupintegrerade.
-                        //TODO: use sessionType or something better than NAVIGERING to determine
-                        //which redirectUrl to use.
                         if (response.data && response.data.errorCode && response.data.errorCode === 'INVALID_LAUNCHID') {
                             redirectUrl += 'invalid-launchid';
                         }
