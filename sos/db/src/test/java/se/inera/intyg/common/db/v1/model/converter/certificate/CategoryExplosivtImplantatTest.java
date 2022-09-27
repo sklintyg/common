@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 
-class CategoryExplosivtInplantatTest {
+class CategoryExplosivtImplantatTest {
 
     private CertificateTextProvider texts;
 
@@ -41,26 +41,26 @@ class CategoryExplosivtInplantatTest {
 
     @Test
     void shouldIncludeId() {
-        final var category = CategoryExplosivtInplantat.toCertificate(0, texts);
+        final var category = CategoryExplosivtImplantat.toCertificate(0, texts);
         assertEquals(EXPLOSIVT_IMPLANTAT_CATEGORY_ID, category.getId());
     }
 
     @Test
     void shouldIncludeIndex() {
         final var expectedIndex = 3;
-        final var category = CategoryExplosivtInplantat.toCertificate(expectedIndex, texts);
+        final var category = CategoryExplosivtImplantat.toCertificate(expectedIndex, texts);
         assertEquals(expectedIndex, category.getIndex());
     }
 
     @Test
     void shouldIncludeCategoryText() {
-        final var category = CategoryExplosivtInplantat.toCertificate(0, texts);
+        final var category = CategoryExplosivtImplantat.toCertificate(0, texts);
         assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
     }
 
     @Test
     void shouldIncludeCategoryDescription() {
-        final var category = CategoryExplosivtInplantat.toCertificate(0, texts);
+        final var category = CategoryExplosivtImplantat.toCertificate(0, texts);
         assertTrue(category.getConfig().getDescription().trim().length() > 0, "Missing text");
     }
 }
