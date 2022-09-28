@@ -18,11 +18,12 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.model.converter;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.unitils.reflectionassert.ReflectionAssert;
 
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
@@ -50,7 +51,11 @@ public class ScenarioTest {
             TSDiabetesIntyg expected = transportScenario.asTransportModel().getIntyg();
             TSDiabetesIntyg actual = InternalToTransportConverter.convert(internalScenario.asInternalModel()).getIntyg();
 
-            ReflectionAssert.assertLenientEquals(expected, actual);
+            assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringCollectionOrder()
+                .withStrictTypeChecking()
+                .isEqualTo(expected);
         }
     }
 
@@ -62,7 +67,12 @@ public class ScenarioTest {
             TsDiabetesUtlatandeV2 expected = internalScenario.asInternalModel();
             TsDiabetesUtlatandeV2 actual = TransportToInternalConverter.convert(scenario.asTransportModel().getIntyg());
 
-            ReflectionAssert.assertLenientEquals(expected, actual);
+            assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringCollectionOrder()
+                .ignoringExpectedNullFields()
+                .withStrictTypeChecking()
+                .isEqualTo(expected);
         }
     }
 

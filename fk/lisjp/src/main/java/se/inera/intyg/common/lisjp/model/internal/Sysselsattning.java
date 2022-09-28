@@ -58,7 +58,7 @@ public abstract class Sysselsattning {
             return label;
         }
 
-        @JsonCreator
+        @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
         public static SysselsattningsTyp fromId(@JsonProperty("id") String id) {
             String normId = id != null ? id.trim() : null;
             for (SysselsattningsTyp typ : values()) {

@@ -24,13 +24,14 @@ import static se.inera.intyg.common.pdf.renderer.UVRenderer.PAGE_MARGIN_LEFT;
 import static se.inera.intyg.common.pdf.renderer.UVRenderer.WC_COLOR_11;
 import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
+import com.itextpdf.kernel.pdf.xobject.PdfImageXObject;
+import com.itextpdf.kernel.pdf.xobject.PdfXObject;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import com.google.common.base.Strings;
 import com.itextpdf.io.font.otf.Glyph;
 import com.itextpdf.io.font.otf.GlyphLine;
-import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.events.Event;
 import com.itextpdf.kernel.events.IEventHandler;
@@ -43,8 +44,8 @@ import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Canvas;
 import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.property.TextAlignment;
-import com.itextpdf.layout.property.VerticalAlignment;
+import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.properties.VerticalAlignment;
 
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 
@@ -70,15 +71,15 @@ public class IntygHeader implements IEventHandler {
     private static final float THOUSAND = 1000.0f;
     private static final int WIDTH_SCALE_THRESHOLD = 3;
 
-    private PrintConfig printConfig;
-    private ImageData logotypeData;
+    private final PrintConfig printConfig;
+    private final PdfImageXObject logo;
     private final PdfFont kategoriFont;
     private final PdfFont fragaDelFragaFont;
     private final PdfFont svarFont;
 
     public IntygHeader(PrintConfig printConfig, PdfFont kategoriFont, PdfFont fragaDelFragaFont, PdfFont svarFont) {
         this.printConfig = printConfig;
-        this.logotypeData = ImageDataFactory.create(printConfig.getUtfardarLogotyp());
+        this.logo = new PdfImageXObject(ImageDataFactory.create(printConfig.getUtfardarLogotyp()));
         this.kategoriFont = kategoriFont;
         this.fragaDelFragaFont = fragaDelFragaFont;
         this.svarFont = svarFont;
@@ -90,33 +91,24 @@ public class IntygHeader implements IEventHandler {
             return;
         }
 
-        PdfDocumentEvent docEvent = (PdfDocumentEvent) event;
-        PdfDocument pdf = docEvent.getDocument();
-        PdfPage page = docEvent.getPage();
+        final var docEvent = (PdfDocumentEvent) event;
+        final var pdf = docEvent.getDocument();
+        final var  page = docEvent.getPage();
 
-        Rectangle pageSize = page.getPageSize();
-        PdfCanvas pdfCanvas = new PdfCanvas(
-            page.newContentStreamBefore(), page.getResources(), pdf);
-        Canvas canvas = new Canvas(pdfCanvas, pdf, pageSize);
+        final var  pageSize = page.getPageSize();
+        final var  pdfCanvas = new PdfCanvas(page.newContentStreamBefore(), page.getResources(), pdf);
+        final var  canvas = new Canvas(pdfCanvas, pageSize);
 
-        // Logotyp
         renderLogotype(pageSize, pdfCanvas);
-
-        // Utskriftsdatum
         renderUtskriftsDatum(pageSize, canvas);
 
-        // Personnummer, do not add to last page.
         if (isNotSummaryPage(pdf, page)) {
             renderPersonnummer(pageSize, canvas);
         }
 
-        // Intygsnamn
         renderIntygNameAndCode(pageSize, canvas);
-
-        // Streck under
         renderHorizontalLine(pageSize, pdfCanvas);
 
-        // Röda rutan. Do not render on last "info" page.
         if (isNotSummaryPage(pdf, page)) {
             renderRedSquare(page, pageSize, canvas);
         }
@@ -132,21 +124,26 @@ public class IntygHeader implements IEventHandler {
     }
 
     private void renderLogotype(Rectangle pageSize, PdfCanvas pdfCanvas) {
-        // We need to constrain the logotype either by width or by height. Typically width.
-        if (logotypeData.getWidth() > LOGOTYPE_MAX_WIDTH) {
-            float ratio = LOGOTYPE_MAX_WIDTH / logotypeData.getWidth();
-            float widthHeightRatio = logotypeData.getWidth() / logotypeData.getHeight();
-            // Decide on constraint depending on how quadratic the logo image is determined to be
-            if (widthHeightRatio < WIDTH_SCALE_THRESHOLD) {
-                // Height constraint, add bottom padding
-                pdfCanvas.addImage(logotypeData, millimetersToPoints(PAGE_MARGIN_LEFT),
-                    pageSize.getTop() - LOGOTYPE_Y_TOP_OFFSET - LOGOTYPE_MAX_HEIGHT + DEFAULT_PADDING,
-                    LOGOTYPE_MAX_HEIGHT, false, false);
-            } else {
-                // Width constraint
-                pdfCanvas.addImage(logotypeData, millimetersToPoints(PAGE_MARGIN_LEFT),
-                    pageSize.getTop() - LOGOTYPE_Y_TOP_OFFSET - (logotypeData.getHeight() * ratio), LOGOTYPE_MAX_WIDTH, false);
-            }
+        final var logoWidth = logo.getWidth();
+
+        if (logoWidth <= LOGOTYPE_MAX_WIDTH) {
+            return;
+        }
+
+        final var logoHeight = logo.getHeight();
+        final var widthHeightRatio = logoWidth / logoHeight;
+        final var logoX = millimetersToPoints(PAGE_MARGIN_LEFT);
+
+        if (widthHeightRatio < WIDTH_SCALE_THRESHOLD) {
+            final var logoY = pageSize.getTop() - LOGOTYPE_Y_TOP_OFFSET - LOGOTYPE_MAX_HEIGHT + DEFAULT_PADDING;
+            final var rectangle = PdfXObject.calculateProportionallyFitRectangleWithHeight(logo, logoX, logoY, LOGOTYPE_MAX_HEIGHT);
+            pdfCanvas.addXObjectFittedIntoRectangle(logo, rectangle);
+
+        } else {
+            final var ratio = LOGOTYPE_MAX_WIDTH / logoWidth;
+            final var logoY = pageSize.getTop() - LOGOTYPE_Y_TOP_OFFSET - (logoHeight * ratio);
+            final var rectangle = PdfXObject.calculateProportionallyFitRectangleWithWidth(logo, logoX, logoY, LOGOTYPE_MAX_WIDTH);
+            pdfCanvas.addXObjectFittedIntoRectangle(logo, rectangle);
         }
     }
 

@@ -49,7 +49,7 @@ public class TsTrk1062EntryPoint implements ModuleEntryPoint {
     private static final String MINA_INTYG_MODULE_DEPENDENCY_PATH = "/web/webjars/tstrk1062/minaintyg/js/module-deps.json";
 
     // Depending on context, an IntygTextRepository may not be available (e.g Intygstjansten)
-    private Optional<IntygTextsRepository> repo;
+    private final Optional<IntygTextsRepository> repo;
 
     public TsTrk1062EntryPoint() {
         this.repo = Optional.empty();

@@ -24,12 +24,11 @@ import com.itextpdf.kernel.events.PdfDocumentEvent;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.kernel.pdf.xobject.PdfFormXObject;
 import com.itextpdf.layout.Canvas;
 import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.properties.TextAlignment;
 
 import static se.inera.intyg.common.pdf.model.UVComponent.SVAR_FONT_SIZE;
 import static se.inera.intyg.common.pdf.renderer.UVRenderer.PAGE_MARGIN_LEFT;
@@ -45,8 +44,8 @@ public class PageNumberEvent implements IEventHandler {
     private static final float SIDE = 20f;
     private static final float DESCENT = 3;
 
-    private PdfFont svarFont;
-    private PdfFormXObject placeholder;
+    private final PdfFont svarFont;
+    private final PdfFormXObject placeholder;
 
     public PageNumberEvent(PdfFont svarFont) {
         this.svarFont = svarFont;
@@ -58,27 +57,29 @@ public class PageNumberEvent implements IEventHandler {
         if (!(event instanceof PdfDocumentEvent)) {
             return;
         }
-        PdfDocumentEvent docEvent = (PdfDocumentEvent) event;
-        PdfDocument pdf = docEvent.getDocument();
-        PdfPage page = docEvent.getPage();
-        int pageNumber = pdf.getPageNumber(page);
-        Rectangle pageSize = page.getPageSize();
-        PdfCanvas pdfCanvas = new PdfCanvas(
+        final var  docEvent = (PdfDocumentEvent) event;
+        final var  pdf = docEvent.getDocument();
+        final var  page = docEvent.getPage();
+        final var  pageNumber = pdf.getPageNumber(page);
+        final var  pageSize = page.getPageSize();
+        final var  pdfCanvas = new PdfCanvas(
             page.newContentStreamBefore(), page.getResources(), pdf);
-        Canvas canvas = new Canvas(pdfCanvas, pdf, pageSize);
-        Paragraph p = new Paragraph()
-            .add("Sida ").add(String.valueOf(pageNumber) + "(")
-            .setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
-        canvas.showTextAligned(p, pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT + 2), PAGE_NUMBER_Y_OFFSET,
-            TextAlignment.RIGHT);
-        pdfCanvas.addXObject(placeholder, pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT + 2), PAGE_NUMBER_Y_OFFSET - DESCENT);
-        pdfCanvas.release();
+        try (Canvas canvas = new Canvas(pdfCanvas, pageSize)) {
+            Paragraph p = new Paragraph()
+                .add("Sida ").add(pageNumber + "(")
+                .setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
+            canvas.showTextAligned(p, pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT + 2), PAGE_NUMBER_Y_OFFSET,
+                TextAlignment.RIGHT);
+            pdfCanvas.addXObjectAt(placeholder, pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT + 2),
+                PAGE_NUMBER_Y_OFFSET - DESCENT);
+            pdfCanvas.release();
+        }
     }
 
     public void writeTotal(PdfDocument pdf) {
         Canvas canvas = new Canvas(placeholder, pdf);
         canvas.setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
-        canvas.showTextAligned(String.valueOf(pdf.getNumberOfPages() + ")"),
+        canvas.showTextAligned(pdf.getNumberOfPages() + ")",
             0, DESCENT, TextAlignment.LEFT);
     }
 }

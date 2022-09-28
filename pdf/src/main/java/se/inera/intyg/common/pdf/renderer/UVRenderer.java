@@ -30,6 +30,7 @@ import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.kernel.events.PdfDocumentEvent;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.font.PdfFontFactory.EmbeddingStrategy;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -40,11 +41,12 @@ import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.IBlockElement;
 import com.itextpdf.layout.element.IElement;
 import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.property.AreaBreakType;
+import com.itextpdf.layout.properties.AreaBreakType;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import javax.script.ScriptEngine;
@@ -161,7 +163,7 @@ public class UVRenderer {
             engine = new ScriptEngineManager().getEngineByName("nashorn");
 
             // Bind the $filter function and other custom functions declared in uvViewConfig.
-            engine.eval(new InputStreamReader(new ClassPathResource("customfilter.js").getInputStream(), Charset.forName("UTF-8")));
+            engine.eval(new InputStreamReader(new ClassPathResource("customfilter.js").getInputStream(), StandardCharsets.UTF_8));
 
             // Parse JSON intyg into JS object
             String script = "JSON.parse('" + escape(printConfig.getIntygJsonModel()) + "');";
@@ -279,15 +281,11 @@ public class UVRenderer {
                     .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
             }
 
-            try {
-                String text = "<div style=\"white-space: pre-line;\">" + summaryPart.getBodyText() + "</div>";
+            String text = "<div style=\"white-space: pre-line;\">" + summaryPart.getBodyText() + "</div>";
 
-                List<IElement> elements = HtmlConverter.convertToElements(text);
+            List<IElement> elements = HtmlConverter.convertToElements(text);
 
-                elements.forEach(e -> summaryDiv.add(styleElement(((IBlockElement) e))));
-            } catch (IOException e) {
-                throw new IllegalArgumentException("Could parse html: " + e.getMessage());
-            }
+            elements.forEach(e -> summaryDiv.add(styleElement(((IBlockElement) e))));
         });
 
         document.add(summaryDiv);
@@ -382,7 +380,7 @@ public class UVRenderer {
     private PdfFont loadFont(String name) {
         try {
             byte[] fontData = IOUtils.toByteArray(new ClassPathResource(name).getInputStream());
-            return PdfFontFactory.createFont(fontData, "Winansi", true); // Cp1250
+            return PdfFontFactory.createFont(fontData, "Winansi", EmbeddingStrategy.PREFER_EMBEDDED, true); // Cp1250
         } catch (IOException e) {
             throw new IllegalArgumentException("Could not load font: " + e.getMessage());
         }
