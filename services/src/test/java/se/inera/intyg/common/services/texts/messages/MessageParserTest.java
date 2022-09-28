@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.services.messages;
+package se.inera.intyg.common.services.texts.messages;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,6 +24,7 @@ import java.io.IOException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
+import se.inera.intyg.common.services.messages.MessagesParser;
 
 class MessageParserTest {
 
@@ -43,7 +44,7 @@ class MessageParserTest {
 
         final var map = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
 
-        assertEquals(map.keySet().size(), 709);
+        assertEquals(map.keySet().size(), 710);
     }
 
     @Test
@@ -54,7 +55,7 @@ class MessageParserTest {
 
         final var map = MessagesParser.create().parse(inputStream1).parse(inputStream2).parse(inputStream3).collect();
 
-        assertEquals(map.keySet().size(), 710);
+        assertEquals(map.keySet().size(), 711);
     }
 
     @Test
