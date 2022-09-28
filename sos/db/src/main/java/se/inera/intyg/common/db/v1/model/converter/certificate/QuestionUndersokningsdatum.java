@@ -25,10 +25,12 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNIN
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_DELSVAR_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateValue;
 
 import java.time.LocalDate;
 import se.inera.intyg.common.db.model.internal.Undersokning;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
@@ -36,6 +38,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
+import se.inera.intyg.common.support.model.InternalDate;
 
 
 public class QuestionUndersokningsdatum {
@@ -76,5 +79,13 @@ public class QuestionUndersokningsdatum {
                 }
             )
             .build();
+    }
+
+    public static InternalDate toInternal(Certificate certificate) {
+        final var localDate = dateValue(certificate.getData(), UNDERSOKNING_DATUM_DELSVAR_ID, UNDERSOKNING_DATUM_JSON_ID);
+        if (localDate == null) {
+            return null;
+        }
+        return new InternalDate(localDate);
     }
 }

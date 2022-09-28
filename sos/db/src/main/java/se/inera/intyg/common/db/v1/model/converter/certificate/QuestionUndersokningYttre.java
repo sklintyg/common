@@ -24,10 +24,12 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNIN
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
 
 import java.util.Arrays;
 import se.inera.intyg.common.db.model.internal.Undersokning;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.RadioMultipleCode;
@@ -84,5 +86,13 @@ public class QuestionUndersokningYttre {
                 }
             )
             .build();
+    }
+
+    public static Undersokning toInternal(Certificate certificate) {
+        final var codeValueString = codeValue(certificate.getData(), UNDERSOKNING_YTTRE_DELSVAR_ID);
+        if (codeValueString == null) {
+            return null;
+        }
+        return Undersokning.valueOf(codeValueString);
     }
 }

@@ -25,8 +25,10 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_K
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_KOMMUN_LABEL_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
@@ -69,5 +71,9 @@ public class QuestionDodsplatsKommun {
                 }
             )
             .build();
+    }
+
+    public static String toInternal(Certificate certificate) {
+        return textValue(certificate.getData(), DODSPLATS_KOMMUN_DELSVAR_ID, DODSPLATS_KOMMUN_JSON_ID);
     }
 }

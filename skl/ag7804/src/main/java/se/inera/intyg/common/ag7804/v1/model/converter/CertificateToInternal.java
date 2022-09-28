@@ -64,8 +64,8 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.YES_ID;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateListValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateRangeListValue;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.diagnosisListValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.grundData;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
@@ -182,7 +182,7 @@ public final class CertificateToInternal {
     }
 
     private static InternalDate getInternalDate(Certificate certificate, String questionId, String itemId) {
-        final var dateValue = dateValue(certificate.getData(), questionId, itemId);
+        final var dateValue = dateListValue(certificate.getData(), questionId, itemId);
         return dateValue != null ? new InternalDate(dateValue) : null;
     }
 
@@ -252,20 +252,20 @@ public final class CertificateToInternal {
     private static List<Sjukskrivning> getSjukskrivningar(Certificate certificate) {
         var list = dateRangeListValue(certificate.getData(), BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
         return list.stream().map(
-            item -> Sjukskrivning.create(
-                SjukskrivningsGrad.fromId(item.getId()), new InternalLocalDateInterval(
-                    new InternalDate(item.getFrom()), new InternalDate(item.getTo())
+                item -> Sjukskrivning.create(
+                    SjukskrivningsGrad.fromId(item.getId()), new InternalLocalDateInterval(
+                        new InternalDate(item.getFrom()), new InternalDate(item.getTo())
+                    )
                 )
             )
-        )
-                .sorted(
-                        Comparator.comparing(
-                                (s) -> Integer.parseInt(
-                                        s.getSjukskrivningsgrad().getLabel().replace("%", "")
-                                ), Comparator.reverseOrder()
-                        )
+            .sorted(
+                Comparator.comparing(
+                    (s) -> Integer.parseInt(
+                        s.getSjukskrivningsgrad().getLabel().replace("%", "")
+                    ), Comparator.reverseOrder()
                 )
-                .collect(Collectors.toList());
+            )
+            .collect(Collectors.toList());
     }
 
     private static String getForsakringsmedicinsktBeslutsstod(Certificate certificate) {

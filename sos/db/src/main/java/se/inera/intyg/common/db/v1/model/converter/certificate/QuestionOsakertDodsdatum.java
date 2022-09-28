@@ -25,15 +25,18 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_S
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_JSON_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.equalsWith;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.uncertainDateValue;
 
 import java.util.List;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigUncertainDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataUncertainDateValue;
+import se.inera.intyg.common.support.model.InternalDate;
 
 
 public class QuestionOsakertDodsdatum {
@@ -72,4 +75,11 @@ public class QuestionOsakertDodsdatum {
             .build();
     }
 
+    public static InternalDate toInternal(Certificate certificate) {
+        final var textValue = uncertainDateValue(certificate.getData(), DODSDATUM_OSAKERT_DELSVAR_ID, DODSDATUM_JSON_ID);
+        if (textValue == null || textValue.isEmpty()) {
+            return null;
+        }
+        return new InternalDate(textValue);
+    }
 }

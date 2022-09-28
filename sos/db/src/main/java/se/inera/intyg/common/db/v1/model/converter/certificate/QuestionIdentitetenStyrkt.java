@@ -24,8 +24,10 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.IDENTITET_S
 import static se.inera.intyg.common.sos_parent.support.RespConstants.IDENTITET_STYRKT_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.KOMPLETTERANDE_PATIENTUPPGIFTER_CATEGORY_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
@@ -67,5 +69,9 @@ public class QuestionIdentitetenStyrkt {
                 }
             )
             .build();
+    }
+
+    public static String toInternal(Certificate certificate) {
+        return textValue(certificate.getData(), IDENTITET_STYRKT_DELSVAR_ID, IDENTITET_STYRKT_JSON_ID);
     }
 }

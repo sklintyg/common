@@ -27,16 +27,20 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_CATEGO
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_JSON_ID;
 
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
@@ -151,6 +155,29 @@ class QuestionBarnTest {
             final var question = QuestionBarn.toCertificate(true, 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
             assertEquals("$" + BARN_JSON_ID, certificateDataValidationMandatory.getExpression());
+        }
+    }
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class ToInternal {
+
+        Stream<Boolean> booleanValues() {
+            return Stream.of(true, false, null);
+        }
+
+        @ParameterizedTest
+        @MethodSource("booleanValues")
+        void shouldIncludeValue(Boolean expectedValue) {
+            final var index = 1;
+
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionBarn.toCertificate(expectedValue, index, texts))
+                .build();
+
+            final var actualValue = QuestionBarn.toInternal(certificate);
+
+            assertEquals(expectedValue, actualValue);
         }
     }
 }

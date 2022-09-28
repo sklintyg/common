@@ -24,8 +24,10 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALA
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
@@ -62,5 +64,9 @@ public class QuestionPolisanmalan {
                 }
             )
             .build();
+    }
+
+    public static Boolean toInternal(Certificate certificate) {
+        return booleanValue(certificate.getData(), POLISANMALAN_DELSVAR_ID, POLISANMALAN_JSON_ID);
     }
 }

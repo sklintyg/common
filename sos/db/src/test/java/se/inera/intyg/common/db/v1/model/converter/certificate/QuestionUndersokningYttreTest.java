@@ -26,17 +26,21 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_DELSVAR_ID;
 
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.db.model.internal.Undersokning;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.config.RadioMultipleCode;
@@ -173,6 +177,32 @@ class QuestionUndersokningYttreTest {
             final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
             assertEquals(expectedExpression, certificateDataValidationMandatory.getExpression());
+        }
+    }
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class ToInternal {
+
+        Stream<Undersokning> undersokningYttreValues() {
+            return Stream.of(
+                Undersokning.JA,
+                Undersokning.UNDERSOKNING_SKA_GORAS,
+                Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN,
+                null
+            );
+        }
+
+        @ParameterizedTest
+        @MethodSource("undersokningYttreValues")
+        void shouldIncludeTextValue(Undersokning expectedValue) {
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionUndersokningYttre.toCertificate(expectedValue, 0, texts))
+                .build();
+
+            final var actualValue = QuestionUndersokningYttre.toInternal(certificate);
+
+            assertEquals(expectedValue, actualValue);
         }
     }
 }

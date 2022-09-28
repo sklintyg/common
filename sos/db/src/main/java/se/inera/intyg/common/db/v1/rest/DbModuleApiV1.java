@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.db.support.DbModuleEntryPoint;
+import se.inera.intyg.common.db.v1.model.converter.CertificateToInternal;
 import se.inera.intyg.common.db.v1.model.converter.InternalToCertificate;
 import se.inera.intyg.common.db.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.db.v1.model.converter.TransportToInternal;
@@ -120,8 +121,7 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
     @Override
     public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException {
         final var internalCertificate = getInternal(certificateAsJson);
-//        final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-//        return toInternalModelResponse(updateInternalCertificate);
-        return toInternalModelResponse(internalCertificate);
+        final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate);
+        return toInternalModelResponse(updateInternalCertificate);
     }
 }

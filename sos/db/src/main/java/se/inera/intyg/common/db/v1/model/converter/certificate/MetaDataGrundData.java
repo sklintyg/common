@@ -21,11 +21,13 @@ package se.inera.intyg.common.db.v1.model.converter.certificate;
 
 import static se.inera.intyg.common.db.support.DbModuleEntryPoint.DETAILED_DESCRIPTION_TEXT_KEY;
 import static se.inera.intyg.common.db.support.DbModuleEntryPoint.MODULE_DESCRIPTION;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.grundData;
 
 import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.util.MetaDataToolkit;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
 
 public class MetaDataGrundData {
 
@@ -43,5 +45,9 @@ public class MetaDataGrundData {
                 MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getSkapadAv())
             )
             .build();
+    }
+
+    public static GrundData toInternal(CertificateMetadata metadata, GrundData grundData) {
+        return grundData(metadata, grundData);
     }
 }

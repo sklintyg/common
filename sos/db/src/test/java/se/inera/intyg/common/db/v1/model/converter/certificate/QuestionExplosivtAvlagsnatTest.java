@@ -29,16 +29,20 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_AV
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_IMPLANTAT_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_IMPLANTAT_JSON_ID;
 
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
@@ -174,6 +178,29 @@ class QuestionExplosivtAvlagsnatTest {
             final var question = QuestionExplosivtAvlagsnat.toCertificate(null, 0, texts);
             final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
             assertEquals("$" + EXPLOSIV_IMPLANTAT_JSON_ID, certificateDataValidationShow.getExpression());
+        }
+    }
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class ToInternal {
+
+        Stream<Boolean> booleanValues() {
+            return Stream.of(true, false, null);
+        }
+
+        @ParameterizedTest
+        @MethodSource("booleanValues")
+        void shouldIncludeValue(Boolean expectedValue) {
+            final var index = 1;
+
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionExplosivtAvlagsnat.toCertificate(expectedValue, index, texts))
+                .build();
+
+            final var actualValue = QuestionExplosivtAvlagsnat.toInternal(certificate);
+
+            assertEquals(expectedValue, actualValue);
         }
     }
 }

@@ -27,10 +27,12 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataIcfValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataUncertainDateValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCodeList;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRange;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
@@ -74,6 +76,20 @@ public final class ValueToolkit {
         return textDataValue.getText();
     }
 
+    public static String uncertainDateValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
+        final var dataValue = getValue(data, questionId);
+        if (!(dataValue instanceof CertificateDataUncertainDateValue)) {
+            return null;
+        }
+
+        final var uncertainDateValue = (CertificateDataUncertainDateValue) dataValue;
+        if (!Objects.equals(uncertainDateValue.getId(), valueId)) {
+            return null;
+        }
+
+        return uncertainDateValue.getValue();
+    }
+
     public static String icfTextValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
         final var dataValue = getValue(data, questionId);
         if (!(dataValue instanceof CertificateDataIcfValue)) {
@@ -102,7 +118,7 @@ public final class ValueToolkit {
         return icfDataValue.getIcfCodes();
     }
 
-    public static LocalDate dateValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
+    public static LocalDate dateListValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
         final var dataValue = getValue(data, questionId);
         if (!(dataValue instanceof CertificateDataValueDateList)) {
             return null;
@@ -118,6 +134,19 @@ public final class ValueToolkit {
             return null;
         }
 
+        return dateValue.getDate();
+    }
+
+    public static LocalDate dateValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
+        final var dataValue = getValue(data, questionId);
+        if (!(dataValue instanceof CertificateDataValueDate)) {
+            return null;
+        }
+
+        final var dateValue = (CertificateDataValueDate) dataValue;
+        if (dateValue == null || dateValue.getId() == null || !dateValue.getId().equalsIgnoreCase(valueId)) {
+            return null;
+        }
         return dateValue.getDate();
     }
 

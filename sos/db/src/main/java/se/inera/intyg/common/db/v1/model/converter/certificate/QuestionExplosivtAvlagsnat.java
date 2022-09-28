@@ -26,8 +26,10 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_AV
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_IMPLANTAT_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_IMPLANTAT_JSON_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
@@ -70,5 +72,9 @@ public class QuestionExplosivtAvlagsnat {
                 }
             )
             .build();
+    }
+
+    public static Boolean toInternal(Certificate certificate) {
+        return booleanValue(certificate.getData(), EXPLOSIV_AVLAGSNAT_DELSVAR_ID, EXPLOSIV_AVLAGSNAT_JSON_ID);
     }
 }

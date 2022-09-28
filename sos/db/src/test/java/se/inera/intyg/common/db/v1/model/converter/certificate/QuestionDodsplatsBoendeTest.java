@@ -26,17 +26,21 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DODSPLATS_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_BOENDE_DELSVAR_ID;
 
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.config.RadioMultipleCode;
@@ -185,6 +189,33 @@ class QuestionDodsplatsBoendeTest {
             final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
             assertEquals(expectedExpression, certificateDataValidationMandatory.getExpression());
+        }
+    }
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class ToInternal {
+
+        Stream<DodsplatsBoende> dodsplatsBoendeValues() {
+            return Stream.of(
+                DodsplatsBoende.SJUKHUS,
+                DodsplatsBoende.ORDINART_BOENDE,
+                DodsplatsBoende.SARSKILT_BOENDE,
+                DodsplatsBoende.ANNAN,
+                null
+            );
+        }
+
+        @ParameterizedTest
+        @MethodSource("dodsplatsBoendeValues")
+        void shouldIncludeTextValue(DodsplatsBoende expectedValue) {
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionDodsplatsBoende.toCertificate(expectedValue, 0, texts))
+                .build();
+
+            final var actualValue = QuestionDodsplatsBoende.toInternal(certificate);
+
+            assertEquals(expectedValue, actualValue);
         }
     }
 }

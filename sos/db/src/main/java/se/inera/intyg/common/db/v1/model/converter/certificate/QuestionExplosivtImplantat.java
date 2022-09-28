@@ -24,8 +24,10 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_I
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_IMPLANTAT_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_IMPLANTAT_JSON_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
@@ -35,7 +37,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBool
 
 public class QuestionExplosivtImplantat {
 
-    public static CertificateDataElement toCertificate(Boolean dodsdatumSakert, int index, CertificateTextProvider texts) {
+    public static CertificateDataElement toCertificate(Boolean explosivtImplantat, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(EXPLOSIV_IMPLANTAT_DELSVAR_ID)
             .parent(EXPLOSIVT_IMPLANTAT_CATEGORY_ID)
@@ -51,7 +53,7 @@ public class QuestionExplosivtImplantat {
             .value(
                 CertificateDataValueBoolean.builder()
                     .id(EXPLOSIV_IMPLANTAT_JSON_ID)
-                    .selected(dodsdatumSakert)
+                    .selected(explosivtImplantat)
                     .build()
             )
             .validation(
@@ -63,5 +65,9 @@ public class QuestionExplosivtImplantat {
                 }
             )
             .build();
+    }
+
+    public static Boolean toInternal(Certificate certificate) {
+        return booleanValue(certificate.getData(), EXPLOSIV_IMPLANTAT_DELSVAR_ID, EXPLOSIV_IMPLANTAT_JSON_ID);
     }
 }

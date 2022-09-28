@@ -27,16 +27,20 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.IDENTITET_S
 import static se.inera.intyg.common.sos_parent.support.RespConstants.IDENTITET_STYRKT_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.KOMPLETTERANDE_PATIENTUPPGIFTER_CATEGORY_ID;
 
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
@@ -44,9 +48,6 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionIdentitetenStyrktTest {
@@ -62,19 +63,6 @@ class QuestionIdentitetenStyrktTest {
     @Nested
     @TestInstance(Lifecycle.PER_CLASS)
     class ToCertificate {
-
-        private GrundData grundData;
-
-        @BeforeEach
-        void setup() {
-            final var unit = new Vardenhet();
-
-            final var skapadAv = new HoSPersonal();
-            skapadAv.setVardenhet(unit);
-
-            grundData = new GrundData();
-            grundData.setSkapadAv(skapadAv);
-        }
 
         @Test
         void shouldIncludeId() {
@@ -180,6 +168,27 @@ class QuestionIdentitetenStyrktTest {
             final var question = QuestionIdentitetenStyrkt.toCertificate("", 0, texts);
             final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[1];
             assertEquals(27, certificateDataValidationText.getLimit());
+        }
+    }
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class ToInternal {
+
+        Stream<String> textValues() {
+            return Stream.of("Här kommer en text!", "", null);
+        }
+
+        @ParameterizedTest
+        @MethodSource("textValues")
+        void shouldIncludeTextValue(String expectedValue) {
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionIdentitetenStyrkt.toCertificate(expectedValue, 0, texts))
+                .build();
+
+            final var actualValue = QuestionIdentitetenStyrkt.toInternal(certificate);
+
+            assertEquals(expectedValue, actualValue);
         }
     }
 }

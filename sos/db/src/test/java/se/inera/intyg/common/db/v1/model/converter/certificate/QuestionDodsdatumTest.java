@@ -39,6 +39,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDate;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
@@ -47,6 +48,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
+import se.inera.intyg.common.support.model.InternalDate;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionDodsdatumTest {
@@ -187,6 +189,35 @@ class QuestionDodsdatumTest {
             final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
             final var certificateDataValidationMaxDate = (CertificateDataValidationMaxDate) question.getValidation()[2];
             assertEquals(0, certificateDataValidationMaxDate.getNumberOfDays());
+        }
+    }
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class ToInternal {
+
+        @Test
+        void shouldIncludeValue() {
+            final var expectedValue = LocalDate.now();
+
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionDodsdatum.toCertificate(expectedValue, 0, texts))
+                .build();
+
+            final var actualValue = QuestionDodsdatum.toInternal(certificate);
+
+            assertEquals(new InternalDate(expectedValue), actualValue);
+        }
+
+        @Test
+        void shouldIncludeValueNull() {
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionDodsdatum.toCertificate(null, 0, texts))
+                .build();
+
+            final var actualValue = QuestionDodsdatum.toInternal(certificate);
+
+            assertEquals(null, actualValue);
         }
     }
 }

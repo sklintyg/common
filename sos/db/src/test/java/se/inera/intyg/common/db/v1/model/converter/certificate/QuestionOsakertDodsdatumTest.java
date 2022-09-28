@@ -35,6 +35,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigUncertainDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
@@ -42,6 +43,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataUncertainDateValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
+import se.inera.intyg.common.support.model.InternalDate;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionOsakertDodsdatumTest {
@@ -173,6 +175,61 @@ class QuestionOsakertDodsdatumTest {
             final var question = QuestionOsakertDodsdatum.toCertificate(null, 0, texts);
             final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
             assertEquals("$" + DODSDATUM_SAKERT_JSON_ID + " == false", certificateDataValidationShow.getExpression());
+        }
+    }
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class ToInternal {
+
+        @Test
+        void shouldIncludeValueUncertainDay() {
+            final var expectedValue = "2022-11-00";
+
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionOsakertDodsdatum.toCertificate(expectedValue, 0, texts))
+                .build();
+
+            final var actualValue = QuestionOsakertDodsdatum.toInternal(certificate);
+
+            assertEquals(new InternalDate(expectedValue), actualValue);
+        }
+
+        @Test
+        void shouldIncludeValueUncertainMonth() {
+            final var expectedValue = "2022-00-00";
+
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionOsakertDodsdatum.toCertificate(expectedValue, 0, texts))
+                .build();
+
+            final var actualValue = QuestionOsakertDodsdatum.toInternal(certificate);
+
+            assertEquals(new InternalDate(expectedValue), actualValue);
+        }
+
+        @Test
+        void shouldIncludeValueUncertainYear() {
+            final var expectedValue = "0000-00-00";
+
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionOsakertDodsdatum.toCertificate(expectedValue, 0, texts))
+                .build();
+
+            final var actualValue = QuestionOsakertDodsdatum.toInternal(certificate);
+
+            assertEquals(new InternalDate(expectedValue), actualValue);
+        }
+
+        @Test
+        void shouldIncludeValueNull() {
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionOsakertDodsdatum.toCertificate(null, 0, texts))
+                .build();
+
+            final var actualValue = QuestionOsakertDodsdatum.toInternal(certificate);
+
+            assertEquals(null, actualValue);
         }
     }
 }
