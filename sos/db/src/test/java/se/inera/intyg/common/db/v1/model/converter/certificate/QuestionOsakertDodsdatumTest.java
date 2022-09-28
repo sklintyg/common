@@ -172,7 +172,7 @@ class QuestionOsakertDodsdatumTest {
         void shouldIncludeValidationShowExpression() {
             final var question = QuestionOsakertDodsdatum.toCertificate(null, 0, texts);
             final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
-            assertEquals("$" + DODSDATUM_SAKERT_JSON_ID + "===false", certificateDataValidationShow.getExpression());
+            assertEquals("$" + DODSDATUM_SAKERT_JSON_ID + " == false", certificateDataValidationShow.getExpression());
         }
     }
 }

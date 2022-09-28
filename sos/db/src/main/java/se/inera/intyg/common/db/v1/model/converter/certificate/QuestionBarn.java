@@ -22,7 +22,7 @@ package se.inera.intyg.common.db.v1.model.converter.certificate;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_JSON_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_QUESTION_TEXT_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -43,7 +43,7 @@ public class QuestionBarn {
             .config(
                 CertificateDataConfigRadioBoolean.builder()
                     .id(BARN_JSON_ID)
-                    .text(texts.get(DODSDATUM_SAKERT_QUESTION_TEXT_ID))
+                    .text(texts.get(BARN_QUESTION_TEXT_ID))
                     .selectedText("Ja")
                     .unselectedText("Nej")
                     .build()

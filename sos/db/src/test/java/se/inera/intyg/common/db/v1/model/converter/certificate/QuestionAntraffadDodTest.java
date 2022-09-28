@@ -166,7 +166,7 @@ class QuestionAntraffadDodTest {
         void shouldIncludeValidationShowExpression() {
             final var question = QuestionAntraffadDod.toCertificate(null, 0, texts);
             final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
-            assertEquals("$" + DODSDATUM_SAKERT_JSON_ID, certificateDataValidationShow.getExpression());
+            assertEquals("!$" + DODSDATUM_SAKERT_JSON_ID, certificateDataValidationShow.getExpression());
         }
 
         @Test

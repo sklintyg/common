@@ -20,20 +20,20 @@ package se.inera.intyg.common.db.v1.rest;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
+import se.inera.intyg.common.db.support.DbModuleEntryPoint;
+import se.inera.intyg.common.db.v1.model.converter.InternalToCertificate;
 import se.inera.intyg.common.db.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.db.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.db.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
 import se.inera.intyg.common.db.v1.pdf.DbPdfGenerator;
-import se.inera.intyg.common.db.support.DbModuleEntryPoint;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.sos_parent.pdf.SoSPdfGeneratorException;
 import se.inera.intyg.common.sos_parent.rest.SosParentModuleApi;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -110,4 +110,18 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
         return "";
     }
 
+    @Override
+    public Certificate getCertificateFromJson(String certificateAsJson) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson);
+        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+        return InternalToCertificate.convert(internalCertificate, certificateTextProvider);
+    }
+
+    @Override
+    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson);
+//        final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
+//        return toInternalModelResponse(updateInternalCertificate);
+        return toInternalModelResponse(internalCertificate);
+    }
 }

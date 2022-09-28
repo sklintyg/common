@@ -24,6 +24,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_D
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_JSON_ID;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.not;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import java.time.LocalDate;
@@ -66,7 +67,7 @@ public class QuestionAntraffadDod {
                         .build(),
                     CertificateDataValidationShow.builder()
                         .questionId(DODSDATUM_SAKERT_DELSVAR_ID)
-                        .expression(singleExpression(DODSDATUM_SAKERT_JSON_ID))
+                        .expression(not(singleExpression(DODSDATUM_SAKERT_JSON_ID)))
                         .build(),
                     CertificateDataValidationMaxDate.builder()
                         .id(ANTRAFFAT_DOD_DATUM_JSON_ID)
