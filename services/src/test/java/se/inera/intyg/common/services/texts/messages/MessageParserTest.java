@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 
 class MessageParserTest {
-
+    
     @Test
     void parseOneFile() throws IOException {
         final var inputStream = new ClassPathResource("/messages/lisjpMessages.js").getInputStream();
