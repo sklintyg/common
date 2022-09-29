@@ -36,7 +36,7 @@ public enum KvVardniva {
         this.description = description;
     }
 
-    @JsonCreator
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static KvVardniva fromId(@JsonProperty("id") String id) {
         String normId = id != null ? id.trim() : null;
         for (KvVardniva typ : values()) {

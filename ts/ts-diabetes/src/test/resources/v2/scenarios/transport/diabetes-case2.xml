@@ -34,6 +34,7 @@
         <ns2:extension>IFV1239877878-1049</ns2:extension>
       </personId>
       <fullstandigtNamn>Jan Nilsson</fullstandigtNamn>
+      <atLakare>false</atLakare>
       <vardenhet>
         <enhetsId>
           <ns2:root>1.2.752.129.2.1.4.1</ns2:root>

@@ -23,13 +23,10 @@ import com.itextpdf.kernel.events.Event;
 import com.itextpdf.kernel.events.IEventHandler;
 import com.itextpdf.kernel.events.PdfDocumentEvent;
 import com.itextpdf.kernel.font.PdfFont;
-import com.itextpdf.kernel.geom.Rectangle;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Canvas;
-import com.itextpdf.layout.property.TextAlignment;
-import com.itextpdf.layout.property.VerticalAlignment;
+import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.properties.VerticalAlignment;
 
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 
@@ -48,8 +45,8 @@ public class WaterMarkerer implements IEventHandler {
 
     private static final DeviceRgb WATERMARK_COLOR = new DeviceRgb(128, 128, 128);
 
-    private PrintConfig printConfig;
-    private PdfFont watermarkFont;
+    private final PrintConfig printConfig;
+    private final PdfFont watermarkFont;
 
     public WaterMarkerer(PrintConfig printConfig, PdfFont watermarkFont) {
         this.printConfig = printConfig;
@@ -65,25 +62,26 @@ public class WaterMarkerer implements IEventHandler {
         if (!(event instanceof PdfDocumentEvent)) {
             return;
         }
-        PdfDocumentEvent docEvent = (PdfDocumentEvent) event;
-        PdfDocument pdf = docEvent.getDocument();
-        PdfPage page = docEvent.getPage();
-        Rectangle pageSize = page.getPageSize();
-        PdfCanvas pdfCanvas = new PdfCanvas(
+        final var  docEvent = (PdfDocumentEvent) event;
+        final var  pdf = docEvent.getDocument();
+        final var  page = docEvent.getPage();
+        final var  pageSize = page.getPageSize();
+        final var  pdfCanvas = new PdfCanvas(
             page.newContentStreamBefore(), page.getResources(), pdf);
 
-        Canvas canvas = new Canvas(pdfCanvas, pdf, pageSize);
-        canvas.setFont(watermarkFont);
-        canvas.setFontSize(WATERMARK_FONT_SIZE);
-        canvas.setFontColor(WATERMARK_COLOR, FILL_OPACITY);
+        try (Canvas canvas = new Canvas(pdfCanvas, pageSize)) {
+            canvas.setFont(watermarkFont);
+            canvas.setFontSize(WATERMARK_FONT_SIZE);
+            canvas.setFontColor(WATERMARK_COLOR, FILL_OPACITY);
 
-        final float x = (pageSize.getLeft() + pageSize.getRight()) / 2;
-        final float y = (pageSize.getTop() + pageSize.getBottom()) / 2;
+            final float x = (pageSize.getLeft() + pageSize.getRight()) / 2;
+            final float y = (pageSize.getTop() + pageSize.getBottom()) / 2;
 
-        canvas.showTextAligned(resolveText(),
-            x,
-            y, TextAlignment.CENTER, VerticalAlignment.MIDDLE, (float) Math.toRadians(ROTATION));
+            canvas.showTextAligned(resolveText(),
+                x,
+                y, TextAlignment.CENTER, VerticalAlignment.MIDDLE, (float) Math.toRadians(ROTATION));
 
+        }
     }
 
     private String resolveText() {

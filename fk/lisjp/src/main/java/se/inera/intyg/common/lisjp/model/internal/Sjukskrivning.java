@@ -75,7 +75,7 @@ public abstract class Sjukskrivning {
             return label;
         }
 
-        @JsonCreator
+        @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
         public static SjukskrivningsGrad fromId(@JsonProperty("id") String id) {
             String normId = id != null ? id.trim() : null;
             for (SjukskrivningsGrad typ : values()) {

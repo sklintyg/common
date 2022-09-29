@@ -18,19 +18,19 @@
  */
 package se.inera.intyg.common.fk7263.utils;
 
-import org.unitils.reflectionassert.ReflectionAssert;
-import org.unitils.reflectionassert.ReflectionComparatorMode;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public final class ModelAssert {
 
     private ModelAssert() {
     }
 
-    public static void assertEquals(Object expected, Object actual) throws AssertionError {
-        ReflectionAssert.assertReflectionEquals(expected, actual, ReflectionComparatorMode.LENIENT_ORDER);
-    }
-
     public static void assertEquals(String message, Object expected, Object actual) throws AssertionError {
-        ReflectionAssert.assertReflectionEquals(message, expected, actual, ReflectionComparatorMode.LENIENT_ORDER);
+        assertThat(actual)
+            .usingRecursiveComparison()
+            .withFailMessage(message)
+            .withStrictTypeChecking()
+            .ignoringCollectionOrder()
+            .isEqualTo(expected);
     }
 }
