@@ -67,7 +67,7 @@
             }
         ],
         "lakareSpecialKompetens": "asdasd",
-        "lamplighetInnehaBehorighet": null
+        "lamplighetInnehaBehorighet": false
     },
     "diabetes": {
         "annanBehandlingBeskrivning": "asdasd",

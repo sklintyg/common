@@ -32,8 +32,8 @@ import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Canvas;
 
-import com.itextpdf.layout.property.TextAlignment;
-import com.itextpdf.layout.property.VerticalAlignment;
+import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.properties.VerticalAlignment;
 
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 
@@ -46,7 +46,7 @@ public class SignBox implements IEventHandler {
     private static final float FONT_SIZE = 10f;
     private static final float LINE_WIDTH = 0.5f;
     private final PrintConfig printConfig;
-    private PdfFont svarFont;
+    private final PdfFont svarFont;
 
     public SignBox(PrintConfig printConfig, PdfFont svarFont) {
         this.printConfig = printConfig;
@@ -61,30 +61,31 @@ public class SignBox implements IEventHandler {
         if (!printConfig.showSignBox()) {
             return;
         }
-        PdfDocumentEvent docEvent = (PdfDocumentEvent) event;
-        PdfDocument pdf = docEvent.getDocument();
-        PdfPage page = docEvent.getPage();
-        Rectangle pageSize = page.getPageSize();
-        PdfCanvas pdfCanvas = new PdfCanvas(
+        final var  docEvent = (PdfDocumentEvent) event;
+        final var  pdf = docEvent.getDocument();
+        final var  page = docEvent.getPage();
+        final var  pageSize = page.getPageSize();
+        final var  pdfCanvas = new PdfCanvas(
             page.newContentStreamBefore(), page.getResources(), pdf);
 
-        Canvas canvas = new Canvas(pdfCanvas, pdf, pageSize);
-        canvas.setFont(svarFont).setFontSize(FONT_SIZE);
-        pdfCanvas.setLineWidth(LINE_WIDTH);
+        try (Canvas canvas = new Canvas(pdfCanvas, pageSize)) {
+            canvas.setFont(svarFont).setFontSize(FONT_SIZE);
+            pdfCanvas.setLineWidth(LINE_WIDTH);
 
-        if (shouldRender(pdf, page)) {
-            canvas.showTextAligned("Signatur",
-                pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT) - millimetersToPoints(13f),
-                pageSize.getBottom() + PAGE_MARGIN_BOTTOM_WITH_SIGNBOX + 17f,
-                TextAlignment.LEFT, VerticalAlignment.MIDDLE, 0);
+            if (shouldRender(pdf, page)) {
+                canvas.showTextAligned("Signatur",
+                    pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT) - millimetersToPoints(13f),
+                    pageSize.getBottom() + PAGE_MARGIN_BOTTOM_WITH_SIGNBOX + 17f,
+                    TextAlignment.LEFT, VerticalAlignment.MIDDLE, 0);
 
-            final float width = 50f;
-            final float height = 15f;
-            final float x = (page.getPageSize().getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT) - millimetersToPoints(width));
-            final float y = pageSize.getBottom() + PAGE_MARGIN_BOTTOM_WITH_SIGNBOX + 25f;
-            pdfCanvas.rectangle(x, y, millimetersToPoints(width), millimetersToPoints(height));
-            pdfCanvas.stroke();
-            pdfCanvas.release();
+                final float width = 50f;
+                final float height = 15f;
+                final float x = (page.getPageSize().getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT) - millimetersToPoints(width));
+                final float y = pageSize.getBottom() + PAGE_MARGIN_BOTTOM_WITH_SIGNBOX + 25f;
+                pdfCanvas.rectangle(x, y, millimetersToPoints(width), millimetersToPoints(height));
+                pdfCanvas.stroke();
+                pdfCanvas.release();
+            }
         }
     }
 

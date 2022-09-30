@@ -38,7 +38,7 @@ public enum KvTypAvDiabetes {
         this.description = description;
     }
 
-    @JsonCreator
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static KvTypAvDiabetes fromId(@JsonProperty("id") String id) {
         String normId = id != null ? id.trim() : null;
         for (KvTypAvDiabetes typ : values()) {

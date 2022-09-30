@@ -41,7 +41,7 @@ public enum KvIdKontroll {
         this.description = description;
     }
 
-    @JsonCreator
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static KvIdKontroll fromId(@JsonProperty("id") String id) {
         String normId = id != null ? id.trim() : null;
         for (KvIdKontroll typ : values()) {

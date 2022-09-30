@@ -67,7 +67,7 @@ public abstract class MedicinsktUnderlag {
             return label;
         }
 
-        @JsonCreator
+        @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
         public static MedicinsktUnderlagTyp fromId(@JsonProperty("id") int id) {
             for (MedicinsktUnderlagTyp typ : values()) {
                 if (typ.id == id) {

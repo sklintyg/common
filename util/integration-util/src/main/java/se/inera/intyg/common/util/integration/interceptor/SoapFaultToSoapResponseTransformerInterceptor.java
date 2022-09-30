@@ -20,22 +20,16 @@ package se.inera.intyg.common.util.integration.interceptor;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
-import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 import javax.xml.soap.MessageFactory;
-import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPFault;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import org.apache.cxf.feature.transform.AbstractXSLTInterceptor;
-import org.apache.cxf.feature.transform.XSLTOutInterceptor;
 import org.apache.cxf.feature.transform.XSLTUtils;
 import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.message.Message;
@@ -51,24 +45,9 @@ import se.inera.intyg.common.util.logging.LogMarkers;
  *
  * @author andreaskaltenbach
  */
-public class SoapFaultToSoapResponseTransformerInterceptor extends XSLTOutInterceptor {
+public class SoapFaultToSoapResponseTransformerInterceptor extends CustomXSLTInterceptor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SoapFaultToSoapResponseTransformerInterceptor.class);
-
-    static {
-        try {
-            // Configure the private TransformerFactory defined in AbstractXSLTInterceptor
-            // This can only be done if CXF version is 3.2.4 or below.
-            Field transformFactoryField = AbstractXSLTInterceptor.class.getDeclaredField("TRANSFORM_FACTORY");
-            transformFactoryField.setAccessible(true);
-            TransformerFactory transformerFactory = (TransformerFactory) transformFactoryField.get(null);
-            transformerFactory.setURIResolver(new ClasspathUriResolver());
-            transformFactoryField.setAccessible(false);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException("Failed to set UriResolver for TransactionFactory", e);
-        }
-    }
-
     public static final int HTTP_OK = 200;
 
     public SoapFaultToSoapResponseTransformerInterceptor(String xsltPath) {
@@ -77,8 +56,8 @@ public class SoapFaultToSoapResponseTransformerInterceptor extends XSLTOutInterc
 
     @Override
     public void handleMessage(Message message) {
-        Exception exception = message.getContent(Exception.class);
-        Throwable cause = exception.getCause();
+        final var exception = message.getContent(Exception.class);
+        final var cause = exception.getCause();
         if (cause instanceof javax.xml.bind.UnmarshalException) {
             LOGGER.error(LogMarkers.VALIDATION, exception.getMessage());
         } else {
@@ -93,15 +72,15 @@ public class SoapFaultToSoapResponseTransformerInterceptor extends XSLTOutInterc
 
     @Override
     public void handleFault(Message message) {
-        Exception e = message.getContent(Exception.class);
+        final var e = message.getContent(Exception.class);
         try {
-            SOAPEnvelope envelope = MessageFactory.newInstance().createMessage().getSOAPPart().getEnvelope();
-            SOAPFault soapFault = envelope.getBody().addFault();
+            final var envelope = MessageFactory.newInstance().createMessage().getSOAPPart().getEnvelope();
+            final var soapFault = envelope.getBody().addFault();
             soapFault.setFaultString(e != null ? e.getMessage() : "Unknown error");
 
-            StringWriter sw = new StringWriter();
+            final var sw = new StringWriter();
             TransformerFactory.newInstance().newTransformer().transform(new DOMSource(envelope), new StreamResult(sw));
-            InputStream transformedStream = XSLTUtils.transform(getXSLTTemplate(),
+            final var transformedStream = XSLTUtils.transform(getXSLTTemplate(),
                 new ByteArrayInputStream(sw.getBuffer().toString().getBytes(StandardCharsets.UTF_8)));
             IOUtils.copyAndCloseInput(transformedStream, message.getContent(OutputStream.class));
 
