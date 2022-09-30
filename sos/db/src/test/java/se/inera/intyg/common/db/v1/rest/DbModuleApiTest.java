@@ -18,16 +18,35 @@
  */
 package se.inera.intyg.common.db.v1.rest;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.same;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import java.io.IOException;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPFactory;
+import javax.xml.ws.soap.SOAPFaultException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.db.v1.model.converter.WebcertModelFactoryImpl;
@@ -37,7 +56,12 @@ import se.inera.intyg.common.db.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.db.v1.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
@@ -48,9 +72,6 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleConvert
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.schemas.contract.Personnummer;
-import org.skyscreamer.jsonassert.JSONAssert;
-import org.skyscreamer.jsonassert.JSONCompareMode;
-import org.springframework.core.io.ClassPathResource;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateType;
@@ -62,19 +83,6 @@ import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.Revoke
 import se.riv.clinicalprocess.healthcond.certificate.v3.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
-
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPFactory;
-import javax.xml.ws.soap.SOAPFaultException;
-import java.io.IOException;
-import java.util.Optional;
-
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.same;
-import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
@@ -214,7 +222,8 @@ public class DbModuleApiTest {
         updatedPatient.setPostnummer("54321");
         updatedPatient.setPostort("updated post city");
         final String validMinimalJson = getResourceAsString(new ClassPathResource("v1/internal/scenarios/pass-1.json"));
-        when(objectMapper.readValue(validMinimalJson, DbUtlatandeV1.class)).thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+        when(objectMapper.readValue(validMinimalJson, DbUtlatandeV1.class)).thenReturn(
+            ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(objectMapper.writeValueAsString(any())).thenReturn(validMinimalJson);
         final String res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient);
         assertNotNull(res);
@@ -465,5 +474,19 @@ public class DbModuleApiTest {
 
     private String getResourceAsString(ClassPathResource cpr) throws IOException {
         return Resources.toString(cpr.getURL(), Charsets.UTF_8);
+    }
+
+    @Test
+    public void getCertficateMessagesProviderGetExistingKey() throws ModuleException {
+        final var certificateMessagesProvider = moduleApi.getMessagesProvider();
+
+        assertEquals(certificateMessagesProvider.get("common.continue"), "Fortsätt");
+    }
+
+    @Test
+    public void getCertficateMessagesProviderGetMissingKey() throws ModuleException {
+        final var certificateMessagesProvider = moduleApi.getMessagesProvider();
+
+        assertNull(certificateMessagesProvider.get("not.existing"));
     }
 }
