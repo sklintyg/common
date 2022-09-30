@@ -86,6 +86,8 @@ public final class RespConstants {
     public static final String POLISANMALAN_CATEGORY_ID = "polisanmalan";
     public static final String POLISANMALAN_CATEGORY_TEXT_ID = "KAT_6.RBK";
     public static final String POLISANMALAN_CATEGORY_DESCRIPTION_ID = "KAT_6.HLP";
+    public static final String POLISANMALAN_PRINT_MESSAGE_ID = "DFR_7.1.OBS";
+    public static final String POLISANMALAN_PREFILL_MESSAGE_ID = "DFR_7.1_UNDERSOKNINGS_SKA_GORAS.INFO";
 
     public static final String IDENTITET_STYRKT_SVAR_ID = "1";
     public static final String DODSDATUM_SVAR_ID = "2";
@@ -116,6 +118,8 @@ public final class RespConstants {
     public static final String UNDERSOKNING_DETALJER_DELSVAR_ID = "6.2";
     public static final String UNDERSOKNING_DATUM_DELSVAR_ID = "6.3";
     public static final String POLISANMALAN_DELSVAR_ID = "7.1";
+    public static final String POLISANMALAN_PREFILL_MESSAGE_DELSVAR_ID = "7.1.1";
+    public static final String POLISANMALAN_PRINT_MESSAGE_DELSVAR_ID = "7.1.2";
     public static final String DODSORSAK_DELSVAR_ID = "8.1";
     public static final String DODSORSAK_DATUM_DELSVAR_ID = "8.2";
     public static final String DODSORSAK_SPECIFIKATION_DELSVAR_ID = "8.3";

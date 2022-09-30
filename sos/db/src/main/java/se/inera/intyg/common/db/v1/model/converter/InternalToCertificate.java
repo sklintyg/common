@@ -38,6 +38,8 @@ import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionExplosivt
 import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionIdentitetenStyrkt;
 import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionOsakertDodsdatum;
 import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionPolisanmalan;
+import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionPrefillMessagePolisanmalan;
+import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionPrintMessagePolisanmalan;
 import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionUndersokningYttre;
 import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionUndersokningsdatum;
 import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
@@ -115,6 +117,12 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionPolisanmalan.toCertificate(internalCertificate.getPolisanmalan(), index++, texts)
+            )
+            .addElement(
+                QuestionPrefillMessagePolisanmalan.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionPrintMessagePolisanmalan.toCertificate(index++, texts)
             )
             .build();
     }

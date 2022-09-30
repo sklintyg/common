@@ -38,6 +38,8 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.IDENTITET_S
 import static se.inera.intyg.common.sos_parent.support.RespConstants.KOMPLETTERANDE_PATIENTUPPGIFTER_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_PREFILL_MESSAGE_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_PRINT_MESSAGE_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_DELSVAR_ID;
@@ -210,5 +212,17 @@ class InternalToCertificateTest {
     void shallIncludeQuestionPolisanmalan() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
         assertEquals(18, actualCertificate.getData().get(POLISANMALAN_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionPrefillPolisanmalan() {
+        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
+        assertEquals(19, actualCertificate.getData().get(POLISANMALAN_PREFILL_MESSAGE_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionPrintPolisanmalan() {
+        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
+        assertEquals(20, actualCertificate.getData().get(POLISANMALAN_PRINT_MESSAGE_DELSVAR_ID).getIndex());
     }
 }
