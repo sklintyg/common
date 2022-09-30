@@ -153,26 +153,32 @@ public class FkOverflowableValueField extends PdfComponent<FkOverflowableValueFi
 
     private int findFittingLength(PdfContentByte canvas, Rectangle boundingRect, String text, String overflowInfoText)
         throws DocumentException {
-        boolean foundFittingLength = false;
+
         int length = text.length();
-        while (length > 0 && !foundFittingLength) {
-
-            int status = writeText(canvas, boundingRect, text.substring(0, length), overflowInfoText, true);
-            foundFittingLength = !ColumnText.hasMoreText(status);
-
-            // If wer'e in the middle of a "word" this is NOT a valid breaking point - keep looking
-            if (!isWordBoundaryChar(text, length)) {
-
-                if (length < text.length()) {
-
-                    foundFittingLength = false;
-                }
-            }
-            // Still not satisfied - keep removing characters..
-            if (!foundFittingLength) {
-                length--;
-            }
+        if (!ColumnText.hasMoreText(writeText(canvas, boundingRect, text.substring(0, length), overflowInfoText, true))) {
+            return length;
         }
+
+        for (int i = 1000; i >= 10; i /= 10) {
+            length = reduceTextLength(length, i, canvas, boundingRect, text, overflowInfoText);
+        }
+
+        while (length >= 0 && (ColumnText.hasMoreText(writeText(canvas, boundingRect, text.substring(0, length), overflowInfoText, true))
+            || !isWordBoundaryChar(text, length))) {
+            length -= 1;
+        }
+
+        return length;
+    }
+
+    private int reduceTextLength(int length, int step, PdfContentByte canvas, Rectangle boundingRect, String text,
+        String overflowInfoText) throws DocumentException {
+
+        while (length - step  >= 0 && ColumnText.hasMoreText(writeText(canvas, boundingRect, text.substring(0, length - step),
+            overflowInfoText, true))) {
+            length -= step;
+        }
+
         return length;
     }
 
