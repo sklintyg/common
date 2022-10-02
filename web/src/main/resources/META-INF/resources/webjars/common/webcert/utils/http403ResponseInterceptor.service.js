@@ -65,16 +65,18 @@ angular.module('common').provider('common.http403ResponseInterceptor',
                         }
                         redirectUrl += '?reason=';
 
-                        // if we aren't allowed to navigate we are most likely djupintegrerade.
-                        //TODO: use sessionType or something better than NAVIGERING to determine
-                        //which redirectUrl to use.
-                        if (!authorityService.isAuthorityActive({authority: 'NAVIGERING'})) {
+                        if (response.data && response.data.errorCode && response.data.errorCode === 'INVALID_LAUNCHID') {
+                            redirectUrl += 'invalid-launchid';
+                        }
+                        else if (!authorityService.isAuthorityActive({authority: 'NAVIGERING'})) {
                             redirectUrl += 'timeout_integration';
                         }
                         else {
                             redirectUrl += 'timeout';
                         }
-                        $window.location.href = redirectUrl;
+                        if (!$window.location.href.includes(redirectUrl)) {
+                            $window.location.href = redirectUrl;
+                        }
                     }
                     // signal rejection (arguably not meaningful here since we just
                     // issued a redirect)

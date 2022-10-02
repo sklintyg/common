@@ -44,6 +44,7 @@ public class User {
     private Map<String, String> preferences;
     private boolean protectedPerson;
     private List<CareProvider> careProviders;
+    private String launchId;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class UserBuilder {
