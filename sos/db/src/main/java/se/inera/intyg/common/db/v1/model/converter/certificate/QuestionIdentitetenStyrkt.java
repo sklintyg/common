@@ -29,7 +29,7 @@ import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextField;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
@@ -45,7 +45,7 @@ public class QuestionIdentitetenStyrkt {
             .parent(KOMPLETTERANDE_PATIENTUPPGIFTER_CATEGORY_ID)
             .index(index)
             .config(
-                CertificateDataConfigTextArea.builder()
+                CertificateDataConfigTextField.builder()
                     .id(IDENTITET_STYRKT_JSON_ID)
                     .text(texts.get(IDENTITET_STYRKT_QUESTION_TEXT_ID))
                     .build()

@@ -41,7 +41,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextField;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
@@ -92,14 +92,14 @@ class QuestionIdentitetenStyrktTest {
         @Test
         void shouldIncludeTextConfigType() {
             final var question = QuestionIdentitetenStyrkt.toCertificate("", 0, texts);
-            assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
+            assertEquals(CertificateDataConfigTypes.UE_TEXTFIELD, question.getConfig().getType());
         }
 
         @Test
         void shouldIncludeTextConfigValueId() {
             final var question = QuestionIdentitetenStyrkt.toCertificate("", 0, texts);
-            final var certificateDataConfigTextArea = (CertificateDataConfigTextArea) question.getConfig();
-            assertEquals(IDENTITET_STYRKT_JSON_ID, certificateDataConfigTextArea.getId());
+            final var certificateDataConfigTextField = (CertificateDataConfigTextField) question.getConfig();
+            assertEquals(IDENTITET_STYRKT_JSON_ID, certificateDataConfigTextField.getId());
         }
 
         @Test

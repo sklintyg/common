@@ -30,7 +30,7 @@ import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextField;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
@@ -46,7 +46,7 @@ public class QuestionDodsplatsKommun {
             .parent(DODSDATUM_DODSPLATS_CATEGORY_ID)
             .index(index)
             .config(
-                CertificateDataConfigTextArea.builder()
+                CertificateDataConfigTextField.builder()
                     .text(texts.get(DODSPLATS_QUESTION_TEXT_ID))
                     .label(texts.get(DODSPLATS_KOMMUN_LABEL_TEXT_ID))
                     .id(DODSPLATS_KOMMUN_JSON_ID)
