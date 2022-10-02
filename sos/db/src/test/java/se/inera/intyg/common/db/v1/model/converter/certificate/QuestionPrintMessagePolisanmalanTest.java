@@ -20,8 +20,10 @@
 package se.inera.intyg.common.db.v1.model.converter.certificate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_JSON_ID;
@@ -35,8 +37,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMessage;
@@ -52,7 +54,7 @@ class QuestionPrintMessagePolisanmalanTest {
 
     @BeforeEach
     void setup() {
-        // when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
     }
 
     @Nested
@@ -86,12 +88,10 @@ class QuestionPrintMessagePolisanmalanTest {
 
         @Test
         void shouldIncludeConfigMessage() {
-            final var argumentCaptor = ArgumentCaptor.forClass(String.class);
-
-            QuestionPrintMessagePolisanmalan.toCertificate(0, texts);
-
-            verify(texts, atLeastOnce()).get(argumentCaptor.capture());
-            assertEquals(POLISANMALAN_PRINT_MESSAGE_ID, argumentCaptor.getValue());
+            final var certificateDataElement = QuestionPrintMessagePolisanmalan.toCertificate(0, texts);
+            final var certificateDataElementConfig = (CertificateDataConfigMessage) certificateDataElement.getConfig();
+            assertTrue(certificateDataElementConfig.getMessage().trim().length() > 0, "Missing message");
+            verify(texts, atLeastOnce()).get(POLISANMALAN_PRINT_MESSAGE_ID);
         }
 
         @Test

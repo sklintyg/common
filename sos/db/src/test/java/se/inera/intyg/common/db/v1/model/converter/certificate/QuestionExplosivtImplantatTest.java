@@ -22,8 +22,11 @@ package se.inera.intyg.common.db.v1.model.converter.certificate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_IMPLANTAT_CATEGORY_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_IMPLANTAT_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_IMPLANTAT_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_IMPLANTAT_JSON_ID;
 
@@ -84,8 +87,9 @@ class QuestionExplosivtImplantatTest {
 
         @Test
         void shouldIncludeText() {
-            final var question = QuestionExplosivtImplantat.toCertificate(true, 0, texts);
+            final var question = QuestionExplosivtImplantat.toCertificate(null, 0, texts);
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+            verify(texts, atLeastOnce()).get(EXPLOSIVT_IMPLANTAT_QUESTION_TEXT_ID);
         }
 
         @Test

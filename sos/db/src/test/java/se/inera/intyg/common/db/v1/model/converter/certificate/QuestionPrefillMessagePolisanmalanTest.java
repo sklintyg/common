@@ -20,6 +20,7 @@
 package se.inera.intyg.common.db.v1.model.converter.certificate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -35,7 +36,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -88,12 +88,10 @@ class QuestionPrefillMessagePolisanmalanTest {
 
         @Test
         void shouldIncludeConfigMessage() {
-            final var argumentCaptor = ArgumentCaptor.forClass(String.class);
-
-            QuestionPrefillMessagePolisanmalan.toCertificate(0, texts);
-
-            verify(texts, atLeastOnce()).get(argumentCaptor.capture());
-            assertEquals(POLISANMALAN_PREFILL_MESSAGE_ID, argumentCaptor.getValue());
+            final var certificateDataElement = QuestionPrefillMessagePolisanmalan.toCertificate(0, texts);
+            final var certificateDataElementConfig = (CertificateDataConfigMessage) certificateDataElement.getConfig();
+            assertTrue(certificateDataElementConfig.getMessage().trim().length() > 0, "Missing message");
+            verify(texts, atLeastOnce()).get(POLISANMALAN_PREFILL_MESSAGE_ID);
         }
 
         @Test

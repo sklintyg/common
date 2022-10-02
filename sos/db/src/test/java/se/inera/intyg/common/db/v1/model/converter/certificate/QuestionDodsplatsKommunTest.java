@@ -22,10 +22,14 @@ package se.inera.intyg.common.db.v1.model.converter.certificate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DODSPLATS_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_KOMMUN_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_KOMMUN_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_KOMMUN_LABEL_TEXT_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_QUESTION_TEXT_ID;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,7 +45,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextField;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
@@ -86,14 +89,16 @@ class QuestionDodsplatsKommunTest {
 
         @Test
         void shouldIncludeText() {
-            final var question = QuestionDodsplatsKommun.toCertificate("", 0, texts);
+            final var question = QuestionDodsplatsKommun.toCertificate(null, 0, texts);
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+            verify(texts, atLeastOnce()).get(DODSPLATS_QUESTION_TEXT_ID);
         }
 
         @Test
         void shouldIncludeLabel() {
-            final var question = QuestionDodsplatsKommun.toCertificate("", 0, texts);
+            final var question = QuestionDodsplatsKommun.toCertificate(null, 0, texts);
             assertTrue(question.getConfig().getLabel().trim().length() > 0, "Missing label");
+            verify(texts, atLeastOnce()).get(DODSPLATS_KOMMUN_LABEL_TEXT_ID);
         }
 
         @Test

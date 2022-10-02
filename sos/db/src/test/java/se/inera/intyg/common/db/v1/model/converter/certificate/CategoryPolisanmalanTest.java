@@ -21,8 +21,12 @@ package se.inera.intyg.common.db.v1.model.converter.certificate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_CATEGORY_DESCRIPTION_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_CATEGORY_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_CATEGORY_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -56,11 +60,13 @@ class CategoryPolisanmalanTest {
     void shouldIncludeCategoryText() {
         final var category = CategoryPolisanmalan.toCertificate(0, texts);
         assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
+        verify(texts, atLeastOnce()).get(POLISANMALAN_CATEGORY_TEXT_ID);
     }
 
     @Test
     void shouldIncludeCategoryDescription() {
         final var category = CategoryPolisanmalan.toCertificate(0, texts);
         assertTrue(category.getConfig().getDescription().trim().length() > 0, "Missing text");
+        verify(texts, atLeastOnce()).get(POLISANMALAN_CATEGORY_DESCRIPTION_ID);
     }
 }

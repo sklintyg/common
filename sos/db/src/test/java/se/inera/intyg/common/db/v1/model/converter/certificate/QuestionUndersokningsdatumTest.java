@@ -22,9 +22,12 @@ package se.inera.intyg.common.db.v1.model.converter.certificate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_DATUM_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_DATUM_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_DELSVAR_ID;
 
@@ -89,6 +92,7 @@ class QuestionUndersokningsdatumTest {
         void shouldIncludeText() {
             final var question = QuestionUndersokningsdatum.toCertificate(null, 0, texts);
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+            verify(texts, atLeastOnce()).get(UNDERSOKNING_DATUM_QUESTION_TEXT_ID);
         }
 
         @Test

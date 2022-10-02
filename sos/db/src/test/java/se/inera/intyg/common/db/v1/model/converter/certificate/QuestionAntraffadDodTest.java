@@ -22,7 +22,10 @@ package se.inera.intyg.common.db.v1.model.converter.certificate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAD_DOD_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_DELSVAR_ID;
@@ -88,6 +91,7 @@ class QuestionAntraffadDodTest {
         void shouldIncludeText() {
             final var question = QuestionAntraffadDod.toCertificate(null, 0, texts);
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+            verify(texts, atLeastOnce()).get(ANTRAFFAD_DOD_QUESTION_TEXT_ID);
         }
 
         @Test

@@ -21,8 +21,11 @@ package se.inera.intyg.common.db.v1.model.converter.certificate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DODSPLATS_CATEGORY_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DODSPLATS_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,8 +56,10 @@ class CategoryDodsdatumDodsplatsTest {
     }
 
     @Test
-    void shouldIncludeCategoryConfig() {
+    void shouldIncludeCategoryConfigText() {
         final var category = CategoryDodsdatumDodsplats.toCertificate(0, texts);
+
         assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
+        verify(texts, atLeastOnce()).get(DODSDATUM_DODSPLATS_TEXT_ID);
     }
 }

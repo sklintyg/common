@@ -22,10 +22,13 @@ package se.inera.intyg.common.db.v1.model.converter.certificate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_QUESTION_TEXT_ID;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -84,8 +87,9 @@ class QuestionPolisanmalanTest {
 
         @Test
         void shouldIncludeText() {
-            final var question = QuestionPolisanmalan.toCertificate(true, 0, texts);
+            final var question = QuestionPolisanmalan.toCertificate(null, 0, texts);
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+            verify(texts, atLeastOnce()).get(POLISANMALAN_QUESTION_TEXT_ID);
         }
 
         @Test
