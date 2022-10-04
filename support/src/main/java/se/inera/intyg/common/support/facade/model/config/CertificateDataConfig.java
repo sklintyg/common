@@ -29,6 +29,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @Type(value = CertificateDataConfigBoolean.class, name = "UE_RADIO_BOOLEAN"),
     @Type(value = CertificateDataConfigCategory.class, name = "CATEGORY"),
     @Type(value = CertificateDataConfigTextArea.class, name = "UE_TEXTAREA"),
+    @Type(value = CertificateDataConfigTextField.class, name = "UE_TEXTFIELD"),
     @Type(value = CertificateDataConfigDate.class, name = "UE_DATE"),
     @Type(value = CertificateDataConfigMessage.class, name = "UE_MESSAGE"),
     @Type(value = CertificateDataConfigUncertainDate.class, name = "UE_UNCERTAIN_DATE"),
