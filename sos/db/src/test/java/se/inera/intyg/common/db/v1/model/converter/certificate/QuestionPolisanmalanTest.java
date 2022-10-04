@@ -48,6 +48,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationAutoFill;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
@@ -182,6 +183,49 @@ class QuestionPolisanmalanTest {
             final var question = QuestionPolisanmalan.toCertificate(true, 0, texts);
             final var certificateDataValidationDisable = (CertificateDataValidationDisable) question.getValidation()[1];
             assertEquals("$" + Undersokning.UNDERSOKNING_SKA_GORAS.name(), certificateDataValidationDisable.getExpression());
+        }
+
+        @Test
+        void shouldIncludeValidationAutoFillType() {
+            final var question = QuestionPolisanmalan.toCertificate(true, 0, texts);
+            assertEquals(CertificateDataValidationType.AUTO_FILL_VALIDATION, question.getValidation()[2].getType());
+        }
+
+        @Test
+        void shouldIncludeValidationAutoFillQuestionId() {
+            final var question = QuestionPolisanmalan.toCertificate(true, 0, texts);
+            final var certificateDataValidationAutoFill = (CertificateDataValidationAutoFill) question.getValidation()[2];
+            assertEquals(UNDERSOKNING_YTTRE_DELSVAR_ID, certificateDataValidationAutoFill.getQuestionId());
+        }
+
+        @Test
+        void shouldIncludeValidationAutoFillExpression() {
+            final var question = QuestionPolisanmalan.toCertificate(true, 0, texts);
+            final var certificateDataValidationAutoFill = (CertificateDataValidationAutoFill) question.getValidation()[2];
+            assertEquals("$" + Undersokning.UNDERSOKNING_SKA_GORAS.name(), certificateDataValidationAutoFill.getExpression());
+        }
+
+        @Test
+        void shouldIncludeValidationAutoFillValueBooleanType() {
+            final var question = QuestionPolisanmalan.toCertificate(true, 0, texts);
+            final var certificateDataValidationAutoFill = (CertificateDataValidationAutoFill) question.getValidation()[2];
+            assertEquals(CertificateDataValueType.BOOLEAN, certificateDataValidationAutoFill.getFillValue().getType());
+        }
+
+        @Test
+        void shouldIncludeValidationAutoFillValueBooleanId() {
+            final var question = QuestionPolisanmalan.toCertificate(true, 0, texts);
+            final var certificateDataValidationAutoFill = (CertificateDataValidationAutoFill) question.getValidation()[2];
+            final var fillValue = (CertificateDataValueBoolean) certificateDataValidationAutoFill.getFillValue();
+            assertEquals(POLISANMALAN_JSON_ID, fillValue.getId());
+        }
+
+        @Test
+        void shouldIncludeValidationAutoFillValueBooleanTrue() {
+            final var question = QuestionPolisanmalan.toCertificate(true, 0, texts);
+            final var certificateDataValidationAutoFill = (CertificateDataValidationAutoFill) question.getValidation()[2];
+            final var fillValue = (CertificateDataValueBoolean) certificateDataValidationAutoFill.getFillValue();
+            assertEquals(true, fillValue.getSelected());
         }
     }
 

@@ -33,6 +33,7 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationAutoFill;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
@@ -67,6 +68,16 @@ public class QuestionPolisanmalan {
                     CertificateDataValidationDisable.builder()
                         .questionId(UNDERSOKNING_YTTRE_DELSVAR_ID)
                         .expression(singleExpression(Undersokning.UNDERSOKNING_SKA_GORAS.name()))
+                        .build(),
+                    CertificateDataValidationAutoFill.builder()
+                        .questionId(UNDERSOKNING_YTTRE_DELSVAR_ID)
+                        .expression(singleExpression(Undersokning.UNDERSOKNING_SKA_GORAS.name()))
+                        .fillValue(
+                            CertificateDataValueBoolean.builder()
+                                .id(POLISANMALAN_JSON_ID)
+                                .selected(true)
+                                .build()
+                        )
                         .build()
                 }
             )
