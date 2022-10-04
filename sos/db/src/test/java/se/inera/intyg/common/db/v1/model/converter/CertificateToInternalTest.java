@@ -49,7 +49,9 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 class CertificateToInternalTest {
 
@@ -62,8 +64,11 @@ class CertificateToInternalTest {
         final var grundData = new GrundData();
         final var hosPersonal = new HoSPersonal();
         final var vardenhet = new Vardenhet();
+        final var patient = new Patient();
         hosPersonal.setVardenhet(vardenhet);
         grundData.setSkapadAv(hosPersonal);
+        grundData.setPatient(patient);
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
 
         expectedInternalCertificate = DbUtlatandeV1.builder()
             .setGrundData(grundData)
@@ -94,7 +99,8 @@ class CertificateToInternalTest {
             .addElement(QuestionAntraffadDod.toCertificate(expectedInternalCertificate.getAntraffatDodDatum().asLocalDate(), 0, texts))
             .addElement(QuestionDodsplatsKommun.toCertificate(expectedInternalCertificate.getDodsplatsKommun(), 0, texts))
             .addElement(QuestionDodsplatsBoende.toCertificate(expectedInternalCertificate.getDodsplatsBoende(), 0, texts))
-            .addElement(QuestionBarn.toCertificate(expectedInternalCertificate.getBarn(), 0, texts))
+            .addElement(QuestionBarn.toCertificate(expectedInternalCertificate.getGrundData().getPatient().getPersonId(),
+                expectedInternalCertificate.getBarn(), 0, texts))
             .addElement(QuestionExplosivtImplantat.toCertificate(expectedInternalCertificate.getExplosivImplantat(), 0, texts))
             .addElement(QuestionExplosivtAvlagsnat.toCertificate(expectedInternalCertificate.getExplosivAvlagsnat(), 0, texts))
             .addElement(QuestionUndersokningYttre.toCertificate(expectedInternalCertificate.getUndersokningYttre(), 0, texts))

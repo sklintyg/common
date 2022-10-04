@@ -78,6 +78,8 @@ public final class RespConstants {
     public static final String DODSDATUM_DODSPLATS_TEXT_ID = "KAT_2.RBK";
     public static final String BARN_CATEGORY_ID = "barnKategori";
     public static final String BARN_CATEGORY_TEXT_ID = "KAT_3.RBK";
+    public static final String BARN_AUTO_FILL_WITHIN_MESSAGE_ID = "DFR_4.1_INOM28.INFO";
+    public static final String BARN_AUTO_FILL_AFTER_MESSAGE_ID = "DFR_4.1_EJ_INOM28.INFO";
     public static final String EXPLOSIVT_IMPLANTAT_CATEGORY_ID = "explosivtImplantat";
     public static final String EXPLOSIVT_IMPLANTAT_CATEGORY_TEXT_ID = "KAT_4.RBK";
     public static final String EXPLOSIVT_IMPLANTAT_CATEGORY_DESCRIPTION_ID = "KAT_4.HLP";
@@ -112,6 +114,8 @@ public final class RespConstants {
     public static final String DODSPLATS_KOMMUN_DELSVAR_ID = "3.1";
     public static final String DODSPLATS_BOENDE_DELSVAR_ID = "3.2";
     public static final String BARN_DELSVAR_ID = "4.1";
+    public static final String BARN_AUTOFILL_WITHIN_MESSAGE_DELSVAR_ID = "4.1.1";
+    public static final String BARN_AUTOFILL_AFTER_MESSAGE_DELSVAR_ID = "4.1.2";
     public static final String EXPLOSIV_IMPLANTAT_DELSVAR_ID = "5.1";
     public static final String EXPLOSIV_AVLAGSNAT_DELSVAR_ID = "5.2";
     public static final String UNDERSOKNING_YTTRE_DELSVAR_ID = "6.1";

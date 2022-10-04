@@ -28,6 +28,8 @@ import se.inera.intyg.common.db.v1.model.converter.certificate.CategoryPolisanma
 import se.inera.intyg.common.db.v1.model.converter.certificate.CategoryUndersokningYttre;
 import se.inera.intyg.common.db.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionAntraffadDod;
+import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionAutoFillMessageAfter28DaysBarn;
+import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionAutoFillMessageWithin28DaysBarn;
 import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionBarn;
 import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionDodsdatum;
 import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionDodsdatumSakert;
@@ -92,7 +94,16 @@ public class InternalToCertificate {
                 CategoryBarn.toCertificate(index++, texts)
             )
             .addElement(
-                QuestionBarn.toCertificate(internalCertificate.getBarn(), index++, texts)
+                QuestionBarn.toCertificate(internalCertificate.getGrundData().getPatient().getPersonId(),
+                    internalCertificate.getBarn(), index++, texts)
+            )
+            .addElement(
+                QuestionAutoFillMessageWithin28DaysBarn.toCertificate(internalCertificate.getGrundData().getPatient().getPersonId(),
+                    index++, texts)
+            )
+            .addElement(
+                QuestionAutoFillMessageAfter28DaysBarn.toCertificate(internalCertificate.getGrundData().getPatient().getPersonId(),
+                    index++, texts)
             )
             .addElement(
                 CategoryExplosivtImplantat.toCertificate(index++, texts)
