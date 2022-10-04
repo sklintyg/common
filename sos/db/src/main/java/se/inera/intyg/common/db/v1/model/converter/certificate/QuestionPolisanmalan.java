@@ -23,14 +23,17 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALA
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_QUESTION_TEXT_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_DELSVAR_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 
+import se.inera.intyg.common.db.model.internal.Undersokning;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 
@@ -60,6 +63,10 @@ public class QuestionPolisanmalan {
                     CertificateDataValidationMandatory.builder()
                         .questionId(POLISANMALAN_DELSVAR_ID)
                         .expression(singleExpression(POLISANMALAN_JSON_ID))
+                        .build(),
+                    CertificateDataValidationDisable.builder()
+                        .questionId(UNDERSOKNING_YTTRE_DELSVAR_ID)
+                        .expression(singleExpression(Undersokning.UNDERSOKNING_SKA_GORAS.name()))
                         .build()
                 }
             )

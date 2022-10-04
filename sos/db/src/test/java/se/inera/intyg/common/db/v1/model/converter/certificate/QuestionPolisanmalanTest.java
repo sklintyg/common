@@ -29,6 +29,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALA
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_QUESTION_TEXT_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_DELSVAR_ID;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,10 +43,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import se.inera.intyg.common.db.model.internal.Undersokning;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
@@ -159,6 +162,26 @@ class QuestionPolisanmalanTest {
             final var question = QuestionPolisanmalan.toCertificate(true, 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
             assertEquals("$" + POLISANMALAN_JSON_ID, certificateDataValidationMandatory.getExpression());
+        }
+
+        @Test
+        void shouldIncludeValidationDisableType() {
+            final var question = QuestionPolisanmalan.toCertificate(true, 0, texts);
+            assertEquals(CertificateDataValidationType.DISABLE_VALIDATION, question.getValidation()[1].getType());
+        }
+
+        @Test
+        void shouldIncludeValidationDisableQuestionId() {
+            final var question = QuestionPolisanmalan.toCertificate(true, 0, texts);
+            final var certificateDataValidationDisable = (CertificateDataValidationDisable) question.getValidation()[1];
+            assertEquals(UNDERSOKNING_YTTRE_DELSVAR_ID, certificateDataValidationDisable.getQuestionId());
+        }
+
+        @Test
+        void shouldIncludeValidationDisableExpression() {
+            final var question = QuestionPolisanmalan.toCertificate(true, 0, texts);
+            final var certificateDataValidationDisable = (CertificateDataValidationDisable) question.getValidation()[1];
+            assertEquals("$" + Undersokning.UNDERSOKNING_SKA_GORAS.name(), certificateDataValidationDisable.getExpression());
         }
     }
 
