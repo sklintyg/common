@@ -27,14 +27,19 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.same;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
+import com.google.common.collect.Maps;
 import com.google.common.io.Resources;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Properties;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFactory;
 import javax.xml.ws.soap.SOAPFaultException;
@@ -49,11 +54,14 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import se.inera.intyg.common.db.support.DbModuleEntryPoint;
 import se.inera.intyg.common.db.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
 import se.inera.intyg.common.db.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.db.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.db.v1.validator.InternalDraftValidatorImpl;
+import se.inera.intyg.common.services.texts.IntygTextsService;
+import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -70,6 +78,8 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadEnum;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponderInterface;
@@ -86,7 +96,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class DbModuleApiTest {
+public class DbModuleApiV1Test {
 
     private static final String LOGICAL_ADDRESS = "logical address";
 
@@ -111,10 +121,13 @@ public class DbModuleApiTest {
     @Mock
     private InternalDraftValidatorImpl internalDraftValidator;
 
+    @Mock
+    private IntygTextsService intygTexts;
+
     @InjectMocks
     private DbModuleApiV1 moduleApi;
 
-    public DbModuleApiTest() {
+    public DbModuleApiV1Test() {
         MockitoAnnotations.initMocks(this);
     }
 
@@ -488,5 +501,33 @@ public class DbModuleApiTest {
         final var certificateMessagesProvider = moduleApi.getMessagesProvider();
 
         assertNull(certificateMessagesProvider.get("not.existing"));
+    }
+
+    @Test
+    public void shallRetrieveMunicipalitiesWhenGetCertificateFromJson() throws Exception {
+        final var typeAheadProvider = mock(TypeAheadProvider.class);
+        final GrundData grundData = getGrundData();
+        when(objectMapper.readValue(eq("internal model"), eq(DbUtlatandeV1.class))).thenReturn(DbUtlatandeV1.builder()
+            .setId("123")
+            .setTextVersion("1.0")
+            .setGrundData(grundData)
+            .build());
+        when(intygTexts.getIntygTextsPojo(any(), any())).thenReturn(
+            new IntygTexts("1.0", DbModuleEntryPoint.MODULE_ID, LocalDate.now(), LocalDate.now().plusDays(1),
+                Maps.newTreeMap(), Collections.emptyList(), new Properties()));
+        moduleApi.getCertificateFromJson("internal model", typeAheadProvider);
+        verify(typeAheadProvider).getValues(TypeAheadEnum.MUNICIPALITIES);
+    }
+
+    private GrundData getGrundData() {
+        final var unit = new Vardenhet();
+        final var skapadAv = new HoSPersonal();
+        final var patient = new Patient();
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+        skapadAv.setVardenhet(unit);
+        final var grundData = new GrundData();
+        grundData.setSkapadAv(skapadAv);
+        grundData.setPatient(patient);
+        return grundData;
     }
 }

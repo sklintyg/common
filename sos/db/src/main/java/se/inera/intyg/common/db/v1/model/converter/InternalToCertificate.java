@@ -20,6 +20,7 @@
 package se.inera.intyg.common.db.v1.model.converter;
 
 import java.time.LocalDate;
+import java.util.List;
 import se.inera.intyg.common.db.v1.model.converter.certificate.CategoryBarn;
 import se.inera.intyg.common.db.v1.model.converter.certificate.CategoryDodsdatumDodsplats;
 import se.inera.intyg.common.db.v1.model.converter.certificate.CategoryExplosivtImplantat;
@@ -56,7 +57,7 @@ public class InternalToCertificate {
 
     }
 
-    public static Certificate convert(DbUtlatandeV1 internalCertificate, CertificateTextProvider texts) {
+    public static Certificate convert(DbUtlatandeV1 internalCertificate, CertificateTextProvider texts, List<String> municipalities) {
         int index = 0;
 
         return CertificateBuilder.create()
@@ -85,7 +86,7 @@ public class InternalToCertificate {
                 QuestionAntraffadDod.toCertificate(toLocalDate(internalCertificate.getAntraffatDodDatum()), index++, texts)
             )
             .addElement(
-                QuestionDodsplatsKommun.toCertificate(internalCertificate.getDodsplatsKommun(), index++, texts)
+                QuestionDodsplatsKommun.toCertificate(municipalities, internalCertificate.getDodsplatsKommun(), index++, texts)
             )
             .addElement(
                 QuestionDodsplatsBoende.toCertificate(internalCertificate.getDodsplatsBoende(), index++, texts)

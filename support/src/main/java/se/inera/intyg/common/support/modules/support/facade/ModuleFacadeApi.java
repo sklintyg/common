@@ -26,7 +26,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 
 public interface ModuleFacadeApi {
 
-    Certificate getCertificateFromJson(String certificateAsJson) throws ModuleException, IOException;
+    Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider) throws ModuleException, IOException;
 
     String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException, IOException;
 

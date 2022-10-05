@@ -31,6 +31,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_K
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_KOMMUN_LABEL_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_QUESTION_TEXT_ID;
 
+import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -45,7 +46,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextField;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypeAhead;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
@@ -58,6 +59,8 @@ class QuestionDodsplatsKommunTest {
 
     @Mock
     private CertificateTextProvider texts;
+    
+    private List<String> typeAhead = List.of("Östersund", "Strömsund", "Stockholm");
 
     @BeforeEach
     void setup() {
@@ -70,59 +73,66 @@ class QuestionDodsplatsKommunTest {
 
         @Test
         void shouldIncludeId() {
-            final var question = QuestionDodsplatsKommun.toCertificate("", 0, texts);
+            final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, "", 0, texts);
             assertEquals(DODSPLATS_KOMMUN_DELSVAR_ID, question.getId());
         }
 
         @Test
         void shouldIncludeIndex() {
             final var expectedIndex = 1;
-            final var question = QuestionDodsplatsKommun.toCertificate("", expectedIndex, texts);
+            final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, "", expectedIndex, texts);
             assertEquals(expectedIndex, question.getIndex());
         }
 
         @Test
         void shouldIncludeParentId() {
-            final var question = QuestionDodsplatsKommun.toCertificate("", 0, texts);
+            final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, "", 0, texts);
             assertEquals(DODSDATUM_DODSPLATS_CATEGORY_ID, question.getParent());
         }
 
         @Test
         void shouldIncludeText() {
-            final var question = QuestionDodsplatsKommun.toCertificate(null, 0, texts);
+            final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, null, 0, texts);
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
             verify(texts, atLeastOnce()).get(DODSPLATS_QUESTION_TEXT_ID);
         }
 
         @Test
         void shouldIncludeLabel() {
-            final var question = QuestionDodsplatsKommun.toCertificate(null, 0, texts);
+            final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, null, 0, texts);
             assertTrue(question.getConfig().getLabel().trim().length() > 0, "Missing label");
             verify(texts, atLeastOnce()).get(DODSPLATS_KOMMUN_LABEL_TEXT_ID);
         }
 
         @Test
-        void shouldIncludeTextConfigType() {
-            final var question = QuestionDodsplatsKommun.toCertificate("", 0, texts);
-            assertEquals(CertificateDataConfigTypes.UE_TEXTFIELD, question.getConfig().getType());
+        void shouldIncludeTypeAheadConfigType() {
+            final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, "", 0, texts);
+            assertEquals(CertificateDataConfigTypes.UE_TYPE_AHEAD, question.getConfig().getType());
         }
 
         @Test
-        void shouldIncludeTextConfigValueId() {
-            final var question = QuestionDodsplatsKommun.toCertificate("", 0, texts);
-            final var certificateDataConfigTextField = (CertificateDataConfigTextField) question.getConfig();
-            assertEquals(DODSPLATS_KOMMUN_JSON_ID, certificateDataConfigTextField.getId());
+        void shouldIncludeTypeAheadConfigValueId() {
+            final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, "", 0, texts);
+            final var certificateDataConfigTypeAhead = (CertificateDataConfigTypeAhead) question.getConfig();
+            assertEquals(DODSPLATS_KOMMUN_JSON_ID, certificateDataConfigTypeAhead.getId());
+        }
+
+        @Test
+        void shouldIncludeTypeAheadConfigTypeAhead() {
+            final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, "", 0, texts);
+            final var certificateDataConfigTypeAhead = (CertificateDataConfigTypeAhead) question.getConfig();
+            assertEquals(typeAhead, certificateDataConfigTypeAhead.getTypeAhead());
         }
 
         @Test
         void shouldIncludeTextValueType() {
-            final var question = QuestionDodsplatsKommun.toCertificate("", 0, texts);
+            final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, "", 0, texts);
             assertEquals(CertificateDataValueType.TEXT, question.getValue().getType());
         }
 
         @Test
         void shouldIncludeTextValueId() {
-            final var question = QuestionDodsplatsKommun.toCertificate("Text value", 0, texts);
+            final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, "Text value", 0, texts);
             final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
             assertEquals(DODSPLATS_KOMMUN_JSON_ID, certificateDataTextValue.getId());
         }
@@ -130,54 +140,54 @@ class QuestionDodsplatsKommunTest {
         @Test
         void shouldIncludeTextValue() {
             final var expectedTextValue = "Text value";
-            final var question = QuestionDodsplatsKommun.toCertificate(expectedTextValue, 0, texts);
+            final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, expectedTextValue, 0, texts);
             final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
             assertEquals(expectedTextValue, certificateDataTextValue.getText());
         }
 
         @Test
         void shouldIncludeTextValueEmpty() {
-            final var question = QuestionDodsplatsKommun.toCertificate(null, 0, texts);
+            final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, null, 0, texts);
             final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
             assertNull(certificateDataTextValue.getText());
         }
 
         @Test
         void shouldIncludeValidationMandatoryType() {
-            final var question = QuestionDodsplatsKommun.toCertificate("", 0, texts);
+            final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, "", 0, texts);
             assertEquals(CertificateDataValidationType.MANDATORY_VALIDATION, question.getValidation()[0].getType());
         }
 
         @Test
         void shouldIncludeValidationMandatoryQuestionId() {
-            final var question = QuestionDodsplatsKommun.toCertificate("", 0, texts);
+            final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, "", 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
             assertEquals(DODSPLATS_KOMMUN_DELSVAR_ID, certificateDataValidationMandatory.getQuestionId());
         }
 
         @Test
         void shouldIncludeValidationMandatoryExpression() {
-            final var question = QuestionDodsplatsKommun.toCertificate("", 0, texts);
+            final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, "", 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
             assertEquals("$" + DODSPLATS_KOMMUN_JSON_ID, certificateDataValidationMandatory.getExpression());
         }
 
         @Test
         void shouldIncludeValidationMaxCharacterType() {
-            final var question = QuestionDodsplatsKommun.toCertificate("", 0, texts);
+            final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, "", 0, texts);
             assertEquals(CertificateDataValidationType.TEXT_VALIDATION, question.getValidation()[1].getType());
         }
 
         @Test
         void shouldIncludeValidationTextId() {
-            final var question = QuestionDodsplatsKommun.toCertificate("", 0, texts);
+            final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, "", 0, texts);
             final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[1];
             assertEquals(DODSPLATS_KOMMUN_JSON_ID, certificateDataValidationText.getId());
         }
 
         @Test
         void shouldIncludeValidationTextLimit() {
-            final var question = QuestionDodsplatsKommun.toCertificate("", 0, texts);
+            final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, "", 0, texts);
             final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[1];
             assertEquals(28, certificateDataValidationText.getLimit());
         }
@@ -195,7 +205,7 @@ class QuestionDodsplatsKommunTest {
         @MethodSource("textValues")
         void shouldIncludeTextValue(String expectedValue) {
             final var certificate = CertificateBuilder.create()
-                .addElement(QuestionDodsplatsKommun.toCertificate(expectedValue, 0, texts))
+                .addElement(QuestionDodsplatsKommun.toCertificate(typeAhead, expectedValue, 0, texts))
                 .build();
 
             final var actualValue = QuestionDodsplatsKommun.toInternal(certificate);

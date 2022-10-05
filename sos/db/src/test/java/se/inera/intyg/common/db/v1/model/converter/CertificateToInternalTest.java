@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -97,7 +98,9 @@ class CertificateToInternalTest {
             .addElement(QuestionDodsdatumSakert.toCertificate(expectedInternalCertificate.getDodsdatumSakert(), 0, texts))
             .addElement(QuestionDodsdatum.toCertificate(expectedInternalCertificate.getDodsdatum().asLocalDate(), 0, texts))
             .addElement(QuestionAntraffadDod.toCertificate(expectedInternalCertificate.getAntraffatDodDatum().asLocalDate(), 0, texts))
-            .addElement(QuestionDodsplatsKommun.toCertificate(expectedInternalCertificate.getDodsplatsKommun(), 0, texts))
+            // TODO: Retrieve municipalities
+            .addElement(
+                QuestionDodsplatsKommun.toCertificate(Collections.emptyList(), expectedInternalCertificate.getDodsplatsKommun(), 0, texts))
             .addElement(QuestionDodsplatsBoende.toCertificate(expectedInternalCertificate.getDodsplatsBoende(), 0, texts))
             .addElement(QuestionBarn.toCertificate(expectedInternalCertificate.getGrundData().getPatient().getPersonId(),
                 expectedInternalCertificate.getBarn(), 0, texts))

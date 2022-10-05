@@ -27,6 +27,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_Q
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
+import java.util.List;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -40,16 +41,18 @@ public class QuestionDodsplatsKommun {
 
     private static final short TEXT_LIMIT = 28;
 
-    public static CertificateDataElement toCertificate(String kommun, int index, CertificateTextProvider texts) {
+    public static CertificateDataElement toCertificate(List<String> municipalities, String kommun, int index,
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(DODSPLATS_KOMMUN_DELSVAR_ID)
             .parent(DODSDATUM_DODSPLATS_CATEGORY_ID)
             .index(index)
             .config(
-                CertificateDataConfigTextField.builder()
+                CertificateDataConfigTypeAhead.builder()
                     .text(texts.get(DODSPLATS_QUESTION_TEXT_ID))
                     .label(texts.get(DODSPLATS_KOMMUN_LABEL_TEXT_ID))
                     .id(DODSPLATS_KOMMUN_JSON_ID)
+                    .typeAhead(municipalities)
                     .build()
             )
             .value(
