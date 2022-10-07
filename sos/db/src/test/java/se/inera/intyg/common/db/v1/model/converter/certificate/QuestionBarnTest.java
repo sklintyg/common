@@ -28,7 +28,9 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_QUESTION_SELECTED_QUESTION;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_QUESTION_TEXT_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_QUESTION_UNSELECTED_QUESTION;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_JSON_ID;
 
@@ -97,6 +99,20 @@ class QuestionBarnTest {
             final var question = QuestionBarn.toCertificate(personId, null, 0, texts);
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
             verify(texts, atLeastOnce()).get(BARN_QUESTION_TEXT_ID);
+        }
+
+        @Test
+        void shouldIncludeSelectedText() {
+            final var question = QuestionBarn.toCertificate(personId, null, 0, texts);
+            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+            verify(texts, atLeastOnce()).get(BARN_QUESTION_SELECTED_QUESTION);
+        }
+
+        @Test
+        void shouldIncludeUnselectedText() {
+            final var question = QuestionBarn.toCertificate(personId, null, 0, texts);
+            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+            verify(texts, atLeastOnce()).get(BARN_QUESTION_UNSELECTED_QUESTION);
         }
 
         @Test

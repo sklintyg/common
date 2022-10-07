@@ -22,7 +22,9 @@ package se.inera.intyg.common.db.v1.model.converter.certificate;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_QUESTION_SELECTED_TEXT;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_QUESTION_TEXT_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_QUESTION_UNSELECTED_TEXT;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_DELSVAR_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
@@ -49,8 +51,8 @@ public class QuestionPolisanmalan {
                 CertificateDataConfigRadioBoolean.builder()
                     .id(POLISANMALAN_JSON_ID)
                     .text(texts.get(POLISANMALAN_QUESTION_TEXT_ID))
-                    .selectedText(texts.get("DFR_7.1.SVA_1.RBK"))
-                    .unselectedText("Nej")
+                    .selectedText(texts.get(POLISANMALAN_QUESTION_SELECTED_TEXT))
+                    .unselectedText(texts.get(POLISANMALAN_QUESTION_UNSELECTED_TEXT))
                     .build()
             )
             .value(

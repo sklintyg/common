@@ -23,7 +23,9 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_D
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_QUESTION_DESCRIPTION_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_QUESTION_SELECTED_TEXT;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_QUESTION_TEXT_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_QUESTION_UNSELECTED_TEXT;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 
@@ -48,8 +50,8 @@ public class QuestionDodsdatumSakert {
                     .id(DODSDATUM_SAKERT_JSON_ID)
                     .text(texts.get(DODSDATUM_SAKERT_QUESTION_TEXT_ID))
                     .description(texts.get(DODSDATUM_SAKERT_QUESTION_DESCRIPTION_ID))
-                    .selectedText("Ja")
-                    .unselectedText("Nej")
+                    .selectedText(texts.get(DODSDATUM_SAKERT_QUESTION_SELECTED_TEXT))
+                    .unselectedText(texts.get(DODSDATUM_SAKERT_QUESTION_UNSELECTED_TEXT))
                     .build()
             )
             .value(

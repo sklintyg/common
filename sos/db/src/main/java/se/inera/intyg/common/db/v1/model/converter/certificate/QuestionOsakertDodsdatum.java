@@ -27,6 +27,7 @@ import static se.inera.intyg.common.support.facade.util.ValidationExpressionTool
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.uncertainDateValue;
 
+import java.time.Year;
 import java.util.List;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -49,7 +50,9 @@ public class QuestionOsakertDodsdatum {
             .config(
                 CertificateDataConfigUncertainDate.builder()
                     .id(DODSDATUM_JSON_ID)
-                    .allowedYears(List.of("2022", "2021"))
+                    .allowedYears(List.of(
+                        String.valueOf(Year.now()),
+                        String.valueOf(Year.now().minusYears(1))))
                     .unknownYear(true)
                     .unknownMonth(true)
                     .build()

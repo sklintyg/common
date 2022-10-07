@@ -20,7 +20,9 @@
 package se.inera.intyg.common.db.v1.model.converter.certificate;
 
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_IMPLANTAT_CATEGORY_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_IMPLANTAT_QUESTION_SELECTED_TEXT;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_IMPLANTAT_QUESTION_TEXT_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_IMPLANTAT_QUESTION_UNSELECTED_TEXT;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_IMPLANTAT_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_IMPLANTAT_JSON_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
@@ -46,8 +48,8 @@ public class QuestionExplosivtImplantat {
                 CertificateDataConfigRadioBoolean.builder()
                     .id(EXPLOSIV_IMPLANTAT_JSON_ID)
                     .text(texts.get(EXPLOSIVT_IMPLANTAT_QUESTION_TEXT_ID))
-                    .selectedText("Ja")
-                    .unselectedText("Nej")
+                    .selectedText(texts.get(EXPLOSIVT_IMPLANTAT_QUESTION_SELECTED_TEXT))
+                    .unselectedText(texts.get(EXPLOSIVT_IMPLANTAT_QUESTION_UNSELECTED_TEXT))
                     .build()
             )
             .value(

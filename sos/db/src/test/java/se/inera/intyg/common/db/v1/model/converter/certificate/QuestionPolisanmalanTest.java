@@ -28,7 +28,9 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_QUESTION_SELECTED_TEXT;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_QUESTION_TEXT_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_QUESTION_UNSELECTED_TEXT;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_DELSVAR_ID;
 
 import java.util.stream.Stream;
@@ -94,6 +96,20 @@ class QuestionPolisanmalanTest {
             final var question = QuestionPolisanmalan.toCertificate(null, 0, texts);
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
             verify(texts, atLeastOnce()).get(POLISANMALAN_QUESTION_TEXT_ID);
+        }
+
+        @Test
+        void shouldIncludeSelectedText() {
+            final var question = QuestionPolisanmalan.toCertificate(null, 0, texts);
+            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+            verify(texts, atLeastOnce()).get(POLISANMALAN_QUESTION_SELECTED_TEXT);
+        }
+
+        @Test
+        void shouldIncludeUnselectedText() {
+            final var question = QuestionPolisanmalan.toCertificate(null, 0, texts);
+            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+            verify(texts, atLeastOnce()).get(POLISANMALAN_QUESTION_UNSELECTED_TEXT);
         }
 
         @Test

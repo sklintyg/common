@@ -77,4 +77,5 @@ public final class ValidationExpressionToolkit {
     public static String equalsWith(String s, String value) {
         return s + " == " + value;
     }
+
 }

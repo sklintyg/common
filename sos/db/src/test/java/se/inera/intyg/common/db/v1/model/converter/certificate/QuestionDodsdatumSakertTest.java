@@ -29,7 +29,9 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_D
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_QUESTION_DESCRIPTION_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_QUESTION_SELECTED_TEXT;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_QUESTION_TEXT_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_QUESTION_UNSELECTED_TEXT;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -91,6 +93,20 @@ class QuestionDodsdatumSakertTest {
             final var question = QuestionDodsdatumSakert.toCertificate(null, 0, texts);
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
             verify(texts, atLeastOnce()).get(DODSDATUM_SAKERT_QUESTION_TEXT_ID);
+        }
+
+        @Test
+        void shouldIncludeSelectedText() {
+            final var question = QuestionDodsdatumSakert.toCertificate(null, 0, texts);
+            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+            verify(texts, atLeastOnce()).get(DODSDATUM_SAKERT_QUESTION_SELECTED_TEXT);
+        }
+
+        @Test
+        void shouldIncludeUnselectedText() {
+            final var question = QuestionDodsdatumSakert.toCertificate(null, 0, texts);
+            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+            verify(texts, atLeastOnce()).get(DODSDATUM_SAKERT_QUESTION_UNSELECTED_TEXT);
         }
 
         @Test

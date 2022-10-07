@@ -29,18 +29,27 @@ public final class RespConstants {
     public static final String DODSDATUM_SAKERT_QUESTION_TEXT_ID = "FRG_2.RBK";
     public static final String DODSDATUM_SAKERT_QUESTION_DESCRIPTION_ID = "FRG_2.HLP";
     public static final String DODSDATUM_QUESTION_TEXT_ID = "DFR_2.2.RBK";
+    public static final String DODSDATUM_SAKERT_QUESTION_SELECTED_TEXT = "SVAR_JA.RBK";
+    public static final String DODSDATUM_SAKERT_QUESTION_UNSELECTED_TEXT = "SVAR_NEJ.RBK";
     public static final String ANTRAFFAD_DOD_QUESTION_TEXT_ID = "DFR_2.3.RBK";
     public static final String DODSPLATS_QUESTION_TEXT_ID = "FRG_3.RBK";
-    public static final String DODSPLATS_KOMMUN_LABEL_TEXT_ID = "DFR_3.1.RBK";
+    public static final String DODSPLATS_KOMMUN_TEXT_ID = "DFR_3.1.RBK";
     public static final String DODSPLATS_BOENDE_QUESTION_TEXT_ID = "DFR_3.2.RBK";
     public static final String DODSPLATS_BOENDE_QUESTION_DESCRIPTION_ID = "DFR_3.2.HLP";
     public static final String BARN_QUESTION_TEXT_ID = "DFR_4.1.RBK";
     public static final String EXPLOSIVT_IMPLANTAT_QUESTION_TEXT_ID = "DFR_5.1.RBK";
     public static final String EXPLOSIVT_AVLAGSNAT_QUESTION_TEXT_ID = "DFR_5.2.RBK";
+
+
+    public static final String EXPLOSIVT_AVLAGSNAT_QUESTION_SELECTED_TEXT = "SVAR_JA.RBK";
+    public static final String EXPLOSIVT_IMPLANTAT_QUESTION_SELECTED_TEXT = "SVAR_JA.RBK";
+    public static final String EXPLOSIVT_AVLAGSNAT_QUESTION_UNSELECTED_TEXT = "SVAR_NEJ.RBK";
+    public static final String EXPLOSIVT_IMPLANTAT_QUESTION_UNSELECTED_TEXT = "SVAR_NEJ.RBK";
     public static final String UNDERSOKNING_YTTRE_QUESTION_TEXT_ID = "DFR_6.1.RBK";
     public static final String UNDERSOKNING_DATUM_QUESTION_TEXT_ID = "DFR_6.3.RBK";
     public static final String POLISANMALAN_QUESTION_TEXT_ID = "DFR_7.1.RBK";
-
+    public static final String POLISANMALAN_QUESTION_SELECTED_TEXT = "DFR_7.1.SVA_1.RBK";
+    public static final String POLISANMALAN_QUESTION_UNSELECTED_TEXT = "SVAR_NEJ.RBK";
     public static final String IDENTITET_STYRKT_JSON_ID = "identitetStyrkt";
     public static final String DODSDATUM_JSON_ID = "dodsdatum";
     public static final String DODSDATUM_SAKERT_JSON_ID = "dodsdatumSakert";
@@ -48,7 +57,8 @@ public final class RespConstants {
     public static final String DODSPLATS_BOENDE_JSON_ID = "dodsplatsBoende";
     public static final String DODSPLATS_KOMMUN_JSON_ID = "dodsplatsKommun";
     public static final String BARN_JSON_ID = "barn";
-
+    public static final String BARN_QUESTION_SELECTED_QUESTION = "SVAR_JA.RBK";
+    public static final String BARN_QUESTION_UNSELECTED_QUESTION = "SVAR_NEJ.RBK";
     public static final String EXPLOSIV_IMPLANTAT_JSON_ID = "explosivImplantat";
     public static final String EXPLOSIV_AVLAGSNAT_JSON_ID = "explosivAvlagsnat";
     public static final String UNDERSOKNING_YTTRE_JSON_ID = "undersokningYttre";

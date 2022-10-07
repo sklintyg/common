@@ -19,11 +19,10 @@
 
 package se.inera.intyg.common.db.v1.model.converter.certificate;
 
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DODSPLATS_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_KOMMUN_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_KOMMUN_JSON_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_KOMMUN_LABEL_TEXT_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_QUESTION_TEXT_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_KOMMUN_TEXT_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_SVAR_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
@@ -45,12 +44,11 @@ public class QuestionDodsplatsKommun {
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(DODSPLATS_KOMMUN_DELSVAR_ID)
-            .parent(DODSDATUM_DODSPLATS_CATEGORY_ID)
+            .parent(DODSPLATS_SVAR_ID)
             .index(index)
             .config(
                 CertificateDataConfigTypeAhead.builder()
-                    .text(texts.get(DODSPLATS_QUESTION_TEXT_ID))
-                    .label(texts.get(DODSPLATS_KOMMUN_LABEL_TEXT_ID))
+                    .text(texts.get(DODSPLATS_KOMMUN_TEXT_ID))
                     .id(DODSPLATS_KOMMUN_JSON_ID)
                     .typeAhead(municipalities)
                     .build()

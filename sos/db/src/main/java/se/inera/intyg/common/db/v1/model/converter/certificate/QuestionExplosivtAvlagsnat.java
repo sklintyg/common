@@ -19,7 +19,9 @@
 
 package se.inera.intyg.common.db.v1.model.converter.certificate;
 
+import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_AVLAGSNAT_QUESTION_SELECTED_TEXT;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_AVLAGSNAT_QUESTION_TEXT_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_AVLAGSNAT_QUESTION_UNSELECTED_TEXT;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_IMPLANTAT_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_AVLAGSNAT_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_AVLAGSNAT_JSON_ID;
@@ -49,8 +51,8 @@ public class QuestionExplosivtAvlagsnat {
                 CertificateDataConfigRadioBoolean.builder()
                     .id(EXPLOSIV_AVLAGSNAT_JSON_ID)
                     .text(texts.get(EXPLOSIVT_AVLAGSNAT_QUESTION_TEXT_ID))
-                    .selectedText("Ja")
-                    .unselectedText("Nej")
+                    .selectedText(texts.get(EXPLOSIVT_AVLAGSNAT_QUESTION_SELECTED_TEXT))
+                    .unselectedText(texts.get(EXPLOSIVT_AVLAGSNAT_QUESTION_UNSELECTED_TEXT))
                     .build()
             )
             .value(

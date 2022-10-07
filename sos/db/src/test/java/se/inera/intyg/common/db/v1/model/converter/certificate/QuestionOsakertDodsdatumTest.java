@@ -26,6 +26,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_O
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_JSON_ID;
 
+import java.time.Year;
 import java.util.List;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -89,7 +90,9 @@ class QuestionOsakertDodsdatumTest {
 
         @Test
         void shouldIncludeUncertainDateConfigAllowedYears() {
-            final var expectedAllowedYears = List.of("2022", "2021");
+            final var expectedAllowedYears = List.of(
+                String.valueOf(Year.now()),
+                String.valueOf(Year.now().minusYears(1)));
             final var question = QuestionOsakertDodsdatum.toCertificate(null, 0, texts);
             final var certificateDataConfigUncertainDate = (CertificateDataConfigUncertainDate) question.getConfig();
             assertEquals(expectedAllowedYears, certificateDataConfigUncertainDate.getAllowedYears());

@@ -25,7 +25,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_AVLAGSNAT_QUESTION_SELECTED_TEXT;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_AVLAGSNAT_QUESTION_TEXT_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_AVLAGSNAT_QUESTION_UNSELECTED_TEXT;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_IMPLANTAT_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_AVLAGSNAT_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_AVLAGSNAT_JSON_ID;
@@ -93,6 +95,20 @@ class QuestionExplosivtAvlagsnatTest {
             final var question = QuestionExplosivtAvlagsnat.toCertificate(null, 0, texts);
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
             verify(texts, atLeastOnce()).get(EXPLOSIVT_AVLAGSNAT_QUESTION_TEXT_ID);
+        }
+
+        @Test
+        void shouldIncludeSelectedText() {
+            final var question = QuestionExplosivtAvlagsnat.toCertificate(null, 0, texts);
+            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+            verify(texts, atLeastOnce()).get(EXPLOSIVT_AVLAGSNAT_QUESTION_SELECTED_TEXT);
+        }
+
+        @Test
+        void shouldIncludeUnselectedText() {
+            final var question = QuestionExplosivtAvlagsnat.toCertificate(null, 0, texts);
+            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+            verify(texts, atLeastOnce()).get(EXPLOSIVT_AVLAGSNAT_QUESTION_UNSELECTED_TEXT);
         }
 
         @Test

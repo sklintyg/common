@@ -25,11 +25,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DODSPLATS_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_KOMMUN_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_KOMMUN_JSON_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_KOMMUN_LABEL_TEXT_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_QUESTION_TEXT_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_KOMMUN_TEXT_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_SVAR_ID;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -59,7 +58,7 @@ class QuestionDodsplatsKommunTest {
 
     @Mock
     private CertificateTextProvider texts;
-    
+
     private List<String> typeAhead = List.of("Östersund", "Strömsund", "Stockholm");
 
     @BeforeEach
@@ -87,21 +86,14 @@ class QuestionDodsplatsKommunTest {
         @Test
         void shouldIncludeParentId() {
             final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, "", 0, texts);
-            assertEquals(DODSDATUM_DODSPLATS_CATEGORY_ID, question.getParent());
+            assertEquals(DODSPLATS_SVAR_ID, question.getParent());
         }
 
         @Test
         void shouldIncludeText() {
             final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, null, 0, texts);
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(DODSPLATS_QUESTION_TEXT_ID);
-        }
-
-        @Test
-        void shouldIncludeLabel() {
-            final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, null, 0, texts);
-            assertTrue(question.getConfig().getLabel().trim().length() > 0, "Missing label");
-            verify(texts, atLeastOnce()).get(DODSPLATS_KOMMUN_LABEL_TEXT_ID);
+            verify(texts, atLeastOnce()).get(DODSPLATS_KOMMUN_TEXT_ID);
         }
 
         @Test

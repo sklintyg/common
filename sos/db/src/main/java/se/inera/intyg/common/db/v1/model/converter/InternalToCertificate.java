@@ -34,6 +34,7 @@ import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionAutoFillM
 import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionBarn;
 import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionDodsdatum;
 import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionDodsdatumSakert;
+import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionDodsplats;
 import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionDodsplatsBoende;
 import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionDodsplatsKommun;
 import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionExplosivtAvlagsnat;
@@ -84,6 +85,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionAntraffadDod.toCertificate(toLocalDate(internalCertificate.getAntraffatDodDatum()), index++, texts)
+            )
+            .addElement(
+                QuestionDodsplats.toCertificate(index++, texts)
             )
             .addElement(
                 QuestionDodsplatsKommun.toCertificate(municipalities, internalCertificate.getDodsplatsKommun(), index++, texts)

@@ -22,16 +22,14 @@ package se.inera.intyg.common.db.v1.model.converter.certificate;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_QUESTION_SELECTED_QUESTION;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_QUESTION_TEXT_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_QUESTION_UNSELECTED_QUESTION;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_JSON_ID;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.appendAttribute;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.lessThanOrEqual;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.moreThan;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 
-import java.time.LocalDate;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -41,10 +39,13 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
+import se.inera.intyg.common.support.facade.util.ToEpochDayToolkit;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 
 public class QuestionBarn {
+
+    private static final int DAYS_TO_ADD = 28;
 
     public static CertificateDataElement toCertificate(Personnummer personId, Boolean dodsdatumSakert,
         int index, CertificateTextProvider texts) {
@@ -56,8 +57,8 @@ public class QuestionBarn {
                 CertificateDataConfigRadioBoolean.builder()
                     .id(BARN_JSON_ID)
                     .text(texts.get(BARN_QUESTION_TEXT_ID))
-                    .selectedText("Ja")
-                    .unselectedText("Nej")
+                    .selectedText(texts.get(BARN_QUESTION_SELECTED_QUESTION))
+                    .unselectedText(texts.get(BARN_QUESTION_UNSELECTED_QUESTION))
                     .build()
             )
             .value(
@@ -75,19 +76,7 @@ public class QuestionBarn {
                     CertificateDataValidationAutoFill.builder()
                         .questionId(DODSDATUM_DELSVAR_ID)
                         .expression(
-                            lessThanOrEqual(
-                                singleExpression(
-                                    appendAttribute(DODSDATUM_JSON_ID, "toEpochDay")
-                                ),
-                                String.valueOf(
-                                    LocalDate.of(
-                                            Integer.parseInt(personId.getOriginalPnr().substring(0, 4)),
-                                            Integer.parseInt(personId.getOriginalPnr().substring(4, 6)),
-                                            Integer.parseInt(personId.getOriginalPnr().substring(6, 8))
-                                        )
-                                        .plusDays(28).toEpochDay()
-                                )
-                            )
+                            ToEpochDayToolkit.getLessThanOrEqual(personId, DODSDATUM_JSON_ID, DAYS_TO_ADD)
                         )
                         .fillValue(
                             CertificateDataValueBoolean.builder()
@@ -99,19 +88,7 @@ public class QuestionBarn {
                     CertificateDataValidationAutoFill.builder()
                         .questionId(DODSDATUM_DELSVAR_ID)
                         .expression(
-                            moreThan(
-                                singleExpression(
-                                    appendAttribute(DODSDATUM_JSON_ID, "toEpochDay")
-                                ),
-                                String.valueOf(
-                                    LocalDate.of(
-                                            Integer.parseInt(personId.getOriginalPnr().substring(0, 4)),
-                                            Integer.parseInt(personId.getOriginalPnr().substring(4, 6)),
-                                            Integer.parseInt(personId.getOriginalPnr().substring(6, 8))
-                                        )
-                                        .plusDays(28).toEpochDay()
-                                )
-                            )
+                            ToEpochDayToolkit.getMoreThan(personId, DODSDATUM_JSON_ID, DAYS_TO_ADD)
                         )
                         .fillValue(
                             CertificateDataValueBoolean.builder()
