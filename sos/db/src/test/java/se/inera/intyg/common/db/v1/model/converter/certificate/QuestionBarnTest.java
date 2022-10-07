@@ -63,7 +63,7 @@ class QuestionBarnTest {
 
     @Mock
     private CertificateTextProvider texts;
-
+    
     private Personnummer personId = Personnummer.createPersonnummer("19121212-1212").get();
 
     @BeforeEach

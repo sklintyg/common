@@ -25,8 +25,14 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_JSON_I
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_QUESTION_SELECTED_QUESTION;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_QUESTION_UNSELECTED_QUESTION;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DAYS_FROM_BIRTH;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.TO_EPOCH_DAY;
+import static se.inera.intyg.common.support.facade.util.PatientToolkit.birthDate;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.appendAttribute;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.lessThanOrEqual;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.moreThan;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 
@@ -39,16 +45,13 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
-import se.inera.intyg.common.support.facade.util.ToEpochDayToolkit;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 
 public class QuestionBarn {
 
-    private static final int DAYS_TO_ADD = 28;
-
-    public static CertificateDataElement toCertificate(Personnummer personId, Boolean dodsdatumSakert,
-        int index, CertificateTextProvider texts) {
+    public static CertificateDataElement toCertificate(Personnummer personId, Boolean dodsdatumSakert, int index,
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(BARN_DELSVAR_ID)
             .parent(BARN_CATEGORY_ID)
@@ -76,7 +79,14 @@ public class QuestionBarn {
                     CertificateDataValidationAutoFill.builder()
                         .questionId(DODSDATUM_DELSVAR_ID)
                         .expression(
-                            ToEpochDayToolkit.getLessThanOrEqual(personId, DODSDATUM_JSON_ID, DAYS_TO_ADD)
+                            lessThanOrEqual(
+                                singleExpression(
+                                    appendAttribute(DODSDATUM_JSON_ID, TO_EPOCH_DAY)
+                                ),
+                                birthDate(personId)
+                                    .plusDays(DAYS_FROM_BIRTH)
+                                    .toEpochDay()
+                            )
                         )
                         .fillValue(
                             CertificateDataValueBoolean.builder()
@@ -88,7 +98,14 @@ public class QuestionBarn {
                     CertificateDataValidationAutoFill.builder()
                         .questionId(DODSDATUM_DELSVAR_ID)
                         .expression(
-                            ToEpochDayToolkit.getMoreThan(personId, DODSDATUM_JSON_ID, DAYS_TO_ADD)
+                            moreThan(
+                                singleExpression(
+                                    appendAttribute(DODSDATUM_JSON_ID, TO_EPOCH_DAY)
+                                ),
+                                birthDate(personId)
+                                    .plusDays(DAYS_FROM_BIRTH)
+                                    .toEpochDay()
+                            )
                         )
                         .fillValue(
                             CertificateDataValueBoolean.builder()
