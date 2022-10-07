@@ -20,23 +20,25 @@ package se.inera.intyg.common.support.facade.model.validation;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisable.CertificateDataValidationDisableBuilder;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisableSubElement.CertificateDataValidationDisableSubElementBuilder;
 
-@JsonDeserialize(builder = CertificateDataValidationDisableBuilder.class)
+@JsonDeserialize(builder = CertificateDataValidationDisableSubElementBuilder.class)
 @Value
 @Builder
-public class CertificateDataValidationDisable implements CertificateDataValidation {
+public class CertificateDataValidationDisableSubElement implements CertificateDataValidation {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataValidationType type = CertificateDataValidationType.DISABLE_VALIDATION;
+    CertificateDataValidationType type = CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION;
     String questionId;
     String expression;
+    List<String> id;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataValidationDisableBuilder {
+    public static class CertificateDataValidationDisableSubElementBuilder {
 
     }
 }

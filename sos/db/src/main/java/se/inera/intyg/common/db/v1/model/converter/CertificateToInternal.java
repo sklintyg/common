@@ -55,6 +55,10 @@ public class CertificateToInternal {
             .setPolisanmalan(QuestionPolisanmalan.toInternal(certificate));
 
         final var dodsdatumSakert = QuestionDodsdatumSakert.toInternal(certificate);
+        if (dodsdatumSakert == null) {
+            return builder.build();
+        }
+
         builder.setDodsdatumSakert(dodsdatumSakert);
         if (dodsdatumSakert) {
             builder.setDodsdatum(QuestionDodsdatum.toInternal(certificate));

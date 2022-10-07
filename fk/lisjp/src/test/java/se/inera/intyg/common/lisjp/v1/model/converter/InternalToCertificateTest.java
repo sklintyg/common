@@ -121,7 +121,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRa
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigSickLeavePeriod;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisable;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisableSubElement;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationEnable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
@@ -4799,14 +4799,14 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
 
-                final var certificateDataValidationDisable = (CertificateDataValidationDisable) question.getValidation()[1];
+                final var certificateDataValidationDisableSubElement = (CertificateDataValidationDisableSubElement) question.getValidation()[1];
                 assertAll("Validation question validation",
-                    () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, certificateDataValidationDisable.getQuestionId()),
-                    () -> assertTrue(certificateDataValidationDisable.getId().size() == 1),
-                    () -> assertEquals("EJ_AKTUELLT", certificateDataValidationDisable.getId().get(0)),
+                    () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, certificateDataValidationDisableSubElement.getQuestionId()),
+                    () -> assertTrue(certificateDataValidationDisableSubElement.getId().size() == 1),
+                    () -> assertEquals("EJ_AKTUELLT", certificateDataValidationDisableSubElement.getId().get(0)),
                     () -> assertEquals("$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS "
                             + "|| $ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER",
-                        certificateDataValidationDisable.getExpression())
+                        certificateDataValidationDisableSubElement.getExpression())
                 );
             }
 
@@ -4816,13 +4816,12 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
 
-                final var certificateDataValidationDisable = (CertificateDataValidationDisable) question.getValidation()[2];
+                final var certificateDataValidationDisableSubElement = (CertificateDataValidationDisableSubElement) question.getValidation()[2];
                 assertAll("Validation question validation",
-                    () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, certificateDataValidationDisable.getQuestionId()),
-                    () -> assertTrue(certificateDataValidationDisable.getId().size() == 10),
-                    //() -> assertEquals("$EJ_AKTUELLT", certificateDataValidationDisable.getId().get(0)),
+                    () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, certificateDataValidationDisableSubElement.getQuestionId()),
+                    () -> assertTrue(certificateDataValidationDisableSubElement.getId().size() == 10),
                     () -> assertEquals("$EJ_AKTUELLT",
-                        certificateDataValidationDisable.getExpression())
+                        certificateDataValidationDisableSubElement.getExpression())
                 );
             }
 
