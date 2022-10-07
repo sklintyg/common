@@ -20,19 +20,19 @@
 package se.inera.intyg.common.db.v1.model.converter;
 
 import se.inera.intyg.common.db.v1.model.converter.certificate.MetaDataGrundData;
-import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionAntraffadDod;
-import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionBarn;
-import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionDodsdatum;
-import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionDodsdatumSakert;
-import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionDodsplatsBoende;
-import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionDodsplatsKommun;
-import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionExplosivtAvlagsnat;
-import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionExplosivtImplantat;
-import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionIdentitetenStyrkt;
-import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionOsakertDodsdatum;
-import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionPolisanmalan;
-import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionUndersokningYttre;
-import se.inera.intyg.common.db.v1.model.converter.certificate.QuestionUndersokningsdatum;
+import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionAntraffadDod;
+import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionBarn;
+import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionDodsdatum;
+import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionDodsdatumSakert;
+import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionDodsplatsBoende;
+import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionDodsplatsKommun;
+import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionExplosivtAvlagsnat;
+import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionExplosivtImplantat;
+import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionIdentitetenStyrkt;
+import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionOsakertDodsdatum;
+import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionPolisanmalan;
+import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionUndersokningYttre;
+import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionUndersokningsdatum;
 import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
 import se.inera.intyg.common.support.facade.model.Certificate;
 
