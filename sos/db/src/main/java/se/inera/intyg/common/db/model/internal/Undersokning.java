@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 
 public enum Undersokning {
     @JsonProperty("SVAR_JA")
-    JA("", "Ja"), // Transport is never used as it is represented as boolean 'true'
+    JA("", UndersokningConstants.UNDERSOKNING_JA), // Transport is never used as it is represented as boolean 'true'
     @JsonProperty("DETALJER_UNDERSOKNING.UNDERSOKNING_GJORT_KORT_FORE_DODEN")
     UNDERSOKNING_GJORT_KORT_FORE_DODEN(UndersokningConstants.UNDERSOKNING_GJORT_TRANSPORT, UndersokningConstants.UNDERSOKNING_GJORT_TEXT),
     @JsonProperty("DETALJER_UNDERSOKNING.UNDERSOKNING_SKA_GORAS")
