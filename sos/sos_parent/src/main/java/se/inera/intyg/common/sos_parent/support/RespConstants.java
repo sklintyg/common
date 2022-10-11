@@ -29,8 +29,8 @@ public final class RespConstants {
     public static final String DODSDATUM_SAKERT_QUESTION_TEXT_ID = "FRG_2.RBK";
     public static final String DODSDATUM_SAKERT_QUESTION_DESCRIPTION_ID = "FRG_2.HLP";
     public static final String DODSDATUM_QUESTION_TEXT_ID = "DFR_2.2.RBK";
-    public static final String DODSDATUM_SAKERT_QUESTION_SELECTED_TEXT = "SVAR_JA.RBK";
-    public static final String DODSDATUM_SAKERT_QUESTION_UNSELECTED_TEXT = "SVAR_NEJ.RBK";
+    public static final String DODSDATUM_SAKERT_QUESTION_SELECTED_TEXT = "SVAR_SAKERT.RBK";
+    public static final String DODSDATUM_SAKERT_QUESTION_UNSELECTED_TEXT = "SVAR_EJ_SAKERT.RBK";
     public static final String ANTRAFFAD_DOD_QUESTION_TEXT_ID = "DFR_2.3.RBK";
     public static final String DODSPLATS_QUESTION_TEXT_ID = "FRG_3.RBK";
     public static final String DODSPLATS_KOMMUN_TEXT_ID = "DFR_3.1.RBK";
@@ -162,7 +162,7 @@ public final class RespConstants {
 
     public static final int DAYS_FROM_BIRTH = 28;
     public static final String TO_EPOCH_DAY = "toEpochDay";
-    
+
     private RespConstants() {
     }
 }
