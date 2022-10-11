@@ -35,7 +35,6 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionOsakertDodsdatum;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
@@ -178,7 +177,7 @@ class QuestionOsakertDodsdatumTest {
         void shouldIncludeValidationShowExpression() {
             final var question = QuestionOsakertDodsdatum.toCertificate(null, 0, texts);
             final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
-            assertEquals("$" + DODSDATUM_SAKERT_JSON_ID + " == false", certificateDataValidationShow.getExpression());
+            assertEquals("!$" + DODSDATUM_SAKERT_JSON_ID, certificateDataValidationShow.getExpression());
         }
     }
 
