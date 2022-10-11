@@ -94,7 +94,7 @@ public final class ValidatorUtil {
     public static boolean validateDate(InternalDate date, List<ValidationMessage> validationMessages, String category,
         String field, String message, String questionId) {
         if (date == null) {
-            addValidationError(validationMessages, category, field, ValidationMessageType.EMPTY);
+            addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.EMPTY, questionId);
             return false;
         }
 
@@ -104,21 +104,22 @@ public final class ValidatorUtil {
                     addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT,
                         "common.validation.date_invalid", questionId);
                 } else {
-                    addValidationError(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT,
-                        "common.validation.date_invalid");
+                    addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT,
+                        "common.validation.date_invalid", questionId);
                 }
             } else if (message != null) {
                 if (questionId != null) {
                     addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT, message,
                         questionId);
                 } else {
-                    addValidationError(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT, message);
+                    addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT, message,
+                        questionId);
                 }
             } else {
                 if (questionId != null) {
                     addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT, questionId);
                 } else {
-                    addValidationError(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT);
+                    addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT, questionId);
                 }
             }
             return false;
@@ -127,10 +128,10 @@ public final class ValidatorUtil {
         if (!date.isReasonable()) {
             if (questionId != null) {
                 addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT,
-                        "common.validation.date_out_of_range", questionId);
+                    "common.validation.date_out_of_range", questionId);
             } else {
-                addValidationError(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT,
-                        "common.validation.date_out_of_range");
+                addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT,
+                    "common.validation.date_out_of_range", questionId);
             }
             return false;
         }
