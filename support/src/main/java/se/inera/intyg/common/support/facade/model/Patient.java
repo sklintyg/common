@@ -35,6 +35,9 @@ public class Patient {
     private String lastName;
     private String middleName;
     private String fullName;
+    private String street;
+    private String city;
+    private String zipCode;
     private boolean coordinationNumber;
     private boolean testIndicated;
     private boolean protectedPerson;
