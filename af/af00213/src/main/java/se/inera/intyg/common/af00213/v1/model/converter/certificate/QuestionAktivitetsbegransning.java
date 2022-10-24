@@ -25,8 +25,6 @@ import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKT
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_TEXT;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_11;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
@@ -64,10 +62,6 @@ public class QuestionAktivitetsbegransning {
                     CertificateDataValidationMandatory.builder()
                         .questionId(AKTIVITETSBEGRANSNING_DELSVAR_ID_22)
                         .expression(singleExpression(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(FUNKTIONSNEDSATTNING_DELSVAR_ID_11)
-                        .expression(singleExpression(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11))
                         .build(),
                     CertificateDataValidationShow.builder()
                         .questionId(AKTIVITETSBEGRANSNING_DELSVAR_ID_21)
