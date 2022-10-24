@@ -4568,7 +4568,8 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
 
-                final var certificateDataValidationDisableSubElement = (CertificateDataValidationDisableSubElement) question.getValidation()[1];
+                final var certificateDataValidationDisableSubElement =
+                    (CertificateDataValidationDisableSubElement) question.getValidation()[1];
                 assertAll("Validation question validation",
                     () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, certificateDataValidationDisableSubElement.getQuestionId()),
                     () -> assertTrue(certificateDataValidationDisableSubElement.getId().size() == 1),
@@ -4585,7 +4586,8 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
 
-                final var certificateDataValidationDisableSubElement = (CertificateDataValidationDisableSubElement) question.getValidation()[2];
+                final var certificateDataValidationDisableSubElement =
+                    (CertificateDataValidationDisableSubElement) question.getValidation()[2];
                 assertAll("Validation question validation",
                     () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, certificateDataValidationDisableSubElement.getQuestionId()),
                     () -> assertTrue(certificateDataValidationDisableSubElement.getId().size() == 8),
