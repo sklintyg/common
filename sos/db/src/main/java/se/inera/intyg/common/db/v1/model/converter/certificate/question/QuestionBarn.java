@@ -25,7 +25,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_JSON_I
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_QUESTION_SELECTED_QUESTION;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_QUESTION_UNSELECTED_QUESTION;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DAYS_FROM_BIRTH;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.TWENTY_EIGHT_DAYS;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TO_EPOCH_DAY;
@@ -84,7 +84,7 @@ public class QuestionBarn {
                                     appendAttribute(DODSDATUM_JSON_ID, TO_EPOCH_DAY)
                                 ),
                                 birthDate(personId)
-                                    .plusDays(DAYS_FROM_BIRTH)
+                                    .plusDays(TWENTY_EIGHT_DAYS)
                                     .toEpochDay()
                             )
                         )
@@ -103,7 +103,7 @@ public class QuestionBarn {
                                     appendAttribute(DODSDATUM_JSON_ID, TO_EPOCH_DAY)
                                 ),
                                 birthDate(personId)
-                                    .plusDays(DAYS_FROM_BIRTH)
+                                    .plusDays(TWENTY_EIGHT_DAYS)
                                     .toEpochDay()
                             )
                         )

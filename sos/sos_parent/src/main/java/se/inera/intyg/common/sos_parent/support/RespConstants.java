@@ -160,7 +160,7 @@ public final class RespConstants {
     public static final String UPPGIFT_SAKNAS_CODE = "NI";
     public static final String UPPGIFT_SAKNAS_DISPLAY_NAME = "Uppgift saknas";
 
-    public static final int DAYS_FROM_BIRTH = 28;
+    public static final int TWENTY_EIGHT_DAYS = 28;
     public static final String TO_EPOCH_DAY = "toEpochDay";
 
     private RespConstants() {

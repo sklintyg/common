@@ -22,7 +22,7 @@ package se.inera.intyg.common.db.v1.model.converter.certificate.question;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_AUTOFILL_AFTER_MESSAGE_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_AUTO_FILL_AFTER_MESSAGE_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_CATEGORY_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DAYS_FROM_BIRTH;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.TWENTY_EIGHT_DAYS;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TO_EPOCH_DAY;
@@ -62,7 +62,7 @@ public class QuestionAutoFillMessageAfter28DaysBarn {
                                     appendAttribute(DODSDATUM_JSON_ID, TO_EPOCH_DAY)
                                 ),
                                 birthDate(personId)
-                                    .plusDays(DAYS_FROM_BIRTH)
+                                    .plusDays(TWENTY_EIGHT_DAYS)
                                     .toEpochDay()
                             )
                         )
