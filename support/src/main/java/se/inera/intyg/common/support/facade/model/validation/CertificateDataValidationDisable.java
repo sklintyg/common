@@ -20,7 +20,6 @@ package se.inera.intyg.common.support.facade.model.validation;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
@@ -35,7 +34,6 @@ public class CertificateDataValidationDisable implements CertificateDataValidati
     CertificateDataValidationType type = CertificateDataValidationType.DISABLE_VALIDATION;
     String questionId;
     String expression;
-    List<String> id;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataValidationDisableBuilder {

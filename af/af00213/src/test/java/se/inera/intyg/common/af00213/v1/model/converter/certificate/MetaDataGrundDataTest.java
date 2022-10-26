@@ -19,8 +19,8 @@
 
 package se.inera.intyg.common.af00213.v1.model.converter.certificate;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -33,7 +33,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import se.inera.intyg.common.af00213.v1.model.converter.CertificateToInternal;
-import se.inera.intyg.common.af00213.v1.model.converter.InternalToCertificate;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
@@ -193,7 +192,7 @@ class MetaDataGrundDataTest {
         class CommonMetadata {
 
             @BeforeEach
-            void createAf00213ToConvert() {
+            void setUp() {
                 internalCertificate = Af00213UtlatandeV1.builder()
                     .setGrundData(grundData)
                     .setId("id")
@@ -203,138 +202,45 @@ class MetaDataGrundDataTest {
             }
 
             @Test
-            void shouldIncludeCertificateId() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                assertAll("Validating metadata",
-                    () -> assertEquals(internalCertificate.getId(), certificate.getMetadata().getId()),
-                    () -> assertEquals(internalCertificate.getTyp(), certificate.getMetadata().getType()),
-                    () -> assertEquals(internalCertificate.getTextVersion(), certificate.getMetadata().getTypeVersion()),
-                    () -> assertEquals("Arbetsförmedlingens medicinska utlåtande", certificate.getMetadata().getName()),
-                    () -> assertTrue(certificate.getMetadata().getDescription().trim().length() > 0, "Should contain description")
-                );
-            }
-        }
-
-        @Nested
-        class ValidateUnit {
-
-            private Vardenhet unit;
-
-            @BeforeEach
-            void createAf00213ToConvert() {
-                unit = new Vardenhet();
-
-                grundData.getSkapadAv().setVardenhet(unit);
-
-                internalCertificate = Af00213UtlatandeV1.builder()
-                    .setGrundData(grundData)
-                    .setId("id")
-                    .setTextVersion("TextVersion")
-                    .build();
+            void shouldIncludeId() {
+                final var metadata = MetaDataGrundData.toCertificate(internalCertificate, texts);
+                assertEquals(internalCertificate.getId(), metadata.getId());
             }
 
             @Test
-            void shallIncludeUnitId() {
-                final var expectedUnitId = "UnitID";
-                unit.setEnhetsid(expectedUnitId);
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                assertEquals(expectedUnitId, certificate.getMetadata().getUnit().getUnitId());
+            void shouldIncludeType() {
+                final var metadata = MetaDataGrundData.toCertificate(internalCertificate, texts);
+                assertEquals(internalCertificate.getTyp(), metadata.getType());
             }
 
             @Test
-            void shallIncludeUnitName() {
-                final var expectedUnitName = "UnitName";
-                unit.setEnhetsnamn(expectedUnitName);
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                assertEquals(expectedUnitName, certificate.getMetadata().getUnit().getUnitName());
+            void shouldIncludeTypeVersion() {
+                final var metadata = MetaDataGrundData.toCertificate(internalCertificate, texts);
+                assertEquals(internalCertificate.getTextVersion(), metadata.getTypeVersion());
             }
 
             @Test
-            void shallIncludeUnitAddress() {
-                final var expectedUnitAddress = "UnitAddress";
-                unit.setPostadress(expectedUnitAddress);
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                assertEquals(expectedUnitAddress, certificate.getMetadata().getUnit().getAddress());
+            void shouldIncludeName() {
+                final var metadata = MetaDataGrundData.toCertificate(internalCertificate, texts);
+                assertEquals("Arbetsförmedlingens medicinska utlåtande", metadata.getName());
             }
 
             @Test
-            void shallIncludeUnitZipCode() {
-                final var expectedUnitZipCode = "UnitZipCode";
-                unit.setPostnummer(expectedUnitZipCode);
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                assertEquals(expectedUnitZipCode, certificate.getMetadata().getUnit().getZipCode());
+            void shouldIncludeDescription() {
+                final var metadata = MetaDataGrundData.toCertificate(internalCertificate, texts);
+                assertTrue(metadata.getDescription().trim().length() > 0, "Should contain description");
             }
 
             @Test
-            void shallIncludeUnitCity() {
-                final var expectedUnitCity = "UnitCity";
-                unit.setPostort(expectedUnitCity);
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                assertEquals(expectedUnitCity, certificate.getMetadata().getUnit().getCity());
+            void shouldIncludeUnit() {
+                final var metadata = MetaDataGrundData.toCertificate(internalCertificate, texts);
+                assertNotNull(metadata.getUnit(), "Missing unit!");
             }
 
             @Test
-            void shallIncludeUnitEmail() {
-                final var expectedUnitEmail = "UnitEmail";
-                unit.setEpost(expectedUnitEmail);
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                assertEquals(expectedUnitEmail, certificate.getMetadata().getUnit().getEmail());
-            }
-
-            @Test
-            void shallIncludeUnitPhoneNumber() {
-                final var expectedUnitPhoneNumber = "UnitPhoneNumber";
-                unit.setTelefonnummer(expectedUnitPhoneNumber);
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                assertEquals(expectedUnitPhoneNumber, certificate.getMetadata().getUnit().getPhoneNumber());
-            }
-        }
-
-        @Nested
-        class ValidateIssuedBy {
-
-            @BeforeEach
-            void createInternalCertificateToConvert() {
-                internalCertificate = Af00213UtlatandeV1.builder()
-                    .setGrundData(grundData)
-                    .setId("id")
-                    .setTextVersion("TextVersion")
-                    .build();
-            }
-
-            @Test
-            void shallIncludePersonId() {
-                final var expectedPersonId = "PersonId";
-                grundData.getSkapadAv().setPersonId(expectedPersonId);
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                assertEquals(expectedPersonId, certificate.getMetadata().getIssuedBy().getPersonId());
-            }
-
-            @Test
-            void shallIncludeFullName() {
-                final var expectedFullName = "Fullname";
-                grundData.getSkapadAv().setFullstandigtNamn(expectedFullName);
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                assertEquals(expectedFullName, certificate.getMetadata().getIssuedBy().getFullName());
+            void shouldIncludeIssuedBy() {
+                final var metadata = MetaDataGrundData.toCertificate(internalCertificate, texts);
+                assertNotNull(metadata.getIssuedBy(), "Missing issued by!");
             }
         }
     }

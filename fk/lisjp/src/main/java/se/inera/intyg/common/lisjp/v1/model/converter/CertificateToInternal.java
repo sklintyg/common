@@ -66,8 +66,8 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TYP_A
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateListValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateRangeListValue;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.diagnosisListValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.grundData;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.icfCodeValue;
@@ -192,7 +192,7 @@ public final class CertificateToInternal {
     }
 
     private static InternalDate getInternalDate(Certificate certificate, String questionId, String itemId) {
-        final var dateValue = dateValue(certificate.getData(), questionId, itemId);
+        final var dateValue = dateListValue(certificate.getData(), questionId, itemId);
         return dateValue != null ? new InternalDate(dateValue) : null;
     }
 

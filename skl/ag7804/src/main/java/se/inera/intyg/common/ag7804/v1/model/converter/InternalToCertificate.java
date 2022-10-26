@@ -201,7 +201,7 @@ import se.inera.intyg.common.support.facade.model.config.RadioMultipleCodeOption
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.model.metadata.Unit;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisable;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisableSubElement;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationEnable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHighlight;
@@ -1467,7 +1467,7 @@ public final class InternalToCertificate {
                             )
                         )
                         .build(),
-                    CertificateDataValidationDisable.builder()
+                    CertificateDataValidationDisableSubElement.builder()
                         .questionId(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
                         .expression(
                             multipleOrExpression(
@@ -1483,7 +1483,7 @@ public final class InternalToCertificate {
                         )
                         .id(Collections.singletonList(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId()))
                         .build(),
-                    CertificateDataValidationDisable.builder()
+                    CertificateDataValidationDisableSubElement.builder()
                         .questionId(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
                         .expression(
                             singleExpression(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId())

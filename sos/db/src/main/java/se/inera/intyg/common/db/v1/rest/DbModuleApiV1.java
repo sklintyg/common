@@ -18,22 +18,29 @@
  */
 package se.inera.intyg.common.db.v1.rest;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
-
+import se.inera.intyg.common.db.support.DbModuleEntryPoint;
+import se.inera.intyg.common.db.v1.model.converter.CertificateToInternal;
+import se.inera.intyg.common.db.v1.model.converter.InternalToCertificate;
 import se.inera.intyg.common.db.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.db.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.db.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
 import se.inera.intyg.common.db.v1.pdf.DbPdfGenerator;
-import se.inera.intyg.common.db.support.DbModuleEntryPoint;
+import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
+import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvider;
+import se.inera.intyg.common.services.messages.MessagesParser;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.sos_parent.pdf.SoSPdfGeneratorException;
 import se.inera.intyg.common.sos_parent.rest.SosParentModuleApi;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -41,6 +48,8 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadEnum;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
@@ -51,8 +60,23 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
     private static final Logger LOG = LoggerFactory.getLogger(DbModuleApiV1.class);
     private static final String PDF_FILENAME_PREFIX = "dodsbevis";
 
+    private Map<String, String> validationMessages;
+
     public DbModuleApiV1() {
         super(DbUtlatandeV1.class);
+        init();
+    }
+
+    private void init() {
+        try {
+            final var inputStream1 = new ClassPathResource("/META-INF/resources/webjars/common/webcert/messages.js").getInputStream();
+            final var inputStream2
+                = new ClassPathResource("/META-INF/resources/webjars/db/webcert/views/messages.js").getInputStream();
+            validationMessages = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
+        } catch (IOException exception) {
+            LOG.error("Error during initialization. Could not read messages files");
+            throw new RuntimeException("Error during initialization. Could not read messages files", exception);
+        }
     }
 
     @Override
@@ -110,4 +134,23 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
         return "";
     }
 
+    @Override
+    public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson);
+        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+        return InternalToCertificate.convert(internalCertificate, certificateTextProvider,
+            typeAheadProvider.getValues(TypeAheadEnum.MUNICIPALITIES));
+    }
+
+    @Override
+    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson);
+        final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate);
+        return toInternalModelResponse(updateInternalCertificate);
+    }
+
+    @Override
+    public CertificateMessagesProvider getMessagesProvider() {
+        return DefaultCertificateMessagesProvider.create(validationMessages);
+    }
 }

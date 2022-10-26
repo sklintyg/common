@@ -29,8 +29,6 @@ import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKT
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_22;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_11;
-import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -72,6 +70,7 @@ class QuestionAktivitetsbegransningTest {
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class ToInternal {
+
         private Af00213UtlatandeV1 internalCertificate;
 
         @BeforeEach
@@ -221,21 +220,8 @@ class QuestionAktivitetsbegransningTest {
 
                 final var certificateDataValidationShowOne = (CertificateDataValidationShow) question.getValidation()[1];
                 assertAll("Validation question validation",
-                    () -> assertEquals(FUNKTIONSNEDSATTNING_DELSVAR_ID_11, certificateDataValidationShowOne.getQuestionId()),
-                    () -> assertEquals("$" + FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11, certificateDataValidationShowOne.getExpression())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValidationShowTwo() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_22);
-
-                final var certificateDataValidationShowTwo = (CertificateDataValidationShow) question.getValidation()[2];
-                assertAll("Validation question validation",
-                    () -> assertEquals(AKTIVITETSBEGRANSNING_DELSVAR_ID_21, certificateDataValidationShowTwo.getQuestionId()),
-                    () -> assertEquals("$" + AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21, certificateDataValidationShowTwo.getExpression())
+                    () -> assertEquals(AKTIVITETSBEGRANSNING_DELSVAR_ID_21, certificateDataValidationShowOne.getQuestionId()),
+                    () -> assertEquals("$" + AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21, certificateDataValidationShowOne.getExpression())
                 );
             }
         }

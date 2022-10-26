@@ -20,6 +20,7 @@ package se.inera.intyg.common.db.model.internal;
 
 public final class UndersokningConstants {
 
+    public static final String UNDERSOKNING_JA = "Ja";
     public static final String UNDERSOKNING_GJORT_TEXT = "Den avlidne undersökt kort före döden";
     public static final String UNDERSOKNING_SKA_GORAS_TEXT = "Rättsmedicinsk undersökning ska göras";
 

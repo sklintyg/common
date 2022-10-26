@@ -56,7 +56,6 @@ class InternalToCertificateTest {
     @BeforeEach
     void setup() {
         final var unit = new Vardenhet();
-
         final var skapadAv = new HoSPersonal();
         skapadAv.setVardenhet(unit);
 

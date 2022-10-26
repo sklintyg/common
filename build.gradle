@@ -43,6 +43,7 @@ allprojects {
         module {
             excludeDirs += file('bower_components')
             excludeDirs += file('node_modules')
+            downloadJavadoc = true
         }
     }
 

@@ -121,7 +121,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRa
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigSickLeavePeriod;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisable;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisableSubElement;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationEnable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
@@ -1078,19 +1078,6 @@ class InternalToCertificateTest {
                     () -> assertEquals("$" + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1, certificateDataValidationShow.getExpression())
                 );
             }
-
-            @Test
-            void shouldIncludeCategoryValidationHide() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1);
-
-                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[2];
-                assertAll("Validation question validation",
-                    () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
-                );
-            }
         }
 
         @Nested
@@ -1207,19 +1194,6 @@ class InternalToCertificateTest {
                 assertAll("Validation question validation",
                     () -> assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1, certificateDataValidationText.getId()),
                     () -> assertEquals(150, certificateDataValidationText.getLimit())
-                );
-            }
-
-            @Test
-            void shouldIncludeCategoryValidationHide() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1);
-
-                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[2];
-                assertAll("Validation question validation",
-                    () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
                 );
             }
         }
@@ -1667,19 +1641,6 @@ class InternalToCertificateTest {
                 assertAll("Validation question validation",
                     () -> assertEquals(TYP_AV_SYSSELSATTNING_SVAR_ID_28, certificateDataValidationShow.getQuestionId()),
                     () -> assertEquals("$" + SysselsattningsTyp.NUVARANDE_ARBETE.getId(), certificateDataValidationShow.getExpression())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValidationHide() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(NUVARANDE_ARBETE_SVAR_ID_29);
-
-                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[2];
-                assertAll("Validation question validation",
-                    () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
                 );
             }
         }
@@ -3352,25 +3313,12 @@ class InternalToCertificateTest {
             }
 
             @Test
-            void shouldIncludeCategoryValidationHide() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(ARBETSTIDSFORLAGGNING_SVAR_ID_33);
-
-                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
-                assertAll("Validation question validation",
-                    () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
-                );
-            }
-
-            @Test
             void shouldIncludeCategoryValidationMandatory() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(ARBETSTIDSFORLAGGNING_SVAR_ID_33);
 
-                final var certificateDataValidation = (CertificateDataValidationMandatory) question.getValidation()[2];
+                final var certificateDataValidation = (CertificateDataValidationMandatory) question.getValidation()[1];
                 assertAll("Question validation",
                     () -> assertEquals(ARBETSTIDSFORLAGGNING_SVAR_ID_33, certificateDataValidation.getQuestionId()),
                     () -> assertEquals("$" + ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33, certificateDataValidation.getExpression())
@@ -3481,25 +3429,12 @@ class InternalToCertificateTest {
             }
 
             @Test
-            void shouldIncludeValidationHide() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33);
-
-                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
-                assertAll("Validation question validation",
-                    () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
-                );
-            }
-
-            @Test
             void shouldIncludeCategoryValidationMandatory() {
                 final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
                 final var question = certificate.getData().get(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33);
 
-                final var certificateDataValidation = (CertificateDataValidationMandatory) question.getValidation()[2];
+                final var certificateDataValidation = (CertificateDataValidationMandatory) question.getValidation()[1];
                 assertAll("Question validation",
                     () -> assertEquals(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33, certificateDataValidation.getQuestionId()),
                     () -> assertEquals("$" + ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33, certificateDataValidation.getExpression())
@@ -4799,14 +4734,15 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
 
-                final var certificateDataValidationDisable = (CertificateDataValidationDisable) question.getValidation()[1];
+                final var certificateDataValidationDisableSubElement =
+                    (CertificateDataValidationDisableSubElement) question.getValidation()[1];
                 assertAll("Validation question validation",
-                    () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, certificateDataValidationDisable.getQuestionId()),
-                    () -> assertTrue(certificateDataValidationDisable.getId().size() == 1),
-                    () -> assertEquals("EJ_AKTUELLT", certificateDataValidationDisable.getId().get(0)),
+                    () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, certificateDataValidationDisableSubElement.getQuestionId()),
+                    () -> assertTrue(certificateDataValidationDisableSubElement.getId().size() == 1),
+                    () -> assertEquals("EJ_AKTUELLT", certificateDataValidationDisableSubElement.getId().get(0)),
                     () -> assertEquals("$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS "
                             + "|| $ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER",
-                        certificateDataValidationDisable.getExpression())
+                        certificateDataValidationDisableSubElement.getExpression())
                 );
             }
 
@@ -4816,13 +4752,13 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
 
-                final var certificateDataValidationDisable = (CertificateDataValidationDisable) question.getValidation()[2];
+                final var certificateDataValidationDisableSubElement =
+                    (CertificateDataValidationDisableSubElement) question.getValidation()[2];
                 assertAll("Validation question validation",
-                    () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, certificateDataValidationDisable.getQuestionId()),
-                    () -> assertTrue(certificateDataValidationDisable.getId().size() == 10),
-                    //() -> assertEquals("$EJ_AKTUELLT", certificateDataValidationDisable.getId().get(0)),
+                    () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, certificateDataValidationDisableSubElement.getQuestionId()),
+                    () -> assertTrue(certificateDataValidationDisableSubElement.getId().size() == 10),
                     () -> assertEquals("$EJ_AKTUELLT",
-                        certificateDataValidationDisable.getExpression())
+                        certificateDataValidationDisableSubElement.getExpression())
                 );
             }
 
@@ -4944,19 +4880,6 @@ class InternalToCertificateTest {
                         "$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS || $ERGONOMISK || $HJALPMEDEL ||"
                             + " $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER",
                         certificateDataValidationShow.getExpression())
-                );
-            }
-
-            @Test
-            void shouldIncludeValidationHide() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44);
-
-                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
-                assertAll("Validation question validation",
-                    () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
                 );
             }
         }
@@ -5400,19 +5323,6 @@ class InternalToCertificateTest {
                 assertAll("Validation question validation",
                     () -> assertEquals(KONTAKT_ONSKAS_SVAR_ID_26, certificateDataValidationShow.getQuestionId()),
                     () -> assertEquals("$" + KONTAKT_ONSKAS_SVAR_JSON_ID_26, certificateDataValidationShow.getExpression())
-                );
-            }
-
-            @Test
-            void shouldIncludeValidationHide() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26);
-
-                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
-                assertAll("Validation question validation",
-                    () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
                 );
             }
         }

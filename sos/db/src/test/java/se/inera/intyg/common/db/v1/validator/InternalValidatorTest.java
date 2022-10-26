@@ -18,6 +18,17 @@
  */
 package se.inera.intyg.common.db.v1.validator;
 
+import static org.junit.Assert.assertEquals;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_OSAKERT_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_AVLAGSNAT_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_DATUM_DELSVAR_ID;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -28,11 +39,6 @@ import se.inera.intyg.common.db.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.schemas.contract.Personnummer;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
-import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InternalValidatorTest {
@@ -79,6 +85,7 @@ public class InternalValidatorTest {
         assertEquals(ValidationMessageType.INVALID_FORMAT, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("dodsdatum", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(DODSDATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -92,6 +99,7 @@ public class InternalValidatorTest {
         assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("dodsdatum.month", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(DODSDATUM_OSAKERT_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -103,6 +111,7 @@ public class InternalValidatorTest {
         assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("antraffatDodDatum", internalValidationResponse.getValidationErrors().get(0).getField());
         assertEquals("db.validation.antraffatDod.dodsdatumSakert", internalValidationResponse.getValidationErrors().get(0).getMessage());
+        assertEquals(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -115,6 +124,7 @@ public class InternalValidatorTest {
         assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("antraffatDodDatum", internalValidationResponse.getValidationErrors().get(0).getField());
         assertEquals("common.validation.date.today.or.earlier", internalValidationResponse.getValidationErrors().get(0).getMessage());
+        assertEquals(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -129,6 +139,7 @@ public class InternalValidatorTest {
         assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("antraffatDodDatum", internalValidationResponse.getValidationErrors().get(0).getField());
         assertEquals("db.validation.datum.innanDodsdatum", internalValidationResponse.getValidationErrors().get(0).getMessage());
+        assertEquals(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -141,6 +152,7 @@ public class InternalValidatorTest {
         assertEquals(ValidationMessageType.INVALID_FORMAT, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("antraffatDodDatum", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -151,6 +163,7 @@ public class InternalValidatorTest {
         assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("explosivImplantat", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("explosivAvlagsnat", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(EXPLOSIV_AVLAGSNAT_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -161,6 +174,7 @@ public class InternalValidatorTest {
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("explosivImplantat", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("explosivAvlagsnat", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(EXPLOSIV_AVLAGSNAT_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -173,6 +187,7 @@ public class InternalValidatorTest {
         assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("yttreUndersokning", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("undersokningDatum", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(UNDERSOKNING_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -188,6 +203,7 @@ public class InternalValidatorTest {
         assertEquals("undersokningDatum", internalValidationResponse.getValidationErrors().get(0).getField());
         assertEquals("db.validation.undersokningDatum.after.dodsdatum",
             internalValidationResponse.getValidationErrors().get(0).getMessage());
+        assertEquals(UNDERSOKNING_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -202,6 +218,7 @@ public class InternalValidatorTest {
         assertEquals("undersokningDatum", internalValidationResponse.getValidationErrors().get(0).getField());
         assertEquals("db.validation.undersokningDatum.after.antraffatDodDatum",
             internalValidationResponse.getValidationErrors().get(0).getMessage());
+        assertEquals(UNDERSOKNING_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -220,6 +237,7 @@ public class InternalValidatorTest {
         assertEquals("undersokningDatum", internalValidationResponse.getValidationErrors().get(0).getField());
         assertEquals("db.validation.undersokningDatum.before.beginningOflastYear",
             internalValidationResponse.getValidationErrors().get(0).getMessage());
+        assertEquals(UNDERSOKNING_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -232,6 +250,7 @@ public class InternalValidatorTest {
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("polisanmalan", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("polisanmalan", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(POLISANMALAN_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -243,6 +262,7 @@ public class InternalValidatorTest {
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("barnSomAvlidit", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("barn", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(BARN_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -254,6 +274,7 @@ public class InternalValidatorTest {
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("barnSomAvlidit", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("barn", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(BARN_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -266,6 +287,7 @@ public class InternalValidatorTest {
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("barnSomAvlidit", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("barn", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(BARN_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -278,5 +300,6 @@ public class InternalValidatorTest {
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("barnSomAvlidit", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("barn", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(BARN_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 }

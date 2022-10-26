@@ -209,7 +209,7 @@ import se.inera.intyg.common.support.facade.model.config.RadioMultipleCodeOption
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.model.metadata.Unit;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisable;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisableSubElement;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationEnable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
@@ -528,10 +528,6 @@ public final class InternalToCertificate {
                     CertificateDataValidationShow.builder()
                         .questionId(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
                         .expression(singleExpression(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
-                        .build(),
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
                         .build()
                 }
             )
@@ -584,10 +580,6 @@ public final class InternalToCertificate {
                     CertificateDataValidationText.builder()
                         .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1)
                         .limit(LIMIT_MOTIVERING_INTE_BASERAT_PA_UNDERLAG)
-                        .build(),
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
                         .build()
                 }
             )
@@ -715,10 +707,6 @@ public final class InternalToCertificate {
                     CertificateDataValidationShow.builder()
                         .questionId(TYP_AV_SYSSELSATTNING_SVAR_ID_28)
                         .expression(singleExpression(SysselsattningsTyp.NUVARANDE_ARBETE.getId()))
-                        .build(),
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
                         .build()
                 }
             )
@@ -1236,10 +1224,6 @@ public final class InternalToCertificate {
                             singleExpression(SjukskrivningsGrad.NEDSATT_3_4.getId())
                         ))
                         .build(),
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build(),
                     CertificateDataValidationMandatory.builder()
                         .questionId(ARBETSTIDSFORLAGGNING_SVAR_ID_33)
                         .expression(singleExpression(ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33))
@@ -1274,10 +1258,6 @@ public final class InternalToCertificate {
                         .expression(
                             singleExpression(ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33)
                         )
-                        .build(),
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
                         .build(),
                     CertificateDataValidationMandatory.builder()
                         .questionId(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33)
@@ -1566,7 +1546,7 @@ public final class InternalToCertificate {
                             )
                         )
                         .build(),
-                    CertificateDataValidationDisable.builder()
+                    CertificateDataValidationDisableSubElement.builder()
                         .questionId(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
                         .expression(
                             multipleOrExpression(
@@ -1584,7 +1564,7 @@ public final class InternalToCertificate {
                         )
                         .id(Collections.singletonList(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId()))
                         .build(),
-                    CertificateDataValidationDisable.builder()
+                    CertificateDataValidationDisableSubElement.builder()
                         .questionId(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
                         .expression(
                             singleExpression(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId())
@@ -1662,10 +1642,6 @@ public final class InternalToCertificate {
                                 singleExpression(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
                             )
                         )
-                        .build(),
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
                         .build()
                 }
             )
@@ -1792,10 +1768,6 @@ public final class InternalToCertificate {
                         .expression(
                             singleExpression(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
                         )
-                        .build(),
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
                         .build()
                 }
             )
