@@ -35,8 +35,6 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.model.metadata.Unit;
@@ -52,11 +50,9 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 
-@RunWith(MockitoJUnitRunner.class)
 class ValueToolkitTest {
 
     private static final String QUESTION_ID_1 = "1.1";
@@ -653,16 +649,16 @@ class ValueToolkitTest {
     }
 
     @Nested
-    class Grund {
+    class GrundData {
 
-        private GrundData grundData;
+        private se.inera.intyg.common.support.model.common.internal.GrundData grundData;
         private CertificateMetadata metadata;
         private HoSPersonal hoSPersonal;
         private Vardenhet vardenhet = new Vardenhet();
 
         @BeforeEach
         public void setup() {
-            grundData = spy(new GrundData());
+            grundData = spy(new se.inera.intyg.common.support.model.common.internal.GrundData());
             hoSPersonal = spy(new HoSPersonal());
             vardenhet = new Vardenhet();
         }
