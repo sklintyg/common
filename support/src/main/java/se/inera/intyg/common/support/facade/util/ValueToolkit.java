@@ -144,7 +144,7 @@ public final class ValueToolkit {
         }
 
         final var dateValue = (CertificateDataValueDate) dataValue;
-        if (dateValue == null || dateValue.getId() == null || !dateValue.getId().equalsIgnoreCase(valueId)) {
+        if (dateValue.getId() == null || !dateValue.getId().equalsIgnoreCase(valueId)) {
             return null;
         }
         return dateValue.getDate();

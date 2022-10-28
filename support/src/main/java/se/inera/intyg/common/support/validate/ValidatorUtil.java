@@ -100,39 +100,20 @@ public final class ValidatorUtil {
 
         if (!date.isValidDate()) {
             if (date.isCorrectFormat()) {
-                if (questionId != null) {
-                    addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT,
-                        "common.validation.date_invalid", questionId);
-                } else {
-                    addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT,
-                        "common.validation.date_invalid", questionId);
-                }
+                addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT,
+                    "common.validation.date_invalid", questionId);
             } else if (message != null) {
-                if (questionId != null) {
-                    addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT, message,
+                addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT, message,
                         questionId);
-                } else {
-                    addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT, message,
-                        questionId);
-                }
             } else {
-                if (questionId != null) {
-                    addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT, questionId);
-                } else {
-                    addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT, questionId);
-                }
+                addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT, questionId);
             }
             return false;
         }
 
         if (!date.isReasonable()) {
-            if (questionId != null) {
                 addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT,
                     "common.validation.date_out_of_range", questionId);
-            } else {
-                addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT,
-                    "common.validation.date_out_of_range", questionId);
-            }
             return false;
         }
         return true;
