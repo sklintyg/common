@@ -58,7 +58,8 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 
 @RunWith(MockitoJUnitRunner.class)
 class ValueToolkitTest {
-    private static final String QUESTION_ID_1 = "1.1";;
+
+    private static final String QUESTION_ID_1 = "1.1";
     private static final String QUESTION_ID_2 = "1.2";
     private static final String VALUE_ID_1 = "2.1";
     private static final String VALUE_ID_2 = "2.2";
@@ -73,7 +74,7 @@ class ValueToolkitTest {
         data = new HashMap<>();
     }
     @Nested
-    class booleanTest {
+    class BooleanTest {
 
         @Test
         void booleanValueTest() {
@@ -122,7 +123,7 @@ class ValueToolkitTest {
     }
 
     @Nested
-    class text {
+    class Text {
 
         @Test
         void textValueTest() {
@@ -172,7 +173,7 @@ class ValueToolkitTest {
     }
 
     @Nested
-    class uncertainDate {
+    class UncertainDate {
 
         @Test
         void uncertainDateValueTest() {
@@ -222,7 +223,7 @@ class ValueToolkitTest {
     }
 
     @Nested
-    class icfText {
+    class IcfText {
 
         @Test
         void icfTextValueTest() {
@@ -272,7 +273,7 @@ class ValueToolkitTest {
     }
 
     @Nested
-    class icfCode {
+    class IcfCode {
 
         @Test
         void icfCodeValueTest() {
@@ -324,7 +325,7 @@ class ValueToolkitTest {
     }
 
     @Nested
-    class dateList {
+    class DateList {
 
         @Test
         void dateListValueTest() {
@@ -400,7 +401,7 @@ class ValueToolkitTest {
     }
 
     @Nested
-    class date {
+    class Date {
 
         @Test
         void dateValueTest() {
@@ -474,7 +475,7 @@ class ValueToolkitTest {
     }
 
     @Nested
-    class code {
+    class Code {
 
         @Test
         void codeValueTest() {
@@ -508,7 +509,7 @@ class ValueToolkitTest {
     }
 
     @Nested
-    class codeList {
+    class CodeList {
 
         @Test
         void codeListValueTest() {
@@ -556,7 +557,7 @@ class ValueToolkitTest {
     }
 
     @Nested
-    class diagnosisList {
+    class DiagnosisList {
 
         @Test
         void diagnosisListValueTest() {
@@ -604,7 +605,7 @@ class ValueToolkitTest {
     }
 
     @Nested
-    class dateRangeList {
+    class DateRangeList {
 
         @Test
         void dateRangeListValueTest() {
@@ -652,7 +653,7 @@ class ValueToolkitTest {
     }
 
     @Nested
-    class grund {
+    class Grund {
 
         private GrundData grundData;
         private CertificateMetadata metadata;
