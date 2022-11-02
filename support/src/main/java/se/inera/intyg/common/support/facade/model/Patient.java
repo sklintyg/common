@@ -45,6 +45,7 @@ public class Patient {
     private boolean differentNameFromEHR;
     private boolean personIdChanged;
     private boolean reserveId;
+    private boolean addressFromPU;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class PatientBuilder {
