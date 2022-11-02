@@ -47,6 +47,7 @@ public class QuestionOsakertDodsdatum {
             .id(DODSDATUM_OSAKERT_DELSVAR_ID)
             .parent(DODSDATUM_SAKERT_DELSVAR_ID)
             .index(index)
+            .visible(value != null)
             .config(
                 CertificateDataConfigUncertainDate.builder()
                     .id(DODSDATUM_JSON_ID)

@@ -179,6 +179,18 @@ class QuestionOsakertDodsdatumTest {
             final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
             assertEquals("!$" + DODSDATUM_SAKERT_JSON_ID, certificateDataValidationShow.getExpression());
         }
+
+        @Test
+        void shouldIncludeVisbility() {
+            final var question = QuestionOsakertDodsdatum.toCertificate(null, 0, texts);
+            assertEquals(false, question.getVisible());
+        }
+
+        @Test
+        void shouldIncludeTrueVisbilityIfDateIsSet() {
+            final var question = QuestionOsakertDodsdatum.toCertificate("2020-05-23", 0, texts);
+            assertEquals(true, question.getVisible());
+        }
     }
 
     @Nested

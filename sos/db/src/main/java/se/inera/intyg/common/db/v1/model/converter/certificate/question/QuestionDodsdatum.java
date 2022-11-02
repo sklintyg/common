@@ -49,6 +49,7 @@ public class QuestionDodsdatum {
             .id(DODSDATUM_DELSVAR_ID)
             .parent(DODSDATUM_SAKERT_DELSVAR_ID)
             .index(index)
+            .visible(dodsdatum != null)
             .config(
                 CertificateDataConfigDate.builder()
                     .text(texts.get(DODSDATUM_QUESTION_TEXT_ID))
