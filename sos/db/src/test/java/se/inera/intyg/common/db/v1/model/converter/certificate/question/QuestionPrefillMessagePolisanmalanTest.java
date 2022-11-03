@@ -40,7 +40,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.db.model.internal.Undersokning;
-import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionPrefillMessagePolisanmalan;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMessage;
 import se.inera.intyg.common.support.facade.model.config.MessageLevel;
@@ -120,6 +119,12 @@ class QuestionPrefillMessagePolisanmalanTest {
             final var question = QuestionPrefillMessagePolisanmalan.toCertificate(0, texts);
             final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[0];
             assertEquals("$" + Undersokning.UNDERSOKNING_SKA_GORAS.name(), certificateDataValidationShow.getExpression());
+        }
+
+        @Test
+        void shouldIncludeVisibilityFalse() {
+            final var question = QuestionPrefillMessagePolisanmalan.toCertificate(0, texts);
+            assertEquals(false, question.getVisible());
         }
     }
 }

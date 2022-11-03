@@ -40,7 +40,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionAutoFillMessageAfter28DaysBarn;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMessage;
 import se.inera.intyg.common.support.facade.model.config.MessageLevel;
@@ -125,6 +124,12 @@ class QuestionAutoFillMessageAfter28DaysBarnTest {
             final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[0];
             assertEquals("$" + DODSDATUM_JSON_ID + ".toEpochDay > " + withinTwentyEightDaysAfter19121212,
                 certificateDataValidationShow.getExpression());
+        }
+
+        @Test
+        void shouldIncludeVisibilityFalse() {
+            final var question = QuestionAutoFillMessageAfter28DaysBarn.toCertificate(personId, 0, texts);
+            assertEquals(false, question.getVisible());
         }
     }
 }
