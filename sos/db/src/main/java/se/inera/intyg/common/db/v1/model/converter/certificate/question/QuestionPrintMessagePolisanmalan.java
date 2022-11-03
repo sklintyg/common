@@ -35,11 +35,12 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 
 public class QuestionPrintMessagePolisanmalan {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
+    public static CertificateDataElement toCertificate(Boolean polisanmalan, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(POLISANMALAN_PRINT_MESSAGE_DELSVAR_ID)
             .parent(POLISANMALAN_CATEGORY_ID)
             .index(index)
+            .visible(polisanmalan)
             .config(
                 CertificateDataConfigMessage.builder()
                     .message(texts.get(POLISANMALAN_PRINT_MESSAGE_ID))

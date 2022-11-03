@@ -40,6 +40,7 @@ public class QuestionPrefillMessagePolisanmalan {
             .id(POLISANMALAN_PREFILL_MESSAGE_DELSVAR_ID)
             .parent(POLISANMALAN_CATEGORY_ID)
             .index(index)
+            .visible(false)
             .config(
                 CertificateDataConfigMessage.builder()
                     .level(MessageLevel.OBSERVE)

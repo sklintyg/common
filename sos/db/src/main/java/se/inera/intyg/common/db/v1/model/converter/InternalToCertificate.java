@@ -21,13 +21,13 @@ package se.inera.intyg.common.db.v1.model.converter;
 
 import java.time.LocalDate;
 import java.util.List;
+import se.inera.intyg.common.db.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.db.v1.model.converter.certificate.category.CategoryBarn;
 import se.inera.intyg.common.db.v1.model.converter.certificate.category.CategoryDodsdatumDodsplats;
 import se.inera.intyg.common.db.v1.model.converter.certificate.category.CategoryExplosivtImplantat;
 import se.inera.intyg.common.db.v1.model.converter.certificate.category.CategoryKompletterandePatientuppgifter;
 import se.inera.intyg.common.db.v1.model.converter.certificate.category.CategoryPolisanmalan;
 import se.inera.intyg.common.db.v1.model.converter.certificate.category.CategoryUndersokningYttre;
-import se.inera.intyg.common.db.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionAntraffadDod;
 import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionAutoFillMessageAfter28DaysBarn;
 import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionAutoFillMessageWithin28DaysBarn;
@@ -138,7 +138,7 @@ public class InternalToCertificate {
                 QuestionPrefillMessagePolisanmalan.toCertificate(index++, texts)
             )
             .addElement(
-                QuestionPrintMessagePolisanmalan.toCertificate(index++, texts)
+                QuestionPrintMessagePolisanmalan.toCertificate(internalCertificate.getPolisanmalan(), index++, texts)
             )
             .build();
     }
