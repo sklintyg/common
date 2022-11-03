@@ -20,6 +20,7 @@
 package se.inera.intyg.common.db.v1.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
@@ -40,7 +41,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionPrintMessagePolisanmalan;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMessage;
 import se.inera.intyg.common.support.facade.model.config.MessageLevel;
@@ -64,32 +64,32 @@ class QuestionPrintMessagePolisanmalanTest {
 
         @Test
         void shouldIncludeId() {
-            final var question = QuestionPrintMessagePolisanmalan.toCertificate(0, texts);
+            final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
             assertEquals(POLISANMALAN_PRINT_MESSAGE_DELSVAR_ID, question.getId());
         }
 
         @Test
         void shouldIncludeIndex() {
             final var expectedIndex = 1;
-            final var question = QuestionPrintMessagePolisanmalan.toCertificate(expectedIndex, texts);
+            final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, expectedIndex, texts);
             assertEquals(expectedIndex, question.getIndex());
         }
 
         @Test
         void shouldIncludeParentId() {
-            final var question = QuestionPrintMessagePolisanmalan.toCertificate(0, texts);
+            final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
             assertEquals(POLISANMALAN_CATEGORY_ID, question.getParent());
         }
 
         @Test
         void shouldIncludeConfigType() {
-            final var question = QuestionPrintMessagePolisanmalan.toCertificate(0, texts);
+            final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
             assertEquals(UE_MESSAGE, question.getConfig().getType());
         }
 
         @Test
         void shouldIncludeConfigMessage() {
-            final var certificateDataElement = QuestionPrintMessagePolisanmalan.toCertificate(0, texts);
+            final var certificateDataElement = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
             final var certificateDataElementConfig = (CertificateDataConfigMessage) certificateDataElement.getConfig();
             assertTrue(certificateDataElementConfig.getMessage().trim().length() > 0, "Missing message");
             verify(texts, atLeastOnce()).get(POLISANMALAN_PRINT_MESSAGE_ID);
@@ -97,29 +97,47 @@ class QuestionPrintMessagePolisanmalanTest {
 
         @Test
         void shouldIncludeConfigLevelInfo() {
-            final var question = QuestionPrintMessagePolisanmalan.toCertificate(0, texts);
+            final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
             final var config = (CertificateDataConfigMessage) question.getConfig();
             assertEquals(MessageLevel.INFO, config.getLevel());
         }
 
         @Test
         void shouldIncludeValidationShowType() {
-            final var question = QuestionPrintMessagePolisanmalan.toCertificate(0, texts);
+            final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
             assertEquals(CertificateDataValidationType.SHOW_VALIDATION, question.getValidation()[0].getType());
         }
 
         @Test
         void shouldIncludeValidationShowQuestionId() {
-            final var question = QuestionPrintMessagePolisanmalan.toCertificate(0, texts);
+            final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
             final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[0];
             assertEquals(POLISANMALAN_DELSVAR_ID, certificateDataValidationShow.getQuestionId());
         }
 
         @Test
         void shouldIncludeValidationShowExpression() {
-            final var question = QuestionPrintMessagePolisanmalan.toCertificate(0, texts);
+            final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
             final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[0];
             assertEquals("$" + POLISANMALAN_JSON_ID, certificateDataValidationShow.getExpression());
+        }
+
+        @Test
+        void shouldIncludeVisibilityFalse() {
+            final var question = QuestionPrintMessagePolisanmalan.toCertificate(false, 0, texts);
+            assertEquals(false, question.getVisible());
+        }
+
+        @Test
+        void shouldIncludeVisibilityTrue() {
+            final var question = QuestionPrintMessagePolisanmalan.toCertificate(true, 0, texts);
+            assertEquals(true, question.getVisible());
+        }
+
+        @Test
+        void shouldIncludeVisibilitNull() {
+            final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
+            assertNull(question.getVisible());
         }
     }
 }
