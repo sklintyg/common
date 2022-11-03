@@ -22,10 +22,10 @@ package se.inera.intyg.common.db.v1.model.converter.certificate.question;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_AUTOFILL_WITHIN_MESSAGE_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_AUTO_FILL_WITHIN_MESSAGE_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_CATEGORY_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.TWENTY_EIGHT_DAYS;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TO_EPOCH_DAY;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.TWENTY_EIGHT_DAYS;
 import static se.inera.intyg.common.support.facade.util.PatientToolkit.birthDate;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.appendAttribute;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.lessThanOrEqual;
@@ -46,6 +46,7 @@ public class QuestionAutoFillMessageWithin28DaysBarn {
             .id(BARN_AUTOFILL_WITHIN_MESSAGE_DELSVAR_ID)
             .parent(BARN_CATEGORY_ID)
             .index(index)
+            .visible(false)
             .config(
                 CertificateDataConfigMessage.builder()
                     .message(texts.get(BARN_AUTO_FILL_WITHIN_MESSAGE_ID))
