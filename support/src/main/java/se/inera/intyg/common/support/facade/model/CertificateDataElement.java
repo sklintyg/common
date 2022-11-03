@@ -42,6 +42,7 @@ public class CertificateDataElement {
     private CertificateDataValidation[] validation;
     private ValidationError[] validationError;
     private CertificateDataElementStyleEnum style;
+    private Boolean visible;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataElementBuilder {
