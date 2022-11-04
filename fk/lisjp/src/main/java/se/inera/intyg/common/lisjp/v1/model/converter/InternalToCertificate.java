@@ -227,6 +227,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
+import se.inera.intyg.common.support.facade.util.MetaDataToolkit;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 
@@ -317,6 +318,9 @@ public final class InternalToCertificate {
                     .personId(internalCertificate.getGrundData().getSkapadAv().getPersonId())
                     .fullName(internalCertificate.getGrundData().getSkapadAv().getFullstandigtNamn())
                     .build()
+            )
+            .patient(
+                MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getPatient())
             )
             .build();
     }

@@ -54,8 +54,10 @@ import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 @DisplayName("Should convert Certificate to LISJP")
 class CertificateToInternalTest {
@@ -1057,14 +1059,25 @@ class CertificateToInternalTest {
     class GrundDataTest {
 
         private LisjpUtlatandeV1 internalCertificate;
+        private Vardenhet vardenhet;
 
         @BeforeEach
         void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
+            final var grundData = new GrundData();
+            final var patient = new Patient();
+            patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+            grundData.setPatient(patient);
+            final var hosPersonal = new HoSPersonal();
+            vardenhet = new Vardenhet();
+            hosPersonal.setVardenhet(vardenhet);
+            grundData.setSkapadAv(hosPersonal);
+
+            internalCertificate =
+                LisjpUtlatandeV1.builder()
+                    .setId("id")
+                    .setTextVersion("1.0")
+                    .setGrundData(grundData)
+                    .build();
         }
 
         Stream<String> values() {
@@ -1074,22 +1087,10 @@ class CertificateToInternalTest {
         @ParameterizedTest
         @MethodSource("values")
         void shouldIncludeUnitAddress(String expectedValue) {
-            var grundData = new GrundData();
-            var hosPersonal = new HoSPersonal();
-            var vardenhet = new Vardenhet();
             vardenhet.setPostadress(expectedValue);
-            hosPersonal.setVardenhet(vardenhet);
-            grundData.setSkapadAv(hosPersonal);
-
-            final var utlatande =
-                LisjpUtlatandeV1.builder()
-                    .setId("id")
-                    .setTextVersion("1.0")
-                    .setGrundData(grundData)
-                    .build();
 
             final var certificate = CertificateBuilder.create()
-                .metadata(InternalToCertificate.createMetadata(utlatande, texts))
+                .metadata(InternalToCertificate.createMetadata(internalCertificate, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -1100,22 +1101,10 @@ class CertificateToInternalTest {
         @ParameterizedTest
         @MethodSource("values")
         void shouldIncludeUnitCity(String expectedValue) {
-            var grundData = new GrundData();
-            var hosPersonal = new HoSPersonal();
-            var vardenhet = new Vardenhet();
             vardenhet.setPostort(expectedValue);
-            hosPersonal.setVardenhet(vardenhet);
-            grundData.setSkapadAv(hosPersonal);
-
-            final var utlatande =
-                LisjpUtlatandeV1.builder()
-                    .setId("id")
-                    .setTextVersion("1.0")
-                    .setGrundData(grundData)
-                    .build();
 
             final var certificate = CertificateBuilder.create()
-                .metadata(InternalToCertificate.createMetadata(utlatande, texts))
+                .metadata(InternalToCertificate.createMetadata(internalCertificate, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -1126,22 +1115,10 @@ class CertificateToInternalTest {
         @ParameterizedTest
         @MethodSource("values")
         void shouldIncludeUnitZipCode(String expectedValue) {
-            var grundData = new GrundData();
-            var hosPersonal = new HoSPersonal();
-            var vardenhet = new Vardenhet();
             vardenhet.setPostnummer(expectedValue);
-            hosPersonal.setVardenhet(vardenhet);
-            grundData.setSkapadAv(hosPersonal);
-
-            final var utlatande =
-                LisjpUtlatandeV1.builder()
-                    .setId("id")
-                    .setTextVersion("1.0")
-                    .setGrundData(grundData)
-                    .build();
 
             final var certificate = CertificateBuilder.create()
-                .metadata(InternalToCertificate.createMetadata(utlatande, texts))
+                .metadata(InternalToCertificate.createMetadata(internalCertificate, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -1152,22 +1129,10 @@ class CertificateToInternalTest {
         @ParameterizedTest
         @MethodSource("values")
         void shouldIncludeUnitPhonenumber(String expectedValue) {
-            var grundData = new GrundData();
-            var hosPersonal = new HoSPersonal();
-            var vardenhet = new Vardenhet();
             vardenhet.setTelefonnummer(expectedValue);
-            hosPersonal.setVardenhet(vardenhet);
-            grundData.setSkapadAv(hosPersonal);
-
-            final var utlatande =
-                LisjpUtlatandeV1.builder()
-                    .setId("id")
-                    .setTextVersion("1.0")
-                    .setGrundData(grundData)
-                    .build();
 
             final var certificate = CertificateBuilder.create()
-                .metadata(InternalToCertificate.createMetadata(utlatande, texts))
+                .metadata(InternalToCertificate.createMetadata(internalCertificate, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);

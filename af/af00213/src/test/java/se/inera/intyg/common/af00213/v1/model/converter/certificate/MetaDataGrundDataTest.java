@@ -23,22 +23,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.af00213.v1.model.converter.certificate.MetaDataGrundData.toInternal;
 
-import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
-import se.inera.intyg.common.af00213.v1.model.converter.CertificateToInternal;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.facade.model.Patient;
+import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
+import se.inera.intyg.common.support.facade.model.metadata.Unit;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 class MetaDataGrundDataTest {
 
@@ -54,133 +54,12 @@ class MetaDataGrundDataTest {
 
         grundData = new GrundData();
         grundData.setSkapadAv(skapadAv);
+        final var patient = new se.inera.intyg.common.support.model.common.internal.Patient();
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+        grundData.setPatient(patient);
 
         texts = Mockito.mock(CertificateTextProvider.class);
         when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
-    }
-
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class ToInternal {
-
-        private Af00213UtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = Af00213UtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<String> values() {
-            return Stream.of("test string", "", null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("values")
-        void shouldIncludeUnitAddress(String expectedValue) {
-            var grundData = new GrundData();
-            var hosPersonal = new HoSPersonal();
-            var vardenhet = new Vardenhet();
-            vardenhet.setPostadress(expectedValue);
-            hosPersonal.setVardenhet(vardenhet);
-            grundData.setSkapadAv(hosPersonal);
-
-            final var utlatande =
-                Af00213UtlatandeV1.builder()
-                    .setId("id")
-                    .setTextVersion("1.0")
-                    .setGrundData(grundData)
-                    .build();
-
-            final var certificate = CertificateBuilder.create()
-                .metadata(MetaDataGrundData.toCertificate(utlatande, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate);
-
-            assertEquals(expectedValue, updatedCertificate.getGrundData().getSkapadAv().getVardenhet().getPostadress());
-        }
-
-        @ParameterizedTest
-        @MethodSource("values")
-        void shouldIncludeUnitCity(String expectedValue) {
-            var grundData = new GrundData();
-            var hosPersonal = new HoSPersonal();
-            var vardenhet = new Vardenhet();
-            vardenhet.setPostort(expectedValue);
-            hosPersonal.setVardenhet(vardenhet);
-            grundData.setSkapadAv(hosPersonal);
-
-            final var utlatande =
-                Af00213UtlatandeV1.builder()
-                    .setId("id")
-                    .setTextVersion("1.0")
-                    .setGrundData(grundData)
-                    .build();
-
-            final var certificate = CertificateBuilder.create()
-                .metadata(MetaDataGrundData.toCertificate(utlatande, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate);
-
-            assertEquals(expectedValue, updatedCertificate.getGrundData().getSkapadAv().getVardenhet().getPostort());
-        }
-
-        @ParameterizedTest
-        @MethodSource("values")
-        void shouldIncludeUnitZipCode(String expectedValue) {
-            var grundData = new GrundData();
-            var hosPersonal = new HoSPersonal();
-            var vardenhet = new Vardenhet();
-            vardenhet.setPostnummer(expectedValue);
-            hosPersonal.setVardenhet(vardenhet);
-            grundData.setSkapadAv(hosPersonal);
-
-            final var utlatande =
-                Af00213UtlatandeV1.builder()
-                    .setId("id")
-                    .setTextVersion("1.0")
-                    .setGrundData(grundData)
-                    .build();
-
-            final var certificate = CertificateBuilder.create()
-                .metadata(MetaDataGrundData.toCertificate(utlatande, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate);
-
-            assertEquals(expectedValue, updatedCertificate.getGrundData().getSkapadAv().getVardenhet().getPostnummer());
-        }
-
-        @ParameterizedTest
-        @MethodSource("values")
-        void shouldIncludeUnitPhonenumber(String expectedValue) {
-            var grundData = new GrundData();
-            var hosPersonal = new HoSPersonal();
-            var vardenhet = new Vardenhet();
-            vardenhet.setTelefonnummer(expectedValue);
-            hosPersonal.setVardenhet(vardenhet);
-            grundData.setSkapadAv(hosPersonal);
-
-            final var utlatande =
-                Af00213UtlatandeV1.builder()
-                    .setId("id")
-                    .setTextVersion("1.0")
-                    .setGrundData(grundData)
-                    .build();
-
-            final var certificate = CertificateBuilder.create()
-                .metadata(MetaDataGrundData.toCertificate(utlatande, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate);
-
-            assertEquals(expectedValue, updatedCertificate.getGrundData().getSkapadAv().getVardenhet().getTelefonnummer());
-        }
     }
 
     @Nested
@@ -242,6 +121,33 @@ class MetaDataGrundDataTest {
                 final var metadata = MetaDataGrundData.toCertificate(internalCertificate, texts);
                 assertNotNull(metadata.getIssuedBy(), "Missing issued by!");
             }
+
+            @Test
+            void shouldIncludePatient() {
+                final var metadata = MetaDataGrundData.toCertificate(internalCertificate, texts);
+                assertNotNull(metadata.getPatient(), "Missing patient!");
+            }
+        }
+    }
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class ToInternal {
+
+        private CertificateMetadata metadata;
+
+        @BeforeEach
+        void setUp() {
+            metadata = CertificateMetadata.builder()
+                .unit(Unit.builder().build())
+                .patient(Patient.builder().build())
+                .build();
+        }
+
+        @Test
+        void shouldIncludeGrundData() {
+            final var actualGrundData = toInternal(metadata, grundData);
+            assertNotNull(actualGrundData, "Missing grundData!");
         }
     }
 }

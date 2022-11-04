@@ -37,7 +37,9 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 class CategoryUtredningBehandlingTest {
 
@@ -53,6 +55,10 @@ class CategoryUtredningBehandlingTest {
 
         grundData = new GrundData();
         grundData.setSkapadAv(skapadAv);
+
+        final var patient = new Patient();
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+        grundData.setPatient(patient);
 
         texts = Mockito.mock(CertificateTextProvider.class);
         when(texts.get(Mockito.any(String.class))).thenReturn("Test string");

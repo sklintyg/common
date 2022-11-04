@@ -141,8 +141,10 @@ import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 @DisplayName("Should convert LisjpUtlatandeV1 to Certificate")
 class InternalToCertificateTest {
@@ -152,6 +154,8 @@ class InternalToCertificateTest {
 
     @BeforeEach
     void setup() {
+        final var patient = new Patient();
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
         final var unit = new Vardenhet();
 
         final var skapadAv = new HoSPersonal();
@@ -159,6 +163,7 @@ class InternalToCertificateTest {
 
         grundData = new GrundData();
         grundData.setSkapadAv(skapadAv);
+        grundData.setPatient(patient);
 
         texts = Mockito.mock(CertificateTextProvider.class);
         when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
