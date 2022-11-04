@@ -43,6 +43,9 @@ public class MetaDataGrundData {
             .issuedBy(
                 MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getSkapadAv())
             )
+            .patient(
+                MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getPatient())
+            )
             .build();
     }
 

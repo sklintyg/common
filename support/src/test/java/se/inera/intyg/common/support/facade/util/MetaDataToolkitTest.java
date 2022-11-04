@@ -20,12 +20,15 @@
 package se.inera.intyg.common.support.facade.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static se.inera.intyg.common.support.facade.util.MetaDataToolkit.toCertificate;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 class MetaDataToolkitTest {
 
@@ -44,7 +47,7 @@ class MetaDataToolkitTest {
             final var expectedUnitId = "UnitID";
             unit.setEnhetsid(expectedUnitId);
 
-            final var unit = MetaDataToolkit.toCertificate(this.unit);
+            final var unit = toCertificate(this.unit);
 
             assertEquals(expectedUnitId, unit.getUnitId());
         }
@@ -54,7 +57,7 @@ class MetaDataToolkitTest {
             final var expectedUnitName = "UnitName";
             unit.setEnhetsnamn(expectedUnitName);
 
-            final var unit = MetaDataToolkit.toCertificate(this.unit);
+            final var unit = toCertificate(this.unit);
 
             assertEquals(expectedUnitName, unit.getUnitName());
         }
@@ -64,7 +67,7 @@ class MetaDataToolkitTest {
             final var expectedUnitAddress = "UnitAddress";
             unit.setPostadress(expectedUnitAddress);
 
-            final var unit = MetaDataToolkit.toCertificate(this.unit);
+            final var unit = toCertificate(this.unit);
 
             assertEquals(expectedUnitAddress, unit.getAddress());
         }
@@ -74,7 +77,7 @@ class MetaDataToolkitTest {
             final var expectedUnitZipCode = "UnitZipCode";
             unit.setPostnummer(expectedUnitZipCode);
 
-            final var unit = MetaDataToolkit.toCertificate(this.unit);
+            final var unit = toCertificate(this.unit);
 
             assertEquals(expectedUnitZipCode, unit.getZipCode());
         }
@@ -84,7 +87,7 @@ class MetaDataToolkitTest {
             final var expectedUnitCity = "UnitCity";
             unit.setPostort(expectedUnitCity);
 
-            final var unit = MetaDataToolkit.toCertificate(this.unit);
+            final var unit = toCertificate(this.unit);
 
             assertEquals(expectedUnitCity, unit.getCity());
         }
@@ -94,7 +97,7 @@ class MetaDataToolkitTest {
             final var expectedUnitEmail = "UnitEmail";
             unit.setEpost(expectedUnitEmail);
 
-            final var unit = MetaDataToolkit.toCertificate(this.unit);
+            final var unit = toCertificate(this.unit);
 
             assertEquals(expectedUnitEmail, unit.getEmail());
         }
@@ -104,7 +107,7 @@ class MetaDataToolkitTest {
             final var expectedUnitPhoneNumber = "UnitPhoneNumber";
             unit.setTelefonnummer(expectedUnitPhoneNumber);
 
-            final var unit = MetaDataToolkit.toCertificate(this.unit);
+            final var unit = toCertificate(this.unit);
 
             assertEquals(expectedUnitPhoneNumber, unit.getPhoneNumber());
         }
@@ -125,7 +128,7 @@ class MetaDataToolkitTest {
             final var expectedPersonId = "PersonId";
             hoSPersonal.setPersonId(expectedPersonId);
 
-            final var staff = MetaDataToolkit.toCertificate(hoSPersonal);
+            final var staff = toCertificate(hoSPersonal);
 
             assertEquals(expectedPersonId, staff.getPersonId());
         }
@@ -135,9 +138,83 @@ class MetaDataToolkitTest {
             final var expectedFullName = "Fullname";
             hoSPersonal.setFullstandigtNamn(expectedFullName);
 
-            final var staff = MetaDataToolkit.toCertificate(hoSPersonal);
+            final var staff = toCertificate(hoSPersonal);
 
             assertEquals(expectedFullName, staff.getFullName());
+        }
+    }
+
+    @Nested
+    class ValidatePatient {
+
+        private Patient patient;
+
+        @BeforeEach
+        void createInternalCertificateToConvert() {
+            patient = new Patient();
+            patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
+            patient.setEfternamn("Last name");
+            patient.setFornamn("First name");
+            patient.setMellannamn("Middle name");
+            patient.setFullstandigtNamn("FullName name");
+            patient.setPostadress("Storgatan 1");
+            patient.setPostnummer("831 33");
+            patient.setPostort("Östersund");
+            patient.setAddressDetailsSourcePU(true);
+        }
+
+        @Test
+        void shallIncludePersonId() {
+            final var actualPatient = toCertificate(this.patient);
+            assertEquals(patient.getPersonId().getPersonnummerWithDash(), actualPatient.getPersonId().getId());
+        }
+
+        @Test
+        void shallIncludeFirstName() {
+            final var actualPatient = toCertificate(this.patient);
+            assertEquals(patient.getFornamn(), actualPatient.getFirstName());
+        }
+
+        @Test
+        void shallIncludeMiddleName() {
+            final var actualPatient = toCertificate(this.patient);
+            assertEquals(patient.getMellannamn(), actualPatient.getMiddleName());
+        }
+
+        @Test
+        void shallIncludeLastName() {
+            final var actualPatient = toCertificate(this.patient);
+            assertEquals(patient.getEfternamn(), actualPatient.getLastName());
+        }
+
+        @Test
+        void shallIncludeFullName() {
+            final var actualPatient = toCertificate(this.patient);
+            assertEquals(patient.getFullstandigtNamn(), actualPatient.getFullName());
+        }
+
+        @Test
+        void shallIncludeStreet() {
+            final var actualPatient = toCertificate(this.patient);
+            assertEquals(patient.getPostadress(), actualPatient.getStreet());
+        }
+
+        @Test
+        void shallIncludeZipCode() {
+            final var actualPatient = toCertificate(this.patient);
+            assertEquals(patient.getPostnummer(), actualPatient.getZipCode());
+        }
+
+        @Test
+        void shallIncludeCity() {
+            final var actualPatient = toCertificate(this.patient);
+            assertEquals(patient.getPostort(), actualPatient.getCity());
+        }
+
+        @Test
+        void shallIncludeAddressFromPU() {
+            final var actualPatient = toCertificate(this.patient);
+            assertEquals(patient.isAddressDetailsSourcePU(), actualPatient.isAddressFromPU());
         }
     }
 }

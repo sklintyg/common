@@ -44,7 +44,9 @@ import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 @DisplayName("Should convert AF00213Utlatande to Certificate")
 class InternalToCertificateTest {
@@ -55,13 +57,16 @@ class InternalToCertificateTest {
 
     @BeforeEach
     void setup() {
+        final var patient = new Patient();
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
         final var unit = new Vardenhet();
         final var skapadAv = new HoSPersonal();
         skapadAv.setVardenhet(unit);
 
         grundData = new GrundData();
         grundData.setSkapadAv(skapadAv);
-
+        grundData.setPatient(patient);
+        
         internalCertificate = Af00213UtlatandeV1.builder()
             .setGrundData(grundData)
             .setId("id")

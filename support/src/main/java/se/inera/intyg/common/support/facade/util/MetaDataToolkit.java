@@ -19,6 +19,8 @@
 
 package se.inera.intyg.common.support.facade.util;
 
+import se.inera.intyg.common.support.facade.model.Patient;
+import se.inera.intyg.common.support.facade.model.PersonId;
 import se.inera.intyg.common.support.facade.model.Staff;
 import se.inera.intyg.common.support.facade.model.metadata.Unit;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -43,5 +45,28 @@ public final class MetaDataToolkit {
             .personId(staff.getPersonId())
             .fullName(staff.getFullstandigtNamn())
             .build();
+    }
+
+    public static Patient toCertificate(se.inera.intyg.common.support.model.common.internal.Patient patient) {
+        return Patient.builder()
+            .personId(
+                PersonId.builder()
+                    .id(patient.getPersonId().getPersonnummerWithDash())
+                    .build()
+            )
+            .firstName(asString(patient.getFornamn()))
+            .middleName(asString(patient.getMellannamn()))
+            .lastName(asString(patient.getEfternamn()))
+            .fullName(patient.getFullstandigtNamn())
+            .street(patient.getPostadress())
+            .zipCode(patient.getPostnummer())
+            .city(patient.getPostort())
+            .testIndicated(patient.isTestIndicator())
+            .addressFromPU(patient.isAddressDetailsSourcePU())
+            .build();
+    }
+
+    private static String asString(String s) {
+        return s != null ? s : "";
     }
 }

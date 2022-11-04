@@ -42,7 +42,9 @@ import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 @DisplayName("Should convert Certificate to AF00213")
 class CertificateToInternalTest {
@@ -56,8 +58,11 @@ class CertificateToInternalTest {
         final var grundData = new GrundData();
         final var hosPersonal = new HoSPersonal();
         final var vardenhet = new Vardenhet();
+        final var patient = new Patient();
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
         hosPersonal.setVardenhet(vardenhet);
         grundData.setSkapadAv(hosPersonal);
+        grundData.setPatient(patient);
 
         expectedInternalCertificate = Af00213UtlatandeV1.builder()
             .setGrundData(grundData)

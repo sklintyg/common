@@ -26,6 +26,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.grundData;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
+import se.inera.intyg.common.support.facade.model.Patient;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.model.metadata.Unit;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataIcfValue;
@@ -50,6 +52,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 
@@ -60,6 +63,9 @@ class ValueToolkitTest {
     private static final String VALUE_ID_1 = "2.1";
     private static final String VALUE_ID_2 = "2.2";
     private static final String WRONG_VALUE_ID = "Wrong value id";
+    public static final String CURRENT_ZIP_CODE = "Current zip code";
+    public static final String CURRENT_CITY = "Current city";
+    public static final String CURRENT_STREET_ADDRESS = "Current street address";
 
     private Map<String, CertificateDataElement> data;
     private CertificateDataElement certificateDataElement1;
@@ -69,6 +75,7 @@ class ValueToolkitTest {
     void setUp() {
         data = new HashMap<>();
     }
+
     @Nested
     class BooleanTest {
 
@@ -649,7 +656,7 @@ class ValueToolkitTest {
     }
 
     @Nested
-    class GrundData {
+    class GrundDataVardenhet {
 
         private se.inera.intyg.common.support.model.common.internal.GrundData grundData;
         private CertificateMetadata metadata;
@@ -658,7 +665,8 @@ class ValueToolkitTest {
 
         @BeforeEach
         public void setup() {
-            grundData = spy(new se.inera.intyg.common.support.model.common.internal.GrundData());
+            grundData = spy(new GrundData());
+            grundData.setPatient(new se.inera.intyg.common.support.model.common.internal.Patient());
             hoSPersonal = spy(new HoSPersonal());
             vardenhet = new Vardenhet();
         }
@@ -668,9 +676,12 @@ class ValueToolkitTest {
             Unit unit = Unit.builder().address("adress").city("stad").zipCode("12345").phoneNumber("123456789").build();
             hoSPersonal.setVardenhet(vardenhet);
             grundData.setSkapadAv(hoSPersonal);
-            metadata = CertificateMetadata.builder().unit(unit).build();
+            metadata = CertificateMetadata.builder()
+                .unit(unit)
+                .patient(Patient.builder().build())
+                .build();
 
-            var result = ValueToolkit.grundData(metadata, grundData);
+            var result = grundData(metadata, grundData);
 
             verify(grundData, times(2)).getSkapadAv();
             verify(hoSPersonal, times(2)).getVardenhet();
@@ -687,7 +698,7 @@ class ValueToolkitTest {
         void grundDataNullTest() {
             hoSPersonal.setVardenhet(vardenhet);
             grundData.setSkapadAv(hoSPersonal);
-            var result = ValueToolkit.grundData(null, grundData);
+            var result = grundData(null, grundData);
 
             verify(grundData, never()).getSkapadAv();
             verify(hoSPersonal, never()).getVardenhet();
@@ -700,9 +711,12 @@ class ValueToolkitTest {
             Unit unit = Unit.builder().address("adress").city("stad").zipCode("12345").phoneNumber("123456789").build();
             hoSPersonal.setVardenhet(vardenhet);
             grundData.setSkapadAv(null);
-            metadata = CertificateMetadata.builder().unit(unit).build();
+            metadata = CertificateMetadata.builder()
+                .unit(unit)
+                .patient(Patient.builder().build())
+                .build();
 
-            var result = ValueToolkit.grundData(metadata, grundData);
+            var result = grundData(metadata, grundData);
 
             verify(grundData, times(1)).getSkapadAv();
             verify(hoSPersonal, never()).getVardenhet();
@@ -713,12 +727,129 @@ class ValueToolkitTest {
             Unit unit = Unit.builder().address("adress").city("stad").zipCode("12345").phoneNumber("123456789").build();
             hoSPersonal.setVardenhet(null);
             grundData.setSkapadAv(hoSPersonal);
-            metadata = CertificateMetadata.builder().unit(unit).build();
+            metadata = CertificateMetadata.builder().unit(unit)
+                .patient(Patient.builder().build())
+                .build();
 
-            var result = ValueToolkit.grundData(metadata, grundData);
+            var result = grundData(metadata, grundData);
 
             verify(grundData, times(2)).getSkapadAv();
             verify(hoSPersonal, times(1)).getVardenhet();
+        }
+    }
+
+    @Nested
+    class GrundDataPatient {
+
+        private GrundData grundData;
+
+        @BeforeEach
+        void setUp() {
+            grundData = new GrundData();
+            final var patient = new se.inera.intyg.common.support.model.common.internal.Patient();
+            patient.setPostadress(CURRENT_STREET_ADDRESS);
+            patient.setPostort(CURRENT_CITY);
+            patient.setPostnummer(CURRENT_ZIP_CODE);
+            grundData.setPatient(patient);
+        }
+
+        @Test
+        void shallUpdatePatientStreetIfNotFromPU() {
+            final var expectedStreet = "New street address";
+            final var metadata = CertificateMetadata.builder().patient(
+                    Patient.builder()
+                        .street(expectedStreet)
+                        .addressFromPU(false)
+                        .build()
+                )
+                .unit(Unit.builder().build())
+                .build();
+
+            final var actualGrundData = grundData(metadata, grundData);
+
+            assertEquals(expectedStreet, actualGrundData.getPatient().getPostadress());
+        }
+
+        @Test
+        void shallNotUpdatePatientStreetIfFromPU() {
+            final var metadata = CertificateMetadata.builder().patient(
+                    Patient.builder()
+                        .street("New street address")
+                        .addressFromPU(true)
+                        .build()
+                )
+                .unit(Unit.builder().build())
+                .build();
+
+            final var actualGrundData = grundData(metadata, grundData);
+
+            assertEquals(CURRENT_STREET_ADDRESS, actualGrundData.getPatient().getPostadress());
+        }
+
+        @Test
+        void shallUpdatePatientCityIfNotFromPU() {
+            final var expectedCity = "New city";
+            final var metadata = CertificateMetadata.builder().patient(
+                    Patient.builder()
+                        .city(expectedCity)
+                        .addressFromPU(false)
+                        .build()
+                )
+                .unit(Unit.builder().build())
+                .build();
+
+            final var actualGrundData = grundData(metadata, grundData);
+
+            assertEquals(expectedCity, actualGrundData.getPatient().getPostort());
+        }
+
+        @Test
+        void shallNotUpdatePatientCityIfFromPU() {
+            final var metadata = CertificateMetadata.builder().patient(
+                    Patient.builder()
+                        .city("New city")
+                        .addressFromPU(true)
+                        .build()
+                )
+                .unit(Unit.builder().build())
+                .build();
+
+            final var actualGrundData = grundData(metadata, grundData);
+
+            assertEquals(CURRENT_CITY, actualGrundData.getPatient().getPostort());
+        }
+
+        @Test
+        void shallUpdatePatientZipCodeIfNotFromPU() {
+            final var expectedZipCode = "New zip code";
+            final var metadata = CertificateMetadata.builder().patient(
+                    Patient.builder()
+                        .zipCode(expectedZipCode)
+                        .addressFromPU(false)
+                        .build()
+                )
+                .unit(Unit.builder().build())
+                .build();
+
+            final var actualGrundData = grundData(metadata, grundData);
+
+            assertEquals(expectedZipCode, actualGrundData.getPatient().getPostnummer());
+        }
+
+        @Test
+        void shallNotUpdatePatientZipCodeIfFromPU() {
+            final var metadata = CertificateMetadata.builder().patient(
+                    Patient.builder()
+                        .zipCode("New zip code")
+                        .addressFromPU(true)
+                        .build()
+                )
+                .unit(Unit.builder().build())
+                .build();
+
+            final var actualGrundData = grundData(metadata, grundData);
+
+            assertEquals(CURRENT_ZIP_CODE, actualGrundData.getPatient().getPostnummer());
         }
     }
 }

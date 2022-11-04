@@ -212,6 +212,12 @@ public final class ValueToolkit {
         updatedCareUnit.setTelefonnummer(metadata.getUnit().getPhoneNumber());
         updatedStaff.setVardenhet(updatedCareUnit);
         updatedGrundData.setSkapadAv(updatedStaff);
+
+        if (!metadata.getPatient().isAddressFromPU()) {
+            updatedGrundData.getPatient().setPostadress(metadata.getPatient().getStreet());
+            updatedGrundData.getPatient().setPostort(metadata.getPatient().getCity());
+            updatedGrundData.getPatient().setPostnummer(metadata.getPatient().getZipCode());
+        }
         return updatedGrundData;
     }
 }

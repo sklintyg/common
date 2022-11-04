@@ -54,7 +54,9 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionAktivitetsbegransningTest {
@@ -116,6 +118,10 @@ class QuestionAktivitetsbegransningTest {
 
             grundData = new GrundData();
             grundData.setSkapadAv(skapadAv);
+
+            final var patient = new Patient();
+            patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+            grundData.setPatient(patient);
         }
 
         @Nested
