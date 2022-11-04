@@ -25,6 +25,7 @@ angular.module('db').constant('db.messages', {
         'db.validation.undersokningDatum.after.dodsdatum': 'Ange ett datum, samma som eller tidigare än "Dödsdatum".',
         'db.validation.undersokningDatum.after.antraffatDodDatum' : 'Ange ett datum, samma som eller tidigare än "Anträffad död".',
         'db.validation.undersokningDatum.before.beginningOflastYear' : 'Ange ett datum, samma som eller senare än 1 januari föregående året.',
+        'db.validation.undersokningDatum.before.fourWeeks' : 'Får inte infalla tidigare än fyra veckor före döden, om dödsdatumet är säkert',
 
         'db.validation.datum.innanDodsdatum': 'Ange ett datum, samma som eller senare än "Dödsdatum".',
 
