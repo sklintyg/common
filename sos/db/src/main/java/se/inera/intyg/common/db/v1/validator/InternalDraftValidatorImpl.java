@@ -114,7 +114,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
                     ValidatorUtil
                         .addValidationErrorWithQuestionId(validationMessages, "yttreUndersokning", UNDERSOKNING_DATUM_JSON_ID,
                             ValidationMessageType.INCORRECT_COMBINATION,
-                            "common.validation.date.e-06", UNDERSOKNING_DATUM_DELSVAR_ID);
+                            "db.validation.undersokningDatum.before.fourWeeks", UNDERSOKNING_DATUM_DELSVAR_ID);
                 } else if ((utlatande.getDodsdatumSakert() != null && !utlatande.getDodsdatumSakert())
                     && (utlatande.getAntraffatDodDatum() != null && utlatande.getAntraffatDodDatum().isValidDate())
                     && utlatande.getUndersokningDatum().asLocalDate().isAfter(utlatande.getAntraffatDodDatum().asLocalDate())) {

@@ -241,6 +241,21 @@ public class InternalValidatorTest {
     }
 
     @Test
+    public void testR7_5() throws ScenarioNotFoundException {
+        DbUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("validation-fail-R7-5").asInternalModel();
+        internalValidatorHelper.setNowMinusDays(utlatandeFromJson.getDodsdatum(), 0);
+        internalValidatorHelper.setNowMinusDays(utlatandeFromJson.getUndersokningDatum(), 30);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
+        assertEquals("yttreUndersokning", internalValidationResponse.getValidationErrors().get(0).getCategory());
+        assertEquals("undersokningDatum", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals("db.validation.undersokningDatum.before.fourWeeks",
+            internalValidationResponse.getValidationErrors().get(0).getMessage());
+        assertEquals(UNDERSOKNING_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+    }
+
+    @Test
     public void testR19() throws ScenarioNotFoundException {
         DbUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R19").asInternalModel();
         internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
