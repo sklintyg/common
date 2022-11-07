@@ -19,17 +19,39 @@
 
 package se.inera.intyg.common.doi.v1.model.converter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_AUTOFILL_AFTER_MESSAGE_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_AUTOFILL_WITHIN_MESSAGE_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_CATEGORY_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DODSPLATS_CATEGORY_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_OSAKERT_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_BOENDE_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_KOMMUN_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_SVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.IDENTITET_STYRKT_DELSVAR_ID;
 
+import java.time.LocalDate;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypeAhead;
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadEnum;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 class InternalToCertificateTest {
@@ -38,7 +60,10 @@ class InternalToCertificateTest {
 
     private GrundData grundData;
     private DoiUtlatandeV1 internalCertificate;
-    private CertificateTextProvider textProvider;
+    private CertificateTextProvider texts;
+    private TypeAheadProvider typeAheadProvider;
+
+    private List<String> kommuner = List.of("Östersund", "Strömsund", "Stockholm");
 
     @BeforeEach
     void setUp() {
@@ -60,13 +85,108 @@ class InternalToCertificateTest {
             .setId("certificateId")
             .setTextVersion("1.0")
             .setGrundData(grundData)
+            .setIdentitetStyrkt("IdentitetStyrkt")
+            .setDodsdatumSakert(true)
+            .setDodsdatum(new InternalDate(LocalDate.now()))
+            .setDodsplatsKommun("DodsplatsKommun")
+            .setDodsplatsBoende(DodsplatsBoende.SJUKHUS)
+            .setBarn(false)
             .build();
-        textProvider = mock(CertificateTextProvider.class);
+
+        texts = mock(CertificateTextProvider.class);
+        typeAheadProvider = mock(TypeAheadProvider.class);
+        doReturn(kommuner).when(typeAheadProvider).getValues(TypeAheadEnum.MUNICIPALITIES);
     }
 
     @Test
     void shallIncludeMetadata() {
-        final var actualCertificate = internalToCertificate.toCertificate(internalCertificate, textProvider);
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
         assertNotNull(actualCertificate.getMetadata(), "Shall contain metadata");
+    }
+
+    @Test
+    void shallIncludeQuestionIdentitetStyrkt() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+        assertEquals(1, actualCertificate.getData().get(IDENTITET_STYRKT_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryDodsdatumDodsplats() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+        assertEquals(2, actualCertificate.getData().get(DODSDATUM_DODSPLATS_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionDodsdatumSakert() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+        assertEquals(3, actualCertificate.getData().get(DODSDATUM_SAKERT_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionDodsdatum() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+        assertEquals(4, actualCertificate.getData().get(DODSDATUM_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionOsakertDodsdatum() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+        assertEquals(5, actualCertificate.getData().get(DODSDATUM_OSAKERT_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionAntraffadDod() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+        assertEquals(6, actualCertificate.getData().get(ANTRAFFAT_DOD_DATUM_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionDodsplats() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+        assertEquals(7, actualCertificate.getData().get(DODSPLATS_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionDodsplatsKommun() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+        assertEquals(8, actualCertificate.getData().get(DODSPLATS_KOMMUN_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionDodsplatsKommunWithListOfKommun() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+        final var certificateDataElement = actualCertificate.getData().get(DODSPLATS_KOMMUN_DELSVAR_ID);
+        final var certificateDataConfigTypeAhead = (CertificateDataConfigTypeAhead) certificateDataElement.getConfig();
+        assertEquals(kommuner, certificateDataConfigTypeAhead.getTypeAhead());
+    }
+
+    @Test
+    void shallIncludeQuestionDodsplatsBoende() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+        assertEquals(9, actualCertificate.getData().get(DODSPLATS_BOENDE_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryBarn() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+        assertEquals(10, actualCertificate.getData().get(BARN_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionBarn() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+        assertEquals(11, actualCertificate.getData().get(BARN_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionAutoFillWithinBarn() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+        assertEquals(12, actualCertificate.getData().get(BARN_AUTOFILL_WITHIN_MESSAGE_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionAutoFillAfterBarn() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+        assertEquals(13, actualCertificate.getData().get(BARN_AUTOFILL_AFTER_MESSAGE_DELSVAR_ID).getIndex());
     }
 }

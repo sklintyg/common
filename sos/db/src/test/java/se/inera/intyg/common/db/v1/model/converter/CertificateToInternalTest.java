@@ -31,21 +31,21 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import se.inera.intyg.common.db.model.internal.Undersokning;
 import se.inera.intyg.common.db.v1.model.converter.certificate.MetaDataGrundData;
-import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionAntraffadDod;
-import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionBarn;
-import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionDodsdatum;
-import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionDodsdatumSakert;
-import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionDodsplatsBoende;
-import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionDodsplatsKommun;
 import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionExplosivtAvlagsnat;
 import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionExplosivtImplantat;
-import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionIdentitetenStyrkt;
-import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionOsakertDodsdatum;
 import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionPolisanmalan;
 import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionUndersokningYttre;
 import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionUndersokningsdatum;
 import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionAntraffadDod;
+import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionBarn;
+import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionDodsdatum;
+import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionDodsdatumSakert;
+import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionDodsplatsBoende;
+import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionDodsplatsKommun;
+import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionIdentitetenStyrkt;
+import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionOsakertDodsdatum;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -210,7 +210,7 @@ class CertificateToInternalTest {
     }
 
     @Nested
-    class UnHappyScenario {
+    class AlternativeScenarioDodsdatumOsakertWithValue {
 
         @BeforeEach
         private void setup() {
@@ -273,7 +273,7 @@ class CertificateToInternalTest {
     }
 
     @Nested
-    class UnHappyScenarioNull {
+    class AlternativeScenarioDodsdatumOsakertNull {
 
         @BeforeEach
         private void setup() {
