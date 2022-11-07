@@ -52,6 +52,7 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import se.inera.intyg.common.doi.v1.model.converter.CertificateToInternal;
 import se.inera.intyg.common.doi.v1.model.converter.InternalToCertificate;
 import se.inera.intyg.common.doi.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
@@ -123,6 +124,9 @@ public class DoiModuleApiV1Test {
 
     @Mock
     private InternalToCertificate internalToCertificate;
+
+    @Mock
+    private CertificateToInternal certificateToInternal;
 
     @Mock
     private IntygTextsService intygTextsService;
@@ -469,6 +473,31 @@ public class DoiModuleApiV1Test {
         final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider);
 
         assertEquals(expectedCertificate, actualCertificate);
+    }
+
+    @Test
+    public void shallConvertCertificateToInternal() throws Exception {
+        final var expectedJson = "expectedJson";
+        final var certificate = CertificateBuilder.create().build();
+        final var certificateAsJson = "certificateAsJson";
+
+        final var internalCertificate = DoiUtlatandeV1.builder()
+            .setId("123")
+            .setTextVersion("1.0")
+            .setGrundData(new GrundData())
+            .build();
+
+        when(objectMapper.readValue(eq(certificateAsJson), eq(DoiUtlatandeV1.class)))
+            .thenReturn(internalCertificate);
+
+        when(objectMapper.writeValueAsString(internalCertificate))
+            .thenReturn(expectedJson);
+
+        when(certificateToInternal.convert(certificate, internalCertificate))
+            .thenReturn(internalCertificate);
+
+        final var actualJson = moduleApi.getJsonFromCertificate(certificate, certificateAsJson);
+        assertEquals(expectedJson, actualJson);
     }
 
     private Utlatande createUtlatande() {

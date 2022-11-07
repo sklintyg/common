@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.db.support.DbModuleEntryPoint;
 import se.inera.intyg.common.doi.support.DoiModuleEntryPoint;
+import se.inera.intyg.common.doi.v1.model.converter.CertificateToInternal;
 import se.inera.intyg.common.doi.v1.model.converter.InternalToCertificate;
 import se.inera.intyg.common.doi.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.doi.v1.model.converter.TransportToInternal;
@@ -60,6 +61,9 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
 
     @Autowired
     private InternalToCertificate internalToCertificate;
+
+    @Autowired
+    private CertificateToInternal certificateToInternal;
 
     public static final String SCHEMATRON_FILE = "doi.v1.sch";
     private static final Logger LOG = LoggerFactory.getLogger(DoiModuleApiV1.class);
@@ -150,5 +154,12 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
         final var internalCertificate = getInternal(certificateAsJson);
         final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
         return internalToCertificate.toCertificate(internalCertificate, certificateTextProvider);
+    }
+
+    @Override
+    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson);
+        final var updateInternalCertificate = certificateToInternal.convert(certificate, internalCertificate);
+        return toInternalModelResponse(updateInternalCertificate);
     }
 }
