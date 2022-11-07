@@ -24,9 +24,11 @@ import java.util.Optional;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.db.support.DbModuleEntryPoint;
 import se.inera.intyg.common.doi.support.DoiModuleEntryPoint;
+import se.inera.intyg.common.doi.v1.model.converter.InternalToCertificate;
 import se.inera.intyg.common.doi.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.doi.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.doi.v1.model.converter.UtlatandeToIntyg;
@@ -37,6 +39,7 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.sos_parent.pdf.SoSPdfGeneratorException;
 import se.inera.intyg.common.sos_parent.rest.SosParentModuleApi;
 import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -47,12 +50,16 @@ import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftCreationResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 
 @Component(value = "moduleapi.doi.v1")
 public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
+
+    @Autowired
+    private InternalToCertificate internalToCertificate;
 
     public static final String SCHEMATRON_FILE = "doi.v1.sch";
     private static final Logger LOG = LoggerFactory.getLogger(DoiModuleApiV1.class);
@@ -138,4 +145,10 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
         return Optional.empty();
     }
 
+    @Override
+    public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson);
+        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+        return internalToCertificate.toCertificate(internalCertificate, certificateTextProvider);
+    }
 }
