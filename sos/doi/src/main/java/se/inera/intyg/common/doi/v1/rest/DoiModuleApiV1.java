@@ -153,7 +153,7 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
     public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider) throws ModuleException {
         final var internalCertificate = getInternal(certificateAsJson);
         final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
-        return internalToCertificate.toCertificate(internalCertificate, certificateTextProvider);
+        return internalToCertificate.convert(internalCertificate, certificateTextProvider, typeAheadProvider);
     }
 
     @Override

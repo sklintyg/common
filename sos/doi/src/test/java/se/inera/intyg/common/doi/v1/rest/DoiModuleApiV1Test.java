@@ -467,7 +467,7 @@ public class DoiModuleApiV1Test {
         when(objectMapper.readValue(eq(certificateAsJson), eq(DoiUtlatandeV1.class)))
             .thenReturn(internalCertificate);
 
-        when(internalToCertificate.toCertificate(eq(internalCertificate), any(CertificateTextProvider.class)))
+        when(internalToCertificate.convert(eq(internalCertificate), any(CertificateTextProvider.class), eq(typeAheadProvider)))
             .thenReturn(expectedCertificate);
 
         final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider);
