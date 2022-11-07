@@ -210,7 +210,7 @@ class CertificateToInternalTest {
     }
 
     @Nested
-    class UnHappyScenario {
+    class AlternativeScenarioDodsdatumOsakertWithValue {
 
         @BeforeEach
         private void setup() {
@@ -273,7 +273,7 @@ class CertificateToInternalTest {
     }
 
     @Nested
-    class UnHappyScenarioNull {
+    class AlternativeScenarioDodsdatumOsakertNull {
 
         @BeforeEach
         private void setup() {

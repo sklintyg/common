@@ -22,16 +22,41 @@ package se.inera.intyg.common.doi.v1.model.converter;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
+import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionAntraffadDod;
+import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionBarn;
+import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionDodsdatum;
+import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionDodsdatumSakert;
+import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionDodsplatsBoende;
+import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionDodsplatsKommun;
+import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionIdentitetenStyrkt;
+import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionOsakertDodsdatum;
 import se.inera.intyg.common.support.facade.model.Certificate;
 
 @Component
 public class CertificateToInternal {
 
     public DoiUtlatandeV1 convert(Certificate certificate, DoiUtlatandeV1 internalCertificate) {
-        return DoiUtlatandeV1.builder()
+        final var builder = DoiUtlatandeV1.builder()
             .setId(internalCertificate.getId())
             .setTextVersion(internalCertificate.getTextVersion())
             .setGrundData(MetaDataGrundData.toInternal(certificate.getMetadata(), internalCertificate.getGrundData()))
-            .build();
+            .setIdentitetStyrkt(QuestionIdentitetenStyrkt.toInternal(certificate))
+            .setAntraffatDodDatum(QuestionAntraffadDod.toInternal(certificate))
+            .setDodsplatsKommun(QuestionDodsplatsKommun.toInternal(certificate))
+            .setDodsplatsBoende(QuestionDodsplatsBoende.toInternal(certificate))
+            .setBarn(QuestionBarn.toInternal(certificate));
+
+        final var dodsdatumSakert = QuestionDodsdatumSakert.toInternal(certificate);
+        if (dodsdatumSakert == null) {
+            return builder.build();
+        }
+
+        builder.setDodsdatumSakert(dodsdatumSakert);
+        if (dodsdatumSakert) {
+            builder.setDodsdatum(QuestionDodsdatum.toInternal(certificate));
+        } else {
+            builder.setDodsdatum(QuestionOsakertDodsdatum.toInternal(certificate));
+        }
+        return builder.build();
     }
 }
