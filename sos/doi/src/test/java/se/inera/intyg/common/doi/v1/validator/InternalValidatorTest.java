@@ -18,6 +18,12 @@
  */
 package se.inera.intyg.common.doi.v1.validator;
 
+import static org.junit.Assert.assertEquals;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DELSVAR_ID;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -30,11 +36,6 @@ import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.schemas.contract.Personnummer;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
-import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InternalValidatorTest {
@@ -95,6 +96,7 @@ public class InternalValidatorTest {
         assertEquals(ValidationMessageType.INVALID_FORMAT, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("dodsdatum", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(DODSDATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -108,6 +110,7 @@ public class InternalValidatorTest {
         assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("antraffatDodDatum", internalValidationResponse.getValidationErrors().get(0).getField());
         assertEquals("doi.validation.antraffatDod.dodsdatumSakert", internalValidationResponse.getValidationErrors().get(0).getMessage());
+        assertEquals(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -121,6 +124,7 @@ public class InternalValidatorTest {
         assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("antraffatDodDatum", internalValidationResponse.getValidationErrors().get(0).getField());
         assertEquals("common.validation.date.today.or.earlier", internalValidationResponse.getValidationErrors().get(0).getMessage());
+        assertEquals(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -134,6 +138,7 @@ public class InternalValidatorTest {
         assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("antraffatDodDatum", internalValidationResponse.getValidationErrors().get(0).getField());
         assertEquals("doi.validation.datum.innanDodsdatum", internalValidationResponse.getValidationErrors().get(0).getMessage());
+        assertEquals(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -147,6 +152,7 @@ public class InternalValidatorTest {
         assertEquals(ValidationMessageType.INVALID_FORMAT, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("antraffatDodDatum", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
