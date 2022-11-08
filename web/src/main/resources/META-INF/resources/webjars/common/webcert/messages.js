@@ -99,7 +99,6 @@
             'label.makulera.body.common-header': 'Ett intyg kan makuleras om det innehåller allvarliga fel. Exempel på ett allvarligt fel är om intyget är utfärdat på fel patient. Om intyget har skickats elektroniskt till en mottagare kommer denna att informeras om makuleringen. Invånaren kan inte se makulerade intyg på <LINK:minaintyg>.',
             'label.makulera.body.has-arenden.addition': 'Om du går vidare och makulerar intyget kommer dina ej hanterade ärenden markeras som hanterade.',
             'label.makulera.body.common-footer': 'Om du fått ny information om patienten eller av annan anledning behöver korrigera innehållet i intyget, bör du istället ersätta intyget med ett nytt intyg.',
-            'doi.makulera.body.common-header': '<p>För att makulera ett dödsorsaksintyg som är inskickat på fel person behöver du göra följande:</p><ol type="1"><li>Genom att trycka på ”Makulera” makulerar du dödsorsaksintyget i Webcert, men detta kommer inte att återkalla dödsorsaksintyget hos Socialstyrelsen.</li><li><b>Förutom att trycka på ”Makulera” måste du omedelbart ta kontakt med Socialstyrelsen så att felet kan åtgärdas.</b> Du tar kontakt med Socialstyrelsen genom att ringa Socialstyrelsens växel på telefon <b>075 247 30 00</b>.</li></ol>',
             'label.makulera.title.radio': 'Ange för ${recipient} varför du makulerar intyget:',
             'label.makulera.confirmation': 'Kvittens - Återtaget intyg',
 
