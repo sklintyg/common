@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionLand;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionAntraffadDod;
@@ -82,6 +83,7 @@ class CertificateToInternalTest {
                 .setId("id")
                 .setTextVersion("TextVersion")
                 .setIdentitetStyrkt("IdentitetStyrkt")
+                .setLand("Land")
                 .setDodsdatumSakert(true)
                 .setDodsdatum(new InternalDate(LocalDate.now()))
                 .setAntraffatDodDatum(new InternalDate(LocalDate.now()))
@@ -96,6 +98,7 @@ class CertificateToInternalTest {
             certificate = CertificateBuilder.create()
                 .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, texts))
                 .addElement(QuestionIdentitetenStyrkt.toCertificate(expectedInternalCertificate.getIdentitetStyrkt(), 0, texts))
+                .addElement(QuestionLand.toCertificate(expectedInternalCertificate.getLand(), 0, texts))
                 .addElement(QuestionDodsdatumSakert.toCertificate(expectedInternalCertificate.getDodsdatumSakert(), 0, texts))
                 .addElement(QuestionDodsdatum.toCertificate(expectedInternalCertificate.getDodsdatum().asLocalDate(), 0, texts))
                 .addElement(QuestionAntraffadDod.toCertificate(expectedInternalCertificate.getAntraffatDodDatum().asLocalDate(), 0, texts))
@@ -131,6 +134,12 @@ class CertificateToInternalTest {
             final var actualInternalCertificate = certificateToInternal.convert(certificate,
                 expectedInternalCertificate);
             assertEquals(expectedInternalCertificate.getIdentitetStyrkt(), actualInternalCertificate.getIdentitetStyrkt());
+        }
+
+        @Test
+        void shallIncludeLand() {
+            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(expectedInternalCertificate.getLand(), actualInternalCertificate.getLand());
         }
 
         @Test

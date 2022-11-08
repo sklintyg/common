@@ -39,6 +39,7 @@ public final class RespConstants {
     public static final String BARN_QUESTION_TEXT_ID = "DFR_4.1.RBK";
     public static final String EXPLOSIVT_IMPLANTAT_QUESTION_TEXT_ID = "DFR_5.1.RBK";
     public static final String EXPLOSIVT_AVLAGSNAT_QUESTION_TEXT_ID = "DFR_5.2.RBK";
+    public static final String LAND_QUESTION_TEXT_ID = "DFR_14.1.RBK";
 
     public static final String EXPLOSIVT_AVLAGSNAT_QUESTION_SELECTED_TEXT = "SVAR_JA.RBK";
     public static final String EXPLOSIVT_IMPLANTAT_QUESTION_SELECTED_TEXT = "SVAR_JA.RBK";

@@ -22,6 +22,7 @@ package se.inera.intyg.common.doi.v1.model.converter;
 import java.time.LocalDate;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionLand;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.sos_parent.model.converter.certificate.category.CategoryBarn;
@@ -58,6 +59,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionIdentitetenStyrkt.toCertificate(internalCertificate.getIdentitetStyrkt(), index++, texts)
+            )
+            .addElement(
+                QuestionLand.toCertificate(internalCertificate.getLand(), index++, texts)
             )
             .addElement(
                 CategoryDodsdatumDodsplats.toCertificate(index++, texts)
