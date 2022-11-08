@@ -40,6 +40,7 @@ public final class RespConstants {
     public static final String EXPLOSIVT_IMPLANTAT_QUESTION_TEXT_ID = "DFR_5.1.RBK";
     public static final String EXPLOSIVT_AVLAGSNAT_QUESTION_TEXT_ID = "DFR_5.2.RBK";
     public static final String LAND_QUESTION_TEXT_ID = "DFR_14.1.RBK";
+    public static final String GRUNDER_QUESTION_TEXT_ID = "DFR_13.1.RBK";
 
     public static final String EXPLOSIVT_AVLAGSNAT_QUESTION_SELECTED_TEXT = "SVAR_JA.RBK";
     public static final String EXPLOSIVT_IMPLANTAT_QUESTION_SELECTED_TEXT = "SVAR_JA.RBK";
@@ -83,6 +84,7 @@ public final class RespConstants {
     public static final String LAND_JSON_ID = "land";
 
     public static final String KOMPLETTERANDE_PATIENTUPPGIFTER_CATEGORY_ID = "kompletterandePatientuppgifter";
+    public static final String DODSORSAKS_UPPGIFTER_CATEGORY_ID = "dodsorsaksUppgifter";
     public static final String KOMPLETTERANDE_PATIENTUPPGIFTER_TEXT_ID = "KAT_1.RBK";
     public static final String DODSDATUM_DODSPLATS_CATEGORY_ID = "dodsdatumDodsplats";
     public static final String DODSDATUM_DODSPLATS_TEXT_ID = "KAT_2.RBK";
@@ -95,11 +97,13 @@ public final class RespConstants {
     public static final String EXPLOSIVT_IMPLANTAT_CATEGORY_DESCRIPTION_ID = "KAT_4.HLP";
     public static final String UNDERSOKNING_YTTRE_CATEGORY_ID = "undersokningYttre";
     public static final String UNDERSOKNING_YTTRE_CATEGORY_TEXT_ID = "KAT_5.RBK";
+    public static final String DODSORSAK_UPPGIFTER_TEXT_ID = "KAT_10.RBK";
     public static final String POLISANMALAN_CATEGORY_ID = "polisanmalan";
     public static final String POLISANMALAN_CATEGORY_TEXT_ID = "KAT_6.RBK";
     public static final String POLISANMALAN_CATEGORY_DESCRIPTION_ID = "KAT_6.HLP";
     public static final String POLISANMALAN_PRINT_MESSAGE_ID = "DFR_7.1.OBS";
     public static final String POLISANMALAN_PREFILL_MESSAGE_ID = "DFR_7.1_UNDERSOKNINGS_SKA_GORAS.INFO";
+
 
     public static final String IDENTITET_STYRKT_SVAR_ID = "1";
     public static final String DODSDATUM_SVAR_ID = "2";
