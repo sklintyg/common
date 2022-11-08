@@ -36,6 +36,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_B
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_KOMMUN_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_SVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.IDENTITET_STYRKT_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.LAND_DELSVAR_ID;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -86,6 +87,7 @@ class InternalToCertificateTest {
             .setTextVersion("1.0")
             .setGrundData(grundData)
             .setIdentitetStyrkt("IdentitetStyrkt")
+            .setLand("Land")
             .setDodsdatumSakert(true)
             .setDodsdatum(new InternalDate(LocalDate.now()))
             .setDodsplatsKommun("DodsplatsKommun")
@@ -111,45 +113,51 @@ class InternalToCertificateTest {
     }
 
     @Test
+    void shallIncludeQuestionLand() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+        assertEquals(2, actualCertificate.getData().get(LAND_DELSVAR_ID).getIndex());
+    }
+
+    @Test
     void shallIncludeCategoryDodsdatumDodsplats() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(2, actualCertificate.getData().get(DODSDATUM_DODSPLATS_CATEGORY_ID).getIndex());
+        assertEquals(3, actualCertificate.getData().get(DODSDATUM_DODSPLATS_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionDodsdatumSakert() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(3, actualCertificate.getData().get(DODSDATUM_SAKERT_DELSVAR_ID).getIndex());
+        assertEquals(4, actualCertificate.getData().get(DODSDATUM_SAKERT_DELSVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionDodsdatum() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(4, actualCertificate.getData().get(DODSDATUM_DELSVAR_ID).getIndex());
+        assertEquals(5, actualCertificate.getData().get(DODSDATUM_DELSVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionOsakertDodsdatum() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(5, actualCertificate.getData().get(DODSDATUM_OSAKERT_DELSVAR_ID).getIndex());
+        assertEquals(6, actualCertificate.getData().get(DODSDATUM_OSAKERT_DELSVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionAntraffadDod() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(6, actualCertificate.getData().get(ANTRAFFAT_DOD_DATUM_DELSVAR_ID).getIndex());
+        assertEquals(7, actualCertificate.getData().get(ANTRAFFAT_DOD_DATUM_DELSVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionDodsplats() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(7, actualCertificate.getData().get(DODSPLATS_SVAR_ID).getIndex());
+        assertEquals(8, actualCertificate.getData().get(DODSPLATS_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionDodsplatsKommun() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(8, actualCertificate.getData().get(DODSPLATS_KOMMUN_DELSVAR_ID).getIndex());
+        assertEquals(9, actualCertificate.getData().get(DODSPLATS_KOMMUN_DELSVAR_ID).getIndex());
     }
 
     @Test
@@ -163,30 +171,30 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeQuestionDodsplatsBoende() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(9, actualCertificate.getData().get(DODSPLATS_BOENDE_DELSVAR_ID).getIndex());
+        assertEquals(10, actualCertificate.getData().get(DODSPLATS_BOENDE_DELSVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeCategoryBarn() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(10, actualCertificate.getData().get(BARN_CATEGORY_ID).getIndex());
+        assertEquals(11, actualCertificate.getData().get(BARN_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionBarn() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(11, actualCertificate.getData().get(BARN_DELSVAR_ID).getIndex());
+        assertEquals(12, actualCertificate.getData().get(BARN_DELSVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionAutoFillWithinBarn() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(12, actualCertificate.getData().get(BARN_AUTOFILL_WITHIN_MESSAGE_DELSVAR_ID).getIndex());
+        assertEquals(13, actualCertificate.getData().get(BARN_AUTOFILL_WITHIN_MESSAGE_DELSVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionAutoFillAfterBarn() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(13, actualCertificate.getData().get(BARN_AUTOFILL_AFTER_MESSAGE_DELSVAR_ID).getIndex());
+        assertEquals(14, actualCertificate.getData().get(BARN_AUTOFILL_AFTER_MESSAGE_DELSVAR_ID).getIndex());
     }
 }
