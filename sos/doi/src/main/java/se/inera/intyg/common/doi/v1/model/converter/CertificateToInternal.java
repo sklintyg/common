@@ -23,6 +23,9 @@ import org.springframework.stereotype.Component;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionGrunderDodsorsaksuppgifter;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionLand;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperation;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationAnledning;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationDatum;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionAntraffadDod;
 import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionBarn;
@@ -48,6 +51,9 @@ public class CertificateToInternal {
             .setDodsplatsKommun(QuestionDodsplatsKommun.toInternal(certificate))
             .setDodsplatsBoende(QuestionDodsplatsBoende.toInternal(certificate))
             .setBarn(QuestionBarn.toInternal(certificate))
+            .setOperation(QuestionOperation.toInternal(certificate))
+            .setOperationDatum(QuestionOperationDatum.toInternal(certificate))
+            .setOperationAnledning(QuestionOperationAnledning.toInternal(certificate))
             .setGrunder(QuestionGrunderDodsorsaksuppgifter.toInternal(certificate));
 
         final var dodsdatumSakert = QuestionDodsdatumSakert.toInternal(certificate);
