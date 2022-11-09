@@ -19,17 +19,12 @@
 
 package se.inera.intyg.common.doi.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DODSPLATS_CATEGORY_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_BOENDE_DELSVAR_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_BOENDE_QUESTION_DESCRIPTION_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_BOENDE_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_OM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_OM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_ORSAK_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_ORSAK_QUESTION_DESCRIPTION_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_ORSAK_QUESTION_TEXT_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_OM_DELSVAR_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
@@ -46,7 +41,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 
-public class QuestionSkadaForgiftningOrsak {
+public class QuestionForgiftningOrsak {
 
     public static CertificateDataElement toCertificate(ForgiftningOrsak forgiftningOrsak, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
@@ -65,7 +60,7 @@ public class QuestionSkadaForgiftningOrsak {
                                 .build(),
                             RadioMultipleCode.builder()
                                 .id(ForgiftningOrsak.SJALVMORD.name())
-                            .label(ForgiftningOrsak.SJALVMORD.getBeskrivning())
+                                .label(ForgiftningOrsak.SJALVMORD.getBeskrivning())
                                 .build(),
                             RadioMultipleCode.builder()
                                 .id(ForgiftningOrsak.AVSIKTLIGT_VALLAD.name())

@@ -25,9 +25,10 @@ import se.inera.intyg.common.doi.v1.model.converter.certificate.MetaDataGrundDat
 import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategoryDodsorsaksuppgifter;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategoryOperation;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategorySkadaForgiftning;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOm;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOrsak;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionGrunderDodsorsaksuppgifter;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionLand;
-import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOmSkadaForgiftning;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperation;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationAnledning;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationDatum;
@@ -126,7 +127,10 @@ public class InternalToCertificate {
                 CategorySkadaForgiftning.toCertificate(index++, texts)
             )
             .addElement(
-                QuestionOmSkadaForgiftning.toCertificate(internalCertificate.getForgiftning(), index++, texts)
+                QuestionForgiftningOm.toCertificate(internalCertificate.getForgiftning(), index++, texts)
+            )
+            .addElement(
+                QuestionForgiftningOrsak.toCertificate(internalCertificate.getForgiftningOrsak(), index++, texts)
             )
             .addElement(
                 CategoryDodsorsaksuppgifter.toCertificate(index++, texts)

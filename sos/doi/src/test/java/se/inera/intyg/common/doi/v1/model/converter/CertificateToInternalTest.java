@@ -31,11 +31,13 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
+import se.inera.intyg.common.doi.model.internal.ForgiftningOrsak;
 import se.inera.intyg.common.doi.model.internal.OmOperation;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOm;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOrsak;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionGrunderDodsorsaksuppgifter;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionLand;
-import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOmSkadaForgiftning;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperation;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationAnledning;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationDatum;
@@ -102,6 +104,7 @@ class CertificateToInternalTest {
                 .setOperationDatum(new InternalDate(LocalDate.now()))
                 .setOperationAnledning("OperationAnledning")
                 .setForgiftning(true)
+                .setForgiftningOrsak(ForgiftningOrsak.OLYCKSFALL)
                 .setGrunder(List.of(Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN))
                 .build();
 
@@ -124,8 +127,9 @@ class CertificateToInternalTest {
                 .addElement(QuestionOperation.toCertificate(expectedInternalCertificate.getOperation(), 0, texts))
                 .addElement(QuestionOperationDatum.toCertificate(expectedInternalCertificate.getOperationDatum().asLocalDate(), 0, texts))
                 .addElement(QuestionOperationAnledning.toCertificate(expectedInternalCertificate.getOperationAnledning(), 0, texts))
+                .addElement(QuestionForgiftningOm.toCertificate(expectedInternalCertificate.getForgiftning(), 0, texts))
+                .addElement(QuestionForgiftningOrsak.toCertificate(expectedInternalCertificate.getForgiftningOrsak(), 0, texts))
                 .addElement(QuestionGrunderDodsorsaksuppgifter.toCertificate(expectedInternalCertificate.getGrunder(), 0, texts))
-                .addElement(QuestionOmSkadaForgiftning.toCertificate(expectedInternalCertificate.getForgiftning(), 0, texts))
                 .build();
         }
 
@@ -215,15 +219,21 @@ class CertificateToInternalTest {
         }
 
         @Test
-        void shallIncludeDodsorsakGrunder() {
+        void shallIncludeForgiftningOm() {
             final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getGrunder(), actualInternalCertificate.getGrunder());
+            assertEquals(expectedInternalCertificate.getForgiftning(), actualInternalCertificate.getForgiftning());
         }
 
         @Test
-        void shallIncludeSkadaForgiftning() {
+        void shallIncludeForgiftningOrsak() {
             final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getForgiftning(), actualInternalCertificate.getForgiftning());
+            assertEquals(expectedInternalCertificate.getForgiftningOrsak(), actualInternalCertificate.getForgiftningOrsak());
+        }
+
+        @Test
+        void shallIncludeDodsorsakGrunder() {
+            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(expectedInternalCertificate.getGrunder(), actualInternalCertificate.getGrunder());
         }
     }
 

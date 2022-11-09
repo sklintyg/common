@@ -21,9 +21,10 @@ package se.inera.intyg.common.doi.v1.model.converter;
 
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOm;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOrsak;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionGrunderDodsorsaksuppgifter;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionLand;
-import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOmSkadaForgiftning;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperation;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationAnledning;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationDatum;
@@ -55,7 +56,8 @@ public class CertificateToInternal {
             .setOperation(QuestionOperation.toInternal(certificate))
             .setOperationDatum(QuestionOperationDatum.toInternal(certificate))
             .setOperationAnledning(QuestionOperationAnledning.toInternal(certificate))
-            .setForgiftning(QuestionOmSkadaForgiftning.toInternal(certificate))
+            .setForgiftning(QuestionForgiftningOm.toInternal(certificate))
+            .setForgiftningOrsak(QuestionForgiftningOrsak.toInternal(certificate))
             .setGrunder(QuestionGrunderDodsorsaksuppgifter.toInternal(certificate));
 
         final var dodsdatumSakert = QuestionDodsdatumSakert.toInternal(certificate);

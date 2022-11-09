@@ -19,7 +19,9 @@
 
 package se.inera.intyg.common.doi.v1.model.converter.certificate.question;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -27,8 +29,8 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_OM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_OM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_ORSAK_DELSVAR_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_ORSAK_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_ORSAK_QUESTION_DESCRIPTION_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_ORSAK_QUESTION_TEXT_ID;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,7 +57,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionSkadaForgiftningOrsakTest {
+class QuestionForgiftningOrsakTest {
 
     @Mock
     private CertificateTextProvider texts;
@@ -71,40 +73,40 @@ class QuestionSkadaForgiftningOrsakTest {
 
         @Test
         void shouldIncludeId() {
-            final var question = QuestionSkadaForgiftningOrsak.toCertificate(null, 0, texts);
+            final var question = QuestionForgiftningOrsak.toCertificate(null, 0, texts);
             assertEquals(FORGIFTNING_ORSAK_DELSVAR_ID, question.getId());
         }
 
         @Test
         void shouldIncludeIndex() {
             final var expectedIndex = 1;
-            final var question = QuestionSkadaForgiftningOrsak.toCertificate(null, expectedIndex, texts);
+            final var question = QuestionForgiftningOrsak.toCertificate(null, expectedIndex, texts);
             assertEquals(expectedIndex, question.getIndex());
         }
 
         @Test
         void shouldIncludeParentId() {
-            final var question = QuestionSkadaForgiftningOrsak.toCertificate(null, 0, texts);
+            final var question = QuestionForgiftningOrsak.toCertificate(null, 0, texts);
             assertEquals(FORGIFTNING_CATEGORY_ID, question.getParent());
         }
 
         @Test
         void shouldIncludeText() {
-            final var question = QuestionSkadaForgiftningOrsak.toCertificate(null, 0, texts);
+            final var question = QuestionForgiftningOrsak.toCertificate(null, 0, texts);
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
             verify(texts, atLeastOnce()).get(FORGIFTNING_ORSAK_QUESTION_TEXT_ID);
         }
 
         @Test
         void shouldIncludeDescription() {
-            final var question = QuestionSkadaForgiftningOrsak.toCertificate(null, 0, texts);
+            final var question = QuestionForgiftningOrsak.toCertificate(null, 0, texts);
             assertTrue(question.getConfig().getDescription().trim().length() > 0, "Missing text");
             verify(texts, atLeastOnce()).get(FORGIFTNING_ORSAK_QUESTION_DESCRIPTION_ID);
         }
 
         @Test
         void shouldIncludeRadioMultipleCodeConfigType() {
-            final var question = QuestionSkadaForgiftningOrsak.toCertificate(null, 0, texts);
+            final var question = QuestionForgiftningOrsak.toCertificate(null, 0, texts);
             assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE, question.getConfig().getType());
         }
 
@@ -114,7 +116,7 @@ class QuestionSkadaForgiftningOrsakTest {
                 .id(ForgiftningOrsak.OLYCKSFALL.name())
                 .label(ForgiftningOrsak.OLYCKSFALL.getBeskrivning())
                 .build();
-            final var question = QuestionSkadaForgiftningOrsak.toCertificate(null, 0, texts);
+            final var question = QuestionForgiftningOrsak.toCertificate(null, 0, texts);
             final var certificateDataConfigRadioMultipleCode = (CertificateDataConfigRadioMultipleCode) question.getConfig();
             assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(0));
         }
@@ -125,7 +127,7 @@ class QuestionSkadaForgiftningOrsakTest {
                 .id(ForgiftningOrsak.SJALVMORD.name())
                 .label(ForgiftningOrsak.SJALVMORD.getBeskrivning())
                 .build();
-            final var question = QuestionSkadaForgiftningOrsak.toCertificate(null, 0, texts);
+            final var question = QuestionForgiftningOrsak.toCertificate(null, 0, texts);
             final var certificateDataConfigRadioMultipleCode = (CertificateDataConfigRadioMultipleCode) question.getConfig();
             assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(1));
         }
@@ -136,7 +138,7 @@ class QuestionSkadaForgiftningOrsakTest {
                 .id(ForgiftningOrsak.AVSIKTLIGT_VALLAD.name())
                 .label(ForgiftningOrsak.AVSIKTLIGT_VALLAD.getBeskrivning())
                 .build();
-            final var question = QuestionSkadaForgiftningOrsak.toCertificate(null, 0, texts);
+            final var question = QuestionForgiftningOrsak.toCertificate(null, 0, texts);
             final var certificateDataConfigRadioMultipleCode = (CertificateDataConfigRadioMultipleCode) question.getConfig();
             assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(2));
         }
@@ -147,47 +149,47 @@ class QuestionSkadaForgiftningOrsakTest {
                 .id(ForgiftningOrsak.OKLART.name())
                 .label(ForgiftningOrsak.OKLART.getBeskrivning())
                 .build();
-            final var question = QuestionSkadaForgiftningOrsak.toCertificate(null, 0, texts);
+            final var question = QuestionForgiftningOrsak.toCertificate(null, 0, texts);
             final var certificateDataConfigRadioMultipleCode = (CertificateDataConfigRadioMultipleCode) question.getConfig();
             assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(3));
         }
 
         @Test
         void shouldIncludeCodeValueType() {
-            final var question = QuestionSkadaForgiftningOrsak.toCertificate(null, 0, texts);
+            final var question = QuestionForgiftningOrsak.toCertificate(null, 0, texts);
             assertEquals(CertificateDataValueType.CODE, question.getValue().getType());
         }
 
         @Test
         void shouldIncludeCodeValueId() {
-            final var question = QuestionSkadaForgiftningOrsak.toCertificate(ForgiftningOrsak.OLYCKSFALL, 0, texts);
+            final var question = QuestionForgiftningOrsak.toCertificate(ForgiftningOrsak.OLYCKSFALL, 0, texts);
             final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
             assertEquals(ForgiftningOrsak.OLYCKSFALL.name(), certificateDataValueCode.getId());
         }
 
         @Test
         void shouldIncludeCodeValue() {
-            final var question = QuestionSkadaForgiftningOrsak.toCertificate(ForgiftningOrsak.OLYCKSFALL, 0, texts);
+            final var question = QuestionForgiftningOrsak.toCertificate(ForgiftningOrsak.OLYCKSFALL, 0, texts);
             final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
             assertEquals(ForgiftningOrsak.OLYCKSFALL.name(), certificateDataValueCode.getCode());
         }
 
         @Test
         void shouldIncludeCodeValueEmpty() {
-            final var question = QuestionSkadaForgiftningOrsak.toCertificate(null, 0, texts);
+            final var question = QuestionForgiftningOrsak.toCertificate(null, 0, texts);
             final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
             assertNull(certificateDataValueCode.getCode());
         }
 
         @Test
         void shouldIncludeValidationMandatoryType() {
-            final var question = QuestionSkadaForgiftningOrsak.toCertificate(null, 0, texts);
+            final var question = QuestionForgiftningOrsak.toCertificate(null, 0, texts);
             assertEquals(CertificateDataValidationType.MANDATORY_VALIDATION, question.getValidation()[0].getType());
         }
 
         @Test
         void shouldIncludeValidationMandatoryQuestionId() {
-            final var question = QuestionSkadaForgiftningOrsak.toCertificate(null, 0, texts);
+            final var question = QuestionForgiftningOrsak.toCertificate(null, 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
             assertEquals(FORGIFTNING_ORSAK_DELSVAR_ID, certificateDataValidationMandatory.getQuestionId());
         }
@@ -199,27 +201,27 @@ class QuestionSkadaForgiftningOrsakTest {
                 + " || $" + ForgiftningOrsak.AVSIKTLIGT_VALLAD.name()
                 + " || $" + ForgiftningOrsak.OKLART.name();
 
-            final var question = QuestionSkadaForgiftningOrsak.toCertificate(null, 0, texts);
+            final var question = QuestionForgiftningOrsak.toCertificate(null, 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
             assertEquals(expectedExpression, certificateDataValidationMandatory.getExpression());
         }
 
         @Test
         void shouldIncludeValidationShowType() {
-            final var question = QuestionSkadaForgiftningOrsak.toCertificate(null, 0, texts);
+            final var question = QuestionForgiftningOrsak.toCertificate(null, 0, texts);
             assertEquals(CertificateDataValidationType.SHOW_VALIDATION, question.getValidation()[1].getType());
         }
 
         @Test
         void shouldIncludeValidationShowQuestionId() {
-            final var question = QuestionSkadaForgiftningOrsak.toCertificate(null, 0, texts);
+            final var question = QuestionForgiftningOrsak.toCertificate(null, 0, texts);
             final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
             assertEquals(FORGIFTNING_OM_DELSVAR_ID, certificateDataValidationShow.getQuestionId());
         }
 
         @Test
         void shouldIncludeValidationShowExpression() {
-            final var question = QuestionSkadaForgiftningOrsak.toCertificate(null, 0, texts);
+            final var question = QuestionForgiftningOrsak.toCertificate(null, 0, texts);
             final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
             assertEquals("$" + FORGIFTNING_OM_JSON_ID, certificateDataValidationShow.getExpression());
         }
@@ -243,10 +245,10 @@ class QuestionSkadaForgiftningOrsakTest {
         @MethodSource("forgiftningsOrsakValues")
         void shouldIncludeTextValue(ForgiftningOrsak expectedValue) {
             final var certificate = CertificateBuilder.create()
-                .addElement(QuestionSkadaForgiftningOrsak.toCertificate(expectedValue, 0, texts))
+                .addElement(QuestionForgiftningOrsak.toCertificate(expectedValue, 0, texts))
                 .build();
 
-            final var actualValue = QuestionSkadaForgiftningOrsak.toInternal(certificate);
+            final var actualValue = QuestionForgiftningOrsak.toInternal(certificate);
 
             assertEquals(expectedValue, actualValue);
         }
