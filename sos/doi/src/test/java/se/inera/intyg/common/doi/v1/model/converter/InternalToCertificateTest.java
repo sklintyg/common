@@ -36,6 +36,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAKS_
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_BOENDE_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_KOMMUN_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_SVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.GRUNDER_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.IDENTITET_STYRKT_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.LAND_DELSVAR_ID;
@@ -251,14 +252,20 @@ class InternalToCertificateTest {
     }
 
     @Test
+    void shallIncludeCategorySkadaForgiftning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+        assertEquals(19, actualCertificate.getData().get(FORGIFTNING_CATEGORY_ID).getIndex());
+    }
+
+    @Test
     void shallIncludeCategoryDodsorsaksUppgifter() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(19, actualCertificate.getData().get(DODSORSAKS_UPPGIFTER_CATEGORY_ID).getIndex());
+        assertEquals(20, actualCertificate.getData().get(DODSORSAKS_UPPGIFTER_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionGrunderDodsorsaksUppgifter() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(20, actualCertificate.getData().get(GRUNDER_DELSVAR_ID).getIndex());
+        assertEquals(21, actualCertificate.getData().get(GRUNDER_DELSVAR_ID).getIndex());
     }
 }

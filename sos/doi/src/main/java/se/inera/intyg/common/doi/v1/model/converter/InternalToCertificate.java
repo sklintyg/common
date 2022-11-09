@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategoryDodsorsaksuppgifter;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategoryOperation;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategorySkadaForgiftning;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionGrunderDodsorsaksuppgifter;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionLand;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperation;
@@ -119,6 +120,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionOperationAnledning.toCertificate(internalCertificate.getOperationAnledning(), index++, texts)
+            )
+            .addElement(
+                CategorySkadaForgiftning.toCertificate(index++, texts)
             )
             .addElement(
                 CategoryDodsorsaksuppgifter.toCertificate(index++, texts)

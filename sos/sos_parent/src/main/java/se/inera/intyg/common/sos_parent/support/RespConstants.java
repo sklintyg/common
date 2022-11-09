@@ -126,6 +126,9 @@ public final class RespConstants {
     public static final String BIDRAGANDE_SJUKDOM_SVAR_ID = "10";
     public static final String OPERATION_SVAR_ID = "11";
     public static final String FORGIFTNING_SVAR_ID = "12";
+    public static final String FORGIFTNING_CATEGORY_ID = "forgiftning";
+    public static final String FORGIFTNING_CATEGORY_TEXT_ID = "KAT_9.RBK";
+
     public static final String GRUNDER_SVAR_ID = "13";
     public static final String LAND_SVAR_ID = "14";
 
