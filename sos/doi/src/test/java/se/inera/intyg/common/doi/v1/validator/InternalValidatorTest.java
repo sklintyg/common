@@ -22,6 +22,8 @@ import static org.junit.Assert.assertEquals;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.GRUNDER_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_ANLEDNING_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_DATUM_DELSVAR_ID;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -166,6 +168,8 @@ public class InternalValidatorTest {
         assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("operation", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("operationDatum", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(OPERATION_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+
     }
 
     @Test
@@ -178,6 +182,7 @@ public class InternalValidatorTest {
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("operation", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("operationDatum", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(OPERATION_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -190,6 +195,7 @@ public class InternalValidatorTest {
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("operation", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("operationDatum", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(OPERATION_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -203,6 +209,8 @@ public class InternalValidatorTest {
         assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("operation", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("operationAnledning", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(OPERATION_ANLEDNING_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+
     }
 
     @Test

@@ -29,8 +29,11 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_UPPKOMMELSE_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.GRUNDER_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.GRUNDER_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_ANLEDNING_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_ANLEDNING_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_DATUM_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_OM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_OM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_JSON_ID;
 import static se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidator.validateBarn;
@@ -198,48 +201,52 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
 
     private void validateOperation(DoiUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (utlatande.getOperation() == null) {
-            ValidatorUtil.addValidationError(validationMessages, "operation",
-                OPERATION_OM_JSON_ID, ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "operation",
+                OPERATION_OM_JSON_ID, ValidationMessageType.EMPTY, OPERATION_OM_DELSVAR_ID);
         } else if (utlatande.getOperation() == OmOperation.JA) {
             // R13
             if (ValidatorUtil.validateDate(utlatande.getOperationDatum(), validationMessages, "operation",
-                OPERATION_DATUM_JSON_ID, null)) {
+                OPERATION_DATUM_JSON_ID, null, OPERATION_DATUM_DELSVAR_ID)) {
                 if (ValidatorUtil.isDateAfter(utlatande.getOperationDatum(), utlatande.getDodsdatum())) {
                     ValidatorUtil
-                        .addValidationError(validationMessages, "operation", OPERATION_DATUM_JSON_ID,
-                            ValidationMessageType.INCORRECT_COMBINATION, "operation.operationDatum.efterDodsdatum");
+                        .addValidationErrorWithQuestionId(validationMessages, "operation", OPERATION_DATUM_JSON_ID,
+                            ValidationMessageType.INCORRECT_COMBINATION, "operation.operationDatum.efterDodsdatum",
+                            OPERATION_DATUM_DELSVAR_ID);
                 } else if (ValidatorUtil.isDateAfter(utlatande.getOperationDatum(), utlatande.getAntraffatDodDatum())) {
                     ValidatorUtil
-                        .addValidationError(validationMessages, "operation", OPERATION_DATUM_JSON_ID,
-                            ValidationMessageType.INCORRECT_COMBINATION, "operation.operationDatum.efterAntraffatDodDatum");
+                        .addValidationErrorWithQuestionId(validationMessages, "operation", OPERATION_DATUM_JSON_ID,
+                            ValidationMessageType.INCORRECT_COMBINATION, "operation.operationDatum.efterAntraffatDodDatum",
+                            OPERATION_DATUM_DELSVAR_ID);
                 } else if (utlatande.getDodsdatumSakert() != null && utlatande.getDodsdatumSakert()
                     && ValidatorUtil.isDateAfter(utlatande.getDodsdatum(),
                     new InternalDate(utlatande.getOperationDatum().asLocalDate().plusDays(FOUR_WEEKS_IN_DAYS)))) {
                     ValidatorUtil
-                        .addValidationError(validationMessages, "operation", OPERATION_DATUM_JSON_ID,
+                        .addValidationErrorWithQuestionId(validationMessages, "operation", OPERATION_DATUM_JSON_ID,
                             ValidationMessageType.INCORRECT_COMBINATION,
-                            "common.validation.date.e-06");
+                            "common.validation.date.e-06", OPERATION_DATUM_DELSVAR_ID);
                 } else if (utlatande.getOperationDatum().isBeforeBeginningOfLastYear()) {
                     ValidatorUtil
-                        .addValidationError(validationMessages, "operation", OPERATION_DATUM_JSON_ID,
+                        .addValidationErrorWithQuestionId(validationMessages, "operation", OPERATION_DATUM_JSON_ID,
                             ValidationMessageType.OTHER,
-                            "common.validation.date.beforeLastYear");
+                            "common.validation.date.beforeLastYear", OPERATION_DATUM_DELSVAR_ID);
                 }
             }
             if (Strings.nullToEmpty(utlatande.getOperationAnledning()).isEmpty()) {
-                ValidatorUtil.addValidationError(validationMessages, "operation", OPERATION_ANLEDNING_JSON_ID, ValidationMessageType.EMPTY);
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "operation", OPERATION_ANLEDNING_JSON_ID,
+                    ValidationMessageType.EMPTY, OPERATION_ANLEDNING_DELSVAR_ID);
             }
         } else {
             if (utlatande.getOperationDatum() != null) {
                 ValidatorUtil
-                    .addValidationError(validationMessages, "operation", OPERATION_DATUM_JSON_ID,
-                        ValidationMessageType.INCORRECT_COMBINATION, "operation.operationDatum.operationNejUppgiftSaknas");
+                    .addValidationErrorWithQuestionId(validationMessages, "operation", OPERATION_DATUM_JSON_ID,
+                        ValidationMessageType.INCORRECT_COMBINATION, "operation.operationDatum.operationNejUppgiftSaknas",
+                        OPERATION_DATUM_DELSVAR_ID);
             }
             if (utlatande.getOperationAnledning() != null) {
                 ValidatorUtil
-                    .addValidationError(validationMessages, "operation", OPERATION_ANLEDNING_JSON_ID,
+                    .addValidationErrorWithQuestionId(validationMessages, "operation", OPERATION_ANLEDNING_JSON_ID,
                         ValidationMessageType.INCORRECT_COMBINATION,
-                        "operation.operationAnledning.operationNejUppgiftSaknas");
+                        "operation.operationAnledning.operationNejUppgiftSaknas", OPERATION_ANLEDNING_DELSVAR_ID);
             }
         }
     }
