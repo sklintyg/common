@@ -18,23 +18,6 @@
  */
 package se.inera.intyg.common.doi.v1.validator;
 
-import com.google.common.base.Strings;
-import org.springframework.stereotype.Component;
-import se.inera.intyg.common.doi.model.internal.Dodsorsak;
-import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
-import se.inera.intyg.common.doi.model.internal.OmOperation;
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
-import se.inera.intyg.common.support.validate.InternalDraftValidator;
-import se.inera.intyg.common.support.validate.PatientValidator;
-import se.inera.intyg.common.support.validate.ValidatorUtil;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 import static se.inera.intyg.common.doi.support.DoiModuleEntryPoint.MODULE_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DATUM_JSON_ID;
@@ -44,6 +27,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_OM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_ORSAK_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_UPPKOMMELSE_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.GRUNDER_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.GRUNDER_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_ANLEDNING_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_DATUM_JSON_ID;
@@ -53,6 +37,22 @@ import static se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidat
 import static se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidator.validateDodsdatum;
 import static se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidator.validateDodsplats;
 import static se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidator.validateIdentitetStyrkt;
+
+import com.google.common.base.Strings;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.stereotype.Component;
+import se.inera.intyg.common.doi.model.internal.Dodsorsak;
+import se.inera.intyg.common.doi.model.internal.OmOperation;
+import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+import se.inera.intyg.common.support.validate.InternalDraftValidator;
+import se.inera.intyg.common.support.validate.PatientValidator;
+import se.inera.intyg.common.support.validate.ValidatorUtil;
 
 @Component("doi.v1.InternalDraftValidatorImpl")
 public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtlatandeV1> {
@@ -291,12 +291,14 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
     private void validateGrunder(DoiUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         // R18
         if (utlatande.getGrunder().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, "dodsorsakgrund", GRUNDER_JSON_ID, ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "dodsorsakgrund", GRUNDER_JSON_ID,
+                ValidationMessageType.EMPTY, GRUNDER_DELSVAR_ID);
         } else if (utlatande.getGrunder().size() > MAX_GRUNDER) {
-            ValidatorUtil.addValidationError(validationMessages, "dodsorsakgrund", GRUNDER_JSON_ID, ValidationMessageType.OTHER);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "dodsorsakgrund", GRUNDER_JSON_ID,
+                ValidationMessageType.OTHER, GRUNDER_DELSVAR_ID);
         } else if (utlatande.getGrunder().size() != utlatande.getGrunder().stream().distinct().count()) {
-            ValidatorUtil.addValidationError(validationMessages, "dodsorsakgrund", GRUNDER_JSON_ID,
-                ValidationMessageType.INCORRECT_COMBINATION);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "dodsorsakgrund", GRUNDER_JSON_ID,
+                ValidationMessageType.INCORRECT_COMBINATION, GRUNDER_DELSVAR_ID);
         }
     }
 }
