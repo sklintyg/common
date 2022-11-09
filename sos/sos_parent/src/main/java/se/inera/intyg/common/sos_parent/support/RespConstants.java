@@ -112,6 +112,7 @@ public final class RespConstants {
     public static final String OPERATION_QUESTION_UNSELECTED_TEXT_ID = "DFR_11.1.NEJ.RBK";
     public static final String OPERATION_QUESTION_UNKNOWN_TEXT_ID = "DFR_11.1.UPPGIFT_SAKNAS.RBK";
     public static final String OPERATION_DATUM_QUESTION_TEXT_ID = "DFR_11.2.RBK";
+    public static final String OPERATION_ANLEDNING_QUESTION_TEXT_ID = "DFR_11.3.RBK";
 
     public static final String IDENTITET_STYRKT_SVAR_ID = "1";
     public static final String DODSDATUM_SVAR_ID = "2";

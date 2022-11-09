@@ -39,6 +39,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_S
 import static se.inera.intyg.common.sos_parent.support.RespConstants.GRUNDER_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.IDENTITET_STYRKT_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.LAND_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_ANLEDNING_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_OM_DELSVAR_ID;
@@ -102,6 +103,7 @@ class InternalToCertificateTest {
             .setBarn(false)
             .setOperation(OmOperation.JA)
             .setOperationDatum(new InternalDate(LocalDate.now()))
+            .setOperationAnledning("OperationAnledning")
             .setGrunder(Collections.emptyList())
             .build();
 
@@ -243,14 +245,20 @@ class InternalToCertificateTest {
     }
 
     @Test
+    void shallIncludeQuestionOperationAnledning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+        assertEquals(18, actualCertificate.getData().get(OPERATION_ANLEDNING_DELSVAR_ID).getIndex());
+    }
+
+    @Test
     void shallIncludeCategoryDodsorsaksUppgifter() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(18, actualCertificate.getData().get(DODSORSAKS_UPPGIFTER_CATEGORY_ID).getIndex());
+        assertEquals(19, actualCertificate.getData().get(DODSORSAKS_UPPGIFTER_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionGrunderDodsorsaksUppgifter() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(19, actualCertificate.getData().get(GRUNDER_DELSVAR_ID).getIndex());
+        assertEquals(20, actualCertificate.getData().get(GRUNDER_DELSVAR_ID).getIndex());
     }
 }

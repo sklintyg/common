@@ -36,6 +36,7 @@ import se.inera.intyg.common.doi.v1.model.converter.certificate.MetaDataGrundDat
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionGrunderDodsorsaksuppgifter;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionLand;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperation;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationAnledning;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationDatum;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -98,6 +99,7 @@ class CertificateToInternalTest {
                 .setBarn(true)
                 .setOperation(OmOperation.JA)
                 .setOperationDatum(new InternalDate(LocalDate.now()))
+                .setOperationAnledning("OperationAnledning")
                 .setGrunder(List.of(Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN))
                 .build();
 
@@ -119,6 +121,7 @@ class CertificateToInternalTest {
                     expectedInternalCertificate.getBarn(), 0, texts))
                 .addElement(QuestionOperation.toCertificate(expectedInternalCertificate.getOperation(), 0, texts))
                 .addElement(QuestionOperationDatum.toCertificate(expectedInternalCertificate.getOperationDatum().asLocalDate(), 0, texts))
+                .addElement(QuestionOperationAnledning.toCertificate(expectedInternalCertificate.getOperationAnledning(), 0, texts))
                 .addElement(QuestionGrunderDodsorsaksuppgifter.toCertificate(expectedInternalCertificate.getGrunder(), 0, texts))
                 .build();
         }
@@ -200,6 +203,12 @@ class CertificateToInternalTest {
         void shallIncludeOperationDatum() {
             final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
             assertEquals(expectedInternalCertificate.getOperationDatum(), actualInternalCertificate.getOperationDatum());
+        }
+
+        @Test
+        void shallIncludeOperationAnledning() {
+            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(expectedInternalCertificate.getOperationAnledning(), actualInternalCertificate.getOperationAnledning());
         }
 
         @Test

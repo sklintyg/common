@@ -22,11 +22,12 @@ package se.inera.intyg.common.doi.v1.model.converter;
 import java.time.LocalDate;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.MetaDataGrundData;
-import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategoryOperation;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategoryDodsorsaksuppgifter;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategoryOperation;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionGrunderDodsorsaksuppgifter;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionLand;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperation;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationAnledning;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationDatum;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -115,6 +116,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionOperationDatum.toCertificate(toLocalDate(internalCertificate.getOperationDatum()), index++, texts)
+            )
+            .addElement(
+                QuestionOperationAnledning.toCertificate(internalCertificate.getOperationAnledning(), index++, texts)
             )
             .addElement(
                 CategoryDodsorsaksuppgifter.toCertificate(index++, texts)
