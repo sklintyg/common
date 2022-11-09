@@ -34,6 +34,7 @@ import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
 import se.inera.intyg.common.doi.model.internal.ForgiftningOrsak;
 import se.inera.intyg.common.doi.model.internal.OmOperation;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningDatum;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOm;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOrsak;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionGrunderDodsorsaksuppgifter;
@@ -105,6 +106,7 @@ class CertificateToInternalTest {
                 .setOperationAnledning("OperationAnledning")
                 .setForgiftning(true)
                 .setForgiftningOrsak(ForgiftningOrsak.OLYCKSFALL)
+                .setForgiftningDatum(new InternalDate(LocalDate.now()))
                 .setGrunder(List.of(Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN))
                 .build();
 
@@ -129,6 +131,8 @@ class CertificateToInternalTest {
                 .addElement(QuestionOperationAnledning.toCertificate(expectedInternalCertificate.getOperationAnledning(), 0, texts))
                 .addElement(QuestionForgiftningOm.toCertificate(expectedInternalCertificate.getForgiftning(), 0, texts))
                 .addElement(QuestionForgiftningOrsak.toCertificate(expectedInternalCertificate.getForgiftningOrsak(), 0, texts))
+                .addElement(
+                    QuestionForgiftningDatum.toCertificate(expectedInternalCertificate.getForgiftningDatum().asLocalDate(), 0, texts))
                 .addElement(QuestionGrunderDodsorsaksuppgifter.toCertificate(expectedInternalCertificate.getGrunder(), 0, texts))
                 .build();
         }
@@ -228,6 +232,12 @@ class CertificateToInternalTest {
         void shallIncludeForgiftningOrsak() {
             final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
             assertEquals(expectedInternalCertificate.getForgiftningOrsak(), actualInternalCertificate.getForgiftningOrsak());
+        }
+
+        @Test
+        void shallIncludeForgiftningDatum() {
+            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(expectedInternalCertificate.getForgiftningDatum(), actualInternalCertificate.getForgiftningDatum());
         }
 
         @Test
