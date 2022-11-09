@@ -44,6 +44,8 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleCode;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCodeList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
@@ -173,13 +175,45 @@ class QuestionGrunderDodsorsaksuppgifterTest {
         @Test
         void shouldIncludeCodeValueFilledList() {
             dodsorsaksgrund = List.of(Dodsorsaksgrund.KLINISK_OBDUKTION, Dodsorsaksgrund.RATTSMEDICINSK_OBDUKTION);
-            final var expectedValueList = List.of(CertificateDataValueCode.builder().id(Dodsorsaksgrund.KLINISK_OBDUKTION.name())
-                    .code(Dodsorsaksgrund.KLINISK_OBDUKTION.name()).build(),
-                CertificateDataValueCode.builder().id(Dodsorsaksgrund.RATTSMEDICINSK_OBDUKTION.name())
-                    .code(Dodsorsaksgrund.RATTSMEDICINSK_OBDUKTION.name()).build());
+            final var expectedValueList = List.of(
+                CertificateDataValueCode.builder()
+                    .id(Dodsorsaksgrund.KLINISK_OBDUKTION.name())
+                    .code(Dodsorsaksgrund.KLINISK_OBDUKTION.name())
+                    .build(),
+                CertificateDataValueCode.builder()
+                    .id(Dodsorsaksgrund.RATTSMEDICINSK_OBDUKTION.name())
+                    .code(Dodsorsaksgrund.RATTSMEDICINSK_OBDUKTION.name())
+                    .build()
+            );
             final var question = QuestionGrunderDodsorsaksuppgifter.toCertificate(dodsorsaksgrund, 0, texts);
             final var value = (CertificateDataValueCodeList) question.getValue();
             assertEquals(expectedValueList, value.getList());
+        }
+
+        @Test
+        void shouldIncludeValidationMandatoryType() {
+            final var question = QuestionGrunderDodsorsaksuppgifter.toCertificate(dodsorsaksgrund, 0, texts);
+            assertEquals(CertificateDataValidationType.MANDATORY_VALIDATION, question.getValidation()[0].getType());
+        }
+
+        @Test
+        void shouldIncludeValidationMandatoryQuestionId() {
+            final var question = QuestionGrunderDodsorsaksuppgifter.toCertificate(dodsorsaksgrund, 0, texts);
+            final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
+            assertEquals(GRUNDER_DELSVAR_ID, certificateDataValidationMandatory.getQuestionId());
+        }
+
+        @Test
+        void shouldIncludeValidationMandatoryExpression() {
+            final var expectedExpression = "$" + Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN.name()
+                + " || $" + Dodsorsaksgrund.UNDERSOKNING_EFTER_DODEN.name()
+                + " || $" + Dodsorsaksgrund.KLINISK_OBDUKTION.name()
+                + " || $" + Dodsorsaksgrund.RATTSMEDICINSK_OBDUKTION.name()
+                + " || $" + Dodsorsaksgrund.RATTSMEDICINSK_BESIKTNING.name();
+
+            final var question = QuestionGrunderDodsorsaksuppgifter.toCertificate(dodsorsaksgrund, 0, texts);
+            final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
+            assertEquals(expectedExpression, certificateDataValidationMandatory.getExpression());
         }
     }
 }

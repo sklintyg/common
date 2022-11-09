@@ -22,21 +22,28 @@ package se.inera.intyg.common.doi.v1.model.converter.certificate.question;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAKS_UPPGIFTER_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.GRUNDER_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.GRUNDER_QUESTION_TEXT_ID;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleCode;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCodeList;
 
 public class QuestionGrunderDodsorsaksuppgifter {
 
 
-    public static CertificateDataElement toCertificate(List<Dodsorsaksgrund> dodsorsaksgrund, int index, CertificateTextProvider texts) {
+    public static CertificateDataElement toCertificate(List<Dodsorsaksgrund> dodsorsaksgrundList, int index,
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(GRUNDER_DELSVAR_ID)
             .parent(DODSORSAKS_UPPGIFTER_CATEGORY_ID)
@@ -71,13 +78,34 @@ public class QuestionGrunderDodsorsaksuppgifter {
                     .build()
             )
             .value(
-                null
-//                dodsorsaksgrund != null ? (CertificateDataValue) dodsorsaksgrund.stream().map(orsak -> getValueCode(orsak)).collect(
-//                    Collectors.toList())
-//                    : CertificateDataValueCode.builder().build()
+                CertificateDataValueCodeList.builder()
+                    .list(
+                        dodsorsaksgrundList.stream()
+                            .map(dodsorsaksgrund ->
+                                CertificateDataValueCode.builder()
+                                    .id(dodsorsaksgrund.name())
+                                    .code(dodsorsaksgrund.name())
+                                    .build()
+                            )
+                            .collect(Collectors.toList())
+                    )
+                    .build()
             )
             .validation(
-                null
+                new CertificateDataValidation[]{
+                    CertificateDataValidationMandatory.builder()
+                        .questionId(GRUNDER_DELSVAR_ID)
+                        .expression(
+                            multipleOrExpression(
+                                singleExpression(Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN.name()),
+                                singleExpression(Dodsorsaksgrund.UNDERSOKNING_EFTER_DODEN.name()),
+                                singleExpression(Dodsorsaksgrund.KLINISK_OBDUKTION.name()),
+                                singleExpression(Dodsorsaksgrund.RATTSMEDICINSK_OBDUKTION.name()),
+                                singleExpression(Dodsorsaksgrund.RATTSMEDICINSK_BESIKTNING.name())
+                            )
+                        )
+                        .build()
+                }
             )
             .build();
     }
