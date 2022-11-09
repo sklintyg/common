@@ -35,6 +35,7 @@ import se.inera.intyg.common.doi.model.internal.OmOperation;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionGrunderDodsorsaksuppgifter;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionLand;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOmSkadaForgiftning;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperation;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationAnledning;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationDatum;
@@ -100,6 +101,7 @@ class CertificateToInternalTest {
                 .setOperation(OmOperation.JA)
                 .setOperationDatum(new InternalDate(LocalDate.now()))
                 .setOperationAnledning("OperationAnledning")
+                .setForgiftning(true)
                 .setGrunder(List.of(Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN))
                 .build();
 
@@ -123,6 +125,7 @@ class CertificateToInternalTest {
                 .addElement(QuestionOperationDatum.toCertificate(expectedInternalCertificate.getOperationDatum().asLocalDate(), 0, texts))
                 .addElement(QuestionOperationAnledning.toCertificate(expectedInternalCertificate.getOperationAnledning(), 0, texts))
                 .addElement(QuestionGrunderDodsorsaksuppgifter.toCertificate(expectedInternalCertificate.getGrunder(), 0, texts))
+                .addElement(QuestionOmSkadaForgiftning.toCertificate(expectedInternalCertificate.getForgiftning(), 0, texts))
                 .build();
         }
 
@@ -215,6 +218,12 @@ class CertificateToInternalTest {
         void shallIncludeDodsorsakGrunder() {
             final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
             assertEquals(expectedInternalCertificate.getGrunder(), actualInternalCertificate.getGrunder());
+        }
+
+        @Test
+        void shallIncludeSkadaForgiftning() {
+            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(expectedInternalCertificate.getForgiftning(), actualInternalCertificate.getForgiftning());
         }
     }
 

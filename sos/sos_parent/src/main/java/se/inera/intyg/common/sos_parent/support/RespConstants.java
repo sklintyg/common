@@ -163,9 +163,12 @@ public final class RespConstants {
     public static final String OPERATION_DATUM_DELSVAR_ID = "11.2";
     public static final String OPERATION_ANLEDNING_DELSVAR_ID = "11.3";
     public static final String FORGIFTNING_OM_DELSVAR_ID = "12.1";
+    public static final String FORGIFTNING_OM_QUESTION_TEXT_ID = "DFR_12.1.RBK";
     public static final String FORGIFTNING_ORSAK_DELSVAR_ID = "12.2";
     public static final String FORGIFTNING_DATUM_DELSVAR_ID = "12.3";
     public static final String FORGIFTNING_UPPKOMMELSE_DELSVAR_ID = "12.4";
+    public static final String FORGIFTNING_OM_QUESTION_SELECTED_TEXT = "SVAR_JA.RBK";
+    public static final String FORGIFTNING_OM_QUESTION_UNSELECTED_TEXT = "SVAR_NEJ.RBK";
     public static final String GRUNDER_DELSVAR_ID = "13.1";
     public static final String LAND_DELSVAR_ID = "14.1";
 
