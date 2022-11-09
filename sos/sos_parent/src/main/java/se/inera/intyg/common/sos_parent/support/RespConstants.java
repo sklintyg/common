@@ -104,6 +104,14 @@ public final class RespConstants {
     public static final String POLISANMALAN_PRINT_MESSAGE_ID = "DFR_7.1.OBS";
     public static final String POLISANMALAN_PREFILL_MESSAGE_ID = "DFR_7.1_UNDERSOKNINGS_SKA_GORAS.INFO";
 
+    public static final String OPERATION_CATEGORY_ID = "operation";
+    public static final String OPERATION_CATEGORY_TEXT_ID = "KAT_8.RBK";
+    public static final String OPERATION_CATEGORY_DECRIPTION_ID = "KAT_8.HLP";
+    public static final String OPERATION_QUESTION_TEXT_ID = "DFR_11.1.RBK";
+    public static final String OPERATION_QUESTION_SELECTED_TEXT_ID = "DFR_11.1.JA.RBK";
+    public static final String OPERATION_QUESTION_UNSELECTED_TEXT_ID = "DFR_11.1.NEJ.RBK";
+    public static final String OPERATION_QUESTION_UNKNOWN_TEXT_ID = "DFR_11.1.UPPGIFT_SAKNAS.RBK";
+    public static final String OPERATION_DATUM_QUESTION_TEXT_ID = "DFR_11.2.RBK";
 
     public static final String IDENTITET_STYRKT_SVAR_ID = "1";
     public static final String DODSDATUM_SVAR_ID = "2";
