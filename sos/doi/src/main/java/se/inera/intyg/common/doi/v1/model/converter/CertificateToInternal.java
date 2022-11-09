@@ -21,6 +21,7 @@ package se.inera.intyg.common.doi.v1.model.converter;
 
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionGrunderDodsorsaksuppgifter;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionLand;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionAntraffadDod;
@@ -46,7 +47,8 @@ public class CertificateToInternal {
             .setAntraffatDodDatum(QuestionAntraffadDod.toInternal(certificate))
             .setDodsplatsKommun(QuestionDodsplatsKommun.toInternal(certificate))
             .setDodsplatsBoende(QuestionDodsplatsBoende.toInternal(certificate))
-            .setBarn(QuestionBarn.toInternal(certificate));
+            .setBarn(QuestionBarn.toInternal(certificate))
+            .setGrunder(QuestionGrunderDodsorsaksuppgifter.toInternal(certificate));
 
         final var dodsdatumSakert = QuestionDodsdatumSakert.toInternal(certificate);
         if (dodsdatumSakert == null) {

@@ -21,6 +21,7 @@ package se.inera.intyg.common.doi.v1.validator;
 import static org.junit.Assert.assertEquals;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.GRUNDER_DELSVAR_ID;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -293,6 +294,7 @@ public class InternalValidatorTest {
         assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("dodsorsakgrund", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("grunder", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(GRUNDER_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -306,8 +308,8 @@ public class InternalValidatorTest {
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("dodsorsakgrund", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("grunder", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(GRUNDER_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
-
 
     @Test
     public void testR20_1() throws ScenarioNotFoundException {

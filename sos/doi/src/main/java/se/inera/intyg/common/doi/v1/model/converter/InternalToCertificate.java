@@ -22,6 +22,8 @@ package se.inera.intyg.common.doi.v1.model.converter;
 import java.time.LocalDate;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategoryDodsorsaksuppgifter;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionGrunderDodsorsaksuppgifter;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionLand;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -101,6 +103,12 @@ public class InternalToCertificate {
             .addElement(
                 QuestionAutoFillMessageAfter28DaysBarn.toCertificate(internalCertificate.getGrundData().getPatient().getPersonId(),
                     index++, texts)
+            )
+            .addElement(
+                CategoryDodsorsaksuppgifter.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionGrunderDodsorsaksuppgifter.toCertificate(internalCertificate.getGrunder(), index++, texts)
             )
             .build();
     }
