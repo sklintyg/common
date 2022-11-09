@@ -24,18 +24,19 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.GRUNDER_DEL
 import static se.inera.intyg.common.sos_parent.support.RespConstants.GRUNDER_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCodeList;
 
@@ -81,12 +82,7 @@ public class QuestionGrunderDodsorsaksuppgifter {
                 CertificateDataValueCodeList.builder()
                     .list(
                         dodsorsaksgrundList.stream()
-                            .map(dodsorsaksgrund ->
-                                CertificateDataValueCode.builder()
-                                    .id(dodsorsaksgrund.name())
-                                    .code(dodsorsaksgrund.name())
-                                    .build()
-                            )
+                            .map(QuestionGrunderDodsorsaksuppgifter::getValueCode)
                             .collect(Collectors.toList())
                     )
                     .build()
@@ -110,10 +106,16 @@ public class QuestionGrunderDodsorsaksuppgifter {
             .build();
     }
 
-    private static CertificateDataValue getValueCode(Dodsorsaksgrund orsak) {
+    private static CertificateDataValueCode getValueCode(Dodsorsaksgrund orsak) {
         return CertificateDataValueCode.builder()
             .id(orsak.name())
             .code(orsak.name())
             .build();
+    }
+
+    public static List<Dodsorsaksgrund> toInternal(Certificate certificate) {
+        return codeListValue(certificate.getData(), GRUNDER_DELSVAR_ID).stream()
+            .map(certificateDataValueCode -> Dodsorsaksgrund.valueOf(certificateDataValueCode.getCode()))
+            .collect(Collectors.toList());
     }
 }

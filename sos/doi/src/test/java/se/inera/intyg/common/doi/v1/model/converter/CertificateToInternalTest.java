@@ -25,11 +25,14 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionGrunderDodsorsaksuppgifter;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionLand;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -90,6 +93,7 @@ class CertificateToInternalTest {
                 .setDodsplatsKommun("DodsplatsKommun")
                 .setDodsplatsBoende(DodsplatsBoende.SJUKHUS)
                 .setBarn(true)
+                .setGrunder(List.of(Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN))
                 .build();
 
             texts = Mockito.mock(CertificateTextProvider.class);
@@ -108,6 +112,7 @@ class CertificateToInternalTest {
                 .addElement(QuestionDodsplatsBoende.toCertificate(expectedInternalCertificate.getDodsplatsBoende(), 0, texts))
                 .addElement(QuestionBarn.toCertificate(expectedInternalCertificate.getGrundData().getPatient().getPersonId(),
                     expectedInternalCertificate.getBarn(), 0, texts))
+                .addElement(QuestionGrunderDodsorsaksuppgifter.toCertificate(expectedInternalCertificate.getGrunder(), 0, texts))
                 .build();
         }
 
@@ -144,44 +149,44 @@ class CertificateToInternalTest {
 
         @Test
         void shallIncludeDodsdatumSakert() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate,
-                expectedInternalCertificate);
+            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
             assertEquals(expectedInternalCertificate.getDodsdatumSakert(), actualInternalCertificate.getDodsdatumSakert());
         }
 
         @Test
         void shallIncludeDodsdatum() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate,
-                expectedInternalCertificate);
+            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
             assertEquals(expectedInternalCertificate.getDodsdatum(), actualInternalCertificate.getDodsdatum());
         }
 
         @Test
         void shallIncludeAntraffadDoddatum() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate,
-                expectedInternalCertificate);
+            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
             assertEquals(expectedInternalCertificate.getAntraffatDodDatum(), actualInternalCertificate.getAntraffatDodDatum());
         }
 
         @Test
         void shallIncludeDodsplatsKommun() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate,
-                expectedInternalCertificate);
+            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
             assertEquals(expectedInternalCertificate.getDodsplatsKommun(), actualInternalCertificate.getDodsplatsKommun());
         }
 
         @Test
         void shallIncludeDodsplatsBoende() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate,
-                expectedInternalCertificate);
+            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
             assertEquals(expectedInternalCertificate.getDodsplatsBoende(), actualInternalCertificate.getDodsplatsBoende());
         }
 
         @Test
         void shallIncludeBarn() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate,
-                expectedInternalCertificate);
+            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
             assertEquals(expectedInternalCertificate.getBarn(), actualInternalCertificate.getBarn());
+        }
+
+        @Test
+        void shallIncludeDodsorsakGrunder() {
+            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(expectedInternalCertificate.getGrunder(), actualInternalCertificate.getGrunder());
         }
     }
 

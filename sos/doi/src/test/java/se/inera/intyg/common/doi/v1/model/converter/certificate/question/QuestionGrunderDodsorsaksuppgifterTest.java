@@ -41,6 +41,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleCode;
@@ -214,6 +215,44 @@ class QuestionGrunderDodsorsaksuppgifterTest {
             final var question = QuestionGrunderDodsorsaksuppgifter.toCertificate(dodsorsaksgrund, 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
             assertEquals(expectedExpression, certificateDataValidationMandatory.getExpression());
+        }
+    }
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class ToInternal {
+
+        @Test
+        void shouldIncludeEmptyValue() {
+            final List<Dodsorsaksgrund> expectedValue = Collections.emptyList();
+
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionGrunderDodsorsaksuppgifter.toCertificate(expectedValue, 0, texts))
+                .build();
+
+            final var actualValue = QuestionGrunderDodsorsaksuppgifter.toInternal(certificate);
+
+            assertEquals(expectedValue, actualValue);
+        }
+
+        @Test
+        void shouldIncludeMultipleValue() {
+            final List<Dodsorsaksgrund> expectedValue = List.of(
+                Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN,
+                Dodsorsaksgrund.UNDERSOKNING_EFTER_DODEN,
+                Dodsorsaksgrund.KLINISK_OBDUKTION,
+                Dodsorsaksgrund.RATTSMEDICINSK_OBDUKTION,
+                Dodsorsaksgrund.RATTSMEDICINSK_BESIKTNING
+
+            );
+
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionGrunderDodsorsaksuppgifter.toCertificate(expectedValue, 0, texts))
+                .build();
+
+            final var actualValue = QuestionGrunderDodsorsaksuppgifter.toInternal(certificate);
+
+            assertEquals(expectedValue, actualValue);
         }
     }
 }
