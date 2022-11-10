@@ -35,6 +35,7 @@ import se.inera.intyg.common.doi.v1.model.converter.certificate.question.Questio
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperation;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationAnledning;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationDatum;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionTerminalaDodsorsakenSjukdom;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.sos_parent.model.converter.certificate.category.CategoryBarn;
@@ -116,6 +117,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 CategoryTerminalaDodsorsaken.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionTerminalaDodsorsakenSjukdom.toCertificate(index++, texts)
             )
             .addElement(
                 CategoryOperation.toCertificate(index++, texts)
