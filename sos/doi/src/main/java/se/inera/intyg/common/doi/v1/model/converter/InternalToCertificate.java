@@ -25,6 +25,7 @@ import se.inera.intyg.common.doi.v1.model.converter.certificate.MetaDataGrundDat
 import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategoryDodsorsaksuppgifter;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategoryOperation;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategorySkadaForgiftning;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategoryTerminalaDodsorsaken;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningDatum;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOm;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOrsak;
@@ -112,6 +113,9 @@ public class InternalToCertificate {
             .addElement(
                 QuestionAutoFillMessageAfter28DaysBarn.toCertificate(internalCertificate.getGrundData().getPatient().getPersonId(),
                     index++, texts)
+            )
+            .addElement(
+                CategoryTerminalaDodsorsaken.toCertificate(index++, texts)
             )
             .addElement(
                 CategoryOperation.toCertificate(index++, texts)

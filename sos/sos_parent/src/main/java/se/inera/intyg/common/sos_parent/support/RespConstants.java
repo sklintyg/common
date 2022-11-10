@@ -71,6 +71,9 @@ public final class RespConstants {
     public static final String DODSORSAK_SPECIFIKATION_JSON_ID = "specifikation";
 
     public static final String TERMINAL_DODSORSAK_JSON_ID = "terminalDodsorsak";
+    public static final String TERMINAL_DODSORSAK_CATEGORY_ID = "terminalDodsorsak";
+    public static final String TERMINAL_DODSORSAK_CATEGORY_TEXT_ID = "KAT_7.RBK";
+    public static final String TERMINAL_DODSORSAK_HEADER_TEXT_ID = "KAT_7.1.RBK";
     public static final String FOLJD_JSON_ID = "foljd";
     public static final String BIDRAGANDE_SJUKDOM_JSON_ID = "bidragandeSjukdomar";
     public static final String OPERATION_OM_JSON_ID = "operation";
