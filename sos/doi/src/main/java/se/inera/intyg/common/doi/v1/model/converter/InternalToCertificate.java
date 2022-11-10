@@ -28,6 +28,7 @@ import se.inera.intyg.common.doi.v1.model.converter.certificate.category.Categor
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningDatum;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOm;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOrsak;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningUppkommelse;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionGrunderDodsorsaksuppgifter;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionLand;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperation;
@@ -135,6 +136,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionForgiftningDatum.toCertificate(toLocalDate(internalCertificate.getForgiftningDatum()), index++, texts)
+            )
+            .addElement(
+                QuestionForgiftningUppkommelse.toCertificate(internalCertificate.getForgiftningUppkommelse(), index++, texts)
             )
             .addElement(
                 CategoryDodsorsaksuppgifter.toCertificate(index++, texts)

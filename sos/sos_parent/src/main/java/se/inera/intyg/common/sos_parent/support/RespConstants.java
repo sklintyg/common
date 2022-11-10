@@ -120,6 +120,8 @@ public final class RespConstants {
     public static final String FORGIFTNING_ORSAK_QUESTION_TEXT_ID = "DFR_12.2.RBK";
     public static final String FORGIFTNING_ORSAK_QUESTION_DESCRIPTION_ID = "DFR_12.2.HLP";
     public static final String FORGIFTNING_DATUM_QUESTION_TEXT_ID = "DFR_12.3.RBK";
+    public static final String FORGIFTNING_UPPKOMMELSE_QUESTION_TEXT_ID = "DFR_12.4.RBK";
+    public static final String FORGIFTNING_UPPKOMMELSE_DESCRIPTION_TEXT_ID = "DFR_12.4.HLP";
 
     public static final String IDENTITET_STYRKT_SVAR_ID = "1";
     public static final String DODSDATUM_SVAR_ID = "2";

@@ -24,6 +24,7 @@ import se.inera.intyg.common.doi.v1.model.converter.certificate.MetaDataGrundDat
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningDatum;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOm;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOrsak;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningUppkommelse;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionGrunderDodsorsaksuppgifter;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionLand;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperation;
@@ -60,6 +61,7 @@ public class CertificateToInternal {
             .setForgiftning(QuestionForgiftningOm.toInternal(certificate))
             .setForgiftningOrsak(QuestionForgiftningOrsak.toInternal(certificate))
             .setForgiftningDatum(QuestionForgiftningDatum.toInternal(certificate))
+            .setForgiftningUppkommelse(QuestionForgiftningUppkommelse.toInternal(certificate))
             .setGrunder(QuestionGrunderDodsorsaksuppgifter.toInternal(certificate));
 
         final var dodsdatumSakert = QuestionDodsdatumSakert.toInternal(certificate);
