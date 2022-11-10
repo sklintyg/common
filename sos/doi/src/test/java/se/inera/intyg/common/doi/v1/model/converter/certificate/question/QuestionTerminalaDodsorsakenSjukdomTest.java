@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_SJUKDOM_SVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_CATEGORY_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_HEADER_TEXT_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_SJUKDOM_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -75,7 +75,7 @@ class QuestionTerminalaDodsorsakenSjukdomTest {
         void shouldIncludeText() {
             final var question = QuestionTerminalaDodsorsakenSjukdom.toCertificate(0, texts);
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(TERMINAL_DODSORSAK_HEADER_TEXT_ID);
+            verify(texts, atLeastOnce()).get(TERMINAL_DODSORSAK_SJUKDOM_TEXT_ID);
         }
 
         @Test
