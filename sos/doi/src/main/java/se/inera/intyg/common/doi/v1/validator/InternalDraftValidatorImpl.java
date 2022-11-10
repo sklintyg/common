@@ -23,9 +23,13 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_OM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_DATUM_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_OM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_OM_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_ORSAK_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_ORSAK_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_UPPKOMMELSE_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_UPPKOMMELSE_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.GRUNDER_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.GRUNDER_JSON_ID;
@@ -253,44 +257,50 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
 
     private void validateForgiftning(DoiUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (utlatande.getForgiftning() == null) {
-            ValidatorUtil.addValidationError(validationMessages, "forgiftning", FORGIFTNING_OM_JSON_ID, ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "forgiftning", FORGIFTNING_OM_JSON_ID,
+                ValidationMessageType.EMPTY, FORGIFTNING_OM_DELSVAR_ID);
         } else if (utlatande.getForgiftning()) {
             // R14
             if (utlatande.getForgiftningOrsak() == null) {
-                ValidatorUtil.addValidationError(validationMessages, "forgiftning", FORGIFTNING_ORSAK_JSON_ID, ValidationMessageType.EMPTY);
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "forgiftning", FORGIFTNING_ORSAK_JSON_ID,
+                    ValidationMessageType.EMPTY, FORGIFTNING_ORSAK_DELSVAR_ID);
             }
             // R16
             if (ValidatorUtil.validateDate(utlatande.getForgiftningDatum(), validationMessages, "forgiftning",
-                FORGIFTNING_DATUM_JSON_ID, null)) {
+                FORGIFTNING_DATUM_JSON_ID, null, FORGIFTNING_DATUM_DELSVAR_ID)) {
                 if (ValidatorUtil.isDateAfter(utlatande.getForgiftningDatum(), utlatande.getDodsdatum())) {
                     ValidatorUtil
-                        .addValidationError(validationMessages, "forgiftning", FORGIFTNING_DATUM_JSON_ID,
-                            ValidationMessageType.INCORRECT_COMBINATION, "forgiftning.forgiftningDatum.efterDodsdatum");
+                        .addValidationErrorWithQuestionId(validationMessages, "forgiftning", FORGIFTNING_DATUM_JSON_ID,
+                            ValidationMessageType.INCORRECT_COMBINATION, "forgiftning.forgiftningDatum.efterDodsdatum",
+                            FORGIFTNING_DATUM_DELSVAR_ID);
                 } else if (ValidatorUtil.isDateAfter(utlatande.getForgiftningDatum(), utlatande.getAntraffatDodDatum())) {
                     ValidatorUtil
-                        .addValidationError(validationMessages, "forgiftning", FORGIFTNING_DATUM_JSON_ID,
-                            ValidationMessageType.INCORRECT_COMBINATION, "forgiftning.forgiftningDatum.efterAntraffatDodDatum");
+                        .addValidationErrorWithQuestionId(validationMessages, "forgiftning", FORGIFTNING_DATUM_JSON_ID,
+                            ValidationMessageType.INCORRECT_COMBINATION, "forgiftning.forgiftningDatum.efterAntraffatDodDatum",
+                            FORGIFTNING_DATUM_DELSVAR_ID);
                 }
             }
 
             // R17
             if (Strings.nullToEmpty(utlatande.getForgiftningUppkommelse()).trim().isEmpty()) {
-                ValidatorUtil.addValidationError(validationMessages, "forgiftning", FORGIFTNING_UPPKOMMELSE_JSON_ID,
-                    ValidationMessageType.EMPTY);
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "forgiftning", FORGIFTNING_UPPKOMMELSE_JSON_ID,
+                    ValidationMessageType.EMPTY, FORGIFTNING_UPPKOMMELSE_DELSVAR_ID);
             }
         } else {
             if (utlatande.getForgiftningOrsak() != null) {
-                ValidatorUtil.addValidationError(validationMessages, "forgiftning", FORGIFTNING_OM_JSON_ID,
-                    ValidationMessageType.INCORRECT_COMBINATION, "doi.validation.forgiftning.orsak.incorrect_combination");
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "forgiftning", FORGIFTNING_OM_JSON_ID,
+                    ValidationMessageType.INCORRECT_COMBINATION, "doi.validation.forgiftning.orsak.incorrect_combination",
+                    FORGIFTNING_ORSAK_DELSVAR_ID);
             }
             if (utlatande.getForgiftningDatum() != null) {
-                ValidatorUtil.addValidationError(validationMessages, "forgiftning", FORGIFTNING_OM_JSON_ID,
-                    ValidationMessageType.INCORRECT_COMBINATION, "doi.validation.forgiftning.datum.incorrect_combination");
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "forgiftning", FORGIFTNING_OM_JSON_ID,
+                    ValidationMessageType.INCORRECT_COMBINATION, "doi.validation.forgiftning.datum.incorrect_combination",
+                    FORGIFTNING_DATUM_DELSVAR_ID);
             }
             if (utlatande.getForgiftningUppkommelse() != null) {
-                ValidatorUtil.addValidationError(validationMessages, "forgiftning", FORGIFTNING_OM_JSON_ID,
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "forgiftning", FORGIFTNING_OM_JSON_ID,
                     ValidationMessageType.INCORRECT_COMBINATION,
-                    "doi.validation.forgiftning.uppkommelse.incorrect_combination");
+                    "doi.validation.forgiftning.uppkommelse.incorrect_combination", FORGIFTNING_UPPKOMMELSE_DELSVAR_ID);
             }
         }
     }

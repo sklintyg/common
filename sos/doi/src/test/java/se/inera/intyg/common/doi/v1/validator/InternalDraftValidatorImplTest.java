@@ -21,6 +21,9 @@ package se.inera.intyg.common.doi.v1.validator;
 import static org.junit.Assert.assertEquals;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_DATUM_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_ORSAK_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_UPPKOMMELSE_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.GRUNDER_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_ANLEDNING_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_DATUM_DELSVAR_ID;
@@ -35,13 +38,12 @@ import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.doi.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.doi.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.doi.validator.InternalValidatorHelper;
-import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 @RunWith(MockitoJUnitRunner.class)
-public class InternalValidatorTest {
+public class InternalDraftValidatorImplTest {
 
     @InjectMocks
     private InternalDraftValidatorImpl internalValidator;
@@ -62,20 +64,12 @@ public class InternalValidatorTest {
         return utlatande;
     }
 
-    private void setDateToCurrentYear(InternalDate date) {
-        internalValidatorHelper.setDateToCurrentYear(date);
-    }
-
-    private void setDateToLastYear(InternalDate date) {
-        internalValidatorHelper.setDateToLastYear(date);
-    }
-
     @Test
     public void testValidateUtkast() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("pass-1").asInternalModel();
-        setDateToLastYear(utlatandeFromJson.getDodsdatum());
-        setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
-        setDateToLastYear(utlatandeFromJson.getOperationDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(0, getNumberOfInternalValidationErrors(internalValidationResponse));
     }
@@ -84,7 +78,7 @@ public class InternalValidatorTest {
     public void testValidateUtkast2() throws ScenarioNotFoundException {
         // bidragandeSjukdomar datum och specifikation (10.2 och 10.3) är ej obligatoriska
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("pass-2").asInternalModel();
-        setDateToLastYear(utlatandeFromJson.getDodsdatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(0, getNumberOfInternalValidationErrors(internalValidationResponse));
     }
@@ -92,8 +86,8 @@ public class InternalValidatorTest {
     @Test
     public void testR1() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R1").asInternalModel();
-        setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
-        setDateToLastYear(utlatandeFromJson.getOperationDatum());
+        internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INVALID_FORMAT, internalValidationResponse.getValidationErrors().get(0).getType());
@@ -105,8 +99,8 @@ public class InternalValidatorTest {
     @Test
     public void testR3() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R3").asInternalModel();
-        setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
-        setDateToCurrentYear(utlatandeFromJson.getAntraffatDodDatum());
+        internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
+        internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getAntraffatDodDatum());
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
@@ -119,8 +113,8 @@ public class InternalValidatorTest {
     @Test
     public void testR3_1() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("validation-fail-R3-1").asInternalModel();
-        setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
-        setDateToLastYear(utlatandeFromJson.getOperationDatum());
+        internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.OTHER, internalValidationResponse.getValidationErrors().get(0).getType());
@@ -133,8 +127,8 @@ public class InternalValidatorTest {
     @Test
     public void testR3_2() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R3-2").asInternalModel();
-        setDateToLastYear(utlatandeFromJson.getDodsdatum());
-        setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
@@ -147,9 +141,9 @@ public class InternalValidatorTest {
     @Test
     public void testR3_4() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("no-round-trip-fail-R3-4").asInternalModel();
-        setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
-        setDateToCurrentYear(utlatandeFromJson.getAntraffatDodDatum());
-        setDateToLastYear(utlatandeFromJson.getOperationDatum());
+        internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
+        internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getAntraffatDodDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INVALID_FORMAT, internalValidationResponse.getValidationErrors().get(0).getType());
@@ -161,8 +155,8 @@ public class InternalValidatorTest {
     @Test
     public void testR13_1() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R13-1").asInternalModel();
-        setDateToLastYear(utlatandeFromJson.getDodsdatum());
-        setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
@@ -175,8 +169,8 @@ public class InternalValidatorTest {
     @Test
     public void testR13_2() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R13-2").asInternalModel();
-        setDateToLastYear(utlatandeFromJson.getDodsdatum());
-        setDateToLastYear(utlatandeFromJson.getOperationDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
@@ -188,8 +182,8 @@ public class InternalValidatorTest {
     @Test
     public void testR13_3() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R13-3").asInternalModel();
-        setDateToLastYear(utlatandeFromJson.getDodsdatum());
-        setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
@@ -201,9 +195,9 @@ public class InternalValidatorTest {
     @Test
     public void testR13_5() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R13-5").asInternalModel();
-        setDateToLastYear(utlatandeFromJson.getDodsdatum());
-        setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
-        setDateToLastYear(utlatandeFromJson.getOperationDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
@@ -216,22 +210,24 @@ public class InternalValidatorTest {
     @Test
     public void testR14_1() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R14-1").asInternalModel();
-        setDateToLastYear(utlatandeFromJson.getDodsdatum());
-        setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
-        setDateToLastYear(utlatandeFromJson.getOperationDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("forgiftning", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("forgiftningOrsak", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(FORGIFTNING_ORSAK_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+
     }
 
     @Test
     public void testR14_2() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R14-2").asInternalModel();
-        setDateToLastYear(utlatandeFromJson.getDodsdatum());
-        setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
-        setDateToLastYear(utlatandeFromJson.getOperationDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(3, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
@@ -239,64 +235,71 @@ public class InternalValidatorTest {
         assertEquals("forgiftning", internalValidationResponse.getValidationErrors().get(0).getField());
         assertEquals("doi.validation.forgiftning.orsak.incorrect_combination",
             internalValidationResponse.getValidationErrors().get(0).getMessage());
+        assertEquals(FORGIFTNING_ORSAK_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(1).getType());
         assertEquals("forgiftning", internalValidationResponse.getValidationErrors().get(1).getCategory());
         assertEquals("forgiftning", internalValidationResponse.getValidationErrors().get(1).getField());
         assertEquals("doi.validation.forgiftning.datum.incorrect_combination",
             internalValidationResponse.getValidationErrors().get(1).getMessage());
+        assertEquals(FORGIFTNING_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(1).getQuestionId());
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(2).getType());
         assertEquals("forgiftning", internalValidationResponse.getValidationErrors().get(2).getCategory());
         assertEquals("forgiftning", internalValidationResponse.getValidationErrors().get(2).getField());
         assertEquals("doi.validation.forgiftning.uppkommelse.incorrect_combination",
             internalValidationResponse.getValidationErrors().get(2).getMessage());
+        assertEquals(FORGIFTNING_UPPKOMMELSE_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(2).getQuestionId());
+
     }
 
     @Test
     public void testR16_1() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R16-1").asInternalModel();
-        setDateToLastYear(utlatandeFromJson.getDodsdatum());
-        setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
-        setDateToLastYear(utlatandeFromJson.getOperationDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("forgiftning", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("forgiftningDatum", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(FORGIFTNING_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
     public void testR16_2() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R16-2").asInternalModel();
-        setDateToLastYear(utlatandeFromJson.getDodsdatum());
-        setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
-        setDateToLastYear(utlatandeFromJson.getForgiftningDatum());
-        setDateToLastYear(utlatandeFromJson.getOperationDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getForgiftningDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("forgiftning", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("forgiftningDatum", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(FORGIFTNING_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
     public void testR17() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R17").asInternalModel();
-        setDateToLastYear(utlatandeFromJson.getDodsdatum());
-        setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
-        setDateToLastYear(utlatandeFromJson.getOperationDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("forgiftning", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("forgiftningUppkommelse", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(FORGIFTNING_UPPKOMMELSE_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
     public void testR18_1() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R18-1").asInternalModel();
-        setDateToLastYear(utlatandeFromJson.getDodsdatum());
-        setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
-        setDateToLastYear(utlatandeFromJson.getOperationDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
@@ -308,9 +311,9 @@ public class InternalValidatorTest {
     @Test
     public void testR18_2() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R18-2").asInternalModel();
-        setDateToLastYear(utlatandeFromJson.getDodsdatum());
-        setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
-        setDateToLastYear(utlatandeFromJson.getOperationDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
@@ -368,8 +371,8 @@ public class InternalValidatorTest {
     @Test
     public void testR22_1() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R22-1").asInternalModel();
-        setDateToLastYear(utlatandeFromJson.getDodsdatum());
-        setDateToLastYear(utlatandeFromJson.getTerminalDodsorsak().getDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getTerminalDodsorsak().getDatum());
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
@@ -380,9 +383,9 @@ public class InternalValidatorTest {
     @Test
     public void testR22_2() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R22-2").asInternalModel();
-        setDateToLastYear(utlatandeFromJson.getDodsdatum());
-        setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
-        setDateToLastYear(utlatandeFromJson.getTerminalDodsorsak().getDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getTerminalDodsorsak().getDatum());
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
