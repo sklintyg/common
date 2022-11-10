@@ -75,6 +75,12 @@ public final class RespConstants {
     public static final String TERMINAL_DODSORSAK_CATEGORY_TEXT_ID = "KAT_7.RBK";
     public static final String TERMINAL_DODSORSAK_SJUKDOM_TEXT_ID = "KAT_7.1.RBK";
     public static final String TERMINAL_DODSORSAK_SJUKDOM_SVAR_ID = "6";
+    public static final String TERMINAL_DODSORSAK_QUESTION_TEXT_ID = "FRG_8.RBK";
+    public static final String TERMINAL_DODSORSAK_DESCRIPTION_TEXT_ID = "FRG_8.HLP";
+    public static final String TERMINAL_DODSORSAK_BESKRIVNING_TEXT_ID = "DELAT_TEXT.BESKRIVNING.RBK";
+    public static final String TERMINAL_DODSORSAK_DEBUT_TEXT_ID = "DELAT_TEXT.DEBUT.RBK";
+    public static final String TERMINAL_DODSORSAK_SPECIFIKATION_TEXT_ID = "DELAT_TEXT.SPECIFIKATION.RBK";
+
     public static final String FOLJD_JSON_ID = "foljd";
     public static final String BIDRAGANDE_SJUKDOM_JSON_ID = "bidragandeSjukdomar";
     public static final String OPERATION_OM_JSON_ID = "operation";

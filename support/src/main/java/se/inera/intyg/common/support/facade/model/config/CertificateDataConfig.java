@@ -44,7 +44,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @Type(value = CertificateDataConfigSickLeavePeriod.class, name = "UE_SICK_LEAVE_PERIOD"),
     @Type(value = CertificateDataConfigDiagnoses.class, name = "UE_DIAGNOSES"),
     @Type(value = CertificateDataConfigDropdown.class, name = "UE_DROPDOWN"),
-    @Type(value = CertificateDataConfigIcf.class, name = "UE_ICF")
+    @Type(value = CertificateDataConfigIcf.class, name = "UE_ICF"),
+    @Type(value = CertificateDataConfigTerminalCauseOfDeath.class, name = "UE_CAUSE_OF_DEATH")
 })
 public interface CertificateDataConfig {
 
