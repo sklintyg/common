@@ -24,6 +24,11 @@ import org.springframework.stereotype.Component;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategoryDodsorsaksuppgifter;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategoryOperation;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategorySkadaForgiftning;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningDatum;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOm;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOrsak;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningUppkommelse;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionGrunderDodsorsaksuppgifter;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionLand;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperation;
@@ -119,6 +124,21 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionOperationAnledning.toCertificate(internalCertificate.getOperationAnledning(), index++, texts)
+            )
+            .addElement(
+                CategorySkadaForgiftning.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionForgiftningOm.toCertificate(internalCertificate.getForgiftning(), index++, texts)
+            )
+            .addElement(
+                QuestionForgiftningOrsak.toCertificate(internalCertificate.getForgiftningOrsak(), index++, texts)
+            )
+            .addElement(
+                QuestionForgiftningDatum.toCertificate(toLocalDate(internalCertificate.getForgiftningDatum()), index++, texts)
+            )
+            .addElement(
+                QuestionForgiftningUppkommelse.toCertificate(internalCertificate.getForgiftningUppkommelse(), index++, texts)
             )
             .addElement(
                 CategoryDodsorsaksuppgifter.toCertificate(index++, texts)

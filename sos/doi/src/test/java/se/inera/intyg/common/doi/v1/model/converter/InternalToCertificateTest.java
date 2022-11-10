@@ -36,6 +36,11 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAKS_
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_BOENDE_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_KOMMUN_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_SVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_CATEGORY_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_DATUM_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_OM_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_ORSAK_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_UPPKOMMELSE_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.GRUNDER_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.IDENTITET_STYRKT_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.LAND_DELSVAR_ID;
@@ -49,6 +54,7 @@ import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import se.inera.intyg.common.doi.model.internal.ForgiftningOrsak;
 import se.inera.intyg.common.doi.model.internal.OmOperation;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -104,6 +110,10 @@ class InternalToCertificateTest {
             .setOperation(OmOperation.JA)
             .setOperationDatum(new InternalDate(LocalDate.now()))
             .setOperationAnledning("OperationAnledning")
+            .setForgiftning(true)
+            .setForgiftningOrsak(ForgiftningOrsak.OLYCKSFALL)
+            .setForgiftningDatum(new InternalDate(LocalDate.now()))
+            .setForgiftningUppkommelse("ForgiftningUppkommelse")
             .setGrunder(Collections.emptyList())
             .build();
 
@@ -251,14 +261,60 @@ class InternalToCertificateTest {
     }
 
     @Test
+    void shallIncludeCategorySkadaForgiftning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+        assertEquals(19, actualCertificate.getData().get(FORGIFTNING_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionSkadaForgiftning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+        assertEquals(20, actualCertificate.getData().get(FORGIFTNING_OM_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionForgiftningOrsak() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+        assertEquals(21, actualCertificate.getData().get(FORGIFTNING_ORSAK_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionForgiftningDatum() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+        assertEquals(22, actualCertificate.getData().get(FORGIFTNING_DATUM_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionForgiftningDatumNull() {
+        final var internalCertificeOperationDatumNull = internalCertificate.toBuilder().setOperationDatum(null).build();
+        final var actualCertificate = internalToCertificate.convert(internalCertificeOperationDatumNull, texts, typeAheadProvider);
+        assertEquals(22, actualCertificate.getData().get(FORGIFTNING_DATUM_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionForgiftningDatumInvalidDate() {
+        final var internalCertificeOperationDatumNull = internalCertificate.toBuilder()
+            .setOperationDatum(new InternalDate("2020"))
+            .build();
+        final var actualCertificate = internalToCertificate.convert(internalCertificeOperationDatumNull, texts, typeAheadProvider);
+        assertEquals(22, actualCertificate.getData().get(FORGIFTNING_DATUM_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionForgiftningUppkommelse() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+        assertEquals(23, actualCertificate.getData().get(FORGIFTNING_UPPKOMMELSE_DELSVAR_ID).getIndex());
+    }
+
+    @Test
     void shallIncludeCategoryDodsorsaksUppgifter() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(19, actualCertificate.getData().get(DODSORSAKS_UPPGIFTER_CATEGORY_ID).getIndex());
+        assertEquals(24, actualCertificate.getData().get(DODSORSAKS_UPPGIFTER_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionGrunderDodsorsaksUppgifter() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(20, actualCertificate.getData().get(GRUNDER_DELSVAR_ID).getIndex());
+        assertEquals(25, actualCertificate.getData().get(GRUNDER_DELSVAR_ID).getIndex());
     }
 }

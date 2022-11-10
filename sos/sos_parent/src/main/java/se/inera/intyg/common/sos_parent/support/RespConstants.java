@@ -114,6 +114,15 @@ public final class RespConstants {
     public static final String OPERATION_DATUM_QUESTION_TEXT_ID = "DFR_11.2.RBK";
     public static final String OPERATION_ANLEDNING_QUESTION_TEXT_ID = "DFR_11.3.RBK";
 
+    public static final String FORGIFTNING_CATEGORY_ID = "forgiftning";
+    public static final String FORGIFTNING_CATEGORY_TEXT_ID = "KAT_9.RBK";
+    public static final String FORGIFTNING_OM_QUESTION_TEXT_ID = "DFR_12.1.RBK";
+    public static final String FORGIFTNING_ORSAK_QUESTION_TEXT_ID = "DFR_12.2.RBK";
+    public static final String FORGIFTNING_ORSAK_QUESTION_DESCRIPTION_ID = "DFR_12.2.HLP";
+    public static final String FORGIFTNING_DATUM_QUESTION_TEXT_ID = "DFR_12.3.RBK";
+    public static final String FORGIFTNING_UPPKOMMELSE_QUESTION_TEXT_ID = "DFR_12.4.RBK";
+    public static final String FORGIFTNING_UPPKOMMELSE_DESCRIPTION_TEXT_ID = "DFR_12.4.HLP";
+
     public static final String IDENTITET_STYRKT_SVAR_ID = "1";
     public static final String DODSDATUM_SVAR_ID = "2";
     public static final String DODSPLATS_SVAR_ID = "3";
@@ -126,9 +135,9 @@ public final class RespConstants {
     public static final String BIDRAGANDE_SJUKDOM_SVAR_ID = "10";
     public static final String OPERATION_SVAR_ID = "11";
     public static final String FORGIFTNING_SVAR_ID = "12";
+
     public static final String GRUNDER_SVAR_ID = "13";
     public static final String LAND_SVAR_ID = "14";
-
     public static final String IDENTITET_STYRKT_DELSVAR_ID = "1.1";
     public static final String DODSDATUM_SAKERT_DELSVAR_ID = "2.1";
     public static final String DODSDATUM_DELSVAR_ID = "2.2";
@@ -163,6 +172,8 @@ public final class RespConstants {
     public static final String FORGIFTNING_ORSAK_DELSVAR_ID = "12.2";
     public static final String FORGIFTNING_DATUM_DELSVAR_ID = "12.3";
     public static final String FORGIFTNING_UPPKOMMELSE_DELSVAR_ID = "12.4";
+    public static final String FORGIFTNING_OM_QUESTION_SELECTED_TEXT = "SVAR_JA.RBK";
+    public static final String FORGIFTNING_OM_QUESTION_UNSELECTED_TEXT = "SVAR_NEJ.RBK";
     public static final String GRUNDER_DELSVAR_ID = "13.1";
     public static final String LAND_DELSVAR_ID = "14.1";
 
