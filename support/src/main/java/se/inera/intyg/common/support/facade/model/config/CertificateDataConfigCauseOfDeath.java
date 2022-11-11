@@ -24,12 +24,12 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTerminalCauseOfDeath.CertificateDataConfigTerminalCauseOfDeathBuilder;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeath.CertificateDataConfigTerminalCauseOfDeathBuilder;
 
 @JsonDeserialize(builder = CertificateDataConfigTerminalCauseOfDeathBuilder.class)
 @Value
 @Builder
-public class CertificateDataConfigTerminalCauseOfDeath implements CertificateDataConfig {
+public class CertificateDataConfigCauseOfDeath implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
     CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_CAUSE_OF_DEATH;
@@ -43,8 +43,9 @@ public class CertificateDataConfigTerminalCauseOfDeath implements CertificateDat
     String text;
     @Getter(onMethod = @__(@Override))
     String description;
-    TerminalCauseOfDeath terminalCauseOfDeath;
     String id;
+    CauseOfDeath causeOfDeath;
+
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataConfigTerminalCauseOfDeathBuilder {

@@ -21,23 +21,21 @@ package se.inera.intyg.common.support.facade.model.value;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import java.time.LocalDate;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
-import se.inera.intyg.common.support.facade.model.TerminalCauseOfDeathSpecification;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueTerminalCauseOfDeath.CertificateDataValueTerminalCauseOfDeathBuilder;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath.CertificateDataValueTerminalCauseOfDeathBuilder;
 
 @JsonDeserialize(builder = CertificateDataValueTerminalCauseOfDeathBuilder.class)
 @Value
 @Builder
-public class CertificateDataValueTerminalCauseOfDeath implements CertificateDataValue {
+public class CertificateDataValueCauseOfDeath implements CertificateDataValue {
     @Getter(onMethod = @__(@Override))
     CertificateDataValueType type = CertificateDataValueType.TERMINAL_CAUSE_OF_DEATH;
     String id;
-    LocalDate debut;
-    String description;
-    TerminalCauseOfDeathSpecification specification;
+    CertificateDataValueDate debut;
+    CertificateDataTextValue description;
+    CertificateDataValueCode specification;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataValueTerminalCauseOfDeathBuilder {

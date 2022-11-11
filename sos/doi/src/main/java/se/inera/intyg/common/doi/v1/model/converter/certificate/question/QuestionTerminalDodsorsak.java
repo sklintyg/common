@@ -19,7 +19,7 @@
 
 package se.inera.intyg.common.doi.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DATUM_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_SVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_DESCRIPTION_TEXT_ID;
@@ -28,26 +28,34 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DO
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import java.time.LocalDate;
+import java.util.List;
 import se.inera.intyg.common.doi.model.internal.Dodsorsak;
 import se.inera.intyg.common.doi.model.internal.Specifikation;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTerminalCauseOfDeath;
-import se.inera.intyg.common.support.facade.model.config.TerminalCauseOfDeath;
-import se.inera.intyg.common.support.facade.model.TerminalCauseOfDeathSpecificationEnum;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeath;
+import se.inera.intyg.common.support.facade.model.config.CauseOfDeath;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCode;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueTerminalCauseOfDeath;
-import se.inera.intyg.common.support.facade.util.SpecificationToolkit;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.model.InternalDate;
 
 public class QuestionTerminalDodsorsak {
 
     public static final short LIMIT = (short) 120;
     public static final short NUMBER_OF_DAYS_IN_FUTURE = (short) 0;
+    private static final String KRONISK = "Kronisk";
+    private static final String PLOTSLIG = "Akut";
+    private static final String UPPGIFT_SAKNAS = "Uppgift Saknas";
+
+    private static final String A_LABEL = "A";
 
     public static CertificateDataElement toCertificate(Dodsorsak dodsorsak, int index, CertificateTextProvider texts) {
 
@@ -56,41 +64,71 @@ public class QuestionTerminalDodsorsak {
             .index(index)
             .parent(DODSORSAK_SVAR_ID)
             .config(
-                CertificateDataConfigTerminalCauseOfDeath.builder()
-                    .id(TERMINAL_DODSORSAK_JSON_ID)
+                CertificateDataConfigCauseOfDeath.builder()
                     .text(texts.get(TERMINAL_DODSORSAK_QUESTION_TEXT_ID))
                     .description(texts.get(TERMINAL_DODSORSAK_DESCRIPTION_TEXT_ID))
-                    .terminalCauseOfDeath(
-                            TerminalCauseOfDeath.builder()
-                                .id("A")
-                                .specifications(SpecificationToolkit.getAll())
-                                .label("A")
-                                .text("Beskrivning")
-                                .build()
+                    .label(A_LABEL)
+                    .causeOfDeath(
+                        CauseOfDeath.builder()
+                            .id(TERMINAL_DODSORSAK_JSON_ID)
+                            .descriptionId(DODSORSAK_DELSVAR_ID)
+                            .debutId(DODSORSAK_DATUM_DELSVAR_ID)
+                            .specifications(List.of(
+                                CertificateDataConfigCode.builder()
+                                    .id(Specifikation.PLOTSLIG.name())
+                                    .label(PLOTSLIG)
+                                    .code(Specifikation.PLOTSLIG.name())
+                                    .build(),
+                                CertificateDataConfigCode.builder()
+                                    .id(Specifikation.KRONISK.name())
+                                    .label(KRONISK)
+                                    .code(Specifikation.KRONISK.name())
+                                    .build(),
+                                CertificateDataConfigCode.builder()
+                                    .id(Specifikation.UPPGIFT_SAKNAS.name())
+                                    .label(UPPGIFT_SAKNAS)
+                                    .code(Specifikation.UPPGIFT_SAKNAS.name())
+                                    .build()
+                                ))
+                            .build()
                     )
                     .build()
             )
             .value(
-                CertificateDataValueTerminalCauseOfDeath.builder()
+                CertificateDataValueCauseOfDeath.builder()
                     .id(TERMINAL_DODSORSAK_JSON_ID)
-                    .description(dodsorsak.getBeskrivning())
-                    .debut(toLocalDate(dodsorsak.getDatum()))
-                    .specification(dodsorsak.getSpecifikation() != null
-                        ? SpecificationToolkit.get(dodsorsak.getSpecifikation().name()) : null)
+                    .description(
+                        CertificateDataTextValue.builder()
+                            .id(DODSORSAK_DELSVAR_ID)
+                            .text(dodsorsak.getBeskrivning())
+                            .build()
+                    )
+                    .debut(
+                        CertificateDataValueDate.builder()
+                            .id(DODSORSAK_DATUM_DELSVAR_ID)
+                            .date(toLocalDate(dodsorsak.getDatum()))
+                            .build()
+                    )
+                    .specification(
+                        CertificateDataValueCode.builder()
+                            .id(dodsorsak.getSpecifikation() != null ? dodsorsak.getSpecifikation().name() : null)
+                            .code(dodsorsak.getSpecifikation() != null ? dodsorsak.getSpecifikation().name() : null)
+                            .build()
+                    )
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(DODSORSAK_DELSVAR_ID)
-                        .expression(singleExpression(DODSORSAK_DATUM_JSON_ID))
+                        .expression(singleExpression(DODSORSAK_DELSVAR_ID))
                         .build(),
                     CertificateDataValidationText.builder()
-                        .id(TERMINAL_DODSORSAK_QUESTION_TEXT_ID)
+                        .id(DODSORSAK_DELSVAR_ID)
                         .limit(LIMIT)
                         .build(),
                     CertificateDataValidationMaxDate.builder()
-                        .id(DODSORSAK_DATUM_JSON_ID)
+                        .id(DODSORSAK_DATUM_DELSVAR_ID)
                         .numberOfDays(NUMBER_OF_DAYS_IN_FUTURE)
                         .build()
                 }
@@ -103,27 +141,15 @@ public class QuestionTerminalDodsorsak {
             return null;
         }
 
-        final var terminalCauseOfDeath = (CertificateDataValueTerminalCauseOfDeath) certificate.getData().get(DODSORSAK_DELSVAR_ID)
+        final var terminalCauseOfDeath = (CertificateDataValueCauseOfDeath) certificate.getData().get(DODSORSAK_DELSVAR_ID)
             .getValue();
-        final var description = terminalCauseOfDeath.getDescription();
-        final var debut = terminalCauseOfDeath.getDebut() != null ? new InternalDate(terminalCauseOfDeath.getDebut()) : null;
-        final var specifikation = terminalCauseOfDeath.getSpecification() != null
-            ? getSpecifikation(TerminalCauseOfDeathSpecificationEnum.fromValue(terminalCauseOfDeath.getSpecification().getId())) : null;
+        final var description = terminalCauseOfDeath.getDescription().getText();
+        final var debut = terminalCauseOfDeath.getDebut().getDate() != null
+            ? new InternalDate(terminalCauseOfDeath.getDebut().getDate()) : null;
+        final var specifikation = terminalCauseOfDeath.getSpecification().getCode() != null
+            ? Specifikation.fromValue(terminalCauseOfDeath.getSpecification().getCode()) : null;
 
         return Dodsorsak.create(description, debut, specifikation);
-    }
-
-    private static Specifikation getSpecifikation(TerminalCauseOfDeathSpecificationEnum specification) {
-        switch (specification) {
-            case PLOTSLIG:
-                return Specifikation.PLOTSLIG;
-            case KRONISK:
-                return Specifikation.KRONISK;
-            case UPPGIFT_SAKNAS:
-                return Specifikation.UPPGIFT_SAKNAS;
-            default:
-                return null;
-        }
     }
 
     private static LocalDate toLocalDate(InternalDate internalDate) {

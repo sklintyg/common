@@ -16,25 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package se.inera.intyg.common.support.facade.model;
+package se.inera.intyg.common.support.facade.model.config;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.Value;
-import se.inera.intyg.common.support.facade.model.config.DiagnosesTerminology.DiagnosesTerminologyBuilder;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCode.CertificateDataConfigCodeBuilder;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 
-@JsonDeserialize(builder = DiagnosesTerminologyBuilder.class)
+@JsonDeserialize(builder = CertificateDataConfigCodeBuilder.class)
 @Value
 @Builder
-public class TerminalCauseOfDeathSpecification {
+public class CertificateDataConfigCode implements CertificateDataValue {
 
+    @Getter(onMethod = @__(@Override))
+    CertificateDataValueType type = CertificateDataValueType.CODE;
     String id;
     String label;
+    String code;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class DiagnosesTerminologyBuilder {
+    public static class CertificateDataConfigCodeBuilder {
 
     }
 }

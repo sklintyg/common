@@ -25,19 +25,17 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.List;
 import lombok.Builder;
 import lombok.Value;
-import se.inera.intyg.common.support.facade.model.TerminalCauseOfDeathSpecification;
-import se.inera.intyg.common.support.facade.model.config.TerminalCauseOfDeath.TerminalCauseOfDeathBuilder;
+import se.inera.intyg.common.support.facade.model.config.CauseOfDeath.TerminalCauseOfDeathBuilder;
 
 @JsonDeserialize(builder = TerminalCauseOfDeathBuilder.class)
 @Value
 @Builder
-public class TerminalCauseOfDeath {
+public class CauseOfDeath {
 
     String id;
-    String label;
-    String text;
-    String title;
-    List<TerminalCauseOfDeathSpecification> specifications;
+    String descriptionId;
+    String debutId;
+    List<CertificateDataConfigCode> specifications;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class TerminalCauseOfDeathBuilder {
