@@ -25,7 +25,7 @@ import java.time.LocalDate;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
-import se.inera.intyg.common.support.facade.model.config.TerminalCauseOfDeathSpecification;
+import se.inera.intyg.common.support.facade.model.TerminalCauseOfDeathSpecification;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueTerminalCauseOfDeath.CertificateDataValueTerminalCauseOfDeathBuilder;
 
 @JsonDeserialize(builder = CertificateDataValueTerminalCauseOfDeathBuilder.class)
@@ -35,7 +35,7 @@ public class CertificateDataValueTerminalCauseOfDeath implements CertificateData
     @Getter(onMethod = @__(@Override))
     CertificateDataValueType type = CertificateDataValueType.TERMINAL_CAUSE_OF_DEATH;
     String id;
-    LocalDate date;
+    LocalDate debut;
     String description;
     TerminalCauseOfDeathSpecification specification;
 

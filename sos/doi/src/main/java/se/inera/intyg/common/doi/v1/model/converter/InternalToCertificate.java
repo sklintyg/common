@@ -21,11 +21,12 @@ package se.inera.intyg.common.doi.v1.model.converter;
 
 import java.time.LocalDate;
 import org.springframework.stereotype.Component;
+import se.inera.intyg.common.doi.model.internal.Dodsorsak;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategoryDodsorsaksuppgifter;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategoryOperation;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategorySkadaForgiftning;
-import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategoryTerminalaDodsorsaken;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategoryTerminalDodsorsak;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningDatum;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOm;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOrsak;
@@ -35,7 +36,8 @@ import se.inera.intyg.common.doi.v1.model.converter.certificate.question.Questio
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperation;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationAnledning;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationDatum;
-import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionTerminalaDodsorsakenSjukdom;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionTerminalDodsorsak;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionTerminalDodsorsakSjukdom;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.sos_parent.model.converter.certificate.category.CategoryBarn;
@@ -116,10 +118,13 @@ public class InternalToCertificate {
                     index++, texts)
             )
             .addElement(
-                CategoryTerminalaDodsorsaken.toCertificate(index++, texts)
+                CategoryTerminalDodsorsak.toCertificate(index++, texts)
             )
             .addElement(
-                QuestionTerminalaDodsorsakenSjukdom.toCertificate(index++, texts)
+                QuestionTerminalDodsorsakSjukdom.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionTerminalDodsorsak.toCertificate(getTerminalDodsorsak(internalCertificate.getTerminalDodsorsak()), index++, texts)
             )
             .addElement(
                 CategoryOperation.toCertificate(index++, texts)
@@ -169,6 +174,10 @@ public class InternalToCertificate {
             return null;
         }
         return internalCertificate.getDodsdatum() != null ? internalCertificate.getDodsdatum().toString() : null;
+    }
+
+    private static Dodsorsak getTerminalDodsorsak(Dodsorsak dodsorsak) {
+        return dodsorsak != null ? dodsorsak : Dodsorsak.create(null, null, null);
     }
 
     private static Boolean isDodsdatumSakert(Boolean dodsdatumSakert) {

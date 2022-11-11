@@ -27,7 +27,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigHeader;
 
-public class QuestionTerminalaDodsorsakenSjukdom {
+public class QuestionTerminalDodsorsakSjukdom {
 
     public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()

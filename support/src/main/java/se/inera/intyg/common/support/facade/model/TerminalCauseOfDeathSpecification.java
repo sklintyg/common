@@ -17,21 +17,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.support.facade.model.config;
+package se.inera.intyg.common.support.facade.model;
 
-public enum TerminalCauseOfDeathSpecification {
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
+import lombok.Value;
+import se.inera.intyg.common.support.facade.model.config.DiagnosesTerminology.DiagnosesTerminologyBuilder;
 
-    UPPGIFT_SAKNAS("Uppgift saknas"),
-    KRONISK("Kronisk"),
-    PLOTSLIG("Plötslig");
+@JsonDeserialize(builder = DiagnosesTerminologyBuilder.class)
+@Value
+@Builder
+public class TerminalCauseOfDeathSpecification {
 
-    private final String description;
+    String id;
+    String label;
 
-    TerminalCauseOfDeathSpecification(String description) {
-        this.description = description;
-    }
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class DiagnosesTerminologyBuilder {
 
-    public String getDescription() {
-        return description;
     }
 }

@@ -19,7 +19,8 @@
 
 package se.inera.intyg.common.doi.v1.model.converter.certificate.question;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -38,8 +39,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionTerminalaDodsorsakenSjukdomTest {
-
+class QuestionTerminalDodsorsakSjukdomTest {
 
     @Mock
     private CertificateTextProvider texts;
@@ -54,33 +54,33 @@ class QuestionTerminalaDodsorsakenSjukdomTest {
 
         @Test
         void shouldIncludeId() {
-            final var question = QuestionTerminalaDodsorsakenSjukdom.toCertificate(0, texts);
+            final var question = QuestionTerminalDodsorsakSjukdom.toCertificate(0, texts);
             assertEquals(TERMINAL_DODSORSAK_SJUKDOM_SVAR_ID, question.getId());
         }
 
         @Test
         void shouldIncludeIndex() {
             final var expectedIndex = 1;
-            final var question = QuestionTerminalaDodsorsakenSjukdom.toCertificate(expectedIndex, texts);
+            final var question = QuestionTerminalDodsorsakSjukdom.toCertificate(expectedIndex, texts);
             assertEquals(expectedIndex, question.getIndex());
         }
 
         @Test
         void shouldIncludeParentId() {
-            final var question = QuestionTerminalaDodsorsakenSjukdom.toCertificate(0, texts);
+            final var question = QuestionTerminalDodsorsakSjukdom.toCertificate(0, texts);
             assertEquals(TERMINAL_DODSORSAK_CATEGORY_ID, question.getParent());
         }
 
         @Test
         void shouldIncludeText() {
-            final var question = QuestionTerminalaDodsorsakenSjukdom.toCertificate(0, texts);
+            final var question = QuestionTerminalDodsorsakSjukdom.toCertificate(0, texts);
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
             verify(texts, atLeastOnce()).get(TERMINAL_DODSORSAK_SJUKDOM_TEXT_ID);
         }
 
         @Test
         void shouldIncludeHeaderConfigType() {
-            final var question = QuestionTerminalaDodsorsakenSjukdom.toCertificate(0, texts);
+            final var question = QuestionTerminalDodsorsakSjukdom.toCertificate(0, texts);
             assertEquals(CertificateDataConfigTypes.UE_HEADER, question.getConfig().getType());
         }
     }

@@ -25,35 +25,31 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_S
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_DESCRIPTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_QUESTION_TEXT_ID;
-import static se.inera.intyg.common.support.facade.model.config.TerminalCauseOfDeathSpecification.KRONISK;
-import static se.inera.intyg.common.support.facade.model.config.TerminalCauseOfDeathSpecification.PLOTSLIG;
-import static se.inera.intyg.common.support.facade.model.config.TerminalCauseOfDeathSpecification.UPPGIFT_SAKNAS;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import java.time.LocalDate;
-import java.util.Map;
+import se.inera.intyg.common.doi.model.internal.Dodsorsak;
 import se.inera.intyg.common.doi.model.internal.Specifikation;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTerminalCauseOfDeath;
 import se.inera.intyg.common.support.facade.model.config.TerminalCauseOfDeath;
-import se.inera.intyg.common.support.facade.model.config.TerminalCauseOfDeathSpecification;
+import se.inera.intyg.common.support.facade.model.TerminalCauseOfDeathSpecificationEnum;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueTerminalCauseOfDeath;
+import se.inera.intyg.common.support.facade.util.SpecificationToolkit;
+import se.inera.intyg.common.support.model.InternalDate;
 
 public class QuestionTerminalDodsorsak {
 
     public static final short LIMIT = (short) 120;
     public static final short NUMBER_OF_DAYS_IN_FUTURE = (short) 0;
-    public static final Map<Specifikation, TerminalCauseOfDeathSpecification> specificationMap = Map.of(Specifikation.KRONISK, KRONISK,
-        Specifikation.PLOTSLIG, PLOTSLIG,
-        Specifikation.UPPGIFT_SAKNAS, UPPGIFT_SAKNAS);
 
-    public static CertificateDataElement toCertificate(String description, LocalDate date, Specifikation specifikation, int index,
-        CertificateTextProvider texts) {
+    public static CertificateDataElement toCertificate(Dodsorsak dodsorsak, int index, CertificateTextProvider texts) {
 
         return CertificateDataElement.builder()
             .id(DODSORSAK_DELSVAR_ID)
@@ -67,10 +63,7 @@ public class QuestionTerminalDodsorsak {
                     .terminalCauseOfDeath(
                             TerminalCauseOfDeath.builder()
                                 .id("A")
-                                .specifications(Map.of(
-                                    KRONISK, KRONISK.getDescription(),
-                                    PLOTSLIG, PLOTSLIG.getDescription(),
-                                    UPPGIFT_SAKNAS, UPPGIFT_SAKNAS.getDescription()))
+                                .specifications(SpecificationToolkit.getAll())
                                 .label("A")
                                 .text("Beskrivning")
                                 .build()
@@ -80,10 +73,10 @@ public class QuestionTerminalDodsorsak {
             .value(
                 CertificateDataValueTerminalCauseOfDeath.builder()
                     .id(TERMINAL_DODSORSAK_JSON_ID)
-                    .description(description)
-                    .date(date)
-                    .specification(specifikation != null && specificationMap.containsKey(specifikation)
-                        ? specificationMap.get(specifikation) : null)
+                    .description(dodsorsak.getBeskrivning())
+                    .debut(toLocalDate(dodsorsak.getDatum()))
+                    .specification(dodsorsak.getSpecifikation() != null
+                        ? SpecificationToolkit.get(dodsorsak.getSpecifikation().name()) : null)
                     .build()
             )
             .validation(
@@ -103,5 +96,37 @@ public class QuestionTerminalDodsorsak {
                 }
             )
             .build();
+    }
+
+    public static Dodsorsak toInternal(Certificate certificate) {
+        if (certificate.getData().get(DODSORSAK_DELSVAR_ID) == null) {
+            return null;
+        }
+
+        final var terminalCauseOfDeath = (CertificateDataValueTerminalCauseOfDeath) certificate.getData().get(DODSORSAK_DELSVAR_ID)
+            .getValue();
+        final var description = terminalCauseOfDeath.getDescription();
+        final var debut = terminalCauseOfDeath.getDebut() != null ? new InternalDate(terminalCauseOfDeath.getDebut()) : null;
+        final var specifikation = terminalCauseOfDeath.getSpecification() != null
+            ? getSpecifikation(TerminalCauseOfDeathSpecificationEnum.fromValue(terminalCauseOfDeath.getSpecification().getId())) : null;
+
+        return Dodsorsak.create(description, debut, specifikation);
+    }
+
+    private static Specifikation getSpecifikation(TerminalCauseOfDeathSpecificationEnum specification) {
+        switch (specification) {
+            case PLOTSLIG:
+                return Specifikation.PLOTSLIG;
+            case KRONISK:
+                return Specifikation.KRONISK;
+            case UPPGIFT_SAKNAS:
+                return Specifikation.UPPGIFT_SAKNAS;
+            default:
+                return null;
+        }
+    }
+
+    private static LocalDate toLocalDate(InternalDate internalDate) {
+        return (internalDate != null && internalDate.isValidDate()) ? internalDate.asLocalDate() : null;
     }
 }

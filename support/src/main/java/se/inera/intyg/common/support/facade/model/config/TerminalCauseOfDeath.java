@@ -22,9 +22,10 @@ package se.inera.intyg.common.support.facade.model.config;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import java.util.Map;
+import java.util.List;
 import lombok.Builder;
 import lombok.Value;
+import se.inera.intyg.common.support.facade.model.TerminalCauseOfDeathSpecification;
 import se.inera.intyg.common.support.facade.model.config.TerminalCauseOfDeath.TerminalCauseOfDeathBuilder;
 
 @JsonDeserialize(builder = TerminalCauseOfDeathBuilder.class)
@@ -36,7 +37,7 @@ public class TerminalCauseOfDeath {
     String label;
     String text;
     String title;
-    Map<TerminalCauseOfDeathSpecification, String> specifications;
+    List<TerminalCauseOfDeathSpecification> specifications;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class TerminalCauseOfDeathBuilder {
