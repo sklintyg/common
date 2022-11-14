@@ -185,7 +185,7 @@ class QuestionTerminalDodsorsakTest {
         @Test
         void shouldIncludeValueTypeTerminalCauseOfDeath() {
             final var question = QuestionTerminalDodsorsak.toCertificate(causeOfDeathEmpty, 0, texts);
-            assertEquals(CertificateDataValueType.TERMINAL_CAUSE_OF_DEATH, question.getValue().getType());
+            assertEquals(CertificateDataValueType.CAUSE_OF_DEATH, question.getValue().getType());
         }
 
         @Test
