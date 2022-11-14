@@ -132,6 +132,7 @@ class QuestionTerminalDodsorsakTest {
             assertTrue(question.getConfig().getDescription().trim().length() > 0, "Missing text");
             verify(texts, atLeastOnce()).get(TERMINAL_DODSORSAK_DESCRIPTION_TEXT_ID);
         }
+
         @Test
         void shouldIncludeLabel() {
             final var question = QuestionTerminalDodsorsak.toCertificate(causeOfDeathEmpty, 0, texts);
@@ -186,6 +187,7 @@ class QuestionTerminalDodsorsakTest {
             final var question = QuestionTerminalDodsorsak.toCertificate(causeOfDeathEmpty, 0, texts);
             assertEquals(CertificateDataValueType.TERMINAL_CAUSE_OF_DEATH, question.getValue().getType());
         }
+
         @Test
         void shouldIncludeValueId() {
             final var question = QuestionTerminalDodsorsak.toCertificate(causeOfDeathEmpty, 0, texts);
@@ -213,6 +215,7 @@ class QuestionTerminalDodsorsakTest {
             final var values = (CertificateDataValueCauseOfDeath) question.getValue();
             assertEquals(expectedSpecification, values.getSpecification());
         }
+
         @Test
         void shouldIncludeCorrectValueDescription() {
             final var expectedDescription = "expectedDescription";
@@ -227,11 +230,12 @@ class QuestionTerminalDodsorsakTest {
             final var question = QuestionTerminalDodsorsak.toCertificate(causeOfDeathEmpty, 0, texts);
             assertEquals(CertificateDataValidationType.MANDATORY_VALIDATION, question.getValidation()[0].getType());
         }
+
         @Test
         void shouldIncludeValidationMandatoryExpression() {
             final var question = QuestionTerminalDodsorsak.toCertificate(causeOfDeathEmpty, 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals("$" + DODSORSAK_DELSVAR_ID, certificateDataValidationMandatory.getExpression());
+            assertEquals("$" + TERMINAL_DODSORSAK_JSON_ID, certificateDataValidationMandatory.getExpression());
         }
 
         @Test
@@ -246,12 +250,14 @@ class QuestionTerminalDodsorsakTest {
             final var certificateDataValidationMaxDate = (CertificateDataValidationText) question.getValidation()[1];
             assertEquals(DODSORSAK_DELSVAR_ID, certificateDataValidationMaxDate.getId());
         }
+
         @Test
         void shouldIncludeValidationTextLimit() {
             final var question = QuestionTerminalDodsorsak.toCertificate(causeOfDeathEmpty, 0, texts);
             final var certificateDataValidationMaxDate = (CertificateDataValidationText) question.getValidation()[1];
             assertEquals(120, certificateDataValidationMaxDate.getLimit());
         }
+
         @Test
         void shouldIncludeValidationMaxDateType() {
             final var question = QuestionTerminalDodsorsak.toCertificate(causeOfDeathEmpty, 0, texts);
