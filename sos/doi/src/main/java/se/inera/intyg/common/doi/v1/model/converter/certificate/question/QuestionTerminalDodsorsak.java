@@ -34,8 +34,8 @@ import se.inera.intyg.common.doi.model.internal.Specifikation;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeath;
 import se.inera.intyg.common.support.facade.model.config.CauseOfDeath;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeath;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCode;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
@@ -89,7 +89,7 @@ public class QuestionTerminalDodsorsak {
                                     .label(UPPGIFT_SAKNAS)
                                     .code(Specifikation.UPPGIFT_SAKNAS.name())
                                     .build()
-                                ))
+                            ))
                             .build()
                     )
                     .build()
@@ -110,10 +110,11 @@ public class QuestionTerminalDodsorsak {
                             .build()
                     )
                     .specification(
-                        CertificateDataValueCode.builder()
-                            .id(dodsorsak.getSpecifikation() != null ? dodsorsak.getSpecifikation().name() : null)
-                            .code(dodsorsak.getSpecifikation() != null ? dodsorsak.getSpecifikation().name() : null)
-                            .build()
+                        dodsorsak.getSpecifikation() != null
+                            ? CertificateDataValueCode.builder()
+                                .id(dodsorsak.getSpecifikation().name())
+                                .code(dodsorsak.getSpecifikation().name())
+                                .build() : null
                     )
                     .build()
             )
