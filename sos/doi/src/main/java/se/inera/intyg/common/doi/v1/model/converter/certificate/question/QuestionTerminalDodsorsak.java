@@ -123,7 +123,7 @@ public class QuestionTerminalDodsorsak {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(DODSORSAK_DELSVAR_ID)
-                        .expression(singleExpression(DODSORSAK_DELSVAR_ID))
+                        .expression(singleExpression(TERMINAL_DODSORSAK_JSON_ID))
                         .build(),
                     CertificateDataValidationText.builder()
                         .id(DODSORSAK_DELSVAR_ID)
