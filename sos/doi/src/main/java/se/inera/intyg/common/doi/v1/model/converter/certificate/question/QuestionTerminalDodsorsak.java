@@ -112,9 +112,10 @@ public class QuestionTerminalDodsorsak {
                     .specification(
                         dodsorsak.getSpecifikation() != null
                             ? CertificateDataValueCode.builder()
-                                .id(dodsorsak.getSpecifikation().name())
-                                .code(dodsorsak.getSpecifikation().name())
-                                .build() : null
+                            .id(dodsorsak.getSpecifikation().name())
+                            .code(dodsorsak.getSpecifikation().name())
+                            .build()
+                            : CertificateDataValueCode.builder().build()
                     )
                     .build()
             )
