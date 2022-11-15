@@ -57,6 +57,7 @@ public class QuestionFoljdAv {
     private static final String LABEL_D = "-D";
     private static final Dodsorsak EMPTY_CAUSE_OF_DEATH = Dodsorsak.create("", null, null);
 
+    //TODO remove?
     public static CertificateDataElement toCertificate(List<Dodsorsak> foljder, int index, CertificateTextProvider texts, String label) {
 
         final var foljd = getFoljd(foljder, label);

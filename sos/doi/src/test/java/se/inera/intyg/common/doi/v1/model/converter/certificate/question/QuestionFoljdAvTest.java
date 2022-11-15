@@ -57,6 +57,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 import se.inera.intyg.common.support.model.InternalDate;
 
+//TODO remove?
 @ExtendWith(MockitoExtension.class)
 class QuestionFoljdAvTest {
     @Mock
@@ -197,7 +198,7 @@ class QuestionFoljdAvTest {
         @Test
         void shouldIncludeValueTypeTerminalCauseOfDeath() {
             final var question = QuestionFoljdAv.toCertificate(causeOfDeathEmpty, 0, texts, LABEL_B);
-            assertEquals(CertificateDataValueType.TERMINAL_CAUSE_OF_DEATH, question.getValue().getType());
+            assertEquals(CertificateDataValueType.CAUSE_OF_DEATH, question.getValue().getType());
         }
 
         @Test

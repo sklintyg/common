@@ -22,6 +22,10 @@ package se.inera.intyg.common.doi.v1.model.converter.certificate.question;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_SVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_A_LABEL;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_KRONISK;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_PLOTSLIG;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_DESCRIPTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_QUESTION_TEXT_ID;
@@ -51,11 +55,6 @@ public class QuestionTerminalDodsorsak {
 
     public static final short LIMIT = (short) 120;
     public static final short NUMBER_OF_DAYS_IN_FUTURE = (short) 0;
-    private static final String KRONISK = "Kronisk";
-    private static final String PLOTSLIG = "Akut";
-    private static final String UPPGIFT_SAKNAS = "Uppgift Saknas";
-
-    private static final String A_LABEL = "A";
 
     public static CertificateDataElement toCertificate(Dodsorsak dodsorsak, int index, CertificateTextProvider texts) {
 
@@ -67,7 +66,7 @@ public class QuestionTerminalDodsorsak {
                 CertificateDataConfigCauseOfDeath.builder()
                     .text(texts.get(TERMINAL_DODSORSAK_QUESTION_TEXT_ID))
                     .description(texts.get(TERMINAL_DODSORSAK_DESCRIPTION_TEXT_ID))
-                    .label(A_LABEL)
+                    .label(FOLJD_OM_DELSVAR_A_LABEL)
                     .causeOfDeath(
                         CauseOfDeath.builder()
                             .id(TERMINAL_DODSORSAK_JSON_ID)
@@ -76,17 +75,17 @@ public class QuestionTerminalDodsorsak {
                             .specifications(List.of(
                                 CertificateDataConfigCode.builder()
                                     .id(Specifikation.PLOTSLIG.name())
-                                    .label(PLOTSLIG)
+                                    .label(FOLJD_OM_DELSVAR_PLOTSLIG)
                                     .code(Specifikation.PLOTSLIG.name())
                                     .build(),
                                 CertificateDataConfigCode.builder()
                                     .id(Specifikation.KRONISK.name())
-                                    .label(KRONISK)
+                                    .label(FOLJD_OM_DELSVAR_KRONISK)
                                     .code(Specifikation.KRONISK.name())
                                     .build(),
                                 CertificateDataConfigCode.builder()
                                     .id(Specifikation.UPPGIFT_SAKNAS.name())
-                                    .label(UPPGIFT_SAKNAS)
+                                    .label(FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS)
                                     .code(Specifikation.UPPGIFT_SAKNAS.name())
                                     .build()
                             ))

@@ -19,6 +19,16 @@
 
 package se.inera.intyg.common.doi.v1.model.converter;
 
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_B_DATUM_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_B_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_B_LABEL;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_C_DATUM_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_C_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_C_LABEL;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_D_DATUM_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_D_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_D_LABEL;
+
 import java.time.LocalDate;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.doi.model.internal.Dodsorsak;
@@ -37,6 +47,7 @@ import se.inera.intyg.common.doi.v1.model.converter.certificate.question.Questio
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationAnledning;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationDatum;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionTerminalDodsorsak;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionTerminalDodsorsakFoljdAv;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionTerminalDodsorsakSjukdom;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -125,6 +136,18 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionTerminalDodsorsak.toCertificate(getTerminalDodsorsak(internalCertificate.getTerminalDodsorsak()), index++, texts)
+            )
+            .addElement(
+                QuestionTerminalDodsorsakFoljdAv.toCertificate(getTerminalDodsorsak(internalCertificate.getFoljd().get(0)),
+                    index++, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL, FOLJD_OM_DELSVAR_B_DATUM_ID)
+            )
+            .addElement(
+                QuestionTerminalDodsorsakFoljdAv.toCertificate(getTerminalDodsorsak(internalCertificate.getFoljd().get(1)),
+                    index++, texts, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_C_LABEL, FOLJD_OM_DELSVAR_C_DATUM_ID)
+            )
+            .addElement(
+                QuestionTerminalDodsorsakFoljdAv.toCertificate(getTerminalDodsorsak(internalCertificate.getFoljd().get(2)),
+                    index++, texts, FOLJD_OM_DELSVAR_D_ID, FOLJD_OM_DELSVAR_D_LABEL, FOLJD_OM_DELSVAR_D_DATUM_ID)
             )
             .addElement(
                 CategoryOperation.toCertificate(index++, texts)
