@@ -21,25 +21,23 @@ package se.inera.intyg.common.support.facade.model.value;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath.CertificateDataValueCauseOfDeathBuilder;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeathList.CertificateDataValueCauseOfDeathListBuilder;
 
-@JsonDeserialize(builder = CertificateDataValueCauseOfDeathBuilder.class)
+@JsonDeserialize(builder = CertificateDataValueCauseOfDeathListBuilder.class)
 @Value
 @Builder
-public class CertificateDataValueCauseOfDeath implements CertificateDataValue {
+public class CertificateDataValueCauseOfDeathList implements CertificateDataValue {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataValueType type = CertificateDataValueType.CAUSE_OF_DEATH;
-    String id;
-    CertificateDataValueDate debut;
-    CertificateDataTextValue description;
-    CertificateDataValueCode specification;
+    CertificateDataValueType type = CertificateDataValueType.CAUSE_OF_DEATH_LIST;
+    List<CertificateDataValueCauseOfDeath> causeOfDeathList;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataValueCauseOfDeathBuilder {
+    public static class CertificateDataValueCauseOfDeathListBuilder {
 
     }
 }
