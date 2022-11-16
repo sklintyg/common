@@ -189,6 +189,8 @@ public final class RespConstants {
     public static final String FOLJD_DATUM_DELSVAR_ID = "9.2";
     public static final String FOLJD_SPECIFIKATION_DELSVAR_ID = "9.3";
     public static final String BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID = "10.1";
+    public static final String BIDRAGANDE_SJUKDOM_OM_QUESTION_TEXT_ID = "KAT_7.2.RBK";
+    public static final String BIDRAGANDE_SJUKDOM_OM_DESCRIPTION_TEXT_ID = "KAT_7.2.RBK";
     public static final String BIDRAGANDE_SJUKDOM_DATUM_DELSVAR_ID = "10.2";
     public static final String BIDRAGANDE_SJUKDOM_SPECIFIKATION_DELSVAR_ID = "10.3";
     public static final String OPERATION_OM_DELSVAR_ID = "11.1";

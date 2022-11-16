@@ -290,6 +290,5 @@ class QuestionTerminalDodsorsakFoljdAvTest {
 
             assertEquals(expectedValue, actualValue.get(0));
         }
-
     }
 }
