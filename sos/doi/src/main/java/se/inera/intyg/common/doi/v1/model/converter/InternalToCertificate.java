@@ -37,6 +37,7 @@ import se.inera.intyg.common.doi.v1.model.converter.certificate.category.Categor
 import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategoryOperation;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategorySkadaForgiftning;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategoryTerminalDodsorsak;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionBidragandeSjukdomar;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningDatum;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOm;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOrsak;
@@ -148,6 +149,9 @@ public class InternalToCertificate {
             .addElement(
                 QuestionTerminalDodsorsakFoljdAv.toCertificate(getTerminalDodsorsak(internalCertificate.getFoljd().get(2)),
                     index++, texts, FOLJD_OM_DELSVAR_D_ID, FOLJD_OM_DELSVAR_D_LABEL, FOLJD_OM_DELSVAR_D_DATUM_ID)
+            )
+            .addElement(
+                QuestionBidragandeSjukdomar.toCertificate(internalCertificate.getBidragandeSjukdomar(), index++, texts)
             )
             .addElement(
                 CategoryOperation.toCertificate(index++, texts)

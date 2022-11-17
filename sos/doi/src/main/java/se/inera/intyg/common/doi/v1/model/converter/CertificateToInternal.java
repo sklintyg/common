@@ -26,6 +26,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DE
 import java.util.List;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionBidragandeSjukdomar;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningDatum;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOm;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOrsak;
@@ -37,6 +38,7 @@ import se.inera.intyg.common.doi.v1.model.converter.certificate.question.Questio
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationDatum;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionTerminalDodsorsak;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionTerminalDodsorsakFoljdAv;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionTerminalDodsorsakSjukdom;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionAntraffadDod;
 import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionBarn;
@@ -65,6 +67,7 @@ public class CertificateToInternal {
             .setTerminalDodsorsak(QuestionTerminalDodsorsak.toInternal(certificate))
             .setFoljd(QuestionTerminalDodsorsakFoljdAv.toInternal(
                 certificate, List.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID)))
+            .setBidragandeSjukdomar(QuestionBidragandeSjukdomar.toInternal(certificate))
             .setOperation(QuestionOperation.toInternal(certificate))
             .setOperationDatum(QuestionOperationDatum.toInternal(certificate))
             .setOperationAnledning(QuestionOperationAnledning.toInternal(certificate))

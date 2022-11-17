@@ -260,7 +260,8 @@ class QuestionTerminalDodsorsakFoljdAvTest {
 
         @Test
         void shouldIncludeValidationMandatoryType() {
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(causeOfDeathEmpty, 0, texts, DODSORSAK_DELSVAR_ID, FOLJD_OM_DELSVAR_B_LABEL, FOLJD_OM_DELSVAR_B_DATUM_ID);
+            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
+                causeOfDeathEmpty, 0, texts, DODSORSAK_DELSVAR_ID, FOLJD_OM_DELSVAR_B_LABEL, FOLJD_OM_DELSVAR_B_DATUM_ID);
             assertEquals(CertificateDataValidationType.MANDATORY_VALIDATION, question.getValidation()[0].getType());
         }
     }

@@ -119,7 +119,7 @@ public class QuestionTerminalDodsorsakFoljdAv {
     public static List<Dodsorsak> toInternal(Certificate certificate, List<String> questionIds) {
         List<Dodsorsak> dodsorsakList = new ArrayList<>();
         for (String questionId : questionIds) {
-            if (certificate.getData().get(questionId) != null){
+            if (certificate.getData().get(questionId) != null) {
                 final var terminalCauseOfDeath = (CertificateDataValueCauseOfDeath) certificate.getData().get(questionId)
                     .getValue();
                 final var description = terminalCauseOfDeath.getDescription().getText();

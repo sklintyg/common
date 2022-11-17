@@ -38,7 +38,6 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -46,6 +45,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.doi.model.internal.Dodsorsak;
 import se.inera.intyg.common.doi.model.internal.Specifikation;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CauseOfDeath;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeathList;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCode;
@@ -91,7 +91,6 @@ class QuestionBidragandeSjukdomarTest {
     }
 
     @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class ToCertificate {
 
         @Test
@@ -307,29 +306,30 @@ class QuestionBidragandeSjukdomarTest {
     }
 
     @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class ToInternal {
-//
-//        Stream<Dodsorsak> dodsOrsaker() {
-//            return Stream.of(
-//                Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG),
-//                Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
-//                Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
-//                Dodsorsak.create(null, null, null)
-//            );
-//        }
-//
-//        @ParameterizedTest
-//        @MethodSource("dodsOrsaker")
-//        void shouldIncludeTextValue(Dodsorsak expectedValue) {
-//            final var certificate = CertificateBuilder.create()
-//                .addElement(QuestionTerminalDodsorsakFoljdAv.toCertificate(
-//                    expectedValue, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL, FOLJD_OM_DELSVAR_B_DATUM_ID))
-//                .build();
-//
-//            final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(FOLJD_OM_DELSVAR_B_ID));
-//
-//            assertEquals(expectedValue, actualValue.get(0));
-//        }
+
+        List dodsorsakList = List.of(
+            Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG),
+            Dodsorsak.create(null, null, null),
+            Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
+            Dodsorsak.create(null, null, null),
+            Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
+            Dodsorsak.create(null, null, null),
+            Dodsorsak.create(null, null, null),
+            Dodsorsak.create(null, null, null));
+
+        @Test
+        void shouldIncludeAllDodsorsak() {
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionBidragandeSjukdomar.toCertificate(dodsorsakList, 0, texts))
+                .build();
+
+            final var actualValue = QuestionBidragandeSjukdomar.toInternal(certificate);
+
+            assertEquals(dodsorsakList.size(), actualValue.size());
+            for (int i = 0; i < dodsorsakList.size(); i++) {
+                assertEquals(dodsorsakList.get(i), actualValue.get(i));
+            }
+        }
     }
 }

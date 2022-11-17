@@ -27,10 +27,12 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DE
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_PLOTSLIG;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS;
 
+import java.util.ArrayList;
 import java.util.List;
 import se.inera.intyg.common.doi.model.internal.Dodsorsak;
 import se.inera.intyg.common.doi.model.internal.Specifikation;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CauseOfDeath;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeathList;
@@ -40,6 +42,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCaus
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeathList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
+import se.inera.intyg.common.support.model.InternalDate;
 
 public class QuestionBidragandeSjukdomar {
 
@@ -124,7 +127,7 @@ public class QuestionBidragandeSjukdomar {
     private static CertificateDataValueDate getDebut(Dodsorsak bidragandeSjukdom) {
         return CertificateDataValueDate.builder()
             .id("debut")
-            .date(bidragandeSjukdom != null ? bidragandeSjukdom.getDatum().asLocalDate() : null)
+            .date(bidragandeSjukdom != null && bidragandeSjukdom.getDatum() != null ? bidragandeSjukdom.getDatum().asLocalDate() : null)
             .build();
     }
 
@@ -154,5 +157,24 @@ public class QuestionBidragandeSjukdomar {
                 .label(FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS)
                 .code(Specifikation.UPPGIFT_SAKNAS.name())
                 .build());
+    }
+
+    public static List<Dodsorsak> toInternal(Certificate certificate) {
+        if (certificate.getData().get(BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID) == null) {
+            return null;
+        }
+        List<Dodsorsak> dodsorsakList = new ArrayList<>();
+        var deathList = (CertificateDataValueCauseOfDeathList) certificate.getData().get(BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID).getValue();
+        for (CertificateDataValueCauseOfDeath causeOfDeath : deathList.getCauseOfDeathList() ) {
+            final var description = causeOfDeath.getDescription().getText();
+            final var debut = causeOfDeath.getDebut().getDate() != null
+                ? new InternalDate(causeOfDeath.getDebut().getDate()) : null;
+            final var specifikation = causeOfDeath.getSpecification().getCode() != null
+                ? Specifikation.fromValue(causeOfDeath.getSpecification().getCode()) : null;
+
+            dodsorsakList.add(Dodsorsak.create(description, debut, specifikation));
+        }
+
+        return dodsorsakList;
     }
 }
