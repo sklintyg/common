@@ -25,9 +25,9 @@ import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeath.CertificateDataConfigCauseOfDeathBuilder;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeathList.CertificateDataConfigCauseOfDeathListBuilder;
 
-@JsonDeserialize(builder = CertificateDataConfigCauseOfDeathBuilder.class)
+@JsonDeserialize(builder = CertificateDataConfigCauseOfDeathListBuilder.class)
 @Value
 @Builder
 public class CertificateDataConfigCauseOfDeathList implements CertificateDataConfig {
@@ -44,11 +44,11 @@ public class CertificateDataConfigCauseOfDeathList implements CertificateDataCon
     String text;
     @Getter(onMethod = @__(@Override))
     String description;
-    List<CauseOfDeath> causeOfDeathList;
+    List<CauseOfDeath> list;
 
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataConfigCauseOfDeathBuilder {
+    public static class CertificateDataConfigCauseOfDeathListBuilder {
 
     }
 

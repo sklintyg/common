@@ -48,12 +48,11 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CauseOfDeath;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeathList;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CodeItem;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeathList;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -65,23 +64,23 @@ class QuestionBidragandeSjukdomarTest {
     private CertificateTextProvider texts;
 
     private List<Dodsorsak> bidragandeSjukdomar;
-    private List<CertificateDataConfigCode> allSpecifications;
+    private List<CodeItem> allSpecifications;
 
     @BeforeEach
     void setup() {
         bidragandeSjukdomar = Collections.emptyList();
         allSpecifications = List.of(
-            CertificateDataConfigCode.builder()
+            CodeItem.builder()
                 .id(Specifikation.PLOTSLIG.name())
                 .label(FOLJD_OM_DELSVAR_PLOTSLIG)
                 .code(Specifikation.PLOTSLIG.name())
                 .build(),
-            CertificateDataConfigCode.builder()
+            CodeItem.builder()
                 .id(Specifikation.KRONISK.name())
                 .label(FOLJD_OM_DELSVAR_KRONISK)
                 .code(Specifikation.KRONISK.name())
                 .build(),
-            CertificateDataConfigCode.builder()
+            CodeItem.builder()
                 .id(Specifikation.UPPGIFT_SAKNAS.name())
                 .label(FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS)
                 .code(Specifikation.UPPGIFT_SAKNAS.name())
@@ -143,7 +142,7 @@ class QuestionBidragandeSjukdomarTest {
             final var question = QuestionBidragandeSjukdomar.toCertificate(
                 bidragandeSjukdomar, 0, texts);
             final var config = (CertificateDataConfigCauseOfDeathList) question.getConfig();
-            assertEquals(8, config.getCauseOfDeathList().size());
+            assertEquals(8, config.getList().size());
         }
 
         @Test
@@ -153,7 +152,7 @@ class QuestionBidragandeSjukdomarTest {
                 bidragandeSjukdomar, 0, texts);
             final var config = (CertificateDataConfigCauseOfDeathList) question.getConfig();
             for (int i = 0; i < expectedIds.size(); i++) {
-                assertEquals(expectedIds.get(i), config.getCauseOfDeathList().get(i).getId());
+                assertEquals(expectedIds.get(i), config.getList().get(i).getId());
             }
         }
 
@@ -164,7 +163,7 @@ class QuestionBidragandeSjukdomarTest {
             final var question = QuestionBidragandeSjukdomar.toCertificate(
                 bidragandeSjukdomar, 0, texts);
             final var config = (CertificateDataConfigCauseOfDeathList) question.getConfig();
-            for (CauseOfDeath causeOfDeath : config.getCauseOfDeathList()) {
+            for (CauseOfDeath causeOfDeath : config.getList()) {
                 assertEquals(expectedId, causeOfDeath.getDescriptionId());
             }
         }
@@ -175,7 +174,7 @@ class QuestionBidragandeSjukdomarTest {
             final var question = QuestionBidragandeSjukdomar.toCertificate(
                 bidragandeSjukdomar, 0, texts);
             final var config = (CertificateDataConfigCauseOfDeathList) question.getConfig();
-            for (CauseOfDeath causeOfDeath : config.getCauseOfDeathList()) {
+            for (CauseOfDeath causeOfDeath : config.getList()) {
                 assertEquals(expectedId, causeOfDeath.getDebutId());
             }
         }
@@ -186,7 +185,7 @@ class QuestionBidragandeSjukdomarTest {
             final var question = QuestionBidragandeSjukdomar.toCertificate(
                 bidragandeSjukdomar, 0, texts);
             final var config = (CertificateDataConfigCauseOfDeathList) question.getConfig();
-            for (CauseOfDeath causeOfDeath : config.getCauseOfDeathList()) {
+            for (CauseOfDeath causeOfDeath : config.getList()) {
                 assertEquals(allSpecifications, causeOfDeath.getSpecifications());
             }
         }
@@ -204,7 +203,7 @@ class QuestionBidragandeSjukdomarTest {
                 bidragandeSjukdomar, 0, texts);
             final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
             final var config = (CertificateDataConfigCauseOfDeathList) question.getConfig();
-            assertEquals(config.getCauseOfDeathList().size(), causeOfDeathList.getCauseOfDeathList().size());
+            assertEquals(config.getList().size(), causeOfDeathList.getList().size());
         }
 
         @Test
@@ -214,7 +213,7 @@ class QuestionBidragandeSjukdomarTest {
                 bidragandeSjukdomar, 0, texts);
             final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
             for (int i = 0; i < expectedIds.size(); i++) {
-                assertEquals(expectedIds.get(i), causeOfDeathList.getCauseOfDeathList().get(i).getId());
+                assertEquals(expectedIds.get(i), causeOfDeathList.getList().get(i).getId());
             }
         }
 
@@ -224,7 +223,7 @@ class QuestionBidragandeSjukdomarTest {
             final var question = QuestionBidragandeSjukdomar.toCertificate(
                 bidragandeSjukdomar, 0, texts);
             final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
-            for (CertificateDataValueCauseOfDeath causeOfDeath : causeOfDeathList.getCauseOfDeathList()) {
+            for (CertificateDataValueCauseOfDeath causeOfDeath : causeOfDeathList.getList()) {
                 assertEquals(expectedValueType, causeOfDeath.getDescription().getType());
             }
         }
@@ -235,7 +234,7 @@ class QuestionBidragandeSjukdomarTest {
             final var question = QuestionBidragandeSjukdomar.toCertificate(
                 bidragandeSjukdomar, 0, texts);
             final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
-            for (CertificateDataValueCauseOfDeath causeOfDeath : causeOfDeathList.getCauseOfDeathList()) {
+            for (CertificateDataValueCauseOfDeath causeOfDeath : causeOfDeathList.getList()) {
                 assertEquals(expectedId, causeOfDeath.getDescription().getId());
             }
         }
@@ -246,7 +245,7 @@ class QuestionBidragandeSjukdomarTest {
             final var question = QuestionBidragandeSjukdomar.toCertificate(
                 bidragandeSjukdomar, 0, texts);
             final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
-            for (CertificateDataValueCauseOfDeath causeOfDeath : causeOfDeathList.getCauseOfDeathList()) {
+            for (CertificateDataValueCauseOfDeath causeOfDeath : causeOfDeathList.getList()) {
                 assertEquals(expectedValueType, causeOfDeath.getDebut().getType());
             }
         }
@@ -257,7 +256,7 @@ class QuestionBidragandeSjukdomarTest {
             final var question = QuestionBidragandeSjukdomar.toCertificate(
                 bidragandeSjukdomar, 0, texts);
             final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
-            for (CertificateDataValueCauseOfDeath causeOfDeath : causeOfDeathList.getCauseOfDeathList()) {
+            for (CertificateDataValueCauseOfDeath causeOfDeath : causeOfDeathList.getList()) {
                 assertEquals(expectedId, causeOfDeath.getDebut().getId());
             }
         }
@@ -268,7 +267,7 @@ class QuestionBidragandeSjukdomarTest {
             final var question = QuestionBidragandeSjukdomar.toCertificate(
                 bidragandeSjukdomar, 0, texts);
             final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
-            for (CertificateDataValueCauseOfDeath causeOfDeath : causeOfDeathList.getCauseOfDeathList()) {
+            for (CertificateDataValueCauseOfDeath causeOfDeath : causeOfDeathList.getList()) {
                 assertEquals(expectedValueType, causeOfDeath.getSpecification().getType());
             }
         }
@@ -291,7 +290,7 @@ class QuestionBidragandeSjukdomarTest {
                         .build()
                 )
                 .specification(
-                    CertificateDataValueCode.builder()
+                    se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode.builder()
                         .id(bidragandeSjukdom.getSpecifikation().name())
                         .code(bidragandeSjukdom.getSpecifikation().name())
                         .build()
@@ -301,7 +300,7 @@ class QuestionBidragandeSjukdomarTest {
             final var question = QuestionBidragandeSjukdomar.toCertificate(
                 List.of(bidragandeSjukdom), 0, texts);
             final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
-            assertEquals(expectedValue, causeOfDeathList.getCauseOfDeathList().get(0));
+            assertEquals(expectedValue, causeOfDeathList.getList().get(0));
         }
     }
 

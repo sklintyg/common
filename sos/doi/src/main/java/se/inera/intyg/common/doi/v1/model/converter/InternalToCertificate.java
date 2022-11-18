@@ -29,6 +29,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DE
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_D_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_D_LABEL;
 
+import com.google.common.collect.ImmutableList;
 import java.time.LocalDate;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.doi.model.internal.Dodsorsak;
@@ -139,15 +140,15 @@ public class InternalToCertificate {
                 QuestionTerminalDodsorsak.toCertificate(getTerminalDodsorsak(internalCertificate.getTerminalDodsorsak()), index++, texts)
             )
             .addElement(
-                QuestionTerminalDodsorsakFoljdAv.toCertificate(getTerminalDodsorsak(internalCertificate.getFoljd().get(0)),
+                QuestionTerminalDodsorsakFoljdAv.toCertificate(getTerminalDodsorsak(getFoljdAv(internalCertificate.getFoljd(), 0)),
                     index++, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL, FOLJD_OM_DELSVAR_B_DATUM_ID)
             )
             .addElement(
-                QuestionTerminalDodsorsakFoljdAv.toCertificate(getTerminalDodsorsak(internalCertificate.getFoljd().get(1)),
+                QuestionTerminalDodsorsakFoljdAv.toCertificate(getTerminalDodsorsak(getFoljdAv(internalCertificate.getFoljd(), 1)),
                     index++, texts, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_C_LABEL, FOLJD_OM_DELSVAR_C_DATUM_ID)
             )
             .addElement(
-                QuestionTerminalDodsorsakFoljdAv.toCertificate(getTerminalDodsorsak(internalCertificate.getFoljd().get(2)),
+                QuestionTerminalDodsorsakFoljdAv.toCertificate(getTerminalDodsorsak(getFoljdAv(internalCertificate.getFoljd(), 2)),
                     index++, texts, FOLJD_OM_DELSVAR_D_ID, FOLJD_OM_DELSVAR_D_LABEL, FOLJD_OM_DELSVAR_D_DATUM_ID)
             )
             .addElement(
@@ -187,6 +188,10 @@ public class InternalToCertificate {
                 QuestionGrunderDodsorsaksuppgifter.toCertificate(internalCertificate.getGrunder(), index++, texts)
             )
             .build();
+    }
+
+    private static Dodsorsak getFoljdAv(ImmutableList<Dodsorsak> foljdAvList, int index) {
+        return foljdAvList != null && foljdAvList.size() > index ? foljdAvList.get(index) : null;
     }
 
     private static LocalDate getDodsdatumValue(DoiUtlatandeV1 internalCertificate) {

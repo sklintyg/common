@@ -50,14 +50,13 @@ import se.inera.intyg.common.doi.model.internal.Specifikation;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeath;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CodeItem;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 import se.inera.intyg.common.support.model.InternalDate;
 
@@ -68,7 +67,7 @@ class QuestionTerminalDodsorsakTest {
     private CertificateTextProvider texts;
 
     private Dodsorsak causeOfDeathEmpty;
-    private List<CertificateDataConfigCode> allSpecifications;
+    private List<CodeItem> allSpecifications;
 
     private static final String KRONISK = "Kronisk";
     private static final String PLOTSLIG = "Akut";
@@ -78,17 +77,17 @@ class QuestionTerminalDodsorsakTest {
     void setup() {
         causeOfDeathEmpty = Dodsorsak.create(null, null, null);
         allSpecifications = List.of(
-            CertificateDataConfigCode.builder()
+            CodeItem.builder()
                 .id(Specifikation.PLOTSLIG.name())
                 .label(PLOTSLIG)
                 .code(Specifikation.PLOTSLIG.name())
                 .build(),
-            CertificateDataConfigCode.builder()
+            CodeItem.builder()
                 .id(Specifikation.KRONISK.name())
                 .label(KRONISK)
                 .code(Specifikation.KRONISK.name())
                 .build(),
-            CertificateDataConfigCode.builder()
+            CodeItem.builder()
                 .id(Specifikation.UPPGIFT_SAKNAS.name())
                 .label(UPPGIFT_SAKNAS)
                 .code(Specifikation.UPPGIFT_SAKNAS.name())
@@ -206,7 +205,7 @@ class QuestionTerminalDodsorsakTest {
 
         @Test
         void shouldIncludeCorrectValueSpecification() {
-            final var expectedSpecification = CertificateDataValueCode.builder()
+            final var expectedSpecification = se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode.builder()
                 .id(Specifikation.KRONISK.name())
                 .code(Specifikation.KRONISK.name())
                 .build();

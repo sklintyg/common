@@ -40,14 +40,13 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CauseOfDeath;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeath;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCode;
+import se.inera.intyg.common.support.facade.model.config.CodeItem;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.model.InternalDate;
 
@@ -73,17 +72,17 @@ public class QuestionTerminalDodsorsak {
                             .descriptionId(DODSORSAK_DELSVAR_ID)
                             .debutId(DODSORSAK_DATUM_DELSVAR_ID)
                             .specifications(List.of(
-                                CertificateDataConfigCode.builder()
+                                CodeItem.builder()
                                     .id(Specifikation.PLOTSLIG.name())
                                     .label(FOLJD_OM_DELSVAR_PLOTSLIG)
                                     .code(Specifikation.PLOTSLIG.name())
                                     .build(),
-                                CertificateDataConfigCode.builder()
+                                CodeItem.builder()
                                     .id(Specifikation.KRONISK.name())
                                     .label(FOLJD_OM_DELSVAR_KRONISK)
                                     .code(Specifikation.KRONISK.name())
                                     .build(),
-                                CertificateDataConfigCode.builder()
+                                CodeItem.builder()
                                     .id(Specifikation.UPPGIFT_SAKNAS.name())
                                     .label(FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS)
                                     .code(Specifikation.UPPGIFT_SAKNAS.name())
@@ -110,11 +109,11 @@ public class QuestionTerminalDodsorsak {
                     )
                     .specification(
                         dodsorsak.getSpecifikation() != null
-                            ? CertificateDataValueCode.builder()
+                            ? se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode.builder()
                             .id(dodsorsak.getSpecifikation().name())
                             .code(dodsorsak.getSpecifikation().name())
                             .build()
-                            : CertificateDataValueCode.builder().build()
+                            : se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode.builder().build()
                     )
                     .build()
             )

@@ -36,7 +36,7 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CauseOfDeath;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeathList;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCode;
+import se.inera.intyg.common.support.facade.model.config.CodeItem;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeathList;
@@ -57,7 +57,7 @@ public class QuestionBidragandeSjukdomar {
                 CertificateDataConfigCauseOfDeathList.builder()
                     .text(texts.get(BIDRAGANDE_SJUKDOM_OM_QUESTION_TEXT_ID))
                     .description(texts.get(BIDRAGANDE_SJUKDOM_OM_DESCRIPTION_TEXT_ID))
-                    .causeOfDeathList(
+                    .list(
                         List.of(
                             CauseOfDeath.builder().id("0").descriptionId("description").debutId("debut").specifications(specifications)
                                 .build(),
@@ -81,7 +81,7 @@ public class QuestionBidragandeSjukdomar {
             )
             .value(
                 CertificateDataValueCauseOfDeathList.builder()
-                    .causeOfDeathList(
+                    .list(
                         List.of(
                             getCaseOfDeathValue("0", getBidragandeSjukdom(bidragandeSjukdomar, 0)),
                             getCaseOfDeathValue("1", getBidragandeSjukdom(bidragandeSjukdomar, 1)),
@@ -140,19 +140,19 @@ public class QuestionBidragandeSjukdomar {
             .build();
     }
 
-    private static List<CertificateDataConfigCode> getSpecifications() {
+    private static List<CodeItem> getSpecifications() {
         return List.of(
-            CertificateDataConfigCode.builder()
+            CodeItem.builder()
                 .id(Specifikation.PLOTSLIG.name())
                 .label(FOLJD_OM_DELSVAR_PLOTSLIG)
                 .code(Specifikation.PLOTSLIG.name())
                 .build(),
-            CertificateDataConfigCode.builder()
+            CodeItem.builder()
                 .id(Specifikation.KRONISK.name())
                 .label(FOLJD_OM_DELSVAR_KRONISK)
                 .code(Specifikation.KRONISK.name())
                 .build(),
-            CertificateDataConfigCode.builder()
+            CodeItem.builder()
                 .id(Specifikation.UPPGIFT_SAKNAS.name())
                 .label(FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS)
                 .code(Specifikation.UPPGIFT_SAKNAS.name())
@@ -165,7 +165,7 @@ public class QuestionBidragandeSjukdomar {
         }
         List<Dodsorsak> dodsorsakList = new ArrayList<>();
         var deathList = (CertificateDataValueCauseOfDeathList) certificate.getData().get(BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID).getValue();
-        for (CertificateDataValueCauseOfDeath causeOfDeath : deathList.getCauseOfDeathList() ) {
+        for (CertificateDataValueCauseOfDeath causeOfDeath : deathList.getList()) {
             final var description = causeOfDeath.getDescription().getText();
             final var debut = causeOfDeath.getDebut().getDate() != null
                 ? new InternalDate(causeOfDeath.getDebut().getDate()) : null;

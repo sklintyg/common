@@ -34,7 +34,7 @@ public class CertificateDataValueCauseOfDeathList implements CertificateDataValu
 
     @Getter(onMethod = @__(@Override))
     CertificateDataValueType type = CertificateDataValueType.CAUSE_OF_DEATH_LIST;
-    List<CertificateDataValueCauseOfDeath> causeOfDeathList;
+    List<CertificateDataValueCauseOfDeath> list;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataValueCauseOfDeathListBuilder {

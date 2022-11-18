@@ -60,8 +60,8 @@ import se.inera.intyg.common.doi.model.internal.Specifikation;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeath;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CodeItem;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
@@ -75,24 +75,24 @@ class QuestionTerminalDodsorsakFoljdAvTest {
     private CertificateTextProvider texts;
 
     private Dodsorsak causeOfDeathEmpty;
-    private List<CertificateDataConfigCode> allSpecifications;
+    private List<CodeItem> allSpecifications;
 
 
     @BeforeEach
     void setup() {
         causeOfDeathEmpty = Dodsorsak.create(null, null, null);
         allSpecifications = List.of(
-            CertificateDataConfigCode.builder()
+            CodeItem.builder()
                 .id(Specifikation.PLOTSLIG.name())
                 .label(FOLJD_OM_DELSVAR_PLOTSLIG)
                 .code(Specifikation.PLOTSLIG.name())
                 .build(),
-            CertificateDataConfigCode.builder()
+            CodeItem.builder()
                 .id(Specifikation.KRONISK.name())
                 .label(FOLJD_OM_DELSVAR_KRONISK)
                 .code(Specifikation.KRONISK.name())
                 .build(),
-            CertificateDataConfigCode.builder()
+            CodeItem.builder()
                 .id(Specifikation.UPPGIFT_SAKNAS.name())
                 .label(FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS)
                 .code(Specifikation.UPPGIFT_SAKNAS.name())
@@ -106,7 +106,7 @@ class QuestionTerminalDodsorsakFoljdAvTest {
     class ToCertificate {
 
         Stream<String> delsvarIdStream() {
-           return List.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID).stream();
+            return List.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID).stream();
         }
 
         @ParameterizedTest
@@ -127,12 +127,12 @@ class QuestionTerminalDodsorsakFoljdAvTest {
             assertEquals(expectedIndex, question.getIndex());
         }
 
-       @Test
-       void shouldIncludeParentId() {
-           final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-               causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL, FOLJD_OM_DELSVAR_B_DATUM_ID);
-           assertEquals(DODSORSAK_SVAR_ID, question.getParent());
-       }
+        @Test
+        void shouldIncludeParentId() {
+            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
+                causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL, FOLJD_OM_DELSVAR_B_DATUM_ID);
+            assertEquals(DODSORSAK_SVAR_ID, question.getParent());
+        }
 
         @Test
         void shouldIncludeText() {
@@ -143,7 +143,7 @@ class QuestionTerminalDodsorsakFoljdAvTest {
         }
 
         Stream<String> dodsOrsakerLabelStream() {
-           return List.of(FOLJD_OM_DELSVAR_B_LABEL, FOLJD_OM_DELSVAR_C_LABEL, FOLJD_OM_DELSVAR_D_LABEL).stream();
+            return List.of(FOLJD_OM_DELSVAR_B_LABEL, FOLJD_OM_DELSVAR_C_LABEL, FOLJD_OM_DELSVAR_D_LABEL).stream();
         }
 
         @ParameterizedTest

@@ -21,25 +21,20 @@ package se.inera.intyg.common.support.facade.model.config;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.Value;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCode.CertificateDataConfigCodeBuilder;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
+import se.inera.intyg.common.support.facade.model.config.CodeItem.CodeItemBuilder;
 
-@JsonDeserialize(builder = CertificateDataConfigCodeBuilder.class)
+@JsonDeserialize(builder = CodeItemBuilder.class)
 @Value
 @Builder
-public class CertificateDataConfigCode implements CertificateDataValue {
+public class CodeItem {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataValueType type = CertificateDataValueType.CODE;
     String id;
     String label;
     String code;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataConfigCodeBuilder {
+    public static class CodeItemBuilder {
 
     }
 }

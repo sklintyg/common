@@ -36,7 +36,7 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CauseOfDeath;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeath;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCode;
+import se.inera.intyg.common.support.facade.model.config.CodeItem;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
@@ -52,7 +52,7 @@ public class QuestionTerminalDodsorsakFoljdAv {
         String questionId,
         String label,
         String dodsOrsakDatumDelsvarId
-        ) {
+    ) {
         return CertificateDataElement.builder()
             .id(questionId)
             .index(index)
@@ -62,27 +62,27 @@ public class QuestionTerminalDodsorsakFoljdAv {
                 .label(label)
                 .causeOfDeath(
                     CauseOfDeath.builder()
-                    .id(FOLJD_JSON_ID)
-                    .descriptionId(questionId)
-                    .debutId(dodsOrsakDatumDelsvarId)
-                    .specifications(List.of(
-                        CertificateDataConfigCode.builder()
-                            .id(Specifikation.PLOTSLIG.name())
-                            .label(FOLJD_OM_DELSVAR_PLOTSLIG)
-                            .code(Specifikation.PLOTSLIG.name())
-                            .build(),
-                        CertificateDataConfigCode.builder()
-                            .id(Specifikation.KRONISK.name())
-                            .label(FOLJD_OM_DELSVAR_KRONISK)
-                            .code(Specifikation.KRONISK.name())
-                            .build(),
-                        CertificateDataConfigCode.builder()
-                            .id(Specifikation.UPPGIFT_SAKNAS.name())
-                            .label(FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS)
-                            .code(Specifikation.UPPGIFT_SAKNAS.name())
-                            .build()
-                    ))
-                    .build())
+                        .id(FOLJD_JSON_ID)
+                        .descriptionId(questionId)
+                        .debutId(dodsOrsakDatumDelsvarId)
+                        .specifications(List.of(
+                            CodeItem.builder()
+                                .id(Specifikation.PLOTSLIG.name())
+                                .label(FOLJD_OM_DELSVAR_PLOTSLIG)
+                                .code(Specifikation.PLOTSLIG.name())
+                                .build(),
+                            CodeItem.builder()
+                                .id(Specifikation.KRONISK.name())
+                                .label(FOLJD_OM_DELSVAR_KRONISK)
+                                .code(Specifikation.KRONISK.name())
+                                .build(),
+                            CodeItem.builder()
+                                .id(Specifikation.UPPGIFT_SAKNAS.name())
+                                .label(FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS)
+                                .code(Specifikation.UPPGIFT_SAKNAS.name())
+                                .build()
+                        ))
+                        .build())
                 .build())
             .value(
                 CertificateDataValueCauseOfDeath.builder()
@@ -111,6 +111,7 @@ public class QuestionTerminalDodsorsakFoljdAv {
             )
             .build();
     }
+
     private static LocalDate toLocalDate(InternalDate internalDate) {
         return (internalDate != null && internalDate.isValidDate()) ? internalDate.asLocalDate() : null;
     }
