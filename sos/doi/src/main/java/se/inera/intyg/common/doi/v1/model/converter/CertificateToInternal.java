@@ -38,7 +38,6 @@ import se.inera.intyg.common.doi.v1.model.converter.certificate.question.Questio
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationDatum;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionTerminalDodsorsak;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionTerminalDodsorsakFoljdAv;
-import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionTerminalDodsorsakSjukdom;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionAntraffadDod;
 import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionBarn;
