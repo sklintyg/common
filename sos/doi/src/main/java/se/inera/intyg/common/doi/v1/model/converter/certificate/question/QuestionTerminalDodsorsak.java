@@ -47,6 +47,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.model.InternalDate;
 
@@ -109,11 +110,11 @@ public class QuestionTerminalDodsorsak {
                     )
                     .specification(
                         dodsorsak.getSpecifikation() != null
-                            ? se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode.builder()
+                            ? CertificateDataValueCode.builder()
                             .id(dodsorsak.getSpecifikation().name())
                             .code(dodsorsak.getSpecifikation().name())
                             .build()
-                            : se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode.builder().build()
+                            : CertificateDataValueCode.builder().build()
                     )
                     .build()
             )
