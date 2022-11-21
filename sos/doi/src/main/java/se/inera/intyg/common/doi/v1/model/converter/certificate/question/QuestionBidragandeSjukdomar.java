@@ -50,7 +50,6 @@ public class QuestionBidragandeSjukdomar {
     private static final String DEBUT_ID = "debut";
 
     public static CertificateDataElement toCertificate(List<Dodsorsak> bidragandeSjukdomar, int index, CertificateTextProvider texts) {
-        final var specifications = getSpecifications();
 
         return CertificateDataElement.builder()
             .id(BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID)
