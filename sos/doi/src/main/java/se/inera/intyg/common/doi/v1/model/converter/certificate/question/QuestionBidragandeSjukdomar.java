@@ -46,6 +46,9 @@ import se.inera.intyg.common.support.model.InternalDate;
 
 public class QuestionBidragandeSjukdomar {
 
+    private static final String DESCRIPTION_ID = "description";
+    private static final String DEBUT_ID = "debut";
+
     public static CertificateDataElement toCertificate(List<Dodsorsak> bidragandeSjukdomar, int index, CertificateTextProvider texts) {
         final var specifications = getSpecifications();
 
@@ -59,22 +62,14 @@ public class QuestionBidragandeSjukdomar {
                     .description(texts.get(BIDRAGANDE_SJUKDOM_OM_DESCRIPTION_TEXT_ID))
                     .list(
                         List.of(
-                            CauseOfDeath.builder().id("0").descriptionId("description").debutId("debut").specifications(specifications)
-                                .build(),
-                            CauseOfDeath.builder().id("1").descriptionId("description").debutId("debut").specifications(specifications)
-                                .build(),
-                            CauseOfDeath.builder().id("2").descriptionId("description").debutId("debut").specifications(specifications)
-                                .build(),
-                            CauseOfDeath.builder().id("3").descriptionId("description").debutId("debut").specifications(specifications)
-                                .build(),
-                            CauseOfDeath.builder().id("4").descriptionId("description").debutId("debut").specifications(specifications)
-                                .build(),
-                            CauseOfDeath.builder().id("5").descriptionId("description").debutId("debut").specifications(specifications)
-                                .build(),
-                            CauseOfDeath.builder().id("6").descriptionId("description").debutId("debut").specifications(specifications)
-                                .build(),
-                            CauseOfDeath.builder().id("7").descriptionId("description").debutId("debut").specifications(specifications)
-                                .build()
+                            getCauseOfDeathConfig("0"),
+                            getCauseOfDeathConfig("1"),
+                            getCauseOfDeathConfig("2"),
+                            getCauseOfDeathConfig("3"),
+                            getCauseOfDeathConfig("4"),
+                            getCauseOfDeathConfig("5"),
+                            getCauseOfDeathConfig("6"),
+                            getCauseOfDeathConfig("7")
                         )
                     )
                     .build()
@@ -95,6 +90,15 @@ public class QuestionBidragandeSjukdomar {
                     )
                     .build()
             )
+            .build();
+    }
+
+    private static CauseOfDeath getCauseOfDeathConfig(String id) {
+        return CauseOfDeath.builder()
+            .id(id)
+            .descriptionId(DESCRIPTION_ID)
+            .debutId(DEBUT_ID)
+            .specifications(getSpecifications())
             .build();
     }
 
@@ -119,14 +123,14 @@ public class QuestionBidragandeSjukdomar {
 
     private static CertificateDataTextValue getDescription(Dodsorsak bidragandeSjukdom) {
         return CertificateDataTextValue.builder()
-            .id("description")
+            .id(DESCRIPTION_ID)
             .text(bidragandeSjukdom != null ? bidragandeSjukdom.getBeskrivning() : null)
             .build();
     }
 
     private static CertificateDataValueDate getDebut(Dodsorsak bidragandeSjukdom) {
         return CertificateDataValueDate.builder()
-            .id("debut")
+            .id(DEBUT_ID)
             .date(bidragandeSjukdom != null && bidragandeSjukdom.getDatum() != null ? bidragandeSjukdom.getDatum().asLocalDate() : null)
             .build();
     }
