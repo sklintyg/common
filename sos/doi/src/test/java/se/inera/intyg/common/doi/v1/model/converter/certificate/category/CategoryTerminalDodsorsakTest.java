@@ -24,15 +24,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_CATEGORY_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_CATEGORY_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_CATEGORY_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 
-class CategoryTerminalaDodsorsakenTest {
+class CategoryTerminalDodsorsakTest {
 
     private CertificateTextProvider texts;
 
@@ -44,21 +44,21 @@ class CategoryTerminalaDodsorsakenTest {
 
     @Test
     void shouldIncludeId() {
-        final var category = CategoryTerminalaDodsorsaken.toCertificate(0, texts);
+        final var category = CategoryTerminalDodsorsak.toCertificate(0, texts);
         assertEquals(TERMINAL_DODSORSAK_CATEGORY_ID, category.getId());
     }
 
     @Test
     void shouldIncludeIndex() {
         final var expectedIndex = 3;
-        final var category = CategoryTerminalaDodsorsaken.toCertificate(expectedIndex, texts);
+        final var category = CategoryTerminalDodsorsak.toCertificate(expectedIndex, texts);
         assertEquals(expectedIndex, category.getIndex());
     }
 
     @Test
     void shouldIncludeCategoryText() {
-        final var category = CategoryTerminalaDodsorsaken.toCertificate(0, texts);
+        final var category = CategoryTerminalDodsorsak.toCertificate(0, texts);
         assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
-        verify(texts, atLeastOnce()).get(OPERATION_CATEGORY_TEXT_ID);
+        verify(texts, atLeastOnce()).get(TERMINAL_DODSORSAK_CATEGORY_TEXT_ID);
     }
 }

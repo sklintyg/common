@@ -19,13 +19,26 @@
 
 package se.inera.intyg.common.doi.v1.model.converter;
 
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_B_DATUM_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_B_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_B_LABEL;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_C_DATUM_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_C_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_C_LABEL;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_D_DATUM_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_D_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_D_LABEL;
+
+import com.google.common.collect.ImmutableList;
 import java.time.LocalDate;
 import org.springframework.stereotype.Component;
+import se.inera.intyg.common.doi.model.internal.Dodsorsak;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategoryDodsorsaksuppgifter;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategoryOperation;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategorySkadaForgiftning;
-import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategoryTerminalaDodsorsaken;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.category.CategoryTerminalDodsorsak;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionBidragandeSjukdomar;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningDatum;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOm;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOrsak;
@@ -35,6 +48,9 @@ import se.inera.intyg.common.doi.v1.model.converter.certificate.question.Questio
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperation;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationAnledning;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationDatum;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionTerminalDodsorsak;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionTerminalDodsorsakFoljdAv;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionTerminalDodsorsakSjukdom;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.sos_parent.model.converter.certificate.category.CategoryBarn;
@@ -115,7 +131,28 @@ public class InternalToCertificate {
                     index++, texts)
             )
             .addElement(
-                CategoryTerminalaDodsorsaken.toCertificate(index++, texts)
+                CategoryTerminalDodsorsak.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionTerminalDodsorsakSjukdom.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionTerminalDodsorsak.toCertificate(getTerminalDodsorsak(internalCertificate.getTerminalDodsorsak()), index++, texts)
+            )
+            .addElement(
+                QuestionTerminalDodsorsakFoljdAv.toCertificate(getTerminalDodsorsak(getFoljdAv(internalCertificate.getFoljd(), 0)),
+                    index++, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL, FOLJD_OM_DELSVAR_B_DATUM_ID)
+            )
+            .addElement(
+                QuestionTerminalDodsorsakFoljdAv.toCertificate(getTerminalDodsorsak(getFoljdAv(internalCertificate.getFoljd(), 1)),
+                    index++, texts, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_C_LABEL, FOLJD_OM_DELSVAR_C_DATUM_ID)
+            )
+            .addElement(
+                QuestionTerminalDodsorsakFoljdAv.toCertificate(getTerminalDodsorsak(getFoljdAv(internalCertificate.getFoljd(), 2)),
+                    index++, texts, FOLJD_OM_DELSVAR_D_ID, FOLJD_OM_DELSVAR_D_LABEL, FOLJD_OM_DELSVAR_D_DATUM_ID)
+            )
+            .addElement(
+                QuestionBidragandeSjukdomar.toCertificate(internalCertificate.getBidragandeSjukdomar(), index++, texts)
             )
             .addElement(
                 CategoryOperation.toCertificate(index++, texts)
@@ -153,6 +190,10 @@ public class InternalToCertificate {
             .build();
     }
 
+    private static Dodsorsak getFoljdAv(ImmutableList<Dodsorsak> foljdAvList, int index) {
+        return foljdAvList != null && foljdAvList.size() > index ? foljdAvList.get(index) : null;
+    }
+
     private static LocalDate getDodsdatumValue(DoiUtlatandeV1 internalCertificate) {
         if (isDodsdatumSakert(internalCertificate.getDodsdatumSakert())) {
             return toLocalDate(internalCertificate.getDodsdatum());
@@ -165,6 +206,10 @@ public class InternalToCertificate {
             return null;
         }
         return internalCertificate.getDodsdatum() != null ? internalCertificate.getDodsdatum().toString() : null;
+    }
+
+    private static Dodsorsak getTerminalDodsorsak(Dodsorsak dodsorsak) {
+        return dodsorsak != null ? dodsorsak : Dodsorsak.create(null, null, null);
     }
 
     private static Boolean isDodsdatumSakert(Boolean dodsdatumSakert) {

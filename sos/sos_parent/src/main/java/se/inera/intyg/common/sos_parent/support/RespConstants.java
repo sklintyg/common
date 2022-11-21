@@ -73,7 +73,17 @@ public final class RespConstants {
     public static final String TERMINAL_DODSORSAK_JSON_ID = "terminalDodsorsak";
     public static final String TERMINAL_DODSORSAK_CATEGORY_ID = "terminalDodsorsak";
     public static final String TERMINAL_DODSORSAK_CATEGORY_TEXT_ID = "KAT_7.RBK";
-    public static final String TERMINAL_DODSORSAK_HEADER_TEXT_ID = "KAT_7.1.RBK";
+    public static final String TERMINAL_DODSORSAK_SJUKDOM_TEXT_ID = "KAT_7.1.RBK";
+    public static final String TERMINAL_DODSORSAK_SJUKDOM_SVAR_ID = "6";
+    public static final String TERMINAL_DODSORSAK_QUESTION_TEXT_ID = "FRG_8.RBK";
+    public static final String TERMINAL_DODSORSAK_DESCRIPTION_TEXT_ID = "FRG_8.HLP";
+    public static final String TERMINAL_DODSORSAK_BESKRIVNING_TEXT_ID = "DELAT_TEXT.BESKRIVNING.RBK";
+    public static final String TERMINAL_DODSORSAK_DEBUT_TEXT_ID = "DELAT_TEXT.DEBUT.RBK";
+    public static final String TERMINAL_DODSORSAK_SPECIFIKATION_TEXT_ID = "DELAT_TEXT.SPECIFIKATION.RBK";
+
+    public static final String FOLJD_AV_QUESTION_TEXT_ID = "FRG_9.RBK";
+
+
     public static final String FOLJD_JSON_ID = "foljd";
     public static final String BIDRAGANDE_SJUKDOM_JSON_ID = "bidragandeSjukdomar";
     public static final String OPERATION_OM_JSON_ID = "operation";
@@ -163,9 +173,24 @@ public final class RespConstants {
     public static final String DODSORSAK_DATUM_DELSVAR_ID = "8.2";
     public static final String DODSORSAK_SPECIFIKATION_DELSVAR_ID = "8.3";
     public static final String FOLJD_OM_DELSVAR_ID = "9.1";
+    public static final String FOLJD_OM_DELSVAR_B_ID = "9.1.0";
+    public static final String FOLJD_OM_DELSVAR_B_DATUM_ID = "9.1.0.1";
+    public static final String FOLJD_OM_DELSVAR_C_ID = "9.1.1";
+    public static final String FOLJD_OM_DELSVAR_C_DATUM_ID = "9.1.1.1";
+    public static final String FOLJD_OM_DELSVAR_D_ID = "9.1.2";
+    public static final String FOLJD_OM_DELSVAR_D_DATUM_ID = "9.1.2.1";
+    public static final String FOLJD_OM_DELSVAR_A_LABEL = "A";
+    public static final String FOLJD_OM_DELSVAR_B_LABEL = "B";
+    public static final String FOLJD_OM_DELSVAR_C_LABEL = "C";
+    public static final String FOLJD_OM_DELSVAR_D_LABEL = "D";
+    public static final String FOLJD_OM_DELSVAR_KRONISK = "Kronisk";
+    public static final String FOLJD_OM_DELSVAR_PLOTSLIG = "Akut";
+    public static final String FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS = "Uppgift Saknas";
     public static final String FOLJD_DATUM_DELSVAR_ID = "9.2";
     public static final String FOLJD_SPECIFIKATION_DELSVAR_ID = "9.3";
     public static final String BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID = "10.1";
+    public static final String BIDRAGANDE_SJUKDOM_OM_QUESTION_TEXT_ID = "KAT_7.2.RBK";
+    public static final String BIDRAGANDE_SJUKDOM_OM_DESCRIPTION_TEXT_ID = "KAT_7.2.HLP";
     public static final String BIDRAGANDE_SJUKDOM_DATUM_DELSVAR_ID = "10.2";
     public static final String BIDRAGANDE_SJUKDOM_SPECIFIKATION_DELSVAR_ID = "10.3";
     public static final String OPERATION_OM_DELSVAR_ID = "11.1";

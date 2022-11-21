@@ -48,6 +48,11 @@ public enum Specifikation {
             .orElseThrow(() -> new IllegalArgumentException());
     }
 
+    public static Specifikation fromValue(String value) {
+        return Stream.of(Specifikation.values()).filter(s -> value.equals(s.name())).findFirst()
+            .orElseThrow(() -> new IllegalArgumentException(value));
+    }
+
     public String getId() {
         return id;
     }

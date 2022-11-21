@@ -17,24 +17,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.doi.v1.model.converter.certificate.category;
+package se.inera.intyg.common.doi.v1.model.converter.certificate.question;
 
+import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_SJUKDOM_SVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_CATEGORY_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_CATEGORY_TEXT_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_SJUKDOM_TEXT_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigHeader;
 
-public class CategoryTerminalaDodsorsaken {
+public class QuestionTerminalDodsorsakSjukdom {
 
     public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(TERMINAL_DODSORSAK_CATEGORY_ID)
+            .id(TERMINAL_DODSORSAK_SJUKDOM_SVAR_ID)
+            .parent(TERMINAL_DODSORSAK_CATEGORY_ID)
             .index(index)
-            .config(CertificateDataConfigCategory.builder()
-                .text(texts.get(TERMINAL_DODSORSAK_CATEGORY_TEXT_ID))
-                .build())
+            .config(
+                CertificateDataConfigHeader.builder()
+                    .text(texts.get(TERMINAL_DODSORSAK_SJUKDOM_TEXT_ID))
+                    .build()
+            )
             .build();
     }
 }

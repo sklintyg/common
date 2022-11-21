@@ -22,6 +22,15 @@ package se.inera.intyg.common.doi.v1.model.converter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_B_DATUM_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_B_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_B_LABEL;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_C_DATUM_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_C_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_C_LABEL;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_D_DATUM_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_D_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_D_LABEL;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -30,10 +39,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import se.inera.intyg.common.doi.model.internal.Dodsorsak;
 import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
 import se.inera.intyg.common.doi.model.internal.ForgiftningOrsak;
 import se.inera.intyg.common.doi.model.internal.OmOperation;
+import se.inera.intyg.common.doi.model.internal.Specifikation;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionBidragandeSjukdomar;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningDatum;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOm;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionForgiftningOrsak;
@@ -43,6 +55,8 @@ import se.inera.intyg.common.doi.v1.model.converter.certificate.question.Questio
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperation;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationAnledning;
 import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionOperationDatum;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionTerminalDodsorsak;
+import se.inera.intyg.common.doi.v1.model.converter.certificate.question.QuestionTerminalDodsorsakFoljdAv;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.sos_parent.model.converter.certificate.question.QuestionAntraffadDod;
@@ -70,10 +84,20 @@ class CertificateToInternalTest {
     private CertificateTextProvider texts;
     private DoiUtlatandeV1 expectedInternalCertificate;
     private Certificate certificate;
+    private List bidragandSjukdommar;
 
     @BeforeEach
     void setUp() {
         certificateToInternal = new CertificateToInternal();
+        bidragandSjukdommar = List.of(
+            Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG),
+            Dodsorsak.create(null, null, null),
+            Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
+            Dodsorsak.create(null, null, null),
+            Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
+            Dodsorsak.create(null, null, null),
+            Dodsorsak.create(null, null, null),
+            Dodsorsak.create(null, null, null));
     }
 
     @Nested
@@ -102,6 +126,13 @@ class CertificateToInternalTest {
                 .setDodsplatsKommun("DodsplatsKommun")
                 .setDodsplatsBoende(DodsplatsBoende.SJUKHUS)
                 .setBarn(true)
+                .setTerminalDodsorsak(Dodsorsak.create("description", new InternalDate(LocalDate.now()), Specifikation.KRONISK))
+                .setFoljd(List.of(
+                    Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG),
+                    Dodsorsak.create(null, null, null),
+                    Dodsorsak.create(null, null, null)
+                ))
+                .setBidragandeSjukdomar(bidragandSjukdommar)
                 .setOperation(OmOperation.JA)
                 .setOperationDatum(new InternalDate(LocalDate.now()))
                 .setOperationAnledning("OperationAnledning")
@@ -128,6 +159,20 @@ class CertificateToInternalTest {
                 .addElement(QuestionDodsplatsBoende.toCertificate(expectedInternalCertificate.getDodsplatsBoende(), 0, texts))
                 .addElement(QuestionBarn.toCertificate(expectedInternalCertificate.getGrundData().getPatient().getPersonId(),
                     expectedInternalCertificate.getBarn(), 0, texts))
+                .addElement(QuestionTerminalDodsorsak.toCertificate(expectedInternalCertificate.getTerminalDodsorsak(), 0, texts))
+                .addElement(
+                    QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedInternalCertificate.getFoljd().get(0),
+                        0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL, FOLJD_OM_DELSVAR_B_DATUM_ID)
+                )
+                .addElement(
+                    QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedInternalCertificate.getFoljd().get(1),
+                        0, texts, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_C_LABEL, FOLJD_OM_DELSVAR_C_DATUM_ID)
+                )
+                .addElement(
+                    QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedInternalCertificate.getFoljd().get(2),
+                        0, texts, FOLJD_OM_DELSVAR_D_ID, FOLJD_OM_DELSVAR_D_LABEL, FOLJD_OM_DELSVAR_D_DATUM_ID)
+                )
+                .addElement(QuestionBidragandeSjukdomar.toCertificate(bidragandSjukdommar, 0, texts))
                 .addElement(QuestionOperation.toCertificate(expectedInternalCertificate.getOperation(), 0, texts))
                 .addElement(QuestionOperationDatum.toCertificate(expectedInternalCertificate.getOperationDatum().asLocalDate(), 0, texts))
                 .addElement(QuestionOperationAnledning.toCertificate(expectedInternalCertificate.getOperationAnledning(), 0, texts))
@@ -208,6 +253,24 @@ class CertificateToInternalTest {
         }
 
         @Test
+        void shallIncludeTerminalDodsorsak() {
+            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(expectedInternalCertificate.getTerminalDodsorsak(), actualInternalCertificate.getTerminalDodsorsak());
+        }
+
+        @Test
+        void shallIncludeQuestionTerminalDodsorsakFoljdAv() {
+            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(expectedInternalCertificate.getFoljd(), actualInternalCertificate.getFoljd());
+        }
+
+        @Test
+        void shallIncludeQuestionBidragandeSjukdomar() {
+            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(expectedInternalCertificate.getBidragandeSjukdomar(), actualInternalCertificate.getBidragandeSjukdomar());
+        }
+
+        @Test
         void shallIncludeOperation() {
             final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
             assertEquals(expectedInternalCertificate.getOperation(), actualInternalCertificate.getOperation());
@@ -281,6 +344,7 @@ class CertificateToInternalTest {
                 .setDodsplatsKommun("DodsplatsKommun")
                 .setDodsplatsBoende(DodsplatsBoende.SJUKHUS)
                 .setBarn(true)
+                .setBidragandeSjukdomar(bidragandSjukdommar)
                 .build();
 
             texts = Mockito.mock(CertificateTextProvider.class);
@@ -300,6 +364,7 @@ class CertificateToInternalTest {
                 .addElement(QuestionDodsplatsBoende.toCertificate(expectedInternalCertificate.getDodsplatsBoende(), 0, texts))
                 .addElement(QuestionBarn.toCertificate(expectedInternalCertificate.getGrundData().getPatient().getPersonId(),
                     expectedInternalCertificate.getBarn(), 0, texts))
+                .addElement(QuestionBidragandeSjukdomar.toCertificate(bidragandSjukdommar, 0, texts))
                 .build();
         }
 
@@ -329,6 +394,7 @@ class CertificateToInternalTest {
                 .setGrundData(grundData)
                 .setId("id")
                 .setTextVersion("TextVersion")
+                .setBidragandeSjukdomar(bidragandSjukdommar)
                 .build();
 
             texts = Mockito.mock(CertificateTextProvider.class);
@@ -339,6 +405,7 @@ class CertificateToInternalTest {
                     MetaDataGrundData.toCertificate(expectedInternalCertificate,
                         texts))
                 .addElement(QuestionOsakertDodsdatum.toCertificate(null, 0, texts))
+                .addElement(QuestionBidragandeSjukdomar.toCertificate(bidragandSjukdommar, 0, texts))
                 .build();
         }
 

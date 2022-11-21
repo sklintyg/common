@@ -16,10 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package se.inera.intyg.common.support.facade.model.config;
 
-public enum CertificateDataConfigTypes {
-    CATEGORY, UE_RADIO_BOOLEAN, UE_CHECKBOX_BOOLEAN, UE_CHECKBOX_MULTIPLE_DATE, UE_CHECKBOX_MULTIPLE_CODE, UE_RADIO_MULTIPLE_CODE,
-    UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, UE_DIAGNOSES, UE_SICK_LEAVE_PERIOD, UE_TEXTAREA, UE_DROPDOWN, UE_ICF, UE_DATE,
-    UE_UNCERTAIN_DATE, UE_MESSAGE, UE_TEXTFIELD, UE_TYPE_AHEAD, UE_HEADER, UE_CAUSE_OF_DEATH, UE_CAUSE_OF_DEATH_LIST
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.List;
+import lombok.Builder;
+import lombok.Value;
+import se.inera.intyg.common.support.facade.model.config.CauseOfDeath.CauseOfDeathBuilder;
+
+@JsonDeserialize(builder = CauseOfDeathBuilder.class)
+@Value
+@Builder
+public class CauseOfDeath {
+
+    String id;
+    String descriptionId;
+    String debutId;
+    List<CodeItem> specifications;
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class CauseOfDeathBuilder {
+
+    }
 }
