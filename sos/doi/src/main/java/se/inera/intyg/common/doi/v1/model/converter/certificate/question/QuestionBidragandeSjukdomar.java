@@ -37,6 +37,9 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CauseOfDeath;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeathList;
 import se.inera.intyg.common.support.facade.model.config.CodeItem;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeathList;
@@ -48,6 +51,9 @@ public class QuestionBidragandeSjukdomar {
 
     private static final String DESCRIPTION_ID = "description";
     private static final String DEBUT_ID = "debut";
+
+    public static final short LIMIT = (short) 55;
+    public static final short NUMBER_OF_DAYS_IN_FUTURE = (short) 0;
 
     public static CertificateDataElement toCertificate(List<Dodsorsak> bidragandeSjukdomar, int index, CertificateTextProvider texts) {
 
@@ -89,6 +95,26 @@ public class QuestionBidragandeSjukdomar {
                     )
                     .build()
             )
+            .validation(
+                new CertificateDataValidation[]{
+                    textLimit("0"),
+                    textLimit("1"),
+                    textLimit("2"),
+                    textLimit("3"),
+                    textLimit("4"),
+                    textLimit("5"),
+                    textLimit("6"),
+                    textLimit("7"),
+                    dateLimit("0"),
+                    dateLimit("1"),
+                    dateLimit("2"),
+                    dateLimit("3"),
+                    dateLimit("4"),
+                    dateLimit("5"),
+                    dateLimit("6"),
+                    dateLimit("7")
+                }
+            )
             .build();
     }
 
@@ -99,6 +125,14 @@ public class QuestionBidragandeSjukdomar {
             .debutId(DEBUT_ID)
             .specifications(getSpecifications())
             .build();
+    }
+
+    private static CertificateDataValidationMaxDate dateLimit(String id) {
+        return CertificateDataValidationMaxDate.builder().id(id).numberOfDays(NUMBER_OF_DAYS_IN_FUTURE).build();
+    }
+
+    private static CertificateDataValidationText textLimit(String id) {
+        return CertificateDataValidationText.builder().id(id).limit(LIMIT).build();
     }
 
     private static Dodsorsak getBidragandeSjukdom(List<Dodsorsak> bidragandeSjukdomar, int index) {
