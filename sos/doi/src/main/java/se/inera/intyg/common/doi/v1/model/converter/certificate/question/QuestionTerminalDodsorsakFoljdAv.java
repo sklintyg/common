@@ -19,6 +19,8 @@
 
 package se.inera.intyg.common.doi.v1.model.converter.certificate.question;
 
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DATUM_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_SVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_AV_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_JSON_ID;
@@ -37,6 +39,9 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CauseOfDeath;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeath;
 import se.inera.intyg.common.support.facade.model.config.CodeItem;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
@@ -44,6 +49,9 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate
 import se.inera.intyg.common.support.model.InternalDate;
 
 public class QuestionTerminalDodsorsakFoljdAv {
+
+    public static final short LIMIT = (short) 80;
+    public static final short NUMBER_OF_DAYS_IN_FUTURE = (short) 0;
 
     public static CertificateDataElement toCertificate(
         Dodsorsak terminalDodsorsak,
@@ -108,6 +116,19 @@ public class QuestionTerminalDodsorsakFoljdAv {
                             : CertificateDataValueCode.builder().build()
                     )
                     .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+
+                    CertificateDataValidationText.builder()
+                        .id(DODSORSAK_DELSVAR_ID)
+                        .limit(LIMIT)
+                        .build(),
+                    CertificateDataValidationMaxDate.builder()
+                        .id(DODSORSAK_DATUM_DELSVAR_ID)
+                        .numberOfDays(NUMBER_OF_DAYS_IN_FUTURE)
+                        .build()
+                }
             )
             .build();
     }
