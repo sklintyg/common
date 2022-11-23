@@ -27,6 +27,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -39,12 +40,13 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SUBST
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SUBSTANSINTAG_SVAR_JSON_ID_21;
 import static se.inera.intyg.common.fkparent.rest.FkParentModuleApi.PREFIX;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,14 +55,15 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-
+import se.inera.intyg.common.luae_na.v1.model.converter.CertificateToInternal;
+import se.inera.intyg.common.luae_na.v1.model.converter.InternalToCertificate;
 import se.inera.intyg.common.luae_na.v1.model.converter.SvarIdHelperImpl;
 import se.inera.intyg.common.luae_na.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.luae_na.v1.utils.ScenarioFinder;
+import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.services.texts.IntygTextsService;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -73,6 +76,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHold
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponderInterface;
@@ -108,6 +112,14 @@ public class LuaenaModuleApiTest {
 
     @Spy
     private SvarIdHelperImpl svarIdHelper;
+    @Mock
+    private InternalToCertificate internalToCertificate;
+
+    @Mock
+    private CertificateToInternal certificateToInternal;
+
+    @Mock
+    private IntygTextsService intygTextsService;
 
     @InjectMocks
     private LuaenaModuleApiV1 moduleApi;
@@ -387,6 +399,54 @@ public class LuaenaModuleApiTest {
         assertEquals(PREFIX + kommentar, utlatandeFromJson.getOvrigt());
 
         verify(webcertModelFactory, times(1)).createCopy(any(), any());
+    }
+
+    @Test
+    public void shallConvertInternalToCertificate() throws Exception {
+        final var expectedCertificate = CertificateBuilder.create().build();
+        final var certificateAsJson = "certificateAsJson";
+        final var typeAheadProvider = mock(TypeAheadProvider.class);
+
+        final var internalCertificate = LuaenaUtlatandeV1.builder()
+            .setId("123")
+            .setTextVersion("1.0")
+            .setGrundData(new GrundData())
+            .build();
+
+        doReturn(internalCertificate)
+            .when(objectMapper).readValue(eq(certificateAsJson), eq(LuaenaUtlatandeV1.class));
+
+        when(internalToCertificate.toCertificate(eq(internalCertificate), any(CertificateTextProvider.class)))
+            .thenReturn(expectedCertificate);
+
+        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider);
+
+        assertEquals(expectedCertificate, actualCertificate);
+    }
+
+    @Test
+    public void shallConvertCertificateToInternal() throws Exception {
+        final var expectedJson = "expectedJson";
+        final var certificate = CertificateBuilder.create().build();
+        final var certificateAsJson = "certificateAsJson";
+
+        final var internalCertificate = LuaenaUtlatandeV1.builder()
+            .setId("123")
+            .setTextVersion("1.0")
+            .setGrundData(new GrundData())
+            .build();
+
+        doReturn(internalCertificate)
+            .when(objectMapper).readValue(eq(certificateAsJson), eq(LuaenaUtlatandeV1.class));
+
+        doReturn(expectedJson)
+            .when(objectMapper).writeValueAsString(internalCertificate);
+
+        when(certificateToInternal.convert(certificate, internalCertificate))
+            .thenReturn(internalCertificate);
+
+        final var actualJson = moduleApi.getJsonFromCertificate(certificate, certificateAsJson);
+        assertEquals(expectedJson, actualJson);
     }
 
     private RegisterCertificateResponseType createReturnVal(ResultCodeType res) {

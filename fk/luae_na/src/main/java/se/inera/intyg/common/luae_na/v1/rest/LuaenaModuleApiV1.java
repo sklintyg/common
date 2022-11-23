@@ -32,12 +32,15 @@ import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
 import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
 import se.inera.intyg.common.fkparent.rest.FkParentModuleApi;
 import se.inera.intyg.common.luae_na.support.LuaenaEntryPoint;
+import se.inera.intyg.common.luae_na.v1.model.converter.CertificateToInternal;
+import se.inera.intyg.common.luae_na.v1.model.converter.InternalToCertificate;
 import se.inera.intyg.common.luae_na.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.luae_na.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.luae_na.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.luae_na.v1.pdf.LuaenaPdfDefinitionBuilder;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -46,6 +49,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.AdditionalMetaData;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
@@ -160,5 +164,19 @@ public class LuaenaModuleApiV1 extends FkParentModuleApi<LuaenaUtlatandeV1> {
         } catch (ConverterException e) {
             throw new ModuleException("Could convert Intyg to Utlatande", e);
         }
+    }
+
+    @Override
+    public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson);
+        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+        return InternalToCertificate.toCertificate(internalCertificate, certificateTextProvider);
+    }
+
+    @Override
+    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson);
+        final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate);
+        return toInternalModelResponse(updateInternalCertificate);
     }
 }
