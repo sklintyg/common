@@ -40,16 +40,10 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 class CertificateToInternalTest {
 
-    private CertificateToInternal certificateToInternal;
 
     private CertificateTextProvider texts;
     private LuaenaUtlatandeV1 expectedInternalCertificate;
     private Certificate certificate;
-
-    @BeforeEach
-    void setUp() {
-        certificateToInternal = new CertificateToInternal();
-    }
 
     @Nested
     class HappyScenario {
@@ -81,19 +75,19 @@ class CertificateToInternalTest {
 
         @Test
         void shallIncludeId() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
             assertEquals(expectedInternalCertificate.getId(), actualInternalCertificate.getId());
         }
 
         @Test
         void shallIncludeTextVersion() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
             assertEquals(expectedInternalCertificate.getTextVersion(), actualInternalCertificate.getTextVersion());
         }
 
         @Test
         void shallIncludeGrundData() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
             assertNotNull(actualInternalCertificate.getGrundData(), "GrundData is missing!");
         }
     }

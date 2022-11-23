@@ -34,16 +34,12 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 class InternalToCertificateTest {
 
-    private InternalToCertificate internalToCertificate;
-
     private GrundData grundData;
     private LuaenaUtlatandeV1 internalCertificate;
     private CertificateTextProvider textProvider;
 
     @BeforeEach
     void setUp() {
-        internalToCertificate = new InternalToCertificate();
-
         final var unit = new Vardenhet();
 
         final var skapadAv = new HoSPersonal();
@@ -66,7 +62,7 @@ class InternalToCertificateTest {
 
     @Test
     void shallIncludeMetadata() {
-        final var actualCertificate = internalToCertificate.toCertificate(internalCertificate, textProvider);
+        final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
         assertNotNull(actualCertificate.getMetadata(), "Shall contain metadata");
     }
 }
