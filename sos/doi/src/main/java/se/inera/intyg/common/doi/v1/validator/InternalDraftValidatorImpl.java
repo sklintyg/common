@@ -21,6 +21,7 @@ package se.inera.intyg.common.doi.v1.validator;
 import static se.inera.intyg.common.doi.support.DoiModuleEntryPoint.MODULE_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DATUM_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_OM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_DATUM_DELSVAR_ID;
@@ -93,7 +94,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
     private void validateDodsorsak(DoiUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (utlatande.getTerminalDodsorsak() == null || Strings.nullToEmpty(utlatande.getTerminalDodsorsak().getBeskrivning()).trim()
             .isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak", TERMINAL_DODSORSAK_JSON_ID, ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "utlatandeOrsak", TERMINAL_DODSORSAK_JSON_ID,
+                ValidationMessageType.EMPTY, DODSORSAK_DELSVAR_ID);
         }
         // R22 - "Datum terminal dödsorsak"
         if (utlatande.getTerminalDodsorsak() != null && utlatande.getTerminalDodsorsak().getDatum() != null) {
@@ -101,21 +103,22 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
             final String validationField = TERMINAL_DODSORSAK_JSON_ID + "." + DODSORSAK_DATUM_JSON_ID;
 
             if (ValidatorUtil.validateDateAndCheckIfFuture(utlatande.getTerminalDodsorsak().getDatum(),
-                validationMessages, "utlatandeOrsak", validationField, "common.validation.date.today.or.earlier")) {
+                validationMessages, "utlatandeOrsak", validationField, "common.validation.date.today.or.earlier", DODSORSAK_DELSVAR_ID)) {
 
                 if (ValidatorUtil.isNotNullTrue(utlatande.getDodsdatumSakert())
                     // R22-1 - får inte infalla efter dödsdatum, om dödsdatumet är säkert.
                     && utlatande.getDodsdatum() != null && utlatande.getDodsdatum().isValidDate()
                     && ValidatorUtil.isDateAfter(utlatande.getTerminalDodsorsak().getDatum(), utlatande.getDodsdatum())) {
-                    ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak", validationField,
-                        ValidationMessageType.INCORRECT_COMBINATION, "doi.validation.terminalDodsorsak.datum.efterDodsdatum");
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "utlatandeOrsak", validationField,
+                        ValidationMessageType.INCORRECT_COMBINATION, "doi.validation.terminalDodsorsak.datum.efterDodsdatum",
+                        DODSORSAK_DELSVAR_ID);
                 } else if (ValidatorUtil.isNotNullFalse(utlatande.getDodsdatumSakert())
                     // R22-2 - får inte infalla efter datumet då man anträffade den döde, om dödsdatumet är ej säkert.
                     && utlatande.getAntraffatDodDatum() != null && utlatande.getAntraffatDodDatum().isValidDate()
                     && ValidatorUtil.isDateAfter(utlatande.getTerminalDodsorsak().getDatum(), utlatande.getAntraffatDodDatum())) {
-                    ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak", validationField,
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "utlatandeOrsak", validationField,
                         ValidationMessageType.INCORRECT_COMBINATION,
-                        "doi.validation.terminalDodsorsak.datum.efterAntraffatDodsdatum");
+                        "doi.validation.terminalDodsorsak.datum.efterAntraffatDodsdatum", DODSORSAK_DELSVAR_ID);
                 }
             }
         }
