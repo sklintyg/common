@@ -21,6 +21,7 @@ package se.inera.intyg.common.luae_na.v1.rest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -400,53 +401,18 @@ public class LuaenaModuleApiTest {
 
         verify(webcertModelFactory, times(1)).createCopy(any(), any());
     }
-
     @Test
-    public void shallConvertInternalToCertificate() throws Exception {
-        final var expectedCertificate = CertificateBuilder.create().build();
-        final var certificateAsJson = "certificateAsJson";
-        final var typeAheadProvider = mock(TypeAheadProvider.class);
+    public void getCertficateMessagesProviderGetExistingKey() throws ModuleException {
+        final var certificateMessagesProvider = moduleApi.getMessagesProvider();
 
-        final var internalCertificate = LuaenaUtlatandeV1.builder()
-            .setId("123")
-            .setTextVersion("1.0")
-            .setGrundData(new GrundData())
-            .build();
-
-        doReturn(internalCertificate)
-            .when(objectMapper).readValue(eq(certificateAsJson), eq(LuaenaUtlatandeV1.class));
-
-        when(internalToCertificate.toCertificate(eq(internalCertificate), any(CertificateTextProvider.class)))
-            .thenReturn(expectedCertificate);
-
-        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider);
-
-        assertEquals(expectedCertificate, actualCertificate);
+        assertEquals(certificateMessagesProvider.get("common.continue"), "Fortsätt");
     }
 
     @Test
-    public void shallConvertCertificateToInternal() throws Exception {
-        final var expectedJson = "expectedJson";
-        final var certificate = CertificateBuilder.create().build();
-        final var certificateAsJson = "certificateAsJson";
+    public void getCertficateMessagesProviderGetMissingKey() throws ModuleException {
+        final var certificateMessagesProvider = moduleApi.getMessagesProvider();
 
-        final var internalCertificate = LuaenaUtlatandeV1.builder()
-            .setId("123")
-            .setTextVersion("1.0")
-            .setGrundData(new GrundData())
-            .build();
-
-        doReturn(internalCertificate)
-            .when(objectMapper).readValue(eq(certificateAsJson), eq(LuaenaUtlatandeV1.class));
-
-        doReturn(expectedJson)
-            .when(objectMapper).writeValueAsString(internalCertificate);
-
-        when(certificateToInternal.convert(certificate, internalCertificate))
-            .thenReturn(internalCertificate);
-
-        final var actualJson = moduleApi.getJsonFromCertificate(certificate, certificateAsJson);
-        assertEquals(expectedJson, actualJson);
+        assertNull(certificateMessagesProvider.get("not.existing"));
     }
 
     private RegisterCertificateResponseType createReturnVal(ResultCodeType res) {
