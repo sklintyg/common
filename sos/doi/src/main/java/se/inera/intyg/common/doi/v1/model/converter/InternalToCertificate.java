@@ -19,13 +19,10 @@
 
 package se.inera.intyg.common.doi.v1.model.converter;
 
-import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_B_DATUM_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_B_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_B_LABEL;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_C_DATUM_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_C_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_C_LABEL;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_D_DATUM_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_D_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_D_LABEL;
 
@@ -141,15 +138,15 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionTerminalDodsorsakFoljdAv.toCertificate(getTerminalDodsorsak(getFoljdAv(internalCertificate.getFoljd(), 0)),
-                    index++, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL, FOLJD_OM_DELSVAR_B_DATUM_ID)
+                    index++, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL)
             )
             .addElement(
                 QuestionTerminalDodsorsakFoljdAv.toCertificate(getTerminalDodsorsak(getFoljdAv(internalCertificate.getFoljd(), 1)),
-                    index++, texts, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_C_LABEL, FOLJD_OM_DELSVAR_C_DATUM_ID)
+                    index++, texts, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_C_LABEL)
             )
             .addElement(
                 QuestionTerminalDodsorsakFoljdAv.toCertificate(getTerminalDodsorsak(getFoljdAv(internalCertificate.getFoljd(), 2)),
-                    index++, texts, FOLJD_OM_DELSVAR_D_ID, FOLJD_OM_DELSVAR_D_LABEL, FOLJD_OM_DELSVAR_D_DATUM_ID)
+                    index++, texts, FOLJD_OM_DELSVAR_D_ID, FOLJD_OM_DELSVAR_D_LABEL)
             )
             .addElement(
                 QuestionBidragandeSjukdomar.toCertificate(internalCertificate.getBidragandeSjukdomar(), index++, texts)

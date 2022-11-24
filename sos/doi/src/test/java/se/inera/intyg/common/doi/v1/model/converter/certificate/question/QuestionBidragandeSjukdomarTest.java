@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_OM_DESCRIPTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_OM_QUESTION_TEXT_ID;
@@ -162,22 +163,24 @@ class QuestionBidragandeSjukdomarTest {
 
         @Test
         void shouldIncludeCorrectConfigDescriptionId() {
-            final var expectedId = "description";
+            var id = 0;
             final var question = QuestionBidragandeSjukdomar.toCertificate(
                 bidragandeSjukdomar, 0, texts);
             final var config = (CertificateDataConfigCauseOfDeathList) question.getConfig();
             for (CauseOfDeath causeOfDeath : config.getList()) {
+                var expectedId = BIDRAGANDE_SJUKDOM_JSON_ID + "[" + id++ + "].beskrivning";
                 assertEquals(expectedId, causeOfDeath.getDescriptionId());
             }
         }
 
         @Test
         void shouldIncludeCorrectConfigDebutId() {
-            final var expectedId = "debut";
+            var id = 0;
             final var question = QuestionBidragandeSjukdomar.toCertificate(
                 bidragandeSjukdomar, 0, texts);
             final var config = (CertificateDataConfigCauseOfDeathList) question.getConfig();
             for (CauseOfDeath causeOfDeath : config.getList()) {
+                var expectedId = BIDRAGANDE_SJUKDOM_JSON_ID + "[" + id++ + "].datum";
                 assertEquals(expectedId, causeOfDeath.getDebutId());
             }
         }
@@ -232,11 +235,12 @@ class QuestionBidragandeSjukdomarTest {
 
         @Test
         void shouldIncludeValueTypeTerminalCauseOfDeathListDescriptionTextValueId() {
-            final var expectedId = "description";
+            var id = 0;
             final var question = QuestionBidragandeSjukdomar.toCertificate(
                 bidragandeSjukdomar, 0, texts);
             final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
             for (CertificateDataValueCauseOfDeath causeOfDeath : causeOfDeathList.getList()) {
+                var expectedId = BIDRAGANDE_SJUKDOM_JSON_ID + "[" + id++ + "].beskrivning";
                 assertEquals(expectedId, causeOfDeath.getDescription().getId());
             }
         }
@@ -254,11 +258,12 @@ class QuestionBidragandeSjukdomarTest {
 
         @Test
         void shouldIncludeValueTypeTerminalCauseOfDeathListDebutDateValueId() {
-            final var expectedId = "debut";
+            int id = 0;
             final var question = QuestionBidragandeSjukdomar.toCertificate(
                 bidragandeSjukdomar, 0, texts);
             final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
             for (CertificateDataValueCauseOfDeath causeOfDeath : causeOfDeathList.getList()) {
+                var expectedId = BIDRAGANDE_SJUKDOM_JSON_ID + "[" + id++ + "].datum";
                 assertEquals(expectedId, causeOfDeath.getDebut().getId());
             }
         }
@@ -281,13 +286,13 @@ class QuestionBidragandeSjukdomarTest {
                 .id("0")
                 .description(
                     CertificateDataTextValue.builder()
-                        .id("description")
+                        .id(BIDRAGANDE_SJUKDOM_JSON_ID + "[0].beskrivning")
                         .text(bidragandeSjukdom.getBeskrivning())
                         .build()
                 )
                 .debut(
                     CertificateDataValueDate.builder()
-                        .id("debut")
+                        .id(BIDRAGANDE_SJUKDOM_JSON_ID + "[0].datum")
                         .date(bidragandeSjukdom.getDatum().asLocalDate())
                         .build()
                 )
