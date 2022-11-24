@@ -67,7 +67,7 @@ public final class DefaultCertificateTextProvider implements CertificateTextProv
         String result;
         result = stringBuilder.toString().replaceAll("^\n+|^\\s+", "");
         result = result.replaceAll("\n\n+", "**");
-        result = result.replaceAll("\n|\t", "");
+        result = result.replaceAll("\t", "");
         result = result.replaceAll("\\s\\s+", " ");
         result = result.replaceAll("\\*\\*", "\n\n");
         result = result.replaceAll("\n\n\\s", "\n\n");
