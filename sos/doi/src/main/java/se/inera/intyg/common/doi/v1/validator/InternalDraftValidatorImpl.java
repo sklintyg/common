@@ -20,10 +20,14 @@ package se.inera.intyg.common.doi.v1.validator;
 
 import static se.inera.intyg.common.doi.support.DoiModuleEntryPoint.MODULE_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_OM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_B_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_C_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_D_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_DATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_OM_DELSVAR_ID;
@@ -136,12 +140,13 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
             ? utlatande.getTerminalDodsorsak().getDatum().asLocalDate()
             : null;
         for (int i = 0; i < utlatande.getFoljd().size(); i++) {
+            final var questionId = getQuestionId(i);
             Dodsorsak foljd = utlatande.getFoljd().get(i);
             if (Strings.nullToEmpty(foljd.getBeskrivning()).trim().isEmpty()) {
-                ValidatorUtil.addValidationError(validationMessages,
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages,
                     "utlatandeOrsak",
                     FOLJD_JSON_ID + "[" + i + "].beskrivning",
-                    ValidationMessageType.EMPTY);
+                    ValidationMessageType.EMPTY, questionId);
             }
             if (foljd.getDatum() != null) {
                 String validationField = FOLJD_JSON_ID + "[" + i + "].datum";
@@ -151,16 +156,16 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                 if (validDate) {
                     // R21 b, check with today if no earlier date
                     if (minDate == null && foljd.getDatum().asLocalDate().isAfter(LocalDate.now())) {
-                        ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak", validationField,
-                            ValidationMessageType.INCORRECT_COMBINATION, "common.validation.date.today.or.earlier");
+                        ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "utlatandeOrsak", validationField,
+                            ValidationMessageType.INCORRECT_COMBINATION, "common.validation.date.today.or.earlier", questionId);
                         validDate = false;
                     } else if (minDate != null && foljd.getDatum().asLocalDate().isAfter(minDate)) {
                         String message = "doi.validation.foljd.datum.f.val-050";
                         if (i > 0) {
                             message = "doi.validation.foljd.datum.f.val-051";
                         }
-                        ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak", validationField,
-                            ValidationMessageType.INCORRECT_COMBINATION, message);
+                        ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "utlatandeOrsak", validationField,
+                            ValidationMessageType.INCORRECT_COMBINATION, message, questionId);
                         validDate = false;
                     }
                 }
@@ -185,20 +190,21 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
             }
             if (Strings.nullToEmpty(bidragandeSjukdom.getBeskrivning()).trim().isEmpty()) {
                 ValidatorUtil
-                    .addValidationError(validationMessages, "utlatandeOrsak", BIDRAGANDE_SJUKDOM_JSON_ID + "[" + i + "]."
-                        + DODSORSAK_OM_JSON_ID, ValidationMessageType.EMPTY);
+                    .addValidationErrorWithQuestionId(validationMessages, "utlatandeOrsak", BIDRAGANDE_SJUKDOM_JSON_ID + "[" + i + "]."
+                        + DODSORSAK_OM_JSON_ID, ValidationMessageType.EMPTY, BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID);
             }
             if (bidragandeSjukdom.getDatum() != null) {
                 String validationField = BIDRAGANDE_SJUKDOM_JSON_ID + "[" + i + "]." + DODSORSAK_DATUM_JSON_ID;
                 if (bidragandeSjukdom.getDatum().isValidDate()
                     && ValidatorUtil.isDateAfter(bidragandeSjukdom.getDatum(), utlatande.getDodsdatum())) {
-                    ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak", validationField,
-                        ValidationMessageType.INCORRECT_COMBINATION, "doi.validation.terminalDodsorsak.datum.efterDodsdatum");
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "utlatandeOrsak", validationField,
+                        ValidationMessageType.INCORRECT_COMBINATION, "doi.validation.terminalDodsorsak.datum.efterDodsdatum",
+                        BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID);
                 } else if (bidragandeSjukdom.getDatum().isValidDate()
                     && ValidatorUtil.isDateAfter(bidragandeSjukdom.getDatum(), utlatande.getAntraffatDodDatum())) {
-                    ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak", validationField,
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "utlatandeOrsak", validationField,
                         ValidationMessageType.INCORRECT_COMBINATION,
-                        "doi.validation.terminalDodsorsak.datum.efterAntraffatDodsdatum");
+                        "doi.validation.terminalDodsorsak.datum.efterAntraffatDodsdatum", BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID);
                 }
                 ValidatorUtil.validateDate(bidragandeSjukdom.getDatum(), validationMessages, "utlatandeOrsak",
                     validationField, "common.validation.ue-date.invalid_format");
@@ -319,6 +325,19 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
         } else if (utlatande.getGrunder().size() != utlatande.getGrunder().stream().distinct().count()) {
             ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "dodsorsakgrund", GRUNDER_JSON_ID,
                 ValidationMessageType.INCORRECT_COMBINATION, GRUNDER_DELSVAR_ID);
+        }
+    }
+
+    private String getQuestionId(int i) {
+        switch (i) {
+            case 0:
+                return FOLJD_OM_DELSVAR_B_ID;
+            case 1:
+                return FOLJD_OM_DELSVAR_C_ID;
+            case 2:
+                return FOLJD_OM_DELSVAR_D_ID;
+            default:
+                return "NOT_FOUND";
         }
     }
 }
