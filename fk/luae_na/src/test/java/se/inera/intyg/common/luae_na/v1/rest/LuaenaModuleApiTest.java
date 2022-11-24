@@ -28,7 +28,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -56,15 +55,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import se.inera.intyg.common.luae_na.v1.model.converter.CertificateToInternal;
-import se.inera.intyg.common.luae_na.v1.model.converter.InternalToCertificate;
 import se.inera.intyg.common.luae_na.v1.model.converter.SvarIdHelperImpl;
 import se.inera.intyg.common.luae_na.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.luae_na.v1.utils.ScenarioFinder;
-import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.services.texts.IntygTextsService;
-import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -77,7 +71,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHold
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
-import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponderInterface;
@@ -113,14 +106,6 @@ public class LuaenaModuleApiTest {
 
     @Spy
     private SvarIdHelperImpl svarIdHelper;
-    @Mock
-    private InternalToCertificate internalToCertificate;
-
-    @Mock
-    private CertificateToInternal certificateToInternal;
-
-    @Mock
-    private IntygTextsService intygTextsService;
 
     @InjectMocks
     private LuaenaModuleApiV1 moduleApi;
@@ -401,6 +386,7 @@ public class LuaenaModuleApiTest {
 
         verify(webcertModelFactory, times(1)).createCopy(any(), any());
     }
+
     @Test
     public void getCertficateMessagesProviderGetExistingKey() throws ModuleException {
         final var certificateMessagesProvider = moduleApi.getMessagesProvider();
