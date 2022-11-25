@@ -22,13 +22,10 @@ package se.inera.intyg.common.doi.v1.model.converter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_B_DATUM_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_B_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_B_LABEL;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_C_DATUM_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_C_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_C_LABEL;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_D_DATUM_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_D_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_D_LABEL;
 
@@ -162,15 +159,15 @@ class CertificateToInternalTest {
                 .addElement(QuestionTerminalDodsorsak.toCertificate(expectedInternalCertificate.getTerminalDodsorsak(), 0, texts))
                 .addElement(
                     QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedInternalCertificate.getFoljd().get(0),
-                        0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL, FOLJD_OM_DELSVAR_B_DATUM_ID)
+                        0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL)
                 )
                 .addElement(
                     QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedInternalCertificate.getFoljd().get(1),
-                        0, texts, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_C_LABEL, FOLJD_OM_DELSVAR_C_DATUM_ID)
+                        0, texts, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_C_LABEL)
                 )
                 .addElement(
                     QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedInternalCertificate.getFoljd().get(2),
-                        0, texts, FOLJD_OM_DELSVAR_D_ID, FOLJD_OM_DELSVAR_D_LABEL, FOLJD_OM_DELSVAR_D_DATUM_ID)
+                        0, texts, FOLJD_OM_DELSVAR_D_ID, FOLJD_OM_DELSVAR_D_LABEL)
                 )
                 .addElement(QuestionBidragandeSjukdomar.toCertificate(bidragandSjukdommar, 0, texts))
                 .addElement(QuestionOperation.toCertificate(expectedInternalCertificate.getOperation(), 0, texts))

@@ -19,11 +19,12 @@
 
 package se.inera.intyg.common.doi.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DATUM_DELSVAR_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_SVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_AV_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_B_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_C_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_D_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_KRONISK;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_PLOTSLIG;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS;
@@ -58,8 +59,7 @@ public class QuestionTerminalDodsorsakFoljdAv {
         int index,
         CertificateTextProvider texts,
         String questionId,
-        String label,
-        String dodsOrsakDatumDelsvarId
+        String label
     ) {
         return CertificateDataElement.builder()
             .id(questionId)
@@ -71,8 +71,8 @@ public class QuestionTerminalDodsorsakFoljdAv {
                 .causeOfDeath(
                     CauseOfDeath.builder()
                         .id(FOLJD_JSON_ID)
-                        .descriptionId(questionId)
-                        .debutId(dodsOrsakDatumDelsvarId)
+                        .descriptionId(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].beskrivning")
+                        .debutId(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].datum")
                         .specifications(List.of(
                             CodeItem.builder()
                                 .id(Specifikation.PLOTSLIG.name())
@@ -97,13 +97,13 @@ public class QuestionTerminalDodsorsakFoljdAv {
                     .id(FOLJD_JSON_ID)
                     .description(
                         CertificateDataTextValue.builder()
-                            .id(questionId)
+                            .id(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].beskrivning")
                             .text(terminalDodsorsak.getBeskrivning())
                             .build()
                     )
                     .debut(
                         CertificateDataValueDate.builder()
-                            .id(dodsOrsakDatumDelsvarId)
+                            .id(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].datum")
                             .date(toLocalDate(terminalDodsorsak.getDatum()))
                             .build()
                     )
@@ -119,13 +119,12 @@ public class QuestionTerminalDodsorsakFoljdAv {
             )
             .validation(
                 new CertificateDataValidation[]{
-
                     CertificateDataValidationText.builder()
-                        .id(DODSORSAK_DELSVAR_ID)
+                        .id(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].beskrivning")
                         .limit(LIMIT)
                         .build(),
                     CertificateDataValidationMaxDate.builder()
-                        .id(DODSORSAK_DATUM_DELSVAR_ID)
+                        .id(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].datum")
                         .numberOfDays(NUMBER_OF_DAYS_IN_FUTURE)
                         .build()
                 }
@@ -135,6 +134,19 @@ public class QuestionTerminalDodsorsakFoljdAv {
 
     private static LocalDate toLocalDate(InternalDate internalDate) {
         return (internalDate != null && internalDate.isValidDate()) ? internalDate.asLocalDate() : null;
+    }
+
+    private static int getElementId(String questionId) {
+        switch (questionId) {
+            case FOLJD_OM_DELSVAR_B_ID:
+                return 0;
+            case FOLJD_OM_DELSVAR_C_ID:
+                return 1;
+            case FOLJD_OM_DELSVAR_D_ID:
+                return 2;
+            default:
+                throw new RuntimeException("No questionId match the given id: " + questionId);
+        }
     }
 
 

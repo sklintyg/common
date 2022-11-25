@@ -20,7 +20,9 @@ package se.inera.intyg.common.doi.v1.validator;
 
 import static org.junit.Assert.assertEquals;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DELSVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_ORSAK_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_UPPKOMMELSE_DELSVAR_ID;
@@ -331,6 +333,7 @@ public class InternalDraftValidatorImplTest {
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("barnSomAvlidit", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("barn", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(BARN_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -342,6 +345,7 @@ public class InternalDraftValidatorImplTest {
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("barnSomAvlidit", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("barn", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(BARN_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -354,6 +358,7 @@ public class InternalDraftValidatorImplTest {
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("barnSomAvlidit", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("barn", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(BARN_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -366,6 +371,7 @@ public class InternalDraftValidatorImplTest {
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("barnSomAvlidit", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("barn", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(BARN_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -378,6 +384,7 @@ public class InternalDraftValidatorImplTest {
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("utlatandeOrsak", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("terminalDodsorsak.datum", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(DODSORSAK_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -391,5 +398,6 @@ public class InternalDraftValidatorImplTest {
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("utlatandeOrsak", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("terminalDodsorsak.datum", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(DODSORSAK_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
 }

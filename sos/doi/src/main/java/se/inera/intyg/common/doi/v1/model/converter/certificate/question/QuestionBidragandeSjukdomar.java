@@ -19,6 +19,7 @@
 
 package se.inera.intyg.common.doi.v1.model.converter.certificate.question;
 
+import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_OM_DESCRIPTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_OM_QUESTION_TEXT_ID;
@@ -48,9 +49,6 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate
 import se.inera.intyg.common.support.model.InternalDate;
 
 public class QuestionBidragandeSjukdomar {
-
-    private static final String DESCRIPTION_ID = "description";
-    private static final String DEBUT_ID = "debut";
 
     public static final short LIMIT = (short) 55;
     public static final short NUMBER_OF_DAYS_IN_FUTURE = (short) 0;
@@ -121,8 +119,8 @@ public class QuestionBidragandeSjukdomar {
     private static CauseOfDeath getCauseOfDeathConfig(String id) {
         return CauseOfDeath.builder()
             .id(id)
-            .descriptionId(DESCRIPTION_ID)
-            .debutId(DEBUT_ID)
+            .descriptionId(BIDRAGANDE_SJUKDOM_JSON_ID + "[" + id + "].beskrivning")
+            .debutId(BIDRAGANDE_SJUKDOM_JSON_ID + "[" + id + "].datum")
             .specifications(getSpecifications())
             .build();
     }
@@ -143,10 +141,10 @@ public class QuestionBidragandeSjukdomar {
         return CertificateDataValueCauseOfDeath.builder()
             .id(id)
             .description(
-                getDescription(bidragandeSjukdom)
+                getDescription(bidragandeSjukdom, id)
             )
             .debut(
-                getDebut(bidragandeSjukdom)
+                getDebut(bidragandeSjukdom, id)
             )
             .specification(
                 getSpecification(bidragandeSjukdom)
@@ -154,16 +152,16 @@ public class QuestionBidragandeSjukdomar {
             .build();
     }
 
-    private static CertificateDataTextValue getDescription(Dodsorsak bidragandeSjukdom) {
+    private static CertificateDataTextValue getDescription(Dodsorsak bidragandeSjukdom, String id) {
         return CertificateDataTextValue.builder()
-            .id(DESCRIPTION_ID)
+            .id(BIDRAGANDE_SJUKDOM_JSON_ID + "[" + id + "].beskrivning")
             .text(bidragandeSjukdom != null ? bidragandeSjukdom.getBeskrivning() : null)
             .build();
     }
 
-    private static CertificateDataValueDate getDebut(Dodsorsak bidragandeSjukdom) {
+    private static CertificateDataValueDate getDebut(Dodsorsak bidragandeSjukdom, String id) {
         return CertificateDataValueDate.builder()
-            .id(DEBUT_ID)
+            .id(BIDRAGANDE_SJUKDOM_JSON_ID + "[" + id + "].datum")
             .date(bidragandeSjukdom != null && bidragandeSjukdom.getDatum() != null ? bidragandeSjukdom.getDatum().asLocalDate() : null)
             .build();
     }
