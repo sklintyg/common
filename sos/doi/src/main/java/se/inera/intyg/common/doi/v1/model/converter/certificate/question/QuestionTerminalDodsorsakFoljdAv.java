@@ -61,7 +61,6 @@ public class QuestionTerminalDodsorsakFoljdAv {
         String questionId,
         String label
     ) {
-        final var configId = getConfigId(questionId);
         return CertificateDataElement.builder()
             .id(questionId)
             .index(index)
@@ -72,8 +71,8 @@ public class QuestionTerminalDodsorsakFoljdAv {
                 .causeOfDeath(
                     CauseOfDeath.builder()
                         .id(FOLJD_JSON_ID)
-                        .descriptionId(FOLJD_JSON_ID + "[" + configId + "].beskrivning")
-                        .debutId(FOLJD_JSON_ID + "[" + configId + "].datum")
+                        .descriptionId(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].beskrivning")
+                        .debutId(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].datum")
                         .specifications(List.of(
                             CodeItem.builder()
                                 .id(Specifikation.PLOTSLIG.name())
@@ -98,13 +97,13 @@ public class QuestionTerminalDodsorsakFoljdAv {
                     .id(FOLJD_JSON_ID)
                     .description(
                         CertificateDataTextValue.builder()
-                            .id(FOLJD_JSON_ID + "[" + configId + "].beskrivning")
+                            .id(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].beskrivning")
                             .text(terminalDodsorsak.getBeskrivning())
                             .build()
                     )
                     .debut(
                         CertificateDataValueDate.builder()
-                            .id(FOLJD_JSON_ID + "[" + configId + "].datum")
+                            .id(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].datum")
                             .date(toLocalDate(terminalDodsorsak.getDatum()))
                             .build()
                     )
@@ -121,11 +120,11 @@ public class QuestionTerminalDodsorsakFoljdAv {
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationText.builder()
-                        .id(FOLJD_JSON_ID + "[" + configId + "].beskrivning")
+                        .id(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].beskrivning")
                         .limit(LIMIT)
                         .build(),
                     CertificateDataValidationMaxDate.builder()
-                        .id(FOLJD_JSON_ID + "[" + configId + "].datum")
+                        .id(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].datum")
                         .numberOfDays(NUMBER_OF_DAYS_IN_FUTURE)
                         .build()
                 }
@@ -137,7 +136,7 @@ public class QuestionTerminalDodsorsakFoljdAv {
         return (internalDate != null && internalDate.isValidDate()) ? internalDate.asLocalDate() : null;
     }
 
-    private static int getConfigId(String questionId) {
+    private static int getElementId(String questionId) {
         switch (questionId) {
             case FOLJD_OM_DELSVAR_B_ID:
                 return 0;

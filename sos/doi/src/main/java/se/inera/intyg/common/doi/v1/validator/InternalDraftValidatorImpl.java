@@ -140,13 +140,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
             ? utlatande.getTerminalDodsorsak().getDatum().asLocalDate()
             : null;
         for (int i = 0; i < utlatande.getFoljd().size(); i++) {
-            final var questionId = getQuestionId(i);
             Dodsorsak foljd = utlatande.getFoljd().get(i);
             if (Strings.nullToEmpty(foljd.getBeskrivning()).trim().isEmpty()) {
                 ValidatorUtil.addValidationErrorWithQuestionId(validationMessages,
                     "utlatandeOrsak",
                     FOLJD_JSON_ID + "[" + i + "].beskrivning",
-                    ValidationMessageType.EMPTY, questionId);
+                    ValidationMessageType.EMPTY, toQuestionId(i));
             }
             if (foljd.getDatum() != null) {
                 String validationField = FOLJD_JSON_ID + "[" + i + "].datum";
@@ -157,7 +156,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                     // R21 b, check with today if no earlier date
                     if (minDate == null && foljd.getDatum().asLocalDate().isAfter(LocalDate.now())) {
                         ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "utlatandeOrsak", validationField,
-                            ValidationMessageType.INCORRECT_COMBINATION, "common.validation.date.today.or.earlier", questionId);
+                            ValidationMessageType.INCORRECT_COMBINATION, "common.validation.date.today.or.earlier", toQuestionId(i));
                         validDate = false;
                     } else if (minDate != null && foljd.getDatum().asLocalDate().isAfter(minDate)) {
                         String message = "doi.validation.foljd.datum.f.val-050";
@@ -165,7 +164,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                             message = "doi.validation.foljd.datum.f.val-051";
                         }
                         ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "utlatandeOrsak", validationField,
-                            ValidationMessageType.INCORRECT_COMBINATION, message, questionId);
+                            ValidationMessageType.INCORRECT_COMBINATION, message, toQuestionId(i));
                         validDate = false;
                     }
                 }
@@ -328,7 +327,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
         }
     }
 
-    private String getQuestionId(int i) {
+    private String toQuestionId(int i) {
         switch (i) {
             case 0:
                 return FOLJD_OM_DELSVAR_B_ID;
