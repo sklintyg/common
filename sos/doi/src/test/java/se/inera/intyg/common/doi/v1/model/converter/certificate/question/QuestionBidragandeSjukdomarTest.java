@@ -28,10 +28,10 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_OM_DESCRIPTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_OM_QUESTION_TEXT_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_SVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_KRONISK;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_PLOTSLIG;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_CATEGORY_ID;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -116,7 +116,7 @@ class QuestionBidragandeSjukdomarTest {
         void shouldIncludeParentId() {
             final var question = QuestionBidragandeSjukdomar.toCertificate(
                 bidragandeSjukdomar, 0, texts);
-            assertEquals(DODSORSAK_SVAR_ID, question.getParent());
+            assertEquals(TERMINAL_DODSORSAK_CATEGORY_ID, question.getParent());
         }
 
         @Test

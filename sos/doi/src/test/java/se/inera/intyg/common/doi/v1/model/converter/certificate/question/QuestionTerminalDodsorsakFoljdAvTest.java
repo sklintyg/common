@@ -37,6 +37,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DE
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_KRONISK;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_PLOTSLIG;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_CATEGORY_ID;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -134,7 +135,7 @@ class QuestionTerminalDodsorsakFoljdAvTest {
         void shouldIncludeParentId() {
             final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
                 causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
-            assertEquals(DODSORSAK_SVAR_ID, question.getParent());
+            assertEquals(TERMINAL_DODSORSAK_CATEGORY_ID, question.getParent());
         }
 
         @Test
