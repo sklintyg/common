@@ -23,10 +23,10 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_OM_DESCRIPTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_OM_QUESTION_TEXT_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_SVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_KRONISK;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_PLOTSLIG;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_CATEGORY_ID;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +58,7 @@ public class QuestionBidragandeSjukdomar {
         return CertificateDataElement.builder()
             .id(BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID)
             .index(index)
-            .parent(DODSORSAK_SVAR_ID)
+            .parent(TERMINAL_DODSORSAK_CATEGORY_ID)
             .config(
                 CertificateDataConfigCauseOfDeathList.builder()
                     .text(texts.get(BIDRAGANDE_SJUKDOM_OM_QUESTION_TEXT_ID))
