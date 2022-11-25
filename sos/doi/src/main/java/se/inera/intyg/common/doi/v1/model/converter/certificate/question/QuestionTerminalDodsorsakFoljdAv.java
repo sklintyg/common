@@ -19,7 +19,6 @@
 
 package se.inera.intyg.common.doi.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_SVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_AV_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_B_ID;
@@ -28,6 +27,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DE
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_KRONISK;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_PLOTSLIG;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_CATEGORY_ID;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ public class QuestionTerminalDodsorsakFoljdAv {
         return CertificateDataElement.builder()
             .id(questionId)
             .index(index)
-            .parent(DODSORSAK_SVAR_ID)
+            .parent(TERMINAL_DODSORSAK_CATEGORY_ID)
             .config(CertificateDataConfigCauseOfDeath.builder()
                 .text(texts.get(FOLJD_AV_QUESTION_TEXT_ID))
                 .label(label)

@@ -21,11 +21,11 @@ package se.inera.intyg.common.doi.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DELSVAR_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_SVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_A_LABEL;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_KRONISK;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_PLOTSLIG;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_DESCRIPTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_QUESTION_TEXT_ID;
@@ -61,7 +61,7 @@ public class QuestionTerminalDodsorsak {
         return CertificateDataElement.builder()
             .id(DODSORSAK_DELSVAR_ID)
             .index(index)
-            .parent(DODSORSAK_SVAR_ID)
+            .parent(TERMINAL_DODSORSAK_CATEGORY_ID)
             .config(
                 CertificateDataConfigCauseOfDeath.builder()
                     .text(texts.get(TERMINAL_DODSORSAK_QUESTION_TEXT_ID))
