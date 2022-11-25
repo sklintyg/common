@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DELSVAR_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_SVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_DESCRIPTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_QUESTION_TEXT_ID;
@@ -115,7 +115,7 @@ class QuestionTerminalDodsorsakTest {
         @Test
         void shouldIncludeParentId() {
             final var question = QuestionTerminalDodsorsak.toCertificate(causeOfDeathEmpty, 0, texts);
-            assertEquals(DODSORSAK_SVAR_ID, question.getParent());
+            assertEquals(TERMINAL_DODSORSAK_CATEGORY_ID, question.getParent());
         }
 
         @Test
