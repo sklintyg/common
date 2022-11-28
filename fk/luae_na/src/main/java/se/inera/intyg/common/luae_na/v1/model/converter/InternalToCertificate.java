@@ -23,6 +23,7 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrun
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryGrundForMU;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUAnnanBeskrivning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUBaseratPa;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUMotivering;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
@@ -44,6 +45,8 @@ public class InternalToCertificate {
             )
             .addElement(QuestionGrundForMUAnnanBeskrivning.toCertificate(index++, textProvider,
                 internalCertificate.getAnnatGrundForMUBeskrivning()))
+            .addElement(QuestionGrundForMUMotivering.toCertificate(index, textProvider,
+                internalCertificate.getMotiveringTillInteBaseratPaUndersokning()))
             .build();
     }
 }

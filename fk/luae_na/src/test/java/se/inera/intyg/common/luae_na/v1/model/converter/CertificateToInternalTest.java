@@ -136,5 +136,12 @@ class CertificateToInternalTest {
             assertEquals(actualInternalCertificate.getAnnatGrundForMUBeskrivning(),
                 expectedInternalCertificate.getAnnatGrundForMUBeskrivning());
         }
+
+        @Test
+        void shallIncludeAnnatGrundForMUMotivering() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getMotiveringTillInteBaseratPaUndersokning(),
+                expectedInternalCertificate.getMotiveringTillInteBaseratPaUndersokning());
+        }
     }
 }

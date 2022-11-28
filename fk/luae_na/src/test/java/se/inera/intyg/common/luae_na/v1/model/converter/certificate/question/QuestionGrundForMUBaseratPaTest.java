@@ -50,6 +50,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleDate;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateList;
@@ -241,6 +242,20 @@ class QuestionGrundForMUBaseratPaTest {
                 () -> assertEquals(expectedNumberOfDays, thirdValidation.getNumberOfDays()),
                 () -> assertEquals(expectedNumberOfDays, fourthValidation.getNumberOfDays())
             );
+        }
+
+        @Test
+        void shouldIncludeValidationMandatoryExpression() {
+            final var expectedExpression =
+                GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1 + " || "
+                    + GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1 + " || " +
+                    GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1 + " || "
+                    + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
+            final var question = QuestionGrundForMUBaseratPa.toCertificate(0, texts, null,
+                null, null, null);
+            final var mandatoryValidation = (CertificateDataValidationMandatory) question.getValidation()[4];
+
+            assertEquals(expectedExpression, mandatoryValidation.getExpression());
         }
     }
 }
