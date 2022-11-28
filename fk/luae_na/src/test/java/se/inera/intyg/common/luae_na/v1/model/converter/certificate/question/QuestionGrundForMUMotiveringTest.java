@@ -34,13 +34,18 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIV
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_TEXT;
 
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
@@ -192,6 +197,27 @@ class QuestionGrundForMUMotiveringTest {
             final var hideExpression = (CertificateDataValidationHide) question.getValidation()[2];
 
             assertEquals(expectedExpression, hideExpression.getExpression());
+        }
+    }
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class ToInternal {
+
+        Stream<String> textValues() {
+            return Stream.of("Här kommer en text!", "", null);
+        }
+
+        @ParameterizedTest
+        @MethodSource("textValues")
+        void shouldIncludeTextValue(String expectedValue) {
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionGrundForMUMotivering.toCertificate(0, texts, expectedValue))
+                .build();
+
+            final var actualValue = QuestionGrundForMUMotivering.toInternal(certificate);
+
+            assertEquals(expectedValue, actualValue);
         }
     }
 }

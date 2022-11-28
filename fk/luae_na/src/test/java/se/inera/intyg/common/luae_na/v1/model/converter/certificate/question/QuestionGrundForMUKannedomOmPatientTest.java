@@ -33,10 +33,12 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDate;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
@@ -161,6 +163,35 @@ class QuestionGrundForMUKannedomOmPatientTest {
             final var certificateDataValidationText = (CertificateDataValidationMaxDate) question.getValidation()[1];
 
             assertEquals(expectedLimit, certificateDataValidationText.getNumberOfDays());
+        }
+    }
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class ToInternal {
+
+        @Test
+        void shouldIncludeValue() {
+            final var expectedValue = LocalDate.now();
+
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionGrundForMUKannedomOmPatient.toCertificate(0, texts, new InternalDate(expectedValue)))
+                .build();
+
+            final var actualValue = QuestionGrundForMUKannedomOmPatient.toInternal(certificate);
+
+            assertEquals(new InternalDate(expectedValue), actualValue);
+        }
+
+        @Test
+        void shouldIncludeValueNull() {
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionGrundForMUKannedomOmPatient.toCertificate(0, texts, null))
+                .build();
+
+            final var actualValue = QuestionGrundForMUKannedomOmPatient.toInternal(certificate);
+
+            assertEquals(null, actualValue);
         }
     }
 }

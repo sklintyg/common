@@ -41,13 +41,19 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_UNDERSOKNING_LABEL;
 
 import java.time.LocalDate;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import se.inera.intyg.common.luae_na.v1.model.converter.CertificateToInternal;
+import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleDate;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
@@ -56,6 +62,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionGrundForMUBaseratPaTest {
@@ -257,5 +264,39 @@ class QuestionGrundForMUBaseratPaTest {
 
             assertEquals(expectedExpression, mandatoryValidation.getExpression());
         }
+    }
+
+    private static Stream<InternalDate> dateValues() {
+        return Stream.of(new InternalDate(LocalDate.now().plusMonths(10)), new InternalDate(LocalDate.now()), null);
+    }
+
+    @ParameterizedTest
+    @MethodSource("dateValues")
+    void shouldIncludeGrundForMUUndersokningValue(InternalDate expectedValue) {
+        final var index = 1;
+
+        final var utlatande =
+            LuaenaUtlatandeV1.builder()
+                .setId("id")
+                .setTextVersion("1.0")
+                .setGrundData(new GrundData())
+                .setUndersokningAvPatienten(expectedValue)
+                .setJournaluppgifter(expectedValue)
+                .setAnhorigsBeskrivningAvPatienten(expectedValue)
+                .setAnnatGrundForMU(expectedValue)
+                .build();
+
+        final var certificate = CertificateBuilder.create()
+            .addElement(QuestionGrundForMUBaseratPa.toCertificate(index, texts, utlatande.getUndersokningAvPatienten(),
+                utlatande.getJournaluppgifter(), utlatande.getAnhorigsBeskrivningAvPatienten(), utlatande.getAnnatGrundForMU())).build();
+
+        final var updatedCertificate = CertificateToInternal.convert(certificate, utlatande);
+
+        assertAll(
+            () -> assertEquals(expectedValue, updatedCertificate.getUndersokningAvPatienten()),
+            () -> assertEquals(expectedValue, updatedCertificate.getJournaluppgifter()),
+            () -> assertEquals(expectedValue, updatedCertificate.getAnhorigsBeskrivningAvPatienten()),
+            () -> assertEquals(expectedValue, updatedCertificate.getAnnatGrundForMU())
+        );
     }
 }

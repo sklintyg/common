@@ -49,7 +49,7 @@ public class CertificateToInternal {
                 GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1))
             .setAnnatGrundForMU(
                 QuestionGrundForMUBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
-            .setAnnatGrundForMUBeskrivning(QuestionGrundForMUAnnanBeskrivning.toInteral(certificate))
+            .setAnnatGrundForMUBeskrivning(QuestionGrundForMUAnnanBeskrivning.toInternal(certificate))
             .setMotiveringTillInteBaseratPaUndersokning(QuestionGrundForMUMotivering.toInternal(certificate))
             .setKannedomOmPatient(QuestionGrundForMUKannedomOmPatient.toInternal(certificate))
             .setUnderlagFinns(QuestionGrundForMUUnderlagFinns.toInternal(certificate))

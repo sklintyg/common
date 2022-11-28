@@ -72,7 +72,7 @@ public class QuestionGrundForMUAnnanBeskrivning {
             .build();
     }
 
-    public static String toInteral(Certificate certificate) {
+    public static String toInternal(Certificate certificate) {
         return textValue(certificate.getData(), GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1,
             GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1);
     }

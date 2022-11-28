@@ -30,13 +30,18 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextField;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
@@ -160,6 +165,27 @@ class QuestionGrundForMUAnnanBeskrivningTest {
             final var showValidation = (CertificateDataValidationMandatory) question.getValidation()[1];
 
             assertEquals(expectedExpression, showValidation.getExpression());
+        }
+    }
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class ToInternal {
+
+        Stream<String> textValues() {
+            return Stream.of("Här kommer en text!", "", null);
+        }
+
+        @ParameterizedTest
+        @MethodSource("textValues")
+        void shouldIncludeTextValue(String expectedValue) {
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionGrundForMUAnnanBeskrivning.toCertificate(0, texts, expectedValue))
+                .build();
+
+            final var actualValue = QuestionGrundForMUAnnanBeskrivning.toInternal(certificate);
+
+            assertEquals(expectedValue, actualValue);
         }
     }
 }
