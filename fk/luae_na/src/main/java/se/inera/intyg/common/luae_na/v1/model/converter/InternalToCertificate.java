@@ -20,6 +20,8 @@
 package se.inera.intyg.common.luae_na.v1.model.converter;
 
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryGrundForMedicinsktUnderlag;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMedicinsktUnderlag;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
@@ -28,8 +30,15 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 public class InternalToCertificate {
 
     public static Certificate toCertificate(LuaenaUtlatandeV1 internalCertificate, CertificateTextProvider textProvider) {
+        int index = 0;
         return CertificateBuilder.create()
             .metadata(MetaDataGrundData.toCertificate(internalCertificate, textProvider))
+            .addElement(
+                CategoryGrundForMedicinsktUnderlag.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionGrundForMedicinsktUnderlag.toCertificate( index++, textProvider)
+            )
             .build();
     }
 }
