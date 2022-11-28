@@ -121,7 +121,7 @@ class QuestionGrundForMUKannedomOmPatientTest {
         }
 
         @Test
-        void shouldIncludeValueBoolean() {
+        void shouldIncludeValueDate() {
             final var expectedText = new InternalDate(LocalDate.now());
             final var question = QuestionGrundForMUKannedomOmPatient.toCertificate(0, texts, expectedText);
             final var value = (CertificateDataValueDate) question.getValue();

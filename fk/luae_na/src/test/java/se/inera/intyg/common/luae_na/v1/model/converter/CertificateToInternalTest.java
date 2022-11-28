@@ -33,6 +33,7 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUBaseratPa;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUKannedomOmPatient;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUMotivering;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUUnderlagFinns;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
@@ -78,6 +79,7 @@ class CertificateToInternalTest {
                 .setMotiveringTillInteBaseratPaUndersokning(motivering)
                 .setAnnatGrundForMUBeskrivning(annanBeskrivning)
                 .setKannedomOmPatient(new InternalDate(LocalDate.now()))
+                .setUnderlagFinns(true)
                 .build();
 
             texts = Mockito.mock(CertificateTextProvider.class);
@@ -91,6 +93,7 @@ class CertificateToInternalTest {
                 .addElement(QuestionGrundForMUAnnanBeskrivning.toCertificate(0, texts, annanBeskrivning))
                 .addElement(QuestionGrundForMUMotivering.toCertificate(0, texts, motivering))
                 .addElement(QuestionGrundForMUKannedomOmPatient.toCertificate(0, texts, new InternalDate(LocalDate.now())))
+                .addElement(QuestionGrundForMUUnderlagFinns.toCertificate(0, texts, true))
                 .build();
         }
 
@@ -156,6 +159,13 @@ class CertificateToInternalTest {
             final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
             assertEquals(actualInternalCertificate.getKannedomOmPatient(),
                 expectedInternalCertificate.getKannedomOmPatient());
+        }
+
+        @Test
+        void shallIncludeUnderlagFinns() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getUnderlagFinns(),
+                expectedInternalCertificate.getUnderlagFinns());
         }
     }
 }
