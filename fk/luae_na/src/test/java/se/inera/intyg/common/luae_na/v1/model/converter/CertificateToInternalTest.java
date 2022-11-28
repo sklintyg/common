@@ -31,6 +31,8 @@ import org.mockito.Mockito;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUAnnanBeskrivning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUBaseratPa;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUKannedomOmPatient;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUMotivering;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
@@ -49,6 +51,7 @@ class CertificateToInternalTest {
     private LuaenaUtlatandeV1 expectedInternalCertificate;
     private Certificate certificate;
     private static String annanBeskrivning = "annanBeskrivning";
+    private static String motivering = "motivering";
 
     @Nested
     class HappyScenario {
@@ -72,7 +75,9 @@ class CertificateToInternalTest {
                 .setJournaluppgifter(new InternalDate(LocalDate.now()))
                 .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now()))
                 .setAnnatGrundForMU(new InternalDate(LocalDate.now()))
+                .setMotiveringTillInteBaseratPaUndersokning(motivering)
                 .setAnnatGrundForMUBeskrivning(annanBeskrivning)
+                .setKannedomOmPatient(new InternalDate(LocalDate.now()))
                 .build();
 
             texts = Mockito.mock(CertificateTextProvider.class);
@@ -84,6 +89,8 @@ class CertificateToInternalTest {
                     new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now()),
                     new InternalDate(LocalDate.now())))
                 .addElement(QuestionGrundForMUAnnanBeskrivning.toCertificate(0, texts, annanBeskrivning))
+                .addElement(QuestionGrundForMUMotivering.toCertificate(0, texts, motivering))
+                .addElement(QuestionGrundForMUKannedomOmPatient.toCertificate(0, texts, new InternalDate(LocalDate.now())))
                 .build();
         }
 
@@ -142,6 +149,13 @@ class CertificateToInternalTest {
             final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
             assertEquals(actualInternalCertificate.getMotiveringTillInteBaseratPaUndersokning(),
                 expectedInternalCertificate.getMotiveringTillInteBaseratPaUndersokning());
+        }
+
+        @Test
+        void shallIncludeKannedomOmPatient() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getKannedomOmPatient(),
+                expectedInternalCertificate.getKannedomOmPatient());
         }
     }
 }

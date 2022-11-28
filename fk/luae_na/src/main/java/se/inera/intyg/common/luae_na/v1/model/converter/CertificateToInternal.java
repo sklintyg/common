@@ -27,6 +27,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUAnnanBeskrivning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUBaseratPa;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUKannedomOmPatient;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUMotivering;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -49,6 +50,7 @@ public class CertificateToInternal {
                 QuestionGrundForMUBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
             .setAnnatGrundForMUBeskrivning(QuestionGrundForMUAnnanBeskrivning.toInteral(certificate))
             .setMotiveringTillInteBaseratPaUndersokning(QuestionGrundForMUMotivering.toInternal(certificate))
+            .setKannedomOmPatient(QuestionGrundForMUKannedomOmPatient.toInternal(certificate))
             .build();
     }
 }

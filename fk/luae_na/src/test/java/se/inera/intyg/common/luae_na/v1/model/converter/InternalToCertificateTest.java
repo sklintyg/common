@@ -25,6 +25,7 @@ import static org.mockito.Mockito.mock;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNEDOM_DELSVAR_ID_2;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -93,6 +94,12 @@ class InternalToCertificateTest {
     void shallIncludeQuestionGrundForMUMotivering() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
         assertEquals(3, actualCertificate.getData().get(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionGrundForMUKannedomOmPatient() {
+        final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
+        assertEquals(4, actualCertificate.getData().get(KANNEDOM_DELSVAR_ID_2).getIndex());
     }
 }
 
