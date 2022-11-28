@@ -155,15 +155,23 @@ public class QuestionTerminalDodsorsakFoljdAv {
             .map(questionId -> (CertificateDataValueCauseOfDeath) certificate.getData().get(questionId).getValue())
             .map(causeOfDeath -> Dodsorsak.create(
                 causeOfDeath.getDescription().getText(),
-                causeOfDeath.getDebut().getDate() != null ? new InternalDate(causeOfDeath.getDebut().getDate()) : null,
-                causeOfDeath.getSpecification().getCode() != null ? Specifikation.fromValue(causeOfDeath.getSpecification().getCode())
-                    : null
+                getDebut(causeOfDeath),
+                getSpecification(causeOfDeath)
             ))
             .collect(Collectors.toList());
 
         removeEmptyValuesIfAtEndOfList(dodsorsakList);
 
         return dodsorsakList;
+    }
+
+    private static Specifikation getSpecification(CertificateDataValueCauseOfDeath causeOfDeath) {
+        return causeOfDeath.getSpecification().getCode() != null ? Specifikation.fromValue(causeOfDeath.getSpecification().getCode())
+            : null;
+    }
+
+    private static InternalDate getDebut(CertificateDataValueCauseOfDeath causeOfDeath) {
+        return causeOfDeath.getDebut().getDate() != null ? new InternalDate(causeOfDeath.getDebut().getDate()) : null;
     }
 
     private static void removeEmptyValuesIfAtEndOfList(List<Dodsorsak> dodsorsakList) {
