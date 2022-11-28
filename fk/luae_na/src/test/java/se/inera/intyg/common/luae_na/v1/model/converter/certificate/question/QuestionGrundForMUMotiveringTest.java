@@ -172,8 +172,8 @@ class QuestionGrundForMUMotiveringTest {
         @Test
         void shouldIncludeValidationShowExpression() {
             final var expectedExpression =
-                GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1 + " || " +
-                    GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1 + " || "
+                GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1 + " || "
+                    + GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1 + " || "
                     + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
             final var question = QuestionGrundForMUMotivering.toCertificate(0, texts, null);
             final var showValidation = (CertificateDataValidationShow) question.getValidation()[1];
