@@ -23,15 +23,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUBaseratPa;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -63,6 +66,10 @@ class CertificateToInternalTest {
                 .setGrundData(grundData)
                 .setId("id")
                 .setTextVersion("TextVersion")
+                .setUndersokningAvPatienten(new InternalDate(LocalDate.now()))
+                .setJournaluppgifter(new InternalDate(LocalDate.now()))
+                .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now()))
+                .setAnnatGrundForMU(new InternalDate(LocalDate.now()))
                 .build();
 
             texts = Mockito.mock(CertificateTextProvider.class);
@@ -70,6 +77,9 @@ class CertificateToInternalTest {
 
             certificate = CertificateBuilder.create()
                 .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, texts))
+                .addElement(QuestionGrundForMUBaseratPa.toCertificate(0, texts, new InternalDate(LocalDate.now()),
+                    new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now()),
+                    new InternalDate(LocalDate.now())))
                 .build();
         }
 
@@ -89,6 +99,31 @@ class CertificateToInternalTest {
         void shallIncludeGrundData() {
             final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
             assertNotNull(actualInternalCertificate.getGrundData(), "GrundData is missing!");
+        }
+
+        @Test
+        void shallIncludeUndersokningAvPatienten() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getUndersokningAvPatienten(), expectedInternalCertificate.getUndersokningAvPatienten());
+        }
+
+        @Test
+        void shallIncludeJournaluppgifter() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getJournaluppgifter(), expectedInternalCertificate.getJournaluppgifter());
+        }
+
+        @Test
+        void shallIncludeAnhorigBeskrivningAvPatient() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getAnhorigsBeskrivningAvPatienten(),
+                expectedInternalCertificate.getAnhorigsBeskrivningAvPatienten());
+        }
+
+        @Test
+        void shallIncludeAnnatGrundForMU() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getAnnatGrundForMU(), expectedInternalCertificate.getAnnatGrundForMU());
         }
     }
 }

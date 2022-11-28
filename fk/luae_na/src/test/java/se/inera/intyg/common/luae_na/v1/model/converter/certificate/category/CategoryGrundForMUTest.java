@@ -25,6 +25,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +36,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 
 @ExtendWith(MockitoExtension.class)
-class CategoryGrundForMedicinsktUnderlagTest {
+class CategoryGrundForMUTest {
 
     @Mock
     private CertificateTextProvider texts;
@@ -46,21 +48,21 @@ class CategoryGrundForMedicinsktUnderlagTest {
 
     @Test
     void shouldIncludeId() {
-        final var category = CategoryGrundForMedicinsktUnderlag.toCertificate(0, texts);
-        assertEquals("1", category.getId());
+        final var category = CategoryGrundForMU.toCertificate(0, texts);
+        assertEquals(GRUNDFORMU_CATEGORY_ID, category.getId());
     }
 
     @Test
     void shouldIncludeIndex() {
         final var expectedIndex = 3;
-        final var category = CategoryGrundForMedicinsktUnderlag.toCertificate(expectedIndex, texts);
+        final var category = CategoryGrundForMU.toCertificate(expectedIndex, texts);
         assertEquals(expectedIndex, category.getIndex());
     }
 
     @Test
     void shouldIncludeCategoryText() {
-        final var category = CategoryGrundForMedicinsktUnderlag.toCertificate(0, texts);
+        final var category = CategoryGrundForMU.toCertificate(0, texts);
         assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
-        verify(texts, atLeastOnce()).get("FRG_1.RBK");
+        verify(texts, atLeastOnce()).get(GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT);
     }
 }

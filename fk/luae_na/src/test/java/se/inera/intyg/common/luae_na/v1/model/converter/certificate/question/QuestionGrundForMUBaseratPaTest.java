@@ -1,0 +1,246 @@
+/*
+ * Copyright (C) 2022 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
+
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_ANHORIG_BESKRIVNING_LABEL;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_ANNAT_LABEL;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_JOURNALUPPGIFTER_LABEL;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_UNDERSOKNING_LABEL;
+
+import java.time.LocalDate;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleDate;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateList;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
+import se.inera.intyg.common.support.model.InternalDate;
+
+@ExtendWith(MockitoExtension.class)
+class QuestionGrundForMUBaseratPaTest {
+
+    @Mock
+    private CertificateTextProvider texts;
+
+    @BeforeEach
+    void setup() {
+        when(texts.get(any(String.class))).thenReturn("Test string");
+    }
+
+    @Nested
+    class ToCertificate {
+
+        @Test
+        void shouldIncludeId() {
+            final var question = QuestionGrundForMUBaseratPa.toCertificate(0, texts,
+                null, null, null,
+                null);
+
+            assertEquals(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1, question.getId());
+        }
+
+        @Test
+        void shouldIncludeIndex() {
+            final var expectedIndex = 1;
+
+            final var question = QuestionGrundForMUBaseratPa.toCertificate(expectedIndex,
+                texts, null, null, null, null);
+
+            assertEquals(expectedIndex, question.getIndex());
+        }
+
+        @Test
+        void shouldIncludeParentId() {
+            final var question = QuestionGrundForMUBaseratPa.toCertificate(0, texts,
+                null, null, null, null);
+
+            assertEquals(GRUNDFORMU_CATEGORY_ID, question.getParent());
+        }
+
+        @Test
+        void shouldIncludeConfigCertificateDataConfigCheckboxMultipleDate() {
+            final var question = QuestionGrundForMUBaseratPa.toCertificate(0, texts,
+                null, null, null, null);
+
+            assertEquals(CertificateDataConfigTypes.UE_CHECKBOX_MULTIPLE_DATE, question.getConfig().getType());
+        }
+
+        @Test
+        void shouldIncludeConfigText() {
+            final var question = QuestionGrundForMUBaseratPa.toCertificate(0, texts,
+                null, null, null, null);
+
+            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+
+            verify(texts, atLeastOnce()).get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT);
+        }
+
+        @Test
+        void shouldIncludeConfigList() {
+            final var question = QuestionGrundForMUBaseratPa.toCertificate(0, texts,
+                null, null, null, null);
+
+            final var config = (CertificateDataConfigCheckboxMultipleDate) question.getConfig();
+
+            assertFalse(config.getList().isEmpty());
+        }
+
+        @Test
+        void shouldIncludeConfigListOfCheckboxMultipleDateWithCorrectIds() {
+            final var question = QuestionGrundForMUBaseratPa.toCertificate(0, texts,
+                null, null, null, null);
+
+            final var config = (CertificateDataConfigCheckboxMultipleDate) question.getConfig();
+
+            assertAll(
+                () -> assertEquals(config.getList().get(0).getId(), GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1),
+                () -> assertEquals(config.getList().get(1).getId(), GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1),
+                () -> assertEquals(config.getList().get(2).getId(), GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1),
+                () -> assertEquals(config.getList().get(3).getId(), GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
+            );
+        }
+
+        @Test
+        void shouldIncludeConfigListOfCheckboxMultipleDateWithCorrectLabels() {
+            final var question = QuestionGrundForMUBaseratPa.toCertificate(0, texts,
+                null, null, null,
+                null);
+
+            verify(texts, atLeastOnce()).get(GRUNDFORMU_UNDERSOKNING_LABEL);
+            verify(texts, atLeastOnce()).get(GRUNDFORMU_ANHORIG_BESKRIVNING_LABEL);
+            verify(texts, atLeastOnce()).get(GRUNDFORMU_JOURNALUPPGIFTER_LABEL);
+            verify(texts, atLeastOnce()).get(GRUNDFORMU_ANNAT_LABEL);
+        }
+
+        @Test
+        void shouldIncludeDateListValueType() {
+            final var question = QuestionGrundForMUBaseratPa.toCertificate(0, texts,
+                null, null, null,
+                null);
+
+            assertEquals(CertificateDataValueType.DATE_LIST, question.getValue().getType());
+        }
+
+        @Test
+        void shouldIncludeDateListValueList() {
+            final var question = QuestionGrundForMUBaseratPa.toCertificate(0, texts,
+                null, null, null,
+                null);
+
+            final var certificateDataValueListDate = (CertificateDataValueDateList) question.getValue();
+
+            assertNotNull(certificateDataValueListDate.getList());
+        }
+
+        @Test
+        void shouldIncludeDateListValueListIds() {
+            final var question = QuestionGrundForMUBaseratPa.toCertificate(0, texts,
+                new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now()),
+                new InternalDate(LocalDate.now()));
+
+            final var certificateDataValueListDate = (CertificateDataValueDateList) question.getValue();
+
+            assertAll(
+                () -> assertEquals(certificateDataValueListDate.getList().get(0).getId(),
+                    GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1),
+                () -> assertEquals(certificateDataValueListDate.getList().get(1).getId(),
+                    GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1),
+                () -> assertEquals(certificateDataValueListDate.getList().get(2).getId(),
+                    GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1),
+                () -> assertEquals(certificateDataValueListDate.getList().get(3).getId(), GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
+            );
+        }
+
+        @Test
+        void shouldIncludeMaxDateValidation() {
+            final var question = QuestionGrundForMUBaseratPa.toCertificate(0, texts,
+                null, null, null,
+                null);
+
+            assertAll(
+                () -> assertEquals(CertificateDataValidationType.MAX_DATE_VALIDATION, question.getValidation()[0].getType()),
+                () -> assertEquals(CertificateDataValidationType.MAX_DATE_VALIDATION, question.getValidation()[1].getType()),
+                () -> assertEquals(CertificateDataValidationType.MAX_DATE_VALIDATION, question.getValidation()[2].getType()),
+                () -> assertEquals(CertificateDataValidationType.MAX_DATE_VALIDATION, question.getValidation()[3].getType())
+            );
+        }
+
+        @Test
+        void shouldIncludeMaxDateValidationId() {
+            final var question = QuestionGrundForMUBaseratPa.toCertificate(0, texts,
+                null, null, null, null);
+
+            final var firstValidation = (CertificateDataValidationMaxDate) question.getValidation()[0];
+            final var secondValidation = (CertificateDataValidationMaxDate) question.getValidation()[1];
+            final var thirdValidation = (CertificateDataValidationMaxDate) question.getValidation()[2];
+            final var fourthValidation = (CertificateDataValidationMaxDate) question.getValidation()[3];
+
+            assertAll(
+                () -> assertEquals(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1, firstValidation.getId()),
+                () -> assertEquals(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1, secondValidation.getId()),
+                () -> assertEquals(GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1, thirdValidation.getId()),
+                () -> assertEquals(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1, fourthValidation.getId())
+            );
+        }
+
+        @Test
+        void shouldIncludeMaxDateValidationLimit() {
+            final var question = QuestionGrundForMUBaseratPa.toCertificate(0, texts,
+                null, null, null, null);
+
+            final var firstValidation = (CertificateDataValidationMaxDate) question.getValidation()[0];
+            final var secondValidation = (CertificateDataValidationMaxDate) question.getValidation()[1];
+            final var thirdValidation = (CertificateDataValidationMaxDate) question.getValidation()[2];
+            final var fourthValidation = (CertificateDataValidationMaxDate) question.getValidation()[3];
+
+            final var expectedNumberOfDays = (short) 0;
+
+            assertAll(
+                () -> assertEquals(expectedNumberOfDays, firstValidation.getNumberOfDays()),
+                () -> assertEquals(expectedNumberOfDays, secondValidation.getNumberOfDays()),
+                () -> assertEquals(expectedNumberOfDays, thirdValidation.getNumberOfDays()),
+                () -> assertEquals(expectedNumberOfDays, fourthValidation.getNumberOfDays())
+            );
+        }
+    }
+}

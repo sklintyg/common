@@ -17,32 +17,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
+package se.inera.intyg.common.luae_na.v1.model.converter.certificate.category;
+
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextField;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory;
 
-public class QuestionGrundForMedicinsktUnderlag {
+public class CategoryGrundForMU {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id("1.1")
-            .parent("1")
+            .id(GRUNDFORMU_CATEGORY_ID)
             .index(index)
-            .config(
-                CertificateDataConfigTextField.builder()
-                    .id("1.1.0")
-                    .text(textProvider.get(IDENTITET_STYRKT_QUESTION_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataTextValue.builder()
-                    .id(IDENTITET_STYRKT_JSON_ID)
-                    .text(identitetStyrkt)
-                    .build()
-            )
+            .config(CertificateDataConfigCategory.builder()
+                .text(texts.get(GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT))
+                .build())
             .build();
     }
 }
