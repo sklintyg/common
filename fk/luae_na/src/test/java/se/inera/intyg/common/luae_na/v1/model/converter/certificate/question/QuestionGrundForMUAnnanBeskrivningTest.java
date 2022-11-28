@@ -160,7 +160,7 @@ class QuestionGrundForMUAnnanBeskrivningTest {
 
         @Test
         void shouldIncludeValidationMandatoryExpression() {
-            final var expectedExpression = "$" + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
+            final var expectedExpression = "$" + GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
             final var question = QuestionGrundForMUAnnanBeskrivning.toCertificate(0, texts, null);
             final var showValidation = (CertificateDataValidationMandatory) question.getValidation()[1];
 

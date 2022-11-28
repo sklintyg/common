@@ -65,7 +65,7 @@ public class QuestionGrundForMUAnnanBeskrivning {
                         .build(),
                     CertificateDataValidationMandatory.builder()
                         .questionId(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1)
-                        .expression(singleExpression(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
+                        .expression(singleExpression(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1))
                         .build()
                 }
             )
