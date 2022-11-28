@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUAnnanBeskrivning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUBaseratPa;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -47,6 +48,7 @@ class CertificateToInternalTest {
     private CertificateTextProvider texts;
     private LuaenaUtlatandeV1 expectedInternalCertificate;
     private Certificate certificate;
+    private static String annanBeskrivning = "annanBeskrivning";
 
     @Nested
     class HappyScenario {
@@ -70,6 +72,7 @@ class CertificateToInternalTest {
                 .setJournaluppgifter(new InternalDate(LocalDate.now()))
                 .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now()))
                 .setAnnatGrundForMU(new InternalDate(LocalDate.now()))
+                .setAnnatGrundForMUBeskrivning(annanBeskrivning)
                 .build();
 
             texts = Mockito.mock(CertificateTextProvider.class);
@@ -80,6 +83,7 @@ class CertificateToInternalTest {
                 .addElement(QuestionGrundForMUBaseratPa.toCertificate(0, texts, new InternalDate(LocalDate.now()),
                     new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now()),
                     new InternalDate(LocalDate.now())))
+                .addElement(QuestionGrundForMUAnnanBeskrivning.toCertificate(0, texts, annanBeskrivning))
                 .build();
         }
 
@@ -124,6 +128,13 @@ class CertificateToInternalTest {
         void shallIncludeAnnatGrundForMU() {
             final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
             assertEquals(actualInternalCertificate.getAnnatGrundForMU(), expectedInternalCertificate.getAnnatGrundForMU());
+        }
+
+        @Test
+        void shallIncludeAnnatGrundForMUBeskrivning() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getAnnatGrundForMUBeskrivning(),
+                expectedInternalCertificate.getAnnatGrundForMUBeskrivning());
         }
     }
 }

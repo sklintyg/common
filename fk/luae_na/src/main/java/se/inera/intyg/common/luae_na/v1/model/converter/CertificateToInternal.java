@@ -25,6 +25,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
 
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUAnnanBeskrivning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUBaseratPa;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -45,6 +46,7 @@ public class CertificateToInternal {
                 GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1))
             .setAnnatGrundForMU(
                 QuestionGrundForMUBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
+            .setAnnatGrundForMUBeskrivning(QuestionGrundForMUAnnanBeskrivning.toInteral(certificate))
             .build();
     }
 }

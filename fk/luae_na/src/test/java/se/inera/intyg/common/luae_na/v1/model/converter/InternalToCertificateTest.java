@@ -22,6 +22,7 @@ package se.inera.intyg.common.luae_na.v1.model.converter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 
@@ -70,15 +71,21 @@ class InternalToCertificateTest {
     }
 
     @Test
-    void shallIncludeCategoryGrundForMedicinsktUnderlag() {
+    void shallIncludeCategoryGrundForMU() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
         assertEquals(0, actualCertificate.getData().get(GRUNDFORMU_CATEGORY_ID).getIndex());
     }
 
     @Test
-    void shallIncludeQuestionGrundForMedicinsktUnderlagTypAvGrund() {
+    void shallIncludeQuestionGrundForMTypAvGrund() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
         assertEquals(1, actualCertificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionGrundForMUAnnanBeskrivning() {
+        final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
+        assertEquals(2, actualCertificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1).getIndex());
     }
 }
 

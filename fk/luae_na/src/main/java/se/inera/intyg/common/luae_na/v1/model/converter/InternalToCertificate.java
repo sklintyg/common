@@ -21,6 +21,7 @@ package se.inera.intyg.common.luae_na.v1.model.converter;
 
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryGrundForMU;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUAnnanBeskrivning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUBaseratPa;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -41,6 +42,8 @@ public class InternalToCertificate {
                     internalCertificate.getUndersokningAvPatienten(), internalCertificate.getJournaluppgifter(),
                     internalCertificate.getAnhorigsBeskrivningAvPatienten(), internalCertificate.getAnnatGrundForMU())
             )
+            .addElement(QuestionGrundForMUAnnanBeskrivning.toCertificate(index++, textProvider,
+                internalCertificate.getAnnatGrundForMUBeskrivning()))
             .build();
     }
 }
