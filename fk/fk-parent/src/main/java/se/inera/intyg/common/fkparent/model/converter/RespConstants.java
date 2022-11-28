@@ -66,7 +66,7 @@ public final class RespConstants {
     public static final String KANNEDOM_SVAR_JSON_ID_2 = "kannedomOmPatient";
     public static final String KANNEDOM_SVAR_TEXT = "FRG_2.RBK";
     public static final String UNDERLAGFINNS_SELECTED_TEXT = "SVAR_JA_RBK";
-    public static final String UNDERLAGFINNS_UNSELECTED_TEXT = "SVAR_NEJ_.RBK";
+    public static final String UNDERLAGFINNS_UNSELECTED_TEXT = "SVAR_NEJ_RBK";
 
     public static final String UNDERLAGFINNS_SVAR_ID_3 = "3";
     public static final String UNDERLAGFINNS_DELSVAR_ID_3 = "3.1";
