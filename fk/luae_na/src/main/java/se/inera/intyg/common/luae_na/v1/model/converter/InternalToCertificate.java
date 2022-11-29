@@ -23,6 +23,7 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrun
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryFunktionsnedsattning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryGrundForMU;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningIntellektuell;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagBaseratPa;
@@ -60,6 +61,10 @@ public class InternalToCertificate {
             )
             .addElement(
                 CategoryFunktionsnedsattning.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionFunktionsnedsattningIntellektuell.toCertificate(internalCertificate.getFunktionsnedsattningIntellektuell(), index++,
+                    textProvider)
             )
             .build();
     }

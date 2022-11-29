@@ -26,6 +26,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningIntellektuell;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagBaseratPa;
@@ -53,6 +54,7 @@ public class CertificateToInternal {
             .setMotiveringTillInteBaseratPaUndersokning(QuestionMotiveringTillInteBaseratPaUndersokning.toInternal(certificate))
             .setKannedomOmPatient(QuestionKannedomOmPatient.toInternal(certificate))
             .setUnderlagFinns(QuestionUnderlagFinns.toInternal(certificate))
+            .setFunktionsnedsattningIntellektuell(QuestionFunktionsnedsattningIntellektuell.toInternal(certificate))
             .build();
     }
 }

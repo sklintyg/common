@@ -119,6 +119,9 @@ public final class RespConstants {
     public static final String FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID = "KAT_4.RBK";
     public static final String FUNKTIONSNEDSATTNING_CATEGORY_DESCRIPTION_ID = "KAT_4.HLP";
 
+    public static final String FUNKTIONSNEDSATTNING_ACCORDION_OPEN_TEXT = "Visa fritextfältet";
+    public static final String FUNKTIONSNEDSATTNING_ACCORDION_CLOSE_TEXT = "Dölj fritextfältet";
+
     public static final String FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID_8 = "8";
     public static final String FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_ID_8 = "8.1";
     public static final String FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID_8 = "funktionsnedsattningIntellektuell";

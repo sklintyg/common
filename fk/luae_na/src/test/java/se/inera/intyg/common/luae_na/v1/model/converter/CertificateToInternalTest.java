@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningIntellektuell;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagBaseratPa;
@@ -80,6 +81,7 @@ class CertificateToInternalTest {
                 .setAnnatGrundForMUBeskrivning(annanBeskrivning)
                 .setKannedomOmPatient(new InternalDate(LocalDate.now()))
                 .setUnderlagFinns(true)
+                .setFunktionsnedsattningIntellektuell("funktionsnedsattningIntellektuell")
                 .build();
 
             texts = Mockito.mock(CertificateTextProvider.class);
@@ -94,6 +96,8 @@ class CertificateToInternalTest {
                 .addElement(QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(motivering, 0, texts))
                 .addElement(QuestionKannedomOmPatient.toCertificate(new InternalDate(LocalDate.now()), 0, texts))
                 .addElement(QuestionUnderlagFinns.toCertificate(true, 0, texts))
+                .addElement(QuestionFunktionsnedsattningIntellektuell.toCertificate(
+                    expectedInternalCertificate.getFunktionsnedsattningIntellektuell(), 0, texts))
                 .build();
         }
 
@@ -166,6 +170,13 @@ class CertificateToInternalTest {
             final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
             assertEquals(actualInternalCertificate.getUnderlagFinns(),
                 expectedInternalCertificate.getUnderlagFinns());
+        }
+
+        @Test
+        void shallIncludeFunktionsnedsattningIntellektuell() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getFunktionsnedsattningIntellektuell(),
+                expectedInternalCertificate.getFunktionsnedsattningIntellektuell());
         }
     }
 }
