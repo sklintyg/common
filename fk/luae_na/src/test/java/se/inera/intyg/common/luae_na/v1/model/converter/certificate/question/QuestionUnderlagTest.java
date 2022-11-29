@@ -51,14 +51,19 @@ import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTy
 import com.google.common.collect.ImmutableList;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMedicalInvestigationList;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
@@ -394,5 +399,37 @@ class QuestionUnderlagTest {
                 () -> assertEquals(thirdExpectedId, thirdMaxDateValidation.getId())
             );
         }
+    }
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class ToInternal {
+
+        Stream<List<Underlag>> underlag() {
+            return Stream.of(
+                List.of(
+                    Underlag.create(UNDERLAG_FRAN_ARBETSTERAPEUT, new InternalDate(LocalDate.now()), "hamtasFran"),
+                    Underlag.create(UNDERLAG_FRAN_HABILITERINGEN, new InternalDate(LocalDate.now()), "hamtasFran"),
+                    Underlag.create(NEUROPSYKIATRISKT_UTLATANDE, new InternalDate(LocalDate.now()), "hamtasFran")
+                ));
+        }
+
+        @ParameterizedTest
+        @MethodSource("underlag")
+        void shouldIncludeTextValue(List<Underlag> expectedValue) {
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionUnderlag.toCertificate(
+                    expectedValue, 0, texts))
+                .build();
+
+            final var actualValue = QuestionUnderlag.toInternal(certificate);
+
+            assertAll(
+                () -> assertEquals(expectedValue.get(0), actualValue.get(0)),
+                () -> assertEquals(expectedValue.get(1), actualValue.get(1)),
+                () -> assertEquals(expectedValue.get(2), actualValue.get(2))
+            );
+        }
+
     }
 }
