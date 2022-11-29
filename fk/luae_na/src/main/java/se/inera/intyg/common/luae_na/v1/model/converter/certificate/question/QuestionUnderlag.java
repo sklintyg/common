@@ -63,7 +63,7 @@ public class QuestionUnderlag {
 
     private static final short LIMIT = 0;
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts, List<Underlag> underlag) {
+    public static CertificateDataElement toCertificate(List<Underlag> underlag, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(UNDERLAG_TYP_DELSVAR_ID_4)
             .parent(GRUNDFORMU_CATEGORY_ID)
