@@ -43,7 +43,6 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
@@ -152,19 +151,11 @@ class QuestionMotiveringTillInteBaseratPaUndersokningTest {
         }
 
         @Test
-        void shouldIncludeValidationHide() {
-            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
-            final var showValidation = (CertificateDataValidationHide) question.getValidation()[2];
-
-            assertEquals(CertificateDataValidationType.HIDE_VALIDATION, showValidation.getType());
-        }
-
-        @Test
         void shouldIncludeValidationShowExpression() {
-            final var expectedExpression =
-                GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1 + " || "
-                    + GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1 + " || "
-                    + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
+            final var expectedExpression = "!$" + GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1 + " && ($"
+                + GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1 + " || $"
+                + GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1 + " || $"
+                + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1 + ")";
             final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
             final var showValidation = (CertificateDataValidationShow) question.getValidation()[1];
 
@@ -178,15 +169,6 @@ class QuestionMotiveringTillInteBaseratPaUndersokningTest {
             final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[0];
 
             assertEquals(expectedLimit, certificateDataValidationText.getLimit());
-        }
-
-        @Test
-        void shouldIncludeValidationHideExpression() {
-            final var expectedExpression = "$" + GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
-            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
-            final var hideExpression = (CertificateDataValidationHide) question.getValidation()[2];
-
-            assertEquals(expectedExpression, hideExpression.getExpression());
         }
     }
 
