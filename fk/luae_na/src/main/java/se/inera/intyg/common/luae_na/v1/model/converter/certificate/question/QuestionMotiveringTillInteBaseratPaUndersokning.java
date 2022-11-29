@@ -29,8 +29,11 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIV
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_TEXT;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleAndExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.not;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.wrapWithParenthesis;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -38,16 +41,15 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 
-public class QuestionGrundForMUMotivering {
+public class QuestionMotiveringTillInteBaseratPaUndersokning {
 
     private static final short LIMIT = 150;
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts, String motivering) {
+    public static CertificateDataElement toCertificate(String motivering, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1)
             .parent(GRUNDFORMU_CATEGORY_ID)
@@ -55,8 +57,8 @@ public class QuestionGrundForMUMotivering {
             .config(
                 CertificateDataConfigTextArea.builder()
                     .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1)
-                    .text(texts.get(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_TEXT))
-                    .description(texts.get(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION))
+                    .text(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_TEXT)
+                    .description(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION)
                     .build()
             )
             .value(
@@ -73,15 +75,15 @@ public class QuestionGrundForMUMotivering {
                         .build(),
                     CertificateDataValidationShow.builder()
                         .questionId(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1)
-                        .expression(multipleOrExpression(
-                            GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1,
-                            GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1,
-                            GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
+                        .expression(
+                            multipleAndExpression(
+                                not(singleExpression(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1)),
+                                wrapWithParenthesis(
+                                    multipleOrExpression(
+                                        singleExpression(GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1),
+                                        singleExpression(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1),
+                                        singleExpression(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)))))
                         .build(),
-                    CertificateDataValidationHide.builder()
-                        .questionId(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1)
-                        .expression(singleExpression(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1))
-                        .build()
                 }
             )
             .build();

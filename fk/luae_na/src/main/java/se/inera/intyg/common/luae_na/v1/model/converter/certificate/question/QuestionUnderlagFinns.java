@@ -36,9 +36,9 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 
-public class QuestionGrundForMUUnderlagFinns {
+public class QuestionUnderlagFinns {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts, Boolean underlagFinns) {
+    public static CertificateDataElement toCertificate(Boolean underlagFinns, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(UNDERLAGFINNS_DELSVAR_ID_3)
             .parent(GRUNDFORMU_CATEGORY_ID)
@@ -47,8 +47,8 @@ public class QuestionGrundForMUUnderlagFinns {
                 CertificateDataConfigBoolean.builder()
                     .id(UNDERLAGFINNS_SVAR_JSON_ID_3)
                     .text(texts.get(UNDERLAGFINNS_SVAR_TEXT))
-                    .selectedText(texts.get(UNDERLAGFINNS_SELECTED_TEXT))
-                    .unselectedText(texts.get(UNDERLAGFINNS_UNSELECTED_TEXT))
+                    .selectedText(UNDERLAGFINNS_SELECTED_TEXT)
+                    .unselectedText(UNDERLAGFINNS_UNSELECTED_TEXT)
                     .build()
             )
             .value(

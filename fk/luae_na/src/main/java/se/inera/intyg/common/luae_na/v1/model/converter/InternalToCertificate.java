@@ -21,11 +21,11 @@ package se.inera.intyg.common.luae_na.v1.model.converter;
 
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryGrundForMU;
-import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUAnnatBeskrivning;
-import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUKannedomOmPatient;
-import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUMotivering;
-import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUUnderlagBaseratPa;
-import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUUnderlagFinns;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagBaseratPa;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagFinns;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
@@ -41,18 +41,20 @@ public class InternalToCertificate {
                 CategoryGrundForMU.toCertificate(index++, textProvider)
             )
             .addElement(
-                QuestionGrundForMUUnderlagBaseratPa.toCertificate(index++, textProvider,
-                    internalCertificate.getUndersokningAvPatienten(), internalCertificate.getJournaluppgifter(),
-                    internalCertificate.getAnhorigsBeskrivningAvPatienten(), internalCertificate.getAnnatGrundForMU())
+                QuestionUnderlagBaseratPa.toCertificate(internalCertificate.getUndersokningAvPatienten(),
+                    internalCertificate.getJournaluppgifter(), internalCertificate.getAnhorigsBeskrivningAvPatienten(),
+                    internalCertificate.getAnnatGrundForMU(), index++, textProvider
+                )
             )
-            .addElement(QuestionGrundForMUAnnatBeskrivning.toCertificate(index++, textProvider,
-                internalCertificate.getAnnatGrundForMUBeskrivning()))
-            .addElement(QuestionGrundForMUMotivering.toCertificate(index++, textProvider,
-                internalCertificate.getMotiveringTillInteBaseratPaUndersokning()))
+            .addElement(QuestionAnnatBeskrivning.toCertificate(internalCertificate.getAnnatGrundForMUBeskrivning(), index++, textProvider
+            ))
+            .addElement(QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(
+                internalCertificate.getMotiveringTillInteBaseratPaUndersokning(), index++, textProvider
+            ))
             .addElement(
-                QuestionGrundForMUKannedomOmPatient.toCertificate(index++, textProvider, internalCertificate.getKannedomOmPatient()))
+                QuestionKannedomOmPatient.toCertificate(internalCertificate.getKannedomOmPatient(), index++, textProvider))
             .addElement(
-                QuestionGrundForMUUnderlagFinns.toCertificate(index++, textProvider, internalCertificate.getUnderlagFinns())
+                QuestionUnderlagFinns.toCertificate(internalCertificate.getUnderlagFinns(), index++, textProvider)
             )
             .build();
     }

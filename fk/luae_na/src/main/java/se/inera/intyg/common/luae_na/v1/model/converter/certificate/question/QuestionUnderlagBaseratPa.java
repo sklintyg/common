@@ -47,12 +47,12 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateList;
 import se.inera.intyg.common.support.model.InternalDate;
 
-public class QuestionGrundForMUUnderlagBaseratPa {
+public class QuestionUnderlagBaseratPa {
 
     private static final short NUMBER_OF_DAYS_IN_FUTURE = 0;
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider textProvider,
-        InternalDate undersokningPatient, InternalDate journaluppgifter, InternalDate beskrivningPatient, InternalDate annat) {
+    public static CertificateDataElement toCertificate(InternalDate undersokningPatient, InternalDate journaluppgifter,
+        InternalDate beskrivningPatient, InternalDate annat, int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
             .id(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1)
             .index(index)

@@ -36,11 +36,11 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.model.InternalDate;
 
-public class QuestionGrundForMUKannedomOmPatient {
+public class QuestionKannedomOmPatient {
 
     private static final short LIMIT = 0;
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts, InternalDate kannedomOmPatient) {
+    public static CertificateDataElement toCertificate(InternalDate kannedomOmPatient, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(KANNEDOM_DELSVAR_ID_2)
             .parent(GRUNDFORMU_CATEGORY_ID)

@@ -20,10 +20,6 @@
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
@@ -35,7 +31,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIV
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_TEXT;
 
 import java.util.stream.Stream;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -56,22 +51,17 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionGrundForMUMotiveringTest {
+class QuestionMotiveringTillInteBaseratPaUndersokningTest {
 
     @Mock
-    private CertificateTextProvider texts;
-
-    @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
-    }
+    CertificateTextProvider texts;
 
     @Nested
     class ToCertificate {
 
         @Test
         void shouldIncludeId() {
-            final var question = QuestionGrundForMUMotivering.toCertificate(0, texts, null);
+            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
 
             assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1, question.getId());
         }
@@ -80,28 +70,28 @@ class QuestionGrundForMUMotiveringTest {
         void shouldIncludeIndex() {
             final var expectedIndex = 1;
 
-            final var question = QuestionGrundForMUMotivering.toCertificate(expectedIndex, texts, null);
+            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, expectedIndex, texts);
 
             assertEquals(expectedIndex, question.getIndex());
         }
 
         @Test
         void shouldIncludeParentId() {
-            final var question = QuestionGrundForMUMotivering.toCertificate(0, texts, null);
+            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
 
             assertEquals(GRUNDFORMU_CATEGORY_ID, question.getParent());
         }
 
         @Test
         void shouldIncludeConfigCertificateDataConfigTextArea() {
-            final var question = QuestionGrundForMUMotivering.toCertificate(0, texts, null);
+            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
 
             assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
         }
 
         @Test
         void shouldIncludeConfigId() {
-            final var question = QuestionGrundForMUMotivering.toCertificate(0, texts, null);
+            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
             final var config = (CertificateDataConfigTextArea) question.getConfig();
 
             assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1, config.getId());
@@ -109,28 +99,28 @@ class QuestionGrundForMUMotiveringTest {
 
         @Test
         void shouldIncludeConfigText() {
-            final var question = QuestionGrundForMUMotivering.toCertificate(0, texts, null);
+            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
 
-            verify(texts, atLeastOnce()).get(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_TEXT);
+            assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_TEXT, question.getConfig().getText());
         }
 
         @Test
         void shouldIncludeConfigDescription() {
-            final var question = QuestionGrundForMUMotivering.toCertificate(0, texts, null);
+            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
 
-            verify(texts, atLeastOnce()).get(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION);
+            assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION, question.getConfig().getDescription());
         }
 
         @Test
         void shouldIncludeValueTypeText() {
-            final var question = QuestionGrundForMUMotivering.toCertificate(0, texts, null);
+            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
 
             assertEquals(CertificateDataValueType.TEXT, question.getValue().getType());
         }
 
         @Test
         void shouldIncludeValueId() {
-            final var question = QuestionGrundForMUMotivering.toCertificate(0, texts, null);
+            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
             final var value = (CertificateDataTextValue) question.getValue();
 
             assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1, value.getId());
@@ -139,7 +129,7 @@ class QuestionGrundForMUMotiveringTest {
         @Test
         void shouldIncludeValueText() {
             final var expectedText = "Annan text";
-            final var question = QuestionGrundForMUMotivering.toCertificate(0, texts, expectedText);
+            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(expectedText, 0, texts);
             final var value = (CertificateDataTextValue) question.getValue();
 
             assertEquals(expectedText, value.getText());
@@ -147,7 +137,7 @@ class QuestionGrundForMUMotiveringTest {
 
         @Test
         void shouldIncludeValidationShow() {
-            final var question = QuestionGrundForMUMotivering.toCertificate(0, texts, null);
+            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
             final var showValidation = (CertificateDataValidationShow) question.getValidation()[1];
 
             assertEquals(CertificateDataValidationType.SHOW_VALIDATION, showValidation.getType());
@@ -155,7 +145,7 @@ class QuestionGrundForMUMotiveringTest {
 
         @Test
         void shouldIncludeValidationLimit() {
-            final var question = QuestionGrundForMUMotivering.toCertificate(0, texts, null);
+            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
             final var showValidation = (CertificateDataValidationText) question.getValidation()[0];
 
             assertEquals(CertificateDataValidationType.TEXT_VALIDATION, showValidation.getType());
@@ -163,7 +153,7 @@ class QuestionGrundForMUMotiveringTest {
 
         @Test
         void shouldIncludeValidationHide() {
-            final var question = QuestionGrundForMUMotivering.toCertificate(0, texts, null);
+            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
             final var showValidation = (CertificateDataValidationHide) question.getValidation()[2];
 
             assertEquals(CertificateDataValidationType.HIDE_VALIDATION, showValidation.getType());
@@ -175,7 +165,7 @@ class QuestionGrundForMUMotiveringTest {
                 GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1 + " || "
                     + GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1 + " || "
                     + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
-            final var question = QuestionGrundForMUMotivering.toCertificate(0, texts, null);
+            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
             final var showValidation = (CertificateDataValidationShow) question.getValidation()[1];
 
             assertEquals(expectedExpression, showValidation.getExpression());
@@ -184,7 +174,7 @@ class QuestionGrundForMUMotiveringTest {
         @Test
         void shouldIncludeValidationTextLimit() {
             final var expectedLimit = 150;
-            final var question = QuestionGrundForMUMotivering.toCertificate(0, texts, null);
+            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
             final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[0];
 
             assertEquals(expectedLimit, certificateDataValidationText.getLimit());
@@ -193,7 +183,7 @@ class QuestionGrundForMUMotiveringTest {
         @Test
         void shouldIncludeValidationHideExpression() {
             final var expectedExpression = "$" + GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
-            final var question = QuestionGrundForMUMotivering.toCertificate(0, texts, null);
+            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
             final var hideExpression = (CertificateDataValidationHide) question.getValidation()[2];
 
             assertEquals(expectedExpression, hideExpression.getExpression());
@@ -212,10 +202,10 @@ class QuestionGrundForMUMotiveringTest {
         @MethodSource("textValues")
         void shouldIncludeTextValue(String expectedValue) {
             final var certificate = CertificateBuilder.create()
-                .addElement(QuestionGrundForMUMotivering.toCertificate(0, texts, expectedValue))
+                .addElement(QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(expectedValue, 0, texts))
                 .build();
 
-            final var actualValue = QuestionGrundForMUMotivering.toInternal(certificate);
+            final var actualValue = QuestionMotiveringTillInteBaseratPaUndersokning.toInternal(certificate);
 
             assertEquals(expectedValue, actualValue);
         }

@@ -65,7 +65,7 @@ import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionGrundForMUUnderlagBaseratPaTest {
+class QuestionUnderlagBaseratPaTest {
 
     @Mock
     private CertificateTextProvider texts;
@@ -80,9 +80,8 @@ class QuestionGrundForMUUnderlagBaseratPaTest {
 
         @Test
         void shouldIncludeId() {
-            final var question = QuestionGrundForMUUnderlagBaseratPa.toCertificate(0, texts,
-                null, null, null,
-                null);
+            final var question = QuestionUnderlagBaseratPa.toCertificate(null, null, null, null, 0, texts
+            );
 
             assertEquals(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1, question.getId());
         }
@@ -91,32 +90,32 @@ class QuestionGrundForMUUnderlagBaseratPaTest {
         void shouldIncludeIndex() {
             final var expectedIndex = 1;
 
-            final var question = QuestionGrundForMUUnderlagBaseratPa.toCertificate(expectedIndex,
-                texts, null, null, null, null);
+            final var question = QuestionUnderlagBaseratPa.toCertificate(null, null, null, null, expectedIndex,
+                texts);
 
             assertEquals(expectedIndex, question.getIndex());
         }
 
         @Test
         void shouldIncludeParentId() {
-            final var question = QuestionGrundForMUUnderlagBaseratPa.toCertificate(0, texts,
-                null, null, null, null);
+            final var question = QuestionUnderlagBaseratPa.toCertificate(null, null, null, null, 0, texts
+            );
 
             assertEquals(GRUNDFORMU_CATEGORY_ID, question.getParent());
         }
 
         @Test
         void shouldIncludeConfigCertificateDataConfigCheckboxMultipleDate() {
-            final var question = QuestionGrundForMUUnderlagBaseratPa.toCertificate(0, texts,
-                null, null, null, null);
+            final var question = QuestionUnderlagBaseratPa.toCertificate(null, null, null, null, 0, texts
+            );
 
             assertEquals(CertificateDataConfigTypes.UE_CHECKBOX_MULTIPLE_DATE, question.getConfig().getType());
         }
 
         @Test
         void shouldIncludeConfigText() {
-            final var question = QuestionGrundForMUUnderlagBaseratPa.toCertificate(0, texts,
-                null, null, null, null);
+            final var question = QuestionUnderlagBaseratPa.toCertificate(null, null, null, null, 0, texts
+            );
 
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
 
@@ -125,8 +124,8 @@ class QuestionGrundForMUUnderlagBaseratPaTest {
 
         @Test
         void shouldIncludeConfigList() {
-            final var question = QuestionGrundForMUUnderlagBaseratPa.toCertificate(0, texts,
-                null, null, null, null);
+            final var question = QuestionUnderlagBaseratPa.toCertificate(null, null, null, null, 0, texts
+            );
 
             final var config = (CertificateDataConfigCheckboxMultipleDate) question.getConfig();
 
@@ -135,8 +134,8 @@ class QuestionGrundForMUUnderlagBaseratPaTest {
 
         @Test
         void shouldIncludeConfigListOfCheckboxMultipleDateWithCorrectIds() {
-            final var question = QuestionGrundForMUUnderlagBaseratPa.toCertificate(0, texts,
-                null, null, null, null);
+            final var question = QuestionUnderlagBaseratPa.toCertificate(null, null, null, null, 0, texts
+            );
 
             final var config = (CertificateDataConfigCheckboxMultipleDate) question.getConfig();
 
@@ -150,9 +149,8 @@ class QuestionGrundForMUUnderlagBaseratPaTest {
 
         @Test
         void shouldIncludeConfigListOfCheckboxMultipleDateWithCorrectLabels() {
-            final var question = QuestionGrundForMUUnderlagBaseratPa.toCertificate(0, texts,
-                null, null, null,
-                null);
+            final var question = QuestionUnderlagBaseratPa.toCertificate(null, null, null, null, 0, texts
+            );
 
             verify(texts, atLeastOnce()).get(GRUNDFORMU_UNDERSOKNING_LABEL);
             verify(texts, atLeastOnce()).get(GRUNDFORMU_ANHORIG_BESKRIVNING_LABEL);
@@ -162,18 +160,16 @@ class QuestionGrundForMUUnderlagBaseratPaTest {
 
         @Test
         void shouldIncludeDateListValueType() {
-            final var question = QuestionGrundForMUUnderlagBaseratPa.toCertificate(0, texts,
-                null, null, null,
-                null);
+            final var question = QuestionUnderlagBaseratPa.toCertificate(null, null, null, null, 0, texts
+            );
 
             assertEquals(CertificateDataValueType.DATE_LIST, question.getValue().getType());
         }
 
         @Test
         void shouldIncludeDateListValueList() {
-            final var question = QuestionGrundForMUUnderlagBaseratPa.toCertificate(0, texts,
-                null, null, null,
-                null);
+            final var question = QuestionUnderlagBaseratPa.toCertificate(null, null, null, null, 0, texts
+            );
 
             final var certificateDataValueListDate = (CertificateDataValueDateList) question.getValue();
 
@@ -182,9 +178,9 @@ class QuestionGrundForMUUnderlagBaseratPaTest {
 
         @Test
         void shouldIncludeDateListValueListIds() {
-            final var question = QuestionGrundForMUUnderlagBaseratPa.toCertificate(0, texts,
-                new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now()),
-                new InternalDate(LocalDate.now()));
+            final var question = QuestionUnderlagBaseratPa.toCertificate(new InternalDate(LocalDate.now()),
+                new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now()), 0, texts
+            );
 
             final var certificateDataValueListDate = (CertificateDataValueDateList) question.getValue();
 
@@ -201,9 +197,8 @@ class QuestionGrundForMUUnderlagBaseratPaTest {
 
         @Test
         void shouldIncludeMaxDateValidation() {
-            final var question = QuestionGrundForMUUnderlagBaseratPa.toCertificate(0, texts,
-                null, null, null,
-                null);
+            final var question = QuestionUnderlagBaseratPa.toCertificate(null, null, null, null, 0, texts
+            );
 
             assertAll(
                 () -> assertEquals(CertificateDataValidationType.MAX_DATE_VALIDATION, question.getValidation()[0].getType()),
@@ -215,8 +210,8 @@ class QuestionGrundForMUUnderlagBaseratPaTest {
 
         @Test
         void shouldIncludeMaxDateValidationId() {
-            final var question = QuestionGrundForMUUnderlagBaseratPa.toCertificate(0, texts,
-                null, null, null, null);
+            final var question = QuestionUnderlagBaseratPa.toCertificate(null, null, null, null, 0, texts
+            );
 
             final var firstValidation = (CertificateDataValidationMaxDate) question.getValidation()[0];
             final var secondValidation = (CertificateDataValidationMaxDate) question.getValidation()[1];
@@ -233,8 +228,8 @@ class QuestionGrundForMUUnderlagBaseratPaTest {
 
         @Test
         void shouldIncludeMaxDateValidationLimit() {
-            final var question = QuestionGrundForMUUnderlagBaseratPa.toCertificate(0, texts,
-                null, null, null, null);
+            final var question = QuestionUnderlagBaseratPa.toCertificate(null, null, null, null, 0, texts
+            );
 
             final var firstValidation = (CertificateDataValidationMaxDate) question.getValidation()[0];
             final var secondValidation = (CertificateDataValidationMaxDate) question.getValidation()[1];
@@ -258,8 +253,8 @@ class QuestionGrundForMUUnderlagBaseratPaTest {
                     + GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1 + " || "
                     + GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1 + " || "
                     + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
-            final var question = QuestionGrundForMUUnderlagBaseratPa.toCertificate(0, texts, null,
-                null, null, null);
+            final var question = QuestionUnderlagBaseratPa.toCertificate(null, null, null, null, 0, texts
+            );
             final var mandatoryValidation = (CertificateDataValidationMandatory) question.getValidation()[4];
 
             assertEquals(expectedExpression, mandatoryValidation.getExpression());
@@ -287,8 +282,9 @@ class QuestionGrundForMUUnderlagBaseratPaTest {
                 .build();
 
         final var certificate = CertificateBuilder.create()
-            .addElement(QuestionGrundForMUUnderlagBaseratPa.toCertificate(index, texts, utlatande.getUndersokningAvPatienten(),
-                utlatande.getJournaluppgifter(), utlatande.getAnhorigsBeskrivningAvPatienten(), utlatande.getAnnatGrundForMU())).build();
+            .addElement(QuestionUnderlagBaseratPa.toCertificate(utlatande.getUndersokningAvPatienten(), utlatande.getJournaluppgifter(),
+                utlatande.getAnhorigsBeskrivningAvPatienten(), utlatande.getAnnatGrundForMU(), index, texts
+            )).build();
 
         final var updatedCertificate = CertificateToInternal.convert(certificate, utlatande);
 

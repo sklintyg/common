@@ -49,7 +49,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType
 import se.inera.intyg.common.support.model.InternalDate;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionGrundForMUKannedomOmPatientTest {
+class QuestionKannedomOmPatientTest {
 
     @Mock
     private CertificateTextProvider texts;
@@ -64,7 +64,7 @@ class QuestionGrundForMUKannedomOmPatientTest {
 
         @Test
         void shouldIncludeId() {
-            final var question = QuestionGrundForMUKannedomOmPatient.toCertificate(0, texts, null);
+            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
 
             assertEquals(KANNEDOM_DELSVAR_ID_2, question.getId());
         }
@@ -73,28 +73,28 @@ class QuestionGrundForMUKannedomOmPatientTest {
         void shouldIncludeIndex() {
             final var expectedIndex = 1;
 
-            final var question = QuestionGrundForMUKannedomOmPatient.toCertificate(expectedIndex, texts, null);
+            final var question = QuestionKannedomOmPatient.toCertificate(null, expectedIndex, texts);
 
             assertEquals(expectedIndex, question.getIndex());
         }
 
         @Test
         void shouldIncludeParentId() {
-            final var question = QuestionGrundForMUKannedomOmPatient.toCertificate(0, texts, null);
+            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
 
             assertEquals(GRUNDFORMU_CATEGORY_ID, question.getParent());
         }
 
         @Test
         void shouldIncludeConfigCertificateDataConfigDate() {
-            final var question = QuestionGrundForMUKannedomOmPatient.toCertificate(0, texts, null);
+            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
 
             assertEquals(CertificateDataConfigTypes.UE_DATE, question.getConfig().getType());
         }
 
         @Test
         void shouldIncludeConfigId() {
-            final var question = QuestionGrundForMUKannedomOmPatient.toCertificate(0, texts, null);
+            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
             final var config = (CertificateDataConfigDate) question.getConfig();
 
             assertEquals(KANNEDOM_SVAR_JSON_ID_2, config.getId());
@@ -102,21 +102,21 @@ class QuestionGrundForMUKannedomOmPatientTest {
 
         @Test
         void shouldIncludeConfigText() {
-            final var question = QuestionGrundForMUKannedomOmPatient.toCertificate(0, texts, null);
+            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
 
             verify(texts, atLeastOnce()).get(KANNEDOM_SVAR_TEXT);
         }
 
         @Test
         void shouldIncludeValueTypeDate() {
-            final var question = QuestionGrundForMUKannedomOmPatient.toCertificate(0, texts, null);
+            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
 
             assertEquals(CertificateDataValueType.DATE, question.getValue().getType());
         }
 
         @Test
         void shouldIncludeValueId() {
-            final var question = QuestionGrundForMUKannedomOmPatient.toCertificate(0, texts, null);
+            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
             final var value = (CertificateDataValueDate) question.getValue();
 
             assertEquals(KANNEDOM_SVAR_JSON_ID_2, value.getId());
@@ -125,7 +125,7 @@ class QuestionGrundForMUKannedomOmPatientTest {
         @Test
         void shouldIncludeValueDate() {
             final var expectedText = new InternalDate(LocalDate.now());
-            final var question = QuestionGrundForMUKannedomOmPatient.toCertificate(0, texts, expectedText);
+            final var question = QuestionKannedomOmPatient.toCertificate(expectedText, 0, texts);
             final var value = (CertificateDataValueDate) question.getValue();
 
             assertEquals(expectedText.asLocalDate(), value.getDate());
@@ -133,7 +133,7 @@ class QuestionGrundForMUKannedomOmPatientTest {
 
         @Test
         void shouldIncludeValidationMandatory() {
-            final var question = QuestionGrundForMUKannedomOmPatient.toCertificate(0, texts, null);
+            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
             final var certificateDataValidationText = question.getValidation()[0];
 
             assertEquals(CertificateDataValidationType.MANDATORY_VALIDATION, certificateDataValidationText.getType());
@@ -142,7 +142,7 @@ class QuestionGrundForMUKannedomOmPatientTest {
         @Test
         void shouldIncludeValidationMandatoryExpression() {
             final var expectedExpression = "$" + KANNEDOM_SVAR_JSON_ID_2;
-            final var question = QuestionGrundForMUKannedomOmPatient.toCertificate(0, texts, null);
+            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
             final var certificateDataValidationText = (CertificateDataValidationMandatory) question.getValidation()[0];
 
             assertEquals(expectedExpression, certificateDataValidationText.getExpression());
@@ -150,7 +150,7 @@ class QuestionGrundForMUKannedomOmPatientTest {
 
         @Test
         void shouldIncludeValidationMaxDate() {
-            final var question = QuestionGrundForMUKannedomOmPatient.toCertificate(0, texts, null);
+            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
             final var certificateDataValidationText = question.getValidation()[1];
 
             assertEquals(CertificateDataValidationType.MAX_DATE_VALIDATION, certificateDataValidationText.getType());
@@ -159,7 +159,7 @@ class QuestionGrundForMUKannedomOmPatientTest {
         @Test
         void shouldIncludeValidationMaxDateLimit() {
             final var expectedLimit = (short) 0;
-            final var question = QuestionGrundForMUKannedomOmPatient.toCertificate(0, texts, null);
+            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
             final var certificateDataValidationText = (CertificateDataValidationMaxDate) question.getValidation()[1];
 
             assertEquals(expectedLimit, certificateDataValidationText.getNumberOfDays());
@@ -175,10 +175,10 @@ class QuestionGrundForMUKannedomOmPatientTest {
             final var expectedValue = LocalDate.now();
 
             final var certificate = CertificateBuilder.create()
-                .addElement(QuestionGrundForMUKannedomOmPatient.toCertificate(0, texts, new InternalDate(expectedValue)))
+                .addElement(QuestionKannedomOmPatient.toCertificate(new InternalDate(expectedValue), 0, texts))
                 .build();
 
-            final var actualValue = QuestionGrundForMUKannedomOmPatient.toInternal(certificate);
+            final var actualValue = QuestionKannedomOmPatient.toInternal(certificate);
 
             assertEquals(new InternalDate(expectedValue), actualValue);
         }
@@ -186,10 +186,10 @@ class QuestionGrundForMUKannedomOmPatientTest {
         @Test
         void shouldIncludeValueNull() {
             final var certificate = CertificateBuilder.create()
-                .addElement(QuestionGrundForMUKannedomOmPatient.toCertificate(0, texts, null))
+                .addElement(QuestionKannedomOmPatient.toCertificate(null, 0, texts))
                 .build();
 
-            final var actualValue = QuestionGrundForMUKannedomOmPatient.toInternal(certificate);
+            final var actualValue = QuestionKannedomOmPatient.toInternal(certificate);
 
             assertEquals(null, actualValue);
         }

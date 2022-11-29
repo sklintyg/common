@@ -66,7 +66,7 @@ class QuestionGrundForMUUnderlagFinnsTest {
 
         @Test
         void shouldIncludeId() {
-            final var question = QuestionGrundForMUUnderlagFinns.toCertificate(0, texts, null);
+            final var question = QuestionUnderlagFinns.toCertificate(null, 0, texts);
 
             assertEquals(UNDERLAGFINNS_DELSVAR_ID_3, question.getId());
         }
@@ -75,28 +75,28 @@ class QuestionGrundForMUUnderlagFinnsTest {
         void shouldIncludeIndex() {
             final var expectedIndex = 1;
 
-            final var question = QuestionGrundForMUUnderlagFinns.toCertificate(expectedIndex, texts, null);
+            final var question = QuestionUnderlagFinns.toCertificate(null, expectedIndex, texts);
 
             assertEquals(expectedIndex, question.getIndex());
         }
 
         @Test
         void shouldIncludeParentId() {
-            final var question = QuestionGrundForMUUnderlagFinns.toCertificate(0, texts, null);
+            final var question = QuestionUnderlagFinns.toCertificate(null, 0, texts);
 
             assertEquals(GRUNDFORMU_CATEGORY_ID, question.getParent());
         }
 
         @Test
         void shouldIncludeConfigCertificateDataConfigDate() {
-            final var question = QuestionGrundForMUUnderlagFinns.toCertificate(0, texts, null);
+            final var question = QuestionUnderlagFinns.toCertificate(null, 0, texts);
 
             assertEquals(CertificateDataConfigTypes.UE_RADIO_BOOLEAN, question.getConfig().getType());
         }
 
         @Test
         void shouldIncludeConfigId() {
-            final var question = QuestionGrundForMUUnderlagFinns.toCertificate(0, texts, null);
+            final var question = QuestionUnderlagFinns.toCertificate(null, 0, texts);
             final var config = (CertificateDataConfigBoolean) question.getConfig();
 
             assertEquals(UNDERLAGFINNS_SVAR_JSON_ID_3, config.getId());
@@ -104,35 +104,37 @@ class QuestionGrundForMUUnderlagFinnsTest {
 
         @Test
         void shouldIncludeConfigText() {
-            final var question = QuestionGrundForMUUnderlagFinns.toCertificate(0, texts, null);
+            final var question = QuestionUnderlagFinns.toCertificate(null, 0, texts);
 
             verify(texts, atLeastOnce()).get(UNDERLAGFINNS_SVAR_TEXT);
         }
 
         @Test
         void shouldIncludeConfigSelectedText() {
-            final var question = QuestionGrundForMUUnderlagFinns.toCertificate(0, texts, null);
+            final var question = QuestionUnderlagFinns.toCertificate(null, 0, texts);
+            final var config = (CertificateDataConfigBoolean) question.getConfig();
 
-            verify(texts, atLeastOnce()).get(UNDERLAGFINNS_SELECTED_TEXT);
+            assertEquals(UNDERLAGFINNS_SELECTED_TEXT, config.getSelectedText());
         }
 
         @Test
         void shouldIncludeConfigUnselectedText() {
-            final var question = QuestionGrundForMUUnderlagFinns.toCertificate(0, texts, null);
+            final var question = QuestionUnderlagFinns.toCertificate(null, 0, texts);
+            final var config = (CertificateDataConfigBoolean) question.getConfig();
 
-            verify(texts, atLeastOnce()).get(UNDERLAGFINNS_UNSELECTED_TEXT);
+            assertEquals(UNDERLAGFINNS_UNSELECTED_TEXT, config.getUnselectedText());
         }
 
         @Test
         void shouldIncludeValueTypeBoolean() {
-            final var question = QuestionGrundForMUUnderlagFinns.toCertificate(0, texts, null);
+            final var question = QuestionUnderlagFinns.toCertificate(null, 0, texts);
 
             assertEquals(CertificateDataValueType.BOOLEAN, question.getValue().getType());
         }
 
         @Test
         void shouldIncludeValueId() {
-            final var question = QuestionGrundForMUUnderlagFinns.toCertificate(0, texts, null);
+            final var question = QuestionUnderlagFinns.toCertificate(null, 0, texts);
             final var value = (CertificateDataValueBoolean) question.getValue();
 
             assertEquals(UNDERLAGFINNS_SVAR_JSON_ID_3, value.getId());
@@ -141,7 +143,7 @@ class QuestionGrundForMUUnderlagFinnsTest {
         @Test
         void shouldIncludeValueBoolean() {
             final var expectedValue = true;
-            final var question = QuestionGrundForMUUnderlagFinns.toCertificate(0, texts, expectedValue);
+            final var question = QuestionUnderlagFinns.toCertificate(expectedValue, 0, texts);
             final var value = (CertificateDataValueBoolean) question.getValue();
 
             assertEquals(expectedValue, value.getSelected());
@@ -149,7 +151,7 @@ class QuestionGrundForMUUnderlagFinnsTest {
 
         @Test
         void shouldIncludeValidationMandatory() {
-            final var question = QuestionGrundForMUUnderlagFinns.toCertificate(0, texts, null);
+            final var question = QuestionUnderlagFinns.toCertificate(null, 0, texts);
             final var certificateDataValidationText = question.getValidation()[0];
 
             assertEquals(CertificateDataValidationType.MANDATORY_VALIDATION, certificateDataValidationText.getType());
@@ -158,7 +160,7 @@ class QuestionGrundForMUUnderlagFinnsTest {
         @Test
         void shouldIncludeValidationMandatoryExpression() {
             final var expectedExpression = "$" + UNDERLAGFINNS_SVAR_JSON_ID_3;
-            final var question = QuestionGrundForMUUnderlagFinns.toCertificate(0, texts, null);
+            final var question = QuestionUnderlagFinns.toCertificate(null, 0, texts);
             final var certificateDataValidationText = (CertificateDataValidationMandatory) question.getValidation()[0];
 
             assertEquals(expectedExpression, certificateDataValidationText.getExpression());
@@ -179,10 +181,10 @@ class QuestionGrundForMUUnderlagFinnsTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create()
-                .addElement(QuestionGrundForMUUnderlagFinns.toCertificate(index, texts, expectedValue))
+                .addElement(QuestionUnderlagFinns.toCertificate(expectedValue, index, texts))
                 .build();
 
-            final var actualValue = QuestionGrundForMUUnderlagFinns.toInternal(certificate);
+            final var actualValue = QuestionUnderlagFinns.toInternal(certificate);
 
             assertEquals(expectedValue, actualValue);
         }

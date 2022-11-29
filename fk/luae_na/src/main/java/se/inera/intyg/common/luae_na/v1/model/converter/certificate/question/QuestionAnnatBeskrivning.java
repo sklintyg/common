@@ -37,9 +37,9 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 
-public class QuestionGrundForMUAnnatBeskrivning {
+public class QuestionAnnatBeskrivning {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts, String annanBeskrivning) {
+    public static CertificateDataElement toCertificate(String annanBeskrivning, int index, CertificateTextProvider texts) {
 
         return CertificateDataElement.builder()
             .id(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1)
