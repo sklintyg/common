@@ -32,7 +32,7 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrun
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUAnnatBeskrivning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUKannedomOmPatient;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUMotivering;
-import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUUnderlag;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUUnderlagBaseratPa;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUUnderlagFinns;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -87,7 +87,7 @@ class CertificateToInternalTest {
 
             certificate = CertificateBuilder.create()
                 .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, texts))
-                .addElement(QuestionGrundForMUUnderlag.toCertificate(0, texts, new InternalDate(LocalDate.now()),
+                .addElement(QuestionGrundForMUUnderlagBaseratPa.toCertificate(0, texts, new InternalDate(LocalDate.now()),
                     new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now()),
                     new InternalDate(LocalDate.now())))
                 .addElement(QuestionGrundForMUAnnatBeskrivning.toCertificate(0, texts, annanBeskrivning))
