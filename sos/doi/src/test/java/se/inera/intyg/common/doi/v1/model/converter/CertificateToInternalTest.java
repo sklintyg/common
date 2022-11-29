@@ -126,8 +126,8 @@ class CertificateToInternalTest {
                 .setTerminalDodsorsak(Dodsorsak.create("description", new InternalDate(LocalDate.now()), Specifikation.KRONISK))
                 .setFoljd(List.of(
                     Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG),
-                    Dodsorsak.create(null, null, null),
-                    Dodsorsak.create(null, null, null)
+                    Dodsorsak.create("beskrivning2", null, null),
+                    Dodsorsak.create("beskrivning3", null, null)
                 ))
                 .setBidragandeSjukdomar(bidragandSjukdommar)
                 .setOperation(OmOperation.JA)
