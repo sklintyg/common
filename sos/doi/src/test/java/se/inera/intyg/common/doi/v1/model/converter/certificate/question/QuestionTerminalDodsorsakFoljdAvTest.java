@@ -25,7 +25,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_SVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_AV_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_B_ID;
@@ -57,6 +56,7 @@ import se.inera.intyg.common.doi.model.internal.Dodsorsak;
 import se.inera.intyg.common.doi.model.internal.Specifikation;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeath;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.config.CodeItem;
@@ -322,8 +322,7 @@ class QuestionTerminalDodsorsakFoljdAvTest {
             return Stream.of(
                 Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG),
                 Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
-                Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
-                Dodsorsak.create(null, null, null)
+                Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS)
             );
         }
 
@@ -338,6 +337,268 @@ class QuestionTerminalDodsorsakFoljdAvTest {
             final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(FOLJD_OM_DELSVAR_B_ID));
 
             assertEquals(expectedValue, actualValue.get(0));
+        }
+
+        @Nested
+        class FoljdAvHasNoValues {
+
+            private Dodsorsak expectedValueForB;
+            private Dodsorsak expectedValueForC;
+            private Dodsorsak expectedValueForD;
+            private Certificate certificate;
+
+            @BeforeEach
+            void setUp() {
+                expectedValueForB = Dodsorsak.create(null, null, null);
+                expectedValueForC = Dodsorsak.create(null, null, null);
+                expectedValueForD = Dodsorsak.create(null, null, null);
+                certificate = CertificateBuilder.create()
+                    .addElement(
+                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForB, 0, texts, FOLJD_OM_DELSVAR_B_ID,
+                            FOLJD_OM_DELSVAR_B_LABEL)
+                    )
+                    .addElement(
+                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForC, 0, texts, FOLJD_OM_DELSVAR_C_ID,
+                            FOLJD_OM_DELSVAR_C_LABEL)
+                    )
+                    .addElement(
+                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForD, 0, texts, FOLJD_OM_DELSVAR_D_ID,
+                            FOLJD_OM_DELSVAR_D_LABEL)
+                    )
+                    .build();
+            }
+
+            @Test
+            void shallReturnDodsorsakListOfSizeThree() {
+                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
+                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+                assertEquals(0, actualValue.size(), "Expect empty values but was: " + actualValue.size());
+            }
+        }
+
+        @Nested
+        class FoljdAvAHasValue {
+
+            private Dodsorsak expectedValueForB;
+            private Dodsorsak expectedValueForC;
+            private Dodsorsak expectedValueForD;
+            private Certificate certificate;
+
+            @BeforeEach
+            void setUp() {
+                expectedValueForB = Dodsorsak.create("Test", null, null);
+                expectedValueForC = Dodsorsak.create(null, null, null);
+                expectedValueForD = Dodsorsak.create(null, null, null);
+                certificate = CertificateBuilder.create()
+                    .addElement(
+                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForB, 0, texts, FOLJD_OM_DELSVAR_B_ID,
+                            FOLJD_OM_DELSVAR_B_LABEL)
+                    )
+                    .addElement(
+                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForC, 0, texts, FOLJD_OM_DELSVAR_C_ID,
+                            FOLJD_OM_DELSVAR_C_LABEL)
+                    )
+                    .addElement(
+                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForD, 0, texts, FOLJD_OM_DELSVAR_D_ID,
+                            FOLJD_OM_DELSVAR_D_LABEL)
+                    )
+                    .build();
+            }
+
+            @Test
+            void shallReturnDodsorsakListOfSizeThree() {
+                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
+                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+                assertEquals(1, actualValue.size(), "Expect three values but was: " + actualValue.size());
+            }
+
+            @Test
+            void shallReturnDodsorsakB() {
+                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
+                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+                assertEquals(expectedValueForB, actualValue.get(0));
+            }
+        }
+
+        @Nested
+        class FoljdAvCHasValue {
+
+            private Dodsorsak expectedValueForB;
+            private Dodsorsak expectedValueForC;
+            private Dodsorsak expectedValueForD;
+            private Certificate certificate;
+
+            @BeforeEach
+            void setUp() {
+                expectedValueForB = Dodsorsak.create(null, null, null);
+                expectedValueForC = Dodsorsak.create("Test", null, null);
+                expectedValueForD = Dodsorsak.create(null, null, null);
+                certificate = CertificateBuilder.create()
+                    .addElement(
+                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForB, 0, texts, FOLJD_OM_DELSVAR_B_ID,
+                            FOLJD_OM_DELSVAR_B_LABEL)
+                    )
+                    .addElement(
+                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForC, 0, texts, FOLJD_OM_DELSVAR_C_ID,
+                            FOLJD_OM_DELSVAR_C_LABEL)
+                    )
+                    .addElement(
+                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForD, 0, texts, FOLJD_OM_DELSVAR_D_ID,
+                            FOLJD_OM_DELSVAR_D_LABEL)
+                    )
+                    .build();
+            }
+
+            @Test
+            void shallReturnDodsorsakListOfSizeThree() {
+                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
+                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+                assertEquals(2, actualValue.size(), "Expect two values but was: " + actualValue.size());
+            }
+
+            @Test
+            void shallReturnDodsorsakB() {
+                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
+                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+                assertEquals(expectedValueForB, actualValue.get(0));
+            }
+
+            @Test
+            void shallReturnDodsorsakC() {
+                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
+                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+                assertEquals(expectedValueForC, actualValue.get(1));
+            }
+        }
+
+        @Nested
+        class FoljdAvDHasValue {
+
+            private Dodsorsak expectedValueForB;
+            private Dodsorsak expectedValueForC;
+            private Dodsorsak expectedValueForD;
+            private Certificate certificate;
+
+            @BeforeEach
+            void setUp() {
+                expectedValueForB = Dodsorsak.create(null, null, null);
+                expectedValueForC = Dodsorsak.create(null, null, null);
+                expectedValueForD = Dodsorsak.create("Test", null, null);
+                certificate = CertificateBuilder.create()
+                    .addElement(
+                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForB, 0, texts, FOLJD_OM_DELSVAR_B_ID,
+                            FOLJD_OM_DELSVAR_B_LABEL)
+                    )
+                    .addElement(
+                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForC, 0, texts, FOLJD_OM_DELSVAR_C_ID,
+                            FOLJD_OM_DELSVAR_C_LABEL)
+                    )
+                    .addElement(
+                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForD, 0, texts, FOLJD_OM_DELSVAR_D_ID,
+                            FOLJD_OM_DELSVAR_D_LABEL)
+                    )
+                    .build();
+            }
+
+            @Test
+            void shallReturnDodsorsakListOfSizeThree() {
+                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
+                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+                assertEquals(3, actualValue.size(), "Expect three values but was: " + actualValue.size());
+            }
+
+            @Test
+            void shallReturnDodsorsakB() {
+                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
+                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+                assertEquals(expectedValueForB, actualValue.get(0));
+            }
+
+            @Test
+            void shallReturnDodsorsakC() {
+                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
+                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+                assertEquals(expectedValueForC, actualValue.get(1));
+            }
+
+            @Test
+            void shallReturnDodsorsakD() {
+                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
+                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+                assertEquals(expectedValueForD, actualValue.get(2));
+            }
+        }
+
+        @Nested
+        class FoljdAvAllHasValue {
+
+            private Dodsorsak expectedValueForB;
+            private Dodsorsak expectedValueForC;
+            private Dodsorsak expectedValueForD;
+            private Certificate certificate;
+
+            @BeforeEach
+            void setUp() {
+                expectedValueForB = Dodsorsak.create("Test", null, null);
+                expectedValueForC = Dodsorsak.create("Test", null, null);
+                expectedValueForD = Dodsorsak.create("Test", null, null);
+                certificate = CertificateBuilder.create()
+                    .addElement(
+                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForB, 0, texts, FOLJD_OM_DELSVAR_B_ID,
+                            FOLJD_OM_DELSVAR_B_LABEL)
+                    )
+                    .addElement(
+                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForC, 0, texts, FOLJD_OM_DELSVAR_C_ID,
+                            FOLJD_OM_DELSVAR_C_LABEL)
+                    )
+                    .addElement(
+                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForD, 0, texts, FOLJD_OM_DELSVAR_D_ID,
+                            FOLJD_OM_DELSVAR_D_LABEL)
+                    )
+                    .build();
+            }
+
+            @Test
+            void shallReturnDodsorsakListOfSizeThree() {
+                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
+                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+                assertEquals(3, actualValue.size(), "Expect three values but was: " + actualValue.size());
+            }
+
+            @Test
+            void shallReturnDodsorsakB() {
+                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
+                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+                assertEquals(expectedValueForB, actualValue.get(0));
+            }
+
+            @Test
+            void shallReturnDodsorsakC() {
+                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
+                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+                assertEquals(expectedValueForC, actualValue.get(1));
+            }
+
+            @Test
+            void shallReturnDodsorsakD() {
+                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
+                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+                assertEquals(expectedValueForD, actualValue.get(2));
+            }
         }
     }
 }
