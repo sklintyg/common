@@ -42,6 +42,8 @@ public class CertificateDataConfigIcf implements CertificateDataConfig {
     String text;
     @Getter(onMethod = @__(@Override))
     String description;
+    @Getter(onMethod = @__(@Override))
+    Accordion accordion;
     String id;
     String modalLabel;
     String collectionsLabel;
