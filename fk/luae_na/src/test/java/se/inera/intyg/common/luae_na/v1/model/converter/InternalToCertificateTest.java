@@ -22,6 +22,7 @@ package se.inera.intyg.common.luae_na.v1.model.converter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
@@ -107,6 +108,12 @@ class InternalToCertificateTest {
     void shallIncludeQuestionGrundForMUUnderlagFinns() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
         assertEquals(5, actualCertificate.getData().get(UNDERLAGFINNS_DELSVAR_ID_3).getIndex());
+    }
+
+    @Test
+    void shallIncludeFunktionsnedsattningCategory() {
+        final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
+        assertEquals(6, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_CATEGORY_ID).getIndex());
     }
 }
 

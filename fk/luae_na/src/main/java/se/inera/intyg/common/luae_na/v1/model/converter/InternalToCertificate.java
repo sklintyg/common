@@ -20,6 +20,7 @@
 package se.inera.intyg.common.luae_na.v1.model.converter;
 
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryFunktionsnedsattning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryGrundForMU;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
@@ -43,18 +44,22 @@ public class InternalToCertificate {
             .addElement(
                 QuestionUnderlagBaseratPa.toCertificate(internalCertificate.getUndersokningAvPatienten(),
                     internalCertificate.getJournaluppgifter(), internalCertificate.getAnhorigsBeskrivningAvPatienten(),
-                    internalCertificate.getAnnatGrundForMU(), index++, textProvider
-                )
+                    internalCertificate.getAnnatGrundForMU(), index++, textProvider)
             )
-            .addElement(QuestionAnnatBeskrivning.toCertificate(internalCertificate.getAnnatGrundForMUBeskrivning(), index++, textProvider
-            ))
+            .addElement(
+                QuestionAnnatBeskrivning.toCertificate(internalCertificate.getAnnatGrundForMUBeskrivning(), index++, textProvider)
+            )
             .addElement(QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(
                 internalCertificate.getMotiveringTillInteBaseratPaUndersokning(), index++, textProvider
             ))
             .addElement(
-                QuestionKannedomOmPatient.toCertificate(internalCertificate.getKannedomOmPatient(), index++, textProvider))
+                QuestionKannedomOmPatient.toCertificate(internalCertificate.getKannedomOmPatient(), index++, textProvider)
+            )
             .addElement(
                 QuestionUnderlagFinns.toCertificate(internalCertificate.getUnderlagFinns(), index++, textProvider)
+            )
+            .addElement(
+                CategoryFunktionsnedsattning.toCertificate(index++, textProvider)
             )
             .build();
     }
