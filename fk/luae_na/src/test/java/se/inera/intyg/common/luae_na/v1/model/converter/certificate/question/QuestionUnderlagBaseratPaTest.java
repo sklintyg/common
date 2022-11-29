@@ -45,6 +45,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -261,38 +262,43 @@ class QuestionUnderlagBaseratPaTest {
         }
     }
 
-    private static Stream<InternalDate> dateValues() {
-        return Stream.of(new InternalDate(LocalDate.now().plusMonths(10)), new InternalDate(LocalDate.now()), null);
-    }
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class toInternal {
 
-    @ParameterizedTest
-    @MethodSource("dateValues")
-    void shouldIncludeGrundForMUUndersokningValue(InternalDate expectedValue) {
-        final var index = 1;
+        Stream<InternalDate> dateValues() {
+            return Stream.of(new InternalDate(LocalDate.now().plusMonths(10)), new InternalDate(LocalDate.now()), null);
+        }
 
-        final var utlatande =
-            LuaenaUtlatandeV1.builder()
-                .setId("id")
-                .setTextVersion("1.0")
-                .setGrundData(new GrundData())
-                .setUndersokningAvPatienten(expectedValue)
-                .setJournaluppgifter(expectedValue)
-                .setAnhorigsBeskrivningAvPatienten(expectedValue)
-                .setAnnatGrundForMU(expectedValue)
-                .build();
+        @ParameterizedTest
+        @MethodSource("dateValues")
+        void shouldIncludeGrundForMUUndersokningValue(InternalDate expectedValue) {
+            final var index = 1;
 
-        final var certificate = CertificateBuilder.create()
-            .addElement(QuestionUnderlagBaseratPa.toCertificate(utlatande.getUndersokningAvPatienten(), utlatande.getJournaluppgifter(),
-                utlatande.getAnhorigsBeskrivningAvPatienten(), utlatande.getAnnatGrundForMU(), index, texts
-            )).build();
+            final var utlatande =
+                LuaenaUtlatandeV1.builder()
+                    .setId("id")
+                    .setTextVersion("1.0")
+                    .setGrundData(new GrundData())
+                    .setUndersokningAvPatienten(expectedValue)
+                    .setJournaluppgifter(expectedValue)
+                    .setAnhorigsBeskrivningAvPatienten(expectedValue)
+                    .setAnnatGrundForMU(expectedValue)
+                    .build();
 
-        final var updatedCertificate = CertificateToInternal.convert(certificate, utlatande);
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionUnderlagBaseratPa.toCertificate(utlatande.getUndersokningAvPatienten(), utlatande.getJournaluppgifter(),
+                    utlatande.getAnhorigsBeskrivningAvPatienten(), utlatande.getAnnatGrundForMU(), index, texts
+                )).build();
 
-        assertAll(
-            () -> assertEquals(expectedValue, updatedCertificate.getUndersokningAvPatienten()),
-            () -> assertEquals(expectedValue, updatedCertificate.getJournaluppgifter()),
-            () -> assertEquals(expectedValue, updatedCertificate.getAnhorigsBeskrivningAvPatienten()),
-            () -> assertEquals(expectedValue, updatedCertificate.getAnnatGrundForMU())
-        );
+            final var updatedCertificate = CertificateToInternal.convert(certificate, utlatande);
+
+            assertAll(
+                () -> assertEquals(expectedValue, updatedCertificate.getUndersokningAvPatienten()),
+                () -> assertEquals(expectedValue, updatedCertificate.getJournaluppgifter()),
+                () -> assertEquals(expectedValue, updatedCertificate.getAnhorigsBeskrivningAvPatienten()),
+                () -> assertEquals(expectedValue, updatedCertificate.getAnnatGrundForMU())
+            );
+        }
     }
 }

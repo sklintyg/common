@@ -83,7 +83,7 @@ public class QuestionUnderlagBaseratPa {
             )
             .value(
                 CertificateDataValueDateList.builder()
-                    .list(addValues(undersokningPatient, journaluppgifter, beskrivningPatient, annat))
+                    .list(getValues(undersokningPatient, journaluppgifter, beskrivningPatient, annat))
                     .build()
             )
             .validation(
@@ -121,7 +121,7 @@ public class QuestionUnderlagBaseratPa {
         return date != null && date.isValidDate();
     }
 
-    private static List<CertificateDataValueDate> addValues(InternalDate undersokningPatient, InternalDate journaluppgifter,
+    private static List<CertificateDataValueDate> getValues(InternalDate undersokningPatient, InternalDate journaluppgifter,
         InternalDate beskrivningPatient, InternalDate annat) {
         final List<CertificateDataValueDate> values = new ArrayList<>();
 
