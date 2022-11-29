@@ -25,10 +25,10 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
 
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
-import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUAnnanBeskrivning;
-import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUBaseratPa;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUAnnatBeskrivning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUKannedomOmPatient;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUMotivering;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUUnderlag;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUUnderlagFinns;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -41,15 +41,15 @@ public class CertificateToInternal {
             .setId(internalCertificate.getId())
             .setTextVersion(internalCertificate.getTextVersion())
             .setGrundData(MetaDataGrundData.toInternal(certificate.getMetadata(), internalCertificate.getGrundData()))
-            .setUndersokningAvPatienten(QuestionGrundForMUBaseratPa.toInternal(certificate,
+            .setUndersokningAvPatienten(QuestionGrundForMUUnderlag.toInternal(certificate,
                 GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1))
-            .setJournaluppgifter(QuestionGrundForMUBaseratPa.toInternal(certificate,
+            .setJournaluppgifter(QuestionGrundForMUUnderlag.toInternal(certificate,
                 GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1))
-            .setAnhorigsBeskrivningAvPatienten(QuestionGrundForMUBaseratPa.toInternal(certificate,
+            .setAnhorigsBeskrivningAvPatienten(QuestionGrundForMUUnderlag.toInternal(certificate,
                 GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1))
             .setAnnatGrundForMU(
-                QuestionGrundForMUBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
-            .setAnnatGrundForMUBeskrivning(QuestionGrundForMUAnnanBeskrivning.toInternal(certificate))
+                QuestionGrundForMUUnderlag.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
+            .setAnnatGrundForMUBeskrivning(QuestionGrundForMUAnnatBeskrivning.toInternal(certificate))
             .setMotiveringTillInteBaseratPaUndersokning(QuestionGrundForMUMotivering.toInternal(certificate))
             .setKannedomOmPatient(QuestionGrundForMUKannedomOmPatient.toInternal(certificate))
             .setUnderlagFinns(QuestionGrundForMUUnderlagFinns.toInternal(certificate))

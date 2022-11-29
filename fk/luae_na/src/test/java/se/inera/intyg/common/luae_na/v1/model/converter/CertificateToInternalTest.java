@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
-import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUAnnanBeskrivning;
-import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUBaseratPa;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUAnnatBeskrivning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUKannedomOmPatient;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUMotivering;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUUnderlag;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUUnderlagFinns;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -87,10 +87,10 @@ class CertificateToInternalTest {
 
             certificate = CertificateBuilder.create()
                 .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, texts))
-                .addElement(QuestionGrundForMUBaseratPa.toCertificate(0, texts, new InternalDate(LocalDate.now()),
+                .addElement(QuestionGrundForMUUnderlag.toCertificate(0, texts, new InternalDate(LocalDate.now()),
                     new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now()),
                     new InternalDate(LocalDate.now())))
-                .addElement(QuestionGrundForMUAnnanBeskrivning.toCertificate(0, texts, annanBeskrivning))
+                .addElement(QuestionGrundForMUAnnatBeskrivning.toCertificate(0, texts, annanBeskrivning))
                 .addElement(QuestionGrundForMUMotivering.toCertificate(0, texts, motivering))
                 .addElement(QuestionGrundForMUKannedomOmPatient.toCertificate(0, texts, new InternalDate(LocalDate.now())))
                 .addElement(QuestionGrundForMUUnderlagFinns.toCertificate(0, texts, true))

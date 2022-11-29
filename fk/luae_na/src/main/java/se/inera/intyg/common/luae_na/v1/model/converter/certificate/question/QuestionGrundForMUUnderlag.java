@@ -47,7 +47,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateList;
 import se.inera.intyg.common.support.model.InternalDate;
 
-public class QuestionGrundForMUBaseratPa {
+public class QuestionGrundForMUUnderlag {
 
     private static final short NUMBER_OF_DAYS_IN_FUTURE = 0;
 

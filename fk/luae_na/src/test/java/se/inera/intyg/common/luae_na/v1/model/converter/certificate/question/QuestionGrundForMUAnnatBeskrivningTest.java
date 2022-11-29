@@ -51,7 +51,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionGrundForMUAnnanBeskrivningTest {
+class QuestionGrundForMUAnnatBeskrivningTest {
 
     @Mock
     private CertificateTextProvider texts;
@@ -66,7 +66,7 @@ class QuestionGrundForMUAnnanBeskrivningTest {
 
         @Test
         void shouldIncludeId() {
-            final var question = QuestionGrundForMUAnnanBeskrivning.toCertificate(0, texts, null);
+            final var question = QuestionGrundForMUAnnatBeskrivning.toCertificate(0, texts, null);
 
             assertEquals(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1, question.getId());
         }
@@ -75,28 +75,28 @@ class QuestionGrundForMUAnnanBeskrivningTest {
         void shouldIncludeIndex() {
             final var expectedIndex = 1;
 
-            final var question = QuestionGrundForMUAnnanBeskrivning.toCertificate(expectedIndex, texts, null);
+            final var question = QuestionGrundForMUAnnatBeskrivning.toCertificate(expectedIndex, texts, null);
 
             assertEquals(expectedIndex, question.getIndex());
         }
 
         @Test
         void shouldIncludeParentId() {
-            final var question = QuestionGrundForMUAnnanBeskrivning.toCertificate(0, texts, null);
+            final var question = QuestionGrundForMUAnnatBeskrivning.toCertificate(0, texts, null);
 
             assertEquals(GRUNDFORMU_CATEGORY_ID, question.getParent());
         }
 
         @Test
         void shouldIncludeConfigCertificateDataConfigTextfield() {
-            final var question = QuestionGrundForMUAnnanBeskrivning.toCertificate(0, texts, null);
+            final var question = QuestionGrundForMUAnnatBeskrivning.toCertificate(0, texts, null);
 
             assertEquals(CertificateDataConfigTypes.UE_TEXTFIELD, question.getConfig().getType());
         }
 
         @Test
         void shouldIncludeConfigId() {
-            final var question = QuestionGrundForMUAnnanBeskrivning.toCertificate(0, texts, null);
+            final var question = QuestionGrundForMUAnnatBeskrivning.toCertificate(0, texts, null);
             final var config = (CertificateDataConfigTextField) question.getConfig();
 
             assertEquals(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1, config.getId());
@@ -104,21 +104,21 @@ class QuestionGrundForMUAnnanBeskrivningTest {
 
         @Test
         void shouldIncludeConfigText() {
-            final var question = QuestionGrundForMUAnnanBeskrivning.toCertificate(0, texts, null);
+            final var question = QuestionGrundForMUAnnatBeskrivning.toCertificate(0, texts, null);
 
             verify(texts, atLeastOnce()).get(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_TEXT);
         }
 
         @Test
         void shouldIncludeValueTypeText() {
-            final var question = QuestionGrundForMUAnnanBeskrivning.toCertificate(0, texts, null);
+            final var question = QuestionGrundForMUAnnatBeskrivning.toCertificate(0, texts, null);
 
             assertEquals(CertificateDataValueType.TEXT, question.getValue().getType());
         }
 
         @Test
         void shouldIncludeValueId() {
-            final var question = QuestionGrundForMUAnnanBeskrivning.toCertificate(0, texts, null);
+            final var question = QuestionGrundForMUAnnatBeskrivning.toCertificate(0, texts, null);
             final var value = (CertificateDataTextValue) question.getValue();
 
             assertEquals(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1, value.getId());
@@ -127,7 +127,7 @@ class QuestionGrundForMUAnnanBeskrivningTest {
         @Test
         void shouldIncludeValueText() {
             final var expectedText = "Annan text";
-            final var question = QuestionGrundForMUAnnanBeskrivning.toCertificate(0, texts, expectedText);
+            final var question = QuestionGrundForMUAnnatBeskrivning.toCertificate(0, texts, expectedText);
             final var value = (CertificateDataTextValue) question.getValue();
 
             assertEquals(expectedText, value.getText());
@@ -135,7 +135,7 @@ class QuestionGrundForMUAnnanBeskrivningTest {
 
         @Test
         void shouldIncludeValidationShow() {
-            final var question = QuestionGrundForMUAnnanBeskrivning.toCertificate(0, texts, null);
+            final var question = QuestionGrundForMUAnnatBeskrivning.toCertificate(0, texts, null);
             final var showValidation = (CertificateDataValidationShow) question.getValidation()[0];
 
             assertEquals(CertificateDataValidationType.SHOW_VALIDATION, showValidation.getType());
@@ -144,7 +144,7 @@ class QuestionGrundForMUAnnanBeskrivningTest {
         @Test
         void shouldIncludeValidationShowExpression() {
             final var expectedExpression = "$" + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
-            final var question = QuestionGrundForMUAnnanBeskrivning.toCertificate(0, texts, null);
+            final var question = QuestionGrundForMUAnnatBeskrivning.toCertificate(0, texts, null);
             final var showValidation = (CertificateDataValidationShow) question.getValidation()[0];
 
             assertEquals(expectedExpression, showValidation.getExpression());
@@ -152,7 +152,7 @@ class QuestionGrundForMUAnnanBeskrivningTest {
 
         @Test
         void shouldIncludeValidationMandatory() {
-            final var question = QuestionGrundForMUAnnanBeskrivning.toCertificate(0, texts, null);
+            final var question = QuestionGrundForMUAnnatBeskrivning.toCertificate(0, texts, null);
             final var mandatoryValidation = (CertificateDataValidationMandatory) question.getValidation()[1];
 
             assertEquals(CertificateDataValidationType.MANDATORY_VALIDATION, mandatoryValidation.getType());
@@ -161,7 +161,7 @@ class QuestionGrundForMUAnnanBeskrivningTest {
         @Test
         void shouldIncludeValidationMandatoryExpression() {
             final var expectedExpression = "$" + GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
-            final var question = QuestionGrundForMUAnnanBeskrivning.toCertificate(0, texts, null);
+            final var question = QuestionGrundForMUAnnatBeskrivning.toCertificate(0, texts, null);
             final var showValidation = (CertificateDataValidationMandatory) question.getValidation()[1];
 
             assertEquals(expectedExpression, showValidation.getExpression());
@@ -180,10 +180,10 @@ class QuestionGrundForMUAnnanBeskrivningTest {
         @MethodSource("textValues")
         void shouldIncludeTextValue(String expectedValue) {
             final var certificate = CertificateBuilder.create()
-                .addElement(QuestionGrundForMUAnnanBeskrivning.toCertificate(0, texts, expectedValue))
+                .addElement(QuestionGrundForMUAnnatBeskrivning.toCertificate(0, texts, expectedValue))
                 .build();
 
-            final var actualValue = QuestionGrundForMUAnnanBeskrivning.toInternal(certificate);
+            final var actualValue = QuestionGrundForMUAnnatBeskrivning.toInternal(certificate);
 
             assertEquals(expectedValue, actualValue);
         }

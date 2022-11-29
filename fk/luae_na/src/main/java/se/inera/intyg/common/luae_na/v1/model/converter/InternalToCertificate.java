@@ -21,10 +21,10 @@ package se.inera.intyg.common.luae_na.v1.model.converter;
 
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryGrundForMU;
-import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUAnnanBeskrivning;
-import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUBaseratPa;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUAnnatBeskrivning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUKannedomOmPatient;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUMotivering;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUUnderlag;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionGrundForMUUnderlagFinns;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -41,11 +41,11 @@ public class InternalToCertificate {
                 CategoryGrundForMU.toCertificate(index++, textProvider)
             )
             .addElement(
-                QuestionGrundForMUBaseratPa.toCertificate(index++, textProvider,
+                QuestionGrundForMUUnderlag.toCertificate(index++, textProvider,
                     internalCertificate.getUndersokningAvPatienten(), internalCertificate.getJournaluppgifter(),
                     internalCertificate.getAnhorigsBeskrivningAvPatienten(), internalCertificate.getAnnatGrundForMU())
             )
-            .addElement(QuestionGrundForMUAnnanBeskrivning.toCertificate(index++, textProvider,
+            .addElement(QuestionGrundForMUAnnatBeskrivning.toCertificate(index++, textProvider,
                 internalCertificate.getAnnatGrundForMUBeskrivning()))
             .addElement(QuestionGrundForMUMotivering.toCertificate(index++, textProvider,
                 internalCertificate.getMotiveringTillInteBaseratPaUndersokning()))
