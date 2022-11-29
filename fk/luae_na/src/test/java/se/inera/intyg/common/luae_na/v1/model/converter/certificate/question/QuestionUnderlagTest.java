@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
@@ -408,15 +409,15 @@ class QuestionUnderlagTest {
         Stream<List<Underlag>> underlag() {
             return Stream.of(
                 List.of(
-                    Underlag.create(UNDERLAG_FRAN_ARBETSTERAPEUT, new InternalDate(LocalDate.now()), "hamtasFran"),
-                    Underlag.create(UNDERLAG_FRAN_HABILITERINGEN, new InternalDate(LocalDate.now()), "hamtasFran"),
+                    Underlag.create(null, null, null),
+                    Underlag.create(UNDERLAG_FRAN_HABILITERINGEN, null, "hamtasFran"),
                     Underlag.create(NEUROPSYKIATRISKT_UTLATANDE, new InternalDate(LocalDate.now()), "hamtasFran")
                 ));
         }
 
         @ParameterizedTest
         @MethodSource("underlag")
-        void shouldIncludeTextValue(List<Underlag> expectedValue) {
+        void shouldReturnListOfThreeUnderlagAllHasValue(List<Underlag> expectedValue) {
             final var certificate = CertificateBuilder.create()
                 .addElement(QuestionUnderlag.toCertificate(
                     expectedValue, 0, texts))
@@ -431,5 +432,163 @@ class QuestionUnderlagTest {
             );
         }
 
+        @Nested
+        class UnderlagHasNoValue {
+
+            @Test
+            void shouldReturnEmptyList() {
+                final var expectedValue = List.of(
+                    Underlag.create(null, null, null),
+                    Underlag.create(null, null, null),
+                    Underlag.create(null, null, null)
+                );
+                final var certificate = CertificateBuilder.create()
+                    .addElement(QuestionUnderlag.toCertificate(
+                        expectedValue, 0, texts))
+                    .build();
+
+                final var actualValue = QuestionUnderlag.toInternal(certificate);
+
+                assertTrue(actualValue.isEmpty());
+            }
+        }
+
+        @Nested
+        class UnderlagThirdElementHasValue {
+
+            final List<Underlag> expectedValue = List.of(
+                Underlag.create(null, null, null),
+                Underlag.create(null, null, null),
+                Underlag.create(null, null, "hamtasFran")
+            );
+
+            @Test
+            void shouldReturnListWithTwoUnderlag() {
+                final var certificate = CertificateBuilder.create()
+                    .addElement(QuestionUnderlag.toCertificate(
+                        expectedValue, 0, texts))
+                    .build();
+
+                final var actualValue = QuestionUnderlag.toInternal(certificate);
+
+                assertEquals(3, actualValue.size());
+            }
+
+            @Test
+            void shouldReturnFirstUnderlag() {
+                final var certificate = CertificateBuilder.create()
+                    .addElement(QuestionUnderlag.toCertificate(
+                        expectedValue, 0, texts))
+                    .build();
+
+                final var actualValue = QuestionUnderlag.toInternal(certificate);
+
+                assertEquals(expectedValue.get(0), actualValue.get(0));
+            }
+
+            @Test
+            void shouldReturnSecondUnderlag() {
+                final var certificate = CertificateBuilder.create()
+                    .addElement(QuestionUnderlag.toCertificate(
+                        expectedValue, 0, texts))
+                    .build();
+
+                final var actualValue = QuestionUnderlag.toInternal(certificate);
+
+                assertEquals(expectedValue.get(1), actualValue.get(1));
+            }
+
+            @Test
+            void shouldReturnThirdUnderlag() {
+                final var certificate = CertificateBuilder.create()
+                    .addElement(QuestionUnderlag.toCertificate(
+                        expectedValue, 0, texts))
+                    .build();
+
+                final var actualValue = QuestionUnderlag.toInternal(certificate);
+
+                assertEquals(expectedValue.get(2), actualValue.get(2));
+            }
+        }
+
+        @Nested
+        class UnderlagSecondElementHasValue {
+
+            final List<Underlag> expectedValue = List.of(
+                Underlag.create(null, null, null),
+                Underlag.create(null, null, "hamtasFran"),
+                Underlag.create(null, null, null)
+            );
+
+            @Test
+            void shouldReturnListWithTwoUnderlag() {
+                final var certificate = CertificateBuilder.create()
+                    .addElement(QuestionUnderlag.toCertificate(
+                        expectedValue, 0, texts))
+                    .build();
+
+                final var actualValue = QuestionUnderlag.toInternal(certificate);
+
+                assertEquals(2, actualValue.size());
+            }
+
+            @Test
+            void shouldReturnFirstUnderlag() {
+                final var certificate = CertificateBuilder.create()
+                    .addElement(QuestionUnderlag.toCertificate(
+                        expectedValue, 0, texts))
+                    .build();
+
+                final var actualValue = QuestionUnderlag.toInternal(certificate);
+
+                assertEquals(expectedValue.get(0), actualValue.get(0));
+            }
+
+            @Test
+            void shouldReturnSecondUnderlag() {
+                final var certificate = CertificateBuilder.create()
+                    .addElement(QuestionUnderlag.toCertificate(
+                        expectedValue, 0, texts))
+                    .build();
+
+                final var actualValue = QuestionUnderlag.toInternal(certificate);
+
+                assertEquals(expectedValue.get(1), actualValue.get(1));
+            }
+        }
+
+        @Nested
+        class UnderlagFirstElementHasValue {
+
+            final List<Underlag> expectedValue = List.of(
+                Underlag.create(null, null, "hamtasFran"),
+                Underlag.create(null, null, null),
+                Underlag.create(null, null, null)
+            );
+
+            @Test
+            void shouldReturnListWithOneUnderlag() {
+                final var certificate = CertificateBuilder.create()
+                    .addElement(QuestionUnderlag.toCertificate(
+                        expectedValue, 0, texts))
+                    .build();
+
+                final var actualValue = QuestionUnderlag.toInternal(certificate);
+
+                assertEquals(1, actualValue.size());
+            }
+
+            @Test
+            void shouldReturnFirstUnderlag() {
+                final var certificate = CertificateBuilder.create()
+                    .addElement(QuestionUnderlag.toCertificate(
+                        expectedValue, 0, texts))
+                    .build();
+
+                final var actualValue = QuestionUnderlag.toInternal(certificate);
+
+                assertEquals(expectedValue.get(0), actualValue.get(0));
+            }
+        }
     }
 }
