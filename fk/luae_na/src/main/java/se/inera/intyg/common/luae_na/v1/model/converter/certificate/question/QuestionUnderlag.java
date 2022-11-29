@@ -50,15 +50,15 @@ import se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMedicalInvestigationList;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMedicalInvestigation;
 import se.inera.intyg.common.support.facade.model.config.CodeItem;
 import se.inera.intyg.common.support.facade.model.config.MedicalInvestigation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigation;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigationList;
-import se.inera.intyg.common.support.facade.model.value.MedicalInvestigationValue;
 import se.inera.intyg.common.support.model.InternalDate;
 
 public class QuestionUnderlag {
@@ -71,7 +71,7 @@ public class QuestionUnderlag {
             .parent(GRUNDFORMU_CATEGORY_ID)
             .index(index)
             .config(
-                CertificateDataConfigMedicalInvestigationList.builder()
+                CertificateDataConfigMedicalInvestigation.builder()
                     .typeText(texts.get(UNDERLAG_TYPE_TEXT_ID))
                     .dateText(UNDERLAG_DATUM_TEXT)
                     .informationSourceText(texts.get(UNDERLAG_INFORMATION_SOURCE_TEXT_ID))
@@ -137,8 +137,8 @@ public class QuestionUnderlag {
             .build();
     }
 
-    private static MedicalInvestigationValue getMedicalInvestigationValue(List<Underlag> underlag, int id) {
-        return MedicalInvestigationValue.builder()
+    private static CertificateDataValueMedicalInvestigation getMedicalInvestigationValue(List<Underlag> underlag, int id) {
+        return CertificateDataValueMedicalInvestigation.builder()
             .typeId(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].typ")
             .informationSourceId(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].hamtasFran")
             .dateId(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].datum")

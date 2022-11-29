@@ -34,7 +34,7 @@ public class CertificateDataValueMedicalInvestigationList implements Certificate
 
     @Getter(onMethod = @__(@Override))
     CertificateDataValueType type = CertificateDataValueType.MEDICAL_INVESTIGATION;
-    List<MedicalInvestigationValue> list;
+    List<CertificateDataValueMedicalInvestigation> list;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataValueMedicalInvestigationListBuilder {

@@ -25,15 +25,15 @@ import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMedicalInvestigationList.CertificateDataConfigMedicalInvestigationBuilder;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMedicalInvestigation.CertificateDataConfigMedicalInvestigationBuilder;
 
 @JsonDeserialize(builder = CertificateDataConfigMedicalInvestigationBuilder.class)
 @Value
 @Builder
-public class CertificateDataConfigMedicalInvestigationList implements CertificateDataConfig {
+public class CertificateDataConfigMedicalInvestigation implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_MEDICINSK_UTREDNING_LIST;
+    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_MEDICINSK_UTREDNING;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))

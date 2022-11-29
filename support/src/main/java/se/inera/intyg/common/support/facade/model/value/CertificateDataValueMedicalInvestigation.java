@@ -24,12 +24,12 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.time.LocalDate;
 import lombok.Builder;
 import lombok.Value;
-import se.inera.intyg.common.support.facade.model.value.MedicalInvestigationValue.MedicalInvestigationValueBuilder;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigation.MedicalInvestigationValueBuilder;
 
 @JsonDeserialize(builder = MedicalInvestigationValueBuilder.class)
 @Value
 @Builder
-public class MedicalInvestigationValue {
+public class CertificateDataValueMedicalInvestigation {
 
     String typeId;
     String informationSourceId;

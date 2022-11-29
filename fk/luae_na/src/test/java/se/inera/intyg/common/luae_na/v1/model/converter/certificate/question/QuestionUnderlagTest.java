@@ -65,7 +65,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMedicalInvestigationList;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMedicalInvestigation;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
@@ -115,9 +115,9 @@ class QuestionUnderlagTest {
         @Test
         void shouldIncludeConfigTypeMedicalInvestigationList() {
             final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
-            final var config = (CertificateDataConfigMedicalInvestigationList) question.getConfig();
+            final var config = (CertificateDataConfigMedicalInvestigation) question.getConfig();
 
-            assertEquals(CertificateDataConfigTypes.UE_MEDICINSK_UTREDNING_LIST, config.getType());
+            assertEquals(CertificateDataConfigTypes.UE_MEDICINSK_UTREDNING, config.getType());
         }
 
 
@@ -131,7 +131,7 @@ class QuestionUnderlagTest {
         @Test
         void shouldIncludeDateText() {
             final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
-            final var config = (CertificateDataConfigMedicalInvestigationList) question.getConfig();
+            final var config = (CertificateDataConfigMedicalInvestigation) question.getConfig();
             assertEquals(UNDERLAG_DATUM_TEXT, config.getDateText());
         }
 
@@ -152,7 +152,7 @@ class QuestionUnderlagTest {
         @Test
         void shouldIncludeConfigListOfMedicalInvestigation() {
             final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
-            final var config = (CertificateDataConfigMedicalInvestigationList) question.getConfig();
+            final var config = (CertificateDataConfigMedicalInvestigation) question.getConfig();
 
             assertNotNull(config.getList());
         }
@@ -160,7 +160,7 @@ class QuestionUnderlagTest {
         @Test
         void shouldIncludeConfigListOfMedicalInvestigationTypeIds() {
             final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
-            final var config = (CertificateDataConfigMedicalInvestigationList) question.getConfig();
+            final var config = (CertificateDataConfigMedicalInvestigation) question.getConfig();
 
             final var firstElementInformationSource = UNDERLAG_SVAR_JSON_ID_4 + "[0].typ";
             final var secondElementInformationSource = UNDERLAG_SVAR_JSON_ID_4 + "[1].typ";
@@ -176,7 +176,7 @@ class QuestionUnderlagTest {
         @Test
         void shouldIncludeConfigListOfMedicalInvestigationInformationSourceId() {
             final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
-            final var config = (CertificateDataConfigMedicalInvestigationList) question.getConfig();
+            final var config = (CertificateDataConfigMedicalInvestigation) question.getConfig();
             final var firstElementInformationSource = UNDERLAG_SVAR_JSON_ID_4 + "[0].hamtasFran";
             final var secondElementInformationSource = UNDERLAG_SVAR_JSON_ID_4 + "[1].hamtasFran";
             final var thirdElementInformationSource = UNDERLAG_SVAR_JSON_ID_4 + "[2].hamtasFran";
@@ -191,7 +191,7 @@ class QuestionUnderlagTest {
         @Test
         void shouldIncludeConfigListOfMedicalInvestigationDateId() {
             final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
-            final var config = (CertificateDataConfigMedicalInvestigationList) question.getConfig();
+            final var config = (CertificateDataConfigMedicalInvestigation) question.getConfig();
             final var firstElementInformationSource = UNDERLAG_SVAR_JSON_ID_4 + "[0].datum";
             final var secondElementInformationSource = UNDERLAG_SVAR_JSON_ID_4 + "[1].datum";
             final var thirdElementInformationSource = UNDERLAG_SVAR_JSON_ID_4 + "[2].datum";
@@ -206,14 +206,14 @@ class QuestionUnderlagTest {
         @Test
         void shouldIncludeConfigMedicalInvestigationTypeOptions() {
             final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
-            final var config = (CertificateDataConfigMedicalInvestigationList) question.getConfig();
+            final var config = (CertificateDataConfigMedicalInvestigation) question.getConfig();
             assertNotNull(config.getTypeOptions());
         }
 
         @Test
         void shouldIncludeConfigOfMedicalInvestigationTypeOptionsWithId() {
             final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
-            final var config = (CertificateDataConfigMedicalInvestigationList) question.getConfig();
+            final var config = (CertificateDataConfigMedicalInvestigation) question.getConfig();
             assertAll(
                 () -> assertEquals(NEUROPSYKIATRISKT_UTLATANDE.getId(), config.getTypeOptions().get(0).getId()),
                 () -> assertEquals(UNDERLAG_FRAN_HABILITERINGEN.getId(), config.getTypeOptions().get(1).getId()),
@@ -233,7 +233,7 @@ class QuestionUnderlagTest {
         @Test
         void shouldIncludeConfigOfMedicalInvestigationTypeOptionsWithLabel() {
             final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
-            final var config = (CertificateDataConfigMedicalInvestigationList) question.getConfig();
+            final var config = (CertificateDataConfigMedicalInvestigation) question.getConfig();
             assertAll(
                 () -> assertEquals(NEUROPSYKIATRISKT_UTLATANDE.getLabel(), config.getTypeOptions().get(0).getLabel()),
                 () -> assertEquals(UNDERLAG_FRAN_HABILITERINGEN.getLabel(), config.getTypeOptions().get(1).getLabel()),
