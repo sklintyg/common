@@ -24,14 +24,18 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import se.inera.intyg.common.fkparent.model.internal.Underlag;
+import se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlag;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagBaseratPa;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagFinns;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
@@ -80,6 +84,23 @@ class CertificateToInternalTest {
                 .setAnnatGrundForMUBeskrivning(annanBeskrivning)
                 .setKannedomOmPatient(new InternalDate(LocalDate.now()))
                 .setUnderlagFinns(true)
+                .setUnderlag(List.of(
+                    Underlag.create(
+                        UnderlagsTyp.UTREDNING_AV_ANNAN_SPECIALISTKLINIK,
+                        new InternalDate(LocalDate.now()),
+                        "hamtasFran"
+                    ),
+                    Underlag.create(
+                        UnderlagsTyp.NEUROPSYKIATRISKT_UTLATANDE,
+                        new InternalDate(LocalDate.now()),
+                        "hamtasFran"
+                    ),
+                    Underlag.create(
+                        UnderlagsTyp.UNDERLAG_FRAN_ARBETSTERAPEUT,
+                        new InternalDate(LocalDate.now()),
+                        "hamtasFran"
+                    )
+                ))
                 .build();
 
             texts = Mockito.mock(CertificateTextProvider.class);
@@ -94,6 +115,22 @@ class CertificateToInternalTest {
                 .addElement(QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(motivering, 0, texts))
                 .addElement(QuestionKannedomOmPatient.toCertificate(new InternalDate(LocalDate.now()), 0, texts))
                 .addElement(QuestionUnderlagFinns.toCertificate(true, 0, texts))
+                .addElement(QuestionUnderlag.toCertificate(List.of(
+                    Underlag.create(
+                        UnderlagsTyp.UTREDNING_AV_ANNAN_SPECIALISTKLINIK,
+                        new InternalDate(LocalDate.now()),
+                        "hamtasFran"
+                    ),
+                    Underlag.create(
+                        UnderlagsTyp.NEUROPSYKIATRISKT_UTLATANDE,
+                        new InternalDate(LocalDate.now()),
+                        "hamtasFran"
+                    ),
+                    Underlag.create(
+                        UnderlagsTyp.UNDERLAG_FRAN_ARBETSTERAPEUT,
+                        new InternalDate(LocalDate.now()),
+                        "hamtasFran"
+                    )), 0, texts))
                 .build();
         }
 
@@ -166,6 +203,13 @@ class CertificateToInternalTest {
             final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
             assertEquals(actualInternalCertificate.getUnderlagFinns(),
                 expectedInternalCertificate.getUnderlagFinns());
+        }
+
+        @Test
+        void shallIncludeUnderlag() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getUnderlag(),
+                expectedInternalCertificate.getUnderlag());
         }
     }
 }

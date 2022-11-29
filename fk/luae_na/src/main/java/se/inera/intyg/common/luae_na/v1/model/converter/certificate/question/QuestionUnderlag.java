@@ -44,9 +44,11 @@ import static se.inera.intyg.common.support.facade.util.ValidationExpressionTool
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMedicalInvestigationList;
 import se.inera.intyg.common.support.facade.model.config.CodeItem;
@@ -171,5 +173,34 @@ public class QuestionUnderlag {
 
     private static LocalDate toLocalDate(InternalDate internalDate) {
         return (internalDate != null && internalDate.isValidDate()) ? internalDate.asLocalDate() : null;
+    }
+
+    public static List<Underlag> toInternal(Certificate certificate) {
+        final var value = (CertificateDataValueMedicalInvestigationList) certificate.getData().get(UNDERLAG_TYP_DELSVAR_ID_4).getValue();
+        final var underlagList = value.getList().stream()
+            .map(underlag -> Underlag.create(
+                underlag.getTyp() != null ? UnderlagsTyp.fromId(underlag.getTyp()) : null,
+                underlag.getDatum() != null ? new InternalDate(underlag.getDatum()) : null,
+                underlag.getHamtasFran()
+            ))
+            .collect(Collectors.toList());
+
+        removeEmptyValuesIfAtEndOfList(underlagList);
+
+        return underlagList;
+    }
+
+    private static void removeEmptyValuesIfAtEndOfList(List<Underlag> underlagList) {
+        for (int i = underlagList.size() - 1; i >= 0; i--) {
+            if (hasValue(underlagList.get(i))) {
+                break;
+            } else {
+                underlagList.remove(i);
+            }
+        }
+    }
+
+    private static boolean hasValue(Underlag underlag) {
+        return underlag.getHamtasFran() != null || underlag.getDatum() != null || underlag.getTyp() != null;
     }
 }
