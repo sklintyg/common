@@ -264,7 +264,7 @@ class QuestionUnderlagBaseratPaTest {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class toInternal {
+    class ToInternal {
 
         Stream<InternalDate> dateValues() {
             return Stream.of(new InternalDate(LocalDate.now().plusMonths(10)), new InternalDate(LocalDate.now()), null);
