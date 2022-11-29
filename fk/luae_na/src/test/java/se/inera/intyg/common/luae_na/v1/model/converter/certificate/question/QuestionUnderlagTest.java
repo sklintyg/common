@@ -86,14 +86,14 @@ class QuestionUnderlagTest {
 
         @Test
         void shouldIncludeId() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
 
             assertEquals(UNDERLAG_TYP_DELSVAR_ID_4, question.getId());
         }
 
         @Test
         void shouldIncludeParent() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
 
             assertEquals(GRUNDFORMU_CATEGORY_ID, question.getParent());
         }
@@ -101,14 +101,14 @@ class QuestionUnderlagTest {
         @Test
         void shouldIncludeIndex() {
             final var expectedIndex = 1;
-            final var question = QuestionUnderlag.toCertificate(expectedIndex, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), expectedIndex, texts);
 
             assertEquals(expectedIndex, question.getIndex());
         }
 
         @Test
         void shouldIncludeConfigTypeMedicalInvestigationList() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var config = (CertificateDataConfigMedicalInvestigationList) question.getConfig();
 
             assertEquals(CertificateDataConfigTypes.UE_MEDICINSK_UTREDNING_LIST, config.getType());
@@ -117,35 +117,35 @@ class QuestionUnderlagTest {
 
         @Test
         void shouldIncludeTypeText() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
 
             verify(texts, atLeastOnce()).get(UNDERLAG_TYPE_TEXT_ID);
         }
 
         @Test
         void shouldIncludeDateText() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var config = (CertificateDataConfigMedicalInvestigationList) question.getConfig();
             assertEquals(UNDERLAG_DATUM_TEXT, config.getDateText());
         }
 
         @Test
         void shouldIncludeInformationSourceText() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
 
             verify(texts, atLeastOnce()).get(UNDERLAG_INFORMATION_SOURCE_TEXT_ID);
         }
 
         @Test
         void shouldIncludeTypeInformationSourceDescription() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
 
             verify(texts, atLeastOnce()).get(UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID);
         }
 
         @Test
         void shouldIncludeConfigListOfMedicalInvestigation() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var config = (CertificateDataConfigMedicalInvestigationList) question.getConfig();
 
             assertNotNull(config.getList());
@@ -153,7 +153,7 @@ class QuestionUnderlagTest {
 
         @Test
         void shouldIncludeConfigListOfMedicalInvestigationTypeIds() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var config = (CertificateDataConfigMedicalInvestigationList) question.getConfig();
 
             final var firstElementInformationSource = UNDERLAG_SVAR_JSON_ID_4 + "[0].typ";
@@ -169,7 +169,7 @@ class QuestionUnderlagTest {
 
         @Test
         void shouldIncludeConfigListOfMedicalInvestigationInformationSourceId() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var config = (CertificateDataConfigMedicalInvestigationList) question.getConfig();
             final var firstElementInformationSource = UNDERLAG_SVAR_JSON_ID_4 + "[0].hamtasFran";
             final var secondElementInformationSource = UNDERLAG_SVAR_JSON_ID_4 + "[1].hamtasFran";
@@ -184,7 +184,7 @@ class QuestionUnderlagTest {
 
         @Test
         void shouldIncludeConfigListOfMedicalInvestigationDateId() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var config = (CertificateDataConfigMedicalInvestigationList) question.getConfig();
             final var firstElementInformationSource = UNDERLAG_SVAR_JSON_ID_4 + "[0].datum";
             final var secondElementInformationSource = UNDERLAG_SVAR_JSON_ID_4 + "[1].datum";
@@ -199,14 +199,14 @@ class QuestionUnderlagTest {
 
         @Test
         void shouldIncludeConfigMedicalInvestigationTypeOptions() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var config = (CertificateDataConfigMedicalInvestigationList) question.getConfig();
             assertNotNull(config.getTypeOptions());
         }
 
         @Test
         void shouldIncludeConfigOfMedicalInvestigationTypeOptionsWithId() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var config = (CertificateDataConfigMedicalInvestigationList) question.getConfig();
             assertAll(
                 () -> assertEquals(NEUROPSYKIATRISKT_UTLATANDE.getId(), config.getTypeOptions().get(0).getId()),
@@ -226,7 +226,7 @@ class QuestionUnderlagTest {
 
         @Test
         void shouldIncludeConfigOfMedicalInvestigationTypeOptionsWithLabel() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var config = (CertificateDataConfigMedicalInvestigationList) question.getConfig();
             assertAll(
                 () -> assertEquals(NEUROPSYKIATRISKT_UTLATANDE.getLabel(), config.getTypeOptions().get(0).getLabel()),
@@ -246,13 +246,13 @@ class QuestionUnderlagTest {
 
         @Test
         void shouldIncludeValueMedicalInvestigation() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             assertEquals(CertificateDataValueType.MEDICAL_INVESTIGATION, question.getValue().getType());
         }
 
         @Test
         void shouldIncludeValueMedicalInvestigationList() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var value = (CertificateDataValueMedicalInvestigationList) question.getValue();
             assertEquals(3, value.getList().size());
         }
@@ -267,7 +267,7 @@ class QuestionUnderlagTest {
                 Underlag.create(
                     UNDERLAG_FRAN_ARBETSTERAPEUT, new InternalDate(LocalDate.now()), "hamtasFran"));
 
-            final var question = QuestionUnderlag.toCertificate(0, texts, expectedResult);
+            final var question = QuestionUnderlag.toCertificate(expectedResult, 0, texts);
             final var value = (CertificateDataValueMedicalInvestigationList) question.getValue();
 
             assertAll(
@@ -286,7 +286,7 @@ class QuestionUnderlagTest {
 
         @Test
         void shouldIncludeListOfMedicalInvestigationWithNullValues() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var value = (CertificateDataValueMedicalInvestigationList) question.getValue();
 
             assertAll(
@@ -305,14 +305,14 @@ class QuestionUnderlagTest {
 
         @Test
         void shouldIncludeMandatoryValidation() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
 
             assertEquals(CertificateDataValidationType.MANDATORY_VALIDATION, question.getValidation()[0].getType());
         }
 
         @Test
         void shouldIncludeMandatoryValidationQuestionId() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
 
             assertEquals(UNDERLAG_TYP_DELSVAR_ID_4, certificateDataValidationMandatory.getQuestionId());
@@ -320,7 +320,7 @@ class QuestionUnderlagTest {
 
         @Test
         void shouldIncludeMandatoryValidationExpression() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var expectedExpression =
                 UNDERLAG_SVAR_JSON_ID_4 + "[0].typ" + " && " + UNDERLAG_SVAR_JSON_ID_4 + "[0].datum" + " && "
                     + UNDERLAG_SVAR_JSON_ID_4 + "[0].hamtasFran";
@@ -331,21 +331,21 @@ class QuestionUnderlagTest {
 
         @Test
         void shouldIncludeShowValidation() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
 
             assertEquals(CertificateDataValidationType.SHOW_VALIDATION, question.getValidation()[1].getType());
         }
 
         @Test
         void shouldIncludeShowValidationQuestionId() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
             assertEquals(UNDERLAGFINNS_DELSVAR_ID_3, certificateDataValidationShow.getQuestionId());
         }
 
         @Test
         void shouldIncludeShowValidationExpression() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
             final var expectedExpression = "$" + UNDERLAGFINNS_SVAR_JSON_ID_3;
 
@@ -354,7 +354,7 @@ class QuestionUnderlagTest {
 
         @Test
         void shouldIncludeMaxDateValidation() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
 
             assertAll(
                 () -> assertEquals(CertificateDataValidationType.MAX_DATE_VALIDATION, question.getValidation()[2].getType()),
@@ -365,7 +365,7 @@ class QuestionUnderlagTest {
 
         @Test
         void shouldIncludeMaxDateValidationLimit() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var firstMaxDateValidation = (CertificateDataValidationMaxDate) question.getValidation()[2];
             final var secondMaxDateValidation = (CertificateDataValidationMaxDate) question.getValidation()[3];
             final var thirdMaxDateValidation = (CertificateDataValidationMaxDate) question.getValidation()[4];
@@ -380,7 +380,7 @@ class QuestionUnderlagTest {
 
         @Test
         void shouldIncludeMaxDateValidationId() {
-            final var question = QuestionUnderlag.toCertificate(0, texts, List.of());
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var firstMaxDateValidation = (CertificateDataValidationMaxDate) question.getValidation()[2];
             final var secondMaxDateValidation = (CertificateDataValidationMaxDate) question.getValidation()[3];
             final var thirdMaxDateValidation = (CertificateDataValidationMaxDate) question.getValidation()[4];

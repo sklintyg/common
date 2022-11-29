@@ -28,6 +28,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNEDOM_DELSVAR_ID_2;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_DELSVAR_ID_3;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_TYP_DELSVAR_ID_4;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -80,33 +81,39 @@ class InternalToCertificateTest {
     }
 
     @Test
-    void shallIncludeQuestionGrundForMTypAvGrund() {
+    void shallIncludeQuestionBaseratPa() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
         assertEquals(1, actualCertificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1).getIndex());
     }
 
     @Test
-    void shallIncludeQuestionGrundForMUAnnanBeskrivning() {
+    void shallIncludeQuestionAnnatBeskrivning() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
         assertEquals(2, actualCertificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1).getIndex());
     }
 
     @Test
-    void shallIncludeQuestionGrundForMUMotivering() {
+    void shallIncludeQuestionMotiveringTillInteBaseratPaUndersokning() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
         assertEquals(3, actualCertificate.getData().get(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1).getIndex());
     }
 
     @Test
-    void shallIncludeQuestionGrundForMUKannedomOmPatient() {
+    void shallIncludeQuestionKannedomOmPatient() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
         assertEquals(4, actualCertificate.getData().get(KANNEDOM_DELSVAR_ID_2).getIndex());
     }
 
     @Test
-    void shallIncludeQuestionGrundForMUUnderlagFinns() {
+    void shallIncludeQuestionUnderlagFinns() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
         assertEquals(5, actualCertificate.getData().get(UNDERLAGFINNS_DELSVAR_ID_3).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionUnderlag() {
+        final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
+        assertEquals(6, actualCertificate.getData().get(UNDERLAG_TYP_DELSVAR_ID_4).getIndex());
     }
 }
 
