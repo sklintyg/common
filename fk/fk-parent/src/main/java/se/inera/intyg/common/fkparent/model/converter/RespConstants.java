@@ -79,9 +79,16 @@ public final class RespConstants {
 
     public static final String UNDERLAG_SVAR_ID_4 = "4";
     public static final String UNDERLAG_TYP_DELSVAR_ID_4 = "4.1";
+    public static final String UNDERLAG_QUESTION_ID_0 = "4.1.0";
+    public static final String UNDERLAG_QUESTION_ID_1 = "4.1.1";
+    public static final String UNDERLAG_QUESTION_ID_2 = "4.1.2";
     public static final String UNDERLAG_DATUM_DELSVAR_ID_4 = "4.2";
     public static final String UNDERLAG_HAMTAS_FRAN_DELSVAR_ID_4 = "4.3";
     public static final String UNDERLAG_SVAR_JSON_ID_4 = "underlag";
+    public static final String UNDERLAG_TYPE_TEXT_ID = "FRG_4.RBK";
+    public static final String UNDERLAG_DATUM_TEXT = "Datum";
+    public static final String UNDERLAG_INFORMATION_SOURCE_TEXT_ID = "DFR_4.3.RBK";
+    public static final String UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID = "DFR_4.3.HLP";
 
     public static final String SJUKDOMSFORLOPP_SVAR_ID_5 = "5";
     public static final String SJUKDOMSFORLOPP_DELSVAR_ID_5 = "5.1";

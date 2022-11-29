@@ -16,9 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.support.facade.model.value;
 
-public enum CertificateDataValueType {
-    BOOLEAN, TEXT, DATE, DATE_LIST, DATE_RANGE, DATE_RANGE_LIST, CODE_LIST, CODE, DIAGNOSIS_LIST, DIAGNOSIS, ICF, UNKOWN, UNCERTAIN_DATE,
-    CAUSE_OF_DEATH_LIST, MEDICAL_INVESTIGATION, CAUSE_OF_DEATH
+package se.inera.intyg.common.support.facade.model.config;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
+import lombok.Value;
+import se.inera.intyg.common.support.facade.model.config.MedicalInvestigation.MedicalInvestigationBuilder;
+
+@JsonDeserialize(builder = MedicalInvestigationBuilder.class)
+@Value
+@Builder
+public class MedicalInvestigation {
+
+    String typeId;
+    String informationSourceId;
+    String dateId;
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class MedicalInvestigationBuilder {
+
+    }
 }
