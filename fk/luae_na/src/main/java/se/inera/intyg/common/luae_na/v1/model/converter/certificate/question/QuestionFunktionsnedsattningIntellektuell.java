@@ -19,9 +19,6 @@
 
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ACCORDION_CLOSE_TEXT;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ACCORDION_OPEN_TEXT;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_ID_8;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_INTELLEKTUELL_DESCRIPTION_ID;
@@ -31,51 +28,22 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUN
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.Accordion;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.util.ValueToolkit;
 
-public class QuestionFunktionsnedsattningIntellektuell {
+public class QuestionFunktionsnedsattningIntellektuell extends AbstractQuestionFunktionsnedsattning {
 
-    private static final short TEXT_LIMIT = (short) 4000;
-
-    public static CertificateDataElement toCertificate(String intellektuellFunktion, int index, CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_ID_8)
-            .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .text(textProvider.get(FUNKTIONSNEDSATTNING_INTELLEKTUELL_TEXT_ID))
-                    .description(textProvider.get(FUNKTIONSNEDSATTNING_INTELLEKTUELL_DESCRIPTION_ID))
-                    .accordion(
-                        Accordion.builder()
-                            .openText(FUNKTIONSNEDSATTNING_ACCORDION_OPEN_TEXT)
-                            .closeText(FUNKTIONSNEDSATTNING_ACCORDION_CLOSE_TEXT)
-                            .header(textProvider.get(FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_TEXT_ID))
-                            .build()
-                    )
-                    .id(FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID_8)
-                    .build()
-            )
-            .value(
-                CertificateDataTextValue.builder()
-                    .id(FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID_8)
-                    .text(intellektuellFunktion)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationText.builder()
-                        .id(FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID_8)
-                        .limit(TEXT_LIMIT)
-                        .build()
-                }
-            )
-            .build();
+    public static CertificateDataElement toCertificate(String funktionsnedsattningIntellektuell, int index,
+        CertificateTextProvider textProvider) {
+        return toCertificate(
+            funktionsnedsattningIntellektuell,
+            FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_ID_8,
+            FUNKTIONSNEDSATTNING_INTELLEKTUELL_TEXT_ID,
+            FUNKTIONSNEDSATTNING_INTELLEKTUELL_DESCRIPTION_ID,
+            FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_TEXT_ID,
+            FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID_8,
+            index,
+            textProvider
+        );
     }
 
     public static String toInternal(Certificate certificate) {

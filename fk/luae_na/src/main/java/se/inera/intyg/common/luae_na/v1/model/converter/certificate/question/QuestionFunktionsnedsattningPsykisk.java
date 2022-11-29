@@ -19,9 +19,6 @@
 
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ACCORDION_CLOSE_TEXT;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ACCORDION_OPEN_TEXT;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_DELSVAR_ID_11;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_DESCRIPTION_ID;
@@ -31,52 +28,22 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUN
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.Accordion;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.util.ValueToolkit;
 
-public class QuestionFunktionsnedsattningPsykisk {
-
-    private static final short TEXT_LIMIT = (short) 4000;
+public class QuestionFunktionsnedsattningPsykisk extends AbstractQuestionFunktionsnedsattning {
 
     public static CertificateDataElement toCertificate(String funktionsnedsattningPsykisk, int index,
         CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(FUNKTIONSNEDSATTNING_PSYKISK_DELSVAR_ID_11)
-            .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .text(textProvider.get(FUNKTIONSNEDSATTNING_PSYKISK_TEXT_ID))
-                    .description(textProvider.get(FUNKTIONSNEDSATTNING_PSYKISK_DESCRIPTION_ID))
-                    .accordion(
-                        Accordion.builder()
-                            .openText(FUNKTIONSNEDSATTNING_ACCORDION_OPEN_TEXT)
-                            .closeText(FUNKTIONSNEDSATTNING_ACCORDION_CLOSE_TEXT)
-                            .header(textProvider.get(FUNKTIONSNEDSATTNING_PSYKISK_DELSVAR_TEXT_ID))
-                            .build()
-                    )
-                    .id(FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID_11)
-                    .build()
-            )
-            .value(
-                CertificateDataTextValue.builder()
-                    .id(FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID_11)
-                    .text(funktionsnedsattningPsykisk)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationText.builder()
-                        .id(FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID_11)
-                        .limit(TEXT_LIMIT)
-                        .build()
-                }
-            )
-            .build();
+        return toCertificate(
+            funktionsnedsattningPsykisk,
+            FUNKTIONSNEDSATTNING_PSYKISK_DELSVAR_ID_11,
+            FUNKTIONSNEDSATTNING_PSYKISK_TEXT_ID,
+            FUNKTIONSNEDSATTNING_PSYKISK_DESCRIPTION_ID,
+            FUNKTIONSNEDSATTNING_PSYKISK_DELSVAR_TEXT_ID,
+            FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID_11,
+            index,
+            textProvider
+        );
     }
 
     public static String toInternal(Certificate certificate) {
