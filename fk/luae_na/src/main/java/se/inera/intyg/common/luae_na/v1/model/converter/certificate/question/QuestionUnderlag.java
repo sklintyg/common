@@ -144,7 +144,7 @@ public class QuestionUnderlag {
             .dateId(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].datum")
             .datum(id < underlag.size() ? toLocalDate(underlag.get(id).getDatum()) : null)
             .hamtasFran(id < underlag.size() ? underlag.get(id).getHamtasFran() : null)
-            .typ(id < underlag.size() && underlag.get(id).getTyp() != null ? underlag.get(id).getTyp().getId() : null)
+            .underlagsTyp(id < underlag.size() && underlag.get(id).getTyp() != null ? underlag.get(id).getTyp().getId() : null)
             .build();
     }
 
@@ -179,7 +179,7 @@ public class QuestionUnderlag {
         final var value = (CertificateDataValueMedicalInvestigationList) certificate.getData().get(UNDERLAG_TYP_DELSVAR_ID_4).getValue();
         final var underlagList = value.getList().stream()
             .map(underlag -> Underlag.create(
-                underlag.getTyp() != null ? UnderlagsTyp.fromId(underlag.getTyp()) : null,
+                underlag.getUnderlagsTyp() != null ? UnderlagsTyp.fromId(underlag.getUnderlagsTyp()) : null,
                 underlag.getDatum() != null ? new InternalDate(underlag.getDatum()) : null,
                 underlag.getHamtasFran()
             ))

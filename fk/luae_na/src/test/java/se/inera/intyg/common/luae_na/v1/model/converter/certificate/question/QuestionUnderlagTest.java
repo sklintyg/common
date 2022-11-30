@@ -281,7 +281,7 @@ class QuestionUnderlagTest {
                     for (int i = 0; i < value.getList().size(); i++) {
                         assertEquals(expectedResult.get(i).getDatum().asLocalDate(), value.getList().get(i).getDatum());
                         assertEquals(expectedResult.get(i).getHamtasFran(), value.getList().get(i).getHamtasFran());
-                        assertEquals(expectedResult.get(i).getTyp().getId(), value.getList().get(i).getTyp());
+                        assertEquals(expectedResult.get(i).getTyp().getId(), value.getList().get(i).getUnderlagsTyp());
                         assertEquals(UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].typ", value.getList().get(i).getTypeId());
                         assertEquals(UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].hamtasFran", value.getList().get(i).getInformationSourceId());
                         assertEquals(UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum", value.getList().get(i).getDateId());
@@ -300,7 +300,7 @@ class QuestionUnderlagTest {
                     for (int i = 0; i < value.getList().size(); i++) {
                         assertNull(value.getList().get(i).getDatum());
                         assertNull(value.getList().get(i).getHamtasFran());
-                        assertNull(value.getList().get(i).getTyp());
+                        assertNull(value.getList().get(i).getUnderlagsTyp());
                         assertEquals(UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].typ", value.getList().get(i).getTypeId());
                         assertEquals(UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].hamtasFran", value.getList().get(i).getInformationSourceId());
                         assertEquals(UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum", value.getList().get(i).getDateId());

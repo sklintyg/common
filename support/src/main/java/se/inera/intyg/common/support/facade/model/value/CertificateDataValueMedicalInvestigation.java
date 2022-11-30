@@ -39,7 +39,7 @@ public class CertificateDataValueMedicalInvestigation implements CertificateData
     String dateId;
     LocalDate datum;
     String hamtasFran;
-    String typ;
+    String underlagsTyp;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class MedicalInvestigationValueBuilder {
