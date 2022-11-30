@@ -157,13 +157,13 @@ public class QuestionUnderlag {
                 .investigationType(CertificateDataValueCode.builder()
                     .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].typ")
                     .code(
-                        id < underlag.size() && underlag.get(id).getTyp() != null ? underlag.get(id).getTyp().getId() : null )
+                        id < underlag.size() && underlag.get(id).getTyp() != null ? underlag.get(id).getTyp().getId() : null)
                     .build())
                 .informationSource(
                     CertificateDataTextValue.builder()
                         .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].hamtasFran")
                         .text(
-                            id < underlag.size() ? underlag.get(id).getHamtasFran() : null )
+                            id < underlag.size() ? underlag.get(id).getHamtasFran() : null)
                         .build())
                 .build();
     }

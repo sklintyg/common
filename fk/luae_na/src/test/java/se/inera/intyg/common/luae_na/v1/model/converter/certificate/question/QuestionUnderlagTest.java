@@ -248,15 +248,24 @@ class QuestionUnderlagTest {
             assertAll(
                 () -> {
                     for (int i = 0; i < config.getList().size(); i++) {
-                        assertEquals(NEUROPSYKIATRISKT_UTLATANDE.getLabel(), config.getList().get(i).getTypeOptions().get(0).getLabel());
-                        assertEquals(UNDERLAG_FRAN_HABILITERINGEN.getLabel(), config.getList().get(i).getTypeOptions().get(1).getLabel());
-                        assertEquals(UNDERLAG_FRAN_ARBETSTERAPEUT.getLabel(), config.getList().get(i).getTypeOptions().get(2).getLabel());
-                        assertEquals(UNDERLAG_FRAN_FYSIOTERAPEUT.getLabel(), config.getList().get(i).getTypeOptions().get(3).getLabel());
-                        assertEquals(UNDERLAG_FRAN_LOGOPED.getLabel(), config.getList().get(i).getTypeOptions().get(4).getLabel());
-                        assertEquals(UNDERLAG_FRANPSYKOLOG.getLabel(), config.getList().get(i).getTypeOptions().get(5).getLabel());
-                        assertEquals(UNDERLAG_FRANFORETAGSHALSOVARD.getLabel(), config.getList().get(i).getTypeOptions().get(6).getLabel());
-                        assertEquals(UNDERLAG_FRANSKOLHALSOVARD.getLabel(), config.getList().get(i).getTypeOptions().get(7).getLabel());
-                        assertEquals(UTREDNING_AV_ANNAN_SPECIALISTKLINIK.getLabel(), config.getList().get(i).getTypeOptions().get(8).getLabel());
+                        assertEquals(NEUROPSYKIATRISKT_UTLATANDE.getLabel(),
+                            config.getList().get(i).getTypeOptions().get(0).getLabel());
+                        assertEquals(UNDERLAG_FRAN_HABILITERINGEN.getLabel(),
+                            config.getList().get(i).getTypeOptions().get(1).getLabel());
+                        assertEquals(UNDERLAG_FRAN_ARBETSTERAPEUT.getLabel(),
+                            config.getList().get(i).getTypeOptions().get(2).getLabel());
+                        assertEquals(UNDERLAG_FRAN_FYSIOTERAPEUT.getLabel(),
+                            config.getList().get(i).getTypeOptions().get(3).getLabel());
+                        assertEquals(UNDERLAG_FRAN_LOGOPED.getLabel(),
+                            config.getList().get(i).getTypeOptions().get(4).getLabel());
+                        assertEquals(UNDERLAG_FRANPSYKOLOG.getLabel(),
+                            config.getList().get(i).getTypeOptions().get(5).getLabel());
+                        assertEquals(UNDERLAG_FRANFORETAGSHALSOVARD.getLabel(),
+                            config.getList().get(i).getTypeOptions().get(6).getLabel());
+                        assertEquals(UNDERLAG_FRANSKOLHALSOVARD.getLabel(),
+                            config.getList().get(i).getTypeOptions().get(7).getLabel());
+                        assertEquals(UTREDNING_AV_ANNAN_SPECIALISTKLINIK.getLabel(),
+                            config.getList().get(i).getTypeOptions().get(8).getLabel());
                         assertEquals(UTREDNING_FRAN_VARDINRATTNING_UTOMLANDS.getLabel(),
                             config.getList().get(i).getTypeOptions().get(9).getLabel());
                         assertEquals(OVRIGT.getLabel(), config.getList().get(i).getTypeOptions().get(10).getLabel());
@@ -297,9 +306,12 @@ class QuestionUnderlagTest {
                         assertEquals(expectedResult.get(i).getDatum().asLocalDate(), value.getList().get(i).getDate().getDate());
                         assertEquals(expectedResult.get(i).getHamtasFran(), value.getList().get(i).getInformationSource().getText());
                         assertEquals(expectedResult.get(i).getTyp().getId(), value.getList().get(i).getInvestigationType().getCode());
-                        assertEquals(UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].typ", value.getList().get(i).getInvestigationType().getId());
-                        assertEquals(UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].hamtasFran", value.getList().get(i).getInformationSource().getId());
-                        assertEquals(UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum", value.getList().get(i).getDate().getId());
+                        assertEquals(UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].typ",
+                            value.getList().get(i).getInvestigationType().getId());
+                        assertEquals(UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].hamtasFran",
+                            value.getList().get(i).getInformationSource().getId());
+                        assertEquals(UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum",
+                            value.getList().get(i).getDate().getId());
                     }
                 }
             );
@@ -316,9 +328,12 @@ class QuestionUnderlagTest {
                         assertNull(value.getList().get(i).getDate().getDate());
                         assertNull(value.getList().get(i).getInformationSource().getText());
                         assertNull(value.getList().get(i).getInvestigationType().getCode());
-                        assertEquals(UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].typ", value.getList().get(i).getInvestigationType().getId());
-                        assertEquals(UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].hamtasFran", value.getList().get(i).getInformationSource().getId());
-                        assertEquals(UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum", value.getList().get(i).getDate().getId());
+                        assertEquals(UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].typ",
+                            value.getList().get(i).getInvestigationType().getId());
+                        assertEquals(UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].hamtasFran",
+                            value.getList().get(i).getInformationSource().getId());
+                        assertEquals(UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum",
+                            value.getList().get(i).getDate().getId());
                     }
                 }
             );

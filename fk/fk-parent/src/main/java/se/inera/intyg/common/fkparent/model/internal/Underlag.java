@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.auto.value.AutoValue;
-import java.util.stream.Stream;
 import javax.annotation.Nullable;
 import se.inera.intyg.common.support.model.InternalDate;
 

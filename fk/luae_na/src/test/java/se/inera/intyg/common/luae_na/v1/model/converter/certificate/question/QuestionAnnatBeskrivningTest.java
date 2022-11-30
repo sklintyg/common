@@ -46,6 +46,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTe
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
@@ -165,6 +166,16 @@ class QuestionAnnatBeskrivningTest {
             final var showValidation = (CertificateDataValidationMandatory) question.getValidation()[1];
 
             assertEquals(expectedExpression, showValidation.getExpression());
+        }
+
+        @Test
+        void shouldIncludeValidationTextLimit() {
+            short expectedLimit = 4000;
+            final var question = QuestionAnnatBeskrivning.toCertificate(null, 0, texts);
+            final var mandatoryValidation = (CertificateDataValidationText) question.getValidation()[2];
+
+            assertEquals(CertificateDataValidationType.TEXT_VALIDATION, mandatoryValidation.getType());
+            assertEquals(expectedLimit, mandatoryValidation.getLimit());
         }
     }
 

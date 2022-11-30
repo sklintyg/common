@@ -35,10 +35,12 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTe
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 
 public class QuestionAnnatBeskrivning {
 
+    private static final short LIMIT = 4000;
     public static CertificateDataElement toCertificate(String annanBeskrivning, int index, CertificateTextProvider texts) {
 
         return CertificateDataElement.builder()
@@ -66,6 +68,10 @@ public class QuestionAnnatBeskrivning {
                     CertificateDataValidationMandatory.builder()
                         .questionId(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1)
                         .expression(singleExpression(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1))
+                        .build(),
+                    CertificateDataValidationText.builder()
+                        .id(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1)
+                        .limit(LIMIT)
                         .build()
                 }
             )

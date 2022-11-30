@@ -21,12 +21,9 @@ package se.inera.intyg.common.support.facade.model.value;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import java.time.LocalDate;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
-import net.sf.saxon.value.DateValue;
-import se.inera.intyg.common.support.facade.model.config.CodeItem;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigation.MedicalInvestigationValueBuilder;
 
 @JsonDeserialize(builder = MedicalInvestigationValueBuilder.class)
