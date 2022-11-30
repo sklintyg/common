@@ -75,11 +75,6 @@ public abstract class Underlag {
             return label;
         }
 
-        public static UnderlagsTyp fromValue(String id) {
-            return Stream.of(UnderlagsTyp.values()).filter(s -> id.equals(s.getId())).findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(id));
-        }
-
         @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
         public static UnderlagsTyp fromId(@JsonProperty("id") String id) {
             String normId = id != null ? id.trim() : null;

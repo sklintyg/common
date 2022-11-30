@@ -44,12 +44,13 @@ public class CertificateDataConfigMedicalInvestigation implements CertificateDat
     String text;
     @Getter(onMethod = @__(@Override))
     String description;
+    @Getter(onMethod = @__(@Override))
+    Accordion accordion;
     String typeText;
     String dateText;
     String informationSourceText;
     String informationSourceDescription;
     List<MedicalInvestigation> list;
-    List<CodeItem> typeOptions;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataConfigMedicalInvestigationBuilder {

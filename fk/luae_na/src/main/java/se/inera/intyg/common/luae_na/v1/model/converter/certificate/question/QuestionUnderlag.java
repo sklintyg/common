@@ -57,6 +57,9 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigation;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigationList;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -76,25 +79,31 @@ public class QuestionUnderlag {
                     .dateText(UNDERLAG_DATUM_TEXT)
                     .informationSourceText(texts.get(UNDERLAG_INFORMATION_SOURCE_TEXT_ID))
                     .informationSourceDescription(texts.get(UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID))
-                    .typeOptions(
-                        getTypeOptions()
-                    )
                     .list(
                         List.of(
                             MedicalInvestigation.builder()
                                 .typeId(UNDERLAG_SVAR_JSON_ID_4 + "[0].typ")
                                 .dateId(UNDERLAG_SVAR_JSON_ID_4 + "[0].datum")
                                 .informationSourceId(UNDERLAG_SVAR_JSON_ID_4 + "[0].hamtasFran")
+                                .typeOptions(
+                                    getTypeOptions()
+                                )
                                 .build(),
                             MedicalInvestigation.builder()
                                 .typeId(UNDERLAG_SVAR_JSON_ID_4 + "[1].typ")
                                 .dateId(UNDERLAG_SVAR_JSON_ID_4 + "[1].datum")
                                 .informationSourceId(UNDERLAG_SVAR_JSON_ID_4 + "[1].hamtasFran")
+                                .typeOptions(
+                                    getTypeOptions()
+                                )
                                 .build(),
                             MedicalInvestigation.builder()
                                 .typeId(UNDERLAG_SVAR_JSON_ID_4 + "[2].typ")
                                 .dateId(UNDERLAG_SVAR_JSON_ID_4 + "[2].datum")
                                 .informationSourceId(UNDERLAG_SVAR_JSON_ID_4 + "[2].hamtasFran")
+                                .typeOptions(
+                                    getTypeOptions()
+                                )
                                 .build()
                         )
                     )
@@ -138,14 +147,25 @@ public class QuestionUnderlag {
     }
 
     private static CertificateDataValueMedicalInvestigation getMedicalInvestigationValue(List<Underlag> underlag, int id) {
-        return CertificateDataValueMedicalInvestigation.builder()
-            .typeId(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].typ")
-            .informationSourceId(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].hamtasFran")
-            .dateId(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].datum")
-            .datum(id < underlag.size() ? toLocalDate(underlag.get(id).getDatum()) : null)
-            .hamtasFran(id < underlag.size() ? underlag.get(id).getHamtasFran() : null)
-            .underlagsTyp(id < underlag.size() && underlag.get(id).getTyp() != null ? underlag.get(id).getTyp().getId() : null)
-            .build();
+            return CertificateDataValueMedicalInvestigation.builder()
+                .date(
+                    CertificateDataValueDate.builder()
+                        .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].datum")
+                        .date(
+                            id < underlag.size() ? toLocalDate(underlag.get(id).getDatum()) : null)
+                        .build())
+                .investigationType(CertificateDataValueCode.builder()
+                    .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].typ")
+                    .code(
+                        id < underlag.size() && underlag.get(id).getTyp() != null ? underlag.get(id).getTyp().getId() : null )
+                    .build())
+                .informationSource(
+                    CertificateDataTextValue.builder()
+                        .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].hamtasFran")
+                        .text(
+                            id < underlag.size() ? underlag.get(id).getHamtasFran() : null )
+                        .build())
+                .build();
     }
 
     private static List<CodeItem> getTypeOptions() {
@@ -179,9 +199,9 @@ public class QuestionUnderlag {
         final var value = (CertificateDataValueMedicalInvestigationList) certificate.getData().get(UNDERLAG_TYP_DELSVAR_ID_4).getValue();
         final var underlagList = value.getList().stream()
             .map(underlag -> Underlag.create(
-                underlag.getUnderlagsTyp() != null ? UnderlagsTyp.fromId(underlag.getUnderlagsTyp()) : null,
-                underlag.getDatum() != null ? new InternalDate(underlag.getDatum()) : null,
-                underlag.getHamtasFran()
+                underlag.getInvestigationType().getCode() != null ? UnderlagsTyp.fromId(underlag.getInvestigationType().getCode()) : null,
+                underlag.getDate().getDate() != null ? new InternalDate(underlag.getDate().getDate()) : null,
+                underlag.getInformationSource().getText()
             ))
             .collect(Collectors.toList());
 

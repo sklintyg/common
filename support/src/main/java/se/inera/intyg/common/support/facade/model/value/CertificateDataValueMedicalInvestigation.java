@@ -25,6 +25,8 @@ import java.time.LocalDate;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
+import net.sf.saxon.value.DateValue;
+import se.inera.intyg.common.support.facade.model.config.CodeItem;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigation.MedicalInvestigationValueBuilder;
 
 @JsonDeserialize(builder = MedicalInvestigationValueBuilder.class)
@@ -34,12 +36,9 @@ public class CertificateDataValueMedicalInvestigation implements CertificateData
 
     @Getter(onMethod = @__(@Override))
     CertificateDataValueType type = CertificateDataValueType.MEDICAL_INVESTIGATION;
-    String typeId;
-    String informationSourceId;
-    String dateId;
-    LocalDate datum;
-    String hamtasFran;
-    String underlagsTyp;
+    CertificateDataValueDate date;
+    CertificateDataTextValue informationSource;
+    CertificateDataValueCode investigationType;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class MedicalInvestigationValueBuilder {

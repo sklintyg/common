@@ -21,6 +21,7 @@ package se.inera.intyg.common.support.facade.model.config;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.List;
 import lombok.Builder;
 import lombok.Value;
 import se.inera.intyg.common.support.facade.model.config.MedicalInvestigation.MedicalInvestigationBuilder;
@@ -33,6 +34,7 @@ public class MedicalInvestigation {
     String typeId;
     String informationSourceId;
     String dateId;
+    List<CodeItem> typeOptions;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class MedicalInvestigationBuilder {
