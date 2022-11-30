@@ -28,11 +28,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_DELSVAR_ID_3;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYP_DELSVAR_ID_4;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.NEUROPSYKIATRISKT_UTLATANDE;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.OVRIGT;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRANFORETAGSHALSOVARD;
@@ -44,10 +39,15 @@ import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTy
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRAN_LOGOPED;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UTREDNING_AV_ANNAN_SPECIALISTKLINIK;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UTREDNING_FRAN_VARDINRATTNING_UTOMLANDS;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_DELSVAR_ID_3;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_DATUM_TEXT;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_TEXT_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYPE_TEXT_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYP_DELSVAR_ID_4;
 
 import com.google.common.collect.ImmutableList;
 import java.time.LocalDate;
@@ -117,7 +117,7 @@ class QuestionUnderlagTest {
             final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var config = (CertificateDataConfigMedicalInvestigation) question.getConfig();
 
-            assertEquals(CertificateDataConfigTypes.UE_MEDICINSK_UTREDNING, config.getType());
+            assertEquals(CertificateDataConfigTypes.UE_MEDICICAL_INVESTIGATION, config.getType());
         }
 
 

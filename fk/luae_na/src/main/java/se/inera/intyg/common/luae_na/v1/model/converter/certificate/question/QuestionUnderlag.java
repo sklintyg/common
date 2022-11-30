@@ -19,11 +19,6 @@
 
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_DELSVAR_ID_3;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYP_DELSVAR_ID_4;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.NEUROPSYKIATRISKT_UTLATANDE;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.OVRIGT;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRANFORETAGSHALSOVARD;
@@ -35,10 +30,15 @@ import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTy
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRAN_LOGOPED;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UTREDNING_AV_ANNAN_SPECIALISTKLINIK;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UTREDNING_FRAN_VARDINRATTNING_UTOMLANDS;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_DELSVAR_ID_3;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_DATUM_TEXT;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_TEXT_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYPE_TEXT_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYP_DELSVAR_ID_4;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleAndExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
@@ -147,25 +147,26 @@ public class QuestionUnderlag {
     }
 
     private static CertificateDataValueMedicalInvestigation getMedicalInvestigationValue(List<Underlag> underlag, int id) {
-            return CertificateDataValueMedicalInvestigation.builder()
-                .date(
-                    CertificateDataValueDate.builder()
-                        .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].datum")
-                        .date(
-                            id < underlag.size() ? toLocalDate(underlag.get(id).getDatum()) : null)
-                        .build())
-                .investigationType(CertificateDataValueCode.builder()
+        return CertificateDataValueMedicalInvestigation.builder()
+            .date(
+                CertificateDataValueDate.builder()
+                    .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].datum")
+                    .date(
+                        id < underlag.size() ? toLocalDate(underlag.get(id).getDatum()) : null)
+                    .build())
+            .investigationType(
+                CertificateDataValueCode.builder()
                     .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].typ")
                     .code(
                         id < underlag.size() && underlag.get(id).getTyp() != null ? underlag.get(id).getTyp().getId() : null)
                     .build())
-                .informationSource(
-                    CertificateDataTextValue.builder()
-                        .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].hamtasFran")
-                        .text(
-                            id < underlag.size() ? underlag.get(id).getHamtasFran() : null)
-                        .build())
-                .build();
+            .informationSource(
+                CertificateDataTextValue.builder()
+                    .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].hamtasFran")
+                    .text(
+                        id < underlag.size() ? underlag.get(id).getHamtasFran() : null)
+                    .build())
+            .build();
     }
 
     private static List<CodeItem> getTypeOptions() {
