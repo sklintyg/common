@@ -30,6 +30,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningAnnan;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningBalansKoordination;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningIntellektuell;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningKommunikation;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningKoncentration;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPsykisk;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningSynHorselTal;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagBaseratPa;
@@ -80,6 +87,13 @@ class CertificateToInternalTest {
                 .setAnnatGrundForMUBeskrivning(annanBeskrivning)
                 .setKannedomOmPatient(new InternalDate(LocalDate.now()))
                 .setUnderlagFinns(true)
+                .setFunktionsnedsattningIntellektuell("funktionsnedsattningIntellektuell")
+                .setFunktionsnedsattningKommunikation("funktionsnedsattningKommunikation")
+                .setFunktionsnedsattningKoncentration("funktionsnedsattningKoncentration")
+                .setFunktionsnedsattningPsykisk("funktionsnedsattningPsykisk")
+                .setFunktionsnedsattningSynHorselTal("funktionsnedsattningSynHorselTal")
+                .setFunktionsnedsattningBalansKoordination("funktionsnedsattningKoordination")
+                .setFunktionsnedsattningAnnan("funktionsnedsattningAnnan")
                 .build();
 
             texts = Mockito.mock(CertificateTextProvider.class);
@@ -94,6 +108,20 @@ class CertificateToInternalTest {
                 .addElement(QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(motivering, 0, texts))
                 .addElement(QuestionKannedomOmPatient.toCertificate(new InternalDate(LocalDate.now()), 0, texts))
                 .addElement(QuestionUnderlagFinns.toCertificate(true, 0, texts))
+                .addElement(QuestionFunktionsnedsattningIntellektuell.toCertificate(
+                    expectedInternalCertificate.getFunktionsnedsattningIntellektuell(), 0, texts))
+                .addElement(QuestionFunktionsnedsattningKommunikation.toCertificate(
+                    expectedInternalCertificate.getFunktionsnedsattningKommunikation(), 0, texts))
+                .addElement(QuestionFunktionsnedsattningKoncentration.toCertificate(
+                    expectedInternalCertificate.getFunktionsnedsattningKoncentration(), 0, texts))
+                .addElement(QuestionFunktionsnedsattningPsykisk.toCertificate(
+                    expectedInternalCertificate.getFunktionsnedsattningPsykisk(), 0, texts))
+                .addElement(QuestionFunktionsnedsattningSynHorselTal.toCertificate(
+                    expectedInternalCertificate.getFunktionsnedsattningSynHorselTal(), 0, texts))
+                .addElement(QuestionFunktionsnedsattningBalansKoordination.toCertificate(
+                    expectedInternalCertificate.getFunktionsnedsattningBalansKoordination(), 0, texts))
+                .addElement(QuestionFunktionsnedsattningAnnan.toCertificate(
+                    expectedInternalCertificate.getFunktionsnedsattningAnnan(), 0, texts))
                 .build();
         }
 
@@ -166,6 +194,55 @@ class CertificateToInternalTest {
             final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
             assertEquals(actualInternalCertificate.getUnderlagFinns(),
                 expectedInternalCertificate.getUnderlagFinns());
+        }
+
+        @Test
+        void shallIncludeFunktionsnedsattningIntellektuell() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getFunktionsnedsattningIntellektuell(),
+                expectedInternalCertificate.getFunktionsnedsattningIntellektuell());
+        }
+
+        @Test
+        void shallIncludeFunktionsnedsattningKommunikation() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getFunktionsnedsattningKommunikation(),
+                expectedInternalCertificate.getFunktionsnedsattningKommunikation());
+        }
+
+        @Test
+        void shallIncludeFunktionsnedsattningKoncentration() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getFunktionsnedsattningKoncentration(),
+                expectedInternalCertificate.getFunktionsnedsattningKoncentration());
+        }
+
+        @Test
+        void shallIncludeFunktionsnedsattningPsykisk() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getFunktionsnedsattningPsykisk(),
+                expectedInternalCertificate.getFunktionsnedsattningPsykisk());
+        }
+
+        @Test
+        void shallIncludeFunktionsnedsattningSynHorselTal() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getFunktionsnedsattningSynHorselTal(),
+                expectedInternalCertificate.getFunktionsnedsattningSynHorselTal());
+        }
+
+        @Test
+        void shallIncludeFunktionsnedsattningBalansKoordination() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getFunktionsnedsattningBalansKoordination(),
+                expectedInternalCertificate.getFunktionsnedsattningBalansKoordination());
+        }
+
+        @Test
+        void shallIncludeFunktionsnedsattningAnnan() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getFunktionsnedsattningAnnan(),
+                expectedInternalCertificate.getFunktionsnedsattningAnnan());
         }
     }
 }
