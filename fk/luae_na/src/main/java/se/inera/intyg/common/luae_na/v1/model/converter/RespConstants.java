@@ -21,6 +21,23 @@ package se.inera.intyg.common.luae_na.v1.model.converter;
 
 public class RespConstants {
 
+    public static final String MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1 = "1.4";
+    public static final String MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_TEXT = "Motivering till varför det medicinska underlaget "
+        + "inte baseras på en undersökning av patienten:";
+    public static final String MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION =
+        "Observera att detta inte är en fråga från Försäkringskassan. Information om varför sjukskrivningen startar mer än "
+            + "en vecka före dagens datum kan vara till hjälp för Försäkringskassan i deras handläggning. "
+            + "Informationen du anger nedan, kommer att överföras till fältet \"Övriga upplysningar\" vid signering.";
+
+    public static final String KANNEDOM_SVAR_TEXT = "FRG_2.RBK";
+    public static final String UNDERLAGFINNS_SELECTED_TEXT = "Ja";
+    public static final String UNDERLAGFINNS_UNSELECTED_TEXT = "Nej";
+    public static final String UNDERLAGFINNS_SVAR_TEXT = "FRG_3.RBK";
+    public static final String UNDERLAG_TYPE_TEXT_ID = "FRG_4.RBK";
+    public static final String UNDERLAG_DATUM_TEXT = "Datum";
+    public static final String UNDERLAG_INFORMATION_SOURCE_TEXT_ID = "DFR_4.3.RBK";
+    public static final String UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID = "DFR_4.3.HLP";
+
     public static final String FUNKTIONSNEDSATTNING_CATEGORY_ID = "funktionsnedsattning";
     public static final String FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID = "KAT_5.RBK";
     public static final String FUNKTIONSNEDSATTNING_CATEGORY_DESCRIPTION_ID = "KAT_5.HLP";

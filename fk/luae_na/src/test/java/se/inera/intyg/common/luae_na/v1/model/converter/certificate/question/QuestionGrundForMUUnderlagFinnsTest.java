@@ -26,10 +26,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_DELSVAR_ID_3;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_SELECTED_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_SVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_UNSELECTED_TEXT;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SELECTED_TEXT;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_TEXT;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_UNSELECTED_TEXT;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
