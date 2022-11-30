@@ -20,8 +20,10 @@
 package se.inera.intyg.common.luae_na.v1.model.converter;
 
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryGrundForMU;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionDiagnoserForSjukdomSomOrsakarNedsattArbetsformaga;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagBaseratPa;
@@ -46,8 +48,9 @@ public class InternalToCertificate {
                     internalCertificate.getAnnatGrundForMU(), index++, textProvider
                 )
             )
-            .addElement(QuestionAnnatBeskrivning.toCertificate(internalCertificate.getAnnatGrundForMUBeskrivning(), index++, textProvider
-            ))
+            .addElement(
+                QuestionAnnatBeskrivning.toCertificate(internalCertificate.getAnnatGrundForMUBeskrivning(), index++, textProvider)
+            )
             .addElement(QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(
                 internalCertificate.getMotiveringTillInteBaseratPaUndersokning(), index++, textProvider
             ))
@@ -55,6 +58,12 @@ public class InternalToCertificate {
                 QuestionKannedomOmPatient.toCertificate(internalCertificate.getKannedomOmPatient(), index++, textProvider))
             .addElement(
                 QuestionUnderlagFinns.toCertificate(internalCertificate.getUnderlagFinns(), index++, textProvider)
+            )
+            .addElement(
+                CategoryDiagnos.toCertificate(index++,textProvider)
+            )
+            .addElement(
+                QuestionDiagnoserForSjukdomSomOrsakarNedsattArbetsformaga.toCertificate(index++, textProvider)
             )
             .build();
     }
