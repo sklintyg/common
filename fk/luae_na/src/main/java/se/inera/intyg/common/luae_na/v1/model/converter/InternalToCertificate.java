@@ -20,6 +20,7 @@
 package se.inera.intyg.common.luae_na.v1.model.converter;
 
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryFunktionsnedsattning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryGrundForMU;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
@@ -65,6 +66,12 @@ public class InternalToCertificate {
             .addElement(
                 QuestionUnderlagFinns.toCertificate(internalCertificate.getUnderlagFinns(), index++, textProvider)
             )
+            .addElement(
+                CategoryDiagnos.toCertificate(index++, textProvider)
+            )
+            //.addElement(
+            //
+            //)
             .addElement(
                 CategoryFunktionsnedsattning.toCertificate(index++, textProvider)
             )

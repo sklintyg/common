@@ -19,8 +19,8 @@
 
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.category;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_TEXT;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_TEXT;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -33,7 +33,7 @@ public class CategoryDiagnos {
             .id(DIAGNOS_CATEGORY_ID)
             .index(index)
             .config(CertificateDataConfigCategory.builder()
-                .text(texts.get(FUNKTIONSNEDSATTNING_CATEGORY_TEXT))
+                .text(texts.get(DIAGNOS_CATEGORY_TEXT))
                 .build())
             .build();
     }

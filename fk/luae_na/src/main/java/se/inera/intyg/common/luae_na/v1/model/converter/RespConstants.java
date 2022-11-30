@@ -21,6 +21,34 @@ package se.inera.intyg.common.luae_na.v1.model.converter;
 
 public class RespConstants {
 
+    public static final String DIAGNOS_CATEGORY_ID = "diagnos";
+    public static final String DIAGNOS_SVAR_ID_6 = "6";
+    public static final String DIAGNOS_BESKRIVNING_DELSVAR_ID_6 = "6.1";
+    public static final String DIAGNOS_DELSVAR_ID_6 = "6.2";
+    public static final String BIDIAGNOS_1_BESKRIVNING_DELSVAR_ID_6 = "6.3";
+    public static final String BIDIAGNOS_1_DELSVAR_ID_6 = "6.4";
+    public static final String BIDIAGNOS_2_BESKRIVNING_DELSVAR_ID_6 = "6.5";
+    public static final String BIDIAGNOS_2_DELSVAR_ID_6 = "6.6";
+    public static final String DIAGNOS_SVAR_JSON_ID_6 = "diagnoser";
+    public static final String DIAGNOS_CATEGORY_TEXT = "KAT_3.RBK";
+    public static final String DIAGNOS_SVAR_TEXT = "FRG_6.RBK";
+    public static final String DIAGNOS_SVAR_BESKRIVNING = "FRG_6.HLP";
+    public static final String DIAGNOS_DELSVAR_TEXT = "DFR_6.2.RBK";
+    public static final String DIAGNOS_ICD_10_ID = "ICD_10_SE";
+    public static final String DIAGNOS_ICD_10_LABEL = "ICD-10-SE";
+    public static final String DIAGNOS_KSH_97_ID = "KSH_97_P";
+    public static final String DIAGNOS_KSH_97_LABEL = "KSH97-P (Primärvård)";
+
+
+    public static final String DIAGNOSGRUND_SVAR_ID_7 = "7";
+    public static final String DIAGNOSGRUND_DELSVAR_ID_7 = "7.1";
+    public static final String NYDIAGNOS_SVAR_ID_45 = "45";
+    public static final String DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45 = "45.1";
+    public static final String DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45 = "45.2";
+    public static final String DIAGNOSGRUND_SVAR_JSON_ID_7 = "diagnosgrund";
+    public static final String DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45 = "nyBedomningDiagnosgrund";
+    public static final String DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45 = "diagnosForNyBedomning";
+
     public static final String FUNKTIONSNEDSATTNING_CATEGORY_ID = "funktionsnedsattning";
     public static final String FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID = "KAT_5.RBK";
     public static final String FUNKTIONSNEDSATTNING_CATEGORY_DESCRIPTION_ID = "KAT_5.HLP";
