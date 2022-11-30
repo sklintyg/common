@@ -25,9 +25,23 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_ID_14;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID_14;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DELSVAR_ID_13;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID_13;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_DESCRIPTION_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_ID_8;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID_8;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_DELSVAR_ID_9;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID_9;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KONCENTRATION_DELSVAR_ID_10;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_JSON_ID_10;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_DELSVAR_ID_11;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID_11;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_DELSVAR_ID_12;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_JSON_ID_12;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,6 +49,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationCategoryMandatory;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
+import se.inera.intyg.common.support.facade.model.validation.ExpressionTypeEnum;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryFunktionsnedsattningTest {
@@ -72,5 +90,95 @@ class CategoryFunktionsnedsattningTest {
         final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
         assertTrue(category.getConfig().getDescription().trim().length() > 0, "Missing text");
         verify(texts, atLeastOnce()).get(FUNKTIONSNEDSATTNING_CATEGORY_DESCRIPTION_ID);
+    }
+
+    @Test
+    void shouldIncludeValidationCategoryMandatoryType() {
+        final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
+        assertEquals(CertificateDataValidationType.CATEGORY_MANDATORY_VALIDATION, category.getValidation()[0].getType());
+    }
+
+    @Test
+    void shouldIncludeValidationCategoryMandatoryExpressionType() {
+        final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
+        final var validationCategoryMandatory = (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
+        assertEquals(ExpressionTypeEnum.OR, validationCategoryMandatory.getExpressionType());
+    }
+
+    @Test
+    void shouldIncludeValidationCategoryMandatoryQuestionIntellektuell() {
+        final var expectedMandatoryQuestion = CertificateDataValidationMandatory.builder()
+            .questionId(FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_ID_8)
+            .expression("$" + FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID_8)
+            .build();
+        final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
+        final var validationCategoryMandatory = (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
+        assertEquals(expectedMandatoryQuestion, validationCategoryMandatory.getQuestions().get(0));
+    }
+
+    @Test
+    void shouldIncludeValidationCategoryMandatoryQuestionKommunikation() {
+        final var expectedMandatoryQuestion = CertificateDataValidationMandatory.builder()
+            .questionId(FUNKTIONSNEDSATTNING_KOMMUNIKATION_DELSVAR_ID_9)
+            .expression("$" + FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID_9)
+            .build();
+        final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
+        final var validationCategoryMandatory = (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
+        assertEquals(expectedMandatoryQuestion, validationCategoryMandatory.getQuestions().get(1));
+    }
+
+    @Test
+    void shouldIncludeValidationCategoryMandatoryQuestionKoncentration() {
+        final var expectedMandatoryQuestion = CertificateDataValidationMandatory.builder()
+            .questionId(FUNKTIONSNEDSATTNING_KONCENTRATION_DELSVAR_ID_10)
+            .expression("$" + FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_JSON_ID_10)
+            .build();
+        final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
+        final var validationCategoryMandatory = (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
+        assertEquals(expectedMandatoryQuestion, validationCategoryMandatory.getQuestions().get(2));
+    }
+
+    @Test
+    void shouldIncludeValidationCategoryMandatoryQuestionPsykisk() {
+        final var expectedMandatoryQuestion = CertificateDataValidationMandatory.builder()
+            .questionId(FUNKTIONSNEDSATTNING_PSYKISK_DELSVAR_ID_11)
+            .expression("$" + FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID_11)
+            .build();
+        final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
+        final var validationCategoryMandatory = (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
+        assertEquals(expectedMandatoryQuestion, validationCategoryMandatory.getQuestions().get(3));
+    }
+
+    @Test
+    void shouldIncludeValidationCategoryMandatoryQuestionSynHorselTal() {
+        final var expectedMandatoryQuestion = CertificateDataValidationMandatory.builder()
+            .questionId(FUNKTIONSNEDSATTNING_SYNHORSELTAL_DELSVAR_ID_12)
+            .expression("$" + FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_JSON_ID_12)
+            .build();
+        final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
+        final var validationCategoryMandatory = (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
+        assertEquals(expectedMandatoryQuestion, validationCategoryMandatory.getQuestions().get(4));
+    }
+
+    @Test
+    void shouldIncludeValidationCategoryMandatoryQuestionBalansKoordination() {
+        final var expectedMandatoryQuestion = CertificateDataValidationMandatory.builder()
+            .questionId(FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DELSVAR_ID_13)
+            .expression("$" + FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID_13)
+            .build();
+        final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
+        final var validationCategoryMandatory = (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
+        assertEquals(expectedMandatoryQuestion, validationCategoryMandatory.getQuestions().get(5));
+    }
+
+    @Test
+    void shouldIncludeValidationCategoryMandatoryQuestionAnnan() {
+        final var expectedMandatoryQuestion = CertificateDataValidationMandatory.builder()
+            .questionId(FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_ID_14)
+            .expression("$" + FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID_14)
+            .build();
+        final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
+        final var validationCategoryMandatory = (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
+        assertEquals(expectedMandatoryQuestion, validationCategoryMandatory.getQuestions().get(6));
     }
 }
