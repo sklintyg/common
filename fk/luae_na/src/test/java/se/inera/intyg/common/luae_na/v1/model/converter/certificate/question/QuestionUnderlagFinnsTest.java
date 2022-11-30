@@ -51,7 +51,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBool
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionGrundForMUUnderlagFinnsTest {
+class QuestionUnderlagFinnsTest {
 
     @Mock
     private CertificateTextProvider texts;
