@@ -28,7 +28,6 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_OM_DESCRIPTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_OM_QUESTION_TEXT_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_SVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_KRONISK;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_PLOTSLIG;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS;
@@ -371,28 +370,114 @@ class QuestionBidragandeSjukdomarTest {
     @Nested
     class ToInternal {
 
-        List dodsorsakList = List.of(
-            Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG),
-            Dodsorsak.create(null, null, null),
-            Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
-            Dodsorsak.create(null, null, null),
-            Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
-            Dodsorsak.create(null, null, null),
-            Dodsorsak.create(null, null, null),
-            Dodsorsak.create(null, null, null));
-
         @Test
-        void shouldIncludeAllDodsorsak() {
+        void shouldReturnEmptyDodsorsakListIfNoneHasValue() {
+            final var expectedDodsorsakList = Collections.emptyList();
+            final var dodsorsakList = List.of(
+                Dodsorsak.create(null, null, null),
+                Dodsorsak.create(null, null, null),
+                Dodsorsak.create(null, null, null),
+                Dodsorsak.create(null, null, null),
+                Dodsorsak.create(null, null, null),
+                Dodsorsak.create(null, null, null),
+                Dodsorsak.create(null, null, null),
+                Dodsorsak.create(null, null, null)
+            );
+
             final var certificate = CertificateBuilder.create()
                 .addElement(QuestionBidragandeSjukdomar.toCertificate(dodsorsakList, 0, texts))
                 .build();
 
             final var actualValue = QuestionBidragandeSjukdomar.toInternal(certificate);
+            assertEquals(expectedDodsorsakList, actualValue);
+        }
 
-            assertEquals(dodsorsakList.size(), actualValue.size());
-            for (int i = 0; i < dodsorsakList.size(); i++) {
-                assertEquals(dodsorsakList.get(i), actualValue.get(i));
-            }
+        @Test
+        void shouldReturnDodsorsakListWithItemsThatHasValues() {
+            final var expectedDodsorsakList = List.of(
+                Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
+                Dodsorsak.create("beskrivning2", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
+                Dodsorsak.create("beskrivning3", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG)
+            );
+
+            final var dodsorsakList = List.of(
+                expectedDodsorsakList.get(0),
+                expectedDodsorsakList.get(1),
+                expectedDodsorsakList.get(2),
+                Dodsorsak.create(null, null, null),
+                Dodsorsak.create(null, null, null),
+                Dodsorsak.create(null, null, null),
+                Dodsorsak.create(null, null, null),
+                Dodsorsak.create(null, null, null)
+            );
+
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionBidragandeSjukdomar.toCertificate(dodsorsakList, 0, texts))
+                .build();
+
+            final var actualValue = QuestionBidragandeSjukdomar.toInternal(certificate);
+            assertEquals(expectedDodsorsakList, actualValue);
+        }
+
+        @Test
+        void shouldReturnDodsorsakListWithItemsThatHasValuesAndAnyEmptyBefore() {
+            final var expectedDodsorsakList = List.of(
+                Dodsorsak.create(null, null, null),
+                Dodsorsak.create(null, null, null),
+                Dodsorsak.create(null, null, null),
+                Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
+                Dodsorsak.create("beskrivning2", new InternalDate(LocalDate.now()), Specifikation.KRONISK)
+            );
+
+            final var dodsorsakList = List.of(
+                expectedDodsorsakList.get(0),
+                expectedDodsorsakList.get(1),
+                expectedDodsorsakList.get(2),
+                expectedDodsorsakList.get(3),
+                expectedDodsorsakList.get(4),
+                Dodsorsak.create(null, null, null),
+                Dodsorsak.create(null, null, null),
+                Dodsorsak.create(null, null, null)
+            );
+
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionBidragandeSjukdomar.toCertificate(dodsorsakList, 0, texts))
+                .build();
+
+            final var actualValue = QuestionBidragandeSjukdomar.toInternal(certificate);
+            assertEquals(expectedDodsorsakList, actualValue);
+        }
+
+        @Test
+        void shouldReturnDodsorsakListWithAllValues() {
+            final var expectedDodsorsakList = List.of(
+                Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
+                Dodsorsak.create("beskrivning2", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
+                Dodsorsak.create("beskrivning3", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG),
+                Dodsorsak.create("beskrivning4", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
+                Dodsorsak.create("beskrivning5", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
+                Dodsorsak.create("beskrivning6", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG),
+                Dodsorsak.create("beskrivning7", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
+                Dodsorsak.create("beskrivning8", new InternalDate(LocalDate.now()), Specifikation.KRONISK)
+            );
+
+            final var dodsorsakList = List.of(
+                expectedDodsorsakList.get(0),
+                expectedDodsorsakList.get(1),
+                expectedDodsorsakList.get(2),
+                expectedDodsorsakList.get(3),
+                expectedDodsorsakList.get(4),
+                expectedDodsorsakList.get(5),
+                expectedDodsorsakList.get(6),
+                expectedDodsorsakList.get(7)
+            );
+
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionBidragandeSjukdomar.toCertificate(dodsorsakList, 0, texts))
+                .build();
+
+            final var actualValue = QuestionBidragandeSjukdomar.toInternal(certificate);
+            assertEquals(expectedDodsorsakList, actualValue);
         }
     }
 }

@@ -20,10 +20,16 @@
 package se.inera.intyg.common.luae_na.v1.model.converter;
 
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
-import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryDiagnos;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryFunktionsnedsattning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryGrundForMU;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
-import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionDiagnoserForSjukdomSomOrsakarNedsattArbetsformaga;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningAnnan;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningBalansKoordination;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningIntellektuell;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningKommunikation;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningKoncentration;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPsykisk;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningSynHorselTal;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagBaseratPa;
@@ -45,8 +51,7 @@ public class InternalToCertificate {
             .addElement(
                 QuestionUnderlagBaseratPa.toCertificate(internalCertificate.getUndersokningAvPatienten(),
                     internalCertificate.getJournaluppgifter(), internalCertificate.getAnhorigsBeskrivningAvPatienten(),
-                    internalCertificate.getAnnatGrundForMU(), index++, textProvider
-                )
+                    internalCertificate.getAnnatGrundForMU(), index++, textProvider)
             )
             .addElement(
                 QuestionAnnatBeskrivning.toCertificate(internalCertificate.getAnnatGrundForMUBeskrivning(), index++, textProvider)
@@ -55,15 +60,40 @@ public class InternalToCertificate {
                 internalCertificate.getMotiveringTillInteBaseratPaUndersokning(), index++, textProvider
             ))
             .addElement(
-                QuestionKannedomOmPatient.toCertificate(internalCertificate.getKannedomOmPatient(), index++, textProvider))
+                QuestionKannedomOmPatient.toCertificate(internalCertificate.getKannedomOmPatient(), index++, textProvider)
+            )
             .addElement(
                 QuestionUnderlagFinns.toCertificate(internalCertificate.getUnderlagFinns(), index++, textProvider)
             )
             .addElement(
-                CategoryDiagnos.toCertificate(index++,textProvider)
+                CategoryFunktionsnedsattning.toCertificate(index++, textProvider)
             )
             .addElement(
-                QuestionDiagnoserForSjukdomSomOrsakarNedsattArbetsformaga.toCertificate(index++, textProvider)
+                QuestionFunktionsnedsattningIntellektuell.toCertificate(internalCertificate.getFunktionsnedsattningIntellektuell(), index++,
+                    textProvider)
+            )
+            .addElement(
+                QuestionFunktionsnedsattningKommunikation.toCertificate(internalCertificate.getFunktionsnedsattningKommunikation(), index++,
+                    textProvider)
+            )
+            .addElement(
+                QuestionFunktionsnedsattningKoncentration.toCertificate(internalCertificate.getFunktionsnedsattningKoncentration(), index++,
+                    textProvider)
+            )
+            .addElement(
+                QuestionFunktionsnedsattningPsykisk.toCertificate(internalCertificate.getFunktionsnedsattningPsykisk(), index++,
+                    textProvider)
+            )
+            .addElement(
+                QuestionFunktionsnedsattningSynHorselTal.toCertificate(internalCertificate.getFunktionsnedsattningSynHorselTal(), index++,
+                    textProvider)
+            )
+            .addElement(
+                QuestionFunktionsnedsattningBalansKoordination.toCertificate(
+                    internalCertificate.getFunktionsnedsattningBalansKoordination(), index++, textProvider)
+            )
+            .addElement(
+                QuestionFunktionsnedsattningAnnan.toCertificate(internalCertificate.getFunktionsnedsattningAnnan(), index++, textProvider)
             )
             .build();
     }

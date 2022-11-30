@@ -42,6 +42,8 @@ public class CertificateDataConfigMessage implements CertificateDataConfig {
     String text;
     @Getter(onMethod = @__(@Override))
     String description;
+    @Getter(onMethod = @__(@Override))
+    Accordion accordion;
     String message;
     MessageLevel level;
 

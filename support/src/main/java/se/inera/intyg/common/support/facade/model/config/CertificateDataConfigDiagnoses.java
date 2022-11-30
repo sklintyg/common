@@ -43,6 +43,8 @@ public class CertificateDataConfigDiagnoses implements CertificateDataConfig {
     String text;
     @Getter(onMethod = @__(@Override))
     String description;
+    @Getter(onMethod = @__(@Override))
+    Accordion accordion;
     List<DiagnosesTerminology> terminology;
     List<DiagnosesListItem> list;
 

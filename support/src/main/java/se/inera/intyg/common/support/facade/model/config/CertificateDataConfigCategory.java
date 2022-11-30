@@ -42,6 +42,8 @@ public class CertificateDataConfigCategory implements CertificateDataConfig {
     String text;
     @Getter(onMethod = @__(@Override))
     String description;
+    @Getter(onMethod = @__(@Override))
+    Accordion accordion;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataConfigCategoryBuilder {

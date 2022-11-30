@@ -61,4 +61,6 @@ public interface CertificateDataConfig {
     String getText();
 
     String getDescription();
+
+    Accordion getAccordion();
 }

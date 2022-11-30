@@ -28,8 +28,8 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DE
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_CATEGORY_ID;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import se.inera.intyg.common.doi.model.internal.Dodsorsak;
 import se.inera.intyg.common.doi.model.internal.Specifikation;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -198,18 +198,45 @@ public class QuestionBidragandeSjukdomar {
         if (certificate.getData().get(BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID) == null) {
             return null;
         }
-        List<Dodsorsak> dodsorsakList = new ArrayList<>();
-        var deathList = (CertificateDataValueCauseOfDeathList) certificate.getData().get(BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID).getValue();
-        for (CertificateDataValueCauseOfDeath causeOfDeath : deathList.getList()) {
-            final var description = causeOfDeath.getDescription().getText();
-            final var debut = causeOfDeath.getDebut().getDate() != null
-                ? new InternalDate(causeOfDeath.getDebut().getDate()) : null;
-            final var specifikation = causeOfDeath.getSpecification().getCode() != null
-                ? Specifikation.fromValue(causeOfDeath.getSpecification().getCode()) : null;
 
-            dodsorsakList.add(Dodsorsak.create(description, debut, specifikation));
-        }
+        final var causeOfDeathListValue = (CertificateDataValueCauseOfDeathList) certificate.getData().get(BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID)
+            .getValue();
+        final var dodsorsakList = causeOfDeathListValue.getList().stream()
+            .map(causeOfDeath ->
+                Dodsorsak.create(
+                    causeOfDeath.getDescription().getText(),
+                    getDebut(causeOfDeath),
+                    getSpecification(causeOfDeath)
+                )
+            )
+            .collect(Collectors.toList());
 
+        removeEmptyValuesIfAtEndOfList(dodsorsakList);
+        
         return dodsorsakList;
+    }
+
+    private static Specifikation getSpecification(CertificateDataValueCauseOfDeath causeOfDeath) {
+        return causeOfDeath.getSpecification().getCode() != null
+            ? Specifikation.fromValue(causeOfDeath.getSpecification().getCode()) : null;
+    }
+
+    private static InternalDate getDebut(CertificateDataValueCauseOfDeath causeOfDeath) {
+        return causeOfDeath.getDebut().getDate() != null
+            ? new InternalDate(causeOfDeath.getDebut().getDate()) : null;
+    }
+
+    private static void removeEmptyValuesIfAtEndOfList(List<Dodsorsak> dodsorsakList) {
+        for (int i = dodsorsakList.size() - 1; i >= 0; i--) {
+            if (hasValue(dodsorsakList.get(i))) {
+                break;
+            } else {
+                dodsorsakList.remove(i);
+            }
+        }
+    }
+
+    private static boolean hasValue(Dodsorsak dodsorsak) {
+        return dodsorsak.getBeskrivning() != null || dodsorsak.getDatum() != null || dodsorsak.getSpecifikation() != null;
     }
 }
