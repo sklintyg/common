@@ -30,7 +30,8 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedi
 @JsonDeserialize(builder = MedicalInvestigationValueBuilder.class)
 @Value
 @Builder
-public class CertificateDataValueMedicalInvestigation {
+public class CertificateDataValueMedicalInvestigation implements CertificateDataValue {
+
     @Getter(onMethod = @__(@Override))
     CertificateDataValueType type = CertificateDataValueType.MEDICAL_INVESTIGATION;
     String typeId;
