@@ -33,7 +33,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedi
 public class CertificateDataValueMedicalInvestigationList implements CertificateDataValue {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataValueType type = CertificateDataValueType.MEDICAL_INVESTIGATION;
+    CertificateDataValueType type = CertificateDataValueType.MEDICAL_INVESTIGATION_LIST;
     List<CertificateDataValueMedicalInvestigation> list;
 
     @JsonPOJOBuilder(withPrefix = "")

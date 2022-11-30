@@ -39,7 +39,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @Type(value = CertificateDataValueCode.class, name = "CODE"),
     @Type(value = CertificateDataIcfValue.class, name = "ICF"),
     @Type(value = CertificateDataValueCauseOfDeath.class, name = "CAUSE_OF_DEATH"),
-    @Type(value = CertificateDataValueCauseOfDeathList.class, name = "CAUSE_OF_DEATH_LIST")
+    @Type(value = CertificateDataValueCauseOfDeathList.class, name = "CAUSE_OF_DEATH_LIST"),
+    @Type(value = CertificateDataValueMedicalInvestigation.class, name = "MEDICAL_INVESTIGATION"),
+    @Type(value = CertificateDataValueMedicalInvestigationList.class, name = "MEDICAL_INVESTIGATION_LIST")
 })
 public interface CertificateDataValue {
 

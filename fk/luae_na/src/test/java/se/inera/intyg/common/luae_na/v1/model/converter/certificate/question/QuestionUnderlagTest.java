@@ -253,7 +253,7 @@ class QuestionUnderlagTest {
         @Test
         void shouldIncludeValueMedicalInvestigation() {
             final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
-            assertEquals(CertificateDataValueType.MEDICAL_INVESTIGATION, question.getValue().getType());
+            assertEquals(CertificateDataValueType.MEDICAL_INVESTIGATION_LIST, question.getValue().getType());
         }
 
         @Test

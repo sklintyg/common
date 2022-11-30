@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.time.LocalDate;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.Value;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigation.MedicalInvestigationValueBuilder;
 
@@ -30,7 +31,8 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedi
 @Value
 @Builder
 public class CertificateDataValueMedicalInvestigation {
-
+    @Getter(onMethod = @__(@Override))
+    CertificateDataValueType type = CertificateDataValueType.MEDICAL_INVESTIGATION;
     String typeId;
     String informationSourceId;
     String dateId;
