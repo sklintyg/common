@@ -123,7 +123,7 @@ public final class RespConstants {
     public static final String DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45 = "diagnosForNyBedomning";
 
     public static final String FUNKTIONSNEDSATTNING_CATEGORY_ID = "funktionsnedsattning";
-    public static final String FUNKTIONSNEDSATTNING_CATEGORY_TEXT = "KAT_4.RBK";
+    public static final String FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID = "KAT_4.RBK";
 
     public static final String FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID_8 = "8";
     public static final String FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_ID_8 = "8.1";

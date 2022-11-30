@@ -30,6 +30,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDr
 @Value
 @Builder
 public class CertificateDataConfigDropdown implements CertificateDataConfig {
+
     @Getter(onMethod = @__(@Override))
     CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_DROPDOWN;
     @Getter(onMethod = @__(@Override))
@@ -42,6 +43,8 @@ public class CertificateDataConfigDropdown implements CertificateDataConfig {
     String text;
     @Getter(onMethod = @__(@Override))
     String description;
+    @Getter(onMethod = @__(@Override))
+    Accordion accordion;
     List<DropdownItem> list;
 
     @JsonPOJOBuilder(withPrefix = "")

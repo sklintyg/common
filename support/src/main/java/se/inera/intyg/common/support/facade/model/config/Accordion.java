@@ -16,38 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package se.inera.intyg.common.support.facade.model.config;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.Value;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea.CertificateDataConfigTextAreaBuilder;
+import se.inera.intyg.common.support.facade.model.config.Accordion.AccordionBuilder;
 
-@JsonDeserialize(builder = CertificateDataConfigTextAreaBuilder.class)
+@JsonDeserialize(builder = AccordionBuilder.class)
 @Value
 @Builder
-public class CertificateDataConfigTextArea implements CertificateDataConfig {
+public class Accordion {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_TEXTAREA;
-    @Getter(onMethod = @__(@Override))
+    String openText;
+    String closeText;
     String header;
-    @Getter(onMethod = @__(@Override))
-    String label;
-    @Getter(onMethod = @__(@Override))
-    String icon;
-    @Getter(onMethod = @__(@Override))
-    String text;
-    @Getter(onMethod = @__(@Override))
-    String description;
-    @Getter(onMethod = @__(@Override))
-    Accordion accordion;
-    String id;
-
+    
     @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataConfigTextAreaBuilder {
+    public static class AccordionBuilder {
 
     }
 }

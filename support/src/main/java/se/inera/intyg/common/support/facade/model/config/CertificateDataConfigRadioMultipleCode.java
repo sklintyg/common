@@ -30,6 +30,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRa
 @Value
 @Builder
 public class CertificateDataConfigRadioMultipleCode implements CertificateDataConfig {
+
     @Getter(onMethod = @__(@Override))
     CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE;
     @Getter(onMethod = @__(@Override))
@@ -42,6 +43,8 @@ public class CertificateDataConfigRadioMultipleCode implements CertificateDataCo
     String text;
     @Getter(onMethod = @__(@Override))
     String description;
+    @Getter(onMethod = @__(@Override))
+    Accordion accordion;
     List<RadioMultipleCode> list;
 
     @JsonPOJOBuilder(withPrefix = "")

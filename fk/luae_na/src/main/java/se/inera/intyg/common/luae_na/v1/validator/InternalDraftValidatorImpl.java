@@ -26,6 +26,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGN
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
@@ -41,14 +42,11 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SUBST
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
 
+import com.google.common.base.Strings;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDate;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.google.common.base.Strings;
-
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
@@ -66,7 +64,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
     private static final String CATEGORY_GRUNDFORMU = "grundformu";
     private static final String CATEGORY_SJUKDOMSFORLOPP = "sjukdomsforlopp";
     private static final String CATEGORY_DIAGNOS = "diagnos";
-    private static final String CATEGORY_FUNKTIONSNEDSATTNING = "funktionsnedsattning";
     private static final String CATEGORY_AKTIVITETSBEGRANSNING = "aktivitetsbegransning";
     private static final String CATEGORY_MEDICINSKABEHANDLINGAR = "medicinskabehandlingar";
     private static final String CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE = "medicinskaforutsattningarforarbete";
@@ -274,7 +271,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
             && Strings.nullToEmpty(utlatande.getFunktionsnedsattningKoncentration()).trim().isEmpty()
             && Strings.nullToEmpty(utlatande.getFunktionsnedsattningPsykisk()).trim().isEmpty()
             && Strings.nullToEmpty(utlatande.getFunktionsnedsattningSynHorselTal()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35,
+            ValidatorUtil.addValidationError(validationMessages, FUNKTIONSNEDSATTNING_CATEGORY_ID, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35,
                 ValidationMessageType.EMPTY, "common.validation.funktionsnedsattning.empty");
         }
     }
