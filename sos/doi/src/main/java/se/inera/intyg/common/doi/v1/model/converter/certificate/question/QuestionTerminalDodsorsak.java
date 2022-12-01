@@ -148,6 +148,7 @@ public class QuestionTerminalDodsorsak {
         final var debut = terminalCauseOfDeath.getDebut().getDate() != null
             ? new InternalDate(terminalCauseOfDeath.getDebut().getDate()) : null;
         final var specifikation = terminalCauseOfDeath.getSpecification().getCode() != null
+            && !terminalCauseOfDeath.getSpecification().getCode().isEmpty()
             ? Specifikation.fromValue(terminalCauseOfDeath.getSpecification().getCode()) : null;
 
         return Dodsorsak.create(description, debut, specifikation);
