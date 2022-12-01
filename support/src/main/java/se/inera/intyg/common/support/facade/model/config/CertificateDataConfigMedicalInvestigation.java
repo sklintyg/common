@@ -33,7 +33,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMe
 public class CertificateDataConfigMedicalInvestigation implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_MEDICICAL_INVESTIGATION;
+    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_MEDICAL_INVESTIGATION;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))

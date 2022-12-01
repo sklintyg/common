@@ -117,7 +117,7 @@ class QuestionUnderlagTest {
             final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var config = (CertificateDataConfigMedicalInvestigation) question.getConfig();
 
-            assertEquals(CertificateDataConfigTypes.UE_MEDICICAL_INVESTIGATION, config.getType());
+            assertEquals(CertificateDataConfigTypes.UE_MEDICAL_INVESTIGATION, config.getType());
         }
 
 
@@ -358,8 +358,8 @@ class QuestionUnderlagTest {
         void shouldIncludeMandatoryValidationExpression() {
             final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var expectedExpression =
-                UNDERLAG_SVAR_JSON_ID_4 + "[0].typ" + " && " + UNDERLAG_SVAR_JSON_ID_4 + "[0].datum" + " && "
-                    + UNDERLAG_SVAR_JSON_ID_4 + "[0].hamtasFran";
+                "'" + UNDERLAG_SVAR_JSON_ID_4 + "[0].typ'" + " && " + "'" + UNDERLAG_SVAR_JSON_ID_4 + "[0].datum'" + " && "
+                    + "'" + UNDERLAG_SVAR_JSON_ID_4 + "[0].hamtasFran'";
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
 
             assertEquals(expectedExpression, certificateDataValidationMandatory.getExpression());

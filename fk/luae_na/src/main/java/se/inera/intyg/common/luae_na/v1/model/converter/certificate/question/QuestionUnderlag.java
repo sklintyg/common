@@ -39,7 +39,7 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UND
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYPE_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYP_DELSVAR_ID_4;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleAndExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleAndExpressionWithCitation;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import java.time.LocalDate;
@@ -111,19 +111,22 @@ public class QuestionUnderlag {
             )
             .value(
                 CertificateDataValueMedicalInvestigationList.builder()
-                    .list(List.of(
-                        getMedicalInvestigationValue(underlag, 0),
-                        getMedicalInvestigationValue(underlag, 1),
-                        getMedicalInvestigationValue(underlag, 2)
-                    ))
+                    .list(
+                        List.of(
+                            getMedicalInvestigationValue(underlag, 0),
+                            getMedicalInvestigationValue(underlag, 1),
+                            getMedicalInvestigationValue(underlag, 2)
+                        )
+                    )
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(UNDERLAG_TYP_DELSVAR_ID_4)
-                        .expression(multipleAndExpression(UNDERLAG_SVAR_JSON_ID_4 + "[0].typ", UNDERLAG_SVAR_JSON_ID_4 + "[0].datum",
-                            UNDERLAG_SVAR_JSON_ID_4 + "[0].hamtasFran"))
+                        .expression(
+                            multipleAndExpressionWithCitation(UNDERLAG_SVAR_JSON_ID_4 + "[0].typ", UNDERLAG_SVAR_JSON_ID_4 + "[0].datum",
+                                UNDERLAG_SVAR_JSON_ID_4 + "[0].hamtasFran"))
                         .build(),
                     CertificateDataValidationShow.builder()
                         .questionId(UNDERLAGFINNS_DELSVAR_ID_3)
