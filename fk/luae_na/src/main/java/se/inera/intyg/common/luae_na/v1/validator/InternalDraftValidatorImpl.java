@@ -41,6 +41,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SJUKD
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SUBSTANSINTAG_SVAR_JSON_ID_21;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
 
 import com.google.common.base.Strings;
 import java.time.LocalDate;
@@ -250,8 +251,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
 
     private void validateAktivitetsbegransning(LuaenaUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (Strings.nullToEmpty(utlatande.getAktivitetsbegransning()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_AKTIVITETSBEGRANSNING, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17,
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_AKTIVITETSBEGRANSNING,
+                AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17,
+                ValidationMessageType.EMPTY, AKTIVITETSBEGRANSNING_DELSVAR_ID_17);
         }
     }
 
