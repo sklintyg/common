@@ -25,9 +25,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_TEXT;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_HEADER_ID_17;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
 
 import java.util.stream.Stream;
@@ -80,7 +80,7 @@ class QuestionAktivitetsbegransningarTest {
         @Test
         void shouldIncludeParentId() {
             final var question = QuestionAktivitetsbegransningar.toCertificate(null, 0, texts);
-            assertEquals(AKTIVITETSBEGRANSNING_CATEGORY_ID, question.getParent());
+            assertEquals(AKTIVITETSBEGRANSNING_HEADER_ID_17, question.getParent());
         }
 
         @Test
