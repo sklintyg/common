@@ -39,8 +39,9 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UND
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYPE_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYP_DELSVAR_ID_4;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleAndExpressionWithCitation;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleAndExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.withCitation;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -125,8 +126,10 @@ public class QuestionUnderlag {
                     CertificateDataValidationMandatory.builder()
                         .questionId(UNDERLAG_TYP_DELSVAR_ID_4)
                         .expression(
-                            multipleAndExpressionWithCitation(UNDERLAG_SVAR_JSON_ID_4 + "[0].typ", UNDERLAG_SVAR_JSON_ID_4 + "[0].datum",
-                                UNDERLAG_SVAR_JSON_ID_4 + "[0].hamtasFran"))
+                            multipleAndExpression(
+                                withCitation(UNDERLAG_SVAR_JSON_ID_4 + "[0].typ"),
+                                withCitation(UNDERLAG_SVAR_JSON_ID_4 + "[0].datum"),
+                                withCitation(UNDERLAG_SVAR_JSON_ID_4 + "[0].hamtasFran")))
                         .build(),
                     CertificateDataValidationShow.builder()
                         .questionId(UNDERLAGFINNS_DELSVAR_ID_3)

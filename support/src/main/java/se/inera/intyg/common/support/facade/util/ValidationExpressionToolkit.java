@@ -58,15 +58,8 @@ public final class ValidationExpressionToolkit {
         });
     }
 
-    public static String multipleAndExpressionWithCitation(String... expression) {
-        return Arrays.stream(expression).reduce("", (s, s2) -> {
-
-            if (!s.isEmpty()) {
-                s += " && ";
-            }
-            s += "'" + s2 + "'";
-            return s;
-        });
+    public static String withCitation(String expression) {
+        return "'" + expression + "'";
     }
 
     public static String lessThan(String s1, String s2) {
