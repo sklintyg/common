@@ -39,6 +39,7 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningSynHorselTal;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionSjukdomsforlopp;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagBaseratPa;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagFinns;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
@@ -87,6 +88,7 @@ class CertificateToInternalTest {
                 .setAnnatGrundForMUBeskrivning(annanBeskrivning)
                 .setKannedomOmPatient(new InternalDate(LocalDate.now()))
                 .setUnderlagFinns(true)
+                .setSjukdomsforlopp("sjukdomsforlopp")
                 .setFunktionsnedsattningIntellektuell("funktionsnedsattningIntellektuell")
                 .setFunktionsnedsattningKommunikation("funktionsnedsattningKommunikation")
                 .setFunktionsnedsattningKoncentration("funktionsnedsattningKoncentration")
@@ -108,6 +110,7 @@ class CertificateToInternalTest {
                 .addElement(QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(motivering, 0, texts))
                 .addElement(QuestionKannedomOmPatient.toCertificate(new InternalDate(LocalDate.now()), 0, texts))
                 .addElement(QuestionUnderlagFinns.toCertificate(true, 0, texts))
+                .addElement(QuestionSjukdomsforlopp.toCertificate(expectedInternalCertificate.getSjukdomsforlopp(), 0, texts))
                 .addElement(QuestionFunktionsnedsattningIntellektuell.toCertificate(
                     expectedInternalCertificate.getFunktionsnedsattningIntellektuell(), 0, texts))
                 .addElement(QuestionFunktionsnedsattningKommunikation.toCertificate(
@@ -194,6 +197,13 @@ class CertificateToInternalTest {
             final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
             assertEquals(actualInternalCertificate.getUnderlagFinns(),
                 expectedInternalCertificate.getUnderlagFinns());
+        }
+
+        @Test
+        void shallIncludeSjukdomsforlopp() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getSjukdomsforlopp(),
+                expectedInternalCertificate.getSjukdomsforlopp());
         }
 
         @Test
