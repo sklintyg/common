@@ -27,6 +27,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     property = "type")
 @JsonSubTypes({
     @Type(value = CertificateDataValidationMandatory.class, name = "MANDATORY_VALIDATION"),
+    @Type(value = CertificateDataValidationCategoryMandatory.class, name = "CATEGORY_MANDATORY_VALIDATION"),
     @Type(value = CertificateDataValidationShow.class, name = "SHOW_VALIDATION"),
     @Type(value = CertificateDataValidationHide.class, name = "HIDE_VALIDATION"),
     @Type(value = CertificateDataValidationMaxDate.class, name = "MAX_DATE_VALIDATION"),
