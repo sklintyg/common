@@ -272,8 +272,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
             && Strings.nullToEmpty(utlatande.getFunktionsnedsattningKoncentration()).trim().isEmpty()
             && Strings.nullToEmpty(utlatande.getFunktionsnedsattningPsykisk()).trim().isEmpty()
             && Strings.nullToEmpty(utlatande.getFunktionsnedsattningSynHorselTal()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, FUNKTIONSNEDSATTNING_CATEGORY_ID, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35,
-                ValidationMessageType.EMPTY, "common.validation.funktionsnedsattning.empty");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, FUNKTIONSNEDSATTNING_CATEGORY_ID,
+                FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35,
+                ValidationMessageType.EMPTY, "common.validation.funktionsnedsattning.empty", FUNKTIONSNEDSATTNING_CATEGORY_ID);
         }
     }
 
