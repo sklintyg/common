@@ -41,6 +41,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SJUKD
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SUBSTANSINTAG_SVAR_JSON_ID_21;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_DELSVAR_ID_5;
 
 import com.google.common.base.Strings;
 import java.time.LocalDate;
@@ -243,8 +244,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
 
     private void validateSjukdomsforlopp(LuaenaUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (Strings.nullToEmpty(utlatande.getSjukdomsforlopp()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_SJUKDOMSFORLOPP, SJUKDOMSFORLOPP_SVAR_JSON_ID_5,
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SJUKDOMSFORLOPP, SJUKDOMSFORLOPP_SVAR_JSON_ID_5,
+                ValidationMessageType.EMPTY, SJUKDOMSFORLOPP_DELSVAR_ID_5);
         }
     }
 
@@ -271,8 +272,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
             && Strings.nullToEmpty(utlatande.getFunktionsnedsattningKoncentration()).trim().isEmpty()
             && Strings.nullToEmpty(utlatande.getFunktionsnedsattningPsykisk()).trim().isEmpty()
             && Strings.nullToEmpty(utlatande.getFunktionsnedsattningSynHorselTal()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, FUNKTIONSNEDSATTNING_CATEGORY_ID, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35,
-                ValidationMessageType.EMPTY, "common.validation.funktionsnedsattning.empty");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, FUNKTIONSNEDSATTNING_CATEGORY_ID,
+                FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35,
+                ValidationMessageType.EMPTY, "common.validation.funktionsnedsattning.empty", FUNKTIONSNEDSATTNING_CATEGORY_ID);
         }
     }
 

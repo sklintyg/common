@@ -43,6 +43,7 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlag;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionSjukdomsforlopp;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagBaseratPa;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagFinns;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
@@ -108,6 +109,7 @@ class CertificateToInternalTest {
                         "hamtasFran"
                     )
                 ))
+                .setSjukdomsforlopp("sjukdomsforlopp")
                 .setFunktionsnedsattningIntellektuell("funktionsnedsattningIntellektuell")
                 .setFunktionsnedsattningKommunikation("funktionsnedsattningKommunikation")
                 .setFunktionsnedsattningKoncentration("funktionsnedsattningKoncentration")
@@ -145,6 +147,7 @@ class CertificateToInternalTest {
                         new InternalDate(LocalDate.now()),
                         "hamtasFran"
                     )), 0, texts))
+                .addElement(QuestionSjukdomsforlopp.toCertificate(expectedInternalCertificate.getSjukdomsforlopp(), 0, texts))
                 .addElement(QuestionFunktionsnedsattningIntellektuell.toCertificate(
                     expectedInternalCertificate.getFunktionsnedsattningIntellektuell(), 0, texts))
                 .addElement(QuestionFunktionsnedsattningKommunikation.toCertificate(
@@ -239,6 +242,14 @@ class CertificateToInternalTest {
             assertEquals(actualInternalCertificate.getUnderlag(),
                 expectedInternalCertificate.getUnderlag());
         }
+        
+        @Test
+        void shallIncludeSjukdomsforlopp() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getSjukdomsforlopp(),
+                expectedInternalCertificate.getSjukdomsforlopp());
+        }
+
         @Test
         void shallIncludeFunktionsnedsattningIntellektuell() {
             final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);

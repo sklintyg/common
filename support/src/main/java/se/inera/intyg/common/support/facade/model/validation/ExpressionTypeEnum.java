@@ -16,10 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package se.inera.intyg.common.support.facade.model.validation;
 
-public enum CertificateDataValidationType {
-    SHOW_VALIDATION, HIDE_VALIDATION, MAX_DATE_VALIDATION, TEXT_VALIDATION, ENABLE_VALIDATION,
-    DISABLE_VALIDATION, MANDATORY_VALIDATION, AUTO_FILL_VALIDATION, DISABLE_SUB_ELEMENT_VALIDATION, CATEGORY_MANDATORY_VALIDATION,
-    HIGHLIGHT_VALIDATION
+public enum ExpressionTypeEnum {
+    OR
 }

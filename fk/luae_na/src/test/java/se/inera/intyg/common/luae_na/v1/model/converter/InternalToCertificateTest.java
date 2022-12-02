@@ -37,6 +37,10 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNE
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_DELSVAR_ID_3;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_TYP_DELSVAR_ID_4;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SJUKDOMSFORLOPP_DELSVAR_ID_5;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_DELSVAR_ID_3;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.BAKGRUND_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -123,53 +127,64 @@ class InternalToCertificateTest {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
         assertEquals(6, actualCertificate.getData().get(UNDERLAG_TYP_DELSVAR_ID_4).getIndex());
     }
-    
+    @Test
+    void shallIncludeCategorBakgrund() {
+        final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
+        assertEquals(7, actualCertificate.getData().get(BAKGRUND_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionSjukdomforlopp() {
+        final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
+        assertEquals(8, actualCertificate.getData().get(SJUKDOMSFORLOPP_DELSVAR_ID_5).getIndex());
+    }
+
     @Test
     void shallIncludeCategoryFunktionsnedsattning() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(7, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_CATEGORY_ID).getIndex());
+        assertEquals(9, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionFunktionsnedsattningIntellektuell() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(8, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_ID_8).getIndex());
+        assertEquals(10, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_ID_8).getIndex());
     }
 
     @Test
     void shallIncludeQuestionFunktionsnedsattningKommunikation() {
-        final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(9, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_KOMMUNIKATION_DELSVAR_ID_9).getIndex());
+        final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);;
+        assertEquals(11, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_KOMMUNIKATION_DELSVAR_ID_9).getIndex());
     }
 
     @Test
     void shallIncludeQuestionFunktionsnedsattningKoncentration() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(10, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_KONCENTRATION_DELSVAR_ID_10).getIndex());
+        assertEquals(12, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_KONCENTRATION_DELSVAR_ID_10).getIndex());
     }
 
     @Test
     void shallIncludeQuestionFunktionsnedsattningPsykisk() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(11, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_PSYKISK_DELSVAR_ID_11).getIndex());
+        assertEquals(13, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_PSYKISK_DELSVAR_ID_11).getIndex());
     }
 
     @Test
     void shallIncludeQuestionFunktionsnedsattningSynHorselTal() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(12, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_SYNHORSELTAL_DELSVAR_ID_12).getIndex());
+        assertEquals(14, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_SYNHORSELTAL_DELSVAR_ID_12).getIndex());
     }
 
     @Test
     void shallIncludeQuestionFunktionsnedsattningBalansKoordination() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(13, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DELSVAR_ID_13).getIndex());
+        assertEquals(15, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DELSVAR_ID_13).getIndex());
     }
 
     @Test
     void shallIncludeQuestionFunktionsnedsattningAnnan() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(14, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_ID_14).getIndex());
+        assertEquals(16, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_ID_14).getIndex());
     }
 }
 
