@@ -19,11 +19,7 @@
 
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_HEADER_ID_17;
@@ -31,11 +27,14 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKT
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_TEXT;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.CertificateDataElement;
+import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
+import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigHeaderTest;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionAktivetsbegransningarHeaderTest {
@@ -48,37 +47,51 @@ class QuestionAktivetsbegransningarHeaderTest {
         when(texts.get(any(String.class))).thenReturn("Test string");
     }
 
-    @Test
-    void shouldIncludeId() {
-        final var category = QuestionAktivetsbegransningarHeader.toCertificate(0, texts);
-        assertEquals(AKTIVITETSBEGRANSNING_HEADER_ID_17, category.getId());
+    @Nested
+    class IncludeCommonElementTest extends CommonElementTest {
+
+        @Override
+        protected CertificateDataElement getElement() {
+            return QuestionAktivetsbegransningarHeader.toCertificate(3, texts);
+        }
+
+        @Override
+        protected String getId() {
+            return AKTIVITETSBEGRANSNING_HEADER_ID_17;
+        }
+
+        @Override
+        protected String getParent() {
+            return AKTIVITETSBEGRANSNING_CATEGORY_ID;
+        }
+
+        @Override
+        protected int getIndex() {
+            return 3;
+        }
     }
 
-    @Test
-    void shouldIncludeParent() {
-        final var category = QuestionAktivetsbegransningarHeader.toCertificate(0, texts);
-        assertEquals(AKTIVITETSBEGRANSNING_CATEGORY_ID, category.getParent());
-    }
+    @Nested
+    class IncludeConfigHeaderTest extends ConfigHeaderTest {
 
-    @Test
-    void shouldIncludeIndex() {
-        final var expectedIndex = 3;
-        final var category = QuestionAktivetsbegransningarHeader.toCertificate(expectedIndex, texts);
-        assertEquals(expectedIndex, category.getIndex());
-    }
+        @Override
+        protected CertificateTextProvider getTextProviderMock() {
+            return texts;
+        }
 
-    @Test
-    void shouldIncludeText() {
-        final var category = QuestionAktivetsbegransningarHeader.toCertificate(0, texts);
-        assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
-        verify(texts, atLeastOnce()).get(AKTIVITETSBEGRANSNING_SVAR_TEXT);
-    }
+        @Override
+        protected CertificateDataElement getElement() {
+            return QuestionAktivetsbegransningarHeader.toCertificate(3, texts);
+        }
 
-    @Test
-    void shouldIncludeDescription() {
-        final var category = QuestionAktivetsbegransningarHeader.toCertificate(0, texts);
-        assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
-        verify(texts, atLeastOnce()).get(AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION);
-    }
+        @Override
+        protected String getTextId() {
+            return AKTIVITETSBEGRANSNING_SVAR_TEXT;
+        }
 
+        @Override
+        protected String getDescriptionId() {
+            return AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION;
+        }
+    }
 }

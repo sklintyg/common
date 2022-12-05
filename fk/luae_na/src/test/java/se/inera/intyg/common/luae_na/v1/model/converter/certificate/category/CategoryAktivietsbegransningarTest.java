@@ -19,21 +19,20 @@
 
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.category;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.CertificateDataElement;
+import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
+import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategoryTest;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryAktivietsbegransningarTest {
@@ -45,24 +44,52 @@ class CategoryAktivietsbegransningarTest {
     void setup() {
         when(texts.get(any(String.class))).thenReturn("Test string");
     }
+    
+    @Nested
+    class IncludeCommonElementTest extends CommonElementTest {
 
-    @Test
-    void shouldIncludeId() {
-        final var category = CategoryAktivietsbegransningar.toCertificate(0, texts);
-        assertEquals(AKTIVITETSBEGRANSNING_CATEGORY_ID, category.getId());
+        @Override
+        protected CertificateDataElement getElement() {
+            return CategoryAktivietsbegransningar.toCertificate(3, texts);
+        }
+
+        @Override
+        protected String getId() {
+            return AKTIVITETSBEGRANSNING_CATEGORY_ID;
+        }
+
+        @Override
+        protected String getParent() {
+            return null;
+        }
+
+        @Override
+        protected int getIndex() {
+            return 3;
+        }
     }
 
-    @Test
-    void shouldIncludeIndex() {
-        final var expectedIndex = 3;
-        final var category = CategoryAktivietsbegransningar.toCertificate(expectedIndex, texts);
-        assertEquals(expectedIndex, category.getIndex());
-    }
+    @Nested
+    class IncludeConfigCategoryTest extends ConfigCategoryTest {
 
-    @Test
-    void shouldIncludeCategoryText() {
-        final var category = CategoryAktivietsbegransningar.toCertificate(0, texts);
-        assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
-        verify(texts, atLeastOnce()).get(AKTIVITETSBEGRANSNING_CATEGORY_TEXT_ID);
+        @Override
+        protected CertificateTextProvider getTextProviderMock() {
+            return texts;
+        }
+
+        @Override
+        protected CertificateDataElement getElement() {
+            return CategoryAktivietsbegransningar.toCertificate(3, texts);
+        }
+
+        @Override
+        protected String getTextId() {
+            return AKTIVITETSBEGRANSNING_CATEGORY_TEXT_ID;
+        }
+
+        @Override
+        protected String getDescriptionId() {
+            return null;
+        }
     }
 }

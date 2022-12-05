@@ -1,7 +1,8 @@
- plugins {
-    id "se.inera.intyg.plugin.common" version "3.2.2" apply false
+plugins {
+    id "se.inera.intyg.plugin.common" version "3.2.3" apply false
     id "nebula.node" version "1.4.2" apply false
     id "io.spring.dependency-management" version "1.0.13.RELEASE"
+    id "java-test-fixtures"
 }
 
 ext {
