@@ -125,7 +125,7 @@ class QuestionMedicinskBehandlingAvslutadBehandlingTest {
 
         @Test
         void shouldIncludeValidationLimit() {
-            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
+            final var question = QuestionMedicinskBehandlingAvslutadBehandling.toCertificate(null, 0, texts);
             final var showValidation = (CertificateDataValidationText) question.getValidation()[0];
 
             assertEquals(CertificateDataValidationType.TEXT_VALIDATION, showValidation.getType());

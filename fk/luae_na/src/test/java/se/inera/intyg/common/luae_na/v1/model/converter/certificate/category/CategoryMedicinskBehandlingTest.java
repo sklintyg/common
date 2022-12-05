@@ -48,20 +48,20 @@ class CategoryMedicinskBehandlingTest {
 
     @Test
     void shouldIncludeId() {
-        final var category = CategoryGrundForMU.toCertificate(0, texts);
+        final var category = CategoryMedicinskBehandling.toCertificate(0, texts);
         assertEquals(MEDICINSKABEHANDLINGAR_CATEGORY_ID, category.getId());
     }
 
     @Test
     void shouldIncludeIndex() {
         final var expectedIndex = 3;
-        final var category = CategoryGrundForMU.toCertificate(expectedIndex, texts);
+        final var category = CategoryMedicinskBehandling.toCertificate(expectedIndex, texts);
         assertEquals(expectedIndex, category.getIndex());
     }
 
     @Test
     void shouldIncludeCategoryText() {
-        final var category = CategoryGrundForMU.toCertificate(0, texts);
+        final var category = CategoryMedicinskBehandling.toCertificate(0, texts);
         assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
         verify(texts, atLeastOnce()).get(MEDICINSKABEHANDLINGAR_CATEGORY_TEXT);
     }
