@@ -152,5 +152,6 @@ public class RespConstants {
 
     public static final String FORSLAG_TILL_ATGARD_SVAR_ID_24 = "24";
     public static final String FORSLAG_TILL_ATGARD_DELSVAR_ID_24 = "24.1";
+    public static final String FORSLAG_TILL_ATGARD_TEXT_ID = "FRG_24.RBK";
     public static final String FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24 = "forslagTillAtgard";
 }
