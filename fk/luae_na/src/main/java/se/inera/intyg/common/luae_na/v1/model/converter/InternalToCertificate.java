@@ -36,6 +36,7 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningSynHorselTal;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlag;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionSjukdomsforlopp;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagBaseratPa;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagFinns;
@@ -70,6 +71,9 @@ public class InternalToCertificate {
             .addElement(
                 QuestionUnderlagFinns.toCertificate(internalCertificate.getUnderlagFinns(), index++, textProvider)
             )
+            .addElement(
+                QuestionUnderlag.toCertificate(internalCertificate.getUnderlag(), index++, textProvider)
+             )
             .addElement(
                 CategoryBakgrund.toCertificate(index++, textProvider)
             )

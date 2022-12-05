@@ -19,10 +19,10 @@
 
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNEDOM_DELSVAR_ID_2;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNEDOM_SVAR_JSON_ID_2;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNEDOM_SVAR_TEXT;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KANNEDOM_DELSVAR_ID_2;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KANNEDOM_SVAR_JSON_ID_2;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KANNEDOM_SVAR_TEXT;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateValue;
 
