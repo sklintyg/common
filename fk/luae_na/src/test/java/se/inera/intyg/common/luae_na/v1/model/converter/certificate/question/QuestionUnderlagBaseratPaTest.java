@@ -41,6 +41,7 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRU
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_UNDERSOKNING_LABEL;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -51,6 +52,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import se.inera.intyg.common.fkparent.model.internal.Underlag;
+import se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp;
 import se.inera.intyg.common.luae_na.v1.model.converter.CertificateToInternal;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -289,7 +292,24 @@ class QuestionUnderlagBaseratPaTest {
             final var certificate = CertificateBuilder.create()
                 .addElement(QuestionUnderlagBaseratPa.toCertificate(utlatande.getUndersokningAvPatienten(), utlatande.getJournaluppgifter(),
                     utlatande.getAnhorigsBeskrivningAvPatienten(), utlatande.getAnnatGrundForMU(), index, texts
-                )).build();
+                ))
+                .addElement(QuestionUnderlag.toCertificate(List.of(
+                    Underlag.create(
+                        UnderlagsTyp.UTREDNING_AV_ANNAN_SPECIALISTKLINIK,
+                        new InternalDate(LocalDate.now()),
+                        "hamtasFran"
+                    ),
+                    Underlag.create(
+                        UnderlagsTyp.NEUROPSYKIATRISKT_UTLATANDE,
+                        new InternalDate(LocalDate.now()),
+                        "hamtasFran"
+                    ),
+                    Underlag.create(
+                        UnderlagsTyp.UNDERLAG_FRAN_ARBETSTERAPEUT,
+                        new InternalDate(LocalDate.now()),
+                        "hamtasFran"
+                    )), index, texts))
+                .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, utlatande);
 
