@@ -85,6 +85,13 @@ public final class ValidationMessage {
         return validationMessage;
     }
 
+    public static ValidationMessage create(String category, String field, ValidationMessageType type, String message, String dynamicKey,
+        String questionId) {
+        final var validationMessage = new ValidationMessage(category, field, type, message, dynamicKey);
+        validationMessage.questionId = questionId;
+        return validationMessage;
+    }
+
     public String getCategory() {
         return category;
     }

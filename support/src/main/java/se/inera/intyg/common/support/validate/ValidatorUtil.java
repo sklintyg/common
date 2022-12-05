@@ -104,7 +104,7 @@ public final class ValidatorUtil {
                     "common.validation.date_invalid", questionId);
             } else if (message != null) {
                 addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT, message,
-                        questionId);
+                    questionId);
             } else {
                 addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT, questionId);
             }
@@ -112,8 +112,8 @@ public final class ValidatorUtil {
         }
 
         if (!date.isReasonable()) {
-                addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT,
-                    "common.validation.date_out_of_range", questionId);
+            addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT,
+                "common.validation.date_out_of_range", questionId);
             return false;
         }
         return true;
@@ -266,6 +266,17 @@ public final class ValidatorUtil {
         String field, ValidationMessageType type, String message, String questionId) {
         validationMessages.add(ValidationMessage.create(category, field, type, message, questionId));
         LOG.debug(field + " " + type.toString());
+    }
+
+    public static void addValidationErrorWithQuestionId(List<ValidationMessage> validationMessages, String category, String field,
+        ValidationMessageType type, String msg, String dynamicLabel, String questionId) {
+
+        // Bit of a hack - but make sure no WARN types are added to the ERROR list.
+        if (type == ValidationMessageType.WARN) {
+            return;
+        }
+        validationMessages.add(ValidationMessage.create(category, field, type, msg, dynamicLabel, questionId));
+        LOG.debug(field + " " + msg);
     }
 
     /**
