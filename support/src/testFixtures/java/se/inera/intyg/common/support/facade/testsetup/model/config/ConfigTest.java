@@ -27,7 +27,6 @@ import static org.mockito.Mockito.verify;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.Accordion;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 
 public abstract class ConfigTest {
@@ -41,10 +40,6 @@ public abstract class ConfigTest {
     protected abstract String getTextId();
 
     protected abstract String getDescriptionId();
-
-    Accordion getAccordion() {
-        return null;
-    }
 
     @Test
     void shouldIncludeConfigCertificateDataConfig() {
@@ -62,7 +57,9 @@ public abstract class ConfigTest {
     @Test
     void shouldIncludeConfigDescription() {
         final var question = getElement();
-        assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-        verify(getTextProviderMock(), atLeastOnce()).get(getDescriptionId());
+        if (getDescriptionId() != null) {
+            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+            verify(getTextProviderMock(), atLeastOnce()).get(getDescriptionId());
+        }
     }
 }
