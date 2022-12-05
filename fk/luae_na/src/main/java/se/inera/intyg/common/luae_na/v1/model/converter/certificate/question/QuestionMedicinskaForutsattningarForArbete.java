@@ -25,8 +25,10 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MED
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_TEXT_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
@@ -63,5 +65,10 @@ public class QuestionMedicinskaForutsattningarForArbete {
                 }
             )
             .build();
+    }
+
+    public static String toInternal(Certificate certificate) {
+        return textValue(certificate.getData(), MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22,
+            MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22);
     }
 }

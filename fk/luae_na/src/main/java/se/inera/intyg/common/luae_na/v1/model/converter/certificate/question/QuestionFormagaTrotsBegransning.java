@@ -23,8 +23,10 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.CAT
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_DELSVAR_ID_23;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_TEXT_ID;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
@@ -49,5 +51,9 @@ public class QuestionFormagaTrotsBegransning {
                     .build()
             )
             .build();
+    }
+
+    public static String toInternal(Certificate certificate) {
+        return textValue(certificate.getData(), FORMAGATROTSBEGRANSNING_DELSVAR_ID_23, FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23);
     }
 }

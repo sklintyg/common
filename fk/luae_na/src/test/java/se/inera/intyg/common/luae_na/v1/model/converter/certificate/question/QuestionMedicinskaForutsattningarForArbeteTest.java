@@ -29,14 +29,17 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MED
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigTextAreaTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InternalTextValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
 
 @ExtendWith(MockitoExtension.class)
@@ -143,6 +146,21 @@ class QuestionMedicinskaForutsattningarForArbeteTest {
         @Override
         protected int getValidationIndex() {
             return 0;
+        }
+    }
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class IncludeInternalTextValueTest extends InternalTextValueTest {
+
+        @Override
+        protected CertificateDataElement getElement(String expectedValue) {
+            return QuestionMedicinskaForutsattningarForArbete.toCertificate(expectedValue, 0, textProvider);
+        }
+
+        @Override
+        protected String toInternalTextValue(Certificate certificate) {
+            return QuestionMedicinskaForutsattningarForArbete.toInternal(certificate);
         }
     }
 }
