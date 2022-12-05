@@ -161,6 +161,11 @@ class QuestionAktivitetsbegransningarTest {
             }
 
             @Override
+            protected String getQuestionId() {
+                return AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
+            }
+
+            @Override
             protected String getExpression() {
                 return "$" + AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
             }

@@ -141,6 +141,8 @@ public class RespConstants {
 
     public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22 = "22";
     public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22 = "22.1";
+    public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_TEXT_ID = "KAT_8.RBK";
+    public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_DESCRIPTION_ID = "FRG_22.HLP";
     public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22 = "medicinskaForutsattningarForArbete";
 
     public static final String FORMAGATROTSBEGRANSNING_SVAR_ID_23 = "23";
