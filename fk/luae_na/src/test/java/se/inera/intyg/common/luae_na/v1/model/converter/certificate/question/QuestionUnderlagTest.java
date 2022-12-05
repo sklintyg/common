@@ -51,6 +51,7 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UND
 
 import com.google.common.collect.ImmutableList;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -463,7 +464,7 @@ class QuestionUnderlagTest {
         }
 
         @Nested
-        class UnderlagHasNoValue {
+        class UnderlagHasNullValues {
 
             @Test
             void shouldReturnEmptyList() {
@@ -618,6 +619,24 @@ class QuestionUnderlagTest {
                 final var actualValue = QuestionUnderlag.toInternal(certificate);
 
                 assertEquals(expectedValue.get(0), actualValue.get(0));
+            }
+        }
+
+        @Nested
+        class UnderlagIsEmpty {
+
+            final List<Underlag> expectedValue = Collections.emptyList();
+
+            @Test
+            void shouldReturnEmptyListWithNoUnderlag() {
+                final var certificate = CertificateBuilder.create()
+                    .addElement(QuestionUnderlag.toCertificate(
+                        expectedValue, 0, texts))
+                    .build();
+
+                final var actualValue = QuestionUnderlag.toInternal(certificate);
+
+                assertEquals(0, actualValue.size());
             }
         }
     }
