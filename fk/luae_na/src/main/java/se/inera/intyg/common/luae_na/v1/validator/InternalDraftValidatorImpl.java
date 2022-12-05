@@ -46,6 +46,7 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKT
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_DELSVAR_ID_5;
 
@@ -269,8 +270,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
 
     private void validateMedicinskaForutsattningarForArbete(LuaenaUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (Strings.nullToEmpty(utlatande.getMedicinskaForutsattningarForArbete()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE,
-                MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22, ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE,
+                MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22, ValidationMessageType.EMPTY,
+                MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22);
         }
     }
 
