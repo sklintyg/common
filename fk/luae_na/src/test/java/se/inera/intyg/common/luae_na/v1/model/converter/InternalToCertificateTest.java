@@ -37,6 +37,9 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNE
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SJUKDOMSFORLOPP_DELSVAR_ID_5;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_DELSVAR_ID_3;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_HEADER_ID_17;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.BAKGRUND_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -177,6 +180,24 @@ class InternalToCertificateTest {
     void shallIncludeQuestionFunktionsnedsattningAnnan() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
         assertEquals(15, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_ID_14).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryAktivitetsbegransningar() {
+        final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
+        assertEquals(16, actualCertificate.getData().get(AKTIVITETSBEGRANSNING_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionAktivitetsbegransningarHeader() {
+        final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
+        assertEquals(17, actualCertificate.getData().get(AKTIVITETSBEGRANSNING_HEADER_ID_17).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionAktivitetsbegransningar() {
+        final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
+        assertEquals(18, actualCertificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_17).getIndex());
     }
 }
 
