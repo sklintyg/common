@@ -147,6 +147,7 @@ public class RespConstants {
 
     public static final String FORMAGATROTSBEGRANSNING_SVAR_ID_23 = "23";
     public static final String FORMAGATROTSBEGRANSNING_DELSVAR_ID_23 = "23.1";
+    public static final String FORMAGATROTSBEGRANSNING_TEXT_ID = "FRG_23.RBK";
     public static final String FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23 = "formagaTrotsBegransning";
 
     public static final String FORSLAG_TILL_ATGARD_SVAR_ID_24 = "24";
