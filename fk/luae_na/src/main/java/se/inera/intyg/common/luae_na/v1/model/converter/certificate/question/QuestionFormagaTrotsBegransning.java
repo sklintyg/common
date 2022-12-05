@@ -21,6 +21,7 @@ package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_DELSVAR_ID_23;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_DESCRIPTION_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_TEXT_ID;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
@@ -41,6 +42,7 @@ public class QuestionFormagaTrotsBegransning {
             .config(
                 CertificateDataConfigTextArea.builder()
                     .text(textProvider.get(FORMAGATROTSBEGRANSNING_TEXT_ID))
+                    .description(textProvider.get(FORMAGATROTSBEGRANSNING_DESCRIPTION_ID))
                     .id(FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23)
                     .build()
             )

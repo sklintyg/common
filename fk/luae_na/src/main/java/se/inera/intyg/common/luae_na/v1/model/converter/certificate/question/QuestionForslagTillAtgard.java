@@ -21,6 +21,7 @@ package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORSLAG_TILL_ATGARD_DELSVAR_ID_24;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORSLAG_TILL_ATGARD_DESCRIPTION_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORSLAG_TILL_ATGARD_TEXT_ID;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
@@ -41,6 +42,7 @@ public class QuestionForslagTillAtgard {
             .config(
                 CertificateDataConfigTextArea.builder()
                     .text(textProvider.get(FORSLAG_TILL_ATGARD_TEXT_ID))
+                    .description(textProvider.get(FORSLAG_TILL_ATGARD_DESCRIPTION_ID))
                     .id(FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24)
                     .build()
             )
