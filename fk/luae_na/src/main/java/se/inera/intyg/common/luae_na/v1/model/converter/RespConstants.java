@@ -135,4 +135,18 @@ public class RespConstants {
     public static final String AKTIVITETSBEGRANSNING_SVAR_TEXT = "FRG_17.RBK";
     public static final String AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION = "FRG_17.HLP";
     public static final String AKTIVITETSBEGRANSNING_DELSVAR_TEXT = "DFR_17.1.RBK";
+
+    public static final String CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE = "medicinskaforutsattningarforarbete";
+
+    public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22 = "22";
+    public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22 = "22.1";
+    public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22 = "medicinskaForutsattningarForArbete";
+
+    public static final String FORMAGATROTSBEGRANSNING_SVAR_ID_23 = "23";
+    public static final String FORMAGATROTSBEGRANSNING_DELSVAR_ID_23 = "23.1";
+    public static final String FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23 = "formagaTrotsBegransning";
+
+    public static final String FORSLAG_TILL_ATGARD_SVAR_ID_24 = "24";
+    public static final String FORSLAG_TILL_ATGARD_DELSVAR_ID_24 = "24.1";
+    public static final String FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24 = "forslagTillAtgard";
 }
