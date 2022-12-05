@@ -24,9 +24,10 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigation.MedicalInvestigationValueBuilder;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigation.CertificateDataValueMedicalInvestigationBuilder;
 
-@JsonDeserialize(builder = MedicalInvestigationValueBuilder.class)
+
+@JsonDeserialize(builder = CertificateDataValueMedicalInvestigationBuilder.class)
 @Value
 @Builder
 public class CertificateDataValueMedicalInvestigation implements CertificateDataValue {
@@ -38,7 +39,7 @@ public class CertificateDataValueMedicalInvestigation implements CertificateData
     CertificateDataValueCode investigationType;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class MedicalInvestigationValueBuilder {
+    public static class CertificateDataValueMedicalInvestigationBuilder {
 
     }
 }

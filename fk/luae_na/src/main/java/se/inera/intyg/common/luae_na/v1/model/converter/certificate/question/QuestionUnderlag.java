@@ -44,6 +44,7 @@ import static se.inera.intyg.common.support.facade.util.ValidationExpressionTool
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.withCitation;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
@@ -203,6 +204,9 @@ public class QuestionUnderlag {
     }
 
     public static List<Underlag> toInternal(Certificate certificate) {
+        if (certificate.getData().get(UNDERLAG_TYP_DELSVAR_ID_4).getValue() == null) {
+            return Collections.emptyList();
+        }
         final var value = (CertificateDataValueMedicalInvestigationList) certificate.getData().get(UNDERLAG_TYP_DELSVAR_ID_4).getValue();
         final var underlagList = value.getList().stream()
             .map(underlag -> Underlag.create(
