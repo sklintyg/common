@@ -24,11 +24,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import se.inera.intyg.common.fkparent.model.internal.Underlag;
+import se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAktivitetsbegransningar;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningAnnan;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningBalansKoordination;
@@ -43,6 +47,7 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPlaneradBehandling;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingSubstansintag;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlag;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionSjukdomsforlopp;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagBaseratPa;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagFinns;
@@ -92,6 +97,23 @@ class CertificateToInternalTest {
                 .setAnnatGrundForMUBeskrivning(annanBeskrivning)
                 .setKannedomOmPatient(new InternalDate(LocalDate.now()))
                 .setUnderlagFinns(true)
+                .setUnderlag(List.of(
+                    Underlag.create(
+                        UnderlagsTyp.UTREDNING_AV_ANNAN_SPECIALISTKLINIK,
+                        new InternalDate(LocalDate.now()),
+                        "hamtasFran"
+                    ),
+                    Underlag.create(
+                        UnderlagsTyp.NEUROPSYKIATRISKT_UTLATANDE,
+                        new InternalDate(LocalDate.now()),
+                        "hamtasFran"
+                    ),
+                    Underlag.create(
+                        UnderlagsTyp.UNDERLAG_FRAN_ARBETSTERAPEUT,
+                        new InternalDate(LocalDate.now()),
+                        "hamtasFran"
+                    )
+                ))
                 .setSjukdomsforlopp("sjukdomsforlopp")
                 .setFunktionsnedsattningIntellektuell("funktionsnedsattningIntellektuell")
                 .setFunktionsnedsattningKommunikation("funktionsnedsattningKommunikation")
@@ -100,6 +122,7 @@ class CertificateToInternalTest {
                 .setFunktionsnedsattningSynHorselTal("funktionsnedsattningSynHorselTal")
                 .setFunktionsnedsattningBalansKoordination("funktionsnedsattningKoordination")
                 .setFunktionsnedsattningAnnan("funktionsnedsattningAnnan")
+                .setAktivitetsbegransning("aktivitetsbegransningar")
                 .setAvslutadBehandling("avslutadBehandling")
                 .setPagaendeBehandling("pagaendeBehandling")
                 .setPlaneradBehandling("planeradBehandling")
@@ -118,6 +141,22 @@ class CertificateToInternalTest {
                 .addElement(QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(motivering, 0, texts))
                 .addElement(QuestionKannedomOmPatient.toCertificate(new InternalDate(LocalDate.now()), 0, texts))
                 .addElement(QuestionUnderlagFinns.toCertificate(true, 0, texts))
+                .addElement(QuestionUnderlag.toCertificate(List.of(
+                    Underlag.create(
+                        UnderlagsTyp.UTREDNING_AV_ANNAN_SPECIALISTKLINIK,
+                        new InternalDate(LocalDate.now()),
+                        "hamtasFran"
+                    ),
+                    Underlag.create(
+                        UnderlagsTyp.NEUROPSYKIATRISKT_UTLATANDE,
+                        new InternalDate(LocalDate.now()),
+                        "hamtasFran"
+                    ),
+                    Underlag.create(
+                        UnderlagsTyp.UNDERLAG_FRAN_ARBETSTERAPEUT,
+                        new InternalDate(LocalDate.now()),
+                        "hamtasFran"
+                    )), 0, texts))
                 .addElement(QuestionSjukdomsforlopp.toCertificate(expectedInternalCertificate.getSjukdomsforlopp(), 0, texts))
                 .addElement(QuestionFunktionsnedsattningIntellektuell.toCertificate(
                     expectedInternalCertificate.getFunktionsnedsattningIntellektuell(), 0, texts))
@@ -133,6 +172,9 @@ class CertificateToInternalTest {
                     expectedInternalCertificate.getFunktionsnedsattningBalansKoordination(), 0, texts))
                 .addElement(QuestionFunktionsnedsattningAnnan.toCertificate(
                     expectedInternalCertificate.getFunktionsnedsattningAnnan(), 0, texts))
+                .addElement(QuestionAktivitetsbegransningar.toCertificate(
+                    expectedInternalCertificate.getAktivitetsbegransning(), 0, texts)
+                )
                 .addElement(QuestionMedicinskBehandlingAvslutadBehandling.toCertificate(
                     expectedInternalCertificate.getAvslutadBehandling(), 0, texts
                 ))
@@ -220,6 +262,13 @@ class CertificateToInternalTest {
         }
 
         @Test
+        void shallIncludeUnderlag() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getUnderlag(),
+                expectedInternalCertificate.getUnderlag());
+        }
+        
+        @Test
         void shallIncludeSjukdomsforlopp() {
             final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
             assertEquals(actualInternalCertificate.getSjukdomsforlopp(),
@@ -273,6 +322,13 @@ class CertificateToInternalTest {
             final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
             assertEquals(actualInternalCertificate.getFunktionsnedsattningAnnan(),
                 expectedInternalCertificate.getFunktionsnedsattningAnnan());
+        }
+
+        @Test
+        void shallIncludeAktivitetsbegransningar() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getAktivitetsbegransning(),
+                expectedInternalCertificate.getAktivitetsbegransning());
         }
     }
 }

@@ -21,6 +21,50 @@ package se.inera.intyg.common.luae_na.v1.model.converter;
 
 public class RespConstants {
 
+    public static final String GRUNDFORMU_CATEGORY_ID = "grundformu";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1 = "1.1";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1 = "1.3";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1 = "undersokningAvPatienten";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1 = "journaluppgifter";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1 = "anhorigsBeskrivningAvPatienten";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1 = "annatGrundForMU";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1 = "annatGrundForMUBeskrivning";
+    public static final String MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1 = "motiveringTillInteBaseratPaUndersokning";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT = "FRG_1.RBK";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_TEXT = "DFR_1.3.RBK";
+    public static final String GRUNDFORMU_JOURNALUPPGIFTER_LABEL = "KV_FKMU_0001.JOURNALUPPGIFTER.RBK";
+    public static final String GRUNDFORMU_ANHORIG_BESKRIVNING_LABEL = "KV_FKMU_0001.ANHORIG.RBK";
+    public static final String GRUNDFORMU_UNDERSOKNING_LABEL = "KV_FKMU_0001.UNDERSOKNING.RBK";
+    public static final String GRUNDFORMU_ANNAT_LABEL = "KV_FKMU_0001.ANNAT.RBK";
+
+
+    public static final String KANNEDOM_DELSVAR_ID_2 = "2.1";
+    public static final String KANNEDOM_SVAR_JSON_ID_2 = "kannedomOmPatient";
+
+
+    public static final String UNDERLAGFINNS_DELSVAR_ID_3 = "3.1";
+    public static final String UNDERLAGFINNS_SVAR_JSON_ID_3 = "underlagFinns";
+
+    public static final String UNDERLAG_TYP_DELSVAR_ID_4 = "4.1";
+    public static final String UNDERLAG_SVAR_JSON_ID_4 = "underlag";
+
+    public static final String MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1 = "1.4";
+    public static final String MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_TEXT = "Motivering till varför det medicinska underlaget "
+        + "inte baseras på en undersökning av patienten:";
+    public static final String MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION =
+        "Observera att detta inte är en fråga från Försäkringskassan. Information om varför sjukskrivningen startar mer än "
+            + "en vecka före dagens datum kan vara till hjälp för Försäkringskassan i deras handläggning. "
+            + "Informationen du anger nedan, kommer att överföras till fältet \"Övriga upplysningar\" vid signering.";
+
+    public static final String KANNEDOM_SVAR_TEXT = "FRG_2.RBK";
+    public static final String UNDERLAGFINNS_SELECTED_TEXT = "Ja";
+    public static final String UNDERLAGFINNS_UNSELECTED_TEXT = "Nej";
+    public static final String UNDERLAGFINNS_SVAR_TEXT = "FRG_3.RBK";
+    public static final String UNDERLAG_TYPE_TEXT_ID = "FRG_4.RBK";
+    public static final String UNDERLAG_DATUM_TEXT = "Datum";
+    public static final String UNDERLAG_INFORMATION_SOURCE_TEXT_ID = "DFR_4.3.RBK";
+    public static final String UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID = "DFR_4.3.HLP";
+
     public static final String BAKGRUND_CATEGORY_ID = "bakgrund";
     public static final String BAKGRUND_CATEGORY_TEXT_ID = "KAT_3.RBK";
     public static final String SJUKDOMSFORLOPP_DELSVAR_ID_5 = "5.1";
@@ -111,4 +155,12 @@ public class RespConstants {
     public static final String SUBSTANSINTAG_SVAR_JSON_ID_21 = "substansintag";
     public static final String SUBSTANSINTAG_SVAR_TEXT = "FRG_21.RBK";
     public static final String SUBSTANSINTAG_DELSVAR_TEXT = "DFR_21.1.RBK";
+    public static final String AKTIVITETSBEGRANSNING_HEADER_ID_17 = "17.1";
+    public static final String AKTIVITETSBEGRANSNING_DELSVAR_ID_17 = "17.2";
+    public static final String AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17 = "aktivitetsbegransning";
+    public static final String AKTIVITETSBEGRANSNING_CATEGORY_ID = "aktivitetsbegransningar";
+    public static final String AKTIVITETSBEGRANSNING_CATEGORY_TEXT_ID = "KAT_6.RBK";
+    public static final String AKTIVITETSBEGRANSNING_SVAR_TEXT = "FRG_17.RBK";
+    public static final String AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION = "FRG_17.HLP";
+    public static final String AKTIVITETSBEGRANSNING_DELSVAR_TEXT = "DFR_17.1.RBK";
 }
