@@ -35,7 +35,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryAktivietsbegransningar;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 
 @ExtendWith(MockitoExtension.class)
@@ -51,33 +50,33 @@ class QuestionAktivetsbegransningarHeaderTest {
 
     @Test
     void shouldIncludeId() {
-        final var category = CategoryAktivietsbegransningar.toCertificate(0, texts);
+        final var category = QuestionAktivetsbegransningarHeader.toCertificate(0, texts);
         assertEquals(AKTIVITETSBEGRANSNING_HEADER_ID_17, category.getId());
     }
 
     @Test
     void shouldIncludeParent() {
-        final var category = CategoryAktivietsbegransningar.toCertificate(0, texts);
-        assertEquals(AKTIVITETSBEGRANSNING_CATEGORY_ID, category.getId());
+        final var category = QuestionAktivetsbegransningarHeader.toCertificate(0, texts);
+        assertEquals(AKTIVITETSBEGRANSNING_CATEGORY_ID, category.getParent());
     }
 
     @Test
     void shouldIncludeIndex() {
         final var expectedIndex = 3;
-        final var category = CategoryAktivietsbegransningar.toCertificate(expectedIndex, texts);
+        final var category = QuestionAktivetsbegransningarHeader.toCertificate(expectedIndex, texts);
         assertEquals(expectedIndex, category.getIndex());
     }
 
     @Test
     void shouldIncludeText() {
-        final var category = CategoryAktivietsbegransningar.toCertificate(0, texts);
+        final var category = QuestionAktivetsbegransningarHeader.toCertificate(0, texts);
         assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
         verify(texts, atLeastOnce()).get(AKTIVITETSBEGRANSNING_SVAR_TEXT);
     }
 
     @Test
     void shouldIncludeDescription() {
-        final var category = CategoryAktivietsbegransningar.toCertificate(0, texts);
+        final var category = QuestionAktivetsbegransningarHeader.toCertificate(0, texts);
         assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
         verify(texts, atLeastOnce()).get(AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION);
     }
