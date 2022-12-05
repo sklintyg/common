@@ -83,7 +83,7 @@ public class QuestionUnderlag {
                     .list(
                         List.of(
                             MedicalInvestigation.builder()
-                                .typeId(UNDERLAG_SVAR_JSON_ID_4 + "[0].typ")
+                                .investigationTypeId(UNDERLAG_SVAR_JSON_ID_4 + "[0].typ")
                                 .dateId(UNDERLAG_SVAR_JSON_ID_4 + "[0].datum")
                                 .informationSourceId(UNDERLAG_SVAR_JSON_ID_4 + "[0].hamtasFran")
                                 .typeOptions(
@@ -91,7 +91,7 @@ public class QuestionUnderlag {
                                 )
                                 .build(),
                             MedicalInvestigation.builder()
-                                .typeId(UNDERLAG_SVAR_JSON_ID_4 + "[1].typ")
+                                .investigationTypeId(UNDERLAG_SVAR_JSON_ID_4 + "[1].typ")
                                 .dateId(UNDERLAG_SVAR_JSON_ID_4 + "[1].datum")
                                 .informationSourceId(UNDERLAG_SVAR_JSON_ID_4 + "[1].hamtasFran")
                                 .typeOptions(
@@ -99,7 +99,7 @@ public class QuestionUnderlag {
                                 )
                                 .build(),
                             MedicalInvestigation.builder()
-                                .typeId(UNDERLAG_SVAR_JSON_ID_4 + "[2].typ")
+                                .investigationTypeId(UNDERLAG_SVAR_JSON_ID_4 + "[2].typ")
                                 .dateId(UNDERLAG_SVAR_JSON_ID_4 + "[2].datum")
                                 .informationSourceId(UNDERLAG_SVAR_JSON_ID_4 + "[2].hamtasFran")
                                 .typeOptions(

@@ -167,9 +167,9 @@ class QuestionUnderlagTest {
             final var thirdElementInformationSource = UNDERLAG_SVAR_JSON_ID_4 + "[2].typ";
 
             assertAll(
-                () -> assertEquals(firstElementInformationSource, config.getList().get(0).getTypeId()),
-                () -> assertEquals(secondElementInformationSource, config.getList().get(1).getTypeId()),
-                () -> assertEquals(thirdElementInformationSource, config.getList().get(2).getTypeId())
+                () -> assertEquals(firstElementInformationSource, config.getList().get(0).getInvestigationTypeId()),
+                () -> assertEquals(secondElementInformationSource, config.getList().get(1).getInvestigationTypeId()),
+                () -> assertEquals(thirdElementInformationSource, config.getList().get(2).getInvestigationTypeId())
             );
         }
 
