@@ -45,8 +45,8 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingSubstansintag;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingSubstansintagHeader;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
-import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlag;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionSjukdomsforlopp;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlag;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagBaseratPa;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagFinns;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
@@ -83,7 +83,7 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionUnderlag.toCertificate(internalCertificate.getUnderlag(), index++, textProvider)
-             )
+            )
             .addElement(
                 CategoryBakgrund.toCertificate(index++, textProvider)
             )
@@ -122,7 +122,7 @@ public class InternalToCertificate {
             )
             .addElement(
                 CategoryAktivietsbegransningar.toCertificate(index++, textProvider)
-            )   
+            )
             .addElement(
                 QuestionAktivetsbegransningarHeader.toCertificate(index++, textProvider)
             )
@@ -157,7 +157,7 @@ public class InternalToCertificate {
                 QuestionMedicinskBehandlingSubstansintagHeader.toCertificate(index++, textProvider)
             )
             .addElement(
-                QuestionMedicinskBehandlingSubstansintag.toCertificate(internalCertificate.getSubstansintag(), index++, textProvider)           
+                QuestionMedicinskBehandlingSubstansintag.toCertificate(internalCertificate.getSubstansintag(), index++, textProvider)
             )
             .build();
     }
