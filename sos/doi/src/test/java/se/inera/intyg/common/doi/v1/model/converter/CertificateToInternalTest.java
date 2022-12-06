@@ -87,14 +87,15 @@ class CertificateToInternalTest {
     void setUp() {
         certificateToInternal = new CertificateToInternal();
         bidragandSjukdommar = List.of(
-            Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG),
-            Dodsorsak.create(null, null, null),
-            Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
-            Dodsorsak.create(null, null, null),
-            Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
-            Dodsorsak.create(null, null, null),
-            Dodsorsak.create(null, null, null),
-            Dodsorsak.create(null, null, null));
+            Dodsorsak.create("beskrivning1", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG),
+            Dodsorsak.create("beskrivning2", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
+            Dodsorsak.create("beskrivning3", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
+            Dodsorsak.create("beskrivning4", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
+            Dodsorsak.create("beskrivning5", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
+            Dodsorsak.create("beskrivning6", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
+            Dodsorsak.create("beskrivning7", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
+            Dodsorsak.create("beskrivning8", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS)
+        );
     }
 
     @Nested

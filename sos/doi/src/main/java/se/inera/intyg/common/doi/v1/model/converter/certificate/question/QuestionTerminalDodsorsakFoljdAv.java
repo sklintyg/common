@@ -166,8 +166,8 @@ public class QuestionTerminalDodsorsakFoljdAv {
     }
 
     private static Specifikation getSpecification(CertificateDataValueCauseOfDeath causeOfDeath) {
-        return causeOfDeath.getSpecification().getCode() != null ? Specifikation.fromValue(causeOfDeath.getSpecification().getCode())
-            : null;
+        return causeOfDeath.getSpecification().getCode() != null && !causeOfDeath.getSpecification().getCode().isEmpty()
+            ? Specifikation.fromValue(causeOfDeath.getSpecification().getCode()) : null;
     }
 
     private static InternalDate getDebut(CertificateDataValueCauseOfDeath causeOfDeath) {

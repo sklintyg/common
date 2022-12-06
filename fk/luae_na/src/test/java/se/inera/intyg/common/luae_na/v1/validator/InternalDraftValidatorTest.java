@@ -18,6 +18,25 @@
  */
 package se.inera.intyg.common.luae_na.v1.validator;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNEDOM_DELSVAR_ID_2;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_DELSVAR_ID_3;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_DELSVAR_ID_5;
+
+import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,23 +48,15 @@ import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.schemas.contract.Personnummer;
-
-import java.lang.reflect.Field;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InternalDraftValidatorTest {
@@ -119,6 +130,7 @@ public class InternalDraftValidatorTest {
         assertEquals("grundformu", res.getValidationErrors().get(1).getCategory());
         assertEquals("kannedomOmPatient", res.getValidationErrors().get(1).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(1).getType());
+        assertEquals(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1, res.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -134,6 +146,7 @@ public class InternalDraftValidatorTest {
         assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
         assertEquals("kannedomOmPatient", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        assertEquals(KANNEDOM_DELSVAR_ID_2, res.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -150,6 +163,7 @@ public class InternalDraftValidatorTest {
         assertEquals("luae_na.validation.grund-for-mu.kannedom.after", res.getValidationErrors().get(0).getMessage());
         assertEquals("KV_FKMU_0001.UNDERSOKNING.RBK", res.getValidationErrors().get(0).getDynamicKey());
         assertEquals(ValidationMessageType.OTHER, res.getValidationErrors().get(0).getType());
+        assertEquals(KANNEDOM_DELSVAR_ID_2, res.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -165,6 +179,7 @@ public class InternalDraftValidatorTest {
         assertEquals("luae_na.validation.grund-for-mu.kannedom.after", res.getValidationErrors().get(0).getMessage());
         assertEquals("KV_FKMU_0001.ANHORIG.RBK", res.getValidationErrors().get(0).getDynamicKey());
         assertEquals(ValidationMessageType.OTHER, res.getValidationErrors().get(0).getType());
+        assertEquals(KANNEDOM_DELSVAR_ID_2, res.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -181,6 +196,7 @@ public class InternalDraftValidatorTest {
         assertEquals(0, res.getValidationWarnings().size());
         assertEquals("common.validation.c-06", res.getValidationErrors().get(0).getMessage());
         assertEquals(ValidationMessageType.OTHER, res.getValidationErrors().get(0).getType());
+        assertEquals(KANNEDOM_DELSVAR_ID_2, res.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -213,6 +229,7 @@ public class InternalDraftValidatorTest {
         assertEquals("luae_na.validation.grund-for-mu.incorrect_combination_annat_beskrivning",
             res.getValidationErrors().get(1).getMessage());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(1).getType());
+        assertEquals(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1, res.getValidationErrors().get(1).getQuestionId());
     }
 
     @Test
@@ -229,6 +246,7 @@ public class InternalDraftValidatorTest {
         assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
         assertEquals("annatGrundForMUBeskrivning", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        assertEquals(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1, res.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -243,6 +261,7 @@ public class InternalDraftValidatorTest {
         assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
         assertEquals("underlagFinns", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        assertEquals(UNDERLAGFINNS_DELSVAR_ID_3, res.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -393,6 +412,7 @@ public class InternalDraftValidatorTest {
         assertEquals(1, res.getValidationErrors().size());
         assertEquals("sjukdomsforlopp", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        assertEquals(SJUKDOMSFORLOPP_DELSVAR_ID_5, res.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -406,6 +426,7 @@ public class InternalDraftValidatorTest {
         assertEquals(1, res.getValidationErrors().size());
         assertEquals("aktivitetsbegransning", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        assertEquals(AKTIVITETSBEGRANSNING_DELSVAR_ID_17, res.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -419,6 +440,7 @@ public class InternalDraftValidatorTest {
         assertEquals(1, res.getValidationErrors().size());
         assertEquals("medicinskaForutsattningarForArbete", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        assertEquals(MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22, res.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -432,6 +454,7 @@ public class InternalDraftValidatorTest {
         assertEquals(1, res.getValidationErrors().size());
         assertEquals("funktionsnedsattning", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        assertEquals(FUNKTIONSNEDSATTNING_CATEGORY_ID, res.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
