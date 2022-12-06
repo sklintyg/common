@@ -156,4 +156,12 @@ public class RespConstants {
     public static final String FORSLAG_TILL_ATGARD_TEXT_ID = "FRG_24.RBK";
     public static final String FORSLAG_TILL_ATGARD_DESCRIPTION_ID = "FRG_24.HLP";
     public static final String FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24 = "forslagTillAtgard";
+
+    public static final String OVRIGT_CATEGORY_ID = "ovrigt";
+    public static final String OVRIGT_CATEGORY_TEXT_ID = "KAT_9.RBK";
+
+    public static final String OVRIGT_SVAR_ID_25 = "25";
+    public static final String OVRIGT_DELSVAR_ID_25 = "25.1";
+    public static final String OVRIGT_TEXT_ID = "FRG_25.RBK";
+    public static final String OVRIGT_SVAR_JSON_ID_25 = "ovrigt";
 }
