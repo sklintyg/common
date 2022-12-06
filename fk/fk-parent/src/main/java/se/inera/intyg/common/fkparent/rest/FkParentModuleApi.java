@@ -520,6 +520,11 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
         throw new UnsupportedOperationException();
     }
 
+
+    protected CertificateTextProvider getTextProvider(String certificateType) {
+        return getTextProvider(certificateType, intygTexts.getLatestVersion(certificateType));
+    }
+
     @Override
     public CertificateTextProvider getTextProvider(String certificateType, String certificateTypeVersion) {
         final var intygTexts = getTexts(certificateType, certificateTypeVersion);
