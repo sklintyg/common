@@ -27,11 +27,20 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 
 public abstract class ValidationMandatoryTest extends ValidationTest {
 
+    protected abstract String getQuestionId();
+
     protected abstract String getExpression();
 
     @Override
     protected CertificateDataValidationType getType() {
         return CertificateDataValidationType.MANDATORY_VALIDATION;
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryQuestionId() {
+        final var question = getElement();
+        final var certificateDataValidation = (CertificateDataValidationMandatory) question.getValidation()[getValidationIndex()];
+        assertEquals(getQuestionId(), certificateDataValidation.getQuestionId());
     }
 
     @Test

@@ -1,3 +1,5 @@
+apply plugin: "java-test-fixtures"
+
 dependencies {
   compile project(':logging-util')
 
