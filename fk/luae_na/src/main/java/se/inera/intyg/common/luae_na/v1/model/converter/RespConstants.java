@@ -51,10 +51,10 @@ public class RespConstants {
     public static final String MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1 = "1.4";
     public static final String MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_TEXT = "Motivering till varför det medicinska underlaget "
         + "inte baseras på en undersökning av patienten:";
-    public static final String MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION =
-        "Observera att detta inte är en fråga från Försäkringskassan. Information om varför sjukskrivningen startar mer än "
-            + "en vecka före dagens datum kan vara till hjälp för Försäkringskassan i deras handläggning. "
-            + "Informationen du anger nedan, kommer att överföras till fältet \"Övriga upplysningar\" vid signering.";
+    public static final String MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION_ID = "FRG_25.RBK";
+    public static final String MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION = "Detta är ett stöd för ifyllnad och ingen fråga"
+        + " från Försäkringskassan. Informationen du anger här kan vara till hjälp för Försäkringskassan i deras handläggning. "
+        + "Informationen du anger nedan, kommer att överföras till fältet \"{0}\" vid signering.";
 
     public static final String KANNEDOM_SVAR_TEXT = "FRG_2.RBK";
     public static final String UNDERLAGFINNS_SELECTED_TEXT = "Ja";

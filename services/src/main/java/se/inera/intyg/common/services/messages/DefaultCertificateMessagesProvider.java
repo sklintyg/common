@@ -23,13 +23,23 @@ import java.util.Map;
 public final class DefaultCertificateMessagesProvider implements CertificateMessagesProvider {
 
     private final Map<String, String> messages;
+    private Map<String, String> dynamicLabels;
 
-    private DefaultCertificateMessagesProvider(Map<String, String> messages) {
-        this.messages = messages;
+    public static CertificateMessagesProvider create(Map<String, String> messages, Map<String, String> dynamicLabels) {
+        return new DefaultCertificateMessagesProvider(messages, dynamicLabels);
     }
 
     public static CertificateMessagesProvider create(Map<String, String> messages) {
         return new DefaultCertificateMessagesProvider(messages);
+    }
+
+    private DefaultCertificateMessagesProvider(Map<String, String> messages, Map<String, String> dynamicLabels) {
+        this.messages = messages;
+        this.dynamicLabels = dynamicLabels;
+    }
+
+    private DefaultCertificateMessagesProvider(Map<String, String> messages) {
+        this.messages = messages;
     }
 
     @Override
@@ -37,4 +47,8 @@ public final class DefaultCertificateMessagesProvider implements CertificateMess
         return messages.get(key);
     }
 
+    @Override
+    public String get(String key, String dynamicKey) {
+        return messages.get(key).replace("{0}", dynamicLabels.get(dynamicKey));
+    }
 }

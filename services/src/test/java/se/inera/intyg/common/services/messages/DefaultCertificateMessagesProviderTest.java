@@ -16,12 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package se.inera.intyg.common.services.messages;
 
-public interface CertificateMessagesProvider {
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-    String get(String key);
+import java.util.Map;
+import org.junit.jupiter.api.Test;
 
-    String get(String key, String dynamicKey);
+class DefaultCertificateMessagesProviderTest {
 
+    @Test
+    void shallReplaceDynamicKeyWithValue() {
+        final var messages = Map.of("key", "text with dynamic key {0}");
+        final var dynamicKeyMap = Map.of("dynamicKey", "dynamicValue");
+        final var provider = DefaultCertificateMessagesProvider.create(messages, dynamicKeyMap);
+        final var actualMessage = provider.get("key", "dynamicKey");
+        assertEquals("text with dynamic key dynamicValue", actualMessage);
+    }
 }
