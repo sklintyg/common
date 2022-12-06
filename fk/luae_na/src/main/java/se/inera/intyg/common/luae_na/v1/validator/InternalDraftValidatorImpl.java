@@ -48,6 +48,7 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FOR
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_DELSVAR_ID_5;
 
 import com.google.common.base.Strings;
@@ -74,7 +75,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
     private static final String CATEGORY_DIAGNOS = "diagnos";
     private static final String CATEGORY_AKTIVITETSBEGRANSNING = "aktivitetsbegransning";
     private static final String CATEGORY_MEDICINSKABEHANDLINGAR = "medicinskabehandlingar";
-    private static final String CATEGORY_OVRIGT = "ovrigt";
     private static final String CATEGORY_KONTAKT = "kontakt";
 
     @Autowired
@@ -362,7 +362,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
                 ValidationMessageType.BLANK);
         }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getOvrigt())) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_OVRIGT, OVRIGT_SVAR_JSON_ID_25, ValidationMessageType.BLANK);
+            ValidatorUtil.addValidationError(validationMessages, OVRIGT_CATEGORY_ID, OVRIGT_SVAR_JSON_ID_25, ValidationMessageType.BLANK);
         }
     }
 }
