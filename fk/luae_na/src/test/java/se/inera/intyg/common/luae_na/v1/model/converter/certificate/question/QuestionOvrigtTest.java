@@ -19,6 +19,7 @@
 
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
+import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
@@ -28,13 +29,16 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.OVR
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigTextAreaTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InternalTextValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
 
 @ExtendWith(MockitoExtension.class)
@@ -117,6 +121,21 @@ class QuestionOvrigtTest {
         @Override
         protected String getText() {
             return "Detta är ett text värde!";
+        }
+    }
+
+    @Nested
+    @TestInstance(PER_CLASS)
+    class IncludeInternalTextValueTest extends InternalTextValueTest {
+
+        @Override
+        protected CertificateDataElement getElement(String expectedValue) {
+            return QuestionOvrigt.toCertificate(expectedValue, 0, textProvider);
+        }
+
+        @Override
+        protected String toInternalTextValue(Certificate certificate) {
+            return QuestionOvrigt.toInternal(certificate);
         }
     }
 }

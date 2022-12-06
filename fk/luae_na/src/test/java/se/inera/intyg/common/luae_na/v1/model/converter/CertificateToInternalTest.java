@@ -46,6 +46,7 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskaForutsattningarForArbete;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionOvrigt;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionSjukdomsforlopp;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlag;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagBaseratPa;
@@ -125,6 +126,7 @@ class CertificateToInternalTest {
                 .setMedicinskaForutsattningarForArbete("medicinskaForutsattningarForArbete")
                 .setFormagaTrotsBegransning("formagaTrotsBegransning")
                 .setForslagTillAtgard("forslagTillAtgard")
+                .setOvrigt("ovrigt")
                 .build();
 
             texts = Mockito.mock(CertificateTextProvider.class);
@@ -181,6 +183,9 @@ class CertificateToInternalTest {
                 )
                 .addElement(
                     QuestionForslagTillAtgard.toCertificate(expectedInternalCertificate.getForslagTillAtgard(), 0, texts)
+                )
+                .addElement(
+                    QuestionOvrigt.toCertificate(expectedInternalCertificate.getOvrigt(), 0, texts)
                 )
                 .build();
         }
@@ -343,6 +348,12 @@ class CertificateToInternalTest {
         void shallIncludeForslagTillAtgard() {
             final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
             assertEquals(actualInternalCertificate.getForslagTillAtgard(), expectedInternalCertificate.getForslagTillAtgard());
+        }
+
+        @Test
+        void shallIncludeOvrigt() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getOvrigt(), expectedInternalCertificate.getOvrigt());
         }
     }
 }
