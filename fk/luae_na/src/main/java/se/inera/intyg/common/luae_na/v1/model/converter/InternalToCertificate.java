@@ -24,6 +24,7 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.Cat
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryBakgrund;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryFunktionsnedsattning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryGrundForMU;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryMedicinskBehandling;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryMedicinskaForutsattningarArbete;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryOvrigt;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAktivetsbegransningarHeader;
@@ -39,6 +40,14 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPsykisk;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningSynHorselTal;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingAvslutadBehandling;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingAvslutadBehandlingHeader;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPagaendeBehandling;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPagaendeBehandlingHeader;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPlaneradBehandling;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPlaneradBehandlingHeader;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingSubstansintag;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingSubstansintagHeader;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskaForutsattningarForArbete;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionOvrigt;
@@ -52,6 +61,7 @@ import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 
 public class InternalToCertificate {
+
 
     public static Certificate toCertificate(LuaenaUtlatandeV1 internalCertificate, CertificateTextProvider textProvider) {
         int index = 0;
@@ -124,6 +134,36 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionAktivitetsbegransningar.toCertificate(internalCertificate.getAktivitetsbegransning(), index++, textProvider)
+            )
+            .addElement(
+                CategoryMedicinskBehandling.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionMedicinskBehandlingAvslutadBehandlingHeader.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionMedicinskBehandlingAvslutadBehandling.toCertificate(internalCertificate.getAvslutadBehandling(), index++,
+                    textProvider)
+            )
+            .addElement(
+                QuestionMedicinskBehandlingPagaendeBehandlingHeader.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionMedicinskBehandlingPagaendeBehandling.toCertificate(internalCertificate.getPagaendeBehandling(), index++,
+                    textProvider)
+            )
+            .addElement(
+                QuestionMedicinskBehandlingPlaneradBehandlingHeader.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionMedicinskBehandlingPlaneradBehandling.toCertificate(internalCertificate.getPlaneradBehandling(), index++,
+                    textProvider)
+            )
+            .addElement(
+                QuestionMedicinskBehandlingSubstansintagHeader.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionMedicinskBehandlingSubstansintag.toCertificate(internalCertificate.getSubstansintag(), index++, textProvider)
             )
             .addElement(
                 CategoryMedicinskaForutsattningarArbete.toCertificate(index++, textProvider)
