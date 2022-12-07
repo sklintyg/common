@@ -21,9 +21,11 @@ package se.inera.intyg.common.luae_na.v1.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -32,11 +34,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAktivitetsbegransningar;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionDiagnoser;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionDiagnosgrund;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFormagaTrotsBegransning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionForslagTillAtgard;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningAnnan;
@@ -74,6 +79,8 @@ class CertificateToInternalTest {
     private Certificate certificate;
     private static String annanBeskrivning = "annanBeskrivning";
     private static String motivering = "motivering";
+    private final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
+    private final String DIAGNOSIS_DISPLAYNAME = "Namn att visa upp";
 
     @Mock
     private WebcertModuleService moduleService;
@@ -122,6 +129,13 @@ class CertificateToInternalTest {
                     )
                 ))
                 .setSjukdomsforlopp("sjukdomsforlopp")
+                .setDiagnoser(
+                    Arrays.asList(
+                        Diagnos.create("", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME))
+                )
+                .setDiagnosgrund("Diagnosbakgrund test")
                 .setFunktionsnedsattningIntellektuell("funktionsnedsattningIntellektuell")
                 .setFunktionsnedsattningKommunikation("funktionsnedsattningKommunikation")
                 .setFunktionsnedsattningKoncentration("funktionsnedsattningKoncentration")
@@ -164,6 +178,14 @@ class CertificateToInternalTest {
                         "hamtasFran"
                     )), 0, texts))
                 .addElement(QuestionSjukdomsforlopp.toCertificate(expectedInternalCertificate.getSjukdomsforlopp(), 0, texts))
+                .addElement(QuestionDiagnoser.toCertificate(
+                    Arrays.asList(
+                        Diagnos.create("", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)),
+                    0, texts
+                ))
+                .addElement(QuestionDiagnosgrund.toCertificate("Diagnosbakgrund test", 0, texts))
                 .addElement(QuestionFunktionsnedsattningIntellektuell.toCertificate(
                     expectedInternalCertificate.getFunktionsnedsattningIntellektuell(), 0, texts))
                 .addElement(QuestionFunktionsnedsattningKommunikation.toCertificate(
@@ -276,6 +298,21 @@ class CertificateToInternalTest {
             final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getSjukdomsforlopp(),
                 expectedInternalCertificate.getSjukdomsforlopp());
+        }
+        @Test
+        void shallIncludeDiagnoser() {
+            when(moduleService.getDescriptionFromDiagnosKod(anyString(), anyString())).thenReturn(DIAGNOSIS_DISPLAYNAME);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+            for (int i = 0; i < actualInternalCertificate.getDiagnoser().size(); i++) {
+                assertEquals(actualInternalCertificate.getDiagnoser().get(i),expectedInternalCertificate.getDiagnoser().get(i));
+            }
+        }
+
+        @Test
+        void shallIncludegetDiagnosgrund() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+            assertEquals(actualInternalCertificate.getDiagnosgrund(),
+                expectedInternalCertificate.getDiagnosgrund());
         }
 
         @Test

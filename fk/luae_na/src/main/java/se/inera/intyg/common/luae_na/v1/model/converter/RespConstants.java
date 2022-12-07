@@ -41,6 +41,7 @@ public class RespConstants {
 
 
     public static final String DIAGNOSGRUND_SVAR_ID_7 = "7";
+    public static final String DIAGNOSGRUND_TEXT = "FRG_7.RBK";
     public static final String DIAGNOSGRUND_DELSVAR_ID_7 = "7.1";
     public static final String NYDIAGNOS_SVAR_ID_45 = "45";
     public static final String DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45 = "45.1";

@@ -30,6 +30,7 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAktivitetsbegransningar;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionDiagnoser;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionDiagnosgrund;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFormagaTrotsBegransning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionForslagTillAtgard;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningAnnan;
@@ -92,6 +93,11 @@ public class InternalToCertificate {
             .addElement(
                 QuestionDiagnoser.toCertificate(internalCertificate.getDiagnoser(), index++, textProvider)
             )
+            .addElement(
+                QuestionDiagnosgrund.toCertificate(internalCertificate.getDiagnosgrund(), index++, textProvider)
+            )
+            //TODO NyBedomningDiagnosgrund
+            //TODO DiagnosForNyBedomning
             .addElement(
                 CategoryFunktionsnedsattning.toCertificate(index++, textProvider)
             )

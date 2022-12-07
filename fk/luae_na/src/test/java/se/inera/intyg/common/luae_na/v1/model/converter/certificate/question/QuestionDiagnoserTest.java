@@ -72,7 +72,7 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 class QuestionDiagnoserTest {
 
     private final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
-    private final String DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION = "Beskrivning utan egen text";
+    private final String DIAGNOSIS_DISPLAYNAME = "Namn att visa upp";
     @Mock
     private CertificateTextProvider textProvider;
     @Mock
@@ -181,12 +181,12 @@ class QuestionDiagnoserTest {
 
             Stream<List<Diagnos>> diagnosisListValues() {
                 return Stream.of(Arrays.asList(
-                    Diagnos.create("F500", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION)
+                    Diagnos.create("F500", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
                 ),
                     Arrays.asList(
-                    Diagnos.create("", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION),
-                    Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION),
-                    Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION)
+                    Diagnos.create("", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                    Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                    Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
                 ),
                     Collections.emptyList());
             }
@@ -223,9 +223,9 @@ class QuestionDiagnoserTest {
             @Test
             void shouldExcludeDiagnosKodNull() {
                 var diagnoser = Arrays.asList(
-                    Diagnos.create(null, "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION),
-                    Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION),
-                    Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION));
+                    Diagnos.create(null, "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                    Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                    Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME));
                 final var certificateDataElement = (CertificateDataValueDiagnosisList) QuestionDiagnoser
                     .toCertificate(diagnoser, 1, textProvider).getValue();
                 var resultList = certificateDataElement.getList();
@@ -284,12 +284,12 @@ class QuestionDiagnoserTest {
 
         Stream<List<Diagnos>> diagnosisListValues() {
             return Stream.of(Arrays.asList(
-                    Diagnos.create("F500", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION)
+                    Diagnos.create("F500", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
                 ),
                 Arrays.asList(
-                    Diagnos.create("", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION),
-                    Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION),
-                    Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION)
+                    Diagnos.create("", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                    Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                    Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
                 ),
                 Collections.emptyList());
         }
@@ -298,7 +298,7 @@ class QuestionDiagnoserTest {
         @MethodSource("diagnosisListValues")
         void shouldIncludeDiagnosValue(List<Diagnos> expectedValue) {
             if (!expectedValue.isEmpty()){
-                when(moduleService.getDescriptionFromDiagnosKod(anyString(), anyString())).thenReturn(DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION);
+                when(moduleService.getDescriptionFromDiagnosKod(anyString(), anyString())).thenReturn(DIAGNOSIS_DISPLAYNAME);
             }
 
             final var certificate = CertificateBuilder.create()
@@ -313,12 +313,12 @@ class QuestionDiagnoserTest {
 
         @Test
         void shouldReturnListWithLenghtBasedOnId() {
-            when(moduleService.getDescriptionFromDiagnosKod(anyString(), anyString())).thenReturn(DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION);
+            when(moduleService.getDescriptionFromDiagnosKod(anyString(), anyString())).thenReturn(DIAGNOSIS_DISPLAYNAME);
 
             var expectedValue = Arrays.asList(
-                Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION),
+                Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
                 Diagnos.create(null, null, null, null),
-                Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION));
+                Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME));
             final var certificate = CertificateBuilder.create()
                 .addElement(QuestionDiagnoser.toCertificate(expectedValue, 0, textProvider))
                 .build();

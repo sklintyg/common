@@ -28,6 +28,7 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrun
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAktivitetsbegransningar;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionDiagnoser;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionDiagnosgrund;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFormagaTrotsBegransning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionForslagTillAtgard;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningAnnan;
@@ -71,6 +72,9 @@ public class CertificateToInternal {
             .setUnderlag(QuestionUnderlag.toInternal(certificate))
             .setSjukdomsforlopp(QuestionSjukdomsforlopp.toInternal(certificate))
             .setDiagnoser(QuestionDiagnoser.toInternal(certificate, moduleService))
+            .setDiagnosgrund(QuestionDiagnosgrund.toInternal(certificate))
+            //TODO NyBedomningDiagnosgrund
+            //TODO DiagnosForNyBedomning
             .setFunktionsnedsattningIntellektuell(QuestionFunktionsnedsattningIntellektuell.toInternal(certificate))
             .setFunktionsnedsattningKommunikation(QuestionFunktionsnedsattningKommunikation.toInternal(certificate))
             .setFunktionsnedsattningKoncentration(QuestionFunktionsnedsattningKoncentration.toInternal(certificate))
