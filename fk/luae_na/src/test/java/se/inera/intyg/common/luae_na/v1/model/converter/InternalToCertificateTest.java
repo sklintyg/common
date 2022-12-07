@@ -40,7 +40,7 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUN
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KANNEDOM_DELSVAR_ID_2;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KANNEDOM_SVAR_ID_2;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
@@ -120,7 +120,7 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeQuestionKannedomOmPatient() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(4, actualCertificate.getData().get(KANNEDOM_DELSVAR_ID_2).getIndex());
+        assertEquals(4, actualCertificate.getData().get(KANNEDOM_SVAR_ID_2).getIndex());
     }
 
     @Test

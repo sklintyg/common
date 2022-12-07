@@ -38,6 +38,7 @@ public class RespConstants {
     public static final String GRUNDFORMU_ANNAT_LABEL = "KV_FKMU_0001.ANNAT.RBK";
 
 
+    public static final String KANNEDOM_SVAR_ID_2 = "2";
     public static final String KANNEDOM_DELSVAR_ID_2 = "2.1";
     public static final String KANNEDOM_SVAR_JSON_ID_2 = "kannedomOmPatient";
 

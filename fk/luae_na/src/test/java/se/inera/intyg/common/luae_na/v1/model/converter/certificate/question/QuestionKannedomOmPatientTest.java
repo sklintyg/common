@@ -25,7 +25,7 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KANNEDOM_DELSVAR_ID_2;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KANNEDOM_SVAR_ID_2;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KANNEDOM_SVAR_JSON_ID_2;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KANNEDOM_SVAR_TEXT;
 
@@ -66,7 +66,7 @@ class QuestionKannedomOmPatientTest {
         void shouldIncludeId() {
             final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
 
-            assertEquals(KANNEDOM_DELSVAR_ID_2, question.getId());
+            assertEquals(KANNEDOM_SVAR_ID_2, question.getId());
         }
 
         @Test
