@@ -28,6 +28,8 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNE
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_DELSVAR_ID_3;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_DELSVAR_ID_5;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYP_DELSVAR_ID_4;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_DELSVAR_ID_5;
 
@@ -276,6 +278,7 @@ public class InternalDraftValidatorTest {
         assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
         assertEquals("underlag", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        assertEquals(UNDERLAG_TYP_DELSVAR_ID_4, res.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -290,6 +293,7 @@ public class InternalDraftValidatorTest {
         assertEquals(1, res.getValidationErrors().size());
         assertEquals("luae_na.validation.underlagfinns.incorrect_combination", res.getValidationErrors().get(0).getMessage());
         assertEquals(ValidationMessageType.OTHER, res.getValidationErrors().get(0).getType());
+        assertEquals(UNDERLAG_TYP_DELSVAR_ID_4, res.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -329,6 +333,7 @@ public class InternalDraftValidatorTest {
         assertEquals(1, res.getValidationErrors().size());
         assertEquals("luae_na.validation.underlag.too_many", res.getValidationErrors().get(0).getMessage());
         assertEquals(ValidationMessageType.OTHER, res.getValidationErrors().get(0).getType());
+        assertEquals(UNDERLAG_TYP_DELSVAR_ID_4, res.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -343,8 +348,10 @@ public class InternalDraftValidatorTest {
         assertEquals(2, res.getValidationErrors().size());
         assertEquals("luae_na.validation.underlag.date.missing", res.getValidationErrors().get(0).getMessage());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        assertEquals(UNDERLAG_TYP_DELSVAR_ID_4, res.getValidationErrors().get(0).getQuestionId());
         assertEquals("luae_na.validation.underlag.hamtas-fran.missing", res.getValidationErrors().get(1).getMessage());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(1).getType());
+        assertEquals(UNDERLAG_TYP_DELSVAR_ID_4, res.getValidationErrors().get(1).getQuestionId());
     }
 
     @Test
