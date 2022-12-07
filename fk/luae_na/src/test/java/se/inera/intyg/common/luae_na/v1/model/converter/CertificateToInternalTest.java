@@ -28,7 +28,10 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
@@ -59,8 +62,10 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.schemas.contract.Personnummer;
 
+@ExtendWith(MockitoExtension.class)
 class CertificateToInternalTest {
 
 
@@ -69,6 +74,9 @@ class CertificateToInternalTest {
     private Certificate certificate;
     private static String annanBeskrivning = "annanBeskrivning";
     private static String motivering = "motivering";
+
+    @Mock
+    private WebcertModuleService moduleService;
 
     @Nested
     class HappyScenario {
@@ -187,161 +195,161 @@ class CertificateToInternalTest {
 
         @Test
         void shallIncludeId() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(expectedInternalCertificate.getId(), actualInternalCertificate.getId());
         }
 
         @Test
         void shallIncludeTextVersion() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(expectedInternalCertificate.getTextVersion(), actualInternalCertificate.getTextVersion());
         }
 
         @Test
         void shallIncludeGrundData() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertNotNull(actualInternalCertificate.getGrundData(), "GrundData is missing!");
         }
 
         @Test
         void shallIncludeUndersokningAvPatienten() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getUndersokningAvPatienten(), expectedInternalCertificate.getUndersokningAvPatienten());
         }
 
         @Test
         void shallIncludeJournaluppgifter() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getJournaluppgifter(), expectedInternalCertificate.getJournaluppgifter());
         }
 
         @Test
         void shallIncludeAnhorigBeskrivningAvPatient() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getAnhorigsBeskrivningAvPatienten(),
                 expectedInternalCertificate.getAnhorigsBeskrivningAvPatienten());
         }
 
         @Test
         void shallIncludeAnnatGrundForMU() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getAnnatGrundForMU(), expectedInternalCertificate.getAnnatGrundForMU());
         }
 
         @Test
         void shallIncludeAnnatGrundForMUBeskrivning() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getAnnatGrundForMUBeskrivning(),
                 expectedInternalCertificate.getAnnatGrundForMUBeskrivning());
         }
 
         @Test
         void shallIncludeAnnatGrundForMUMotivering() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getMotiveringTillInteBaseratPaUndersokning(),
                 expectedInternalCertificate.getMotiveringTillInteBaseratPaUndersokning());
         }
 
         @Test
         void shallIncludeKannedomOmPatient() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getKannedomOmPatient(),
                 expectedInternalCertificate.getKannedomOmPatient());
         }
 
         @Test
         void shallIncludeUnderlagFinns() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getUnderlagFinns(),
                 expectedInternalCertificate.getUnderlagFinns());
         }
 
         @Test
         void shallIncludeUnderlag() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getUnderlag(),
                 expectedInternalCertificate.getUnderlag());
         }
 
         @Test
         void shallIncludeSjukdomsforlopp() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getSjukdomsforlopp(),
                 expectedInternalCertificate.getSjukdomsforlopp());
         }
 
         @Test
         void shallIncludeFunktionsnedsattningIntellektuell() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getFunktionsnedsattningIntellektuell(),
                 expectedInternalCertificate.getFunktionsnedsattningIntellektuell());
         }
 
         @Test
         void shallIncludeFunktionsnedsattningKommunikation() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getFunktionsnedsattningKommunikation(),
                 expectedInternalCertificate.getFunktionsnedsattningKommunikation());
         }
 
         @Test
         void shallIncludeFunktionsnedsattningKoncentration() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getFunktionsnedsattningKoncentration(),
                 expectedInternalCertificate.getFunktionsnedsattningKoncentration());
         }
 
         @Test
         void shallIncludeFunktionsnedsattningPsykisk() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getFunktionsnedsattningPsykisk(),
                 expectedInternalCertificate.getFunktionsnedsattningPsykisk());
         }
 
         @Test
         void shallIncludeFunktionsnedsattningSynHorselTal() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getFunktionsnedsattningSynHorselTal(),
                 expectedInternalCertificate.getFunktionsnedsattningSynHorselTal());
         }
 
         @Test
         void shallIncludeFunktionsnedsattningBalansKoordination() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getFunktionsnedsattningBalansKoordination(),
                 expectedInternalCertificate.getFunktionsnedsattningBalansKoordination());
         }
 
         @Test
         void shallIncludeFunktionsnedsattningAnnan() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getFunktionsnedsattningAnnan(),
                 expectedInternalCertificate.getFunktionsnedsattningAnnan());
         }
 
         @Test
         void shallIncludeAktivitetsbegransningar() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getAktivitetsbegransning(),
                 expectedInternalCertificate.getAktivitetsbegransning());
         }
 
         @Test
         void shallIncludeMedicinskaForutsattningarForArbete() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getMedicinskaForutsattningarForArbete(),
                 expectedInternalCertificate.getMedicinskaForutsattningarForArbete());
         }
 
         @Test
         void shallIncludeFormagaTrotsBegransning() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getFormagaTrotsBegransning(), expectedInternalCertificate.getFormagaTrotsBegransning());
         }
 
         @Test
         void shallIncludeForslagTillAtgard() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getForslagTillAtgard(), expectedInternalCertificate.getForslagTillAtgard());
         }
     }

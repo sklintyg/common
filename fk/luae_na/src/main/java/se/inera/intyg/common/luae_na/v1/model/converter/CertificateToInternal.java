@@ -27,6 +27,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAktivitetsbegransningar;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionDiagnoser;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFormagaTrotsBegransning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionForslagTillAtgard;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningAnnan;
@@ -45,11 +46,12 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagFinns;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
 
 public class CertificateToInternal {
 
-    public static LuaenaUtlatandeV1 convert(Certificate certificate, LuaenaUtlatandeV1 internalCertificate) {
+    public static LuaenaUtlatandeV1 convert(Certificate certificate, LuaenaUtlatandeV1 internalCertificate, WebcertModuleService moduleService) {
         return LuaenaUtlatandeV1.builder()
             .setId(internalCertificate.getId())
             .setTextVersion(internalCertificate.getTextVersion())
@@ -68,6 +70,7 @@ public class CertificateToInternal {
             .setUnderlagFinns(QuestionUnderlagFinns.toInternal(certificate))
             .setUnderlag(QuestionUnderlag.toInternal(certificate))
             .setSjukdomsforlopp(QuestionSjukdomsforlopp.toInternal(certificate))
+            .setDiagnoser(QuestionDiagnoser.toInternal(certificate, moduleService))
             .setFunktionsnedsattningIntellektuell(QuestionFunktionsnedsattningIntellektuell.toInternal(certificate))
             .setFunktionsnedsattningKommunikation(QuestionFunktionsnedsattningKommunikation.toInternal(certificate))
             .setFunktionsnedsattningKoncentration(QuestionFunktionsnedsattningKoncentration.toInternal(certificate))

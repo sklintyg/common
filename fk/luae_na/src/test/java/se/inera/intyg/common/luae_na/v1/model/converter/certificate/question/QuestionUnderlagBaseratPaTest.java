@@ -67,12 +67,16 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionUnderlagBaseratPaTest {
 
     @Mock
     private CertificateTextProvider texts;
+
+    @Mock
+    private WebcertModuleService moduleService;
 
     @BeforeEach
     void setup() {
@@ -311,7 +315,7 @@ class QuestionUnderlagBaseratPaTest {
                     )), index, texts))
                 .build();
 
-            final var updatedCertificate = CertificateToInternal.convert(certificate, utlatande);
+            final var updatedCertificate = CertificateToInternal.convert(certificate, utlatande, moduleService);
 
             assertAll(
                 () -> assertEquals(expectedValue, updatedCertificate.getUndersokningAvPatienten()),
