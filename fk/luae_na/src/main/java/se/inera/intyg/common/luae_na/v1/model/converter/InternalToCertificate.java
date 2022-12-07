@@ -25,9 +25,13 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.Cat
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryFunktionsnedsattning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryGrundForMU;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryMedicinskBehandling;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryMedicinskaForutsattningarArbete;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryOvrigt;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAktivetsbegransningarHeader;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAktivitetsbegransningar;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFormagaTrotsBegransning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionForslagTillAtgard;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningAnnan;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningBalansKoordination;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningIntellektuell;
@@ -44,6 +48,8 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPlaneradBehandlingHeader;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingSubstansintag;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingSubstansintagHeader;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskaForutsattningarForArbete;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionSjukdomsforlopp;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlag;
@@ -157,7 +163,26 @@ public class InternalToCertificate {
                 QuestionMedicinskBehandlingSubstansintagHeader.toCertificate(index++, textProvider)
             )
             .addElement(
-                QuestionMedicinskBehandlingSubstansintag.toCertificate(internalCertificate.getSubstansintag(), index++, textProvider)
+                QuestionMedicinskBehandlingSubstansintag.toCertificate(internalCertificate.getSubstansintag(), index++, textProvider)             
+            )
+            .addElement(
+                CategoryMedicinskaForutsattningarArbete.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionMedicinskaForutsattningarForArbete.toCertificate(internalCertificate.getMedicinskaForutsattningarForArbete(),
+                    index++, textProvider)
+            )
+            .addElement(
+                QuestionFormagaTrotsBegransning.toCertificate(internalCertificate.getFormagaTrotsBegransning(), index++, textProvider)
+            )
+            .addElement(
+                QuestionForslagTillAtgard.toCertificate(internalCertificate.getForslagTillAtgard(), index++, textProvider)
+            )
+            .addElement(
+                CategoryOvrigt.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionOvrigt.toCertificate(internalCertificate.getOvrigt(), index++, textProvider)
             )
             .build();
     }

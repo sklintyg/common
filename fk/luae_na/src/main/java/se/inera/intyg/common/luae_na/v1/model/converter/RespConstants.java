@@ -163,4 +163,33 @@ public class RespConstants {
     public static final String AKTIVITETSBEGRANSNING_SVAR_TEXT = "FRG_17.RBK";
     public static final String AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION = "FRG_17.HLP";
     public static final String AKTIVITETSBEGRANSNING_DELSVAR_TEXT = "DFR_17.1.RBK";
+
+    public static final String CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE = "medicinskaforutsattningarforarbete";
+    public static final String CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE_TEXT_ID = "KAT_8.RBK";
+
+    public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22 = "22";
+    public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22 = "22.1";
+    public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_TEXT_ID = "FRG_22.RBK";
+    public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_DESCRIPTION_ID = "FRG_22.HLP";
+    public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22 = "medicinskaForutsattningarForArbete";
+
+    public static final String FORMAGATROTSBEGRANSNING_SVAR_ID_23 = "23";
+    public static final String FORMAGATROTSBEGRANSNING_DELSVAR_ID_23 = "23.1";
+    public static final String FORMAGATROTSBEGRANSNING_TEXT_ID = "FRG_23.RBK";
+    public static final String FORMAGATROTSBEGRANSNING_DESCRIPTION_ID = "FRG_23.HLP";
+    public static final String FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23 = "formagaTrotsBegransning";
+
+    public static final String FORSLAG_TILL_ATGARD_SVAR_ID_24 = "24";
+    public static final String FORSLAG_TILL_ATGARD_DELSVAR_ID_24 = "24.1";
+    public static final String FORSLAG_TILL_ATGARD_TEXT_ID = "FRG_24.RBK";
+    public static final String FORSLAG_TILL_ATGARD_DESCRIPTION_ID = "FRG_24.HLP";
+    public static final String FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24 = "forslagTillAtgard";
+
+    public static final String OVRIGT_CATEGORY_ID = "ovrigt";
+    public static final String OVRIGT_CATEGORY_TEXT_ID = "KAT_9.RBK";
+
+    public static final String OVRIGT_SVAR_ID_25 = "25";
+    public static final String OVRIGT_DELSVAR_ID_25 = "25.1";
+    public static final String OVRIGT_TEXT_ID = "FRG_25.RBK";
+    public static final String OVRIGT_SVAR_JSON_ID_25 = "ovrigt";
 }

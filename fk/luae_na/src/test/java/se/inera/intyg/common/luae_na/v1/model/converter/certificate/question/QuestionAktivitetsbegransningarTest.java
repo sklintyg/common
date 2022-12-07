@@ -19,36 +19,28 @@
 
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_TEXT;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
 
-import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
+import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.model.CertificateDataElement;
+import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
+import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigTextAreaTest;
+import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
+import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationTextTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InternalTextValueTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionAktivitetsbegransningarTest {
@@ -64,120 +56,138 @@ class QuestionAktivitetsbegransningarTest {
     @Nested
     class ToCertificate {
 
-        @Test
-        void shouldIncludeId() {
-            final var question = QuestionAktivitetsbegransningar.toCertificate(null, 0, texts);
-            assertEquals(AKTIVITETSBEGRANSNING_DELSVAR_ID_17, question.getId());
+        @Nested
+        class IncludeTestCommon extends CommonElementTest {
+
+            @Override
+            protected CertificateDataElement getElement() {
+                return QuestionAktivitetsbegransningar.toCertificate(null, getIndex(), texts);
+            }
+
+            @Override
+            protected String getId() {
+                return AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
+            }
+
+            @Override
+            protected String getParent() {
+                return AKTIVITETSBEGRANSNING_CATEGORY_ID;
+            }
+
+            @Override
+            protected int getIndex() {
+                return 5;
+            }
         }
 
-        @Test
-        void shouldIncludeIndex() {
-            final var expectedIndex = 1;
-            final var question = QuestionAktivitetsbegransningar.toCertificate(null, expectedIndex, texts);
-            assertEquals(expectedIndex, question.getIndex());
+        @Nested
+        class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
+
+            @Override
+            protected CertificateTextProvider getTextProviderMock() {
+                return texts;
+            }
+
+            @Override
+            protected CertificateDataElement getElement() {
+                return QuestionAktivitetsbegransningar.toCertificate(null, 0, getTextProviderMock());
+            }
+
+            @Override
+            protected String getTextId() {
+                return AKTIVITETSBEGRANSNING_DELSVAR_TEXT;
+            }
+
+            @Override
+            protected String getDescriptionId() {
+                return AKTIVITETSBEGRANSNING_DELSVAR_TEXT;
+            }
+
+            @Override
+            protected String getJsonId() {
+                return AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
+            }
         }
 
-        @Test
-        void shouldIncludeParentId() {
-            final var question = QuestionAktivitetsbegransningar.toCertificate(null, 0, texts);
-            assertEquals(AKTIVITETSBEGRANSNING_CATEGORY_ID, question.getParent());
+        @Nested
+        class IncludeValueTextTest extends ValueTextTest {
+
+            @Override
+            protected CertificateDataElement getElement() {
+                return QuestionAktivitetsbegransningar.toCertificate(getText(), 0, texts);
+            }
+
+            @Override
+            protected String getJsonId() {
+                return AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
+            }
+
+            @Override
+            protected String getText() {
+                return "Här är en text";
+            }
         }
 
-        @Test
-        void shouldIncludeConfigCertificateDataConfigTextfield() {
-            final var question = QuestionAktivitetsbegransningar.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
+        @Nested
+        class IncludeValidationTextTest extends ValidationTextTest {
+
+            @Override
+            protected CertificateDataElement getElement() {
+                return QuestionAktivitetsbegransningar.toCertificate(null, 0, texts);
+            }
+
+            @Override
+            protected int getValidationIndex() {
+                return 0;
+            }
+
+            @Override
+            protected short getLimit() {
+                return 4000;
+            }
         }
 
-        @Test
-        void shouldIncludeConfigId() {
-            final var question = QuestionAktivitetsbegransningar.toCertificate(null, 0, texts);
-            final var config = (CertificateDataConfigTextArea) question.getConfig();
-            assertEquals(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17, config.getId());
-        }
+        @Nested
+        class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
 
-        @Test
-        void shouldIncludeConfigText() {
-            final var question = QuestionAktivitetsbegransningar.toCertificate(null, 0, texts);
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(AKTIVITETSBEGRANSNING_DELSVAR_TEXT);
-        }
+            @Override
+            protected CertificateDataElement getElement() {
+                return QuestionAktivitetsbegransningar.toCertificate(null, 0, texts);
+            }
 
-        @Test
-        void shouldIncludeConfigDescription() {
-            final var question = QuestionAktivitetsbegransningar.toCertificate(null, 0, texts);
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(AKTIVITETSBEGRANSNING_DELSVAR_TEXT);
-        }
+            @Override
+            protected int getValidationIndex() {
+                return 1;
+            }
 
-        @Test
-        void shouldIncludeValueTypeText() {
-            final var question = QuestionAktivitetsbegransningar.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataValueType.TEXT, question.getValue().getType());
-        }
+            @Override
+            protected String getQuestionId() {
+                return AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
+            }
 
-        @Test
-        void shouldIncludeValueId() {
-            final var question = QuestionAktivitetsbegransningar.toCertificate(null, 0, texts);
-            final var value = (CertificateDataTextValue) question.getValue();
-            assertEquals(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17, value.getId());
-        }
-
-        @Test
-        void shouldIncludeValueText() {
-            final var expectedText = "Annan text";
-            final var question = QuestionAktivitetsbegransningar.toCertificate(expectedText, 0, texts);
-            final var value = (CertificateDataTextValue) question.getValue();
-            assertEquals(expectedText, value.getText());
-        }
-
-        @Test
-        void shouldIncludeValidationText() {
-            final var question = QuestionAktivitetsbegransningar.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataValidationType.TEXT_VALIDATION, question.getValidation()[0].getType());
-        }
-
-        @Test
-        void shouldIncludeValidationTextLimit() {
-            final var expectedLimit = 4000;
-            final var question = QuestionAktivitetsbegransningar.toCertificate(null, 0, texts);
-            final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[0];
-            assertEquals(expectedLimit, certificateDataValidationText.getLimit());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatory() {
-            final var question = QuestionAktivitetsbegransningar.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataValidationType.MANDATORY_VALIDATION, question.getValidation()[1].getType());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryExpression() {
-            final var question = QuestionAktivitetsbegransningar.toCertificate(null, 0, texts);
-            final var certificateDataValidation = (CertificateDataValidationMandatory) question.getValidation()[1];
-            final var expectedExpression = "$" + AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
-            assertEquals(expectedExpression, certificateDataValidation.getExpression());
+            @Override
+            protected String getExpression() {
+                return "$" + AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
+            }
         }
     }
 
     @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class ToInternal {
 
-        Stream<String> textValues() {
-            return Stream.of("Här kommer en text!", "", null);
-        }
+        @Nested
+        @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+        class IncludeInternalTextValue extends InternalTextValueTest {
 
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludeTextValue(String expectedValue) {
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionAktivitetsbegransningar.toCertificate(expectedValue, 0, texts))
-                .build();
+            @Override
+            protected CertificateDataElement getElement(String expectedValue) {
+                return QuestionAktivitetsbegransningar.toCertificate(expectedValue, 0, texts);
+            }
 
-            final var actualValue = QuestionAktivitetsbegransningar.toInternal(certificate);
-
-            assertEquals(expectedValue, actualValue);
+            @Override
+            protected String toInternalTextValue(Certificate certificate) {
+                return QuestionAktivitetsbegransningar.toInternal(certificate);
+            }
         }
     }
 }
