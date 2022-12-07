@@ -22,9 +22,9 @@ package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.PLANERADBEHANDLING_DELSVAR_ID_20;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.PLANERADBEHANDLING_DELSVAR_TEXT;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
 
 import java.util.stream.Stream;
@@ -74,7 +74,7 @@ class QuestionMedicinskBehandlingPlaneradBehandlingTest {
         void shouldIncludeParentId() {
             final var question = QuestionMedicinskBehandlingPlaneradBehandling.toCertificate(null, 0, texts);
 
-            assertEquals(MEDICINSKABEHANDLINGAR_CATEGORY_ID, question.getParent());
+            assertEquals(PLANERADBEHANDLING_SVAR_ID_20, question.getParent());
         }
 
         @Test

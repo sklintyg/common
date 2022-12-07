@@ -19,9 +19,9 @@
 
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SUBSTANSINTAG_DELSVAR_ID_21;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SUBSTANSINTAG_DELSVAR_TEXT;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SUBSTANSINTAG_SVAR_ID_21;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SUBSTANSINTAG_SVAR_JSON_ID_21;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
@@ -40,7 +40,7 @@ public class QuestionMedicinskBehandlingSubstansintag {
     public static CertificateDataElement toCertificate(String textValue, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(SUBSTANSINTAG_DELSVAR_ID_21)
-            .parent(MEDICINSKABEHANDLINGAR_CATEGORY_ID)
+            .parent(SUBSTANSINTAG_SVAR_ID_21)
             .index(index)
             .config(
                 CertificateDataConfigTextArea.builder()

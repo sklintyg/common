@@ -24,8 +24,8 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AVSLUTADBEHANDLING_DELSVAR_ID_18;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AVSLUTADBEHANDLING_DELSVAR_TEXT;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AVSLUTADBEHANDLING_SVAR_ID_18;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AVSLUTADBEHANDLING_SVAR_JSON_ID_18;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Nested;
@@ -74,7 +74,7 @@ class QuestionMedicinskBehandlingAvslutadBehandlingTest {
         void shouldIncludeParentId() {
             final var question = QuestionMedicinskBehandlingAvslutadBehandling.toCertificate(null, 0, texts);
 
-            assertEquals(MEDICINSKABEHANDLINGAR_CATEGORY_ID, question.getParent());
+            assertEquals(AVSLUTADBEHANDLING_SVAR_ID_18, question.getParent());
         }
 
         @Test
