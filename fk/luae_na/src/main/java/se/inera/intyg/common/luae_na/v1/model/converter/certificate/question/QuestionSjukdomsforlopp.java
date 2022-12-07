@@ -20,8 +20,8 @@
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.BAKGRUND_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_DELSVAR_ID_5;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_QUESTION_TEXT_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_SVAR_ID_5;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_SVAR_JSON_ID_5;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
@@ -41,7 +41,7 @@ public class QuestionSjukdomsforlopp {
 
     public static CertificateDataElement toCertificate(String textValue, int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
-            .id(SJUKDOMSFORLOPP_DELSVAR_ID_5)
+            .id(SJUKDOMSFORLOPP_SVAR_ID_5)
             .parent(BAKGRUND_CATEGORY_ID)
             .index(index)
             .config(
@@ -63,7 +63,7 @@ public class QuestionSjukdomsforlopp {
                         .limit(TEXT_LIMIT)
                         .build(),
                     CertificateDataValidationMandatory.builder()
-                        .questionId(SJUKDOMSFORLOPP_DELSVAR_ID_5)
+                        .questionId(SJUKDOMSFORLOPP_SVAR_ID_5)
                         .expression(singleExpression(SJUKDOMSFORLOPP_SVAR_JSON_ID_5))
                         .build()
                 }
@@ -72,7 +72,6 @@ public class QuestionSjukdomsforlopp {
     }
 
     public static String toInternal(Certificate certificate) {
-        return ValueToolkit.textValue(certificate.getData(), SJUKDOMSFORLOPP_DELSVAR_ID_5,
-            SJUKDOMSFORLOPP_SVAR_JSON_ID_5);
+        return ValueToolkit.textValue(certificate.getData(), SJUKDOMSFORLOPP_SVAR_ID_5, SJUKDOMSFORLOPP_SVAR_JSON_ID_5);
     }
 }

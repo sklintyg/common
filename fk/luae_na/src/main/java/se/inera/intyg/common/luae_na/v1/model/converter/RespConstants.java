@@ -68,6 +68,8 @@ public class RespConstants {
 
     public static final String BAKGRUND_CATEGORY_ID = "bakgrund";
     public static final String BAKGRUND_CATEGORY_TEXT_ID = "KAT_3.RBK";
+
+    public static final String SJUKDOMSFORLOPP_SVAR_ID_5 = "5";
     public static final String SJUKDOMSFORLOPP_DELSVAR_ID_5 = "5.1";
     public static final String SJUKDOMSFORLOPP_SVAR_JSON_ID_5 = "sjukdomsforlopp";
     public static final String SJUKDOMSFORLOPP_QUESTION_TEXT_ID = "FRG_5.RBK";
