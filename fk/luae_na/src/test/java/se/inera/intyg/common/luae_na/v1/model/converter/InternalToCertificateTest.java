@@ -30,7 +30,7 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.CAT
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_ID_23;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORSLAG_TILL_ATGARD_SVAR_ID_24;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DELSVAR_ID_13;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID_13;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_ID_8;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_DELSVAR_ID_9;
@@ -187,7 +187,7 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeQuestionFunktionsnedsattningBalansKoordination() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(15, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DELSVAR_ID_13).getIndex());
+        assertEquals(15, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID_13).getIndex());
     }
 
     @Test

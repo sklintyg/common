@@ -19,9 +19,9 @@
 
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DELSVAR_ID_13;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DESCRIPTION_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID_13;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID_13;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_TEXT_ID;
 
@@ -36,7 +36,7 @@ public class QuestionFunktionsnedsattningBalansKoordination extends AbstractQues
         CertificateTextProvider textProvider) {
         return toCertificate(
             funktionsnedsattningBalansKoordination,
-            FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DELSVAR_ID_13,
+            FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID_13,
             FUNKTIONSNEDSATTNING_BALANSKOORDINATION_TEXT_ID,
             FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DESCRIPTION_ID,
             FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DELSVAR_TEXT_ID,
@@ -47,7 +47,7 @@ public class QuestionFunktionsnedsattningBalansKoordination extends AbstractQues
     }
 
     public static String toInternal(Certificate certificate) {
-        return ValueToolkit.textValue(certificate.getData(), FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DELSVAR_ID_13,
+        return ValueToolkit.textValue(certificate.getData(), FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID_13,
             FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID_13);
     }
 }
