@@ -19,9 +19,9 @@
 
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_ID_14;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_DESCRIPTION_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID_14;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_TEXT_ID;
 
@@ -35,7 +35,7 @@ public class QuestionFunktionsnedsattningAnnan extends AbstractQuestionFunktions
     public static CertificateDataElement toCertificate(String funktionsnedsattningAnnan, int index, CertificateTextProvider textProvider) {
         return toCertificate(
             funktionsnedsattningAnnan,
-            FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_ID_14,
+            FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14,
             FUNKTIONSNEDSATTNING_ANNAN_TEXT_ID,
             FUNKTIONSNEDSATTNING_ANNAN_DESCRIPTION_ID,
             FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_TEXT_ID,
@@ -46,7 +46,7 @@ public class QuestionFunktionsnedsattningAnnan extends AbstractQuestionFunktions
     }
 
     public static String toInternal(Certificate certificate) {
-        return ValueToolkit.textValue(certificate.getData(), FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_ID_14,
+        return ValueToolkit.textValue(certificate.getData(), FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14,
             FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID_14);
     }
 }

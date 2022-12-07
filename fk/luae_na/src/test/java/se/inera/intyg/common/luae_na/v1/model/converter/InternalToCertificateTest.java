@@ -29,7 +29,7 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.BAK
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_ID_23;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORSLAG_TILL_ATGARD_SVAR_ID_24;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_ID_14;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DELSVAR_ID_13;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_ID_8;
@@ -193,7 +193,7 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeQuestionFunktionsnedsattningAnnan() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(16, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_ID_14).getIndex());
+        assertEquals(16, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14).getIndex());
     }
 
     @Test
