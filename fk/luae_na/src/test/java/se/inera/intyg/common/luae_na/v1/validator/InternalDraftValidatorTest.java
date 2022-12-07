@@ -30,6 +30,8 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKT
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_DELSVAR_ID_5;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYP_DELSVAR_ID_4;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_DELSVAR_ID_5;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
@@ -445,6 +447,7 @@ public class InternalDraftValidatorTest {
         assertEquals(1, res.getValidationErrors().size());
         assertEquals("medicinskaForutsattningarForArbete", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        assertEquals(MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22, res.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
