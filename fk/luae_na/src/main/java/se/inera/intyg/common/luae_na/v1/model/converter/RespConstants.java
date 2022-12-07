@@ -49,6 +49,7 @@ public class RespConstants {
     public static final String UNDERLAGFINNS_DELSVAR_ID_3 = "3.1";
     public static final String UNDERLAGFINNS_SVAR_JSON_ID_3 = "underlagFinns";
 
+    public static final String UNDERLAG_SVAR_ID_4 = "4";
     public static final String UNDERLAG_TYP_DELSVAR_ID_4 = "4.1";
     public static final String UNDERLAG_SVAR_JSON_ID_4 = "underlag";
 

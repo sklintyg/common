@@ -40,14 +40,14 @@ import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTy
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UTREDNING_AV_ANNAN_SPECIALISTKLINIK;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UTREDNING_FRAN_VARDINRATTNING_UTOMLANDS;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_DELSVAR_ID_3;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_DATUM_TEXT;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_TEXT_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYPE_TEXT_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYP_DELSVAR_ID_4;
 
 import com.google.common.collect.ImmutableList;
 import java.time.LocalDate;
@@ -95,7 +95,7 @@ class QuestionUnderlagTest {
         void shouldIncludeId() {
             final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
 
-            assertEquals(UNDERLAG_TYP_DELSVAR_ID_4, question.getId());
+            assertEquals(UNDERLAG_SVAR_ID_4, question.getId());
         }
 
         @Test
@@ -352,7 +352,7 @@ class QuestionUnderlagTest {
             final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
 
-            assertEquals(UNDERLAG_TYP_DELSVAR_ID_4, certificateDataValidationMandatory.getQuestionId());
+            assertEquals(UNDERLAG_SVAR_ID_4, certificateDataValidationMandatory.getQuestionId());
         }
 
         @Test
@@ -377,7 +377,7 @@ class QuestionUnderlagTest {
         void shouldIncludeShowValidationQuestionId() {
             final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
-            assertEquals(UNDERLAGFINNS_DELSVAR_ID_3, certificateDataValidationShow.getQuestionId());
+            assertEquals(UNDERLAGFINNS_SVAR_ID_3, certificateDataValidationShow.getQuestionId());
         }
 
         @Test

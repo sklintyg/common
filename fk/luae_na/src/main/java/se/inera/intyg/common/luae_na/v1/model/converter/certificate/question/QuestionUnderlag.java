@@ -31,14 +31,14 @@ import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTy
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UTREDNING_AV_ANNAN_SPECIALISTKLINIK;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UTREDNING_FRAN_VARDINRATTNING_UTOMLANDS;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_DELSVAR_ID_3;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_DATUM_TEXT;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_TEXT_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYPE_TEXT_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYP_DELSVAR_ID_4;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleAndExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.withCitation;
@@ -72,7 +72,7 @@ public class QuestionUnderlag {
 
     public static CertificateDataElement toCertificate(List<Underlag> underlag, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(UNDERLAG_TYP_DELSVAR_ID_4)
+            .id(UNDERLAG_SVAR_ID_4)
             .parent(GRUNDFORMU_CATEGORY_ID)
             .index(index)
             .config(
@@ -125,7 +125,7 @@ public class QuestionUnderlag {
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(UNDERLAG_TYP_DELSVAR_ID_4)
+                        .questionId(UNDERLAG_SVAR_ID_4)
                         .expression(
                             multipleAndExpression(
                                 withCitation(UNDERLAG_SVAR_JSON_ID_4 + "[0].typ"),
@@ -133,7 +133,7 @@ public class QuestionUnderlag {
                                 withCitation(UNDERLAG_SVAR_JSON_ID_4 + "[0].hamtasFran")))
                         .build(),
                     CertificateDataValidationShow.builder()
-                        .questionId(UNDERLAGFINNS_DELSVAR_ID_3)
+                        .questionId(UNDERLAGFINNS_SVAR_ID_3)
                         .expression(singleExpression(UNDERLAGFINNS_SVAR_JSON_ID_3))
                         .build(),
                     CertificateDataValidationMaxDate.builder()
@@ -204,10 +204,10 @@ public class QuestionUnderlag {
     }
 
     public static List<Underlag> toInternal(Certificate certificate) {
-        if (certificate.getData().get(UNDERLAG_TYP_DELSVAR_ID_4).getValue() == null) {
+        if (certificate.getData().get(UNDERLAG_SVAR_ID_4).getValue() == null) {
             return Collections.emptyList();
         }
-        final var value = (CertificateDataValueMedicalInvestigationList) certificate.getData().get(UNDERLAG_TYP_DELSVAR_ID_4).getValue();
+        final var value = (CertificateDataValueMedicalInvestigationList) certificate.getData().get(UNDERLAG_SVAR_ID_4).getValue();
         final var underlagList = value.getList().stream()
             .map(underlag -> Underlag.create(
                 underlag.getInvestigationType().getCode() != null ? UnderlagsTyp.fromId(underlag.getInvestigationType().getCode()) : null,
