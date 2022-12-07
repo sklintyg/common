@@ -26,9 +26,9 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_DELSVAR_ID_9;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_DESCRIPTION_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID_9;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID_9;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_TEXT_ID;
 
@@ -68,7 +68,7 @@ class QuestionFunktionsnedsattningKommunikationTest {
         @Test
         void shouldIncludeId() {
             final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
-            assertEquals(FUNKTIONSNEDSATTNING_KOMMUNIKATION_DELSVAR_ID_9, question.getId());
+            assertEquals(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID_9, question.getId());
         }
 
         @Test
