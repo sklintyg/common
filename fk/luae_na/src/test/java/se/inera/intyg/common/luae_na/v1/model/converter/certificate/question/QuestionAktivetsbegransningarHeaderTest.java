@@ -22,9 +22,9 @@ package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_HEADER_ID_17;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_TEXT;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -57,7 +57,7 @@ class QuestionAktivetsbegransningarHeaderTest {
 
         @Override
         protected String getId() {
-            return AKTIVITETSBEGRANSNING_HEADER_ID_17;
+            return AKTIVITETSBEGRANSNING_SVAR_ID_17;
         }
 
         @Override
@@ -86,12 +86,12 @@ class QuestionAktivetsbegransningarHeaderTest {
 
         @Override
         protected String getTextId() {
-            return AKTIVITETSBEGRANSNING_SVAR_TEXT;
+            return AKTIVITETSBEGRANSNING_SVAR_TEXT_ID;
         }
 
         @Override
         protected String getDescriptionId() {
-            return AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION;
+            return AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION_ID;
         }
     }
 }

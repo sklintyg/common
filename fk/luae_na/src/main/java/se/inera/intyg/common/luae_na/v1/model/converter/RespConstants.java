@@ -127,14 +127,15 @@ public class RespConstants {
     public static final String FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_TEXT_ID = "DFR_14.1.RBK";
     public static final String FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID_14 = "funktionsnedsattningAnnan";
 
-    public static final String AKTIVITETSBEGRANSNING_HEADER_ID_17 = "17.1";
-    public static final String AKTIVITETSBEGRANSNING_DELSVAR_ID_17 = "17.2";
+
+    public static final String AKTIVITETSBEGRANSNING_SVAR_ID_17 = "17";
+    public static final String AKTIVITETSBEGRANSNING_DELSVAR_ID_17 = "17.1";
     public static final String AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17 = "aktivitetsbegransning";
     public static final String AKTIVITETSBEGRANSNING_CATEGORY_ID = "aktivitetsbegransningar";
     public static final String AKTIVITETSBEGRANSNING_CATEGORY_TEXT_ID = "KAT_6.RBK";
-    public static final String AKTIVITETSBEGRANSNING_SVAR_TEXT = "FRG_17.RBK";
-    public static final String AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION = "FRG_17.HLP";
-    public static final String AKTIVITETSBEGRANSNING_DELSVAR_TEXT = "DFR_17.1.RBK";
+    public static final String AKTIVITETSBEGRANSNING_SVAR_TEXT_ID = "FRG_17.RBK";
+    public static final String AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION_ID = "FRG_17.HLP";
+    public static final String AKTIVITETSBEGRANSNING_DELSVAR_TEXT_ID = "DFR_17.1.RBK";
 
     public static final String CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE = "medicinskaforutsattningarforarbete";
     public static final String CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE_TEXT_ID = "KAT_8.RBK";

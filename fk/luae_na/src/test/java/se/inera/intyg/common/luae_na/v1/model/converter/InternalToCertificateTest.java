@@ -24,10 +24,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_HEADER_ID_17;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.BAKGRUND_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_DELSVAR_ID_23;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_ID_23;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORSLAG_TILL_ATGARD_DELSVAR_ID_24;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_ID_14;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DELSVAR_ID_13;
@@ -205,7 +205,7 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeQuestionAktivitetsbegransningarHeader() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(18, actualCertificate.getData().get(AKTIVITETSBEGRANSNING_HEADER_ID_17).getIndex());
+        assertEquals(18, actualCertificate.getData().get(AKTIVITETSBEGRANSNING_SVAR_ID_17).getIndex());
     }
 
     @Test
@@ -229,7 +229,7 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeQuestionFormagaTrotsBegransningar() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(22, actualCertificate.getData().get(FORMAGATROTSBEGRANSNING_DELSVAR_ID_23).getIndex());
+        assertEquals(22, actualCertificate.getData().get(FORMAGATROTSBEGRANSNING_SVAR_ID_23).getIndex());
     }
 
     @Test
