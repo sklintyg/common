@@ -22,8 +22,8 @@ package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_DESCRIPTION_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_TEXT_ID;
 
@@ -63,7 +63,7 @@ class QuestionMedicinskaForutsattningarForArbeteTest {
 
         @Override
         protected String getId() {
-            return MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22;
+            return MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22;
         }
 
         @Override
@@ -130,7 +130,7 @@ class QuestionMedicinskaForutsattningarForArbeteTest {
 
         @Override
         protected String getQuestionId() {
-            return MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22;
+            return MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22;
         }
 
         @Override
