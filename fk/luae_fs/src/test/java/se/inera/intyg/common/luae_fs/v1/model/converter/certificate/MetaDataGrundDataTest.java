@@ -97,13 +97,14 @@ class MetaDataGrundDataTest {
             }
         }
 
-        @Nested
-        class ToInternal extends InternalMetaDataTest {
+    }
 
-            @Override
-            protected GrundData getToInternal() {
-                return toInternal(metadata, grundData);
-            }
+    @Nested
+    class ToInternal extends InternalMetaDataTest {
+
+        @Override
+        protected GrundData getToInternal() {
+            return toInternal(metadata, grundData);
         }
     }
 }
