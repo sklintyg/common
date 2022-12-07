@@ -20,9 +20,9 @@
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_DELSVAR_ID_3;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SELECTED_TEXT;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_TEXT;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_UNSELECTED_TEXT;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
@@ -40,7 +40,7 @@ public class QuestionUnderlagFinns {
 
     public static CertificateDataElement toCertificate(Boolean underlagFinns, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(UNDERLAGFINNS_DELSVAR_ID_3)
+            .id(UNDERLAGFINNS_SVAR_ID_3)
             .parent(GRUNDFORMU_CATEGORY_ID)
             .index(index)
             .config(
@@ -60,7 +60,7 @@ public class QuestionUnderlagFinns {
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(UNDERLAGFINNS_DELSVAR_ID_3)
+                        .questionId(UNDERLAGFINNS_SVAR_ID_3)
                         .expression(singleExpression(UNDERLAGFINNS_SVAR_JSON_ID_3))
                         .build()
                 }
@@ -69,6 +69,6 @@ public class QuestionUnderlagFinns {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), UNDERLAGFINNS_DELSVAR_ID_3, UNDERLAGFINNS_SVAR_JSON_ID_3);
+        return booleanValue(certificate.getData(), UNDERLAGFINNS_SVAR_ID_3, UNDERLAGFINNS_SVAR_JSON_ID_3);
     }
 }

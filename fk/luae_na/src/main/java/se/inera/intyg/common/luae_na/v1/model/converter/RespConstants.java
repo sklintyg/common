@@ -44,6 +44,8 @@ public class RespConstants {
     public static final String KANNEDOM_SVAR_JSON_ID_2 = "kannedomOmPatient";
 
 
+    public static final String UNDERLAGFINNS_SVAR_ID_3 = "3";
+
     public static final String UNDERLAGFINNS_DELSVAR_ID_3 = "3.1";
     public static final String UNDERLAGFINNS_SVAR_JSON_ID_3 = "underlagFinns";
 

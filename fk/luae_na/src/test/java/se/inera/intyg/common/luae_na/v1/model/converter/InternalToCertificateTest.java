@@ -46,7 +46,7 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KAN
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_SVAR_ID_5;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_DELSVAR_ID_3;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYP_DELSVAR_ID_4;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -126,7 +126,7 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeQuestionUnderlagFinns() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(5, actualCertificate.getData().get(UNDERLAGFINNS_DELSVAR_ID_3).getIndex());
+        assertEquals(5, actualCertificate.getData().get(UNDERLAGFINNS_SVAR_ID_3).getIndex());
     }
 
     @Test
