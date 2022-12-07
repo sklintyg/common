@@ -20,7 +20,7 @@
 package se.inera.intyg.common.luae_fs.v1.model.converter.certificate;
 
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.luae_fs.support.LuaefsEntryPoint.MODULE_DESCRIPTION;
+import static se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint.DETAILED_DESCRIPTION_TEXT_KEY;
 import static se.inera.intyg.common.luae_fs.support.LuaefsEntryPoint.MODULE_NAME;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.certificate.MetaDataGrundData.toInternal;
 
@@ -63,7 +63,7 @@ class MetaDataGrundDataTest {
         patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
         grundData.setPatient(patient);
         texts = Mockito.mock(CertificateTextProvider.class);
-        when(texts.get(Mockito.any(String.class))).thenReturn(MODULE_DESCRIPTION);
+        when(texts.get(Mockito.any(String.class))).thenReturn("testString");
     }
 
     @Nested
@@ -93,7 +93,12 @@ class MetaDataGrundDataTest {
 
             @Override
             protected String getDescription() {
-                return MODULE_DESCRIPTION;
+                return DETAILED_DESCRIPTION_TEXT_KEY;
+            }
+
+            @Override
+            protected CertificateTextProvider getTextProvider() {
+                return texts;
             }
         }
 

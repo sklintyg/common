@@ -19,7 +19,7 @@
 
 package se.inera.intyg.common.luae_fs.v1.model.converter.certificate;
 
-import static se.inera.intyg.common.luae_fs.support.LuaefsEntryPoint.MODULE_DESCRIPTION;
+import static se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint.DETAILED_DESCRIPTION_TEXT_KEY;
 import static se.inera.intyg.common.luae_fs.support.LuaefsEntryPoint.MODULE_NAME;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.grundData;
 
@@ -37,7 +37,7 @@ public class MetaDataGrundData {
             .type(internalCertificate.getTyp())
             .typeVersion(internalCertificate.getTextVersion())
             .name(MODULE_NAME)
-            .description(texts.get(MODULE_DESCRIPTION))
+            .description(texts.get(DETAILED_DESCRIPTION_TEXT_KEY))
             .unit(
                 MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getSkapadAv().getVardenhet())
             )
