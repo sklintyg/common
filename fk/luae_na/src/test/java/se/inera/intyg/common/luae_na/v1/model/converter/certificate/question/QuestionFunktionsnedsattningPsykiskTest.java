@@ -26,9 +26,9 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_DELSVAR_ID_11;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_DESCRIPTION_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID_11;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID_11;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_TEXT_ID;
 
@@ -68,7 +68,7 @@ class QuestionFunktionsnedsattningPsykiskTest {
         @Test
         void shouldIncludeId() {
             final var question = QuestionFunktionsnedsattningPsykisk.toCertificate(null, 0, texts);
-            assertEquals(FUNKTIONSNEDSATTNING_PSYKISK_DELSVAR_ID_11, question.getId());
+            assertEquals(FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID_11, question.getId());
         }
 
         @Test
