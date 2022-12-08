@@ -72,7 +72,7 @@ class QuestionTerminalDodsorsakTest {
 
     private static final String KRONISK = "Kronisk";
     private static final String PLOTSLIG = "Akut";
-    private static final String UPPGIFT_SAKNAS = "Uppgift Saknas";
+    private static final String UPPGIFT_SAKNAS = "Uppgift saknas";
 
     @BeforeEach
     void setup() {

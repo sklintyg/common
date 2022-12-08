@@ -185,7 +185,7 @@ public final class RespConstants {
     public static final String FOLJD_OM_DELSVAR_D_LABEL = "D";
     public static final String FOLJD_OM_DELSVAR_KRONISK = "Kronisk";
     public static final String FOLJD_OM_DELSVAR_PLOTSLIG = "Akut";
-    public static final String FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS = "Uppgift Saknas";
+    public static final String FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS = "Uppgift saknas";
     public static final String FOLJD_DATUM_DELSVAR_ID = "9.2";
     public static final String FOLJD_SPECIFIKATION_DELSVAR_ID = "9.3";
     public static final String BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID = "10.1";
