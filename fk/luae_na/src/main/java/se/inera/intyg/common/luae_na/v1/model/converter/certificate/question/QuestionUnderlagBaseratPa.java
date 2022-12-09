@@ -22,8 +22,8 @@ package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_ANHORIG_BESKRIVNING_LABEL;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_ANNAT_LABEL;
@@ -54,7 +54,7 @@ public class QuestionUnderlagBaseratPa {
     public static CertificateDataElement toCertificate(InternalDate undersokningPatient, InternalDate journaluppgifter,
         InternalDate beskrivningPatient, InternalDate annat, int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
-            .id(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1)
+            .id(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
             .index(index)
             .parent(GRUNDFORMU_CATEGORY_ID)
             .config(CertificateDataConfigCheckboxMultipleDate.builder()
@@ -105,7 +105,7 @@ public class QuestionUnderlagBaseratPa {
                         .numberOfDays(NUMBER_OF_DAYS_IN_FUTURE)
                         .build(),
                     CertificateDataValidationMandatory.builder()
-                        .questionId(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1)
+                        .questionId(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
                         .expression(multipleOrExpression(
                             GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1,
                             GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1,
@@ -164,7 +164,7 @@ public class QuestionUnderlagBaseratPa {
     }
 
     public static InternalDate toInternal(Certificate certificate, String itemId) {
-        final var localDate = dateListValue(certificate.getData(), GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1, itemId);
+        final var localDate = dateListValue(certificate.getData(), GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, itemId);
         if (localDate == null) {
             return null;
         }
