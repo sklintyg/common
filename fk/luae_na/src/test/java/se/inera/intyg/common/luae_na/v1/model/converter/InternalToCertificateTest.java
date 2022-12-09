@@ -21,20 +21,14 @@ package se.inera.intyg.common.luae_na.v1.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AVSLUTADBEHANDLING_DELSVAR_ID_18;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AVSLUTADBEHANDLING_SVAR_ID_18;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.BAKGRUND_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.PAGAENDEBEHANDLING_DELSVAR_ID_19;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.PLANERADBEHANDLING_DELSVAR_ID_20;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SUBSTANSINTAG_DELSVAR_ID_21;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SUBSTANSINTAG_SVAR_ID_21;
+import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_HEADER_ID_17;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AVSLUTADBEHANDLING_DELSVAR_ID_18;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AVSLUTADBEHANDLING_SVAR_ID_18;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.BAKGRUND_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_DELSVAR_ID_23;
@@ -51,11 +45,18 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRU
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KANNEDOM_DELSVAR_ID_2;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.OVRIGT_DELSVAR_ID_25;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.PAGAENDEBEHANDLING_DELSVAR_ID_19;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.PLANERADBEHANDLING_DELSVAR_ID_20;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_DELSVAR_ID_5;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SUBSTANSINTAG_DELSVAR_ID_21;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SUBSTANSINTAG_SVAR_ID_21;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_DELSVAR_ID_3;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYP_DELSVAR_ID_4;
 
@@ -95,6 +96,7 @@ class InternalToCertificateTest {
             .setGrundData(grundData)
             .build();
         textProvider = mock(CertificateTextProvider.class);
+        when(textProvider.get(any(String.class))).thenReturn("Test string");
     }
 
     @Test
@@ -277,7 +279,7 @@ class InternalToCertificateTest {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
         assertEquals(28, actualCertificate.getData().get(SUBSTANSINTAG_DELSVAR_ID_21).getIndex());
     }
-    
+
     @Test
     void shallIncludeCategoryMedicinskaForutsattningarForArbete() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
