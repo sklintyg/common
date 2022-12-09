@@ -27,7 +27,7 @@ public final class DefaultCertificateMessagesProvider implements CertificateMess
     private final Map<String, String> dynamicLabels;
 
     public static CertificateMessagesProvider create(Map<String, String> messages, Map<String, String> dynamicLabels) {
-        return new DefaultCertificateMessagesProvider(messages, dynamicLabels);
+        return new DefaultCertificateMessagesProvider(messages, dynamicLabels != null ? dynamicLabels : Collections.emptyMap());
     }
 
     public static CertificateMessagesProvider create(Map<String, String> messages) {
