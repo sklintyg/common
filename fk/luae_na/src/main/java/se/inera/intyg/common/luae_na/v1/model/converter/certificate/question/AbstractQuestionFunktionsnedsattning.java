@@ -33,7 +33,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue
 
 public abstract class AbstractQuestionFunktionsnedsattning {
 
-    private static final short TEXT_LIMIT = (short) 4000;
+    private static final short TEXT_LIMIT = (short) 3500;
 
     static CertificateDataElement toCertificate(String textValue, String questionId, String textId, String descriptionId, String headerId,
         String jsonId, int index, CertificateTextProvider textProvider) {

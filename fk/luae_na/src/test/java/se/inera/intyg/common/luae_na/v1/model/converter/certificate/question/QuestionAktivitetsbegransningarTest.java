@@ -143,7 +143,7 @@ class QuestionAktivitetsbegransningarTest {
 
             @Override
             protected short getLimit() {
-                return 4000;
+                return 3500;
             }
         }
 

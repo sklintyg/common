@@ -161,7 +161,7 @@ class QuestionFunktionsnedsattningKommunikationTest {
 
         @Test
         void shouldIncludeValidationTextLimit() {
-            final var expectedLimit = 4000;
+            final var expectedLimit = 3500;
             final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
             final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[0];
             assertEquals(expectedLimit, certificateDataValidationText.getLimit());
