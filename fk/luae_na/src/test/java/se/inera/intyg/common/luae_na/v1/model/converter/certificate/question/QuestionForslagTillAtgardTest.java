@@ -22,8 +22,8 @@ package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORSLAG_TILL_ATGARD_DELSVAR_ID_24;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORSLAG_TILL_ATGARD_DESCRIPTION_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORSLAG_TILL_ATGARD_SVAR_ID_24;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORSLAG_TILL_ATGARD_TEXT_ID;
 
@@ -62,7 +62,7 @@ class QuestionForslagTillAtgardTest {
 
         @Override
         protected String getId() {
-            return FORSLAG_TILL_ATGARD_DELSVAR_ID_24;
+            return FORSLAG_TILL_ATGARD_SVAR_ID_24;
         }
 
         @Override

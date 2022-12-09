@@ -23,42 +23,43 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_HEADER_ID_17;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AVSLUTADBEHANDLING_DELSVAR_ID_18;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AVSLUTADBEHANDLING_SVAR_ID_18;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.BAKGRUND_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_DELSVAR_ID_23;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORSLAG_TILL_ATGARD_DELSVAR_ID_24;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_ID_14;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DELSVAR_ID_13;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_ID_8;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_DELSVAR_ID_9;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KONCENTRATION_DELSVAR_ID_10;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_DELSVAR_ID_11;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_DELSVAR_ID_12;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KANNEDOM_DELSVAR_ID_2;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.OVRIGT_DELSVAR_ID_25;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.PAGAENDEBEHANDLING_DELSVAR_ID_19;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.PLANERADBEHANDLING_DELSVAR_ID_20;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_DELSVAR_ID_5;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SUBSTANSINTAG_DELSVAR_ID_21;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SUBSTANSINTAG_SVAR_ID_21;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_DELSVAR_ID_3;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYP_DELSVAR_ID_4;
+import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.BAKGRUND_CATEGORY_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_ID_23;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORSLAG_TILL_ATGARD_SVAR_ID_24;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID_13;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID_8;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID_9;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_ID_10;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID_11;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID_12;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KANNEDOM_SVAR_ID_2;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_SVAR_ID_5;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -132,19 +133,19 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeQuestionKannedomOmPatient() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(4, actualCertificate.getData().get(KANNEDOM_DELSVAR_ID_2).getIndex());
+        assertEquals(4, actualCertificate.getData().get(KANNEDOM_SVAR_ID_2).getIndex());
     }
 
     @Test
     void shallIncludeQuestionUnderlagFinns() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(5, actualCertificate.getData().get(UNDERLAGFINNS_DELSVAR_ID_3).getIndex());
+        assertEquals(5, actualCertificate.getData().get(UNDERLAGFINNS_SVAR_ID_3).getIndex());
     }
 
     @Test
     void shallIncludeQuestionUnderlag() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(6, actualCertificate.getData().get(UNDERLAG_TYP_DELSVAR_ID_4).getIndex());
+        assertEquals(6, actualCertificate.getData().get(UNDERLAG_SVAR_ID_4).getIndex());
     }
 
     @Test
@@ -156,7 +157,7 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeQuestionSjukdomforlopp() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(8, actualCertificate.getData().get(SJUKDOMSFORLOPP_DELSVAR_ID_5).getIndex());
+        assertEquals(8, actualCertificate.getData().get(SJUKDOMSFORLOPP_SVAR_ID_5).getIndex());
     }
 
     @Test
@@ -168,44 +169,44 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeQuestionFunktionsnedsattningIntellektuell() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(10, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_ID_8).getIndex());
+        assertEquals(10, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID_8).getIndex());
     }
 
     @Test
     void shallIncludeQuestionFunktionsnedsattningKommunikation() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
         ;
-        assertEquals(11, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_KOMMUNIKATION_DELSVAR_ID_9).getIndex());
+        assertEquals(11, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID_9).getIndex());
     }
 
     @Test
     void shallIncludeQuestionFunktionsnedsattningKoncentration() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(12, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_KONCENTRATION_DELSVAR_ID_10).getIndex());
+        assertEquals(12, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_ID_10).getIndex());
     }
 
     @Test
     void shallIncludeQuestionFunktionsnedsattningPsykisk() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(13, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_PSYKISK_DELSVAR_ID_11).getIndex());
+        assertEquals(13, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID_11).getIndex());
     }
 
     @Test
     void shallIncludeQuestionFunktionsnedsattningSynHorselTal() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(14, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_SYNHORSELTAL_DELSVAR_ID_12).getIndex());
+        assertEquals(14, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID_12).getIndex());
     }
 
     @Test
     void shallIncludeQuestionFunktionsnedsattningBalansKoordination() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(15, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DELSVAR_ID_13).getIndex());
+        assertEquals(15, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID_13).getIndex());
     }
 
     @Test
     void shallIncludeQuestionFunktionsnedsattningAnnan() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(16, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_ID_14).getIndex());
+        assertEquals(16, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14).getIndex());
     }
 
     @Test
@@ -217,7 +218,7 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeQuestionAktivitetsbegransningarHeader() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(18, actualCertificate.getData().get(AKTIVITETSBEGRANSNING_HEADER_ID_17).getIndex());
+        assertEquals(18, actualCertificate.getData().get(AKTIVITETSBEGRANSNING_SVAR_ID_17).getIndex());
     }
 
     @Test
@@ -289,19 +290,19 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeQuestionMedicinskaForutsattningarForArbete() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(30, actualCertificate.getData().get(MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22).getIndex());
+        assertEquals(30, actualCertificate.getData().get(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22).getIndex());
     }
 
     @Test
     void shallIncludeQuestionFormagaTrotsBegransningar() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(31, actualCertificate.getData().get(FORMAGATROTSBEGRANSNING_DELSVAR_ID_23).getIndex());
+        assertEquals(31, actualCertificate.getData().get(FORMAGATROTSBEGRANSNING_SVAR_ID_23).getIndex());
     }
 
     @Test
     void shallIncludeQuestionForslagTillAtgard() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(32, actualCertificate.getData().get(FORSLAG_TILL_ATGARD_DELSVAR_ID_24).getIndex());
+        assertEquals(32, actualCertificate.getData().get(FORSLAG_TILL_ATGARD_SVAR_ID_24).getIndex());
     }
 
     @Test
@@ -313,7 +314,7 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeQuestionOvrigt() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(34, actualCertificate.getData().get(OVRIGT_DELSVAR_ID_25).getIndex());
+        assertEquals(34, actualCertificate.getData().get(OVRIGT_SVAR_ID_25).getIndex());
     }
 }
 

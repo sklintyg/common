@@ -26,8 +26,8 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.BAKGRUND_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_DELSVAR_ID_5;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_QUESTION_TEXT_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_SVAR_ID_5;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_SVAR_JSON_ID_5;
 
 import java.util.stream.Stream;
@@ -67,7 +67,7 @@ class QuestionSjukdomsforloppTest {
         @Test
         void shouldIncludeId() {
             final var question = QuestionSjukdomsforlopp.toCertificate(null, 0, texts);
-            assertEquals(SJUKDOMSFORLOPP_DELSVAR_ID_5, question.getId());
+            assertEquals(SJUKDOMSFORLOPP_SVAR_ID_5, question.getId());
         }
 
         @Test

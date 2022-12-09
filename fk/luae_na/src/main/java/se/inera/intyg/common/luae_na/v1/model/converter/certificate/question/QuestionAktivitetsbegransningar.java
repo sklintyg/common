@@ -19,9 +19,9 @@
 
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_TEXT;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_TEXT_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
@@ -42,11 +42,11 @@ public class QuestionAktivitetsbegransningar {
     public static CertificateDataElement toCertificate(String textValue, int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
             .id(AKTIVITETSBEGRANSNING_DELSVAR_ID_17)
-            .parent(AKTIVITETSBEGRANSNING_CATEGORY_ID)
+            .parent(AKTIVITETSBEGRANSNING_SVAR_ID_17)
             .index(index)
             .config(
                 CertificateDataConfigTextArea.builder()
-                    .text(textProvider.get(AKTIVITETSBEGRANSNING_DELSVAR_TEXT))
+                    .text(textProvider.get(AKTIVITETSBEGRANSNING_DELSVAR_TEXT_ID))
                     .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
                     .build()
             )

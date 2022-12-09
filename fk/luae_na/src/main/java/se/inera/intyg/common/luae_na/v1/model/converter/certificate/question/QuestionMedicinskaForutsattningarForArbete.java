@@ -20,8 +20,8 @@
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_DESCRIPTION_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_TEXT_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
@@ -40,7 +40,7 @@ public class QuestionMedicinskaForutsattningarForArbete {
     public static CertificateDataElement toCertificate(String medicinskaForutsattningarForArbete, int index,
         CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
-            .id(MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22)
+            .id(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22)
             .parent(CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE)
             .index(index)
             .config(
@@ -59,7 +59,7 @@ public class QuestionMedicinskaForutsattningarForArbete {
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22)
+                        .questionId(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22)
                         .expression(singleExpression(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22))
                         .build()
                 }
@@ -68,7 +68,7 @@ public class QuestionMedicinskaForutsattningarForArbete {
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22,
+        return textValue(certificate.getData(), MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22,
             MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22);
     }
 }

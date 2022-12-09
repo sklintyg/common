@@ -20,7 +20,7 @@
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.OVRIGT_DELSVAR_ID_25;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.OVRIGT_TEXT_ID;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
@@ -35,7 +35,7 @@ public class QuestionOvrigt {
 
     public static CertificateDataElement toCertificate(String ovrigt, int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
-            .id(OVRIGT_DELSVAR_ID_25)
+            .id(OVRIGT_SVAR_ID_25)
             .parent(OVRIGT_CATEGORY_ID)
             .index(index)
             .config(
@@ -54,6 +54,6 @@ public class QuestionOvrigt {
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), OVRIGT_DELSVAR_ID_25, OVRIGT_SVAR_JSON_ID_25);
+        return textValue(certificate.getData(), OVRIGT_SVAR_ID_25, OVRIGT_SVAR_JSON_ID_25);
     }
 }

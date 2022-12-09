@@ -22,8 +22,8 @@ package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_DELSVAR_ID_23;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_DESCRIPTION_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_ID_23;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_TEXT_ID;
 
@@ -62,7 +62,7 @@ class QuestionFormagaTrotsBegransningTest {
 
         @Override
         protected String getId() {
-            return FORMAGATROTSBEGRANSNING_DELSVAR_ID_23;
+            return FORMAGATROTSBEGRANSNING_SVAR_ID_23;
         }
 
         @Override

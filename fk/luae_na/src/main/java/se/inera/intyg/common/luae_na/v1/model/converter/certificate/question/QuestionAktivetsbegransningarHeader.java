@@ -20,9 +20,9 @@
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_HEADER_ID_17;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_TEXT;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_TEXT_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -32,13 +32,13 @@ public class QuestionAktivetsbegransningarHeader {
 
     public static CertificateDataElement toCertificate(int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
-            .id(AKTIVITETSBEGRANSNING_HEADER_ID_17)
+            .id(AKTIVITETSBEGRANSNING_SVAR_ID_17)
             .parent(AKTIVITETSBEGRANSNING_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigHeader.builder()
-                    .text(textProvider.get(AKTIVITETSBEGRANSNING_SVAR_TEXT))
-                    .description(textProvider.get(AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION))
+                    .text(textProvider.get(AKTIVITETSBEGRANSNING_SVAR_TEXT_ID))
+                    .description(textProvider.get(AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION_ID))
                     .build()
             )
             .build();

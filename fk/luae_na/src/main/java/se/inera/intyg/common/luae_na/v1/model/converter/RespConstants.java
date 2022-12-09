@@ -23,6 +23,7 @@ public class RespConstants {
 
     public static final String GRUNDFORMU_CATEGORY_ID = "grundformu";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1 = "1";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1 = "1.1";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1 = "1.3";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1 = "undersokningAvPatienten";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1 = "journaluppgifter";
@@ -38,13 +39,17 @@ public class RespConstants {
     public static final String GRUNDFORMU_ANNAT_LABEL = "KV_FKMU_0001.ANNAT.RBK";
 
 
+    public static final String KANNEDOM_SVAR_ID_2 = "2";
     public static final String KANNEDOM_DELSVAR_ID_2 = "2.1";
     public static final String KANNEDOM_SVAR_JSON_ID_2 = "kannedomOmPatient";
 
 
+    public static final String UNDERLAGFINNS_SVAR_ID_3 = "3";
+
     public static final String UNDERLAGFINNS_DELSVAR_ID_3 = "3.1";
     public static final String UNDERLAGFINNS_SVAR_JSON_ID_3 = "underlagFinns";
 
+    public static final String UNDERLAG_SVAR_ID_4 = "4";
     public static final String UNDERLAG_TYP_DELSVAR_ID_4 = "4.1";
     public static final String UNDERLAG_SVAR_JSON_ID_4 = "underlag";
 
@@ -67,6 +72,8 @@ public class RespConstants {
 
     public static final String BAKGRUND_CATEGORY_ID = "bakgrund";
     public static final String BAKGRUND_CATEGORY_TEXT_ID = "KAT_3.RBK";
+
+    public static final String SJUKDOMSFORLOPP_SVAR_ID_5 = "5";
     public static final String SJUKDOMSFORLOPP_DELSVAR_ID_5 = "5.1";
     public static final String SJUKDOMSFORLOPP_SVAR_JSON_ID_5 = "sjukdomsforlopp";
     public static final String SJUKDOMSFORLOPP_QUESTION_TEXT_ID = "FRG_5.RBK";
@@ -142,27 +149,26 @@ public class RespConstants {
     public static final String PAGAENDEBEHANDLING_SVAR_TEXT = "FRG_19.RBK";
     public static final String PAGAENDEBEHANDLING_DELSVAR_TEXT = "DFR_19.1.RBK";
 
-
     public static final String PLANERADBEHANDLING_SVAR_ID_20 = "20";
     public static final String PLANERADBEHANDLING_DELSVAR_ID_20 = "20.1";
     public static final String PLANERADBEHANDLING_SVAR_JSON_ID_20 = "planeradBehandling";
     public static final String PLANERADBEHANDLING_SVAR_TEXT = "FRG_20.RBK";
     public static final String PLANERADBEHANDLING_DELSVAR_TEXT = "DFR_20.1.RBK";
 
-
     public static final String SUBSTANSINTAG_SVAR_ID_21 = "21";
     public static final String SUBSTANSINTAG_DELSVAR_ID_21 = "21.1";
     public static final String SUBSTANSINTAG_SVAR_JSON_ID_21 = "substansintag";
     public static final String SUBSTANSINTAG_SVAR_TEXT = "FRG_21.RBK";
     public static final String SUBSTANSINTAG_DELSVAR_TEXT = "DFR_21.1.RBK";
-    public static final String AKTIVITETSBEGRANSNING_HEADER_ID_17 = "17.1";
-    public static final String AKTIVITETSBEGRANSNING_DELSVAR_ID_17 = "17.2";
+
+    public static final String AKTIVITETSBEGRANSNING_SVAR_ID_17 = "17";
+    public static final String AKTIVITETSBEGRANSNING_DELSVAR_ID_17 = "17.1";
     public static final String AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17 = "aktivitetsbegransning";
     public static final String AKTIVITETSBEGRANSNING_CATEGORY_ID = "aktivitetsbegransningar";
     public static final String AKTIVITETSBEGRANSNING_CATEGORY_TEXT_ID = "KAT_6.RBK";
-    public static final String AKTIVITETSBEGRANSNING_SVAR_TEXT = "FRG_17.RBK";
-    public static final String AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION = "FRG_17.HLP";
-    public static final String AKTIVITETSBEGRANSNING_DELSVAR_TEXT = "DFR_17.1.RBK";
+    public static final String AKTIVITETSBEGRANSNING_SVAR_TEXT_ID = "FRG_17.RBK";
+    public static final String AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION_ID = "FRG_17.HLP";
+    public static final String AKTIVITETSBEGRANSNING_DELSVAR_TEXT_ID = "DFR_17.1.RBK";
 
     public static final String CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE = "medicinskaforutsattningarforarbete";
     public static final String CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE_TEXT_ID = "KAT_8.RBK";

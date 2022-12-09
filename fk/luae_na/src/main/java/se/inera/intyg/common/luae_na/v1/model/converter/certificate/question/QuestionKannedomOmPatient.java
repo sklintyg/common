@@ -20,7 +20,7 @@
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KANNEDOM_DELSVAR_ID_2;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KANNEDOM_SVAR_ID_2;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KANNEDOM_SVAR_JSON_ID_2;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KANNEDOM_SVAR_TEXT;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
@@ -42,7 +42,7 @@ public class QuestionKannedomOmPatient {
 
     public static CertificateDataElement toCertificate(InternalDate kannedomOmPatient, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(KANNEDOM_DELSVAR_ID_2)
+            .id(KANNEDOM_SVAR_ID_2)
             .parent(GRUNDFORMU_CATEGORY_ID)
             .index(index)
             .config(
@@ -60,7 +60,7 @@ public class QuestionKannedomOmPatient {
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(KANNEDOM_DELSVAR_ID_2)
+                        .questionId(KANNEDOM_SVAR_ID_2)
                         .expression(singleExpression(KANNEDOM_SVAR_JSON_ID_2))
                         .build(),
                     CertificateDataValidationMaxDate.builder()
@@ -77,7 +77,7 @@ public class QuestionKannedomOmPatient {
     }
 
     public static InternalDate toInternal(Certificate certificate) {
-        final var localDate = dateValue(certificate.getData(), KANNEDOM_DELSVAR_ID_2, KANNEDOM_SVAR_JSON_ID_2);
+        final var localDate = dateValue(certificate.getData(), KANNEDOM_SVAR_ID_2, KANNEDOM_SVAR_JSON_ID_2);
         return localDate != null ? new InternalDate(localDate) : null;
     }
 }
