@@ -21,12 +21,15 @@ package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_SVAR_ID_7;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_SVAR_JSON_ID_7;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_TEXT;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_SVAR_BESKRIVNING;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.NYDIAGNOS_SVAR_ID_45;
+import static se.inera.intyg.common.support.facade.model.value.CertificateDataValueType.BOOLEAN;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.TestInstance;
@@ -36,39 +39,38 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
-import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigTextAreaTest;
+import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigRadioBooleanTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
-import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationTextTest;
-import se.inera.intyg.common.support.facade.testsetup.model.value.InternalTextValueTest;
-import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InternalRadioBooleanTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.ValueRadioBooleanTest;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionDiagnosgrundTest {
+class QuestionNyBedomningDiagnosgrundTest {
 
-    private static final String EXPECTED_TEXT = "Hej hej";
     @Mock
     private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setup() {
-        when(textProvider.get(any(String.class))).thenReturn("Test string");
-    }
-
     @Nested
     class ToCertificate {
+
+        @BeforeEach
+        void setup() {
+            when(textProvider.get(any(String.class))).thenReturn("Test string");
+        }
 
         @Nested
         class IncludeCommonElementTest extends CommonElementTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionDiagnosgrund.toCertificate(EXPECTED_TEXT, 0, textProvider);
+                return QuestionNyBedomningDiagnosgrund.toCertificate(true, 0, textProvider);
             }
 
             @Override
             protected String getId() {
-                return DIAGNOSGRUND_SVAR_ID_7;
+                return NYDIAGNOS_SVAR_ID_45;
             }
 
             @Override
@@ -83,7 +85,12 @@ class QuestionDiagnosgrundTest {
         }
 
         @Nested
-        class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
+        class IncludeConfigRadioBooleanTest extends ConfigRadioBooleanTest {
+
+            @Override
+            protected String getId() {
+                return DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45;
+            }
 
             @Override
             protected CertificateTextProvider getTextProviderMock() {
@@ -92,84 +99,70 @@ class QuestionDiagnosgrundTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionDiagnosgrund.toCertificate(EXPECTED_TEXT, 0, textProvider);
+                return QuestionNyBedomningDiagnosgrund.toCertificate(true, 0, textProvider);
             }
 
             @Override
             protected String getTextId() {
-                return DIAGNOSGRUND_TEXT;
+                return DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT;
             }
 
             @Override
             protected String getDescriptionId() {
-                return DIAGNOSGRUND_TEXT;
-            }
-
-            @Override
-            protected String getJsonId() {
-                return DIAGNOSGRUND_SVAR_JSON_ID_7;
+                return DIAGNOSGRUND_NYBEDOMNING_SVAR_BESKRIVNING;
             }
         }
 
         @Nested
-        class includeValueTest extends ValueTextTest {
+        class IncludeValueRadioBooleanTest extends ValueRadioBooleanTest {
 
             @Override
-            protected CertificateDataElement getElement() {
-                return QuestionDiagnosgrund.toCertificate(EXPECTED_TEXT, 0, textProvider);
+            protected CertificateDataElement getElement(String expectedValue) {
+                return QuestionNyBedomningDiagnosgrund.toCertificate(true, 0, textProvider);
             }
 
             @Override
             protected String getJsonId() {
-                return DIAGNOSGRUND_SVAR_JSON_ID_7;
+                return DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45;
             }
 
             @Override
-            protected String getText() {
-                return EXPECTED_TEXT;
+            protected Boolean getBoolean() {
+                return true;
+            }
+
+            @Override
+            protected CertificateDataElement getElement() {
+                return QuestionNyBedomningDiagnosgrund.toCertificate(true, 0, textProvider);
+            }
+
+            @Override
+            protected CertificateDataValueType getType() {
+                return BOOLEAN;
             }
         }
 
         @Nested
-        class includeValidationTextTest extends ValidationTextTest {
+        class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
+
+            @Override
+            protected String getQuestionId() {
+                return DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45;
+            }
+
+            @Override
+            protected String getExpression() {
+                return singleExpression(DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45);
+            }
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionDiagnosgrund.toCertificate(EXPECTED_TEXT, 0, textProvider);
+                return QuestionNyBedomningDiagnosgrund.toCertificate(true, 0, textProvider);
             }
 
             @Override
             protected int getValidationIndex() {
                 return 0;
-            }
-
-            @Override
-            protected short getLimit() {
-                return 4000;
-            }
-        }
-
-        @Nested
-        class includeValidationMandatoryTest extends ValidationMandatoryTest {
-
-            @Override
-            protected String getQuestionId() {
-                return DIAGNOSGRUND_SVAR_JSON_ID_7;
-            }
-
-            @Override
-            protected String getExpression() {
-                return singleExpression(DIAGNOSGRUND_SVAR_JSON_ID_7);
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionDiagnosgrund.toCertificate(EXPECTED_TEXT, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 1;
             }
         }
     }
@@ -179,16 +172,21 @@ class QuestionDiagnosgrundTest {
 
         @Nested
         @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-        class IncludeInternalTextValue extends InternalTextValueTest {
+        class IncludeInternalRadioBooleanTest extends InternalRadioBooleanTest {
 
             @Override
-            protected CertificateDataElement getElement(String expectedValue) {
-                return QuestionDiagnosgrund.toCertificate(expectedValue, 0, textProvider);
+            protected Stream<Boolean> expectedValues() {
+                return Stream.of(true, false, null);
             }
 
             @Override
-            protected String toInternalTextValue(Certificate certificate) {
-                return QuestionDiagnosgrund.toInternal(certificate);
+            protected CertificateDataElement toCertificate(Boolean expectedValue) {
+                return QuestionNyBedomningDiagnosgrund.toCertificate(expectedValue, 0, textProvider);
+            }
+
+            @Override
+            protected Boolean toInternal(Certificate certificate) {
+                return QuestionNyBedomningDiagnosgrund.toInternal(certificate);
             }
         }
     }

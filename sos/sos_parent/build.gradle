@@ -15,4 +15,5 @@ dependencies {
                 exclude group: "com.helger", module: "ph-jaxb-pom"
             }
     compile "org.springframework:spring-tx"
+    testImplementation testFixtures(project(":common-support"))
 }

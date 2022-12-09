@@ -46,6 +46,11 @@ public class RespConstants {
     public static final String NYDIAGNOS_SVAR_ID_45 = "45";
     public static final String DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45 = "45.1";
     public static final String DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45 = "45.2";
+
+    public static final String DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT = "FRG_45.RBK";
+    public static final String DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT_JA = "FRG_45.1.RBK";
+    public static final String DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT_NEJ = "FRG_45.2.RBK";
+    public static final String DIAGNOSGRUND_NYBEDOMNING_SVAR_BESKRIVNING = "FRG_45.HLP";
     public static final String DIAGNOSGRUND_SVAR_JSON_ID_7 = "diagnosgrund";
     public static final String DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45 = "nyBedomningDiagnosgrund";
     public static final String DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45 = "diagnosForNyBedomning";

@@ -43,6 +43,7 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskaForutsattningarForArbete;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionNyBedomningDiagnosgrund;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionSjukdomsforlopp;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlag;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagBaseratPa;
@@ -96,7 +97,9 @@ public class InternalToCertificate {
             .addElement(
                 QuestionDiagnosgrund.toCertificate(internalCertificate.getDiagnosgrund(), index++, textProvider)
             )
-            //TODO NyBedomningDiagnosgrund
+            .addElement(
+                QuestionNyBedomningDiagnosgrund.toCertificate(internalCertificate.getNyBedomningDiagnosgrund(), index++, textProvider)
+            )
             //TODO DiagnosForNyBedomning
             .addElement(
                 CategoryFunktionsnedsattning.toCertificate(index++, textProvider)

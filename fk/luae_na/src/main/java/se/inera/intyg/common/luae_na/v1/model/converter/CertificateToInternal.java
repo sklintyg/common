@@ -41,6 +41,7 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskaForutsattningarForArbete;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionNyBedomningDiagnosgrund;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionSjukdomsforlopp;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlag;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagBaseratPa;
@@ -73,7 +74,7 @@ public class CertificateToInternal {
             .setSjukdomsforlopp(QuestionSjukdomsforlopp.toInternal(certificate))
             .setDiagnoser(QuestionDiagnoser.toInternal(certificate, moduleService))
             .setDiagnosgrund(QuestionDiagnosgrund.toInternal(certificate))
-            //TODO NyBedomningDiagnosgrund
+            .setNyBedomningDiagnosgrund(QuestionNyBedomningDiagnosgrund.toInternal(certificate))
             //TODO DiagnosForNyBedomning
             .setFunktionsnedsattningIntellektuell(QuestionFunktionsnedsattningIntellektuell.toInternal(certificate))
             .setFunktionsnedsattningKommunikation(QuestionFunktionsnedsattningKommunikation.toInternal(certificate))

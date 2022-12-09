@@ -39,20 +39,19 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionExplosivtImplantat;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InternalRadioBooleanTest;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionExplosivtImplantatTest {
@@ -183,22 +182,24 @@ class QuestionExplosivtImplantatTest {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class ToInternal {
 
-        Stream<Boolean> booleanValues() {
-            return Stream.of(true, false, null);
-        }
+        @Nested
+        @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+        class IncludeInternalRadioBooleanTest extends InternalRadioBooleanTest {
 
-        @ParameterizedTest
-        @MethodSource("booleanValues")
-        void shouldIncludeValue(Boolean expectedValue) {
-            final var index = 1;
+            @Override
+            protected Stream<Boolean> expectedValues() {
+                return Stream.of(true, false, null);
+            }
 
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionExplosivtImplantat.toCertificate(expectedValue, index, texts))
-                .build();
+            @Override
+            protected CertificateDataElement toCertificate(Boolean expectedValue) {
+                return QuestionExplosivtImplantat.toCertificate(expectedValue, 0, texts);
+            }
 
-            final var actualValue = QuestionExplosivtImplantat.toInternal(certificate);
-
-            assertEquals(expectedValue, actualValue);
+            @Override
+            protected Boolean toInternal(Certificate certificate) {
+                return QuestionExplosivtImplantat.toInternal(certificate);
+            }
         }
     }
 }
