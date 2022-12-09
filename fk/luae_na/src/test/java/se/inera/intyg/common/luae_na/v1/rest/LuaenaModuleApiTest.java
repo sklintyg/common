@@ -43,10 +43,13 @@ import static se.inera.intyg.common.fkparent.rest.FkParentModuleApi.PREFIX;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,10 +58,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import se.inera.intyg.common.luae_na.support.LuaenaEntryPoint;
 import se.inera.intyg.common.luae_na.v1.model.converter.SvarIdHelperImpl;
 import se.inera.intyg.common.luae_na.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.luae_na.v1.utils.ScenarioFinder;
+import se.inera.intyg.common.services.texts.IntygTextsService;
+import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -103,6 +109,8 @@ public class LuaenaModuleApiTest {
 
     @Mock
     private WebcertModelFactoryImpl webcertModelFactory;
+    @Mock
+    private IntygTextsService intygTexts;
 
     @Spy
     private SvarIdHelperImpl svarIdHelper;
@@ -389,6 +397,11 @@ public class LuaenaModuleApiTest {
 
     @Test
     public void getCertficateMessagesProviderGetExistingKey() throws ModuleException {
+        IntygTexts intygTexts1 = new IntygTexts("1.0", LuaenaEntryPoint.MODULE_ID, LocalDate.now(), LocalDate.now().plusDays(1),
+            Collections.emptySortedMap(),
+            Collections.emptyList(), new Properties());
+        doReturn(intygTexts1).when(intygTexts).getIntygTextsPojo(any(), any());
+        
         final var certificateMessagesProvider = moduleApi.getMessagesProvider();
 
         assertEquals(certificateMessagesProvider.get("common.continue"), "Fortsätt");
@@ -396,6 +409,11 @@ public class LuaenaModuleApiTest {
 
     @Test
     public void getCertficateMessagesProviderGetMissingKey() throws ModuleException {
+        IntygTexts intygTexts1 = new IntygTexts("1.0", LuaenaEntryPoint.MODULE_ID, LocalDate.now(), LocalDate.now().plusDays(1),
+            Collections.emptySortedMap(),
+            Collections.emptyList(), new Properties());
+        doReturn(intygTexts1).when(intygTexts).getIntygTextsPojo(any(), any());
+
         final var certificateMessagesProvider = moduleApi.getMessagesProvider();
 
         assertNull(certificateMessagesProvider.get("not.existing"));
