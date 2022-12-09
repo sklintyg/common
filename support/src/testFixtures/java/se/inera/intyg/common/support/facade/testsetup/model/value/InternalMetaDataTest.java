@@ -16,12 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.services.messages;
 
-public interface CertificateMessagesProvider {
+package se.inera.intyg.common.support.facade.testsetup.model.value;
 
-    String get(String key);
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-    String get(String key, String dynamicKey);
+import org.junit.jupiter.api.Test;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
 
+public abstract class InternalMetaDataTest {
+
+    protected abstract GrundData getToInternal();
+
+    @Test
+    void shouldIncludeGrundData() {
+        final var actualGrundData = getToInternal();
+        assertNotNull(actualGrundData, "Missing grundData!");
+    }
 }

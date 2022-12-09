@@ -16,12 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.services.messages;
 
-public interface CertificateMessagesProvider {
+package se.inera.intyg.common.luae_fs.v1.model.converter;
 
-    String get(String key);
+import org.springframework.stereotype.Component;
+import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
+import se.inera.intyg.common.support.facade.model.Certificate;
 
-    String get(String key, String dynamicKey);
+@Component(value = "certificateToInteralFK7802")
+public class CertificateToInternal {
 
+    public LuaefsUtlatandeV1 convert(Certificate certificate, LuaefsUtlatandeV1 internalCertificate) {
+        return LuaefsUtlatandeV1.builder()
+            .setId(internalCertificate.getId())
+            .setTextVersion(internalCertificate.getTextVersion())
+            .setGrundData(internalCertificate.getGrundData())
+            .build();
+    }
 }

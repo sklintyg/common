@@ -50,6 +50,7 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SJU
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
 
 import com.google.common.base.Strings;
 import java.time.LocalDate;
@@ -186,26 +187,28 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
             ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU, UNDERLAGFINNS_SVAR_JSON_ID_3,
                 ValidationMessageType.EMPTY, UNDERLAGFINNS_SVAR_ID_3);
         } else if (utlatande.getUnderlagFinns() && utlatande.getUnderlag().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU, UNDERLAG_SVAR_JSON_ID_4,
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU, UNDERLAG_SVAR_JSON_ID_4,
+                ValidationMessageType.EMPTY, UNDERLAG_SVAR_ID_4);
         } else if (!utlatande.getUnderlagFinns() && !utlatande.getUnderlag().isEmpty()) {
             // R6
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU, UNDERLAGFINNS_SVAR_JSON_ID_3,
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU, UNDERLAGFINNS_SVAR_JSON_ID_3,
                 ValidationMessageType.OTHER,
-                "luae_na.validation.underlagfinns.incorrect_combination");
+                "luae_na.validation.underlagfinns.incorrect_combination", UNDERLAG_SVAR_ID_4);
         }
 
         if (utlatande.getUnderlag().size() > MAX_UNDERLAG) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU, UNDERLAG_SVAR_JSON_ID_4, ValidationMessageType.OTHER,
-                "luae_na.validation.underlag.too_many");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU, UNDERLAG_SVAR_JSON_ID_4,
+                ValidationMessageType.OTHER,
+                "luae_na.validation.underlag.too_many", UNDERLAG_SVAR_ID_4);
         }
         for (int i = 0; i < utlatande.getUnderlag().size(); i++) {
             Underlag underlag = utlatande.getUnderlag().get(i);
             // Alla underlagstyper är godkända här utom Underlag från skolhälsovård
             if (underlag.getTyp() == null) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU, UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].typ",
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU,
+                    UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].typ",
                     ValidationMessageType.EMPTY,
-                    "luae_na.validation.underlag.missing");
+                    "luae_na.validation.underlag.missing", UNDERLAG_SVAR_ID_4);
             } else if (!underlag.getTyp().getId().equals(Underlag.UnderlagsTyp.NEUROPSYKIATRISKT_UTLATANDE.getId())
                 && !underlag.getTyp().getId().equals(Underlag.UnderlagsTyp.UNDERLAG_FRAN_HABILITERINGEN.getId())
                 && !underlag.getTyp().getId().equals(Underlag.UnderlagsTyp.UNDERLAG_FRAN_ARBETSTERAPEUT.getId())
@@ -217,32 +220,32 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
                 && !underlag.getTyp().getId().equals(Underlag.UnderlagsTyp.UTREDNING_AV_ANNAN_SPECIALISTKLINIK.getId())
                 && !underlag.getTyp().getId().equals(Underlag.UnderlagsTyp.UTREDNING_FRAN_VARDINRATTNING_UTOMLANDS.getId())
                 && !underlag.getTyp().getId().equals(Underlag.UnderlagsTyp.OVRIGT.getId())) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU,
                     UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].typ",
                     ValidationMessageType.INVALID_FORMAT,
-                    "luae_na.validation.underlag.incorrect_format");
+                    "luae_na.validation.underlag.incorrect_format", UNDERLAG_SVAR_ID_4);
             }
             if (underlag.getDatum() == null) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU,
                     UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum", ValidationMessageType.EMPTY,
-                    "luae_na.validation.underlag.date.missing");
+                    "luae_na.validation.underlag.date.missing", UNDERLAG_SVAR_ID_4);
             } else {
                 ValidatorUtil.validateDateAndCheckIfFuture(underlag.getDatum(), validationMessages, CATEGORY_GRUNDFORMU,
-                    UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum", "common.validation.c-06");
+                    UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum", "common.validation.c-06", UNDERLAG_SVAR_ID_4);
             }
             if (Strings.nullToEmpty(underlag.getHamtasFran()).trim().isEmpty()) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU,
                     UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].hamtasFran",
                     ValidationMessageType.EMPTY,
-                    "luae_na.validation.underlag.hamtas-fran.missing");
+                    "luae_na.validation.underlag.hamtas-fran.missing", UNDERLAG_SVAR_ID_4);
             }
         }
 
         if (utlatande.getUnderlag().size() > 1 && !validateFirstUnderlagIsPresent(utlatande.getUnderlag())) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU,
                 UNDERLAG_SVAR_JSON_ID_4 + "[0]",
                 ValidationMessageType.INCORRECT_COMBINATION,
-                "common.validation.c-05");
+                "common.validation.c-05", UNDERLAG_SVAR_ID_4);
         }
     }
 

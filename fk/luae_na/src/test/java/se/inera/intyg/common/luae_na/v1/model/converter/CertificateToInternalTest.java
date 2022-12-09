@@ -44,6 +44,10 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPsykisk;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningSynHorselTal;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingAvslutadBehandling;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPagaendeBehandling;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPlaneradBehandling;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingSubstansintag;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskaForutsattningarForArbete;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionOvrigt;
@@ -123,6 +127,10 @@ class CertificateToInternalTest {
                 .setFunktionsnedsattningBalansKoordination("funktionsnedsattningKoordination")
                 .setFunktionsnedsattningAnnan("funktionsnedsattningAnnan")
                 .setAktivitetsbegransning("aktivitetsbegransningar")
+                .setAvslutadBehandling("avslutadBehandling")
+                .setPagaendeBehandling("pagaendeBehandling")
+                .setPlaneradBehandling("planeradBehandling")
+                .setSubstansintag("substansintag")
                 .setMedicinskaForutsattningarForArbete("medicinskaForutsattningarForArbete")
                 .setFormagaTrotsBegransning("formagaTrotsBegransning")
                 .setForslagTillAtgard("forslagTillAtgard")
@@ -175,6 +183,18 @@ class CertificateToInternalTest {
                 .addElement(QuestionAktivitetsbegransningar.toCertificate(
                     expectedInternalCertificate.getAktivitetsbegransning(), 0, texts)
                 )
+                .addElement(QuestionMedicinskBehandlingAvslutadBehandling.toCertificate(
+                    expectedInternalCertificate.getAvslutadBehandling(), 0, texts
+                ))
+                .addElement(QuestionMedicinskBehandlingPagaendeBehandling.toCertificate(
+                    expectedInternalCertificate.getPagaendeBehandling(), 0, texts
+                ))
+                .addElement(QuestionMedicinskBehandlingPlaneradBehandling.toCertificate(
+                    expectedInternalCertificate.getPlaneradBehandling(), 0, texts
+                ))
+                .addElement(QuestionMedicinskBehandlingSubstansintag.toCertificate(
+                    expectedInternalCertificate.getSubstansintag(), 0, texts
+                ))
                 .addElement(QuestionMedicinskaForutsattningarForArbete.toCertificate(
                     expectedInternalCertificate.getMedicinskaForutsattningarForArbete(), 0, texts)
                 )

@@ -18,6 +18,11 @@
  */
 package se.inera.intyg.common.luae_na.v1.rest;
 
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_ANHORIG_BESKRIVNING_LABEL;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_ANNAT_LABEL;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_JOURNALUPPGIFTER_LABEL;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_UNDERSOKNING_LABEL;
+
 import com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -202,6 +207,16 @@ public class LuaenaModuleApiV1 extends FkParentModuleApi<LuaenaUtlatandeV1> {
 
     @Override
     public CertificateMessagesProvider getMessagesProvider() {
-        return DefaultCertificateMessagesProvider.create(validationMessages);
+        final var dynamicKeys = getDynamicKeyMap();
+        return DefaultCertificateMessagesProvider.create(validationMessages, dynamicKeys);
+    }
+
+    private Map<String, String> getDynamicKeyMap() {
+        final var provider = getTextProvider(LuaenaEntryPoint.MODULE_ID);
+
+        return Map.of(GRUNDFORMU_UNDERSOKNING_LABEL, provider.get(GRUNDFORMU_UNDERSOKNING_LABEL),
+            GRUNDFORMU_ANHORIG_BESKRIVNING_LABEL, provider.get(GRUNDFORMU_ANHORIG_BESKRIVNING_LABEL),
+            GRUNDFORMU_JOURNALUPPGIFTER_LABEL, provider.get(GRUNDFORMU_JOURNALUPPGIFTER_LABEL),
+            GRUNDFORMU_ANNAT_LABEL, provider.get(GRUNDFORMU_ANNAT_LABEL));
     }
 }
