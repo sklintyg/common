@@ -210,7 +210,8 @@ public class QuestionUnderlag {
         final var value = (CertificateDataValueMedicalInvestigationList) certificate.getData().get(UNDERLAG_SVAR_ID_4).getValue();
         final var underlagList = value.getList().stream()
             .map(underlag -> Underlag.create(
-                underlag.getInvestigationType().getCode() != null ? UnderlagsTyp.fromId(underlag.getInvestigationType().getCode()) : null,
+                underlag.getInvestigationType().getCode() != null && !underlag.getInvestigationType().getCode().isEmpty()
+                    ? UnderlagsTyp.fromId(underlag.getInvestigationType().getCode()) : null,
                 underlag.getDate().getDate() != null ? new InternalDate(underlag.getDate().getDate()) : null,
                 underlag.getInformationSource().getText()
             ))
