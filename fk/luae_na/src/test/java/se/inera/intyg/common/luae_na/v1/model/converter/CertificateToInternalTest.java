@@ -40,6 +40,7 @@ import se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAktivitetsbegransningar;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionDiagnosForNyBedomning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionDiagnoser;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionDiagnosgrund;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFormagaTrotsBegransning;
@@ -138,6 +139,7 @@ class CertificateToInternalTest {
                 )
                 .setDiagnosgrund("Diagnosbakgrund test")
                 .setNyBedomningDiagnosgrund(true)
+                .setDiagnosForNyBedomning("Diagnos för ny bedömning")
                 .setFunktionsnedsattningIntellektuell("funktionsnedsattningIntellektuell")
                 .setFunktionsnedsattningKommunikation("funktionsnedsattningKommunikation")
                 .setFunktionsnedsattningKoncentration("funktionsnedsattningKoncentration")
@@ -189,6 +191,7 @@ class CertificateToInternalTest {
                 ))
                 .addElement(QuestionDiagnosgrund.toCertificate("Diagnosbakgrund test", 0, texts))
                 .addElement(QuestionNyBedomningDiagnosgrund.toCertificate(true, 0, texts))
+                .addElement(QuestionDiagnosForNyBedomning.toCertificate("Diagnos för ny bedömning", 0, texts))
                 .addElement(QuestionFunktionsnedsattningIntellektuell.toCertificate(
                     expectedInternalCertificate.getFunktionsnedsattningIntellektuell(), 0, texts))
                 .addElement(QuestionFunktionsnedsattningKommunikation.toCertificate(
@@ -323,6 +326,13 @@ class CertificateToInternalTest {
             final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getNyBedomningDiagnosgrund(),
                 expectedInternalCertificate.getNyBedomningDiagnosgrund());
+        }
+
+        @Test
+        void shallIncludeDiagnosForNyBedomning() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+            assertEquals(actualInternalCertificate.getDiagnosForNyBedomning(),
+                expectedInternalCertificate.getDiagnosForNyBedomning());
         }
 
         @Test

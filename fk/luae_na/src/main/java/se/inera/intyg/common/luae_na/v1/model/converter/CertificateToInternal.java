@@ -27,6 +27,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAktivitetsbegransningar;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionDiagnosForNyBedomning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionDiagnoser;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionDiagnosgrund;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFormagaTrotsBegransning;
@@ -75,7 +76,7 @@ public class CertificateToInternal {
             .setDiagnoser(QuestionDiagnoser.toInternal(certificate, moduleService))
             .setDiagnosgrund(QuestionDiagnosgrund.toInternal(certificate))
             .setNyBedomningDiagnosgrund(QuestionNyBedomningDiagnosgrund.toInternal(certificate))
-            //TODO DiagnosForNyBedomning
+            .setDiagnosForNyBedomning(QuestionDiagnosForNyBedomning.toInternal(certificate))
             .setFunktionsnedsattningIntellektuell(QuestionFunktionsnedsattningIntellektuell.toInternal(certificate))
             .setFunktionsnedsattningKommunikation(QuestionFunktionsnedsattningKommunikation.toInternal(certificate))
             .setFunktionsnedsattningKoncentration(QuestionFunktionsnedsattningKoncentration.toInternal(certificate))

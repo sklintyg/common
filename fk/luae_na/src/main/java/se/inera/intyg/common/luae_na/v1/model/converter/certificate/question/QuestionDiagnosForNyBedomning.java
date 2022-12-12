@@ -20,57 +20,59 @@
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_SVAR_BESKRIVNING;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT_JA;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT_NEJ;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYUPPDATERING_SVAR_TEXT;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.util.ValueToolkit;
 
-public class QuestionNyBedomningDiagnosgrund {
+public class QuestionDiagnosForNyBedomning {
 
-    public static CertificateDataElement toCertificate(Boolean value, int index, CertificateTextProvider textProvider) {
+
+    public static CertificateDataElement toCertificate(String nyBedomning, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .index(index)
-            .id(DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45)
+            .id(DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45)
             .parent(DIAGNOS_CATEGORY_ID)
             .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45)
-                    .text(textProvider.get(DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT))
-                    .description(textProvider.get(DIAGNOSGRUND_NYBEDOMNING_SVAR_BESKRIVNING))
-                    .selectedText(textProvider.get(DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT_JA))
-                    .unselectedText(textProvider.get(DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT_NEJ))
+                CertificateDataConfigTextArea.builder()
+                    .id(DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45)
+                    .text(texts.get(DIAGNOSGRUND_NYUPPDATERING_SVAR_TEXT))
                     .build()
             )
             .value(
-                CertificateDataValueBoolean.builder()
-                    .id(DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45)
-                    .selected(value)
+                CertificateDataTextValue.builder()
+                    .id(DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45)
+                    .text(nyBedomning)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45)
+                    CertificateDataValidationShow.builder()
+                        .questionId(DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45)
                         .expression(singleExpression(DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45))
+                        .build(),
+                    CertificateDataValidationMandatory.builder()
+                        .questionId(DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45)
+                        .expression(singleExpression(DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45))
                         .build()
                 }
             )
             .build();
     }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return ValueToolkit.booleanValue(certificate.getData(),DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45, DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45);
+    public static String toInternal(Certificate certificate) {
+        return ValueToolkit.textValue(certificate.getData(),DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45, DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45);
     }
 }
