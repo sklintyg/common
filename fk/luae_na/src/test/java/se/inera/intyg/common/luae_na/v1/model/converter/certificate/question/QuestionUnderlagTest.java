@@ -64,6 +64,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
+import se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMedicalInvestigation;
@@ -625,10 +626,22 @@ class QuestionUnderlagTest {
         @Nested
         class UnderlagIsEmpty {
 
-            final List<Underlag> expectedValue = Collections.emptyList();
-
             @Test
             void shouldReturnEmptyListWithNoUnderlag() {
+                final List<Underlag> expectedValue = Collections.emptyList();
+                final var certificate = CertificateBuilder.create()
+                    .addElement(QuestionUnderlag.toCertificate(
+                        expectedValue, 0, texts))
+                    .build();
+
+                final var actualValue = QuestionUnderlag.toInternal(certificate);
+
+                assertEquals(0, actualValue.size());
+            }
+
+            @Test
+            void shouldReturnEmptyListWhenUnderlagsTypIsEmptyString() {
+                final List<Underlag> expectedValue = List.of(Underlag.create(UnderlagsTyp.UNDERLAG_TOMMA_VARDEN, null, null));
                 final var certificate = CertificateBuilder.create()
                     .addElement(QuestionUnderlag.toCertificate(
                         expectedValue, 0, texts))

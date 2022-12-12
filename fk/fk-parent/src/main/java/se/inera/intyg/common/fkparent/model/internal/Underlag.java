@@ -55,7 +55,8 @@ public abstract class Underlag {
         UNDERLAG_FRANSKOLHALSOVARD("SKOLHALSOVARD", "Underlag från skolhälsovård"),
         UTREDNING_AV_ANNAN_SPECIALISTKLINIK("SPECIALISTKLINIK", "Utredning av annan specialistklinik"),
         UTREDNING_FRAN_VARDINRATTNING_UTOMLANDS("VARD_UTOMLANDS", "Utredning från vårdinrättning utomlands"),
-        OVRIGT("OVRIGT_UTLATANDE", "Övrigt");
+        OVRIGT("OVRIGT_UTLATANDE", "Övrigt"),
+        UNDERLAG_TOMMA_VARDEN("", "");
 
         private final String id;
         private final String label;
