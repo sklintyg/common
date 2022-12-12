@@ -44,6 +44,8 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPsykisk;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningSynHorselTal;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKontaktAnledning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKontaktOnskas;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingAvslutadBehandling;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPagaendeBehandling;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPlaneradBehandling;
@@ -67,7 +69,6 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 class CertificateToInternalTest {
-
 
     private CertificateTextProvider texts;
     private LuaenaUtlatandeV1 expectedInternalCertificate;
@@ -135,6 +136,8 @@ class CertificateToInternalTest {
                 .setFormagaTrotsBegransning("formagaTrotsBegransning")
                 .setForslagTillAtgard("forslagTillAtgard")
                 .setOvrigt("ovrigt")
+                .setKontaktMedFk(true)
+                .setAnledningTillKontakt("anledningTillKontakt")
                 .build();
 
             texts = Mockito.mock(CertificateTextProvider.class);
@@ -206,6 +209,12 @@ class CertificateToInternalTest {
                 )
                 .addElement(
                     QuestionOvrigt.toCertificate(expectedInternalCertificate.getOvrigt(), 0, texts)
+                )
+                .addElement(
+                    QuestionKontaktOnskas.toCertificate(expectedInternalCertificate.getKontaktMedFk(), 0, texts)
+                )
+                .addElement(
+                    QuestionKontaktAnledning.toCertificate(expectedInternalCertificate.getAnledningTillKontakt(), 0, texts)
                 )
                 .build();
         }
@@ -374,6 +383,18 @@ class CertificateToInternalTest {
         void shallIncludeOvrigt() {
             final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
             assertEquals(actualInternalCertificate.getOvrigt(), expectedInternalCertificate.getOvrigt());
+        }
+
+        @Test
+        void shallIncludeKontaktOnskas() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getKontaktMedFk(), expectedInternalCertificate.getKontaktMedFk());
+        }
+
+        @Test
+        void shallIncludeKontaktAnledning() {
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            assertEquals(actualInternalCertificate.getAnledningTillKontakt(), expectedInternalCertificate.getAnledningTillKontakt());
         }
     }
 }
