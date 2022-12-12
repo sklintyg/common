@@ -39,6 +39,8 @@ import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTy
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRAN_LOGOPED;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UTREDNING_AV_ANNAN_SPECIALISTKLINIK;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UTREDNING_FRAN_VARDINRATTNING_UTOMLANDS;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_DELSVAR_ID_3;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
@@ -48,6 +50,7 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UND
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYPE_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYP_DELSVAR_ID_4;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import com.google.common.collect.ImmutableList;
 import java.time.LocalDate;
@@ -66,14 +69,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMedicalInvestigation;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigationList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
+import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
 import se.inera.intyg.common.support.model.InternalDate;
 
 @ExtendWith(MockitoExtension.class)
@@ -366,27 +370,28 @@ class QuestionUnderlagTest {
             assertEquals(expectedExpression, certificateDataValidationMandatory.getExpression());
         }
 
-        @Test
-        void shouldIncludeShowValidation() {
-            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
+        @Nested
+        class IncludeValidationShowTest extends ValidationShowTest {
 
-            assertEquals(CertificateDataValidationType.SHOW_VALIDATION, question.getValidation()[1].getType());
-        }
+            @Override
+            protected String getQuestionId() {
+                return UNDERLAGFINNS_DELSVAR_ID_3;
+            }
 
-        @Test
-        void shouldIncludeShowValidationQuestionId() {
-            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
-            final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
-            assertEquals(UNDERLAGFINNS_DELSVAR_ID_3, certificateDataValidationShow.getQuestionId());
-        }
+            @Override
+            protected String getExpression() {
+                return singleExpression(UNDERLAGFINNS_SVAR_JSON_ID_3);
+            }
 
-        @Test
-        void shouldIncludeShowValidationExpression() {
-            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
-            final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
-            final var expectedExpression = "$" + UNDERLAGFINNS_SVAR_JSON_ID_3;
+            @Override
+            protected CertificateDataElement getElement() {
+                return QuestionUnderlag.toCertificate(List.of(), 0, texts);
+            }
 
-            assertEquals(expectedExpression, certificateDataValidationShow.getExpression());
+            @Override
+            protected int getValidationIndex() {
+                return 1;
+            }
         }
 
         @Test

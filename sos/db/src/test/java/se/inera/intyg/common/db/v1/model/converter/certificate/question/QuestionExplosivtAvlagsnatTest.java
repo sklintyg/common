@@ -33,6 +33,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_AV
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_AVLAGSNAT_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_IMPLANTAT_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_IMPLANTAT_JSON_ID;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,10 +51,10 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
+import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalRadioBooleanTest;
 
 @ExtendWith(MockitoExtension.class)
@@ -180,24 +181,28 @@ class QuestionExplosivtAvlagsnatTest {
             assertEquals("$" + EXPLOSIV_AVLAGSNAT_JSON_ID, certificateDataValidationMandatory.getExpression());
         }
 
-        @Test
-        void shouldIncludeValidationShowType() {
-            final var question = QuestionExplosivtAvlagsnat.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataValidationType.SHOW_VALIDATION, question.getValidation()[1].getType());
-        }
+        @Nested
+        class IncludeValidationShowTest extends ValidationShowTest {
 
-        @Test
-        void shouldIncludeValidationShowQuestionId() {
-            final var question = QuestionExplosivtAvlagsnat.toCertificate(null, 0, texts);
-            final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
-            assertEquals(EXPLOSIV_IMPLANTAT_DELSVAR_ID, certificateDataValidationShow.getQuestionId());
-        }
+            @Override
+            protected String getQuestionId() {
+                return EXPLOSIV_IMPLANTAT_DELSVAR_ID;
+            }
 
-        @Test
-        void shouldIncludeValidationShowExpression() {
-            final var question = QuestionExplosivtAvlagsnat.toCertificate(null, 0, texts);
-            final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
-            assertEquals("$" + EXPLOSIV_IMPLANTAT_JSON_ID, certificateDataValidationShow.getExpression());
+            @Override
+            protected String getExpression() {
+                return singleExpression(EXPLOSIV_IMPLANTAT_JSON_ID);
+            }
+
+            @Override
+            protected CertificateDataElement getElement() {
+                return QuestionExplosivtAvlagsnat.toCertificate(null, 0, texts);
+            }
+
+            @Override
+            protected int getValidationIndex() {
+                return 1;
+            }
         }
     }
 

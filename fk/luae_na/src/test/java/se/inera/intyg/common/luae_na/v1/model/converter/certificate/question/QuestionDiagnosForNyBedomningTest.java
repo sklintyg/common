@@ -136,7 +136,6 @@ class QuestionDiagnosForNyBedomningTest {
         @Nested
         class IncludeValidationShowTest extends ValidationShowTest {
 
-
             @Override
             protected String getQuestionId() {
                 return DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45;

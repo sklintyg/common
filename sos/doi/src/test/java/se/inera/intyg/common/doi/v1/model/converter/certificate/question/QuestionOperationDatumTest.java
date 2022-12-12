@@ -28,6 +28,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_D
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_OM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_DATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_DATUM_QUESTION_TEXT_ID;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,14 +43,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.doi.model.internal.OmOperation;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDate;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
+import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
 import se.inera.intyg.common.support.model.InternalDate;
 
 @ExtendWith(MockitoExtension.class)
@@ -154,24 +156,28 @@ class QuestionOperationDatumTest {
             assertEquals("$" + OPERATION_DATUM_JSON_ID, certificateDataValidationMandatory.getExpression());
         }
 
-        @Test
-        void shouldIncludeValidationShowType() {
-            final var question = QuestionOperationDatum.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataValidationType.SHOW_VALIDATION, question.getValidation()[1].getType());
-        }
+        @Nested
+        class IncludeValidationShowTest extends ValidationShowTest {
 
-        @Test
-        void shouldIncludeValidationShowQuestionId() {
-            final var question = QuestionOperationDatum.toCertificate(null, 0, texts);
-            final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
-            assertEquals(OPERATION_OM_DELSVAR_ID, certificateDataValidationShow.getQuestionId());
-        }
+            @Override
+            protected String getQuestionId() {
+                return OPERATION_OM_DELSVAR_ID;
+            }
 
-        @Test
-        void shouldIncludeValidationShowExpression() {
-            final var question = QuestionOperationDatum.toCertificate(null, 0, texts);
-            final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
-            assertEquals("$" + OmOperation.JA, certificateDataValidationShow.getExpression());
+            @Override
+            protected String getExpression() {
+                return singleExpression(OmOperation.JA.toString());
+            }
+
+            @Override
+            protected CertificateDataElement getElement() {
+                return QuestionOperationDatum.toCertificate(null, 0, texts);
+            }
+
+            @Override
+            protected int getValidationIndex() {
+                return 1;
+            }
         }
 
         @Test

@@ -31,6 +31,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALA
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_PRINT_MESSAGE_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_PRINT_MESSAGE_ID;
 import static se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes.UE_MESSAGE;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -42,10 +43,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMessage;
 import se.inera.intyg.common.support.facade.model.config.MessageLevel;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
+import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionPrintMessagePolisanmalanTest {
@@ -102,24 +103,28 @@ class QuestionPrintMessagePolisanmalanTest {
             assertEquals(MessageLevel.INFO, config.getLevel());
         }
 
-        @Test
-        void shouldIncludeValidationShowType() {
-            final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataValidationType.SHOW_VALIDATION, question.getValidation()[0].getType());
-        }
+        @Nested
+        class IncludeValidationShowTest extends ValidationShowTest {
 
-        @Test
-        void shouldIncludeValidationShowQuestionId() {
-            final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
-            final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[0];
-            assertEquals(POLISANMALAN_DELSVAR_ID, certificateDataValidationShow.getQuestionId());
-        }
+            @Override
+            protected String getQuestionId() {
+                return POLISANMALAN_DELSVAR_ID;
+            }
 
-        @Test
-        void shouldIncludeValidationShowExpression() {
-            final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
-            final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[0];
-            assertEquals("$" + POLISANMALAN_JSON_ID, certificateDataValidationShow.getExpression());
+            @Override
+            protected String getExpression() {
+                return singleExpression(POLISANMALAN_JSON_ID);
+            }
+
+            @Override
+            protected CertificateDataElement getElement() {
+                return QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
+            }
+
+            @Override
+            protected int getValidationIndex() {
+                return 0;
+            }
         }
 
         @Test

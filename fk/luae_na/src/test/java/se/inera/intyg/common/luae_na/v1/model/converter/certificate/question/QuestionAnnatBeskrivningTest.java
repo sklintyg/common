@@ -28,7 +28,9 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRU
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_TEXT;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,14 +44,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextField;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
+import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionAnnatBeskrivningTest {
@@ -134,21 +137,28 @@ class QuestionAnnatBeskrivningTest {
             assertEquals(expectedText, value.getText());
         }
 
-        @Test
-        void shouldIncludeValidationShow() {
-            final var question = QuestionAnnatBeskrivning.toCertificate(null, 0, texts);
-            final var showValidation = (CertificateDataValidationShow) question.getValidation()[0];
+        @Nested
+        class IncludeValidationShowTest extends ValidationShowTest {
 
-            assertEquals(CertificateDataValidationType.SHOW_VALIDATION, showValidation.getType());
-        }
+            @Override
+            protected String getQuestionId() {
+                return GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
+            }
 
-        @Test
-        void shouldIncludeValidationShowExpression() {
-            final var expectedExpression = "$" + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
-            final var question = QuestionAnnatBeskrivning.toCertificate(null, 0, texts);
-            final var showValidation = (CertificateDataValidationShow) question.getValidation()[0];
+            @Override
+            protected String getExpression() {
+                return singleExpression(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1);
+            }
 
-            assertEquals(expectedExpression, showValidation.getExpression());
+            @Override
+            protected CertificateDataElement getElement() {
+                return QuestionAnnatBeskrivning.toCertificate(null, 0, texts);
+            }
+
+            @Override
+            protected int getValidationIndex() {
+                return 0;
+            }
         }
 
         @Test
