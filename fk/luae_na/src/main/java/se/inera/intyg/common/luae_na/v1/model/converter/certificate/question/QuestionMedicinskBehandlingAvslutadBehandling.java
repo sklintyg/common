@@ -35,7 +35,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue
 
 public class QuestionMedicinskBehandlingAvslutadBehandling {
 
-    private static final short TEXT_LIMIT = 4000;
+    private static final short TEXT_LIMIT = 3500;
 
     public static CertificateDataElement toCertificate(String textValue, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()

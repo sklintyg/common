@@ -37,7 +37,7 @@ import se.inera.intyg.common.support.facade.util.ValueToolkit;
 
 public class QuestionSjukdomsforlopp {
 
-    private static final short TEXT_LIMIT = 4000;
+    private static final short TEXT_LIMIT = 3500;
 
     public static CertificateDataElement toCertificate(String textValue, int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()

@@ -29,9 +29,13 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 
 public class QuestionOvrigt {
+
+    private static final short TEXT_LIMIT = 2700;
 
     public static CertificateDataElement toCertificate(String ovrigt, int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
@@ -49,6 +53,14 @@ public class QuestionOvrigt {
                     .id(OVRIGT_SVAR_JSON_ID_25)
                     .text(ovrigt)
                     .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationText.builder()
+                        .id(OVRIGT_SVAR_ID_25)
+                        .limit(TEXT_LIMIT)
+                        .build()
+                }
             )
             .build();
     }
