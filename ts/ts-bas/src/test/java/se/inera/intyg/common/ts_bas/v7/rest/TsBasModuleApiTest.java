@@ -24,6 +24,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -56,7 +57,10 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.util.ReflectionTestUtils;
+import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.services.texts.IntygTextsService;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
@@ -66,7 +70,10 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHold
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.common.support.services.BefattningService;
+import se.inera.intyg.common.ts_bas.v7.model.converter.CertificateToInternal;
+import se.inera.intyg.common.ts_bas.v7.model.converter.InternalToCertificate;
 import se.inera.intyg.common.ts_bas.v7.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_bas.v7.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
@@ -114,6 +121,14 @@ public class TsBasModuleApiTest {
 
     @Mock
     private RevokeCertificateResponderInterface revokeCertificateClient;
+    @Mock
+    private InternalToCertificate internalToCertificate;
+    @Mock
+    private CertificateToInternal certificateToInternal;
+
+    @Mock
+    CertificateTextProvider certificateTextProvider;
+
 
     public TsBasModuleApiTest() {
         MockitoAnnotations.initMocks(this);
@@ -390,6 +405,69 @@ public class TsBasModuleApiTest {
             any(RevokeCertificateType.class));
     }
 
+    @Test
+    public void shallConvertInternalToCertificate() throws Exception {
+        final var expectedCertificate = CertificateBuilder.create().build();
+        final var certificateAsJson = "certificateAsJson";
+        final var typeAheadProvider = mock(TypeAheadProvider.class);
+
+        final var internalCertificate = TsBasUtlatandeV7.builder()
+            .setId("123")
+            .setTextVersion("1.0")
+            .setGrundData(new GrundData())
+            .build();
+
+        doReturn(internalCertificate)
+            .when(objectMapper).readValue(eq(certificateAsJson), eq(TsBasUtlatandeV7.class));
+
+        doReturn(expectedCertificate)
+            .when(internalToCertificate).convert(eq(internalCertificate), any(CertificateTextProvider.class));
+
+        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider);
+
+        assertEquals(expectedCertificate, actualCertificate);
+    }
+
+
+    @Test
+    public void shallConvertCertificateToInternal() throws Exception {
+        final var expectedJson = "expectedJson";
+        final var certificate = CertificateBuilder.create().build();
+        final var certificateAsJson = "certificateAsJson";
+
+        final var internalCertificate = TsBasUtlatandeV7.builder()
+            .setId("123")
+            .setTextVersion("1.0")
+            .setGrundData(new GrundData())
+            .build();
+
+        doReturn(internalCertificate)
+            .when(objectMapper).readValue(eq(certificateAsJson), eq(TsBasUtlatandeV7.class));
+
+        doReturn(expectedJson)
+            .when(objectMapper).writeValueAsString(internalCertificate);
+
+        doReturn(internalCertificate)
+            .when(certificateToInternal).convert(certificate, internalCertificate);
+
+        final var actualJson = moduleApi.getJsonFromCertificate(certificate, certificateAsJson);
+        assertEquals(expectedJson, actualJson);
+    }
+
+    @Test
+    public void getCertficateMessagesProviderGetExistingKey() throws ModuleException {
+        final var certificateMessagesProvider = moduleApi.getMessagesProvider();
+
+        assertEquals(certificateMessagesProvider.get("common.continue"), "Fortsätt");
+    }
+
+    @Test
+    public void getCertficateMessagesProviderGetMissingKey() throws ModuleException {
+        final var certificateMessagesProvider = moduleApi.getMessagesProvider();
+
+        assertNull(certificateMessagesProvider.get("not.existing"));
+    }
+
     private CreateNewDraftHolder createNewDraftHolder() {
         HoSPersonal hosPersonal = createHosPersonal();
         Patient patient = new Patient();
@@ -434,5 +512,4 @@ public class TsBasModuleApiTest {
         JAXB.marshal(registerCertificateType, stringWriter);
         return stringWriter.toString();
     }
-
 }
