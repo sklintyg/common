@@ -64,15 +64,19 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
-import se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMedicalInvestigation;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigation;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigationList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -641,11 +645,34 @@ class QuestionUnderlagTest {
 
             @Test
             void shouldReturnEmptyListWhenUnderlagsTypIsEmptyString() {
-                final List<Underlag> expectedValue = List.of(Underlag.create(UnderlagsTyp.UNDERLAG_TOMMA_VARDEN, null, null));
+                final List<Underlag> emptyList = Collections.emptyList();
                 final var certificate = CertificateBuilder.create()
                     .addElement(QuestionUnderlag.toCertificate(
-                        expectedValue, 0, texts))
+                        emptyList, 0, texts))
                     .build();
+
+                certificate.getData().put(UNDERLAG_SVAR_ID_4,
+                    CertificateDataElement.builder()
+                        .value(
+                            CertificateDataValueMedicalInvestigationList.builder()
+                                .list(
+                                    List.of(
+                                        CertificateDataValueMedicalInvestigation.builder()
+                                            .investigationType(
+                                                CertificateDataValueCode.builder().id("").code("").build()
+                                            )
+                                            .date(
+                                                CertificateDataValueDate.builder().build()
+                                            )
+                                            .informationSource(
+                                                CertificateDataTextValue.builder().build()
+                                            )
+                                            .build()
+                                    )
+                                )
+                                .build()
+                        )
+                        .build());
 
                 final var actualValue = QuestionUnderlag.toInternal(certificate);
 
