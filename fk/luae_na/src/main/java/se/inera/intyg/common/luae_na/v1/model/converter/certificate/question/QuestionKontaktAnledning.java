@@ -21,9 +21,9 @@ package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_ID_26;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
@@ -41,12 +41,12 @@ public class QuestionKontaktAnledning {
     public static CertificateDataElement toCertificate(String kontaktAnledning, int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
             .id(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26)
-            .parent(KONTAKT_CATEGORY_ID)
+            .parent(KONTAKT_ONSKAS_SVAR_ID_26)
             .index(index)
             .config(
                 CertificateDataConfigTextArea.builder()
                     .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26)
-                    .text(textProvider.get(ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT))
+                    .text(textProvider.get(ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT_ID))
                     .build()
             )
             .value(

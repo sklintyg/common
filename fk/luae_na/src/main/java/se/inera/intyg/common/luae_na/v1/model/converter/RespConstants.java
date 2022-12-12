@@ -206,11 +206,11 @@ public class RespConstants {
     public static final String KONTAKT_CATEGORY_TEXT_ID = "KAT_10.RBK";
     public static final String KONTAKT_ONSKAS_SVAR_ID_26 = "26";
     public static final String KONTAKT_ONSKAS_SVAR_JSON_ID_26 = "kontaktMedFk";
-    public static final String KONTAKT_ONSKAS_SVAR_TEXT = "FRG_26.RBK";
-    public static final String KONTAKT_ONSKAS_SVAR_BESKRIVNING = "FRG_26.HLP";
+    public static final String KONTAKT_ONSKAS_SVAR_TEXT_ID = "FRG_26.RBK";
+    public static final String KONTAKT_ONSKAS_SVAR_DESCRIPTION_ID = "FRG_26.HLP";
     public static final String KONTAKT_ONSKAS_DELSVAR_ID_26 = "26.1";
-    public static final String KONTAKT_ONSKAS_DELSVAR_TEXT = "DFR_26.1.RBK";
+    public static final String KONTAKT_ONSKAS_DELSVAR_TEXT_ID = "DFR_26.1.RBK";
     public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26 = "26.2";
     public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26 = "anledningTillKontakt";
-    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT = "DFR_26.2.RBK";
+    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT_ID = "DFR_26.2.RBK";
 }

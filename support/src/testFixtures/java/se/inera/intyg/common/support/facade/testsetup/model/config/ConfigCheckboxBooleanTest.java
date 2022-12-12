@@ -62,15 +62,23 @@ public abstract class ConfigCheckboxBooleanTest extends ConfigTest {
     void shouldIncludeSelectedText() {
         final var question = getElement();
         final var config = (CertificateDataConfigCheckboxBoolean) question.getConfig();
-        assertTrue(config.getSelectedText().trim().length() > 0, "Missing selected text");
-        verify(getTextProviderMock(), atLeastOnce()).get(getSelectedTextId());
+        if (getSelectedTextId() != null && !config.getSelectedText().equals(getSelectedTextId())) {
+            assertTrue(config.getSelectedText().trim().length() > 0, "Missing selected text");
+            verify(getTextProviderMock(), atLeastOnce()).get(getSelectedTextId());
+        } else {
+            assertEquals(getSelectedTextId(), config.getSelectedText(), "Missing selected text");
+        }
     }
 
     @Test
     void shouldIncludeUnselectedText() {
         final var question = getElement();
         final var config = (CertificateDataConfigCheckboxBoolean) question.getConfig();
-        assertTrue(config.getUnselectedText().trim().length() > 0, "Missing unselected text");
-        verify(getTextProviderMock(), atLeastOnce()).get(getUnselectedTextId());
+        if (getUnselectedTextId() != null && !config.getUnselectedText().equals(getUnselectedTextId())) {
+            assertTrue(config.getUnselectedText().trim().length() > 0, "Missing unselected text");
+            verify(getTextProviderMock(), atLeastOnce()).get(getUnselectedTextId());
+        } else {
+            assertEquals(getUnselectedTextId(), config.getUnselectedText(), "Missing selected text");
+        }
     }
 }

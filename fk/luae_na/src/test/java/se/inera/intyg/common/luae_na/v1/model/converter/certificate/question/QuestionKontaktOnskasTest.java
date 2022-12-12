@@ -24,8 +24,7 @@ import static org.mockito.Mockito.doReturn;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANSWER_NOT_SELECTED;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANSWER_YES;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_ID_26;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_TEXT;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
 
@@ -65,7 +64,7 @@ class QuestionKontaktOnskasTest {
 
         @Override
         protected String getId() {
-            return KONTAKT_ONSKAS_DELSVAR_ID_26;
+            return KONTAKT_ONSKAS_SVAR_ID_26;
         }
 
         @Override
@@ -94,7 +93,7 @@ class QuestionKontaktOnskasTest {
 
         @Override
         protected String getTextId() {
-            return KONTAKT_ONSKAS_DELSVAR_TEXT;
+            return KONTAKT_ONSKAS_DELSVAR_TEXT_ID;
         }
 
         @Override
@@ -104,12 +103,12 @@ class QuestionKontaktOnskasTest {
 
         @Override
         protected String getJsonId() {
-            return KONTAKT_ONSKAS_SVAR_ID_26;
+            return KONTAKT_ONSKAS_SVAR_JSON_ID_26;
         }
 
         @Override
         protected String getLabelId() {
-            return KONTAKT_ONSKAS_DELSVAR_TEXT;
+            return KONTAKT_ONSKAS_DELSVAR_TEXT_ID;
         }
 
         @Override
@@ -120,26 +119,6 @@ class QuestionKontaktOnskasTest {
         @Override
         protected String getUnselectedTextId() {
             return ANSWER_NOT_SELECTED;
-        }
-    }
-
-
-    @Nested
-    class IncludeConfigValueBooleanTest extends ValueBooleanTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionKontaktOnskas.toCertificate(true, 0, textProvider);
-        }
-
-        @Override
-        protected String getJsonId() {
-            return KONTAKT_ONSKAS_SVAR_JSON_ID_26;
-        }
-
-        @Override
-        protected Boolean getSelected() {
-            return true;
         }
     }
 

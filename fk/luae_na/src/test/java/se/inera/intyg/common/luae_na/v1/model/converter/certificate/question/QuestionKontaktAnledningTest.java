@@ -23,9 +23,9 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_ID_26;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -70,7 +70,7 @@ class QuestionKontaktAnledningTest {
 
         @Override
         protected String getParent() {
-            return KONTAKT_CATEGORY_ID;
+            return KONTAKT_ONSKAS_SVAR_ID_26;
         }
 
         @Override
@@ -94,7 +94,7 @@ class QuestionKontaktAnledningTest {
 
         @Override
         protected String getTextId() {
-            return ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT;
+            return ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT_ID;
         }
 
         @Override
