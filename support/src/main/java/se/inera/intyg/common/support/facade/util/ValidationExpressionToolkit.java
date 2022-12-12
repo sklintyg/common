@@ -38,6 +38,10 @@ public final class ValidationExpressionToolkit {
         return "!" + expression;
     }
 
+    public static String exists(String expression) {
+        return String.format("exists(%s)", expression);
+    }
+
     public static String multipleOrExpression(String... expression) {
         return Arrays.stream(expression).reduce("", (s, s2) -> {
             if (!s.isEmpty()) {

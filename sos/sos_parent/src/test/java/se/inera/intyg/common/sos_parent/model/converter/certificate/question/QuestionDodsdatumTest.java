@@ -172,7 +172,10 @@ class QuestionDodsdatumTest {
         void shouldIncludeValidationShowExpression() {
             final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
             final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
-            assertEquals("$" + DODSDATUM_SAKERT_JSON_ID, certificateDataValidationShow.getExpression());
+            assertEquals(
+                String.format("exists('%s') && '%s'", DODSDATUM_SAKERT_JSON_ID, DODSDATUM_SAKERT_JSON_ID),
+                certificateDataValidationShow.getExpression()
+            );
         }
 
         @Test
