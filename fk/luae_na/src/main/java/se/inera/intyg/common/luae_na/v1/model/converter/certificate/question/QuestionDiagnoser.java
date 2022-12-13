@@ -138,18 +138,21 @@ public class QuestionDiagnoser {
 
     public static List<Diagnos> toInternal(Certificate certificate, WebcertModuleService moduleService) {
         var diagnosisList = diagnosisListValue(certificate.getData(), RespConstants.DIAGNOS_SVAR_ID_6);
+        int maxDiagnosId = diagnosisList.stream()
+            .mapToInt((diagnosis) -> Integer.parseInt(diagnosis.getId())).max().orElse(0);
+
         List<Diagnos> newDiagnosisList = new ArrayList<>();
+        while (newDiagnosisList.size() < maxDiagnosId) {
+            newDiagnosisList.add(Diagnos.create(null, null, null, null));
+        }
+
         diagnosisList.forEach(diagnosis -> {
             var newDiagnosis = Diagnos.create(
                 diagnosis.getCode(),
                 diagnosis.getTerminology(),
                 diagnosis.getDescription(),
                 moduleService.getDescriptionFromDiagnosKod(diagnosis.getCode(), diagnosis.getTerminology()));
-            var reuiredListSize = Integer.parseInt(diagnosis.getId()) - 1;
-            while (reuiredListSize >= newDiagnosisList.size()) {
-                newDiagnosisList.add(Diagnos.create(null, null, null, null));
-            }
-            newDiagnosisList.set(reuiredListSize, newDiagnosis);
+            newDiagnosisList.set(Integer.parseInt(diagnosis.getId()) - 1, newDiagnosis);
         });
         return newDiagnosisList;
     }
