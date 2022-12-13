@@ -151,7 +151,7 @@ public class QuestionIntygetAvser {
             return IntygAvser.create(EnumSet.noneOf(IntygAvserKategori.class));
         }
 
-        final var intygAvserKategoris = codeListValue(certificate.getData(), INTYG_AVSER_SVAR_ID_1).stream()
+        final var intygAvserKategoris = certificateDataValueCodes.stream()
             .map(certificateDataValueCode -> {
                 if (certificateDataValueCode.getId() != null && !certificateDataValueCode.getId().isEmpty()) {
                     return IntygAvserKategori.valueOf(certificateDataValueCode.getId());
