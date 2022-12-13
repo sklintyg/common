@@ -56,12 +56,12 @@ class DefaultCertificateTextProviderTest {
     private final String HEADER_TEXT = "Header \n Text";
     private final String HEADER_KEY = "key.RBK";
 
-    private final String FK_7801_NEW_LINE_ONE_KEY = "fk7801NewLineOne.HLP";
-    private final String FK_7801_NEW_LINE_ONE_TEXT = "uppleva obehag\nvid ljud,";
-    private final String FK_7801_NEW_LINE_ONE_TEXT_FIXED = "uppleva obehag vid ljud,";
-    private final String FK_7801_NEW_LINE_TWO_KEY = "fk7801NewLineTwo.HLP";
-    private final String FK_7801_NEW_LINE_TWO_TEXT = "kan utgöra\nbåde en";
-    private final String FK_7801_NEW_LINE_TWO_TEXT_FIXED = "kan utgöra både en";
+    private static final String FK_7801_NEW_LINE_ONE_KEY = "fk7801NewLineOne.HLP";
+    private static final String FK_7801_NEW_LINE_ONE_TEXT = "uppleva obehag\nvid ljud,";
+    private static final String FK_7801_NEW_LINE_ONE_TEXT_FIXED = "uppleva obehag vid ljud,";
+    private static final String FK_7801_NEW_LINE_TWO_KEY = "fk7801NewLineTwo.HLP";
+    private static final String FK_7801_NEW_LINE_TWO_TEXT = "kan utgöra\nbåde en";
+    private static final String FK_7801_NEW_LINE_TWO_TEXT_FIXED = "kan utgöra både en";
 
     @BeforeEach
     void setUp() {
