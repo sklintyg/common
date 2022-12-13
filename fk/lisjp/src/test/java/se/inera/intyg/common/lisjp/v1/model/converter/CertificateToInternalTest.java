@@ -437,7 +437,7 @@ class CertificateToInternalTest {
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-            assertEquals(updatedCertificate.getDiagnoser().size(), 2);
+            assertEquals(updatedCertificate.getDiagnoser().size(), 3);
         }
     }
 
