@@ -22,11 +22,12 @@ package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYUPPDATERING_SVAR_TEXT;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYUPPDATERING_SVAR_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.NYDIAGNOS_SVAR_ID_45;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -76,7 +77,7 @@ class QuestionDiagnosForNyBedomningTest {
 
             @Override
             protected String getParent() {
-                return DIAGNOS_CATEGORY_ID;
+                return NYDIAGNOS_SVAR_ID_45;
             }
 
             @Override
@@ -100,7 +101,7 @@ class QuestionDiagnosForNyBedomningTest {
 
             @Override
             protected String getTextId() {
-                return DIAGNOSGRUND_NYUPPDATERING_SVAR_TEXT;
+                return DIAGNOSGRUND_NYUPPDATERING_SVAR_TEXT_ID;
             }
 
             @Override

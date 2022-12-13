@@ -22,14 +22,13 @@ package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_SVAR_BESKRIVNING;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_SVAR_DESCRIPTION_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
-import static se.inera.intyg.common.support.facade.model.value.CertificateDataValueType.BOOLEAN;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.NYDIAGNOS_SVAR_ID_45;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
-import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.TestInstance;
@@ -39,12 +38,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigRadioBooleanTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalRadioBooleanTest;
-import se.inera.intyg.common.support.facade.testsetup.model.value.ValueRadioBooleanTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.ValueBooleanTest;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionNyBedomningDiagnosgrundTest {
@@ -70,7 +68,7 @@ class QuestionNyBedomningDiagnosgrundTest {
 
             @Override
             protected String getId() {
-                return DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45;
+                return NYDIAGNOS_SVAR_ID_45;
             }
 
             @Override
@@ -104,22 +102,17 @@ class QuestionNyBedomningDiagnosgrundTest {
 
             @Override
             protected String getTextId() {
-                return DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT;
+                return DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT_ID;
             }
 
             @Override
             protected String getDescriptionId() {
-                return DIAGNOSGRUND_NYBEDOMNING_SVAR_BESKRIVNING;
+                return DIAGNOSGRUND_NYBEDOMNING_SVAR_DESCRIPTION_ID;
             }
         }
 
         @Nested
-        class IncludeValueRadioBooleanTest extends ValueRadioBooleanTest {
-
-            @Override
-            protected CertificateDataElement getElement(String expectedValue) {
-                return QuestionNyBedomningDiagnosgrund.toCertificate(true, 0, textProvider);
-            }
+        class IncludeValueBooleanTest extends ValueBooleanTest {
 
             @Override
             protected String getJsonId() {
@@ -136,10 +129,6 @@ class QuestionNyBedomningDiagnosgrundTest {
                 return QuestionNyBedomningDiagnosgrund.toCertificate(true, 0, textProvider);
             }
 
-            @Override
-            protected CertificateDataValueType getType() {
-                return BOOLEAN;
-            }
         }
 
         @Nested

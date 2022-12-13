@@ -22,7 +22,7 @@ package se.inera.intyg.common.luae_na.v1.model.converter.certificate.category;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_TEXT;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -84,7 +84,7 @@ class CategoryDiagnosTest {
 
         @Override
         protected String getTextId() {
-            return DIAGNOS_CATEGORY_TEXT;
+            return DIAGNOS_CATEGORY_TEXT_ID;
         }
 
         @Override

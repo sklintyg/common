@@ -21,7 +21,7 @@ package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_SVAR_ID_7;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_SVAR_JSON_ID_7;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_TEXT;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
@@ -37,7 +37,7 @@ import se.inera.intyg.common.support.facade.util.ValueToolkit;
 
 public class QuestionDiagnosgrund {
 
-    private static final short TEXT_LIMIT = 4000;
+    private static final short TEXT_LIMIT = 3500;
 
     public static CertificateDataElement toCertificate(String diagnosgrund, int index,
         CertificateTextProvider texts) {
@@ -48,7 +48,7 @@ public class QuestionDiagnosgrund {
             .config(
                 CertificateDataConfigTextArea.builder()
                     .id(DIAGNOSGRUND_SVAR_JSON_ID_7)
-                    .text(texts.get(DIAGNOSGRUND_TEXT))
+                    .text(texts.get(DIAGNOSGRUND_TEXT_ID))
                     .build()
             )
             .value(

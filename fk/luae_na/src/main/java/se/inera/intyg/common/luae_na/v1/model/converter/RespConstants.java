@@ -30,9 +30,9 @@ public class RespConstants {
     public static final String BIDIAGNOS_2_BESKRIVNING_DELSVAR_ID_6 = "6.5";
     public static final String BIDIAGNOS_2_DELSVAR_ID_6 = "6.6";
     public static final String DIAGNOS_SVAR_JSON_ID_6 = "diagnoser";
-    public static final String DIAGNOS_CATEGORY_TEXT = "KAT_3.RBK";
-    public static final String DIAGNOS_SVAR_TEXT = "FRG_6.RBK";
-    public static final String DIAGNOS_SVAR_BESKRIVNING = "FRG_6.HLP";
+    public static final String DIAGNOS_CATEGORY_TEXT_ID = "KAT_3.RBK";
+    public static final String DIAGNOS_SVAR_TEXT_ID = "FRG_6.RBK";
+    public static final String DIAGNOS_SVAR_DESCRIPTION_ID = "FRG_6.HLP";
     public static final String DIAGNOS_DELSVAR_TEXT = "DFR_6.2.RBK";
     public static final String DIAGNOS_ICD_10_ID = "ICD_10_SE";
     public static final String DIAGNOS_ICD_10_LABEL = "ICD-10-SE";
@@ -41,18 +41,16 @@ public class RespConstants {
 
 
     public static final String DIAGNOSGRUND_SVAR_ID_7 = "7";
-    public static final String DIAGNOSGRUND_TEXT = "FRG_7.RBK";
+    public static final String DIAGNOSGRUND_TEXT_ID = "FRG_7.RBK";
     public static final String DIAGNOSGRUND_DELSVAR_ID_7 = "7.1";
     public static final String NYDIAGNOS_SVAR_ID_45 = "45";
     public static final String DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45 = "45.1";
     public static final String DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45 = "45.2";
 
-    public static final String DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT = "FRG_45.RBK";
-    public static final String DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT_JA = "FRG_45.1.1.RBK";
-    public static final String DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT_NEJ = "FRG_45.1.2.RBK";
-    public static final String DIAGNOSGRUND_NYBEDOMNING_SVAR_BESKRIVNING = "FRG_45.HLP";
+    public static final String DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT_ID = "FRG_45.RBK";
+    public static final String DIAGNOSGRUND_NYBEDOMNING_SVAR_DESCRIPTION_ID = "FRG_45.HLP";
 
-    public static final String DIAGNOSGRUND_NYUPPDATERING_SVAR_TEXT = "DFR_45.2.RBK";
+    public static final String DIAGNOSGRUND_NYUPPDATERING_SVAR_TEXT_ID = "DFR_45.2.RBK";
     public static final String DIAGNOSGRUND_SVAR_JSON_ID_7 = "diagnosgrund";
     public static final String DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45 = "nyBedomningDiagnosgrund";
     public static final String DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45 = "diagnosForNyBedomning";

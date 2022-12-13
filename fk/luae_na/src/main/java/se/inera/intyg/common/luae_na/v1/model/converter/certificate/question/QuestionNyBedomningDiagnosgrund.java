@@ -19,13 +19,11 @@
 
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_SVAR_BESKRIVNING;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT_JA;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT_NEJ;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_SVAR_DESCRIPTION_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.NYDIAGNOS_SVAR_ID_45;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -42,15 +40,15 @@ public class QuestionNyBedomningDiagnosgrund {
     public static CertificateDataElement toCertificate(Boolean value, int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
             .index(index)
-            .id(DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45)
+            .id(NYDIAGNOS_SVAR_ID_45)
             .parent(DIAGNOS_CATEGORY_ID)
             .config(
                 CertificateDataConfigRadioBoolean.builder()
                     .id(DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45)
-                    .text(textProvider.get(DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT))
-                    .description(textProvider.get(DIAGNOSGRUND_NYBEDOMNING_SVAR_BESKRIVNING))
-                    .selectedText(textProvider.get(DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT_JA))
-                    .unselectedText(textProvider.get(DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT_NEJ))
+                    .text(textProvider.get(DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT_ID))
+                    .description(textProvider.get(DIAGNOSGRUND_NYBEDOMNING_SVAR_DESCRIPTION_ID))
+                    .selectedText("Ja")
+                    .unselectedText("Nej")
                     .build()
             )
             .value(
@@ -71,6 +69,6 @@ public class QuestionNyBedomningDiagnosgrund {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return ValueToolkit.booleanValue(certificate.getData(),DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45, DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45);
+        return ValueToolkit.booleanValue(certificate.getData(),NYDIAGNOS_SVAR_ID_45, DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45);
     }
 }

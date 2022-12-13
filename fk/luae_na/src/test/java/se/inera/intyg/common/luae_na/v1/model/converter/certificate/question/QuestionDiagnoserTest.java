@@ -32,9 +32,9 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIA
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_ICD_10_LABEL;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_KSH_97_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_KSH_97_LABEL;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_SVAR_BESKRIVNING;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_SVAR_DESCRIPTION_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_SVAR_ID_6;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_SVAR_TEXT;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_SVAR_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionDiagnoser.LIMIT_DIAGNOSIS_DESC;
 import static se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes.UE_DIAGNOSES;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
@@ -129,12 +129,12 @@ class QuestionDiagnoserTest {
 
             @Override
             protected String getTextId() {
-                return DIAGNOS_SVAR_TEXT;
+                return DIAGNOS_SVAR_TEXT_ID;
             }
 
             @Override
             protected String getDescriptionId() {
-                return DIAGNOS_SVAR_BESKRIVNING;
+                return DIAGNOS_SVAR_DESCRIPTION_ID;
             }
 
             @Test

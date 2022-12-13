@@ -24,9 +24,9 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIA
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_ICD_10_LABEL;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_KSH_97_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_KSH_97_LABEL;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_SVAR_BESKRIVNING;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_SVAR_DESCRIPTION_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_SVAR_ID_6;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_SVAR_TEXT;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_SVAR_TEXT_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.diagnosisListValue;
 
@@ -61,8 +61,8 @@ public class QuestionDiagnoser {
             .parent(DIAGNOS_CATEGORY_ID)
             .config(
                 CertificateDataConfigDiagnoses.builder()
-                    .text(texts.get(DIAGNOS_SVAR_TEXT))
-                    .description(texts.get(DIAGNOS_SVAR_BESKRIVNING))
+                    .text(texts.get(DIAGNOS_SVAR_TEXT_ID))
+                    .description(texts.get(DIAGNOS_SVAR_DESCRIPTION_ID))
                     .terminology(
                         Arrays.asList(
                             DiagnosesTerminology.builder()

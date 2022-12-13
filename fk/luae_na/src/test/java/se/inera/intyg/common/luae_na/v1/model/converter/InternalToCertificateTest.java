@@ -29,6 +29,7 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AVS
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AVSLUTADBEHANDLING_SVAR_ID_18;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.BAKGRUND_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.NYDIAGNOS_SVAR_ID_45;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.PAGAENDEBEHANDLING_DELSVAR_ID_19;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.PLANERADBEHANDLING_DELSVAR_ID_20;
@@ -189,7 +190,7 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeQuestionNyBedomningDiagnosgrund() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(12, actualCertificate.getData().get(DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45).getIndex());
+        assertEquals(12, actualCertificate.getData().get(NYDIAGNOS_SVAR_ID_45).getIndex());
     }
 
     @Test

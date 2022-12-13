@@ -20,11 +20,11 @@
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYUPPDATERING_SVAR_TEXT;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYUPPDATERING_SVAR_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.NYDIAGNOS_SVAR_ID_45;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -44,11 +44,11 @@ public class QuestionDiagnosForNyBedomning {
         return CertificateDataElement.builder()
             .index(index)
             .id(DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45)
-            .parent(DIAGNOS_CATEGORY_ID)
+            .parent(NYDIAGNOS_SVAR_ID_45 )
             .config(
                 CertificateDataConfigTextArea.builder()
                     .id(DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45)
-                    .text(texts.get(DIAGNOSGRUND_NYUPPDATERING_SVAR_TEXT))
+                    .text(texts.get(DIAGNOSGRUND_NYUPPDATERING_SVAR_TEXT_ID))
                     .build()
             )
             .value(
