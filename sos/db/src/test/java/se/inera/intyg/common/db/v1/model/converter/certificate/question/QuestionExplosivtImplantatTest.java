@@ -187,11 +187,6 @@ class QuestionExplosivtImplantatTest {
         class IncludeInternalRadioBooleanTest extends InternalRadioBooleanTest {
 
             @Override
-            protected Stream<Boolean> expectedValues() {
-                return Stream.of(true, false, null);
-            }
-
-            @Override
             protected CertificateDataElement toCertificate(Boolean expectedValue) {
                 return QuestionExplosivtImplantat.toCertificate(expectedValue, 0, texts);
             }

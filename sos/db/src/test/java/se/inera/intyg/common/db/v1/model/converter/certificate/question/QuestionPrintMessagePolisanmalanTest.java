@@ -113,7 +113,7 @@ class QuestionPrintMessagePolisanmalanTest {
 
             @Override
             protected String getExpression() {
-                return singleExpression(POLISANMALAN_JSON_ID);
+                return "$" + POLISANMALAN_JSON_ID;
             }
 
             @Override

@@ -175,7 +175,7 @@ class QuestionForgiftningUppkommelseTest {
 
             @Override
             protected String getExpression() {
-                return singleExpression(FORGIFTNING_OM_JSON_ID);
+                return "$" + FORGIFTNING_OM_JSON_ID;
             }
 
             @Override

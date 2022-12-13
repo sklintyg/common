@@ -29,13 +29,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_AUTO_F
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_JSON_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.TO_EPOCH_DAY;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.TWENTY_EIGHT_DAYS;
 import static se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes.UE_MESSAGE;
-import static se.inera.intyg.common.support.facade.util.PatientToolkit.birthDate;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.appendAttribute;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.lessThanOrEqual;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -120,14 +114,8 @@ class QuestionAutoFillMessageWithin28DaysBarnTest {
 
             @Override
             protected String getExpression() {
-                return lessThanOrEqual(
-                    singleExpression(
-                        appendAttribute(DODSDATUM_JSON_ID, TO_EPOCH_DAY)
-                    ),
-                    birthDate(personId)
-                        .plusDays(TWENTY_EIGHT_DAYS)
-                        .toEpochDay()
-                );
+                final var withinTwentyEightDaysAfter19121212 = -20811;
+                return "$" + DODSDATUM_JSON_ID + ".toEpochDay <= " + withinTwentyEightDaysAfter19121212;
             }
 
             @Override

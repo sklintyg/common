@@ -33,9 +33,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_AV
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_AVLAGSNAT_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_IMPLANTAT_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_IMPLANTAT_JSON_ID;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
-import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -191,7 +189,7 @@ class QuestionExplosivtAvlagsnatTest {
 
             @Override
             protected String getExpression() {
-                return singleExpression(EXPLOSIV_IMPLANTAT_JSON_ID);
+                return "$" + EXPLOSIV_IMPLANTAT_JSON_ID;
             }
 
             @Override
@@ -213,11 +211,6 @@ class QuestionExplosivtAvlagsnatTest {
         @Nested
         @TestInstance(TestInstance.Lifecycle.PER_CLASS)
         class IncludeInternalRadioBooleanTest extends InternalRadioBooleanTest {
-
-            @Override
-            protected Stream<Boolean> expectedValues() {
-                return Stream.of(true, false, null);
-            }
 
             @Override
             protected CertificateDataElement toCertificate(Boolean expectedValue) {

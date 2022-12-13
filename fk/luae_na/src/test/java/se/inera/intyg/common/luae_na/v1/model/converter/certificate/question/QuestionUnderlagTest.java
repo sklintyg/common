@@ -48,7 +48,6 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UND
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYPE_TEXT_ID;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import com.google.common.collect.ImmutableList;
 import java.time.LocalDate;
@@ -382,7 +381,7 @@ class QuestionUnderlagTest {
 
             @Override
             protected String getExpression() {
-                return singleExpression(UNDERLAGFINNS_SVAR_JSON_ID_3);
+                return "$" + UNDERLAGFINNS_SVAR_JSON_ID_3;
             }
 
             @Override

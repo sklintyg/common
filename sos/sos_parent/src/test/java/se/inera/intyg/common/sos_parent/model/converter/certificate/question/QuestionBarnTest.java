@@ -304,11 +304,6 @@ class QuestionBarnTest {
         class IncludeInternalRadioBooleanTest extends InternalRadioBooleanTest {
 
             @Override
-            protected Stream<Boolean> expectedValues() {
-                return Stream.of(true, false, null);
-            }
-
-            @Override
             protected CertificateDataElement toCertificate(Boolean expectedValue) {
                 return QuestionBarn.toCertificate(personId, expectedValue, 0, texts);
             }

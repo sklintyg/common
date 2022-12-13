@@ -169,7 +169,7 @@ class QuestionOperationAnledningTest {
 
             @Override
             protected String getExpression() {
-                return singleExpression(OmOperation.JA.toString());
+                return "$" + OmOperation.JA;
             }
 
             @Override

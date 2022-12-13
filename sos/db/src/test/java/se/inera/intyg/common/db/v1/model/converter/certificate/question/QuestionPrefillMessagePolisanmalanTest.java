@@ -112,7 +112,7 @@ class QuestionPrefillMessagePolisanmalanTest {
 
             @Override
             protected String getExpression() {
-                return singleExpression(Undersokning.UNDERSOKNING_SKA_GORAS.name());
+                return "$" + Undersokning.UNDERSOKNING_SKA_GORAS.name();
             }
 
             @Override

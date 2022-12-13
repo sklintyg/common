@@ -35,11 +35,6 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MOT
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_TEXT;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleAndExpression;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.not;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.wrapWithParenthesis;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -164,13 +159,10 @@ class QuestionMotiveringTillInteBaseratPaUndersokningTest {
 
             @Override
             protected String getExpression() {
-                return multipleAndExpression(
-                    not(singleExpression(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1)),
-                    wrapWithParenthesis(
-                        multipleOrExpression(
-                            singleExpression(GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1),
-                            singleExpression(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1),
-                            singleExpression(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))));
+                return "!$" + GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1 + " && ($"
+                    + GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1 + " || $"
+                    + GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1 + " || $"
+                    + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1 + ")";
             }
 
             @Override

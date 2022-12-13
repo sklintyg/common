@@ -168,7 +168,7 @@ class QuestionUndersokningsdatumTest {
 
             @Override
             protected String getExpression() {
-                return singleExpression(Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN.toString());
+                return "$" + Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN;
             }
 
             @Override

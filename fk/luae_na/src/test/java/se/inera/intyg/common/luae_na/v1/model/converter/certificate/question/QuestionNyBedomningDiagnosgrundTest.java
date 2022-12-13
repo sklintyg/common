@@ -175,11 +175,6 @@ class QuestionNyBedomningDiagnosgrundTest {
         class IncludeInternalRadioBooleanTest extends InternalRadioBooleanTest {
 
             @Override
-            protected Stream<Boolean> expectedValues() {
-                return Stream.of(true, false, null);
-            }
-
-            @Override
             protected CertificateDataElement toCertificate(Boolean expectedValue) {
                 return QuestionNyBedomningDiagnosgrund.toCertificate(expectedValue, 0, textProvider);
             }

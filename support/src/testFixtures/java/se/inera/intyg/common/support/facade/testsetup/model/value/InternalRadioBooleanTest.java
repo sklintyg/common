@@ -30,9 +30,12 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 
 public abstract class InternalRadioBooleanTest {
 
-    protected abstract Stream<Boolean> expectedValues();
     protected abstract CertificateDataElement toCertificate(Boolean expectedValue);
     protected abstract Boolean toInternal(Certificate expectedValue);
+
+    protected Stream<Boolean> expectedValues() {
+        return Stream.of(true, false, null);
+    }
 
     @ParameterizedTest
     @MethodSource("expectedValues")
