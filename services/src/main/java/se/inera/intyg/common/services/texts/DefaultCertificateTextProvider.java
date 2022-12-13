@@ -73,6 +73,8 @@ public final class DefaultCertificateTextProvider implements CertificateTextProv
         result = result.replaceAll("\n\n\\s", "\n\n");
         result = result.replaceAll("\n\\s+<ul>|\n<ul>", "<ul>");
         result = result.replaceAll(".\\sTill\\sexempel", ".\n\nTill exempel");
+        result = result.replaceAll("obehag\nvid", "obehag vid");
+        result = result.replaceAll("utgöra\nbåde", "utgöra både");
         return result;
     }
 

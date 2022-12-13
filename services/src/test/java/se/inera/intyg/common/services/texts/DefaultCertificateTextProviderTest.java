@@ -56,6 +56,12 @@ class DefaultCertificateTextProviderTest {
     private final String HEADER_TEXT = "Header \n Text";
     private final String HEADER_KEY = "key.RBK";
 
+    private final String FK_7801_NEW_LINE_ONE_KEY = "fk7801NewLineOne.HLP";
+    private final String FK_7801_NEW_LINE_ONE_TEXT = "uppleva obehag\nvid ljud,";
+    private final String FK_7801_NEW_LINE_ONE_TEXT_FIXED = "uppleva obehag vid ljud,";
+    private final String FK_7801_NEW_LINE_TWO_KEY = "fk7801NewLineTwo.HLP";
+    private final String FK_7801_NEW_LINE_TWO_TEXT = "kan utgöra\nbåde en";
+    private final String FK_7801_NEW_LINE_TWO_TEXT_FIXED = "kan utgöra både en";
 
     @BeforeEach
     void setUp() {
@@ -71,6 +77,8 @@ class DefaultCertificateTextProviderTest {
         texts.put(KEY_TAB, VALUE_WITH_TAB);
         texts.put(KEY_SPACING, VALUE_WITH_EXTRA_SPACE);
         texts.put(HEADER_KEY, HEADER_TEXT);
+        texts.put(FK_7801_NEW_LINE_ONE_KEY, FK_7801_NEW_LINE_ONE_TEXT);
+        texts.put(FK_7801_NEW_LINE_TWO_KEY, FK_7801_NEW_LINE_TWO_TEXT);
 
         final var intygTexts = new IntygTexts(
             "1.0",
@@ -163,5 +171,17 @@ class DefaultCertificateTextProviderTest {
     void shallNotParseExtraSpacingOfHeaderText() {
         final var actualText = defaultCertificateTextProvider.get(HEADER_KEY);
         assertEquals(HEADER_TEXT, actualText);
+    }
+
+    @Test
+    void shallRemoveIncorrectNewLineInFK7801One() {
+        final var actualText = defaultCertificateTextProvider.get(FK_7801_NEW_LINE_ONE_KEY);
+        assertEquals(FK_7801_NEW_LINE_ONE_TEXT_FIXED, actualText);
+    }
+
+    @Test
+    void shallRemoveIncorrectNewLineInFK7801Two() {
+        final var actualText = defaultCertificateTextProvider.get(FK_7801_NEW_LINE_TWO_KEY);
+        assertEquals(FK_7801_NEW_LINE_TWO_TEXT_FIXED, actualText);
     }
 }
