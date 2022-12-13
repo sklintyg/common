@@ -77,7 +77,6 @@ class QuestionTerminalDodsorsakFoljdAvTest {
     private Dodsorsak causeOfDeathEmpty;
     private List<CodeItem> allSpecifications;
 
-
     @BeforeEach
     void setup() {
         causeOfDeathEmpty = Dodsorsak.create(null, null, null);
@@ -301,7 +300,7 @@ class QuestionTerminalDodsorsakFoljdAvTest {
             final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
                 causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
             final var certificateDataValidationMaxDate = (CertificateDataValidationMaxDate) question.getValidation()[1];
-            assertEquals(FOLJD_JSON_ID + "[0].datum", certificateDataValidationMaxDate.getId());
+            assertEquals("'" + FOLJD_JSON_ID + "[0].datum'", certificateDataValidationMaxDate.getId());
         }
 
         @Test
@@ -435,7 +434,7 @@ class QuestionTerminalDodsorsakFoljdAvTest {
             void setUp() {
                 expectedValueForB = Dodsorsak.create(null, null, null);
                 expectedValueForC = Dodsorsak.create("Test", null, null);
-                expectedValueForD = Dodsorsak.create(null, null, null);
+                expectedValueForD = Dodsorsak.create("", null, null);
                 certificate = CertificateBuilder.create()
                     .addElement(
                         QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForB, 0, texts, FOLJD_OM_DELSVAR_B_ID,

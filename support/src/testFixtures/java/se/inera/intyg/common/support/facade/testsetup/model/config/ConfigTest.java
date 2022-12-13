@@ -37,6 +37,18 @@ public abstract class ConfigTest {
 
     protected abstract CertificateDataConfigTypes getType();
 
+    protected String getHeaderId() {
+        return null;
+    }
+
+    protected String getLabelId() {
+        return null;
+    }
+
+    protected String getIconId() {
+        return null;
+    }
+
     protected abstract String getTextId();
 
     protected abstract String getDescriptionId();
@@ -45,6 +57,32 @@ public abstract class ConfigTest {
     void shouldIncludeConfigCertificateDataConfig() {
         final var question = getElement();
         assertEquals(getType(), question.getConfig().getType());
+    }
+
+    @Test
+    void shouldIncludeHeader() {
+        final var question = getElement();
+        if (getHeaderId() != null) {
+            assertTrue(question.getConfig().getHeader().trim().length() > 0, "Missing Header");
+            verify(getTextProviderMock(), atLeastOnce()).get(getHeaderId());
+        }
+    }
+
+    @Test
+    void shouldIncludeLabel() {
+        final var question = getElement();
+        if (getLabelId() != null) {
+            assertTrue(question.getConfig().getLabel().trim().length() > 0, "Missing label");
+            verify(getTextProviderMock(), atLeastOnce()).get(getLabelId());
+        }
+    }
+
+    @Test
+    void shouldIncludeIcon() {
+        final var question = getElement();
+        if (getIconId() != null) {
+            assertEquals(getIconId(), question.getConfig().getIcon());
+        }
     }
 
     @Test
@@ -58,7 +96,7 @@ public abstract class ConfigTest {
     void shouldIncludeConfigDescription() {
         final var question = getElement();
         if (getDescriptionId() != null) {
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing description");
             verify(getTextProviderMock(), atLeastOnce()).get(getDescriptionId());
         }
     }

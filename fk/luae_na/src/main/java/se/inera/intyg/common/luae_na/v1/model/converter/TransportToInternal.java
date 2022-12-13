@@ -19,7 +19,6 @@
 package se.inera.intyg.common.luae_na.v1.model.converter;
 
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSLUTADBEHANDLING_DELSVAR_ID_18;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSLUTADBEHANDLING_SVAR_ID_18;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOSGRUND_DELSVAR_ID_7;
@@ -33,8 +32,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNEDOM_DELSVAR_ID_2;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNEDOM_SVAR_ID_2;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_ID_26;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.NYDIAGNOS_SVAR_ID_45;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_DELSVAR_ID_19;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
@@ -52,6 +49,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDER
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_TYP_DELSVAR_ID_4;
 import static se.inera.intyg.common.fkparent.model.converter.TransportToInternalUtil.handleDiagnos;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_DELSVAR_ID_23;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_ID_23;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORSLAG_TILL_ATGARD_DELSVAR_ID_24;
@@ -70,6 +68,8 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUN
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID_11;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_DELSVAR_ID_12;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID_12;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_ID_26;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.OVRIGT_DELSVAR_ID_25;

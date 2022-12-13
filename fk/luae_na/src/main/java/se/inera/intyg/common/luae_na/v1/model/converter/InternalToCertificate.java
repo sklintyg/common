@@ -26,6 +26,7 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.Cat
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryFunktionsnedsattning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryGrundForMU;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryMedicinskBehandling;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryKontakt;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryMedicinskaForutsattningarArbete;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryOvrigt;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAktivetsbegransningarHeader;
@@ -44,6 +45,8 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPsykisk;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningSynHorselTal;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKontaktAnledning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKontaktOnskas;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingAvslutadBehandling;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingAvslutadBehandlingHeader;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPagaendeBehandling;
@@ -203,6 +206,15 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionOvrigt.toCertificate(internalCertificate.getOvrigt(), index++, textProvider)
+            )
+            .addElement(
+                CategoryKontakt.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionKontaktOnskas.toCertificate(internalCertificate.getKontaktMedFk(), index++, textProvider)
+            )
+            .addElement(
+                QuestionKontaktAnledning.toCertificate(internalCertificate.getAnledningTillKontakt(), index++, textProvider)
             )
             .build();
     }

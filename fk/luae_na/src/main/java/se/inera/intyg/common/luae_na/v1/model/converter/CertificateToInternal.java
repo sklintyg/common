@@ -40,6 +40,8 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPsykisk;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningSynHorselTal;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKontaktAnledning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionKontaktOnskas;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingAvslutadBehandling;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPagaendeBehandling;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPlaneradBehandling;
@@ -98,6 +100,8 @@ public class CertificateToInternal {
             .setFormagaTrotsBegransning(QuestionFormagaTrotsBegransning.toInternal(certificate))
             .setForslagTillAtgard(QuestionForslagTillAtgard.toInternal(certificate))
             .setOvrigt(QuestionOvrigt.toInternal(certificate))
+            .setKontaktMedFk(QuestionKontaktOnskas.toInternal(certificate))
+            .setAnledningTillKontakt(QuestionKontaktAnledning.toInternal(certificate))
             .build();
     }
 }

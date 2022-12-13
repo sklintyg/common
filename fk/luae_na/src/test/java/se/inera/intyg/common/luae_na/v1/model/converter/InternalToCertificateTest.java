@@ -25,9 +25,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AVSLUTADBEHANDLING_DELSVAR_ID_18;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AVSLUTADBEHANDLING_SVAR_ID_18;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.BAKGRUND_CATEGORY_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.NYDIAGNOS_SVAR_ID_45;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.PAGAENDEBEHANDLING_DELSVAR_ID_19;
@@ -40,7 +43,6 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.BAKGRUND_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_SVAR_ID_7;
@@ -214,7 +216,7 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeQuestionFunktionsnedsattningKommunikation() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(16, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID_9).getIndex());
+        assertEquals(11, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID_9).getIndex());
     }
 
     @Test
@@ -354,5 +356,22 @@ class InternalToCertificateTest {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
         assertEquals(39, actualCertificate.getData().get(OVRIGT_SVAR_ID_25).getIndex());
     }
-}
 
+    @Test
+    void shallIncludeCategoryKontakt() {
+        final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
+        assertEquals(35, actualCertificate.getData().get(KONTAKT_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionKontaktOnskas() {
+        final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
+        assertEquals(36, actualCertificate.getData().get(KONTAKT_ONSKAS_SVAR_ID_26).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionKontaktAnledning() {
+        final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
+        assertEquals(37, actualCertificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26).getIndex());
+    }
+}

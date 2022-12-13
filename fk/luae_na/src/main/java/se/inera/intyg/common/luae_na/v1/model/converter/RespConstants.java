@@ -55,6 +55,9 @@ public class RespConstants {
     public static final String DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45 = "nyBedomningDiagnosgrund";
     public static final String DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45 = "diagnosForNyBedomning";
 
+    public static final String ANSWER_YES = "Ja";
+    public static final String ANSWER_NOT_SELECTED = "Ej angivet";
+
     public static final String GRUNDFORMU_CATEGORY_ID = "grundformu";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1 = "1";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1 = "1.1";
@@ -232,4 +235,16 @@ public class RespConstants {
     public static final String OVRIGT_DELSVAR_ID_25 = "25.1";
     public static final String OVRIGT_TEXT_ID = "FRG_25.RBK";
     public static final String OVRIGT_SVAR_JSON_ID_25 = "ovrigt";
+
+    public static final String KONTAKT_CATEGORY_ID = "kontakt";
+    public static final String KONTAKT_CATEGORY_TEXT_ID = "KAT_10.RBK";
+    public static final String KONTAKT_ONSKAS_SVAR_ID_26 = "26";
+    public static final String KONTAKT_ONSKAS_SVAR_JSON_ID_26 = "kontaktMedFk";
+    public static final String KONTAKT_ONSKAS_SVAR_TEXT_ID = "FRG_26.RBK";
+    public static final String KONTAKT_ONSKAS_SVAR_DESCRIPTION_ID = "FRG_26.HLP";
+    public static final String KONTAKT_ONSKAS_DELSVAR_ID_26 = "26.1";
+    public static final String KONTAKT_ONSKAS_DELSVAR_TEXT_ID = "DFR_26.1.RBK";
+    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26 = "26.2";
+    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26 = "anledningTillKontakt";
+    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT_ID = "DFR_26.2.RBK";
 }

@@ -427,9 +427,9 @@ class QuestionUnderlagTest {
             final var firstMaxDateValidation = (CertificateDataValidationMaxDate) question.getValidation()[2];
             final var secondMaxDateValidation = (CertificateDataValidationMaxDate) question.getValidation()[3];
             final var thirdMaxDateValidation = (CertificateDataValidationMaxDate) question.getValidation()[4];
-            final var firstExpectedId = UNDERLAG_SVAR_JSON_ID_4 + "[0].datum";
-            final var secondExpectedId = UNDERLAG_SVAR_JSON_ID_4 + "[1].datum";
-            final var thirdExpectedId = UNDERLAG_SVAR_JSON_ID_4 + "[2].datum";
+            final var firstExpectedId = "'" + UNDERLAG_SVAR_JSON_ID_4 + "[0].datum'";
+            final var secondExpectedId = "'" + UNDERLAG_SVAR_JSON_ID_4 + "[1].datum'";
+            final var thirdExpectedId = "'" + UNDERLAG_SVAR_JSON_ID_4 + "[2].datum'";
 
             assertAll(
                 () -> assertEquals(firstExpectedId, firstMaxDateValidation.getId()),

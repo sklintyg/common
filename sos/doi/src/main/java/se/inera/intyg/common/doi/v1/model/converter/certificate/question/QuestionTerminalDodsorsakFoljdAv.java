@@ -28,6 +28,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DE
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_PLOTSLIG;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_CATEGORY_ID;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.withCitation;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -124,7 +125,7 @@ public class QuestionTerminalDodsorsakFoljdAv {
                         .limit(LIMIT)
                         .build(),
                     CertificateDataValidationMaxDate.builder()
-                        .id(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].datum")
+                        .id(withCitation(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].datum"))
                         .numberOfDays(NUMBER_OF_DAYS_IN_FUTURE)
                         .build()
                 }
@@ -185,6 +186,7 @@ public class QuestionTerminalDodsorsakFoljdAv {
     }
 
     private static boolean hasValue(Dodsorsak dodsorsak) {
-        return dodsorsak.getBeskrivning() != null || dodsorsak.getDatum() != null || dodsorsak.getSpecifikation() != null;
+        return (dodsorsak.getBeskrivning() != null && !dodsorsak.getBeskrivning().isEmpty())
+            || dodsorsak.getDatum() != null || dodsorsak.getSpecifikation() != null;
     }
 }

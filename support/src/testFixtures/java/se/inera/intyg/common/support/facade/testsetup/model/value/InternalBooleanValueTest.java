@@ -21,35 +21,35 @@ package se.inera.intyg.common.support.facade.testsetup.model.value;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 
-public abstract class ValueBooleanTest extends ValueTest {
+public abstract class InternalBooleanValueTest {
 
-    protected abstract CertificateDataElement getElement();
+    protected abstract CertificateDataElement getElement(Boolean expectedValue);
 
-    protected abstract String getJsonId();
+    protected abstract Boolean toInternalBooleanValue(Certificate certificate);
 
-    protected abstract Boolean getSelected();
-
-    @Override
-    protected CertificateDataValueType getType() {
-        return CertificateDataValueType.BOOLEAN;
+    protected Stream<Boolean> booleanValues() {
+        return Stream.of(true, false, null);
     }
 
-    @Test
-    void shouldIncludeValueId() {
-        final var question = getElement();
-        final var value = (CertificateDataValueBoolean) question.getValue();
-        assertEquals(getJsonId(), value.getId());
+    @ParameterizedTest
+    @MethodSource("booleanValues")
+    void shouldIncludeBooleanValue(Boolean expectedValue) {
+        final var index = 1;
+
+        final var certificate = CertificateBuilder.create()
+            .addElement(getElement(expectedValue))
+            .build();
+
+        final var actualValue = toInternalBooleanValue(certificate);
+
+        assertEquals(expectedValue, actualValue);
     }
 
-    @Test
-    void shouldIncludeValueBoolean() {
-        final var question = getElement();
-        final var value = (CertificateDataValueBoolean) question.getValue();
-        assertEquals(getSelected(), value.getSelected());
-    }
 }
