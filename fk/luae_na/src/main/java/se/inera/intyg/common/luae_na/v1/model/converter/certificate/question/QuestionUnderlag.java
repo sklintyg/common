@@ -137,15 +137,15 @@ public class QuestionUnderlag {
                         .expression(singleExpression(UNDERLAGFINNS_SVAR_JSON_ID_3))
                         .build(),
                     CertificateDataValidationMaxDate.builder()
-                        .id(UNDERLAG_SVAR_JSON_ID_4 + "[0].datum")
+                        .id(withCitation(UNDERLAG_SVAR_JSON_ID_4 + "[0].datum"))
                         .numberOfDays(LIMIT)
                         .build(),
                     CertificateDataValidationMaxDate.builder()
-                        .id(UNDERLAG_SVAR_JSON_ID_4 + "[1].datum")
+                        .id(withCitation(UNDERLAG_SVAR_JSON_ID_4 + "[1].datum"))
                         .numberOfDays(LIMIT)
                         .build(),
                     CertificateDataValidationMaxDate.builder()
-                        .id(UNDERLAG_SVAR_JSON_ID_4 + "[2].datum")
+                        .id(withCitation(UNDERLAG_SVAR_JSON_ID_4 + "[2].datum"))
                         .numberOfDays(LIMIT)
                         .build(),
                 }
