@@ -63,7 +63,6 @@ import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigDiagnosTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationTextTest;
-import se.inera.intyg.common.support.facade.testsetup.model.value.DiagnosValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTest;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 

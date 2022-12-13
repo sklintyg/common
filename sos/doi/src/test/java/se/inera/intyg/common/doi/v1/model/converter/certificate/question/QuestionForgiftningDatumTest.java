@@ -31,7 +31,6 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_DATUM_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_OM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_OM_JSON_ID;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;

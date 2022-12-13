@@ -30,7 +30,6 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_A
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_ANLEDNING_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_OM_DELSVAR_ID;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;

@@ -445,7 +445,8 @@ class CertificateToInternalTest {
                 Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION),
                 Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION));
 
-            final var certificate = CertificateBuilder.create().addElement(InternalToCertificate.createDiagnosQuestion(diagnoser, index, texts))
+            final var certificate = CertificateBuilder.create()
+                .addElement(InternalToCertificate.createDiagnosQuestion(diagnoser, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
