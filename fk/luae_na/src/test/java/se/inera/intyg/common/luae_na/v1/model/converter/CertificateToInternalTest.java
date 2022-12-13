@@ -437,7 +437,7 @@ class CertificateToInternalTest {
 
         @Test
         void shallIncludeOvrigt() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getOvrigt(), expectedInternalCertificate.getOvrigt());
         }
     }
