@@ -212,12 +212,12 @@ public class QuestionBidragandeSjukdomar {
             .collect(Collectors.toList());
 
         removeEmptyValuesIfAtEndOfList(dodsorsakList);
-        
+
         return dodsorsakList;
     }
 
     private static Specifikation getSpecification(CertificateDataValueCauseOfDeath causeOfDeath) {
-        return causeOfDeath.getSpecification().getCode() != null
+        return causeOfDeath.getSpecification().getCode() != null && !causeOfDeath.getSpecification().getCode().isEmpty()
             ? Specifikation.fromValue(causeOfDeath.getSpecification().getCode()) : null;
     }
 
@@ -237,6 +237,7 @@ public class QuestionBidragandeSjukdomar {
     }
 
     private static boolean hasValue(Dodsorsak dodsorsak) {
-        return dodsorsak.getBeskrivning() != null || dodsorsak.getDatum() != null || dodsorsak.getSpecifikation() != null;
+        return (dodsorsak.getBeskrivning() != null && !dodsorsak.getBeskrivning().isEmpty())
+            || dodsorsak.getDatum() != null || dodsorsak.getSpecifikation() != null;
     }
 }
