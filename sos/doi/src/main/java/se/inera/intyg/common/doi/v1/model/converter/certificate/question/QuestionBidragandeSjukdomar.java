@@ -237,6 +237,7 @@ public class QuestionBidragandeSjukdomar {
     }
 
     private static boolean hasValue(Dodsorsak dodsorsak) {
-        return dodsorsak.getBeskrivning() != null || dodsorsak.getDatum() != null || dodsorsak.getSpecifikation() != null;
+        return (dodsorsak.getBeskrivning() != null && !dodsorsak.getBeskrivning().isEmpty())
+            || dodsorsak.getDatum() != null || dodsorsak.getSpecifikation() != null;
     }
 }

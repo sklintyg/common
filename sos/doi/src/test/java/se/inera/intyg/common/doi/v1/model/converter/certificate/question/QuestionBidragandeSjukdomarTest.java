@@ -487,7 +487,7 @@ class QuestionBidragandeSjukdomarTest {
         void shouldReturnEmptyDodsorsakListIfDodsorsakCodeAndLabelIsEmptyString() {
             final var expectedDodsorsakList = Collections.emptyList();
             final var dodsorsakList = List.of(
-                Dodsorsak.create(null, null, null),
+                Dodsorsak.create("", null, null),
                 Dodsorsak.create(null, null, null),
                 Dodsorsak.create(null, null, null),
                 Dodsorsak.create(null, null, null),
