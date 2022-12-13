@@ -20,6 +20,24 @@ package se.inera.intyg.common.ts_bas.v7.codes;
 
 public final class RespConstantsV7 {
 
+    public static final String SYNFUNKTIONER_CATEGORY_ID = "synfunktioner";
+    public static final String SYNFUNKTIONER_CATEGORY_TEXT_ID = "KAT_1.RBK";
+
+    public static final String SYNFALTSDEFEKTER_SVAR_ID_3 = "3";
+    public static final String SYNFALTSDEFEKTER_DELSVAR_ID_3 = "3.1";
+
+    public static final String SEENDE_NEDSATT_BELYSNING_SVAR_ID_4 = "4";
+    public static final String SEENDE_NEDSATT_BELYSNING_DELSVAR_ID_4 = "4.1";
+
+    public static final String PROGRESSIV_OGONSJUKDOM_SVAR_ID_5 = "5";
+    public static final String PROGRESSIV_OGONSJUKDOM_DELSVAR_ID_5 = "5.1";
+
+    public static final String DUBBELSEENDE_SVAR_ID_6 = "6";
+    public static final String DUBBELSEENDE_DELSVAR_ID_6 = "6.1";
+
+    public static final String NYSTAGMUS_SVAR_ID_7 = "7";
+    public static final String NYSTAGMUS_DELSVAR_ID_7 = "7.1";
+
     public static final String SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID_8 = "8.1";
     public static final String HOGER_OGA_UTAN_KORREKTION_DELSVAR_ID_8 = "8.2";
     public static final String VANSTER_OGA_UTAN_KORREKTION_DELSVAR_ID_8 = "8.3";
