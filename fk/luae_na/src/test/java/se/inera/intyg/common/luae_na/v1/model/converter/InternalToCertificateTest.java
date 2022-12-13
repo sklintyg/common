@@ -216,7 +216,7 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeQuestionFunktionsnedsattningKommunikation() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(11, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID_9).getIndex());
+        assertEquals(16, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID_9).getIndex());
     }
 
     @Test
@@ -360,18 +360,18 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeCategoryKontakt() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(35, actualCertificate.getData().get(KONTAKT_CATEGORY_ID).getIndex());
+        assertEquals(40, actualCertificate.getData().get(KONTAKT_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionKontaktOnskas() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(36, actualCertificate.getData().get(KONTAKT_ONSKAS_SVAR_ID_26).getIndex());
+        assertEquals(41, actualCertificate.getData().get(KONTAKT_ONSKAS_SVAR_ID_26).getIndex());
     }
 
     @Test
     void shallIncludeQuestionKontaktAnledning() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(37, actualCertificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26).getIndex());
+        assertEquals(42, actualCertificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26).getIndex());
     }
 }

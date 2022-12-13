@@ -61,7 +61,8 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
 public class CertificateToInternal {
 
-    public static LuaenaUtlatandeV1 convert(Certificate certificate, LuaenaUtlatandeV1 internalCertificate, WebcertModuleService moduleService) {
+    public static LuaenaUtlatandeV1 convert(Certificate certificate, LuaenaUtlatandeV1 internalCertificate,
+        WebcertModuleService moduleService) {
         return LuaenaUtlatandeV1.builder()
             .setId(internalCertificate.getId())
             .setTextVersion(internalCertificate.getTextVersion())

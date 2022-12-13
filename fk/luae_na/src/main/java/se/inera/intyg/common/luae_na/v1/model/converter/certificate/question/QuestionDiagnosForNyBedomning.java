@@ -44,7 +44,7 @@ public class QuestionDiagnosForNyBedomning {
         return CertificateDataElement.builder()
             .index(index)
             .id(DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45)
-            .parent(NYDIAGNOS_SVAR_ID_45 )
+            .parent(NYDIAGNOS_SVAR_ID_45)
             .config(
                 CertificateDataConfigTextArea.builder()
                     .id(DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45)
@@ -73,6 +73,7 @@ public class QuestionDiagnosForNyBedomning {
     }
 
     public static String toInternal(Certificate certificate) {
-        return ValueToolkit.textValue(certificate.getData(),DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45, DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45);
+        return ValueToolkit.textValue(
+            certificate.getData(),DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45, DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45);
     }
 }

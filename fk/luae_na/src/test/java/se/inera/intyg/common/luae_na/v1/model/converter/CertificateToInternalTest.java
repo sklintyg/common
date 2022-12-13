@@ -452,13 +452,13 @@ class CertificateToInternalTest {
 
         @Test
         void shallIncludeKontaktOnskas() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getKontaktMedFk(), expectedInternalCertificate.getKontaktMedFk());
         }
 
         @Test
         void shallIncludeKontaktAnledning() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
+            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             assertEquals(actualInternalCertificate.getAnledningTillKontakt(), expectedInternalCertificate.getAnledningTillKontakt());
         }
     }

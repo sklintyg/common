@@ -136,7 +136,7 @@ class QuestionKontaktOnskasTest {
         }
 
         @Override
-        protected Boolean getSelected() {
+        protected Boolean getBoolean() {
             return true;
         }
     }
