@@ -87,8 +87,8 @@ class CertificateToInternalTest {
     private Certificate certificate;
     private static String annanBeskrivning = "annanBeskrivning";
     private static String motivering = "motivering";
-    private final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
-    private final String DIAGNOSIS_DISPLAYNAME = "Namn att visa upp";
+    private static final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
+    private static final String DIAGNOSIS_DISPLAYNAME = "Namn att visa upp";
 
     @Mock
     private WebcertModuleService moduleService;

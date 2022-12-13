@@ -36,11 +36,11 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIA
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_SVAR_ID_6;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_SVAR_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionDiagnoser.LIMIT_DIAGNOSIS_DESC;
-import static se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes.UE_DIAGNOSES;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Assertions;
@@ -57,22 +57,21 @@ import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDiagnoses;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
-import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigTest;
+import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigDiagnosTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationTextTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.DiagnosValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTest;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionDiagnoserTest {
 
-    private final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
-    private final String DIAGNOSIS_DISPLAYNAME = "Namn att visa upp";
+    private static final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
+    private static final String DIAGNOSIS_DISPLAYNAME = "Namn att visa upp";
     @Mock
     private CertificateTextProvider textProvider;
     @Mock
@@ -84,7 +83,7 @@ class QuestionDiagnoserTest {
     }
 
     @Nested
-    class toCertificate {
+    class ToCertificate {
         @Nested
         class IncludeCommonElementTest extends CommonElementTest {
 
@@ -110,7 +109,7 @@ class QuestionDiagnoserTest {
         }
 
         @Nested
-        class IncludeConfigTest extends ConfigTest {
+        class IncludeConfigDiagnosTest extends ConfigDiagnosTest {
 
             @Override
             protected CertificateTextProvider getTextProviderMock() {
@@ -123,11 +122,6 @@ class QuestionDiagnoserTest {
             }
 
             @Override
-            protected CertificateDataConfigTypes getType() {
-                return UE_DIAGNOSES;
-            }
-
-            @Override
             protected String getTextId() {
                 return DIAGNOS_SVAR_TEXT_ID;
             }
@@ -137,37 +131,23 @@ class QuestionDiagnoserTest {
                 return DIAGNOS_SVAR_DESCRIPTION_ID;
             }
 
-            @Test
-            void terminology() {
-                var config = (CertificateDataConfigDiagnoses) QuestionDiagnoser.toCertificate(List.of(), 0, textProvider).getConfig();
-                var terminology = config.getTerminology();
-                assertAll(
-                    () -> {
-                        assertEquals(terminology.get(0).getId(), DIAGNOS_ICD_10_ID);
-                        assertEquals(terminology.get(0).getLabel(), DIAGNOS_ICD_10_LABEL);
-                        assertEquals(terminology.get(1).getId(), DIAGNOS_KSH_97_ID);
-                        assertEquals(terminology.get(1).getLabel(), DIAGNOS_KSH_97_LABEL);
-                    }
-                );
+            @Override
+            protected HashMap<String, String> getExpectedIdAndLabel() {
+                HashMap<String, String> idAndLabel = new HashMap<>();
+                idAndLabel.put(DIAGNOS_ICD_10_ID, DIAGNOS_ICD_10_LABEL);
+                idAndLabel.put(DIAGNOS_KSH_97_ID, DIAGNOS_KSH_97_LABEL);
+                return idAndLabel;
             }
 
-            @Test
-            void list() {
-                var config = (CertificateDataConfigDiagnoses) QuestionDiagnoser.toCertificate(List.of(), 0, textProvider).getConfig();
-                var list = config.getList();
-                assertAll(
-                    () -> {
-                        assertEquals(list.get(0).getId(), "1");
-                        assertEquals(list.get(1).getId(), "2");
-                        assertEquals(list.get(2).getId(), "3");
-                    }
-                );
+            @Override
+            protected List<String> getExpectedListIds() {
+                return List.of("1", "2", "3");
             }
         }
 
         @Nested
         @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-        class includeValueTest extends ValueTest {
+        class IncludeValueTest extends ValueTest {
 
             @Override
             protected CertificateDataElement getElement() {
@@ -205,7 +185,6 @@ class QuestionDiagnoserTest {
                             assertEquals(expectedValue.get(i).getDiagnosBeskrivning(), resultList.get(i).getDescription());
                             assertEquals(expectedValue.get(i).getDiagnosKodSystem(), resultList.get(i).getTerminology());
                             assertEquals(expectedValue.get(i).getDiagnosKod(), resultList.get(i).getCode());
-
                         }
                     }
                 );
@@ -235,7 +214,7 @@ class QuestionDiagnoserTest {
         }
 
         @Nested
-        class includeValidationMandatoryTest extends ValidationMandatoryTest {
+        class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
 
             @Override
             protected String getQuestionId() {
@@ -259,7 +238,7 @@ class QuestionDiagnoserTest {
         }
 
         @Nested
-        class includeValidationTextTest extends ValidationTextTest {
+        class IncludeValidationTextTest extends ValidationTextTest {
 
             @Override
             protected CertificateDataElement getElement() {
@@ -280,7 +259,7 @@ class QuestionDiagnoserTest {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class toInternal {
+    class ToInternal {
 
         Stream<List<Diagnos>> diagnosisListValues() {
             return Stream.of(Arrays.asList(
@@ -297,7 +276,7 @@ class QuestionDiagnoserTest {
         @ParameterizedTest
         @MethodSource("diagnosisListValues")
         void shouldIncludeDiagnosValue(List<Diagnos> expectedValue) {
-            if (!expectedValue.isEmpty()){
+            if (!expectedValue.isEmpty()) {
                 when(moduleService.getDescriptionFromDiagnosKod(anyString(), anyString())).thenReturn(DIAGNOSIS_DISPLAYNAME);
             }
 

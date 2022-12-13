@@ -112,7 +112,7 @@ class QuestionDiagnosgrundTest {
         }
 
         @Nested
-        class includeValueTest extends ValueTextTest {
+        class IncludeValueTest extends ValueTextTest {
 
             @Override
             protected CertificateDataElement getElement() {
@@ -131,7 +131,7 @@ class QuestionDiagnosgrundTest {
         }
 
         @Nested
-        class includeValidationTextTest extends ValidationTextTest {
+        class IncludeValidationTextTest extends ValidationTextTest {
 
             @Override
             protected CertificateDataElement getElement() {
@@ -150,7 +150,7 @@ class QuestionDiagnosgrundTest {
         }
 
         @Nested
-        class includeValidationMandatoryTest extends ValidationMandatoryTest {
+        class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
 
             @Override
             protected String getQuestionId() {
