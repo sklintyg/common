@@ -117,7 +117,7 @@ class QuestionPrefillMessagePolisanmalanTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionPrefillMessagePolisanmalan.toCertificate( 0, texts);
+                return QuestionPrefillMessagePolisanmalan.toCertificate(0, texts);
             }
 
             @Override
