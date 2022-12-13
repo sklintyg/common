@@ -25,6 +25,7 @@ import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySynfunktioner;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 
 @Component(value = "internalToCertificateTsBas")
@@ -36,6 +37,9 @@ public class InternalToCertificate {
             .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
             .addElement(
                 CategorySynfunktioner.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionSynfaltsdefekter.toCertificate(internalCertificate.getSyn().getSynfaltsdefekter(), index++, texts)
             )
             .build();
     }

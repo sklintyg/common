@@ -20,10 +20,14 @@ package se.inera.intyg.common.ts_bas.v7.codes;
 
 public final class RespConstantsV7 {
 
+    public static final String SVAR_JA_TEXT = "Ja";
+    public static final String SVAR_NEJ_TEXT = "Nej";
     public static final String SYNFUNKTIONER_CATEGORY_ID = "synfunktioner";
     public static final String SYNFUNKTIONER_CATEGORY_TEXT_ID = "KAT_1.RBK";
 
     public static final String SYNFALTSDEFEKTER_SVAR_ID_3 = "3";
+    public static final String SYNFALTSDEFEKTER_SVAR_TEXT_ID_3 = "FRG_3.RBK";
+    public static final String SYNFALTSDEFEKTER_JSON_ID_3 = "synfaltsdefekter";
     public static final String SYNFALTSDEFEKTER_DELSVAR_ID_3 = "3.1";
 
     public static final String SEENDE_NEDSATT_BELYSNING_SVAR_ID_4 = "4";

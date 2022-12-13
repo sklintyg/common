@@ -21,6 +21,7 @@ package se.inera.intyg.common.ts_bas.v7.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_ID_3;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -33,6 +34,7 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -53,6 +55,11 @@ class InternalToCertificateTest {
             .setId("certificateId")
             .setTextVersion("1.0")
             .setGrundData(getGrundData())
+            .setSyn(
+                Syn.builder()
+                    .setSynfaltsdefekter(true)
+                    .build()
+            )
             .build();
     }
 
@@ -75,8 +82,14 @@ class InternalToCertificateTest {
     }
 
     @Test
-    void shallCategorySynfunktioner() {
+    void shallIncludeCategorySynfunktioner() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(0, actualCertificate.getData().get(SYNFUNKTIONER_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionSynfaltsdefekter() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(1, actualCertificate.getData().get(SYNFALTSDEFEKTER_SVAR_ID_3).getIndex());
     }
 }
