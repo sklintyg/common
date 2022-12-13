@@ -18,9 +18,11 @@
  */
 package se.inera.intyg.common.ts_bas.v7.rest;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.xml.bind.JAXBElement;
 import javax.xml.soap.SOAPEnvelope;
@@ -29,10 +31,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.oxm.MarshallingFailureException;
 import org.springframework.stereotype.Component;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
+import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
+import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvider;
+import se.inera.intyg.common.services.messages.MessagesParser;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -40,9 +47,12 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
+import se.inera.intyg.common.ts_bas.v7.model.converter.CertificateToInternal;
+import se.inera.intyg.common.ts_bas.v7.model.converter.InternalToCertificate;
 import se.inera.intyg.common.ts_bas.v7.model.converter.InternalToTransport;
 import se.inera.intyg.common.ts_bas.v7.model.converter.TransportToInternal;
 import se.inera.intyg.common.ts_bas.v7.model.converter.UtlatandeToIntyg;
@@ -75,9 +85,16 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
     private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
 
     private SendTSClient sendTsBasClient;
+    private Map<String, String> validationMessages;
+    @Autowired
+    private InternalToCertificate internalToCertificate;
+
+    @Autowired
+    private CertificateToInternal certificateToInternal;
 
     public TsBasModuleApiV7() {
         super(TsBasUtlatandeV7.class);
+        initMessages();
     }
 
     @PostConstruct
@@ -90,6 +107,18 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
             sendTsBasClient = sendTSClientFactory.get(registerCertificateVersion);
         } else {
             LOG.debug("SendTSClientFactory is not injected. RegisterCertificate messages cannot be sent to recipient");
+        }
+    }
+
+    private void initMessages() {
+        try {
+            final var inputStream1 = new ClassPathResource("/META-INF/resources/webjars/common/webcert/messages.js").getInputStream();
+            final var inputStream2
+                = new ClassPathResource("/META-INF/resources/webjars/ts-bas/webcert/views/messages.js").getInputStream();
+            validationMessages = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
+        } catch (IOException exception) {
+            LOG.error("Error during initialization. Could not read messages files");
+            throw new RuntimeException("Error during initialization. Could not read messages files", exception);
         }
     }
 
@@ -156,6 +185,25 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
         }
         String base64EncodedSignatureXml = Base64.getEncoder().encodeToString(signatureXml.getBytes(Charset.forName("UTF-8")));
         return updateInternalAfterSigning(jsonModel, base64EncodedSignatureXml);
+    }
+
+    @Override
+    public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson);
+        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+        return internalToCertificate.convert(internalCertificate, certificateTextProvider);
+    }
+
+    @Override
+    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson);
+        final var updateInternalCertificate = certificateToInternal.convert(certificate, internalCertificate);
+        return toInternalModelResponse(updateInternalCertificate);
+    }
+
+    @Override
+    public CertificateMessagesProvider getMessagesProvider() {
+        return DefaultCertificateMessagesProvider.create(validationMessages);
     }
 
     private String updateInternalAfterSigning(String internalModel, String base64EncodedSignatureXml)

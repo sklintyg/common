@@ -180,7 +180,7 @@ class QuestionAnnatBeskrivningTest {
 
         @Test
         void shouldIncludeValidationTextLimit() {
-            short expectedLimit = 4000;
+            short expectedLimit = 3500;
             final var question = QuestionAnnatBeskrivning.toCertificate(null, 0, texts);
             final var mandatoryValidation = (CertificateDataValidationText) question.getValidation()[2];
 

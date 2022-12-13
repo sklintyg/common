@@ -21,4 +21,7 @@ package se.inera.intyg.common.services.messages;
 public interface CertificateMessagesProvider {
 
     String get(String key);
+
+    String get(String key, String dynamicKey);
+
 }

@@ -26,9 +26,9 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KONCENTRATION_DELSVAR_ID_10;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KONCENTRATION_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KONCENTRATION_DESCRIPTION_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_ID_10;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_JSON_ID_10;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KONCENTRATION_TEXT_ID;
 
@@ -68,7 +68,7 @@ class QuestionFunktionsnedsattningKoncentrationTest {
         @Test
         void shouldIncludeId() {
             final var question = QuestionFunktionsnedsattningKoncentration.toCertificate(null, 0, texts);
-            assertEquals(FUNKTIONSNEDSATTNING_KONCENTRATION_DELSVAR_ID_10, question.getId());
+            assertEquals(FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_ID_10, question.getId());
         }
 
         @Test
@@ -161,7 +161,7 @@ class QuestionFunktionsnedsattningKoncentrationTest {
 
         @Test
         void shouldIncludeValidationTextLimit() {
-            final var expectedLimit = 4000;
+            final var expectedLimit = 3500;
             final var question = QuestionFunktionsnedsattningKoncentration.toCertificate(null, 0, texts);
             final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[0];
             assertEquals(expectedLimit, certificateDataValidationText.getLimit());

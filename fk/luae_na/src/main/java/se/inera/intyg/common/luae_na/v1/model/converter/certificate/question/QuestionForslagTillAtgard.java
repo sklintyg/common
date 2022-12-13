@@ -20,8 +20,8 @@
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORSLAG_TILL_ATGARD_DELSVAR_ID_24;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORSLAG_TILL_ATGARD_DESCRIPTION_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORSLAG_TILL_ATGARD_SVAR_ID_24;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORSLAG_TILL_ATGARD_TEXT_ID;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
@@ -36,7 +36,7 @@ public class QuestionForslagTillAtgard {
 
     public static CertificateDataElement toCertificate(String forslagTillAtgard, int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
-            .id(FORSLAG_TILL_ATGARD_DELSVAR_ID_24)
+            .id(FORSLAG_TILL_ATGARD_SVAR_ID_24)
             .parent(CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE)
             .index(index)
             .config(
@@ -56,6 +56,6 @@ public class QuestionForslagTillAtgard {
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), FORSLAG_TILL_ATGARD_DELSVAR_ID_24, FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24);
+        return textValue(certificate.getData(), FORSLAG_TILL_ATGARD_SVAR_ID_24, FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24);
     }
 }

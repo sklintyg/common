@@ -26,9 +26,9 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_DELSVAR_ID_12;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_DESCRIPTION_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID_12;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_JSON_ID_12;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_TEXT_ID;
 
@@ -68,7 +68,7 @@ class QuestionFunktionsnedsattningSynHorselTalTest {
         @Test
         void shouldIncludeId() {
             final var question = QuestionFunktionsnedsattningSynHorselTal.toCertificate(null, 0, texts);
-            assertEquals(FUNKTIONSNEDSATTNING_SYNHORSELTAL_DELSVAR_ID_12, question.getId());
+            assertEquals(FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID_12, question.getId());
         }
 
         @Test
@@ -161,7 +161,7 @@ class QuestionFunktionsnedsattningSynHorselTalTest {
 
         @Test
         void shouldIncludeValidationTextLimit() {
-            final var expectedLimit = 4000;
+            final var expectedLimit = 3500;
             final var question = QuestionFunktionsnedsattningSynHorselTal.toCertificate(null, 0, texts);
             final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[0];
             assertEquals(expectedLimit, certificateDataValidationText.getLimit());

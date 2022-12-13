@@ -20,8 +20,8 @@
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_DELSVAR_ID_23;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_DESCRIPTION_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_ID_23;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_TEXT_ID;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
@@ -36,7 +36,7 @@ public class QuestionFormagaTrotsBegransning {
 
     public static CertificateDataElement toCertificate(String formagaTrotsBegransning, int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
-            .id(FORMAGATROTSBEGRANSNING_DELSVAR_ID_23)
+            .id(FORMAGATROTSBEGRANSNING_SVAR_ID_23)
             .parent(CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE)
             .index(index)
             .config(
@@ -56,6 +56,6 @@ public class QuestionFormagaTrotsBegransning {
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), FORMAGATROTSBEGRANSNING_DELSVAR_ID_23, FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23);
+        return textValue(certificate.getData(), FORMAGATROTSBEGRANSNING_SVAR_ID_23, FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23);
     }
 }

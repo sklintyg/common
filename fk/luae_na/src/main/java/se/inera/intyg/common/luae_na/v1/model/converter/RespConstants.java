@@ -58,6 +58,7 @@ public class RespConstants {
     public static final String DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45 = "diagnosForNyBedomning";
 
     public static final String GRUNDFORMU_CATEGORY_ID = "grundformu";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1 = "1";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1 = "1.1";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1 = "1.3";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1 = "undersokningAvPatienten";
@@ -74,23 +75,27 @@ public class RespConstants {
     public static final String GRUNDFORMU_ANNAT_LABEL = "KV_FKMU_0001.ANNAT.RBK";
 
 
+    public static final String KANNEDOM_SVAR_ID_2 = "2";
     public static final String KANNEDOM_DELSVAR_ID_2 = "2.1";
     public static final String KANNEDOM_SVAR_JSON_ID_2 = "kannedomOmPatient";
 
 
+    public static final String UNDERLAGFINNS_SVAR_ID_3 = "3";
+
     public static final String UNDERLAGFINNS_DELSVAR_ID_3 = "3.1";
     public static final String UNDERLAGFINNS_SVAR_JSON_ID_3 = "underlagFinns";
 
+    public static final String UNDERLAG_SVAR_ID_4 = "4";
     public static final String UNDERLAG_TYP_DELSVAR_ID_4 = "4.1";
     public static final String UNDERLAG_SVAR_JSON_ID_4 = "underlag";
 
     public static final String MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1 = "1.4";
     public static final String MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_TEXT = "Motivering till varför det medicinska underlaget "
         + "inte baseras på en undersökning av patienten:";
-    public static final String MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION =
-        "Observera att detta inte är en fråga från Försäkringskassan. Information om varför sjukskrivningen startar mer än "
-            + "en vecka före dagens datum kan vara till hjälp för Försäkringskassan i deras handläggning. "
-            + "Informationen du anger nedan, kommer att överföras till fältet \"Övriga upplysningar\" vid signering.";
+    public static final String MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION_ID = "FRG_25.RBK";
+    public static final String MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION = "Detta är ett stöd för ifyllnad och ingen fråga"
+        + " från Försäkringskassan. Informationen du anger här kan vara till hjälp för Försäkringskassan i deras handläggning. "
+        + "Informationen du anger nedan, kommer att överföras till fältet \"{0}\" vid signering.";
 
     public static final String KANNEDOM_SVAR_TEXT = "FRG_2.RBK";
     public static final String UNDERLAGFINNS_SELECTED_TEXT = "Ja";
@@ -103,6 +108,8 @@ public class RespConstants {
 
     public static final String BAKGRUND_CATEGORY_ID = "bakgrund";
     public static final String BAKGRUND_CATEGORY_TEXT_ID = "KAT_3.RBK";
+
+    public static final String SJUKDOMSFORLOPP_SVAR_ID_5 = "5";
     public static final String SJUKDOMSFORLOPP_DELSVAR_ID_5 = "5.1";
     public static final String SJUKDOMSFORLOPP_SVAR_JSON_ID_5 = "sjukdomsforlopp";
     public static final String SJUKDOMSFORLOPP_QUESTION_TEXT_ID = "FRG_5.RBK";
@@ -163,21 +170,48 @@ public class RespConstants {
     public static final String FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_TEXT_ID = "DFR_14.1.RBK";
     public static final String FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID_14 = "funktionsnedsattningAnnan";
 
-    public static final String AKTIVITETSBEGRANSNING_HEADER_ID_17 = "17.1";
-    public static final String AKTIVITETSBEGRANSNING_DELSVAR_ID_17 = "17.2";
+    public static final String MEDICINSKABEHANDLINGAR_CATEGORY_ID = "medicinskabehandlingar";
+    public static final String MEDICINSKABEHANDLINGAR_CATEGORY_TEXT = "KAT_7.RBK";
+
+    public static final String AVSLUTADBEHANDLING_SVAR_ID_18 = "18";
+    public static final String AVSLUTADBEHANDLING_DELSVAR_ID_18 = "18.1";
+    public static final String AVSLUTADBEHANDLING_SVAR_JSON_ID_18 = "avslutadBehandling";
+    public static final String AVSLUTADBEHANDLING_SVAR_TEXT = "FRG_18.RBK";
+    public static final String AVSLUTADBEHANDLING_DELSVAR_TEXT = "DFR_18.1.RBK";
+
+    public static final String PAGAENDEBEHANDLING_SVAR_ID_19 = "19";
+    public static final String PAGAENDEBEHANDLING_DELSVAR_ID_19 = "19.1";
+    public static final String PAGAENDEBEHANDLING_SVAR_JSON_ID_19 = "pagaendeBehandling";
+    public static final String PAGAENDEBEHANDLING_SVAR_TEXT = "FRG_19.RBK";
+    public static final String PAGAENDEBEHANDLING_DELSVAR_TEXT = "DFR_19.1.RBK";
+
+    public static final String PLANERADBEHANDLING_SVAR_ID_20 = "20";
+    public static final String PLANERADBEHANDLING_DELSVAR_ID_20 = "20.1";
+    public static final String PLANERADBEHANDLING_SVAR_JSON_ID_20 = "planeradBehandling";
+    public static final String PLANERADBEHANDLING_SVAR_TEXT = "FRG_20.RBK";
+    public static final String PLANERADBEHANDLING_DELSVAR_TEXT = "DFR_20.1.RBK";
+
+    public static final String SUBSTANSINTAG_SVAR_ID_21 = "21";
+    public static final String SUBSTANSINTAG_DELSVAR_ID_21 = "21.1";
+    public static final String SUBSTANSINTAG_SVAR_JSON_ID_21 = "substansintag";
+    public static final String SUBSTANSINTAG_SVAR_TEXT = "FRG_21.RBK";
+    public static final String SUBSTANSINTAG_DELSVAR_TEXT = "DFR_21.1.RBK";
+
+    public static final String AKTIVITETSBEGRANSNING_SVAR_ID_17 = "17";
+    public static final String AKTIVITETSBEGRANSNING_DELSVAR_ID_17 = "17.1";
     public static final String AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17 = "aktivitetsbegransning";
     public static final String AKTIVITETSBEGRANSNING_CATEGORY_ID = "aktivitetsbegransningar";
     public static final String AKTIVITETSBEGRANSNING_CATEGORY_TEXT_ID = "KAT_6.RBK";
-    public static final String AKTIVITETSBEGRANSNING_SVAR_TEXT = "FRG_17.RBK";
-    public static final String AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION = "FRG_17.HLP";
-    public static final String AKTIVITETSBEGRANSNING_DELSVAR_TEXT = "DFR_17.1.RBK";
+    public static final String AKTIVITETSBEGRANSNING_SVAR_TEXT_ID = "FRG_17.RBK";
+    public static final String AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION_ID = "FRG_17.HLP";
+    public static final String AKTIVITETSBEGRANSNING_DELSVAR_TEXT_ID = "DFR_17.1.RBK";
 
     public static final String CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE = "medicinskaforutsattningarforarbete";
     public static final String CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE_TEXT_ID = "KAT_8.RBK";
 
     public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22 = "22";
     public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22 = "22.1";
-    public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_TEXT_ID = "KAT_8.RBK";
+    public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_TEXT_ID = "FRG_22.RBK";
     public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_DESCRIPTION_ID = "FRG_22.HLP";
     public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22 = "medicinskaForutsattningarForArbete";
 
@@ -192,4 +226,12 @@ public class RespConstants {
     public static final String FORSLAG_TILL_ATGARD_TEXT_ID = "FRG_24.RBK";
     public static final String FORSLAG_TILL_ATGARD_DESCRIPTION_ID = "FRG_24.HLP";
     public static final String FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24 = "forslagTillAtgard";
+
+    public static final String OVRIGT_CATEGORY_ID = "ovrigt";
+    public static final String OVRIGT_CATEGORY_TEXT_ID = "KAT_9.RBK";
+
+    public static final String OVRIGT_SVAR_ID_25 = "25";
+    public static final String OVRIGT_DELSVAR_ID_25 = "25.1";
+    public static final String OVRIGT_TEXT_ID = "FRG_25.RBK";
+    public static final String OVRIGT_SVAR_JSON_ID_25 = "ovrigt";
 }

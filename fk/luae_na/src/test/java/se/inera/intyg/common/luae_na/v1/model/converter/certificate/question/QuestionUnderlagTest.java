@@ -42,11 +42,12 @@ import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTy
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_DELSVAR_ID_3;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_DATUM_TEXT;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_TEXT_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYPE_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYP_DELSVAR_ID_4;
@@ -75,6 +76,10 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTy
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigation;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigationList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
@@ -99,7 +104,7 @@ class QuestionUnderlagTest {
         void shouldIncludeId() {
             final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
 
-            assertEquals(UNDERLAG_TYP_DELSVAR_ID_4, question.getId());
+            assertEquals(UNDERLAG_SVAR_ID_4, question.getId());
         }
 
         @Test
@@ -356,7 +361,7 @@ class QuestionUnderlagTest {
             final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
 
-            assertEquals(UNDERLAG_TYP_DELSVAR_ID_4, certificateDataValidationMandatory.getQuestionId());
+            assertEquals(UNDERLAG_SVAR_ID_4, certificateDataValidationMandatory.getQuestionId());
         }
 
         @Test
@@ -378,10 +383,12 @@ class QuestionUnderlagTest {
                 return UNDERLAGFINNS_DELSVAR_ID_3;
             }
 
-            @Override
-            protected String getExpression() {
-                return singleExpression(UNDERLAGFINNS_SVAR_JSON_ID_3);
-            }
+        @Test
+        void shouldIncludeShowValidationQuestionId() {
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
+            final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
+            assertEquals(UNDERLAGFINNS_SVAR_ID_3, certificateDataValidationShow.getQuestionId());
+        }
 
             @Override
             protected CertificateDataElement getElement() {
@@ -630,14 +637,49 @@ class QuestionUnderlagTest {
         @Nested
         class UnderlagIsEmpty {
 
-            final List<Underlag> expectedValue = Collections.emptyList();
-
             @Test
             void shouldReturnEmptyListWithNoUnderlag() {
+                final List<Underlag> expectedValue = Collections.emptyList();
                 final var certificate = CertificateBuilder.create()
                     .addElement(QuestionUnderlag.toCertificate(
                         expectedValue, 0, texts))
                     .build();
+
+                final var actualValue = QuestionUnderlag.toInternal(certificate);
+
+                assertEquals(0, actualValue.size());
+            }
+
+            @Test
+            void shouldReturnEmptyListWhenUnderlagsTypIsEmptyString() {
+                final List<Underlag> emptyList = Collections.emptyList();
+                final var certificate = CertificateBuilder.create()
+                    .addElement(QuestionUnderlag.toCertificate(
+                        emptyList, 0, texts))
+                    .build();
+
+                certificate.getData().put(UNDERLAG_SVAR_ID_4,
+                    CertificateDataElement.builder()
+                        .value(
+                            CertificateDataValueMedicalInvestigationList.builder()
+                                .list(
+                                    List.of(
+                                        CertificateDataValueMedicalInvestigation.builder()
+                                            .investigationType(
+                                                CertificateDataValueCode.builder().id("").code("").build()
+                                            )
+                                            .date(
+                                                CertificateDataValueDate.builder().build()
+                                            )
+                                            .informationSource(
+                                                CertificateDataTextValue.builder().build()
+                                            )
+                                            .build()
+                                    )
+                                )
+                                .build()
+                        )
+                        .build());
 
                 final var actualValue = QuestionUnderlag.toInternal(certificate);
 

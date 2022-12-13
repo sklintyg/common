@@ -26,9 +26,9 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_ID_8;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_INTELLEKTUELL_DESCRIPTION_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID_8;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID_8;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_INTELLEKTUELL_TEXT_ID;
 
@@ -68,7 +68,7 @@ class QuestionFunktionsnedsattningIntellektuellTest {
         @Test
         void shouldIncludeId() {
             final var question = QuestionFunktionsnedsattningIntellektuell.toCertificate(null, 0, texts);
-            assertEquals(FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_ID_8, question.getId());
+            assertEquals(FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID_8, question.getId());
         }
 
         @Test
@@ -161,7 +161,7 @@ class QuestionFunktionsnedsattningIntellektuellTest {
 
         @Test
         void shouldIncludeValidationTextLimit() {
-            final var expectedLimit = 4000;
+            final var expectedLimit = 3500;
             final var question = QuestionFunktionsnedsattningIntellektuell.toCertificate(null, 0, texts);
             final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[0];
             assertEquals(expectedLimit, certificateDataValidationText.getLimit());

@@ -23,7 +23,7 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRU
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_TEXT;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
@@ -40,7 +40,8 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue
 
 public class QuestionAnnatBeskrivning {
 
-    private static final short LIMIT = 4000;
+    private static final short LIMIT = 3500;
+
     public static CertificateDataElement toCertificate(String annanBeskrivning, int index, CertificateTextProvider texts) {
 
         return CertificateDataElement.builder()
@@ -62,7 +63,7 @@ public class QuestionAnnatBeskrivning {
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationShow.builder()
-                        .questionId(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1)
+                        .questionId(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
                         .expression(singleExpression(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
                         .build(),
                     CertificateDataValidationMandatory.builder()

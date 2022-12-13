@@ -25,9 +25,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DELSVAR_ID_13;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DESCRIPTION_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID_13;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID_13;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
 
@@ -67,7 +67,7 @@ class QuestionFunktionsnedsattningBalansKoordinationTest {
         @Test
         void shouldIncludeId() {
             final var question = QuestionFunktionsnedsattningBalansKoordination.toCertificate(null, 0, texts);
-            assertEquals(FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DELSVAR_ID_13, question.getId());
+            assertEquals(FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID_13, question.getId());
         }
 
         @Test
@@ -160,7 +160,7 @@ class QuestionFunktionsnedsattningBalansKoordinationTest {
 
         @Test
         void shouldIncludeValidationTextLimit() {
-            final var expectedLimit = 4000;
+            final var expectedLimit = 3500;
             final var question = QuestionFunktionsnedsattningBalansKoordination.toCertificate(null, 0, texts);
             final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[0];
             assertEquals(expectedLimit, certificateDataValidationText.getLimit());
