@@ -24,7 +24,10 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_J
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_JSON_ID;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleAndExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.withCitation;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateValue;
 
 import java.time.LocalDate;
@@ -70,7 +73,12 @@ public class QuestionDodsdatum {
                         .build(),
                     CertificateDataValidationShow.builder()
                         .questionId(DODSDATUM_SAKERT_DELSVAR_ID)
-                        .expression(singleExpression(DODSDATUM_SAKERT_JSON_ID))
+                        .expression(
+                            multipleAndExpression(
+                                exists(withCitation(DODSDATUM_SAKERT_JSON_ID)),
+                                withCitation(DODSDATUM_SAKERT_JSON_ID)
+                            )
+                        )
                         .build(),
                     CertificateDataValidationMaxDate.builder()
                         .id(DODSDATUM_JSON_ID)
