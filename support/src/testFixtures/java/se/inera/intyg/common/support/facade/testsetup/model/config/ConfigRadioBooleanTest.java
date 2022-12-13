@@ -36,7 +36,7 @@ public abstract class ConfigRadioBooleanTest extends ConfigTest {
     }
 
     @Test
-    void includeId(){
+    void includeId() {
         final var question = (CertificateDataConfigRadioBoolean) getElement().getConfig();
         assertEquals(getId(), question.getId());
     }

@@ -30,7 +30,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDi
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.config.DiagnosesTerminology;
 
-public abstract class ConfigDiagnosTest extends ConfigTest{
+public abstract class ConfigDiagnosTest extends ConfigTest {
 
     protected abstract HashMap<String,String> getExpectedIdAndLabel();
     protected abstract List<String> getExpectedListIds();
