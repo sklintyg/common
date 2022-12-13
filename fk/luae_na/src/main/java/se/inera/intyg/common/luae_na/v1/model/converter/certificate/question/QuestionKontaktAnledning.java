@@ -58,7 +58,7 @@ public class QuestionKontaktAnledning {
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationShow.builder()
-                        .questionId(KONTAKT_ONSKAS_DELSVAR_ID_26)
+                        .questionId(KONTAKT_ONSKAS_SVAR_ID_26)
                         .expression(singleExpression(KONTAKT_ONSKAS_SVAR_JSON_ID_26))
                         .build()
                 }
