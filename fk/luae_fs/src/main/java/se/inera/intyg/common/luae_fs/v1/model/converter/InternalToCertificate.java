@@ -26,7 +26,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 
-@Component(value = "interalToCertificateFK7802")
+@Component(value = "internalToCertificateFK7802")
 public class InternalToCertificate {
 
     public Certificate convert(LuaefsUtlatandeV1 internalCertificate, CertificateTextProvider texts) {

@@ -17,20 +17,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.luae_fs.v1.model.converter;
+package se.inera.intyg.common.ts_bas.v7.model.converter;
 
 import org.springframework.stereotype.Component;
-import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
+import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 
-@Component(value = "certificateToInternalFK7802")
-public class CertificateToInternal {
+@Component(value = "internalToCertificateTsBas")
+public class InternalToCertificate {
 
-    public LuaefsUtlatandeV1 convert(Certificate certificate, LuaefsUtlatandeV1 internalCertificate) {
-        return LuaefsUtlatandeV1.builder()
-            .setId(internalCertificate.getId())
-            .setTextVersion(internalCertificate.getTextVersion())
-            .setGrundData(internalCertificate.getGrundData())
+    public Certificate convert(TsBasUtlatandeV7 internalCertificate, CertificateTextProvider texts) {
+        return CertificateBuilder.create()
+            .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
             .build();
     }
 }

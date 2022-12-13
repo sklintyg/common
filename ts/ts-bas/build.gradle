@@ -8,4 +8,6 @@ dependencies {
   compile "com.google.auto.value:auto-value:${autovalueVersion}"
   compile "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
   annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
+  testImplementation testFixtures(project(":common-support"))
+
 }
