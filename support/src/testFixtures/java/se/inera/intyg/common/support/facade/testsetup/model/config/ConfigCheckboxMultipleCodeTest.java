@@ -59,18 +59,4 @@ public abstract class ConfigCheckboxMultipleCodeTest extends ConfigTest {
             assertEquals(checkboxMultipleCode.getLabel(), getListOfCodes().get(i).getLabel());
         }
     }
-
-    @Test
-    void shouldIncludeConfigRows() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigCheckboxMultipleCode) question.getConfig();
-        assertEquals(getRows(), config.getRows());
-    }
-
-    @Test
-    void shouldIncludeConfigColumns() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigCheckboxMultipleCode) question.getConfig();
-        assertEquals(getColumns(), config.getColumns());
-    }
 }

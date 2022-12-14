@@ -59,6 +59,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCheckboxMultipleCodeTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalCodeListValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueCodeListTest;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvser;
@@ -191,7 +192,7 @@ class QuestionIntygetAvserTest {
             }
 
             @Override
-            protected List<InputExpectedValuePair<IntygAvser>> inputExpectedValuePairList() {
+            protected List<InputExpectedValuePair<IntygAvser, CertificateDataValueCodeList>> inputExpectedValuePairList() {
                 return List.of(
                     new InputExpectedValuePair(null, Collections.emptyList()),
                     new InputExpectedValuePair(IntygAvser.create(null), Collections.emptyList()),
@@ -249,7 +250,7 @@ class QuestionIntygetAvserTest {
 
         @Nested
         @TestInstance(Lifecycle.PER_CLASS)
-        class IncludeInternalCodeListValueTest extends InternalCodeListValueTest<IntygAvser> {
+        class IncludeInternalCodeListValueTest extends InternalCodeListValueTest<IntygAvser, IntygAvser> {
 
             @Override
             protected CertificateDataElement getElement(IntygAvser input) {
@@ -262,12 +263,13 @@ class QuestionIntygetAvserTest {
             }
 
             @Override
-            protected List<InternalCodeListValueTest<IntygAvser>.InputExpectedValuePair<IntygAvser>> inputExpectedValuePairList() {
+            protected List<InputExpectedValuePair<IntygAvser, IntygAvser>> inputExpectedValuePairList() {
                 return List.of(
-                    new InternalCodeListValueTest.InputExpectedValuePair(null, IntygAvser.create(null)),
-                    new InternalCodeListValueTest.InputExpectedValuePair(IntygAvser.create(null), IntygAvser.create(null)),
-                    new InternalCodeListValueTest.InputExpectedValuePair(IntygAvser.create(
-                        EnumSet.copyOf(Set.of(IntygAvserKategori.IAV3, IntygAvserKategori.IAV2, IntygAvserKategori.IAV1))),
+                    new InputExpectedValuePair(null, IntygAvser.create(null)),
+                    new InputExpectedValuePair(IntygAvser.create(null), IntygAvser.create(null)),
+                    new InputExpectedValuePair(
+                        IntygAvser.create(
+                            EnumSet.copyOf(Set.of(IntygAvserKategori.IAV3, IntygAvserKategori.IAV2, IntygAvserKategori.IAV1))),
                         IntygAvser.create(
                             EnumSet.copyOf(Set.of(IntygAvserKategori.IAV3, IntygAvserKategori.IAV2, IntygAvserKategori.IAV1)))
                     )

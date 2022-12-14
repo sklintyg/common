@@ -26,7 +26,6 @@ import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCodeList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 
@@ -34,9 +33,9 @@ public abstract class ValueCodeListTest<T> extends ValueTest {
 
     protected abstract CertificateDataElement getElement(T expectedValue);
 
-    protected abstract List<InputExpectedValuePair<T>> inputExpectedValuePairList();
+    protected abstract List<InputExpectedValuePair<T, CertificateDataValueCodeList>> inputExpectedValuePairList();
 
-    protected Stream<InputExpectedValuePair<T>> inputExpectedValuePairStream() {
+    protected Stream<InputExpectedValuePair<T, CertificateDataValueCodeList>> inputExpectedValuePairStream() {
         return inputExpectedValuePairList().stream();
     }
 
@@ -52,29 +51,10 @@ public abstract class ValueCodeListTest<T> extends ValueTest {
 
     @ParameterizedTest
     @MethodSource("inputExpectedValuePairStream")
-    void shouldIncludeCodeValueList(InputExpectedValuePair<T> inputExpectedValuePair) {
+    void shouldIncludeCodeValueList(InputExpectedValuePair<T, CertificateDataValueCodeList> inputExpectedValuePair) {
         final var question = getElement(inputExpectedValuePair.getInput());
         final var value = (CertificateDataValueCodeList) question.getValue();
         assertEquals(inputExpectedValuePair.getExpectedValue(), value.getList());
-    }
-
-    public class InputExpectedValuePair<T> {
-
-        private final T input;
-        private final List<CertificateDataValueCode> expectedValue;
-
-        public InputExpectedValuePair(T input, List<CertificateDataValueCode> expectedValue) {
-            this.input = input;
-            this.expectedValue = expectedValue;
-        }
-
-        public T getInput() {
-            return input;
-        }
-
-        public List<CertificateDataValueCode> getExpectedValue() {
-            return expectedValue;
-        }
     }
 }
 

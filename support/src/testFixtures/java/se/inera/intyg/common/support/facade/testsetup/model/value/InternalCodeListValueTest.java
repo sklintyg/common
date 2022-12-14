@@ -29,21 +29,21 @@ import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 
-public abstract class InternalCodeListValueTest<T> {
+public abstract class InternalCodeListValueTest<T, S> {
 
     protected abstract CertificateDataElement getElement(T input);
 
     protected abstract T toInternalTextValue(Certificate certificate);
 
-    protected abstract List<InputExpectedValuePair<T>> inputExpectedValuePairList();
+    protected abstract List<InputExpectedValuePair<T, S>> inputExpectedValuePairList();
 
-    protected Stream<InputExpectedValuePair<T>> inputExpectedValuePairStream() {
+    protected Stream<InputExpectedValuePair<T, S>> inputExpectedValuePairStream() {
         return inputExpectedValuePairList().stream();
     }
 
     @ParameterizedTest
     @MethodSource("inputExpectedValuePairStream")
-    void shouldIncludeTextValue(InputExpectedValuePair<T> inputExpectedValuePair) {
+    void shouldIncludeTextValue(InputExpectedValuePair<T, S> inputExpectedValuePair) {
         final var certificate = CertificateBuilder.create()
             .addElement(getElement(inputExpectedValuePair.getInput()))
             .build();
@@ -51,24 +51,5 @@ public abstract class InternalCodeListValueTest<T> {
         final var actualValue = toInternalTextValue(certificate);
 
         assertEquals(inputExpectedValuePair.getExpectedValue(), actualValue);
-    }
-
-    public class InputExpectedValuePair<T> {
-
-        private final T input;
-        private final T expectedValue;
-
-        public InputExpectedValuePair(T input, T expectedValue) {
-            this.input = input;
-            this.expectedValue = expectedValue;
-        }
-
-        public T getInput() {
-            return input;
-        }
-
-        public T getExpectedValue() {
-            return expectedValue;
-        }
     }
 }
