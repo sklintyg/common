@@ -42,6 +42,8 @@ public final class RespConstantsV7 {
     public static final String PROGRESSIV_OGONSJUKDOM_DELSVAR_ID_5 = "5.1";
 
     public static final String DUBBELSEENDE_SVAR_ID_6 = "6";
+    public static final String DUBBELSEENDE_JSON_ID_6 = "dubbelseende";
+    public static final String DUBBELSEENDE_TEXT_ID_6 = "FRG_6.RBK";
     public static final String DUBBELSEENDE_DELSVAR_ID_6 = "6.1";
 
     public static final String NYSTAGMUS_SVAR_ID_7 = "7";

@@ -21,6 +21,7 @@ package se.inera.intyg.common.ts_bas.v7.model.converter;
 
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
@@ -39,6 +40,7 @@ public class CertificateToInternal {
                 .setSynfaltsdefekter(QuestionSynfaltsdefekter.toInternal(certificate))
                 .setNattblindhet(QuestionNattblindhet.toInternal(certificate))
                 .setProgressivOgonsjukdom(QuestionProgressivOgonsjukdom.toInternal(certificate))
+                .setDiplopi(QuestionDubbelseende.toInternal(certificate))
                 .build())
             .build();
     }

@@ -35,6 +35,7 @@ import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
@@ -59,6 +60,7 @@ class CertificateToInternalTest {
             .setSynfaltsdefekter(true)
             .setNattblindhet(true)
             .setProgressivOgonsjukdom(true)
+            .setDiplopi(true)
             .build();
 
         expectedInternalCertificate = TsBasUtlatandeV7.builder()
@@ -73,6 +75,7 @@ class CertificateToInternalTest {
             .addElement(QuestionSynfaltsdefekter.toCertificate(syn, 0, textProvider))
             .addElement(QuestionNattblindhet.toCertificate(syn, 0, textProvider))
             .addElement(QuestionProgressivOgonsjukdom.toCertificate(syn, 0, textProvider))
+            .addElement(QuestionDubbelseende.toCertificate(syn, 0, textProvider))
             .build();
     }
 
@@ -123,5 +126,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getSyn().getProgressivOgonsjukdom(),
             actualInternalCertificate.getSyn().getProgressivOgonsjukdom());
+    }
+
+    @Test
+    void shallIncludeDubbelseende() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getSyn().getDiplopi(),
+            actualInternalCertificate.getSyn().getDiplopi());
     }
 }

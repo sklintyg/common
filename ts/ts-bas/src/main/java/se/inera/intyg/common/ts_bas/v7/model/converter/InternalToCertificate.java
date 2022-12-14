@@ -25,6 +25,7 @@ import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySynfunktioner;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
@@ -49,6 +50,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionProgressivOgonsjukdom.toCertificate(internalCertificate.getSyn(), index++, texts)
+            )
+            .addElement(
+                QuestionDubbelseende.toCertificate(internalCertificate.getSyn(), index++, texts)
             )
             .build();
     }
