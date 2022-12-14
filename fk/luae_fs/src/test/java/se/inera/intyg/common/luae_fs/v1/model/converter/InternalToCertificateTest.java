@@ -19,7 +19,9 @@
 
 package se.inera.intyg.common.luae_fs.v1.model.converter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -70,5 +72,11 @@ class InternalToCertificateTest {
     void shallIncludeMetadata() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertNotNull(actualCertificate.getMetadata(), "Shall contain metadata");
+    }
+
+    @Test
+    void shallIncludeCategoryDiagnos() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(0, actualCertificate.getData().get(DIAGNOS_CATEGORY_ID).getIndex());
     }
 }
