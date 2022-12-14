@@ -28,12 +28,15 @@ import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.DIA
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.DIAGNOS_SVAR_ID_6;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.DIAGNOS_SVAR_TEXT_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.diagnosisListValue;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDiagnoses;
 import se.inera.intyg.common.support.facade.model.config.DiagnosesListItem;
@@ -43,6 +46,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
 public class QuestionDiagnos {
 
@@ -127,5 +131,26 @@ public class QuestionDiagnos {
             .code(diagnos.getDiagnosKod())
             .description(diagnos.getDiagnosBeskrivning())
             .build();
+    }
+
+    public static List<Diagnos> toInternal(Certificate certificate, WebcertModuleService moduleService) {
+        var diagnosisList = diagnosisListValue(certificate.getData(), RespConstants.DIAGNOS_SVAR_ID_6);
+        int maxDiagnosId = diagnosisList.stream()
+            .mapToInt((diagnosis) -> Integer.parseInt(diagnosis.getId())).max().orElse(0);
+
+        List<Diagnos> newDiagnosisList = new ArrayList<>();
+        while (newDiagnosisList.size() < maxDiagnosId) {
+            newDiagnosisList.add(Diagnos.create(null, null, null, null));
+        }
+
+        diagnosisList.forEach(diagnosis -> {
+            var newDiagnosis = Diagnos.create(
+                diagnosis.getCode(),
+                diagnosis.getTerminology(),
+                diagnosis.getDescription(),
+                moduleService.getDescriptionFromDiagnosKod(diagnosis.getCode(), diagnosis.getTerminology()));
+            newDiagnosisList.set(Integer.parseInt(diagnosis.getId()) - 1, newDiagnosis);
+        });
+        return newDiagnosisList;
     }
 }

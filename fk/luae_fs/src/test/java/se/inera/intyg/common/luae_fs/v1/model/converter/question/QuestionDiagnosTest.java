@@ -41,6 +41,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
@@ -49,13 +50,21 @@ import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigDiagnos
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationTextTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InternalValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueDiagnosListTest;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionDiagnosTest {
 
+    protected static final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
+    protected static final String DIAGNOSIS_DISPLAYNAME = "Namn att visa upp";
+
     @Mock
     private CertificateTextProvider textProvider;
+
+    @Mock
+    private WebcertModuleService webcertModuleService;
 
     @BeforeEach
     void setUp() {
@@ -273,6 +282,86 @@ class QuestionDiagnosTest {
         @Override
         protected short getLimit() {
             return (short) 81;
+        }
+    }
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class IncludeInternalValueTest extends InternalValueTest<List<Diagnos>, List<Diagnos>> {
+
+        @Override
+        protected CertificateDataElement getElement(List<Diagnos> input) {
+            if (input != null && !input.isEmpty()) {
+                doReturn(DIAGNOSIS_DISPLAYNAME).when(webcertModuleService).getDescriptionFromDiagnosKod(anyString(), anyString());
+            }
+            return QuestionDiagnos.toCertificate(input, 0, textProvider);
+        }
+
+        @Override
+        protected List<Diagnos> toInternalValue(Certificate certificate) {
+            return QuestionDiagnos.toInternal(certificate, webcertModuleService);
+        }
+
+        @Override
+        protected List<InputExpectedValuePair<List<Diagnos>, List<Diagnos>>> inputExpectedValuePairList() {
+            return List.of(
+                new InputExpectedValuePair(null, Collections.emptyList()),
+                new InputExpectedValuePair(Collections.emptyList(), Collections.emptyList()),
+                new InputExpectedValuePair(
+                    List.of(
+                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                    ),
+                    List.of(
+                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                    )
+                ),
+                new InputExpectedValuePair(
+                    List.of(
+                        Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                    ),
+                    List.of(
+                        Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                    )
+                ),
+                new InputExpectedValuePair(
+                    List.of(
+                        Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create("F501", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                    ),
+                    List.of(
+                        Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create("F501", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                    )
+                ),
+                new InputExpectedValuePair(
+                    List.of(
+                        Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create(null, null, null, null),
+                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                    ),
+                    List.of(
+                        Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create(null, null, null, null),
+                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                    )
+                ),
+                new InputExpectedValuePair(
+                    List.of(
+                        Diagnos.create("", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create(null, null, null, null),
+                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                    ),
+                    List.of(
+                        Diagnos.create("", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create(null, null, null, null),
+                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                    )
+                )
+            );
         }
     }
 }

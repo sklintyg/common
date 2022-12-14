@@ -32,9 +32,6 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType
 
 public abstract class ValueDiagnosListTest<T> extends ValueTest {
 
-    protected static final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
-    protected static final String DIAGNOSIS_DISPLAYNAME = "Namn att visa upp";
-
     protected abstract CertificateDataElement getElement(T expectedValue);
 
     protected abstract List<InputExpectedValuePair<T, CertificateDataValueDiagnosisList>> inputExpectedValuePairList();
