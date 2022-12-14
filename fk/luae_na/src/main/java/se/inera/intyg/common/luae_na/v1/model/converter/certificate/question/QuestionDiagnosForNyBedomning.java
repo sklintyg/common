@@ -59,8 +59,8 @@ public class QuestionDiagnosForNyBedomning {
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationShow.builder()
-                        .questionId(DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45)
-                        .expression(singleExpression(NYDIAGNOS_SVAR_ID_45))
+                        .questionId(NYDIAGNOS_SVAR_ID_45)
+                        .expression(singleExpression(DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45))
                         .build(),
                     CertificateDataValidationMandatory.builder()
                         .questionId(DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45)
