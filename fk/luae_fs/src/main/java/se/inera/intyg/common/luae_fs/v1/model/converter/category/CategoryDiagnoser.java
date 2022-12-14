@@ -26,7 +26,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory;
 
-public class CategoryDiagnos {
+public class CategoryDiagnoser {
 
     public static CertificateDataElement toCertificate(int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()

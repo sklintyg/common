@@ -55,7 +55,7 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueDiagnosLi
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionDiagnosTest {
+class QuestionDiagnoserTest {
 
     protected static final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
     protected static final String DIAGNOSIS_DISPLAYNAME = "Namn att visa upp";
@@ -76,7 +76,7 @@ class QuestionDiagnosTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionDiagnos.toCertificate(null, getIndex(), textProvider);
+            return QuestionDiagnoser.toCertificate(null, getIndex(), textProvider);
         }
 
         @Override
@@ -105,7 +105,7 @@ class QuestionDiagnosTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionDiagnos.toCertificate(null, 0, textProvider);
+            return QuestionDiagnoser.toCertificate(null, 0, textProvider);
         }
 
         @Override
@@ -138,7 +138,7 @@ class QuestionDiagnosTest {
 
         @Override
         protected CertificateDataElement getElement(List<Diagnos> input) {
-            return QuestionDiagnos.toCertificate(input, 0, textProvider);
+            return QuestionDiagnoser.toCertificate(input, 0, textProvider);
         }
 
         @Override
@@ -257,7 +257,7 @@ class QuestionDiagnosTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionDiagnos.toCertificate(null, 0, textProvider);
+            return QuestionDiagnoser.toCertificate(null, 0, textProvider);
         }
 
         @Override
@@ -271,7 +271,7 @@ class QuestionDiagnosTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionDiagnos.toCertificate(null, 0, textProvider);
+            return QuestionDiagnoser.toCertificate(null, 0, textProvider);
         }
 
         @Override
@@ -294,12 +294,12 @@ class QuestionDiagnosTest {
             if (input != null && !input.isEmpty()) {
                 doReturn(DIAGNOSIS_DISPLAYNAME).when(webcertModuleService).getDescriptionFromDiagnosKod(anyString(), anyString());
             }
-            return QuestionDiagnos.toCertificate(input, 0, textProvider);
+            return QuestionDiagnoser.toCertificate(input, 0, textProvider);
         }
 
         @Override
         protected List<Diagnos> toInternalValue(Certificate certificate) {
-            return QuestionDiagnos.toInternal(certificate, webcertModuleService);
+            return QuestionDiagnoser.toInternal(certificate, webcertModuleService);
         }
 
         @Override

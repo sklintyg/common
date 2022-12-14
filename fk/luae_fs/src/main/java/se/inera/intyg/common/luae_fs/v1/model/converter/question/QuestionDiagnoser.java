@@ -48,7 +48,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiag
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
-public class QuestionDiagnos {
+public class QuestionDiagnoser {
 
     public static final short LIMIT_DIAGNOSIS_DESC = (short) 81;
 
