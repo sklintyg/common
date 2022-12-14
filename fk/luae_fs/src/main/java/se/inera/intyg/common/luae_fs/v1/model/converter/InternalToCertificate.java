@@ -20,7 +20,7 @@
 package se.inera.intyg.common.luae_fs.v1.model.converter;
 
 import org.springframework.stereotype.Component;
-import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryDiagnoser;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionDiagnoser;
 import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
@@ -35,7 +35,7 @@ public class InternalToCertificate {
         int index = 0;
         return CertificateBuilder.create()
             .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
-            .addElement(CategoryDiagnoser.toCertificate(index++, texts))
+            .addElement(CategoryDiagnos.toCertificate(index++, texts))
             .addElement(QuestionDiagnoser.toCertificate(internalCertificate.getDiagnoser(), index++, texts))
             .build();
     }

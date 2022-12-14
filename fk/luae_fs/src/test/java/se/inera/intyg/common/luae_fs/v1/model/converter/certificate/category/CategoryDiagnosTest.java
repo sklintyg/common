@@ -29,14 +29,13 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryDiagnoser;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategoryTest;
 
 @ExtendWith(MockitoExtension.class)
-class CategoryDiagnoserTest {
+class CategoryDiagnosTest {
 
     @Mock
     private CertificateTextProvider textProvider;
@@ -51,7 +50,7 @@ class CategoryDiagnoserTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return CategoryDiagnoser.toCertificate(getIndex(), textProvider);
+            return CategoryDiagnos.toCertificate(getIndex(), textProvider);
         }
 
         @Override
@@ -80,7 +79,7 @@ class CategoryDiagnoserTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return CategoryDiagnoser.toCertificate(0, textProvider);
+            return CategoryDiagnos.toCertificate(0, textProvider);
         }
 
         @Override
