@@ -38,6 +38,9 @@ public final class RespConstantsV7 {
     public static final String PROGRESSIV_OGONSJUKDOM_JSON_ID_5 = "progressivOgonsjukdom";
     public static final String PROGRESSIV_OGONSJUKDOM_TEXT_ID_5 = "FRG_5.RBK";
 
+    public static final String LAKARINTYG_AV_OGONSPECIALIST_ID = "5.1";
+    public static final String LAKARINTYG_AV_OGONSPECIALIST_TEXT_ID = "FRG_3-5.INF";
+
     public static final String DUBBELSEENDE_SVAR_ID_6 = "6";
     public static final String DUBBELSEENDE_JSON_ID_6 = "dubbelseende";
     public static final String DUBBELSEENDE_TEXT_ID_6 = "FRG_6.RBK";
@@ -60,9 +63,13 @@ public final class RespConstantsV7 {
     public static final String KONTAKTLINSER_HOGER_OGA_DELSVAR_ID_8 = "8.8";
     public static final String KONTAKTLINSER_VANSTER_OGA_DELSVAR_ID_8 = "8.9";
 
+
+    public static final String TIDIGARE_UTFORD_UNDERSOKNING_ID = "8.10";
+    public static final String TIDIGARE_UTFORD_UNDERSOKNING_TEXT_ID = "FRG_8.INF";
     public static final String UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID_9 = "9";
     public static final String UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID_9 = "korrektionsglasensStyrka";
     public static final String UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_TEXT_ID_9 = "FRG_9.RBK";
-    public static final String UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_TEXT_ID_9 = "FRG_9.1.RBK";
+    public static final String UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_TEXT_ID_9 =
+        "Högsta styrka i något av glasen överskrider plus 8 dioptrier";
 
 }

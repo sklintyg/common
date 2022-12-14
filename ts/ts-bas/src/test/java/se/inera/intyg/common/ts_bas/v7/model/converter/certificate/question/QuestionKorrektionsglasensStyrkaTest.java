@@ -25,7 +25,6 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID_9;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID_9;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_TEXT_ID_9;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_TEXT_ID_9;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -91,6 +90,11 @@ class QuestionKorrektionsglasensStyrkaTest {
             }
 
             @Override
+            protected String getLabelId() {
+                return null;
+            }
+
+            @Override
             protected CertificateTextProvider getTextProviderMock() {
                 return textProvider;
             }
@@ -100,10 +104,6 @@ class QuestionKorrektionsglasensStyrkaTest {
                 return QuestionKorrektionsglasensStyrka.toCertificate(null, 0, textProvider);
             }
 
-            @Override
-            protected String getLabelId() {
-                return UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_TEXT_ID_9;
-            }
 
             @Override
             protected String getTextId() {

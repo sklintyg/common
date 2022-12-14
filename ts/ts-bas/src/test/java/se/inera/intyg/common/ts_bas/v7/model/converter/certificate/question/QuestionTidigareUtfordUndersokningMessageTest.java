@@ -17,12 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.luae_na.v1.model.converter.certificate.category;
+package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDIGARE_UTFORD_UNDERSOKNING_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDIGARE_UTFORD_UNDERSOKNING_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -32,59 +33,59 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
-import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategoryTest;
+import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigMessageTest;
 
 @ExtendWith(MockitoExtension.class)
-class CategoryAktivietsbegransningarTest {
+class QuestionTidigareUtfordUndersokningMessageTest {
 
     @Mock
-    private CertificateTextProvider texts;
+    CertificateTextProvider textProvider;
 
     @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
+    void setUp() {
+        when(textProvider.get(any(String.class))).thenReturn("test string");
     }
 
     @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
+    class IncludeCommonElementTests extends CommonElementTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return CategoryAktivietsbegransningar.toCertificate(3, texts);
+            return QuestionTidigareUtfordUndersokningMessage.toCertificate(0, textProvider);
         }
 
         @Override
         protected String getId() {
-            return AKTIVITETSBEGRANSNING_CATEGORY_ID;
+            return TIDIGARE_UTFORD_UNDERSOKNING_ID;
         }
 
         @Override
         protected String getParent() {
-            return null;
+            return SYNFUNKTIONER_CATEGORY_ID;
         }
 
         @Override
         protected int getIndex() {
-            return 3;
+            return 0;
         }
     }
 
     @Nested
-    class IncludeConfigCategoryTest extends ConfigCategoryTest {
+    class IncludeConfigMessageTests extends ConfigMessageTest {
 
         @Override
         protected CertificateTextProvider getTextProviderMock() {
-            return texts;
+            return textProvider;
         }
 
         @Override
         protected CertificateDataElement getElement() {
-            return CategoryAktivietsbegransningar.toCertificate(3, texts);
+            return QuestionTidigareUtfordUndersokningMessage.toCertificate(0, textProvider);
         }
 
         @Override
         protected String getTextId() {
-            return AKTIVITETSBEGRANSNING_CATEGORY_TEXT_ID;
+            return TIDIGARE_UTFORD_UNDERSOKNING_TEXT_ID;
         }
 
         @Override

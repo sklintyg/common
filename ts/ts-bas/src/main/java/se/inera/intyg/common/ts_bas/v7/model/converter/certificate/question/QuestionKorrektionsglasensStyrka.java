@@ -45,7 +45,7 @@ public class QuestionKorrektionsglasensStyrka {
                 CertificateDataConfigCheckboxBoolean.builder()
                     .id(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID_9)
                     .text(textProvider.get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_TEXT_ID_9))
-                    .label(textProvider.get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_TEXT_ID_9))
+                    .label(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_TEXT_ID_9)
                     .build()
             )
             .value(

@@ -22,12 +22,14 @@ package se.inera.intyg.common.ts_bas.v7.model.converter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.DUBBELSEENDE_SVAR_ID_6;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKARINTYG_AV_OGONSPECIALIST_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NYSTAGMUS_SVAR_ID_7;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_SVAR_ID_5;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_SVAR_ID_4;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_ID_3;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDIGARE_UTFORD_UNDERSOKNING_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID_9;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -112,26 +114,38 @@ class InternalToCertificateTest {
     }
 
     @Test
+    void shallIncludeMessageLakarintygAvOgonspecialist() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(4, actualCertificate.getData().get(LAKARINTYG_AV_OGONSPECIALIST_ID).getIndex());
+    }
+
+    @Test
     void shallIncludeQuestionDubbelseende() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(4, actualCertificate.getData().get(DUBBELSEENDE_SVAR_ID_6).getIndex());
+        assertEquals(5, actualCertificate.getData().get(DUBBELSEENDE_SVAR_ID_6).getIndex());
     }
 
     @Test
     void shallIncludeQuestionNystagmus() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(5, actualCertificate.getData().get(NYSTAGMUS_SVAR_ID_7).getIndex());
+        assertEquals(6, actualCertificate.getData().get(NYSTAGMUS_SVAR_ID_7).getIndex());
     }
 
     @Test
     void shallIncludeQuestionSynskarpaSkickasSeparat() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(6, actualCertificate.getData().get(SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID_8).getIndex());
+        assertEquals(7, actualCertificate.getData().get(SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID_8).getIndex());
+    }
+
+    @Test
+    void shallIncludeMessageTidigareUtfordUndersokning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(8, actualCertificate.getData().get(TIDIGARE_UTFORD_UNDERSOKNING_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionKorrektionsglasensStyrka() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(7, actualCertificate.getData().get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID_9).getIndex());
+        assertEquals(9, actualCertificate.getData().get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID_9).getIndex());
     }
 }

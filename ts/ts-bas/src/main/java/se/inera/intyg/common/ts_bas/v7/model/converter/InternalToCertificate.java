@@ -27,11 +27,13 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrund
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySynfunktioner;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionLakarintygAvOgonspecialistMessage;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNystagmus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTidigareUtfordUndersokningMessage;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 
 @Component(value = "internalToCertificateTsBas")
@@ -55,6 +57,9 @@ public class InternalToCertificate {
                 QuestionProgressivOgonsjukdom.toCertificate(internalCertificate.getSyn(), index++, texts)
             )
             .addElement(
+                QuestionLakarintygAvOgonspecialistMessage.toCertificate(index++, texts)
+            )
+            .addElement(
                 QuestionDubbelseende.toCertificate(internalCertificate.getSyn(), index++, texts)
             )
             .addElement(
@@ -62,6 +67,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionSynskarpaSkickasSeparat.toCertificate(internalCertificate.getSyn(), index++, texts)
+            )
+            .addElement(
+                QuestionTidigareUtfordUndersokningMessage.toCertificate(index++, texts)
             )
             .addElement(
                 QuestionKorrektionsglasensStyrka.toCertificate(internalCertificate.getSyn(), index++, texts)
