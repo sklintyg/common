@@ -21,13 +21,20 @@ package se.inera.intyg.common.luae_fs.v1.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.DIAGNOS_ICD_10_ID;
 
+import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.luae_fs.v1.model.converter.question.QuestionDiagnoser;
 import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
@@ -36,29 +43,42 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 @ExtendWith(MockitoExtension.class)
 class CertificateToInternalTest {
 
-    private CertificateToInternal certificateToInternal;
     private Certificate certificate;
     private LuaefsUtlatandeV1 expectedInternalCertificate;
     @Mock
     private CertificateTextProvider textProvider;
 
+    @Mock
+    private WebcertModuleService webcertModuleService;
+
+    @InjectMocks
+    private CertificateToInternal certificateToInternal;
+
+    private static final String DIAGNOSIS_DISPLAYNAME = "Namn att visa upp";
+
     @BeforeEach
     void setup() {
-        certificateToInternal = new CertificateToInternal();
-
         expectedInternalCertificate = LuaefsUtlatandeV1.builder()
             .setId("id")
             .setTextVersion("textVersion")
             .setGrundData(getGrundData())
+            .setDiagnoser(
+                Arrays.asList(
+                    Diagnos.create("F500", DIAGNOS_ICD_10_ID, "Beskrivning1", DIAGNOSIS_DISPLAYNAME),
+                    Diagnos.create("F501", DIAGNOS_ICD_10_ID, "Beskrivning2", DIAGNOSIS_DISPLAYNAME),
+                    Diagnos.create("F502", DIAGNOS_ICD_10_ID, "Beskrivning3", DIAGNOSIS_DISPLAYNAME))
+            )
             .build();
 
         certificate = CertificateBuilder.create()
             .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, textProvider))
+            .addElement(QuestionDiagnoser.toCertificate(expectedInternalCertificate.getDiagnoser(), 0, textProvider))
             .build();
     }
 
@@ -90,5 +110,14 @@ class CertificateToInternalTest {
     void shallIncludeGrundData() {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertNotNull(actualInternalCertificate.getGrundData(), "GrundData is missing!");
+    }
+
+    @Test
+    void shallIncludeDiagnoser() {
+        doReturn(DIAGNOSIS_DISPLAYNAME).when(webcertModuleService).getDescriptionFromDiagnosKod(anyString(), anyString());
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        for (int i = 0; i < actualInternalCertificate.getDiagnoser().size(); i++) {
+            assertEquals(actualInternalCertificate.getDiagnoser().get(i), expectedInternalCertificate.getDiagnoser().get(i));
+        }
     }
 }

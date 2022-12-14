@@ -20,17 +20,26 @@
 package se.inera.intyg.common.luae_fs.v1.model.converter;
 
 import org.springframework.stereotype.Component;
+import se.inera.intyg.common.luae_fs.v1.model.converter.question.QuestionDiagnoser;
 import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
 @Component(value = "certificateToInternalFK7802")
 public class CertificateToInternal {
+
+    private final WebcertModuleService webcertModuleService;
+
+    public CertificateToInternal(WebcertModuleService webcertModuleService) {
+        this.webcertModuleService = webcertModuleService;
+    }
 
     public LuaefsUtlatandeV1 convert(Certificate certificate, LuaefsUtlatandeV1 internalCertificate) {
         return LuaefsUtlatandeV1.builder()
             .setId(internalCertificate.getId())
             .setTextVersion(internalCertificate.getTextVersion())
             .setGrundData(internalCertificate.getGrundData())
+            .setDiagnoser(QuestionDiagnoser.toInternal(certificate, webcertModuleService))
             .build();
     }
 }
