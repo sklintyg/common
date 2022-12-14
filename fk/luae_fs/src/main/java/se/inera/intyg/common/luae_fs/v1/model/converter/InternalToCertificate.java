@@ -21,6 +21,8 @@ package se.inera.intyg.common.luae_fs.v1.model.converter;
 
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryGrundForMU;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUtlatandeBaseratPa;
 import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
@@ -29,9 +31,14 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 @Component(value = "internalToCertificateFK7802")
 public class InternalToCertificate {
 
-    public Certificate convert(LuaefsUtlatandeV1 internalCertificate, CertificateTextProvider texts) {
+    public Certificate convert(LuaefsUtlatandeV1 internalCertificate, CertificateTextProvider textProvider) {
+        int index = 0;
         return CertificateBuilder.create()
-            .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
+            .metadata(MetaDataGrundData.toCertificate(internalCertificate, textProvider))
+            .addElement(CategoryGrundForMU.toCertificate(index++, textProvider))
+            .addElement(QuestionUtlatandeBaseratPa.toCertificate(internalCertificate.getUndersokningAvPatienten(),
+                internalCertificate.getJournaluppgifter(), internalCertificate.getAnhorigsBeskrivningAvPatienten(),
+                internalCertificate.getAnnatGrundForMU(), index++, textProvider))
             .build();
     }
 }
