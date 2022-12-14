@@ -131,7 +131,8 @@ class QuestionKorrektionsglasensStyrkaTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionKorrektionsglasensStyrka.toCertificate(null, 0, textProvider);
+                final var syn = Syn.builder().setKorrektionsglasensStyrka(true).build();
+                return QuestionKorrektionsglasensStyrka.toCertificate(syn, 0, textProvider);
             }
 
             @Override
@@ -140,7 +141,7 @@ class QuestionKorrektionsglasensStyrkaTest {
             }
 
             @Override
-            protected Boolean getSelected() {
+            protected Boolean getBoolean() {
                 return true;
             }
         }

@@ -88,7 +88,7 @@ class QuestionDubbelseendeTest {
         class IncludeConfigRadioBooleanTests extends ConfigRadioBooleanTest {
 
             @Override
-            protected String getJsonId() {
+            protected String getId() {
                 return DUBBELSEENDE_JSON_ID_6;
             }
 
@@ -128,7 +128,8 @@ class QuestionDubbelseendeTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionDubbelseende.toCertificate(null, 0, textProvider);
+                final var syn = Syn.builder().setDiplopi(true).build();
+                return QuestionDubbelseende.toCertificate(syn, 0, textProvider);
             }
 
             @Override
@@ -137,7 +138,7 @@ class QuestionDubbelseendeTest {
             }
 
             @Override
-            protected Boolean getSelected() {
+            protected Boolean getBoolean() {
                 return true;
             }
         }

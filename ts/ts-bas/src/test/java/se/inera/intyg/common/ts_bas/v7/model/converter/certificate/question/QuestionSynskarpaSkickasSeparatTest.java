@@ -132,7 +132,8 @@ class QuestionSynskarpaSkickasSeparatTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionSynskarpaSkickasSeparat.toCertificate(null, 0, textProvider);
+                final var syn = Syn.builder().setSynskarpaSkickasSeparat(true).build();
+                return QuestionSynskarpaSkickasSeparat.toCertificate(syn, 0, textProvider);
             }
 
             @Override
@@ -141,7 +142,7 @@ class QuestionSynskarpaSkickasSeparatTest {
             }
 
             @Override
-            protected Boolean getSelected() {
+            protected Boolean getBoolean() {
                 return true;
             }
         }

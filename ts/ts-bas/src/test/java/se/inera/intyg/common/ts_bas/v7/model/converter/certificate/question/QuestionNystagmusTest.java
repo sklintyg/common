@@ -88,7 +88,7 @@ class QuestionNystagmusTest {
         class IncludeConfigRadioBooleanTests extends ConfigRadioBooleanTest {
 
             @Override
-            protected String getJsonId() {
+            protected String getId() {
                 return NYSTAGMUS_JSON_ID_7;
             }
 
@@ -128,7 +128,8 @@ class QuestionNystagmusTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionNystagmus.toCertificate(null, 0, textProvider);
+                final var syn = Syn.builder().setNystagmus(true).build();
+                return QuestionNystagmus.toCertificate(syn, 0, textProvider);
             }
 
             @Override
@@ -137,7 +138,7 @@ class QuestionNystagmusTest {
             }
 
             @Override
-            protected Boolean getSelected() {
+            protected Boolean getBoolean() {
                 return true;
             }
         }

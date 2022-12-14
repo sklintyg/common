@@ -88,7 +88,7 @@ class QuestionNattblindhetTest {
         class IncludeConfigRadioBooleanTests extends ConfigRadioBooleanTest {
 
             @Override
-            protected String getJsonId() {
+            protected String getId() {
                 return SEENDE_NEDSATT_BELYSNING_JSON_ID_4;
             }
 
@@ -128,7 +128,8 @@ class QuestionNattblindhetTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionNattblindhet.toCertificate(null, 0, textProvider);
+                final var syn = Syn.builder().setNattblindhet(true).build();
+                return QuestionNattblindhet.toCertificate(syn, 0, textProvider);
             }
 
             @Override
@@ -137,7 +138,7 @@ class QuestionNattblindhetTest {
             }
 
             @Override
-            protected Boolean getSelected() {
+            protected Boolean getBoolean() {
                 return true;
             }
         }

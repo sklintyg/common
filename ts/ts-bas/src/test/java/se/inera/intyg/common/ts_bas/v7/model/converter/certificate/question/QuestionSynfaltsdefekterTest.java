@@ -88,7 +88,7 @@ class QuestionSynfaltsdefekterTest {
         class IncludeConfigRadioBooleanTests extends ConfigRadioBooleanTest {
 
             @Override
-            protected String getJsonId() {
+            protected String getId() {
                 return SYNFALTSDEFEKTER_JSON_ID_3;
             }
 
@@ -128,7 +128,8 @@ class QuestionSynfaltsdefekterTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionSynfaltsdefekter.toCertificate(null, 0, textProvider);
+                final var syn = Syn.builder().setSynfaltsdefekter(true).build();
+                return QuestionSynfaltsdefekter.toCertificate(syn, 0, textProvider);
             }
 
             @Override
@@ -137,7 +138,7 @@ class QuestionSynfaltsdefekterTest {
             }
 
             @Override
-            protected Boolean getSelected() {
+            protected Boolean getBoolean() {
                 return true;
             }
         }

@@ -88,7 +88,7 @@ class QuestionProgressivOgonsjukdomTest {
         class IncludeConfigRadioBooleanTests extends ConfigRadioBooleanTest {
 
             @Override
-            protected String getJsonId() {
+            protected String getId() {
                 return PROGRESSIV_OGONSJUKDOM_JSON_ID_5;
             }
 
@@ -128,7 +128,8 @@ class QuestionProgressivOgonsjukdomTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionProgressivOgonsjukdom.toCertificate(null, 0, textProvider);
+                final var syn = Syn.builder().setProgressivOgonsjukdom(true).build();
+                return QuestionProgressivOgonsjukdom.toCertificate(syn, 0, textProvider);
             }
 
             @Override
@@ -137,7 +138,7 @@ class QuestionProgressivOgonsjukdomTest {
             }
 
             @Override
-            protected Boolean getSelected() {
+            protected Boolean getBoolean() {
                 return true;
             }
         }
