@@ -153,12 +153,7 @@ public class QuestionIntygetAvser {
         }
 
         final var intygAvserKategoris = certificateDataValueCodes.stream()
-            .map(certificateDataValueCode -> {
-                if (certificateDataValueCode.getId() != null && !certificateDataValueCode.getId().isEmpty()) {
-                    return IntygAvserKategori.valueOf(certificateDataValueCode.getId());
-                }
-                return null;
-            })
+            .map(QuestionIntygetAvser::getIntygAvserKategori)
             .filter(Objects::nonNull)
             .collect(Collectors.toSet());
 
@@ -166,5 +161,10 @@ public class QuestionIntygetAvser {
             return IntygAvser.create(EnumSet.noneOf(IntygAvserKategori.class));
         }
         return IntygAvser.create(EnumSet.copyOf(intygAvserKategoris));
+    }
+
+    private static IntygAvserKategori getIntygAvserKategori(CertificateDataValueCode certificateDataValueCode) {
+        return certificateDataValueCode.getId() != null && !certificateDataValueCode.getId().isEmpty()
+            ? IntygAvserKategori.valueOf(certificateDataValueCode.getId()) : null;
     }
 }
