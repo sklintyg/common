@@ -23,11 +23,11 @@ import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID_8;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DESCRIPTION_ID_8;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_JSON_ID_8;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_SVAR_TEXT_ID_8;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_TEXT_ID_8;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DESCRIPTION_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_SVAR_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -69,7 +69,7 @@ class QuestionSynskarpaSkickasSeparatTest {
 
             @Override
             protected String getId() {
-                return SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID_8;
+                return SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID;
             }
 
             @Override
@@ -88,7 +88,7 @@ class QuestionSynskarpaSkickasSeparatTest {
 
             @Override
             protected String getJsonId() {
-                return SYNKARPA_SKICKAS_SEPARAT_JSON_ID_8;
+                return SYNKARPA_SKICKAS_SEPARAT_JSON_ID;
             }
 
             @Override
@@ -103,17 +103,17 @@ class QuestionSynskarpaSkickasSeparatTest {
 
             @Override
             protected String getLabelId() {
-                return SYNKARPA_SKICKAS_SEPARAT_SVAR_TEXT_ID_8;
+                return SYNKARPA_SKICKAS_SEPARAT_SVAR_TEXT_ID;
             }
 
             @Override
             protected String getTextId() {
-                return SYNKARPA_SKICKAS_SEPARAT_TEXT_ID_8;
+                return SYNKARPA_SKICKAS_SEPARAT_TEXT_ID;
             }
 
             @Override
             protected String getDescriptionId() {
-                return SYNKARPA_SKICKAS_SEPARAT_DESCRIPTION_ID_8;
+                return SYNKARPA_SKICKAS_SEPARAT_DESCRIPTION_ID;
             }
 
             @Override
@@ -138,7 +138,7 @@ class QuestionSynskarpaSkickasSeparatTest {
 
             @Override
             protected String getJsonId() {
-                return SYNKARPA_SKICKAS_SEPARAT_JSON_ID_8;
+                return SYNKARPA_SKICKAS_SEPARAT_JSON_ID;
             }
 
             @Override

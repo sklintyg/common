@@ -22,9 +22,9 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_JSON_ID_5;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_SVAR_ID_5;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_TEXT_ID_5;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
@@ -70,7 +70,7 @@ class QuestionProgressivOgonsjukdomTest {
 
             @Override
             protected String getId() {
-                return PROGRESSIV_OGONSJUKDOM_SVAR_ID_5;
+                return PROGRESSIV_OGONSJUKDOM_SVAR_ID;
             }
 
             @Override
@@ -89,7 +89,7 @@ class QuestionProgressivOgonsjukdomTest {
 
             @Override
             protected String getId() {
-                return PROGRESSIV_OGONSJUKDOM_JSON_ID_5;
+                return PROGRESSIV_OGONSJUKDOM_JSON_ID;
             }
 
             @Override
@@ -114,7 +114,7 @@ class QuestionProgressivOgonsjukdomTest {
 
             @Override
             protected String getTextId() {
-                return PROGRESSIV_OGONSJUKDOM_TEXT_ID_5;
+                return PROGRESSIV_OGONSJUKDOM_TEXT_ID;
             }
 
             @Override
@@ -134,7 +134,7 @@ class QuestionProgressivOgonsjukdomTest {
 
             @Override
             protected String getJsonId() {
-                return PROGRESSIV_OGONSJUKDOM_JSON_ID_5;
+                return PROGRESSIV_OGONSJUKDOM_JSON_ID;
             }
 
             @Override
@@ -148,12 +148,12 @@ class QuestionProgressivOgonsjukdomTest {
 
             @Override
             protected String getQuestionId() {
-                return PROGRESSIV_OGONSJUKDOM_SVAR_ID_5;
+                return PROGRESSIV_OGONSJUKDOM_SVAR_ID;
             }
 
             @Override
             protected String getExpression() {
-                return "$" + PROGRESSIV_OGONSJUKDOM_JSON_ID_5;
+                return "$" + PROGRESSIV_OGONSJUKDOM_JSON_ID;
             }
 
             @Override

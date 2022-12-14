@@ -23,9 +23,9 @@ import static se.inera.intyg.common.support.facade.util.ValidationExpressionTool
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_JSON_ID_3;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_ID_3;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_TEXT_ID_3;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -42,28 +42,28 @@ public class QuestionSynfaltsdefekter {
     public static CertificateDataElement toCertificate(Syn syn, int index, CertificateTextProvider textProvider) {
         final var synfaltsdefekter = syn != null ? syn.getSynfaltsdefekter() : null;
         return CertificateDataElement.builder()
-            .id(SYNFALTSDEFEKTER_SVAR_ID_3)
+            .id(SYNFALTSDEFEKTER_SVAR_ID)
             .parent(SYNFUNKTIONER_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigRadioBoolean.builder()
-                    .id(SYNFALTSDEFEKTER_JSON_ID_3)
-                    .text(textProvider.get(SYNFALTSDEFEKTER_SVAR_TEXT_ID_3))
+                    .id(SYNFALTSDEFEKTER_JSON_ID)
+                    .text(textProvider.get(SYNFALTSDEFEKTER_SVAR_TEXT_ID))
                     .selectedText(SVAR_JA_TEXT)
                     .unselectedText(SVAR_NEJ_TEXT)
                     .build()
             )
             .value(
                 CertificateDataValueBoolean.builder()
-                    .id(SYNFALTSDEFEKTER_JSON_ID_3)
+                    .id(SYNFALTSDEFEKTER_JSON_ID)
                     .selected(synfaltsdefekter)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(SYNFALTSDEFEKTER_SVAR_ID_3)
-                        .expression(singleExpression(SYNFALTSDEFEKTER_JSON_ID_3))
+                        .questionId(SYNFALTSDEFEKTER_SVAR_ID)
+                        .expression(singleExpression(SYNFALTSDEFEKTER_JSON_ID))
                         .build()
                 }
             )
@@ -71,6 +71,6 @@ public class QuestionSynfaltsdefekter {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), SYNFALTSDEFEKTER_SVAR_ID_3, SYNFALTSDEFEKTER_JSON_ID_3);
+        return booleanValue(certificate.getData(), SYNFALTSDEFEKTER_SVAR_ID, SYNFALTSDEFEKTER_JSON_ID);
     }
 }

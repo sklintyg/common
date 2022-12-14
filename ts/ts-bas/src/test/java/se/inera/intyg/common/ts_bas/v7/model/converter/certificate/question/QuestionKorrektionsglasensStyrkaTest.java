@@ -23,9 +23,9 @@ import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID_9;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID_9;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_TEXT_ID_9;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -67,7 +67,7 @@ class QuestionKorrektionsglasensStyrkaTest {
 
             @Override
             protected String getId() {
-                return UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID_9;
+                return UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID;
             }
 
             @Override
@@ -86,7 +86,7 @@ class QuestionKorrektionsglasensStyrkaTest {
 
             @Override
             protected String getJsonId() {
-                return UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID_9;
+                return UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID;
             }
 
             @Override
@@ -107,7 +107,7 @@ class QuestionKorrektionsglasensStyrkaTest {
 
             @Override
             protected String getTextId() {
-                return UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_TEXT_ID_9;
+                return UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_TEXT_ID;
             }
 
             @Override
@@ -137,7 +137,7 @@ class QuestionKorrektionsglasensStyrkaTest {
 
             @Override
             protected String getJsonId() {
-                return UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID_9;
+                return UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID;
             }
 
             @Override

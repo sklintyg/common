@@ -22,8 +22,8 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDIGARE_UTFORD_UNDERSOKNING_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDIGARE_UTFORD_UNDERSOKNING_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -32,6 +32,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
+import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigMessageTest;
 
@@ -56,7 +57,7 @@ class QuestionTidigareUtfordUndersokningMessageTest {
 
         @Override
         protected String getId() {
-            return TIDIGARE_UTFORD_UNDERSOKNING_ID;
+            return TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_SVAR_ID;
         }
 
         @Override
@@ -85,7 +86,12 @@ class QuestionTidigareUtfordUndersokningMessageTest {
 
         @Override
         protected String getTextId() {
-            return TIDIGARE_UTFORD_UNDERSOKNING_TEXT_ID;
+            return TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_TEXT_ID;
+        }
+
+        @Override
+        protected MessageLevel getMessageLevel() {
+            return MessageLevel.OBSERVE;
         }
 
         @Override

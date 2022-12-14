@@ -21,9 +21,9 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.DUBBELSEENDE_JSON_ID_6;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.DUBBELSEENDE_SVAR_ID_6;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.DUBBELSEENDE_TEXT_ID_6;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.DUBBELSEENDE_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.DUBBELSEENDE_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.DUBBELSEENDE_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
@@ -42,28 +42,28 @@ public class QuestionDubbelseende {
     public static CertificateDataElement toCertificate(Syn syn, int index, CertificateTextProvider textProvider) {
         final var dubbelseende = syn != null ? syn.getDiplopi() : null;
         return CertificateDataElement.builder()
-            .id(DUBBELSEENDE_SVAR_ID_6)
+            .id(DUBBELSEENDE_SVAR_ID)
             .parent(SYNFUNKTIONER_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigRadioBoolean.builder()
-                    .id(DUBBELSEENDE_JSON_ID_6)
-                    .text(textProvider.get(DUBBELSEENDE_TEXT_ID_6))
+                    .id(DUBBELSEENDE_JSON_ID)
+                    .text(textProvider.get(DUBBELSEENDE_TEXT_ID))
                     .selectedText(SVAR_JA_TEXT)
                     .unselectedText(SVAR_NEJ_TEXT)
                     .build()
             )
             .value(
                 CertificateDataValueBoolean.builder()
-                    .id(DUBBELSEENDE_JSON_ID_6)
+                    .id(DUBBELSEENDE_JSON_ID)
                     .selected(dubbelseende)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(DUBBELSEENDE_SVAR_ID_6)
-                        .expression(singleExpression(DUBBELSEENDE_JSON_ID_6))
+                        .questionId(DUBBELSEENDE_SVAR_ID)
+                        .expression(singleExpression(DUBBELSEENDE_JSON_ID))
                         .build()
                 }
             )
@@ -71,7 +71,7 @@ public class QuestionDubbelseende {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), DUBBELSEENDE_SVAR_ID_6, DUBBELSEENDE_JSON_ID_6);
+        return booleanValue(certificate.getData(), DUBBELSEENDE_SVAR_ID, DUBBELSEENDE_JSON_ID);
     }
 
 }

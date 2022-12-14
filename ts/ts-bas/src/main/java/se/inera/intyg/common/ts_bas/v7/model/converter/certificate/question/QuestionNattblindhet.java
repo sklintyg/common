@@ -21,9 +21,9 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_JSON_ID_4;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_SVAR_ID_4;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_TEXT_ID_4;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
@@ -43,28 +43,28 @@ public class QuestionNattblindhet {
         final var nattblindhet = syn != null ? syn.getNattblindhet() : null;
 
         return CertificateDataElement.builder()
-            .id(SEENDE_NEDSATT_BELYSNING_SVAR_ID_4)
+            .id(SEENDE_NEDSATT_BELYSNING_SVAR_ID)
             .parent(SYNFUNKTIONER_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigRadioBoolean.builder()
-                    .id(SEENDE_NEDSATT_BELYSNING_JSON_ID_4)
-                    .text(textProvider.get(SEENDE_NEDSATT_BELYSNING_TEXT_ID_4))
+                    .id(SEENDE_NEDSATT_BELYSNING_JSON_ID)
+                    .text(textProvider.get(SEENDE_NEDSATT_BELYSNING_TEXT_ID))
                     .selectedText(SVAR_JA_TEXT)
                     .unselectedText(SVAR_NEJ_TEXT)
                     .build()
             )
             .value(
                 CertificateDataValueBoolean.builder()
-                    .id(SEENDE_NEDSATT_BELYSNING_JSON_ID_4)
+                    .id(SEENDE_NEDSATT_BELYSNING_JSON_ID)
                     .selected(nattblindhet)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(SEENDE_NEDSATT_BELYSNING_SVAR_ID_4)
-                        .expression(singleExpression(SEENDE_NEDSATT_BELYSNING_JSON_ID_4))
+                        .questionId(SEENDE_NEDSATT_BELYSNING_SVAR_ID)
+                        .expression(singleExpression(SEENDE_NEDSATT_BELYSNING_JSON_ID))
                         .build()
                 }
             )
@@ -72,6 +72,6 @@ public class QuestionNattblindhet {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), SEENDE_NEDSATT_BELYSNING_SVAR_ID_4, SEENDE_NEDSATT_BELYSNING_JSON_ID_4);
+        return booleanValue(certificate.getData(), SEENDE_NEDSATT_BELYSNING_SVAR_ID, SEENDE_NEDSATT_BELYSNING_JSON_ID);
     }
 }

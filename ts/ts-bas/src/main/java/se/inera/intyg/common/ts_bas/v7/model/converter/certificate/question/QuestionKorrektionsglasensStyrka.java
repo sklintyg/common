@@ -21,10 +21,10 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID_9;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID_9;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_TEXT_ID_9;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_TEXT_ID_9;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_TEXT_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -38,19 +38,19 @@ public class QuestionKorrektionsglasensStyrka {
     public static CertificateDataElement toCertificate(Syn syn, int index, CertificateTextProvider textProvider) {
         final var korrektionsglasensStyrka = syn != null ? syn.getKorrektionsglasensStyrka() : null;
         return CertificateDataElement.builder()
-            .id(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID_9)
+            .id(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID)
             .parent(SYNFUNKTIONER_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigCheckboxBoolean.builder()
-                    .id(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID_9)
-                    .text(textProvider.get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_TEXT_ID_9))
-                    .label(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_TEXT_ID_9)
+                    .id(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID)
+                    .text(textProvider.get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_TEXT_ID))
+                    .label(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_TEXT_ID)
                     .build()
             )
             .value(
                 CertificateDataValueBoolean.builder()
-                    .id(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID_9)
+                    .id(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID)
                     .selected(korrektionsglasensStyrka)
                     .build()
             )
@@ -58,8 +58,8 @@ public class QuestionKorrektionsglasensStyrka {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID_9,
-            UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID_9);
+        return booleanValue(certificate.getData(), UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID,
+            UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID);
     }
 
 }

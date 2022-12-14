@@ -22,9 +22,9 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_JSON_ID_4;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_SVAR_ID_4;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_TEXT_ID_4;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
@@ -70,7 +70,7 @@ class QuestionNattblindhetTest {
 
             @Override
             protected String getId() {
-                return SEENDE_NEDSATT_BELYSNING_SVAR_ID_4;
+                return SEENDE_NEDSATT_BELYSNING_SVAR_ID;
             }
 
             @Override
@@ -89,7 +89,7 @@ class QuestionNattblindhetTest {
 
             @Override
             protected String getId() {
-                return SEENDE_NEDSATT_BELYSNING_JSON_ID_4;
+                return SEENDE_NEDSATT_BELYSNING_JSON_ID;
             }
 
             @Override
@@ -114,7 +114,7 @@ class QuestionNattblindhetTest {
 
             @Override
             protected String getTextId() {
-                return SEENDE_NEDSATT_BELYSNING_TEXT_ID_4;
+                return SEENDE_NEDSATT_BELYSNING_TEXT_ID;
             }
 
             @Override
@@ -134,7 +134,7 @@ class QuestionNattblindhetTest {
 
             @Override
             protected String getJsonId() {
-                return SEENDE_NEDSATT_BELYSNING_JSON_ID_4;
+                return SEENDE_NEDSATT_BELYSNING_JSON_ID;
             }
 
             @Override
@@ -148,12 +148,12 @@ class QuestionNattblindhetTest {
 
             @Override
             protected String getQuestionId() {
-                return SEENDE_NEDSATT_BELYSNING_SVAR_ID_4;
+                return SEENDE_NEDSATT_BELYSNING_SVAR_ID;
             }
 
             @Override
             protected String getExpression() {
-                return "$" + SEENDE_NEDSATT_BELYSNING_JSON_ID_4;
+                return "$" + SEENDE_NEDSATT_BELYSNING_JSON_ID;
             }
 
             @Override

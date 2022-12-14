@@ -20,14 +20,14 @@
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKARINTYG_AV_OGONSPECIALIST_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKARINTYG_AV_OGONSPECIALIST_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_JSON_ID_5;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_SVAR_ID_5;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_JSON_ID_4;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_SVAR_ID_4;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_JSON_ID_3;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_ID_3;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -42,28 +42,28 @@ public class QuestionLakarintygAvOgonspecialistMessage {
     public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
 
         return CertificateDataElement.builder()
-            .id(LAKARINTYG_AV_OGONSPECIALIST_ID)
+            .id(LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID)
             .parent(SYNFUNKTIONER_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigMessage.builder()
-                    .message(texts.get(LAKARINTYG_AV_OGONSPECIALIST_TEXT_ID))
+                    .message(texts.get(LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_TEXT_ID))
                     .level(MessageLevel.INFO)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationShow.builder()
-                        .questionId(SYNFALTSDEFEKTER_SVAR_ID_3)
-                        .expression(singleExpression(SYNFALTSDEFEKTER_JSON_ID_3))
+                        .questionId(SYNFALTSDEFEKTER_SVAR_ID)
+                        .expression(singleExpression(SYNFALTSDEFEKTER_JSON_ID))
                         .build(),
                     CertificateDataValidationShow.builder()
-                        .questionId(SEENDE_NEDSATT_BELYSNING_SVAR_ID_4)
-                        .expression(singleExpression(SEENDE_NEDSATT_BELYSNING_JSON_ID_4))
+                        .questionId(SEENDE_NEDSATT_BELYSNING_SVAR_ID)
+                        .expression(singleExpression(SEENDE_NEDSATT_BELYSNING_JSON_ID))
                         .build(),
                     CertificateDataValidationShow.builder()
-                        .questionId(PROGRESSIV_OGONSJUKDOM_SVAR_ID_5)
-                        .expression(singleExpression(PROGRESSIV_OGONSJUKDOM_JSON_ID_5))
+                        .questionId(PROGRESSIV_OGONSJUKDOM_SVAR_ID)
+                        .expression(singleExpression(PROGRESSIV_OGONSJUKDOM_JSON_ID))
                         .build()
                 }
             )

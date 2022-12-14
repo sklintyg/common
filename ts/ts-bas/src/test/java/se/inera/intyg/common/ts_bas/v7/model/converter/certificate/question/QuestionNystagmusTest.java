@@ -22,9 +22,9 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NYSTAGMUS_JSON_ID_7;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NYSTAGMUS_SVAR_ID_7;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NYSTAGMUS_TEXT_ID_6;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NYSTAGMUS_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NYSTAGMUS_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NYSTAGMUS_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
@@ -70,7 +70,7 @@ class QuestionNystagmusTest {
 
             @Override
             protected String getId() {
-                return NYSTAGMUS_SVAR_ID_7;
+                return NYSTAGMUS_SVAR_ID;
             }
 
             @Override
@@ -89,7 +89,7 @@ class QuestionNystagmusTest {
 
             @Override
             protected String getId() {
-                return NYSTAGMUS_JSON_ID_7;
+                return NYSTAGMUS_JSON_ID;
             }
 
             @Override
@@ -114,7 +114,7 @@ class QuestionNystagmusTest {
 
             @Override
             protected String getTextId() {
-                return NYSTAGMUS_TEXT_ID_6;
+                return NYSTAGMUS_TEXT_ID;
             }
 
             @Override
@@ -134,7 +134,7 @@ class QuestionNystagmusTest {
 
             @Override
             protected String getJsonId() {
-                return NYSTAGMUS_JSON_ID_7;
+                return NYSTAGMUS_JSON_ID;
             }
 
             @Override
@@ -148,12 +148,12 @@ class QuestionNystagmusTest {
 
             @Override
             protected String getQuestionId() {
-                return NYSTAGMUS_SVAR_ID_7;
+                return NYSTAGMUS_SVAR_ID;
             }
 
             @Override
             protected String getExpression() {
-                return "$" + NYSTAGMUS_JSON_ID_7;
+                return "$" + NYSTAGMUS_JSON_ID;
             }
 
             @Override

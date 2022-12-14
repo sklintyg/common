@@ -19,7 +19,7 @@
 
 package se.inera.intyg.common.support.facade.testsetup.model.config;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
@@ -28,10 +28,13 @@ import static se.inera.intyg.common.support.facade.model.config.CertificateDataC
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMessage;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 
 public abstract class ConfigMessageTest extends ConfigTest {
 
     protected abstract String getTextId();
+
+    protected abstract MessageLevel getMessageLevel();
 
     @Override
     protected CertificateDataConfigTypes getType() {
@@ -50,6 +53,6 @@ public abstract class ConfigMessageTest extends ConfigTest {
     void shouldIncludeConfigMessageLevel() {
         final var question = getElement();
         final var config = (CertificateDataConfigMessage) question.getConfig();
-        assertNotNull(config.getLevel());
+        assertEquals(getMessageLevel(), config.getLevel());
     }
 }

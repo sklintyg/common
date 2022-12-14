@@ -21,9 +21,9 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_JSON_ID_5;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_SVAR_ID_5;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_TEXT_ID_5;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
@@ -42,28 +42,28 @@ public class QuestionProgressivOgonsjukdom {
     public static CertificateDataElement toCertificate(Syn syn, int index, CertificateTextProvider textProvider) {
         final var progressivOgonsjukdom = syn != null ? syn.getProgressivOgonsjukdom() : null;
         return CertificateDataElement.builder()
-            .id(PROGRESSIV_OGONSJUKDOM_SVAR_ID_5)
+            .id(PROGRESSIV_OGONSJUKDOM_SVAR_ID)
             .parent(SYNFUNKTIONER_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigRadioBoolean.builder()
-                    .id(PROGRESSIV_OGONSJUKDOM_JSON_ID_5)
-                    .text(textProvider.get(PROGRESSIV_OGONSJUKDOM_TEXT_ID_5))
+                    .id(PROGRESSIV_OGONSJUKDOM_JSON_ID)
+                    .text(textProvider.get(PROGRESSIV_OGONSJUKDOM_TEXT_ID))
                     .selectedText(SVAR_JA_TEXT)
                     .unselectedText(SVAR_NEJ_TEXT)
                     .build()
             )
             .value(
                 CertificateDataValueBoolean.builder()
-                    .id(PROGRESSIV_OGONSJUKDOM_JSON_ID_5)
+                    .id(PROGRESSIV_OGONSJUKDOM_JSON_ID)
                     .selected(progressivOgonsjukdom)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(PROGRESSIV_OGONSJUKDOM_SVAR_ID_5)
-                        .expression(singleExpression(PROGRESSIV_OGONSJUKDOM_JSON_ID_5))
+                        .questionId(PROGRESSIV_OGONSJUKDOM_SVAR_ID)
+                        .expression(singleExpression(PROGRESSIV_OGONSJUKDOM_JSON_ID))
                         .build()
                 }
             )
@@ -71,6 +71,6 @@ public class QuestionProgressivOgonsjukdom {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), PROGRESSIV_OGONSJUKDOM_SVAR_ID_5, PROGRESSIV_OGONSJUKDOM_JSON_ID_5);
+        return booleanValue(certificate.getData(), PROGRESSIV_OGONSJUKDOM_SVAR_ID, PROGRESSIV_OGONSJUKDOM_JSON_ID);
     }
 }

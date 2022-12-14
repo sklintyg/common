@@ -24,9 +24,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_JSON_ID_3;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_ID_3;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_TEXT_ID_3;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -70,7 +70,7 @@ class QuestionSynfaltsdefekterTest {
 
             @Override
             protected String getId() {
-                return SYNFALTSDEFEKTER_SVAR_ID_3;
+                return SYNFALTSDEFEKTER_SVAR_ID;
             }
 
             @Override
@@ -89,7 +89,7 @@ class QuestionSynfaltsdefekterTest {
 
             @Override
             protected String getId() {
-                return SYNFALTSDEFEKTER_JSON_ID_3;
+                return SYNFALTSDEFEKTER_JSON_ID;
             }
 
             @Override
@@ -114,7 +114,7 @@ class QuestionSynfaltsdefekterTest {
 
             @Override
             protected String getTextId() {
-                return SYNFALTSDEFEKTER_SVAR_TEXT_ID_3;
+                return SYNFALTSDEFEKTER_SVAR_TEXT_ID;
             }
 
             @Override
@@ -134,7 +134,7 @@ class QuestionSynfaltsdefekterTest {
 
             @Override
             protected String getJsonId() {
-                return SYNFALTSDEFEKTER_JSON_ID_3;
+                return SYNFALTSDEFEKTER_JSON_ID;
             }
 
             @Override
@@ -148,12 +148,12 @@ class QuestionSynfaltsdefekterTest {
 
             @Override
             protected String getQuestionId() {
-                return SYNFALTSDEFEKTER_SVAR_ID_3;
+                return SYNFALTSDEFEKTER_SVAR_ID;
             }
 
             @Override
             protected String getExpression() {
-                return "$" + SYNFALTSDEFEKTER_JSON_ID_3;
+                return "$" + SYNFALTSDEFEKTER_JSON_ID;
             }
 
             @Override

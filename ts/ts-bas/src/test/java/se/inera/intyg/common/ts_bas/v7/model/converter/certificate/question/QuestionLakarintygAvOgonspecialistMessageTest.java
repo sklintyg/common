@@ -21,14 +21,14 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKARINTYG_AV_OGONSPECIALIST_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKARINTYG_AV_OGONSPECIALIST_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_JSON_ID_5;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_SVAR_ID_5;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_JSON_ID_4;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_SVAR_ID_4;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_JSON_ID_3;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_ID_3;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -38,6 +38,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
+import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigMessageTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
@@ -64,7 +65,7 @@ class QuestionLakarintygAvOgonspecialistMessageTest {
 
         @Override
         protected String getId() {
-            return LAKARINTYG_AV_OGONSPECIALIST_ID;
+            return LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID;
         }
 
         @Override
@@ -93,7 +94,12 @@ class QuestionLakarintygAvOgonspecialistMessageTest {
 
         @Override
         protected String getTextId() {
-            return LAKARINTYG_AV_OGONSPECIALIST_TEXT_ID;
+            return LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_TEXT_ID;
+        }
+
+        @Override
+        protected MessageLevel getMessageLevel() {
+            return MessageLevel.INFO;
         }
 
         @Override
@@ -107,12 +113,12 @@ class QuestionLakarintygAvOgonspecialistMessageTest {
 
         @Override
         protected String getQuestionId() {
-            return SYNFALTSDEFEKTER_SVAR_ID_3;
+            return SYNFALTSDEFEKTER_SVAR_ID;
         }
 
         @Override
         protected String getExpression() {
-            return "$" + SYNFALTSDEFEKTER_JSON_ID_3;
+            return "$" + SYNFALTSDEFEKTER_JSON_ID;
         }
 
         @Override
@@ -131,12 +137,12 @@ class QuestionLakarintygAvOgonspecialistMessageTest {
 
         @Override
         protected String getQuestionId() {
-            return SEENDE_NEDSATT_BELYSNING_SVAR_ID_4;
+            return SEENDE_NEDSATT_BELYSNING_SVAR_ID;
         }
 
         @Override
         protected String getExpression() {
-            return "$" + SEENDE_NEDSATT_BELYSNING_JSON_ID_4;
+            return "$" + SEENDE_NEDSATT_BELYSNING_JSON_ID;
         }
 
         @Override
@@ -155,12 +161,12 @@ class QuestionLakarintygAvOgonspecialistMessageTest {
 
         @Override
         protected String getQuestionId() {
-            return PROGRESSIV_OGONSJUKDOM_SVAR_ID_5;
+            return PROGRESSIV_OGONSJUKDOM_SVAR_ID;
         }
 
         @Override
         protected String getExpression() {
-            return "$" + PROGRESSIV_OGONSJUKDOM_JSON_ID_5;
+            return "$" + PROGRESSIV_OGONSJUKDOM_JSON_ID;
         }
 
         @Override

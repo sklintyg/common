@@ -20,8 +20,8 @@
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDIGARE_UTFORD_UNDERSOKNING_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDIGARE_UTFORD_UNDERSOKNING_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_TEXT_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -33,12 +33,12 @@ public class QuestionTidigareUtfordUndersokningMessage {
     public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
 
         return CertificateDataElement.builder()
-            .id(TIDIGARE_UTFORD_UNDERSOKNING_ID)
+            .id(TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_SVAR_ID)
             .parent(SYNFUNKTIONER_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigMessage.builder()
-                    .message(texts.get(TIDIGARE_UTFORD_UNDERSOKNING_TEXT_ID))
+                    .message(texts.get(TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_TEXT_ID))
                     .level(MessageLevel.OBSERVE)
                     .build()
             )

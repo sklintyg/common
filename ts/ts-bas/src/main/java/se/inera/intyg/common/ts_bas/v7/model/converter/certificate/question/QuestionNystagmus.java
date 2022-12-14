@@ -21,9 +21,9 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NYSTAGMUS_JSON_ID_7;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NYSTAGMUS_SVAR_ID_7;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NYSTAGMUS_TEXT_ID_6;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NYSTAGMUS_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NYSTAGMUS_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NYSTAGMUS_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
@@ -42,28 +42,28 @@ public class QuestionNystagmus {
     public static CertificateDataElement toCertificate(Syn syn, int index, CertificateTextProvider textProvider) {
         final var nystagmus = syn != null ? syn.getNystagmus() : null;
         return CertificateDataElement.builder()
-            .id(NYSTAGMUS_SVAR_ID_7)
+            .id(NYSTAGMUS_SVAR_ID)
             .parent(SYNFUNKTIONER_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigRadioBoolean.builder()
-                    .id(NYSTAGMUS_JSON_ID_7)
-                    .text(textProvider.get(NYSTAGMUS_TEXT_ID_6))
+                    .id(NYSTAGMUS_JSON_ID)
+                    .text(textProvider.get(NYSTAGMUS_TEXT_ID))
                     .selectedText(SVAR_JA_TEXT)
                     .unselectedText(SVAR_NEJ_TEXT)
                     .build()
             )
             .value(
                 CertificateDataValueBoolean.builder()
-                    .id(NYSTAGMUS_JSON_ID_7)
+                    .id(NYSTAGMUS_JSON_ID)
                     .selected(nystagmus)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(NYSTAGMUS_SVAR_ID_7)
-                        .expression(singleExpression(NYSTAGMUS_JSON_ID_7))
+                        .questionId(NYSTAGMUS_SVAR_ID)
+                        .expression(singleExpression(NYSTAGMUS_JSON_ID))
                         .build()
                 }
             )
@@ -71,7 +71,7 @@ public class QuestionNystagmus {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), NYSTAGMUS_SVAR_ID_7, NYSTAGMUS_JSON_ID_7);
+        return booleanValue(certificate.getData(), NYSTAGMUS_SVAR_ID, NYSTAGMUS_JSON_ID);
     }
 
 
