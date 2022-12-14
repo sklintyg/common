@@ -39,7 +39,8 @@ public class InternalToCertificate {
                 CategorySynfunktioner.toCertificate(index++, texts)
             )
             .addElement(
-                QuestionSynfaltsdefekter.toCertificate(internalCertificate.getSyn().getSynfaltsdefekter(), index++, texts)
+                QuestionSynfaltsdefekter.toCertificate(
+                    internalCertificate.getSyn() != null ? internalCertificate.getSyn().getSynfaltsdefekter() : null, index++, texts)
             )
             .build();
     }
