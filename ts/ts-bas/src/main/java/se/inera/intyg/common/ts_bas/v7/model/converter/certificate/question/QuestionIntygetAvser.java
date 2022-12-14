@@ -36,10 +36,10 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_SVAR_ID_1;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_SVAR_TEXT_ID;
 
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -55,8 +55,9 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
 
 public class QuestionIntygetAvser {
 
-    public static CertificateDataElement toCertificate(Set<IntygAvserKategori> intygAvserKategori, int index,
+    public static CertificateDataElement toCertificate(IntygAvser intygAvser, int index,
         CertificateTextProvider texts) {
+        final var intygetAvserKategorier = intygAvser != null && intygAvser.getKorkortstyp() != null ? intygAvser.getKorkortstyp() : null;
         return CertificateDataElement.builder()
             .id(INTYG_AVSER_SVAR_ID_1)
             .parent(INTYG_AVSER_CATEGORY_ID)
@@ -116,9 +117,9 @@ public class QuestionIntygetAvser {
             .value(
                 CertificateDataValueCodeList.builder()
                     .list(
-                        intygAvserKategori != null ? intygAvserKategori.stream()
+                        intygetAvserKategorier != null ? intygetAvserKategorier.stream()
                             .map(QuestionIntygetAvser::getValueCode)
-                            .collect(Collectors.toList()) : List.of()
+                            .collect(Collectors.toList()) : Collections.emptyList()
                     )
                     .build()
             )

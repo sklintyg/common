@@ -39,9 +39,7 @@ public class InternalToCertificate {
                 CategoryIntygetAvser.toCertificate(index++, texts)
             )
             .addElement(
-                QuestionIntygetAvser.toCertificate(
-                    internalCertificate.getIntygAvser() != null ? internalCertificate.getIntygAvser().getKorkortstyp() : null, index++,
-                    texts)
+                QuestionIntygetAvser.toCertificate(internalCertificate.getIntygAvser(), index++, texts)
             )
             .build();
     }

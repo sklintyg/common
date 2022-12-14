@@ -38,11 +38,14 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_SVAR_ID_1;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_SVAR_TEXT_ID;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -55,7 +58,8 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCheckboxMultipleCodeTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
-import se.inera.intyg.common.support.facade.testsetup.model.value.ValueCheckboxMultipleCodeTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.ValueCodeListTest;
+import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
 
 @ExtendWith(MockitoExtension.class)
@@ -176,8 +180,8 @@ class QuestionIntygetAvserTest {
         }
 
         @Nested
-        class IncludeValueCheckboxMultipleCodeTest extends ValueCheckboxMultipleCodeTest {
-
+        @TestInstance(Lifecycle.PER_CLASS)
+        class IncludeValueCodeListTest extends ValueCodeListTest {
 
             @Override
             protected CertificateDataElement getElement() {
@@ -186,12 +190,18 @@ class QuestionIntygetAvserTest {
 
             @Override
             protected CertificateDataElement getElementWithValues() {
-                return QuestionIntygetAvser.toCertificate(Set.of(
-                    IntygAvserKategori.IAV3, IntygAvserKategori.IAV2, IntygAvserKategori.IAV1), 0, texts);
+                final var intygAvser = IntygAvser.create(
+                    EnumSet.copyOf(Set.of(IntygAvserKategori.IAV3, IntygAvserKategori.IAV2, IntygAvserKategori.IAV1)));
+                return QuestionIntygetAvser.toCertificate(intygAvser, 0, texts);
             }
 
             @Override
-            protected List<Object> getValues() {
+            protected CertificateDataElement getElement(List<Object> expectedValue) {
+                return QuestionIntygetAvser.toCertificate(null, 0, texts);
+            }
+
+            @Override
+            protected List<Object> getList() {
                 return List.of(
                     CertificateDataValueCode.builder()
                         .id(IntygAvserKategori.IAV1.name())
@@ -243,35 +253,34 @@ class QuestionIntygetAvserTest {
 
         @Test
         void shouldIncludeKorkortsTyp() {
-            final Set<IntygAvserKategori> expectedValue = Set.of(IntygAvserKategori.IAV1, IntygAvserKategori.IAV2,
-                IntygAvserKategori.IAV3, IntygAvserKategori.IAV4, IntygAvserKategori.IAV5);
-
+            final var expectedValue = IntygAvser.create(
+                EnumSet.copyOf(Set.of(IntygAvserKategori.IAV3, IntygAvserKategori.IAV2, IntygAvserKategori.IAV1)));
             final var certificate = CertificateBuilder.create()
                 .addElement(QuestionIntygetAvser.toCertificate(expectedValue, 0, texts))
                 .build();
 
             final var actualValue = QuestionIntygetAvser.toInternal(certificate);
 
-            assertEquals(expectedValue, actualValue.getKorkortstyp());
+            assertEquals(expectedValue.getKorkortstyp(), actualValue.getKorkortstyp());
         }
 
         @Test
         void shouldHandleEmptyValues() {
-            final Set<IntygAvserKategori> expectedValue = Set.of();
-
+            final var expectedValue = IntygAvser.create(
+                EnumSet.noneOf(IntygAvserKategori.class));
             final var certificate = CertificateBuilder.create()
                 .addElement(QuestionIntygetAvser.toCertificate(expectedValue, 0, texts))
                 .build();
 
             final var actualValue = QuestionIntygetAvser.toInternal(certificate);
 
-            assertEquals(expectedValue, actualValue.getKorkortstyp());
+            assertEquals(expectedValue.getKorkortstyp(), actualValue.getKorkortstyp());
         }
 
         @Test
         void shouldHandleCodeWithEmptyStringValues() {
-            final Set<IntygAvserKategori> expectedValue = Set.of();
-
+            final var expectedValue = IntygAvser.create(
+                EnumSet.noneOf(IntygAvserKategori.class));
             final var certificate = CertificateBuilder.create()
                 .addElement(QuestionIntygetAvser.toCertificate(expectedValue, 0, texts))
                 .build();

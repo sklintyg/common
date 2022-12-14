@@ -65,7 +65,7 @@ class CertificateToInternalTest {
         certificate = CertificateBuilder.create()
             .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, textProvider))
             .addElement(
-                QuestionIntygetAvser.toCertificate(expectedInternalCertificate.getIntygAvser().getKorkortstyp(), 0, textProvider)
+                QuestionIntygetAvser.toCertificate(expectedInternalCertificate.getIntygAvser(), 0, textProvider)
             )
             .build();
     }

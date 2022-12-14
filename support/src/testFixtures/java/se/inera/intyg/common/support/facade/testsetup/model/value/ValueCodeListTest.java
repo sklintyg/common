@@ -20,37 +20,46 @@
 package se.inera.intyg.common.support.facade.testsetup.model.value;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Collections;
 import java.util.List;
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCodeList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 
-public abstract class ValueCheckboxMultipleCodeTest extends ValueTest {
+public abstract class ValueCodeListTest extends ValueTest {
 
     protected abstract CertificateDataElement getElementWithValues();
 
-    protected abstract List<Object> getValues();
+    protected abstract CertificateDataElement getElement(List<Object> expectedValue);
+
+    protected abstract List<Object> getList();
 
     @Override
     protected CertificateDataValueType getType() {
         return CertificateDataValueType.CODE_LIST;
     }
 
-    @Test
-    void shouldIncludeCodeValueList() {
-        final var question = getElement();
-        final var value = (CertificateDataValueCodeList) question.getValue();
-        assertTrue(value.getList().isEmpty());
+    protected Stream<List<Object>> codeListValues() {
+        return Stream.of(getList(), Collections.emptyList());
     }
 
-    @Test
-    void shouldIncludeCodeValueListWithValues() {
-        final var expectedValueList = getValues();
-        final var question = getElementWithValues();
+    @ParameterizedTest
+    @MethodSource("codeListValues")
+    void shouldIncludeCodeValueList(List<Object> expectedValues) {
+        final var question = getElement(expectedValues);
         final var value = (CertificateDataValueCodeList) question.getValue();
-        assertEquals(expectedValueList.size(), value.getList().size());
+        assertEquals(expectedValues.size(), value.getList().size());
     }
+
+//    @Test
+//    void shouldIncludeCodeValueListWithValues() {
+//        final var expectedValueList = getList();
+//        final var question = getElementWithValues();
+//        final var value = (CertificateDataValueCodeList) question.getValue();
+//        assertEquals(expectedValueList.size(), value.getList().size());
+//    }
 }
