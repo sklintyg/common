@@ -25,14 +25,15 @@ import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCodeList;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 
-public abstract class ValueCodeListTest<T> extends ValueTest {
+public abstract class InternalCodeListValueTest<T> {
 
-    protected abstract CertificateDataElement getElement(T expectedValue);
+    protected abstract CertificateDataElement getElement(T input);
+
+    protected abstract T toInternalTextValue(Certificate certificate);
 
     protected abstract List<InputExpectedValuePair<T>> inputExpectedValuePairList();
 
@@ -40,30 +41,24 @@ public abstract class ValueCodeListTest<T> extends ValueTest {
         return inputExpectedValuePairList().stream();
     }
 
-    @Override
-    protected CertificateDataElement getElement() {
-        return getElement(null);
-    }
-
-    @Override
-    protected CertificateDataValueType getType() {
-        return CertificateDataValueType.CODE_LIST;
-    }
-
     @ParameterizedTest
     @MethodSource("inputExpectedValuePairStream")
-    void shouldIncludeCodeValueList(InputExpectedValuePair<T> inputExpectedValuePair) {
-        final var question = getElement(inputExpectedValuePair.getInput());
-        final var value = (CertificateDataValueCodeList) question.getValue();
-        assertEquals(inputExpectedValuePair.getExpectedValue(), value.getList());
+    void shouldIncludeTextValue(InputExpectedValuePair<T> inputExpectedValuePair) {
+        final var certificate = CertificateBuilder.create()
+            .addElement(getElement(inputExpectedValuePair.getInput()))
+            .build();
+
+        final var actualValue = toInternalTextValue(certificate);
+
+        assertEquals(inputExpectedValuePair.getExpectedValue(), actualValue);
     }
 
     public class InputExpectedValuePair<T> {
 
         private final T input;
-        private final List<CertificateDataValueCode> expectedValue;
+        private final T expectedValue;
 
-        public InputExpectedValuePair(T input, List<CertificateDataValueCode> expectedValue) {
+        public InputExpectedValuePair(T input, T expectedValue) {
             this.input = input;
             this.expectedValue = expectedValue;
         }
@@ -72,9 +67,8 @@ public abstract class ValueCodeListTest<T> extends ValueTest {
             return input;
         }
 
-        public List<CertificateDataValueCode> getExpectedValue() {
+        public T getExpectedValue() {
             return expectedValue;
         }
     }
 }
-

@@ -19,7 +19,6 @@
 
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -52,6 +51,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
@@ -59,6 +59,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCheckboxMultipleCodeTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InternalCodeListValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueCodeListTest;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
@@ -246,30 +247,32 @@ class QuestionIntygetAvserTest {
     @Nested
     class ToInternal {
 
-        @Test
-        void shouldIncludeKorkortsTyp() {
-            final var expectedValue = IntygAvser.create(
-                EnumSet.copyOf(Set.of(IntygAvserKategori.IAV3, IntygAvserKategori.IAV2, IntygAvserKategori.IAV1)));
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionIntygetAvser.toCertificate(expectedValue, 0, texts))
-                .build();
+        @Nested
+        @TestInstance(Lifecycle.PER_CLASS)
+        class IncludeInternalCodeListValueTest extends InternalCodeListValueTest<IntygAvser> {
 
-            final var actualValue = QuestionIntygetAvser.toInternal(certificate);
+            @Override
+            protected CertificateDataElement getElement(IntygAvser input) {
+                return QuestionIntygetAvser.toCertificate(input, 0, texts);
+            }
 
-            assertEquals(expectedValue.getKorkortstyp(), actualValue.getKorkortstyp());
-        }
+            @Override
+            protected IntygAvser toInternalTextValue(Certificate certificate) {
+                return QuestionIntygetAvser.toInternal(certificate);
+            }
 
-        @Test
-        void shouldHandleEmptyValues() {
-            final var expectedValue = IntygAvser.create(
-                EnumSet.noneOf(IntygAvserKategori.class));
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionIntygetAvser.toCertificate(expectedValue, 0, texts))
-                .build();
-
-            final var actualValue = QuestionIntygetAvser.toInternal(certificate);
-
-            assertEquals(expectedValue.getKorkortstyp(), actualValue.getKorkortstyp());
+            @Override
+            protected List<InternalCodeListValueTest<IntygAvser>.InputExpectedValuePair<IntygAvser>> inputExpectedValuePairList() {
+                return List.of(
+                    new InternalCodeListValueTest.InputExpectedValuePair(null, IntygAvser.create(null)),
+                    new InternalCodeListValueTest.InputExpectedValuePair(IntygAvser.create(null), IntygAvser.create(null)),
+                    new InternalCodeListValueTest.InputExpectedValuePair(IntygAvser.create(
+                        EnumSet.copyOf(Set.of(IntygAvserKategori.IAV3, IntygAvserKategori.IAV2, IntygAvserKategori.IAV1))),
+                        IntygAvser.create(
+                            EnumSet.copyOf(Set.of(IntygAvserKategori.IAV3, IntygAvserKategori.IAV2, IntygAvserKategori.IAV1)))
+                    )
+                );
+            }
         }
 
         @Test
