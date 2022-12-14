@@ -26,14 +26,13 @@ import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleCode;
+import se.inera.intyg.common.support.facade.model.config.Layout;
 
 public abstract class ConfigCheckboxMultipleCodeTest extends ConfigTest {
 
     protected abstract List<CheckboxMultipleCode> getListOfCodes();
 
-    protected abstract Integer getRows();
-
-    protected abstract Integer getColumns();
+    protected abstract Layout getLayout();
 
     @Override
     protected CertificateDataConfigTypes getType() {
@@ -58,5 +57,12 @@ public abstract class ConfigCheckboxMultipleCodeTest extends ConfigTest {
             final var checkboxMultipleCode = config.getList().get(i);
             assertEquals(checkboxMultipleCode.getLabel(), getListOfCodes().get(i).getLabel());
         }
+    }
+
+    @Test
+    void shouldIncludeLayout() {
+        final var question = getElement();
+        final var config = (CertificateDataConfigCheckboxMultipleCode) question.getConfig();
+        assertEquals(getLayout(), config.getLayout());
     }
 }

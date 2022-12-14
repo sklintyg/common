@@ -54,6 +54,7 @@ import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleCode;
+import se.inera.intyg.common.support.facade.model.config.Layout;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCodeList;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
@@ -172,14 +173,10 @@ class QuestionIntygetAvserTest {
             }
 
             @Override
-            protected Integer getRows() {
-                return 2;
+            protected Layout getLayout() {
+                return Layout.INLINE;
             }
 
-            @Override
-            protected Integer getColumns() {
-                return 0;
-            }
         }
 
         @Nested
@@ -258,7 +255,7 @@ class QuestionIntygetAvserTest {
             }
 
             @Override
-            protected IntygAvser toInternalTextValue(Certificate certificate) {
+            protected IntygAvser toInternalValue(Certificate certificate) {
                 return QuestionIntygetAvser.toInternal(certificate);
             }
 

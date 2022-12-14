@@ -33,7 +33,7 @@ public abstract class InternalCodeListValueTest<T, S> {
 
     protected abstract CertificateDataElement getElement(T input);
 
-    protected abstract T toInternalTextValue(Certificate certificate);
+    protected abstract T toInternalValue(Certificate certificate);
 
     protected abstract List<InputExpectedValuePair<T, S>> inputExpectedValuePairList();
 
@@ -48,7 +48,7 @@ public abstract class InternalCodeListValueTest<T, S> {
             .addElement(getElement(inputExpectedValuePair.getInput()))
             .build();
 
-        final var actualValue = toInternalTextValue(certificate);
+        final var actualValue = toInternalValue(certificate);
 
         assertEquals(inputExpectedValuePair.getExpectedValue(), actualValue);
     }
