@@ -59,4 +59,10 @@ public final class RespConstantsV7 {
     public static final String BINOKULART_MED_KORREKTION_DELSVAR_ID_8 = "8.7";
     public static final String KONTAKTLINSER_HOGER_OGA_DELSVAR_ID_8 = "8.8";
     public static final String KONTAKTLINSER_VANSTER_OGA_DELSVAR_ID_8 = "8.9";
+
+    public static final String UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID_9 = "9";
+    public static final String UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID_9 = "korrektionsglasensStyrka";
+    public static final String UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_TEXT_ID_9 = "FRG_9.RBK";
+    public static final String UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_TEXT_ID_9 = "FRG_9.1.RBK";
+
 }

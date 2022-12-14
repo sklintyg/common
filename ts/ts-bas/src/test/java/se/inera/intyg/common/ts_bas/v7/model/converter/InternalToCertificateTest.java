@@ -28,6 +28,7 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSA
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_ID_3;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID_9;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -126,5 +127,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionSynskarpaSkickasSeparat() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(6, actualCertificate.getData().get(SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID_8).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionKorrektionsglasensStyrka() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(7, actualCertificate.getData().get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID_9).getIndex());
     }
 }

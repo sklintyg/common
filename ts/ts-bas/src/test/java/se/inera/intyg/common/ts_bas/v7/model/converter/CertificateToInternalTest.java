@@ -36,6 +36,7 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNystagmus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
@@ -65,6 +66,7 @@ class CertificateToInternalTest {
             .setDiplopi(true)
             .setNystagmus(true)
             .setSynskarpaSkickasSeparat(true)
+            .setKorrektionsglasensStyrka(true)
             .build();
 
         expectedInternalCertificate = TsBasUtlatandeV7.builder()
@@ -82,6 +84,7 @@ class CertificateToInternalTest {
             .addElement(QuestionDubbelseende.toCertificate(syn, 0, textProvider))
             .addElement(QuestionNystagmus.toCertificate(syn, 0, textProvider))
             .addElement(QuestionSynskarpaSkickasSeparat.toCertificate(syn, 0, textProvider))
+            .addElement(QuestionKorrektionsglasensStyrka.toCertificate(syn, 0, textProvider))
             .build();
     }
 
@@ -153,5 +156,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getSyn().getSynskarpaSkickasSeparat(),
             actualInternalCertificate.getSyn().getSynskarpaSkickasSeparat());
+    }
+
+    @Test
+    void shallIncludeKorrektionsglasensStyrka() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getSyn().getKorrektionsglasensStyrka(),
+            actualInternalCertificate.getSyn().getKorrektionsglasensStyrka());
     }
 }
