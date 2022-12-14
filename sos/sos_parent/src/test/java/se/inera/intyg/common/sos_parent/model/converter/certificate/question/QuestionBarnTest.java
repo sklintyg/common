@@ -34,20 +34,18 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_QUESTI
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_JSON_ID;
 
-import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationAutoFill;
@@ -56,6 +54,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InternalBooleanValueTest;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 @ExtendWith(MockitoExtension.class)
@@ -299,22 +298,19 @@ class QuestionBarnTest {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class ToInternal {
 
-        Stream<Boolean> booleanValues() {
-            return Stream.of(true, false, null);
-        }
+        @Nested
+        @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+        class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
 
-        @ParameterizedTest
-        @MethodSource("booleanValues")
-        void shouldIncludeValue(Boolean expectedValue) {
-            final var index = 1;
+            @Override
+            protected CertificateDataElement getElement(Boolean expectedValue) {
+                return QuestionBarn.toCertificate(personId, expectedValue, 0, texts);
+            }
 
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionBarn.toCertificate(personId, expectedValue, index, texts))
-                .build();
-
-            final var actualValue = QuestionBarn.toInternal(certificate);
-
-            assertEquals(expectedValue, actualValue);
+            @Override
+            protected Boolean toInternalBooleanValue(Certificate certificate) {
+                return QuestionBarn.toInternal(certificate);
+            }
         }
     }
 }

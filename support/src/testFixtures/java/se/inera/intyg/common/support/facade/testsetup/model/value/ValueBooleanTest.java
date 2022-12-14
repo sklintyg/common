@@ -20,36 +20,31 @@
 package se.inera.intyg.common.support.facade.testsetup.model.value;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static se.inera.intyg.common.support.facade.model.value.CertificateDataValueType.BOOLEAN;
 
 import org.junit.jupiter.api.Test;
-import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 
 public abstract class ValueBooleanTest extends ValueTest {
 
-    protected abstract CertificateDataElement getElement();
-
     protected abstract String getJsonId();
 
-    protected abstract Boolean getSelected();
+    protected abstract Boolean getBoolean();
 
-    @Override
     protected CertificateDataValueType getType() {
-        return CertificateDataValueType.BOOLEAN;
+        return BOOLEAN;
     }
-
     @Test
     void shouldIncludeValueId() {
         final var question = getElement();
         final var value = (CertificateDataValueBoolean) question.getValue();
         assertEquals(getJsonId(), value.getId());
     }
-
     @Test
     void shouldIncludeValueBoolean() {
         final var question = getElement();
         final var value = (CertificateDataValueBoolean) question.getValue();
-        assertEquals(getSelected(), value.getSelected());
+        assertEquals(getBoolean(), value.getSelected());
     }
 }

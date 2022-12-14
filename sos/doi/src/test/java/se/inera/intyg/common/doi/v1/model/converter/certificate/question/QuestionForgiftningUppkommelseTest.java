@@ -19,7 +19,9 @@
 
 package se.inera.intyg.common.doi.v1.model.converter.certificate.question;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -45,14 +47,15 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
+import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionForgiftningUppkommelseTest {
@@ -163,24 +166,28 @@ class QuestionForgiftningUppkommelseTest {
             assertEquals("$" + FORGIFTNING_UPPKOMMELSE_JSON_ID, certificateDataValidationMandatory.getExpression());
         }
 
-        @Test
-        void shouldIncludeValidationShowType() {
-            final var question = QuestionForgiftningUppkommelse.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataValidationType.SHOW_VALIDATION, question.getValidation()[1].getType());
-        }
+        @Nested
+        class IncludeValidationShowTest extends ValidationShowTest {
 
-        @Test
-        void shouldIncludeValidationShowQuestionId() {
-            final var question = QuestionForgiftningUppkommelse.toCertificate(null, 0, texts);
-            final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
-            assertEquals(FORGIFTNING_OM_DELSVAR_ID, certificateDataValidationShow.getQuestionId());
-        }
+            @Override
+            protected String getQuestionId() {
+                return FORGIFTNING_OM_DELSVAR_ID;
+            }
 
-        @Test
-        void shouldIncludeValidationShowExpression() {
-            final var question = QuestionForgiftningUppkommelse.toCertificate(null, 0, texts);
-            final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
-            assertEquals("$" + FORGIFTNING_OM_JSON_ID, certificateDataValidationShow.getExpression());
+            @Override
+            protected String getExpression() {
+                return "$" + FORGIFTNING_OM_JSON_ID;
+            }
+
+            @Override
+            protected CertificateDataElement getElement() {
+                return QuestionForgiftningUppkommelse.toCertificate(null, 0, texts);
+            }
+
+            @Override
+            protected int getValidationIndex() {
+                return 1;
+            }
         }
 
         @Test

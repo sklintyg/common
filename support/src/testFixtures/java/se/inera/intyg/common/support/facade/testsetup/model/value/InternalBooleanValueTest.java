@@ -41,12 +41,10 @@ public abstract class InternalBooleanValueTest {
     @ParameterizedTest
     @MethodSource("booleanValues")
     void shouldIncludeBooleanValue(Boolean expectedValue) {
-        final var index = 1;
 
         final var certificate = CertificateBuilder.create()
             .addElement(getElement(expectedValue))
             .build();
-
         final var actualValue = toInternalBooleanValue(certificate);
 
         assertEquals(expectedValue, actualValue);

@@ -22,6 +22,7 @@ package se.inera.intyg.common.luae_na.v1.model.converter;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryAktivietsbegransningar;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryBakgrund;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryFunktionsnedsattning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryGrundForMU;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryMedicinskBehandling;
@@ -31,6 +32,9 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.Cat
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAktivetsbegransningarHeader;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAktivitetsbegransningar;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionDiagnosForNyBedomning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionDiagnoser;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionDiagnosgrund;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFormagaTrotsBegransning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionForslagTillAtgard;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionFunktionsnedsattningAnnan;
@@ -53,6 +57,7 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingSubstansintagHeader;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskaForutsattningarForArbete;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionNyBedomningDiagnosgrund;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionOvrigt;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionSjukdomsforlopp;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlag;
@@ -98,6 +103,21 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionSjukdomsforlopp.toCertificate(internalCertificate.getSjukdomsforlopp(), index++, textProvider)
+            )
+            .addElement(
+                CategoryDiagnos.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionDiagnoser.toCertificate(internalCertificate.getDiagnoser(), index++, textProvider)
+            )
+            .addElement(
+                QuestionDiagnosgrund.toCertificate(internalCertificate.getDiagnosgrund(), index++, textProvider)
+            )
+            .addElement(
+                QuestionNyBedomningDiagnosgrund.toCertificate(internalCertificate.getNyBedomningDiagnosgrund(), index++, textProvider)
+            )
+            .addElement(
+                QuestionDiagnosForNyBedomning.toCertificate(internalCertificate.getDiagnosForNyBedomning(), index++, textProvider)
             )
             .addElement(
                 CategoryFunktionsnedsattning.toCertificate(index++, textProvider)
