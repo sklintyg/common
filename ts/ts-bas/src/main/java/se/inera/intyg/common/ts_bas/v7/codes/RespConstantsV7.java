@@ -31,6 +31,9 @@ public final class RespConstantsV7 {
     public static final String SYNFALTSDEFEKTER_DELSVAR_ID_3 = "3.1";
 
     public static final String SEENDE_NEDSATT_BELYSNING_SVAR_ID_4 = "4";
+    public static final String SEENDE_NEDSATT_BELYSNING_JSON_ID_4 = "nedsattBelysning";
+    public static final String SEENDE_NEDSATT_BELYSNING_TEXT_ID_4 = "FRG_4.RBK";
+
     public static final String SEENDE_NEDSATT_BELYSNING_DELSVAR_ID_4 = "4.1";
 
     public static final String PROGRESSIV_OGONSJUKDOM_SVAR_ID_5 = "5";

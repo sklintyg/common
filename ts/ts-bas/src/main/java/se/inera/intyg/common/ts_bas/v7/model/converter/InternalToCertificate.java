@@ -25,6 +25,7 @@ import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySynfunktioner;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 
@@ -40,7 +41,10 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionSynfaltsdefekter.toCertificate(
-                    internalCertificate.getSyn() != null ? internalCertificate.getSyn().getSynfaltsdefekter() : null, index++, texts)
+                    internalCertificate.getSyn(), index++, texts)
+            )
+            .addElement(
+                QuestionNattblindhet.toCertificate(internalCertificate.getSyn(), index++, texts)
             )
             .build();
     }

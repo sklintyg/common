@@ -22,11 +22,11 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_JSON_ID_4;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_SVAR_ID_4;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_TEXT_ID_4;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_JSON_ID_3;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_ID_3;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_TEXT_ID_3;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -46,7 +46,7 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueBooleanTe
 import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionSynfaltsdefekterTest {
+class QuestionNattblindhetTest {
 
     @Mock
     CertificateTextProvider textProvider;
@@ -65,12 +65,12 @@ class QuestionSynfaltsdefekterTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionSynfaltsdefekter.toCertificate(null, 0, textProvider);
+                return QuestionNattblindhet.toCertificate(null, 0, textProvider);
             }
 
             @Override
             protected String getId() {
-                return SYNFALTSDEFEKTER_SVAR_ID_3;
+                return SEENDE_NEDSATT_BELYSNING_SVAR_ID_4;
             }
 
             @Override
@@ -89,7 +89,7 @@ class QuestionSynfaltsdefekterTest {
 
             @Override
             protected String getJsonId() {
-                return SYNFALTSDEFEKTER_JSON_ID_3;
+                return SEENDE_NEDSATT_BELYSNING_JSON_ID_4;
             }
 
             @Override
@@ -109,12 +109,12 @@ class QuestionSynfaltsdefekterTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionSynfaltsdefekter.toCertificate(null, 0, textProvider);
+                return QuestionNattblindhet.toCertificate(null, 0, textProvider);
             }
 
             @Override
             protected String getTextId() {
-                return SYNFALTSDEFEKTER_SVAR_TEXT_ID_3;
+                return SEENDE_NEDSATT_BELYSNING_TEXT_ID_4;
             }
 
             @Override
@@ -128,12 +128,12 @@ class QuestionSynfaltsdefekterTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionSynfaltsdefekter.toCertificate(null, 0, textProvider);
+                return QuestionNattblindhet.toCertificate(null, 0, textProvider);
             }
 
             @Override
             protected String getJsonId() {
-                return SYNFALTSDEFEKTER_JSON_ID_3;
+                return SEENDE_NEDSATT_BELYSNING_JSON_ID_4;
             }
 
             @Override
@@ -147,17 +147,17 @@ class QuestionSynfaltsdefekterTest {
 
             @Override
             protected String getQuestionId() {
-                return SYNFALTSDEFEKTER_SVAR_ID_3;
+                return SEENDE_NEDSATT_BELYSNING_SVAR_ID_4;
             }
 
             @Override
             protected String getExpression() {
-                return "$" + SYNFALTSDEFEKTER_JSON_ID_3;
+                return "$" + SEENDE_NEDSATT_BELYSNING_JSON_ID_4;
             }
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionSynfaltsdefekter.toCertificate(null, 0, textProvider);
+                return QuestionNattblindhet.toCertificate(null, 0, textProvider);
             }
 
             @Override
@@ -176,13 +176,13 @@ class QuestionSynfaltsdefekterTest {
 
             @Override
             protected CertificateDataElement getElement(Boolean expectedValue) {
-                final var syn = Syn.builder().setSynfaltsdefekter(expectedValue).build();
-                return QuestionSynfaltsdefekter.toCertificate(syn, 0, textProvider);
+                final var syn = Syn.builder().setNattblindhet(expectedValue).build();
+                return QuestionNattblindhet.toCertificate(syn, 0, textProvider);
             }
 
             @Override
             protected Boolean toInternalBooleanValue(Certificate certificate) {
-                return QuestionSynfaltsdefekter.toInternal(certificate);
+                return QuestionNattblindhet.toInternal(certificate);
             }
         }
     }

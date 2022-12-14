@@ -21,11 +21,11 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_JSON_ID_4;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_SVAR_ID_4;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_TEXT_ID_4;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_JSON_ID_3;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_ID_3;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_TEXT_ID_3;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -37,33 +37,34 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 
-public class QuestionSynfaltsdefekter {
+public class QuestionNattblindhet {
 
     public static CertificateDataElement toCertificate(Syn syn, int index, CertificateTextProvider textProvider) {
-        final var synfaltsdefekter = syn != null ? syn.getSynfaltsdefekter() : null;
+        final var nattblindhet = syn != null ? syn.getNattblindhet() : null;
+
         return CertificateDataElement.builder()
-            .id(SYNFALTSDEFEKTER_SVAR_ID_3)
+            .id(SEENDE_NEDSATT_BELYSNING_SVAR_ID_4)
             .parent(SYNFUNKTIONER_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigRadioBoolean.builder()
-                    .id(SYNFALTSDEFEKTER_JSON_ID_3)
-                    .text(textProvider.get(SYNFALTSDEFEKTER_SVAR_TEXT_ID_3))
+                    .id(SEENDE_NEDSATT_BELYSNING_JSON_ID_4)
+                    .text(textProvider.get(SEENDE_NEDSATT_BELYSNING_TEXT_ID_4))
                     .selectedText(SVAR_JA_TEXT)
                     .unselectedText(SVAR_NEJ_TEXT)
                     .build()
             )
             .value(
                 CertificateDataValueBoolean.builder()
-                    .id(SYNFALTSDEFEKTER_JSON_ID_3)
-                    .selected(synfaltsdefekter)
+                    .id(SEENDE_NEDSATT_BELYSNING_JSON_ID_4)
+                    .selected(nattblindhet)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(SYNFALTSDEFEKTER_SVAR_ID_3)
-                        .expression(singleExpression(SYNFALTSDEFEKTER_JSON_ID_3))
+                        .questionId(SEENDE_NEDSATT_BELYSNING_SVAR_ID_4)
+                        .expression(singleExpression(SEENDE_NEDSATT_BELYSNING_JSON_ID_4))
                         .build()
                 }
             )
@@ -71,6 +72,6 @@ public class QuestionSynfaltsdefekter {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), SYNFALTSDEFEKTER_SVAR_ID_3, SYNFALTSDEFEKTER_JSON_ID_3);
+        return booleanValue(certificate.getData(), SEENDE_NEDSATT_BELYSNING_SVAR_ID_4, SEENDE_NEDSATT_BELYSNING_JSON_ID_4);
     }
 }

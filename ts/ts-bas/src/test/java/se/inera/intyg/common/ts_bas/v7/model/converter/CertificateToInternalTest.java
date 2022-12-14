@@ -35,6 +35,7 @@ import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
@@ -53,18 +54,22 @@ class CertificateToInternalTest {
     void setup() {
         certificateToInternal = new CertificateToInternal();
 
+        final var syn = Syn.builder()
+            .setSynfaltsdefekter(true)
+            .setNattblindhet(true)
+            .build();
+
         expectedInternalCertificate = TsBasUtlatandeV7.builder()
             .setId("id")
             .setTextVersion("textVersion")
             .setGrundData(getGrundData())
-            .setSyn(Syn.builder()
-                .setSynfaltsdefekter(true)
-                .build())
+            .setSyn(syn)
             .build();
 
         certificate = CertificateBuilder.create()
             .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, textProvider))
-            .addElement(QuestionSynfaltsdefekter.toCertificate(true, 0, textProvider))
+            .addElement(QuestionSynfaltsdefekter.toCertificate(syn, 0, textProvider))
+            .addElement(QuestionNattblindhet.toCertificate(syn, 0, textProvider))
             .build();
     }
 
@@ -102,5 +107,11 @@ class CertificateToInternalTest {
     void shallIncludeSynfaltsdefekter() {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getSyn().getSynfaltsdefekter(), actualInternalCertificate.getSyn().getSynfaltsdefekter());
+    }
+
+    @Test
+    void shallIncludeNattblindhet() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getSyn().getNattblindhet(), actualInternalCertificate.getSyn().getNattblindhet());
     }
 }
