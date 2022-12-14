@@ -45,8 +45,6 @@ public class CertificateDataConfigSickLeavePeriod implements CertificateDataConf
     String description;
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
-    @Getter(onMethod = @__(@Override))
-    Layout layout;
     String previousSickLeavePeriod;
     List<CheckboxDateRange> list;
 

@@ -44,8 +44,6 @@ public class CertificateDataConfigCheckboxBoolean implements CertificateDataConf
     String description;
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
-    @Getter(onMethod = @__(@Override))
-    Layout layout;
     String id;
     String selectedText;
     String unselectedText;

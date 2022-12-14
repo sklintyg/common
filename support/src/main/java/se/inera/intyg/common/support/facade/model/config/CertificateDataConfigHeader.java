@@ -44,8 +44,6 @@ public class CertificateDataConfigHeader implements CertificateDataConfig {
     String description;
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
-    @Getter(onMethod = @__(@Override))
-    Layout layout;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataConfigHeaderBuilder {

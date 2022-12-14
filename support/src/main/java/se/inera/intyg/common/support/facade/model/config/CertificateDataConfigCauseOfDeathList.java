@@ -46,8 +46,6 @@ public class CertificateDataConfigCauseOfDeathList implements CertificateDataCon
     String description;
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
-    @Getter(onMethod = @__(@Override))
-    Layout layout;
     List<CauseOfDeath> list;
 
 

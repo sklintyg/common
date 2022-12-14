@@ -66,5 +66,4 @@ public interface CertificateDataConfig {
 
     Accordion getAccordion();
 
-    Layout getLayout();
 }

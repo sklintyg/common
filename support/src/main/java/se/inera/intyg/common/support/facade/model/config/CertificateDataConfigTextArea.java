@@ -44,8 +44,6 @@ public class CertificateDataConfigTextArea implements CertificateDataConfig {
     String description;
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
-    @Getter(onMethod = @__(@Override))
-    Layout layout;
     String id;
 
     @JsonPOJOBuilder(withPrefix = "")
