@@ -27,8 +27,10 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrund
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySynfunktioner;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNystagmus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 
 @Component(value = "internalToCertificateTsBas")
@@ -53,6 +55,12 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionDubbelseende.toCertificate(internalCertificate.getSyn(), index++, texts)
+            )
+            .addElement(
+                QuestionNystagmus.toCertificate(internalCertificate.getSyn(), index++, texts)
+            )
+            .addElement(
+                QuestionSynskarpaSkickasSeparat.toCertificate(internalCertificate.getSyn(), index++, texts)
             )
             .build();
     }

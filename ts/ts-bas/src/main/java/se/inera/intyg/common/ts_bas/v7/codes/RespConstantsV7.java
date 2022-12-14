@@ -28,28 +28,29 @@ public final class RespConstantsV7 {
     public static final String SYNFALTSDEFEKTER_SVAR_ID_3 = "3";
     public static final String SYNFALTSDEFEKTER_SVAR_TEXT_ID_3 = "FRG_3.RBK";
     public static final String SYNFALTSDEFEKTER_JSON_ID_3 = "synfaltsdefekter";
-    public static final String SYNFALTSDEFEKTER_DELSVAR_ID_3 = "3.1";
 
     public static final String SEENDE_NEDSATT_BELYSNING_SVAR_ID_4 = "4";
     public static final String SEENDE_NEDSATT_BELYSNING_JSON_ID_4 = "nedsattBelysning";
     public static final String SEENDE_NEDSATT_BELYSNING_TEXT_ID_4 = "FRG_4.RBK";
 
-    public static final String SEENDE_NEDSATT_BELYSNING_DELSVAR_ID_4 = "4.1";
 
     public static final String PROGRESSIV_OGONSJUKDOM_SVAR_ID_5 = "5";
     public static final String PROGRESSIV_OGONSJUKDOM_JSON_ID_5 = "progressivOgonsjukdom";
     public static final String PROGRESSIV_OGONSJUKDOM_TEXT_ID_5 = "FRG_5.RBK";
-    public static final String PROGRESSIV_OGONSJUKDOM_DELSVAR_ID_5 = "5.1";
 
     public static final String DUBBELSEENDE_SVAR_ID_6 = "6";
     public static final String DUBBELSEENDE_JSON_ID_6 = "dubbelseende";
     public static final String DUBBELSEENDE_TEXT_ID_6 = "FRG_6.RBK";
-    public static final String DUBBELSEENDE_DELSVAR_ID_6 = "6.1";
 
     public static final String NYSTAGMUS_SVAR_ID_7 = "7";
-    public static final String NYSTAGMUS_DELSVAR_ID_7 = "7.1";
+    public static final String NYSTAGMUS_JSON_ID_7 = "nystagmus";
+    public static final String NYSTAGMUS_TEXT_ID_6 = "FRG_7.RBK";
 
     public static final String SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID_8 = "8.1";
+    public static final String SYNKARPA_SKICKAS_SEPARAT_JSON_ID_8 = "synskarpaSkickasSeparat";
+    public static final String SYNKARPA_SKICKAS_SEPARAT_TEXT_ID_8 = "FRG_8.RBK";
+    public static final String SYNKARPA_SKICKAS_SEPARAT_SVAR_TEXT_ID_8 = "DFR_8.1.RBK";
+    public static final String SYNKARPA_SKICKAS_SEPARAT_DESCRIPTION_ID_8 = "FRG_8.HLP";
     public static final String HOGER_OGA_UTAN_KORREKTION_DELSVAR_ID_8 = "8.2";
     public static final String VANSTER_OGA_UTAN_KORREKTION_DELSVAR_ID_8 = "8.3";
     public static final String BINOKULART_UTAN_KORREKTION_DELSVAR_ID_8 = "8.4";

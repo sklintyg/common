@@ -22,10 +22,12 @@ package se.inera.intyg.common.ts_bas.v7.model.converter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.DUBBELSEENDE_SVAR_ID_6;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NYSTAGMUS_SVAR_ID_7;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_SVAR_ID_5;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_SVAR_ID_4;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_ID_3;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID_8;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -112,5 +114,17 @@ class InternalToCertificateTest {
     void shallIncludeQuestionDubbelseende() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(4, actualCertificate.getData().get(DUBBELSEENDE_SVAR_ID_6).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionNystagmus() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(5, actualCertificate.getData().get(NYSTAGMUS_SVAR_ID_7).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionSynskarpaSkickasSeparat() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(6, actualCertificate.getData().get(SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID_8).getIndex());
     }
 }
