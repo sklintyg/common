@@ -38,6 +38,7 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_SVAR_ID_1;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_SVAR_TEXT_ID;
 
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
@@ -181,40 +182,34 @@ class QuestionIntygetAvserTest {
 
         @Nested
         @TestInstance(Lifecycle.PER_CLASS)
-        class IncludeValueCodeListTest extends ValueCodeListTest {
+        class IncludeValueCodeListTest extends ValueCodeListTest<IntygAvser> {
 
             @Override
-            protected CertificateDataElement getElement() {
-                return QuestionIntygetAvser.toCertificate(null, 0, texts);
+            protected CertificateDataElement getElement(IntygAvser input) {
+                return QuestionIntygetAvser.toCertificate(input, 0, texts);
             }
 
             @Override
-            protected CertificateDataElement getElementWithValues() {
-                final var intygAvser = IntygAvser.create(
-                    EnumSet.copyOf(Set.of(IntygAvserKategori.IAV3, IntygAvserKategori.IAV2, IntygAvserKategori.IAV1)));
-                return QuestionIntygetAvser.toCertificate(intygAvser, 0, texts);
-            }
-
-            @Override
-            protected CertificateDataElement getElement(List<Object> expectedValue) {
-                return QuestionIntygetAvser.toCertificate(null, 0, texts);
-            }
-
-            @Override
-            protected List<Object> getList() {
+            protected List<InputExpectedValuePair<IntygAvser>> inputExpectedValuePairList() {
                 return List.of(
-                    CertificateDataValueCode.builder()
-                        .id(IntygAvserKategori.IAV1.name())
-                        .code(IntygAvserKategori.IAV1.name())
-                        .build(),
-                    CertificateDataValueCode.builder()
-                        .id(IntygAvserKategori.IAV2.name())
-                        .code(IntygAvserKategori.IAV2.name())
-                        .build(),
-                    CertificateDataValueCode.builder()
-                        .id(IntygAvserKategori.IAV3.name())
-                        .code(IntygAvserKategori.IAV3.name())
-                        .build()
+                    new InputExpectedValuePair(null, Collections.emptyList()),
+                    new InputExpectedValuePair(IntygAvser.create(null), Collections.emptyList()),
+                    new InputExpectedValuePair(IntygAvser.create(
+                        EnumSet.copyOf(Set.of(IntygAvserKategori.IAV3, IntygAvserKategori.IAV2, IntygAvserKategori.IAV1))),
+                        List.of(
+                            CertificateDataValueCode.builder()
+                                .id(IntygAvserKategori.IAV1.name())
+                                .code(IntygAvserKategori.IAV1.name())
+                                .build(),
+                            CertificateDataValueCode.builder()
+                                .id(IntygAvserKategori.IAV2.name())
+                                .code(IntygAvserKategori.IAV2.name())
+                                .build(),
+                            CertificateDataValueCode.builder()
+                                .id(IntygAvserKategori.IAV3.name())
+                                .code(IntygAvserKategori.IAV3.name())
+                                .build())
+                    )
                 );
             }
         }
