@@ -46,6 +46,7 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleCode;
+import se.inera.intyg.common.support.facade.model.config.Layout;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
@@ -66,8 +67,7 @@ public class QuestionIntygetAvser {
                 CertificateDataConfigCheckboxMultipleCode.builder()
                     .text(texts.get(INTYG_AVSER_SVAR_TEXT_ID))
                     .description(texts.get(INTYG_AVSER_SVAR_DESCRIPTION_ID))
-                    .columns(0)
-                    .rows(2)
+                    .layout(Layout.INLINE)
                     .list(
                         List.of(
                             CheckboxMultipleCode.builder()

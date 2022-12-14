@@ -45,6 +45,8 @@ public class CertificateDataConfigDropdown implements CertificateDataConfig {
     String description;
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
+    @Getter(onMethod = @__(@Override))
+    Layout layout;
     List<DropdownItem> list;
 
     @JsonPOJOBuilder(withPrefix = "")

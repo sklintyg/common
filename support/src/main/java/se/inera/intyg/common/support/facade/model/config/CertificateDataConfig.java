@@ -65,4 +65,6 @@ public interface CertificateDataConfig {
     String getDescription();
 
     Accordion getAccordion();
+
+    Layout getLayout();
 }
