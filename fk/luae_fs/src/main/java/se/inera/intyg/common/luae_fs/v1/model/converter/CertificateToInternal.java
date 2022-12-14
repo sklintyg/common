@@ -20,7 +20,7 @@
 package se.inera.intyg.common.luae_fs.v1.model.converter;
 
 import org.springframework.stereotype.Component;
-import se.inera.intyg.common.luae_fs.v1.model.converter.question.QuestionDiagnoser;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionDiagnoser;
 import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
