@@ -36,6 +36,7 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
@@ -57,6 +58,7 @@ class CertificateToInternalTest {
         final var syn = Syn.builder()
             .setSynfaltsdefekter(true)
             .setNattblindhet(true)
+            .setProgressivOgonsjukdom(true)
             .build();
 
         expectedInternalCertificate = TsBasUtlatandeV7.builder()
@@ -70,6 +72,7 @@ class CertificateToInternalTest {
             .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, textProvider))
             .addElement(QuestionSynfaltsdefekter.toCertificate(syn, 0, textProvider))
             .addElement(QuestionNattblindhet.toCertificate(syn, 0, textProvider))
+            .addElement(QuestionProgressivOgonsjukdom.toCertificate(syn, 0, textProvider))
             .build();
     }
 
@@ -113,5 +116,12 @@ class CertificateToInternalTest {
     void shallIncludeNattblindhet() {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getSyn().getNattblindhet(), actualInternalCertificate.getSyn().getNattblindhet());
+    }
+
+    @Test
+    void shallIncludeProgressivOgonsjukdom() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getSyn().getProgressivOgonsjukdom(),
+            actualInternalCertificate.getSyn().getProgressivOgonsjukdom());
     }
 }

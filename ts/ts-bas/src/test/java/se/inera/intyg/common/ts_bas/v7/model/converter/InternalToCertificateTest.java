@@ -21,6 +21,7 @@ package se.inera.intyg.common.ts_bas.v7.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_SVAR_ID_5;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_SVAR_ID_4;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_ID_3;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
@@ -98,5 +99,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionNattblindhet() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(2, actualCertificate.getData().get(SEENDE_NEDSATT_BELYSNING_SVAR_ID_4).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionProgressivOgonsjukdom() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(3, actualCertificate.getData().get(PROGRESSIV_OGONSJUKDOM_SVAR_ID_5).getIndex());
     }
 }

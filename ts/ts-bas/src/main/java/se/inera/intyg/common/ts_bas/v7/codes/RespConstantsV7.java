@@ -37,6 +37,8 @@ public final class RespConstantsV7 {
     public static final String SEENDE_NEDSATT_BELYSNING_DELSVAR_ID_4 = "4.1";
 
     public static final String PROGRESSIV_OGONSJUKDOM_SVAR_ID_5 = "5";
+    public static final String PROGRESSIV_OGONSJUKDOM_JSON_ID_5 = "progressivOgonsjukdom";
+    public static final String PROGRESSIV_OGONSJUKDOM_TEXT_ID_5 = "FRG_5.RBK";
     public static final String PROGRESSIV_OGONSJUKDOM_DELSVAR_ID_5 = "5.1";
 
     public static final String DUBBELSEENDE_SVAR_ID_6 = "6";
