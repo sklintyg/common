@@ -143,7 +143,7 @@ class QuestionDiagnosForNyBedomningTest {
 
             @Override
             protected String getExpression() {
-                return singleExpression(DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45);
+                return "$" + NYDIAGNOS_SVAR_ID_45;
             }
 
             @Override

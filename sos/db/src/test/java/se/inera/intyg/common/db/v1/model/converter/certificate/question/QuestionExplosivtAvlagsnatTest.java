@@ -53,7 +53,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
-import se.inera.intyg.common.support.facade.testsetup.model.value.InternalRadioBooleanTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InternalBooleanValueTest;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionExplosivtAvlagsnatTest {
@@ -210,15 +210,15 @@ class QuestionExplosivtAvlagsnatTest {
 
         @Nested
         @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-        class IncludeInternalRadioBooleanTest extends InternalRadioBooleanTest {
+        class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
 
             @Override
-            protected CertificateDataElement toCertificate(Boolean expectedValue) {
+            protected CertificateDataElement getElement(Boolean expectedValue) {
                 return QuestionExplosivtAvlagsnat.toCertificate(expectedValue, 0, texts);
             }
 
             @Override
-            protected Boolean toInternal(Certificate certificate) {
+            protected Boolean toInternalBooleanValue(Certificate certificate) {
                 return QuestionExplosivtAvlagsnat.toInternal(certificate);
             }
         }

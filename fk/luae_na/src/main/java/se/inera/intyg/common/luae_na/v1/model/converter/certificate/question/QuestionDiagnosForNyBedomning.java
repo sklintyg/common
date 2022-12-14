@@ -21,7 +21,6 @@ package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NYUPPDATERING_SVAR_TEXT_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.NYDIAGNOS_SVAR_ID_45;
@@ -61,7 +60,7 @@ public class QuestionDiagnosForNyBedomning {
                 new CertificateDataValidation[]{
                     CertificateDataValidationShow.builder()
                         .questionId(DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45)
-                        .expression(singleExpression(DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45))
+                        .expression(singleExpression(NYDIAGNOS_SVAR_ID_45))
                         .build(),
                     CertificateDataValidationMandatory.builder()
                         .questionId(DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45)

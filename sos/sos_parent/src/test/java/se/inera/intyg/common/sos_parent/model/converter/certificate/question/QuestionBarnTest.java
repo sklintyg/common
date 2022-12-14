@@ -34,7 +34,6 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_QUESTI
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_JSON_ID;
 
-import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -55,7 +54,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
-import se.inera.intyg.common.support.facade.testsetup.model.value.InternalRadioBooleanTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InternalBooleanValueTest;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 @ExtendWith(MockitoExtension.class)
@@ -301,15 +300,15 @@ class QuestionBarnTest {
 
         @Nested
         @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-        class IncludeInternalRadioBooleanTest extends InternalRadioBooleanTest {
+        class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
 
             @Override
-            protected CertificateDataElement toCertificate(Boolean expectedValue) {
+            protected CertificateDataElement getElement(Boolean expectedValue) {
                 return QuestionBarn.toCertificate(personId, expectedValue, 0, texts);
             }
 
             @Override
-            protected Boolean toInternal(Certificate certificate) {
+            protected Boolean toInternalBooleanValue(Certificate certificate) {
                 return QuestionBarn.toInternal(certificate);
             }
         }

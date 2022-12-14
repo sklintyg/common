@@ -40,7 +40,7 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigRadioBooleanTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
-import se.inera.intyg.common.support.facade.testsetup.model.value.InternalRadioBooleanTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InternalBooleanValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueBooleanTest;
 
 @ExtendWith(MockitoExtension.class)
@@ -87,6 +87,16 @@ class QuestionNyBedomningDiagnosgrundTest {
             @Override
             protected String getId() {
                 return DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45;
+            }
+
+            @Override
+            protected String getSelectedText() {
+                return "Ja";
+            }
+
+            @Override
+            protected String getUnselectedText() {
+                return "Nej";
             }
 
             @Override
@@ -160,15 +170,15 @@ class QuestionNyBedomningDiagnosgrundTest {
 
         @Nested
         @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-        class IncludeInternalRadioBooleanTest extends InternalRadioBooleanTest {
+        class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
 
             @Override
-            protected CertificateDataElement toCertificate(Boolean expectedValue) {
+            protected CertificateDataElement getElement(Boolean expectedValue) {
                 return QuestionNyBedomningDiagnosgrund.toCertificate(expectedValue, 0, textProvider);
             }
 
             @Override
-            protected Boolean toInternal(Certificate certificate) {
+            protected Boolean toInternalBooleanValue(Certificate certificate) {
                 return QuestionNyBedomningDiagnosgrund.toInternal(certificate);
             }
         }

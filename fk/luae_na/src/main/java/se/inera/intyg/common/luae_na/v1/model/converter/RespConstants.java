@@ -33,7 +33,7 @@ public class RespConstants {
     public static final String DIAGNOS_CATEGORY_TEXT_ID = "KAT_3.RBK";
     public static final String DIAGNOS_SVAR_TEXT_ID = "FRG_6.RBK";
     public static final String DIAGNOS_SVAR_DESCRIPTION_ID = "FRG_6.HLP";
-    public static final String DIAGNOS_DELSVAR_TEXT = "DFR_6.2.RBK";
+    public static final String DIAGNOS_DELSVAR_TEXT_ID = "DFR_6.2.RBK";
     public static final String DIAGNOS_ICD_10_ID = "ICD_10_SE";
     public static final String DIAGNOS_ICD_10_LABEL = "ICD-10-SE";
     public static final String DIAGNOS_KSH_97_ID = "KSH_97_P";

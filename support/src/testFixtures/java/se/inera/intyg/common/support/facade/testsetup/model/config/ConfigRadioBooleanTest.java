@@ -29,6 +29,8 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTy
 public abstract class ConfigRadioBooleanTest extends ConfigTest {
 
     protected abstract String getId();
+    protected abstract String getSelectedText();
+    protected abstract String getUnselectedText();
 
     @Override
     protected CertificateDataConfigTypes getType() {
@@ -45,11 +47,13 @@ public abstract class ConfigRadioBooleanTest extends ConfigTest {
     void includesSelectedText() {
         final var question = (CertificateDataConfigRadioBoolean) getElement().getConfig();
         assertTrue(question.getSelectedText().trim().length() > 0, "Missing text");
+        assertEquals(question.getSelectedText(), getSelectedText());
     }
 
     @Test
     void includesUnselectedTextText() {
         final var question = (CertificateDataConfigRadioBoolean) getElement().getConfig();
         assertTrue(question.getUnselectedText().trim().length() > 0, "Missing text");
+        assertEquals(question.getUnselectedText(), getUnselectedText());
     }
 }
