@@ -30,6 +30,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.Cate
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySynfunktioner;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBalansrubbningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrkaMessage;
@@ -100,7 +101,10 @@ public class InternalToCertificate {
                 QuestionUppfattaSamtal4Meter.toCertificate(internalCertificate.getHorselBalans(), index++, texts)
             )
             .addElement(
-                CategoryFunktionsnedsattning.toCertificate(index, texts)
+                CategoryFunktionsnedsattning.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionFunktionsnedsattning.toCertificate(internalCertificate.getFunktionsnedsattning(), index, texts)
             )
             .build();
     }

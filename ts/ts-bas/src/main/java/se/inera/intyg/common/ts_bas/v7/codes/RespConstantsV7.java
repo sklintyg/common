@@ -106,6 +106,8 @@ public final class RespConstantsV7 {
     public static final String SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_ID = "sjukdomFunktionsnedsattning";
     public static final String SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID = "KAT_3.RBK";
     public static final String SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID = "12";
+    public static final String SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID = "funktionsnedsattning";
+    public static final String SJUKDOM_FUNKTIONSNEDSATTNING_TEXT_ID = "FRG_12.RBK";
     public static final String TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID = "12.1";
 
     public static final String OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID = "13";

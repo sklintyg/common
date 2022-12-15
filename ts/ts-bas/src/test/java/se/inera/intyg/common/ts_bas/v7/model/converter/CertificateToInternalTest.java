@@ -38,6 +38,7 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBalansrubbningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
@@ -46,6 +47,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionUppfattaSamtal4Meter;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Funktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v7.model.internal.HorselBalans;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
@@ -80,6 +82,10 @@ class CertificateToInternalTest {
             .setBalansrubbningar(true)
             .setSvartUppfattaSamtal4Meter(true)
             .build();
+
+        final var funktionsnedsattning = Funktionsnedsattning.builder()
+            .setFunktionsnedsattning(true)
+            .build();
         expectedInternalCertificate = TsBasUtlatandeV7.builder()
             .setId("id")
             .setTextVersion("textVersion")
@@ -87,6 +93,7 @@ class CertificateToInternalTest {
             .setIntygAvser(IntygAvser.create(EnumSet.of(IntygAvserKategori.IAV1, IntygAvserKategori.IAV2)))
             .setSyn(syn)
             .setHorselBalans(horselBalans)
+            .setFunktionsnedsattning(funktionsnedsattning)
             .build();
 
         certificate = CertificateBuilder.create()
@@ -103,6 +110,7 @@ class CertificateToInternalTest {
             .addElement(QuestionKorrektionsglasensStyrka.toCertificate(syn, 0, textProvider))
             .addElement(QuestionBalansrubbningar.toCertificate(horselBalans, 0, textProvider))
             .addElement(QuestionUppfattaSamtal4Meter.toCertificate(horselBalans, 0, textProvider))
+            .addElement(QuestionFunktionsnedsattning.toCertificate(funktionsnedsattning, 0, textProvider))
             .build();
     }
 
@@ -201,5 +209,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getHorselBalans().getSvartUppfattaSamtal4Meter(),
             actualInternalCertificate.getHorselBalans().getSvartUppfattaSamtal4Meter());
+    }
+
+    @Test
+    void shallIncludeFunktionsnedsattning() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getFunktionsnedsattning().getFunktionsnedsattning(),
+            actualInternalCertificate.getFunktionsnedsattning().getFunktionsnedsattning());
     }
 }
