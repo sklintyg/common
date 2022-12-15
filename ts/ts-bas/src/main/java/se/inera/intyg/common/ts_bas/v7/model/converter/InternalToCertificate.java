@@ -39,7 +39,7 @@ public class InternalToCertificate {
                 CategoryIntygetAvser.toCertificate(index++, texts)
             )
             .addElement(
-                QuestionIntygetAvser.toCertificate(internalCertificate.getIntygAvser(), index++, texts)
+                QuestionIntygetAvser.toCertificate(internalCertificate.getIntygAvser(), index, texts)
             )
             .build();
     }
