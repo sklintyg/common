@@ -17,12 +17,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.luae_na.v1.model.converter.certificate.category;
+package se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_TEXT_ID;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -35,14 +35,14 @@ import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategoryTest;
 
 @ExtendWith(MockitoExtension.class)
-class CategoryAktivietsbegransningarTest {
+class CategoryDiagnosTest {
 
     @Mock
-    private CertificateTextProvider texts;
+    private CertificateTextProvider textProvider;
 
     @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
+    void setUp() {
+        doReturn("Text!").when(textProvider).get(anyString());
     }
 
     @Nested
@@ -50,12 +50,12 @@ class CategoryAktivietsbegransningarTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return CategoryAktivietsbegransningar.toCertificate(3, texts);
+            return CategoryDiagnos.toCertificate(getIndex(), textProvider);
         }
 
         @Override
         protected String getId() {
-            return AKTIVITETSBEGRANSNING_CATEGORY_ID;
+            return DIAGNOS_CATEGORY_ID;
         }
 
         @Override
@@ -74,17 +74,17 @@ class CategoryAktivietsbegransningarTest {
 
         @Override
         protected CertificateTextProvider getTextProviderMock() {
-            return texts;
+            return textProvider;
         }
 
         @Override
         protected CertificateDataElement getElement() {
-            return CategoryAktivietsbegransningar.toCertificate(3, texts);
+            return CategoryDiagnos.toCertificate(0, textProvider);
         }
 
         @Override
         protected String getTextId() {
-            return AKTIVITETSBEGRANSNING_CATEGORY_TEXT_ID;
+            return DIAGNOS_CATEGORY_TEXT_ID;
         }
 
         @Override

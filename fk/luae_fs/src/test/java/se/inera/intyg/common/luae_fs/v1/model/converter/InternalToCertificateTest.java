@@ -21,6 +21,8 @@ package se.inera.intyg.common.luae_fs.v1.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.DIAGNOS_SVAR_ID_6;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -78,5 +80,17 @@ class InternalToCertificateTest {
     void shallIncludeCategoryGrundForMU() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(0, actualCertificate.getData().get(GRUNDFORMU_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryDiagnos() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(0, actualCertificate.getData().get(DIAGNOS_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionDiagnoser() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(1, actualCertificate.getData().get(DIAGNOS_SVAR_ID_6).getIndex());
     }
 }

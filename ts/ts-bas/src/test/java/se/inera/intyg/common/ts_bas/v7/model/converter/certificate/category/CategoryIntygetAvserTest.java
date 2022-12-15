@@ -17,12 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.luae_na.v1.model.converter.certificate.category;
+package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_CATEGORY_DESCRIPTION_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_CATEGORY_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -35,7 +36,7 @@ import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategoryTest;
 
 @ExtendWith(MockitoExtension.class)
-class CategoryAktivietsbegransningarTest {
+class CategoryIntygetAvserTest {
 
     @Mock
     private CertificateTextProvider texts;
@@ -45,17 +46,18 @@ class CategoryAktivietsbegransningarTest {
         when(texts.get(any(String.class))).thenReturn("Test string");
     }
 
+
     @Nested
     class IncludeCommonElementTest extends CommonElementTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return CategoryAktivietsbegransningar.toCertificate(3, texts);
+            return CategoryIntygetAvser.toCertificate(0, texts);
         }
 
         @Override
         protected String getId() {
-            return AKTIVITETSBEGRANSNING_CATEGORY_ID;
+            return INTYG_AVSER_CATEGORY_ID;
         }
 
         @Override
@@ -65,7 +67,7 @@ class CategoryAktivietsbegransningarTest {
 
         @Override
         protected int getIndex() {
-            return 3;
+            return 0;
         }
     }
 
@@ -79,17 +81,17 @@ class CategoryAktivietsbegransningarTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return CategoryAktivietsbegransningar.toCertificate(3, texts);
+            return CategoryIntygetAvser.toCertificate(0, texts);
         }
 
         @Override
         protected String getTextId() {
-            return AKTIVITETSBEGRANSNING_CATEGORY_TEXT_ID;
+            return INTYG_AVSER_CATEGORY_TEXT_ID;
         }
 
         @Override
         protected String getDescriptionId() {
-            return null;
+            return INTYG_AVSER_CATEGORY_DESCRIPTION_ID;
         }
     }
 }

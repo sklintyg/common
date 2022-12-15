@@ -45,6 +45,7 @@ public class CertificateDataConfigRadioMultipleCodeOptionalDropdown implements C
     String description;
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
+    Layout layout;
     List<RadioMultipleCodeOptionalDropdown> list;
 
     @JsonPOJOBuilder(withPrefix = "")

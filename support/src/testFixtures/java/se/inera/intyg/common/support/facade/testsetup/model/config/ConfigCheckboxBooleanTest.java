@@ -54,8 +54,10 @@ public abstract class ConfigCheckboxBooleanTest extends ConfigTest {
     void shouldIncludeLabelId() {
         final var question = getElement();
         final var config = (CertificateDataConfigCheckboxBoolean) question.getConfig();
-        assertTrue(config.getLabel().trim().length() > 0, "Missing label");
-        verify(getTextProviderMock(), atLeastOnce()).get(getLabelId());
+        if (getLabelId() != null) {
+            assertTrue(config.getLabel().trim().length() > 0, "Missing label");
+            verify(getTextProviderMock(), atLeastOnce()).get(getLabelId());
+        }
     }
 
     @Test

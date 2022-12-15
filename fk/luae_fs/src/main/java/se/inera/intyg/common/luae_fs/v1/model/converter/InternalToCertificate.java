@@ -21,6 +21,8 @@ package se.inera.intyg.common.luae_fs.v1.model.converter;
 
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryDiagnos;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionDiagnoser;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryGrundForMU;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUtlatandeBaseratPa;
 import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
@@ -31,14 +33,17 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 @Component(value = "internalToCertificateFK7802")
 public class InternalToCertificate {
 
-    public Certificate convert(LuaefsUtlatandeV1 internalCertificate, CertificateTextProvider textProvider) {
+    public Certificate convert(LuaefsUtlatandeV1 internalCertificate, CertificateTextProvider texts) {
         int index = 0;
         return CertificateBuilder.create()
-            .metadata(MetaDataGrundData.toCertificate(internalCertificate, textProvider))
-            .addElement(CategoryGrundForMU.toCertificate(index++, textProvider))
+            .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
+            .addElement(CategoryGrundForMU.toCertificate(index++, texts))
             .addElement(QuestionUtlatandeBaseratPa.toCertificate(internalCertificate.getUndersokningAvPatienten(),
                 internalCertificate.getJournaluppgifter(), internalCertificate.getAnhorigsBeskrivningAvPatienten(),
-                internalCertificate.getAnnatGrundForMU(), index++, textProvider))
+                internalCertificate.getAnnatGrundForMU(), index++, texts))
+            .addElement(CategoryDiagnos.toCertificate(index++, texts))
+            .addElement(QuestionDiagnoser.toCertificate(internalCertificate.getDiagnoser(), index, texts))
+
             .build();
     }
 }
