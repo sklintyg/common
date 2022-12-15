@@ -19,11 +19,11 @@
 
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_SVAR_ID_1;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID;
@@ -38,7 +38,6 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Funktionsnedsattning;
-import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
 
 public class QuestionFunktionsnedsattningBeskrivning {
 
@@ -70,10 +69,8 @@ public class QuestionFunktionsnedsattningBeskrivning {
                         .expression(singleExpression(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID))
                         .build(),
                     CertificateDataValidationShow.builder()
-                        .questionId(INTYG_AVSER_SVAR_ID_1)
-                        .expression(multipleOrExpression(
-                            IntygAvserKategori.IAV5.name(), IntygAvserKategori.IAV6.name(), IntygAvserKategori.IAV7.name(),
-                            IntygAvserKategori.IAV8.name(), IntygAvserKategori.IAV9.name()))
+                        .questionId(SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID)
+                        .expression(singleExpression(SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID))
                         .build(),
                     CertificateDataValidationText.builder()
                         .id(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID)

@@ -21,8 +21,9 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_SVAR_ID_1;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID;
@@ -39,7 +40,6 @@ import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigTextAre
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationTextTest;
-import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionFunktionsnedsattningBeskrivningTest {
@@ -134,13 +134,12 @@ class QuestionFunktionsnedsattningBeskrivningTest {
 
         @Override
         protected String getQuestionId() {
-            return INTYG_AVSER_SVAR_ID_1;
+            return SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID;
         }
 
         @Override
         protected String getExpression() {
-            return IntygAvserKategori.IAV5.name() + " || " + IntygAvserKategori.IAV6.name() + " || " + IntygAvserKategori.IAV7.name()
-                + " || " + IntygAvserKategori.IAV8.name() + " || " + IntygAvserKategori.IAV9.name();
+            return "$" + SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID;
         }
 
         @Override
