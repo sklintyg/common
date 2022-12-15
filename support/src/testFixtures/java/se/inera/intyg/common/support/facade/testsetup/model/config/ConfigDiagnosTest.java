@@ -23,8 +23,8 @@ import static com.helger.commons.mock.CommonsAssert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDiagnoses;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
@@ -32,8 +32,9 @@ import se.inera.intyg.common.support.facade.model.config.DiagnosesTerminology;
 
 public abstract class ConfigDiagnosTest extends ConfigTest {
 
-    protected abstract HashMap<String,String> getExpectedIdAndLabel();
-    protected abstract List<String> getExpectedListIds();
+    protected abstract Map<String, String> getTerminologies();
+
+    protected abstract List<String> getDiagnosListItemIds();
 
     @Override
     protected CertificateDataConfigTypes getType() {
@@ -41,28 +42,28 @@ public abstract class ConfigDiagnosTest extends ConfigTest {
     }
 
     @Test
-    void terminology() {
+    void shallIncludeTerminologies() {
         var certificateDataConfigDiagnoses = (CertificateDataConfigDiagnoses) getElement().getConfig();
         var terminology = certificateDataConfigDiagnoses.getTerminology();
         assertAll(
             () -> {
-                for (DiagnosesTerminology diagnosesTerminology: terminology) {
-                    assertTrue(getExpectedIdAndLabel().containsKey(diagnosesTerminology.getId()));
-                    assertEquals(diagnosesTerminology.getLabel(), getExpectedIdAndLabel().get(diagnosesTerminology.getId()));
+                for (DiagnosesTerminology diagnosesTerminology : terminology) {
+                    assertTrue(getTerminologies().containsKey(diagnosesTerminology.getId()));
+                    assertEquals(diagnosesTerminology.getLabel(), getTerminologies().get(diagnosesTerminology.getId()));
                 }
             }
         );
     }
 
     @Test
-    void listId() {
+    void shallIncludeDiagnoseListItems() {
         var certificateDataConfigDiagnoses = (CertificateDataConfigDiagnoses) getElement().getConfig();
         var list = certificateDataConfigDiagnoses.getList();
         assertAll(
             () -> {
-                assertEquals(list.size(), getExpectedListIds().size());
+                assertEquals(list.size(), getDiagnosListItemIds().size());
                 for (int i = 0; i < list.size(); i++) {
-                    assertEquals(list.get(i).getId(), getExpectedListIds().get(i));
+                    assertEquals(list.get(i).getId(), getDiagnosListItemIds().get(i));
                 }
             }
         );
