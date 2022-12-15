@@ -87,6 +87,8 @@ public final class RespConstantsV7 {
     public static final String UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID = "9";
     public static final String UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID = "korrektionsglasensStyrka";
     public static final String UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_TEXT_ID = "FRG_9.RBK";
+    public static final String UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_TEXT_ID = "FRG_9.INF";
+    public static final String UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_ID = "9.1";
     public static final String UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_TEXT_ID =
         "Högsta styrka i något av glasen överskrider plus 8 dioptrier";
 
