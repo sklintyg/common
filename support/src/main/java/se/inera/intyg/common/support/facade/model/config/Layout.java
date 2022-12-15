@@ -17,29 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.support.facade.testsetup.model.value;
+package se.inera.intyg.common.support.facade.model.config;
 
-public class InputExpectedValuePair<T, S> {
-
-    private final T input;
-    private final S expectedValue;
-
-    public InputExpectedValuePair(T input, S expectedValue) {
-        this.input = input;
-        this.expectedValue = expectedValue;
-    }
-
-    public T getInput() {
-        return input;
-    }
-
-    public S getExpectedValue() {
-        return expectedValue;
-    }
-
-    @Override
-    public String toString() {
-        return input != null ? input.toString() : "null";
-    }
-
+public enum Layout {
+    ROWS, COLUMNS, INLINE
 }
