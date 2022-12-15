@@ -24,6 +24,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryFunktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryHorselOchBalanssinne;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySynfunktioner;
@@ -96,7 +97,10 @@ public class InternalToCertificate {
                 QuestionBalansrubbningar.toCertificate(internalCertificate.getHorselBalans(), index++, texts)
             )
             .addElement(
-                QuestionUppfattaSamtal4Meter.toCertificate(internalCertificate.getHorselBalans(), index, texts)
+                QuestionUppfattaSamtal4Meter.toCertificate(internalCertificate.getHorselBalans(), index++, texts)
+            )
+            .addElement(
+                CategoryFunktionsnedsattning.toCertificate(index, texts)
             )
             .build();
     }

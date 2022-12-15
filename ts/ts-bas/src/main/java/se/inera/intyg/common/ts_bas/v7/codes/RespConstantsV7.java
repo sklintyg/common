@@ -101,4 +101,13 @@ public final class RespConstantsV7 {
     public static final String UPPFATTA_SAMTALSTAMMA_SVAR_ID = "11";
     public static final String UPPFATTA_SAMTALSTAMMA_JSON_ID = "uppfattaSamtal4Meter";
     public static final String UPPFATTA_SAMTALSTAMMA_TEXT_ID = "FRG_11.RBK";
+
+
+    public static final String SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_ID = "sjukdomFunktionsnedsattning";
+    public static final String SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID = "KAT_3.RBK";
+    public static final String SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID = "12";
+    public static final String TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID = "12.1";
+
+    public static final String OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID = "13";
+    public static final String OTILLRACKLIG_RORELSEFORMAGA_DELSVAR_ID = "13.1";
 }
