@@ -29,6 +29,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 
 @Component(value = "certificateToInternalTsBas")
@@ -39,6 +40,7 @@ public class CertificateToInternal {
             .setId(internalCertificate.getId())
             .setTextVersion(internalCertificate.getTextVersion())
             .setGrundData(internalCertificate.getGrundData())
+            .setIntygAvser(QuestionIntygetAvser.toInternal(certificate))
             .setSyn(Syn.builder()
                 .setSynfaltsdefekter(QuestionSynfaltsdefekter.toInternal(certificate))
                 .setNattblindhet(QuestionNattblindhet.toInternal(certificate))

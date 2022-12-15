@@ -22,6 +22,7 @@ package se.inera.intyg.common.ts_bas.v7.model.converter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.EnumSet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,6 +44,9 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
+import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvser;
+import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -73,11 +77,15 @@ class CertificateToInternalTest {
             .setId("id")
             .setTextVersion("textVersion")
             .setGrundData(getGrundData())
+            .setIntygAvser(IntygAvser.create(EnumSet.of(IntygAvserKategori.IAV1, IntygAvserKategori.IAV2)))
             .setSyn(syn)
             .build();
 
         certificate = CertificateBuilder.create()
             .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, textProvider))
+            .addElement(
+                QuestionIntygetAvser.toCertificate(expectedInternalCertificate.getIntygAvser(), 0, textProvider)
+            )
             .addElement(QuestionSynfaltsdefekter.toCertificate(syn, 0, textProvider))
             .addElement(QuestionNattblindhet.toCertificate(syn, 0, textProvider))
             .addElement(QuestionProgressivOgonsjukdom.toCertificate(syn, 0, textProvider))
@@ -116,6 +124,12 @@ class CertificateToInternalTest {
     void shallIncludeGrundData() {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertNotNull(actualInternalCertificate.getGrundData(), "GrundData is missing!");
+    }
+    
+    @Test
+    void shallIncludeIntygetAvser() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getIntygAvser(), expectedInternalCertificate.getIntygAvser());
     }
 
     @Test

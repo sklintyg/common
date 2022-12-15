@@ -132,7 +132,7 @@ class QuestionDiagnoserTest {
             }
 
             @Override
-            protected HashMap<String, String> getExpectedIdAndLabel() {
+            protected HashMap<String, String> getTerminologies() {
                 HashMap<String, String> idAndLabel = new HashMap<>();
                 idAndLabel.put(DIAGNOS_ICD_10_ID, DIAGNOS_ICD_10_LABEL);
                 idAndLabel.put(DIAGNOS_KSH_97_ID, DIAGNOS_KSH_97_LABEL);
@@ -140,7 +140,7 @@ class QuestionDiagnoserTest {
             }
 
             @Override
-            protected List<String> getExpectedListIds() {
+            protected List<String> getDiagnosListItemIds() {
                 return List.of("1", "2", "3");
             }
         }

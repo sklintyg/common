@@ -34,6 +34,8 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTidigareUtfordUndersokningMessage;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryIntygetAvser;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 
 @Component(value = "internalToCertificateTsBas")
@@ -43,6 +45,12 @@ public class InternalToCertificate {
         int index = 0;
         return CertificateBuilder.create()
             .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
+            .addElement(
+                CategoryIntygetAvser.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionIntygetAvser.toCertificate(internalCertificate.getIntygAvser(), index, texts)
+            )
             .addElement(
                 CategorySynfunktioner.toCertificate(index++, texts)
             )
@@ -72,8 +80,8 @@ public class InternalToCertificate {
                 QuestionTidigareUtfordUndersokningMessage.toCertificate(index++, texts)
             )
             .addElement(
-                QuestionKorrektionsglasensStyrka.toCertificate(internalCertificate.getSyn(), index++, texts)
-            )
+                QuestionKorrektionsglasensStyrka.toCertificate(internalCertificate.getSyn(), index++, texts)      
+            )        
             .build();
     }
 }
