@@ -201,7 +201,7 @@ public class LuaenaModuleApiV1 extends FkParentModuleApi<LuaenaUtlatandeV1> {
     @Override
     public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException {
         final var internalCertificate = getInternal(certificateAsJson);
-        final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate);
+        final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
         return toInternalModelResponse(updateInternalCertificate);
     }
 

@@ -36,6 +36,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DO
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -47,6 +48,7 @@ import se.inera.intyg.common.doi.model.internal.Dodsorsak;
 import se.inera.intyg.common.doi.model.internal.Specifikation;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CauseOfDeath;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeathList;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
@@ -57,6 +59,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeathList;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -478,6 +481,57 @@ class QuestionBidragandeSjukdomarTest {
 
             final var actualValue = QuestionBidragandeSjukdomar.toInternal(certificate);
             assertEquals(expectedDodsorsakList, actualValue);
+        }
+
+        @Test
+        void shouldReturnEmptyDodsorsakListIfDodsorsakCodeAndLabelIsEmptyString() {
+            final var expectedDodsorsakList = Collections.emptyList();
+            final var dodsorsakList = List.of(
+                Dodsorsak.create("", null, null),
+                Dodsorsak.create(null, null, null),
+                Dodsorsak.create(null, null, null),
+                Dodsorsak.create(null, null, null),
+                Dodsorsak.create(null, null, null),
+                Dodsorsak.create(null, null, null),
+                Dodsorsak.create(null, null, null),
+                Dodsorsak.create(null, null, null)
+            );
+
+            final var certificate = CertificateBuilder.create()
+                .addElement(getElementWithEmptySpecification(dodsorsakList))
+                .build();
+
+            final var actualValue = QuestionBidragandeSjukdomar.toInternal(certificate);
+            assertEquals(expectedDodsorsakList, actualValue);
+        }
+
+        private CertificateDataElement getElementWithEmptySpecification(List<Dodsorsak> dodsorsakList) {
+            final var empty = "";
+            final var certificateDataElement = QuestionBidragandeSjukdomar.toCertificate(dodsorsakList, 0, texts);
+            final var list = ((CertificateDataValueCauseOfDeathList) certificateDataElement.getValue()).getList();
+            final var questionBidragandeSjukdomar = CertificateDataElement.builder()
+                .id(certificateDataElement.getId())
+                .parent(certificateDataElement.getParent())
+                .value(
+                    CertificateDataValueCauseOfDeathList.builder()
+                        .list(
+                            list.stream().map(causeOfDeath -> CertificateDataValueCauseOfDeath.builder()
+                                    .id(causeOfDeath.getId())
+                                    .specification(
+                                        CertificateDataValueCode.builder()
+                                            .id(empty)
+                                            .code(empty)
+                                            .build()
+                                    )
+                                    .description(causeOfDeath.getDescription())
+                                    .debut(causeOfDeath.getDebut())
+                                    .build())
+                                .collect(Collectors.toList())
+                        )
+                        .build()
+                )
+                .build();
+            return questionBidragandeSjukdomar;
         }
     }
 }

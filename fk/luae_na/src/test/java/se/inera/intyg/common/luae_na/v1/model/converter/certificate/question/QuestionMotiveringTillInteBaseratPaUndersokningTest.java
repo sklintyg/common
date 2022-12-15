@@ -27,6 +27,7 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1;
@@ -47,13 +48,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
+import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionMotiveringTillInteBaseratPaUndersokningTest {
@@ -147,32 +149,39 @@ class QuestionMotiveringTillInteBaseratPaUndersokningTest {
             assertEquals(expectedText, value.getText());
         }
 
-        @Test
-        void shouldIncludeValidationShow() {
-            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
-            final var showValidation = (CertificateDataValidationShow) question.getValidation()[1];
+        @Nested
+        class IncludeValidationShowTest extends ValidationShowTest {
 
-            assertEquals(CertificateDataValidationType.SHOW_VALIDATION, showValidation.getType());
+            @Override
+            protected String getQuestionId() {
+                return GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
+            }
+
+            @Override
+            protected String getExpression() {
+                return "!$" + GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1 + " && ($"
+                    + GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1 + " || $"
+                    + GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1 + " || $"
+                    + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1 + ")";
+            }
+
+            @Override
+            protected CertificateDataElement getElement() {
+                return QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
+            }
+
+            @Override
+            protected int getValidationIndex() {
+                return 1;
+            }
         }
 
         @Test
         void shouldIncludeValidationLimit() {
             final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
-            final var showValidation = (CertificateDataValidationText) question.getValidation()[0];
+            final var textValidation = (CertificateDataValidationText) question.getValidation()[0];
 
-            assertEquals(CertificateDataValidationType.TEXT_VALIDATION, showValidation.getType());
-        }
-
-        @Test
-        void shouldIncludeValidationShowExpression() {
-            final var expectedExpression = "!$" + GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1 + " && ($"
-                + GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1 + " || $"
-                + GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1 + " || $"
-                + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1 + ")";
-            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
-            final var showValidation = (CertificateDataValidationShow) question.getValidation()[1];
-
-            assertEquals(expectedExpression, showValidation.getExpression());
+            assertEquals(CertificateDataValidationType.TEXT_VALIDATION, textValidation.getType());
         }
 
         @Test

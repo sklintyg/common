@@ -36,4 +36,10 @@ public class InputExpectedValuePair<T, S> {
     public S getExpectedValue() {
         return expectedValue;
     }
+
+    @Override
+    public String toString() {
+        return input != null ? input.toString() : "null";
+    }
+
 }

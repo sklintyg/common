@@ -21,6 +21,43 @@ package se.inera.intyg.common.luae_na.v1.model.converter;
 
 public class RespConstants {
 
+    public static final String DIAGNOS_CATEGORY_ID = "diagnos";
+    public static final String DIAGNOS_SVAR_ID_6 = "6";
+    public static final String DIAGNOS_BESKRIVNING_DELSVAR_ID_6 = "6.1";
+    public static final String DIAGNOS_DELSVAR_ID_6 = "6.2";
+    public static final String BIDIAGNOS_1_BESKRIVNING_DELSVAR_ID_6 = "6.3";
+    public static final String BIDIAGNOS_1_DELSVAR_ID_6 = "6.4";
+    public static final String BIDIAGNOS_2_BESKRIVNING_DELSVAR_ID_6 = "6.5";
+    public static final String BIDIAGNOS_2_DELSVAR_ID_6 = "6.6";
+    public static final String DIAGNOS_SVAR_JSON_ID_6 = "diagnoser";
+    public static final String DIAGNOS_CATEGORY_TEXT_ID = "KAT_3.RBK";
+    public static final String DIAGNOS_SVAR_TEXT_ID = "FRG_6.RBK";
+    public static final String DIAGNOS_SVAR_DESCRIPTION_ID = "FRG_6.HLP";
+    public static final String DIAGNOS_DELSVAR_TEXT_ID = "DFR_6.2.RBK";
+    public static final String DIAGNOS_ICD_10_ID = "ICD_10_SE";
+    public static final String DIAGNOS_ICD_10_LABEL = "ICD-10-SE";
+    public static final String DIAGNOS_KSH_97_ID = "KSH_97_P";
+    public static final String DIAGNOS_KSH_97_LABEL = "KSH97-P (Primärvård)";
+
+
+    public static final String DIAGNOSGRUND_SVAR_ID_7 = "7";
+    public static final String DIAGNOSGRUND_TEXT_ID = "FRG_7.RBK";
+    public static final String DIAGNOSGRUND_DELSVAR_ID_7 = "7.1";
+    public static final String NYDIAGNOS_SVAR_ID_45 = "45";
+    public static final String DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45 = "45.1";
+    public static final String DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45 = "45.2";
+
+    public static final String DIAGNOSGRUND_NYBEDOMNING_SVAR_TEXT_ID = "FRG_45.RBK";
+    public static final String DIAGNOSGRUND_NYBEDOMNING_SVAR_DESCRIPTION_ID = "FRG_45.HLP";
+
+    public static final String DIAGNOSGRUND_NYUPPDATERING_SVAR_TEXT_ID = "DFR_45.2.RBK";
+    public static final String DIAGNOSGRUND_SVAR_JSON_ID_7 = "diagnosgrund";
+    public static final String DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45 = "nyBedomningDiagnosgrund";
+    public static final String DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45 = "diagnosForNyBedomning";
+
+    public static final String ANSWER_YES = "Ja";
+    public static final String ANSWER_NOT_SELECTED = "Ej angivet";
+
     public static final String GRUNDFORMU_CATEGORY_ID = "grundformu";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1 = "1";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1 = "1.1";
@@ -198,4 +235,16 @@ public class RespConstants {
     public static final String OVRIGT_DELSVAR_ID_25 = "25.1";
     public static final String OVRIGT_TEXT_ID = "FRG_25.RBK";
     public static final String OVRIGT_SVAR_JSON_ID_25 = "ovrigt";
+
+    public static final String KONTAKT_CATEGORY_ID = "kontakt";
+    public static final String KONTAKT_CATEGORY_TEXT_ID = "KAT_10.RBK";
+    public static final String KONTAKT_ONSKAS_SVAR_ID_26 = "26";
+    public static final String KONTAKT_ONSKAS_SVAR_JSON_ID_26 = "kontaktMedFk";
+    public static final String KONTAKT_ONSKAS_SVAR_TEXT_ID = "FRG_26.RBK";
+    public static final String KONTAKT_ONSKAS_SVAR_DESCRIPTION_ID = "FRG_26.HLP";
+    public static final String KONTAKT_ONSKAS_DELSVAR_ID_26 = "26.1";
+    public static final String KONTAKT_ONSKAS_DELSVAR_TEXT_ID = "DFR_26.1.RBK";
+    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26 = "26.2";
+    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26 = "anledningTillKontakt";
+    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT_ID = "DFR_26.2.RBK";
 }
