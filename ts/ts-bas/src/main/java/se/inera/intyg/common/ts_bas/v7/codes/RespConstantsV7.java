@@ -99,4 +99,6 @@ public final class RespConstantsV7 {
     public static final String BALANSRUBBNINGAR_YRSEL_TEXT_ID = "FRG_10.RBK";
 
     public static final String UPPFATTA_SAMTALSTAMMA_SVAR_ID = "11";
+    public static final String UPPFATTA_SAMTALSTAMMA_JSON_ID = "uppfattaSamtal4Meter";
+    public static final String UPPFATTA_SAMTALSTAMMA_TEXT_ID = "FRG_11.RBK";
 }

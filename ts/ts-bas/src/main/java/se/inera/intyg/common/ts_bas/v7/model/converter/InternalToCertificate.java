@@ -39,6 +39,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTidigareUtfordUndersokningMessage;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionUppfattaSamtal4Meter;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 
 @Component(value = "internalToCertificateTsBas")
@@ -92,7 +93,10 @@ public class InternalToCertificate {
                 CategoryHorselOchBalanssinne.toCertificate(index++, texts)
             )
             .addElement(
-                QuestionBalansrubbningar.toCertificate(internalCertificate.getHorselBalans(), index, texts)
+                QuestionBalansrubbningar.toCertificate(internalCertificate.getHorselBalans(), index++, texts)
+            )
+            .addElement(
+                QuestionUppfattaSamtal4Meter.toCertificate(internalCertificate.getHorselBalans(), index, texts)
             )
             .build();
     }

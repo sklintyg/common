@@ -45,6 +45,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionUppfattaSamtal4Meter;
 import se.inera.intyg.common.ts_bas.v7.model.internal.HorselBalans;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
@@ -77,6 +78,7 @@ class CertificateToInternalTest {
 
         final var horselBalans = HorselBalans.builder()
             .setBalansrubbningar(true)
+            .setSvartUppfattaSamtal4Meter(true)
             .build();
         expectedInternalCertificate = TsBasUtlatandeV7.builder()
             .setId("id")
@@ -100,6 +102,7 @@ class CertificateToInternalTest {
             .addElement(QuestionSynskarpaSkickasSeparat.toCertificate(syn, 0, textProvider))
             .addElement(QuestionKorrektionsglasensStyrka.toCertificate(syn, 0, textProvider))
             .addElement(QuestionBalansrubbningar.toCertificate(horselBalans, 0, textProvider))
+            .addElement(QuestionUppfattaSamtal4Meter.toCertificate(horselBalans, 0, textProvider))
             .build();
     }
 
@@ -191,5 +194,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getHorselBalans().getBalansrubbningar(),
             actualInternalCertificate.getHorselBalans().getBalansrubbningar());
+    }
+
+    @Test
+    void shallIncludeSvartAttUppfattaSamtal4Meter() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getHorselBalans().getSvartUppfattaSamtal4Meter(),
+            actualInternalCertificate.getHorselBalans().getSvartUppfattaSamtal4Meter());
     }
 }
