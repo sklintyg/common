@@ -19,17 +19,22 @@
 
 package se.inera.intyg.common.ts_bas.v7.model.converter;
 
+import static se.inera.intyg.common.ts_bas.v7.model.converter.util.SynskarpaEnum.BINOCULAR;
+import static se.inera.intyg.common.ts_bas.v7.model.converter.util.SynskarpaEnum.LEFT_EYE;
+import static se.inera.intyg.common.ts_bas.v7.model.converter.util.SynskarpaEnum.RIGHT_EYE;
+
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNystagmus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpa;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
-import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 
 @Component(value = "certificateToInternalTsBas")
@@ -49,6 +54,9 @@ public class CertificateToInternal {
                 .setNystagmus(QuestionNystagmus.toInternal(certificate))
                 .setSynskarpaSkickasSeparat(QuestionSynskarpaSkickasSeparat.toInternal(certificate))
                 .setKorrektionsglasensStyrka(QuestionKorrektionsglasensStyrka.toInternal(certificate))
+                .setHogerOga(QuestionSynskarpa.toInternal(certificate, RIGHT_EYE))
+                .setVansterOga(QuestionSynskarpa.toInternal(certificate, LEFT_EYE))
+                .setBinokulart(QuestionSynskarpa.toInternal(certificate, BINOCULAR))
                 .build())
             .build();
     }
