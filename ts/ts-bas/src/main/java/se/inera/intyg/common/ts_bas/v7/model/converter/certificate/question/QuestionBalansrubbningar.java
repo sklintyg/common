@@ -24,7 +24,7 @@ import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValu
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BALANSRUBBNINGAR_YRSEL_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BALANSRUBBNINGAR_YRSEL_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BALANSRUBBNINGAR_YRSEL_SVAR_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BALANSRUBBNINGAR_YRSEL_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BALANSRUBBNINGAR_YRSEL_SVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
 
@@ -48,7 +48,7 @@ public class QuestionBalansrubbningar {
             .config(
                 CertificateDataConfigRadioBoolean.builder()
                     .id(BALANSRUBBNINGAR_YRSEL_JSON_ID)
-                    .text(textProvider.get(BALANSRUBBNINGAR_YRSEL_TEXT_ID))
+                    .text(textProvider.get(BALANSRUBBNINGAR_YRSEL_SVAR_TEXT_ID))
                     .selectedText(SVAR_JA_TEXT)
                     .unselectedText(SVAR_NEJ_TEXT)
                     .build()

@@ -39,6 +39,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrund
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBalansrubbningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattning;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattningBeskrivning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
@@ -85,7 +86,9 @@ class CertificateToInternalTest {
 
         final var funktionsnedsattning = Funktionsnedsattning.builder()
             .setFunktionsnedsattning(true)
+            .setBeskrivning("beskrivning")
             .build();
+
         expectedInternalCertificate = TsBasUtlatandeV7.builder()
             .setId("id")
             .setTextVersion("textVersion")
@@ -111,6 +114,7 @@ class CertificateToInternalTest {
             .addElement(QuestionBalansrubbningar.toCertificate(horselBalans, 0, textProvider))
             .addElement(QuestionUppfattaSamtal4Meter.toCertificate(horselBalans, 0, textProvider))
             .addElement(QuestionFunktionsnedsattning.toCertificate(funktionsnedsattning, 0, textProvider))
+            .addElement(QuestionFunktionsnedsattningBeskrivning.toCertificate(funktionsnedsattning, 0, textProvider))
             .build();
     }
 
@@ -216,5 +220,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getFunktionsnedsattning().getFunktionsnedsattning(),
             actualInternalCertificate.getFunktionsnedsattning().getFunktionsnedsattning());
+    }
+
+    @Test
+    void shallIncludeFunktionsnedsattningBeskrivning() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getFunktionsnedsattning().getBeskrivning(),
+            actualInternalCertificate.getFunktionsnedsattning().getBeskrivning());
     }
 }

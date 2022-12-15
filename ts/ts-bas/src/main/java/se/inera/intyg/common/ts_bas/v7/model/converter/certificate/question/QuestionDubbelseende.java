@@ -23,7 +23,7 @@ import static se.inera.intyg.common.support.facade.util.ValidationExpressionTool
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.DUBBELSEENDE_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.DUBBELSEENDE_SVAR_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.DUBBELSEENDE_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.DUBBELSEENDE_SVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
@@ -48,7 +48,7 @@ public class QuestionDubbelseende {
             .config(
                 CertificateDataConfigRadioBoolean.builder()
                     .id(DUBBELSEENDE_JSON_ID)
-                    .text(textProvider.get(DUBBELSEENDE_TEXT_ID))
+                    .text(textProvider.get(DUBBELSEENDE_SVAR_TEXT_ID))
                     .selectedText(SVAR_JA_TEXT)
                     .unselectedText(SVAR_NEJ_TEXT)
                     .build()

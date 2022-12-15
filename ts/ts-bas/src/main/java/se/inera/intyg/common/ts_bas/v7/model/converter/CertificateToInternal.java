@@ -24,6 +24,7 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBalansrubbningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattning;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattningBeskrivning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
@@ -64,6 +65,7 @@ public class CertificateToInternal {
             .setFunktionsnedsattning(
                 Funktionsnedsattning.builder()
                     .setFunktionsnedsattning(QuestionFunktionsnedsattning.toInternal(certificate))
+                    .setBeskrivning(QuestionFunktionsnedsattningBeskrivning.toInternal(certificate))
                     .build()
             )
             .build();

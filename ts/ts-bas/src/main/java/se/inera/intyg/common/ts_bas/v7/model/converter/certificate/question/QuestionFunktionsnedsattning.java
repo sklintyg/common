@@ -24,7 +24,7 @@ import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValu
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SJUKDOM_FUNKTIONSNEDSATTNING_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
 
@@ -49,7 +49,7 @@ public class QuestionFunktionsnedsattning {
             .config(
                 CertificateDataConfigRadioBoolean.builder()
                     .id(SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID)
-                    .text(textProvider.get(SJUKDOM_FUNKTIONSNEDSATTNING_TEXT_ID))
+                    .text(textProvider.get(SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_TEXT_ID))
                     .selectedText(SVAR_JA_TEXT)
                     .unselectedText(SVAR_NEJ_TEXT)
                     .build()

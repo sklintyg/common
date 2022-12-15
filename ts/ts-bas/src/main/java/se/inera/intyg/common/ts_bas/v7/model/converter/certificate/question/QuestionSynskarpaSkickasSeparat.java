@@ -22,10 +22,10 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DESCRIPTION_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_SVAR_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_TEXT_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -45,7 +45,7 @@ public class QuestionSynskarpaSkickasSeparat {
             .config(
                 CertificateDataConfigCheckboxBoolean.builder()
                     .id(SYNKARPA_SKICKAS_SEPARAT_JSON_ID)
-                    .text(textProvider.get(SYNKARPA_SKICKAS_SEPARAT_TEXT_ID))
+                    .text(textProvider.get(SYNKARPA_SKICKAS_SEPARAT_DELSVAR_TEXT_ID))
                     .description(textProvider.get(SYNKARPA_SKICKAS_SEPARAT_DESCRIPTION_ID))
                     .label(textProvider.get(SYNKARPA_SKICKAS_SEPARAT_SVAR_TEXT_ID))
                     .build()

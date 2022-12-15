@@ -28,7 +28,7 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UPPFATTA_SAMTALSTAMMA_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UPPFATTA_SAMTALSTAMMA_SVAR_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UPPFATTA_SAMTALSTAMMA_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UPPFATTA_SAMTALSTAMMA_SVAR_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -117,7 +117,7 @@ class QuestionUppfattaSamtal4MeterTest {
 
             @Override
             protected String getTextId() {
-                return UPPFATTA_SAMTALSTAMMA_TEXT_ID;
+                return UPPFATTA_SAMTALSTAMMA_SVAR_TEXT_ID;
             }
 
             @Override

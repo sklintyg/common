@@ -21,67 +21,70 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BALANSRUBBNINGAR_YRSEL_CATEGORY_ID;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_SVAR_ID_1;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UPPFATTA_SAMTALSTAMMA_JSON_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UPPFATTA_SAMTALSTAMMA_SVAR_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UPPFATTA_SAMTALSTAMMA_SVAR_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
-import se.inera.intyg.common.ts_bas.v7.model.internal.HorselBalans;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Funktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
 
-public class QuestionUppfattaSamtal4Meter {
+public class QuestionFunktionsnedsattningBeskrivning {
 
-    public static CertificateDataElement toCertificate(HorselBalans horselBalans, int index, CertificateTextProvider textProvider) {
-        final var uppfattaSamtal = horselBalans != null ? horselBalans.getSvartUppfattaSamtal4Meter() : null;
+    private static final short TEXT_LIMIT = 180;
+
+    public static CertificateDataElement toCertificate(Funktionsnedsattning funktionsnedsattning, int index,
+        CertificateTextProvider textProvider) {
+        final var funktionsnedsattningBeskrivning = funktionsnedsattning != null ? funktionsnedsattning.getBeskrivning() : null;
         return CertificateDataElement.builder()
-            .id(UPPFATTA_SAMTALSTAMMA_SVAR_ID)
-            .parent(BALANSRUBBNINGAR_YRSEL_CATEGORY_ID)
+            .id(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID)
+            .parent(SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_ID)
             .index(index)
             .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(UPPFATTA_SAMTALSTAMMA_JSON_ID)
-                    .text(textProvider.get(UPPFATTA_SAMTALSTAMMA_SVAR_TEXT_ID))
-                    .selectedText(SVAR_JA_TEXT)
-                    .unselectedText(SVAR_NEJ_TEXT)
+                CertificateDataConfigTextArea.builder()
+                    .id(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID)
+                    .text(textProvider.get(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_TEXT_ID))
                     .build()
             )
             .value(
-                CertificateDataValueBoolean.builder()
-                    .id(UPPFATTA_SAMTALSTAMMA_JSON_ID)
-                    .selected(uppfattaSamtal)
+                CertificateDataTextValue.builder()
+                    .id(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID)
+                    .text(funktionsnedsattningBeskrivning)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(UPPFATTA_SAMTALSTAMMA_SVAR_ID)
-                        .expression(singleExpression(UPPFATTA_SAMTALSTAMMA_JSON_ID))
+                        .questionId(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID)
+                        .expression(singleExpression(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID))
                         .build(),
                     CertificateDataValidationShow.builder()
                         .questionId(INTYG_AVSER_SVAR_ID_1)
                         .expression(multipleOrExpression(
                             IntygAvserKategori.IAV5.name(), IntygAvserKategori.IAV6.name(), IntygAvserKategori.IAV7.name(),
                             IntygAvserKategori.IAV8.name(), IntygAvserKategori.IAV9.name()))
+                        .build(),
+                    CertificateDataValidationText.builder()
+                        .id(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID)
+                        .limit(TEXT_LIMIT)
                         .build()
                 }
             )
             .build();
     }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), UPPFATTA_SAMTALSTAMMA_SVAR_ID, UPPFATTA_SAMTALSTAMMA_JSON_ID);
+    public static String toInternal(Certificate certificate) {
+        return textValue(certificate.getData(), TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID, TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID);
     }
-
 }
