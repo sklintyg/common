@@ -27,7 +27,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DELSVAR_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_SVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_DESCRIPTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_JSON_ID;
@@ -154,17 +153,10 @@ class QuestionTerminalDodsorsakTest {
         }
 
         @Test
-        void shouldIncludeCorrectConfigId() {
-            final var question = QuestionTerminalDodsorsak.toCertificate(causeOfDeathEmpty, 0, texts);
-            final var config = (CertificateDataConfigCauseOfDeath) question.getConfig();
-            assertEquals(TERMINAL_DODSORSAK_JSON_ID, config.getCauseOfDeath().getId());
-        }
-
-        @Test
         void shouldIncludeCorrectConfigDescriptionId() {
             final var question = QuestionTerminalDodsorsak.toCertificate(causeOfDeathEmpty, 0, texts);
             final var config = (CertificateDataConfigCauseOfDeath) question.getConfig();
-            assertEquals(DODSORSAK_DELSVAR_ID, config.getCauseOfDeath().getDescriptionId());
+            assertEquals(TERMINAL_DODSORSAK_JSON_ID, config.getCauseOfDeath().getDescriptionId());
         }
 
         @Test
@@ -186,13 +178,6 @@ class QuestionTerminalDodsorsakTest {
         void shouldIncludeValueTypeTerminalCauseOfDeath() {
             final var question = QuestionTerminalDodsorsak.toCertificate(causeOfDeathEmpty, 0, texts);
             assertEquals(CertificateDataValueType.CAUSE_OF_DEATH, question.getValue().getType());
-        }
-
-        @Test
-        void shouldIncludeValueId() {
-            final var question = QuestionTerminalDodsorsak.toCertificate(causeOfDeathEmpty, 0, texts);
-            final var valueId = (CertificateDataValueCauseOfDeath) question.getValue();
-            assertEquals(TERMINAL_DODSORSAK_JSON_ID, valueId.getId());
         }
 
         @Test
@@ -248,7 +233,7 @@ class QuestionTerminalDodsorsakTest {
         void shouldIncludeValidationTextId() {
             final var question = QuestionTerminalDodsorsak.toCertificate(causeOfDeathEmpty, 0, texts);
             final var certificateDataValidationMaxDate = (CertificateDataValidationText) question.getValidation()[1];
-            assertEquals(DODSORSAK_DELSVAR_ID, certificateDataValidationMaxDate.getId());
+            assertEquals(TERMINAL_DODSORSAK_JSON_ID, certificateDataValidationMaxDate.getId());
         }
 
         @Test

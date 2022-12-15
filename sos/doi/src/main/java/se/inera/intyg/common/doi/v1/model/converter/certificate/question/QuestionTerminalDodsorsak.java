@@ -69,8 +69,7 @@ public class QuestionTerminalDodsorsak {
                     .label(FOLJD_OM_DELSVAR_A_LABEL)
                     .causeOfDeath(
                         CauseOfDeath.builder()
-                            .id(TERMINAL_DODSORSAK_JSON_ID)
-                            .descriptionId(DODSORSAK_DELSVAR_ID)
+                            .descriptionId(TERMINAL_DODSORSAK_JSON_ID)
                             .debutId(DODSORSAK_DATUM_DELSVAR_ID)
                             .specifications(List.of(
                                 CodeItem.builder()
@@ -95,10 +94,9 @@ public class QuestionTerminalDodsorsak {
             )
             .value(
                 CertificateDataValueCauseOfDeath.builder()
-                    .id(TERMINAL_DODSORSAK_JSON_ID)
                     .description(
                         CertificateDataTextValue.builder()
-                            .id(DODSORSAK_DELSVAR_ID)
+                            .id(TERMINAL_DODSORSAK_JSON_ID)
                             .text(dodsorsak.getBeskrivning())
                             .build()
                     )
@@ -125,7 +123,7 @@ public class QuestionTerminalDodsorsak {
                         .expression(singleExpression(TERMINAL_DODSORSAK_JSON_ID))
                         .build(),
                     CertificateDataValidationText.builder()
-                        .id(DODSORSAK_DELSVAR_ID)
+                        .id(TERMINAL_DODSORSAK_JSON_ID)
                         .limit(LIMIT)
                         .build(),
                     CertificateDataValidationMaxDate.builder()
