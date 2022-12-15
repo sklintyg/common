@@ -32,7 +32,7 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HOGER_OGA_ME
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HOGER_OGA_UTAN_KORREKTION_DELSVAR_ID_8;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KONTAKTLINSER_HOGER_OGA_DELSVAR_ID_8;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KONTAKTLINSER_VANSTER_OGA_DELSVAR_ID_8;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VANSTER_OGA_MED_KORREKTION_DELSVAR_ID_8;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VANSTER_OGA_UTAN_KORREKTION_DELSVAR_ID_8;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID_29;
@@ -271,7 +271,7 @@ public final class UtlatandeToIntyg {
 
         SvarBuilder synskarpa = aSvar(SYNSKARPA_SVAR_ID_8);
         if (source.getSynskarpaSkickasSeparat() != null) {
-            synskarpa.withDelsvar(SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID_8, source.getSynskarpaSkickasSeparat().toString());
+            synskarpa.withDelsvar(SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID, source.getSynskarpaSkickasSeparat().toString());
         }
         if (source.getHogerOga() != null) {
             if (source.getHogerOga().getUtanKorrektion() != null) {
