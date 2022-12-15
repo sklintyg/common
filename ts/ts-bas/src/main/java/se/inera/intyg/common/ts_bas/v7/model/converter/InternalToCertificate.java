@@ -24,8 +24,10 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryHorselOchBalanssinne;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySynfunktioner;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBalansrubbningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
@@ -84,7 +86,13 @@ public class InternalToCertificate {
                 QuestionKorrektionsglasensStyrka.toCertificate(internalCertificate.getSyn(), index++, texts)
             )
             .addElement(
-                QuestionKorrektionsglasensStyrkaMessage.toCertificate(index, texts)
+                QuestionKorrektionsglasensStyrkaMessage.toCertificate(index++, texts)
+            )
+            .addElement(
+                CategoryHorselOchBalanssinne.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionBalansrubbningar.toCertificate(internalCertificate.getHorselBalans(), index, texts)
             )
             .build();
     }

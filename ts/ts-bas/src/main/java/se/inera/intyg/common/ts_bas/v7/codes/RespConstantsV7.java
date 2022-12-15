@@ -92,4 +92,11 @@ public final class RespConstantsV7 {
     public static final String UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_TEXT_ID =
         "Högsta styrka i något av glasen överskrider plus 8 dioptrier";
 
+    public static final String BALANSRUBBNINGAR_YRSEL_CATEGORY_ID = "horselOchBalans";
+    public static final String BALANSRUBBNINGAR_YRSEL_CATEGORY_TEXT_ID = "KAT_2.RBK";
+    public static final String BALANSRUBBNINGAR_YRSEL_SVAR_ID = "10";
+    public static final String BALANSRUBBNINGAR_YRSEL_JSON_ID = "balansrubbningar";
+    public static final String BALANSRUBBNINGAR_YRSEL_TEXT_ID = "FRG_10.RBK";
+
+    public static final String UPPFATTA_SAMTALSTAMMA_SVAR_ID = "11";
 }

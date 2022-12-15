@@ -21,15 +21,17 @@ package se.inera.intyg.common.ts_bas.v7.model.converter;
 
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBalansrubbningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNystagmus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
+import se.inera.intyg.common.ts_bas.v7.model.internal.HorselBalans;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
-import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 
 @Component(value = "certificateToInternalTsBas")
@@ -50,6 +52,11 @@ public class CertificateToInternal {
                 .setSynskarpaSkickasSeparat(QuestionSynskarpaSkickasSeparat.toInternal(certificate))
                 .setKorrektionsglasensStyrka(QuestionKorrektionsglasensStyrka.toInternal(certificate))
                 .build())
+            .setHorselBalans(
+                HorselBalans.builder()
+                    .setBalansrubbningar(QuestionBalansrubbningar.toInternal(certificate))
+                    .build()
+            )
             .build();
     }
 }
