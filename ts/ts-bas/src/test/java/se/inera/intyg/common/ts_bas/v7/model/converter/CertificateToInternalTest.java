@@ -44,6 +44,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNystagmus;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionOtillrackligRorelseFormoga;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
@@ -87,6 +88,7 @@ class CertificateToInternalTest {
         final var funktionsnedsattning = Funktionsnedsattning.builder()
             .setFunktionsnedsattning(true)
             .setBeskrivning("beskrivning")
+            .setOtillrackligRorelseformaga(true)
             .build();
 
         expectedInternalCertificate = TsBasUtlatandeV7.builder()
@@ -115,6 +117,7 @@ class CertificateToInternalTest {
             .addElement(QuestionUppfattaSamtal4Meter.toCertificate(horselBalans, 0, textProvider))
             .addElement(QuestionFunktionsnedsattning.toCertificate(funktionsnedsattning, 0, textProvider))
             .addElement(QuestionFunktionsnedsattningBeskrivning.toCertificate(funktionsnedsattning, 0, textProvider))
+            .addElement(QuestionOtillrackligRorelseFormoga.toCertificate(funktionsnedsattning, 0, textProvider))
             .build();
     }
 
@@ -227,5 +230,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getFunktionsnedsattning().getBeskrivning(),
             actualInternalCertificate.getFunktionsnedsattning().getBeskrivning());
+    }
+
+    @Test
+    void shallIncludeOtillrackligRorelseformoga() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getFunktionsnedsattning().getOtillrackligRorelseformaga(),
+            actualInternalCertificate.getFunktionsnedsattning().getOtillrackligRorelseformaga());
     }
 }

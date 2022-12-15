@@ -113,5 +113,6 @@ public final class RespConstantsV7 {
     public static final String TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_TEXT_ID = "DFR_12.2.RBK";
 
     public static final String OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID = "13";
-    public static final String OTILLRACKLIG_RORELSEFORMAGA_DELSVAR_ID = "13.1";
+    public static final String OTILLRACKLIG_RORELSEFORMAGA_SVAR_TEXT_ID = "FRG_13.RBK";
+    public static final String OTILLRACKLIG_RORELSEFORMAGA_JSON_ID = "otillrackligRorelseformoga";
 }
