@@ -42,9 +42,9 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VANSTER_OGA_
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VANSTER_OGA_MED_KORREKTION_DELSVAR_ID_8;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VANSTER_OGA_UTAN_KORREKTION_DELSVAR_ID_8;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDEN_FOR_SYNSKARPA_ID;
-import static se.inera.intyg.common.ts_bas.v7.model.converter.util.SynskarpaEnum.BINOCULAR;
-import static se.inera.intyg.common.ts_bas.v7.model.converter.util.SynskarpaEnum.LEFT_EYE;
-import static se.inera.intyg.common.ts_bas.v7.model.converter.util.SynskarpaEnum.RIGHT_EYE;
+import static se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpa.VisualAcuityEnum.BINOCULAR;
+import static se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpa.VisualAcuityEnum.LEFT_EYE;
+import static se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpa.VisualAcuityEnum.RIGHT_EYE;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;

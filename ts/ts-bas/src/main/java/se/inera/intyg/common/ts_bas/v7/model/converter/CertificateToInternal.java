@@ -19,9 +19,9 @@
 
 package se.inera.intyg.common.ts_bas.v7.model.converter;
 
-import static se.inera.intyg.common.ts_bas.v7.model.converter.util.SynskarpaEnum.BINOCULAR;
-import static se.inera.intyg.common.ts_bas.v7.model.converter.util.SynskarpaEnum.LEFT_EYE;
-import static se.inera.intyg.common.ts_bas.v7.model.converter.util.SynskarpaEnum.RIGHT_EYE;
+import static se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpa.VisualAcuityEnum.BINOCULAR;
+import static se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpa.VisualAcuityEnum.LEFT_EYE;
+import static se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpa.VisualAcuityEnum.RIGHT_EYE;
 
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.facade.model.Certificate;
