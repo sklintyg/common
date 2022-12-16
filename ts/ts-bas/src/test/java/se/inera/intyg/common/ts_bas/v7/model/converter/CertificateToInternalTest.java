@@ -41,6 +41,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattningBeskrivning;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionHarDiabetes;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionHjarnskadaEfterTrauma;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionHjartOchKarlsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
@@ -53,6 +54,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionUppfattaSamtal4Meter;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Diabetes;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Funktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v7.model.internal.HjartKarl;
 import se.inera.intyg.common.ts_bas.v7.model.internal.HorselBalans;
@@ -103,6 +105,10 @@ class CertificateToInternalTest {
             .setBeskrivningRiskfaktorer("beskrivning")
             .build();
 
+        final var diabetes = Diabetes.builder()
+            .setHarDiabetes(true)
+            .build();
+
         expectedInternalCertificate = TsBasUtlatandeV7.builder()
             .setId("id")
             .setTextVersion("textVersion")
@@ -112,6 +118,7 @@ class CertificateToInternalTest {
             .setHorselBalans(horselBalans)
             .setFunktionsnedsattning(funktionsnedsattning)
             .setHjartKarl(hjartKarl)
+            .setDiabetes(diabetes)
             .build();
 
         certificate = CertificateBuilder.create()
@@ -135,6 +142,7 @@ class CertificateToInternalTest {
             .addElement(QuestionHjarnskadaEfterTrauma.toCertificate(hjartKarl, 0, textProvider))
             .addElement(QuestionRiskfaktorerForStroke.toCertificate(hjartKarl, 0, textProvider))
             .addElement(QuestionBeskrivningRiskfaktorer.toCertificate(hjartKarl, 0, textProvider))
+            .addElement(QuestionHarDiabetes.toCertificate(diabetes, 0, textProvider))
             .build();
     }
 
@@ -282,5 +290,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getHjartKarl().getBeskrivningRiskfaktorer(),
             actualInternalCertificate.getHjartKarl().getBeskrivningRiskfaktorer());
+    }
+
+    @Test
+    void shallIncludeHarDiabetes() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getDiabetes().getHarDiabetes(),
+            actualInternalCertificate.getDiabetes().getHarDiabetes());
     }
 }
