@@ -45,8 +45,8 @@ public class CertificateDataConfigCheckboxMultipleCode implements CertificateDat
     String description;
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
+    Layout layout;
     List<CheckboxMultipleCode> list;
-
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataConfigCheckboxMultipleCodeBuilder {

@@ -45,6 +45,7 @@ public class CertificateDataConfigRadioMultipleCode implements CertificateDataCo
     String description;
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
+    Layout layout;
     List<RadioMultipleCode> list;
 
     @JsonPOJOBuilder(withPrefix = "")

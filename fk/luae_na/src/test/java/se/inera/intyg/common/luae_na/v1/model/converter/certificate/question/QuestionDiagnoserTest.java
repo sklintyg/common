@@ -83,6 +83,7 @@ class QuestionDiagnoserTest {
 
     @Nested
     class ToCertificate {
+
         @Nested
         class IncludeCommonElementTest extends CommonElementTest {
 
@@ -131,7 +132,7 @@ class QuestionDiagnoserTest {
             }
 
             @Override
-            protected HashMap<String, String> getExpectedIdAndLabel() {
+            protected HashMap<String, String> getTerminologies() {
                 HashMap<String, String> idAndLabel = new HashMap<>();
                 idAndLabel.put(DIAGNOS_ICD_10_ID, DIAGNOS_ICD_10_LABEL);
                 idAndLabel.put(DIAGNOS_KSH_97_ID, DIAGNOS_KSH_97_LABEL);
@@ -139,7 +140,7 @@ class QuestionDiagnoserTest {
             }
 
             @Override
-            protected List<String> getExpectedListIds() {
+            protected List<String> getDiagnosListItemIds() {
                 return List.of("1", "2", "3");
             }
         }
@@ -160,13 +161,13 @@ class QuestionDiagnoserTest {
 
             Stream<List<Diagnos>> diagnosisListValues() {
                 return Stream.of(Arrays.asList(
-                    Diagnos.create("F500", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
-                ),
+                        Diagnos.create("F500", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                    ),
                     Arrays.asList(
-                    Diagnos.create("", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                    Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                    Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
-                ),
+                        Diagnos.create("", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                    ),
                     Collections.emptyList());
             }
 

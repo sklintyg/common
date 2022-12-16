@@ -182,6 +182,7 @@ class QuestionDiagnosForNyBedomningTest {
 
     @Nested
     class ToInternal {
+
         @Nested
         @TestInstance(TestInstance.Lifecycle.PER_CLASS)
         class IncludeInternalTextValue extends InternalTextValueTest {

@@ -44,7 +44,7 @@ class CategoryAktivietsbegransningarTest {
     void setup() {
         when(texts.get(any(String.class))).thenReturn("Test string");
     }
-    
+
     @Nested
     class IncludeCommonElementTest extends CommonElementTest {
 
