@@ -22,6 +22,7 @@ package se.inera.intyg.common.ts_bas.v7.model.converter;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBalansrubbningar;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBeskrivningRiskfaktorer;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattningBeskrivning;
@@ -79,6 +80,7 @@ public class CertificateToInternal {
                     .setHjartKarlSjukdom(QuestionHjartOchKarlsjukdom.toInternal(certificate))
                     .setHjarnskadaEfterTrauma(QuestionHjarnskadaEfterTrauma.toInternal(certificate))
                     .setRiskfaktorerStroke(QuestionRiskfaktorerForStroke.toInternal(certificate))
+                    .setBeskrivningRiskfaktorer(QuestionBeskrivningRiskfaktorer.toInternal(certificate))
                     .build()
             )
             .build();

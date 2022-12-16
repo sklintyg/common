@@ -30,6 +30,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.Cate
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySynfunktioner;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBalansrubbningar;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBeskrivningRiskfaktorer;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattningBeskrivning;
@@ -128,7 +129,10 @@ public class InternalToCertificate {
                 QuestionHjarnskadaEfterTrauma.toCertificate(internalCertificate.getHjartKarl(), index++, texts)
             )
             .addElement(
-                QuestionRiskfaktorerForStroke.toCertificate(internalCertificate.getHjartKarl(), index, texts)
+                QuestionRiskfaktorerForStroke.toCertificate(internalCertificate.getHjartKarl(), index++, texts)
+            )
+            .addElement(
+                QuestionBeskrivningRiskfaktorer.toCertificate(internalCertificate.getHjartKarl(), index, texts)
             )
             .build();
     }
