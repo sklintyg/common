@@ -68,14 +68,14 @@ class QuestionIdentitetStyrktGenomTest {
     }
 
     @Nested
-    class toCertificate {
+    class ToCertificate {
 
         @Nested
         class IncludeCommonElementTest extends CommonElementTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionIdentitetStyrktGenom.toCertificate( null, 0, textProvider);
+                return QuestionIdentitetStyrktGenom.toCertificate(null, 0, textProvider);
             }
 
             @Override

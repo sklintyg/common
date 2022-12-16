@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 
-public abstract class ValueCodeTest extends ValueTest{
+public abstract class ValueCodeTest extends ValueTest {
 
     @Override
     protected CertificateDataValueType getType() {
