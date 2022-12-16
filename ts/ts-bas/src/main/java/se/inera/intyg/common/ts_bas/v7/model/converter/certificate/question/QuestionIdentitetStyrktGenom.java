@@ -38,6 +38,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioMultipleCode;
+import se.inera.intyg.common.support.facade.model.config.Layout;
 import se.inera.intyg.common.support.facade.model.config.RadioMultipleCode;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
@@ -56,6 +57,7 @@ public class QuestionIdentitetStyrktGenom {
                 CertificateDataConfigRadioMultipleCode.builder()
                     .text(textProvider.get(IDENTITET_STYRKT_GENOM_TEXT_ID))
                     .description(textProvider.get(IDENTITET_STYRKT_GENOM_DESCRIPTION_ID))
+                    .layout(Layout.COLUMNS)
                     .list(
                         Arrays.asList(
                             RadioMultipleCode.builder()

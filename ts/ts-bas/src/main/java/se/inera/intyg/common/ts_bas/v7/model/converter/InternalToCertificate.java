@@ -55,6 +55,12 @@ public class InternalToCertificate {
                 QuestionIntygetAvser.toCertificate(internalCertificate.getIntygAvser(), index++, texts)
             )
             .addElement(
+                CategoryIdentitet.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionIdentitetStyrktGenom.toCertificate(internalCertificate.getVardkontakt(), index++, texts)
+            )
+            .addElement(
                 CategorySynfunktioner.toCertificate(index++, texts)
             )
             .addElement(
@@ -87,12 +93,6 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionKorrektionsglasensStyrkaMessage.toCertificate(index, texts)
-            )
-            .addElement(
-                CategoryIdentitet.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionIdentitetStyrktGenom.toCertificate(internalCertificate.getVardkontakt(), index++, texts)
             )
             .build();
     }

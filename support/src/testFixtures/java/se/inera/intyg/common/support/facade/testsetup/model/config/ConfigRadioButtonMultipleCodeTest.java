@@ -23,10 +23,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.Layout;
 import se.inera.intyg.common.support.facade.model.config.RadioMultipleCode;
 
 public abstract class ConfigRadioButtonMultipleCodeTest extends ConfigTest {
@@ -37,15 +39,24 @@ public abstract class ConfigRadioButtonMultipleCodeTest extends ConfigTest {
     }
 
     protected abstract List<RadioMultipleCode> getExpectedRadioMultipleCodes();
+    protected abstract Layout getExpectedLayout();
 
     @ParameterizedTest
     @MethodSource("getExpectedRadioMultipleCodes")
-    void shouldIncludeRadioMultipleCodeConfigValueJa(RadioMultipleCode radioMultipleCode) {
+    void shouldIncludeRadioMultipleCodeConfig(RadioMultipleCode radioMultipleCode) {
         var config = (CertificateDataConfigRadioMultipleCode) getElement().getConfig();
         var actualValues = config.getList();
 
         assertEquals(getExpectedRadioMultipleCodes().size(), actualValues.size());
         assertTrue(actualValues.contains(radioMultipleCode));
+    }
+
+    @Test
+    void shouldIncludeLayout() {
+        var config = (CertificateDataConfigRadioMultipleCode) getElement().getConfig();
+        var actualValue = config.getLayout();
+
+        assertEquals(getExpectedLayout(), actualValue);
     }
 
 }

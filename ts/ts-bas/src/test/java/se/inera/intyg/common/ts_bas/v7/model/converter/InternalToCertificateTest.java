@@ -107,80 +107,80 @@ class InternalToCertificateTest {
     }
 
     @Test
+    void shallIncludeCategoryIdentitet() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(2, actualCertificate.getData().get(IDENTITET_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionIdentitet() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(3, actualCertificate.getData().get(IDENTITET_STYRKT_GENOM_SVAR_ID_2).getIndex());
+    }
+
+    @Test
     void shallIncludeCategorySynfunktioner() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(2, actualCertificate.getData().get(SYNFUNKTIONER_CATEGORY_ID).getIndex());
+        assertEquals(4, actualCertificate.getData().get(SYNFUNKTIONER_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionSynfaltsdefekter() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(3, actualCertificate.getData().get(SYNFALTSDEFEKTER_SVAR_ID).getIndex());
+        assertEquals(5, actualCertificate.getData().get(SYNFALTSDEFEKTER_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionNattblindhet() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(4, actualCertificate.getData().get(SEENDE_NEDSATT_BELYSNING_SVAR_ID).getIndex());
+        assertEquals(6, actualCertificate.getData().get(SEENDE_NEDSATT_BELYSNING_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionProgressivOgonsjukdom() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(5, actualCertificate.getData().get(PROGRESSIV_OGONSJUKDOM_SVAR_ID).getIndex());
+        assertEquals(7, actualCertificate.getData().get(PROGRESSIV_OGONSJUKDOM_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeMessageLakarintygAvOgonspecialist() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(6, actualCertificate.getData().get(LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID).getIndex());
+        assertEquals(8, actualCertificate.getData().get(LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionDubbelseende() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(7, actualCertificate.getData().get(DUBBELSEENDE_SVAR_ID).getIndex());
+        assertEquals(9, actualCertificate.getData().get(DUBBELSEENDE_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionNystagmus() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(8, actualCertificate.getData().get(NYSTAGMUS_SVAR_ID).getIndex());
+        assertEquals(10, actualCertificate.getData().get(NYSTAGMUS_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionSynskarpaSkickasSeparat() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(9, actualCertificate.getData().get(SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID).getIndex());
+        assertEquals(11, actualCertificate.getData().get(SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeMessageTidigareUtfordUndersokning() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(10, actualCertificate.getData().get(TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_SVAR_ID).getIndex());
+        assertEquals(12, actualCertificate.getData().get(TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionKorrektionsglasensStyrka() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(11, actualCertificate.getData().get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID).getIndex());
+        assertEquals(13, actualCertificate.getData().get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeMessageKorrektionsglasensStyrka() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(12, actualCertificate.getData().get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_ID).getIndex());
-    }
-
-    @Test
-    void shallIncludeCategoryGrundForMU() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(0, actualCertificate.getData().get(IDENTITET_CATEGORY_ID).getIndex());
-    }
-
-    @Test
-    void shallIncludeQuestionBaseratPa() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(1, actualCertificate.getData().get(IDENTITET_STYRKT_GENOM_SVAR_ID_2).getIndex());
+        assertEquals(14, actualCertificate.getData().get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_ID).getIndex());
     }
 }

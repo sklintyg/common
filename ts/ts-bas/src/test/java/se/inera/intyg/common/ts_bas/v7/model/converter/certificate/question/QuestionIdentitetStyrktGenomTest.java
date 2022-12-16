@@ -22,6 +22,7 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.support.facade.model.config.Layout.COLUMNS;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_DESCRIPTION_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_FORETAG_ELLER_TJANSTEKORT_TEXT_ID;
@@ -45,6 +46,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
+import se.inera.intyg.common.support.facade.model.config.Layout;
 import se.inera.intyg.common.support.facade.model.config.RadioMultipleCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
@@ -144,6 +146,11 @@ class QuestionIdentitetStyrktGenomTest {
                         .label(textProvider.get(IDENTITET_STYRKT_GENOM_PASS_TEXT_ID))
                         .build()
                 );
+            }
+
+            @Override
+            protected Layout getExpectedLayout() {
+                return COLUMNS;
             }
         }
 
