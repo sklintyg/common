@@ -25,6 +25,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattningBeskrivning;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionHjartOchKarlsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
@@ -35,6 +36,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionUppfattaSamtal4Meter;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Funktionsnedsattning;
+import se.inera.intyg.common.ts_bas.v7.model.internal.HjartKarl;
 import se.inera.intyg.common.ts_bas.v7.model.internal.HorselBalans;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
@@ -68,6 +70,11 @@ public class CertificateToInternal {
                     .setFunktionsnedsattning(QuestionFunktionsnedsattning.toInternal(certificate))
                     .setBeskrivning(QuestionFunktionsnedsattningBeskrivning.toInternal(certificate))
                     .setOtillrackligRorelseformaga(QuestionOtillrackligRorelseFormoga.toInternal(certificate))
+                    .build()
+            )
+            .setHjartKarl(
+                HjartKarl.builder()
+                    .setHjartKarlSjukdom(QuestionHjartOchKarlsjukdom.toInternal(certificate))
                     .build()
             )
             .build();

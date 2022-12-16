@@ -40,6 +40,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattningBeskrivning;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionHjartOchKarlsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
@@ -50,6 +51,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionUppfattaSamtal4Meter;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Funktionsnedsattning;
+import se.inera.intyg.common.ts_bas.v7.model.internal.HjartKarl;
 import se.inera.intyg.common.ts_bas.v7.model.internal.HorselBalans;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
@@ -91,6 +93,10 @@ class CertificateToInternalTest {
             .setOtillrackligRorelseformaga(true)
             .build();
 
+        final var hjartKarl = HjartKarl.builder()
+            .setHjartKarlSjukdom(true)
+            .build();
+
         expectedInternalCertificate = TsBasUtlatandeV7.builder()
             .setId("id")
             .setTextVersion("textVersion")
@@ -99,6 +105,7 @@ class CertificateToInternalTest {
             .setSyn(syn)
             .setHorselBalans(horselBalans)
             .setFunktionsnedsattning(funktionsnedsattning)
+            .setHjartKarl(hjartKarl)
             .build();
 
         certificate = CertificateBuilder.create()
@@ -118,6 +125,7 @@ class CertificateToInternalTest {
             .addElement(QuestionFunktionsnedsattning.toCertificate(funktionsnedsattning, 0, textProvider))
             .addElement(QuestionFunktionsnedsattningBeskrivning.toCertificate(funktionsnedsattning, 0, textProvider))
             .addElement(QuestionOtillrackligRorelseFormoga.toCertificate(funktionsnedsattning, 0, textProvider))
+            .addElement(QuestionHjartOchKarlsjukdom.toCertificate(hjartKarl, 0, textProvider))
             .build();
     }
 
@@ -237,5 +245,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getFunktionsnedsattning().getOtillrackligRorelseformaga(),
             actualInternalCertificate.getFunktionsnedsattning().getOtillrackligRorelseformaga());
+    }
+
+    @Test
+    void shallIncludeHjartOchKarlsjukdom() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getHjartKarl().getHjartKarlSjukdom(),
+            actualInternalCertificate.getHjartKarl().getHjartKarlSjukdom());
     }
 }

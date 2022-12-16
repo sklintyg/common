@@ -33,6 +33,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattningBeskrivning;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionHjartOchKarlsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrkaMessage;
@@ -116,7 +117,10 @@ public class InternalToCertificate {
                 QuestionOtillrackligRorelseFormoga.toCertificate(internalCertificate.getFunktionsnedsattning(), index++, texts)
             )
             .addElement(
-                CategoryHjartOchKarlsjukdom.toCertificate(index, texts)
+                CategoryHjartOchKarlsjukdom.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionHjartOchKarlsjukdom.toCertificate(internalCertificate.getHjartKarl(), index, texts)
             )
             .build();
     }
