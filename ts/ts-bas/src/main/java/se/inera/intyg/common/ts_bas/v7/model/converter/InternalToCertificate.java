@@ -24,6 +24,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryDiabetes;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryFunktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryHjartOchKarlsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryHorselOchBalanssinne;
@@ -132,7 +133,10 @@ public class InternalToCertificate {
                 QuestionRiskfaktorerForStroke.toCertificate(internalCertificate.getHjartKarl(), index++, texts)
             )
             .addElement(
-                QuestionBeskrivningRiskfaktorer.toCertificate(internalCertificate.getHjartKarl(), index, texts)
+                QuestionBeskrivningRiskfaktorer.toCertificate(internalCertificate.getHjartKarl(), index++, texts)
+            )
+            .addElement(
+                CategoryDiabetes.toCertificate(index, texts)
             )
             .build();
     }

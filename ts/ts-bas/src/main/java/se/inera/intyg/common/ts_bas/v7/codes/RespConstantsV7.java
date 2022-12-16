@@ -134,4 +134,36 @@ public final class RespConstantsV7 {
     public static final String TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_JSON_ID = "typAvSjukdomRiskfaktorer";
     public static final String TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_TEXT_ID = "DFR_16.2.RBK";
 
+    public static final String HAR_DIABETES_CATEGORY_ID = "diabetes";
+    public static final String HAR_DIABETES_CATEGORY_TEXT_ID = "KAT_5.RBK";
+
+    public static final String HAR_DIABETES_SVAR_ID = "17";
+    public static final String HAR_DIABETES_JSON_ID = "harDiabetes";
+    public static final String HAR_DIABETES_SVAR_TEXT_ID = "FRG_17.RBK";
+
+    public static final String TYP_AV_DIABETES_SVAR_ID = "18";
+    public static final String TYP_AV_DIABETES_JSON_ID = "typAvDiabetes";
+    public static final String TYP_AV_DIABETES_SVAR_TYP1_LABEL_ID = "ts-bas.label.diabetes.diabetestyp.DIABETES_TYP_1";
+    public static final String TYP_AV_DIABETES_SVAR_TYP2_LABEL_ID = "ts-bas.label.diabetes.diabetestyp.DIABETES_TYP_2";
+    public static final String TYP_AV_DIABETES_SVAR_TEXT_ID = "FRG_18.RBK";
+
+    public static final String BEHANDLING_DIABETES_SVAR_ID = "19";
+    public static final String KOSTBEHANDLING_DELSVAR_ID = "19.1";
+    public static final String TABLETTBEHANDLING_DELSVAR_ID = "19.2";
+    public static final String INSULINBEHANDLING_DELSVAR_ID = "19.3";
+    public static final String INSULINBEHANDLING_SEDAN_AR_DELSVAR_ID = "19.4";
+    public static final String ANNAN_BEHANDLING_DELSVAR_ID = "19.5";
+
+    public static final String TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID = "20";
+    public static final String TECKEN_NEUROLOGISK_SJUKDOM_DELSVAR_ID = "20.1";
+
+    public static final String MEDVETANDESTORNING_SVAR_ID = "21";
+    public static final String FOREKOMST_MEDVETANDESTORNING_DELSVAR_ID = "21.1";
+    public static final String TIDPUNKT_ORSAK_ANNAN_MEDVETANDESTORNING_DELSVAR_ID = "21.2";
+
+    public static final String NEDSATT_NJURFUNKTION_SVAR_ID = "22";
+    public static final String NEDSATT_NJURFUNKTION_DELSVAR_ID = "22.1";
+
+    public static final String TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_ID = "23";
+    public static final String TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_DELSVAR_ID = "23.1";
 }
