@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBalansrubbningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBeskrivningRiskfaktorer;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDiabetesTyp;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattningBeskrivning;
@@ -88,6 +89,7 @@ public class CertificateToInternal {
             .setDiabetes(
                 Diabetes.builder()
                     .setHarDiabetes(QuestionHarDiabetes.toInternal(certificate))
+                    .setDiabetesTyp(QuestionDiabetesTyp.toInternal(certificate))
                     .build()
             )
             .build();

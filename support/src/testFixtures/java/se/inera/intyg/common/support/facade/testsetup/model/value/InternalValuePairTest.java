@@ -29,7 +29,7 @@ import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 
-public abstract class InternalCodeListValueTest<T, S> {
+public abstract class InternalValuePairTest<T, S> {
 
     protected abstract CertificateDataElement getElement(T input);
 

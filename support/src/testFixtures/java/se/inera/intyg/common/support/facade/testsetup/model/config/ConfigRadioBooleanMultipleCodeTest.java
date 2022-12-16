@@ -24,35 +24,35 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
-import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.Layout;
+import se.inera.intyg.common.support.facade.model.config.RadioMultipleCode;
 
-public abstract class ConfigCheckboxMultipleCodeTest extends ConfigTest {
-
-    protected abstract List<CheckboxMultipleCode> getExpectedListOfCodes();
-
-    protected abstract Layout getLayout();
+public abstract class ConfigRadioBooleanMultipleCodeTest extends ConfigTest {
 
     @Override
     protected CertificateDataConfigTypes getType() {
-        return CertificateDataConfigTypes.UE_CHECKBOX_MULTIPLE_CODE;
+        return CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE;
     }
 
+    protected abstract List<RadioMultipleCode> getExpectedRadioMultipleCodes();
+
+    protected abstract Layout getExpectedLayout();
+
     @Test
-    void shouldIncludeExpectedListOfCodes() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigCheckboxMultipleCode) question.getConfig();
-        for (CheckboxMultipleCode checkboxMultipleCode : getExpectedListOfCodes()) {
-            assertTrue(config.getList().contains(checkboxMultipleCode));
+    void shouldIncludeExpectedRadioMultipleCode() {
+        final var config = (CertificateDataConfigRadioMultipleCode) getElement().getConfig();
+        for (RadioMultipleCode radioMultipleCode : getExpectedRadioMultipleCodes()) {
+            assertTrue(config.getList().contains(radioMultipleCode));
         }
     }
 
     @Test
     void shouldIncludeLayout() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigCheckboxMultipleCode) question.getConfig();
-        assertEquals(getLayout(), config.getLayout());
+        var config = (CertificateDataConfigRadioMultipleCode) getElement().getConfig();
+        var actualValue = config.getLayout();
+
+        assertEquals(getExpectedLayout(), actualValue);
     }
 }
