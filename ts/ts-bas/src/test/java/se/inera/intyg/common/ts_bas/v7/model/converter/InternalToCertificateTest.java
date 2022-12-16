@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BALANSRUBBNINGAR_YRSEL_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BALANSRUBBNINGAR_YRSEL_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BEHANDLING_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.DUBBELSEENDE_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HAR_DIABETES_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HAR_DIABETES_SVAR_ID;
@@ -273,5 +274,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionDiabetesTyp() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(27, actualCertificate.getData().get(TYP_AV_DIABETES_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionDiabetesBehandling() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(28, actualCertificate.getData().get(BEHANDLING_DIABETES_SVAR_ID).getIndex());
     }
 }

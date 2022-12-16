@@ -142,15 +142,19 @@ public final class RespConstantsV7 {
     public static final String HAR_DIABETES_SVAR_TEXT_ID = "FRG_17.RBK";
 
     public static final String TYP_AV_DIABETES_SVAR_ID = "18";
-    public static final String TYP_AV_DIABETES_JSON_ID = "typAvDiabetes";
     public static final String TYP_AV_DIABETES_SVAR_TYP1_LABEL_ID = "ts-bas.label.diabetes.diabetestyp.DIABETES_TYP_1";
     public static final String TYP_AV_DIABETES_SVAR_TYP2_LABEL_ID = "ts-bas.label.diabetes.diabetestyp.DIABETES_TYP_2";
     public static final String TYP_AV_DIABETES_SVAR_TEXT_ID = "FRG_18.RBK";
 
     public static final String BEHANDLING_DIABETES_SVAR_ID = "19";
+    public static final String BEHANDLING_DIABETES_SVAR_TEXT_ID = "FRG_19.RBK";
     public static final String KOSTBEHANDLING_DELSVAR_ID = "19.1";
+    public static final String KOSTBEHANDLING_DELSVAR_TEXT_ID = "DFR_19.1.RBK";
     public static final String TABLETTBEHANDLING_DELSVAR_ID = "19.2";
+    public static final String TABLETTBEHANDLING_DELSVAR_TEXT_ID = "DFR_19.2.RBK";
     public static final String INSULINBEHANDLING_DELSVAR_ID = "19.3";
+    public static final String INSULINBEHANDLING_DELSVAR_TEXT_ID = "DFR_19.3.RBK";
+
     public static final String INSULINBEHANDLING_SEDAN_AR_DELSVAR_ID = "19.4";
     public static final String ANNAN_BEHANDLING_DELSVAR_ID = "19.5";
 

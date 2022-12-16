@@ -19,10 +19,15 @@
 
 package se.inera.intyg.common.ts_bas.v7.model.converter;
 
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INSULINBEHANDLING_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KOSTBEHANDLING_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TABLETTBEHANDLING_DELSVAR_ID;
+
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBalansrubbningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBeskrivningRiskfaktorer;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDiabetesBehandling;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDiabetesTyp;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattning;
@@ -90,6 +95,9 @@ public class CertificateToInternal {
                 Diabetes.builder()
                     .setHarDiabetes(QuestionHarDiabetes.toInternal(certificate))
                     .setDiabetesTyp(QuestionDiabetesTyp.toInternal(certificate))
+                    .setKost(QuestionDiabetesBehandling.toInternal(certificate, KOSTBEHANDLING_DELSVAR_ID))
+                    .setTabletter(QuestionDiabetesBehandling.toInternal(certificate, TABLETTBEHANDLING_DELSVAR_ID))
+                    .setInsulin(QuestionDiabetesBehandling.toInternal(certificate, INSULINBEHANDLING_DELSVAR_ID))
                     .build()
             )
             .build();

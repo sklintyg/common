@@ -38,6 +38,7 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBalansrubbningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBeskrivningRiskfaktorer;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDiabetesBehandling;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDiabetesTyp;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattning;
@@ -109,6 +110,9 @@ class CertificateToInternalTest {
         final var diabetes = Diabetes.builder()
             .setHarDiabetes(true)
             .setDiabetesTyp("diabetesTyp")
+            .setKost(true)
+            .setInsulin(true)
+            .setTabletter(true)
             .build();
 
         expectedInternalCertificate = TsBasUtlatandeV7.builder()
@@ -146,6 +150,7 @@ class CertificateToInternalTest {
             .addElement(QuestionBeskrivningRiskfaktorer.toCertificate(hjartKarl, 0, textProvider))
             .addElement(QuestionHarDiabetes.toCertificate(diabetes, 0, textProvider))
             .addElement(QuestionDiabetesTyp.toCertificate(diabetes, 0, textProvider))
+            .addElement(QuestionDiabetesBehandling.toCertificate(diabetes, 0, textProvider))
             .build();
     }
 
@@ -307,5 +312,26 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getDiabetes().getDiabetesTyp(),
             actualInternalCertificate.getDiabetes().getDiabetesTyp());
+    }
+
+    @Test
+    void shallIncludeDiabetesKost() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getDiabetes().getKost(),
+            actualInternalCertificate.getDiabetes().getKost());
+    }
+
+    @Test
+    void shallIncludeDiabetesInsulin() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getDiabetes().getInsulin(),
+            actualInternalCertificate.getDiabetes().getInsulin());
+    }
+
+    @Test
+    void shallIncludeDiabetesTabletter() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getDiabetes().getTabletter(),
+            actualInternalCertificate.getDiabetes().getTabletter());
     }
 }

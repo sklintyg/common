@@ -208,7 +208,7 @@ class QuestionDiabetesTypTest {
 
         @Nested
         @TestInstance(Lifecycle.PER_CLASS)
-        class IncludeInternalRadioMultipleCodeValuePairTest extends InternalValuePairTest<Diabetes, Diabetes> {
+        class IncludeInternalValuePairTest extends InternalValuePairTest<Diabetes, String> {
 
             @Override
             protected CertificateDataElement getElement(Diabetes input) {
@@ -216,19 +216,22 @@ class QuestionDiabetesTypTest {
             }
 
             @Override
-            protected Diabetes toInternalValue(Certificate certificate) {
-                return Diabetes.builder().setDiabetesTyp(QuestionDiabetesTyp.toInternal(certificate)).build();
+            protected String toInternalValue(Certificate certificate) {
+                return QuestionDiabetesTyp.toInternal(certificate);
             }
 
             @Override
-            protected List<InputExpectedValuePair<Diabetes, Diabetes>> inputExpectedValuePairList() {
+            protected List<InputExpectedValuePair<Diabetes, String>> inputExpectedValuePairList() {
                 return List.of(
-                    new InputExpectedValuePair(null, Diabetes.builder().build()),
-                    new InputExpectedValuePair(Diabetes.builder().setDiabetesTyp(null).build(),
-                        Diabetes.builder().setDiabetesTyp(null).build()),
+                    new InputExpectedValuePair(null, null),
+                    new InputExpectedValuePair(Diabetes.builder().setDiabetesTyp(null).build(), null),
                     new InputExpectedValuePair(
                         Diabetes.builder().setDiabetesTyp(DiabetesKod.DIABETES_TYP_1.name()).build(),
-                        Diabetes.builder().setDiabetesTyp(DiabetesKod.DIABETES_TYP_1.name()).build()
+                        DiabetesKod.DIABETES_TYP_1.name()
+                    ),
+                    new InputExpectedValuePair(
+                        Diabetes.builder().setDiabetesTyp(DiabetesKod.DIABETES_TYP_2.name()).build(),
+                        DiabetesKod.DIABETES_TYP_2.name()
                     )
                 );
             }

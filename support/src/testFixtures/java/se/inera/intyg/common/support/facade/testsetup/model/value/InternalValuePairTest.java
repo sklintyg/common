@@ -33,7 +33,7 @@ public abstract class InternalValuePairTest<T, S> {
 
     protected abstract CertificateDataElement getElement(T input);
 
-    protected abstract T toInternalValue(Certificate certificate);
+    protected abstract S toInternalValue(Certificate certificate);
 
     protected abstract List<InputExpectedValuePair<T, S>> inputExpectedValuePairList();
 
