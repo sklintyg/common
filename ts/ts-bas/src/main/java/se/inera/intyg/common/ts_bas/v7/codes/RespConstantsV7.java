@@ -92,4 +92,14 @@ public final class RespConstantsV7 {
     public static final String UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_TEXT_ID =
         "Högsta styrka i något av glasen överskrider plus 8 dioptrier";
 
+    public static final String TECKEN_SOMN_ELLER_VAKENHETSSTORNING_CATEGORY_ID = "somnellervakenhetsstorning";
+    public static final String TECKEN_SOMN_ELLER_VAKENHETSSTORNING_CATEGORY_TEXT_ID = "KAT_10.RBK";
+    public static final String TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24 = "24";
+    public static final String TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID = "vakenhetsstorning";
+    public static final String TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_TEXT_ID = "FRG_24.RBK";
+    public static final String TECKEN_SOMN_ELLER_VAKENHETSSTORNING_DELSVAR_JA_TEXT_ID = "SVAR_JA.RBK";
+    public static final String TECKEN_SOMN_ELLER_VAKENHETSSTORNING_DELSVAR_NEJ_TEXT_ID = "SVAR_NEJ.RBK";
+
+
+
 }

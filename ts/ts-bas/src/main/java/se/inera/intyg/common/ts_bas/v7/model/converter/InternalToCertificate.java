@@ -25,6 +25,7 @@ import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryIntygetAvser;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySomnOchVakenhetsstorningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySynfunktioner;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
@@ -34,6 +35,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNystagmus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSomnOchVakenhetsstorningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTidigareUtfordUndersokningMessage;
@@ -84,7 +86,14 @@ public class InternalToCertificate {
                 QuestionKorrektionsglasensStyrka.toCertificate(internalCertificate.getSyn(), index++, texts)
             )
             .addElement(
-                QuestionKorrektionsglasensStyrkaMessage.toCertificate(index, texts)
+                QuestionKorrektionsglasensStyrkaMessage.toCertificate(index++, texts)
+            )
+            .addElement(
+                CategorySomnOchVakenhetsstorningar.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionSomnOchVakenhetsstorningar.toCertificate(
+                    internalCertificate.getSomnVakenhet().getTeckenSomnstorningar(), index++, texts)
             )
             .build();
     }

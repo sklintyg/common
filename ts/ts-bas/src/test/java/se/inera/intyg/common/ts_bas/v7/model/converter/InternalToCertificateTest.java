@@ -31,6 +31,8 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSA
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID;
@@ -45,6 +47,7 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.ts_bas.v7.model.internal.SomnVakenhet;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 import se.inera.intyg.schemas.contract.Personnummer;
@@ -71,6 +74,7 @@ class InternalToCertificateTest {
                     .setSynfaltsdefekter(true)
                     .build()
             )
+            .setSomnVakenhet(SomnVakenhet.create(true))
             .build();
     }
 
@@ -168,5 +172,17 @@ class InternalToCertificateTest {
     void shallIncludeMessageKorrektionsglasensStyrka() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(12, actualCertificate.getData().get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategorySomnOchVakenhetsstorningar() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(13, actualCertificate.getData().get(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionSomnOchVakenhetsstorningar() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(14, actualCertificate.getData().get(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24).getIndex());
     }
 }
