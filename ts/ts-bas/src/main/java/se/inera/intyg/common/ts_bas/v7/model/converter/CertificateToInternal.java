@@ -33,6 +33,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNystagmus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionOtillrackligRorelseFormoga;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionRiskfaktorerForStroke;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionUppfattaSamtal4Meter;
@@ -77,6 +78,7 @@ public class CertificateToInternal {
                 HjartKarl.builder()
                     .setHjartKarlSjukdom(QuestionHjartOchKarlsjukdom.toInternal(certificate))
                     .setHjarnskadaEfterTrauma(QuestionHjarnskadaEfterTrauma.toInternal(certificate))
+                    .setRiskfaktorerStroke(QuestionRiskfaktorerForStroke.toInternal(certificate))
                     .build()
             )
             .build();

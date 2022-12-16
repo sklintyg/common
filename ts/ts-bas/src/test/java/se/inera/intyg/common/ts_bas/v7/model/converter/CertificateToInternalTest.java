@@ -48,6 +48,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNystagmus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionOtillrackligRorelseFormoga;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionRiskfaktorerForStroke;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionUppfattaSamtal4Meter;
@@ -97,6 +98,7 @@ class CertificateToInternalTest {
         final var hjartKarl = HjartKarl.builder()
             .setHjartKarlSjukdom(true)
             .setHjarnskadaEfterTrauma(true)
+            .setRiskfaktorerStroke(true)
             .build();
 
         expectedInternalCertificate = TsBasUtlatandeV7.builder()
@@ -129,6 +131,7 @@ class CertificateToInternalTest {
             .addElement(QuestionOtillrackligRorelseFormoga.toCertificate(funktionsnedsattning, 0, textProvider))
             .addElement(QuestionHjartOchKarlsjukdom.toCertificate(hjartKarl, 0, textProvider))
             .addElement(QuestionHjarnskadaEfterTrauma.toCertificate(hjartKarl, 0, textProvider))
+            .addElement(QuestionRiskfaktorerForStroke.toCertificate(hjartKarl, 0, textProvider))
             .build();
     }
 
@@ -262,5 +265,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getHjartKarl().getHjarnskadaEfterTrauma(),
             actualInternalCertificate.getHjartKarl().getHjarnskadaEfterTrauma());
+    }
+
+    @Test
+    void shallIncludeRiskfaktorerStroke() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getHjartKarl().getRiskfaktorerStroke(),
+            actualInternalCertificate.getHjartKarl().getRiskfaktorerStroke());
     }
 }
