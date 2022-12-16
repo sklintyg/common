@@ -50,7 +50,7 @@ public abstract class ConfigCheckboxMultipleDateTest extends ConfigTest {
         final var actualIds = config.getList().stream()
             .map(CheckboxMultipleDate::getId).collect(Collectors.toList());
 
-        assertIterableEquals(expectedIds, actualIds);
+        assertEquals(expectedIds, actualIds);
     }
 
     @Test

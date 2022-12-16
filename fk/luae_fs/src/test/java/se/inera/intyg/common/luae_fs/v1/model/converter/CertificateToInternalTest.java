@@ -23,9 +23,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.DIAGNOS_ICD_10_ID;
 
 import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,12 +35,21 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.fkparent.model.internal.Underlag;
+import se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionDiagnoser;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUnderlag;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUnderlagFinns;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUtlatandeBaseratPa;
 import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -51,6 +62,7 @@ class CertificateToInternalTest {
 
     private Certificate certificate;
     private LuaefsUtlatandeV1 expectedInternalCertificate;
+
     @Mock
     private CertificateTextProvider textProvider;
 
@@ -64,10 +76,21 @@ class CertificateToInternalTest {
 
     @BeforeEach
     void setup() {
+        when(textProvider.get(anyString())).thenReturn("Test string");
+
         expectedInternalCertificate = LuaefsUtlatandeV1.builder()
             .setId("id")
             .setTextVersion("textVersion")
             .setGrundData(getGrundData())
+            .setUndersokningAvPatienten(new InternalDate("2022-12-15"))
+            .setJournaluppgifter(new InternalDate("2022-12-16"))
+            .setAnhorigsBeskrivningAvPatienten(new InternalDate("2022-12-17"))
+            .setAnnatGrundForMU(new InternalDate("2022-12-18"))
+            .setAnnatGrundForMUBeskrivning("Annat beskrivning")
+            .setMotiveringTillInteBaseratPaUndersokning("Motivering till ej bserat pa undersokning")
+            .setKannedomOmPatient(new InternalDate(("2022-12-19")))
+            .setUnderlagFinns(true)
+            .setUnderlag(List.of(Underlag.create(UnderlagsTyp.OVRIGT, new InternalDate("2022-12-16"), "underlagstyp ovrigt")))
             .setDiagnoser(
                 Arrays.asList(
                     Diagnos.create("F500", DIAGNOS_ICD_10_ID, "Beskrivning1", DIAGNOSIS_DISPLAYNAME),
@@ -78,6 +101,15 @@ class CertificateToInternalTest {
 
         certificate = CertificateBuilder.create()
             .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, textProvider))
+            .addElement(QuestionUtlatandeBaseratPa.toCertificate(expectedInternalCertificate.getUndersokningAvPatienten(),
+                expectedInternalCertificate.getJournaluppgifter(), expectedInternalCertificate.getAnhorigsBeskrivningAvPatienten(),
+                expectedInternalCertificate.getAnnatGrundForMU(), 0, textProvider))
+            .addElement(QuestionAnnatBeskrivning.toCertificate(expectedInternalCertificate.getAnnatGrundForMUBeskrivning(), 0, textProvider))
+            .addElement(QuestionMotiveringTillInteBaseratPaUndersokning
+                .toCertificate(expectedInternalCertificate.getMotiveringTillInteBaseratPaUndersokning(), 0, textProvider))
+            .addElement(QuestionKannedomOmPatient.toCertificate(expectedInternalCertificate.getKannedomOmPatient(), 0, textProvider))
+            .addElement(QuestionUnderlagFinns.toCertificate(expectedInternalCertificate.getUnderlagFinns(), 0, textProvider))
+            .addElement(QuestionUnderlag.toCertificate(expectedInternalCertificate.getUnderlag(), 0, textProvider))
             .addElement(QuestionDiagnoser.toCertificate(expectedInternalCertificate.getDiagnoser(), 0, textProvider))
             .build();
     }
@@ -87,7 +119,7 @@ class CertificateToInternalTest {
         final var hosPersonal = new HoSPersonal();
         final var vardenhet = new Vardenhet();
         final var patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
         hosPersonal.setVardenhet(vardenhet);
         grundData.setSkapadAv(hosPersonal);
         grundData.setPatient(patient);
@@ -110,6 +142,56 @@ class CertificateToInternalTest {
     void shallIncludeGrundData() {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertNotNull(actualInternalCertificate.getGrundData(), "GrundData is missing!");
+    }
+
+    @Test
+    void shallUndersokningAvPatienten() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getUndersokningAvPatienten(), actualInternalCertificate.getUndersokningAvPatienten());
+    }
+
+    @Test
+    void shallIncludeJournalUppgifter() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getJournaluppgifter(), actualInternalCertificate.getJournaluppgifter());
+    }
+
+    @Test
+    void shallIncludeAnhorigsBeskrivningAvPatienten() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getAnhorigsBeskrivningAvPatienten(),
+            actualInternalCertificate.getAnhorigsBeskrivningAvPatienten());
+    }
+
+    @Test
+    void shallIncludeAnnatGrundForMU() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getAnnatGrundForMU(), actualInternalCertificate.getAnnatGrundForMU());
+    }
+
+    @Test
+    void shallIncludeAnnatGrundForMUBeskrivning() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getAnnatGrundForMUBeskrivning(), actualInternalCertificate.getAnnatGrundForMUBeskrivning());
+    }
+
+    @Test
+    void shallIncludeMotiveringTillInteBaseratPaUndersokning() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getMotiveringTillInteBaseratPaUndersokning(),
+            actualInternalCertificate.getMotiveringTillInteBaseratPaUndersokning());
+    }
+
+    @Test
+    void shallIncludeKannedomOmPatient() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getKannedomOmPatient(), actualInternalCertificate.getKannedomOmPatient());
+    }
+
+    @Test
+    void shallIncludeUnderlagFinns() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getUnderlag(), actualInternalCertificate.getUnderlag());
     }
 
     @Test

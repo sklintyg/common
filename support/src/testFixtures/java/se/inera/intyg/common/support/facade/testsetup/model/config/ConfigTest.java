@@ -88,18 +88,22 @@ public abstract class ConfigTest {
     @Test
     void shouldIncludeConfigText() {
         final var question = getElement();
-        if (question.getConfig().getText() != null) {
+        if (getTextId() != null && !question.getConfig().getText().equals(getTextId())) {
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
             verify(getTextProviderMock(), atLeastOnce()).get(getTextId());
+        } else {
+            assertEquals(getTextId(), question.getConfig().getText());
         }
     }
 
     @Test
     void shouldIncludeConfigDescription() {
         final var question = getElement();
-        if (getDescriptionId() != null) {
+        if (getDescriptionId() != null && !question.getConfig().getDescription().equals(getDescriptionId())) {
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing description");
             verify(getTextProviderMock(), atLeastOnce()).get(getDescriptionId());
+        } else {
+            assertEquals(getDescriptionId(), question.getConfig().getDescription());
         }
     }
 }

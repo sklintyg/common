@@ -94,6 +94,11 @@ class QuestionLakarintygAvOgonspecialistMessageTest {
 
         @Override
         protected String getTextId() {
+            return null;
+        }
+
+        @Override
+        protected String getMessageId() {
             return LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_TEXT_ID;
         }
 

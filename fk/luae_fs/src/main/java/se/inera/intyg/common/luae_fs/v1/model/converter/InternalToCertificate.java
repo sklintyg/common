@@ -22,8 +22,13 @@ package se.inera.intyg.common.luae_fs.v1.model.converter;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryDiagnos;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionDiagnoser;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryGrundForMU;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUnderlag;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUnderlagFinns;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUtlatandeBaseratPa;
 import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -41,9 +46,14 @@ public class InternalToCertificate {
             .addElement(QuestionUtlatandeBaseratPa.toCertificate(internalCertificate.getUndersokningAvPatienten(),
                 internalCertificate.getJournaluppgifter(), internalCertificate.getAnhorigsBeskrivningAvPatienten(),
                 internalCertificate.getAnnatGrundForMU(), index++, texts))
+            .addElement(QuestionAnnatBeskrivning.toCertificate(internalCertificate.getAnnatGrundForMUBeskrivning(), index++, texts))
+            .addElement(QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(
+                internalCertificate.getMotiveringTillInteBaseratPaUndersokning(), index++, texts))
+            .addElement(QuestionKannedomOmPatient.toCertificate(internalCertificate.getKannedomOmPatient(), index++, texts))
+            .addElement(QuestionUnderlagFinns.toCertificate(internalCertificate.getUnderlagFinns(), index++, texts))
+            .addElement(QuestionUnderlag.toCertificate(internalCertificate.getUnderlag(), index++, texts))
             .addElement(CategoryDiagnos.toCertificate(index++, texts))
             .addElement(QuestionDiagnoser.toCertificate(internalCertificate.getDiagnoser(), index, texts))
-
             .build();
     }
 }

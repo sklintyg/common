@@ -86,6 +86,11 @@ class QuestionTidigareUtfordUndersokningMessageTest {
 
         @Override
         protected String getTextId() {
+            return null;
+        }
+
+        @Override
+        protected String getMessageId() {
             return TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_TEXT_ID;
         }
 

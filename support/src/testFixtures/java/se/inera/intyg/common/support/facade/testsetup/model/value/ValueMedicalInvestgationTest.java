@@ -19,38 +19,41 @@
 
 package se.inera.intyg.common.support.facade.testsetup.model.value;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
-import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigationList;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 
-public abstract class InternalValueTest<T, S> {
+@TestInstance(Lifecycle.PER_CLASS)
+public abstract class ValueMedicalInvestgationTest<T> extends ValueTest {
 
     protected abstract CertificateDataElement getElement(T input);
 
-    protected abstract S toInternalValue(Certificate certificate);
+    protected abstract List<InputExpectedValuePair<T, CertificateDataValueMedicalInvestigationList>> inputExpectedValuePairList();
 
-    protected abstract List<InputExpectedValuePair<T, S>> inputExpectedValuePairList();
-
-    protected Stream<InputExpectedValuePair<T, S>> inputExpectedValuePairStream() {
+    protected Stream<InputExpectedValuePair<T, CertificateDataValueMedicalInvestigationList>> inputExpectedValuePairStream() {
         return inputExpectedValuePairList().stream();
+    }
+
+    @Override
+    protected CertificateDataValueType getType() {
+        return CertificateDataValueType.MEDICAL_INVESTIGATION_LIST;
     }
 
     @ParameterizedTest
     @MethodSource("inputExpectedValuePairStream")
-    void shouldIncludeValue(InputExpectedValuePair<T, S> inputExpectedValuePair) {
-        final var certificate = CertificateBuilder.create()
-            .addElement(getElement(inputExpectedValuePair.getInput()))
-            .build();
+    void shouldIncludeMedicalInvestigationList(
+        InputExpectedValuePair<T, CertificateDataValueMedicalInvestigationList> inputExpectedValuePair) {
 
-        final var actualValue = toInternalValue(certificate);
-
-        assertEquals(inputExpectedValuePair.getExpectedValue(), actualValue);
+        final var question = getElement(inputExpectedValuePair.getInput());
+        final var value = (CertificateDataValueMedicalInvestigationList) question.getValue();
+        assertEquals(inputExpectedValuePair.getExpectedValue(), value);
     }
 }

@@ -21,7 +21,7 @@ package se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT_ID;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -84,7 +84,7 @@ class CategoryGrundForMUTest {
 
         @Override
         protected String getTextId() {
-            return GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT;
+            return GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT_ID;
         }
 
         @Override

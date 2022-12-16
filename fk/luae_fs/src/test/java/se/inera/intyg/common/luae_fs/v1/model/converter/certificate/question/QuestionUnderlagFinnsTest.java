@@ -17,17 +17,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
+package se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANSWER_NOT_SELECTED;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANSWER_YES;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_TEXT_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_DESCRIPTION_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAGFINNS_SELECTED_TEXT;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_TEXT_ID;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAGFINNS_UNSELECTED_TEXT;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -40,12 +39,13 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
-import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCheckboxBooleanTest;
+import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigRadioBooleanTest;
+import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalBooleanValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueBooleanTest;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionKontaktOnskasTest {
+class QuestionUnderlagFinnsTest {
 
     @Mock
     private CertificateTextProvider textProvider;
@@ -60,17 +60,17 @@ class QuestionKontaktOnskasTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionKontaktOnskas.toCertificate(null, getIndex(), textProvider);
+            return QuestionUnderlagFinns.toCertificate(null, getIndex(), textProvider);
         }
 
         @Override
         protected String getId() {
-            return KONTAKT_ONSKAS_SVAR_ID_26;
+            return UNDERLAGFINNS_SVAR_ID_3;
         }
 
         @Override
         protected String getParent() {
-            return KONTAKT_CATEGORY_ID;
+            return GRUNDFORMU_CATEGORY_ID;
         }
 
         @Override
@@ -80,7 +80,7 @@ class QuestionKontaktOnskasTest {
     }
 
     @Nested
-    class IncludeConfigCheckboxBooleanTest extends ConfigCheckboxBooleanTest {
+    class IncludeConfigRadioBooleanTest extends ConfigRadioBooleanTest {
 
         @Override
         protected CertificateTextProvider getTextProviderMock() {
@@ -89,37 +89,32 @@ class QuestionKontaktOnskasTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionKontaktOnskas.toCertificate(null, 0, textProvider);
+            return QuestionUnderlagFinns.toCertificate(null, 0, textProvider);
+        }
+
+        @Override
+        protected String getId() {
+            return UNDERLAGFINNS_SVAR_JSON_ID_3;
         }
 
         @Override
         protected String getTextId() {
-            return KONTAKT_ONSKAS_DELSVAR_TEXT_ID;
+            return UNDERLAGFINNS_SVAR_TEXT_ID;
         }
 
         @Override
         protected String getDescriptionId() {
-            return KONTAKT_ONSKAS_SVAR_DESCRIPTION_ID;
+            return null;
         }
 
         @Override
-        protected String getJsonId() {
-            return KONTAKT_ONSKAS_SVAR_JSON_ID_26;
+        protected String getSelectedText() {
+            return UNDERLAGFINNS_SELECTED_TEXT;
         }
 
         @Override
-        protected String getLabelId() {
-            return KONTAKT_ONSKAS_DELSVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getSelectedTextId() {
-            return ANSWER_YES;
-        }
-
-        @Override
-        protected String getUnselectedTextId() {
-            return ANSWER_NOT_SELECTED;
+        protected String getUnselectedText() {
+            return UNDERLAGFINNS_UNSELECTED_TEXT;
         }
     }
 
@@ -128,12 +123,12 @@ class QuestionKontaktOnskasTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionKontaktOnskas.toCertificate(true, 0, textProvider);
+            return QuestionUnderlagFinns.toCertificate(true, 0, textProvider);
         }
 
         @Override
         protected String getJsonId() {
-            return KONTAKT_ONSKAS_SVAR_JSON_ID_26;
+            return UNDERLAGFINNS_SVAR_JSON_ID_3;
         }
 
         @Override
@@ -143,17 +138,42 @@ class QuestionKontaktOnskasTest {
     }
 
     @Nested
+    class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
+
+        @Override
+        protected CertificateDataElement getElement() {
+            return QuestionUnderlagFinns.toCertificate(null, 0, textProvider);
+        }
+
+        @Override
+        protected int getValidationIndex() {
+            return 0;
+        }
+
+        @Override
+        protected String getQuestionId() {
+            return UNDERLAGFINNS_SVAR_ID_3;
+        }
+
+        @Override
+        protected String getExpression() {
+            return "$" + UNDERLAGFINNS_SVAR_JSON_ID_3;
+        }
+    }
+
+    @Nested
     @TestInstance(Lifecycle.PER_CLASS)
     class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
 
         @Override
         protected CertificateDataElement getElement(Boolean expectedValue) {
-            return QuestionKontaktOnskas.toCertificate(expectedValue, 0, textProvider);
+            return QuestionUnderlagFinns.toCertificate(expectedValue, 0, textProvider);
         }
 
         @Override
         protected Boolean toInternalBooleanValue(Certificate certificate) {
-            return QuestionKontaktOnskas.toInternal(certificate);
+            return QuestionUnderlagFinns.toInternal(certificate);
         }
     }
+
 }

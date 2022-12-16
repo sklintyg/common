@@ -25,11 +25,11 @@ import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRU
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT_ID;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMU_ANHORIG_BESKRIVNING_LABEL;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMU_ANNAT_LABEL;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMU_ANHORIG_BESKRIVNING_LABEL_ID;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMU_ANNAT_LABEL_ID;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMU_JOURNALUPPGIFTER_LABEL;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMU_UNDERSOKNING_LABEL;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMU_JOURNALUPPGIFTER_LABEL_ID;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMU_UNDERSOKNING_LABEL_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateListValue;
 
@@ -63,19 +63,19 @@ public class QuestionUtlatandeBaseratPa {
                     List.of(
                         CheckboxMultipleDate.builder()
                             .id(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1)
-                            .label(textProvider.get(GRUNDFORMU_UNDERSOKNING_LABEL))
+                            .label(textProvider.get(GRUNDFORMU_UNDERSOKNING_LABEL_ID))
                             .build(),
                         CheckboxMultipleDate.builder()
                             .id(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1)
-                            .label(textProvider.get(GRUNDFORMU_JOURNALUPPGIFTER_LABEL))
+                            .label(textProvider.get(GRUNDFORMU_JOURNALUPPGIFTER_LABEL_ID))
                             .build(),
                         CheckboxMultipleDate.builder()
                             .id(GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1)
-                            .label(textProvider.get(GRUNDFORMU_ANHORIG_BESKRIVNING_LABEL))
+                            .label(textProvider.get(GRUNDFORMU_ANHORIG_BESKRIVNING_LABEL_ID))
                             .build(),
                         CheckboxMultipleDate.builder()
                             .id(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
-                            .label(textProvider.get(GRUNDFORMU_ANNAT_LABEL))
+                            .label(textProvider.get(GRUNDFORMU_ANNAT_LABEL_ID))
                             .build()
                     )
                 )
