@@ -30,7 +30,7 @@ public class CertificateToInternal {
 
     private final WebcertModuleService webcertModuleService;
 
-    public CertificateToInternal(WebcertModuleService webcertModuleService) {
+    public CertificateToInternal(@Autowired(required = false) WebcertModuleService webcertModuleService) {
         this.webcertModuleService = webcertModuleService;
     }
 
