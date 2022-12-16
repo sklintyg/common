@@ -40,6 +40,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattningBeskrivning;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionHjarnskadaEfterTrauma;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionHjartOchKarlsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
@@ -95,6 +96,7 @@ class CertificateToInternalTest {
 
         final var hjartKarl = HjartKarl.builder()
             .setHjartKarlSjukdom(true)
+            .setHjarnskadaEfterTrauma(true)
             .build();
 
         expectedInternalCertificate = TsBasUtlatandeV7.builder()
@@ -126,6 +128,7 @@ class CertificateToInternalTest {
             .addElement(QuestionFunktionsnedsattningBeskrivning.toCertificate(funktionsnedsattning, 0, textProvider))
             .addElement(QuestionOtillrackligRorelseFormoga.toCertificate(funktionsnedsattning, 0, textProvider))
             .addElement(QuestionHjartOchKarlsjukdom.toCertificate(hjartKarl, 0, textProvider))
+            .addElement(QuestionHjarnskadaEfterTrauma.toCertificate(hjartKarl, 0, textProvider))
             .build();
     }
 
@@ -252,5 +255,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getHjartKarl().getHjartKarlSjukdom(),
             actualInternalCertificate.getHjartKarl().getHjartKarlSjukdom());
+    }
+
+    @Test
+    void shallIncludeHjarnskadaEfterTrauma() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getHjartKarl().getHjarnskadaEfterTrauma(),
+            actualInternalCertificate.getHjartKarl().getHjarnskadaEfterTrauma());
     }
 }
