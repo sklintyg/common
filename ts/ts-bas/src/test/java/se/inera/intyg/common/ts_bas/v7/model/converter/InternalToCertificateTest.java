@@ -19,7 +19,10 @@
 
 package se.inera.intyg.common.ts_bas.v7.model.converter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_SVAR_ID_2;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -70,5 +73,17 @@ class InternalToCertificateTest {
     void shallIncludeMetadata() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertNotNull(actualCertificate.getMetadata(), "Shall contain metadata");
+    }
+
+    @Test
+    void shallIncludeCategoryGrundForMU() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(0, actualCertificate.getData().get(IDENTITET_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionBaseratPa() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(1, actualCertificate.getData().get(IDENTITET_STYRKT_GENOM_SVAR_ID_2).getIndex());
     }
 }

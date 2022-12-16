@@ -35,7 +35,10 @@ import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIdentitetStyrktGenom;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Vardkontakt;
+import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 @ExtendWith(MockitoExtension.class)
@@ -55,10 +58,13 @@ class CertificateToInternalTest {
             .setId("id")
             .setTextVersion("textVersion")
             .setGrundData(getGrundData())
+            .setVardkontakt(Vardkontakt.create(null, IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode()))
             .build();
 
         certificate = CertificateBuilder.create()
             .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, textProvider))
+            .addElement(QuestionIdentitetStyrktGenom.toCertificate(
+                expectedInternalCertificate.getVardkontakt(), 0, textProvider))
             .build();
     }
 
@@ -90,5 +96,11 @@ class CertificateToInternalTest {
     void shallIncludeGrundData() {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertNotNull(actualInternalCertificate.getGrundData(), "GrundData is missing!");
+    }
+
+    @Test
+    void shallIncludeIdentitetStyrktGenom() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getVardkontakt(), expectedInternalCertificate.getVardkontakt(), "Vardkontakt is missing!");
     }
 }

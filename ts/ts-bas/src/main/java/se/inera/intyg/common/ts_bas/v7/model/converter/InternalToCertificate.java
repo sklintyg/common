@@ -24,14 +24,23 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryIdentitet;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIdentitetStyrktGenom;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 
 @Component(value = "internalToCertificateTsBas")
 public class InternalToCertificate {
 
     public Certificate convert(TsBasUtlatandeV7 internalCertificate, CertificateTextProvider texts) {
+        int index = 0;
         return CertificateBuilder.create()
             .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
+            .addElement(
+                CategoryIdentitet.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionIdentitetStyrktGenom.toCertificate(internalCertificate.getVardkontakt(), index++, texts)
+            )
             .build();
     }
 }
