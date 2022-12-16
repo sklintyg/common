@@ -115,4 +115,19 @@ public final class RespConstantsV7 {
     public static final String OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID = "13";
     public static final String OTILLRACKLIG_RORELSEFORMAGA_SVAR_TEXT_ID = "FRG_13.RBK";
     public static final String OTILLRACKLIG_RORELSEFORMAGA_JSON_ID = "otillrackligRorelseformoga";
+
+    public static final String HJART_ELLER_KARLSJUKDOM_CATEGORY_ID = "hjartEllerKarlsjukdom";
+    public static final String HJART_ELLER_KARLSJUKDOM_CATEGORY_TEXT_ID = "KAT_4.RBK";
+    public static final String HJART_ELLER_KARLSJUKDOM_SVAR_ID = "14";
+    public static final String HJART_ELLER_KARLSJUKDOM_SVAR_TEXT_ID = "FRG_14.RBK";
+
+    public static final String TECKEN_PA_HJARNSKADA_SVAR_ID = "15";
+    public static final String TECKEN_PA_HJARNSKADA_SVAR_TEXT_ID = "FRG_15.RBK";
+
+    public static final String RISKFAKTORER_STROKE_SVAR_ID = "16";
+    public static final String RISKFAKTORER_STROKE_SVAR_TEXT_ID = "FRG_16.RBK";
+
+    public static final String TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID = "16.1";
+    public static final String TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_TEXT_ID = "DFR_16.2.RBK";
+
 }

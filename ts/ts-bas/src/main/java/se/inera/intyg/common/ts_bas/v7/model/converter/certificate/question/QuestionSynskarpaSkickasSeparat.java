@@ -20,6 +20,8 @@
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DELSVAR_TEXT_ID;
@@ -48,6 +50,8 @@ public class QuestionSynskarpaSkickasSeparat {
                     .text(textProvider.get(SYNKARPA_SKICKAS_SEPARAT_DELSVAR_TEXT_ID))
                     .description(textProvider.get(SYNKARPA_SKICKAS_SEPARAT_DESCRIPTION_ID))
                     .label(textProvider.get(SYNKARPA_SKICKAS_SEPARAT_SVAR_TEXT_ID))
+                    .selectedText(SVAR_JA_TEXT)
+                    .unselectedText(SVAR_NEJ_TEXT)
                     .build()
             )
             .value(
