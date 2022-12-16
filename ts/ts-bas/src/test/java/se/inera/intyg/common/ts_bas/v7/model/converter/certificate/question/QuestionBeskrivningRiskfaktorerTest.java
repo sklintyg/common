@@ -42,6 +42,7 @@ import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigTextAreaTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
+import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationTextTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalTextValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
 import se.inera.intyg.common.ts_bas.v7.model.internal.HjartKarl;
@@ -181,6 +182,25 @@ class QuestionBeskrivningRiskfaktorerTest {
             @Override
             protected int getValidationIndex() {
                 return 1;
+            }
+        }
+
+        @Nested
+        class IncludeValidationTextTest extends ValidationTextTest {
+
+            @Override
+            protected CertificateDataElement getElement() {
+                return QuestionBeskrivningRiskfaktorer.toCertificate(null, 0, textProvider);
+            }
+
+            @Override
+            protected int getValidationIndex() {
+                return 2;
+            }
+
+            @Override
+            protected short getLimit() {
+                return 180;
             }
         }
     }

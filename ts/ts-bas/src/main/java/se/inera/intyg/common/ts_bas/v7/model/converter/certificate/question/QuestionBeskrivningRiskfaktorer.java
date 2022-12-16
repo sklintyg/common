@@ -35,10 +35,13 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTe
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.ts_bas.v7.model.internal.HjartKarl;
 
 public class QuestionBeskrivningRiskfaktorer {
+
+    private static final short TEXT_LIMIT = 180;
 
     public static CertificateDataElement toCertificate(HjartKarl hjartKarl, int index, CertificateTextProvider textProvider) {
         final var hjartKarlBeskrivningRiskfaktorer =
@@ -68,6 +71,10 @@ public class QuestionBeskrivningRiskfaktorer {
                     CertificateDataValidationShow.builder()
                         .questionId(RISKFAKTORER_STROKE_SVAR_ID)
                         .expression(singleExpression(RISKFAKTORER_STROKE_JSON_ID))
+                        .build(),
+                    CertificateDataValidationText.builder()
+                        .id(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_JSON_ID)
+                        .limit(TEXT_LIMIT)
                         .build()
                 }
             )
