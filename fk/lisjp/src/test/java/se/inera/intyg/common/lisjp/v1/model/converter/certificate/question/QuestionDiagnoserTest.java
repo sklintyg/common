@@ -150,7 +150,7 @@ class QuestionDiagnoserTest {
                 inputWhenDiagnoserIsEmpty(),
                 inputWhenDiagnoserIncludesOne(),
                 inputWhenDiagnoserIncludesThree(),
-                inputWhenDiagnoserIncludesThreeButTheFirstIsNull()
+                inputWhenDiagnoserIncludes3ButThe1stIsNull()
             );
         }
 
@@ -215,7 +215,7 @@ class QuestionDiagnoserTest {
             );
         }
 
-        private InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList> inputWhenDiagnoserIncludesThreeButTheFirstIsNull() {
+        private InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList> inputWhenDiagnoserIncludes3ButThe1stIsNull() {
             return new InputExpectedValuePair<>(
                 List.of(
                     Diagnos.create(null, DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
