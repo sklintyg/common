@@ -32,7 +32,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedi
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 
 @TestInstance(Lifecycle.PER_CLASS)
-public abstract class ValueMedicalInvestgationTest<T> extends ValueTest {
+public abstract class ValueMedicalInvestigationTest<T> extends ValueTest {
 
     protected abstract CertificateDataElement getElement(T input);
 

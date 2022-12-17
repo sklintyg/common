@@ -71,7 +71,7 @@ import se.inera.intyg.common.support.facade.testsetup.model.validation.Validatio
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalValueTest;
-import se.inera.intyg.common.support.facade.testsetup.model.value.ValueMedicalInvestgationTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.ValueMedicalInvestigationTest;
 import se.inera.intyg.common.support.model.InternalDate;
 
 @ExtendWith(MockitoExtension.class)
@@ -201,7 +201,7 @@ class QuestionUnderlagTest {
     }
 
     @Nested
-    class IncludeValueMedicalInvestgationTest extends ValueMedicalInvestgationTest<List<Underlag>> {
+    class IncludeValueMedicalInvestigationTest extends ValueMedicalInvestigationTest<List<Underlag>> {
 
         @Override
         protected CertificateDataElement getElement(List<Underlag> input) {
