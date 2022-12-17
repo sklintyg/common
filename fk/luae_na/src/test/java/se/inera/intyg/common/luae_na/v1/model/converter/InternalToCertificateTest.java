@@ -156,44 +156,45 @@ class InternalToCertificateTest {
     }
 
     @Test
-    void shallIncludeCategorBakgrund() {
-        final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(7, actualCertificate.getData().get(BAKGRUND_CATEGORY_ID).getIndex());
-    }
-
-    @Test
-    void shallIncludeQuestionSjukdomforlopp() {
-        final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(8, actualCertificate.getData().get(SJUKDOMSFORLOPP_SVAR_ID_5).getIndex());
-    }
-
-    @Test
     void shallIncludeCategoryDiagnos() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(9, actualCertificate.getData().get(DIAGNOS_CATEGORY_ID).getIndex());
+        assertEquals(7, actualCertificate.getData().get(DIAGNOS_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionDiagnoser() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(10, actualCertificate.getData().get(DIAGNOS_SVAR_ID_6).getIndex());
+        assertEquals(8, actualCertificate.getData().get(DIAGNOS_SVAR_ID_6).getIndex());
     }
+
     @Test
     void shallIncludeQuestionDiagnosgrund() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(11, actualCertificate.getData().get(DIAGNOSGRUND_SVAR_ID_7).getIndex());
+        assertEquals(9, actualCertificate.getData().get(DIAGNOSGRUND_SVAR_ID_7).getIndex());
     }
 
     @Test
     void shallIncludeQuestionNyBedomningDiagnosgrund() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(12, actualCertificate.getData().get(NYDIAGNOS_SVAR_ID_45).getIndex());
+        assertEquals(10, actualCertificate.getData().get(NYDIAGNOS_SVAR_ID_45).getIndex());
     }
 
     @Test
     void shallIncludeQuestionDiagnosForNyBedomning() {
         final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
-        assertEquals(13, actualCertificate.getData().get(DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45).getIndex());
+        assertEquals(11, actualCertificate.getData().get(DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryBakgrund() {
+        final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
+        assertEquals(12, actualCertificate.getData().get(BAKGRUND_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionSjukdomforlopp() {
+        final var actualCertificate = InternalToCertificate.toCertificate(internalCertificate, textProvider);
+        assertEquals(13, actualCertificate.getData().get(SJUKDOMSFORLOPP_SVAR_ID_5).getIndex());
     }
 
     @Test
