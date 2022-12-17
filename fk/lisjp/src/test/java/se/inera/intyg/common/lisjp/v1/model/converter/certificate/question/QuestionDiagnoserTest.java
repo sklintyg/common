@@ -17,22 +17,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question;
+package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.DIAGNOS_ICD_10_ID;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.DIAGNOS_ICD_10_LABEL;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.DIAGNOS_KSH_97_ID;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.DIAGNOS_KSH_97_LABEL;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.DIAGNOS_SVAR_ID_6;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.DIAGNOS_SVAR_TEXT_ID;
+import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_ICD_10_ID;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_ICD_10_LABEL;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_KSH_97_ID;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_KSH_97_LABEL;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_SVAR_DESCRIPTION_ID;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_SVAR_ID_6;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_SVAR_TEXT_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.TestInstance;
@@ -57,26 +60,25 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 @ExtendWith(MockitoExtension.class)
 class QuestionDiagnoserTest {
 
-    protected static final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
-    protected static final String DIAGNOSIS_DISPLAYNAME = "Namn att visa upp";
-
+    private static final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
+    private static final String DIAGNOSIS_DISPLAYNAME = "Namn att visa upp";
     @Mock
     private CertificateTextProvider textProvider;
-
     @Mock
     private WebcertModuleService webcertModuleService;
 
     @BeforeEach
-    void setUp() {
-        doReturn("Text!").when(textProvider).get(anyString());
+    void setup() {
+        when(textProvider.get(any(String.class))).thenReturn("Test string");
     }
+
 
     @Nested
     class IncludeCommonElementTest extends CommonElementTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionDiagnoser.toCertificate(null, getIndex(), textProvider);
+            return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
         }
 
         @Override
@@ -91,7 +93,7 @@ class QuestionDiagnoserTest {
 
         @Override
         protected int getIndex() {
-            return 3;
+            return 0;
         }
     }
 
@@ -105,7 +107,7 @@ class QuestionDiagnoserTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionDiagnoser.toCertificate(null, 0, textProvider);
+            return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
         }
 
         @Override
@@ -115,15 +117,15 @@ class QuestionDiagnoserTest {
 
         @Override
         protected String getDescriptionId() {
-            return null;
+            return DIAGNOS_SVAR_DESCRIPTION_ID;
         }
 
         @Override
-        protected Map<String, String> getTerminologies() {
-            return Map.of(
-                DIAGNOS_ICD_10_ID, DIAGNOS_ICD_10_LABEL,
-                DIAGNOS_KSH_97_ID, DIAGNOS_KSH_97_LABEL
-            );
+        protected HashMap<String, String> getTerminologies() {
+            HashMap<String, String> idAndLabel = new HashMap<>();
+            idAndLabel.put(DIAGNOS_ICD_10_ID, DIAGNOS_ICD_10_LABEL);
+            idAndLabel.put(DIAGNOS_KSH_97_ID, DIAGNOS_KSH_97_LABEL);
+            return idAndLabel;
         }
 
         @Override
@@ -257,7 +259,7 @@ class QuestionDiagnoserTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionDiagnoser.toCertificate(null, 0, textProvider);
+            return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
         }
 
         @Override
@@ -271,7 +273,7 @@ class QuestionDiagnoserTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionDiagnoser.toCertificate(null, 0, textProvider);
+            return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
         }
 
         @Override
@@ -281,7 +283,7 @@ class QuestionDiagnoserTest {
 
         @Override
         protected short getLimit() {
-            return (short) 81;
+            return 81;
         }
     }
 
