@@ -9,5 +9,7 @@ dependencies {
     testCompile "org.assertj:assertj-core"
     testCompile "org.apache.commons:commons-lang3"
 
+    testImplementation testFixtures(project(":common-support"))
+
     annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
 }
