@@ -104,7 +104,8 @@ class CertificateToInternalTest {
             .addElement(QuestionUtlatandeBaseratPa.toCertificate(expectedInternalCertificate.getUndersokningAvPatienten(),
                 expectedInternalCertificate.getJournaluppgifter(), expectedInternalCertificate.getAnhorigsBeskrivningAvPatienten(),
                 expectedInternalCertificate.getAnnatGrundForMU(), 0, textProvider))
-            .addElement(QuestionAnnatBeskrivning.toCertificate(expectedInternalCertificate.getAnnatGrundForMUBeskrivning(), 0, textProvider))
+            .addElement(QuestionAnnatBeskrivning
+                .toCertificate(expectedInternalCertificate.getAnnatGrundForMUBeskrivning(), 0,textProvider))
             .addElement(QuestionMotiveringTillInteBaseratPaUndersokning
                 .toCertificate(expectedInternalCertificate.getMotiveringTillInteBaseratPaUndersokning(), 0, textProvider))
             .addElement(QuestionKannedomOmPatient.toCertificate(expectedInternalCertificate.getKannedomOmPatient(), 0, textProvider))
@@ -172,7 +173,8 @@ class CertificateToInternalTest {
     @Test
     void shallIncludeAnnatGrundForMUBeskrivning() {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getAnnatGrundForMUBeskrivning(), actualInternalCertificate.getAnnatGrundForMUBeskrivning());
+        assertEquals(expectedInternalCertificate.getAnnatGrundForMUBeskrivning(),
+            actualInternalCertificate.getAnnatGrundForMUBeskrivning());
     }
 
     @Test

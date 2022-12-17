@@ -183,7 +183,8 @@ class QuestionUtlatandeBaseratPaTest {
                 ),
                 new InputExpectedValuePair<>(Arrays.asList(null, new InternalDate(""), new InternalDate("2022-12-146"),
                     new InternalDate("20223-12-14")), CertificateDataValueDateList.builder().list(Collections.emptyList()).build()),
-                new InputExpectedValuePair<>(Arrays.asList(null, null, null, null), CertificateDataValueDateList.builder().list(Collections.emptyList()).build())
+                new InputExpectedValuePair<>(Arrays.asList(null, null, null, null), CertificateDataValueDateList.builder()
+                    .list(Collections.emptyList()).build())
             );
         }
     }
@@ -318,7 +319,7 @@ class QuestionUtlatandeBaseratPaTest {
 
         @Override
         protected CertificateDataElement getElement(List<InternalDate> input) {
-            return QuestionUtlatandeBaseratPa.toCertificate(input.get(0), input.get(1), input.get(2), input.get(3), 0 ,textProvider);
+            return QuestionUtlatandeBaseratPa.toCertificate(input.get(0), input.get(1), input.get(2), input.get(3), 0, textProvider);
         }
 
         @Override

@@ -149,7 +149,7 @@ class QuestionUnderlagTest {
                     .investigationTypeId(UNDERLAG_SVAR_JSON_ID_4 + "[0].typ")
                     .dateId(UNDERLAG_SVAR_JSON_ID_4 + "[0].datum")
                     .informationSourceId(UNDERLAG_SVAR_JSON_ID_4 + "[0].hamtasFran")
-                    .typeOptions(getTypeOptions()                    )
+                    .typeOptions(getTypeOptions())
                     .build(),
                 MedicalInvestigation.builder()
                     .investigationTypeId(UNDERLAG_SVAR_JSON_ID_4 + "[1].typ")
@@ -318,7 +318,7 @@ class QuestionUnderlagTest {
 
         @Override
         protected String getExpression() {
-            return "'underlag[0].typ' && 'underlag[0].datum' && 'underlag[0].hamtasFran'" ;
+            return "'underlag[0].typ' && 'underlag[0].datum' && 'underlag[0].hamtasFran'";
         }
     }
 
