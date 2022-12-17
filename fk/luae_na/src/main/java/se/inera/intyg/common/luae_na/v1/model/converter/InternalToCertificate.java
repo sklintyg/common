@@ -70,7 +70,6 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 
 public class InternalToCertificate {
 
-
     public static Certificate toCertificate(LuaenaUtlatandeV1 internalCertificate, CertificateTextProvider textProvider) {
         int index = 0;
         return CertificateBuilder.create()
@@ -214,7 +213,7 @@ public class InternalToCertificate {
                 QuestionKontaktOnskas.toCertificate(internalCertificate.getKontaktMedFk(), index++, textProvider)
             )
             .addElement(
-                QuestionKontaktAnledning.toCertificate(internalCertificate.getAnledningTillKontakt(), index++, textProvider)
+                QuestionKontaktAnledning.toCertificate(internalCertificate.getAnledningTillKontakt(), index, textProvider)
             )
             .build();
     }
