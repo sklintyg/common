@@ -32,7 +32,7 @@ import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 
 public abstract class ConfigMessageTest extends ConfigTest {
 
-    protected abstract String getTextId();
+    protected abstract String getMessageId();
 
     protected abstract MessageLevel getMessageLevel();
 
@@ -46,7 +46,7 @@ public abstract class ConfigMessageTest extends ConfigTest {
         final var certificateDataElement = getElement();
         final var certificateDataElementConfig = (CertificateDataConfigMessage) certificateDataElement.getConfig();
         assertTrue(certificateDataElementConfig.getMessage().trim().length() > 0, "Missing message");
-        verify(getTextProviderMock(), atLeastOnce()).get(getTextId());
+        verify(getTextProviderMock(), atLeastOnce()).get(getMessageId());
     }
 
     @Test

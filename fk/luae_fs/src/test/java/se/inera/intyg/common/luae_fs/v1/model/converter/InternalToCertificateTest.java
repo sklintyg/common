@@ -21,8 +21,17 @@ package se.inera.intyg.common.luae_fs.v1.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.DIAGNOS_SVAR_ID_6;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KANNEDOM_SVAR_ID_2;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,6 +58,8 @@ class InternalToCertificateTest {
 
     @BeforeEach
     void setUp() {
+        when(textProvider.get(anyString())).thenReturn("Test string");
+
         internalToCertificate = new InternalToCertificate();
         internalCertificate = LuaefsUtlatandeV1.builder()
             .setId("certificateId")
@@ -62,7 +73,7 @@ class InternalToCertificateTest {
         final var skapadAv = new HoSPersonal();
         final var patient = new Patient();
         final var grundData = new GrundData();
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
         skapadAv.setVardenhet(unit);
         grundData.setSkapadAv(skapadAv);
         grundData.setPatient(patient);
@@ -76,14 +87,56 @@ class InternalToCertificateTest {
     }
 
     @Test
+    void shallIncludeCategoryGrundForMU() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(0, actualCertificate.getData().get(GRUNDFORMU_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionUtlatandeBaseratPa() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(1, actualCertificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionAnnatBeskrivning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(2, actualCertificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionMotiveringTillInteBaseratPaUndersokning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(3, actualCertificate.getData().get(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionKannedomOmPatient() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(4, actualCertificate.getData().get(KANNEDOM_SVAR_ID_2).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionUnderlagFinns() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(5, actualCertificate.getData().get(UNDERLAGFINNS_SVAR_ID_3).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionUnderlag() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(6, actualCertificate.getData().get(UNDERLAG_SVAR_ID_4).getIndex());
+    }
+
+    @Test
     void shallIncludeCategoryDiagnos() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(0, actualCertificate.getData().get(DIAGNOS_CATEGORY_ID).getIndex());
+        assertEquals(7, actualCertificate.getData().get(DIAGNOS_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionDiagnoser() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(1, actualCertificate.getData().get(DIAGNOS_SVAR_ID_6).getIndex());
+        assertEquals(8, actualCertificate.getData().get(DIAGNOS_SVAR_ID_6).getIndex());
     }
 }

@@ -1,6 +1,6 @@
 <templateSet group="intyg-common">
   <template name="commonelement" value="@org.junit.jupiter.api.Nested&#10;class IncludeCommonElementTest extends se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest {&#10;&#10;    @java.lang.Override&#10;    protected se.inera.intyg.common.support.facade.model.CertificateDataElement getElement() {&#10;        return $elementImpl$.toCertificate(null, getIndex(), textProvider);&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getId() {&#10;        return $id$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getParent() {&#10;        return $parentId$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected int getIndex() {&#10;        return 3;&#10;    }&#10;}" description="create test-block common elements" toReformat="true" toShortenFQNames="true">
-    <variable name="elementImpl" expression="className()" defaultValue="" alwaysStopAt="true" />
+    <variable name="elementImpl" expression="substringBefore(className(), &quot;Test&quot;)" defaultValue="" alwaysStopAt="true" />
     <variable name="id" expression="" defaultValue="" alwaysStopAt="true" />
     <variable name="parentId" expression="" defaultValue="" alwaysStopAt="true" />
     <context>
@@ -14,7 +14,7 @@
   </template>
 
   <template name="configcategory" value="@org.junit.jupiter.api.Nested&#10;class IncludeConfigCategoryTest extends se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategoryTest {&#10;&#10;    @java.lang.Override&#10;    protected se.inera.intyg.common.services.texts.CertificateTextProvider getTextProviderMock() {&#10;        return textProvider;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected se.inera.intyg.common.support.facade.model.CertificateDataElement getElement() {&#10;        return $elementImpl$.toCertificate(0, textProvider);&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getTextId() {&#10;        return $textId$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getDescriptionId() {&#10;        return $descriptionId$;&#10;    }&#10;}" description="create test-block category config" toReformat="true" toShortenFQNames="true">
-    <variable name="elementImpl" expression="className()" defaultValue="" alwaysStopAt="true" />
+    <variable name="elementImpl" expression="substringBefore(className(), &quot;Test&quot;)" defaultValue="" alwaysStopAt="true" />
     <variable name="textId" expression="" defaultValue="" alwaysStopAt="true" />
     <variable name="descriptionId" expression="" defaultValue="null" alwaysStopAt="true" />
     <context>
@@ -22,7 +22,7 @@
     </context>
   </template>
   <template name="configtextarea" value="@org.junit.jupiter.api.Nested&#10;class IncludeConfigTextAreaTest extends se.inera.intyg.common.support.facade.testsetup.model.config.ConfigTextAreaTest {&#10;&#10;    @java.lang.Override&#10;    protected se.inera.intyg.common.services.texts.CertificateTextProvider getTextProviderMock() {&#10;        return textProvider;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected se.inera.intyg.common.support.facade.model.CertificateDataElement getElement() {&#10;        return $elementImpl$.toCertificate(null, 0, textProvider);&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getTextId() {&#10;        return $textId$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getDescriptionId() {&#10;        return $descriptionId$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getJsonId() {&#10;        return $jsonId$;&#10;    }&#10;}" description="create test-block textarea config" toReformat="true" toShortenFQNames="true">
-    <variable name="elementImpl" expression="className()" defaultValue="" alwaysStopAt="true" />
+    <variable name="elementImpl" expression="substringBefore(className(), &quot;Test&quot;)" defaultValue="" alwaysStopAt="true" />
     <variable name="textId" expression="" defaultValue="" alwaysStopAt="true" />
     <variable name="descriptionId" expression="" defaultValue="" alwaysStopAt="true" />
     <variable name="jsonId" expression="" defaultValue="" alwaysStopAt="true" />
@@ -42,10 +42,40 @@
       <option name="JAVA_DECLARATION" value="true" />
     </context>
   </template>
+  <template name="configdate" value="@org.junit.jupiter.api.Nested&#10;class IncludeConfigDateTest extends se.inera.intyg.common.support.facade.testsetup.model.config.ConfigDateTest {&#10;&#10;    @java.lang.Override&#10;    protected se.inera.intyg.common.services.texts.CertificateTextProvider getTextProviderMock() {&#10;        return textProvider;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected se.inera.intyg.common.support.facade.model.CertificateDataElement getElement() {&#10;        return $elementImpl$.toCertificate(null, 0, textProvider);&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getJsonId() {&#10;        return $jsonId$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getTextId() {&#10;        return $textId$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getDescriptionId() {&#10;        return $descriptionId$;&#10;    }&#10;}" description="create test-block checkboxboolean config" toReformat="true" toShortenFQNames="true">
+    <variable name="elementImpl" expression="substringBefore(className(), &quot;Test&quot;)" defaultValue="" alwaysStopAt="true" />
+    <variable name="jsonId" expression="" defaultValue="&quot;null&quot;" alwaysStopAt="true" />
+    <variable name="textId" expression="" defaultValue="&quot;null&quot;" alwaysStopAt="true" />
+    <variable name="descriptionId" expression="" defaultValue="&quot;null&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_DECLARATION" value="true" />
+    </context>
+  </template>
+  <template name="configmessage" value="@org.junit.jupiter.api.Nested&#10;class IncludeConfigMessageTest extends se.inera.intyg.common.support.facade.testsetup.model.config.ConfigMessageTest {&#10;&#10;    @java.lang.Override&#10;    protected se.inera.intyg.common.services.texts.CertificateTextProvider getTextProviderMock() {&#10;        return textProvider;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected se.inera.intyg.common.support.facade.model.CertificateDataElement getElement() {&#10;        return $elementImpl$.toCertificate(null, 0, textProvider);&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getTextId() {&#10;        return $textId$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getDescriptionId() {&#10;        return $descriptionId$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getMessageId() {&#10;        return $messageId$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getMessageLevel() {&#10;        return $messageLevel$;&#10;    }&#10;}" description="create test-block checkboxboolean config" toReformat="true" toShortenFQNames="true">
+    <variable name="elementImpl" expression="substringBefore(className(), &quot;Test&quot;)" defaultValue="" alwaysStopAt="true" />
+    <variable name="textId" expression="" defaultValue="&quot;null&quot;" alwaysStopAt="true" />
+    <variable name="descriptionId" expression="" defaultValue="&quot;null&quot;" alwaysStopAt="true" />
+    <variable name="messageId" expression="" defaultValue="&quot;null&quot;" alwaysStopAt="true" />
+    <variable name="messageLevel" expression="" defaultValue="&quot;null&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_DECLARATION" value="true" />
+    </context>
+  </template>
+  <template name="configradioboolean" value="@org.junit.jupiter.api.Nested&#10;class IncludeConfigRadioBooleanTest extends se.inera.intyg.common.support.facade.testsetup.model.config.ConfigRadioBooleanTest {&#10;&#10;    @java.lang.Override&#10;    protected se.inera.intyg.common.services.texts.CertificateTextProvider getTextProviderMock() {&#10;        return textProvider;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected se.inera.intyg.common.support.facade.model.CertificateDataElement getElement() {&#10;        return $elementImpl$.toCertificate(null, 0, textProvider);&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getId() {&#10;        return $id$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getTextId() {&#10;        return $textId$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getDescriptionId() {&#10;        return $descriptionId$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getSelectedText() {&#10;        return $selectedText$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getUnselectedText() {&#10;        return $unselectedText$;&#10;    }&#10;}" description="create test-block checkboxboolean config" toReformat="true" toShortenFQNames="true">
+    <variable name="elementImpl" expression="substringBefore(className(), &quot;Test&quot;)" defaultValue="" alwaysStopAt="true" />
+    <variable name="id" expression="" defaultValue="&quot;null&quot;" alwaysStopAt="true" />
+    <variable name="textId" expression="" defaultValue="&quot;null&quot;" alwaysStopAt="true" />
+    <variable name="descriptionId" expression="" defaultValue="&quot;null&quot;" alwaysStopAt="true" />
+    <variable name="selectedText" expression="" defaultValue="&quot;null&quot;" alwaysStopAt="true" />
+    <variable name="unselectedText" expression="" defaultValue="&quot;null&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_DECLARATION" value="true" />
+    </context>
+  </template>
 
 
   <template name="validationmandatory" value="@org.junit.jupiter.api.Nested&#10;class IncludeValidationMandatoryTest extends se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest {&#10;&#10;    @java.lang.Override&#10;    protected se.inera.intyg.common.support.facade.model.CertificateDataElement getElement() {&#10;        return $elementImpl$.toCertificate(null, 0, textProvider);&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected int getValidationIndex() {&#10;        return $validationIndex$;&#10;    }&#10;    &#10;    @java.lang.Override&#10;    protected java.lang.String getQuestionId() {&#10;        return $questionId$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getExpression() {&#10;        return &quot;$&quot; + $jsonId$;&#10;    }&#10;}" description="create text-block mandatory validation" toReformat="true" toShortenFQNames="true">
-    <variable name="elementImpl" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="elementImpl" expression="substringBefore(className(), &quot;Test&quot;)" defaultValue="" alwaysStopAt="true" />
     <variable name="validationIndex" expression="" defaultValue="" alwaysStopAt="true" />
     <variable name="questionId" expression="" defaultValue="" alwaysStopAt="true" />
     <variable name="jsonId" expression="" defaultValue="" alwaysStopAt="true" />
@@ -62,16 +92,34 @@
       <option name="JAVA_DECLARATION" value="true" />
     </context>
   </template>
+  <template name="validationmaxdate" value="@org.junit.jupiter.api.Nested&#10;class IncludeValidationMaxDateTest extends se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMaxDateTest {&#10;&#10;    @java.lang.Override&#10;    protected se.inera.intyg.common.support.facade.model.CertificateDataElement getElement() {&#10;        return $elementImpl$.toCertificate(null, 0, textProvider);&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected int getValidationIndex() {&#10;        return $validationIndex$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getId() {&#10;        return $id$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.short getDaysInFuture() {&#10;        return $daysInFuture$;&#10;    }&#10;}" description="create text-block mandatory validation" toReformat="true" toShortenFQNames="true">
+    <variable name="elementImpl" expression="substringBefore(className(), &quot;Test&quot;)" defaultValue="" alwaysStopAt="true" />
+    <variable name="validationIndex" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="id" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="daysInFuture" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_DECLARATION" value="true" />
+    </context>
+  </template>
+  <template name="validationtext" value="@org.junit.jupiter.api.Nested&#10;class IncludeValidationTextTest extends se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationTextTest {&#10;&#10;    @java.lang.Override&#10;    protected se.inera.intyg.common.support.facade.model.CertificateDataElement getElement() {&#10;        return $elementImpl$.toCertificate(null, 0, textProvider);&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected int getValidationIndex() {&#10;        return $validationIndex$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getLimit() {&#10;        return $limit$;&#10;    }&#10;}" description="create text-block mandatory validation" toReformat="true" toShortenFQNames="true">
+    <variable name="elementImpl" expression="substringBefore(className(), &quot;Test&quot;)" defaultValue="" alwaysStopAt="true" />
+    <variable name="validationIndex" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="id" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="daysInFuture" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_DECLARATION" value="true" />
+    </context>
+  </template>
 
 
   <template name="valuetext" value="@org.junit.jupiter.api.Nested&#10;class IncludeValueTextTest extends se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest {&#10;&#10;    @java.lang.Override&#10;    protected se.inera.intyg.common.support.facade.model.CertificateDataElement getElement() {&#10;        return $elementImpl$.toCertificate(getText(), 0, textProvider);&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getJsonId() {&#10;        return $jsonId$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getText() {&#10;        return &quot;Detta är ett text värde!&quot;;&#10;    }&#10;}" description="create test-block text value" toReformat="true" toShortenFQNames="true">
-    <variable name="elementImpl" expression="className()" defaultValue="" alwaysStopAt="true" />
+    <variable name="elementImpl" expression="substringBefore(className(), &quot;Test&quot;)" defaultValue="" alwaysStopAt="true" />
     <variable name="jsonId" expression="" defaultValue="" alwaysStopAt="true" />
     <context>
       <option name="JAVA_DECLARATION" value="true" />
     </context>
   </template>
-  <template name="valueboolean" value="@org.junit.jupiter.api.Nested&#10;class IncludeValueBooleanTest extends se.inera.intyg.common.support.facade.testsetup.model.value.ValueBooleanTest {&#10;&#10;    @java.lang.Override&#10;    protected se.inera.intyg.common.support.facade.model.CertificateDataElement getElement() {&#10;        return $elementImpl$.toCertificate(true, 0, textProvider);&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getJsonId() {&#10;        return $jsonId$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.Boolean getSelected() {&#10;        return true;&#10;    }&#10;}" description="create test-block boolean value" toReformat="true" toShortenFQNames="true">
+  <template name="valueboolean" value="@org.junit.jupiter.api.Nested&#10;class IncludeValueBooleanTest extends se.inera.intyg.common.support.facade.testsetup.model.value.ValueBooleanTest {&#10;&#10;    @java.lang.Override&#10;    protected se.inera.intyg.common.support.facade.model.CertificateDataElement getElement() {&#10;        return $elementImpl$.toCertificate(true, 0, textProvider);&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getJsonId() {&#10;        return $jsonId$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.Boolean getBoolean() {&#10;        return true;&#10;    }&#10;}" description="create test-block boolean value" toReformat="true" toShortenFQNames="true">
     <variable name="elementImpl" expression="substringBefore(className(), &quot;Test&quot;)" defaultValue="" alwaysStopAt="true" />
     <variable name="jsonId" expression="" defaultValue="&quot;null&quot;" alwaysStopAt="true" />
     <context>
@@ -81,7 +129,7 @@
 
 
   <template name="valuetexttointernal" value="@org.junit.jupiter.api.Nested&#10;@org.junit.jupiter.api.TestInstance(org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS)&#10;class IncludeInternalTextValueTest extends se.inera.intyg.common.support.facade.testsetup.model.value.InternalTextValueTest {&#10;&#10;    @java.lang.Override&#10;    protected se.inera.intyg.common.support.facade.model.CertificateDataElement getElement(java.lang.String expectedValue) {&#10;        return $elementImpl$.toCertificate(expectedValue, 0, textProvider);&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String toInternalTextValue(se.inera.intyg.common.support.facade.model.Certificate certificate) {&#10;        return $elementImpl$.toInternal(certificate);&#10;    }&#10;}" description="create test-block convert text value to internal" toReformat="true" toShortenFQNames="true">
-    <variable name="elementImpl" expression="className()" defaultValue="" alwaysStopAt="true" />
+    <variable name="elementImpl" expression="substringBefore(className(), &quot;Test&quot;)" defaultValue="" alwaysStopAt="true" />
     <context>
       <option name="JAVA_DECLARATION" value="true" />
     </context>

@@ -17,13 +17,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
+package se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_SVAR_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_TEXT_ID;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT_ID;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -32,47 +31,46 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
-import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigMessageTest;
+import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategoryTest;
 
-@ExtendWith(MockitoExtension.class)
-class QuestionTidigareUtfordUndersokningMessageTest {
+@ExtendWith({MockitoExtension.class})
+class CategoryGrundForMUTest {
 
     @Mock
-    CertificateTextProvider textProvider;
+    private CertificateTextProvider textProvider;
 
     @BeforeEach
     void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+        doReturn("Text!").when(textProvider).get(anyString());
     }
 
     @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
+    class IncludeCommonElementTest extends CommonElementTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionTidigareUtfordUndersokningMessage.toCertificate(0, textProvider);
+            return CategoryGrundForMU.toCertificate(getIndex(), textProvider);
         }
 
         @Override
         protected String getId() {
-            return TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_SVAR_ID;
+            return GRUNDFORMU_CATEGORY_ID;
         }
 
         @Override
         protected String getParent() {
-            return SYNFUNKTIONER_CATEGORY_ID;
+            return null;
         }
 
         @Override
         protected int getIndex() {
-            return 0;
+            return 3;
         }
     }
 
     @Nested
-    class IncludeConfigMessageTests extends ConfigMessageTest {
+    class IncludeConfigCategoryTest extends ConfigCategoryTest {
 
         @Override
         protected CertificateTextProvider getTextProviderMock() {
@@ -81,22 +79,12 @@ class QuestionTidigareUtfordUndersokningMessageTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionTidigareUtfordUndersokningMessage.toCertificate(0, textProvider);
+            return CategoryGrundForMU.toCertificate(0, textProvider);
         }
 
         @Override
         protected String getTextId() {
-            return null;
-        }
-
-        @Override
-        protected String getMessageId() {
-            return TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_TEXT_ID;
-        }
-
-        @Override
-        protected MessageLevel getMessageLevel() {
-            return MessageLevel.OBSERVE;
+            return GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT_ID;
         }
 
         @Override
@@ -104,4 +92,5 @@ class QuestionTidigareUtfordUndersokningMessageTest {
             return null;
         }
     }
+
 }
