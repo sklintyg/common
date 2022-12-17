@@ -40,7 +40,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionDiagnoser;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -153,17 +152,17 @@ class QuestionDiagnoserTest {
             );
         }
 
-        private InputExpectedValuePair inputWhenDiagnoserIsNull() {
-            return new InputExpectedValuePair(null, CertificateDataValueDiagnosisList.builder().list(Collections.emptyList()).build());
+        private InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList> inputWhenDiagnoserIsNull() {
+            return new InputExpectedValuePair<>(null, CertificateDataValueDiagnosisList.builder().list(Collections.emptyList()).build());
         }
 
-        private InputExpectedValuePair inputWhenDiagnoserIsEmpty() {
-            return new InputExpectedValuePair(Collections.emptyList(),
+        private InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList> inputWhenDiagnoserIsEmpty() {
+            return new InputExpectedValuePair<>(Collections.emptyList(),
                 CertificateDataValueDiagnosisList.builder().list(Collections.emptyList()).build());
         }
 
-        private InputExpectedValuePair inputWhenDiagnoserIncludesOne() {
-            return new InputExpectedValuePair(
+        private InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList> inputWhenDiagnoserIncludesOne() {
+            return new InputExpectedValuePair<>(
                 List.of(Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)),
                 CertificateDataValueDiagnosisList.builder()
                     .list(
@@ -180,8 +179,8 @@ class QuestionDiagnoserTest {
             );
         }
 
-        private InputExpectedValuePair inputWhenDiagnoserIncludesThree() {
-            return new InputExpectedValuePair(
+        private InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList> inputWhenDiagnoserIncludesThree() {
+            return new InputExpectedValuePair<>(
                 List.of(
                     Diagnos.create("", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
                     Diagnos.create("F501", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
@@ -214,8 +213,8 @@ class QuestionDiagnoserTest {
             );
         }
 
-        private InputExpectedValuePair inputWhenDiagnoserIncludesThreeButTheFirstIsNull() {
-            return new InputExpectedValuePair(
+        private InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList> inputWhenDiagnoserIncludesThreeButTheFirstIsNull() {
+            return new InputExpectedValuePair<>(
                 List.of(
                     Diagnos.create(null, DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
                     Diagnos.create("F501", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
@@ -306,9 +305,9 @@ class QuestionDiagnoserTest {
         @Override
         protected List<InputExpectedValuePair<List<Diagnos>, List<Diagnos>>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair(null, Collections.emptyList()),
-                new InputExpectedValuePair(Collections.emptyList(), Collections.emptyList()),
-                new InputExpectedValuePair(
+                new InputExpectedValuePair<>(null, Collections.emptyList()),
+                new InputExpectedValuePair<>(Collections.emptyList(), Collections.emptyList()),
+                new InputExpectedValuePair<>(
                     List.of(
                         Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
                     ),
@@ -316,7 +315,7 @@ class QuestionDiagnoserTest {
                         Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
                     )
                 ),
-                new InputExpectedValuePair(
+                new InputExpectedValuePair<>(
                     List.of(
                         Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
                         Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
@@ -326,7 +325,7 @@ class QuestionDiagnoserTest {
                         Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
                     )
                 ),
-                new InputExpectedValuePair(
+                new InputExpectedValuePair<>(
                     List.of(
                         Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
                         Diagnos.create("F501", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
@@ -338,7 +337,7 @@ class QuestionDiagnoserTest {
                         Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
                     )
                 ),
-                new InputExpectedValuePair(
+                new InputExpectedValuePair<>(
                     List.of(
                         Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
                         Diagnos.create(null, null, null, null),
@@ -350,7 +349,7 @@ class QuestionDiagnoserTest {
                         Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
                     )
                 ),
-                new InputExpectedValuePair(
+                new InputExpectedValuePair<>(
                     List.of(
                         Diagnos.create("", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
                         Diagnos.create(null, null, null, null),
