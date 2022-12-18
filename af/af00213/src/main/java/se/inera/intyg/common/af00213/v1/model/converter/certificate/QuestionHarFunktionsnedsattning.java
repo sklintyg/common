@@ -32,7 +32,7 @@ import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValu
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigBoolean;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
@@ -45,7 +45,7 @@ public class QuestionHarFunktionsnedsattning {
             .index(index)
             .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
             .config(
-                CertificateDataConfigBoolean.builder()
+                CertificateDataConfigRadioBoolean.builder()
                     .text(texts.get(FUNKTIONSNEDSATTNING_QUESTION_TEXT))
                     .description(texts.get(FUNKTIONSNEDSATTNING_QUESTION_DESCRIPTION))
                     .id(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11)

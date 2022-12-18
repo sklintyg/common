@@ -32,7 +32,7 @@ import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValu
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigBoolean;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
@@ -46,7 +46,7 @@ public class QuestionHarUtredningBehandling {
             .index(index)
             .parent(UTREDNING_BEHANDLING_CATEGORY_ID)
             .config(
-                CertificateDataConfigBoolean.builder()
+                CertificateDataConfigRadioBoolean.builder()
                     .text(texts.get(UTREDNING_BEHANDLING_QUESTION_TEXT))
                     .description(texts.get(UTREDNING_BEHANDLING_QUESTION_DESCRIPTION))
                     .id(UTREDNING_BEHANDLING_SVAR_JSON_ID_31)
