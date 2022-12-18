@@ -58,6 +58,19 @@ public final class RespConstants {
     public static final String GRUNDFORMU_ANNAT_LABEL = "KV_FKMU_0001.ANNAT.RBK";
 
 
+
+
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT_ID = "FRG_1.RBK";
+    public static final String GRUNDFORMU_UNDERSOKNING_LABEL_ID = "KV_FKMU_0001.UNDERSOKNING.RBK";
+    public static final String GRUNDFORMU_JOURNALUPPGIFTER_LABEL_ID = "KV_FKMU_0001.JOURNALUPPGIFTER.RBK";
+    public static final String GRUNDFORMU_ANHORIG_BESKRIVNING_LABEL_ID = "KV_FKMU_0001.ANHORIG.RBK";
+    public static final String GRUNDFORMU_ANNAT_LABEL_ID = "KV_FKMU_0001.ANNAT.RBK";
+
+
+
+
+
+
     public static final String KANNEDOM_SVAR_ID_2 = "2";
     public static final String KANNEDOM_DELSVAR_ID_2 = "2.1";
     public static final String KANNEDOM_SVAR_JSON_ID_2 = "kannedomOmPatient";
