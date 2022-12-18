@@ -81,4 +81,9 @@ public class RespConstants {
     public static final String DIAGNOS_KSH_97_ID = "KSH_97_P";
     public static final String DIAGNOS_KSH_97_LABEL = "KSH97-P (Primärvård)";
 
+    public static final String OVRIGT_CATEGORY_ID = "ovrigt";
+    public static final String OVRIGT_CATEGORY_TEXT_ID = "KAT_5.RBK";
+    public static final String OVRIGT_SVAR_ID_25 = "25";
+    public static final String OVRIGT_TEXT_ID = "FRG_25.RBK";
+    public static final String OVRIGT_SVAR_JSON_ID_25 = "ovrigt";
 }

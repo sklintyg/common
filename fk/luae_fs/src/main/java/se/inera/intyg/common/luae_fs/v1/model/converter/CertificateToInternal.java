@@ -31,6 +31,7 @@ import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionDiagnoser;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionOvrigt;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUnderlag;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUnderlagFinns;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUtlatandeBaseratPa;
@@ -66,6 +67,7 @@ public class CertificateToInternal {
             .setUnderlagFinns(QuestionUnderlagFinns.toInternal(certificate))
             .setUnderlag(QuestionUnderlag.toInternal(certificate))
             .setDiagnoser(QuestionDiagnoser.toInternal(certificate, webcertModuleService))
+            .setOvrigt(QuestionOvrigt.toInternal(certificate))
             .build();
     }
 }

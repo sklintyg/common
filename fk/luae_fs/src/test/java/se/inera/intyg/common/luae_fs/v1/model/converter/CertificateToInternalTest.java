@@ -42,6 +42,7 @@ import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionDiagnoser;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionOvrigt;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUnderlag;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUnderlagFinns;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUtlatandeBaseratPa;
@@ -97,6 +98,7 @@ class CertificateToInternalTest {
                     Diagnos.create("F501", DIAGNOS_ICD_10_ID, "Beskrivning2", DIAGNOSIS_DISPLAYNAME),
                     Diagnos.create("F502", DIAGNOS_ICD_10_ID, "Beskrivning3", DIAGNOSIS_DISPLAYNAME))
             )
+            .setOvrigt("ovrigt")
             .build();
 
         certificate = CertificateBuilder.create()
@@ -112,6 +114,7 @@ class CertificateToInternalTest {
             .addElement(QuestionUnderlagFinns.toCertificate(expectedInternalCertificate.getUnderlagFinns(), 0, textProvider))
             .addElement(QuestionUnderlag.toCertificate(expectedInternalCertificate.getUnderlag(), 0, textProvider))
             .addElement(QuestionDiagnoser.toCertificate(expectedInternalCertificate.getDiagnoser(), 0, textProvider))
+            .addElement(QuestionOvrigt.toCertificate(expectedInternalCertificate.getOvrigt(), 0, textProvider))
             .build();
     }
 
@@ -203,5 +206,11 @@ class CertificateToInternalTest {
         for (int i = 0; i < actualInternalCertificate.getDiagnoser().size(); i++) {
             assertEquals(actualInternalCertificate.getDiagnoser().get(i), expectedInternalCertificate.getDiagnoser().get(i));
         }
+    }
+
+    @Test
+    void shallIncludeOvrigt() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getOvrigt(), actualInternalCertificate.getOvrigt());
     }
 }

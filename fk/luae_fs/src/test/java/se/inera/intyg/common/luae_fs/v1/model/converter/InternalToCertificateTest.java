@@ -30,6 +30,8 @@ import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRU
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KANNEDOM_SVAR_ID_2;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
 
@@ -138,5 +140,17 @@ class InternalToCertificateTest {
     void shallIncludeQuestionDiagnoser() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(8, actualCertificate.getData().get(DIAGNOS_SVAR_ID_6).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryOvrigt() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(9, actualCertificate.getData().get(OVRIGT_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionOvrigt() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(10, actualCertificate.getData().get(OVRIGT_SVAR_ID_25).getIndex());
     }
 }
