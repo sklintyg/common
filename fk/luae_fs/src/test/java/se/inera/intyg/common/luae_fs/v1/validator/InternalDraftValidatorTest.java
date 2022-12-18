@@ -47,6 +47,8 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KANNEDOM_SVAR_ID_2;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
@@ -443,6 +445,8 @@ public class InternalDraftValidatorTest {
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
         assertValidationMessage("luae_fs.validation.funktionsnedsattning.paverkan.missing", 1);
         assertValidationMessageType(ValidationMessageType.EMPTY, 1);
+        assertValidationMessageQuestionId(FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15, 0);
+        assertValidationMessageQuestionId(FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16, 1);
     }
 
     // Kategori 5 - Övrigt

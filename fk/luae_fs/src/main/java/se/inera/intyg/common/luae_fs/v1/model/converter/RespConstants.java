@@ -81,4 +81,13 @@ public class RespConstants {
     public static final String DIAGNOS_KSH_97_ID = "KSH_97_P";
     public static final String DIAGNOS_KSH_97_LABEL = "KSH97-P (Primärvård)";
 
+    public static final String FUNKTIONSNEDSATTNING_CATEGORY_ID = "funktionsnedsattning";
+    public static final String FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID = "KAT_4.RBK";
+    public static final String FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15 = "15";
+    public static final String FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15 = "funktionsnedsattningDebut";
+    public static final String FUNKTIONSNEDSATTNING_DEBUT_TEXT_ID = "FRG_15.RBK";
+    public static final String FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16 = "16";
+    public static final String FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16 = "funktionsnedsattningPaverkan";
+    public static final String FUNKTIONSNEDSATTNING_PAVERKAN_TEXT_ID = "FRG_16.RBK";
+
 }

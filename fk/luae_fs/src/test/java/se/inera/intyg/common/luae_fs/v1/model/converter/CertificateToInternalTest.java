@@ -40,6 +40,8 @@ import se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionDiagnoser;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionFunktionsnedsattningDebut;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPaverkan;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUnderlag;
@@ -97,6 +99,8 @@ class CertificateToInternalTest {
                     Diagnos.create("F501", DIAGNOS_ICD_10_ID, "Beskrivning2", DIAGNOSIS_DISPLAYNAME),
                     Diagnos.create("F502", DIAGNOS_ICD_10_ID, "Beskrivning3", DIAGNOSIS_DISPLAYNAME))
             )
+            .setFunktionsnedsattningDebut("Funktionsnedsattning debut")
+            .setFunktionsnedsattningPaverkan("Funktionsnedsattning paverkan")
             .build();
 
         certificate = CertificateBuilder.create()
@@ -112,6 +116,10 @@ class CertificateToInternalTest {
             .addElement(QuestionUnderlagFinns.toCertificate(expectedInternalCertificate.getUnderlagFinns(), 0, textProvider))
             .addElement(QuestionUnderlag.toCertificate(expectedInternalCertificate.getUnderlag(), 0, textProvider))
             .addElement(QuestionDiagnoser.toCertificate(expectedInternalCertificate.getDiagnoser(), 0, textProvider))
+            .addElement(QuestionFunktionsnedsattningDebut.toCertificate(expectedInternalCertificate.getFunktionsnedsattningDebut(), 0,
+                textProvider))
+            .addElement(QuestionFunktionsnedsattningPaverkan.toCertificate(expectedInternalCertificate.getFunktionsnedsattningPaverkan(), 0,
+                    textProvider))
             .build();
     }
 
@@ -203,5 +211,18 @@ class CertificateToInternalTest {
         for (int i = 0; i < actualInternalCertificate.getDiagnoser().size(); i++) {
             assertEquals(actualInternalCertificate.getDiagnoser().get(i), expectedInternalCertificate.getDiagnoser().get(i));
         }
+    }
+
+    @Test
+    void shallIncludeFunktionsnedsattningDebut() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getFunktionsnedsattningDebut(), actualInternalCertificate.getFunktionsnedsattningDebut());
+    }
+
+    @Test
+    void shallIncludeFunktionsnedsattningPaverkan() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getFunktionsnedsattningPaverkan(),
+            actualInternalCertificate.getFunktionsnedsattningPaverkan());
     }
 }
