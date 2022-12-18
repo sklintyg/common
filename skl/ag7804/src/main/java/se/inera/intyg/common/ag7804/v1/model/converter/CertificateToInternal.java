@@ -83,6 +83,8 @@ import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning.SjukskrivningsG
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.agparent.model.internal.Diagnos;
+import se.inera.intyg.common.lisjp.v1.model.converter.RespConstants;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
@@ -162,23 +164,19 @@ public final class CertificateToInternal {
     }
 
     private static InternalDate getGrundForMUUndersokningAvPatienten(Certificate certificate) {
-        return getInternalDate(certificate, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1,
-            GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1);
+        return QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1);
     }
 
     private static InternalDate getGrundForMUTelefonkontakt(Certificate certificate) {
-        return getInternalDate(certificate, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1,
-            GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1);
+        return QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1);
     }
 
     private static InternalDate getGrundForMUJournaluppgifter(Certificate certificate) {
-        return getInternalDate(certificate, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1,
-            GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1);
+        return QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1);
     }
 
     private static InternalDate getGrundForMUAnnat(Certificate certificate) {
-        return getInternalDate(certificate, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1,
-            GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1);
+        return QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1);
     }
 
     private static InternalDate getInternalDate(Certificate certificate, String questionId, String itemId) {
