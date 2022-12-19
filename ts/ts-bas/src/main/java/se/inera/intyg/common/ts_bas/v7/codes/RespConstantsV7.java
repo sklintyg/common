@@ -157,6 +157,8 @@ public final class RespConstantsV7 {
     public static final String INSULINBEHANDLING_DELSVAR_ID = "19.3";
     public static final String INSULINBEHANDLING_DELSVAR_JSON_ID = "insulin";
     public static final String INSULINBEHANDLING_DELSVAR_TEXT_ID = "DFR_19.3.RBK";
+    public static final String INSULIN_ELLER_TABLETT_MESSAGE_TEXT_ID = "DFR_19.3.RBK";
+    public static final String INSULIN_ELLER_TABLETT_MESSAGE_ID = "19.4";
 
     public static final String INSULINBEHANDLING_SEDAN_AR_DELSVAR_ID = "19.4";
     public static final String ANNAN_BEHANDLING_DELSVAR_ID = "19.5";

@@ -51,6 +51,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionRiskfaktorerForStroke;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTablettEllerInsulinMessage;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTidigareUtfordUndersokningMessage;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionUppfattaSamtal4Meter;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
@@ -148,7 +149,10 @@ public class InternalToCertificate {
                 QuestionDiabetesTyp.toCertificate(internalCertificate.getDiabetes(), index++, texts)
             )
             .addElement(
-                QuestionDiabetesBehandling.toCertificate(internalCertificate.getDiabetes(), index, texts)
+                QuestionDiabetesBehandling.toCertificate(internalCertificate.getDiabetes(), index++, texts)
+            )
+            .addElement(
+                QuestionTablettEllerInsulinMessage.toCertificate(index, texts)
             )
             .build();
     }

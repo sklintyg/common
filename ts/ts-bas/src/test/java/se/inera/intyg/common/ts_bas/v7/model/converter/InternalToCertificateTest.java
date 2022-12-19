@@ -29,6 +29,7 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HAR_DIABETES
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HAR_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HJART_ELLER_KARLSJUKDOM_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HJART_ELLER_KARLSJUKDOM_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INSULIN_ELLER_TABLETT_MESSAGE_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_SVAR_ID_1;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID;
@@ -280,5 +281,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionDiabetesBehandling() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(28, actualCertificate.getData().get(BEHANDLING_DIABETES_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeMessageTablettEllerInsulin() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(29, actualCertificate.getData().get(INSULIN_ELLER_TABLETT_MESSAGE_ID).getIndex());
     }
 }
