@@ -169,7 +169,12 @@ public final class RespConstantsV7 {
 
     public static final String TECKEN_NEUROLOGISK_SJUKDOM_DELSVAR_ID = "20.1";
 
+    public static final String MEDVETANDESTORNING_CATEGORY_ID = "medvetandestorning";
+    public static final String MEDVETANDESTORNING_CATEGORY_TEXT_ID = "KAT_7.RBK";
     public static final String MEDVETANDESTORNING_SVAR_ID = "21";
+    public static final String MEDVETANDESTORNING_SVAR_TEXT_ID = "FRG_21.RBK";
+    public static final String MEDVETANDESTORNING_JSON_ID = "epilepsiEllerAnnanMedvetandestorning";
+    
     public static final String FOREKOMST_MEDVETANDESTORNING_DELSVAR_ID = "21.1";
     public static final String TIDPUNKT_ORSAK_ANNAN_MEDVETANDESTORNING_DELSVAR_ID = "21.2";
 

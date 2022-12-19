@@ -29,6 +29,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.Cate
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryHjartOchKarlsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryHorselOchBalanssinne;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryIntygetAvser;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryMedvetandestorning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryNeurologiskaSjukdomar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySynfunktioner;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBalansrubbningar;
@@ -160,7 +161,10 @@ public class InternalToCertificate {
                 CategoryNeurologiskaSjukdomar.toCertificate(index++, texts)
             )
             .addElement(
-                QuestionTeckenPaNeurologiskSjukdom.toCertificate(internalCertificate.getNeurologi(), index, texts)
+                QuestionTeckenPaNeurologiskSjukdom.toCertificate(internalCertificate.getNeurologi(), index++, texts)
+            )
+            .addElement(
+                CategoryMedvetandestorning.toCertificate(index, texts)
             )
             .build();
     }
