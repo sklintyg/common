@@ -53,6 +53,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTablettEllerInsulinMessage;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTeckenPaNeurologiskSjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTidigareUtfordUndersokningMessage;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionUppfattaSamtal4Meter;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
@@ -156,7 +157,10 @@ public class InternalToCertificate {
                 QuestionTablettEllerInsulinMessage.toCertificate(index++, texts)
             )
             .addElement(
-                CategoryNeurologiskaSjukdomar.toCertificate(index, texts)
+                CategoryNeurologiskaSjukdomar.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionTeckenPaNeurologiskSjukdom.toCertificate(internalCertificate.getNeurologi(), index, texts)
             )
             .build();
     }

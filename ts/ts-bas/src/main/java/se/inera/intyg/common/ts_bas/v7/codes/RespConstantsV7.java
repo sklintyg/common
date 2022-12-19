@@ -164,6 +164,9 @@ public final class RespConstantsV7 {
     public static final String NEUROLOGISK_SJUKDOM_CATEGORY_TEXT_ID = "KAT_6.RBK";
 
     public static final String TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID = "20";
+    public static final String TECKEN_NEUROLOGISK_SJUKDOM_SVAR_TEXT_ID = "FRG_20.RBK";
+    public static final String TECKEN_NEUROLOGISK_SJUKDOM_JSON_ID = "teckenNeurologiskSjukdom";
+
     public static final String TECKEN_NEUROLOGISK_SJUKDOM_DELSVAR_ID = "20.1";
 
     public static final String MEDVETANDESTORNING_SVAR_ID = "21";

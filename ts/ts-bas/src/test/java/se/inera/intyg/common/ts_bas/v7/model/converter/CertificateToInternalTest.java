@@ -55,6 +55,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionRiskfaktorerForStroke;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTeckenPaNeurologiskSjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionUppfattaSamtal4Meter;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Diabetes;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Funktionsnedsattning;
@@ -62,6 +63,7 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.HjartKarl;
 import se.inera.intyg.common.ts_bas.v7.model.internal.HorselBalans;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Neurologi;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 import se.inera.intyg.schemas.contract.Personnummer;
@@ -125,6 +127,7 @@ class CertificateToInternalTest {
             .setFunktionsnedsattning(funktionsnedsattning)
             .setHjartKarl(hjartKarl)
             .setDiabetes(diabetes)
+            .setNeurologi(Neurologi.create(true))
             .build();
 
         certificate = CertificateBuilder.create()
@@ -151,6 +154,7 @@ class CertificateToInternalTest {
             .addElement(QuestionHarDiabetes.toCertificate(diabetes, 0, textProvider))
             .addElement(QuestionDiabetesTyp.toCertificate(diabetes, 0, textProvider))
             .addElement(QuestionDiabetesBehandling.toCertificate(diabetes, 0, textProvider))
+            .addElement(QuestionTeckenPaNeurologiskSjukdom.toCertificate(Neurologi.create(true), 0, textProvider))
             .build();
     }
 
@@ -333,5 +337,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getDiabetes().getTabletter(),
             actualInternalCertificate.getDiabetes().getTabletter());
+    }
+
+    @Test
+    void shallIncludeTeckenPaNeurologiskSjukdom() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getNeurologi().getNeurologiskSjukdom(),
+            actualInternalCertificate.getNeurologi().getNeurologiskSjukdom());
     }
 }
