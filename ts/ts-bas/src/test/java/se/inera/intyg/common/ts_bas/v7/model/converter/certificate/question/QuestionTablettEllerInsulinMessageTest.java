@@ -90,12 +90,17 @@ class QuestionTablettEllerInsulinMessageTest {
 
         @Override
         protected String getTextId() {
-            return INSULIN_ELLER_TABLETT_MESSAGE_TEXT_ID;
+            return null;
         }
 
         @Override
         protected String getDescriptionId() {
             return null;
+        }
+
+        @Override
+        protected String getMessageId() {
+            return INSULIN_ELLER_TABLETT_MESSAGE_TEXT_ID;
         }
 
         @Override
