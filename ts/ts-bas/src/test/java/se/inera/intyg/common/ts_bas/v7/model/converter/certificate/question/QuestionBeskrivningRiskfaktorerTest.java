@@ -210,7 +210,7 @@ class QuestionBeskrivningRiskfaktorerTest {
 
         @Nested
         @TestInstance(PER_CLASS)
-        class IncludeInternalBooleanValueTest extends InternalTextValueTest {
+        class IncludeInternalTextValueTest extends InternalTextValueTest {
 
             @Override
             protected CertificateDataElement getElement(String expectedValue) {

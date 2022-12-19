@@ -20,7 +20,7 @@
 package se.inera.intyg.common.support.facade.testsetup.model.config;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -43,9 +43,7 @@ public abstract class ConfigRadioBooleanMultipleCodeTest extends ConfigTest {
     @Test
     void shouldIncludeExpectedRadioMultipleCode() {
         final var config = (CertificateDataConfigRadioMultipleCode) getElement().getConfig();
-        for (RadioMultipleCode radioMultipleCode : getExpectedRadioMultipleCodes()) {
-            assertTrue(config.getList().contains(radioMultipleCode));
-        }
+        assertIterableEquals(getExpectedRadioMultipleCodes(), config.getList());
     }
 
     @Test

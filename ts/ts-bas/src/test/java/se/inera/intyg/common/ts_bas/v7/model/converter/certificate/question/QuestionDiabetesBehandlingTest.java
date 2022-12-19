@@ -107,7 +107,7 @@ class QuestionDiabetesBehandlingTest {
                     .label(texts.get(TABLETTBEHANDLING_DELSVAR_TEXT_ID))
                     .build(),
                 CheckboxMultipleCode.builder()
-                    .id(TABLETTBEHANDLING_DELSVAR_JSON_ID)
+                    .id(INSULINBEHANDLING_DELSVAR_JSON_ID)
                     .label(texts.get(INSULINBEHANDLING_DELSVAR_TEXT_ID))
                     .build()
             );

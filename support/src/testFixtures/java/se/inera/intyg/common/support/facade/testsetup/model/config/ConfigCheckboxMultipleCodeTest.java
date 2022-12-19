@@ -20,7 +20,7 @@
 package se.inera.intyg.common.support.facade.testsetup.model.config;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -44,9 +44,7 @@ public abstract class ConfigCheckboxMultipleCodeTest extends ConfigTest {
     void shouldIncludeExpectedListOfCodes() {
         final var question = getElement();
         final var config = (CertificateDataConfigCheckboxMultipleCode) question.getConfig();
-        for (CheckboxMultipleCode checkboxMultipleCode : getExpectedListOfCodes()) {
-            assertTrue(config.getList().contains(checkboxMultipleCode));
-        }
+        assertIterableEquals(config.getList(), getExpectedListOfCodes());
     }
 
     @Test

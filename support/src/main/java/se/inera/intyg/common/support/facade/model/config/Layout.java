@@ -20,5 +20,5 @@
 package se.inera.intyg.common.support.facade.model.config;
 
 public enum Layout {
-    ROWS, COLUMNS, COLUMN, INLINE
+    ROWS, COLUMNS, INLINE
 }
