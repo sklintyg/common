@@ -44,7 +44,7 @@ public class QuestionTablettEllerInsulinMessage {
             .config(
                 CertificateDataConfigMessage.builder()
                     .message(textProvider.get(INSULIN_ELLER_TABLETT_MESSAGE_TEXT_ID))
-                    .level(MessageLevel.OBSERVE)
+                    .level(MessageLevel.INFO)
                     .build()
             )
             .validation(
