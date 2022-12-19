@@ -37,7 +37,6 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigTextAreaTest;
-import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationTextTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
@@ -130,30 +129,6 @@ class QuestionMedvetandestorningBeskrivningTest {
     }
 
     @Nested
-    class IncludeValidationMandatoryTests extends ValidationMandatoryTest {
-
-        @Override
-        protected String getQuestionId() {
-            return FOREKOMST_MEDVETANDESTORNING_DELSVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + FOREKOMST_MEDVETANDESTORNING_JSON_ID;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionMedvetandestorningBeskrivning.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
-    }
-
-    @Nested
     class IncludeValidationShowTests extends ValidationShowTest {
 
         @Override
@@ -173,7 +148,7 @@ class QuestionMedvetandestorningBeskrivningTest {
 
         @Override
         protected int getValidationIndex() {
-            return 1;
+            return 0;
         }
     }
 
@@ -187,7 +162,7 @@ class QuestionMedvetandestorningBeskrivningTest {
 
         @Override
         protected int getValidationIndex() {
-            return 2;
+            return 1;
         }
 
         @Override
