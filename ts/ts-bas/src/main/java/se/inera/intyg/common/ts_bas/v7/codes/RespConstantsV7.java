@@ -174,8 +174,11 @@ public final class RespConstantsV7 {
     public static final String MEDVETANDESTORNING_SVAR_ID = "21";
     public static final String MEDVETANDESTORNING_SVAR_TEXT_ID = "FRG_21.RBK";
     public static final String MEDVETANDESTORNING_JSON_ID = "epilepsiEllerAnnanMedvetandestorning";
-    
+
     public static final String FOREKOMST_MEDVETANDESTORNING_DELSVAR_ID = "21.1";
+    public static final String FOREKOMST_MEDVETANDESTORNING_JSON_ID = "forekomstMedvetandestorning";
+    public static final String FOREKOMST_MEDVETANDESTORNING_DELSVAR_TEXT_ID = "DFR_21.2.RBK";
+
     public static final String TIDPUNKT_ORSAK_ANNAN_MEDVETANDESTORNING_DELSVAR_ID = "21.2";
 
     public static final String NEDSATT_NJURFUNKTION_SVAR_ID = "22";

@@ -49,6 +49,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionMedvetandestorning;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionMedvetandestorningBeskrivning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNystagmus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionOtillrackligRorelseFormoga;
@@ -119,7 +120,10 @@ class CertificateToInternalTest {
             .setTabletter(true)
             .build();
 
-        final var medvetandestorning = Medvetandestorning.builder().setMedvetandestorning(true).build();
+        final var medvetandestorning = Medvetandestorning.builder()
+            .setMedvetandestorning(true)
+            .setBeskrivning("beskrivning")
+            .build();
 
         expectedInternalCertificate = TsBasUtlatandeV7.builder()
             .setId("id")
@@ -161,6 +165,7 @@ class CertificateToInternalTest {
             .addElement(QuestionDiabetesBehandling.toCertificate(diabetes, 0, textProvider))
             .addElement(QuestionTeckenPaNeurologiskSjukdom.toCertificate(Neurologi.create(true), 0, textProvider))
             .addElement(QuestionMedvetandestorning.toCertificate(medvetandestorning, 0, textProvider))
+            .addElement(QuestionMedvetandestorningBeskrivning.toCertificate(medvetandestorning, 0, textProvider))
             .build();
     }
 
@@ -357,5 +362,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getMedvetandestorning().getMedvetandestorning(),
             actualInternalCertificate.getMedvetandestorning().getMedvetandestorning());
+    }
+
+    @Test
+    void shallIncludeMedvetandestorningarBeskrivning() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getMedvetandestorning().getBeskrivning(),
+            actualInternalCertificate.getMedvetandestorning().getBeskrivning());
     }
 }

@@ -25,6 +25,7 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BALANSRUBBNI
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BALANSRUBBNINGAR_YRSEL_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BEHANDLING_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.DUBBELSEENDE_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_MEDVETANDESTORNING_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HAR_DIABETES_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HAR_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HJART_ELLER_KARLSJUKDOM_CATEGORY_ID;
@@ -315,5 +316,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionMedvetandestorning() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(33, actualCertificate.getData().get(MEDVETANDESTORNING_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionMedvetandestorningBeskrivning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(34, actualCertificate.getData().get(FOREKOMST_MEDVETANDESTORNING_DELSVAR_ID).getIndex());
     }
 }
