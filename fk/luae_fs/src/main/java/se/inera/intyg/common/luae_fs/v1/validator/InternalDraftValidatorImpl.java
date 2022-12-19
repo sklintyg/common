@@ -22,6 +22,8 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLED
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
@@ -242,16 +244,14 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaefs
 
     void validateFunktionsnedsattning(LuaefsUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (Strings.nullToEmpty(utlatande.getFunktionsnedsattningDebut()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING,
-                FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15,
-                ValidationMessageType.EMPTY,
-                "luae_fs.validation.funktionsnedsattning.debut.missing");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING,
+                FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15, ValidationMessageType.EMPTY,
+                "luae_fs.validation.funktionsnedsattning.debut.missing", FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15);
         }
         if (Strings.nullToEmpty(utlatande.getFunktionsnedsattningPaverkan()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING,
-                FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16,
-                ValidationMessageType.EMPTY,
-                "luae_fs.validation.funktionsnedsattning.paverkan.missing");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING,
+                FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16,  ValidationMessageType.EMPTY,
+                "luae_fs.validation.funktionsnedsattning.paverkan.missing", FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16);
         }
     }
 
@@ -270,9 +270,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaefs
                 "luae_fs.validation.blanksteg.otillatet");
         }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getAnnatGrundForMUBeskrivning())) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU,
                 GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1, ValidationMessageType.EMPTY,
-                "luae_fs.validation.blanksteg.otillatet");
+                "luae_fs.validation.blanksteg.otillatet", GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
         }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getOvrigt())) {
             ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_OVRIGT, OVRIGT_SVAR_JSON_ID_25,

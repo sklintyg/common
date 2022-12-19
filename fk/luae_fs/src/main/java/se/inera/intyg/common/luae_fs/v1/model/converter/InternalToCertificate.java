@@ -22,10 +22,13 @@ package se.inera.intyg.common.luae_fs.v1.model.converter;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryDiagnos;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryFunktionsnedsattning;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryOvrigt;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionDiagnoser;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryGrundForMU;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionFunktionsnedsattningDebut;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPaverkan;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionOvrigt;
@@ -55,6 +58,11 @@ public class InternalToCertificate {
             .addElement(QuestionUnderlagFinns.toCertificate(internalCertificate.getUnderlagFinns(), index++, texts))
             .addElement(QuestionUnderlag.toCertificate(internalCertificate.getUnderlag(), index++, texts))
             .addElement(CategoryDiagnos.toCertificate(index++, texts))
+            .addElement(QuestionDiagnoser.toCertificate(internalCertificate.getDiagnoser(), index++, texts))
+            .addElement(CategoryFunktionsnedsattning.toCertificate(index++, texts))
+            .addElement(QuestionFunktionsnedsattningDebut.toCertificate(internalCertificate.getFunktionsnedsattningDebut(), index++, texts))
+            .addElement(QuestionFunktionsnedsattningPaverkan.toCertificate(internalCertificate.getFunktionsnedsattningPaverkan(), index++,
+                texts))
             .addElement(QuestionDiagnoser.toCertificate(internalCertificate.getDiagnoser(), index++, texts))
             .addElement(CategoryOvrigt.toCertificate(index++, texts))
             .addElement(QuestionOvrigt.toCertificate(internalCertificate.getOvrigt(), index++, texts))

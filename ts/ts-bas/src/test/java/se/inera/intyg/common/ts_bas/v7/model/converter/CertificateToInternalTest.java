@@ -37,16 +37,18 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNystagmus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpa;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
-import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
-import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Synskarpevarden;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -71,6 +73,26 @@ class CertificateToInternalTest {
             .setNystagmus(true)
             .setSynskarpaSkickasSeparat(true)
             .setKorrektionsglasensStyrka(true)
+            .setBinokulart(
+                Synskarpevarden.builder()
+                    .setUtanKorrektion(2.0)
+                    .setMedKorrektion(2.0)
+                    .build()
+            )
+            .setHogerOga(
+                Synskarpevarden.builder()
+                    .setUtanKorrektion(2.0)
+                    .setMedKorrektion(2.0)
+                    .setKontaktlins(true)
+                    .build()
+            )
+            .setVansterOga(
+                Synskarpevarden.builder()
+                    .setUtanKorrektion(2.0)
+                    .setMedKorrektion(2.0)
+                    .setKontaktlins(true)
+                    .build()
+            )
             .build();
 
         expectedInternalCertificate = TsBasUtlatandeV7.builder()
@@ -93,6 +115,7 @@ class CertificateToInternalTest {
             .addElement(QuestionNystagmus.toCertificate(syn, 0, textProvider))
             .addElement(QuestionSynskarpaSkickasSeparat.toCertificate(syn, 0, textProvider))
             .addElement(QuestionKorrektionsglasensStyrka.toCertificate(syn, 0, textProvider))
+            .addElement(QuestionSynskarpa.toCertificate(syn, 0, textProvider))
             .build();
     }
 
@@ -125,7 +148,7 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertNotNull(actualInternalCertificate.getGrundData(), "GrundData is missing!");
     }
-    
+
     @Test
     void shallIncludeIntygetAvser() {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
@@ -177,5 +200,26 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getSyn().getKorrektionsglasensStyrka(),
             actualInternalCertificate.getSyn().getKorrektionsglasensStyrka());
+    }
+
+    @Test
+    void shallIncludeSynskarpaHogerOga() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getSyn().getHogerOga(),
+            actualInternalCertificate.getSyn().getHogerOga());
+    }
+
+    @Test
+    void shallIncludeSynskarpaVansterOga() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getSyn().getVansterOga(),
+            actualInternalCertificate.getSyn().getVansterOga());
+    }
+
+    @Test
+    void shallIncludeSynskarpaBinokulart() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getSyn().getBinokulart(),
+            actualInternalCertificate.getSyn().getBinokulart());
     }
 }
