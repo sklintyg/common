@@ -166,12 +166,12 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeCategoryOvrigt() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(9, actualCertificate.getData().get(OVRIGT_CATEGORY_ID).getIndex());
+        assertEquals(12, actualCertificate.getData().get(OVRIGT_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionOvrigt() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(10, actualCertificate.getData().get(OVRIGT_SVAR_ID_25).getIndex());
+        assertEquals(13, actualCertificate.getData().get(OVRIGT_SVAR_ID_25).getIndex());
     }
 }

@@ -63,7 +63,6 @@ public class InternalToCertificate {
             .addElement(QuestionFunktionsnedsattningDebut.toCertificate(internalCertificate.getFunktionsnedsattningDebut(), index++, texts))
             .addElement(QuestionFunktionsnedsattningPaverkan.toCertificate(internalCertificate.getFunktionsnedsattningPaverkan(), index++,
                 texts))
-            .addElement(QuestionDiagnoser.toCertificate(internalCertificate.getDiagnoser(), index++, texts))
             .addElement(CategoryOvrigt.toCertificate(index++, texts))
             .addElement(QuestionOvrigt.toCertificate(internalCertificate.getOvrigt(), index++, texts))
             .build();
