@@ -18,6 +18,29 @@
  */
 package se.inera.intyg.common.ts_bas.v7.validator.internal;
 
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BALANSRUBBNINGAR_YRSEL_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BEHANDLING_DIABETES_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.DUBBELSEENDE_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HAR_DIABETES_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HJART_ELLER_KARLSJUKDOM_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_SVAR_ID_1;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDVETANDESTORNING_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NEDSATT_NJURFUNKTION_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NYSTAGMUS_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.RISKFAKTORER_STROKE_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_PA_HJARNSKADA_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_AV_DIABETES_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UPPFATTA_SAMTALSTAMMA_SVAR_ID;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.util.CollectionUtils;
@@ -174,26 +197,26 @@ public class InternalValidatorInstance {
 
     private void validateNjurar(Njurar njurar) {
         if (njurar == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_NJURAR, "njurar", ValidationMessageType.EMPTY,
-                "ts-bas.validation.njurar.missing");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_NJURAR, "njurar", ValidationMessageType.EMPTY,
+                "ts-bas.validation.njurar.missing", NEDSATT_NJURFUNKTION_SVAR_ID);
             return;
         }
         if (njurar.getNedsattNjurfunktion() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_NJURAR, "njurar.nedsattNjurfunktion",
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_NJURAR, "njurar.nedsattNjurfunktion",
+                ValidationMessageType.EMPTY, NEDSATT_NJURFUNKTION_SVAR_ID);
         }
     }
 
     private void validateNeurologi(Neurologi neurologi) {
         if (neurologi == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_NEUROLOGI, "neurologi", ValidationMessageType.EMPTY,
-                "ts-bas.validation.neurologi.missing");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_NEUROLOGI, "neurologi", ValidationMessageType.EMPTY,
+                "ts-bas.validation.neurologi.missing", TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID);
             return;
         }
         if (neurologi.getNeurologiskSjukdom() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_NEUROLOGI, "neurologi.neurologiskSjukdom",
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_NEUROLOGI, "neurologi.neurologiskSjukdom",
                 ValidationMessageType.EMPTY,
-                "ts-bas.validation.neurologi.neurologisksjukdom.missing");
+                "ts-bas.validation.neurologi.neurologisksjukdom.missing", TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID);
         }
     }
 
@@ -238,25 +261,26 @@ public class InternalValidatorInstance {
     private void validateDiabetes(final Diabetes diabetes) {
 
         if (diabetes == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIABETES, "diabetes", ValidationMessageType.EMPTY,
-                "ts-bas.validation.diabetes.missing");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIABETES, "diabetes", ValidationMessageType.EMPTY,
+                "ts-bas.validation.diabetes.missing", HAR_DIABETES_SVAR_ID);
             return;
         }
 
         if (diabetes.getHarDiabetes() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIABETES, "diabetes.harDiabetes", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIABETES, "diabetes.harDiabetes",
+                ValidationMessageType.EMPTY, HAR_DIABETES_SVAR_ID);
             return;
         }
         if (diabetes.getHarDiabetes()) {
 
             if (diabetes.getDiabetesTyp() == null) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIABETES, "diabetes.diabetesTyp",
-                    ValidationMessageType.EMPTY);
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIABETES, "diabetes.diabetesTyp",
+                    ValidationMessageType.EMPTY, TYP_AV_DIABETES_SVAR_ID);
 
             } else if (diabetes.getDiabetesTyp().equals(DiabetesKod.DIABETES_TYP_2.name())) {
                 if (isNullOrFalse(diabetes.getInsulin()) && isNullOrFalse(diabetes.getKost()) && isNullOrFalse(diabetes.getTabletter())) {
-                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIABETES, "diabetes.behandlingsTyp",
-                        ValidationMessageType.EMPTY);
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIABETES, "diabetes.behandlingsTyp",
+                        ValidationMessageType.EMPTY, BEHANDLING_DIABETES_SVAR_ID);
                 }
             }
         }
@@ -269,26 +293,26 @@ public class InternalValidatorInstance {
     private void validateFunktionsnedsattning(final Funktionsnedsattning funktionsnedsattning) {
 
         if (funktionsnedsattning == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING, "funktionsnedsattning",
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING, "funktionsnedsattning",
                 ValidationMessageType.EMPTY,
-                "ts-bas.validation.funktionsnedsattning.missing");
+                "ts-bas.validation.funktionsnedsattning.missing", SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID);
             return;
         }
 
         if (funktionsnedsattning.getFunktionsnedsattning() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING,
-                "funktionsnedsattning.funktionsnedsattning", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING,
+                "funktionsnedsattning.funktionsnedsattning", ValidationMessageType.EMPTY, SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID);
 
         } else if (funktionsnedsattning.getFunktionsnedsattning()) {
-            ValidatorUtil.assertDescriptionNotEmpty(validationMessages, funktionsnedsattning.getBeskrivning(),
-                CATEGORY_FUNKTIONSNEDSATTNING, "funktionsnedsattning.beskrivning");
+            ValidatorUtil.assertDescriptionNotEmptyWithQuestionId(validationMessages, funktionsnedsattning.getBeskrivning(),
+                CATEGORY_FUNKTIONSNEDSATTNING, "funktionsnedsattning.beskrivning", TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID);
         }
 
         if (context.isPersontransportContext()) {
             if (funktionsnedsattning.getOtillrackligRorelseformaga() == null) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING,
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING,
                     "funktionsnedsattning.otillrackligRorelseformaga",
-                    ValidationMessageType.EMPTY);
+                    ValidationMessageType.EMPTY, OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID);
             }
         }
     }
@@ -296,48 +320,51 @@ public class InternalValidatorInstance {
     private void validateHjartKarl(final HjartKarl hjartKarl) {
 
         if (hjartKarl == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_HJART_KARL, "hjartKarl", ValidationMessageType.EMPTY,
-                "ts-bas.validation.hjartKarl.missing");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_HJART_KARL, "hjartKarl",
+                ValidationMessageType.EMPTY,
+                "ts-bas.validation.hjartKarl.missing", HJART_ELLER_KARLSJUKDOM_SVAR_ID);
             return;
         }
 
         if (hjartKarl.getHjartKarlSjukdom() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_HJART_KARL, "hjartKarl.hjartKarlSjukdom",
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_HJART_KARL, "hjartKarl.hjartKarlSjukdom",
+                ValidationMessageType.EMPTY, HJART_ELLER_KARLSJUKDOM_SVAR_ID);
         }
 
         if (hjartKarl.getHjarnskadaEfterTrauma() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_HJART_KARL, "hjartKarl.hjarnskadaEfterTrauma",
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_HJART_KARL, "hjartKarl.hjarnskadaEfterTrauma",
+                ValidationMessageType.EMPTY, TECKEN_PA_HJARNSKADA_SVAR_ID);
         }
 
         if (hjartKarl.getRiskfaktorerStroke() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_HJART_KARL, "hjartKarl.riskfaktorerStroke",
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_HJART_KARL, "hjartKarl.riskfaktorerStroke",
+                ValidationMessageType.EMPTY, RISKFAKTORER_STROKE_SVAR_ID);
 
         } else if (hjartKarl.getRiskfaktorerStroke()) {
-            ValidatorUtil.assertDescriptionNotEmpty(validationMessages, hjartKarl.getBeskrivningRiskfaktorer(),
-                CATEGORY_HJART_KARL, "hjartKarl.beskrivningRiskfaktorer");
+            ValidatorUtil.assertDescriptionNotEmptyWithQuestionId(validationMessages, hjartKarl.getBeskrivningRiskfaktorer(),
+                CATEGORY_HJART_KARL, "hjartKarl.beskrivningRiskfaktorer", TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID);
         }
     }
 
     private void validateHorselBalans(final HorselBalans horselBalans) {
 
         if (horselBalans == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_HORSEL_BALANS, "horselBalans", ValidationMessageType.EMPTY,
-                "ts-bas.validation.horselBalans.missing");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_HORSEL_BALANS, "horselBalans",
+                ValidationMessageType.EMPTY,
+                "ts-bas.validation.horselBalans.missing", BALANSRUBBNINGAR_YRSEL_SVAR_ID);
             return;
         }
 
         if (horselBalans.getBalansrubbningar() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_HORSEL_BALANS, "horselBalans.balansrubbningar",
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_HORSEL_BALANS, "horselBalans.balansrubbningar",
+                ValidationMessageType.EMPTY, BALANSRUBBNINGAR_YRSEL_SVAR_ID);
         }
 
         if (context.isPersontransportContext()) {
             if (horselBalans.getSvartUppfattaSamtal4Meter() == null) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_HORSEL_BALANS, "horselBalans.svartUppfattaSamtal4Meter",
-                    ValidationMessageType.EMPTY);
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_HORSEL_BALANS,
+                    "horselBalans.svartUppfattaSamtal4Meter",
+                    ValidationMessageType.EMPTY, UPPFATTA_SAMTALSTAMMA_SVAR_ID);
             }
         }
     }
@@ -345,27 +372,28 @@ public class InternalValidatorInstance {
     private void validateIntygAvser(final IntygAvser intygAvser) {
 
         if (intygAvser == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_INTYG_AVSER, "intygAvser", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_INTYG_AVSER, "intygAvser",
+                ValidationMessageType.EMPTY, INTYG_AVSER_SVAR_ID_1);
             return;
         }
 
         if (intygAvser.getKorkortstyp().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_INTYG_AVSER, "intygAvser.korkortstyp",
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_INTYG_AVSER, "intygAvser.korkortstyp",
+                ValidationMessageType.EMPTY, INTYG_AVSER_SVAR_ID_1);
         }
     }
 
     private void validateKognitivt(final Kognitivt kognitivt) {
 
         if (kognitivt == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_KOGNITIVT, "kognitivt", ValidationMessageType.EMPTY,
-                "ts-bas.validation.kognitivt.missing");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_KOGNITIVT, "kognitivt", ValidationMessageType.EMPTY,
+                "ts-bas.validation.kognitivt.missing", TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_ID);
             return;
         }
 
         if (kognitivt.getSviktandeKognitivFunktion() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_KOGNITIVT, "kognitivt.sviktandeKognitivFunktion",
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_KOGNITIVT, "kognitivt.sviktandeKognitivFunktion",
+                ValidationMessageType.EMPTY, TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_ID);
         }
     }
 
@@ -425,14 +453,15 @@ public class InternalValidatorInstance {
     private void validateMedvetandestorning(final Medvetandestorning medvetandestorning) {
 
         if (medvetandestorning == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDVETANDESTORNING, "medvetandestorning",
-                ValidationMessageType.EMPTY, "ts-bas.validation.medvetandestorning.missing");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_MEDVETANDESTORNING, "medvetandestorning",
+                ValidationMessageType.EMPTY, "ts-bas.validation.medvetandestorning.missing", MEDVETANDESTORNING_SVAR_ID);
             return;
         }
 
         if (medvetandestorning.getMedvetandestorning() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDVETANDESTORNING, "medvetandestorning.medvetandestorning",
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_MEDVETANDESTORNING,
+                "medvetandestorning.medvetandestorning",
+                ValidationMessageType.EMPTY, MEDVETANDESTORNING_SVAR_ID);
         }
     }
 
@@ -443,29 +472,34 @@ public class InternalValidatorInstance {
 
         final Syn syn = utlatande.getSyn();
         if (syn == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn", ValidationMessageType.EMPTY,
-                "ts-bas.validation.syn.missing");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn", ValidationMessageType.EMPTY,
+                "ts-bas.validation.syn.missing", SYNFALTSDEFEKTER_SVAR_ID);
             return;
         }
 
         if (syn.getSynfaltsdefekter() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.synfaltsdefekter", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.synfaltsdefekter",
+                ValidationMessageType.EMPTY, SYNFALTSDEFEKTER_SVAR_ID);
         }
 
         if (syn.getNattblindhet() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.nattblindhet", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.nattblindhet",
+                ValidationMessageType.EMPTY, SEENDE_NEDSATT_BELYSNING_SVAR_ID);
         }
 
         if (syn.getProgressivOgonsjukdom() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.progressivOgonsjukdom", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.progressivOgonsjukdom",
+                ValidationMessageType.EMPTY, PROGRESSIV_OGONSJUKDOM_SVAR_ID);
         }
 
         if (syn.getDiplopi() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.diplopi", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.diplopi", ValidationMessageType.EMPTY,
+                DUBBELSEENDE_SVAR_ID);
         }
 
         if (syn.getNystagmus() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.nystagmus", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.nystagmus", ValidationMessageType.EMPTY,
+                NYSTAGMUS_SVAR_ID);
         }
 
         if (syn.getSynskarpaSkickasSeparat() == null || !syn.getSynskarpaSkickasSeparat()) { //R37

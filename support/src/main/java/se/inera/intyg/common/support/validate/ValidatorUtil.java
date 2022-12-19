@@ -318,6 +318,15 @@ public final class ValidatorUtil {
         return AssertionResult.SUCCESS;
     }
 
+    public static AssertionResult assertDescriptionNotEmptyWithQuestionId(List<ValidationMessage> validationMessages, String beskrivning,
+        String category, String field, String questionId) {
+        if (beskrivning == null || beskrivning.trim().isEmpty()) {
+            addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.EMPTY, questionId);
+            return AssertionResult.FAILURE;
+        }
+        return AssertionResult.SUCCESS;
+    }
+
     public static boolean isNotNullTrue(Boolean bool) {
         return bool != null && bool;
     }
