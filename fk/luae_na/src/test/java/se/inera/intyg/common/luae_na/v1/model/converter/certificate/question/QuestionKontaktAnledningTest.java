@@ -40,6 +40,7 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigTextAreaTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
+import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationTextTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalTextValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
 
@@ -147,6 +148,25 @@ class QuestionKontaktAnledningTest {
         @Override
         protected String getExpression() {
             return "$" + KONTAKT_ONSKAS_SVAR_JSON_ID_26;
+        }
+    }
+
+    @Nested
+    class IncludeValidationTextTest extends ValidationTextTest {
+
+        @Override
+        protected CertificateDataElement getElement() {
+            return QuestionKontaktAnledning.toCertificate(null, 0, textProvider);
+        }
+
+        @Override
+        protected int getValidationIndex() {
+            return 1;
+        }
+
+        @Override
+        protected short getLimit() {
+            return 3500;
         }
     }
 

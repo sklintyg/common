@@ -22,6 +22,7 @@ package se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT_ID;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
@@ -33,9 +34,12 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 
 public class QuestionKontaktAnledning {
+
+    private static final short LIMIT = 3500;
 
     public static CertificateDataElement toCertificate(String kontaktAnledning, int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
@@ -59,6 +63,10 @@ public class QuestionKontaktAnledning {
                     CertificateDataValidationShow.builder()
                         .questionId(KONTAKT_ONSKAS_SVAR_ID_26)
                         .expression(singleExpression(KONTAKT_ONSKAS_SVAR_JSON_ID_26))
+                        .build(),
+                    CertificateDataValidationText.builder()
+                        .id(FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16)
+                        .limit(LIMIT)
                         .build()
                 }
             )
