@@ -30,6 +30,8 @@ import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.MetaDataGrun
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionDiagnoser;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKontaktAnledning;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKontaktOnskas;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUnderlag;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUnderlagFinns;
@@ -66,6 +68,8 @@ public class CertificateToInternal {
             .setUnderlagFinns(QuestionUnderlagFinns.toInternal(certificate))
             .setUnderlag(QuestionUnderlag.toInternal(certificate))
             .setDiagnoser(QuestionDiagnoser.toInternal(certificate, webcertModuleService))
+            .setKontaktMedFk(QuestionKontaktOnskas.toInternal(certificate))
+            .setAnledningTillKontakt(QuestionKontaktAnledning.toInternal(certificate))
             .build();
     }
 }

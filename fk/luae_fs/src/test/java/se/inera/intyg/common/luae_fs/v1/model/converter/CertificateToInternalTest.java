@@ -41,6 +41,8 @@ import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.MetaDataGrun
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionDiagnoser;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKontaktAnledning;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKontaktOnskas;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUnderlag;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUnderlagFinns;
@@ -97,6 +99,8 @@ class CertificateToInternalTest {
                     Diagnos.create("F501", DIAGNOS_ICD_10_ID, "Beskrivning2", DIAGNOSIS_DISPLAYNAME),
                     Diagnos.create("F502", DIAGNOS_ICD_10_ID, "Beskrivning3", DIAGNOSIS_DISPLAYNAME))
             )
+            .setKontaktMedFk(true)
+            .setAnledningTillKontakt("Anledning till kontakt")
             .build();
 
         certificate = CertificateBuilder.create()
@@ -112,6 +116,9 @@ class CertificateToInternalTest {
             .addElement(QuestionUnderlagFinns.toCertificate(expectedInternalCertificate.getUnderlagFinns(), 0, textProvider))
             .addElement(QuestionUnderlag.toCertificate(expectedInternalCertificate.getUnderlag(), 0, textProvider))
             .addElement(QuestionDiagnoser.toCertificate(expectedInternalCertificate.getDiagnoser(), 0, textProvider))
+            .addElement(QuestionKontaktOnskas.toCertificate(expectedInternalCertificate.getKontaktMedFk(), 0, textProvider))
+            .addElement(QuestionKontaktAnledning.toCertificate(expectedInternalCertificate.getAnledningTillKontakt(), 0,
+                textProvider))
             .build();
     }
 
@@ -203,5 +210,17 @@ class CertificateToInternalTest {
         for (int i = 0; i < actualInternalCertificate.getDiagnoser().size(); i++) {
             assertEquals(actualInternalCertificate.getDiagnoser().get(i), expectedInternalCertificate.getDiagnoser().get(i));
         }
+    }
+
+    @Test
+    void shallIncludeKontaktOnskas() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getKontaktMedFk(), actualInternalCertificate.getKontaktMedFk());
+    }
+
+    @Test
+    void shallIncludeKontaktAnledning() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getAnledningTillKontakt(), actualInternalCertificate.getAnledningTillKontakt());
     }
 }

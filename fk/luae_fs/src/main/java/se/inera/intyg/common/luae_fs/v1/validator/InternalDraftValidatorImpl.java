@@ -29,19 +29,16 @@ import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRU
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KANNEDOM_SVAR_ID_2;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KANNEDOM_SVAR_JSON_ID_2;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
 
+import com.google.common.base.Strings;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.google.common.base.Strings;
-
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
@@ -261,16 +258,15 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaefs
     void validateKontakt(LuaefsUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (utlatande.getKontaktMedFk() != null && !utlatande.getKontaktMedFk()
             && !Strings.nullToEmpty(utlatande.getAnledningTillKontakt()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_KONTAKT, KONTAKT_ONSKAS_SVAR_JSON_ID_26,
-                ValidationMessageType.EMPTY, "luae_fs.validation.kontakt.invalid_combination");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_KONTAKT, KONTAKT_ONSKAS_SVAR_JSON_ID_26,
+                ValidationMessageType.EMPTY, "luae_fs.validation.kontakt.invalid_combination", KONTAKT_ONSKAS_SVAR_ID_26);
         }
     }
 
     private void validateBlanksForOptionalFields(LuaefsUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (ValidatorUtil.isBlankButNotNull(utlatande.getAnledningTillKontakt())) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_KONTAKT, ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26,
-                ValidationMessageType.EMPTY,
-                "luae_fs.validation.blanksteg.otillatet");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_KONTAKT, ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26,
+                ValidationMessageType.EMPTY, "luae_fs.validation.blanksteg.otillatet", KONTAKT_ONSKAS_SVAR_ID_26);
         }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getAnnatGrundForMUBeskrivning())) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,

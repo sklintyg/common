@@ -81,4 +81,16 @@ public class RespConstants {
     public static final String DIAGNOS_KSH_97_ID = "KSH_97_P";
     public static final String DIAGNOS_KSH_97_LABEL = "KSH97-P (Primärvård)";
 
+    public static final String ANSWER_YES = "Ja";
+    public static final String ANSWER_NOT_SELECTED = "Ej angivet";
+    public static final String KONTAKT_CATEGORY_ID = "kontakt";
+    public static final String KONTAKT_CATEGORY_TEXT_ID = "KAT_6.RBK";
+    public static final String KONTAKT_ONSKAS_SVAR_ID_26 = "26";
+    public static final String KONTAKT_ONSKAS_SVAR_JSON_ID_26 = "kontaktMedFk";
+    public static final String KONTAKT_ONSKAS_SVAR_TEXT_ID = "FRG_26.RBK";
+    public static final String KONTAKT_ONSKAS_SVAR_DESCRIPTION_ID = "FRG_26.HLP";
+    public static final String KONTAKT_ONSKAS_DELSVAR_TEXT_ID = "DFR_26.1.RBK";
+    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26 = "26.2";
+    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26 = "anledningTillKontakt";
+    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT_ID = "DFR_26.2.RBK";
 }
