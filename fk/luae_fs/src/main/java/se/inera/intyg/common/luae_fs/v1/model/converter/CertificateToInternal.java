@@ -29,10 +29,13 @@ import org.springframework.stereotype.Component;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionDiagnoser;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionFunktionsnedsattningDebut;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPaverkan;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKontaktAnledning;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKontaktOnskas;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionOvrigt;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUnderlag;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUnderlagFinns;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUtlatandeBaseratPa;
@@ -68,6 +71,9 @@ public class CertificateToInternal {
             .setUnderlagFinns(QuestionUnderlagFinns.toInternal(certificate))
             .setUnderlag(QuestionUnderlag.toInternal(certificate))
             .setDiagnoser(QuestionDiagnoser.toInternal(certificate, webcertModuleService))
+            .setFunktionsnedsattningDebut(QuestionFunktionsnedsattningDebut.toInternal(certificate))
+            .setFunktionsnedsattningPaverkan(QuestionFunktionsnedsattningPaverkan.toInternal(certificate))
+            .setOvrigt(QuestionOvrigt.toInternal(certificate))
             .setKontaktMedFk(QuestionKontaktOnskas.toInternal(certificate))
             .setAnledningTillKontakt(QuestionKontaktAnledning.toInternal(certificate))
             .build();
