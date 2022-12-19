@@ -140,7 +140,7 @@ class QuestionOvrigtTest {
 
         @Override
         protected short getLimit() {
-            return 4000;
+            return 2850;
         }
     }
 

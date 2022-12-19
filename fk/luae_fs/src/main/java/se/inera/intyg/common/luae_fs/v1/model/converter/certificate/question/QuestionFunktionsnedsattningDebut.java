@@ -37,7 +37,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue
 
 public class QuestionFunktionsnedsattningDebut {
 
-    private static final short LIMIT = 4000;
+    private static final short LIMIT = 3500;
 
     public static CertificateDataElement toCertificate(String debut, int index, CertificateTextProvider textProvider) {
 
