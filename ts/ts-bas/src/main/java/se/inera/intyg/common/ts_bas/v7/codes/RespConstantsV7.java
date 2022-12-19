@@ -184,6 +184,9 @@ public final class RespConstantsV7 {
     public static final String NJURFUNKTION_CATEGORY_ID = "njurfunktion";
     public static final String NJURFUNKTION_CATEGORY_TEXT_ID = "KAT_8.RBK";
     public static final String NEDSATT_NJURFUNKTION_SVAR_ID = "22";
+    public static final String NEDSATT_NJURFUNKTION_SVAR_TEXT_ID = "FRG_22.RBK";
+    public static final String NEDSATT_NJURFUNKTION_JSON_ID = "nedsattNjurfunktion";
+
     public static final String NEDSATT_NJURFUNKTION_DELSVAR_ID = "22.1";
 
     public static final String TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_ID = "23";
