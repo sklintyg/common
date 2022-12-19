@@ -71,7 +71,6 @@ public final class RespConstantsV7 {
     public static final String INTYG_AVSER_IAV8_LABEL_ID = "KV_INTYGET_AVSER.IAV8.RBK";
     public static final String INTYG_AVSER_IAV9_LABEL_ID = "KV_INTYGET_AVSER.IAV9.RBK";
     public static final String INTYG_AVSER_IAV10_LABEL_ID = "KV_INTYGET_AVSER.IAV10.RBK";
-    public static final String SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID_8 = "8.1";
     public static final String HOGER_OGA_UTAN_KORREKTION_DELSVAR_ID_8 = "8.2";
     public static final String VANSTER_OGA_UTAN_KORREKTION_DELSVAR_ID_8 = "8.3";
     public static final String BINOKULART_UTAN_KORREKTION_DELSVAR_ID_8 = "8.4";
@@ -157,17 +156,12 @@ public final class RespConstantsV7 {
     public static final String INSULIN_ELLER_TABLETT_MESSAGE_TEXT_ID = "DFR_19.3.INF";
     public static final String INSULIN_ELLER_TABLETT_MESSAGE_ID = "19.4";
 
-    public static final String INSULINBEHANDLING_SEDAN_AR_DELSVAR_ID = "19.4";
-    public static final String ANNAN_BEHANDLING_DELSVAR_ID = "19.5";
-
     public static final String NEUROLOGISK_SJUKDOM_CATEGORY_ID = "neurologiskaSjukdomar";
     public static final String NEUROLOGISK_SJUKDOM_CATEGORY_TEXT_ID = "KAT_6.RBK";
 
     public static final String TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID = "20";
     public static final String TECKEN_NEUROLOGISK_SJUKDOM_SVAR_TEXT_ID = "FRG_20.RBK";
     public static final String TECKEN_NEUROLOGISK_SJUKDOM_JSON_ID = "teckenNeurologiskSjukdom";
-
-    public static final String TECKEN_NEUROLOGISK_SJUKDOM_DELSVAR_ID = "20.1";
 
     public static final String MEDVETANDESTORNING_CATEGORY_ID = "medvetandestorning";
     public static final String MEDVETANDESTORNING_CATEGORY_TEXT_ID = "KAT_7.RBK";
@@ -178,23 +172,17 @@ public final class RespConstantsV7 {
     public static final String FOREKOMST_MEDVETANDESTORNING_DELSVAR_ID = "21.1";
     public static final String FOREKOMST_MEDVETANDESTORNING_JSON_ID = "forekomstMedvetandestorning";
     public static final String FOREKOMST_MEDVETANDESTORNING_DELSVAR_TEXT_ID = "DFR_21.2.RBK";
-
-    public static final String TIDPUNKT_ORSAK_ANNAN_MEDVETANDESTORNING_DELSVAR_ID = "21.2";
-
     public static final String NJURFUNKTION_CATEGORY_ID = "njurfunktion";
     public static final String NJURFUNKTION_CATEGORY_TEXT_ID = "KAT_8.RBK";
     public static final String NEDSATT_NJURFUNKTION_SVAR_ID = "22";
     public static final String NEDSATT_NJURFUNKTION_SVAR_TEXT_ID = "FRG_22.RBK";
     public static final String NEDSATT_NJURFUNKTION_JSON_ID = "nedsattNjurfunktion";
 
-    public static final String NEDSATT_NJURFUNKTION_DELSVAR_ID = "22.1";
-
     public static final String DEMENS_KOGNITIV_FUNKTION_CATEGORY_ID = "demensAndraKognitivaStorningar";
     public static final String DEMENS_KOGNITIV_FUNKTION_CATEGORY_TEXT_ID = "KAT_9.RBK";
 
     public static final String TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_ID = "23";
-    public static final String TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_JSON_ID = "23";
+    public static final String TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_JSON_ID = "sviktandeKognitivFormaga";
     public static final String TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_TEXT_ID = "FRG_23.RBK";
 
-    public static final String TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_DELSVAR_ID = "23.1";
 }

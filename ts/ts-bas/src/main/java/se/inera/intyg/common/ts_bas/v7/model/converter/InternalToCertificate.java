@@ -45,6 +45,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionHjarnskadaEfterTrauma;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionHjartOchKarlsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKognitivFormoga;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrkaMessage;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionLakarintygAvOgonspecialistMessage;
@@ -184,7 +185,10 @@ public class InternalToCertificate {
                 QuestionNedsattNjurfunktion.toCertificate(internalCertificate.getNjurar(), index++, texts)
             )
             .addElement(
-                CategoryDemensOchAndraKognitivaStorningar.toCertificate(index, texts)
+                CategoryDemensOchAndraKognitivaStorningar.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionKognitivFormoga.toCertificate(internalCertificate.getKognitivt(), index, texts)
             )
             .build();
     }

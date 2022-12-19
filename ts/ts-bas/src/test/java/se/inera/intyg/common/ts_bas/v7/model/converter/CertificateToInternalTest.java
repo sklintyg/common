@@ -47,6 +47,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionHjarnskadaEfterTrauma;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionHjartOchKarlsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKognitivFormoga;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionMedvetandestorning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionMedvetandestorningBeskrivning;
@@ -66,6 +67,7 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.HjartKarl;
 import se.inera.intyg.common.ts_bas.v7.model.internal.HorselBalans;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Kognitivt;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Medvetandestorning;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Neurologi;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Njurar;
@@ -140,6 +142,7 @@ class CertificateToInternalTest {
             .setNeurologi(Neurologi.create(true))
             .setMedvetandestorning(medvetandestorning)
             .setNjurar(Njurar.create(true))
+            .setKognitivt(Kognitivt.create(true))
             .build();
 
         certificate = CertificateBuilder.create()
@@ -170,6 +173,7 @@ class CertificateToInternalTest {
             .addElement(QuestionMedvetandestorning.toCertificate(medvetandestorning, 0, textProvider))
             .addElement(QuestionMedvetandestorningBeskrivning.toCertificate(medvetandestorning, 0, textProvider))
             .addElement(QuestionNedsattNjurfunktion.toCertificate(Njurar.create(true), 0, textProvider))
+            .addElement(QuestionKognitivFormoga.toCertificate(Kognitivt.create(true), 0, textProvider))
             .build();
     }
 
@@ -380,5 +384,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getNjurar().getNedsattNjurfunktion(),
             actualInternalCertificate.getNjurar().getNedsattNjurfunktion());
+    }
+
+    @Test
+    void shallIncludeNedsattKognitivFormaga() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getKognitivt().getSviktandeKognitivFunktion(),
+            actualInternalCertificate.getKognitivt().getSviktandeKognitivFunktion());
     }
 }

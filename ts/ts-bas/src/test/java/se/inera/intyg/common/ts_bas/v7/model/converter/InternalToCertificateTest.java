@@ -52,6 +52,7 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONE
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_PA_HJARNSKADA_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_AV_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID;
@@ -343,5 +344,11 @@ class InternalToCertificateTest {
     void shallIncludeCategoryDemensOchNedsattKognitivFormaga() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(37, actualCertificate.getData().get(DEMENS_KOGNITIV_FUNKTION_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionNedsattKognitivFormaga() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(38, actualCertificate.getData().get(TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_ID).getIndex());
     }
 }
