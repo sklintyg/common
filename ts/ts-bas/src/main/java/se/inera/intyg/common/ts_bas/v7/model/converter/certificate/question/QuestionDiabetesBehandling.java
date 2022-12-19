@@ -25,11 +25,11 @@ import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListVal
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BEHANDLING_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BEHANDLING_DIABETES_SVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HAR_DIABETES_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INSULINBEHANDLING_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INSULINBEHANDLING_DELSVAR_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INSULINBEHANDLING_DELSVAR_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KOSTBEHANDLING_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KOSTBEHANDLING_DELSVAR_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KOSTBEHANDLING_DELSVAR_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TABLETTBEHANDLING_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TABLETTBEHANDLING_DELSVAR_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TABLETTBEHANDLING_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_AV_DIABETES_SVAR_ID;
 
@@ -50,8 +50,6 @@ import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 
 public class QuestionDiabetesBehandling {
 
-    private static final String TRUE = "true";
-
     public static CertificateDataElement toCertificate(Diabetes diabetes, int index, CertificateTextProvider texts) {
         final var insulin = diabetes != null && diabetes.getInsulin() != null ? diabetes.getInsulin() : null;
         final var kost = diabetes != null && diabetes.getKost() != null ? diabetes.getKost() : null;
@@ -66,15 +64,15 @@ public class QuestionDiabetesBehandling {
                     .list(
                         List.of(
                             CheckboxMultipleCode.builder()
-                                .id(KOSTBEHANDLING_DELSVAR_ID)
+                                .id(KOSTBEHANDLING_DELSVAR_JSON_ID)
                                 .label(texts.get(KOSTBEHANDLING_DELSVAR_TEXT_ID))
                                 .build(),
                             CheckboxMultipleCode.builder()
-                                .id(TABLETTBEHANDLING_DELSVAR_ID)
+                                .id(TABLETTBEHANDLING_DELSVAR_JSON_ID)
                                 .label(texts.get(TABLETTBEHANDLING_DELSVAR_TEXT_ID))
                                 .build(),
                             CheckboxMultipleCode.builder()
-                                .id(INSULINBEHANDLING_DELSVAR_ID)
+                                .id(INSULINBEHANDLING_DELSVAR_JSON_ID)
                                 .label(texts.get(INSULINBEHANDLING_DELSVAR_TEXT_ID))
                                 .build()
                         )
@@ -93,7 +91,8 @@ public class QuestionDiabetesBehandling {
                     CertificateDataValidationMandatory.builder()
                         .questionId(BEHANDLING_DIABETES_SVAR_ID)
                         .expression(
-                            multipleOrExpression(KOSTBEHANDLING_DELSVAR_ID, TABLETTBEHANDLING_DELSVAR_ID, INSULINBEHANDLING_DELSVAR_ID))
+                            multipleOrExpression(
+                                KOSTBEHANDLING_DELSVAR_JSON_ID, TABLETTBEHANDLING_DELSVAR_JSON_ID, INSULINBEHANDLING_DELSVAR_JSON_ID))
                         .build(),
                     CertificateDataValidationShow.builder()
                         .questionId(TYP_AV_DIABETES_SVAR_ID)
@@ -109,21 +108,21 @@ public class QuestionDiabetesBehandling {
         if (kost != null && kost) {
             certificateDataValueCodes.add(
                 CertificateDataValueCode.builder()
-                    .id(KOSTBEHANDLING_DELSVAR_ID)
-                    .code(KOSTBEHANDLING_DELSVAR_ID)
+                    .id(KOSTBEHANDLING_DELSVAR_JSON_ID)
+                    .code(KOSTBEHANDLING_DELSVAR_JSON_ID)
                     .build());
         }
         if (tabletter != null && tabletter) {
             certificateDataValueCodes.add(CertificateDataValueCode.builder()
-                .id(TABLETTBEHANDLING_DELSVAR_ID)
-                .code(TABLETTBEHANDLING_DELSVAR_ID)
+                .id(TABLETTBEHANDLING_DELSVAR_JSON_ID)
+                .code(TABLETTBEHANDLING_DELSVAR_JSON_ID)
                 .build());
         }
         if (insulin != null && insulin) {
             certificateDataValueCodes.add(
                 CertificateDataValueCode.builder()
-                    .id(INSULINBEHANDLING_DELSVAR_ID)
-                    .code(INSULINBEHANDLING_DELSVAR_ID)
+                    .id(INSULINBEHANDLING_DELSVAR_JSON_ID)
+                    .code(INSULINBEHANDLING_DELSVAR_JSON_ID)
                     .build());
         }
         return certificateDataValueCodes;

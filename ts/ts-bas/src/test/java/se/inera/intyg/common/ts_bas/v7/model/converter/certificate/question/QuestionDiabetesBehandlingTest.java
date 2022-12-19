@@ -24,11 +24,11 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BEHANDLING_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BEHANDLING_DIABETES_SVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HAR_DIABETES_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INSULINBEHANDLING_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INSULINBEHANDLING_DELSVAR_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INSULINBEHANDLING_DELSVAR_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KOSTBEHANDLING_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KOSTBEHANDLING_DELSVAR_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KOSTBEHANDLING_DELSVAR_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TABLETTBEHANDLING_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TABLETTBEHANDLING_DELSVAR_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TABLETTBEHANDLING_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_AV_DIABETES_SVAR_ID;
 
@@ -99,15 +99,15 @@ class QuestionDiabetesBehandlingTest {
         protected List<CheckboxMultipleCode> getExpectedListOfCodes() {
             return List.of(
                 CheckboxMultipleCode.builder()
-                    .id(KOSTBEHANDLING_DELSVAR_ID)
+                    .id(KOSTBEHANDLING_DELSVAR_JSON_ID)
                     .label(texts.get(KOSTBEHANDLING_DELSVAR_TEXT_ID))
                     .build(),
                 CheckboxMultipleCode.builder()
-                    .id(TABLETTBEHANDLING_DELSVAR_ID)
+                    .id(TABLETTBEHANDLING_DELSVAR_JSON_ID)
                     .label(texts.get(TABLETTBEHANDLING_DELSVAR_TEXT_ID))
                     .build(),
                 CheckboxMultipleCode.builder()
-                    .id(INSULINBEHANDLING_DELSVAR_ID)
+                    .id(TABLETTBEHANDLING_DELSVAR_JSON_ID)
                     .label(texts.get(INSULINBEHANDLING_DELSVAR_TEXT_ID))
                     .build()
             );
@@ -169,18 +169,18 @@ class QuestionDiabetesBehandlingTest {
                         .build(),
                     List.of(
                         CertificateDataValueCode.builder()
-                            .id(KOSTBEHANDLING_DELSVAR_ID)
-                            .code(KOSTBEHANDLING_DELSVAR_ID)
+                            .id(KOSTBEHANDLING_DELSVAR_JSON_ID)
+                            .code(KOSTBEHANDLING_DELSVAR_JSON_ID)
                             .build(),
                         CertificateDataValueCode.builder()
-                            .id(TABLETTBEHANDLING_DELSVAR_ID)
-                            .code(TABLETTBEHANDLING_DELSVAR_ID)
+                            .id(TABLETTBEHANDLING_DELSVAR_JSON_ID)
+                            .code(TABLETTBEHANDLING_DELSVAR_JSON_ID)
                             .build(),
                         CertificateDataValueCode.builder()
-                            .id(INSULINBEHANDLING_DELSVAR_ID)
-                            .code(INSULINBEHANDLING_DELSVAR_ID)
+                            .id(INSULINBEHANDLING_DELSVAR_JSON_ID)
+                            .code(INSULINBEHANDLING_DELSVAR_JSON_ID)
                             .build()
-                        
+
                     ))
             );
         }
@@ -196,7 +196,7 @@ class QuestionDiabetesBehandlingTest {
 
         @Override
         protected String getExpression() {
-            return KOSTBEHANDLING_DELSVAR_ID + " || " + TABLETTBEHANDLING_DELSVAR_ID + " || " + INSULINBEHANDLING_DELSVAR_ID;
+            return KOSTBEHANDLING_DELSVAR_JSON_ID + " || " + TABLETTBEHANDLING_DELSVAR_JSON_ID + " || " + INSULINBEHANDLING_DELSVAR_JSON_ID;
         }
 
         @Override
@@ -251,7 +251,7 @@ class QuestionDiabetesBehandlingTest {
 
                 @Override
                 protected Boolean toInternalValue(Certificate certificate) {
-                    return QuestionDiabetesBehandling.toInternal(certificate, KOSTBEHANDLING_DELSVAR_ID);
+                    return QuestionDiabetesBehandling.toInternal(certificate, KOSTBEHANDLING_DELSVAR_JSON_ID);
                 }
 
                 @Override
@@ -290,7 +290,7 @@ class QuestionDiabetesBehandlingTest {
 
                 @Override
                 protected Boolean toInternalValue(Certificate certificate) {
-                    return QuestionDiabetesBehandling.toInternal(certificate, TABLETTBEHANDLING_DELSVAR_ID);
+                    return QuestionDiabetesBehandling.toInternal(certificate, TABLETTBEHANDLING_DELSVAR_JSON_ID);
                 }
 
                 @Override
@@ -329,7 +329,7 @@ class QuestionDiabetesBehandlingTest {
 
                 @Override
                 protected Boolean toInternalValue(Certificate certificate) {
-                    return QuestionDiabetesBehandling.toInternal(certificate, INSULINBEHANDLING_DELSVAR_ID);
+                    return QuestionDiabetesBehandling.toInternal(certificate, INSULINBEHANDLING_DELSVAR_JSON_ID);
                 }
 
                 @Override
