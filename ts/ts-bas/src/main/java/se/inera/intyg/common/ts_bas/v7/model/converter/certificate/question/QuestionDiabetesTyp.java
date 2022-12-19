@@ -55,7 +55,7 @@ public class QuestionDiabetesTyp {
             .config(
                 CertificateDataConfigRadioMultipleCode.builder()
                     .text(texts.get(TYP_AV_DIABETES_SVAR_TEXT_ID))
-                    .layout(Layout.COLUMN)
+                    .layout(Layout.ROWS)
                     .list(
                         List.of(
                             RadioMultipleCode.builder()

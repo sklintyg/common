@@ -110,7 +110,7 @@ class QuestionDiabetesTypTest {
 
         @Override
         protected Layout getExpectedLayout() {
-            return Layout.COLUMN;
+            return Layout.ROWS;
         }
 
         @Override

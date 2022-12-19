@@ -31,6 +31,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.Cate
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryMedvetandestorning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryNeurologiskaSjukdomar;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryNjursjukdomar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySynfunktioner;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBalansrubbningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBeskrivningRiskfaktorer;
@@ -172,7 +173,10 @@ public class InternalToCertificate {
                 QuestionMedvetandestorning.toCertificate(internalCertificate.getMedvetandestorning(), index++, texts)
             )
             .addElement(
-                QuestionMedvetandestorningBeskrivning.toCertificate(internalCertificate.getMedvetandestorning(), index, texts)
+                QuestionMedvetandestorningBeskrivning.toCertificate(internalCertificate.getMedvetandestorning(), index++, texts)
+            )
+            .addElement(
+                CategoryNjursjukdomar.toCertificate(index, texts)
             )
             .build();
     }

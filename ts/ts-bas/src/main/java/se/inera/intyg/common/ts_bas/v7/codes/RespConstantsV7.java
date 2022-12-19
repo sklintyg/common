@@ -181,6 +181,8 @@ public final class RespConstantsV7 {
 
     public static final String TIDPUNKT_ORSAK_ANNAN_MEDVETANDESTORNING_DELSVAR_ID = "21.2";
 
+    public static final String NJURFUNKTION_CATEGORY_ID = "njurfunktion";
+    public static final String NJURFUNKTION_CATEGORY_TEXT_ID = "KAT_8.RBK";
     public static final String NEDSATT_NJURFUNKTION_SVAR_ID = "22";
     public static final String NEDSATT_NJURFUNKTION_DELSVAR_ID = "22.1";
 
