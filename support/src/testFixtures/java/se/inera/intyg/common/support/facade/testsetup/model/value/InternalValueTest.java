@@ -44,7 +44,7 @@ public abstract class InternalValueTest<T, S> {
 
     @ParameterizedTest
     @MethodSource("inputExpectedValuePairStream")
-    void shouldIncludeTextValue(InputExpectedValuePair<T, S> inputExpectedValuePair) {
+    void shouldIncludeValue(InputExpectedValuePair<T, S> inputExpectedValuePair) {
         final var certificate = CertificateBuilder.create()
             .addElement(getElement(inputExpectedValuePair.getInput()))
             .build();

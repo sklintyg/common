@@ -80,9 +80,6 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
 
     private Map<String, String> validationMessages;
 
-    @Autowired
-    protected WebcertModuleService moduleService;
-
     public LisjpModuleApiV1() {
         super(LisjpUtlatandeV1.class);
         init();

@@ -68,13 +68,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DESCRIPTION;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_CATEGORY_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_ICD_10_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_ICD_10_LABEL;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_KSH_97_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_KSH_97_LABEL;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_SVAR_BESKRIVNING;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_SVAR_ID_6;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_SVAR_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_BESKRIVNING;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37;
@@ -180,6 +173,7 @@ import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGr
 import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
 import se.inera.intyg.common.lisjp.model.internal.Sysselsattning.SysselsattningsTyp;
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionDiagnoser;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
@@ -192,7 +186,6 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCa
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleDate;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDiagnoses;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDropdown;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigIcf;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
@@ -202,8 +195,6 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTe
 import se.inera.intyg.common.support.facade.model.config.CheckboxDateRange;
 import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleDate;
-import se.inera.intyg.common.support.facade.model.config.DiagnosesListItem;
-import se.inera.intyg.common.support.facade.model.config.DiagnosesTerminology;
 import se.inera.intyg.common.support.facade.model.config.DropdownItem;
 import se.inera.intyg.common.support.facade.model.config.RadioMultipleCodeOptionalDropdown;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
@@ -225,8 +216,6 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRange;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
 import se.inera.intyg.common.support.facade.util.MetaDataToolkit;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.Relation;
@@ -730,91 +719,8 @@ public final class InternalToCertificate {
             .build();
     }
 
-    public static CertificateDataElement createDiagnosQuestion(List<Diagnos> value, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(DIAGNOS_SVAR_ID_6)
-            .index(index)
-            .parent(DIAGNOS_CATEGORY_ID)
-            .config(
-                CertificateDataConfigDiagnoses.builder()
-                    .text(texts.get(DIAGNOS_SVAR_TEXT))
-                    .description(texts.get(DIAGNOS_SVAR_BESKRIVNING))
-                    .terminology(
-                        Arrays.asList(
-                            DiagnosesTerminology.builder()
-                                .id(DIAGNOS_ICD_10_ID)
-                                .label(DIAGNOS_ICD_10_LABEL)
-                                .build(),
-                            DiagnosesTerminology.builder()
-                                .id(DIAGNOS_KSH_97_ID)
-                                .label(DIAGNOS_KSH_97_LABEL)
-                                .build()
-                        )
-                    )
-                    .list(
-                        Arrays.asList(
-                            DiagnosesListItem.builder()
-                                .id("1")
-                                .build(),
-                            DiagnosesListItem.builder()
-                                .id("2")
-                                .build(),
-                            DiagnosesListItem.builder()
-                                .id("3")
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .value(
-                CertificateDataValueDiagnosisList.builder()
-                    .list(createDiagnosValue(value))
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(DIAGNOS_SVAR_ID_6)
-                        .expression(singleExpression("1"))
-                        .build(),
-                    CertificateDataValidationText.builder()
-                        .limit(LIMIT_DIAGNOSIS_DESC)
-                        .build()
-                }
-            )
-            .build();
-    }
-
-    private static List<CertificateDataValueDiagnosis> createDiagnosValue(List<Diagnos> diagnoses) {
-        if (diagnoses == null) {
-            return Collections.emptyList();
-        }
-
-        final List<CertificateDataValueDiagnosis> newDiagnoses = new ArrayList<>();
-        for (int i = 0; i < diagnoses.size(); i++) {
-            final var diagnosis = diagnoses.get(i);
-            if (isInvalid(diagnosis)) {
-                continue;
-            }
-
-            newDiagnoses.add(createDiagnosis(Integer.toString(i + 1), diagnosis));
-        }
-
-        return newDiagnoses;
-    }
-
-    private static boolean isInvalid(Diagnos diagnos) {
-        return diagnos.getDiagnosKod() == null;
-    }
-
-    private static CertificateDataValueDiagnosis createDiagnosis(String id, Diagnos diagnos) {
-        return CertificateDataValueDiagnosis.builder()
-            .id(id)
-            .terminology(diagnos.getDiagnosKodSystem())
-            .code(diagnos.getDiagnosKod())
-            .description(diagnos.getDiagnosBeskrivning())
-            .build();
+    public static CertificateDataElement createDiagnosQuestion(List<Diagnos> value, int index, CertificateTextProvider texts) {
+        return QuestionDiagnoser.toCertificate(value, index, texts);
     }
 
     private static CertificateDataElement createFunktionsnedsattningCategory(int index,

@@ -58,6 +58,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionRiskfaktorerForStroke;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpa;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTablettEllerInsulinMessage;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTeckenPaNeurologiskSjukdom;
@@ -102,6 +103,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionSynskarpaSkickasSeparat.toCertificate(internalCertificate.getSyn(), index++, texts)
+            )
+            .addElement(
+                QuestionSynskarpa.toCertificate(internalCertificate.getSyn(), index++, texts)
             )
             .addElement(
                 QuestionTidigareUtfordUndersokningMessage.toCertificate(index++, texts)

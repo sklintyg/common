@@ -30,7 +30,7 @@ public class RespConstants {
     public static final String BIDIAGNOS_2_BESKRIVNING_DELSVAR_ID_6 = "6.5";
     public static final String BIDIAGNOS_2_DELSVAR_ID_6 = "6.6";
     public static final String DIAGNOS_SVAR_JSON_ID_6 = "diagnoser";
-    public static final String DIAGNOS_CATEGORY_TEXT_ID = "KAT_3.RBK";
+    public static final String DIAGNOS_CATEGORY_TEXT_ID = "KAT_4.RBK";
     public static final String DIAGNOS_SVAR_TEXT_ID = "FRG_6.RBK";
     public static final String DIAGNOS_SVAR_DESCRIPTION_ID = "FRG_6.HLP";
     public static final String DIAGNOS_DELSVAR_TEXT_ID = "DFR_6.2.RBK";

@@ -68,6 +68,7 @@ public class LuaefsModuleApiV1 extends FkParentModuleApi<LuaefsUtlatandeV1> {
 
     private static final String CERTIFICATE_FILE_PREFIX = "lakarutlatande_aktivitetsersattning";
     private Map<String, String> validationMessages;
+
     @Autowired
     private InternalToCertificate internalToCertificate;
 

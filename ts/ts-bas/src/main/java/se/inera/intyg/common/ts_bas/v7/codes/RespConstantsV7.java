@@ -24,7 +24,22 @@ public final class RespConstantsV7 {
     public static final String SVAR_NEJ_TEXT = "Nej";
     public static final String SYNFUNKTIONER_CATEGORY_ID = "synfunktioner";
     public static final String SYNFUNKTIONER_CATEGORY_TEXT_ID = "KAT_1.RBK";
-
+    public static final String INTYG_AVSER_SVAR_ID_1 = "1";
+    public static final String INTYG_AVSER_SVAR_TEXT_ID = "FRG_1.RBK";
+    public static final String INTYG_AVSER_SVAR_DESCRIPTION_ID = "FRG_1.RBK";
+    public static final String INTYG_AVSER_CATEGORY_ID = "intygetAvser";
+    public static final String INTYG_AVSER_CATEGORY_TEXT_ID = "KAT_99.RBK";
+    public static final String INTYG_AVSER_CATEGORY_DESCRIPTION_ID = "KAT_99.HLP";
+    public static final String INTYG_AVSER_IAV1_LABEL_ID = "KV_INTYGET_AVSER.IAV1.RBK";
+    public static final String INTYG_AVSER_IAV2_LABEL_ID = "KV_INTYGET_AVSER.IAV2.RBK";
+    public static final String INTYG_AVSER_IAV3_LABEL_ID = "KV_INTYGET_AVSER.IAV3.RBK";
+    public static final String INTYG_AVSER_IAV4_LABEL_ID = "KV_INTYGET_AVSER.IAV4.RBK";
+    public static final String INTYG_AVSER_IAV5_LABEL_ID = "KV_INTYGET_AVSER.IAV5.RBK";
+    public static final String INTYG_AVSER_IAV6_LABEL_ID = "KV_INTYGET_AVSER.IAV6.RBK";
+    public static final String INTYG_AVSER_IAV7_LABEL_ID = "KV_INTYGET_AVSER.IAV7.RBK";
+    public static final String INTYG_AVSER_IAV8_LABEL_ID = "KV_INTYGET_AVSER.IAV8.RBK";
+    public static final String INTYG_AVSER_IAV9_LABEL_ID = "KV_INTYGET_AVSER.IAV9.RBK";
+    public static final String INTYG_AVSER_IAV10_LABEL_ID = "KV_INTYGET_AVSER.IAV10.RBK";
     public static final String SYNFALTSDEFEKTER_SVAR_ID = "3";
     public static final String SYNFALTSDEFEKTER_SVAR_TEXT_ID = "FRG_3.RBK";
     public static final String SYNFALTSDEFEKTER_JSON_ID = "synfaltsdefekter";
@@ -55,6 +70,7 @@ public final class RespConstantsV7 {
     public static final String SYNKARPA_SKICKAS_SEPARAT_SVAR_TEXT_ID = "DFR_8.1.RBK";
     public static final String SYNKARPA_SKICKAS_SEPARAT_DESCRIPTION_ID = "FRG_8.HLP";
 
+
     public static final String INTYG_AVSER_SVAR_ID_1 = "1";
     public static final String INTYG_AVSER_SVAR_TEXT_ID = "FRG_1.RBK";
     public static final String INTYG_AVSER_SVAR_DESCRIPTION_ID = "FRG_1.RBK";
@@ -71,6 +87,14 @@ public final class RespConstantsV7 {
     public static final String INTYG_AVSER_IAV8_LABEL_ID = "KV_INTYGET_AVSER.IAV8.RBK";
     public static final String INTYG_AVSER_IAV9_LABEL_ID = "KV_INTYGET_AVSER.IAV9.RBK";
     public static final String INTYG_AVSER_IAV10_LABEL_ID = "KV_INTYGET_AVSER.IAV10.RBK";
+    public static final String VARDEN_FOR_SYNSKARPA_ID = "8";
+
+    public static final String HOGER_OGA_LABEL_ID = "ts-bas.label.syn.hogeroga";
+    public static final String VANSTER_OGA_LABEL_ID = "ts-bas.label.syn.vansteroga";
+    public static final String BINOKULART_LABEL_ID = "ts-bas.label.syn.binokulart";
+    public static final String UTAN_KORREKTION_TEXT_ID = "ts-bas.label.syn.utankorrektion";
+    public static final String MED_KORREKTION_TEXT_ID = "ts-bas.label.syn.medkorrektion";
+    public static final String KONTAKTLINSER_TEXT_ID = "ts-bas.label.syn.kontaktlins";
     public static final String HOGER_OGA_UTAN_KORREKTION_DELSVAR_ID_8 = "8.2";
     public static final String VANSTER_OGA_UTAN_KORREKTION_DELSVAR_ID_8 = "8.3";
     public static final String BINOKULART_UTAN_KORREKTION_DELSVAR_ID_8 = "8.4";
@@ -79,7 +103,6 @@ public final class RespConstantsV7 {
     public static final String BINOKULART_MED_KORREKTION_DELSVAR_ID_8 = "8.7";
     public static final String KONTAKTLINSER_HOGER_OGA_DELSVAR_ID_8 = "8.8";
     public static final String KONTAKTLINSER_VANSTER_OGA_DELSVAR_ID_8 = "8.9";
-
 
     public static final String TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_SVAR_ID = "8.10";
     public static final String TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_TEXT_ID = "FRG_8.INF";

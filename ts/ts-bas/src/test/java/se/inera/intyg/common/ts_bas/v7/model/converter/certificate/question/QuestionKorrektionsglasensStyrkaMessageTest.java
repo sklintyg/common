@@ -90,6 +90,11 @@ class QuestionKorrektionsglasensStyrkaMessageTest {
 
         @Override
         protected String getTextId() {
+            return null;
+        }
+
+        @Override
+        protected String getMessageId() {
             return UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_TEXT_ID;
         }
 
