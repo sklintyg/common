@@ -46,6 +46,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrkaMessage;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionLakarintygAvOgonspecialistMessage;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionMedvetandestorning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNystagmus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionOtillrackligRorelseFormoga;
@@ -164,7 +165,10 @@ public class InternalToCertificate {
                 QuestionTeckenPaNeurologiskSjukdom.toCertificate(internalCertificate.getNeurologi(), index++, texts)
             )
             .addElement(
-                CategoryMedvetandestorning.toCertificate(index, texts)
+                CategoryMedvetandestorning.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionMedvetandestorning.toCertificate(internalCertificate.getMedvetandestorning(), index, texts)
             )
             .build();
     }

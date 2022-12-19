@@ -34,6 +34,7 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_SVAR_ID_1;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDVETANDESTORNING_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDVETANDESTORNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NEUROLOGISK_SJUKDOM_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NYSTAGMUS_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID;
@@ -308,5 +309,11 @@ class InternalToCertificateTest {
     void shallIncludeCategoryMedvetandestorning() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(32, actualCertificate.getData().get(MEDVETANDESTORNING_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionMedvetandestorning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(33, actualCertificate.getData().get(MEDVETANDESTORNING_SVAR_ID).getIndex());
     }
 }
