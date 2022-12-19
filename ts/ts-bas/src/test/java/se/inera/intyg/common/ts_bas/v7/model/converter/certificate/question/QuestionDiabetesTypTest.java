@@ -51,7 +51,7 @@ import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigRadioBo
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
-import se.inera.intyg.common.support.facade.testsetup.model.value.InternalValuePairTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InternalValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueCodeTest;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Diabetes;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
@@ -208,7 +208,7 @@ class QuestionDiabetesTypTest {
 
         @Nested
         @TestInstance(Lifecycle.PER_CLASS)
-        class IncludeInternalValuePairTest extends InternalValuePairTest<Diabetes, String> {
+        class IncludeInternalValuePairTest extends InternalValueTest<Diabetes, String> {
 
             @Override
             protected CertificateDataElement getElement(Diabetes input) {

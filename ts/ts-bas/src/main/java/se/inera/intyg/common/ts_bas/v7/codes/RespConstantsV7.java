@@ -160,6 +160,9 @@ public final class RespConstantsV7 {
     public static final String INSULINBEHANDLING_SEDAN_AR_DELSVAR_ID = "19.4";
     public static final String ANNAN_BEHANDLING_DELSVAR_ID = "19.5";
 
+    public static final String NEUROLOGISK_SJUKDOM_CATEGORY_ID = "neurologiskaSjukdomar";
+    public static final String NEUROLOGISK_SJUKDOM_CATEGORY_TEXT_ID = "KAT_6.RBK";
+
     public static final String TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID = "20";
     public static final String TECKEN_NEUROLOGISK_SJUKDOM_DELSVAR_ID = "20.1";
 

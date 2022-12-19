@@ -61,7 +61,7 @@ import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCheckboxMultipleCodeTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
-import se.inera.intyg.common.support.facade.testsetup.model.value.InternalValuePairTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InternalValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueCodeListTest;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
@@ -247,7 +247,7 @@ class QuestionIntygetAvserTest {
 
         @Nested
         @TestInstance(Lifecycle.PER_CLASS)
-        class IncludeInternalValuePairTest extends InternalValuePairTest<IntygAvser, IntygAvser> {
+        class IncludeInternalValuePairTest extends InternalValueTest<IntygAvser, IntygAvser> {
 
             @Override
             protected CertificateDataElement getElement(IntygAvser input) {
