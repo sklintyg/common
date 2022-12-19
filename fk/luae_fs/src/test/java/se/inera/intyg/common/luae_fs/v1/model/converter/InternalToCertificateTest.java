@@ -25,6 +25,9 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.DIAGNOS_SVAR_ID_6;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
@@ -138,5 +141,23 @@ class InternalToCertificateTest {
     void shallIncludeQuestionDiagnoser() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(8, actualCertificate.getData().get(DIAGNOS_SVAR_ID_6).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryFunktionsnedsattning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(9, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionFunktionsnedsattningDebut() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(10, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionFunktionsnedsattningPaverkan() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(11, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16).getIndex());
     }
 }
