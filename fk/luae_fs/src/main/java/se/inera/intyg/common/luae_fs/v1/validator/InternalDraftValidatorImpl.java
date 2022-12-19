@@ -144,7 +144,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaefs
                 ValidationMessageType.EMPTY, KANNEDOM_SVAR_ID_2);
         } else {
             boolean dateIsValid = ValidatorUtil.validateDateAndCheckIfFuture(utlatande.getKannedomOmPatient(), validationMessages,
-                    CATEGORY_GRUNDFORMU, "kannedomOmPatient", "common.validation.c-06");
+                    CATEGORY_GRUNDFORMU, "kannedomOmPatient", "common.validation.c-06", KANNEDOM_SVAR_ID_2);
             if (dateIsValid && checkIfNotFuture(utlatande.getKannedomOmPatient().asLocalDate())) {
                 if (utlatande.getUndersokningAvPatienten() != null && utlatande.getUndersokningAvPatienten().isValidDate()
                     && utlatande.getKannedomOmPatient().asLocalDate().isAfter(utlatande.getUndersokningAvPatienten().asLocalDate())) {
@@ -215,7 +215,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaefs
                     "luae_fs.validation.underlag.date.missing", UNDERLAG_SVAR_ID_4);
             } else {
                 ValidatorUtil.validateDateAndCheckIfFuture(underlag.getDatum(), validationMessages, CATEGORY_GRUNDFORMU,
-                    UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum", "common.validation.c-06");
+                    UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum", "common.validation.c-06", UNDERLAG_SVAR_ID_4);
             }
             if (underlag.getHamtasFran() == null || underlag.getHamtasFran().trim().isEmpty()) {
                 ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU,
@@ -225,10 +225,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaefs
         }
 
         if (utlatande.getUnderlag().size() > 1 && !validateFirstUnderlagIsPresent(utlatande.getUnderlag())) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,
-                UNDERLAG_SVAR_JSON_ID_4 + "[0]",
-                ValidationMessageType.INCORRECT_COMBINATION,
-                "common.validation.c-05");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU,
+                UNDERLAG_SVAR_JSON_ID_4 + "[0]", ValidationMessageType.INCORRECT_COMBINATION, "common.validation.c-05",
+                UNDERLAG_SVAR_ID_4);
         }
     }
 
