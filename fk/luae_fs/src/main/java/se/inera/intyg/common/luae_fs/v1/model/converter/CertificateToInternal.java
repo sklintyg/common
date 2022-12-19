@@ -33,6 +33,7 @@ import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPaverkan;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionOvrigt;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUnderlag;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUnderlagFinns;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUtlatandeBaseratPa;
@@ -70,6 +71,7 @@ public class CertificateToInternal {
             .setDiagnoser(QuestionDiagnoser.toInternal(certificate, webcertModuleService))
             .setFunktionsnedsattningDebut(QuestionFunktionsnedsattningDebut.toInternal(certificate))
             .setFunktionsnedsattningPaverkan(QuestionFunktionsnedsattningPaverkan.toInternal(certificate))
+            .setOvrigt(QuestionOvrigt.toInternal(certificate))
             .build();
     }
 }

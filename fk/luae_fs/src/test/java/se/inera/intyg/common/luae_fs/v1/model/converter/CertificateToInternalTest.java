@@ -44,6 +44,7 @@ import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPaverkan;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionOvrigt;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUnderlag;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUnderlagFinns;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUtlatandeBaseratPa;
@@ -101,6 +102,7 @@ class CertificateToInternalTest {
             )
             .setFunktionsnedsattningDebut("Funktionsnedsattning debut")
             .setFunktionsnedsattningPaverkan("Funktionsnedsattning paverkan")
+            .setOvrigt("ovrigt")
             .build();
 
         certificate = CertificateBuilder.create()
@@ -120,6 +122,7 @@ class CertificateToInternalTest {
                 textProvider))
             .addElement(QuestionFunktionsnedsattningPaverkan.toCertificate(expectedInternalCertificate.getFunktionsnedsattningPaverkan(), 0,
                     textProvider))
+            .addElement(QuestionOvrigt.toCertificate(expectedInternalCertificate.getOvrigt(), 0, textProvider))
             .build();
     }
 
@@ -224,5 +227,11 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getFunktionsnedsattningPaverkan(),
             actualInternalCertificate.getFunktionsnedsattningPaverkan());
+    }
+
+    @Test
+    void shallIncludeOvrigt() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getOvrigt(), actualInternalCertificate.getOvrigt());
     }
 }
