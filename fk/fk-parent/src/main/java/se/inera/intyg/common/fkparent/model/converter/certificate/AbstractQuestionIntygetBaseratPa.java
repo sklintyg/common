@@ -26,10 +26,10 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_ANNAT_LABEL;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_JOURNALUPPGIFTER_LABEL;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_TELEFONKONTAKT_LABEL;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_UNDERSOKNING_LABEL;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_ANNAT_LABEL_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_JOURNALUPPGIFTER_LABEL_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_TELEFONKONTAKT_LABEL_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_UNDERSOKNING_LABEL_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateListValue;
@@ -69,19 +69,19 @@ public abstract class AbstractQuestionIntygetBaseratPa {
                         Arrays.asList(
                             CheckboxMultipleDate.builder()
                                 .id(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1)
-                                .label(textProvider.get(GRUNDFORMU_UNDERSOKNING_LABEL))
+                                .label(textProvider.get(GRUNDFORMU_UNDERSOKNING_LABEL_ID))
                                 .build(),
                             CheckboxMultipleDate.builder()
                                 .id(GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1)
-                                .label(textProvider.get(GRUNDFORMU_TELEFONKONTAKT_LABEL))
+                                .label(textProvider.get(GRUNDFORMU_TELEFONKONTAKT_LABEL_ID))
                                 .build(),
                             CheckboxMultipleDate.builder()
                                 .id(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1)
-                                .label(textProvider.get(GRUNDFORMU_JOURNALUPPGIFTER_LABEL))
+                                .label(textProvider.get(GRUNDFORMU_JOURNALUPPGIFTER_LABEL_ID))
                                 .build(),
                             CheckboxMultipleDate.builder()
                                 .id(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
-                                .label(textProvider.get(GRUNDFORMU_ANNAT_LABEL))
+                                .label(textProvider.get(GRUNDFORMU_ANNAT_LABEL_ID))
                                 .build()
                         )
                     )

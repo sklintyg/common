@@ -58,9 +58,11 @@ public class RespConstants {
     public static final String ANSWER_YES = "Ja";
     public static final String ANSWER_NOT_SELECTED = "Ej angivet";
 
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM = "KV_FKMU_0001";
     public static final String GRUNDFORMU_CATEGORY_ID = "grundformu";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1 = "1";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1 = "1.1";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1 = "1.2";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1 = "1.3";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1 = "undersokningAvPatienten";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1 = "journaluppgifter";
@@ -102,10 +104,15 @@ public class RespConstants {
     public static final String UNDERLAGFINNS_SELECTED_TEXT = "Ja";
     public static final String UNDERLAGFINNS_UNSELECTED_TEXT = "Nej";
     public static final String UNDERLAGFINNS_SVAR_TEXT = "FRG_3.RBK";
+
     public static final String UNDERLAG_TYPE_TEXT_ID = "FRG_4.RBK";
     public static final String UNDERLAG_DATUM_TEXT = "Datum";
+    public static final String UNDERLAG_HAMTAS_FRAN_DELSVAR_ID_4 = "4.3";
+
+    public static final String UNDERLAG_DATUM_DELSVAR_ID_4 = "4.2";
     public static final String UNDERLAG_INFORMATION_SOURCE_TEXT_ID = "DFR_4.3.RBK";
     public static final String UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID = "DFR_4.3.HLP";
+    public static final String UNDERLAG_CODE_SYSTEM = "KV_FKMU_0005";
 
     public static final String BAKGRUND_CATEGORY_ID = "bakgrund";
     public static final String BAKGRUND_CATEGORY_TEXT_ID = "KAT_3.RBK";

@@ -33,8 +33,8 @@ public class QuestionUtlatandeBaseratPa extends AbstractQuestionUtlatandeBaserat
 
     public static CertificateDataElement toCertificate(InternalDate undersokningPatient, InternalDate journaluppgifter,
         InternalDate beskrivningPatient, InternalDate annat, int index, CertificateTextProvider textProvider) {
-        return toCertificate(undersokningPatient, journaluppgifter, beskrivningPatient, annat, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1,
-            GRUNDFORMU_CATEGORY_ID, index, GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT_ID, null, textProvider);
+        return toCertificate(undersokningPatient, journaluppgifter, beskrivningPatient, annat, index, textProvider,
+            GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, GRUNDFORMU_CATEGORY_ID, GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT_ID);
     }
 
     public static InternalDate toInternal(Certificate certificate, String itemId) {

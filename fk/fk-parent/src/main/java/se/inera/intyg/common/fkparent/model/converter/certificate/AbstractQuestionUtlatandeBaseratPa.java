@@ -50,15 +50,14 @@ public abstract class AbstractQuestionUtlatandeBaseratPa {
     private static final short NUMBER_OF_DAYS_IN_FUTURE = 0;
 
     protected static CertificateDataElement toCertificate(InternalDate undersokningPatient, InternalDate journaluppgifter,
-        InternalDate beskrivningPatient, InternalDate annat, String questionId, String parentId, int index, String textId,
-        String descriptionId, CertificateTextProvider textProvider) {
+        InternalDate beskrivningPatient, InternalDate annat, int index, CertificateTextProvider textProvider, String questionId,
+        String parentId, String textId) {
         return CertificateDataElement.builder()
             .id(questionId)
             .parent(parentId)
             .index(index)
             .config(CertificateDataConfigCheckboxMultipleDate.builder()
                 .text(textProvider.get(textId))
-                .description(descriptionId != null ? textProvider.get(descriptionId) : null)
                 .list(
                     List.of(
                         CheckboxMultipleDate.builder()
