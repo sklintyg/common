@@ -189,6 +189,12 @@ public final class RespConstantsV7 {
 
     public static final String NEDSATT_NJURFUNKTION_DELSVAR_ID = "22.1";
 
+    public static final String DEMENS_KOGNITIV_FUNKTION_CATEGORY_ID = "demensAndraKognitivaStorningar";
+    public static final String DEMENS_KOGNITIV_FUNKTION_CATEGORY_TEXT_ID = "KAT_9.RBK";
+
     public static final String TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_ID = "23";
+    public static final String TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_JSON_ID = "23";
+    public static final String TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_TEXT_ID = "FRG_23.RBK";
+
     public static final String TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_DELSVAR_ID = "23.1";
 }
