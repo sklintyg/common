@@ -26,7 +26,6 @@ import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRU
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -71,7 +70,7 @@ class QuestionAnnatBeskrivningTest {
 
         @Override
         protected String getParent() {
-            return GRUNDFORMU_CATEGORY_ID;
+            return GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
         }
 
         @Override
