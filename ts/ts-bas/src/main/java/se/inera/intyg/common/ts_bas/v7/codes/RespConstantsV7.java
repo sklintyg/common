@@ -97,9 +97,21 @@ public final class RespConstantsV7 {
     public static final String TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24 = "24";
     public static final String TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID = "vakenhetsstorning";
     public static final String TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_TEXT_ID = "FRG_24.RBK";
-    public static final String TECKEN_SOMN_ELLER_VAKENHETSSTORNING_DELSVAR_JA_TEXT_ID = "SVAR_JA.RBK";
-    public static final String TECKEN_SOMN_ELLER_VAKENHETSSTORNING_DELSVAR_NEJ_TEXT_ID = "SVAR_NEJ.RBK";
+    public static final String JA_TEXT_ID = "SVAR_JA.RBK";
+    public static final String NEJ_TEXT_ID = "SVAR_NEJ.RBK";
 
+    public static final String MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID = "missbrukberoendelakemedel";
+    public static final String MISSBRUK_BEROENDE_LAKEMEDEL_TEXT_ID = "KAT_11.RBK";
 
+    public static final String TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID_25 = "25.1";
+    public static final String TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID = "teckenmissbrukberoende";
+    public static final String TECKEN_MISSBRUK_BEROENDE_JOURNAL_TEXT_ID = "DFR_25.1.RBK";
+    public static final String VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID_25 = "25.2";
+    public static final String VARDINSATSER_MISSBRUK_BEROENDE_JSON_ID = "teckenmissbrukberoendevardinsatser";
+    public static final String VARDINSATSER_MISSBRUK_BEROENDE_TEXT_ID = "DFR_25.2.RBK";
+    public static final String PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID_25 = "25.3";
+    public static final String REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_SVAR_ID_26 = "26";
+    public static final String REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID_26 = "26.1";
+    public static final String LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID_26 = "26.2";
 
 }

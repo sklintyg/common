@@ -21,12 +21,12 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.JA_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NEJ_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID_25;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_MISSBRUK_BEROENDE_JOURNAL_TEXT_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -36,33 +36,33 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 
-public class QuestionSomnOchVakenhetsstorningar {
+public class QuestionAlkoholNarkotikaJournaluppgifter {
 
-    public static CertificateDataElement toCertificate(Boolean somnOchVakenhetsstorningar, int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(Boolean journaluppgifterFinns, int index, CertificateTextProvider textProvider) {
 
         return CertificateDataElement.builder()
             .index(index)
-            .id(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24)
-            .parent(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_CATEGORY_ID)
+            .id(TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID_25)
+            .parent(MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID)
             .config(
                 CertificateDataConfigRadioBoolean.builder()
-                    .id(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID)
-                    .text(textProvider.get(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_TEXT_ID))
+                    .id(TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID)
+                    .text(textProvider.get(TECKEN_MISSBRUK_BEROENDE_JOURNAL_TEXT_ID))
                     .selectedText(textProvider.get(JA_TEXT_ID))
                     .unselectedText(textProvider.get(NEJ_TEXT_ID))
                     .build()
             )
             .value(
                 CertificateDataValueBoolean.builder()
-                    .id(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID)
-                    .selected(somnOchVakenhetsstorningar)
+                    .id(TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID)
+                    .selected(journaluppgifterFinns)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24)
-                        .expression(singleExpression(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID))
+                        .questionId(TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID_25)
+                        .expression(singleExpression(TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID))
                         .build()
                 }
             )
@@ -70,6 +70,6 @@ public class QuestionSomnOchVakenhetsstorningar {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24, TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID);
+        return booleanValue(certificate.getData(), TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID_25, TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID);
     }
 }

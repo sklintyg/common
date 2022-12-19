@@ -36,6 +36,8 @@ import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaJournaluppgifter;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaVardinsatser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
@@ -44,6 +46,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSomnOchVakenhetsstorningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
+import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 import se.inera.intyg.common.ts_bas.v7.model.internal.SomnVakenhet;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
@@ -82,6 +85,11 @@ class CertificateToInternalTest {
             .setIntygAvser(IntygAvser.create(EnumSet.of(IntygAvserKategori.IAV1, IntygAvserKategori.IAV2)))
             .setSyn(syn)
             .setSomnVakenhet(SomnVakenhet.create(true))
+            .setNarkotikaLakemedel(
+                NarkotikaLakemedel.builder()
+                    .setTeckenMissbruk(true)
+                    .setForemalForVardinsats(true)
+                    .build())
             .build();
 
         certificate = CertificateBuilder.create()
@@ -97,6 +105,8 @@ class CertificateToInternalTest {
             .addElement(QuestionSynskarpaSkickasSeparat.toCertificate(syn, 0, textProvider))
             .addElement(QuestionKorrektionsglasensStyrka.toCertificate(syn, 0, textProvider))
             .addElement(QuestionSomnOchVakenhetsstorningar.toCertificate(true, 0, textProvider))
+            .addElement(QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(true, 0, textProvider))
+            .addElement(QuestionAlkoholNarkotikaVardinsatser.toCertificate(true, 0, textProvider))
             .build();
     }
 
@@ -188,5 +198,19 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getSomnVakenhet(),
             actualInternalCertificate.getSomnVakenhet());
+    }
+
+    @Test
+    void shallIncludeAlkoholNarkotikaJournaluppgifter() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getNarkotikaLakemedel().getTeckenMissbruk(),
+            actualInternalCertificate.getNarkotikaLakemedel().getTeckenMissbruk());
+    }
+
+    @Test
+    void shallIncludeAlkoholNarkotikaVardinsatser() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getNarkotikaLakemedel().getForemalForVardinsats(),
+            actualInternalCertificate.getNarkotikaLakemedel().getForemalForVardinsats());
     }
 }

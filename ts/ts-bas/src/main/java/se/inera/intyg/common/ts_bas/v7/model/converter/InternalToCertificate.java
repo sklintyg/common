@@ -24,9 +24,12 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryAlkoholNarkotikaOchLakamedel;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySomnOchVakenhetsstorningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySynfunktioner;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaJournaluppgifter;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaVardinsatser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
@@ -94,6 +97,17 @@ public class InternalToCertificate {
             .addElement(
                 QuestionSomnOchVakenhetsstorningar.toCertificate(
                     internalCertificate.getSomnVakenhet().getTeckenSomnstorningar(), index++, texts)
+            )
+            .addElement(
+                CategoryAlkoholNarkotikaOchLakamedel.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(
+                    internalCertificate.getNarkotikaLakemedel().getTeckenMissbruk(), index++, texts)
+            )
+            .addElement(
+                QuestionAlkoholNarkotikaVardinsatser.toCertificate(
+                    internalCertificate.getNarkotikaLakemedel().getForemalForVardinsats(), index++, texts)
             )
             .build();
     }

@@ -21,6 +21,8 @@ package se.inera.intyg.common.ts_bas.v7.model.converter;
 
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaJournaluppgifter;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaVardinsatser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
@@ -29,6 +31,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSomnOchVakenhetsstorningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
+import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 import se.inera.intyg.common.ts_bas.v7.model.internal.SomnVakenhet;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
@@ -53,6 +56,10 @@ public class CertificateToInternal {
                 .setKorrektionsglasensStyrka(QuestionKorrektionsglasensStyrka.toInternal(certificate))
                 .build())
             .setSomnVakenhet(SomnVakenhet.create(QuestionSomnOchVakenhetsstorningar.toInternal(certificate)))
+            .setNarkotikaLakemedel(NarkotikaLakemedel.builder()
+                .setTeckenMissbruk(QuestionAlkoholNarkotikaJournaluppgifter.toInternal(certificate))
+                .setForemalForVardinsats(QuestionAlkoholNarkotikaVardinsatser.toInternal(certificate))
+                .build())
             .build();
     }
 }

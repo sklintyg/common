@@ -25,17 +25,20 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.DUBBELSEENDE
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_SVAR_ID_1;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NYSTAGMUS_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID_25;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID_25;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,6 +50,7 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 import se.inera.intyg.common.ts_bas.v7.model.internal.SomnVakenhet;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
@@ -75,6 +79,8 @@ class InternalToCertificateTest {
                     .build()
             )
             .setSomnVakenhet(SomnVakenhet.create(true))
+            .setNarkotikaLakemedel(NarkotikaLakemedel.builder()
+                .build())
             .build();
     }
 
@@ -184,5 +190,23 @@ class InternalToCertificateTest {
     void shallIncludeQuestionSomnOchVakenhetsstorningar() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(14, actualCertificate.getData().get(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryAlkoholNarkotikaJournaluppgifter() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(15, actualCertificate.getData().get(MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionAlkoholNarkotikaJournaluppgifter() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(16, actualCertificate.getData().get(TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID_25).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionAlkoholNarkotikaVardinsatser() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(17, actualCertificate.getData().get(VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID_25).getIndex());
     }
 }
