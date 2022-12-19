@@ -195,7 +195,11 @@ public class QuestionSynskarpa {
     }
 
     public static Synskarpevarden toInternal(Certificate certificate, VisualAcuityEnum type) {
-        final var value = (CertificateDataValueVisualAcuities) certificate.getData().get(VARDEN_FOR_SYNSKARPA_ID).getValue();
+        final var element = certificate.getData().get(VARDEN_FOR_SYNSKARPA_ID);
+        if (element == null) {
+            return Synskarpevarden.builder().build();
+        }
+        final var value = (CertificateDataValueVisualAcuities) element.getValue();
         if (value == null) {
             return Synskarpevarden.builder().build();
         }
