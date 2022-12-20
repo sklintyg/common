@@ -23,8 +23,7 @@ public final class RespConstantsV7 {
     public static final String IDENTITET_CATEGORY_ID = "identitet";
     public static final String IDENTITET_CATEGORY_TEXT_ID = "KAT_100.RBK";
 
-    public static final String IDENTITET_STYRKT_GENOM_SVAR_ID_2 = "2";
-    public static final String IDENTITET_STYRKT_GENOM_ID_2 = "2.1";
+    public static final String IDENTITET_STYRKT_GENOM_SVAR_ID = "2";
     public static final String IDENTITET_STYRKT_GENOM_TEXT_ID = "FRG_2.RBK";
     public static final String IDENTITET_STYRKT_GENOM_DESCRIPTION_ID = "FRG_2.HLP";
 

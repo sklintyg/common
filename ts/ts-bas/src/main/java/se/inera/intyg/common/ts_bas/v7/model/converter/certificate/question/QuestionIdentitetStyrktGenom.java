@@ -20,18 +20,17 @@
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_DESCRIPTION_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_FORETAG_ELLER_TJANSTEKORT_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_FORSAKRAN_KAP18_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_ID_KORT_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_KORKORT_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_PASS_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_PERS_KANNEDOM_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_SVAR_ID_2;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_DESCRIPTION_ID;
 
 import java.util.Arrays;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -49,8 +48,9 @@ import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 public class QuestionIdentitetStyrktGenom {
 
     public static CertificateDataElement toCertificate(Vardkontakt vardkontakt, int index, CertificateTextProvider textProvider) {
+        final var identitetStyrktGenom = vardkontakt != null && vardkontakt.getIdkontroll() != null ? vardkontakt.getIdkontroll() : null;
         return CertificateDataElement.builder()
-            .id(IDENTITET_STYRKT_GENOM_SVAR_ID_2)
+            .id(IDENTITET_STYRKT_GENOM_SVAR_ID)
             .index(index)
             .parent(IDENTITET_CATEGORY_ID)
             .config(
@@ -89,23 +89,23 @@ public class QuestionIdentitetStyrktGenom {
                     .build()
             )
             .value(
-                vardkontakt != null ? CertificateDataValueCode.builder()
-                    .id(vardkontakt.getIdkontroll())
-                    .code(vardkontakt.getIdkontroll())
+                identitetStyrktGenom != null ? CertificateDataValueCode.builder()
+                    .id(identitetStyrktGenom)
+                    .code(identitetStyrktGenom)
                     .build() : CertificateDataValueCode.builder().build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(IDENTITET_STYRKT_GENOM_SVAR_ID_2)
+                        .questionId(IDENTITET_STYRKT_GENOM_SVAR_ID)
                         .expression(
                             multipleOrExpression(
-                                singleExpression(IdKontrollKod.ID_KORT.getCode()),
-                                singleExpression(IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode()),
-                                singleExpression(IdKontrollKod.KORKORT.getCode()),
-                                singleExpression(IdKontrollKod.PERS_KANNEDOM.getCode()),
-                                singleExpression(IdKontrollKod.FORSAKRAN_KAP18.getCode()),
-                                singleExpression(IdKontrollKod.PASS.getCode())
+                                IdKontrollKod.ID_KORT.getCode(),
+                                IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode(),
+                                IdKontrollKod.KORKORT.getCode(),
+                                IdKontrollKod.PERS_KANNEDOM.getCode(),
+                                IdKontrollKod.FORSAKRAN_KAP18.getCode(),
+                                IdKontrollKod.PASS.getCode()
                             )
                         )
                         .build()
@@ -115,6 +115,10 @@ public class QuestionIdentitetStyrktGenom {
     }
 
     public static Vardkontakt toInternal(Certificate certificate) {
-        return Vardkontakt.create(null, codeValue(certificate.getData(), IDENTITET_STYRKT_GENOM_SVAR_ID_2));
+        final var codeValue = codeValue(certificate.getData(), IDENTITET_STYRKT_GENOM_SVAR_ID);
+        if (codeValue == null || codeValue.isEmpty()) {
+            return Vardkontakt.create(null, null);
+        }
+        return Vardkontakt.create(null, codeValue);
     }
 }

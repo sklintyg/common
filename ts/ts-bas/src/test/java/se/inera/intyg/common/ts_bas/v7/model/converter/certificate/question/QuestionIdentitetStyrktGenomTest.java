@@ -19,7 +19,6 @@
 
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.support.facade.model.config.Layout.COLUMNS;
@@ -31,26 +30,28 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_ST
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_KORKORT_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_PASS_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_PERS_KANNEDOM_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_SVAR_ID_2;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_TEXT_ID;
 
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.Layout;
 import se.inera.intyg.common.support.facade.model.config.RadioMultipleCode;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigRadioButtonMultipleCodeTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InternalValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueCodeTest;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Vardkontakt;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
@@ -79,7 +80,7 @@ class QuestionIdentitetStyrktGenomTest {
 
             @Override
             protected String getId() {
-                return IDENTITET_STYRKT_GENOM_SVAR_ID_2;
+                return IDENTITET_STYRKT_GENOM_SVAR_ID;
             }
 
             @Override
@@ -178,12 +179,14 @@ class QuestionIdentitetStyrktGenomTest {
 
             @Override
             protected String getQuestionId() {
-                return IDENTITET_STYRKT_GENOM_SVAR_ID_2;
+                return IDENTITET_STYRKT_GENOM_SVAR_ID;
             }
 
             @Override
             protected String getExpression() {
-                return "$IDK1 || $IDK2 || $IDK3 || $IDK4 || $IDK5 || $IDK6";
+                return IdKontrollKod.ID_KORT.getCode() + " || " + IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode() + " || "
+                    + IdKontrollKod.KORKORT.getCode() + " || " + IdKontrollKod.PERS_KANNEDOM.getCode() + " || "
+                    + IdKontrollKod.FORSAKRAN_KAP18.getCode() + " || " + IdKontrollKod.PASS.getCode();
             }
 
             @Override
@@ -198,28 +201,30 @@ class QuestionIdentitetStyrktGenomTest {
         }
 
         @Nested
-        class ToInternal {
+        @TestInstance(Lifecycle.PER_CLASS)
+        class ToInternal extends InternalValueTest<Vardkontakt, Vardkontakt> {
 
-            @Test
-            void shouldReturnVardkontakt() {
-                final var element = QuestionIdentitetStyrktGenom.toCertificate(
-                    Vardkontakt.create(null, IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode()), 0, textProvider);
-                final var certificate = CertificateBuilder.create()
-                    .addElement(element)
-                    .build();
-                final var actualValue = QuestionIdentitetStyrktGenom.toInternal(certificate);
-                assertEquals(Vardkontakt.create(null, IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode()), actualValue);
+            @Override
+            protected CertificateDataElement getElement(Vardkontakt input) {
+                return QuestionIdentitetStyrktGenom.toCertificate(input, 0, textProvider);
             }
 
-            @Test
-            void shouldReturnEmptyVardkontaktWhenInputNull() {
-                final var element = QuestionIdentitetStyrktGenom.toCertificate(
-                    null, 0, textProvider);
-                final var certificate = CertificateBuilder.create()
-                    .addElement(element)
-                    .build();
-                final var actualValue = QuestionIdentitetStyrktGenom.toInternal(certificate);
-                assertEquals(Vardkontakt.create(null, null), actualValue);
+            @Override
+            protected Vardkontakt toInternalValue(Certificate certificate) {
+                return QuestionIdentitetStyrktGenom.toInternal(certificate);
+            }
+
+            @Override
+            protected List<InputExpectedValuePair<Vardkontakt, Vardkontakt>> inputExpectedValuePairList() {
+                return List.of(
+                    new InputExpectedValuePair<>(
+                        null, Vardkontakt.create(null, null)),
+                    new InputExpectedValuePair<>(
+                        Vardkontakt.create(null, IdKontrollKod.PERS_KANNEDOM.getCode()),
+                        Vardkontakt.create(null, IdKontrollKod.PERS_KANNEDOM.getCode())),
+                    new InputExpectedValuePair<>(
+                        Vardkontakt.create(null, ""), Vardkontakt.create(null, null))
+                );
             }
         }
     }
