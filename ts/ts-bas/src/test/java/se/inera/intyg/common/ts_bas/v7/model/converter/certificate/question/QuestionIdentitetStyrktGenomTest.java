@@ -48,7 +48,6 @@ import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.Layout;
 import se.inera.intyg.common.support.facade.model.config.RadioMultipleCode;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigRadioButtonMultipleCodeTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
@@ -164,11 +163,13 @@ class QuestionIdentitetStyrktGenomTest {
             }
 
             @Override
-            protected CertificateDataValueCode getCertificateDataValueCode() {
-                return CertificateDataValueCode.builder()
-                    .id(IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode())
-                    .code(IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode())
-                    .build();
+            protected String getCodeId() {
+                return IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode();
+            }
+
+            @Override
+            protected String getCode() {
+                return IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode();
             }
         }
 
