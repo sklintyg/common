@@ -26,12 +26,15 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NEUROLOGISK_
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategoryTest;
 
+@ExtendWith(MockitoExtension.class)
 class CategoryNeurologiskaSjukdomarTest {
 
     @Mock
