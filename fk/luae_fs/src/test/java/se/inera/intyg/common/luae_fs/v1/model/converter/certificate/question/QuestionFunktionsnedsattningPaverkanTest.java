@@ -39,6 +39,7 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigTextAreaTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
+import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationTextTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalTextValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
 
@@ -146,6 +147,25 @@ class QuestionFunktionsnedsattningPaverkanTest {
         @Override
         protected String getExpression() {
             return "$" + FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16;
+        }
+    }
+
+    @Nested
+    class IncludeValidationTextTest extends ValidationTextTest {
+
+        @Override
+        protected CertificateDataElement getElement() {
+            return QuestionFunktionsnedsattningPaverkan.toCertificate(null, 0, textProvider);
+        }
+
+        @Override
+        protected int getValidationIndex() {
+            return 1;
+        }
+
+        @Override
+        protected short getLimit() {
+            return 3500;
         }
     }
 

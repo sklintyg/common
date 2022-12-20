@@ -24,12 +24,15 @@ import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.MetaDataGrun
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryFunktionsnedsattning;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryOvrigt;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryKontakt;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionDiagnoser;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryGrundForMU;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionFunktionsnedsattningDebut;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPaverkan;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKontaktAnledning;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKontaktOnskas;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionOvrigt;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUnderlag;
@@ -65,6 +68,9 @@ public class InternalToCertificate {
                 texts))
             .addElement(CategoryOvrigt.toCertificate(index++, texts))
             .addElement(QuestionOvrigt.toCertificate(internalCertificate.getOvrigt(), index++, texts))
+            .addElement(CategoryKontakt.toCertificate(index++, texts))
+            .addElement(QuestionKontaktOnskas.toCertificate(internalCertificate.getKontaktMedFk(), index++, texts))
+            .addElement(QuestionKontaktAnledning.toCertificate(internalCertificate.getAnledningTillKontakt(), index, texts))
             .build();
     }
 }

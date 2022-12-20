@@ -51,6 +51,7 @@ import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUN
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KANNEDOM_SVAR_ID_2;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
 
@@ -490,6 +491,7 @@ public class InternalDraftValidatorTest {
 
         assertValidationMessage("luae_fs.validation.kontakt.invalid_combination", 0);
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
+        assertValidationMessageQuestionId(KONTAKT_ONSKAS_SVAR_ID_26, 0);
     }
 
     // - - - Private scope - - -

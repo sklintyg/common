@@ -21,10 +21,14 @@ package se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.OVRIGT_TEXT_ID;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.ANSWER_NOT_SELECTED;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.ANSWER_YES;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_TEXT_ID;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_DESCRIPTION_ID;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -37,13 +41,12 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
-import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigTextAreaTest;
-import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationTextTest;
-import se.inera.intyg.common.support.facade.testsetup.model.value.InternalTextValueTest;
-import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
+import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCheckboxBooleanTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InternalBooleanValueTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.ValueBooleanTest;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionOvrigtTest {
+class QuestionKontaktOnskasTest {
 
     @Mock
     private CertificateTextProvider textProvider;
@@ -58,17 +61,17 @@ class QuestionOvrigtTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionOvrigt.toCertificate(null, getIndex(), textProvider);
+            return QuestionKontaktOnskas.toCertificate(null, getIndex(), textProvider);
         }
 
         @Override
         protected String getId() {
-            return OVRIGT_SVAR_ID_25;
+            return KONTAKT_ONSKAS_SVAR_ID_26;
         }
 
         @Override
         protected String getParent() {
-            return OVRIGT_CATEGORY_ID;
+            return KONTAKT_CATEGORY_ID;
         }
 
         @Override
@@ -78,7 +81,7 @@ class QuestionOvrigtTest {
     }
 
     @Nested
-    class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
+    class IncludeConfigCheckboxBooleanTest extends ConfigCheckboxBooleanTest {
 
         @Override
         protected CertificateTextProvider getTextProviderMock() {
@@ -87,75 +90,71 @@ class QuestionOvrigtTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionOvrigt.toCertificate(null, 0, textProvider);
+            return QuestionKontaktOnskas.toCertificate(null, 0, textProvider);
         }
 
         @Override
         protected String getTextId() {
-            return OVRIGT_TEXT_ID;
+            return KONTAKT_ONSKAS_SVAR_TEXT_ID;
         }
 
         @Override
         protected String getDescriptionId() {
-            return null;
+            return KONTAKT_ONSKAS_SVAR_DESCRIPTION_ID;
         }
 
         @Override
         protected String getJsonId() {
-            return OVRIGT_SVAR_JSON_ID_25;
+            return KONTAKT_ONSKAS_SVAR_JSON_ID_26;
+        }
+
+        @Override
+        protected String getLabelId() {
+            return KONTAKT_ONSKAS_DELSVAR_TEXT_ID;
+        }
+
+        @Override
+        protected String getSelectedTextId() {
+            return ANSWER_YES;
+        }
+
+        @Override
+        protected String getUnselectedTextId() {
+            return ANSWER_NOT_SELECTED;
         }
     }
 
     @Nested
-    class IncludeValueTextTest extends ValueTextTest {
+    class IncludeValueBooleanTest extends ValueBooleanTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionOvrigt.toCertificate(getText(), 0, textProvider);
+            return QuestionKontaktOnskas.toCertificate(true, 0, textProvider);
         }
 
         @Override
         protected String getJsonId() {
-            return OVRIGT_SVAR_JSON_ID_25;
+            return KONTAKT_ONSKAS_SVAR_JSON_ID_26;
         }
 
         @Override
-        protected String getText() {
-            return "Detta är ett text värde!";
-        }
-    }
-
-    @Nested
-    class IncludeValidationTextTest extends ValidationTextTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionOvrigt.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
-
-        @Override
-        protected short getLimit() {
-            return 2850;
+        protected Boolean getBoolean() {
+            return true;
         }
     }
 
     @Nested
     @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalTextValueTest extends InternalTextValueTest {
+    class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
 
         @Override
-        protected CertificateDataElement getElement(String expectedValue) {
-            return QuestionOvrigt.toCertificate(expectedValue, 0, textProvider);
+        protected CertificateDataElement getElement(Boolean expectedValue) {
+            return QuestionKontaktOnskas.toCertificate(expectedValue, 0, textProvider);
         }
 
         @Override
-        protected String toInternalTextValue(Certificate certificate) {
-            return QuestionOvrigt.toInternal(certificate);
+        protected Boolean toInternalBooleanValue(Certificate certificate) {
+            return QuestionKontaktOnskas.toInternal(certificate);
         }
     }
 }

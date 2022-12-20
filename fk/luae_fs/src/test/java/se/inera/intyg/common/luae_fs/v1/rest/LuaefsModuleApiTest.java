@@ -50,10 +50,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import javax.xml.soap.SOAPFactory;
 import javax.xml.ws.soap.SOAPFaultException;
 import org.apache.commons.lang3.StringUtils;
@@ -77,6 +80,7 @@ import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
 import se.inera.intyg.common.luae_fs.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.services.texts.IntygTextsService;
+import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.StatusKod;
@@ -127,26 +131,21 @@ public class LuaefsModuleApiTest {
     @Mock
     private InternalToCertificate internalToCertificate;
     @Mock
+    private IntygTextsService intygTexts;
+    @Mock
     private RegisterCertificateResponderInterface registerCertificateResponderInterface;
-
     @Mock
     private GetCertificateResponderInterface getCertificateResponderInterface;
-
     @Mock
     private IntygTextsService intygTextsServiceMock;
-
     @Spy
     private WebcertModelFactoryImpl webcertModelFactory;
-
     @Spy
     private ObjectMapper objectMapper = new CustomObjectMapper();
-
     @Mock
     private WebcertModuleService moduleService;
-
     @Mock
     private RevokeCertificateResponderInterface revokeClient;
-
     @Spy
     private SvarIdHelperImpl svarIdHelper;
 
@@ -566,14 +565,24 @@ public class LuaefsModuleApiTest {
     }
 
     @Test
-    public void getCertficateMessagesProviderGetExistingKey() throws ModuleException {
+    public void getCertficateMessagesProviderGetExistingKey() {
+        IntygTexts intygTexts1 = new IntygTexts("1.0", LuaefsEntryPoint.MODULE_ID, LocalDate.now(), LocalDate.now().plusDays(1),
+            Collections.emptySortedMap(),
+            Collections.emptyList(), new Properties());
+        doReturn(intygTexts1).when(intygTexts).getIntygTextsPojo(any(), any());
+
         final var certificateMessagesProvider = moduleApi.getMessagesProvider();
 
         assertEquals(certificateMessagesProvider.get("common.continue"), "Fortsätt");
     }
 
     @Test
-    public void getCertficateMessagesProviderGetMissingKey() throws ModuleException {
+    public void getCertficateMessagesProviderGetMissingKey() {
+        IntygTexts intygTexts1 = new IntygTexts("1.0", LuaefsEntryPoint.MODULE_ID, LocalDate.now(), LocalDate.now().plusDays(1),
+            Collections.emptySortedMap(),
+            Collections.emptyList(), new Properties());
+        doReturn(intygTexts1).when(intygTexts).getIntygTextsPojo(any(), any());
+
         final var certificateMessagesProvider = moduleApi.getMessagesProvider();
 
         assertNull(certificateMessagesProvider.get("not.existing"));
@@ -619,7 +628,7 @@ public class LuaefsModuleApiTest {
     }
 
     private Personnummer createPnr(String civicRegistrationNumber) {
-        return Personnummer.createPersonnummer(civicRegistrationNumber).get();
+        return Personnummer.createPersonnummer(civicRegistrationNumber).orElseThrow();
     }
 
     private HoSPersonal createHosPersonal() {

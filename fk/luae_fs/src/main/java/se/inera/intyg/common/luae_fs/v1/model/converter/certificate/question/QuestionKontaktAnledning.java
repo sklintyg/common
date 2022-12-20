@@ -19,10 +19,13 @@
 
 package se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.OVRIGT_TEXT_ID;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT_ID;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -30,35 +33,40 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 
-public class QuestionOvrigt {
+public class QuestionKontaktAnledning {
 
-    private static final short TEXT_LIMIT = 2850;
+    private static final short LIMIT = 3500;
 
-    public static CertificateDataElement toCertificate(String ovrigt, int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(String kontaktAnledning, int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
-            .id(OVRIGT_SVAR_ID_25)
-            .parent(OVRIGT_CATEGORY_ID)
+            .id(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26)
+            .parent(KONTAKT_ONSKAS_SVAR_ID_26)
             .index(index)
             .config(
                 CertificateDataConfigTextArea.builder()
-                    .text(textProvider.get(OVRIGT_TEXT_ID))
-                    .id(OVRIGT_SVAR_JSON_ID_25)
+                    .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26)
+                    .text(textProvider.get(ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT_ID))
                     .build()
             )
             .value(
                 CertificateDataTextValue.builder()
-                    .id(OVRIGT_SVAR_JSON_ID_25)
-                    .text(ovrigt)
+                    .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26)
+                    .text(kontaktAnledning)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
+                    CertificateDataValidationShow.builder()
+                        .questionId(KONTAKT_ONSKAS_SVAR_ID_26)
+                        .expression(singleExpression(KONTAKT_ONSKAS_SVAR_JSON_ID_26))
+                        .build(),
                     CertificateDataValidationText.builder()
-                        .id(OVRIGT_SVAR_ID_25)
-                        .limit(TEXT_LIMIT)
+                        .id(FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16)
+                        .limit(LIMIT)
                         .build()
                 }
             )
@@ -66,6 +74,6 @@ public class QuestionOvrigt {
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), OVRIGT_SVAR_ID_25, OVRIGT_SVAR_JSON_ID_25);
+        return textValue(certificate.getData(), ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26, ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26);
     }
 }
