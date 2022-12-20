@@ -22,6 +22,8 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID;
@@ -117,12 +119,12 @@ class QuestionKorrektionsglasensStyrkaTest {
 
             @Override
             protected String getSelectedTextId() {
-                return null;
+                return SVAR_JA_TEXT;
             }
 
             @Override
             protected String getUnselectedTextId() {
-                return null;
+                return SVAR_NEJ_TEXT;
             }
         }
 
