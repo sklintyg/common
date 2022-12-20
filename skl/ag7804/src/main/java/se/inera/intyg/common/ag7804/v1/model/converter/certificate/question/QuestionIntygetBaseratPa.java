@@ -20,9 +20,9 @@
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 
 
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_BESKRIVNING;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_DESCRIPTION_ID;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT_ID;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
@@ -38,7 +38,8 @@ public class QuestionIntygetBaseratPa extends AbstractQuestionIntygetBaseratPa {
         CertificateTextProvider textProvider) {
         return toCertificate(internalCertificate.getUndersokningAvPatienten(), internalCertificate.getTelefonkontaktMedPatienten(),
             internalCertificate.getJournaluppgifter(), internalCertificate.getAnnatGrundForMU(), GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1,
-            GRUNDFORMU_CATEGORY_ID, index, GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT, GRUNDFORMEDICINSKTUNDERLAG_SVAR_BESKRIVNING, textProvider);
+            GRUNDFORMU_CATEGORY_ID, index, GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT_ID, GRUNDFORMEDICINSKTUNDERLAG_SVAR_DESCRIPTION_ID,
+            textProvider);
     }
 
     public static InternalDate toInternal(Certificate certificate, String itemId) {

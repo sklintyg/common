@@ -19,7 +19,7 @@
 
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.category;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -33,7 +33,7 @@ public class CategoryGrundForMU {
             .id(GRUNDFORMU_CATEGORY_ID)
             .index(index)
             .config(CertificateDataConfigCategory.builder()
-                .text(texts.get(GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT))
+                .text(texts.get(GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT_ID))
                 .build())
             .build();
     }

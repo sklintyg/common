@@ -55,12 +55,12 @@ public abstract class AbstractQuestionIntygetBaseratPa {
     private static final short NUMBER_OF_DAYS_IN_FUTURE = 0;
 
     protected static CertificateDataElement toCertificate(InternalDate undersokningPatient, InternalDate telefonkontaktPatient,
-        InternalDate journaluppgifter, InternalDate annat, String questionId, String parent, int index,
+        InternalDate journaluppgifter, InternalDate annat, String questionId, String parentId, int index,
         String textId, String descriptionId, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
             .id(questionId)
             .index(index)
-            .parent(parent)
+            .parent(parentId)
             .config(
                 CertificateDataConfigCheckboxMultipleDate.builder()
                     .text(textProvider.get(textId))
