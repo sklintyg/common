@@ -65,20 +65,20 @@ public class QuestionIdentitetStyrktGenom {
                                 .label(textProvider.get(IDENTITET_STYRKT_GENOM_ID_KORT_TEXT_ID))
                                 .build(),
                             RadioMultipleCode.builder()
-                                .id(IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode())
-                                .label(textProvider.get(IDENTITET_STYRKT_GENOM_FORETAG_ELLER_TJANSTEKORT_TEXT_ID))
-                                .build(),
-                            RadioMultipleCode.builder()
                                 .id(IdKontrollKod.KORKORT.getCode())
                                 .label(textProvider.get(IDENTITET_STYRKT_GENOM_KORKORT_TEXT_ID))
                                 .build(),
                             RadioMultipleCode.builder()
-                                .id(IdKontrollKod.PERS_KANNEDOM.getCode())
-                                .label(textProvider.get(IDENTITET_STYRKT_GENOM_PERS_KANNEDOM_TEXT_ID))
-                                .build(),
-                            RadioMultipleCode.builder()
                                 .id(IdKontrollKod.FORSAKRAN_KAP18.getCode())
                                 .label(textProvider.get(IDENTITET_STYRKT_GENOM_FORSAKRAN_KAP18_TEXT_ID))
+                                .build(),
+                            RadioMultipleCode.builder()
+                                .id(IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode())
+                                .label(textProvider.get(IDENTITET_STYRKT_GENOM_FORETAG_ELLER_TJANSTEKORT_TEXT_ID))
+                                .build(),
+                            RadioMultipleCode.builder()
+                                .id(IdKontrollKod.PERS_KANNEDOM.getCode())
+                                .label(textProvider.get(IDENTITET_STYRKT_GENOM_PERS_KANNEDOM_TEXT_ID))
                                 .build(),
                             RadioMultipleCode.builder()
                                 .id(IdKontrollKod.PASS.getCode())
