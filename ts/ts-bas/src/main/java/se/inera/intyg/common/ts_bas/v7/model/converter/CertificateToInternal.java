@@ -22,6 +22,9 @@ package se.inera.intyg.common.ts_bas.v7.model.converter;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaJournaluppgifter;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaLakarordinerat;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaOrdineratLakamedel;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaProvtagning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaVardinsatser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
@@ -59,6 +62,9 @@ public class CertificateToInternal {
             .setNarkotikaLakemedel(NarkotikaLakemedel.builder()
                 .setTeckenMissbruk(QuestionAlkoholNarkotikaJournaluppgifter.toInternal(certificate))
                 .setForemalForVardinsats(QuestionAlkoholNarkotikaVardinsatser.toInternal(certificate))
+                .setProvtagningBehovs(QuestionAlkoholNarkotikaProvtagning.toInternal(certificate))
+                .setLakarordineratLakemedelsbruk(QuestionAlkoholNarkotikaLakarordinerat.toInternal(certificate))
+                .setLakemedelOchDos(QuestionAlkoholNarkotikaOrdineratLakamedel.toInternal(certificate))
                 .build())
             .build();
     }

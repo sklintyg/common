@@ -37,6 +37,9 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaJournaluppgifter;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaLakarordinerat;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaOrdineratLakamedel;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaProvtagning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaVardinsatser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
@@ -89,6 +92,9 @@ class CertificateToInternalTest {
                 NarkotikaLakemedel.builder()
                     .setTeckenMissbruk(true)
                     .setForemalForVardinsats(true)
+                    .setProvtagningBehovs(true)
+                    .setLakarordineratLakemedelsbruk(true)
+                    .setLakemedelOchDos("Ipren")
                     .build())
             .build();
 
@@ -107,6 +113,9 @@ class CertificateToInternalTest {
             .addElement(QuestionSomnOchVakenhetsstorningar.toCertificate(true, 0, textProvider))
             .addElement(QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(true, 0, textProvider))
             .addElement(QuestionAlkoholNarkotikaVardinsatser.toCertificate(true, 0, textProvider))
+            .addElement(QuestionAlkoholNarkotikaProvtagning.toCertificate(true, 0, textProvider))
+            .addElement(QuestionAlkoholNarkotikaLakarordinerat.toCertificate(true, 0, textProvider))
+            .addElement(QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate("Ipren", 0, textProvider))
             .build();
     }
 
@@ -212,5 +221,26 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getNarkotikaLakemedel().getForemalForVardinsats(),
             actualInternalCertificate.getNarkotikaLakemedel().getForemalForVardinsats());
+    }
+
+    @Test
+    void shallIncludeProvtagningBehovs() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getNarkotikaLakemedel().getProvtagningBehovs(),
+            actualInternalCertificate.getNarkotikaLakemedel().getProvtagningBehovs());
+    }
+
+    @Test
+    void shallIncludeLakarordineratLakemedelsbruk() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getNarkotikaLakemedel().getLakarordineratLakemedelsbruk(),
+            actualInternalCertificate.getNarkotikaLakemedel().getLakarordineratLakemedelsbruk());
+    }
+
+    @Test
+    void shallIncludeLakemedelOchDos() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getNarkotikaLakemedel().getLakemedelOchDos(),
+            actualInternalCertificate.getNarkotikaLakemedel().getLakemedelOchDos());
     }
 }

@@ -90,12 +90,12 @@ class QuestionSomnOchVakenhetsstorningarTest {
 
             @Override
             protected String getSelectedText() {
-                return "test string";
+                return "Ja";
             }
 
             @Override
             protected String getUnselectedText() {
-                return "test string";
+                return "Nej";
             }
 
             @Override

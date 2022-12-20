@@ -23,9 +23,9 @@ import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID_25;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_MISSBRUK_BEROENDE_JOURNAL_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID_25;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID_25;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -43,7 +43,7 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.InternalBoolea
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueBooleanTest;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionAlkoholNarkotikaJournaluppgifterTest {
+class QuestionAlkoholNarkotikaProvtagningTest {
 
     @Mock
     CertificateTextProvider textProvider;
@@ -61,12 +61,12 @@ class QuestionAlkoholNarkotikaJournaluppgifterTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(true, 0, textProvider);
+                return QuestionAlkoholNarkotikaProvtagning.toCertificate(true, 0, textProvider);
             }
 
             @Override
             protected String getId() {
-                return TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID_25;
+                return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID_25;
             }
 
             @Override
@@ -85,7 +85,7 @@ class QuestionAlkoholNarkotikaJournaluppgifterTest {
 
             @Override
             protected String getId() {
-                return TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID;
+                return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID_25;
             }
 
             @Override
@@ -105,12 +105,12 @@ class QuestionAlkoholNarkotikaJournaluppgifterTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(true, 0, textProvider);
+                return QuestionAlkoholNarkotikaProvtagning.toCertificate(true, 0, textProvider);
             }
 
             @Override
             protected String getTextId() {
-                return TECKEN_MISSBRUK_BEROENDE_JOURNAL_TEXT_ID;
+                return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_TEXT_ID;
             }
 
             @Override
@@ -124,7 +124,7 @@ class QuestionAlkoholNarkotikaJournaluppgifterTest {
 
             @Override
             protected String getJsonId() {
-                return TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID;
+                return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID_25;
             }
 
             @Override
@@ -134,7 +134,7 @@ class QuestionAlkoholNarkotikaJournaluppgifterTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(true, 0, textProvider);
+                return QuestionAlkoholNarkotikaProvtagning.toCertificate(true, 0, textProvider);
             }
         }
 
@@ -143,17 +143,17 @@ class QuestionAlkoholNarkotikaJournaluppgifterTest {
 
             @Override
             protected String getQuestionId() {
-                return TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID_25;
+                return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID_25;
             }
 
             @Override
             protected String getExpression() {
-                return "$missbrukberoendetecken";
+                return "$missbrukberoendeprovtagning";
             }
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(true, 0, textProvider);
+                return QuestionAlkoholNarkotikaProvtagning.toCertificate(true, 0, textProvider);
             }
 
             @Override
@@ -161,7 +161,6 @@ class QuestionAlkoholNarkotikaJournaluppgifterTest {
                 return 0;
             }
         }
-
     }
 
     @Nested
@@ -172,12 +171,12 @@ class QuestionAlkoholNarkotikaJournaluppgifterTest {
 
             @Override
             protected CertificateDataElement getElement(Boolean expectedValue) {
-                return QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(expectedValue, 0, textProvider);
+                return QuestionAlkoholNarkotikaProvtagning.toCertificate(expectedValue, 0, textProvider);
             }
 
             @Override
             protected Boolean toInternalBooleanValue(Certificate certificate) {
-                return QuestionAlkoholNarkotikaJournaluppgifter.toInternal(certificate);
+                return QuestionAlkoholNarkotikaProvtagning.toInternal(certificate);
             }
         }
     }

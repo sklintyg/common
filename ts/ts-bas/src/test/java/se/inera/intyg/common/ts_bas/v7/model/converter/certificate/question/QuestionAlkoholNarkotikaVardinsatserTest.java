@@ -22,9 +22,7 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.JA_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NEJ_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDINSATSER_MISSBRUK_BEROENDE_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDINSATSER_MISSBRUK_BEROENDE_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID_25;
@@ -84,12 +82,6 @@ class QuestionAlkoholNarkotikaVardinsatserTest {
 
         @Nested
         class IncludeConfigRadioBooleanTests extends ConfigRadioBooleanTest {
-
-            @BeforeEach
-            void setUp() {
-                when(textProvider.get(JA_TEXT_ID)).thenReturn("Ja");
-                when(textProvider.get(NEJ_TEXT_ID)).thenReturn("Nej");
-            }
 
             @Override
             protected String getId() {
@@ -156,7 +148,7 @@ class QuestionAlkoholNarkotikaVardinsatserTest {
 
             @Override
             protected String getExpression() {
-                return "$teckenmissbrukberoendevardinsatser";
+                return "$missbrukberoendevardinsatser";
             }
 
             @Override

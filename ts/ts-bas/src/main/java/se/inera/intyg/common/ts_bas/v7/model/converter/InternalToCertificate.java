@@ -29,6 +29,9 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.Cate
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySomnOchVakenhetsstorningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySynfunktioner;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaJournaluppgifter;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaLakarordinerat;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaOrdineratLakamedel;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaProvtagning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaVardinsatser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
@@ -108,6 +111,18 @@ public class InternalToCertificate {
             .addElement(
                 QuestionAlkoholNarkotikaVardinsatser.toCertificate(
                     internalCertificate.getNarkotikaLakemedel().getForemalForVardinsats(), index++, texts)
+            )
+            .addElement(
+                QuestionAlkoholNarkotikaProvtagning.toCertificate(
+                    internalCertificate.getNarkotikaLakemedel().getProvtagningBehovs(), index++, texts)
+            )
+            .addElement(
+                QuestionAlkoholNarkotikaLakarordinerat.toCertificate(
+                    internalCertificate.getNarkotikaLakemedel().getLakarordineratLakemedelsbruk(), index++, texts)
+            )
+            .addElement(
+                QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate(
+                    internalCertificate.getNarkotikaLakemedel().getLakemedelOchDos(), index++, texts)
             )
             .build();
     }

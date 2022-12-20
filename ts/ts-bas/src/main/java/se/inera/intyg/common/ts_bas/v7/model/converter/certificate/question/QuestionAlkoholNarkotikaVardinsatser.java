@@ -21,9 +21,9 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.JA_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NEJ_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID_25;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDINSATSER_MISSBRUK_BEROENDE_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDINSATSER_MISSBRUK_BEROENDE_TEXT_ID;
@@ -47,8 +47,8 @@ public class QuestionAlkoholNarkotikaVardinsatser {
                 CertificateDataConfigRadioBoolean.builder()
                     .id(VARDINSATSER_MISSBRUK_BEROENDE_JSON_ID)
                     .text(textProvider.get(VARDINSATSER_MISSBRUK_BEROENDE_TEXT_ID))
-                    .selectedText(textProvider.get(JA_TEXT_ID))
-                    .unselectedText(textProvider.get(NEJ_TEXT_ID))
+                    .selectedText(SVAR_JA_TEXT)
+                    .unselectedText(SVAR_NEJ_TEXT)
                     .build()
             )
             .value(

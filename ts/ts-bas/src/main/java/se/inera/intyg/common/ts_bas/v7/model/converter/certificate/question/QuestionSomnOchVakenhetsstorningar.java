@@ -21,9 +21,9 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.JA_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NEJ_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_TEXT_ID;
@@ -48,8 +48,8 @@ public class QuestionSomnOchVakenhetsstorningar {
                 CertificateDataConfigRadioBoolean.builder()
                     .id(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID)
                     .text(textProvider.get(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_TEXT_ID))
-                    .selectedText(textProvider.get(JA_TEXT_ID))
-                    .unselectedText(textProvider.get(NEJ_TEXT_ID))
+                    .selectedText(SVAR_JA_TEXT)
+                    .unselectedText(SVAR_NEJ_TEXT)
                     .build()
             )
             .value(
