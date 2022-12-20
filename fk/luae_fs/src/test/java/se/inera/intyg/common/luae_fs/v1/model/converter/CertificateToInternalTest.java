@@ -43,6 +43,8 @@ import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionFunktionsnedsattningDebut;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPaverkan;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKontaktAnledning;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKontaktOnskas;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionOvrigt;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUnderlag;
@@ -103,6 +105,8 @@ class CertificateToInternalTest {
             .setFunktionsnedsattningDebut("Funktionsnedsattning debut")
             .setFunktionsnedsattningPaverkan("Funktionsnedsattning paverkan")
             .setOvrigt("ovrigt")
+            .setKontaktMedFk(true)
+            .setAnledningTillKontakt("Anledning till kontakt")
             .build();
 
         certificate = CertificateBuilder.create()
@@ -123,6 +127,9 @@ class CertificateToInternalTest {
             .addElement(QuestionFunktionsnedsattningPaverkan.toCertificate(expectedInternalCertificate.getFunktionsnedsattningPaverkan(), 0,
                     textProvider))
             .addElement(QuestionOvrigt.toCertificate(expectedInternalCertificate.getOvrigt(), 0, textProvider))
+            .addElement(QuestionKontaktOnskas.toCertificate(expectedInternalCertificate.getKontaktMedFk(), 0, textProvider))
+            .addElement(QuestionKontaktAnledning.toCertificate(expectedInternalCertificate.getAnledningTillKontakt(), 0,
+                textProvider))
             .build();
     }
 
@@ -233,5 +240,17 @@ class CertificateToInternalTest {
     void shallIncludeOvrigt() {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getOvrigt(), actualInternalCertificate.getOvrigt());
+    }
+
+    @Test
+    void shallIncludeKontaktOnskas() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getKontaktMedFk(), actualInternalCertificate.getKontaktMedFk());
+    }
+
+    @Test
+    void shallIncludeKontaktAnledning() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getAnledningTillKontakt(), actualInternalCertificate.getAnledningTillKontakt());
     }
 }

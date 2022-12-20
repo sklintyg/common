@@ -32,6 +32,8 @@ import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionFunktionsnedsattningDebut;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPaverkan;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKontaktAnledning;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKontaktOnskas;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionOvrigt;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionUnderlag;
@@ -72,6 +74,8 @@ public class CertificateToInternal {
             .setFunktionsnedsattningDebut(QuestionFunktionsnedsattningDebut.toInternal(certificate))
             .setFunktionsnedsattningPaverkan(QuestionFunktionsnedsattningPaverkan.toInternal(certificate))
             .setOvrigt(QuestionOvrigt.toInternal(certificate))
+            .setKontaktMedFk(QuestionKontaktOnskas.toInternal(certificate))
+            .setAnledningTillKontakt(QuestionKontaktAnledning.toInternal(certificate))
             .build();
     }
 }
