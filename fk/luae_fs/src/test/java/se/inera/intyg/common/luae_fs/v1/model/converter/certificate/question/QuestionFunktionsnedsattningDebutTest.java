@@ -19,25 +19,15 @@
 
 package se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.verify;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION_ID;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_TEXT;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DEBUT_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -48,13 +38,13 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigTextAreaTest;
-import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
+import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationTextTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalTextValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionMotiveringTillInteBaseratPaUndersokningTest {
+class QuestionFunktionsnedsattningDebutTest {
 
     @Mock
     private CertificateTextProvider textProvider;
@@ -69,17 +59,17 @@ class QuestionMotiveringTillInteBaseratPaUndersokningTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, getIndex(), textProvider);
+            return QuestionFunktionsnedsattningDebut.toCertificate(null, getIndex(), textProvider);
         }
 
         @Override
         protected String getId() {
-            return MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1;
+            return FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15;
         }
 
         @Override
         protected String getParent() {
-            return GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
+            return FUNKTIONSNEDSATTNING_CATEGORY_ID;
         }
 
         @Override
@@ -98,30 +88,22 @@ class QuestionMotiveringTillInteBaseratPaUndersokningTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, textProvider);
+            return QuestionFunktionsnedsattningDebut.toCertificate(null, 0, textProvider);
         }
 
         @Override
         protected String getTextId() {
-            return MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_TEXT;
+            return FUNKTIONSNEDSATTNING_DEBUT_TEXT_ID;
         }
 
         @Override
         protected String getDescriptionId() {
-            return MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION.replace("{0}",
-                textProvider.get(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION_ID));
+            return null;
         }
 
         @Override
         protected String getJsonId() {
-            return MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
-        }
-
-        @Test
-        public void shouldCallTextProviderForReplacementText() {
-            final var question = getElement();
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing description");
-            verify(getTextProviderMock(), atLeastOnce()).get(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION_ID);
+            return FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15;
         }
     }
 
@@ -130,12 +112,12 @@ class QuestionMotiveringTillInteBaseratPaUndersokningTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(getText(), 0, textProvider);
+            return QuestionFunktionsnedsattningDebut.toCertificate(getText(), 0, textProvider);
         }
 
         @Override
         protected String getJsonId() {
-            return MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
+            return FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15;
         }
 
         @Override
@@ -145,11 +127,11 @@ class QuestionMotiveringTillInteBaseratPaUndersokningTest {
     }
 
     @Nested
-    class IncludeValidationTextTest extends ValidationTextTest {
+    class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, textProvider);
+            return QuestionFunktionsnedsattningDebut.toCertificate(null, 0, textProvider);
         }
 
         @Override
@@ -158,17 +140,22 @@ class QuestionMotiveringTillInteBaseratPaUndersokningTest {
         }
 
         @Override
-        protected short getLimit() {
-            return 150;
+        protected String getQuestionId() {
+            return FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15;
+        }
+
+        @Override
+        protected String getExpression() {
+            return "$" + FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15;
         }
     }
 
     @Nested
-    class IncludeValidationShowTest extends ValidationShowTest {
+    class IncludeValidationTextTest extends ValidationTextTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, textProvider);
+            return QuestionFunktionsnedsattningDebut.toCertificate(null, 1, textProvider);
         }
 
         @Override
@@ -177,16 +164,8 @@ class QuestionMotiveringTillInteBaseratPaUndersokningTest {
         }
 
         @Override
-        protected String getQuestionId() {
-            return GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "!$" + GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1
-                + " && ($" + GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1
-                + " || $" + GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1
-                + " || $" + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1 + ")";
+        protected short getLimit() {
+            return 4000;
         }
     }
 
@@ -196,13 +175,12 @@ class QuestionMotiveringTillInteBaseratPaUndersokningTest {
 
         @Override
         protected CertificateDataElement getElement(String expectedValue) {
-            return QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(expectedValue, 0, textProvider);
+            return QuestionFunktionsnedsattningDebut.toCertificate(expectedValue, 0, textProvider);
         }
 
         @Override
         protected String toInternalTextValue(Certificate certificate) {
-            return QuestionMotiveringTillInteBaseratPaUndersokning.toInternal(certificate);
+            return QuestionFunktionsnedsattningDebut.toInternal(certificate);
         }
     }
-
 }

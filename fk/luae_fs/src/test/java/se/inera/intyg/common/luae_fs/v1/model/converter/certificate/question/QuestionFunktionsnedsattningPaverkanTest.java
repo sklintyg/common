@@ -21,11 +21,10 @@ package se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_TEXT_ID;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PAVERKAN_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -40,12 +39,11 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigTextAreaTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
-import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalTextValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionAnnatBeskrivningTest {
+class QuestionFunktionsnedsattningPaverkanTest {
 
     @Mock
     private CertificateTextProvider textProvider;
@@ -60,17 +58,17 @@ class QuestionAnnatBeskrivningTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionAnnatBeskrivning.toCertificate(null, getIndex(), textProvider);
+            return QuestionFunktionsnedsattningPaverkan.toCertificate(null, getIndex(), textProvider);
         }
 
         @Override
         protected String getId() {
-            return GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1;
+            return FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16;
         }
 
         @Override
         protected String getParent() {
-            return GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
+            return FUNKTIONSNEDSATTNING_CATEGORY_ID;
         }
 
         @Override
@@ -89,12 +87,12 @@ class QuestionAnnatBeskrivningTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionAnnatBeskrivning.toCertificate(null, 0, textProvider);
+            return QuestionFunktionsnedsattningPaverkan.toCertificate(null, 0, textProvider);
         }
 
         @Override
         protected String getTextId() {
-            return GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_TEXT_ID;
+            return FUNKTIONSNEDSATTNING_PAVERKAN_TEXT_ID;
         }
 
         @Override
@@ -104,7 +102,7 @@ class QuestionAnnatBeskrivningTest {
 
         @Override
         protected String getJsonId() {
-            return GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
+            return FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16;
         }
     }
 
@@ -113,12 +111,12 @@ class QuestionAnnatBeskrivningTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionAnnatBeskrivning.toCertificate(getText(), 0, textProvider);
+            return QuestionFunktionsnedsattningPaverkan.toCertificate(getText(), 0, textProvider);
         }
 
         @Override
         protected String getJsonId() {
-            return GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
+            return FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16;
         }
 
         @Override
@@ -128,11 +126,11 @@ class QuestionAnnatBeskrivningTest {
     }
 
     @Nested
-    class IncludeValidationShowTest extends ValidationShowTest {
+    class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionAnnatBeskrivning.toCertificate(null, 0, textProvider);
+            return QuestionFunktionsnedsattningPaverkan.toCertificate(null, 0, textProvider);
         }
 
         @Override
@@ -142,36 +140,12 @@ class QuestionAnnatBeskrivningTest {
 
         @Override
         protected String getQuestionId() {
-            return GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
+            return FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16;
         }
 
         @Override
         protected String getExpression() {
-            return "$" + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
-        }
-    }
-
-    @Nested
-    class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionAnnatBeskrivning.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 1;
-        }
-
-        @Override
-        protected String getQuestionId() {
-            return GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
+            return "$" + FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16;
         }
     }
 
@@ -181,13 +155,12 @@ class QuestionAnnatBeskrivningTest {
 
         @Override
         protected CertificateDataElement getElement(String expectedValue) {
-            return QuestionAnnatBeskrivning.toCertificate(expectedValue, 0, textProvider);
+            return QuestionFunktionsnedsattningPaverkan.toCertificate(expectedValue, 0, textProvider);
         }
 
         @Override
         protected String toInternalTextValue(Certificate certificate) {
-            return QuestionAnnatBeskrivning.toInternal(certificate);
+            return QuestionFunktionsnedsattningPaverkan.toInternal(certificate);
         }
     }
-
 }

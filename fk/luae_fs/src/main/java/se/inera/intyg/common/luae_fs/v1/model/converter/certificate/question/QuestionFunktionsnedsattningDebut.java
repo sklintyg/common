@@ -19,11 +19,10 @@
 
 package se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_TEXT_ID;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DEBUT_TEXT_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
@@ -33,42 +32,37 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 
-public class QuestionAnnatBeskrivning {
+public class QuestionFunktionsnedsattningDebut {
 
-    private static final short LIMIT = 3500;
+    private static final short LIMIT = 4000;
 
-    public static CertificateDataElement toCertificate(String annanBeskrivning, int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(String debut, int index, CertificateTextProvider textProvider) {
 
         return CertificateDataElement.builder()
-            .id(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1)
-            .parent(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
+            .id(FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15)
+            .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
             .index(index)
             .config(CertificateDataConfigTextArea.builder()
-                .id(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1)
-                .text(textProvider.get(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_TEXT_ID))
+                .id(FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15)
+                .text(textProvider.get(FUNKTIONSNEDSATTNING_DEBUT_TEXT_ID))
                 .build()
             )
             .value(CertificateDataTextValue.builder()
-                .id(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1)
-                .text(annanBeskrivning)
+                .id(FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15)
+                .text(debut)
                 .build()
             )
             .validation(
                 new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
-                        .expression(singleExpression(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
-                        .build(),
                     CertificateDataValidationMandatory.builder()
-                        .questionId(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1)
-                        .expression(singleExpression(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1))
+                        .questionId(FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15)
+                        .expression(singleExpression(FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15))
                         .build(),
                     CertificateDataValidationText.builder()
-                        .id(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1)
+                        .id(FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15)
                         .limit(LIMIT)
                         .build()
                 }
@@ -78,8 +72,6 @@ public class QuestionAnnatBeskrivning {
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1,
-            GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1);
+        return textValue(certificate.getData(), FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15, FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15);
     }
-
 }
