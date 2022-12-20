@@ -25,6 +25,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANSWE
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANSWER_YES;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_TEXT_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_DESCRIPTION_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
 
@@ -98,7 +99,7 @@ class QuestionKontaktOnskasTest {
 
         @Override
         protected String getDescriptionId() {
-            return null;
+            return KONTAKT_ONSKAS_SVAR_DESCRIPTION_ID;
         }
 
         @Override

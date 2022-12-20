@@ -26,6 +26,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
+import se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -39,13 +40,20 @@ import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KANNEDOM_SVAR_ID_2;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
 
 /**
  * @author Magnus Ekstrand on 2016-04-20.
@@ -96,7 +104,7 @@ public class InternalDraftValidatorTest {
     // Kategori 1 – Grund för medicinskt underlag
 
     @Test
-    public void validateGrundForMU_Ok() throws Exception {
+    public void validateGrundForMU_Ok() {
         LuaefsUtlatandeV1 utlatande = builderTemplate
             .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now()))
             .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(2)))
@@ -109,12 +117,12 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateGrundForMU_IngenTypOchIngenKannedomOmPatient() throws Exception {
+    public void validateGrundForMU_IngenTypOchIngenKannedomOmPatient() {
         LuaefsUtlatandeV1 utlatande = builderTemplate.build();
 
         validator.validateGrundForMU(utlatande, validationMessages);
 
-        assertTrue(2 == validationMessages.size());
+        assertEquals(2, validationMessages.size());
 
         assertValidationMessageCategory("grundformu", 0);
         assertValidationMessageField("baseratPa", 0);
@@ -122,10 +130,12 @@ public class InternalDraftValidatorTest {
         assertValidationMessageField("kannedomOmPatient", 1);
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
         assertValidationMessageType(ValidationMessageType.EMPTY, 1);
+        assertValidationMessageQuestionId(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, 0);
+        assertValidationMessageQuestionId(KANNEDOM_SVAR_ID_2, 1);
     }
 
     @Test
-    public void validateGrundForMU_IngenKannedomOmPatient() throws Exception {
+    public void validateGrundForMU_IngenKannedomOmPatient() {
         LuaefsUtlatandeV1 utlatande = builderTemplate
             .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now()))
             .setMotiveringTillInteBaseratPaUndersokning("behövs, ty ingen undersökning")
@@ -133,15 +143,16 @@ public class InternalDraftValidatorTest {
 
         validator.validateGrundForMU(utlatande, validationMessages);
 
-        assertTrue(1 == validationMessages.size());
+        assertEquals(1, validationMessages.size());
 
         assertValidationMessageCategory("grundformu", 0);
         assertValidationMessageField("kannedomOmPatient", 0);
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
+        assertValidationMessageQuestionId(KANNEDOM_SVAR_ID_2, 0);
     }
 
     @Test
-    public void validateGrundForMU_KannedomOmPatientEfterUndersokning() throws Exception {
+    public void validateGrundForMU_KannedomOmPatientEfterUndersokning() {
         LuaefsUtlatandeV1 utlatande = builderTemplate
             .setUndersokningAvPatienten(new InternalDate(LocalDate.now().minusDays(2)))
             .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(1)))
@@ -149,15 +160,16 @@ public class InternalDraftValidatorTest {
 
         validator.validateGrundForMU(utlatande, validationMessages);
 
-        assertTrue(1 == validationMessages.size());
+        assertEquals(1, validationMessages.size());
 
         assertValidationMessage("luae_fs.validation.grund-for-mu.kannedom.after", 0);
         assertValidationMessageDynamicKey("KV_FKMU_0001.UNDERSOKNING.RBK", 0);
         assertValidationMessageType(ValidationMessageType.OTHER, 0);
+        assertValidationMessageQuestionId(KANNEDOM_SVAR_ID_2, 0);
     }
 
     @Test
-    public void validateGrundForMU_KannedomOmPatientEfterAnhorigsBeskrivning() throws Exception {
+    public void validateGrundForMU_KannedomOmPatientEfterAnhorigsBeskrivning() {
         LuaefsUtlatandeV1 utlatande = builderTemplate
             .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now().minusDays(2)))
             .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(1)))
@@ -166,15 +178,16 @@ public class InternalDraftValidatorTest {
 
         validator.validateGrundForMU(utlatande, validationMessages);
 
-        assertTrue(1 == validationMessages.size());
+        assertEquals(1, validationMessages.size());
 
         assertValidationMessage("luae_fs.validation.grund-for-mu.kannedom.after", 0);
         assertValidationMessageDynamicKey("KV_FKMU_0001.ANHORIG.RBK", 0);
         assertValidationMessageType(ValidationMessageType.OTHER, 0);
+        assertValidationMessageQuestionId(KANNEDOM_SVAR_ID_2, 0);
     }
 
     @Test
-    public void validateGrundForMU_OmAnnanGrundBeskrivningOchInteAnnanGrundDatum() throws Exception {
+    public void validateGrundForMU_OmAnnanGrundBeskrivningOchInteAnnanGrundDatum() {
         LuaefsUtlatandeV1 utlatande = builderTemplate
             .setAnnatGrundForMUBeskrivning("En beskrivning...")
             .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(1)))
@@ -182,17 +195,18 @@ public class InternalDraftValidatorTest {
 
         validator.validateGrundForMU(utlatande, validationMessages);
 
-        assertTrue(2 == validationMessages.size());
+        assertEquals(2, validationMessages.size());
 
         assertValidationMessageCategory("grundformu", 0);
         assertValidationMessageField("baseratPa", 0);
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
         assertValidationMessage("luae_fs.validation.grund-for-mu.annat.beskrivning.invalid_combination", 1);
         assertValidationMessageType(ValidationMessageType.EMPTY, 1);
+        assertValidationMessageQuestionId(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, 0);
     }
 
     @Test
-    public void validateGrundForMU_OmAnnanGrundKraverBeskrivning() throws Exception {
+    public void validateGrundForMU_OmAnnanGrundKraverBeskrivning() {
         LuaefsUtlatandeV1 utlatande = builderTemplate
             .setAnnatGrundForMU(new InternalDate(LocalDate.now().minusDays(2)))
             .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(1)))
@@ -201,15 +215,16 @@ public class InternalDraftValidatorTest {
 
         validator.validateGrundForMU(utlatande, validationMessages);
 
-        assertTrue(1 == validationMessages.size());
+        assertEquals(1, validationMessages.size());
 
         assertValidationMessageCategory("grundformu", 0);
         assertValidationMessageField("annatGrundForMUBeskrivning", 0);
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
+        assertValidationMessageQuestionId(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, 0);
     }
 
     @Test
-    public void validateGrundForMUKannedomOmPatientFramtidaDatum() throws Exception {
+    public void validateGrundForMUKannedomOmPatientFramtidaDatum() {
         LuaefsUtlatandeV1 utlatande = builderTemplate
             .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now()))
             .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(2)))
@@ -221,38 +236,41 @@ public class InternalDraftValidatorTest {
 
         assertEquals(1, validationMessages.stream().filter(vm -> vm.getType() != ValidationMessageType.WARN).count());
         assertEquals(0, validationMessages.stream().filter(vm -> vm.getType() == ValidationMessageType.WARN).count());
+        assertValidationMessageQuestionId(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, 0);
     }
 
     // Kategori 2 - Andra medicinska utredningar och underlag
 
     @Test
-    public void validateUnderlag_UnderlagFinnsInte() throws Exception {
+    public void validateUnderlag_UnderlagFinnsInte() {
         LuaefsUtlatandeV1 utlatande = builderTemplate.build();
 
         validator.validateUnderlag(utlatande, validationMessages);
 
-        assertTrue(1 == validationMessages.size());
+        assertEquals(1, validationMessages.size());
 
         assertValidationMessageCategory("grundformu", 0);
         assertValidationMessageField("underlagFinns", 0);
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
+        assertValidationMessageQuestionId(UNDERLAGFINNS_SVAR_ID_3, 0);
     }
 
     @Test
-    public void validateUnderlag_UnderlagFinnsMenArTomt() throws Exception {
+    public void validateUnderlag_UnderlagFinnsMenArTomt() {
         LuaefsUtlatandeV1 utlatande = builderTemplate.setUnderlagFinns(true).build();
 
         validator.validateUnderlag(utlatande, validationMessages);
 
-        assertTrue(1 == validationMessages.size());
+        assertEquals(1, validationMessages.size());
 
         assertValidationMessageCategory("grundformu", 0);
         assertValidationMessageField("underlag", 0);
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
+        assertValidationMessageQuestionId(UNDERLAG_SVAR_ID_4, 0);
     }
 
     @Test
-    public void validateUnderlag_UnderlagFinnsInteMenArIfyllt() throws Exception {
+    public void validateUnderlag_UnderlagFinnsInteMenArIfyllt() {
         LuaefsUtlatandeV1 utlatande = builderTemplate
             .setUnderlagFinns(false)
             .setUnderlag(buildUnderlag("NEUROPSYKIATRISKT"))
@@ -260,14 +278,15 @@ public class InternalDraftValidatorTest {
 
         validator.validateUnderlag(utlatande, validationMessages);
 
-        assertTrue(1 == validationMessages.size());
+        assertEquals(1, validationMessages.size());
 
         assertValidationMessage("luae_fs.validation.underlagfinns.incorrect_combination", 0);
         assertValidationMessageType(ValidationMessageType.INVALID_FORMAT, 0);
+        assertValidationMessageQuestionId(UNDERLAGFINNS_SVAR_ID_3, 0);
     }
 
     @Test
-    public void validateUnderlag_GodkandaUnderlag() throws Exception {
+    public void validateUnderlag_GodkandaUnderlag() {
         LuaefsUtlatandeV1 utlatande = builderTemplate
             .setUnderlagFinns(true)
             .setUnderlag(buildUnderlag(
@@ -282,7 +301,7 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateUnderlag_tooMany() throws Exception {
+    public void validateUnderlag_tooMany() {
         LuaefsUtlatandeV1 utlatande = builderTemplate
             .setUnderlagFinns(true)
             .setUnderlag(buildUnderlag(
@@ -304,10 +323,11 @@ public class InternalDraftValidatorTest {
 
         assertValidationMessage("luae_fs.validation.underlag.too_many", 0);
         assertValidationMessageType(ValidationMessageType.OTHER, 0);
+        assertValidationMessageQuestionId(UNDERLAG_SVAR_ID_4, 0);
     }
 
     @Test
-    public void validateUnderlag_EjGodkantUnderlag() throws Exception {
+    public void validateUnderlag_EjGodkantUnderlag() {
         LuaefsUtlatandeV1 utlatande = builderTemplate
             .setUnderlagFinns(true)
             .setUnderlag(buildUnderlag("FORETAGSHALSOVARD"))
@@ -315,45 +335,47 @@ public class InternalDraftValidatorTest {
 
         validator.validateUnderlag(utlatande, validationMessages);
 
-        assertTrue(1 == validationMessages.size());
+        assertEquals(1, validationMessages.size());
 
         assertValidationMessage("luae_fs.validation.underlag.incorrect_format", 0);
         assertValidationMessageType(ValidationMessageType.INVALID_FORMAT, 0);
+        assertValidationMessageQuestionId(UNDERLAG_SVAR_ID_4, 0);
     }
 
     @Test
-    public void validateUnderlag_UnderlagFinnsMenArFelaktigtIfyllt() throws Exception {
+    public void validateUnderlag_UnderlagFinnsMenArFelaktigtIfyllt() {
         LuaefsUtlatandeV1 utlatande = builderTemplate
             .setUnderlagFinns(true)
-            .setUnderlag(Arrays.asList(Underlag.create(Underlag.UnderlagsTyp.fromId("NEUROPSYKIATRISKT"), null, null)))
+            .setUnderlag(List.of(Underlag.create(UnderlagsTyp.fromId("NEUROPSYKIATRISKT"), null, null)))
             .build();
 
         validator.validateUnderlag(utlatande, validationMessages);
 
-        assertTrue(2 == validationMessages.size());
+        assertEquals(2, validationMessages.size());
 
         assertValidationMessage("luae_fs.validation.underlag.date.missing", 0);
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
         assertValidationMessage("luae_fs.validation.underlag.hamtas-fran.missing", 1);
         assertValidationMessageType(ValidationMessageType.EMPTY, 1);
+        assertValidationMessageQuestionId(UNDERLAG_SVAR_ID_4, 0);
     }
 
     // Kategori 3 - Diagnos
 
     @Test
-    public void validateDiagnos_IngenDiagnos() throws Exception {
+    public void validateDiagnos_IngenDiagnos() {
         LuaefsUtlatandeV1 utlatande = builderTemplate.build();
 
         validator.validateDiagnose(utlatande, validationMessages);
 
-        assertTrue(1 == validationMessages.size());
+        assertEquals(1, validationMessages.size());
 
         assertValidationMessage("common.validation.diagnos.missing", 0);
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
     }
 
     @Test
-    public void validateDiagnos_GodkandDiagnosKod() throws Exception {
+    public void validateDiagnos_GodkandDiagnosKod() {
         LuaefsUtlatandeV1 utlatande = builderTemplate
             .setDiagnoser(buildDiagnoser("J22", "Z730", "F642"))
             .build();
@@ -364,14 +386,14 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateDiagnos_EjGodkandaDiagnosKoder() throws Exception {
+    public void validateDiagnos_EjGodkandaDiagnosKoder() {
         LuaefsUtlatandeV1 utlatande = builderTemplate
             .setDiagnoser(buildDiagnoser("J2", "Z73", "F6"))
             .build();
 
         validator.validateDiagnose(utlatande, validationMessages);
 
-        assertTrue(3 == validationMessages.size());
+        assertEquals(3, validationMessages.size());
 
         assertValidationMessage("common.validation.diagnos.length-3", 0);
         assertValidationMessageType(ValidationMessageType.INVALID_FORMAT, 0);
@@ -382,14 +404,14 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateDiagnos_GodkandDiagnosKodMenIngenBeskrivning() throws Exception {
+    public void validateDiagnos_GodkandDiagnosKodMenIngenBeskrivning() {
         LuaefsUtlatandeV1 utlatande = builderTemplate
-            .setDiagnoser(Arrays.asList(Diagnos.create("J22", "ICD-10-SE", null, "Ett namn...")))
+            .setDiagnoser(List.of(Diagnos.create("J22", "ICD-10-SE", null, "Ett namn...")))
             .build();
 
         validator.validateDiagnose(utlatande, validationMessages);
 
-        assertTrue(1 == validationMessages.size());
+        assertEquals(1, validationMessages.size());
 
         assertValidationMessage("common.validation.diagnos.description.missing", 0);
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
@@ -398,7 +420,7 @@ public class InternalDraftValidatorTest {
     // Kategori 4 - Funktionsnedsättning
 
     @Test
-    public void validateFunktionsnedsattning_DebutOchPaverkanFinns() throws Exception {
+    public void validateFunktionsnedsattning_DebutOchPaverkanFinns() {
         LuaefsUtlatandeV1 utlatande = builderTemplate
             .setFunktionsnedsattningDebut("Debut..")
             .setFunktionsnedsattningPaverkan("Paverkan..")
@@ -410,7 +432,7 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateFunktionsnedsattning_DebutOchPaverkanEjGiltiga() throws Exception {
+    public void validateFunktionsnedsattning_DebutOchPaverkanEjGiltiga() {
         LuaefsUtlatandeV1 utlatande = builderTemplate
             .setFunktionsnedsattningDebut("")
             .setFunktionsnedsattningPaverkan(null)
@@ -418,12 +440,14 @@ public class InternalDraftValidatorTest {
 
         validator.validateFunktionsnedsattning(utlatande, validationMessages);
 
-        assertTrue(2 == validationMessages.size());
+        assertEquals(2, validationMessages.size());
 
         assertValidationMessage("luae_fs.validation.funktionsnedsattning.debut.missing", 0);
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
         assertValidationMessage("luae_fs.validation.funktionsnedsattning.paverkan.missing", 1);
         assertValidationMessageType(ValidationMessageType.EMPTY, 1);
+        assertValidationMessageQuestionId(FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15, 0);
+        assertValidationMessageQuestionId(FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16, 1);
     }
 
     // Kategori 5 - Övrigt
@@ -432,7 +456,7 @@ public class InternalDraftValidatorTest {
     // Kategori 6 - Kontakt
 
     @Test
-    public void validateKontakt_KontaktOnskas() throws Exception {
+    public void validateKontakt_KontaktOnskas() {
         LuaefsUtlatandeV1 utlatande = builderTemplate
             .setKontaktMedFk(true)
             .setAnledningTillKontakt("En anledning")
@@ -444,7 +468,7 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateKontakt_KontaktOnskasMenIngenAnledningIfylld() throws Exception {
+    public void validateKontakt_KontaktOnskasMenIngenAnledningIfylld() {
         LuaefsUtlatandeV1 utlatande = builderTemplate
             .setKontaktMedFk(true)
             .build();
@@ -455,7 +479,7 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateKontakt_KontaktOnskasInteMenAnledningIfylld() throws Exception {
+    public void validateKontakt_KontaktOnskasInteMenAnledningIfylld() {
         LuaefsUtlatandeV1 utlatande = builderTemplate
             .setKontaktMedFk(false)
             .setAnledningTillKontakt("En andledning...")
@@ -463,10 +487,11 @@ public class InternalDraftValidatorTest {
 
         validator.validateKontakt(utlatande, validationMessages);
 
-        assertTrue(1 == validationMessages.size());
+        assertEquals(1, validationMessages.size());
 
         assertValidationMessage("luae_fs.validation.kontakt.invalid_combination", 0);
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
+        assertValidationMessageQuestionId(KONTAKT_ONSKAS_SVAR_ID_26, 0);
     }
 
     // - - - Private scope - - -
@@ -488,7 +513,11 @@ public class InternalDraftValidatorTest {
     }
 
     private void assertValidationMessageType(ValidationMessageType expectedType, int index) {
-        assertTrue(expectedType == validationMessages.get(index).getType());
+        assertSame(expectedType, validationMessages.get(index).getType());
+    }
+
+    private void assertValidationMessageQuestionId(String expectedField, int index) {
+        assertEquals(expectedField, validationMessages.get(index).getQuestionId());
     }
 
     private List<Diagnos> buildDiagnoser(String... diagnosKoder) {
@@ -538,7 +567,7 @@ public class InternalDraftValidatorTest {
     }
 
     private Personnummer createPnr(String civicRegistrationNumber) {
-        return Personnummer.createPersonnummer(civicRegistrationNumber).get();
+        return Personnummer.createPersonnummer(civicRegistrationNumber).orElseThrow();
     }
 
 }

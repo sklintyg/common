@@ -34,7 +34,7 @@ public abstract class InternalValueTest<T, S> {
 
     protected abstract CertificateDataElement getElement(T input);
 
-    protected abstract T toInternalValue(Certificate certificate);
+    protected abstract S toInternalValue(Certificate certificate);
 
     protected abstract List<InputExpectedValuePair<T, S>> inputExpectedValuePairList();
 
@@ -44,7 +44,7 @@ public abstract class InternalValueTest<T, S> {
 
     @ParameterizedTest
     @MethodSource("inputExpectedValuePairStream")
-    void shouldIncludeTextValue(InputExpectedValuePair<T, S> inputExpectedValuePair) {
+    void shouldIncludeValue(InputExpectedValuePair<T, S> inputExpectedValuePair) {
         final var certificate = CertificateBuilder.create()
             .addElement(getElement(inputExpectedValuePair.getInput()))
             .build();

@@ -25,8 +25,8 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.Cat
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryFunktionsnedsattning;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryGrundForMU;
-import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryMedicinskBehandling;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryKontakt;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryMedicinskBehandling;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryMedicinskaForutsattningarArbete;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.category.CategoryOvrigt;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionAktivetsbegransningarHeader;
@@ -70,7 +70,6 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 
 public class InternalToCertificate {
 
-
     public static Certificate toCertificate(LuaenaUtlatandeV1 internalCertificate, CertificateTextProvider textProvider) {
         int index = 0;
         return CertificateBuilder.create()
@@ -99,12 +98,6 @@ public class InternalToCertificate {
                 QuestionUnderlag.toCertificate(internalCertificate.getUnderlag(), index++, textProvider)
             )
             .addElement(
-                CategoryBakgrund.toCertificate(index++, textProvider)
-            )
-            .addElement(
-                QuestionSjukdomsforlopp.toCertificate(internalCertificate.getSjukdomsforlopp(), index++, textProvider)
-            )
-            .addElement(
                 CategoryDiagnos.toCertificate(index++, textProvider)
             )
             .addElement(
@@ -118,6 +111,12 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionDiagnosForNyBedomning.toCertificate(internalCertificate.getDiagnosForNyBedomning(), index++, textProvider)
+            )
+            .addElement(
+                CategoryBakgrund.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionSjukdomsforlopp.toCertificate(internalCertificate.getSjukdomsforlopp(), index++, textProvider)
             )
             .addElement(
                 CategoryFunktionsnedsattning.toCertificate(index++, textProvider)
@@ -214,7 +213,7 @@ public class InternalToCertificate {
                 QuestionKontaktOnskas.toCertificate(internalCertificate.getKontaktMedFk(), index++, textProvider)
             )
             .addElement(
-                QuestionKontaktAnledning.toCertificate(internalCertificate.getAnledningTillKontakt(), index++, textProvider)
+                QuestionKontaktAnledning.toCertificate(internalCertificate.getAnledningTillKontakt(), index, textProvider)
             )
             .build();
     }

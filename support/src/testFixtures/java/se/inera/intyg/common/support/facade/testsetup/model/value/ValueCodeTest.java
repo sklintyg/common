@@ -32,11 +32,19 @@ public abstract class ValueCodeTest extends ValueTest {
         return CertificateDataValueType.CODE;
     }
 
-    protected abstract CertificateDataValueCode getCertificateDataValueCode();
+    protected abstract String getCodeId();
+
+    protected abstract String getCode();
 
     @Test
-    void shouldIncludeCertificateDataValueCode() {
-        final var value = getElement().getValue();
-        assertEquals(getCertificateDataValueCode(), value);
+    void shouldIncludeCode() {
+        final var value = (CertificateDataValueCode) getElement().getValue();
+        assertEquals(getCode(), value.getCode());
+    }
+
+    @Test
+    void shouldIncludeCodeId() {
+        final var value = (CertificateDataValueCode) getElement().getValue();
+        assertEquals(getCodeId(), value.getId());
     }
 }

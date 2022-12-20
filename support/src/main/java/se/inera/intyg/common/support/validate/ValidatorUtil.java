@@ -78,7 +78,7 @@ public final class ValidatorUtil {
 
     /**
      * Validates that the supplied date is parsable and reasonable. Reasonable is defined as somewhere between
-     * {@link InternalDate#MIN_DATE} and {@link InternalDate#MAX_DATE}, typically 1900-01-01 to 2099-12-31.
+     * InternalDate.MIN_DATE and InternalDate.MAX_DATE, typically 1900-01-01 to 2099-12-31.
      *
      * @param date Date to validate.
      * @param validationMessages List of validationMessages. Any validation errors and/or warnings are added to this list.
@@ -121,7 +121,7 @@ public final class ValidatorUtil {
 
     /**
      * Validates that the supplied interval is parsable and reasonable. Reasonable is defined as somewhere between
-     * {@link InternalDate#MIN_DATE} and {@link InternalDate#MAX_DATE}, typically 1900-01-01 to 2099-12-31.
+     * InternalDate.MIN_DATE and InternalDate.MAX_DATE, typically 1900-01-01 to 2099-12-31.
      *
      * @param interval InteralLocalDateInterval to validate.
      * @param validationMessages List of validationMessages. Any validation errors and/or warnings are added to this list.
@@ -313,6 +313,15 @@ public final class ValidatorUtil {
         String category, String field) {
         if (beskrivning == null || beskrivning.trim().isEmpty()) {
             addValidationError(validationMessages, category, field, ValidationMessageType.EMPTY);
+            return AssertionResult.FAILURE;
+        }
+        return AssertionResult.SUCCESS;
+    }
+
+    public static AssertionResult assertDescriptionNotEmptyWithQuestionId(List<ValidationMessage> validationMessages, String beskrivning,
+        String category, String field, String questionId) {
+        if (beskrivning == null || beskrivning.trim().isEmpty()) {
+            addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.EMPTY, questionId);
             return AssertionResult.FAILURE;
         }
         return AssertionResult.SUCCESS;

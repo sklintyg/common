@@ -102,7 +102,7 @@ class QuestionDiagnosgrundTest {
 
             @Override
             protected String getDescriptionId() {
-                return DIAGNOSGRUND_TEXT_ID;
+                return null;
             }
 
             @Override
