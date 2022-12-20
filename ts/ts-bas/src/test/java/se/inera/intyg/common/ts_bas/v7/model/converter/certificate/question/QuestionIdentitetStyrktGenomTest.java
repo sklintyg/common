@@ -48,7 +48,7 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.Layout;
 import se.inera.intyg.common.support.facade.model.config.RadioMultipleCode;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
-import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigRadioButtonMultipleCodeTest;
+import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigRadioMultipleCodeTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalValueTest;
@@ -96,7 +96,7 @@ class QuestionIdentitetStyrktGenomTest {
 
         @Nested
         @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-        class IncludeConfigRadioButtonBooleanTest extends ConfigRadioButtonMultipleCodeTest {
+        class IncludeConfigRadioMultipleCodeTests extends ConfigRadioMultipleCodeTest {
 
             @Override
             protected CertificateTextProvider getTextProviderMock() {
