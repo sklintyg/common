@@ -20,6 +20,20 @@ package se.inera.intyg.common.ts_bas.v7.codes;
 
 public final class RespConstantsV7 {
 
+    public static final String IDENTITET_CATEGORY_ID = "identitet";
+    public static final String IDENTITET_CATEGORY_TEXT_ID = "KAT_100.RBK";
+
+    public static final String IDENTITET_STYRKT_GENOM_SVAR_ID = "2";
+    public static final String IDENTITET_STYRKT_GENOM_TEXT_ID = "FRG_2.RBK";
+    public static final String IDENTITET_STYRKT_GENOM_DESCRIPTION_ID = "FRG_2.HLP";
+
+    public static final String IDENTITET_STYRKT_GENOM_ID_KORT_TEXT_ID = "KV_ID_KONTROLL.IDK1.RBK";
+    public static final String IDENTITET_STYRKT_GENOM_FORETAG_ELLER_TJANSTEKORT_TEXT_ID = "KV_ID_KONTROLL.IDK2.RBK";
+    public static final String IDENTITET_STYRKT_GENOM_KORKORT_TEXT_ID = "KV_ID_KONTROLL.IDK3.RBK";
+    public static final String IDENTITET_STYRKT_GENOM_PERS_KANNEDOM_TEXT_ID = "KV_ID_KONTROLL.IDK4.RBK";
+    public static final String IDENTITET_STYRKT_GENOM_FORSAKRAN_KAP18_TEXT_ID = "KV_ID_KONTROLL.IDK5.RBK";
+    public static final String IDENTITET_STYRKT_GENOM_PASS_TEXT_ID = "KV_ID_KONTROLL.IDK6.RBK";
+
     public static final String SVAR_JA_TEXT = "Ja";
     public static final String SVAR_NEJ_TEXT = "Nej";
     public static final String SYNFUNKTIONER_CATEGORY_ID = "synfunktioner";

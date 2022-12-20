@@ -47,7 +47,7 @@ import se.inera.intyg.common.support.facade.model.config.Layout;
 import se.inera.intyg.common.support.facade.model.config.RadioMultipleCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
-import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigRadioBooleanMultipleCodeTest;
+import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigRadioMultipleCodeTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
@@ -92,7 +92,7 @@ class QuestionDiabetesTypTest {
     }
 
     @Nested
-    class IncludeConfigRadioButtonMultipleCodeTests extends ConfigRadioBooleanMultipleCodeTest {
+    class IncludeConfigRadioButtonMultipleCodeTests extends ConfigRadioMultipleCodeTest {
 
         @Override
         protected List<RadioMultipleCode> getExpectedRadioMultipleCodes() {

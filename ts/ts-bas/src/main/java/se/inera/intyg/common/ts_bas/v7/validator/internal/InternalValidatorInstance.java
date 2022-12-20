@@ -23,6 +23,7 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BEHANDLING_D
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.DUBBELSEENDE_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HAR_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HJART_ELLER_KARLSJUKDOM_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_SVAR_ID_1;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDVETANDESTORNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NEDSATT_NJURFUNKTION_SVAR_ID;
@@ -144,12 +145,13 @@ public class InternalValidatorInstance {
 
     private void validateIdentitetStyrkt(Vardkontakt vardkontakt) {
         if (vardkontakt == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_IDENTITET, "vardkontakt", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_IDENTITET, "vardkontakt",
+                ValidationMessageType.EMPTY, IDENTITET_STYRKT_GENOM_SVAR_ID);
             return;
         }
         if (vardkontakt.getIdkontroll() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_IDENTITET, "vardkontakt.idkontroll",
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_IDENTITET, "vardkontakt.idkontroll",
+                ValidationMessageType.EMPTY, IDENTITET_STYRKT_GENOM_SVAR_ID);
         }
     }
 

@@ -33,6 +33,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDiabetesBehandling;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDiabetesTyp;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIdentitetStyrktGenom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattningBeskrivning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionHarDiabetes;
@@ -87,6 +88,7 @@ public class CertificateToInternal {
                 .setVansterOga(QuestionSynskarpa.toInternal(certificate, LEFT_EYE))
                 .setBinokulart(QuestionSynskarpa.toInternal(certificate, BINOCULAR))
                 .build())
+            .setVardkontakt(QuestionIdentitetStyrktGenom.toInternal(certificate))
             .setHorselBalans(
                 HorselBalans.builder()
                     .setBalansrubbningar(QuestionBalansrubbningar.toInternal(certificate))

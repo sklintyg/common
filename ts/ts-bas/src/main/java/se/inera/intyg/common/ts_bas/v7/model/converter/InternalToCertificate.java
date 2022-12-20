@@ -63,6 +63,8 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTablettEllerInsulinMessage;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTeckenPaNeurologiskSjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTidigareUtfordUndersokningMessage;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryIdentitet;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIdentitetStyrktGenom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionUppfattaSamtal4Meter;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 
@@ -78,6 +80,12 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionIntygetAvser.toCertificate(internalCertificate.getIntygAvser(), index++, texts)
+            )
+            .addElement(
+                CategoryIdentitet.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionIdentitetStyrktGenom.toCertificate(internalCertificate.getVardkontakt(), index++, texts)
             )
             .addElement(
                 CategorySynfunktioner.toCertificate(index++, texts)

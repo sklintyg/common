@@ -31,6 +31,8 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HAR_DIABETES
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HAR_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HJART_ELLER_KARLSJUKDOM_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HJART_ELLER_KARLSJUKDOM_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INSULIN_ELLER_TABLETT_MESSAGE_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_SVAR_ID_1;
@@ -132,230 +134,242 @@ class InternalToCertificateTest {
     }
 
     @Test
+    void shallIncludeCategoryIdentitet() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(2, actualCertificate.getData().get(IDENTITET_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionIdentitet() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(3, actualCertificate.getData().get(IDENTITET_STYRKT_GENOM_SVAR_ID).getIndex());
+    }
+
+    @Test
     void shallIncludeCategorySynfunktioner() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(2, actualCertificate.getData().get(SYNFUNKTIONER_CATEGORY_ID).getIndex());
+        assertEquals(4, actualCertificate.getData().get(SYNFUNKTIONER_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionSynfaltsdefekter() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(3, actualCertificate.getData().get(SYNFALTSDEFEKTER_SVAR_ID).getIndex());
+        assertEquals(5, actualCertificate.getData().get(SYNFALTSDEFEKTER_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionNattblindhet() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(4, actualCertificate.getData().get(SEENDE_NEDSATT_BELYSNING_SVAR_ID).getIndex());
+        assertEquals(6, actualCertificate.getData().get(SEENDE_NEDSATT_BELYSNING_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionProgressivOgonsjukdom() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(5, actualCertificate.getData().get(PROGRESSIV_OGONSJUKDOM_SVAR_ID).getIndex());
+        assertEquals(7, actualCertificate.getData().get(PROGRESSIV_OGONSJUKDOM_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeMessageLakarintygAvOgonspecialist() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(6, actualCertificate.getData().get(LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID).getIndex());
+        assertEquals(8, actualCertificate.getData().get(LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionDubbelseende() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(7, actualCertificate.getData().get(DUBBELSEENDE_SVAR_ID).getIndex());
+        assertEquals(9, actualCertificate.getData().get(DUBBELSEENDE_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionNystagmus() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(8, actualCertificate.getData().get(NYSTAGMUS_SVAR_ID).getIndex());
+        assertEquals(10, actualCertificate.getData().get(NYSTAGMUS_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionSynskarpaSkickasSeparat() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(9, actualCertificate.getData().get(SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID).getIndex());
+        assertEquals(11, actualCertificate.getData().get(SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionSynskarpa() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(10, actualCertificate.getData().get(VARDEN_FOR_SYNSKARPA_ID).getIndex());
+        assertEquals(12, actualCertificate.getData().get(VARDEN_FOR_SYNSKARPA_ID).getIndex());
     }
 
     @Test
     void shallIncludeMessageTidigareUtfordUndersokning() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(11, actualCertificate.getData().get(TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_SVAR_ID).getIndex());
+        assertEquals(13, actualCertificate.getData().get(TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionKorrektionsglasensStyrka() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(12, actualCertificate.getData().get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID).getIndex());
+        assertEquals(14, actualCertificate.getData().get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeMessageKorrektionsglasensStyrka() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(13, actualCertificate.getData().get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_ID).getIndex());
+        assertEquals(15, actualCertificate.getData().get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_ID).getIndex());
     }
 
     @Test
     void shallIncludeCategoryHorselOchBalanssinne() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(14, actualCertificate.getData().get(BALANSRUBBNINGAR_YRSEL_CATEGORY_ID).getIndex());
+        assertEquals(16, actualCertificate.getData().get(BALANSRUBBNINGAR_YRSEL_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionBalansrubbningar() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(15, actualCertificate.getData().get(BALANSRUBBNINGAR_YRSEL_SVAR_ID).getIndex());
+        assertEquals(17, actualCertificate.getData().get(BALANSRUBBNINGAR_YRSEL_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionSvartUppfattaSamtal4Meter() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(16, actualCertificate.getData().get(UPPFATTA_SAMTALSTAMMA_SVAR_ID).getIndex());
+        assertEquals(18, actualCertificate.getData().get(UPPFATTA_SAMTALSTAMMA_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeCategoryFunktionsnedsattning() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(17, actualCertificate.getData().get(SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_ID).getIndex());
+        assertEquals(19, actualCertificate.getData().get(SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionFunktionsnedsattning() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(18, actualCertificate.getData().get(SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID).getIndex());
+        assertEquals(20, actualCertificate.getData().get(SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionFunktionsnedsattningBeskrivning() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(19, actualCertificate.getData().get(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID).getIndex());
+        assertEquals(21, actualCertificate.getData().get(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionOtillrackligRorelseformoga() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(20, actualCertificate.getData().get(OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID).getIndex());
+        assertEquals(22, actualCertificate.getData().get(OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeCategoryHjartOchKarlsjukdom() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(21, actualCertificate.getData().get(HJART_ELLER_KARLSJUKDOM_CATEGORY_ID).getIndex());
+        assertEquals(23, actualCertificate.getData().get(HJART_ELLER_KARLSJUKDOM_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionHjartOchKarlsjukdom() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(22, actualCertificate.getData().get(HJART_ELLER_KARLSJUKDOM_SVAR_ID).getIndex());
+        assertEquals(24, actualCertificate.getData().get(HJART_ELLER_KARLSJUKDOM_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionHjarnskadaEfterTrauama() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(23, actualCertificate.getData().get(TECKEN_PA_HJARNSKADA_SVAR_ID).getIndex());
+        assertEquals(25, actualCertificate.getData().get(TECKEN_PA_HJARNSKADA_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionRiskfaktorerEfterStroke() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(24, actualCertificate.getData().get(RISKFAKTORER_STROKE_SVAR_ID).getIndex());
+        assertEquals(26, actualCertificate.getData().get(RISKFAKTORER_STROKE_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionBeskrivningRiskfaktorer() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(25, actualCertificate.getData().get(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID).getIndex());
+        assertEquals(27, actualCertificate.getData().get(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeCategoryDiabetes() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(26, actualCertificate.getData().get(HAR_DIABETES_CATEGORY_ID).getIndex());
+        assertEquals(28, actualCertificate.getData().get(HAR_DIABETES_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionHarDiabetes() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(27, actualCertificate.getData().get(HAR_DIABETES_SVAR_ID).getIndex());
+        assertEquals(29, actualCertificate.getData().get(HAR_DIABETES_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionDiabetesTyp() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(28, actualCertificate.getData().get(TYP_AV_DIABETES_SVAR_ID).getIndex());
+        assertEquals(30, actualCertificate.getData().get(TYP_AV_DIABETES_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionDiabetesBehandling() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(29, actualCertificate.getData().get(BEHANDLING_DIABETES_SVAR_ID).getIndex());
+        assertEquals(31, actualCertificate.getData().get(BEHANDLING_DIABETES_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeMessageTablettEllerInsulin() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(30, actualCertificate.getData().get(INSULIN_ELLER_TABLETT_MESSAGE_ID).getIndex());
+        assertEquals(32, actualCertificate.getData().get(INSULIN_ELLER_TABLETT_MESSAGE_ID).getIndex());
     }
 
     @Test
     void shallIncludeCategoryNeurologiskaSjukdomar() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(31, actualCertificate.getData().get(NEUROLOGISK_SJUKDOM_CATEGORY_ID).getIndex());
+        assertEquals(33, actualCertificate.getData().get(NEUROLOGISK_SJUKDOM_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionTeckenPaNeurologiskSjukdom() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(32, actualCertificate.getData().get(TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID).getIndex());
+        assertEquals(34, actualCertificate.getData().get(TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeCategoryMedvetandestorning() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(33, actualCertificate.getData().get(MEDVETANDESTORNING_CATEGORY_ID).getIndex());
+        assertEquals(35, actualCertificate.getData().get(MEDVETANDESTORNING_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionMedvetandestorning() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(34, actualCertificate.getData().get(MEDVETANDESTORNING_SVAR_ID).getIndex());
+        assertEquals(36, actualCertificate.getData().get(MEDVETANDESTORNING_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionMedvetandestorningBeskrivning() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(35, actualCertificate.getData().get(FOREKOMST_MEDVETANDESTORNING_DELSVAR_ID).getIndex());
+        assertEquals(37, actualCertificate.getData().get(FOREKOMST_MEDVETANDESTORNING_DELSVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeCategoryNjursjukdomar() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(36, actualCertificate.getData().get(NJURFUNKTION_CATEGORY_ID).getIndex());
+        assertEquals(38, actualCertificate.getData().get(NJURFUNKTION_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionNedsattNjursjukdomar() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(37, actualCertificate.getData().get(NEDSATT_NJURFUNKTION_SVAR_ID).getIndex());
+        assertEquals(39, actualCertificate.getData().get(NEDSATT_NJURFUNKTION_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeCategoryDemensOchNedsattKognitivFormaga() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(38, actualCertificate.getData().get(DEMENS_KOGNITIV_FUNKTION_CATEGORY_ID).getIndex());
+        assertEquals(40, actualCertificate.getData().get(DEMENS_KOGNITIV_FUNKTION_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionNedsattKognitivFormaga() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(39, actualCertificate.getData().get(TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_ID).getIndex());
+        assertEquals(41, actualCertificate.getData().get(TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_ID).getIndex());
     }
 }

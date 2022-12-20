@@ -29,7 +29,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTy
 import se.inera.intyg.common.support.facade.model.config.Layout;
 import se.inera.intyg.common.support.facade.model.config.RadioMultipleCode;
 
-public abstract class ConfigRadioBooleanMultipleCodeTest extends ConfigTest {
+public abstract class ConfigRadioMultipleCodeTest extends ConfigTest {
 
     @Override
     protected CertificateDataConfigTypes getType() {

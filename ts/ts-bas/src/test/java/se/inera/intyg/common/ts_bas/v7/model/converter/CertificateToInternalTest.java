@@ -41,6 +41,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDiabetesBehandling;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDiabetesTyp;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIdentitetStyrktGenom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattningBeskrivning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionHarDiabetes;
@@ -79,6 +80,8 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Synskarpevarden;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Vardkontakt;
+import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 @ExtendWith(MockitoExtension.class)
@@ -161,6 +164,7 @@ class CertificateToInternalTest {
             .setGrundData(getGrundData())
             .setIntygAvser(IntygAvser.create(EnumSet.of(IntygAvserKategori.IAV1, IntygAvserKategori.IAV2)))
             .setSyn(syn)
+            .setVardkontakt(Vardkontakt.create(null, IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode()))
             .setHorselBalans(horselBalans)
             .setFunktionsnedsattning(funktionsnedsattning)
             .setHjartKarl(hjartKarl)
@@ -183,6 +187,8 @@ class CertificateToInternalTest {
             .addElement(QuestionNystagmus.toCertificate(syn, 0, textProvider))
             .addElement(QuestionSynskarpaSkickasSeparat.toCertificate(syn, 0, textProvider))
             .addElement(QuestionKorrektionsglasensStyrka.toCertificate(syn, 0, textProvider))
+            .addElement(QuestionIdentitetStyrktGenom.toCertificate(
+                expectedInternalCertificate.getVardkontakt(), 0, textProvider))
             .addElement(QuestionSynskarpa.toCertificate(syn, 0, textProvider))
             .addElement(QuestionBalansrubbningar.toCertificate(horselBalans, 0, textProvider))
             .addElement(QuestionUppfattaSamtal4Meter.toCertificate(horselBalans, 0, textProvider))
@@ -285,6 +291,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getSyn().getKorrektionsglasensStyrka(),
             actualInternalCertificate.getSyn().getKorrektionsglasensStyrka());
+    }
+
+    @Test
+    void shallIncludeIdentitetStyrktGenom() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getVardkontakt(), expectedInternalCertificate.getVardkontakt(), "Vardkontakt is missing!");
     }
     
     @Test
