@@ -22,7 +22,6 @@ package se.inera.intyg.common.support.facade.testsetup.model.config;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextField;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 
