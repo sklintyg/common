@@ -25,9 +25,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DODSPLATS_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_BOENDE_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_BOENDE_QUESTION_TEXT_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_SVAR_ID;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -83,7 +83,7 @@ class QuestionDodsplatsBoendeTest {
         @Test
         void shouldIncludeParentId() {
             final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
-            assertEquals(DODSDATUM_DODSPLATS_CATEGORY_ID, question.getParent());
+            assertEquals(DODSPLATS_SVAR_ID, question.getParent());
         }
 
         @Test
