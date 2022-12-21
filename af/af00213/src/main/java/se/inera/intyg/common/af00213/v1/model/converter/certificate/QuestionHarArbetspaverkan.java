@@ -32,7 +32,7 @@ import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValu
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigBoolean;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
@@ -45,7 +45,7 @@ public class QuestionHarArbetspaverkan {
             .index(index)
             .parent(ARBETETS_PAVERKAN_CATEGORY_ID)
             .config(
-                CertificateDataConfigBoolean.builder()
+                CertificateDataConfigRadioBoolean.builder()
                     .text(texts.get(ARBETETS_PAVERKAN_QUESTION_TEXT))
                     .description(texts.get(ARBETETS_PAVERKAN_QUESTION_DESCRIPTION))
                     .id(ARBETETS_PAVERKAN_SVAR_JSON_ID_41)

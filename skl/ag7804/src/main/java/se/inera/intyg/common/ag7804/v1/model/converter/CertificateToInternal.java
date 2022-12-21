@@ -42,7 +42,6 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDS
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
@@ -81,6 +80,7 @@ import se.inera.intyg.common.ag7804.model.internal.PrognosTyp;
 import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
 import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -162,23 +162,19 @@ public final class CertificateToInternal {
     }
 
     private static InternalDate getGrundForMUUndersokningAvPatienten(Certificate certificate) {
-        return getInternalDate(certificate, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1,
-            GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1);
+        return QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1);
     }
 
     private static InternalDate getGrundForMUTelefonkontakt(Certificate certificate) {
-        return getInternalDate(certificate, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1,
-            GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1);
+        return QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1);
     }
 
     private static InternalDate getGrundForMUJournaluppgifter(Certificate certificate) {
-        return getInternalDate(certificate, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1,
-            GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1);
+        return QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1);
     }
 
     private static InternalDate getGrundForMUAnnat(Certificate certificate) {
-        return getInternalDate(certificate, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1,
-            GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1);
+        return QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1);
     }
 
     private static InternalDate getInternalDate(Certificate certificate, String questionId, String itemId) {

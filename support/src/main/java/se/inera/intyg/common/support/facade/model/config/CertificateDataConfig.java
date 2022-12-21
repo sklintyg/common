@@ -26,7 +26,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     use = JsonTypeInfo.Id.NAME,
     property = "type")
 @JsonSubTypes({
-    @Type(value = CertificateDataConfigBoolean.class, name = "UE_RADIO_BOOLEAN"),
     @Type(value = CertificateDataConfigCategory.class, name = "CATEGORY"),
     @Type(value = CertificateDataConfigTextArea.class, name = "UE_TEXTAREA"),
     @Type(value = CertificateDataConfigTextField.class, name = "UE_TEXTFIELD"),
