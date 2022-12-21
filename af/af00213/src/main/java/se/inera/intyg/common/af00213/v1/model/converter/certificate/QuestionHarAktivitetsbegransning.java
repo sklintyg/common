@@ -34,7 +34,7 @@ import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValu
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigBoolean;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
@@ -48,7 +48,7 @@ public class QuestionHarAktivitetsbegransning {
             .parent(AKTIVITETSBEGRANSNING_CATEGORY_ID)
             .index(index)
             .config(
-                CertificateDataConfigBoolean.builder()
+                CertificateDataConfigRadioBoolean.builder()
                     .text(texts.get(AKTIVITETSBEGRANSNING_QUESTION_TEXT))
                     .description(texts.get(AKTIVITETSBEGRANSNING_QUESTION_DESCRIPTION))
                     .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21)

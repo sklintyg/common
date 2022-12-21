@@ -33,9 +33,12 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 
 public class QuestionKontaktAnledning {
+
+    private static final short LIMIT = 3500;
 
     public static CertificateDataElement toCertificate(String kontaktAnledning, int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
@@ -59,6 +62,10 @@ public class QuestionKontaktAnledning {
                     CertificateDataValidationShow.builder()
                         .questionId(KONTAKT_ONSKAS_SVAR_ID_26)
                         .expression(singleExpression(KONTAKT_ONSKAS_SVAR_JSON_ID_26))
+                        .build(),
+                    CertificateDataValidationText.builder()
+                        .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26)
+                        .limit(LIMIT)
                         .build()
                 }
             )

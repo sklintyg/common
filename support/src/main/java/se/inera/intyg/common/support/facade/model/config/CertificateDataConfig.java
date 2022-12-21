@@ -26,7 +26,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     use = JsonTypeInfo.Id.NAME,
     property = "type")
 @JsonSubTypes({
-    @Type(value = CertificateDataConfigBoolean.class, name = "UE_RADIO_BOOLEAN"),
     @Type(value = CertificateDataConfigCategory.class, name = "CATEGORY"),
     @Type(value = CertificateDataConfigTextArea.class, name = "UE_TEXTAREA"),
     @Type(value = CertificateDataConfigTextField.class, name = "UE_TEXTFIELD"),
@@ -47,7 +46,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @Type(value = CertificateDataConfigIcf.class, name = "UE_ICF"),
     @Type(value = CertificateDataConfigCauseOfDeath.class, name = "UE_CAUSE_OF_DEATH"),
     @Type(value = CertificateDataConfigCauseOfDeathList.class, name = "UE_CAUSE_OF_DEATH_LIST"),
-    @Type(value = CertificateDataConfigMedicalInvestigation.class, name = "UE_MEDICAL_INVESTIGATION")
+    @Type(value = CertificateDataConfigMedicalInvestigation.class, name = "UE_MEDICAL_INVESTIGATION"),
+    @Type(value = CertificateDataConfigVisualAcuity.class, name = "UE_VISUAL_ACUITY")
 
 })
 public interface CertificateDataConfig {

@@ -48,7 +48,7 @@ import se.inera.intyg.common.af00213.v1.model.converter.InternalToCertificate;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigBoolean;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
@@ -166,7 +166,7 @@ class QuestionHarAktivitetsbegransningTest {
 
                 assertEquals(CertificateDataConfigTypes.UE_RADIO_BOOLEAN, question.getConfig().getType());
 
-                final var certificateDataConfigBoolean = (CertificateDataConfigBoolean) question.getConfig();
+                final var certificateDataConfigBoolean = (CertificateDataConfigRadioBoolean) question.getConfig();
                 assertAll("Validating question configuration",
                     () -> assertTrue(certificateDataConfigBoolean.getText().trim().length() > 0, "Missing text"),
                     () -> assertTrue(certificateDataConfigBoolean.getDescription().trim().length() > 0, "Missing description"),

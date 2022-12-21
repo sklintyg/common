@@ -19,13 +19,9 @@
 
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_ICD_10_ID;
@@ -38,32 +34,28 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIA
 import static se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionDiagnoser.LIMIT_DIAGNOSIS_DESC;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Stream;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigDiagnosTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationTextTest;
-import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InternalValueTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.ValueDiagnosListTest;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
 @ExtendWith(MockitoExtension.class)
@@ -74,238 +66,305 @@ class QuestionDiagnoserTest {
     @Mock
     private CertificateTextProvider textProvider;
     @Mock
-    private WebcertModuleService moduleService;
+    private WebcertModuleService webcertModuleService;
 
     @BeforeEach
     void setup() {
         when(textProvider.get(any(String.class))).thenReturn("Test string");
     }
 
+
     @Nested
-    class ToCertificate {
+    class IncludeCommonElementTest extends CommonElementTest {
 
-        @Nested
-        class IncludeCommonElementTest extends CommonElementTest {
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
-            }
-
-            @Override
-            protected String getId() {
-                return DIAGNOS_SVAR_ID_6;
-            }
-
-            @Override
-            protected String getParent() {
-                return DIAGNOS_CATEGORY_ID;
-            }
-
-            @Override
-            protected int getIndex() {
-                return 0;
-            }
+        @Override
+        protected CertificateDataElement getElement() {
+            return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
         }
 
-        @Nested
-        class IncludeConfigDiagnosTest extends ConfigDiagnosTest {
-
-            @Override
-            protected CertificateTextProvider getTextProviderMock() {
-                return textProvider;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
-            }
-
-            @Override
-            protected String getTextId() {
-                return DIAGNOS_SVAR_TEXT_ID;
-            }
-
-            @Override
-            protected String getDescriptionId() {
-                return DIAGNOS_SVAR_DESCRIPTION_ID;
-            }
-
-            @Override
-            protected HashMap<String, String> getTerminologies() {
-                HashMap<String, String> idAndLabel = new HashMap<>();
-                idAndLabel.put(DIAGNOS_ICD_10_ID, DIAGNOS_ICD_10_LABEL);
-                idAndLabel.put(DIAGNOS_KSH_97_ID, DIAGNOS_KSH_97_LABEL);
-                return idAndLabel;
-            }
-
-            @Override
-            protected List<String> getDiagnosListItemIds() {
-                return List.of("1", "2", "3");
-            }
+        @Override
+        protected String getId() {
+            return DIAGNOS_SVAR_ID_6;
         }
 
-        @Nested
-        @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-        class IncludeValueTest extends ValueTest {
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
-            }
-
-            @Override
-            protected CertificateDataValueType getType() {
-                return CertificateDataValueDiagnosisList.builder().build().getType();
-            }
-
-            Stream<List<Diagnos>> diagnosisListValues() {
-                return Stream.of(Arrays.asList(
-                        Diagnos.create("F500", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
-                    ),
-                    Arrays.asList(
-                        Diagnos.create("", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                        Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                        Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
-                    ),
-                    Collections.emptyList());
-            }
-
-            @ParameterizedTest
-            @MethodSource("diagnosisListValues")
-            void shouldIncludeDiagnosValue(List<Diagnos> expectedValue) {
-                final var index = 1;
-                final var certificateDataElement = (CertificateDataValueDiagnosisList) QuestionDiagnoser
-                    .toCertificate(expectedValue, index, textProvider).getValue();
-                var resultList = certificateDataElement.getList();
-
-                assertAll(
-                    () -> {
-                        for (int i = 0; i < expectedValue.size(); i++) {
-                            assertEquals(expectedValue.get(i).getDiagnosBeskrivning(), resultList.get(i).getDescription());
-                            assertEquals(expectedValue.get(i).getDiagnosKodSystem(), resultList.get(i).getTerminology());
-                            assertEquals(expectedValue.get(i).getDiagnosKod(), resultList.get(i).getCode());
-                        }
-                    }
-                );
-            }
-
-            @Test
-            void shouldIncludeDiagnosValueNull() {
-                final var certificateDataElement = (CertificateDataValueDiagnosisList) QuestionDiagnoser
-                    .toCertificate(null, 1, textProvider).getValue();
-                var resultList = certificateDataElement.getList();
-
-                assertTrue(resultList.isEmpty());
-            }
-
-            @Test
-            void shouldExcludeDiagnosKodNull() {
-                var diagnoser = Arrays.asList(
-                    Diagnos.create(null, "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                    Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                    Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME));
-                final var certificateDataElement = (CertificateDataValueDiagnosisList) QuestionDiagnoser
-                    .toCertificate(diagnoser, 1, textProvider).getValue();
-                var resultList = certificateDataElement.getList();
-
-                assertEquals(resultList.size(), 2);
-            }
+        @Override
+        protected String getParent() {
+            return DIAGNOS_CATEGORY_ID;
         }
 
-        @Nested
-        class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
+        @Override
+        protected int getIndex() {
+            return 0;
+        }
+    }
 
-            @Override
-            protected String getQuestionId() {
-                return DIAGNOS_SVAR_ID_6;
-            }
+    @Nested
+    class IncludeConfigDiagnosTest extends ConfigDiagnosTest {
 
-            @Override
-            protected String getExpression() {
-                return singleExpression("1");
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 0;
-            }
+        @Override
+        protected CertificateTextProvider getTextProviderMock() {
+            return textProvider;
         }
 
-        @Nested
-        class IncludeValidationTextTest extends ValidationTextTest {
+        @Override
+        protected CertificateDataElement getElement() {
+            return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
+        }
 
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
-            }
+        @Override
+        protected String getTextId() {
+            return DIAGNOS_SVAR_TEXT_ID;
+        }
 
-            @Override
-            protected int getValidationIndex() {
-                return 1;
-            }
+        @Override
+        protected String getDescriptionId() {
+            return DIAGNOS_SVAR_DESCRIPTION_ID;
+        }
 
-            @Override
-            protected short getLimit() {
-                return LIMIT_DIAGNOSIS_DESC;
-            }
+        @Override
+        protected HashMap<String, String> getTerminologies() {
+            HashMap<String, String> idAndLabel = new HashMap<>();
+            idAndLabel.put(DIAGNOS_ICD_10_ID, DIAGNOS_ICD_10_LABEL);
+            idAndLabel.put(DIAGNOS_KSH_97_ID, DIAGNOS_KSH_97_LABEL);
+            return idAndLabel;
+        }
+
+        @Override
+        protected List<String> getDiagnosListItemIds() {
+            return List.of("1", "2", "3");
         }
     }
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class ToInternal {
+    class IncludeValueDiagnosListTest extends ValueDiagnosListTest<List<Diagnos>> {
 
-        Stream<List<Diagnos>> diagnosisListValues() {
-            return Stream.of(Arrays.asList(
-                    Diagnos.create("F500", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
-                ),
-                Arrays.asList(
-                    Diagnos.create("", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                    Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                    Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
-                ),
-                Collections.emptyList());
+        @Override
+        protected CertificateDataElement getElement(List<Diagnos> input) {
+            return QuestionDiagnoser.toCertificate(input, 0, textProvider);
         }
 
-        @ParameterizedTest
-        @MethodSource("diagnosisListValues")
-        void shouldIncludeDiagnosValue(List<Diagnos> expectedValue) {
-            if (!expectedValue.isEmpty()) {
-                when(moduleService.getDescriptionFromDiagnosKod(anyString(), anyString())).thenReturn(DIAGNOSIS_DISPLAYNAME);
+        @Override
+        protected List<InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList>> inputExpectedValuePairList() {
+            return List.of(
+                inputWhenDiagnoserIsNull(),
+                inputWhenDiagnoserIsEmpty(),
+                inputWhenDiagnoserIncludesOne(),
+                inputWhenDiagnoserIncludesThree(),
+                inputWhenDiagnoserIncludes3ButThe1stIsNull()
+            );
+        }
+
+        private InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList> inputWhenDiagnoserIsNull() {
+            return new InputExpectedValuePair<>(null, CertificateDataValueDiagnosisList.builder().list(Collections.emptyList()).build());
+        }
+
+        private InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList> inputWhenDiagnoserIsEmpty() {
+            return new InputExpectedValuePair<>(Collections.emptyList(),
+                CertificateDataValueDiagnosisList.builder().list(Collections.emptyList()).build());
+        }
+
+        private InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList> inputWhenDiagnoserIncludesOne() {
+            return new InputExpectedValuePair<>(
+                List.of(Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)),
+                CertificateDataValueDiagnosisList.builder()
+                    .list(
+                        List.of(
+                            CertificateDataValueDiagnosis.builder()
+                                .id("1")
+                                .code("F500")
+                                .terminology(DIAGNOS_ICD_10_ID)
+                                .description(DIAGNOSIS_DESCRIPTION)
+                                .build()
+                        )
+                    )
+                    .build()
+            );
+        }
+
+        private InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList> inputWhenDiagnoserIncludesThree() {
+            return new InputExpectedValuePair<>(
+                List.of(
+                    Diagnos.create("", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                    Diagnos.create("F501", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                    Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                ),
+                CertificateDataValueDiagnosisList.builder()
+                    .list(
+                        List.of(
+                            CertificateDataValueDiagnosis.builder()
+                                .id("1")
+                                .code("")
+                                .terminology(DIAGNOS_ICD_10_ID)
+                                .description(DIAGNOSIS_DESCRIPTION)
+                                .build(),
+                            CertificateDataValueDiagnosis.builder()
+                                .id("2")
+                                .code("F501")
+                                .terminology(DIAGNOS_ICD_10_ID)
+                                .description(DIAGNOSIS_DESCRIPTION)
+                                .build(),
+                            CertificateDataValueDiagnosis.builder()
+                                .id("3")
+                                .code("F502")
+                                .terminology(DIAGNOS_ICD_10_ID)
+                                .description(DIAGNOSIS_DESCRIPTION)
+                                .build()
+                        )
+                    )
+                    .build()
+            );
+        }
+
+        private InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList> inputWhenDiagnoserIncludes3ButThe1stIsNull() {
+            return new InputExpectedValuePair<>(
+                List.of(
+                    Diagnos.create(null, DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                    Diagnos.create("F501", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                    Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                ),
+                CertificateDataValueDiagnosisList.builder()
+                    .list(
+                        List.of(
+                            CertificateDataValueDiagnosis.builder()
+                                .id("2")
+                                .code("F501")
+                                .terminology(DIAGNOS_ICD_10_ID)
+                                .description(DIAGNOSIS_DESCRIPTION)
+                                .build(),
+                            CertificateDataValueDiagnosis.builder()
+                                .id("3")
+                                .code("F502")
+                                .terminology(DIAGNOS_ICD_10_ID)
+                                .description(DIAGNOSIS_DESCRIPTION)
+                                .build()
+                        )
+                    )
+                    .build()
+            );
+        }
+    }
+
+    @Nested
+    class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
+
+        @Override
+        protected String getQuestionId() {
+            return DIAGNOS_SVAR_ID_6;
+        }
+
+        @Override
+        protected String getExpression() {
+            return singleExpression("1");
+        }
+
+        @Override
+        protected CertificateDataElement getElement() {
+            return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
+        }
+
+        @Override
+        protected int getValidationIndex() {
+            return 0;
+        }
+    }
+
+    @Nested
+    class IncludeValidationTextTest extends ValidationTextTest {
+
+        @Override
+        protected CertificateDataElement getElement() {
+            return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
+        }
+
+        @Override
+        protected int getValidationIndex() {
+            return 1;
+        }
+
+        @Override
+        protected short getLimit() {
+            return LIMIT_DIAGNOSIS_DESC;
+        }
+    }
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class IncludeInternalValueTest extends InternalValueTest<List<Diagnos>, List<Diagnos>> {
+
+        @Override
+        protected CertificateDataElement getElement(List<Diagnos> input) {
+            if (input != null && !input.isEmpty()) {
+                doReturn(DIAGNOSIS_DISPLAYNAME).when(webcertModuleService).getDescriptionFromDiagnosKod(anyString(), anyString());
             }
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionDiagnoser.toCertificate(expectedValue, 0, textProvider))
-                .build();
-
-            final var actualValue = QuestionDiagnoser.toInternal(certificate, moduleService);
-
-            Assertions.assertEquals(expectedValue, actualValue);
-            verify(moduleService, times(expectedValue.size())).getDescriptionFromDiagnosKod(anyString(), anyString());
+            return QuestionDiagnoser.toCertificate(input, 0, textProvider);
         }
 
-        @Test
-        void shouldReturnListWithLenghtBasedOnId() {
-            when(moduleService.getDescriptionFromDiagnosKod(anyString(), anyString())).thenReturn(DIAGNOSIS_DISPLAYNAME);
+        @Override
+        protected List<Diagnos> toInternalValue(Certificate certificate) {
+            return QuestionDiagnoser.toInternal(certificate, webcertModuleService);
+        }
 
-            var expectedValue = Arrays.asList(
-                Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                Diagnos.create(null, null, null, null),
-                Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME));
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionDiagnoser.toCertificate(expectedValue, 0, textProvider))
-                .build();
-
-            final var actualValue = QuestionDiagnoser.toInternal(certificate, moduleService);
-
-            assertEquals(expectedValue, actualValue);
-            assertEquals(actualValue.size(), 3);
+        @Override
+        protected List<InputExpectedValuePair<List<Diagnos>, List<Diagnos>>> inputExpectedValuePairList() {
+            return List.of(
+                new InputExpectedValuePair<>(null, Collections.emptyList()),
+                new InputExpectedValuePair<>(Collections.emptyList(), Collections.emptyList()),
+                new InputExpectedValuePair<>(
+                    List.of(
+                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                    ),
+                    List.of(
+                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                    )
+                ),
+                new InputExpectedValuePair<>(
+                    List.of(
+                        Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                    ),
+                    List.of(
+                        Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                    )
+                ),
+                new InputExpectedValuePair<>(
+                    List.of(
+                        Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create("F501", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                    ),
+                    List.of(
+                        Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create("F501", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                    )
+                ),
+                new InputExpectedValuePair<>(
+                    List.of(
+                        Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create(null, null, null, null),
+                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                    ),
+                    List.of(
+                        Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create(null, null, null, null),
+                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                    )
+                ),
+                new InputExpectedValuePair<>(
+                    List.of(
+                        Diagnos.create("", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create(null, null, null, null),
+                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                    ),
+                    List.of(
+                        Diagnos.create("", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                        Diagnos.create(null, null, null, null),
+                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
+                    )
+                )
+            );
         }
     }
 }

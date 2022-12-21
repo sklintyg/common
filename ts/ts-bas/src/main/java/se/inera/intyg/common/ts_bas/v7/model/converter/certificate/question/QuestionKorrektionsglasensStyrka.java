@@ -20,6 +20,8 @@
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID;
@@ -46,6 +48,8 @@ public class QuestionKorrektionsglasensStyrka {
                     .id(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID)
                     .text(textProvider.get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_TEXT_ID))
                     .label(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_TEXT_ID)
+                    .selectedText(SVAR_JA_TEXT)
+                    .unselectedText(SVAR_NEJ_TEXT)
                     .build()
             )
             .value(

@@ -35,19 +35,10 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTA
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_SVAR_ID_6;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
@@ -63,18 +54,23 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANE
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_ID_39;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateListValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateRangeListValue;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.diagnosisListValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.grundData;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.icfCodeValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.icfTextValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
@@ -85,10 +81,11 @@ import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionDiagnoser;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -172,23 +169,19 @@ public final class CertificateToInternal {
     }
 
     private static InternalDate getGrundForMUUndersokningAvPatienten(Certificate certificate) {
-        return getInternalDate(certificate, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1,
-            GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1);
+        return QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1);
     }
 
     private static InternalDate getGrundForMUTelefonkontakt(Certificate certificate) {
-        return getInternalDate(certificate, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1,
-            GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1);
+        return QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1);
     }
 
     private static InternalDate getGrundForMUJournaluppgifter(Certificate certificate) {
-        return getInternalDate(certificate, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1,
-            GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1);
+        return QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1);
     }
 
     private static InternalDate getGrundForMUAnnat(Certificate certificate) {
-        return getInternalDate(certificate, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1,
-            GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1);
+        return QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1);
     }
 
     private static InternalDate getInternalDate(Certificate certificate, String questionId, String itemId) {
@@ -221,22 +214,7 @@ public final class CertificateToInternal {
     }
 
     private static List<Diagnos> getDiagnos(Certificate certificate, WebcertModuleService moduleService) {
-        var diagnosisList = diagnosisListValue(certificate.getData(), DIAGNOS_SVAR_ID_6);
-        List<Diagnos> newDiagnosisList = new ArrayList<>();
-        diagnosisList.forEach(diagnosis -> {
-            var newDiagnosis = Diagnos.create(diagnosis.getCode(), diagnosis.getTerminology(), diagnosis.getDescription(),
-                getDiagnosisDescription(diagnosis, moduleService));
-            var diagnosisIndex = Integer.parseInt(diagnosis.getId()) - 1;
-            while (diagnosisIndex >= newDiagnosisList.size()) {
-                newDiagnosisList.add(Diagnos.create(null, null, null, null));
-            }
-            newDiagnosisList.set(diagnosisIndex, newDiagnosis);
-        });
-        return newDiagnosisList;
-    }
-
-    private static String getDiagnosisDescription(CertificateDataValueDiagnosis diagnosis, WebcertModuleService moduleService) {
-        return moduleService.getDescriptionFromDiagnosKod(diagnosis.getCode(), diagnosis.getTerminology());
+        return QuestionDiagnoser.toInternal(certificate, moduleService);
     }
 
     private static String getFunktionsnedsattning(Certificate certificate) {

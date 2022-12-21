@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package se.inera.intyg.common.support.facade.model.config;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -23,15 +24,16 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigBoolean.CertificateDataConfigBooleanBuilder;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigVisualAcuity.CertificateDataConfigVisualAcuityBuilder;
 
-@JsonDeserialize(builder = CertificateDataConfigBooleanBuilder.class)
+@JsonDeserialize(builder = CertificateDataConfigVisualAcuityBuilder.class)
+
 @Value
 @Builder
-public class CertificateDataConfigBoolean implements CertificateDataConfig {
+public class CertificateDataConfigVisualAcuity implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_RADIO_BOOLEAN;
+    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_VISUAL_ACUITY;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))
@@ -44,12 +46,15 @@ public class CertificateDataConfigBoolean implements CertificateDataConfig {
     String description;
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
-    String id;
-    String selectedText;
-    String unselectedText;
+    String withoutCorrectionLabel;
+    String withCorrectionLabel;
+    String contactLensesLabel;
+    VisualAcuity rightEye;
+    VisualAcuity leftEye;
+    VisualAcuity binocular;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataConfigBooleanBuilder {
+    public static class CertificateDataConfigVisualAcuityBuilder {
 
     }
 }

@@ -20,6 +20,7 @@
 package se.inera.intyg.common.support.facade.testsetup.model.config;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -30,7 +31,7 @@ import se.inera.intyg.common.support.facade.model.config.Layout;
 
 public abstract class ConfigCheckboxMultipleCodeTest extends ConfigTest {
 
-    protected abstract List<CheckboxMultipleCode> getListOfCodes();
+    protected abstract List<CheckboxMultipleCode> getExpectedListOfCodes();
 
     protected abstract Layout getLayout();
 
@@ -40,23 +41,10 @@ public abstract class ConfigCheckboxMultipleCodeTest extends ConfigTest {
     }
 
     @Test
-    void shouldIncludeConfigId() {
+    void shouldIncludeExpectedListOfCodes() {
         final var question = getElement();
         final var config = (CertificateDataConfigCheckboxMultipleCode) question.getConfig();
-        for (int i = 0; i < config.getList().size(); i++) {
-            final var checkboxMultipleCode = config.getList().get(i);
-            assertEquals(checkboxMultipleCode.getId(), getListOfCodes().get(i).getId());
-        }
-    }
-
-    @Test
-    void shouldIncludeConfigLabel() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigCheckboxMultipleCode) question.getConfig();
-        for (int i = 0; i < config.getList().size(); i++) {
-            final var checkboxMultipleCode = config.getList().get(i);
-            assertEquals(checkboxMultipleCode.getLabel(), getListOfCodes().get(i).getLabel());
-        }
+        assertIterableEquals(config.getList(), getExpectedListOfCodes());
     }
 
     @Test

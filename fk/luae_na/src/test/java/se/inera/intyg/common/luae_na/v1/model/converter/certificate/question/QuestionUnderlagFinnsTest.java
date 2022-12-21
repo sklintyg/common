@@ -43,7 +43,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigBoolean;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
@@ -97,7 +97,7 @@ class QuestionUnderlagFinnsTest {
         @Test
         void shouldIncludeConfigId() {
             final var question = QuestionUnderlagFinns.toCertificate(null, 0, texts);
-            final var config = (CertificateDataConfigBoolean) question.getConfig();
+            final var config = (CertificateDataConfigRadioBoolean) question.getConfig();
 
             assertEquals(UNDERLAGFINNS_SVAR_JSON_ID_3, config.getId());
         }
@@ -112,7 +112,7 @@ class QuestionUnderlagFinnsTest {
         @Test
         void shouldIncludeConfigSelectedText() {
             final var question = QuestionUnderlagFinns.toCertificate(null, 0, texts);
-            final var config = (CertificateDataConfigBoolean) question.getConfig();
+            final var config = (CertificateDataConfigRadioBoolean) question.getConfig();
 
             assertEquals(UNDERLAGFINNS_SELECTED_TEXT, config.getSelectedText());
         }
@@ -120,7 +120,7 @@ class QuestionUnderlagFinnsTest {
         @Test
         void shouldIncludeConfigUnselectedText() {
             final var question = QuestionUnderlagFinns.toCertificate(null, 0, texts);
-            final var config = (CertificateDataConfigBoolean) question.getConfig();
+            final var config = (CertificateDataConfigRadioBoolean) question.getConfig();
 
             assertEquals(UNDERLAGFINNS_UNSELECTED_TEXT, config.getUnselectedText());
         }

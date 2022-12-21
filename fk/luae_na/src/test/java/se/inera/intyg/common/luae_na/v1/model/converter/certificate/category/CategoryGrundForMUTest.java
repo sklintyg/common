@@ -25,7 +25,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -63,6 +63,6 @@ class CategoryGrundForMUTest {
     void shouldIncludeCategoryText() {
         final var category = CategoryGrundForMU.toCertificate(0, texts);
         assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
-        verify(texts, atLeastOnce()).get(GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT);
+        verify(texts, atLeastOnce()).get(GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT_ID);
     }
 }

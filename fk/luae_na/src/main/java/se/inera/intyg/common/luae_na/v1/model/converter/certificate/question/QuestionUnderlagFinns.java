@@ -31,7 +31,7 @@ import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValu
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigBoolean;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
@@ -44,7 +44,7 @@ public class QuestionUnderlagFinns {
             .parent(GRUNDFORMU_CATEGORY_ID)
             .index(index)
             .config(
-                CertificateDataConfigBoolean.builder()
+                CertificateDataConfigRadioBoolean.builder()
                     .id(UNDERLAGFINNS_SVAR_JSON_ID_3)
                     .text(texts.get(UNDERLAGFINNS_SVAR_TEXT))
                     .selectedText(UNDERLAGFINNS_SELECTED_TEXT)

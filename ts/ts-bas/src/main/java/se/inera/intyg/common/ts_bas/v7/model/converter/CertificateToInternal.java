@@ -19,8 +19,19 @@
 
 package se.inera.intyg.common.ts_bas.v7.model.converter;
 
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INSULINBEHANDLING_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KOSTBEHANDLING_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TABLETTBEHANDLING_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpa.VisualAcuityEnum.BINOCULAR;
+import static se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpa.VisualAcuityEnum.LEFT_EYE;
+import static se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpa.VisualAcuityEnum.RIGHT_EYE;
+
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBalansrubbningar;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBeskrivningRiskfaktorer;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDiabetesBehandling;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDiabetesTyp;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAdhdAddDampAsbergersTourettes;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaJournaluppgifter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaLakarordinerat;
@@ -28,20 +39,44 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaProvtagning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaVardinsatser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIdentitetStyrktGenom;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattning;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattningBeskrivning;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionHarDiabetes;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionHjarnskadaEfterTrauma;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionHjartOchKarlsjukdom;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKognitivFormoga;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionMedvetandestorning;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionMedvetandestorningBeskrivning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNedsattNjurfunktion;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNystagmus;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionOtillrackligRorelseFormoga;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionRiskfaktorerForStroke;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionPsykiskSjukdomStorning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionPsykiskUtvecklingsstorning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSomnOchVakenhetsstorningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpa;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTeckenPaNeurologiskSjukdom;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionUppfattaSamtal4Meter;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Diabetes;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Funktionsnedsattning;
+import se.inera.intyg.common.ts_bas.v7.model.internal.HjartKarl;
+import se.inera.intyg.common.ts_bas.v7.model.internal.HorselBalans;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Kognitivt;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Medvetandestorning;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Neurologi;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Njurar;
 import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Psykiskt;
 import se.inera.intyg.common.ts_bas.v7.model.internal.SomnVakenhet;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
-import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Utvecklingsstorning;
 
@@ -62,6 +97,9 @@ public class CertificateToInternal {
                 .setNystagmus(QuestionNystagmus.toInternal(certificate))
                 .setSynskarpaSkickasSeparat(QuestionSynskarpaSkickasSeparat.toInternal(certificate))
                 .setKorrektionsglasensStyrka(QuestionKorrektionsglasensStyrka.toInternal(certificate))
+                .setHogerOga(QuestionSynskarpa.toInternal(certificate, RIGHT_EYE))
+                .setVansterOga(QuestionSynskarpa.toInternal(certificate, LEFT_EYE))
+                .setBinokulart(QuestionSynskarpa.toInternal(certificate, BINOCULAR))
                 .build())
             .setSomnVakenhet(SomnVakenhet.create(QuestionSomnOchVakenhetsstorningar.toInternal(certificate)))
             .setNarkotikaLakemedel(NarkotikaLakemedel.builder()
@@ -76,6 +114,52 @@ public class CertificateToInternal {
                 .setPsykiskUtvecklingsstorning(QuestionPsykiskUtvecklingsstorning.toInternal(certificate))
                 .setHarSyndrom(QuestionAdhdAddDampAsbergersTourettes.toInternal(certificate))
                 .build())
+            .setVardkontakt(QuestionIdentitetStyrktGenom.toInternal(certificate))
+            .setHorselBalans(
+                HorselBalans.builder()
+                    .setBalansrubbningar(QuestionBalansrubbningar.toInternal(certificate))
+                    .setSvartUppfattaSamtal4Meter(QuestionUppfattaSamtal4Meter.toInternal(certificate))
+                    .build()
+            )
+            .setFunktionsnedsattning(
+                Funktionsnedsattning.builder()
+                    .setFunktionsnedsattning(QuestionFunktionsnedsattning.toInternal(certificate))
+                    .setBeskrivning(QuestionFunktionsnedsattningBeskrivning.toInternal(certificate))
+                    .setOtillrackligRorelseformaga(QuestionOtillrackligRorelseFormoga.toInternal(certificate))
+                    .build()
+            )
+            .setHjartKarl(
+                HjartKarl.builder()
+                    .setHjartKarlSjukdom(QuestionHjartOchKarlsjukdom.toInternal(certificate))
+                    .setHjarnskadaEfterTrauma(QuestionHjarnskadaEfterTrauma.toInternal(certificate))
+                    .setRiskfaktorerStroke(QuestionRiskfaktorerForStroke.toInternal(certificate))
+                    .setBeskrivningRiskfaktorer(QuestionBeskrivningRiskfaktorer.toInternal(certificate))
+                    .build()
+            )
+            .setDiabetes(
+                Diabetes.builder()
+                    .setHarDiabetes(QuestionHarDiabetes.toInternal(certificate))
+                    .setDiabetesTyp(QuestionDiabetesTyp.toInternal(certificate))
+                    .setKost(QuestionDiabetesBehandling.toInternal(certificate, KOSTBEHANDLING_DELSVAR_JSON_ID))
+                    .setTabletter(QuestionDiabetesBehandling.toInternal(certificate, TABLETTBEHANDLING_DELSVAR_JSON_ID))
+                    .setInsulin(QuestionDiabetesBehandling.toInternal(certificate, INSULINBEHANDLING_DELSVAR_JSON_ID))
+                    .build()
+            )
+            .setNeurologi(
+                Neurologi.create(QuestionTeckenPaNeurologiskSjukdom.toInternal(certificate))
+            )
+            .setMedvetandestorning(
+                Medvetandestorning.builder()
+                    .setMedvetandestorning(QuestionMedvetandestorning.toInternal(certificate))
+                    .setBeskrivning(QuestionMedvetandestorningBeskrivning.toInternal(certificate))
+                    .build()
+            )
+            .setNjurar(
+                Njurar.create(QuestionNedsattNjurfunktion.toInternal(certificate))
+            )
+            .setKognitivt(
+                Kognitivt.create(QuestionKognitivFormoga.toInternal(certificate))
+            )
             .build();
     }
 }
