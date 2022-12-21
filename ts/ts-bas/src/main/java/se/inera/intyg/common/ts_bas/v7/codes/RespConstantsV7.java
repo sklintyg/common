@@ -204,4 +204,25 @@ public final class RespConstantsV7 {
     public static final String TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_JSON_ID = "sviktandeKognitivFormaga";
     public static final String TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_TEXT_ID = "FRG_23.RBK";
 
+    public static final String BEDOMNING_CATEGORY_ID = "bedomning";
+    public static final String BEDOMNING_CATEGORY_TEXT_ID = "KAT_101.RBK";
+
+    public static final String LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID = "45";
+    public static final String LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_TEXT_ID = "FRG_33.RBK";
+    public static final String KORKORT_C1_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR1.RBK";
+    public static final String KORKORT_C1E_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR2.RBK";
+    public static final String KORKORT_C_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR3.RBK";
+    public static final String KORKORT_CE_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR4.RBK";
+    public static final String KORKORT_D1_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR5.RBK";
+    public static final String KORKORT_D1E_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR6.RBK";
+    public static final String KORKORT_D_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR7.RBK";
+    public static final String KORKORT_DE_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR8.RBK";
+    public static final String KORKORT_TAXI_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR9.RBK";
+    public static final String KORKORT_ANNAT_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR10.RBK";
+    public static final String KORKORT_INTE_TA_STALLNING_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR11.RBK";
+
+    public static final String BEHORIGHET_LAKARE_SPECIALKOMPETENS_SVAR_ID = "46";
+    public static final String BEHORIGHET_LAKARE_SPECIALKOMPETENS_SVAR_TEXT_ID = "FRG_34.RBK";
+    public static final String BEHORIGHET_LAKARE_SPECIALKOMPETENS_JSON_ID = "lakareSpecialKompetens";
+
 }

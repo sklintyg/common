@@ -25,6 +25,7 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HAR_DIABETES
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HJART_ELLER_KARLSJUKDOM_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_SVAR_ID_1;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDVETANDESTORNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NEDSATT_NJURFUNKTION_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NYSTAGMUS_SVAR_ID;
@@ -250,13 +251,14 @@ public class InternalValidatorInstance {
     private void validateBedomning(final Bedomning bedomning) {
 
         if (bedomning == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, "bedomning", ValidationMessageType.EMPTY,
-                "ts-bas.validation.bedomning.missing");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_BEDOMNING, "bedomning", ValidationMessageType.EMPTY,
+                "ts-bas.validation.bedomning.missing", LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID);
             return;
         }
 
         if (bedomning.getKorkortstyp() == null || bedomning.getKorkortstyp().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, "bedomning.korkortstyp", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_BEDOMNING, "bedomning.korkortstyp",
+                ValidationMessageType.EMPTY, LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID);
         }
     }
 
