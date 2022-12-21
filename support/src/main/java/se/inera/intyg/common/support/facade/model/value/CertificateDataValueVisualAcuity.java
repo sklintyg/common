@@ -35,7 +35,7 @@ public class CertificateDataValueVisualAcuity implements CertificateDataValue {
     CertificateDataValueType type = CertificateDataValueType.VISUAL_ACUITY;
     CertificateDataValueDouble withoutCorrection;
     CertificateDataValueDouble withCorrection;
-    CertificateDataValueBoolean binocular;
+    CertificateDataValueBoolean contactLenses;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataValueVisualAcuityBuilder {
