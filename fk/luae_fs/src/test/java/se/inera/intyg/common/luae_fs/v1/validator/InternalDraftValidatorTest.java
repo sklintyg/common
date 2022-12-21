@@ -47,8 +47,11 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KANNEDOM_SVAR_ID_2;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
@@ -220,7 +223,7 @@ public class InternalDraftValidatorTest {
         assertValidationMessageCategory("grundformu", 0);
         assertValidationMessageField("annatGrundForMUBeskrivning", 0);
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
-        assertValidationMessageQuestionId(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, 0);
+        assertValidationMessageQuestionId(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1, 0);
     }
 
     @Test
@@ -494,6 +497,53 @@ public class InternalDraftValidatorTest {
         assertValidationMessageQuestionId(KONTAKT_ONSKAS_SVAR_ID_26, 0);
     }
 
+    @Test
+    public void validateBlanksForAnledningKontakt() {
+        LuaefsUtlatandeV1 utlatande = builderTemplate
+            .setKontaktMedFk(true)
+            .setAnledningTillKontakt(" ")
+            .build();
+
+        validator.validateBlanksForOptionalFields(utlatande, validationMessages);
+
+        assertEquals(1, validationMessages.size());
+        assertValidationMessageCategory("kontakt", 0);
+        assertValidationMessage("luae_fs.validation.blanksteg.otillatet", 0);
+        assertValidationMessageType(ValidationMessageType.EMPTY, 0);
+        assertValidationMessageQuestionId(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26, 0);
+    }
+
+    @Test
+    public void validateBlanksForAnnatBeskrivning() {
+        LuaefsUtlatandeV1 utlatande = builderTemplate
+            .setAnnatGrundForMU(new InternalDate("2022-12-20"))
+            .setAnnatGrundForMUBeskrivning(" ")
+            .build();
+
+        validator.validateBlanksForOptionalFields(utlatande, validationMessages);
+
+        assertEquals(1, validationMessages.size());
+        assertValidationMessageCategory("grundformu", 0);
+        assertValidationMessage("luae_fs.validation.blanksteg.otillatet", 0);
+        assertValidationMessageType(ValidationMessageType.EMPTY, 0);
+        assertValidationMessageQuestionId(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1, 0);
+    }
+
+    @Test
+    public void validateBlanksForOvrigt() {
+        LuaefsUtlatandeV1 utlatande = builderTemplate
+            .setOvrigt(" ")
+            .build();
+
+        validator.validateBlanksForOptionalFields(utlatande, validationMessages);
+
+        assertEquals(1, validationMessages.size());
+        assertValidationMessageCategory("ovrigt", 0);
+        assertValidationMessage("luae_fs.validation.blanksteg.otillatet", 0);
+        assertValidationMessageType(ValidationMessageType.EMPTY, 0);
+        assertValidationMessageQuestionId(OVRIGT_SVAR_ID_25, 0);
+    }
+
     // - - - Private scope - - -
 
     private void assertValidationMessage(String expectedMessage, int index) {
@@ -569,5 +619,4 @@ public class InternalDraftValidatorTest {
     private Personnummer createPnr(String civicRegistrationNumber) {
         return Personnummer.createPersonnummer(civicRegistrationNumber).orElseThrow();
     }
-
 }

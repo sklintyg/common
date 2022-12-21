@@ -23,7 +23,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BALANSRUBBNINGAR_YRSEL_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BALANSRUBBNINGAR_YRSEL_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BEDOMNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BEHANDLING_DIABETES_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BEHORIGHET_LAKARE_SPECIALKOMPETENS_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.DEMENS_KOGNITIV_FUNKTION_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID_29;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.DUBBELSEENDE_SVAR_ID;
@@ -39,6 +41,7 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INSULIN_ELLE
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_SVAR_ID_1;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDVETANDESTORNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDVETANDESTORNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NEDSATT_NJURFUNKTION_SVAR_ID;
@@ -237,7 +240,7 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeMessageKorrektionsglasensStyrka() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(41, actualCertificate.getData().get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_ID).getIndex());
+        assertEquals(44, actualCertificate.getData().get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_ID).getIndex());
     }
 
     @Test
@@ -397,110 +400,128 @@ class InternalToCertificateTest {
     }
 
     @Test
+    void shallIncludeCategoryBedomning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(42, actualCertificate.getData().get(BEDOMNING_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionBedomningKorkortsTyp() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(43, actualCertificate.getData().get(LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionBedomningLakareSpecialKompetens() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(44, actualCertificate.getData().get(BEHORIGHET_LAKARE_SPECIALKOMPETENS_SVAR_ID).getIndex());
+    }
+
+    @Test
     void shallIncludeCategorySomnOchVakenhetsstorningar() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(42, actualCertificate.getData().get(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_CATEGORY_ID).getIndex());
+        assertEquals(45, actualCertificate.getData().get(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionSomnOchVakenhetsstorningar() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(43, actualCertificate.getData().get(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24).getIndex());
+        assertEquals(46, actualCertificate.getData().get(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24).getIndex());
     }
 
     @Test
     void shallIncludeCategoryAlkoholNarkotikaJournaluppgifter() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(44, actualCertificate.getData().get(MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID).getIndex());
+        assertEquals(47, actualCertificate.getData().get(MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionAlkoholNarkotikaJournaluppgifter() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(45, actualCertificate.getData().get(TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID_25).getIndex());
+        assertEquals(48, actualCertificate.getData().get(TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID_25).getIndex());
     }
 
     @Test
     void shallIncludeQuestionAlkoholNarkotikaVardinsatser() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(46, actualCertificate.getData().get(VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID_25).getIndex());
+        assertEquals(49, actualCertificate.getData().get(VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID_25).getIndex());
     }
 
     @Test
     void shallIncludeQuestionAlkoholNarkotikaProvtagning() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(47, actualCertificate.getData().get(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID_25).getIndex());
+        assertEquals(50, actualCertificate.getData().get(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID_25).getIndex());
     }
 
     @Test
     void shallIncludeQuestionAlkoholNarkotikaLakarordinerat() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(48, actualCertificate.getData().get(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID_26).getIndex());
+        assertEquals(51, actualCertificate.getData().get(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID_26).getIndex());
     }
 
     @Test
     void shallIncludeQuestionAlkoholNarkotikaOrdineratLakamedel() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(49, actualCertificate.getData().get(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID_26).getIndex());
+        assertEquals(52, actualCertificate.getData().get(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID_26).getIndex());
     }
 
     @Test
     void shallIncludeCategoryPsykiskSjukdomStorning() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(50, actualCertificate.getData().get(PSYKISK_SJUKDOM_STORNING_CATEGORY_ID).getIndex());
+        assertEquals(53, actualCertificate.getData().get(PSYKISK_SJUKDOM_STORNING_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionPsykiskSjukdomStorning() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(51, actualCertificate.getData().get(PSYKISK_SJUKDOM_STORNING_DELSVAR_ID_27).getIndex());
+        assertEquals(54, actualCertificate.getData().get(PSYKISK_SJUKDOM_STORNING_DELSVAR_ID_27).getIndex());
     }
 
     @Test
     void shallIncludeCategoryPsykiskUtvecklingsstorning() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(52, actualCertificate.getData().get(PSYKISK_UTVECKLINGSSTORNING_CATEGORY_ID).getIndex());
+        assertEquals(55, actualCertificate.getData().get(PSYKISK_UTVECKLINGSSTORNING_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionPsykiskUtvecklingsstorning() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(53, actualCertificate.getData().get(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID_28).getIndex());
+        assertEquals(56, actualCertificate.getData().get(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID_28).getIndex());
     }
 
     @Test
     void shallIncludeQuestionAdhdAddDampAsbergersTourettesTest() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(54, actualCertificate.getData().get(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID_29).getIndex());
+        assertEquals(57, actualCertificate.getData().get(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID_29).getIndex());
     }
 
     @Test
     void shallIncludeCategorySjukhusvardTestTest() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(55, actualCertificate.getData().get(VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID).getIndex());
+        assertEquals(58, actualCertificate.getData().get(VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionVardatsPaSjukhusTest() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(56, actualCertificate.getData().get(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30).getIndex());
+        assertEquals(59, actualCertificate.getData().get(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30).getIndex());
     }
 
     @Test
     void shallIncludeQuestionTidpunktVardPaSjukhusTest() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(57, actualCertificate.getData().get(TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30).getIndex());
+        assertEquals(60, actualCertificate.getData().get(TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30).getIndex());
     }
 
     @Test
     void shallIncludeQuestionVardinrattningensNamnTest() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(58, actualCertificate.getData().get(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30).getIndex());
+        assertEquals(61, actualCertificate.getData().get(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30).getIndex());
     }
 
     @Test
     void shallIncludeQuestionVardatsPaSjukhusOrsakTest() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(59, actualCertificate.getData().get(ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30).getIndex());
+        assertEquals(62, actualCertificate.getData().get(ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30).getIndex());
     }
 }

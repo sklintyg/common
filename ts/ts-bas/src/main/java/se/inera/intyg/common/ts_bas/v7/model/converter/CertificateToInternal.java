@@ -29,6 +29,8 @@ import static se.inera.intyg.common.ts_bas.v7.model.converter.certificate.questi
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBalansrubbningar;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBedomningKorkortsTyp;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBedomningLakareSpecialKompetens;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBeskrivningRiskfaktorer;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDiabetesBehandling;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDiabetesTyp;
@@ -39,15 +41,14 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaProvtagning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaVardinsatser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDubbelseende;
-import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIdentitetStyrktGenom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionFunktionsnedsattningBeskrivning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionHarDiabetes;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionHjarnskadaEfterTrauma;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionHjartOchKarlsjukdom;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIdentitetStyrktGenom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKognitivFormoga;
-import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionMedvetandestorning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionMedvetandestorningBeskrivning;
@@ -66,6 +67,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTeckenPaNeurologiskSjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTidpunktVardPaSjukhus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionUppfattaSamtal4Meter;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Bedomning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionVardatsPaSjukhus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionVardatsPaSjukhusOrsak;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionVardinrattningensNamn;
@@ -164,6 +166,12 @@ public class CertificateToInternal {
             )
             .setKognitivt(
                 Kognitivt.create(QuestionKognitivFormoga.toInternal(certificate))
+            )
+            .setBedomning(
+                Bedomning.builder()
+                    .setKorkortstyp(QuestionBedomningKorkortsTyp.toInternal(certificate))
+                    .setLakareSpecialKompetens(QuestionBedomningLakareSpecialKompetens.toInternal(certificate))
+                    .build()
             )
             .setSjukhusvard(
                 Sjukhusvard.builder()

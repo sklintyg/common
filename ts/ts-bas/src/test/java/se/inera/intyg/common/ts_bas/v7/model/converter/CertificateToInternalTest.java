@@ -43,6 +43,8 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaProvtagning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaVardinsatser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBalansrubbningar;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBedomningKorkortsTyp;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBedomningLakareSpecialKompetens;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBeskrivningRiskfaktorer;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDiabetesBehandling;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDiabetesTyp;
@@ -73,6 +75,8 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTeckenPaNeurologiskSjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTidpunktVardPaSjukhus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionUppfattaSamtal4Meter;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Bedomning;
+import se.inera.intyg.common.ts_bas.v7.model.internal.BedomningKorkortstyp;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionVardatsPaSjukhus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionVardatsPaSjukhusOrsak;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionVardinrattningensNamn;
@@ -87,6 +91,7 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Medvetandestorning;
 import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Neurologi;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Njurar;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Psykiskt;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Sjukhusvard;
 import se.inera.intyg.common.ts_bas.v7.model.internal.SomnVakenhet;
@@ -192,6 +197,13 @@ class CertificateToInternalTest {
             .setHarSyndrom(true)
             .build();
 
+        final var bedomning = Bedomning.builder()
+            .setKorkortstyp(
+                EnumSet.of(BedomningKorkortstyp.VAR1, BedomningKorkortstyp.VAR2)
+            )
+            .setLakareSpecialKompetens("specialKompetens")
+            .build();
+
         expectedInternalCertificate = TsBasUtlatandeV7.builder()
             .setId("id")
             .setTextVersion("textVersion")
@@ -207,6 +219,7 @@ class CertificateToInternalTest {
             .setMedvetandestorning(medvetandestorning)
             .setNjurar(Njurar.create(true))
             .setKognitivt(Kognitivt.create(true))
+            .setBedomning(bedomning)
             .setSomnVakenhet(SomnVakenhet.create(true))
             .setNarkotikaLakemedel(narkotikaLakemedel)
             .setPsykiskt(Psykiskt.create(true))
@@ -246,6 +259,8 @@ class CertificateToInternalTest {
             .addElement(QuestionMedvetandestorningBeskrivning.toCertificate(medvetandestorning, 0, textProvider))
             .addElement(QuestionNedsattNjurfunktion.toCertificate(Njurar.create(true), 0, textProvider))
             .addElement(QuestionKognitivFormoga.toCertificate(Kognitivt.create(true), 0, textProvider))
+            .addElement(QuestionBedomningKorkortsTyp.toCertificate(bedomning, 0, textProvider))
+            .addElement(QuestionBedomningLakareSpecialKompetens.toCertificate(bedomning, 0, textProvider))
             .addElement(QuestionSomnOchVakenhetsstorningar.toCertificate(SomnVakenhet.create(true), 0, textProvider))
             .addElement(QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(narkotikaLakemedel, 0, textProvider))
             .addElement(QuestionAlkoholNarkotikaVardinsatser.toCertificate(narkotikaLakemedel, 0, textProvider))
@@ -503,6 +518,20 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getKognitivt().getSviktandeKognitivFunktion(),
             actualInternalCertificate.getKognitivt().getSviktandeKognitivFunktion());
+    }
+
+    @Test
+    void shallIncludeBedomningKorkortsTyp() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getBedomning().getKorkortstyp(),
+            actualInternalCertificate.getBedomning().getKorkortstyp());
+    }
+
+    @Test
+    void shallIncludeBedomningLakareSpeicialKompetens() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getBedomning().getLakareSpecialKompetens(),
+            actualInternalCertificate.getBedomning().getLakareSpecialKompetens());
     }
 
     @Test

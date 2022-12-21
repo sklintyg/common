@@ -260,7 +260,7 @@ class QuestionSynskarpaTest {
                         .build();
                     final var question = QuestionSynskarpa.toCertificate(syn, 0, textProvider);
                     final var value = (CertificateDataValueVisualAcuities) question.getValue();
-                    assertEquals(expectedNumber, value.getRightEye().getWithoutCorrection().getNumber());
+                    assertEquals(expectedNumber, value.getRightEye().getWithoutCorrection().getValue());
                 }
 
                 @Test
@@ -282,14 +282,14 @@ class QuestionSynskarpaTest {
                         .build();
                     final var question = QuestionSynskarpa.toCertificate(syn, 0, textProvider);
                     final var value = (CertificateDataValueVisualAcuities) question.getValue();
-                    assertEquals(expectedNumber, value.getRightEye().getWithCorrection().getNumber());
+                    assertEquals(expectedNumber, value.getRightEye().getWithCorrection().getValue());
                 }
 
                 @Test
                 void shouldIncludeValueRightEyeBinocularId() {
                     final var question = QuestionSynskarpa.toCertificate(Syn.builder().build(), 0, textProvider);
                     final var value = (CertificateDataValueVisualAcuities) question.getValue();
-                    assertEquals(KONTAKTLINSER_HOGER_OGA_DELSVAR_ID_8, value.getRightEye().getBinocular().getId());
+                    assertEquals(KONTAKTLINSER_HOGER_OGA_DELSVAR_ID_8, value.getRightEye().getContactLenses().getId());
                 }
 
                 @Test
@@ -304,7 +304,7 @@ class QuestionSynskarpaTest {
                         .build();
                     final var question = QuestionSynskarpa.toCertificate(syn, 0, textProvider);
                     final var value = (CertificateDataValueVisualAcuities) question.getValue();
-                    assertEquals(expectedNumber, value.getRightEye().getBinocular().getSelected());
+                    assertEquals(expectedNumber, value.getRightEye().getContactLenses().getSelected());
                 }
             }
 
@@ -337,7 +337,7 @@ class QuestionSynskarpaTest {
                         .build();
                     final var question = QuestionSynskarpa.toCertificate(syn, 0, textProvider);
                     final var value = (CertificateDataValueVisualAcuities) question.getValue();
-                    assertEquals(expectedNumber, value.getLeftEye().getWithoutCorrection().getNumber());
+                    assertEquals(expectedNumber, value.getLeftEye().getWithoutCorrection().getValue());
                 }
 
                 @Test
@@ -359,14 +359,14 @@ class QuestionSynskarpaTest {
                         .build();
                     final var question = QuestionSynskarpa.toCertificate(syn, 0, textProvider);
                     final var value = (CertificateDataValueVisualAcuities) question.getValue();
-                    assertEquals(expectedNumber, value.getLeftEye().getWithCorrection().getNumber());
+                    assertEquals(expectedNumber, value.getLeftEye().getWithCorrection().getValue());
                 }
 
                 @Test
                 void shouldIncludeValueLeftEyeBinocularId() {
                     final var question = QuestionSynskarpa.toCertificate(Syn.builder().build(), 0, textProvider);
                     final var value = (CertificateDataValueVisualAcuities) question.getValue();
-                    assertEquals(KONTAKTLINSER_VANSTER_OGA_DELSVAR_ID_8, value.getLeftEye().getBinocular().getId());
+                    assertEquals(KONTAKTLINSER_VANSTER_OGA_DELSVAR_ID_8, value.getLeftEye().getContactLenses().getId());
                 }
 
                 @Test
@@ -381,7 +381,7 @@ class QuestionSynskarpaTest {
                         .build();
                     final var question = QuestionSynskarpa.toCertificate(syn, 0, textProvider);
                     final var value = (CertificateDataValueVisualAcuities) question.getValue();
-                    assertEquals(expectedNumber, value.getLeftEye().getBinocular().getSelected());
+                    assertEquals(expectedNumber, value.getLeftEye().getContactLenses().getSelected());
                 }
             }
 
@@ -414,7 +414,7 @@ class QuestionSynskarpaTest {
                         .build();
                     final var question = QuestionSynskarpa.toCertificate(syn, 0, textProvider);
                     final var value = (CertificateDataValueVisualAcuities) question.getValue();
-                    assertEquals(expectedNumber, value.getBinocular().getWithoutCorrection().getNumber());
+                    assertEquals(expectedNumber, value.getBinocular().getWithoutCorrection().getValue());
                 }
 
                 @Test
@@ -436,7 +436,7 @@ class QuestionSynskarpaTest {
                         .build();
                     final var question = QuestionSynskarpa.toCertificate(syn, 0, textProvider);
                     final var value = (CertificateDataValueVisualAcuities) question.getValue();
-                    assertEquals(expectedNumber, value.getBinocular().getWithCorrection().getNumber());
+                    assertEquals(expectedNumber, value.getBinocular().getWithCorrection().getValue());
                 }
             }
         }

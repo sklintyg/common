@@ -30,7 +30,7 @@ import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextField;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
@@ -47,15 +47,17 @@ public class QuestionAnnatBeskrivning {
             .id(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1)
             .parent(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
             .index(index)
-            .config(CertificateDataConfigTextArea.builder()
-                .id(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1)
-                .text(textProvider.get(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_TEXT_ID))
-                .build()
+            .config(
+                CertificateDataConfigTextField.builder()
+                    .id(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1)
+                    .text(textProvider.get(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_TEXT_ID))
+                    .build()
             )
-            .value(CertificateDataTextValue.builder()
-                .id(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1)
-                .text(annanBeskrivning)
-                .build()
+            .value(
+                CertificateDataTextValue.builder()
+                    .id(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1)
+                    .text(annanBeskrivning)
+                    .build()
             )
             .validation(
                 new CertificateDataValidation[]{
@@ -74,12 +76,10 @@ public class QuestionAnnatBeskrivning {
                 }
             )
             .build();
-
     }
 
     public static String toInternal(Certificate certificate) {
         return textValue(certificate.getData(), GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1,
             GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1);
     }
-
 }

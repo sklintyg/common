@@ -24,11 +24,13 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryBedomning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryDemensOchAndraKognitivaStorningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryDiabetes;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryFunktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryHjartOchKarlsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryHorselOchBalanssinne;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryIdentitet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryAlkoholNarkotikaOchLakamedel;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryMedvetandestorning;
@@ -40,6 +42,8 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.Cate
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySomnOchVakenhetsstorningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySynfunktioner;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBalansrubbningar;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBedomningKorkortsTyp;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBedomningLakareSpecialKompetens;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBeskrivningRiskfaktorer;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDiabetesBehandling;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionDiabetesTyp;
@@ -55,6 +59,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionHarDiabetes;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionHjarnskadaEfterTrauma;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionHjartOchKarlsjukdom;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIdentitetStyrktGenom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKognitivFormoga;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
@@ -217,7 +222,16 @@ public class InternalToCertificate {
                 CategoryDemensOchAndraKognitivaStorningar.toCertificate(index++, texts)
             )
             .addElement(
-                QuestionKognitivFormoga.toCertificate(internalCertificate.getKognitivt(), index, texts)
+                QuestionKognitivFormoga.toCertificate(internalCertificate.getKognitivt(), index++, texts)
+            )
+            .addElement(
+                CategoryBedomning.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionBedomningKorkortsTyp.toCertificate(internalCertificate.getBedomning(), index++, texts)
+            )
+            .addElement(
+                QuestionBedomningLakareSpecialKompetens.toCertificate(internalCertificate.getBedomning(), index, texts)
             )
             .addElement(
                 QuestionKorrektionsglasensStyrkaMessage.toCertificate(index++, texts)

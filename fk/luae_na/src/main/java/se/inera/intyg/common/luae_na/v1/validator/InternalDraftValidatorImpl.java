@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.luae_na.v1.validator;
 
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSLUTADBEHANDLING_SVAR_JSON_ID_18;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOSGRUND_SVAR_JSON_ID_7;
@@ -47,6 +48,7 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KON
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.NYDIAGNOS_SVAR_ID_45;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
@@ -305,27 +307,27 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
     private void validateDiagnosgrund(LuaenaUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
 
         if (Strings.nullToEmpty(utlatande.getDiagnosgrund()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS, DIAGNOSGRUND_SVAR_JSON_ID_7,
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS, DIAGNOSGRUND_SVAR_JSON_ID_7,
+                ValidationMessageType.EMPTY, DIAGNOSGRUND_SVAR_JSON_ID_7);
         }
 
         if (utlatande.getNyBedomningDiagnosgrund() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS, DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45,
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS, DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45,
+                ValidationMessageType.EMPTY, NYDIAGNOS_SVAR_ID_45);
         }
 
         // R13
         if (utlatande.getNyBedomningDiagnosgrund() != null && utlatande.getNyBedomningDiagnosgrund()
             && Strings.nullToEmpty(utlatande.getDiagnosForNyBedomning()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS, DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45,
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS, DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45,
+                ValidationMessageType.EMPTY, NYDIAGNOS_SVAR_ID_45);
         }
         // R14 Inverted test of R13
         if ((utlatande.getNyBedomningDiagnosgrund() == null || !utlatande.getNyBedomningDiagnosgrund())
             && !Strings.isNullOrEmpty(utlatande.getDiagnosForNyBedomning())) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS, DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45,
-                ValidationMessageType.INCORRECT_COMBINATION,
-                "luae_na.validation.diagnosfornybedomning.incorrect_combination");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS, DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45,
+                ValidationMessageType.INCORRECT_COMBINATION, "luae_na.validation.diagnosfornybedomning.incorrect_combination",
+                NYDIAGNOS_SVAR_ID_45);
         }
     }
 
@@ -346,12 +348,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
         }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getAnledningTillKontakt())) {
             ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_KONTAKT, ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26,
-                ValidationMessageType.BLANK, KONTAKT_ONSKAS_SVAR_ID_26);
+                ValidationMessageType.BLANK, ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26);
         }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getAnnatGrundForMUBeskrivning())) {
             ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU,
                 GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1, ValidationMessageType.BLANK,
-                GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
+                GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1);
         }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getAvslutadBehandling())) {
             ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_MEDICINSKABEHANDLINGAR,
