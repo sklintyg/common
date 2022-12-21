@@ -21,12 +21,12 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID_25;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID_25;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID_30;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -35,36 +35,35 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRa
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
-import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Sjukhusvard;
 
-public class QuestionAlkoholNarkotikaProvtagning {
-
-    public static CertificateDataElement toCertificate(NarkotikaLakemedel narkotikaLakemedel, int index, CertificateTextProvider textProvider) {
-        var behovsProvtagning = narkotikaLakemedel != null ? narkotikaLakemedel.getProvtagningBehovs() : null;
+public class QuestionVardatsPaSjukhus {
+    public static CertificateDataElement toCertificate(Sjukhusvard sjukhusvard, int index, CertificateTextProvider textProvider) {
+        var sjukhusEllerLakarkontakt = sjukhusvard != null ? sjukhusvard.getSjukhusEllerLakarkontakt() : null;
 
         return CertificateDataElement.builder()
             .index(index)
-            .id(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID_25)
-            .parent(MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID)
+            .id(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30)
+            .parent(VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID)
             .config(
                 CertificateDataConfigRadioBoolean.builder()
-                    .id(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID_25)
-                    .text(textProvider.get(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_TEXT_ID))
+                    .id(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30)
+                    .text(textProvider.get(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID_30))
                     .selectedText(SVAR_JA_TEXT)
                     .unselectedText(SVAR_NEJ_TEXT)
                     .build()
             )
             .value(
                 CertificateDataValueBoolean.builder()
-                    .id(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID_25)
-                    .selected(behovsProvtagning)
+                    .id(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30)
+                    .selected(sjukhusEllerLakarkontakt)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID_25)
-                        .expression(singleExpression(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID_25))
+                        .questionId(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30)
+                        .expression(singleExpression(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30))
                         .build()
                 }
             )
@@ -72,6 +71,6 @@ public class QuestionAlkoholNarkotikaProvtagning {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID_25, PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID_25);
+        return booleanValue(certificate.getData(), FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30, FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30);
     }
 }

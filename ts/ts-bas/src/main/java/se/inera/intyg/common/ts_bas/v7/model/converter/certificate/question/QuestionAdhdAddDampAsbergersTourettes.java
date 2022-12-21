@@ -35,10 +35,13 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRa
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Utvecklingsstorning;
 
 public class QuestionAdhdAddDampAsbergersTourettes {
 
-    public static CertificateDataElement toCertificate(Boolean harSyndrom, int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(Utvecklingsstorning utvecklingsstorning, int index, CertificateTextProvider textProvider) {
+        var harSyndrom = utvecklingsstorning != null ? utvecklingsstorning.getHarSyndrom() : null;
+
         return CertificateDataElement.builder()
             .index(index)
             .id(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID_29)

@@ -22,10 +22,10 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID_26;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_JSON_ID_26;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_TEXT_ID_26;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID_30;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -41,11 +41,10 @@ import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigRadioBo
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalBooleanValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueBooleanTest;
-import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Sjukhusvard;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionAlkoholNarkotikaLakarordineratTest {
-
+class QuestionVardatsPaSjukhusTest {
 
     @Mock
     CertificateTextProvider textProvider;
@@ -63,17 +62,17 @@ class QuestionAlkoholNarkotikaLakarordineratTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaLakarordinerat.toCertificate(null, 0, textProvider);
+                return QuestionVardatsPaSjukhus.toCertificate(null, 0, textProvider);
             }
 
             @Override
             protected String getId() {
-                return REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID_26;
+                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
             }
 
             @Override
             protected String getParent() {
-                return MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
+                return VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID;
             }
 
             @Override
@@ -87,7 +86,7 @@ class QuestionAlkoholNarkotikaLakarordineratTest {
 
             @Override
             protected String getId() {
-                return REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_JSON_ID_26;
+                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
             }
 
             @Override
@@ -107,12 +106,12 @@ class QuestionAlkoholNarkotikaLakarordineratTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaLakarordinerat.toCertificate(null, 0, textProvider);
+                return QuestionVardatsPaSjukhus.toCertificate(null, 0, textProvider);
             }
 
             @Override
             protected String getTextId() {
-                return REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_TEXT_ID_26;
+                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID_30;
             }
 
             @Override
@@ -126,7 +125,7 @@ class QuestionAlkoholNarkotikaLakarordineratTest {
 
             @Override
             protected String getJsonId() {
-                return REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_JSON_ID_26;
+                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
             }
 
             @Override
@@ -136,8 +135,8 @@ class QuestionAlkoholNarkotikaLakarordineratTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaLakarordinerat.toCertificate(
-                    NarkotikaLakemedel.builder().setLakarordineratLakemedelsbruk(true).build(), 0, textProvider);
+                return QuestionVardatsPaSjukhus.toCertificate(
+                    Sjukhusvard.builder().setSjukhusEllerLakarkontakt(true).build(), 0, textProvider);
             }
         }
 
@@ -146,17 +145,17 @@ class QuestionAlkoholNarkotikaLakarordineratTest {
 
             @Override
             protected String getQuestionId() {
-                return REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID_26;
+                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
             }
 
             @Override
             protected String getExpression() {
-                return "$missbrukberoendlakarordinerat";
+                return "$vardatspasjukhus";
             }
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaLakarordinerat.toCertificate(null, 0, textProvider);
+                return QuestionVardatsPaSjukhus.toCertificate(null, 0, textProvider);
             }
 
             @Override
@@ -174,13 +173,13 @@ class QuestionAlkoholNarkotikaLakarordineratTest {
 
             @Override
             protected CertificateDataElement getElement(Boolean expectedValue) {
-                return QuestionAlkoholNarkotikaLakarordinerat.toCertificate(
-                    NarkotikaLakemedel.builder().setLakarordineratLakemedelsbruk(expectedValue).build(), 0, textProvider);
+                return QuestionVardatsPaSjukhus.toCertificate(
+                    Sjukhusvard.builder().setSjukhusEllerLakarkontakt(expectedValue).build(), 0, textProvider);
             }
 
             @Override
             protected Boolean toInternalBooleanValue(Certificate certificate) {
-                return QuestionAlkoholNarkotikaLakarordinerat.toInternal(certificate);
+                return QuestionVardatsPaSjukhus.toInternal(certificate);
             }
         }
     }

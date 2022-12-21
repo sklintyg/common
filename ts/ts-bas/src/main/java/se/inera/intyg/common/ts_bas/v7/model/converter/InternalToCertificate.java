@@ -36,6 +36,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.Cate
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryNjursjukdomar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryPsykiskSjukdomStorning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryPsykiskUtvecklingsstorning;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySjukhusvard;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySomnOchVakenhetsstorningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySynfunktioner;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBalansrubbningar;
@@ -78,7 +79,11 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTidigareUtfordUndersokningMessage;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryIdentitet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIdentitetStyrktGenom;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTidpunktVardPaSjukhus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionUppfattaSamtal4Meter;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionVardatsPaSjukhus;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionVardatsPaSjukhusOrsak;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionVardinrattningensNamn;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 
 @Component(value = "internalToCertificateTsBas")
@@ -104,8 +109,7 @@ public class InternalToCertificate {
                 CategorySynfunktioner.toCertificate(index++, texts)
             )
             .addElement(
-                QuestionSynfaltsdefekter.toCertificate(
-                    internalCertificate.getSyn(), index++, texts)
+                QuestionSynfaltsdefekter.toCertificate(internalCertificate.getSyn(), index++, texts)
             )
             .addElement(
                 QuestionNattblindhet.toCertificate(internalCertificate.getSyn(), index++, texts)
@@ -222,48 +226,55 @@ public class InternalToCertificate {
                 CategorySomnOchVakenhetsstorningar.toCertificate(index++, texts)
             )
             .addElement(
-                QuestionSomnOchVakenhetsstorningar.toCertificate(
-                    internalCertificate.getSomnVakenhet().getTeckenSomnstorningar(), index++, texts)
+                QuestionSomnOchVakenhetsstorningar.toCertificate(internalCertificate.getSomnVakenhet(), index++, texts)
             )
             .addElement(
                 CategoryAlkoholNarkotikaOchLakamedel.toCertificate(index++, texts)
             )
             .addElement(
-                QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(
-                    internalCertificate.getNarkotikaLakemedel().getTeckenMissbruk(), index++, texts)
+                QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
             )
             .addElement(
-                QuestionAlkoholNarkotikaVardinsatser.toCertificate(
-                    internalCertificate.getNarkotikaLakemedel().getForemalForVardinsats(), index++, texts)
+                QuestionAlkoholNarkotikaVardinsatser.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
             )
             .addElement(
-                QuestionAlkoholNarkotikaProvtagning.toCertificate(
-                    internalCertificate.getNarkotikaLakemedel().getProvtagningBehovs(), index++, texts)
+                QuestionAlkoholNarkotikaProvtagning.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
             )
             .addElement(
-                QuestionAlkoholNarkotikaLakarordinerat.toCertificate(
-                    internalCertificate.getNarkotikaLakemedel().getLakarordineratLakemedelsbruk(), index++, texts)
+                QuestionAlkoholNarkotikaLakarordinerat.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
             )
             .addElement(
-                QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate(
-                    internalCertificate.getNarkotikaLakemedel().getLakemedelOchDos(), index++, texts)
+                QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
             )
             .addElement(
                 CategoryPsykiskSjukdomStorning.toCertificate(index++, texts)
             )
             .addElement(
-                QuestionPsykiskSjukdomStorning.toCertificate(internalCertificate.getPsykiskt().getPsykiskSjukdom(), index++, texts)
+                QuestionPsykiskSjukdomStorning.toCertificate(internalCertificate.getPsykiskt(), index++, texts)
             )
             .addElement(
                 CategoryPsykiskUtvecklingsstorning.toCertificate(index++, texts)
             )
             .addElement(
-                QuestionPsykiskUtvecklingsstorning.toCertificate(
-                    internalCertificate.getUtvecklingsstorning().getPsykiskUtvecklingsstorning(), index++, texts)
+                QuestionPsykiskUtvecklingsstorning.toCertificate(internalCertificate.getUtvecklingsstorning(), index++, texts)
             )
             .addElement(
-                QuestionAdhdAddDampAsbergersTourettes.toCertificate(
-                    internalCertificate.getUtvecklingsstorning().getHarSyndrom(), index++, texts)
+                QuestionAdhdAddDampAsbergersTourettes.toCertificate(internalCertificate.getUtvecklingsstorning(), index++, texts)
+            )
+            .addElement(
+                CategorySjukhusvard.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionVardatsPaSjukhus.toCertificate(internalCertificate.getSjukhusvard(), index++, texts)
+            )
+            .addElement(
+                QuestionTidpunktVardPaSjukhus.toCertificate(internalCertificate.getSjukhusvard(), index++, texts)
+            )
+            .addElement(
+                QuestionVardinrattningensNamn.toCertificate(internalCertificate.getSjukhusvard(), index++, texts)
+            )
+            .addElement(
+                QuestionVardatsPaSjukhusOrsak.toCertificate(internalCertificate.getSjukhusvard(), index++, texts)
             )
             .build();
     }

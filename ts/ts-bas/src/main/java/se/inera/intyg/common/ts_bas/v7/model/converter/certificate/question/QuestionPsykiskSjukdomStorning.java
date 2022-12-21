@@ -35,10 +35,13 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRa
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Psykiskt;
 
 public class QuestionPsykiskSjukdomStorning {
 
-    public static CertificateDataElement toCertificate(Boolean psykiskSjukdom, int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(Psykiskt psykiskt, int index, CertificateTextProvider textProvider) {
+        var psykiskSjukdom = psykiskt != null ? psykiskt.getPsykiskSjukdom() : null;
+
         return CertificateDataElement.builder()
             .index(index)
             .id(PSYKISK_SJUKDOM_STORNING_DELSVAR_ID_27)

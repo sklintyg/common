@@ -41,6 +41,7 @@ import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigRadioBo
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalBooleanValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueBooleanTest;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Psykiskt;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionPsykiskSjukdomStorningTest {
@@ -62,7 +63,7 @@ class QuestionPsykiskSjukdomStorningTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionPsykiskSjukdomStorning.toCertificate(true, 0, textProvider);
+                return QuestionPsykiskSjukdomStorning.toCertificate(null, 0, textProvider);
             }
 
             @Override
@@ -106,7 +107,7 @@ class QuestionPsykiskSjukdomStorningTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionPsykiskSjukdomStorning.toCertificate(true, 0, textProvider);
+                return QuestionPsykiskSjukdomStorning.toCertificate(null, 0, textProvider);
             }
 
             @Override
@@ -135,7 +136,7 @@ class QuestionPsykiskSjukdomStorningTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionPsykiskSjukdomStorning.toCertificate(true, 0, textProvider);
+                return QuestionPsykiskSjukdomStorning.toCertificate(Psykiskt.create(true), 0, textProvider);
             }
         }
 
@@ -154,7 +155,7 @@ class QuestionPsykiskSjukdomStorningTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionPsykiskSjukdomStorning.toCertificate(true, 0, textProvider);
+                return QuestionPsykiskSjukdomStorning.toCertificate(null, 0, textProvider);
             }
 
             @Override
@@ -172,7 +173,7 @@ class QuestionPsykiskSjukdomStorningTest {
 
             @Override
             protected CertificateDataElement getElement(Boolean expectedValue) {
-                return QuestionPsykiskSjukdomStorning.toCertificate(expectedValue, 0, textProvider);
+                return QuestionPsykiskSjukdomStorning.toCertificate(Psykiskt.create(expectedValue), 0, textProvider);
             }
 
             @Override

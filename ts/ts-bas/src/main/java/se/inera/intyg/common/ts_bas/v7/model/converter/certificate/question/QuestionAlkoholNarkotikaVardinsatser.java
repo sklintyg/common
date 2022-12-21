@@ -35,10 +35,13 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRa
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
+import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 
 public class QuestionAlkoholNarkotikaVardinsatser {
 
-    public static CertificateDataElement toCertificate(Boolean faremalForVardinsatser, int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(NarkotikaLakemedel narkotikaLakemedel, int index, CertificateTextProvider textProvider) {
+        var faremalForVardinsatser = narkotikaLakemedel != null ? narkotikaLakemedel.getForemalForVardinsats() : null;
+
         return CertificateDataElement.builder()
             .index(index)
             .id(VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID_25)

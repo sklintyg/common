@@ -41,6 +41,7 @@ import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigRadioBo
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalBooleanValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueBooleanTest;
+import se.inera.intyg.common.ts_bas.v7.model.internal.SomnVakenhet;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionSomnOchVakenhetsstorningarTest {
@@ -134,7 +135,7 @@ class QuestionSomnOchVakenhetsstorningarTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionSomnOchVakenhetsstorningar.toCertificate(true, 0, textProvider);
+                return QuestionSomnOchVakenhetsstorningar.toCertificate(SomnVakenhet.create(true), 0, textProvider);
             }
         }
 
@@ -172,7 +173,7 @@ class QuestionSomnOchVakenhetsstorningarTest {
 
             @Override
             protected CertificateDataElement getElement(Boolean expectedValue) {
-                return QuestionSomnOchVakenhetsstorningar.toCertificate(expectedValue, 0, textProvider);
+                return QuestionSomnOchVakenhetsstorningar.toCertificate(SomnVakenhet.create(expectedValue), 0, textProvider);
             }
 
             @Override

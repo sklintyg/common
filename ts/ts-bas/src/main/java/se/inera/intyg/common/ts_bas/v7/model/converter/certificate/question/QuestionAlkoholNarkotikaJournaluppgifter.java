@@ -35,10 +35,12 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRa
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
+import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 
 public class QuestionAlkoholNarkotikaJournaluppgifter {
 
-    public static CertificateDataElement toCertificate(Boolean journaluppgifterFinns, int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(NarkotikaLakemedel narkotikaLakemedel, int index, CertificateTextProvider textProvider) {
+        var getTeckenMissbruk = narkotikaLakemedel != null ? narkotikaLakemedel.getTeckenMissbruk() : null;
 
         return CertificateDataElement.builder()
             .index(index)
@@ -55,7 +57,7 @@ public class QuestionAlkoholNarkotikaJournaluppgifter {
             .value(
                 CertificateDataValueBoolean.builder()
                     .id(TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID)
-                    .selected(journaluppgifterFinns)
+                    .selected(getTeckenMissbruk)
                     .build()
             )
             .validation(

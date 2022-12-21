@@ -35,10 +35,13 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRa
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Utvecklingsstorning;
 
 public class QuestionPsykiskUtvecklingsstorning {
 
-    public static CertificateDataElement toCertificate(Boolean psykiskUtvecklingsstorning, int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(Utvecklingsstorning utvecklingsstorning, int index, CertificateTextProvider textProvider) {
+        var psykiskUtvecklingsstorning = utvecklingsstorning != null ? utvecklingsstorning.getPsykiskUtvecklingsstorning() : null;
+
         return CertificateDataElement.builder()
             .index(index)
             .id(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID_28)

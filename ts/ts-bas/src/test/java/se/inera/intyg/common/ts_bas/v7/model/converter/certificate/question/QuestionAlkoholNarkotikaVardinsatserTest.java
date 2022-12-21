@@ -41,6 +41,7 @@ import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigRadioBo
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalBooleanValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueBooleanTest;
+import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionAlkoholNarkotikaVardinsatserTest {
@@ -61,7 +62,7 @@ class QuestionAlkoholNarkotikaVardinsatserTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaVardinsatser.toCertificate(true, 0, textProvider);
+                return QuestionAlkoholNarkotikaVardinsatser.toCertificate(null, 0, textProvider);
             }
 
             @Override
@@ -105,7 +106,7 @@ class QuestionAlkoholNarkotikaVardinsatserTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaVardinsatser.toCertificate(true, 0, textProvider);
+                return QuestionAlkoholNarkotikaVardinsatser.toCertificate(null, 0, textProvider);
             }
 
             @Override
@@ -134,7 +135,8 @@ class QuestionAlkoholNarkotikaVardinsatserTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaVardinsatser.toCertificate(true, 0, textProvider);
+                return QuestionAlkoholNarkotikaVardinsatser.toCertificate(
+                    NarkotikaLakemedel.builder().setForemalForVardinsats(true).build(), 0, textProvider);
             }
         }
 
@@ -153,7 +155,7 @@ class QuestionAlkoholNarkotikaVardinsatserTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaVardinsatser.toCertificate(true, 0, textProvider);
+                return QuestionAlkoholNarkotikaVardinsatser.toCertificate(null, 0, textProvider);
             }
 
             @Override
@@ -172,7 +174,8 @@ class QuestionAlkoholNarkotikaVardinsatserTest {
 
             @Override
             protected CertificateDataElement getElement(Boolean expectedValue) {
-                return QuestionAlkoholNarkotikaVardinsatser.toCertificate(expectedValue, 0, textProvider);
+                return QuestionAlkoholNarkotikaVardinsatser.toCertificate(
+                    NarkotikaLakemedel.builder().setForemalForVardinsats(expectedValue).build(), 0, textProvider);
             }
 
             @Override

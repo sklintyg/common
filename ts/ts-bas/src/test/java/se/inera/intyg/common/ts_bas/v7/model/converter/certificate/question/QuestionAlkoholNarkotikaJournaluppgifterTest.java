@@ -41,6 +41,7 @@ import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigRadioBo
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalBooleanValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueBooleanTest;
+import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionAlkoholNarkotikaJournaluppgifterTest {
@@ -61,7 +62,7 @@ class QuestionAlkoholNarkotikaJournaluppgifterTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(true, 0, textProvider);
+                return QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(null, 0, textProvider);
             }
 
             @Override
@@ -105,7 +106,7 @@ class QuestionAlkoholNarkotikaJournaluppgifterTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(true, 0, textProvider);
+                return QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(null, 0, textProvider);
             }
 
             @Override
@@ -134,7 +135,8 @@ class QuestionAlkoholNarkotikaJournaluppgifterTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(true, 0, textProvider);
+                return QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(
+                    NarkotikaLakemedel.builder().setTeckenMissbruk(true).build(), 0, textProvider);
             }
         }
 
@@ -153,7 +155,7 @@ class QuestionAlkoholNarkotikaJournaluppgifterTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(true, 0, textProvider);
+                return QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(null, 0, textProvider);
             }
 
             @Override
@@ -172,7 +174,7 @@ class QuestionAlkoholNarkotikaJournaluppgifterTest {
 
             @Override
             protected CertificateDataElement getElement(Boolean expectedValue) {
-                return QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(expectedValue, 0, textProvider);
+                return QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(NarkotikaLakemedel.builder().setTeckenMissbruk(expectedValue).build(), 0, textProvider);
             }
 
             @Override

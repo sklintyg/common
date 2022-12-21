@@ -35,10 +35,12 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRa
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
+import se.inera.intyg.common.ts_bas.v7.model.internal.SomnVakenhet;
 
 public class QuestionSomnOchVakenhetsstorningar {
 
-    public static CertificateDataElement toCertificate(Boolean somnOchVakenhetsstorningar, int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(SomnVakenhet somnVakenhet, int index, CertificateTextProvider textProvider) {
+        var teckenSomnstorningar = somnVakenhet != null ? somnVakenhet.getTeckenSomnstorningar() : null;
 
         return CertificateDataElement.builder()
             .index(index)
@@ -55,7 +57,7 @@ public class QuestionSomnOchVakenhetsstorningar {
             .value(
                 CertificateDataValueBoolean.builder()
                     .id(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID)
-                    .selected(somnOchVakenhetsstorningar)
+                    .selected(teckenSomnstorningar)
                     .build()
             )
             .validation(

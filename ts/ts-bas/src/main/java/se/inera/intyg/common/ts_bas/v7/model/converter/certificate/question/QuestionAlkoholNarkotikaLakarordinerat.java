@@ -35,10 +35,12 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRa
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
+import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 
 public class QuestionAlkoholNarkotikaLakarordinerat {
 
-    public static CertificateDataElement toCertificate(Boolean lakarordinerat, int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(NarkotikaLakemedel narkotikaLakemedel, int index, CertificateTextProvider textProvider) {
+        var lakarordineratLakemedelsbruk = narkotikaLakemedel != null ? narkotikaLakemedel.getLakarordineratLakemedelsbruk() : null;
         return CertificateDataElement.builder()
             .index(index)
             .id(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID_26)
@@ -54,7 +56,7 @@ public class QuestionAlkoholNarkotikaLakarordinerat {
             .value(
                 CertificateDataValueBoolean.builder()
                     .id(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_JSON_ID_26)
-                    .selected(lakarordinerat)
+                    .selected(lakarordineratLakemedelsbruk)
                     .build()
             )
             .validation(

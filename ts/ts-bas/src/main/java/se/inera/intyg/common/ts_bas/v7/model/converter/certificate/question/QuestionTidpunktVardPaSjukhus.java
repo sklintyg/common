@@ -21,12 +21,14 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID_26;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID_26;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKEMEDEL_ORDINERAD_DOS_DELSVAR_TEXT_ID_26;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID_26;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_JSON_ID_26;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID_30;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -37,44 +39,43 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
-import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Sjukhusvard;
 
-public class QuestionAlkoholNarkotikaOrdineratLakamedel {
+public class QuestionTidpunktVardPaSjukhus {
+    private static final short TEXT_LIMIT = 40;
 
-    private static final short TEXT_LIMIT = 180;
-
-    public static CertificateDataElement toCertificate(NarkotikaLakemedel narkotikaLakemedel, int index, CertificateTextProvider textProvider) {
-        var lakemedelOchDos = narkotikaLakemedel != null ? narkotikaLakemedel.getLakemedelOchDos() : null;
+    public static CertificateDataElement toCertificate(Sjukhusvard sjukhusvard, int index, CertificateTextProvider textProvider) {
+        var tidpunkt = sjukhusvard != null ? sjukhusvard.getTidpunkt() : null;
 
         return CertificateDataElement.builder()
-            .id(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID_26)
-            .parent(MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID)
+            .id(TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30)
+            .parent(VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigTextArea.builder()
-                    .text(textProvider.get(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_TEXT_ID_26))
-                    .id(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID_26)
+                    .text(textProvider.get(TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID_30))
+                    .id(TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30)
                     .build()
             )
             .value(
                 CertificateDataTextValue.builder()
-                    .id(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID_26)
-                    .text(lakemedelOchDos)
+                    .id(TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30)
+                    .text(tidpunkt)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationText.builder()
-                        .id(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID_26)
+                        .id(TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30)
                         .limit(TEXT_LIMIT)
                         .build(),
                     CertificateDataValidationMandatory.builder()
-                        .questionId(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID_26)
-                        .expression(singleExpression(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID_26))
+                        .questionId(TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30)
+                        .expression(singleExpression(TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30))
                         .build(),
                     CertificateDataValidationShow.builder()
-                        .questionId(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID_26)
-                        .expression(singleExpression(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_JSON_ID_26))
+                        .questionId(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30)
+                        .expression(singleExpression(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30))
                         .build()
                 }
             )
@@ -82,6 +83,6 @@ public class QuestionAlkoholNarkotikaOrdineratLakamedel {
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID_26, LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID_26);
+        return textValue(certificate.getData(), TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30, TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30);
     }
 }
