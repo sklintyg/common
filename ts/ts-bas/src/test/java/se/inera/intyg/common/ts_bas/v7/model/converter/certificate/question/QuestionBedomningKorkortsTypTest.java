@@ -260,6 +260,7 @@ class QuestionBedomningKorkortsTypTest {
         @Override
         protected List<String> getListOfIds() {
             return List.of(
+                BedomningKorkortstyp.VAR1.name(),
                 BedomningKorkortstyp.VAR2.name(),
                 BedomningKorkortstyp.VAR3.name(),
                 BedomningKorkortstyp.VAR4.name(),
@@ -280,6 +281,45 @@ class QuestionBedomningKorkortsTypTest {
         @Override
         protected int getValidationIndex() {
             return 1;
+        }
+    }
+
+    @Nested
+    class IncludeSecondValidationDisableSubElementTests extends ValidationDisableSubElementTest {
+
+        @Override
+        protected String getQuestionId() {
+            return LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID;
+        }
+
+        @Override
+        protected String getExpression() {
+            return
+                BedomningKorkortstyp.VAR1.name()
+                    + " || " + BedomningKorkortstyp.VAR2.name()
+                    + " || " + BedomningKorkortstyp.VAR3.name()
+                    + " || " + BedomningKorkortstyp.VAR4.name()
+                    + " || " + BedomningKorkortstyp.VAR5.name()
+                    + " || " + BedomningKorkortstyp.VAR6.name()
+                    + " || " + BedomningKorkortstyp.VAR7.name()
+                    + " || " + BedomningKorkortstyp.VAR8.name()
+                    + " || " + BedomningKorkortstyp.VAR9.name()
+                    + " || " + BedomningKorkortstyp.VAR10.name();
+        }
+
+        @Override
+        protected List<String> getListOfIds() {
+            return List.of(BedomningKorkortstyp.VAR11.name());
+        }
+
+        @Override
+        protected CertificateDataElement getElement() {
+            return QuestionBedomningKorkortsTyp.toCertificate(null, 0, textProvider);
+        }
+
+        @Override
+        protected int getValidationIndex() {
+            return 2;
         }
     }
 

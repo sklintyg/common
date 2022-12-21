@@ -20,7 +20,7 @@
 package se.inera.intyg.common.support.facade.testsetup.model.validation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -58,8 +58,6 @@ public abstract class ValidationDisableSubElementTest extends ValidationTest {
     void shouldIncludeListOfIds() {
         final var question = getElement();
         final var certificateDataValidation = (CertificateDataValidationDisableSubElement) question.getValidation()[getValidationIndex()];
-        for (String id : getListOfIds()) {
-            assertTrue(certificateDataValidation.getId().contains(id));
-        }
+        assertIterableEquals(certificateDataValidation.getId(), getListOfIds());
     }
 }

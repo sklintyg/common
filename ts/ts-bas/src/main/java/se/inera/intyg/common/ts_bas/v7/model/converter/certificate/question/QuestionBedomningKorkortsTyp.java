@@ -165,6 +165,23 @@ public class QuestionBedomningKorkortsTyp {
                                 BedomningKorkortstyp.VAR10.name()
                             )
                         )
+                        .build(),
+                    CertificateDataValidationDisableSubElement.builder()
+                        .questionId(LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID)
+                        .expression(multipleOrExpression(
+                            BedomningKorkortstyp.VAR1.name(),
+                            BedomningKorkortstyp.VAR2.name(),
+                            BedomningKorkortstyp.VAR3.name(),
+                            BedomningKorkortstyp.VAR4.name(),
+                            BedomningKorkortstyp.VAR5.name(),
+                            BedomningKorkortstyp.VAR6.name(),
+                            BedomningKorkortstyp.VAR7.name(),
+                            BedomningKorkortstyp.VAR8.name(),
+                            BedomningKorkortstyp.VAR9.name(),
+                            BedomningKorkortstyp.VAR10.name()))
+                        .id(List.of(
+                            BedomningKorkortstyp.VAR11.name()
+                        ))
                         .build()
                 }
             )
