@@ -100,7 +100,7 @@ public class QuestionSynskarpa {
             .withoutCorrection(
                 CertificateDataValueDouble.builder()
                     .id(BINOKULART_UTAN_KORREKTION_DELSVAR_ID_8)
-                    .number(
+                    .value(
                         binokulart != null && binokulart.getUtanKorrektion() != null ? binokulart.getUtanKorrektion()
                             : null)
                     .build()
@@ -108,7 +108,7 @@ public class QuestionSynskarpa {
             .withCorrection(
                 CertificateDataValueDouble.builder()
                     .id(BINOKULART_MED_KORREKTION_DELSVAR_ID_8)
-                    .number(
+                    .value(
                         binokulart != null && binokulart.getMedKorrektion() != null ? binokulart.getMedKorrektion() : null)
                     .build()
             )
@@ -120,7 +120,7 @@ public class QuestionSynskarpa {
             .withoutCorrection(
                 CertificateDataValueDouble.builder()
                     .id(VANSTER_OGA_UTAN_KORREKTION_DELSVAR_ID_8)
-                    .number(
+                    .value(
                         vansterOga != null && vansterOga.getUtanKorrektion() != null ? vansterOga.getUtanKorrektion()
                             : null)
                     .build()
@@ -128,11 +128,11 @@ public class QuestionSynskarpa {
             .withCorrection(
                 CertificateDataValueDouble.builder()
                     .id(VANSTER_OGA_MED_KORREKTION_DELSVAR_ID_8)
-                    .number(
+                    .value(
                         vansterOga != null && vansterOga.getMedKorrektion() != null ? vansterOga.getMedKorrektion() : null)
                     .build()
             )
-            .binocular(
+            .contactLenses(
                 CertificateDataValueBoolean.builder()
                     .id(KONTAKTLINSER_VANSTER_OGA_DELSVAR_ID_8)
                     .selected(
@@ -147,18 +147,18 @@ public class QuestionSynskarpa {
             .withoutCorrection(
                 CertificateDataValueDouble.builder()
                     .id(HOGER_OGA_UTAN_KORREKTION_DELSVAR_ID_8)
-                    .number(
+                    .value(
                         hogerOga != null && hogerOga.getUtanKorrektion() != null ? hogerOga.getUtanKorrektion() : null)
                     .build()
             )
             .withCorrection(
                 CertificateDataValueDouble.builder()
                     .id(HOGER_OGA_MED_KORREKTION_DELSVAR_ID_8)
-                    .number(
+                    .value(
                         hogerOga != null && hogerOga.getMedKorrektion() != null ? hogerOga.getMedKorrektion() : null)
                     .build()
             )
-            .binocular(
+            .contactLenses(
                 CertificateDataValueBoolean.builder()
                     .id(KONTAKTLINSER_HOGER_OGA_DELSVAR_ID_8)
                     .selected(
@@ -212,13 +212,13 @@ public class QuestionSynskarpa {
 
         return Synskarpevarden.builder()
             .setUtanKorrektion(
-                visualAcuityValue.getWithoutCorrection().getNumber()
+                visualAcuityValue.getWithoutCorrection().getValue()
             )
             .setMedKorrektion(
-                visualAcuityValue.getWithCorrection().getNumber()
+                visualAcuityValue.getWithCorrection().getValue()
             )
             .setKontaktlins(
-                type != BINOCULAR ? visualAcuityValue.getBinocular().getSelected() : null
+                type != BINOCULAR ? visualAcuityValue.getContactLenses().getSelected() : null
             )
             .build();
     }
