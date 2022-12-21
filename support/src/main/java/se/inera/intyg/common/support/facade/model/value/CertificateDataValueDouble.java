@@ -34,7 +34,7 @@ public class CertificateDataValueDouble implements CertificateDataValue {
     @Getter(onMethod = @__(@Override))
     CertificateDataValueType type = CertificateDataValueType.DOUBLE;
     String id;
-    Double number;
+    Double value;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataValueDoubleBuilder {
