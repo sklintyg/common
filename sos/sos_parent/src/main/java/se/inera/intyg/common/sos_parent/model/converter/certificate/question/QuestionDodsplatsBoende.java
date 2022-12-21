@@ -19,10 +19,10 @@
 
 package se.inera.intyg.common.sos_parent.model.converter.certificate.question;
 
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DODSPLATS_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_BOENDE_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_BOENDE_QUESTION_DESCRIPTION_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_BOENDE_QUESTION_TEXT_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_SVAR_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
@@ -43,7 +43,7 @@ public class QuestionDodsplatsBoende {
     public static CertificateDataElement toCertificate(DodsplatsBoende dodsplatsBoende, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(DODSPLATS_BOENDE_DELSVAR_ID)
-            .parent(DODSDATUM_DODSPLATS_CATEGORY_ID)
+            .parent(DODSPLATS_SVAR_ID)
             .index(index)
             .config(
                 CertificateDataConfigRadioMultipleCode.builder()
