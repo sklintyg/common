@@ -26,8 +26,11 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryAlkoholNarkotikaOchLakamedel;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryIntygetAvser;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryPsykiskSjukdomStorning;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryPsykiskUtvecklingsstorning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySomnOchVakenhetsstorningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySynfunktioner;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAdhdAddDampAsbergersTourettes;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaJournaluppgifter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaLakarordinerat;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaOrdineratLakamedel;
@@ -41,6 +44,8 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNystagmus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionPsykiskSjukdomStorning;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionPsykiskUtvecklingsstorning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSomnOchVakenhetsstorningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
@@ -123,6 +128,23 @@ public class InternalToCertificate {
             .addElement(
                 QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate(
                     internalCertificate.getNarkotikaLakemedel().getLakemedelOchDos(), index++, texts)
+            )
+            .addElement(
+                CategoryPsykiskSjukdomStorning.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionPsykiskSjukdomStorning.toCertificate(internalCertificate.getPsykiskt().getPsykiskSjukdom(), index++, texts)
+            )
+            .addElement(
+                CategoryPsykiskUtvecklingsstorning.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionPsykiskUtvecklingsstorning.toCertificate(
+                    internalCertificate.getUtvecklingsstorning().getPsykiskUtvecklingsstorning(), index++, texts)
+            )
+            .addElement(
+                QuestionAdhdAddDampAsbergersTourettes.toCertificate(
+                    internalCertificate.getUtvecklingsstorning().getHarSyndrom(), index++, texts)
             )
             .build();
     }

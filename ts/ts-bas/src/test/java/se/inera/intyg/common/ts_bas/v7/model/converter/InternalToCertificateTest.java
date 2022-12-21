@@ -21,6 +21,7 @@ package se.inera.intyg.common.ts_bas.v7.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID_29;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.DUBBELSEENDE_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_SVAR_ID_1;
@@ -30,6 +31,10 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MISSBRUK_BER
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NYSTAGMUS_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID_25;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_SJUKDOM_STORNING_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_SJUKDOM_STORNING_DELSVAR_ID_27;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_UTVECKLINGSSTORNING_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID_28;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID_26;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_ID;
@@ -229,5 +234,35 @@ class InternalToCertificateTest {
     void shallIncludeQuestionAlkoholNarkotikaOrdineratLakamedel() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(20, actualCertificate.getData().get(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID_26).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryPsykiskSjukdomStorning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(21, actualCertificate.getData().get(PSYKISK_SJUKDOM_STORNING_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionPsykiskSjukdomStorning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(22, actualCertificate.getData().get(PSYKISK_SJUKDOM_STORNING_DELSVAR_ID_27).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryPsykiskUtvecklingsstorning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(23, actualCertificate.getData().get(PSYKISK_UTVECKLINGSSTORNING_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionPsykiskUtvecklingsstorning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(24, actualCertificate.getData().get(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID_28).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionAdhdAddDampAsbergersTourettesTest() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(25, actualCertificate.getData().get(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID_29).getIndex());
     }
 }

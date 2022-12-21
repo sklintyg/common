@@ -36,6 +36,7 @@ import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAdhdAddDampAsbergersTourettes;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaJournaluppgifter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaLakarordinerat;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaOrdineratLakamedel;
@@ -46,16 +47,20 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNattblindhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNystagmus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionPsykiskSjukdomStorning;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionPsykiskUtvecklingsstorning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSomnOchVakenhetsstorningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
 import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Psykiskt;
 import se.inera.intyg.common.ts_bas.v7.model.internal.SomnVakenhet;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Utvecklingsstorning;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 @ExtendWith(MockitoExtension.class)
@@ -96,6 +101,11 @@ class CertificateToInternalTest {
                     .setLakarordineratLakemedelsbruk(true)
                     .setLakemedelOchDos("Ipren")
                     .build())
+            .setPsykiskt(Psykiskt.create(true))
+            .setUtvecklingsstorning(Utvecklingsstorning.builder()
+                .setPsykiskUtvecklingsstorning(true)
+                .setHarSyndrom(true)
+                .build())
             .build();
 
         certificate = CertificateBuilder.create()
@@ -116,6 +126,9 @@ class CertificateToInternalTest {
             .addElement(QuestionAlkoholNarkotikaProvtagning.toCertificate(true, 0, textProvider))
             .addElement(QuestionAlkoholNarkotikaLakarordinerat.toCertificate(true, 0, textProvider))
             .addElement(QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate("Ipren", 0, textProvider))
+            .addElement(QuestionPsykiskSjukdomStorning.toCertificate(true, 0, textProvider))
+            .addElement(QuestionPsykiskUtvecklingsstorning.toCertificate(true, 0, textProvider))
+            .addElement(QuestionAdhdAddDampAsbergersTourettes.toCertificate(true, 0, textProvider))
             .build();
     }
 
@@ -242,5 +255,25 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getNarkotikaLakemedel().getLakemedelOchDos(),
             actualInternalCertificate.getNarkotikaLakemedel().getLakemedelOchDos());
+    }
+    @Test
+    void shallIncludePsykiskt() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getPsykiskt().getPsykiskSjukdom(),
+            actualInternalCertificate.getPsykiskt().getPsykiskSjukdom());
+    }
+
+    @Test
+    void shallIncludePsykiskUtvecklingsstorning() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getUtvecklingsstorning().getPsykiskUtvecklingsstorning(),
+            actualInternalCertificate.getUtvecklingsstorning().getPsykiskUtvecklingsstorning());
+    }
+
+    @Test
+    void shallIncludeHarSyndrom() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getUtvecklingsstorning().getHarSyndrom(),
+            actualInternalCertificate.getUtvecklingsstorning().getHarSyndrom());
     }
 }
