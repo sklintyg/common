@@ -20,10 +20,12 @@ package se.inera.intyg.common.luae_fs.v1.validator;
 
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16;
+import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
@@ -129,14 +131,15 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaefs
         if (utlatande.getAnnatGrundForMU() != null && Strings.nullToEmpty(utlatande.getAnnatGrundForMUBeskrivning()).trim().isEmpty()) {
             ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU,
                 GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1, ValidationMessageType.EMPTY,
-                GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
+                GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1);
         }
 
         // R3
         if (utlatande.getAnnatGrundForMU() == null && !Strings.isNullOrEmpty(utlatande.getAnnatGrundForMUBeskrivning())) {
             ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU,
                 GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1, ValidationMessageType.EMPTY,
-                "luae_fs.validation.grund-for-mu.annat.beskrivning.invalid_combination", GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
+                "luae_fs.validation.grund-for-mu.annat.beskrivning.invalid_combination",
+                GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1);
         }
 
         if (utlatande.getKannedomOmPatient() == null) {
@@ -144,7 +147,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaefs
                 ValidationMessageType.EMPTY, KANNEDOM_SVAR_ID_2);
         } else {
             boolean dateIsValid = ValidatorUtil.validateDateAndCheckIfFuture(utlatande.getKannedomOmPatient(), validationMessages,
-                    CATEGORY_GRUNDFORMU, "kannedomOmPatient", "common.validation.c-06", KANNEDOM_SVAR_ID_2);
+                CATEGORY_GRUNDFORMU, "kannedomOmPatient", "common.validation.c-06", KANNEDOM_SVAR_ID_2);
             if (dateIsValid && checkIfNotFuture(utlatande.getKannedomOmPatient().asLocalDate())) {
                 if (utlatande.getUndersokningAvPatienten() != null && utlatande.getUndersokningAvPatienten().isValidDate()
                     && utlatande.getKannedomOmPatient().asLocalDate().isAfter(utlatande.getUndersokningAvPatienten().asLocalDate())) {
@@ -263,15 +266,15 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaefs
         }
     }
 
-    private void validateBlanksForOptionalFields(LuaefsUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+    void validateBlanksForOptionalFields(LuaefsUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (ValidatorUtil.isBlankButNotNull(utlatande.getAnledningTillKontakt())) {
-            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_KONTAKT, ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26,
-                ValidationMessageType.EMPTY, "luae_fs.validation.blanksteg.otillatet", KONTAKT_ONSKAS_SVAR_ID_26);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_KONTAKT, ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26,
+                ValidationMessageType.EMPTY, "luae_fs.validation.blanksteg.otillatet", ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26);
         }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getAnnatGrundForMUBeskrivning())) {
             ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU,
                 GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1, ValidationMessageType.EMPTY,
-                "luae_fs.validation.blanksteg.otillatet", GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
+                "luae_fs.validation.blanksteg.otillatet", GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1);
         }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getOvrigt())) {
             ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_OVRIGT, OVRIGT_SVAR_JSON_ID_25,
