@@ -20,6 +20,7 @@
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BEDOMNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KORKORT_ANNAT_LABEL_ID;
@@ -49,6 +50,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCh
 import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.Layout;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisableSubElement;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCodeList;
@@ -143,6 +145,24 @@ public class QuestionBedomningKorkortsTyp {
                                 BedomningKorkortstyp.VAR9.name(),
                                 BedomningKorkortstyp.VAR10.name(),
                                 BedomningKorkortstyp.VAR11.name()
+                            )
+                        )
+                        .build(),
+                    CertificateDataValidationDisableSubElement.builder()
+                        .questionId(LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID)
+                        .expression(singleExpression(BedomningKorkortstyp.VAR11.name()))
+                        .id(
+                            List.of(
+                                BedomningKorkortstyp.VAR1.name(),
+                                BedomningKorkortstyp.VAR2.name(),
+                                BedomningKorkortstyp.VAR3.name(),
+                                BedomningKorkortstyp.VAR4.name(),
+                                BedomningKorkortstyp.VAR5.name(),
+                                BedomningKorkortstyp.VAR6.name(),
+                                BedomningKorkortstyp.VAR7.name(),
+                                BedomningKorkortstyp.VAR8.name(),
+                                BedomningKorkortstyp.VAR9.name(),
+                                BedomningKorkortstyp.VAR10.name()
                             )
                         )
                         .build()

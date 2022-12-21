@@ -56,6 +56,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCodeList;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCheckboxMultipleCodeTest;
+import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationDisableSubElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalValueTest;
@@ -240,6 +241,45 @@ class QuestionBedomningKorkortsTypTest {
         @Override
         protected int getValidationIndex() {
             return 0;
+        }
+    }
+
+    @Nested
+    class IncludeValidationDisableSubElementTests extends ValidationDisableSubElementTest {
+
+        @Override
+        protected String getQuestionId() {
+            return LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID;
+        }
+
+        @Override
+        protected String getExpression() {
+            return "$" + BedomningKorkortstyp.VAR11.name();
+        }
+
+        @Override
+        protected List<String> getListOfIds() {
+            return List.of(
+                BedomningKorkortstyp.VAR2.name(),
+                BedomningKorkortstyp.VAR3.name(),
+                BedomningKorkortstyp.VAR4.name(),
+                BedomningKorkortstyp.VAR5.name(),
+                BedomningKorkortstyp.VAR6.name(),
+                BedomningKorkortstyp.VAR7.name(),
+                BedomningKorkortstyp.VAR8.name(),
+                BedomningKorkortstyp.VAR9.name(),
+                BedomningKorkortstyp.VAR10.name()
+            );
+        }
+
+        @Override
+        protected CertificateDataElement getElement() {
+            return QuestionBedomningKorkortsTyp.toCertificate(null, 0, textProvider);
+        }
+
+        @Override
+        protected int getValidationIndex() {
+            return 1;
         }
     }
 
