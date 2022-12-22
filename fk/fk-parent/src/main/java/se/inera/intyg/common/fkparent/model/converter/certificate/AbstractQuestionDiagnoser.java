@@ -19,11 +19,15 @@
 
 package se.inera.intyg.common.fkparent.model.converter.certificate;
 
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOSES_LIST_ITEM_1_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOSES_LIST_ITEM_2_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOSES_LIST_ITEM_3_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_ICD_10_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_ICD_10_LABEL;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_KSH_97_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_KSH_97_LABEL;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.withCitation;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.diagnosisListValue;
 
 import java.util.ArrayList;
@@ -73,13 +77,13 @@ public abstract class AbstractQuestionDiagnoser {
                     .list(
                         List.of(
                             DiagnosesListItem.builder()
-                                .id("1")
+                                .id(DIAGNOSES_LIST_ITEM_1_ID)
                                 .build(),
                             DiagnosesListItem.builder()
-                                .id("2")
+                                .id(DIAGNOSES_LIST_ITEM_2_ID)
                                 .build(),
                             DiagnosesListItem.builder()
-                                .id("3")
+                                .id(DIAGNOSES_LIST_ITEM_3_ID)
                                 .build()
                         )
                     )
@@ -94,7 +98,7 @@ public abstract class AbstractQuestionDiagnoser {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(questionId)
-                        .expression(singleExpression("1"))
+                        .expression(withCitation(singleExpression(DIAGNOSES_LIST_ITEM_1_ID)))
                         .build(),
                     CertificateDataValidationText.builder()
                         .limit(LIMIT_DIAGNOSIS_DESC)
@@ -124,7 +128,7 @@ public abstract class AbstractQuestionDiagnoser {
 
     private static CertificateDataValueDiagnosis createDiagnosis(String id, Diagnos diagnos) {
         return CertificateDataValueDiagnosis.builder()
-            .id(id)
+            .id(convertIntToId(id))
             .terminology(diagnos.getDiagnosKodSystem())
             .code(diagnos.getDiagnosKod())
             .description(diagnos.getDiagnosBeskrivning())
@@ -133,11 +137,10 @@ public abstract class AbstractQuestionDiagnoser {
 
     protected static List<Diagnos> toInternal(Certificate certificate, String questionId, WebcertModuleService moduleService) {
         var diagnosisList = diagnosisListValue(certificate.getData(), RespConstants.DIAGNOS_SVAR_ID_6);
-        int maxDiagnosId = diagnosisList.stream()
-            .mapToInt((diagnosis) -> Integer.parseInt(diagnosis.getId())).max().orElse(0);
+        int maxDiagnosIndex = getMaxDiagnosIndex(diagnosisList);
 
         List<Diagnos> newDiagnosisList = new ArrayList<>();
-        while (newDiagnosisList.size() < maxDiagnosId) {
+        while (newDiagnosisList.size() < maxDiagnosIndex) {
             newDiagnosisList.add(Diagnos.create(null, null, null, null));
         }
 
@@ -147,8 +150,43 @@ public abstract class AbstractQuestionDiagnoser {
                 diagnosis.getTerminology(),
                 diagnosis.getDescription(),
                 moduleService.getDescriptionFromDiagnosKod(diagnosis.getCode(), diagnosis.getTerminology()));
-            newDiagnosisList.set(Integer.parseInt(diagnosis.getId()) - 1, newDiagnosis);
+            newDiagnosisList.set(convertIdToInt(diagnosis.getId()), newDiagnosis);
         });
         return newDiagnosisList;
+    }
+
+    private static int getMaxDiagnosIndex(List<CertificateDataValueDiagnosis> diagnosisList) {
+        int value = 0;
+        for (CertificateDataValueDiagnosis diagnosis : diagnosisList) {
+            int diagnosisIndex = convertIdToInt(diagnosis.getId()) + 1;
+            if (diagnosisIndex > value) {
+                value = diagnosisIndex;
+            }
+        }
+        return value;
+    }
+
+    private static int convertIdToInt(String id) {
+        switch (id) {
+            case DIAGNOSES_LIST_ITEM_1_ID:
+                return 0;
+            case DIAGNOSES_LIST_ITEM_2_ID:
+                return 1;
+            case DIAGNOSES_LIST_ITEM_3_ID:
+                return 2;
+        }
+        return 0;
+    }
+
+    private static String convertIntToId(String id) {
+        switch (id) {
+            case "1":
+                return DIAGNOSES_LIST_ITEM_1_ID;
+            case "2":
+                return DIAGNOSES_LIST_ITEM_2_ID;
+            case "3":
+                return DIAGNOSES_LIST_ITEM_3_ID;
+        }
+        return "";
     }
 }

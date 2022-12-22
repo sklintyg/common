@@ -23,6 +23,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOSES_LIST_ITEM_1_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOSES_LIST_ITEM_2_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOSES_LIST_ITEM_3_ID;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_ICD_10_ID;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_ICD_10_LABEL;
@@ -32,6 +35,7 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGN
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_SVAR_ID_6;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_SVAR_TEXT_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.withCitation;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -130,7 +134,7 @@ class QuestionDiagnoserTest {
 
         @Override
         protected List<String> getDiagnosListItemIds() {
-            return List.of("1", "2", "3");
+            return List.of(DIAGNOSES_LIST_ITEM_1_ID, DIAGNOSES_LIST_ITEM_2_ID, DIAGNOSES_LIST_ITEM_3_ID);
         }
     }
 
@@ -170,7 +174,7 @@ class QuestionDiagnoserTest {
                     .list(
                         List.of(
                             CertificateDataValueDiagnosis.builder()
-                                .id("1")
+                                .id(DIAGNOSES_LIST_ITEM_1_ID)
                                 .code("F500")
                                 .terminology(DIAGNOS_ICD_10_ID)
                                 .description(DIAGNOSIS_DESCRIPTION)
@@ -192,19 +196,19 @@ class QuestionDiagnoserTest {
                     .list(
                         List.of(
                             CertificateDataValueDiagnosis.builder()
-                                .id("1")
+                                .id(DIAGNOSES_LIST_ITEM_1_ID)
                                 .code("")
                                 .terminology(DIAGNOS_ICD_10_ID)
                                 .description(DIAGNOSIS_DESCRIPTION)
                                 .build(),
                             CertificateDataValueDiagnosis.builder()
-                                .id("2")
+                                .id(DIAGNOSES_LIST_ITEM_2_ID)
                                 .code("F501")
                                 .terminology(DIAGNOS_ICD_10_ID)
                                 .description(DIAGNOSIS_DESCRIPTION)
                                 .build(),
                             CertificateDataValueDiagnosis.builder()
-                                .id("3")
+                                .id(DIAGNOSES_LIST_ITEM_3_ID)
                                 .code("F502")
                                 .terminology(DIAGNOS_ICD_10_ID)
                                 .description(DIAGNOSIS_DESCRIPTION)
@@ -226,13 +230,13 @@ class QuestionDiagnoserTest {
                     .list(
                         List.of(
                             CertificateDataValueDiagnosis.builder()
-                                .id("2")
+                                .id(DIAGNOSES_LIST_ITEM_2_ID)
                                 .code("F501")
                                 .terminology(DIAGNOS_ICD_10_ID)
                                 .description(DIAGNOSIS_DESCRIPTION)
                                 .build(),
                             CertificateDataValueDiagnosis.builder()
-                                .id("3")
+                                .id(DIAGNOSES_LIST_ITEM_3_ID)
                                 .code("F502")
                                 .terminology(DIAGNOS_ICD_10_ID)
                                 .description(DIAGNOSIS_DESCRIPTION)
@@ -254,7 +258,7 @@ class QuestionDiagnoserTest {
 
         @Override
         protected String getExpression() {
-            return singleExpression("1");
+            return withCitation(singleExpression(DIAGNOSES_LIST_ITEM_1_ID));
         }
 
         @Override

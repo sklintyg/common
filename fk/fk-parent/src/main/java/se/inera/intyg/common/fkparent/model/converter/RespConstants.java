@@ -93,6 +93,9 @@ public final class RespConstants {
     public static final String DIAGNOS_ICD_10_LABEL = "ICD-10-SE";
     public static final String DIAGNOS_KSH_97_ID = "KSH_97_P";
     public static final String DIAGNOS_KSH_97_LABEL = "KSH97-P (Primärvård)";
+    public static final String DIAGNOSES_LIST_ITEM_1_ID = "diagnoser[0].row";
+    public static final String DIAGNOSES_LIST_ITEM_2_ID = "diagnoser[1].diagnoskod";
+    public static final String DIAGNOSES_LIST_ITEM_3_ID = "diagnoser[2].diagnoskod";
 
 
     public static final String DIAGNOSGRUND_SVAR_ID_7 = "7";
