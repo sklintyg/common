@@ -66,6 +66,10 @@ public final class ValidationExpressionToolkit {
         return "'" + expression + "'";
     }
 
+    public static String wrapWithNotEmpty(String expression) {
+        return "!empty(" + expression + ")";
+    }
+
     public static String lessThan(String s1, String s2) {
         return s1 + " < " + s2;
     }

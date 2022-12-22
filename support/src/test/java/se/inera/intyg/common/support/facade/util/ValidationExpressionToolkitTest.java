@@ -31,6 +31,7 @@ import static se.inera.intyg.common.support.facade.util.ValidationExpressionTool
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.not;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.withCitation;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.wrapWithNotEmpty;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.wrapWithParenthesis;
 
 import org.junit.jupiter.api.Test;
@@ -105,5 +106,10 @@ class ValidationExpressionToolkitTest {
     @Test
     void shallAddEquals() {
         assertEquals("variable1 == variable2", equalsWith("variable1", "variable2"));
+    }
+
+    @Test
+    void shallWrapWithNotEmpty() {
+        assertEquals("!empty(variable)", wrapWithNotEmpty("variable"));
     }
 }
