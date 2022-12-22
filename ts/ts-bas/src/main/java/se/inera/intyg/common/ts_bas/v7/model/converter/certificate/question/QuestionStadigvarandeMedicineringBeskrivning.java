@@ -21,12 +21,12 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID_31;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.STADIGVARANDE_MEDICINERING_CATEGORY_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -37,44 +37,44 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
-import se.inera.intyg.common.ts_bas.v7.model.internal.Sjukhusvard;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Medicinering;
 
-public class QuestionVardatsPaSjukhusOrsak {
+public class QuestionStadigvarandeMedicineringBeskrivning {
 
-    private static final short TEXT_LIMIT = 50;
+    private static final short TEXT_LIMIT = 180;
 
-    public static CertificateDataElement toCertificate(Sjukhusvard sjukhusvard, int index, CertificateTextProvider textProvider) {
-        var anledning = sjukhusvard != null ? sjukhusvard.getAnledning() : null;
+    public static CertificateDataElement toCertificate(Medicinering medicinering, int index, CertificateTextProvider textProvider) {
+        var beskrivning = medicinering != null ? medicinering.getBeskrivning() : null;
 
         return CertificateDataElement.builder()
-            .id(ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30)
-            .parent(VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID)
+            .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31)
+            .parent(STADIGVARANDE_MEDICINERING_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigTextArea.builder()
-                    .text(textProvider.get(ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID_30))
-                    .id(ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30)
+                    .text(textProvider.get(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID_31))
+                    .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31)
                     .build()
             )
             .value(
                 CertificateDataTextValue.builder()
-                    .id(ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30)
-                    .text(anledning)
+                    .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31)
+                    .text(beskrivning)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationText.builder()
-                        .id(ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30)
+                        .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31)
                         .limit(TEXT_LIMIT)
                         .build(),
                     CertificateDataValidationMandatory.builder()
-                        .questionId(ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30)
-                        .expression(singleExpression(ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30))
+                        .questionId(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31)
+                        .expression(singleExpression(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31))
                         .build(),
                     CertificateDataValidationShow.builder()
-                        .questionId(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30)
-                        .expression(singleExpression(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30))
+                        .questionId(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31)
+                        .expression(singleExpression(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31))
                         .build()
                 }
             )
@@ -82,6 +82,6 @@ public class QuestionVardatsPaSjukhusOrsak {
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30, ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30);
+        return textValue(certificate.getData(), MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31, MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31);
     }
 }

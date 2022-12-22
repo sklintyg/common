@@ -21,11 +21,11 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID_31;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.STADIGVARANDE_MEDICINERING_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -43,10 +43,10 @@ import se.inera.intyg.common.support.facade.testsetup.model.validation.Validatio
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationTextTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalTextValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
-import se.inera.intyg.common.ts_bas.v7.model.internal.Sjukhusvard;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Medicinering;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionVardatsPaSjukhusOrsakTest {
+class QuestionStadigvarandeMedicineringBeskrivningTest {
 
     @Mock
     private CertificateTextProvider textProvider;
@@ -64,17 +64,17 @@ class QuestionVardatsPaSjukhusOrsakTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionVardatsPaSjukhusOrsak.toCertificate(null, getIndex(), textProvider);
+                return QuestionStadigvarandeMedicineringBeskrivning.toCertificate(null, getIndex(), textProvider);
             }
 
             @Override
             protected String getId() {
-                return ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
+                return MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31;
             }
 
             @Override
             protected String getParent() {
-                return VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID;
+                return STADIGVARANDE_MEDICINERING_CATEGORY_ID;
             }
 
             @Override
@@ -93,12 +93,12 @@ class QuestionVardatsPaSjukhusOrsakTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionVardatsPaSjukhusOrsak.toCertificate(null, 0, getTextProviderMock());
+                return QuestionStadigvarandeMedicineringBeskrivning.toCertificate(null, 0, getTextProviderMock());
             }
 
             @Override
             protected String getTextId() {
-                return ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID_30;
+                return MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID_31;
             }
 
             @Override
@@ -108,7 +108,7 @@ class QuestionVardatsPaSjukhusOrsakTest {
 
             @Override
             protected String getJsonId() {
-                return ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
+                return MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31;
             }
         }
 
@@ -117,12 +117,13 @@ class QuestionVardatsPaSjukhusOrsakTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionVardatsPaSjukhusOrsak.toCertificate(Sjukhusvard.builder().setAnledning(getText()).build(), 0, textProvider);
+                return QuestionStadigvarandeMedicineringBeskrivning.toCertificate(
+                    Medicinering.builder().setBeskrivning(getText()).build(), 0, textProvider);
             }
 
             @Override
             protected String getJsonId() {
-                return ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
+                return MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31;
             }
 
             @Override
@@ -136,7 +137,7 @@ class QuestionVardatsPaSjukhusOrsakTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionVardatsPaSjukhusOrsak.toCertificate(null, 0, textProvider);
+                return QuestionStadigvarandeMedicineringBeskrivning.toCertificate(null, 0, textProvider);
             }
 
             @Override
@@ -146,7 +147,7 @@ class QuestionVardatsPaSjukhusOrsakTest {
 
             @Override
             protected short getLimit() {
-                return 50;
+                return 180;
             }
         }
 
@@ -155,7 +156,7 @@ class QuestionVardatsPaSjukhusOrsakTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionVardatsPaSjukhusOrsak.toCertificate(null, 0, textProvider);
+                return QuestionStadigvarandeMedicineringBeskrivning.toCertificate(null, 0, textProvider);
             }
 
             @Override
@@ -165,12 +166,12 @@ class QuestionVardatsPaSjukhusOrsakTest {
 
             @Override
             protected String getQuestionId() {
-                return ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
+                return MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31;
             }
 
             @Override
             protected String getExpression() {
-                return "$orsakforvard";
+                return "$mediciner";
             }
         }
 
@@ -179,17 +180,17 @@ class QuestionVardatsPaSjukhusOrsakTest {
 
             @Override
             protected String getQuestionId() {
-                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
+                return FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31;
             }
 
             @Override
             protected String getExpression() {
-                return "$vardatspasjukhus";
+                return "$forekomststadigvarandemedicinering";
             }
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionVardatsPaSjukhusOrsak.toCertificate(null, 0, textProvider);
+                return QuestionStadigvarandeMedicineringBeskrivning.toCertificate(null, 0, textProvider);
             }
 
             @Override
@@ -208,12 +209,13 @@ class QuestionVardatsPaSjukhusOrsakTest {
 
             @Override
             protected CertificateDataElement getElement(String expectedValue) {
-                return QuestionVardatsPaSjukhusOrsak.toCertificate(Sjukhusvard.builder().setAnledning(expectedValue).build(), 0, textProvider);
+                return QuestionStadigvarandeMedicineringBeskrivning.toCertificate(
+                    Medicinering.builder().setBeskrivning(expectedValue).build(), 0, textProvider);
             }
 
             @Override
             protected String toInternalTextValue(Certificate certificate) {
-                return QuestionVardatsPaSjukhusOrsak.toInternal(certificate);
+                return QuestionStadigvarandeMedicineringBeskrivning.toInternal(certificate);
             }
         }
     }

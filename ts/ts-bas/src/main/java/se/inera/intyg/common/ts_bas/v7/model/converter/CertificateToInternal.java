@@ -56,11 +56,14 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNedsattNjurfunktion;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNystagmus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionOtillrackligRorelseFormoga;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionOvrigt;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionRiskfaktorerForStroke;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionPsykiskSjukdomStorning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionPsykiskUtvecklingsstorning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSomnOchVakenhetsstorningar;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionStadigvarandeMedicinering;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionStadigvarandeMedicineringBeskrivning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpa;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
@@ -76,6 +79,7 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Funktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v7.model.internal.HjartKarl;
 import se.inera.intyg.common.ts_bas.v7.model.internal.HorselBalans;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Kognitivt;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Medicinering;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Medvetandestorning;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Neurologi;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Njurar;
@@ -180,6 +184,15 @@ public class CertificateToInternal {
                     .setVardinrattning(QuestionVardinrattningensNamn.toInternal(certificate))
                     .setAnledning(QuestionVardatsPaSjukhusOrsak.toInternal(certificate))
                     .build()
+            )
+            .setMedicinering(
+                Medicinering.builder()
+                    .setStadigvarandeMedicinering(QuestionStadigvarandeMedicinering.toInternal(certificate))
+                    .setBeskrivning(QuestionStadigvarandeMedicineringBeskrivning.toInternal(certificate))
+                    .build()
+            )
+            .setKommentar(
+                QuestionOvrigt.toInternal(certificate)
             )
             .build();
     }

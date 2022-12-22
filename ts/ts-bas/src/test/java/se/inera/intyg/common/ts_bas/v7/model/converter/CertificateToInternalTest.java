@@ -64,11 +64,14 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNedsattNjurfunktion;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNystagmus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionOtillrackligRorelseFormoga;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionOvrigt;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionPsykiskSjukdomStorning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionPsykiskUtvecklingsstorning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionRiskfaktorerForStroke;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSomnOchVakenhetsstorningar;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionStadigvarandeMedicinering;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionStadigvarandeMedicineringBeskrivning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpa;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
@@ -87,6 +90,7 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.HorselBalans;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Kognitivt;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Medicinering;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Medvetandestorning;
 import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Neurologi;
@@ -95,7 +99,6 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Psykiskt;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Sjukhusvard;
 import se.inera.intyg.common.ts_bas.v7.model.internal.SomnVakenhet;
-import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Synskarpevarden;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Utvecklingsstorning;
@@ -204,6 +207,11 @@ class CertificateToInternalTest {
             .setLakareSpecialKompetens("specialKompetens")
             .build();
 
+        final var medicinering = Medicinering.builder()
+            .setStadigvarandeMedicinering(true)
+            .setBeskrivning("Alvedon")
+            .build();
+
         expectedInternalCertificate = TsBasUtlatandeV7.builder()
             .setId("id")
             .setTextVersion("textVersion")
@@ -225,6 +233,8 @@ class CertificateToInternalTest {
             .setPsykiskt(Psykiskt.create(true))
             .setUtvecklingsstorning(utvecklingsstorning)
             .setSjukhusvard(sjukhusVard)
+            .setMedicinering(medicinering)
+            .setKommentar("Hej hej")
             .build();
 
         certificate = CertificateBuilder.create()
@@ -274,6 +284,9 @@ class CertificateToInternalTest {
             .addElement(QuestionTidpunktVardPaSjukhus.toCertificate(sjukhusVard, 0, textProvider))
             .addElement(QuestionVardinrattningensNamn.toCertificate(sjukhusVard, 0, textProvider))
             .addElement(QuestionVardatsPaSjukhusOrsak.toCertificate(sjukhusVard, 0, textProvider))
+            .addElement(QuestionStadigvarandeMedicinering.toCertificate(medicinering, 0, textProvider))
+            .addElement(QuestionStadigvarandeMedicineringBeskrivning.toCertificate(medicinering, 0, textProvider))
+            .addElement(QuestionOvrigt.toCertificate("Hej hej", 0, textProvider))
             .build();
     }
 
@@ -618,9 +631,30 @@ class CertificateToInternalTest {
     }
 
     @Test
-    void shallIncludeSjukhusvardAnlednin() {
+    void shallIncludeSjukhusvardAnledning() {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getSjukhusvard().getAnledning(),
             actualInternalCertificate.getSjukhusvard().getAnledning());
+    }
+
+    @Test
+    void shallIncludeStadigvarandeMedicinering() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getMedicinering().getStadigvarandeMedicinering(),
+            actualInternalCertificate.getMedicinering().getStadigvarandeMedicinering());
+    }
+
+    @Test
+    void shallIncludeMedicineringBeskrivning() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getMedicinering().getBeskrivning(),
+            actualInternalCertificate.getMedicinering().getBeskrivning());
+    }
+
+    @Test
+    void shallIncludeKommentar() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getKommentar(),
+            actualInternalCertificate.getKommentar());
     }
 }
