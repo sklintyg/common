@@ -82,6 +82,7 @@ public class QuestionVardatsPaSjukhusOrsak {
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30, ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30);
+        return textValue(certificate.getData(), ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30,
+            ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30);
     }
 }

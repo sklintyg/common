@@ -43,7 +43,8 @@ public class QuestionAlkoholNarkotikaOrdineratLakamedel {
 
     private static final short TEXT_LIMIT = 180;
 
-    public static CertificateDataElement toCertificate(NarkotikaLakemedel narkotikaLakemedel, int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(NarkotikaLakemedel narkotikaLakemedel, int index,
+        CertificateTextProvider textProvider) {
         var lakemedelOchDos = narkotikaLakemedel != null ? narkotikaLakemedel.getLakemedelOchDos() : null;
 
         return CertificateDataElement.builder()

@@ -39,7 +39,8 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Utvecklingsstorning;
 
 public class QuestionPsykiskUtvecklingsstorning {
 
-    public static CertificateDataElement toCertificate(Utvecklingsstorning utvecklingsstorning, int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(Utvecklingsstorning utvecklingsstorning, int index,
+        CertificateTextProvider textProvider) {
         var psykiskUtvecklingsstorning = utvecklingsstorning != null ? utvecklingsstorning.getPsykiskUtvecklingsstorning() : null;
 
         return CertificateDataElement.builder()
@@ -72,6 +73,7 @@ public class QuestionPsykiskUtvecklingsstorning {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID_28, PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID_28);
+        return booleanValue(certificate.getData(), PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID_28,
+            PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID_28);
     }
 }

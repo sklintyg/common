@@ -221,7 +221,7 @@ public final class RespConstantsV7 {
     public static final String VARDINSATSER_MISSBRUK_BEROENDE_TEXT_ID = "DFR_25.2.RBK";
     public static final String PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID_25 = "25.3";
     public static final String PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID_25 = "missbrukberoendeprovtagning";
-    public static final String PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_TEXT_ID= "DFR_25.3.RBK";
+    public static final String PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_TEXT_ID = "DFR_25.3.RBK";
 
     public static final String REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_SVAR_ID_26 = "26";
     public static final String REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID_26 = "26.1";

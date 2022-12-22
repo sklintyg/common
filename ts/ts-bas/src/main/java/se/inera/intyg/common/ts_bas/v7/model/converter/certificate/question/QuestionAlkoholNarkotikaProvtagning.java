@@ -39,7 +39,8 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 
 public class QuestionAlkoholNarkotikaProvtagning {
 
-    public static CertificateDataElement toCertificate(NarkotikaLakemedel narkotikaLakemedel, int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(NarkotikaLakemedel narkotikaLakemedel, int index,
+        CertificateTextProvider textProvider) {
         var behovsProvtagning = narkotikaLakemedel != null ? narkotikaLakemedel.getProvtagningBehovs() : null;
 
         return CertificateDataElement.builder()
@@ -72,6 +73,7 @@ public class QuestionAlkoholNarkotikaProvtagning {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID_25, PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID_25);
+        return booleanValue(certificate.getData(), PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID_25,
+            PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID_25);
     }
 }

@@ -72,6 +72,7 @@ public class QuestionStadigvarandeMedicinering {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31, FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31);
+        return booleanValue(certificate.getData(), FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31,
+            FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31);
     }
 }

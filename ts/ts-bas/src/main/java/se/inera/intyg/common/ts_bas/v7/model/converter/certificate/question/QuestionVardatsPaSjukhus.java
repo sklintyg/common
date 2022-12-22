@@ -71,6 +71,7 @@ public class QuestionVardatsPaSjukhus {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30, FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30);
+        return booleanValue(certificate.getData(), FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30,
+            FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30);
     }
 }

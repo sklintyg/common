@@ -23,8 +23,6 @@ import static se.inera.intyg.common.support.facade.util.ValidationExpressionTool
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID_26;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID_26;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID_30;
@@ -83,6 +81,7 @@ public class QuestionTidpunktVardPaSjukhus {
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30, TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30);
+        return textValue(certificate.getData(), TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30,
+            TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30);
     }
 }

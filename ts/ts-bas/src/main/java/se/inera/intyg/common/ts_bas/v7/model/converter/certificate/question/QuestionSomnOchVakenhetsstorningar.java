@@ -72,6 +72,7 @@ public class QuestionSomnOchVakenhetsstorningar {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24, TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID);
+        return booleanValue(certificate.getData(), TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24,
+            TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID);
     }
 }

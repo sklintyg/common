@@ -39,7 +39,8 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 
 public class QuestionAlkoholNarkotikaJournaluppgifter {
 
-    public static CertificateDataElement toCertificate(NarkotikaLakemedel narkotikaLakemedel, int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(NarkotikaLakemedel narkotikaLakemedel, int index,
+        CertificateTextProvider textProvider) {
         var getTeckenMissbruk = narkotikaLakemedel != null ? narkotikaLakemedel.getTeckenMissbruk() : null;
 
         return CertificateDataElement.builder()

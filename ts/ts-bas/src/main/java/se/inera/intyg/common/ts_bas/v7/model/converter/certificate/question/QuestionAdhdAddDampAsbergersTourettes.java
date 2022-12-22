@@ -39,7 +39,8 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Utvecklingsstorning;
 
 public class QuestionAdhdAddDampAsbergersTourettes {
 
-    public static CertificateDataElement toCertificate(Utvecklingsstorning utvecklingsstorning, int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(Utvecklingsstorning utvecklingsstorning, int index,
+        CertificateTextProvider textProvider) {
         var harSyndrom = utvecklingsstorning != null ? utvecklingsstorning.getHarSyndrom() : null;
 
         return CertificateDataElement.builder()
@@ -72,6 +73,7 @@ public class QuestionAdhdAddDampAsbergersTourettes {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID_29, ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID_29);
+        return booleanValue(certificate.getData(), ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID_29,
+            ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID_29);
     }
 }

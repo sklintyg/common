@@ -82,6 +82,7 @@ public class QuestionStadigvarandeMedicineringBeskrivning {
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31, MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31);
+        return textValue(certificate.getData(), MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31,
+            MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31);
     }
 }

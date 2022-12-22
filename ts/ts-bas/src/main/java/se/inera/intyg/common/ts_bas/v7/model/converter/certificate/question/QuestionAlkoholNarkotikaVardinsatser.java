@@ -39,7 +39,8 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 
 public class QuestionAlkoholNarkotikaVardinsatser {
 
-    public static CertificateDataElement toCertificate(NarkotikaLakemedel narkotikaLakemedel, int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(NarkotikaLakemedel narkotikaLakemedel, int index,
+        CertificateTextProvider textProvider) {
         var faremalForVardinsatser = narkotikaLakemedel != null ? narkotikaLakemedel.getForemalForVardinsats() : null;
 
         return CertificateDataElement.builder()
