@@ -19,21 +19,25 @@
 
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleAndExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BINOKULART_LABEL_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BINOKULART_MED_KORREKTION_DELSVAR_ID_8;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BINOKULART_UTAN_KORREKTION_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BINOKULART_MED_KORREKTION_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BINOKULART_UTAN_KORREKTION_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HOGER_OGA_LABEL_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HOGER_OGA_MED_KORREKTION_DELSVAR_ID_8;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HOGER_OGA_UTAN_KORREKTION_DELSVAR_ID_8;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KONTAKTLINSER_HOGER_OGA_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HOGER_OGA_MED_KORREKTION_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HOGER_OGA_UTAN_KORREKTION_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KONTAKTLINSER_HOGER_OGA_DELSVAR_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KONTAKTLINSER_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KONTAKTLINSER_VANSTER_OGA_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KONTAKTLINSER_VANSTER_OGA_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MED_KORREKTION_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UTAN_KORREKTION_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VANSTER_OGA_LABEL_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VANSTER_OGA_MED_KORREKTION_DELSVAR_ID_8;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VANSTER_OGA_UTAN_KORREKTION_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VANSTER_OGA_MED_KORREKTION_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VANSTER_OGA_UTAN_KORREKTION_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDEN_FOR_SYNSKARPA_ID;
 import static se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpa.VisualAcuityEnum.BINOCULAR;
 import static se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpa.VisualAcuityEnum.LEFT_EYE;
@@ -45,6 +49,9 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigVisualAcuity;
 import se.inera.intyg.common.support.facade.model.config.VisualAcuity;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisable;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDouble;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueVisualAcuities;
@@ -91,6 +98,21 @@ public class QuestionSynskarpa {
                     )
                     .build()
             )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationMandatory.builder()
+                        .questionId(VARDEN_FOR_SYNSKARPA_ID)
+                        .expression(
+                            multipleAndExpression(
+                                BINOKULART_UTAN_KORREKTION_JSON_ID, VANSTER_OGA_UTAN_KORREKTION_JSON_ID, HOGER_OGA_UTAN_KORREKTION_JSON_ID)
+                        )
+                        .build(),
+                    CertificateDataValidationDisable.builder()
+                        .questionId(SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID)
+                        .expression(singleExpression(SYNKARPA_SKICKAS_SEPARAT_JSON_ID))
+                        .build()
+                }
+            )
             .build();
     }
 
@@ -99,7 +121,7 @@ public class QuestionSynskarpa {
         return CertificateDataValueVisualAcuity.builder()
             .withoutCorrection(
                 CertificateDataValueDouble.builder()
-                    .id(BINOKULART_UTAN_KORREKTION_DELSVAR_ID_8)
+                    .id(BINOKULART_UTAN_KORREKTION_JSON_ID)
                     .value(
                         binokulart != null && binokulart.getUtanKorrektion() != null ? binokulart.getUtanKorrektion()
                             : null)
@@ -107,7 +129,7 @@ public class QuestionSynskarpa {
             )
             .withCorrection(
                 CertificateDataValueDouble.builder()
-                    .id(BINOKULART_MED_KORREKTION_DELSVAR_ID_8)
+                    .id(BINOKULART_MED_KORREKTION_JSON_ID)
                     .value(
                         binokulart != null && binokulart.getMedKorrektion() != null ? binokulart.getMedKorrektion() : null)
                     .build()
@@ -119,7 +141,7 @@ public class QuestionSynskarpa {
         return CertificateDataValueVisualAcuity.builder()
             .withoutCorrection(
                 CertificateDataValueDouble.builder()
-                    .id(VANSTER_OGA_UTAN_KORREKTION_DELSVAR_ID_8)
+                    .id(VANSTER_OGA_UTAN_KORREKTION_JSON_ID)
                     .value(
                         vansterOga != null && vansterOga.getUtanKorrektion() != null ? vansterOga.getUtanKorrektion()
                             : null)
@@ -127,14 +149,14 @@ public class QuestionSynskarpa {
             )
             .withCorrection(
                 CertificateDataValueDouble.builder()
-                    .id(VANSTER_OGA_MED_KORREKTION_DELSVAR_ID_8)
+                    .id(VANSTER_OGA_MED_KORREKTION_JSON_ID)
                     .value(
                         vansterOga != null && vansterOga.getMedKorrektion() != null ? vansterOga.getMedKorrektion() : null)
                     .build()
             )
             .contactLenses(
                 CertificateDataValueBoolean.builder()
-                    .id(KONTAKTLINSER_VANSTER_OGA_DELSVAR_ID_8)
+                    .id(KONTAKTLINSER_VANSTER_OGA_JSON_ID)
                     .selected(
                         vansterOga != null && vansterOga.getKontaktlins() != null ? vansterOga.getKontaktlins() : null)
                     .build()
@@ -146,21 +168,21 @@ public class QuestionSynskarpa {
         return CertificateDataValueVisualAcuity.builder()
             .withoutCorrection(
                 CertificateDataValueDouble.builder()
-                    .id(HOGER_OGA_UTAN_KORREKTION_DELSVAR_ID_8)
+                    .id(HOGER_OGA_UTAN_KORREKTION_JSON_ID)
                     .value(
                         hogerOga != null && hogerOga.getUtanKorrektion() != null ? hogerOga.getUtanKorrektion() : null)
                     .build()
             )
             .withCorrection(
                 CertificateDataValueDouble.builder()
-                    .id(HOGER_OGA_MED_KORREKTION_DELSVAR_ID_8)
+                    .id(HOGER_OGA_MED_KORREKTION_JSON_ID)
                     .value(
                         hogerOga != null && hogerOga.getMedKorrektion() != null ? hogerOga.getMedKorrektion() : null)
                     .build()
             )
             .contactLenses(
                 CertificateDataValueBoolean.builder()
-                    .id(KONTAKTLINSER_HOGER_OGA_DELSVAR_ID_8)
+                    .id(KONTAKTLINSER_HOGER_OGA_DELSVAR_JSON_ID)
                     .selected(
                         hogerOga != null && hogerOga.getKontaktlins() != null ? hogerOga.getKontaktlins() : null)
                     .build()
@@ -171,26 +193,26 @@ public class QuestionSynskarpa {
     private static VisualAcuity getBinocularConfig(CertificateTextProvider textProvider) {
         return VisualAcuity.builder()
             .label(textProvider.get(BINOKULART_LABEL_ID))
-            .withoutCorrectionId(BINOKULART_UTAN_KORREKTION_DELSVAR_ID_8)
-            .withCorrectionId(BINOKULART_MED_KORREKTION_DELSVAR_ID_8)
+            .withoutCorrectionId(BINOKULART_UTAN_KORREKTION_JSON_ID)
+            .withCorrectionId(BINOKULART_MED_KORREKTION_JSON_ID)
             .build();
     }
 
     private static VisualAcuity getLeftEyeConfig(CertificateTextProvider textProvider) {
         return VisualAcuity.builder()
             .label(textProvider.get(VANSTER_OGA_LABEL_ID))
-            .withoutCorrectionId(VANSTER_OGA_UTAN_KORREKTION_DELSVAR_ID_8)
-            .withCorrectionId(VANSTER_OGA_MED_KORREKTION_DELSVAR_ID_8)
-            .contactLensesId(KONTAKTLINSER_VANSTER_OGA_DELSVAR_ID_8)
+            .withoutCorrectionId(VANSTER_OGA_UTAN_KORREKTION_JSON_ID)
+            .withCorrectionId(VANSTER_OGA_MED_KORREKTION_JSON_ID)
+            .contactLensesId(KONTAKTLINSER_VANSTER_OGA_JSON_ID)
             .build();
     }
 
     private static VisualAcuity getRightEyeConfig(CertificateTextProvider textProvider) {
         return VisualAcuity.builder()
             .label(textProvider.get(HOGER_OGA_LABEL_ID))
-            .withoutCorrectionId(HOGER_OGA_UTAN_KORREKTION_DELSVAR_ID_8)
-            .withCorrectionId(HOGER_OGA_MED_KORREKTION_DELSVAR_ID_8)
-            .contactLensesId(KONTAKTLINSER_HOGER_OGA_DELSVAR_ID_8)
+            .withoutCorrectionId(HOGER_OGA_UTAN_KORREKTION_JSON_ID)
+            .withCorrectionId(HOGER_OGA_MED_KORREKTION_JSON_ID)
+            .contactLensesId(KONTAKTLINSER_HOGER_OGA_DELSVAR_JSON_ID)
             .build();
     }
 

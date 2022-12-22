@@ -19,7 +19,14 @@
 
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BINOKULART_MED_KORREKTION_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BINOKULART_UTAN_KORREKTION_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HOGER_OGA_MED_KORREKTION_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HOGER_OGA_UTAN_KORREKTION_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KONTAKTLINSER_HOGER_OGA_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KONTAKTLINSER_VANSTER_OGA_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
@@ -28,18 +35,23 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKI
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DESCRIPTION_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_SVAR_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VANSTER_OGA_MED_KORREKTION_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VANSTER_OGA_UTAN_KORREKTION_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDEN_FOR_SYNSKARPA_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisable;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 
 public class QuestionSynskarpaSkickasSeparat {
 
     public static CertificateDataElement toCertificate(Syn syn, int index, CertificateTextProvider textProvider) {
-        final var synfaltsdefekter = syn != null ? syn.getSynskarpaSkickasSeparat() : null;
+        final var synskarpaSkickaSeparat = syn != null ? syn.getSynskarpaSkickasSeparat() : null;
         return CertificateDataElement.builder()
             .id(SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID)
             .parent(SYNFUNKTIONER_CATEGORY_ID)
@@ -57,8 +69,21 @@ public class QuestionSynskarpaSkickasSeparat {
             .value(
                 CertificateDataValueBoolean.builder()
                     .id(SYNKARPA_SKICKAS_SEPARAT_JSON_ID)
-                    .selected(synfaltsdefekter)
+                    .selected(synskarpaSkickaSeparat)
                     .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationDisable.builder()
+                        .questionId(VARDEN_FOR_SYNSKARPA_ID)
+                        .expression(
+                            multipleOrExpression(
+                                VANSTER_OGA_UTAN_KORREKTION_JSON_ID, VANSTER_OGA_MED_KORREKTION_JSON_ID,
+                                KONTAKTLINSER_VANSTER_OGA_JSON_ID, HOGER_OGA_UTAN_KORREKTION_JSON_ID, HOGER_OGA_MED_KORREKTION_JSON_ID,
+                                KONTAKTLINSER_HOGER_OGA_DELSVAR_JSON_ID, BINOKULART_UTAN_KORREKTION_JSON_ID,
+                                BINOKULART_MED_KORREKTION_JSON_ID))
+                        .build()
+                }
             )
             .build();
     }
