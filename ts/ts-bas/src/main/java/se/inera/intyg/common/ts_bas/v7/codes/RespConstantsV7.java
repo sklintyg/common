@@ -40,7 +40,7 @@ public final class RespConstantsV7 {
     public static final String SYNFUNKTIONER_CATEGORY_TEXT_ID = "KAT_1.RBK";
     public static final String INTYG_AVSER_SVAR_ID_1 = "1";
     public static final String INTYG_AVSER_SVAR_TEXT_ID = "FRG_1.RBK";
-    public static final String INTYG_AVSER_SVAR_DESCRIPTION_ID = "FRG_1.RBK";
+    public static final String INTYG_AVSER_SVAR_DESCRIPTION_ID = "FRG_1.HLP";
     public static final String INTYG_AVSER_CATEGORY_ID = "intygetAvser";
     public static final String INTYG_AVSER_CATEGORY_TEXT_ID = "KAT_99.RBK";
     public static final String INTYG_AVSER_CATEGORY_DESCRIPTION_ID = "KAT_99.HLP";
