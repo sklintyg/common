@@ -204,15 +204,16 @@ public final class RespConstantsV7 {
     public static final String TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_JSON_ID = "sviktandeKognitivFormaga";
     public static final String TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_TEXT_ID = "FRG_23.RBK";
 
-    public static final String TECKEN_SOMN_ELLER_VAKENHETSSTORNING_CATEGORY_ID = "somnellervakenhetsstorning";
+    public static final String TECKEN_SOMN_ELLER_VAKENHETSSTORNING_CATEGORY_ID = "somnVakenhet";
     public static final String TECKEN_SOMN_ELLER_VAKENHETSSTORNING_CATEGORY_TEXT_ID = "KAT_10.RBK";
     public static final String TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID = "24";
     public static final String TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID = "vakenhetsstorning";
     public static final String TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_TEXT_ID = "FRG_24.RBK";
 
-    public static final String MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID = "missbrukberoendelakemedel";
+    public static final String MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID = "narkotikaLakemedel";
     public static final String MISSBRUK_BEROENDE_LAKEMEDEL_TEXT_ID = "KAT_11.RBK";
 
+    public static final String MISSBRUK_BEROENDE_SVAR_ID = "25";
     public static final String TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID = "25.1";
     public static final String TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID = "missbrukberoendetecken";
     public static final String TECKEN_MISSBRUK_BEROENDE_JOURNAL_TEXT_ID = "DFR_25.1.RBK";
@@ -232,14 +233,14 @@ public final class RespConstantsV7 {
     public static final String LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID = "missbrukberoendordineratlakamedel";
     public static final String LAKEMEDEL_ORDINERAD_DOS_DELSVAR_TEXT_ID = "DFR_26.2.RBK";
 
-    public static final String PSYKISK_SJUKDOM_STORNING_CATEGORY_ID = "psykisksjukdomstorning";
+    public static final String PSYKISK_SJUKDOM_STORNING_CATEGORY_ID = "psykiskt";
     public static final String PSYKISK_SJUKDOM_STORNING_CATEGORY_TEXT_ID = "KAT_12.RBK";
     public static final String PSYKISK_SJUKDOM_STORNING_SVAR_ID = "27";
     public static final String PSYKISK_SJUKDOM_STORNING_DELSVAR_ID = "27.1";
     public static final String PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID = "psykisksjukdom";
     public static final String PSYKISK_SJUKDOM_STORNING_DELSVAR_TEXT_ID = "FRG_27.RBK";
 
-    public static final String PSYKISK_UTVECKLINGSSTORNING_CATEGORY_ID = "psykiskutvecklingsstorning";
+    public static final String PSYKISK_UTVECKLINGSSTORNING_CATEGORY_ID = "utvecklingsstorning";
     public static final String PSYKISK_UTVECKLINGSSTORNING_CATEGORY_TEXT_ID = "KAT_13.RBK";
     public static final String PSYKISK_UTVECKLINGSSTORNING_SVAR_ID = "28";
     public static final String PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID = "28.1";
@@ -250,7 +251,7 @@ public final class RespConstantsV7 {
     public static final String ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID = "adhdadddampasperbergerstourettes";
     public static final String ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_TEXT_ID = "FRG_29.RB";
 
-    public static final String VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID = "vardsjukhuskontaktlakare";
+    public static final String VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID = "sjukhusvard";
     public static final String VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_TEXT_ID = "KAT_14.RBK";
     public static final String VARD_SJUKHUS_KONTAKT_LAKARE_SVAR_ID = "30";
     public static final String FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID = "30.1";

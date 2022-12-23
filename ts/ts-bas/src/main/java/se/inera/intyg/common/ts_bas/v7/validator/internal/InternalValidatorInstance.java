@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.ts_bas.v7.validator.internal;
 
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BALANSRUBBNINGAR_YRSEL_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BEHANDLING_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.DUBBELSEENDE_SVAR_ID;
@@ -27,21 +28,28 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_ST
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_SVAR_ID_1;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDVETANDESTORNING_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MISSBRUK_BEROENDE_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NEDSATT_NJURFUNKTION_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NYSTAGMUS_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_SJUKDOM_STORNING_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_UTVECKLINGSSTORNING_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.RISKFAKTORER_STROKE_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.STADIGVARANDE_MEDICINERING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFALTSDEFEKTER_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_PA_HJARNSKADA_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_AV_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UPPFATTA_SAMTALSTAMMA_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARD_SJUKHUS_KONTAKT_LAKARE_SVAR_ID;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -158,43 +166,43 @@ public class InternalValidatorInstance {
 
     private void validateUtvecklingsstorning(Utvecklingsstorning utvecklingsstorning) {
         if (utvecklingsstorning == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_UTVECKLINGSSTORNING, "", ValidationMessageType.EMPTY,
-                "ts-bas.validation.utvecklingsstorning.missing");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_UTVECKLINGSSTORNING, "", ValidationMessageType.EMPTY,
+                "ts-bas.validation.utvecklingsstorning.missing", PSYKISK_UTVECKLINGSSTORNING_SVAR_ID);
             return;
         }
         if (utvecklingsstorning.getHarSyndrom() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_UTVECKLINGSSTORNING,
-                "utvecklingsstorning.harSyndrom", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_UTVECKLINGSSTORNING,
+                "utvecklingsstorning.harSyndrom", ValidationMessageType.EMPTY, ADHD_ADD_DAMP_ASPERGERS_TOURETTES_SVAR_ID);
         }
         if (utvecklingsstorning.getPsykiskUtvecklingsstorning() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_UTVECKLINGSSTORNING,
-                "utvecklingsstorning.psykiskUtvecklingsstorning", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_UTVECKLINGSSTORNING,
+                "utvecklingsstorning.psykiskUtvecklingsstorning", ValidationMessageType.EMPTY, PSYKISK_UTVECKLINGSSTORNING_SVAR_ID);
         }
 
     }
 
     private void validatePsykiskt(Psykiskt psykiskt) {
         if (psykiskt == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_PSYKISKT, "psykiskt", ValidationMessageType.EMPTY,
-                "ts-bas.validation.psykiskt.missing");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_PSYKISKT, "psykiskt", ValidationMessageType.EMPTY,
+                "ts-bas.validation.psykiskt.missing", PSYKISK_SJUKDOM_STORNING_SVAR_ID);
             return;
         }
 
         if (psykiskt.getPsykiskSjukdom() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_PSYKISKT, "psykiskt.psykiskSjukdom",
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_PSYKISKT, "psykiskt.psykiskSjukdom",
+                ValidationMessageType.EMPTY, PSYKISK_SJUKDOM_STORNING_SVAR_ID);
         }
     }
 
     private void validateSomnVakenhet(SomnVakenhet somnVakenhet) {
         if (somnVakenhet == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_SOMN_VAKENHET, "somnVakenhet", ValidationMessageType.EMPTY,
-                "ts-bas.validation.somnvakenhet.missing");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SOMN_VAKENHET, "somnVakenhet", ValidationMessageType.EMPTY,
+                "ts-bas.validation.somnvakenhet.missing", TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID);
             return;
         }
         if (somnVakenhet.getTeckenSomnstorningar() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_SOMN_VAKENHET, "somnVakenhet.teckenSomnstorningar",
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SOMN_VAKENHET, "somnVakenhet.teckenSomnstorningar",
+                ValidationMessageType.EMPTY, TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID);
         }
     }
 
@@ -226,25 +234,25 @@ public class InternalValidatorInstance {
     private void validateSjukhusvard(Sjukhusvard sjukhusvard) {
 
         if (sjukhusvard == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_SJUKHUSVARD, "sjukhusvard", ValidationMessageType.EMPTY,
-                "ts-bas.validation.sjukhusvard.missing");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SJUKHUSVARD, "sjukhusvard", ValidationMessageType.EMPTY,
+                "ts-bas.validation.sjukhusvard.missing", VARD_SJUKHUS_KONTAKT_LAKARE_SVAR_ID);
             return;
         }
 
         if (sjukhusvard.getSjukhusEllerLakarkontakt() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_SJUKHUSVARD, "sjukhusvard.sjukhusEllerLakarkontakt",
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SJUKHUSVARD, "sjukhusvard.sjukhusEllerLakarkontakt",
+                ValidationMessageType.EMPTY, VARD_SJUKHUS_KONTAKT_LAKARE_SVAR_ID);
             return;
 
         }
 
         if (sjukhusvard.getSjukhusEllerLakarkontakt()) {
-            ValidatorUtil.assertDescriptionNotEmpty(validationMessages, sjukhusvard.getTidpunkt(), CATEGORY_SJUKHUSVARD,
-                "sjukhusvard.tidpunkt");
-            ValidatorUtil.assertDescriptionNotEmpty(validationMessages, sjukhusvard.getVardinrattning(), CATEGORY_SJUKHUSVARD,
-                "sjukhusvard.vardinrattning");
-            ValidatorUtil.assertDescriptionNotEmpty(validationMessages, sjukhusvard.getAnledning(), CATEGORY_SJUKHUSVARD,
-                "sjukhusvard.anledning");
+            ValidatorUtil.assertDescriptionNotEmptyWithQuestionId(validationMessages, sjukhusvard.getTidpunkt(), CATEGORY_SJUKHUSVARD,
+                "sjukhusvard.tidpunkt", VARD_SJUKHUS_KONTAKT_LAKARE_SVAR_ID);
+            ValidatorUtil.assertDescriptionNotEmptyWithQuestionId(validationMessages, sjukhusvard.getVardinrattning(), CATEGORY_SJUKHUSVARD,
+                "sjukhusvard.vardinrattning", VARD_SJUKHUS_KONTAKT_LAKARE_SVAR_ID);
+            ValidatorUtil.assertDescriptionNotEmptyWithQuestionId(validationMessages, sjukhusvard.getAnledning(), CATEGORY_SJUKHUSVARD,
+                "sjukhusvard.anledning", VARD_SJUKHUS_KONTAKT_LAKARE_SVAR_ID);
         }
     }
 
@@ -404,53 +412,53 @@ public class InternalValidatorInstance {
     private void validateMedicinering(final Medicinering medicinering) {
 
         if (medicinering == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDICINERING, "medicinering", ValidationMessageType.EMPTY,
-                "ts-bas.validation.medicinering.missing");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_MEDICINERING, "medicinering", ValidationMessageType.EMPTY,
+                "ts-bas.validation.medicinering.missing", STADIGVARANDE_MEDICINERING_SVAR_ID);
             return;
         }
 
         if (medicinering.getStadigvarandeMedicinering() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDICINERING, "medicinering.stadigvarandeMedicinering",
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_MEDICINERING, "medicinering.stadigvarandeMedicinering",
+                ValidationMessageType.EMPTY, STADIGVARANDE_MEDICINERING_SVAR_ID);
         } else if (medicinering.getStadigvarandeMedicinering()) {
-            ValidatorUtil.assertDescriptionNotEmpty(validationMessages, medicinering.getBeskrivning(),
-                CATEGORY_MEDICINERING, "medicinering.beskrivning");
+            ValidatorUtil.assertDescriptionNotEmptyWithQuestionId(validationMessages, medicinering.getBeskrivning(),
+                CATEGORY_MEDICINERING, "medicinering.beskrivning", STADIGVARANDE_MEDICINERING_SVAR_ID);
         }
     }
 
     private void validateNarkotikaLakemedel(final NarkotikaLakemedel narkotikaLakemedel) {
 
         if (narkotikaLakemedel == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_NARKOTIKA_LAKEMEDEL, "narkotikaLakemedel",
-                ValidationMessageType.EMPTY, "ts-bas.validation.narkotikaLakemedel.missing");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_NARKOTIKA_LAKEMEDEL, "narkotikaLakemedel",
+                ValidationMessageType.EMPTY, "ts-bas.validation.narkotikaLakemedel.missing", MISSBRUK_BEROENDE_SVAR_ID);
             return;
         }
 
         if (narkotikaLakemedel.getTeckenMissbruk() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_NARKOTIKA_LAKEMEDEL, "narkotikaLakemedel.teckenMissbruk",
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_NARKOTIKA_LAKEMEDEL, "narkotikaLakemedel.teckenMissbruk",
+                ValidationMessageType.EMPTY, MISSBRUK_BEROENDE_SVAR_ID);
         }
 
         if (narkotikaLakemedel.getForemalForVardinsats() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_NARKOTIKA_LAKEMEDEL, "narkotikaLakemedel.foremalforvardinsats",
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_NARKOTIKA_LAKEMEDEL, "narkotikaLakemedel.foremalforvardinsats",
+                ValidationMessageType.EMPTY, MISSBRUK_BEROENDE_SVAR_ID);
         }
 
         if ((narkotikaLakemedel.getTeckenMissbruk() != null && narkotikaLakemedel.getTeckenMissbruk())
             || (narkotikaLakemedel.getForemalForVardinsats() != null && narkotikaLakemedel.getForemalForVardinsats())) {
             if (narkotikaLakemedel.getProvtagningBehovs() == null) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_NARKOTIKA_LAKEMEDEL, "narkotikaLakemedel.provtagningBehovs",
-                    ValidationMessageType.EMPTY);
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_NARKOTIKA_LAKEMEDEL, "narkotikaLakemedel.provtagningBehovs",
+                    ValidationMessageType.EMPTY, MISSBRUK_BEROENDE_SVAR_ID);
             }
         }
 
         if (narkotikaLakemedel.getLakarordineratLakemedelsbruk() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_NARKOTIKA_LAKEMEDEL,
-                "narkotikaLakemedel.lakarordineratLakemedelsbruk", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_NARKOTIKA_LAKEMEDEL,
+                "narkotikaLakemedel.lakarordineratLakemedelsbruk", ValidationMessageType.EMPTY, REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_SVAR_ID);
 
         } else if (narkotikaLakemedel.getLakarordineratLakemedelsbruk()) {
-            ValidatorUtil.assertDescriptionNotEmpty(validationMessages, narkotikaLakemedel.getLakemedelOchDos(),
-                CATEGORY_NARKOTIKA_LAKEMEDEL, "narkotikaLakemedel.lakemedelOchDos");
+            ValidatorUtil.assertDescriptionNotEmptyWithQuestionId(validationMessages, narkotikaLakemedel.getLakemedelOchDos(),
+                CATEGORY_NARKOTIKA_LAKEMEDEL, "narkotikaLakemedel.lakemedelOchDos", REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_SVAR_ID);
         }
     }
 
