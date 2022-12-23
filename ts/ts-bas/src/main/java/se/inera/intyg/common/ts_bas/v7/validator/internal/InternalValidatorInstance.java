@@ -30,6 +30,7 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_ST
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_SVAR_ID_1;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDVETANDESTORNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NEDSATT_NJURFUNKTION_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NYSTAGMUS_SVAR_ID;
@@ -434,7 +435,7 @@ public class InternalValidatorInstance {
                 ValidationMessageType.EMPTY, FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID);
         } else if (medicinering.getStadigvarandeMedicinering()) {
             ValidatorUtil.assertDescriptionNotEmptyWithQuestionId(validationMessages, medicinering.getBeskrivning(),
-                CATEGORY_MEDICINERING, "medicinering.beskrivning", FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID);
+                CATEGORY_MEDICINERING, "medicinering.beskrivning", MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID);
         }
     }
 
