@@ -24,6 +24,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryAlkoholNarkotikaOchLakamedel;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryBedomning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryDemensOchAndraKognitivaStorningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryDiabetes;
@@ -35,7 +36,20 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.Cate
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryMedvetandestorning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryNeurologiskaSjukdomar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryNjursjukdomar;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryOvrigMedicinering;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryOvrigt;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryPsykiskSjukdomStorning;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryPsykiskUtvecklingsstorning;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySjukhusvard;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySomnOchVakenhetsstorningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategorySynfunktioner;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAdhdAddDampAsbergersTourettes;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaJournaluppgifter;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaLakarordinerat;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaOrdineratLakamedel;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaProvtagning;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaProvtagningMessage;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaVardinsatser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBalansrubbningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBedomningKorkortsTyp;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBedomningLakareSpecialKompetens;
@@ -60,15 +74,25 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNedsattNjurfunktion;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNystagmus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionOtillrackligRorelseFormoga;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionOvrigt;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionPsykiskSjukdomStorning;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionPsykiskUtvecklingsstorning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionRiskfaktorerForStroke;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSomnOchVakenhetsstorningar;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionStadigvarandeMedicinering;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionStadigvarandeMedicineringBeskrivning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpa;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTablettEllerInsulinMessage;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTeckenPaNeurologiskSjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTidigareUtfordUndersokningMessage;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTidpunktVardPaSjukhus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionUppfattaSamtal4Meter;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionVardatsPaSjukhus;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionVardatsPaSjukhusOrsak;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionVardinrattningensNamn;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 
 @Component(value = "internalToCertificateTsBas")
@@ -94,8 +118,7 @@ public class InternalToCertificate {
                 CategorySynfunktioner.toCertificate(index++, texts)
             )
             .addElement(
-                QuestionSynfaltsdefekter.toCertificate(
-                    internalCertificate.getSyn(), index++, texts)
+                QuestionSynfaltsdefekter.toCertificate(internalCertificate.getSyn(), index++, texts)
             )
             .addElement(
                 QuestionNattblindhet.toCertificate(internalCertificate.getSyn(), index++, texts)
@@ -204,6 +227,78 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionKognitivFormoga.toCertificate(internalCertificate.getKognitivt(), index++, texts)
+            )
+            .addElement(
+                CategorySomnOchVakenhetsstorningar.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionSomnOchVakenhetsstorningar.toCertificate(internalCertificate.getSomnVakenhet(), index++, texts)
+            )
+            .addElement(
+                CategoryAlkoholNarkotikaOchLakamedel.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
+            )
+            .addElement(
+                QuestionAlkoholNarkotikaVardinsatser.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
+            )
+            .addElement(
+                QuestionAlkoholNarkotikaProvtagning.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
+            )
+            .addElement(
+                QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionAlkoholNarkotikaLakarordinerat.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
+            )
+            .addElement(
+                QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
+            )
+            .addElement(
+                CategoryPsykiskSjukdomStorning.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionPsykiskSjukdomStorning.toCertificate(internalCertificate.getPsykiskt(), index++, texts)
+            )
+            .addElement(
+                CategoryPsykiskUtvecklingsstorning.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionPsykiskUtvecklingsstorning.toCertificate(internalCertificate.getUtvecklingsstorning(), index++, texts)
+            )
+            .addElement(
+                QuestionAdhdAddDampAsbergersTourettes.toCertificate(internalCertificate.getUtvecklingsstorning(), index++, texts)
+            )
+            .addElement(
+                CategorySjukhusvard.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionVardatsPaSjukhus.toCertificate(internalCertificate.getSjukhusvard(), index++, texts)
+            )
+            .addElement(
+                QuestionTidpunktVardPaSjukhus.toCertificate(internalCertificate.getSjukhusvard(), index++, texts)
+            )
+            .addElement(
+                QuestionVardinrattningensNamn.toCertificate(internalCertificate.getSjukhusvard(), index++, texts)
+            )
+            .addElement(
+                QuestionVardatsPaSjukhusOrsak.toCertificate(internalCertificate.getSjukhusvard(), index++, texts)
+            )
+            .addElement(
+                CategoryOvrigMedicinering.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionStadigvarandeMedicinering.toCertificate(internalCertificate.getMedicinering(), index++, texts)
+            )
+            .addElement(
+                QuestionStadigvarandeMedicineringBeskrivning.toCertificate(internalCertificate.getMedicinering(), index++, texts)
+            )
+            .addElement(
+                CategoryOvrigt.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionOvrigt.toCertificate(internalCertificate.getKommentar(), index++, texts)
             )
             .addElement(
                 CategoryBedomning.toCertificate(index++, texts)

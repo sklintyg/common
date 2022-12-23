@@ -36,6 +36,12 @@ import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAdhdAddDampAsbergersTourettes;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaJournaluppgifter;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaLakarordinerat;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaOrdineratLakamedel;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaProvtagning;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaVardinsatser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBalansrubbningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBedomningKorkortsTyp;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBedomningLakareSpecialKompetens;
@@ -58,15 +64,25 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNedsattNjurfunktion;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionNystagmus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionOtillrackligRorelseFormoga;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionOvrigt;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionPsykiskSjukdomStorning;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionPsykiskUtvecklingsstorning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionRiskfaktorerForStroke;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSomnOchVakenhetsstorningar;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionStadigvarandeMedicinering;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionStadigvarandeMedicineringBeskrivning;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpa;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTeckenPaNeurologiskSjukdom;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTidpunktVardPaSjukhus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionUppfattaSamtal4Meter;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Bedomning;
 import se.inera.intyg.common.ts_bas.v7.model.internal.BedomningKorkortstyp;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionVardatsPaSjukhus;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionVardatsPaSjukhusOrsak;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionVardinrattningensNamn;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Diabetes;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Funktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v7.model.internal.HjartKarl;
@@ -74,12 +90,18 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.HorselBalans;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Kognitivt;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Medicinering;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Medvetandestorning;
+import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Neurologi;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Njurar;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Psykiskt;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Sjukhusvard;
+import se.inera.intyg.common.ts_bas.v7.model.internal.SomnVakenhet;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Synskarpevarden;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Utvecklingsstorning;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Vardkontakt;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.schemas.contract.Personnummer;
@@ -158,11 +180,36 @@ class CertificateToInternalTest {
             .setBeskrivning("beskrivning")
             .build();
 
+        final var narkotikaLakemedel = NarkotikaLakemedel.builder()
+            .setTeckenMissbruk(true)
+            .setForemalForVardinsats(true)
+            .setProvtagningBehovs(true)
+            .setLakarordineratLakemedelsbruk(true)
+            .setLakemedelOchDos("Ipren")
+            .build();
+
+        final var sjukhusVard = Sjukhusvard.builder()
+            .setSjukhusEllerLakarkontakt(true)
+            .setTidpunkt("Igår")
+            .setVardinrattning("Akuten AB")
+            .setAnledning("Migrän")
+            .build();
+
+        final var utvecklingsstorning = Utvecklingsstorning.builder()
+            .setPsykiskUtvecklingsstorning(true)
+            .setHarSyndrom(true)
+            .build();
+
         final var bedomning = Bedomning.builder()
             .setKorkortstyp(
                 EnumSet.of(BedomningKorkortstyp.VAR1, BedomningKorkortstyp.VAR2)
             )
             .setLakareSpecialKompetens("specialKompetens")
+            .build();
+
+        final var medicinering = Medicinering.builder()
+            .setStadigvarandeMedicinering(true)
+            .setBeskrivning("Alvedon")
             .build();
 
         expectedInternalCertificate = TsBasUtlatandeV7.builder()
@@ -181,6 +228,13 @@ class CertificateToInternalTest {
             .setNjurar(Njurar.create(true))
             .setKognitivt(Kognitivt.create(true))
             .setBedomning(bedomning)
+            .setSomnVakenhet(SomnVakenhet.create(true))
+            .setNarkotikaLakemedel(narkotikaLakemedel)
+            .setPsykiskt(Psykiskt.create(true))
+            .setUtvecklingsstorning(utvecklingsstorning)
+            .setSjukhusvard(sjukhusVard)
+            .setMedicinering(medicinering)
+            .setKommentar("Hej hej")
             .build();
 
         certificate = CertificateBuilder.create()
@@ -217,6 +271,22 @@ class CertificateToInternalTest {
             .addElement(QuestionKognitivFormoga.toCertificate(Kognitivt.create(true), 0, textProvider))
             .addElement(QuestionBedomningKorkortsTyp.toCertificate(bedomning, 0, textProvider))
             .addElement(QuestionBedomningLakareSpecialKompetens.toCertificate(bedomning, 0, textProvider))
+            .addElement(QuestionSomnOchVakenhetsstorningar.toCertificate(SomnVakenhet.create(true), 0, textProvider))
+            .addElement(QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(narkotikaLakemedel, 0, textProvider))
+            .addElement(QuestionAlkoholNarkotikaVardinsatser.toCertificate(narkotikaLakemedel, 0, textProvider))
+            .addElement(QuestionAlkoholNarkotikaProvtagning.toCertificate(narkotikaLakemedel, 0, textProvider))
+            .addElement(QuestionAlkoholNarkotikaLakarordinerat.toCertificate(narkotikaLakemedel, 0, textProvider))
+            .addElement(QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate(narkotikaLakemedel, 0, textProvider))
+            .addElement(QuestionPsykiskSjukdomStorning.toCertificate(Psykiskt.create(true), 0, textProvider))
+            .addElement(QuestionPsykiskUtvecklingsstorning.toCertificate(utvecklingsstorning, 0, textProvider))
+            .addElement(QuestionAdhdAddDampAsbergersTourettes.toCertificate(utvecklingsstorning, 0, textProvider))
+            .addElement(QuestionVardatsPaSjukhus.toCertificate(sjukhusVard, 0, textProvider))
+            .addElement(QuestionTidpunktVardPaSjukhus.toCertificate(sjukhusVard, 0, textProvider))
+            .addElement(QuestionVardinrattningensNamn.toCertificate(sjukhusVard, 0, textProvider))
+            .addElement(QuestionVardatsPaSjukhusOrsak.toCertificate(sjukhusVard, 0, textProvider))
+            .addElement(QuestionStadigvarandeMedicinering.toCertificate(medicinering, 0, textProvider))
+            .addElement(QuestionStadigvarandeMedicineringBeskrivning.toCertificate(medicinering, 0, textProvider))
+            .addElement(QuestionOvrigt.toCertificate("Hej hej", 0, textProvider))
             .build();
     }
 
@@ -475,5 +545,116 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getBedomning().getLakareSpecialKompetens(),
             actualInternalCertificate.getBedomning().getLakareSpecialKompetens());
+    }
+
+    @Test
+    void shallIncludeSomnVakenhet() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getSomnVakenhet(),
+            actualInternalCertificate.getSomnVakenhet());
+    }
+
+    @Test
+    void shallIncludeAlkoholNarkotikaJournaluppgifter() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getNarkotikaLakemedel().getTeckenMissbruk(),
+            actualInternalCertificate.getNarkotikaLakemedel().getTeckenMissbruk());
+    }
+
+    @Test
+    void shallIncludeAlkoholNarkotikaVardinsatser() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getNarkotikaLakemedel().getForemalForVardinsats(),
+            actualInternalCertificate.getNarkotikaLakemedel().getForemalForVardinsats());
+    }
+
+    @Test
+    void shallIncludeProvtagningBehovs() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getNarkotikaLakemedel().getProvtagningBehovs(),
+            actualInternalCertificate.getNarkotikaLakemedel().getProvtagningBehovs());
+    }
+
+    @Test
+    void shallIncludeLakarordineratLakemedelsbruk() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getNarkotikaLakemedel().getLakarordineratLakemedelsbruk(),
+            actualInternalCertificate.getNarkotikaLakemedel().getLakarordineratLakemedelsbruk());
+    }
+
+    @Test
+    void shallIncludeLakemedelOchDos() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getNarkotikaLakemedel().getLakemedelOchDos(),
+            actualInternalCertificate.getNarkotikaLakemedel().getLakemedelOchDos());
+    }
+    @Test
+    void shallIncludePsykiskt() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getPsykiskt().getPsykiskSjukdom(),
+            actualInternalCertificate.getPsykiskt().getPsykiskSjukdom());
+    }
+
+    @Test
+    void shallIncludePsykiskUtvecklingsstorning() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getUtvecklingsstorning().getPsykiskUtvecklingsstorning(),
+            actualInternalCertificate.getUtvecklingsstorning().getPsykiskUtvecklingsstorning());
+    }
+
+    @Test
+    void shallIncludeHarSyndrom() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getUtvecklingsstorning().getHarSyndrom(),
+            actualInternalCertificate.getUtvecklingsstorning().getHarSyndrom());
+    }
+
+    @Test
+    void shallIncludeSjukhusvardSjukhusEllerLakarkontakt() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getSjukhusvard().getSjukhusEllerLakarkontakt(),
+            actualInternalCertificate.getSjukhusvard().getSjukhusEllerLakarkontakt());
+    }
+
+    @Test
+    void shallIncludeSjukhusvardTidpunkt() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getSjukhusvard().getTidpunkt(),
+            actualInternalCertificate.getSjukhusvard().getTidpunkt());
+    }
+
+    @Test
+    void shallIncludeSjukhusvardVardinrattning() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getSjukhusvard().getVardinrattning(),
+            actualInternalCertificate.getSjukhusvard().getVardinrattning());
+    }
+
+    @Test
+    void shallIncludeSjukhusvardAnledning() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getSjukhusvard().getAnledning(),
+            actualInternalCertificate.getSjukhusvard().getAnledning());
+    }
+
+    @Test
+    void shallIncludeStadigvarandeMedicinering() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getMedicinering().getStadigvarandeMedicinering(),
+            actualInternalCertificate.getMedicinering().getStadigvarandeMedicinering());
+    }
+
+    @Test
+    void shallIncludeMedicineringBeskrivning() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getMedicinering().getBeskrivning(),
+            actualInternalCertificate.getMedicinering().getBeskrivning());
+    }
+
+    @Test
+    void shallIncludeKommentar() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getKommentar(),
+            actualInternalCertificate.getKommentar());
     }
 }
