@@ -167,8 +167,9 @@ public class InternalValidatorInstance {
 
     private void validateUtvecklingsstorning(Utvecklingsstorning utvecklingsstorning) {
         if (utvecklingsstorning == null) {
-            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_UTVECKLINGSSTORNING, "", ValidationMessageType.EMPTY,
-                "ts-bas.validation.utvecklingsstorning.missing", PSYKISK_UTVECKLINGSSTORNING_SVAR_ID);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_UTVECKLINGSSTORNING, "",
+                ValidationMessageType.EMPTY, "ts-bas.validation.utvecklingsstorning.missing",
+                PSYKISK_UTVECKLINGSSTORNING_SVAR_ID);
             return;
         }
         if (utvecklingsstorning.getHarSyndrom() == null) {
@@ -197,7 +198,8 @@ public class InternalValidatorInstance {
 
     private void validateSomnVakenhet(SomnVakenhet somnVakenhet) {
         if (somnVakenhet == null) {
-            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SOMN_VAKENHET, "somnVakenhet", ValidationMessageType.EMPTY,
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SOMN_VAKENHET,
+                "somnVakenhet", ValidationMessageType.EMPTY,
                 "ts-bas.validation.somnvakenhet.missing", TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID);
             return;
         }
@@ -413,13 +415,15 @@ public class InternalValidatorInstance {
     private void validateMedicinering(final Medicinering medicinering) {
 
         if (medicinering == null) {
-            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_MEDICINERING, "medicinering", ValidationMessageType.EMPTY,
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_MEDICINERING,
+                "medicinering", ValidationMessageType.EMPTY,
                 "ts-bas.validation.medicinering.missing", STADIGVARANDE_MEDICINERING_SVAR_ID);
             return;
         }
 
         if (medicinering.getStadigvarandeMedicinering() == null) {
-            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_MEDICINERING, "medicinering.stadigvarandeMedicinering",
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_MEDICINERING,
+                "medicinering.stadigvarandeMedicinering",
                 ValidationMessageType.EMPTY, STADIGVARANDE_MEDICINERING_SVAR_ID);
         } else if (medicinering.getStadigvarandeMedicinering()) {
             ValidatorUtil.assertDescriptionNotEmptyWithQuestionId(validationMessages, medicinering.getBeskrivning(),
@@ -430,32 +434,37 @@ public class InternalValidatorInstance {
     private void validateNarkotikaLakemedel(final NarkotikaLakemedel narkotikaLakemedel) {
 
         if (narkotikaLakemedel == null) {
-            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_NARKOTIKA_LAKEMEDEL, "narkotikaLakemedel",
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_NARKOTIKA_LAKEMEDEL,
+                "narkotikaLakemedel",
                 ValidationMessageType.EMPTY, "ts-bas.validation.narkotikaLakemedel.missing", MISSBRUK_BEROENDE_SVAR_ID);
             return;
         }
 
         if (narkotikaLakemedel.getTeckenMissbruk() == null) {
-            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_NARKOTIKA_LAKEMEDEL, "narkotikaLakemedel.teckenMissbruk",
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_NARKOTIKA_LAKEMEDEL,
+                "narkotikaLakemedel.teckenMissbruk",
                 ValidationMessageType.EMPTY, MISSBRUK_BEROENDE_SVAR_ID);
         }
 
         if (narkotikaLakemedel.getForemalForVardinsats() == null) {
-            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_NARKOTIKA_LAKEMEDEL, "narkotikaLakemedel.foremalforvardinsats",
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_NARKOTIKA_LAKEMEDEL,
+                "narkotikaLakemedel.foremalforvardinsats",
                 ValidationMessageType.EMPTY, MISSBRUK_BEROENDE_SVAR_ID);
         }
 
         if ((narkotikaLakemedel.getTeckenMissbruk() != null && narkotikaLakemedel.getTeckenMissbruk())
             || (narkotikaLakemedel.getForemalForVardinsats() != null && narkotikaLakemedel.getForemalForVardinsats())) {
             if (narkotikaLakemedel.getProvtagningBehovs() == null) {
-                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_NARKOTIKA_LAKEMEDEL, "narkotikaLakemedel.provtagningBehovs",
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_NARKOTIKA_LAKEMEDEL,
+                    "narkotikaLakemedel.provtagningBehovs",
                     ValidationMessageType.EMPTY, MISSBRUK_BEROENDE_SVAR_ID);
             }
         }
 
         if (narkotikaLakemedel.getLakarordineratLakemedelsbruk() == null) {
             ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_NARKOTIKA_LAKEMEDEL,
-                "narkotikaLakemedel.lakarordineratLakemedelsbruk", ValidationMessageType.EMPTY, REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_SVAR_ID);
+                "narkotikaLakemedel.lakarordineratLakemedelsbruk",
+                ValidationMessageType.EMPTY, REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_SVAR_ID);
 
         } else if (narkotikaLakemedel.getLakarordineratLakemedelsbruk()) {
             ValidatorUtil.assertDescriptionNotEmptyWithQuestionId(validationMessages, narkotikaLakemedel.getLakemedelOchDos(),
