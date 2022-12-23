@@ -28,6 +28,7 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HAR_DIABETES
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HJART_ELLER_KARLSJUKDOM_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.IDENTITET_STYRKT_GENOM_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_SVAR_ID_1;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDVETANDESTORNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NEDSATT_NJURFUNKTION_SVAR_ID;
@@ -474,7 +475,7 @@ public class InternalValidatorInstance {
 
         } else if (narkotikaLakemedel.getLakarordineratLakemedelsbruk()) {
             ValidatorUtil.assertDescriptionNotEmptyWithQuestionId(validationMessages, narkotikaLakemedel.getLakemedelOchDos(),
-                CATEGORY_NARKOTIKA_LAKEMEDEL, "narkotikaLakemedel.lakemedelOchDos", REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID);
+                CATEGORY_NARKOTIKA_LAKEMEDEL, "narkotikaLakemedel.lakemedelOchDos", LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID);
         }
     }
 
