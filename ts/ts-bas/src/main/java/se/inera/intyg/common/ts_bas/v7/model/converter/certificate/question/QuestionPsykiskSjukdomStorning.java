@@ -40,7 +40,8 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Psykiskt;
 public class QuestionPsykiskSjukdomStorning {
 
     public static CertificateDataElement toCertificate(Psykiskt psykiskt, int index, CertificateTextProvider textProvider) {
-        var psykiskSjukdom = psykiskt != null ? psykiskt.getPsykiskSjukdom() : null;
+
+        final var psykiskSjukdom = psykiskt != null ? psykiskt.getPsykiskSjukdom() : null;
 
         return CertificateDataElement.builder()
             .index(index)

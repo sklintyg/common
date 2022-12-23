@@ -39,7 +39,8 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Sjukhusvard;
 
 public class QuestionVardatsPaSjukhus {
     public static CertificateDataElement toCertificate(Sjukhusvard sjukhusvard, int index, CertificateTextProvider textProvider) {
-        var sjukhusEllerLakarkontakt = sjukhusvard != null ? sjukhusvard.getSjukhusEllerLakarkontakt() : null;
+
+        final var sjukhusEllerLakarkontakt = sjukhusvard != null ? sjukhusvard.getSjukhusEllerLakarkontakt() : null;
 
         return CertificateDataElement.builder()
             .index(index)

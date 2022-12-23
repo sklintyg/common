@@ -41,7 +41,8 @@ public class QuestionAlkoholNarkotikaVardinsatser {
 
     public static CertificateDataElement toCertificate(NarkotikaLakemedel narkotikaLakemedel, int index,
         CertificateTextProvider textProvider) {
-        var faremalForVardinsatser = narkotikaLakemedel != null ? narkotikaLakemedel.getForemalForVardinsats() : null;
+
+        final var faremalForVardinsatser = narkotikaLakemedel != null ? narkotikaLakemedel.getForemalForVardinsats() : null;
 
         return CertificateDataElement.builder()
             .index(index)

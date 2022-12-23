@@ -40,7 +40,8 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Medicinering;
 public class QuestionStadigvarandeMedicinering {
 
     public static CertificateDataElement toCertificate(Medicinering medicinering, int index, CertificateTextProvider textProvider) {
-        var stadigvarandeMedicinering = medicinering != null ? medicinering.getStadigvarandeMedicinering() : null;
+
+        final var stadigvarandeMedicinering = medicinering != null ? medicinering.getStadigvarandeMedicinering() : null;
 
         return CertificateDataElement.builder()
             .index(index)

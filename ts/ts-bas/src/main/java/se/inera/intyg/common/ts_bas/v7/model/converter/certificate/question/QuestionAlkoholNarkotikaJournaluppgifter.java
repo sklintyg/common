@@ -41,7 +41,7 @@ public class QuestionAlkoholNarkotikaJournaluppgifter {
 
     public static CertificateDataElement toCertificate(NarkotikaLakemedel narkotikaLakemedel, int index,
         CertificateTextProvider textProvider) {
-        var getTeckenMissbruk = narkotikaLakemedel != null ? narkotikaLakemedel.getTeckenMissbruk() : null;
+        final var getTeckenMissbruk = narkotikaLakemedel != null ? narkotikaLakemedel.getTeckenMissbruk() : null;
 
         return CertificateDataElement.builder()
             .index(index)

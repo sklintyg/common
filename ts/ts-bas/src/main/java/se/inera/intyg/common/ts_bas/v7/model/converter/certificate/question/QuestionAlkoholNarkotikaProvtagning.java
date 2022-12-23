@@ -41,7 +41,8 @@ public class QuestionAlkoholNarkotikaProvtagning {
 
     public static CertificateDataElement toCertificate(NarkotikaLakemedel narkotikaLakemedel, int index,
         CertificateTextProvider textProvider) {
-        var behovsProvtagning = narkotikaLakemedel != null ? narkotikaLakemedel.getProvtagningBehovs() : null;
+
+        final var behovsProvtagning = narkotikaLakemedel != null ? narkotikaLakemedel.getProvtagningBehovs() : null;
 
         return CertificateDataElement.builder()
             .index(index)

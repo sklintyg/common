@@ -44,7 +44,8 @@ public class QuestionVardatsPaSjukhusOrsak {
     private static final short TEXT_LIMIT = 50;
 
     public static CertificateDataElement toCertificate(Sjukhusvard sjukhusvard, int index, CertificateTextProvider textProvider) {
-        var anledning = sjukhusvard != null ? sjukhusvard.getAnledning() : null;
+
+        final var anledning = sjukhusvard != null ? sjukhusvard.getAnledning() : null;
 
         return CertificateDataElement.builder()
             .id(ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID)

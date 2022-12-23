@@ -45,7 +45,8 @@ public class QuestionAlkoholNarkotikaOrdineratLakamedel {
 
     public static CertificateDataElement toCertificate(NarkotikaLakemedel narkotikaLakemedel, int index,
         CertificateTextProvider textProvider) {
-        var lakemedelOchDos = narkotikaLakemedel != null ? narkotikaLakemedel.getLakemedelOchDos() : null;
+
+        final var lakemedelOchDos = narkotikaLakemedel != null ? narkotikaLakemedel.getLakemedelOchDos() : null;
 
         return CertificateDataElement.builder()
             .id(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID)

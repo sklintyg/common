@@ -41,7 +41,8 @@ public class QuestionAlkoholNarkotikaLakarordinerat {
 
     public static CertificateDataElement toCertificate(NarkotikaLakemedel narkotikaLakemedel, int index,
         CertificateTextProvider textProvider) {
-        var lakarordineratLakemedelsbruk = narkotikaLakemedel != null ? narkotikaLakemedel.getLakarordineratLakemedelsbruk() : null;
+
+        final var lakarordineratLakemedelsbruk = narkotikaLakemedel != null ? narkotikaLakemedel.getLakarordineratLakemedelsbruk() : null;
         return CertificateDataElement.builder()
             .index(index)
             .id(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID)

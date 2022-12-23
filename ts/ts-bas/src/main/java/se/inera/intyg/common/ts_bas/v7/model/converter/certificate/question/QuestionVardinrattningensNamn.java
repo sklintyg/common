@@ -44,7 +44,8 @@ public class QuestionVardinrattningensNamn {
     private static final short TEXT_LIMIT = 40;
 
     public static CertificateDataElement toCertificate(Sjukhusvard sjukhusvard, int index, CertificateTextProvider textProvider) {
-        var tidpunkt = sjukhusvard != null ? sjukhusvard.getVardinrattning() : null;
+
+        final var tidpunkt = sjukhusvard != null ? sjukhusvard.getVardinrattning() : null;
 
         return CertificateDataElement.builder()
             .id(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID)

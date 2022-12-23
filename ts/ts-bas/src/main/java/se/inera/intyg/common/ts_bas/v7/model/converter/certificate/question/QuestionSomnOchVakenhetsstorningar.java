@@ -40,7 +40,8 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.SomnVakenhet;
 public class QuestionSomnOchVakenhetsstorningar {
 
     public static CertificateDataElement toCertificate(SomnVakenhet somnVakenhet, int index, CertificateTextProvider textProvider) {
-        var teckenSomnstorningar = somnVakenhet != null ? somnVakenhet.getTeckenSomnstorningar() : null;
+
+        final var teckenSomnstorningar = somnVakenhet != null ? somnVakenhet.getTeckenSomnstorningar() : null;
 
         return CertificateDataElement.builder()
             .index(index)

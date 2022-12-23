@@ -41,7 +41,7 @@ public class QuestionAdhdAddDampAsbergersTourettes {
 
     public static CertificateDataElement toCertificate(Utvecklingsstorning utvecklingsstorning, int index,
         CertificateTextProvider textProvider) {
-        var harSyndrom = utvecklingsstorning != null ? utvecklingsstorning.getHarSyndrom() : null;
+        final var harSyndrom = utvecklingsstorning != null ? utvecklingsstorning.getHarSyndrom() : null;
 
         return CertificateDataElement.builder()
             .index(index)

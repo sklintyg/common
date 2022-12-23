@@ -41,7 +41,8 @@ public class QuestionPsykiskUtvecklingsstorning {
 
     public static CertificateDataElement toCertificate(Utvecklingsstorning utvecklingsstorning, int index,
         CertificateTextProvider textProvider) {
-        var psykiskUtvecklingsstorning = utvecklingsstorning != null ? utvecklingsstorning.getPsykiskUtvecklingsstorning() : null;
+
+        final var psykiskUtvecklingsstorning = utvecklingsstorning != null ? utvecklingsstorning.getPsykiskUtvecklingsstorning() : null;
 
         return CertificateDataElement.builder()
             .index(index)

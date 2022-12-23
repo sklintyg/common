@@ -44,7 +44,8 @@ public class QuestionStadigvarandeMedicineringBeskrivning {
     private static final short TEXT_LIMIT = 180;
 
     public static CertificateDataElement toCertificate(Medicinering medicinering, int index, CertificateTextProvider textProvider) {
-        var beskrivning = medicinering != null ? medicinering.getBeskrivning() : null;
+
+        final var beskrivning = medicinering != null ? medicinering.getBeskrivning() : null;
 
         return CertificateDataElement.builder()
             .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
