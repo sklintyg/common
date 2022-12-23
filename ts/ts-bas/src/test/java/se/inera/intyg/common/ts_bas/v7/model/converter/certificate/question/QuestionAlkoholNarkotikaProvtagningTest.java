@@ -26,6 +26,8 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MISSBRUK_BER
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDINSATSER_MISSBRUK_BEROENDE_JSON_ID;
 
@@ -189,6 +191,30 @@ class QuestionAlkoholNarkotikaProvtagningTest {
         @Override
         protected int getValidationIndex() {
             return 1;
+        }
+    }
+
+    @Nested
+    class IncludeSecondValidationShowTests extends ValidationShowTest {
+
+        @Override
+        protected String getQuestionId() {
+            return TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID;
+        }
+
+        @Override
+        protected String getExpression() {
+            return "$" + TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID;
+        }
+
+        @Override
+        protected CertificateDataElement getElement() {
+            return QuestionAlkoholNarkotikaProvtagning.toCertificate(null, 0, textProvider);
+        }
+
+        @Override
+        protected int getValidationIndex() {
+            return 2;
         }
     }
 

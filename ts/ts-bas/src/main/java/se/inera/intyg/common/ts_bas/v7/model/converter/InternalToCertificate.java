@@ -48,6 +48,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaLakarordinerat;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaOrdineratLakamedel;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaProvtagning;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaProvtagningMessage;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaVardinsatser;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBalansrubbningar;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionBedomningKorkortsTyp;
@@ -244,6 +245,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionAlkoholNarkotikaProvtagning.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
+            )
+            .addElement(
+                QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(index++, texts)
             )
             .addElement(
                 QuestionAlkoholNarkotikaLakarordinerat.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)

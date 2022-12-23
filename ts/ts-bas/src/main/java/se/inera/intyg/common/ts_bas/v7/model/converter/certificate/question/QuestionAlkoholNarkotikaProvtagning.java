@@ -27,6 +27,8 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROVTAGNING_
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDINSATSER_MISSBRUK_BEROENDE_JSON_ID;
 
@@ -74,6 +76,10 @@ public class QuestionAlkoholNarkotikaProvtagning {
                     CertificateDataValidationShow.builder()
                         .questionId(VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID)
                         .expression(singleExpression(VARDINSATSER_MISSBRUK_BEROENDE_JSON_ID))
+                        .build(),
+                    CertificateDataValidationShow.builder()
+                        .questionId(TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID)
+                        .expression(singleExpression(TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID))
                         .build()
                 }
             )

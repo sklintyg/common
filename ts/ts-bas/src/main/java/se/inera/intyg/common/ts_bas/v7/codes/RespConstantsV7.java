@@ -232,8 +232,9 @@ public final class RespConstantsV7 {
     public static final String PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID = "25.3";
     public static final String PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID = "missbrukberoendeprovtagning";
     public static final String PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_TEXT_ID = "DFR_25.3.RBK";
+    public static final String PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_MESSAGE_ID = "25.4";
+    public static final String PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_MESSAGE_TEXT_ID = "DFR_25.3.INF";
 
-    public static final String REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_SVAR_ID = "26";
     public static final String REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID = "26.1";
     public static final String REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_JSON_ID = "missbrukberoendlakarordinerat";
     public static final String REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_TEXT_ID = "FRG_26.RBK";
