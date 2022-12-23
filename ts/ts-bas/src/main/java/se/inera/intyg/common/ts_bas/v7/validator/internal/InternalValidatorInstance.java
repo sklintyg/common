@@ -49,6 +49,7 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_AV_DIABE
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UPPFATTA_SAMTALSTAMMA_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDEN_FOR_SYNSKARPA_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARD_SJUKHUS_KONTAKT_LAKARE_SVAR_ID;
 
 import java.util.ArrayList;
@@ -516,70 +517,73 @@ public class InternalValidatorInstance {
 
         if (syn.getSynskarpaSkickasSeparat() == null || !syn.getSynskarpaSkickasSeparat()) { //R37
             if (syn.getHogerOga() == null) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga", ValidationMessageType.EMPTY,
-                    "ts-bas.validation.syn.hogeroga.missing");
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.hogerOga",
+                    ValidationMessageType.EMPTY,
+                    "ts-bas.validation.syn.hogeroga.missing", VARDEN_FOR_SYNSKARPA_ID);
             } else {
                 if (syn.getHogerOga().getUtanKorrektion() == null) {
-                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga.utanKorrektion",
-                        ValidationMessageType.EMPTY);
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.hogerOga.utanKorrektion",
+                        ValidationMessageType.EMPTY, VARDEN_FOR_SYNSKARPA_ID);
 
                 } else if (syn.getHogerOga().getUtanKorrektion() < 0.0 || syn.getHogerOga().getUtanKorrektion() > 2.0) {
-                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga.utanKorrektion",
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.hogerOga.utanKorrektion",
                         ValidationMessageType.INVALID_FORMAT,
-                        "ts-bas.validation.syn.out-of-bounds");
+                        "ts-bas.validation.syn.out-of-bounds", VARDEN_FOR_SYNSKARPA_ID);
                 }
 
                 if (syn.getHogerOga().getMedKorrektion() != null) {
                     if (syn.getHogerOga().getMedKorrektion() < 0.0 || syn.getHogerOga().getMedKorrektion() > 2.0) {
-                        ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga.medKorrektion",
+                        ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.hogerOga.medKorrektion",
                             ValidationMessageType.INVALID_FORMAT,
-                            "ts-bas.validation.syn.out-of-bounds");
+                            "ts-bas.validation.syn.out-of-bounds", VARDEN_FOR_SYNSKARPA_ID);
                     }
                 }
             }
 
             if (syn.getVansterOga() == null) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga", ValidationMessageType.EMPTY,
-                    "ts-bas.validation.syn.vansteroga.missing");
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.vansterOga",
+                    ValidationMessageType.EMPTY,
+                    "ts-bas.validation.syn.vansteroga.missing", VARDEN_FOR_SYNSKARPA_ID);
             } else {
                 if (syn.getVansterOga().getUtanKorrektion() == null) {
-                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga.utanKorrektion",
-                        ValidationMessageType.EMPTY);
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.vansterOga.utanKorrektion",
+                        ValidationMessageType.EMPTY, VARDEN_FOR_SYNSKARPA_ID);
 
                 } else if (syn.getVansterOga().getUtanKorrektion() < 0.0 || syn.getVansterOga().getUtanKorrektion() > 2.0) {
-                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga.utanKorrektion",
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.vansterOga.utanKorrektion",
                         ValidationMessageType.INVALID_FORMAT,
-                        "ts-bas.validation.syn.out-of-bounds");
+                        "ts-bas.validation.syn.out-of-bounds", VARDEN_FOR_SYNSKARPA_ID);
                 }
 
                 if (syn.getVansterOga().getMedKorrektion() != null) {
                     if (syn.getVansterOga().getMedKorrektion() < 0.0 || syn.getVansterOga().getMedKorrektion() > 2.0) {
-                        ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga.medKorrektion",
+                        ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.vansterOga.medKorrektion",
                             ValidationMessageType.INVALID_FORMAT,
-                            "ts-bas.validation.syn.out-of-bounds");
+                            "ts-bas.validation.syn.out-of-bounds", VARDEN_FOR_SYNSKARPA_ID);
                     }
                 }
             }
 
             if (syn.getBinokulart() == null) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.binokulart", ValidationMessageType.EMPTY,
-                    "ts-bas.validation.syn.binokulart.missing");
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.binokulart",
+                    ValidationMessageType.EMPTY,
+                    "ts-bas.validation.syn.binokulart.missing", VARDEN_FOR_SYNSKARPA_ID);
             } else {
                 if (syn.getBinokulart().getUtanKorrektion() == null) {
-                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.binokulart.utanKorrektion",
-                        ValidationMessageType.EMPTY);
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.binokulart.utanKorrektion",
+                        ValidationMessageType.EMPTY, VARDEN_FOR_SYNSKARPA_ID);
 
                 } else if (syn.getBinokulart().getUtanKorrektion() < 0.0 || syn.getBinokulart().getUtanKorrektion() > 2.0) {
-                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.binokulart.utanKorrektion",
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.binokulart.utanKorrektion",
                         ValidationMessageType.INVALID_FORMAT,
-                        "ts-bas.validation.syn.out-of-bounds");
+                        "ts-bas.validation.syn.out-of-bounds", VARDEN_FOR_SYNSKARPA_ID);
                 }
 
                 if (syn.getBinokulart().getMedKorrektion() != null) {
                     if (syn.getBinokulart().getMedKorrektion() < 0.0 || syn.getBinokulart().getMedKorrektion() > 2.0) {
-                        ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.binokulart.medKorrektion",
+                        ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.binokulart.medKorrektion",
                             ValidationMessageType.INVALID_FORMAT,
-                            "ts-bas.validation.syn.out-of-bounds");
+                            "ts-bas.validation.syn.out-of-bounds", VARDEN_FOR_SYNSKARPA_ID);
                     }
                 }
             }
@@ -590,22 +594,22 @@ public class InternalValidatorInstance {
                 if (syn.getHogerOga().getUtanKorrektion() != null
                     || syn.getHogerOga().getMedKorrektion() != null
                     || (syn.getHogerOga().getKontaktlins() != null && syn.getHogerOga().getKontaktlins())) {
-                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga",
-                        ValidationMessageType.INCORRECT_COMBINATION, "ts-bas.validation.syn.R37");
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.hogerOga",
+                        ValidationMessageType.INCORRECT_COMBINATION, "ts-bas.validation.syn.R37", VARDEN_FOR_SYNSKARPA_ID);
                 }
             }
             if (syn.getVansterOga() != null) {
                 if (syn.getVansterOga().getUtanKorrektion() != null
                     || syn.getVansterOga().getMedKorrektion() != null
                     || (syn.getVansterOga().getKontaktlins() != null && syn.getVansterOga().getKontaktlins())) {
-                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga",
-                        ValidationMessageType.INCORRECT_COMBINATION, "ts-bas.validation.syn.R37");
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.vansterOga",
+                        ValidationMessageType.INCORRECT_COMBINATION, "ts-bas.validation.syn.R37", VARDEN_FOR_SYNSKARPA_ID);
                 }
             }
             if (syn.getBinokulart() != null
                 && (syn.getBinokulart().getUtanKorrektion() != null || syn.getBinokulart().getMedKorrektion() != null)) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.binokulart",
-                    ValidationMessageType.INCORRECT_COMBINATION, "ts-bas.validation.syn.R37");
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.binokulart",
+                    ValidationMessageType.INCORRECT_COMBINATION, "ts-bas.validation.syn.R37", VARDEN_FOR_SYNSKARPA_ID);
             }
         }
     }
@@ -619,16 +623,16 @@ public class InternalValidatorInstance {
                 && syn.getBinokulart().getUtanKorrektion() != null
                 && syn.getBinokulart().getUtanKorrektion() < 0.5) {
                 if (syn.getHogerOga().getMedKorrektion() == null) {
-                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga.medKorrektion",
-                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r33");
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.hogerOga.medKorrektion",
+                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r33", VARDEN_FOR_SYNSKARPA_ID);
                 }
                 if (syn.getVansterOga().getMedKorrektion() == null) {
-                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga.medKorrektion",
-                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r33");
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.vansterOga.medKorrektion",
+                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r33", VARDEN_FOR_SYNSKARPA_ID);
                 }
                 if (syn.getBinokulart().getMedKorrektion() == null) {
-                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.binokulart.medKorrektion",
-                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r33");
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.binokulart.medKorrektion",
+                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r33", VARDEN_FOR_SYNSKARPA_ID);
                 }
                 // R34
             } else if (CollectionUtils.containsAny(IntygAvserKategori.getNormalCategories(), utlatande.getIntygAvser().getKorkortstyp())
@@ -636,16 +640,16 @@ public class InternalValidatorInstance {
                 && (syn.getHogerOga().getUtanKorrektion() < 0.8 && syn.getVansterOga().getUtanKorrektion() < 0.8)
                 && (syn.getHogerOga().getUtanKorrektion() >= 0.1 && syn.getVansterOga().getUtanKorrektion() >= 0.1)) {
                 if (syn.getHogerOga().getMedKorrektion() == null) {
-                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga.medKorrektion",
-                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r34");
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.hogerOga.medKorrektion",
+                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r34", VARDEN_FOR_SYNSKARPA_ID);
                 }
                 if (syn.getVansterOga().getMedKorrektion() == null) {
-                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga.medKorrektion",
-                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r34");
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.vansterOga.medKorrektion",
+                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r34", VARDEN_FOR_SYNSKARPA_ID);
                 }
                 if (syn.getBinokulart().getMedKorrektion() == null) {
-                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.binokulart.medKorrektion",
-                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r34");
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.binokulart.medKorrektion",
+                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r34", VARDEN_FOR_SYNSKARPA_ID);
                 }
                 // R35
             } else if (CollectionUtils.containsAny(IntygAvserKategori.getNormalCategories(), utlatande.getIntygAvser().getKorkortstyp())
@@ -658,16 +662,16 @@ public class InternalValidatorInstance {
                 || (syn.getVansterOga().getUtanKorrektion() != null && syn.getVansterOga().getUtanKorrektion() < 0.1))
             ) {
                 if (syn.getHogerOga().getMedKorrektion() == null) {
-                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga.medKorrektion",
-                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r35");
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.hogerOga.medKorrektion",
+                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r35", VARDEN_FOR_SYNSKARPA_ID);
                 }
                 if (syn.getVansterOga().getMedKorrektion() == null) {
-                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga.medKorrektion",
-                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r35");
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.vansterOga.medKorrektion",
+                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r35", VARDEN_FOR_SYNSKARPA_ID);
                 }
                 if (syn.getBinokulart().getMedKorrektion() == null) {
-                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.binokulart.medKorrektion",
-                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r35");
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SYN, "syn.binokulart.medKorrektion",
+                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r35", VARDEN_FOR_SYNSKARPA_ID);
                 }
             }
         }

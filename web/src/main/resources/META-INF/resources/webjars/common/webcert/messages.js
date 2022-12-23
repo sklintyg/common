@@ -693,6 +693,7 @@
             'common.validation.ue-dodsorsak-foljd.empty': '', // this message is handled by ueDodsorsakRow
             'common.validation.ue-cause-of-death.empty': 'Ange ett svar',
             'common.validation.ue-cause-of-death-list.empty': 'Ange ett svar',
+            'common.validation.ue-visual-acuity.empty': 'Ange ett svar',
             'common.validation.ue-medical-investigation.empty': 'Ange ett svar',
             'common.validation.ue-percent-field.empty': 'Ange ett svar.',
             'common.validation.ue-sjukfranvaro.niva.empty': 'Ange ett svar.',

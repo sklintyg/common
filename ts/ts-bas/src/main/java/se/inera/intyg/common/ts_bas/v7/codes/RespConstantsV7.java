@@ -40,7 +40,7 @@ public final class RespConstantsV7 {
     public static final String SYNFUNKTIONER_CATEGORY_TEXT_ID = "KAT_1.RBK";
     public static final String INTYG_AVSER_SVAR_ID_1 = "1";
     public static final String INTYG_AVSER_SVAR_TEXT_ID = "FRG_1.RBK";
-    public static final String INTYG_AVSER_SVAR_DESCRIPTION_ID = "FRG_1.RBK";
+    public static final String INTYG_AVSER_SVAR_DESCRIPTION_ID = "FRG_1.HLP";
     public static final String INTYG_AVSER_CATEGORY_ID = "intygetAvser";
     public static final String INTYG_AVSER_CATEGORY_TEXT_ID = "KAT_99.RBK";
     public static final String INTYG_AVSER_CATEGORY_DESCRIPTION_ID = "KAT_99.HLP";
@@ -92,6 +92,15 @@ public final class RespConstantsV7 {
     public static final String MED_KORREKTION_TEXT_ID = "ts-bas.label.syn.medkorrektion";
     public static final String KONTAKTLINSER_TEXT_ID = "ts-bas.label.syn.kontaktlins";
     public static final String HOGER_OGA_UTAN_KORREKTION_DELSVAR_ID_8 = "8.2";
+
+    public static final String HOGER_OGA_MED_KORREKTION_JSON_ID = "syn.hogerOga.medKorrektion";
+    public static final String HOGER_OGA_UTAN_KORREKTION_JSON_ID = "syn.hogerOga.utanKorrektion";
+    public static final String VANSTER_OGA_UTAN_KORREKTION_JSON_ID = "syn.vansterOga.utanKorrektion";
+    public static final String VANSTER_OGA_MED_KORREKTION_JSON_ID = "syn.vansterOga.medKorrektion";
+    public static final String BINOKULART_UTAN_KORREKTION_JSON_ID = "syn.binokulart.utanKorrektion";
+    public static final String BINOKULART_MED_KORREKTION_JSON_ID = "syn.binokulart.medKorrektion";
+    public static final String KONTAKTLINSER_VANSTER_OGA_JSON_ID = "kontaktlinserVansterOga";
+    public static final String KONTAKTLINSER_HOGER_OGA_DELSVAR_JSON_ID = "kontaktlinserHogerOga";
     public static final String VANSTER_OGA_UTAN_KORREKTION_DELSVAR_ID_8 = "8.3";
     public static final String BINOKULART_UTAN_KORREKTION_DELSVAR_ID_8 = "8.4";
     public static final String HOGER_OGA_MED_KORREKTION_DELSVAR_ID_8 = "8.5";

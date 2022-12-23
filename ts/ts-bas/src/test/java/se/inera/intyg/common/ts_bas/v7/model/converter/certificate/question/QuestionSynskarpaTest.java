@@ -27,20 +27,22 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BINOKULART_LABEL_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BINOKULART_MED_KORREKTION_DELSVAR_ID_8;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BINOKULART_UTAN_KORREKTION_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BINOKULART_MED_KORREKTION_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BINOKULART_UTAN_KORREKTION_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HOGER_OGA_LABEL_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HOGER_OGA_MED_KORREKTION_DELSVAR_ID_8;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HOGER_OGA_UTAN_KORREKTION_DELSVAR_ID_8;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KONTAKTLINSER_HOGER_OGA_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HOGER_OGA_MED_KORREKTION_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HOGER_OGA_UTAN_KORREKTION_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KONTAKTLINSER_HOGER_OGA_DELSVAR_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KONTAKTLINSER_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KONTAKTLINSER_VANSTER_OGA_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KONTAKTLINSER_VANSTER_OGA_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MED_KORREKTION_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UTAN_KORREKTION_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VANSTER_OGA_LABEL_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VANSTER_OGA_MED_KORREKTION_DELSVAR_ID_8;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VANSTER_OGA_UTAN_KORREKTION_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VANSTER_OGA_MED_KORREKTION_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VANSTER_OGA_UTAN_KORREKTION_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDEN_FOR_SYNSKARPA_ID;
 import static se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpa.VisualAcuityEnum.BINOCULAR;
 import static se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpa.VisualAcuityEnum.LEFT_EYE;
@@ -64,6 +66,8 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigVi
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueVisualAcuities;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
+import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationDisableTest;
+import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Synskarpevarden;
 
@@ -147,21 +151,21 @@ class QuestionSynskarpaTest {
                 void shouldIncludeRightEyeWithoutCorrectionId() {
                     final var question = QuestionSynskarpa.toCertificate(Syn.builder().build(), 0, textProvider);
                     final var config = (CertificateDataConfigVisualAcuity) question.getConfig();
-                    assertEquals(HOGER_OGA_UTAN_KORREKTION_DELSVAR_ID_8, config.getRightEye().getWithoutCorrectionId());
+                    assertEquals(HOGER_OGA_UTAN_KORREKTION_JSON_ID, config.getRightEye().getWithoutCorrectionId());
                 }
 
                 @Test
                 void shouldIncludeRightEyeWithCorrectionId() {
                     final var question = QuestionSynskarpa.toCertificate(Syn.builder().build(), 0, textProvider);
                     final var config = (CertificateDataConfigVisualAcuity) question.getConfig();
-                    assertEquals(HOGER_OGA_MED_KORREKTION_DELSVAR_ID_8, config.getRightEye().getWithCorrectionId());
+                    assertEquals(HOGER_OGA_MED_KORREKTION_JSON_ID, config.getRightEye().getWithCorrectionId());
                 }
 
                 @Test
                 void shouldIncludeRightEyeContactLensesId() {
                     final var question = QuestionSynskarpa.toCertificate(Syn.builder().build(), 0, textProvider);
                     final var config = (CertificateDataConfigVisualAcuity) question.getConfig();
-                    assertEquals(KONTAKTLINSER_HOGER_OGA_DELSVAR_ID_8, config.getRightEye().getContactLensesId());
+                    assertEquals(KONTAKTLINSER_HOGER_OGA_DELSVAR_JSON_ID, config.getRightEye().getContactLensesId());
                 }
             }
 
@@ -178,21 +182,21 @@ class QuestionSynskarpaTest {
                 void shouldIncludeLeftEyeWithoutCorrectionId() {
                     final var question = QuestionSynskarpa.toCertificate(Syn.builder().build(), 0, textProvider);
                     final var config = (CertificateDataConfigVisualAcuity) question.getConfig();
-                    assertEquals(VANSTER_OGA_UTAN_KORREKTION_DELSVAR_ID_8, config.getLeftEye().getWithoutCorrectionId());
+                    assertEquals(VANSTER_OGA_UTAN_KORREKTION_JSON_ID, config.getLeftEye().getWithoutCorrectionId());
                 }
 
                 @Test
                 void shouldIncludeLeftEyeWithCorrectionId() {
                     final var question = QuestionSynskarpa.toCertificate(Syn.builder().build(), 0, textProvider);
                     final var config = (CertificateDataConfigVisualAcuity) question.getConfig();
-                    assertEquals(VANSTER_OGA_MED_KORREKTION_DELSVAR_ID_8, config.getLeftEye().getWithCorrectionId());
+                    assertEquals(VANSTER_OGA_MED_KORREKTION_JSON_ID, config.getLeftEye().getWithCorrectionId());
                 }
 
                 @Test
                 void shouldIncludeLeftEyeContactLensesId() {
                     final var question = QuestionSynskarpa.toCertificate(Syn.builder().build(), 0, textProvider);
                     final var config = (CertificateDataConfigVisualAcuity) question.getConfig();
-                    assertEquals(KONTAKTLINSER_VANSTER_OGA_DELSVAR_ID_8, config.getLeftEye().getContactLensesId());
+                    assertEquals(KONTAKTLINSER_VANSTER_OGA_JSON_ID, config.getLeftEye().getContactLensesId());
                 }
             }
 
@@ -209,14 +213,14 @@ class QuestionSynskarpaTest {
                 void shouldIncludeBinocularWithoutCorrectionId() {
                     final var question = QuestionSynskarpa.toCertificate(Syn.builder().build(), 0, textProvider);
                     final var config = (CertificateDataConfigVisualAcuity) question.getConfig();
-                    assertEquals(BINOKULART_UTAN_KORREKTION_DELSVAR_ID_8, config.getBinocular().getWithoutCorrectionId());
+                    assertEquals(BINOKULART_UTAN_KORREKTION_JSON_ID, config.getBinocular().getWithoutCorrectionId());
                 }
 
                 @Test
                 void shouldIncludeBinocularWithCorrectionId() {
                     final var question = QuestionSynskarpa.toCertificate(Syn.builder().build(), 0, textProvider);
                     final var config = (CertificateDataConfigVisualAcuity) question.getConfig();
-                    assertEquals(BINOKULART_MED_KORREKTION_DELSVAR_ID_8, config.getBinocular().getWithCorrectionId());
+                    assertEquals(BINOKULART_MED_KORREKTION_JSON_ID, config.getBinocular().getWithCorrectionId());
                 }
             }
         }
@@ -245,7 +249,7 @@ class QuestionSynskarpaTest {
                 void shouldIncludeValueRightEyeWithoutCorrectionId() {
                     final var question = QuestionSynskarpa.toCertificate(Syn.builder().build(), 0, textProvider);
                     final var value = (CertificateDataValueVisualAcuities) question.getValue();
-                    assertEquals(HOGER_OGA_UTAN_KORREKTION_DELSVAR_ID_8, value.getRightEye().getWithoutCorrection().getId());
+                    assertEquals(HOGER_OGA_UTAN_KORREKTION_JSON_ID, value.getRightEye().getWithoutCorrection().getId());
                 }
 
                 @Test
@@ -267,7 +271,7 @@ class QuestionSynskarpaTest {
                 void shouldIncludeValueRightEyeWithCorrectionId() {
                     final var question = QuestionSynskarpa.toCertificate(Syn.builder().build(), 0, textProvider);
                     final var value = (CertificateDataValueVisualAcuities) question.getValue();
-                    assertEquals(HOGER_OGA_MED_KORREKTION_DELSVAR_ID_8, value.getRightEye().getWithCorrection().getId());
+                    assertEquals(HOGER_OGA_MED_KORREKTION_JSON_ID, value.getRightEye().getWithCorrection().getId());
                 }
 
                 @Test
@@ -289,7 +293,7 @@ class QuestionSynskarpaTest {
                 void shouldIncludeValueRightEyeBinocularId() {
                     final var question = QuestionSynskarpa.toCertificate(Syn.builder().build(), 0, textProvider);
                     final var value = (CertificateDataValueVisualAcuities) question.getValue();
-                    assertEquals(KONTAKTLINSER_HOGER_OGA_DELSVAR_ID_8, value.getRightEye().getContactLenses().getId());
+                    assertEquals(KONTAKTLINSER_HOGER_OGA_DELSVAR_JSON_ID, value.getRightEye().getContactLenses().getId());
                 }
 
                 @Test
@@ -322,7 +326,7 @@ class QuestionSynskarpaTest {
                 void shouldIncludeValueLeftEyeWithoutCorrectionId() {
                     final var question = QuestionSynskarpa.toCertificate(Syn.builder().build(), 0, textProvider);
                     final var value = (CertificateDataValueVisualAcuities) question.getValue();
-                    assertEquals(VANSTER_OGA_UTAN_KORREKTION_DELSVAR_ID_8, value.getLeftEye().getWithoutCorrection().getId());
+                    assertEquals(VANSTER_OGA_UTAN_KORREKTION_JSON_ID, value.getLeftEye().getWithoutCorrection().getId());
                 }
 
                 @Test
@@ -344,7 +348,7 @@ class QuestionSynskarpaTest {
                 void shouldIncludeValueLeftEyeWithCorrectionId() {
                     final var question = QuestionSynskarpa.toCertificate(Syn.builder().build(), 0, textProvider);
                     final var value = (CertificateDataValueVisualAcuities) question.getValue();
-                    assertEquals(VANSTER_OGA_MED_KORREKTION_DELSVAR_ID_8, value.getLeftEye().getWithCorrection().getId());
+                    assertEquals(VANSTER_OGA_MED_KORREKTION_JSON_ID, value.getLeftEye().getWithCorrection().getId());
                 }
 
                 @Test
@@ -366,7 +370,7 @@ class QuestionSynskarpaTest {
                 void shouldIncludeValueLeftEyeBinocularId() {
                     final var question = QuestionSynskarpa.toCertificate(Syn.builder().build(), 0, textProvider);
                     final var value = (CertificateDataValueVisualAcuities) question.getValue();
-                    assertEquals(KONTAKTLINSER_VANSTER_OGA_DELSVAR_ID_8, value.getLeftEye().getContactLenses().getId());
+                    assertEquals(KONTAKTLINSER_VANSTER_OGA_JSON_ID, value.getLeftEye().getContactLenses().getId());
                 }
 
                 @Test
@@ -399,7 +403,7 @@ class QuestionSynskarpaTest {
                 void shouldIncludeValueBinocularWithoutCorrectionId() {
                     final var question = QuestionSynskarpa.toCertificate(Syn.builder().build(), 0, textProvider);
                     final var value = (CertificateDataValueVisualAcuities) question.getValue();
-                    assertEquals(BINOKULART_UTAN_KORREKTION_DELSVAR_ID_8, value.getBinocular().getWithoutCorrection().getId());
+                    assertEquals(BINOKULART_UTAN_KORREKTION_JSON_ID, value.getBinocular().getWithoutCorrection().getId());
                 }
 
                 @Test
@@ -421,7 +425,7 @@ class QuestionSynskarpaTest {
                 void shouldIncludeValueBinocularWithCorrectionId() {
                     final var question = QuestionSynskarpa.toCertificate(Syn.builder().build(), 0, textProvider);
                     final var value = (CertificateDataValueVisualAcuities) question.getValue();
-                    assertEquals(BINOKULART_MED_KORREKTION_DELSVAR_ID_8, value.getBinocular().getWithCorrection().getId());
+                    assertEquals(BINOKULART_MED_KORREKTION_JSON_ID, value.getBinocular().getWithCorrection().getId());
                 }
 
                 @Test
@@ -439,6 +443,56 @@ class QuestionSynskarpaTest {
                     assertEquals(expectedNumber, value.getBinocular().getWithCorrection().getValue());
                 }
             }
+        }
+    }
+
+    @Nested
+    class IncludeValidationMandatoryTests extends ValidationMandatoryTest {
+
+        @Override
+        protected String getQuestionId() {
+            return VARDEN_FOR_SYNSKARPA_ID;
+        }
+
+        @Override
+        protected String getExpression() {
+            return BINOKULART_UTAN_KORREKTION_JSON_ID
+                + " && " + VANSTER_OGA_UTAN_KORREKTION_JSON_ID
+                + " && " + HOGER_OGA_UTAN_KORREKTION_JSON_ID;
+        }
+
+        @Override
+        protected CertificateDataElement getElement() {
+            return QuestionSynskarpa.toCertificate(null, 0, textProvider);
+        }
+
+        @Override
+        protected int getValidationIndex() {
+            return 0;
+        }
+    }
+
+    @Nested
+    class IncludeValidationDisableTests extends ValidationDisableTest {
+
+        @Override
+        protected String getQuestionId() {
+            return SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID;
+        }
+
+        @Override
+        protected String getExpression() {
+            return "$" + SYNKARPA_SKICKAS_SEPARAT_JSON_ID;
+        }
+
+        @Override
+        protected CertificateDataElement getElement() {
+            return QuestionSynskarpa.toCertificate(null, 0, textProvider);
+        }
+
+        @Override
+        protected int getValidationIndex() {
+            return 1;
         }
     }
 

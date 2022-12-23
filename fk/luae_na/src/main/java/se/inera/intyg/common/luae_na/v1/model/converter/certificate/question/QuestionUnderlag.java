@@ -42,6 +42,7 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UND
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleAndExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.withCitation;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.wrapWithNotEmpty;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -128,9 +129,9 @@ public class QuestionUnderlag {
                         .questionId(UNDERLAG_SVAR_ID_4)
                         .expression(
                             multipleAndExpression(
-                                withCitation(UNDERLAG_SVAR_JSON_ID_4 + "[0].typ"),
-                                withCitation(UNDERLAG_SVAR_JSON_ID_4 + "[0].datum"),
-                                withCitation(UNDERLAG_SVAR_JSON_ID_4 + "[0].hamtasFran")))
+                                wrapWithNotEmpty(withCitation(UNDERLAG_SVAR_JSON_ID_4 + "[0].typ")),
+                                wrapWithNotEmpty(withCitation(UNDERLAG_SVAR_JSON_ID_4 + "[0].datum")),
+                                wrapWithNotEmpty(withCitation(UNDERLAG_SVAR_JSON_ID_4 + "[0].hamtasFran"))))
                         .build(),
                     CertificateDataValidationShow.builder()
                         .questionId(UNDERLAGFINNS_SVAR_ID_3)

@@ -15,7 +15,7 @@ ext {
     schemasContractVersion = "2.1.8"
 
     autovalueVersion = "1.9"
-    cxfVersion = "3.5.3"
+    cxfVersion = "3.5.5"
     commonsCollectionsVersion = "4.4"
     commonsTextVersion = "1.10.0"
     commonsCsvVersion = "1.9.0"
@@ -32,7 +32,7 @@ ext {
     nodeJsVersion = "12.22.12"
     npmVersion = "6.14.16"
 
-    springbootMavenBomVersion = "2.7.3"
+    springbootMavenBomVersion = "2.7.6"
 }
 
 allprojects {
@@ -101,7 +101,7 @@ allprojects {
     }
 
     group = 'se.inera.intyg.common'
-    version = System.properties['buildVersion'] ?: '3.18.0-SNAPSHOT'
+    version = System.properties['buildVersion'] ?: '3.19.0-SNAPSHOT'
 
     compileJava.options.encoding = 'UTF-8'
 
