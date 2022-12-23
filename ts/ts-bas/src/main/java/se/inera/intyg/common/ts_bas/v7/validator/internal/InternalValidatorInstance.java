@@ -32,7 +32,9 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAMPLIGHET_I
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDVETANDESTORNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NEDSATT_NJURFUNKTION_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NYSTAGMUS_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_SJUKDOM_STORNING_DELSVAR_ID;
@@ -47,6 +49,7 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_NEURO
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_PA_HJARNSKADA_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_AV_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID;
@@ -254,11 +257,11 @@ public class InternalValidatorInstance {
 
         if (sjukhusvard.getSjukhusEllerLakarkontakt()) {
             ValidatorUtil.assertDescriptionNotEmptyWithQuestionId(validationMessages, sjukhusvard.getTidpunkt(), CATEGORY_SJUKHUSVARD,
-                "sjukhusvard.tidpunkt", FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID);
+                "sjukhusvard.tidpunkt", TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID);
             ValidatorUtil.assertDescriptionNotEmptyWithQuestionId(validationMessages, sjukhusvard.getVardinrattning(), CATEGORY_SJUKHUSVARD,
-                "sjukhusvard.vardinrattning", FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID);
+                "sjukhusvard.vardinrattning", PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID);
             ValidatorUtil.assertDescriptionNotEmptyWithQuestionId(validationMessages, sjukhusvard.getAnledning(), CATEGORY_SJUKHUSVARD,
-                "sjukhusvard.anledning", FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID);
+                "sjukhusvard.anledning", ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID);
         }
     }
 
