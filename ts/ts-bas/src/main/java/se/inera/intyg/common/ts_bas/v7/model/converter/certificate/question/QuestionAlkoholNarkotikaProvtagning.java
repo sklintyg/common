@@ -27,6 +27,8 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROVTAGNING_
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDINSATSER_MISSBRUK_BEROENDE_JSON_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -34,6 +36,7 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 
@@ -67,6 +70,10 @@ public class QuestionAlkoholNarkotikaProvtagning {
                     CertificateDataValidationMandatory.builder()
                         .questionId(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID)
                         .expression(singleExpression(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID))
+                        .build(),
+                    CertificateDataValidationShow.builder()
+                        .questionId(VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID)
+                        .expression(singleExpression(VARDINSATSER_MISSBRUK_BEROENDE_JSON_ID))
                         .build()
                 }
             )
