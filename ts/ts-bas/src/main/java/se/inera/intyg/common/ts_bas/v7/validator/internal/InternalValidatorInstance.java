@@ -237,8 +237,9 @@ public class InternalValidatorInstance {
     private void validateSjukhusvard(Sjukhusvard sjukhusvard) {
 
         if (sjukhusvard == null) {
-            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SJUKHUSVARD, "sjukhusvard", ValidationMessageType.EMPTY,
-                "ts-bas.validation.sjukhusvard.missing", VARD_SJUKHUS_KONTAKT_LAKARE_SVAR_ID);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SJUKHUSVARD,
+                "sjukhusvard", ValidationMessageType.EMPTY, "ts-bas.validation.sjukhusvard.missing",
+                VARD_SJUKHUS_KONTAKT_LAKARE_SVAR_ID);
             return;
         }
 
