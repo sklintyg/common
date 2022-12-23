@@ -258,7 +258,7 @@ public final class RespConstantsV7 {
     public static final String ADHD_ADD_DAMP_ASPERGERS_TOURETTES_SVAR_ID = "29";
     public static final String ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID = "29.1";
     public static final String ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID = "adhdadddampasperbergerstourettes";
-    public static final String ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_TEXT_ID = "FRG_29.RB";
+    public static final String ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_TEXT_ID = "FRG_29.RBK";
 
     public static final String VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID = "sjukhusvard";
     public static final String VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_TEXT_ID = "KAT_14.RBK";
