@@ -21,10 +21,10 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID_30;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -69,7 +69,7 @@ class QuestionVardatsPaSjukhusOrsakTest {
 
             @Override
             protected String getId() {
-                return ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
+                return ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
             }
 
             @Override
@@ -98,7 +98,7 @@ class QuestionVardatsPaSjukhusOrsakTest {
 
             @Override
             protected String getTextId() {
-                return ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID_30;
+                return ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID;
             }
 
             @Override
@@ -108,7 +108,7 @@ class QuestionVardatsPaSjukhusOrsakTest {
 
             @Override
             protected String getJsonId() {
-                return ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
+                return ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID;
             }
         }
 
@@ -122,7 +122,7 @@ class QuestionVardatsPaSjukhusOrsakTest {
 
             @Override
             protected String getJsonId() {
-                return ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
+                return ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID;
             }
 
             @Override
@@ -165,7 +165,7 @@ class QuestionVardatsPaSjukhusOrsakTest {
 
             @Override
             protected String getQuestionId() {
-                return ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
+                return ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
             }
 
             @Override
@@ -179,7 +179,7 @@ class QuestionVardatsPaSjukhusOrsakTest {
 
             @Override
             protected String getQuestionId() {
-                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
+                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
             }
 
             @Override
@@ -208,7 +208,8 @@ class QuestionVardatsPaSjukhusOrsakTest {
 
             @Override
             protected CertificateDataElement getElement(String expectedValue) {
-                return QuestionVardatsPaSjukhusOrsak.toCertificate(Sjukhusvard.builder().setAnledning(expectedValue).build(), 0, textProvider);
+                return QuestionVardatsPaSjukhusOrsak.toCertificate(
+                    Sjukhusvard.builder().setAnledning(expectedValue).build(), 0, textProvider);
             }
 
             @Override

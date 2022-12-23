@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDINSATSER_MISSBRUK_BEROENDE_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDINSATSER_MISSBRUK_BEROENDE_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID_25;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -67,7 +67,7 @@ class QuestionAlkoholNarkotikaVardinsatserTest {
 
             @Override
             protected String getId() {
-                return VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID_25;
+                return VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID;
             }
 
             @Override
@@ -145,7 +145,7 @@ class QuestionAlkoholNarkotikaVardinsatserTest {
 
             @Override
             protected String getQuestionId() {
-                return VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID_25;
+                return VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID;
             }
 
             @Override

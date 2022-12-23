@@ -22,9 +22,9 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID_30;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -67,7 +67,7 @@ class QuestionVardatsPaSjukhusTest {
 
             @Override
             protected String getId() {
-                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
+                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
             }
 
             @Override
@@ -86,7 +86,7 @@ class QuestionVardatsPaSjukhusTest {
 
             @Override
             protected String getId() {
-                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
+                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID;
             }
 
             @Override
@@ -111,7 +111,7 @@ class QuestionVardatsPaSjukhusTest {
 
             @Override
             protected String getTextId() {
-                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID_30;
+                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID;
             }
 
             @Override
@@ -125,7 +125,7 @@ class QuestionVardatsPaSjukhusTest {
 
             @Override
             protected String getJsonId() {
-                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
+                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID;
             }
 
             @Override
@@ -145,7 +145,7 @@ class QuestionVardatsPaSjukhusTest {
 
             @Override
             protected String getQuestionId() {
-                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
+                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
             }
 
             @Override

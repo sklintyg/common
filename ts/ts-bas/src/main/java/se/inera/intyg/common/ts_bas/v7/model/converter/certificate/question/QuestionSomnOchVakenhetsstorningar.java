@@ -25,7 +25,7 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_TEXT_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -44,7 +44,7 @@ public class QuestionSomnOchVakenhetsstorningar {
 
         return CertificateDataElement.builder()
             .index(index)
-            .id(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24)
+            .id(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID)
             .parent(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_CATEGORY_ID)
             .config(
                 CertificateDataConfigRadioBoolean.builder()
@@ -63,7 +63,7 @@ public class QuestionSomnOchVakenhetsstorningar {
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24)
+                        .questionId(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID)
                         .expression(singleExpression(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID))
                         .build()
                 }
@@ -72,7 +72,7 @@ public class QuestionSomnOchVakenhetsstorningar {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24,
+        return booleanValue(certificate.getData(), TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID,
             TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID);
     }
 }

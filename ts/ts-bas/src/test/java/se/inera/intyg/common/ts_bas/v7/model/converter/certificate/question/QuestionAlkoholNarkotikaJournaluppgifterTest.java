@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID_25;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_MISSBRUK_BEROENDE_JOURNAL_TEXT_ID;
 
@@ -67,7 +67,7 @@ class QuestionAlkoholNarkotikaJournaluppgifterTest {
 
             @Override
             protected String getId() {
-                return TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID_25;
+                return TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID;
             }
 
             @Override
@@ -145,7 +145,7 @@ class QuestionAlkoholNarkotikaJournaluppgifterTest {
 
             @Override
             protected String getQuestionId() {
-                return TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID_25;
+                return TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID;
             }
 
             @Override
@@ -174,7 +174,8 @@ class QuestionAlkoholNarkotikaJournaluppgifterTest {
 
             @Override
             protected CertificateDataElement getElement(Boolean expectedValue) {
-                return QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(NarkotikaLakemedel.builder().setTeckenMissbruk(expectedValue).build(), 0, textProvider);
+                return QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(
+                    NarkotikaLakemedel.builder().setTeckenMissbruk(expectedValue).build(), 0, textProvider);
             }
 
             @Override

@@ -23,9 +23,9 @@ import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_SJUKDOM_STORNING_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_SJUKDOM_STORNING_DELSVAR_ID_27;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID_27;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_SJUKDOM_STORNING_DELSVAR_TEXT_ID_27;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_SJUKDOM_STORNING_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_SJUKDOM_STORNING_DELSVAR_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -68,7 +68,7 @@ class QuestionPsykiskSjukdomStorningTest {
 
             @Override
             protected String getId() {
-                return PSYKISK_SJUKDOM_STORNING_DELSVAR_ID_27;
+                return PSYKISK_SJUKDOM_STORNING_DELSVAR_ID;
             }
 
             @Override
@@ -87,7 +87,7 @@ class QuestionPsykiskSjukdomStorningTest {
 
             @Override
             protected String getId() {
-                return PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID_27;
+                return PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID;
             }
 
             @Override
@@ -112,7 +112,7 @@ class QuestionPsykiskSjukdomStorningTest {
 
             @Override
             protected String getTextId() {
-                return PSYKISK_SJUKDOM_STORNING_DELSVAR_TEXT_ID_27;
+                return PSYKISK_SJUKDOM_STORNING_DELSVAR_TEXT_ID;
             }
 
             @Override
@@ -126,7 +126,7 @@ class QuestionPsykiskSjukdomStorningTest {
 
             @Override
             protected String getJsonId() {
-                return PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID_27;
+                return PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID;
             }
 
             @Override
@@ -145,7 +145,7 @@ class QuestionPsykiskSjukdomStorningTest {
 
             @Override
             protected String getQuestionId() {
-                return PSYKISK_SJUKDOM_STORNING_DELSVAR_ID_27;
+                return PSYKISK_SJUKDOM_STORNING_DELSVAR_ID;
             }
 
             @Override

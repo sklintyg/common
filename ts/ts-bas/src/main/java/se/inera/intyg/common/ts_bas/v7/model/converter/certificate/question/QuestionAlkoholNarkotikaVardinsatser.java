@@ -24,7 +24,7 @@ import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValu
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID_25;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDINSATSER_MISSBRUK_BEROENDE_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARDINSATSER_MISSBRUK_BEROENDE_TEXT_ID;
 
@@ -45,7 +45,7 @@ public class QuestionAlkoholNarkotikaVardinsatser {
 
         return CertificateDataElement.builder()
             .index(index)
-            .id(VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID_25)
+            .id(VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID)
             .parent(MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID)
             .config(
                 CertificateDataConfigRadioBoolean.builder()
@@ -64,7 +64,7 @@ public class QuestionAlkoholNarkotikaVardinsatser {
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID_25)
+                        .questionId(VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID)
                         .expression(singleExpression(VARDINSATSER_MISSBRUK_BEROENDE_JSON_ID))
                         .build()
                 }
@@ -73,6 +73,6 @@ public class QuestionAlkoholNarkotikaVardinsatser {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID_25, VARDINSATSER_MISSBRUK_BEROENDE_JSON_ID);
+        return booleanValue(certificate.getData(), VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID, VARDINSATSER_MISSBRUK_BEROENDE_JSON_ID);
     }
 }

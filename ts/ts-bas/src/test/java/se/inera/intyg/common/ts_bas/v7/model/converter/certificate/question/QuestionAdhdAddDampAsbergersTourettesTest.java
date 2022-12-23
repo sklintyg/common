@@ -22,9 +22,9 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID_29;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID_29;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_TEXT_ID_29;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_UTVECKLINGSSTORNING_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -67,7 +67,7 @@ class QuestionAdhdAddDampAsbergersTourettesTest {
 
             @Override
             protected String getId() {
-                return ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID_29;
+                return ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID;
             }
 
             @Override
@@ -86,7 +86,7 @@ class QuestionAdhdAddDampAsbergersTourettesTest {
 
             @Override
             protected String getId() {
-                return ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID_29;
+                return ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID;
             }
 
             @Override
@@ -111,7 +111,7 @@ class QuestionAdhdAddDampAsbergersTourettesTest {
 
             @Override
             protected String getTextId() {
-                return ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_TEXT_ID_29;
+                return ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_TEXT_ID;
             }
 
             @Override
@@ -125,7 +125,7 @@ class QuestionAdhdAddDampAsbergersTourettesTest {
 
             @Override
             protected String getJsonId() {
-                return ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID_29;
+                return ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID;
             }
 
             @Override
@@ -145,7 +145,7 @@ class QuestionAdhdAddDampAsbergersTourettesTest {
 
             @Override
             protected String getQuestionId() {
-                return ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID_29;
+                return ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID;
             }
 
             @Override
@@ -173,7 +173,8 @@ class QuestionAdhdAddDampAsbergersTourettesTest {
 
             @Override
             protected CertificateDataElement getElement(Boolean expectedValue) {
-                return QuestionAdhdAddDampAsbergersTourettes.toCertificate(Utvecklingsstorning.builder().setHarSyndrom(expectedValue).build(), 0, textProvider);
+                return QuestionAdhdAddDampAsbergersTourettes.toCertificate(
+                    Utvecklingsstorning.builder().setHarSyndrom(expectedValue).build(), 0, textProvider);
             }
 
             @Override

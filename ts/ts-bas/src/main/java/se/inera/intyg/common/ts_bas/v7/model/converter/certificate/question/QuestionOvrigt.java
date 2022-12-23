@@ -21,9 +21,9 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.OVRIGA_KOMMENTARER_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.OVRIGA_KOMMENTARER_DELSVARSVAR_ID_32;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID_32;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.OVRIGA_KOMMENTARER_DELSVARSVAR_TEXT_ID_32;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.OVRIGA_KOMMENTARER_DELSVARSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.OVRIGA_KOMMENTARER_DELSVARSVAR_TEXT_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -39,25 +39,25 @@ public class QuestionOvrigt {
     public static CertificateDataElement toCertificate(String komentar, int index, CertificateTextProvider textProvider) {
 
         return CertificateDataElement.builder()
-            .id(OVRIGA_KOMMENTARER_DELSVARSVAR_ID_32)
+            .id(OVRIGA_KOMMENTARER_DELSVARSVAR_ID)
             .parent(OVRIGA_KOMMENTARER_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigTextArea.builder()
-                    .text(textProvider.get(OVRIGA_KOMMENTARER_DELSVARSVAR_TEXT_ID_32))
-                    .id(OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID_32)
+                    .text(textProvider.get(OVRIGA_KOMMENTARER_DELSVARSVAR_TEXT_ID))
+                    .id(OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID)
                     .build()
             )
             .value(
                 CertificateDataTextValue.builder()
-                    .id(OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID_32)
+                    .id(OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID)
                     .text(komentar)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationText.builder()
-                        .id(OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID_32)
+                        .id(OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID)
                         .limit(TEXT_LIMIT)
                         .build()
                 }
@@ -66,6 +66,6 @@ public class QuestionOvrigt {
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), OVRIGA_KOMMENTARER_DELSVARSVAR_ID_32, OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID_32);
+        return textValue(certificate.getData(), OVRIGA_KOMMENTARER_DELSVARSVAR_ID, OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID);
     }
 }

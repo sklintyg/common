@@ -24,7 +24,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -67,7 +67,7 @@ class QuestionSomnOchVakenhetsstorningarTest {
 
             @Override
             protected String getId() {
-                return TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24;
+                return TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID;
             }
 
             @Override
@@ -144,7 +144,7 @@ class QuestionSomnOchVakenhetsstorningarTest {
 
             @Override
             protected String getQuestionId() {
-                return TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24;
+                return TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID;
             }
 
             @Override

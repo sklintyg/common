@@ -22,9 +22,9 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_SJUKDOM_STORNING_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_SJUKDOM_STORNING_DELSVAR_ID_27;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID_27;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_SJUKDOM_STORNING_DELSVAR_TEXT_ID_27;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_SJUKDOM_STORNING_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_SJUKDOM_STORNING_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
 
@@ -44,27 +44,27 @@ public class QuestionPsykiskSjukdomStorning {
 
         return CertificateDataElement.builder()
             .index(index)
-            .id(PSYKISK_SJUKDOM_STORNING_DELSVAR_ID_27)
+            .id(PSYKISK_SJUKDOM_STORNING_DELSVAR_ID)
             .parent(PSYKISK_SJUKDOM_STORNING_CATEGORY_ID)
             .config(
                 CertificateDataConfigRadioBoolean.builder()
-                    .id(PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID_27)
-                    .text(textProvider.get(PSYKISK_SJUKDOM_STORNING_DELSVAR_TEXT_ID_27))
+                    .id(PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID)
+                    .text(textProvider.get(PSYKISK_SJUKDOM_STORNING_DELSVAR_TEXT_ID))
                     .selectedText(SVAR_JA_TEXT)
                     .unselectedText(SVAR_NEJ_TEXT)
                     .build()
             )
             .value(
                 CertificateDataValueBoolean.builder()
-                    .id(PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID_27)
+                    .id(PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID)
                     .selected(psykiskSjukdom)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(PSYKISK_SJUKDOM_STORNING_DELSVAR_ID_27)
-                        .expression(singleExpression(PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID_27))
+                        .questionId(PSYKISK_SJUKDOM_STORNING_DELSVAR_ID)
+                        .expression(singleExpression(PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID))
                         .build()
                 }
             )
@@ -72,6 +72,6 @@ public class QuestionPsykiskSjukdomStorning {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), PSYKISK_SJUKDOM_STORNING_DELSVAR_ID_27, PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID_27);
+        return booleanValue(certificate.getData(), PSYKISK_SJUKDOM_STORNING_DELSVAR_ID, PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID);
     }
 }

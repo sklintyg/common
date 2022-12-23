@@ -19,13 +19,12 @@
 
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.OVRIGA_KOMMENTARER_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.OVRIGA_KOMMENTARER_DELSVARSVAR_ID_32;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID_32;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.OVRIGA_KOMMENTARER_DELSVARSVAR_TEXT_ID_32;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.OVRIGA_KOMMENTARER_DELSVARSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.OVRIGA_KOMMENTARER_DELSVARSVAR_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -66,7 +65,7 @@ class QuestionOvrigtTest {
 
             @Override
             protected String getId() {
-                return OVRIGA_KOMMENTARER_DELSVARSVAR_ID_32;
+                return OVRIGA_KOMMENTARER_DELSVARSVAR_ID;
             }
 
             @Override
@@ -95,7 +94,7 @@ class QuestionOvrigtTest {
 
             @Override
             protected String getTextId() {
-                return OVRIGA_KOMMENTARER_DELSVARSVAR_TEXT_ID_32;
+                return OVRIGA_KOMMENTARER_DELSVARSVAR_TEXT_ID;
             }
 
             @Override
@@ -105,7 +104,7 @@ class QuestionOvrigtTest {
 
             @Override
             protected String getJsonId() {
-                return OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID_32;
+                return OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID;
             }
         }
 
@@ -119,7 +118,7 @@ class QuestionOvrigtTest {
 
             @Override
             protected String getJsonId() {
-                return OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID_32;
+                return OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID;
             }
 
             @Override

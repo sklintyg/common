@@ -21,10 +21,10 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID_30;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -69,7 +69,7 @@ class QuestionTidpunktVardPaSjukhusTest {
 
             @Override
             protected String getId() {
-                return TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
+                return TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
             }
 
             @Override
@@ -98,7 +98,7 @@ class QuestionTidpunktVardPaSjukhusTest {
 
             @Override
             protected String getTextId() {
-                return TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID_30;
+                return TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID;
             }
 
             @Override
@@ -108,7 +108,7 @@ class QuestionTidpunktVardPaSjukhusTest {
 
             @Override
             protected String getJsonId() {
-                return TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
+                return TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID;
             }
         }
 
@@ -122,7 +122,7 @@ class QuestionTidpunktVardPaSjukhusTest {
 
             @Override
             protected String getJsonId() {
-                return TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
+                return TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID;
             }
 
             @Override
@@ -165,7 +165,7 @@ class QuestionTidpunktVardPaSjukhusTest {
 
             @Override
             protected String getQuestionId() {
-                return TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
+                return TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
             }
 
             @Override
@@ -179,7 +179,7 @@ class QuestionTidpunktVardPaSjukhusTest {
 
             @Override
             protected String getQuestionId() {
-                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
+                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
             }
 
             @Override
@@ -208,7 +208,8 @@ class QuestionTidpunktVardPaSjukhusTest {
 
             @Override
             protected CertificateDataElement getElement(String expectedValue) {
-                return QuestionTidpunktVardPaSjukhus.toCertificate(Sjukhusvard.builder().setTidpunkt(expectedValue).build(), 0, textProvider);
+                return QuestionTidpunktVardPaSjukhus.toCertificate(
+                    Sjukhusvard.builder().setTidpunkt(expectedValue).build(), 0, textProvider);
             }
 
             @Override

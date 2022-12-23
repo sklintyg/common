@@ -24,7 +24,7 @@ import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValu
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID_25;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TECKEN_MISSBRUK_BEROENDE_JOURNAL_TEXT_ID;
 
@@ -45,7 +45,7 @@ public class QuestionAlkoholNarkotikaJournaluppgifter {
 
         return CertificateDataElement.builder()
             .index(index)
-            .id(TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID_25)
+            .id(TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID)
             .parent(MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID)
             .config(
                 CertificateDataConfigRadioBoolean.builder()
@@ -64,7 +64,7 @@ public class QuestionAlkoholNarkotikaJournaluppgifter {
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID_25)
+                        .questionId(TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID)
                         .expression(singleExpression(TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID))
                         .build()
                 }
@@ -73,6 +73,6 @@ public class QuestionAlkoholNarkotikaJournaluppgifter {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID_25, TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID);
+        return booleanValue(certificate.getData(), TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID, TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID);
     }
 }

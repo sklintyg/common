@@ -22,9 +22,9 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID_26;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_JSON_ID_26;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_TEXT_ID_26;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
 
@@ -44,27 +44,27 @@ public class QuestionAlkoholNarkotikaLakarordinerat {
         var lakarordineratLakemedelsbruk = narkotikaLakemedel != null ? narkotikaLakemedel.getLakarordineratLakemedelsbruk() : null;
         return CertificateDataElement.builder()
             .index(index)
-            .id(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID_26)
+            .id(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID)
             .parent(MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID)
             .config(
                 CertificateDataConfigRadioBoolean.builder()
-                    .id(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_JSON_ID_26)
-                    .text(textProvider.get(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_TEXT_ID_26))
+                    .id(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_JSON_ID)
+                    .text(textProvider.get(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_TEXT_ID))
                     .selectedText(SVAR_JA_TEXT)
                     .unselectedText(SVAR_NEJ_TEXT)
                     .build()
             )
             .value(
                 CertificateDataValueBoolean.builder()
-                    .id(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_JSON_ID_26)
+                    .id(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_JSON_ID)
                     .selected(lakarordineratLakemedelsbruk)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID_26)
-                        .expression(singleExpression(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_JSON_ID_26))
+                        .questionId(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID)
+                        .expression(singleExpression(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_JSON_ID))
                         .build()
                 }
             )
@@ -72,7 +72,7 @@ public class QuestionAlkoholNarkotikaLakarordinerat {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID_26,
-            REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_JSON_ID_26);
+        return booleanValue(certificate.getData(), REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID,
+            REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_JSON_ID);
     }
 }

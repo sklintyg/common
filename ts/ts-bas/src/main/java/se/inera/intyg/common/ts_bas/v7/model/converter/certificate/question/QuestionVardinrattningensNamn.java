@@ -21,11 +21,11 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID_30;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -47,34 +47,34 @@ public class QuestionVardinrattningensNamn {
         var tidpunkt = sjukhusvard != null ? sjukhusvard.getVardinrattning() : null;
 
         return CertificateDataElement.builder()
-            .id(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30)
+            .id(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID)
             .parent(VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigTextArea.builder()
-                    .text(textProvider.get(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID_30))
-                    .id(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30)
+                    .text(textProvider.get(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID))
+                    .id(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID)
                     .build()
             )
             .value(
                 CertificateDataTextValue.builder()
-                    .id(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30)
+                    .id(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID)
                     .text(tidpunkt)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationText.builder()
-                        .id(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30)
+                        .id(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID)
                         .limit(TEXT_LIMIT)
                         .build(),
                     CertificateDataValidationMandatory.builder()
-                        .questionId(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30)
-                        .expression(singleExpression(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30))
+                        .questionId(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID)
+                        .expression(singleExpression(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID))
                         .build(),
                     CertificateDataValidationShow.builder()
-                        .questionId(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30)
-                        .expression(singleExpression(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30))
+                        .questionId(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID)
+                        .expression(singleExpression(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID))
                         .build()
                 }
             )
@@ -82,7 +82,7 @@ public class QuestionVardinrattningensNamn {
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30,
-            PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30);
+        return textValue(certificate.getData(), PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID,
+            PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID);
     }
 }

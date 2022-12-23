@@ -21,9 +21,9 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID_31;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.STADIGVARANDE_MEDICINERING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
@@ -44,27 +44,27 @@ public class QuestionStadigvarandeMedicinering {
 
         return CertificateDataElement.builder()
             .index(index)
-            .id(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31)
+            .id(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
             .parent(STADIGVARANDE_MEDICINERING_CATEGORY_ID)
             .config(
                 CertificateDataConfigRadioBoolean.builder()
-                    .id(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31)
-                    .text(textProvider.get(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID_31))
+                    .id(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID)
+                    .text(textProvider.get(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID))
                     .selectedText(SVAR_JA_TEXT)
                     .unselectedText(SVAR_NEJ_TEXT)
                     .build()
             )
             .value(
                 CertificateDataValueBoolean.builder()
-                    .id(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31)
+                    .id(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID)
                     .selected(stadigvarandeMedicinering)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31)
-                        .expression(singleExpression(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31))
+                        .questionId(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
+                        .expression(singleExpression(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID))
                         .build()
                 }
             )
@@ -72,7 +72,7 @@ public class QuestionStadigvarandeMedicinering {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31,
-            FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31);
+        return booleanValue(certificate.getData(), FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID,
+            FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID);
     }
 }

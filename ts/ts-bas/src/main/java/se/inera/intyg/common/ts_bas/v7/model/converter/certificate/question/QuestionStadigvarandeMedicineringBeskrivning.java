@@ -21,11 +21,11 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID_31;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.STADIGVARANDE_MEDICINERING_CATEGORY_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -47,34 +47,34 @@ public class QuestionStadigvarandeMedicineringBeskrivning {
         var beskrivning = medicinering != null ? medicinering.getBeskrivning() : null;
 
         return CertificateDataElement.builder()
-            .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31)
+            .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
             .parent(STADIGVARANDE_MEDICINERING_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigTextArea.builder()
-                    .text(textProvider.get(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID_31))
-                    .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31)
+                    .text(textProvider.get(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID))
+                    .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID)
                     .build()
             )
             .value(
                 CertificateDataTextValue.builder()
-                    .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31)
+                    .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID)
                     .text(beskrivning)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationText.builder()
-                        .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31)
+                        .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID)
                         .limit(TEXT_LIMIT)
                         .build(),
                     CertificateDataValidationMandatory.builder()
-                        .questionId(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31)
-                        .expression(singleExpression(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31))
+                        .questionId(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
+                        .expression(singleExpression(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID))
                         .build(),
                     CertificateDataValidationShow.builder()
-                        .questionId(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31)
-                        .expression(singleExpression(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31))
+                        .questionId(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
+                        .expression(singleExpression(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID))
                         .build()
                 }
             )
@@ -82,7 +82,7 @@ public class QuestionStadigvarandeMedicineringBeskrivning {
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31,
-            MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31);
+        return textValue(certificate.getData(), MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID,
+            MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID);
     }
 }

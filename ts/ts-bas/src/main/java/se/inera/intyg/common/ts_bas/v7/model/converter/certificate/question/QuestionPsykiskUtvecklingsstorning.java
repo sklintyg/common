@@ -22,9 +22,9 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_UTVECKLINGSSTORNING_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID_28;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID_28;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_UTVECKLINGSSTORNING_DELSVAR_TEXT_ID_28;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_UTVECKLINGSSTORNING_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
 
@@ -45,27 +45,27 @@ public class QuestionPsykiskUtvecklingsstorning {
 
         return CertificateDataElement.builder()
             .index(index)
-            .id(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID_28)
+            .id(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID)
             .parent(PSYKISK_UTVECKLINGSSTORNING_CATEGORY_ID)
             .config(
                 CertificateDataConfigRadioBoolean.builder()
-                    .id(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID_28)
-                    .text(textProvider.get(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_TEXT_ID_28))
+                    .id(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID)
+                    .text(textProvider.get(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_TEXT_ID))
                     .selectedText(SVAR_JA_TEXT)
                     .unselectedText(SVAR_NEJ_TEXT)
                     .build()
             )
             .value(
                 CertificateDataValueBoolean.builder()
-                    .id(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID_28)
+                    .id(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID)
                     .selected(psykiskUtvecklingsstorning)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID_28)
-                        .expression(singleExpression(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID_28))
+                        .questionId(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID)
+                        .expression(singleExpression(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID))
                         .build()
                 }
             )
@@ -73,7 +73,7 @@ public class QuestionPsykiskUtvecklingsstorning {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID_28,
-            PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID_28);
+        return booleanValue(certificate.getData(), PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID,
+            PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID);
     }
 }

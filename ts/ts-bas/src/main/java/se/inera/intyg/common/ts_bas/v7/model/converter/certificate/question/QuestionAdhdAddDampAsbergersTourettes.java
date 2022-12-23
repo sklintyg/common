@@ -21,9 +21,9 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID_29;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID_29;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_TEXT_ID_29;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_UTVECKLINGSSTORNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
@@ -45,27 +45,27 @@ public class QuestionAdhdAddDampAsbergersTourettes {
 
         return CertificateDataElement.builder()
             .index(index)
-            .id(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID_29)
+            .id(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID)
             .parent(PSYKISK_UTVECKLINGSSTORNING_CATEGORY_ID)
             .config(
                 CertificateDataConfigRadioBoolean.builder()
-                    .id(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID_29)
-                    .text(textProvider.get(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_TEXT_ID_29))
+                    .id(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID)
+                    .text(textProvider.get(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_TEXT_ID))
                     .selectedText(SVAR_JA_TEXT)
                     .unselectedText(SVAR_NEJ_TEXT)
                     .build()
             )
             .value(
                 CertificateDataValueBoolean.builder()
-                    .id(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID_29)
+                    .id(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID)
                     .selected(harSyndrom)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID_29)
-                        .expression(singleExpression(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID_29))
+                        .questionId(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID)
+                        .expression(singleExpression(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID))
                         .build()
                 }
             )
@@ -73,7 +73,7 @@ public class QuestionAdhdAddDampAsbergersTourettes {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID_29,
-            ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID_29);
+        return booleanValue(certificate.getData(), ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID,
+            ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID);
     }
 }

@@ -22,9 +22,9 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID_31;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.STADIGVARANDE_MEDICINERING_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -66,7 +66,7 @@ class QuestionStadigvarandeMedicineringTest {
 
             @Override
             protected String getId() {
-                return FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31;
+                return FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID;
             }
 
             @Override
@@ -85,7 +85,7 @@ class QuestionStadigvarandeMedicineringTest {
 
             @Override
             protected String getId() {
-                return FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31;
+                return FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID;
             }
 
             @Override
@@ -110,7 +110,7 @@ class QuestionStadigvarandeMedicineringTest {
 
             @Override
             protected String getTextId() {
-                return FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID_31;
+                return FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID;
             }
 
             @Override
@@ -124,7 +124,7 @@ class QuestionStadigvarandeMedicineringTest {
 
             @Override
             protected String getJsonId() {
-                return FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID_31;
+                return FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID;
             }
 
             @Override
@@ -144,7 +144,7 @@ class QuestionStadigvarandeMedicineringTest {
 
             @Override
             protected String getQuestionId() {
-                return FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31;
+                return FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID;
             }
 
             @Override
@@ -172,7 +172,8 @@ class QuestionStadigvarandeMedicineringTest {
 
             @Override
             protected CertificateDataElement getElement(Boolean expectedValue) {
-                return QuestionStadigvarandeMedicinering.toCertificate(Medicinering.builder().setStadigvarandeMedicinering(expectedValue).build(), 0, textProvider);
+                return QuestionStadigvarandeMedicinering.toCertificate(
+                    Medicinering.builder().setStadigvarandeMedicinering(expectedValue).build(), 0, textProvider);
             }
 
             @Override

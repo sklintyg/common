@@ -21,11 +21,11 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID_26;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID_26;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKEMEDEL_ORDINERAD_DOS_DELSVAR_TEXT_ID_26;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKEMEDEL_ORDINERAD_DOS_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID_26;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -69,7 +69,7 @@ class QuestionAlkoholNarkotikaOrdineratLakamedelTest {
 
             @Override
             protected String getId() {
-                return LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID_26;
+                return LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID;
             }
 
             @Override
@@ -98,7 +98,7 @@ class QuestionAlkoholNarkotikaOrdineratLakamedelTest {
 
             @Override
             protected String getTextId() {
-                return LAKEMEDEL_ORDINERAD_DOS_DELSVAR_TEXT_ID_26;
+                return LAKEMEDEL_ORDINERAD_DOS_DELSVAR_TEXT_ID;
             }
 
             @Override
@@ -108,7 +108,7 @@ class QuestionAlkoholNarkotikaOrdineratLakamedelTest {
 
             @Override
             protected String getJsonId() {
-                return LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID_26;
+                return LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID;
             }
         }
 
@@ -123,7 +123,7 @@ class QuestionAlkoholNarkotikaOrdineratLakamedelTest {
 
             @Override
             protected String getJsonId() {
-                return LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID_26;
+                return LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID;
             }
 
             @Override
@@ -166,7 +166,7 @@ class QuestionAlkoholNarkotikaOrdineratLakamedelTest {
 
             @Override
             protected String getQuestionId() {
-                return LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID_26;
+                return LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID;
             }
 
             @Override
@@ -180,7 +180,7 @@ class QuestionAlkoholNarkotikaOrdineratLakamedelTest {
 
             @Override
             protected String getQuestionId() {
-                return REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID_26;
+                return REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID;
             }
 
             @Override

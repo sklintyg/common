@@ -23,8 +23,8 @@ import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID_25;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID_25;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -67,7 +67,7 @@ class QuestionAlkoholNarkotikaProvtagningTest {
 
             @Override
             protected String getId() {
-                return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID_25;
+                return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID;
             }
 
             @Override
@@ -86,7 +86,7 @@ class QuestionAlkoholNarkotikaProvtagningTest {
 
             @Override
             protected String getId() {
-                return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID_25;
+                return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID;
             }
 
             @Override
@@ -125,7 +125,7 @@ class QuestionAlkoholNarkotikaProvtagningTest {
 
             @Override
             protected String getJsonId() {
-                return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID_25;
+                return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID;
             }
 
             @Override
@@ -145,7 +145,7 @@ class QuestionAlkoholNarkotikaProvtagningTest {
 
             @Override
             protected String getQuestionId() {
-                return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID_25;
+                return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID;
             }
 
             @Override
@@ -173,7 +173,8 @@ class QuestionAlkoholNarkotikaProvtagningTest {
 
             @Override
             protected CertificateDataElement getElement(Boolean expectedValue) {
-                return QuestionAlkoholNarkotikaProvtagning.toCertificate(NarkotikaLakemedel.builder().setProvtagningBehovs(expectedValue).build(), 0, textProvider);
+                return QuestionAlkoholNarkotikaProvtagning.toCertificate(
+                    NarkotikaLakemedel.builder().setProvtagningBehovs(expectedValue).build(), 0, textProvider);
             }
 
             @Override

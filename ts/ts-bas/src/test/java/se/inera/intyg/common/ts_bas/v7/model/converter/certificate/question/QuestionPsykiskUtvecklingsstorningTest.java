@@ -23,9 +23,9 @@ import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_UTVECKLINGSSTORNING_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID_28;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID_28;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_UTVECKLINGSSTORNING_DELSVAR_TEXT_ID_28;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_UTVECKLINGSSTORNING_DELSVAR_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -69,7 +69,7 @@ class QuestionPsykiskUtvecklingsstorningTest {
 
             @Override
             protected String getId() {
-                return PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID_28;
+                return PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID;
             }
 
             @Override
@@ -88,7 +88,7 @@ class QuestionPsykiskUtvecklingsstorningTest {
 
             @Override
             protected String getId() {
-                return PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID_28;
+                return PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID;
             }
 
             @Override
@@ -113,7 +113,7 @@ class QuestionPsykiskUtvecklingsstorningTest {
 
             @Override
             protected String getTextId() {
-                return PSYKISK_UTVECKLINGSSTORNING_DELSVAR_TEXT_ID_28;
+                return PSYKISK_UTVECKLINGSSTORNING_DELSVAR_TEXT_ID;
             }
 
             @Override
@@ -127,7 +127,7 @@ class QuestionPsykiskUtvecklingsstorningTest {
 
             @Override
             protected String getJsonId() {
-                return PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID_28;
+                return PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID;
             }
 
             @Override
@@ -147,7 +147,7 @@ class QuestionPsykiskUtvecklingsstorningTest {
 
             @Override
             protected String getQuestionId() {
-                return PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID_28;
+                return PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID;
             }
 
             @Override

@@ -21,10 +21,10 @@ package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID_30;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -68,7 +68,7 @@ class QuestionVardinrattningensNamnTest {
 
             @Override
             protected String getId() {
-                return PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
+                return PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
             }
 
             @Override
@@ -97,7 +97,7 @@ class QuestionVardinrattningensNamnTest {
 
             @Override
             protected String getTextId() {
-                return PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID_30;
+                return PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID;
             }
 
             @Override
@@ -107,7 +107,7 @@ class QuestionVardinrattningensNamnTest {
 
             @Override
             protected String getJsonId() {
-                return PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
+                return PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID;
             }
         }
 
@@ -116,12 +116,13 @@ class QuestionVardinrattningensNamnTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionVardinrattningensNamn.toCertificate(Sjukhusvard.builder().setVardinrattning("Här är en text").build(), 0, textProvider);
+                return QuestionVardinrattningensNamn.toCertificate(
+                    Sjukhusvard.builder().setVardinrattning("Här är en text").build(), 0, textProvider);
             }
 
             @Override
             protected String getJsonId() {
-                return PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID_30;
+                return PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID;
             }
 
             @Override
@@ -164,7 +165,7 @@ class QuestionVardinrattningensNamnTest {
 
             @Override
             protected String getQuestionId() {
-                return PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
+                return PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
             }
 
             @Override
@@ -178,7 +179,7 @@ class QuestionVardinrattningensNamnTest {
 
             @Override
             protected String getQuestionId() {
-                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
+                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
             }
 
             @Override
@@ -207,7 +208,8 @@ class QuestionVardinrattningensNamnTest {
 
             @Override
             protected CertificateDataElement getElement(String expectedValue) {
-                return QuestionVardinrattningensNamn.toCertificate(Sjukhusvard.builder().setVardinrattning(expectedValue).build(), 0, textProvider);
+                return QuestionVardinrattningensNamn.toCertificate(
+                    Sjukhusvard.builder().setVardinrattning(expectedValue).build(), 0, textProvider);
             }
 
             @Override
