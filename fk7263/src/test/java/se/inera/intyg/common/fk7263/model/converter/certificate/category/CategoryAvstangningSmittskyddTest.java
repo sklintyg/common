@@ -36,7 +36,7 @@ import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategoryTest;
 
 @ExtendWith(MockitoExtension.class)
-class CategoryAvstangningEnligtSmittskyddslagenTest {
+class CategoryAvstangningSmittskyddTest {
 
     @Mock
     CertificateMessagesProvider messagesProvider;
@@ -51,7 +51,7 @@ class CategoryAvstangningEnligtSmittskyddslagenTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return CategoryAvstangningEnligtSmittskyddslagen.toCertificate(0, messagesProvider);
+            return CategoryAvstangningSmittskydd.toCertificate(0, messagesProvider);
         }
 
         @Override
@@ -80,7 +80,7 @@ class CategoryAvstangningEnligtSmittskyddslagenTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return CategoryAvstangningEnligtSmittskyddslagen.toCertificate(0, messagesProvider);
+            return CategoryAvstangningSmittskydd.toCertificate(0, messagesProvider);
         }
 
         @Override

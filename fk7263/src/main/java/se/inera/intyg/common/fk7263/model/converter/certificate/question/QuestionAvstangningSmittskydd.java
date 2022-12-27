@@ -17,24 +17,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.fk7263.model.converter.certificate.category;
+package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_TEXT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_SVAR_ID;
+import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.booleanValue;
 
-import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigViewText;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewText;
 
-public class CategoryAvstangningEnligtSmittskyddslagen {
+public class QuestionAvstangningSmittskydd {
 
-    public static CertificateDataElement toCertificate(int index, CertificateMessagesProvider messagesProvider) {
+    public static CertificateDataElement toCertificate(Boolean avstangningSmittskydd, int index) {
         return CertificateDataElement.builder()
-            .id(AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_ID)
+            .id(AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_SVAR_ID)
+            .parent(AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_ID)
             .index(index)
             .config(
-                CertificateDataConfigCategory.builder()
-                    .text(messagesProvider.get(AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_TEXT_ID))
+                CertificateDataConfigViewText.builder()
+                    .build()
+            )
+            .value(
+                CertificateDataValueViewText.builder()
+                    .text(booleanValue(avstangningSmittskydd))
                     .build()
             )
             .build();
