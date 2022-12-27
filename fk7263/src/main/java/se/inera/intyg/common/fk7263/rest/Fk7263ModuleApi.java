@@ -75,9 +75,7 @@ import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.MessagesParser;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.services.texts.DefaultCertificateTextProvider;
 import se.inera.intyg.common.services.texts.IntygTextsService;
-import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -699,8 +697,8 @@ public class Fk7263ModuleApi implements ModuleApi {
     @Override
     public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider) throws ModuleException {
         final var internalCertificate = getInternal(certificateAsJson);
-        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
-        return InternalToCertificate.convert(internalCertificate, certificateTextProvider);
+        final var certificateMessagesProvider = getMessagesProvider();
+        return InternalToCertificate.convert(internalCertificate, certificateMessagesProvider);
     }
 
     @Override
@@ -710,19 +708,13 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     @Override
     public CertificateTextProvider getTextProvider(String certificateType, String certificateTypeVersion) {
-        final var intygTexts = getTexts(certificateType, certificateTypeVersion);
-        return DefaultCertificateTextProvider.create(intygTexts);
+        throw new UnsupportedOperationException();
     }
+
 
     @Override
     public CertificateMessagesProvider getMessagesProvider() {
         return DefaultCertificateMessagesProvider.create(validationMessages);
     }
 
-    private IntygTexts getTexts(String intygsTyp, String version) {
-        if (intygTexts == null) {
-            throw new IllegalStateException("intygTextsService not available in this context");
-        }
-        return intygTexts.getIntygTextsPojo(intygsTyp, version);
-    }
 }

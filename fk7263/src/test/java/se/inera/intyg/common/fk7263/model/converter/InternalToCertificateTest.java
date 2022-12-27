@@ -19,34 +19,39 @@
 
 package se.inera.intyg.common.fk7263.model.converter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
-import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.schemas.contract.Personnummer;
 
+@ExtendWith(MockitoExtension.class)
 class InternalToCertificateTest {
 
     @Mock
-    private CertificateTextProvider textProvider;
-
-    private InternalToCertificate internalToCertificate;
+    private CertificateMessagesProvider messagesProvider;
 
     private Fk7263Utlatande internalCertificate;
 
     @BeforeEach
     void setUp() {
-        internalToCertificate = new InternalToCertificate();
         internalCertificate = new Fk7263Utlatande();
         internalCertificate.setId("certificateId");
         internalCertificate.setGrundData(getGrundData());
+        when(messagesProvider.get(any(String.class))).thenReturn("test string!");
     }
 
     private static GrundData getGrundData() {
@@ -63,7 +68,13 @@ class InternalToCertificateTest {
 
     @Test
     void shallIncludeMetadata() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
         assertNotNull(actualCertificate.getMetadata(), "Shall contain metadata");
+    }
+
+    @Test
+    void shallIncludeCategoryAvstangningEnligtSmittskyddslagen() {
+        final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
+        assertEquals(0, actualCertificate.getData().get(AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_ID).getIndex());
     }
 }
