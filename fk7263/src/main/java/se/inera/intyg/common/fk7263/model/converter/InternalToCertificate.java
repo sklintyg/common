@@ -19,17 +19,16 @@
 
 package se.inera.intyg.common.fk7263.model.converter;
 
-import org.springframework.stereotype.Component;
 import se.inera.intyg.common.fk7263.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 
-@Component(value = "internalToCertificateFK7263")
+
 public class InternalToCertificate {
 
-    public Certificate convert(Fk7263Utlatande internalCertificate, CertificateTextProvider texts) {
+    public static Certificate convert(Fk7263Utlatande internalCertificate, CertificateTextProvider texts) {
         return CertificateBuilder.create()
             .metadata(MetaDataGrundData.toCertificate(internalCertificate))
             .build();
