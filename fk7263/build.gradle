@@ -18,4 +18,5 @@ dependencies {
     testRuntime "javax.servlet:javax.servlet-api"
     compile "javax.annotation:javax.annotation-api"
 
+    testImplementation testFixtures(project(":common-support"))
 }
