@@ -46,4 +46,22 @@ public final class ViewTextToolkit {
             return value;
         }
     }
+
+    public static String multipleStringValues(String... value) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String text : value) {
+            if (text == null) {
+                continue;
+            }
+            stringBuilder.append(text).append(" ");
+        }
+
+        final var text = stringBuilder.toString().trim();
+
+        if (text.isEmpty()) {
+            return NOT_SPECIFIED;
+        }
+
+        return stringBuilder.toString().trim();
+    }
 }

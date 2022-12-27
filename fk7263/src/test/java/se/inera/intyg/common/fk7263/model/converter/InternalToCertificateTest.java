@@ -26,6 +26,7 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.DIAGNOS_FORTYDLIGANDE_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.HUVUDDIAGNOSKOD_SVAR_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -90,11 +91,18 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeCategoryDiagnos() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(1, actualCertificate.getData().get(DIAGNOS_CATEGORY_ID).getIndex());
+        assertEquals(2, actualCertificate.getData().get(DIAGNOS_CATEGORY_ID).getIndex());
     }
+
     @Test
     void shallIncludeQuestionHuvuddiagnoskod() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(1, actualCertificate.getData().get(HUVUDDIAGNOSKOD_SVAR_ID).getIndex());
+        assertEquals(3, actualCertificate.getData().get(HUVUDDIAGNOSKOD_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionFortydligandeDiagnos() {
+        final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
+        assertEquals(4, actualCertificate.getData().get(DIAGNOS_FORTYDLIGANDE_SVAR_ID).getIndex());
     }
 }
