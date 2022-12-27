@@ -38,4 +38,12 @@ public final class ViewTextToolkit {
             return NO;
         }
     }
+
+    public static String stringValue(String value) {
+        if (value == null) {
+            return NOT_SPECIFIED;
+        } else {
+            return value;
+        }
+    }
 }

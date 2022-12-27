@@ -25,6 +25,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_SVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.HUVUDDIAGNOSKOD_SVAR_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -83,5 +85,16 @@ class InternalToCertificateTest {
     void shallIncludeQuestionAvstangningEnligtSmittskyddslagen() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
         assertEquals(1, actualCertificate.getData().get(AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryDiagnos() {
+        final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
+        assertEquals(1, actualCertificate.getData().get(DIAGNOS_CATEGORY_ID).getIndex());
+    }
+    @Test
+    void shallIncludeQuestionHuvuddiagnoskod() {
+        final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
+        assertEquals(1, actualCertificate.getData().get(HUVUDDIAGNOSKOD_SVAR_ID).getIndex());
     }
 }

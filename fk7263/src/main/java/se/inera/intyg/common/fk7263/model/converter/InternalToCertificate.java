@@ -23,6 +23,7 @@ import se.inera.intyg.common.fk7263.model.converter.certificate.MetaDataGrundDat
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryAvstangningSmittskydd;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionAvstangningSmittskydd;
+import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionHuvuddiagnoskod;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
@@ -43,6 +44,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 CategoryDiagnos.toCertificate(index++, messagesProvider)
+            )
+            .addElement(
+                QuestionHuvuddiagnoskod.toCertificate(internalCertificate.getDiagnosKod(), index++, messagesProvider)
             )
             .build();
     }

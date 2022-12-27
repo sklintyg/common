@@ -19,6 +19,7 @@
 
 package se.inera.intyg.common.support.facade.testsetup.model.config;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
@@ -27,7 +28,7 @@ import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 
-public abstract class ConfigViewText extends ConfigTest {
+public abstract class ConfigViewTextTest extends ConfigTest {
 
     protected abstract CertificateMessagesProvider getMessageProviderMock();
 
@@ -50,7 +51,9 @@ public abstract class ConfigViewText extends ConfigTest {
 
     @Test
     void shallIncludeMessageId() {
+        final var question = getElement();
         if (getMessageId() != null) {
+            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
             verify(getMessageProviderMock(), atLeastOnce()).get(getMessageId());
         }
     }

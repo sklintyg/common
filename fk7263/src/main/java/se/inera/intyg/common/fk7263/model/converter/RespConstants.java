@@ -26,4 +26,6 @@ public class RespConstants {
     public static final String AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_SVAR_ID = "1";
     public static final String DIAGNOS_CATEGORY_ID = "diagnos";
     public static final String DIAGNOS_CATEGORY_TEXT_ID = "fk7263.label.diagnosis";
+    public static final String HUVUDDIAGNOSKOD_SVAR_ID = "2";
+    public static final String HUVUDDIAGNOSKOD_SVAR_TEXT_ID = "fk7263.label.diagnosisCode";
 }
