@@ -88,11 +88,9 @@ public abstract class ConfigTest {
     @Test
     void shouldIncludeConfigText() {
         final var question = getElement();
-        if (getTextId() != null && !question.getConfig().getText().equals(getTextId())) {
+        if (getTextProviderMock() != null && getTextId() != null && !question.getConfig().getText().equals(getTextId())) {
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
             verify(getTextProviderMock(), atLeastOnce()).get(getTextId());
-        } else {
-            assertEquals(getTextId(), question.getConfig().getText());
         }
     }
 

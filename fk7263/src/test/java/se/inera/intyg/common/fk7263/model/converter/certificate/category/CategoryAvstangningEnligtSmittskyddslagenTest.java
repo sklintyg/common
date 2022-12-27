@@ -19,65 +19,78 @@
 
 package se.inera.intyg.common.fk7263.model.converter.certificate.category;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_TEXT_ID;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
+import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.CertificateDataElement;
+import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
+import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategoryTest;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryAvstangningEnligtSmittskyddslagenTest {
 
-//    @Mock
-//    CertificateTextProvider textProvider;
-//
-//    @BeforeEach
-//    void setUp() {
-//        when(textProvider.get(any(String.class))).thenReturn("test string");
-//    }
-//
-//    @Nested
-//    class IncludeCommonElementTests extends CommonElementTest {
-//
-//        @Override
-//        protected CertificateDataElement getElement() {
-//            return CategoryAvstangningEnligtSmittskyddslagen.toCertificate(0, textProvider);
-//        }
-//
-//        @Override
-//        protected String getId() {
-//            return AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_ID;
-//        }
-//
-//        @Override
-//        protected String getParent() {
-//            return null;
-//        }
-//
-//        @Override
-//        protected int getIndex() {
-//            return 0;
-//        }
-//    }
-//
-//    @Nested
-//    class IncludeConfigCategoryTests extends ConfigCategoryTest {
-//
-//        @Override
-//        protected CertificateTextProvider getTextProviderMock() {
-//            return textProvider;
-//        }
-//
-//        @Override
-//        protected CertificateDataElement getElement() {
-//            return CategoryAvstangningEnligtSmittskyddslagen.toCertificate(0, );
-//        }
-//
-//        @Override
-//        protected String getTextId() {
-//            return AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_TEXT_ID;
-//        }
-//
-//        @Override
-//        protected String getDescriptionId() {
-//            return null;
-//        }
-//    }
+    @Mock
+    CertificateMessagesProvider messagesProvider;
+
+    @BeforeEach
+    void setUp() {
+        when(messagesProvider.get(any(String.class))).thenReturn("test string");
+    }
+
+    @Nested
+    class IncludeCommonElementTests extends CommonElementTest {
+
+        @Override
+        protected CertificateDataElement getElement() {
+            return CategoryAvstangningEnligtSmittskyddslagen.toCertificate(0, messagesProvider);
+        }
+
+        @Override
+        protected String getId() {
+            return AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_ID;
+        }
+
+        @Override
+        protected String getParent() {
+            return null;
+        }
+
+        @Override
+        protected int getIndex() {
+            return 0;
+        }
+    }
+
+    @Nested
+    class IncludeConfigCategoryTests extends ConfigCategoryTest {
+
+        @Override
+        protected CertificateTextProvider getTextProviderMock() {
+            return null;
+        }
+
+        @Override
+        protected CertificateDataElement getElement() {
+            return CategoryAvstangningEnligtSmittskyddslagen.toCertificate(0, messagesProvider);
+        }
+
+        @Override
+        protected String getTextId() {
+            return AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_TEXT_ID;
+        }
+
+        @Override
+        protected String getDescriptionId() {
+            return null;
+        }
+    }
 }
