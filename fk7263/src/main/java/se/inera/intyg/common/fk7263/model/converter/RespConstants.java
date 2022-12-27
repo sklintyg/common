@@ -24,4 +24,6 @@ public class RespConstants {
     public static final String AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_ID = "avstangningEnligtSmittskyddslagen";
     public static final String AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_TEXT_ID = "fk7263.label.smittskydd.kategori";
     public static final String AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_SVAR_ID = "1";
+    public static final String DIAGNOS_CATEGORY_ID = "diagnos";
+    public static final String DIAGNOS_CATEGORY_TEXT_ID = "fk7263.label.diagnosis";
 }
