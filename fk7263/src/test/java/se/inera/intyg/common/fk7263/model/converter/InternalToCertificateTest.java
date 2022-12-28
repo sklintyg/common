@@ -33,6 +33,7 @@ import static se.inera.intyg.common.fk7263.model.converter.RespConstants.HUVUDDI
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.INTYGET_BASERAS_PA_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.SJUKDOMSFORLOPP_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.SJUKDOMSFORLOPP_SVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.UNDERSOKNING_AV_PATIENTEN_DELSVAR_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -139,5 +140,11 @@ class InternalToCertificateTest {
     void shallIncludeCategoryIntygetBaserasPa() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
         assertEquals(9, actualCertificate.getData().get(INTYGET_BASERAS_PA_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionIntygetBaserasPaUndersokning() {
+        final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
+        assertEquals(10, actualCertificate.getData().get(UNDERSOKNING_AV_PATIENTEN_DELSVAR_ID).getIndex());
     }
 }

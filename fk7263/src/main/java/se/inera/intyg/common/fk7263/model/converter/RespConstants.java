@@ -43,4 +43,16 @@ public class RespConstants {
     public static final String INTYGET_BASERAS_PA_CATEGORY_ID = "intygetBaserasPa";
     public static final String INTYGET_BASERAS_PA_CATEGORY_TEXT_ID = "fk7263.label.basedon";
 
+    public static final String UNDERSOKNING_AV_PATIENTEN_DELSVAR_ID = "6.1";
+    public static final String UNDERSOKNING_AV_PATIENTEN_DELSVAR_TEXT = "Min undersökning av patienten den";
+
+    public static final String TELEFONKONTAKT_MED_PATIENTEN_DELSVAR_ID = "6.2";
+    public static final String TELEFONKONTAKT_MED_PATIENTEN_DELSVAR_TEXT = "Min telefonkontakt med patienten den";
+
+    public static final String JOURNALUPPGIFTER_DELSVAR_ID = "6.3";
+    public static final String JOURNALUPPGIFTER_DELSVAR_TEXT = "Journaluppgifter, den";
+
+    public static final String ANNAT_DELSVAR_ID = "6.4";
+    public static final String ANNAT_DELSVAR_TEXT = "Annat, den";
+
 }
