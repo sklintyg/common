@@ -22,6 +22,7 @@ package se.inera.intyg.common.fk7263.model.converter;
 import se.inera.intyg.common.fk7263.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryAktivitetsbegransningar;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryAvstangningSmittskydd;
+import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryBehandlingEllerAtgard;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryFunktionsnedsattning;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryIntygetBaserasPa;
@@ -116,6 +117,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionRekommendationerOvrigt.toCertificate(internalCertificate.getRekommendationOvrigt(), index++, messagesProvider)
+            )
+            .addElement(
+                CategoryBehandlingEllerAtgard.toCertificate(index++, messagesProvider)
             )
             .build();
     }

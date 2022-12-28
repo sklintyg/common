@@ -66,5 +66,7 @@ public class RespConstants {
     public static final String REKOMMENDATIONER_KONTAKT_MED_FHV_DELSVAR_TEXT_ID = "fk7263.label.recommendations.contact.healthdepartment";
     public static final String REKOMMENDATIONER_OVRIGT_DELSVAR_ID = "8.3";
     public static final String REKOMMENDATIONER_OVRIGT_DELSVAR_TEXT_ID = "fk7263.label.recommendations.contact.other";
+    public static final String BEHANDLING_ELLER_ATGARD_CATEGORY_ID = "behandlingEllerAtgard";
+    public static final String BEHANDLING_ELLER_ATGARD_CATEGORY_TEXT_ID = "fk7263.label.plannedtreatment";
 
 }
