@@ -56,7 +56,7 @@ class QuestionFortydligandeDiagnosTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionFortydligandeDiagnos.toCertificate(null, null, null, 0, messagesProvider);
+            return QuestionFortydligandeDiagnos.toCertificate(null, null, null, null, 0, messagesProvider);
         }
 
         @Override
@@ -81,7 +81,7 @@ class QuestionFortydligandeDiagnosTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionFortydligandeDiagnos.toCertificate(null, null, null, 0, messagesProvider);
+            return QuestionFortydligandeDiagnos.toCertificate(null, null, null, null, 0, messagesProvider);
         }
 
 
@@ -107,14 +107,14 @@ class QuestionFortydligandeDiagnosTest {
         @Test
         void shouldIncludeValueType() {
             final var element = QuestionFortydligandeDiagnos.toCertificate(null,
-                null, null, 0, messagesProvider);
+                null, null, null, 0, messagesProvider);
             final var type = element.getValue().getType();
             assertEquals(CertificateDataValueType.VIEW_TEXT, type);
         }
 
         @Test
         void shouldIncludeTextValue() {
-            final var expectedResult1 = "test1 test2 test3";
+            final var expectedResult1 = "test1 test2 test3 test4";
             final var expectedResult2 = "test1 test2";
             final var expectedResult3 = "Ej angivet";
 
@@ -122,17 +122,17 @@ class QuestionFortydligandeDiagnosTest {
                 () -> assertEquals(
                     CertificateDataValueViewText.builder().text(expectedResult1).build(),
                     QuestionFortydligandeDiagnos.toCertificate("test1",
-                        "test2", "test3", 0, messagesProvider).getValue()
+                        "test2", "test3", "test4", 0, messagesProvider).getValue()
                 ),
                 () -> assertEquals(
                     CertificateDataValueViewText.builder().text(expectedResult2).build(),
                     QuestionFortydligandeDiagnos.toCertificate("test1",
-                        "test2", null, 0, messagesProvider).getValue()
+                        "test2", null, null, 0, messagesProvider).getValue()
                 ),
                 () -> assertEquals(
                     CertificateDataValueViewText.builder().text(expectedResult3).build(),
                     QuestionFortydligandeDiagnos.toCertificate(null,
-                        null, null, 0, messagesProvider).getValue()
+                        null, null, null, 0, messagesProvider).getValue()
                 )
             );
         }

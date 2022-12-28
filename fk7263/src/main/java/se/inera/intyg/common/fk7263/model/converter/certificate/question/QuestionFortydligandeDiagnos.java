@@ -32,7 +32,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueView
 public class QuestionFortydligandeDiagnos {
 
     public static CertificateDataElement toCertificate(String diagnosBeskrivning1, String diagnosBeskrivning2,
-        String diagnosBeskrivning3, int index, CertificateMessagesProvider messagesProvider) {
+        String diagnosBeskrivning3, String diagnosBeskrivning4, int index, CertificateMessagesProvider messagesProvider) {
         return CertificateDataElement.builder()
             .id(DIAGNOS_FORTYDLIGANDE_SVAR_ID)
             .parent(DIAGNOS_CATEGORY_ID)
@@ -44,7 +44,7 @@ public class QuestionFortydligandeDiagnos {
             )
             .value(
                 CertificateDataValueViewText.builder()
-                    .text(multipleStringValues(diagnosBeskrivning1, diagnosBeskrivning2, diagnosBeskrivning3))
+                    .text(multipleStringValues(diagnosBeskrivning1, diagnosBeskrivning2, diagnosBeskrivning3, diagnosBeskrivning4))
                     .build()
             )
             .build();

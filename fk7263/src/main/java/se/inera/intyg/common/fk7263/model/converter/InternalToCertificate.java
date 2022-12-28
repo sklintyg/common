@@ -50,8 +50,10 @@ public class InternalToCertificate {
                 QuestionHuvuddiagnoskod.toCertificate(internalCertificate.getDiagnosKod(), index++, messagesProvider)
             )
             .addElement(
-                QuestionFortydligandeDiagnos.toCertificate(internalCertificate.getDiagnosBeskrivning1(),
-                    internalCertificate.getDiagnosBeskrivning2(), internalCertificate.getDiagnosBeskrivning3(), index, messagesProvider)
+                QuestionFortydligandeDiagnos.toCertificate(internalCertificate.getDiagnosBeskrivning(),
+                    internalCertificate.getDiagnosBeskrivning1(), internalCertificate.getDiagnosBeskrivning2(),
+                    internalCertificate.getDiagnosBeskrivning3(), index,
+                    messagesProvider)
             )
             .build();
     }
