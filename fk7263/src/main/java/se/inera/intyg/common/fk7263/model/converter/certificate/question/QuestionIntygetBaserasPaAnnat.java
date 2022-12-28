@@ -19,9 +19,9 @@
 
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ANNAT_DELSVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ANNAT_DELSVAR_TEXT;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.INTYGET_BASERAS_PA_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.UNDERSOKNING_AV_PATIENTEN_DELSVAR_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.UNDERSOKNING_AV_PATIENTEN_DELSVAR_TEXT;
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.stringValue;
 
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -29,17 +29,17 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigVi
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewText;
 import se.inera.intyg.common.support.model.InternalDate;
 
-public class QuestionIntygetBaserasPaUndersokning {
+public class QuestionIntygetBaserasPaAnnat {
 
-    public static CertificateDataElement toCertificate(InternalDate undersokningDatum, int index) {
-        final var date = validDate(undersokningDatum) ? undersokningDatum.toString() : null;
+    public static CertificateDataElement toCertificate(InternalDate annat, int index) {
+        final var date = validDate(annat) ? annat.toString() : null;
         return CertificateDataElement.builder()
-            .id(UNDERSOKNING_AV_PATIENTEN_DELSVAR_ID)
+            .id(ANNAT_DELSVAR_ID)
             .parent(INTYGET_BASERAS_PA_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigViewText.builder()
-                    .text(UNDERSOKNING_AV_PATIENTEN_DELSVAR_TEXT)
+                    .text(ANNAT_DELSVAR_TEXT)
                     .build()
             )
             .value(

@@ -32,7 +32,7 @@ import se.inera.intyg.common.support.model.InternalDate;
 public class QuestionIntygetBaserasPaJournaluppgifter {
 
     public static CertificateDataElement toCertificate(InternalDate journaluppgifter, int index) {
-        final var undersokning = validDate(journaluppgifter) ? journaluppgifter.toString() : null;
+        final var date = validDate(journaluppgifter) ? journaluppgifter.toString() : null;
         return CertificateDataElement.builder()
             .id(JOURNALUPPGIFTER_DELSVAR_ID)
             .parent(INTYGET_BASERAS_PA_CATEGORY_ID)
@@ -44,7 +44,7 @@ public class QuestionIntygetBaserasPaJournaluppgifter {
             )
             .value(
                 CertificateDataValueViewText.builder()
-                    .text(stringValue(undersokning))
+                    .text(stringValue(date))
                     .build()
             )
             .build();
