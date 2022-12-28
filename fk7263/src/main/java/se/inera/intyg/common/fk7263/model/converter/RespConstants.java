@@ -33,4 +33,7 @@ public class RespConstants {
 
     public static final String SJUKDOMSFORLOPP_CATEGORY_ID = "sjukdomforlopp";
     public static final String SJUKDOMSFORLOPP_CATEGORY_TEXT_ID = "fk7263.label.progressofdesease";
+
+    public static final String SJUKDOMSFORLOPP_SVAR_ID = "4";
+
 }
