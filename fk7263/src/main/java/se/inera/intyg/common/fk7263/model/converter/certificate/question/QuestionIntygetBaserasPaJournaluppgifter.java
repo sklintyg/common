@@ -20,8 +20,8 @@
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.INTYGET_BASERAS_PA_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.TELEFONKONTAKT_MED_PATIENTEN_DELSVAR_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.TELEFONKONTAKT_MED_PATIENTEN_DELSVAR_TEXT;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.JOURNALUPPGIFTER_DELSVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.JOURNALUPPGIFTER_DELSVAR_TEXT;
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.stringValue;
 
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -29,17 +29,17 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigVi
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewText;
 import se.inera.intyg.common.support.model.InternalDate;
 
-public class QuestionIntygetBaserasPaTelefonkontakt {
+public class QuestionIntygetBaserasPaJournaluppgifter {
 
-    public static CertificateDataElement toCertificate(InternalDate telefonkontakt, int index) {
-        final var undersokning = validDate(telefonkontakt) ? telefonkontakt.toString() : null;
+    public static CertificateDataElement toCertificate(InternalDate journaluppgifter, int index) {
+        final var undersokning = validDate(journaluppgifter) ? journaluppgifter.toString() : null;
         return CertificateDataElement.builder()
-            .id(TELEFONKONTAKT_MED_PATIENTEN_DELSVAR_ID)
+            .id(JOURNALUPPGIFTER_DELSVAR_ID)
             .parent(INTYGET_BASERAS_PA_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigViewText.builder()
-                    .text(TELEFONKONTAKT_MED_PATIENTEN_DELSVAR_TEXT)
+                    .text(JOURNALUPPGIFTER_DELSVAR_TEXT)
                     .build()
             )
             .value(
