@@ -81,5 +81,7 @@ public class RespConstants {
     public static final String PATIENTENS_ARBETFORMAGA_NUVARANDE_ARBETE_TEXT_ID = "fk7263.label.patientworkcapacity.currentwork";
     public static final String PATIENTENS_ARBETFORMAGA_FORALDRALEDIGHET_TEXT_ID = "fk7263.label.patientworkcapacity.parentalleave";
     public static final String PATIENTENS_ARBETFORMAGA_ARBETSLOSHET_TEXT_ID = "fk7263.label.patientworkcapacity.unemployed";
+    public static final String ARBETFORMAGA_BEDOMNING_CATEGORY_ID = "arbetsformogaBedomning";
+    public static final String ARBETFORMAGA_BEDOMNING_CATEGORY_TEXT_ID = "arbetsformogaBedomning";
 
 }
