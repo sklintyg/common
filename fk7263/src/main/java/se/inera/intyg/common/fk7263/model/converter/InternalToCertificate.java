@@ -29,6 +29,7 @@ import se.inera.intyg.common.fk7263.model.converter.certificate.question.Questio
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionFortydligandeDiagnos;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionHuvuddiagnoskod;
+import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionIntygetBaserasPaTelefonkontakt;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionIntygetBaserasPaUndersokning;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionSjukdomsforlopp;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
@@ -77,7 +78,10 @@ public class InternalToCertificate {
                 CategoryIntygetBaserasPa.toCertificate(index++, messagesProvider)
             )
             .addElement(
-                QuestionIntygetBaserasPaUndersokning.toCertificate(internalCertificate.getUndersokningAvPatienten(), index)
+                QuestionIntygetBaserasPaUndersokning.toCertificate(internalCertificate.getUndersokningAvPatienten(), index++)
+            )
+            .addElement(
+                QuestionIntygetBaserasPaTelefonkontakt.toCertificate(internalCertificate.getTelefonkontaktMedPatienten(), index)
             )
             .build();
     }
