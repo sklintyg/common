@@ -27,6 +27,8 @@ import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AKTIVIT
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AKTIVITETSBEGRANSNINGAR_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ANNAN_ATGARD_DELSVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ANNAT_DELSVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSLIVSINRIKTAD_REHABILITERING_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSLIVSINRIKTAD_REHABILITERING_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.BEHANDLING_ELLER_ATGARD_CATEGORY_ID;
@@ -230,5 +232,17 @@ class InternalToCertificateTest {
     void shallIncludeQuestionBehandlingEllerAtgardAnnanAtgard() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
         assertEquals(22, actualCertificate.getData().get(ANNAN_ATGARD_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryArbetslivsinriktadRehabilitering() {
+        final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
+        assertEquals(23, actualCertificate.getData().get(ARBETSLIVSINRIKTAD_REHABILITERING_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionArbetslivsinriktadRehabilitering() {
+        final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
+        assertEquals(24, actualCertificate.getData().get(ARBETSLIVSINRIKTAD_REHABILITERING_SVAR_ID).getIndex());
     }
 }

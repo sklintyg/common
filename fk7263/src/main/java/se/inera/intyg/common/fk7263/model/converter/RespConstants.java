@@ -72,5 +72,8 @@ public class RespConstants {
     public static final String INOM_SJUKVARD_DELSVAR_TEXT_ID = "fk7263.label.plannedtreatment.healthcare";
     public static final String ANNAN_ATGARD_DELSVAR_ID = "9.2";
     public static final String ANNAN_ATGARD_DELSVAR_TEXT_ID = "fk7263.label.plannedtreatment.other";
+    public static final String ARBETSLIVSINRIKTAD_REHABILITERING_CATEGORY_ID = "arbetslivsinriktadRehabilitering";
+    public static final String ARBETSLIVSINRIKTAD_REHABILITERING_CATEGORY_TEXT_ID = "fk7263.label.workrehab";
+    public static final String ARBETSLIVSINRIKTAD_REHABILITERING_SVAR_ID = "10";
 
 }

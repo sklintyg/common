@@ -19,20 +19,14 @@
 
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ANNAN_ATGARD_DELSVAR_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ANNAN_ATGARD_DELSVAR_TEXT_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.BEHANDLING_ELLER_ATGARD_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSLIVSINRIKTAD_REHABILITERING_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSLIVSINRIKTAD_REHABILITERING_SVAR_ID;
 
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import se.inera.intyg.common.fk7263.model.internal.Rehabilitering;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewText;
@@ -41,33 +35,24 @@ import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigViewTex
 import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueViewTextTest;
 
-@ExtendWith(MockitoExtension.class)
-class QuestionBehandlingEllerAtgardAnnanAtgardTest {
-
-    @Mock
-    CertificateMessagesProvider messagesProvider;
-
-    @BeforeEach
-    void setUp() {
-        when(messagesProvider.get(any(String.class))).thenReturn("test string");
-    }
+class QuestionArbetslivsinriktadRehabiliteringTest {
 
     @Nested
     class IncludeCommonElementTests extends CommonElementTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionBehandlingEllerAtgardAnnanAtgard.toCertificate(null, 0, messagesProvider);
+            return QuestionArbetslivsinriktadRehabilitering.toCertificate(null, 0);
         }
 
         @Override
         protected String getId() {
-            return ANNAN_ATGARD_DELSVAR_ID;
+            return ARBETSLIVSINRIKTAD_REHABILITERING_SVAR_ID;
         }
 
         @Override
         protected String getParent() {
-            return BEHANDLING_ELLER_ATGARD_CATEGORY_ID;
+            return ARBETSLIVSINRIKTAD_REHABILITERING_CATEGORY_ID;
         }
 
         @Override
@@ -82,9 +67,8 @@ class QuestionBehandlingEllerAtgardAnnanAtgardTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionBehandlingEllerAtgardAnnanAtgard.toCertificate(null, 0, messagesProvider);
+            return QuestionArbetslivsinriktadRehabilitering.toCertificate(null, 0);
         }
-
 
         @Override
         protected String getDescriptionId() {
@@ -93,29 +77,34 @@ class QuestionBehandlingEllerAtgardAnnanAtgardTest {
 
         @Override
         protected CertificateMessagesProvider getMessageProviderMock() {
-            return messagesProvider;
+            return null;
         }
 
         @Override
         protected String getMessageId() {
-            return ANNAN_ATGARD_DELSVAR_TEXT_ID;
+            return null;
         }
     }
 
     @Nested
     @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeValueViewTextTests extends ValueViewTextTest<String> {
+    class IncludeValueViewTextTests extends ValueViewTextTest<Rehabilitering> {
 
         @Override
-        protected CertificateDataElement getElement(String expectedValue) {
-            return QuestionBehandlingEllerAtgardAnnanAtgard.toCertificate(expectedValue, 0, messagesProvider);
+        protected CertificateDataElement getElement(Rehabilitering expectedValue) {
+            return QuestionArbetslivsinriktadRehabilitering.toCertificate(expectedValue, 0);
         }
 
         @Override
-        protected List<InputExpectedValuePair<String, CertificateDataValueViewText>> inputExpectedValuePairList() {
+        protected List<InputExpectedValuePair<Rehabilitering, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
                 new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
-                new InputExpectedValuePair<>("test", CertificateDataValueViewText.builder().text("test").build())
+                new InputExpectedValuePair<>(Rehabilitering.rehabiliteringEjAktuell,
+                    CertificateDataValueViewText.builder().text("Nej").build()),
+                new InputExpectedValuePair<>(Rehabilitering.rehabiliteringAktuell,
+                    CertificateDataValueViewText.builder().text("Ja").build()),
+                new InputExpectedValuePair<>(Rehabilitering.rehabiliteringGarInteAttBedoma,
+                    CertificateDataValueViewText.builder().text("Går inte att bedöma").build())
             );
         }
     }

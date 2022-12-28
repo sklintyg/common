@@ -21,6 +21,7 @@ package se.inera.intyg.common.fk7263.model.converter;
 
 import se.inera.intyg.common.fk7263.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryAktivitetsbegransningar;
+import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryArbetslivsinriktadRehabilitering;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryAvstangningSmittskydd;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryBehandlingEllerAtgard;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryDiagnos;
@@ -29,6 +30,7 @@ import se.inera.intyg.common.fk7263.model.converter.certificate.category.Categor
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryRekommendationer;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategorySjukdomforlopp;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionAktivitetsbegransningar;
+import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionArbetslivsinriktadRehabilitering;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionAvstangningSmittskydd;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionBehandlingEllerAtgardAnnanAtgard;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionBehandlingEllerAtgardSjukvard;
@@ -129,6 +131,12 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionBehandlingEllerAtgardAnnanAtgard.toCertificate(internalCertificate.getAnnanAtgard(), index++, messagesProvider)
+            )
+            .addElement(
+                CategoryArbetslivsinriktadRehabilitering.toCertificate(index++, messagesProvider)
+            )
+            .addElement(
+                QuestionArbetslivsinriktadRehabilitering.toCertificate(internalCertificate.getRehabilitering(), index++)
             )
             .build();
     }
