@@ -49,7 +49,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @Type(value = CertificateDataConfigMedicalInvestigation.class, name = "UE_MEDICAL_INVESTIGATION"),
     @Type(value = CertificateDataConfigVisualAcuity.class, name = "UE_VISUAL_ACUITY"),
     @Type(value = CertificateDataConfigViewText.class, name = "UE_VIEW_TEXT"),
-    @Type(value = CertificateDataConfigViewList.class, name = "UE_VIEW_LIST")
+    @Type(value = CertificateDataConfigViewList.class, name = "UE_VIEW_LIST"),
+    @Type(value = CertificateDataConfigViewTable.class, name = "UE_VIEW_TABLE")
 
 })
 public interface CertificateDataConfig {

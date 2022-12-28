@@ -82,6 +82,19 @@ public class RespConstants {
     public static final String PATIENTENS_ARBETFORMAGA_FORALDRALEDIGHET_TEXT_ID = "fk7263.label.patientworkcapacity.parentalleave";
     public static final String PATIENTENS_ARBETFORMAGA_ARBETSLOSHET_TEXT_ID = "fk7263.label.patientworkcapacity.unemployed";
     public static final String ARBETFORMAGA_BEDOMNING_CATEGORY_ID = "arbetsformogaBedomning";
-    public static final String ARBETFORMAGA_BEDOMNING_CATEGORY_TEXT_ID = "arbetsformogaBedomning";
+    public static final String ARBETFORMAGA_BEDOMNING_CATEGORY_TEXT_ID = "fk7263.label.nedsattning.falt8b";
 
+    public static final String ARBETFORMAGA_BEDOMNING_SVAR_ID = "12";
+    public static final String ARBETFORMAGA_BEDOMNING_NEDSATT_ID = "nedsatt";
+    public static final String ARBETFORMAGA_BEDOMNING_NEDSATT_TEXT = "Nedsatt med";
+
+    public static final String ARBETFORMAGA_BEDOMNING_FOM_ID = "franOchMed";
+    public static final String ARBETFORMAGA_BEDOMNING_FOM_TEXT = "Från och med";
+
+    public static final String ARBETFORMAGA_BEDOMNING_TOM_ID = "tillOchMed";
+    public static final String ARBETFORMAGA_BEDOMNING_TOM_TEXT = "Längst till och med";
+    public static final String ARBETFORMAGA_BEDOMNING_NEDSATT_25_TEXT_ID = "fk7263.nedsattningsgrad.nedsatt_med_1_4";
+    public static final String ARBETFORMAGA_BEDOMNING_NEDSATT_50_TEXT_ID = "fk7263.nedsattningsgrad.nedsatt_med_1_2";
+    public static final String ARBETFORMAGA_BEDOMNING_NEDSATT_75_TEXT_ID = "fk7263.nedsattningsgrad.nedsatt_med_3_4";
+    public static final String ARBETFORMAGA_BEDOMNING_NEDSATT_100_TEXT_ID = "fk7263.nedsattningsgrad.helt_nedsatt";
 }

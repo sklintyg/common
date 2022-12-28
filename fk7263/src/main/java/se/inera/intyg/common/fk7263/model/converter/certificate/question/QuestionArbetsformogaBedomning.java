@@ -1,0 +1,148 @@
+/*
+ * Copyright (C) 2022 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package se.inera.intyg.common.fk7263.model.converter.certificate.question;
+
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_FOM_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_FOM_TEXT;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_NEDSATT_100_TEXT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_NEDSATT_25_TEXT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_NEDSATT_50_TEXT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_NEDSATT_75_TEXT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_NEDSATT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_NEDSATT_TEXT;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_SVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_TOM_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_TOM_TEXT;
+
+import java.util.List;
+import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
+import se.inera.intyg.common.support.facade.model.CertificateDataElement;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigViewTable;
+import se.inera.intyg.common.support.facade.model.config.ViewColumn;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewRow;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewTable;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
+
+public class QuestionArbetsformogaBedomning {
+
+    private static final String NOT_PROVIDED = "Ej Angivet";
+
+    public static CertificateDataElement toCertificate(InternalLocalDateInterval nedsattMed25, InternalLocalDateInterval nedsattMed50,
+        InternalLocalDateInterval nedsattMed75, InternalLocalDateInterval nedsattMed100, int index,
+        CertificateMessagesProvider messagesProvider) {
+        return CertificateDataElement.builder()
+            .id(ARBETFORMAGA_BEDOMNING_SVAR_ID)
+            .parent(ARBETFORMAGA_BEDOMNING_CATEGORY_ID)
+            .index(index)
+            .config(
+                CertificateDataConfigViewTable.builder()
+                    .columns(
+                        List.of(
+                            ViewColumn.builder()
+                                .id(ARBETFORMAGA_BEDOMNING_NEDSATT_ID)
+                                .title(ARBETFORMAGA_BEDOMNING_NEDSATT_TEXT)
+                                .build(),
+                            ViewColumn.builder()
+                                .id(ARBETFORMAGA_BEDOMNING_FOM_ID)
+                                .title(ARBETFORMAGA_BEDOMNING_FOM_TEXT)
+                                .build(),
+                            ViewColumn.builder()
+                                .id(ARBETFORMAGA_BEDOMNING_TOM_ID)
+                                .title(ARBETFORMAGA_BEDOMNING_TOM_TEXT)
+                                .build()
+                        )
+                    )
+                    .build()
+            )
+            .value(
+                CertificateDataValueViewTable.builder()
+                    .rows(
+                        List.of(
+                            CertificateDataValueViewRow.builder()
+                                .columns(
+                                    nedsattMed25 != null
+                                        ? getColumnNedsatt(nedsattMed25, ARBETFORMAGA_BEDOMNING_NEDSATT_25_TEXT_ID, messagesProvider)
+                                        : getEmptyColumnNedsatt(ARBETFORMAGA_BEDOMNING_NEDSATT_25_TEXT_ID, messagesProvider)
+                                )
+                                .build(),
+                            CertificateDataValueViewRow.builder()
+                                .columns(
+                                    nedsattMed50 != null
+                                        ? getColumnNedsatt(nedsattMed50, ARBETFORMAGA_BEDOMNING_NEDSATT_50_TEXT_ID, messagesProvider)
+                                        : getEmptyColumnNedsatt(ARBETFORMAGA_BEDOMNING_NEDSATT_50_TEXT_ID, messagesProvider)
+                                )
+                                .build(),
+                            CertificateDataValueViewRow.builder()
+                                .columns(
+                                    nedsattMed75 != null
+                                        ? getColumnNedsatt(nedsattMed75, ARBETFORMAGA_BEDOMNING_NEDSATT_75_TEXT_ID, messagesProvider)
+                                        : getEmptyColumnNedsatt(ARBETFORMAGA_BEDOMNING_NEDSATT_75_TEXT_ID, messagesProvider)
+                                )
+                                .build(),
+                            CertificateDataValueViewRow.builder()
+                                .columns(
+                                    nedsattMed100 != null
+                                        ? getColumnNedsatt(nedsattMed100, ARBETFORMAGA_BEDOMNING_NEDSATT_100_TEXT_ID, messagesProvider)
+                                        : getEmptyColumnNedsatt(ARBETFORMAGA_BEDOMNING_NEDSATT_100_TEXT_ID, messagesProvider)
+                                )
+                                .build()
+                        )
+                    )
+                    .build()
+            )
+            .build();
+    }
+
+    private static List<CertificateDataTextValue> getEmptyColumnNedsatt(String textId,
+        CertificateMessagesProvider messagesProvider) {
+        return List.of(
+            CertificateDataTextValue.builder()
+                .id(ARBETFORMAGA_BEDOMNING_NEDSATT_ID)
+                .text(messagesProvider.get(textId))
+                .build(),
+            CertificateDataTextValue.builder()
+                .id(ARBETFORMAGA_BEDOMNING_FOM_ID)
+                .text(NOT_PROVIDED)
+                .build(),
+            CertificateDataTextValue.builder()
+                .id(ARBETFORMAGA_BEDOMNING_TOM_ID)
+                .text(NOT_PROVIDED)
+                .build());
+    }
+
+    private static List<CertificateDataTextValue> getColumnNedsatt(InternalLocalDateInterval nedsattMed, String textId,
+        CertificateMessagesProvider messagesProvider) {
+        return List.of(
+            CertificateDataTextValue.builder()
+                .id(ARBETFORMAGA_BEDOMNING_NEDSATT_ID)
+                .text(messagesProvider.get(textId))
+                .build(),
+            CertificateDataTextValue.builder()
+                .id(ARBETFORMAGA_BEDOMNING_FOM_ID)
+                .text(nedsattMed.fromAsLocalDate().toString())
+                .build(),
+            CertificateDataTextValue.builder()
+                .id(ARBETFORMAGA_BEDOMNING_TOM_ID)
+                .text(nedsattMed.tomAsLocalDate().toString())
+                .build());
+    }
+}
