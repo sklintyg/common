@@ -68,5 +68,9 @@ public class RespConstants {
     public static final String REKOMMENDATIONER_OVRIGT_DELSVAR_TEXT_ID = "fk7263.label.recommendations.contact.other";
     public static final String BEHANDLING_ELLER_ATGARD_CATEGORY_ID = "behandlingEllerAtgard";
     public static final String BEHANDLING_ELLER_ATGARD_CATEGORY_TEXT_ID = "fk7263.label.plannedtreatment";
+    public static final String INOM_SJUKVARD_DELSVAR_ID = "9.1";
+    public static final String INOM_SJUKVARD_DELSVAR_TEXT_ID = "fk7263.label.plannedtreatment.healthcare";
+    public static final String ANNAN_ATGARD_DELSVAR_ID = "9.2";
+    public static final String ANNAN_ATGARD_DELSVAR_TEXT_ID = "fk7263.label.plannedtreatment.other";
 
 }

@@ -34,6 +34,7 @@ import static se.inera.intyg.common.fk7263.model.converter.RespConstants.DIAGNOS
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.HUVUDDIAGNOSKOD_SVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.INOM_SJUKVARD_DELSVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.INTYGET_BASERAS_PA_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.JOURNALUPPGIFTER_DELSVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.REKOMMENDATIONER_CATEGORY_ID;
@@ -216,5 +217,11 @@ class InternalToCertificateTest {
     void shallIncludeCategoryBehandlingEllerAtgard() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
         assertEquals(20, actualCertificate.getData().get(BEHANDLING_ELLER_ATGARD_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionBehandlingEllerAtgardSjukvard() {
+        final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
+        assertEquals(21, actualCertificate.getData().get(INOM_SJUKVARD_DELSVAR_ID).getIndex());
     }
 }
