@@ -58,4 +58,13 @@ public class RespConstants {
     public static final String AKTIVITETSBEGRANSNINGAR_CATEGORY_TEXT_ID = "fk7263.label.limitation";
     public static final String AKTIVITETSBEGRANSNINGAR_SVAR_ID = "7";
 
+    public static final String REKOMMENDATIONER_CATEGORY_ID = "rekommendationer";
+    public static final String REKOMMENDATIONER_CATEGORY_TEXT_ID = "fk7263.label.recommendations";
+    public static final String REKOMMENDATIONER_KONTAKT_MED_AF_DELSVAR_ID = "8.1";
+    public static final String REKOMMENDATIONER_KONTAKT_MED_AF_DELSVAR_TEXT_ID = "fk7263.label.recommendations.contact.jobcenter";
+    public static final String REKOMMENDATIONER_KONTAKT_MED_FHV_DELSVAR_ID = "8.2";
+    public static final String REKOMMENDATIONER_KONTAKT_MED_FHV_DELSVAR_TEXT_ID = "fk7263.label.recommendations.contact.healthdepartment";
+    public static final String REKOMMENDATIONER_OVRIGT_DELSVAR_ID = "8.3";
+    public static final String REKOMMENDATIONER_OVRIGT_DELSVAR_TEXT_ID = "fk7263.label.recommendations.contact.other";
+
 }
