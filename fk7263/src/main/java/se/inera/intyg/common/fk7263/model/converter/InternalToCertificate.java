@@ -37,6 +37,7 @@ import se.inera.intyg.common.fk7263.model.converter.certificate.question.Questio
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionIntygetBaserasPaTelefonkontakt;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionIntygetBaserasPaUndersokning;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionRekommendationerKontaktMedAf;
+import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionRekommendationerKontaktMedFhv;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionSjukdomsforlopp;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
@@ -107,6 +108,10 @@ public class InternalToCertificate {
             .addElement(
                 QuestionRekommendationerKontaktMedAf.toCertificate(internalCertificate.isRekommendationKontaktArbetsformedlingen(), index++,
                     messagesProvider)
+            )
+            .addElement(
+                QuestionRekommendationerKontaktMedFhv.toCertificate(internalCertificate.isRekommendationKontaktForetagshalsovarden(),
+                    index++, messagesProvider)
             )
             .build();
     }
