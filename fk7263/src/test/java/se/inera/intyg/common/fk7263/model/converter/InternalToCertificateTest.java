@@ -38,6 +38,7 @@ import static se.inera.intyg.common.fk7263.model.converter.RespConstants.JOURNAL
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.REKOMMENDATIONER_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.REKOMMENDATIONER_KONTAKT_MED_AF_DELSVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.REKOMMENDATIONER_KONTAKT_MED_FHV_DELSVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.REKOMMENDATIONER_OVRIGT_DELSVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.SJUKDOMSFORLOPP_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.SJUKDOMSFORLOPP_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.TELEFONKONTAKT_MED_PATIENTEN_DELSVAR_ID;
@@ -202,5 +203,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionRekommendationerKontaktMedFhv() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
         assertEquals(18, actualCertificate.getData().get(REKOMMENDATIONER_KONTAKT_MED_FHV_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionRekommendationerOvrigt() {
+        final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
+        assertEquals(19, actualCertificate.getData().get(REKOMMENDATIONER_OVRIGT_DELSVAR_ID).getIndex());
     }
 }
