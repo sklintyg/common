@@ -56,5 +56,6 @@ public class RespConstants {
     public static final String ANNAT_DELSVAR_TEXT = "Annat, den";
     public static final String AKTIVITETSBEGRANSNINGAR_CATEGORY_ID = "aktivitetsbegransningar";
     public static final String AKTIVITETSBEGRANSNINGAR_CATEGORY_TEXT_ID = "fk7263.label.limitation";
+    public static final String AKTIVITETSBEGRANSNINGAR_SVAR_ID = "7";
 
 }
