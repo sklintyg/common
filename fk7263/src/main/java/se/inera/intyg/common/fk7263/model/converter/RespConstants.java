@@ -77,5 +77,9 @@ public class RespConstants {
     public static final String ARBETSLIVSINRIKTAD_REHABILITERING_SVAR_ID = "10";
     public static final String PATIENTENS_ARBETFORMAGA_CATEGORY_ID = "patientensArbetsformoga";
     public static final String PATIENTENS_ARBETFORMAGA_CATEGORY_TEXT_ID = "fk7263.label.patientworkcapacity";
+    public static final String PATIENTENS_ARBETFORMAGA_SVAR_ID = "11";
+    public static final String PATIENTENS_ARBETFORMAGA_NUVARANDE_ARBETE_TEXT_ID = "fk7263.label.patientworkcapacity.currentwork";
+    public static final String PATIENTENS_ARBETFORMAGA_FORALDRALEDIGHET_TEXT_ID = "fk7263.label.patientworkcapacity.parentalleave";
+    public static final String PATIENTENS_ARBETFORMAGA_ARBETSLOSHET_TEXT_ID = "fk7263.label.patientworkcapacity.unemployed";
 
 }

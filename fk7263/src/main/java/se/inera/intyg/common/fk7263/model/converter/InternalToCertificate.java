@@ -42,6 +42,7 @@ import se.inera.intyg.common.fk7263.model.converter.certificate.question.Questio
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionIntygetBaserasPaJournaluppgifter;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionIntygetBaserasPaTelefonkontakt;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionIntygetBaserasPaUndersokning;
+import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionPatientensArbetsformogaBedoms;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionRekommendationerKontaktMedAf;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionRekommendationerKontaktMedFhv;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionRekommendationerOvrigt;
@@ -141,6 +142,11 @@ public class InternalToCertificate {
             )
             .addElement(
                 CategoryPatientensArbetsformagaBedoms.toCertificate(index++, messagesProvider)
+            )
+            .addElement(
+                QuestionPatientensArbetsformogaBedoms.toCertificate(internalCertificate.isArbetsloshet(),
+                    internalCertificate.isForaldrarledighet(), internalCertificate.isNuvarandeArbete(),
+                    internalCertificate.getNuvarandeArbetsuppgifter(), index++, messagesProvider)
             )
             .build();
     }
