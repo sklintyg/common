@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AKTIVITETSBEGRANSNINGAR_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ANNAT_DELSVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_SVAR_ID;
@@ -167,5 +168,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionIntygetBaserasPaAnnat() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
         assertEquals(13, actualCertificate.getData().get(ANNAT_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryAktivitetsbegransningar() {
+        final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
+        assertEquals(14, actualCertificate.getData().get(AKTIVITETSBEGRANSNINGAR_CATEGORY_ID).getIndex());
     }
 }
