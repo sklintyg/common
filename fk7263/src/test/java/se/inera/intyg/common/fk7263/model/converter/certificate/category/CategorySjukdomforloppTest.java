@@ -21,8 +21,8 @@ package se.inera.intyg.common.fk7263.model.converter.certificate.category;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.DIAGNOS_CATEGORY_TEXT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.SJUKDOMSFORLOPP_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.SJUKDOMSFORLOPP_CATEGORY_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -35,7 +35,7 @@ import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategoryWithMessageProviderTest;
 
 @ExtendWith(MockitoExtension.class)
-class CategoryDiagnosTest {
+class CategorySjukdomforloppTest {
 
     @Mock
     CertificateMessagesProvider messagesProvider;
@@ -50,12 +50,12 @@ class CategoryDiagnosTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return CategoryDiagnos.toCertificate(0, messagesProvider);
+            return CategorySjukdomforlopp.toCertificate(0, messagesProvider);
         }
 
         @Override
         protected String getId() {
-            return DIAGNOS_CATEGORY_ID;
+            return SJUKDOMSFORLOPP_CATEGORY_ID;
         }
 
         @Override
@@ -72,6 +72,7 @@ class CategoryDiagnosTest {
     @Nested
     class IncludeConfigCategoryTests extends ConfigCategoryWithMessageProviderTest {
 
+
         @Override
         protected CertificateMessagesProvider getMessageProviderMock() {
             return messagesProvider;
@@ -79,12 +80,12 @@ class CategoryDiagnosTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return CategoryDiagnos.toCertificate(0, messagesProvider);
+            return CategorySjukdomforlopp.toCertificate(0, messagesProvider);
         }
 
         @Override
         protected String getTextId() {
-            return DIAGNOS_CATEGORY_TEXT_ID;
+            return SJUKDOMSFORLOPP_CATEGORY_TEXT_ID;
         }
 
         @Override

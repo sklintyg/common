@@ -28,6 +28,7 @@ import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AVSTANG
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.DIAGNOS_FORTYDLIGANDE_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.HUVUDDIAGNOSKOD_SVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.SJUKDOMSFORLOPP_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -104,5 +105,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionFortydligandeDiagnos() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
         assertEquals(4, actualCertificate.getData().get(DIAGNOS_FORTYDLIGANDE_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategorySjukdomforlopp() {
+        final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
+        assertEquals(5, actualCertificate.getData().get(SJUKDOMSFORLOPP_CATEGORY_ID).getIndex());
     }
 }

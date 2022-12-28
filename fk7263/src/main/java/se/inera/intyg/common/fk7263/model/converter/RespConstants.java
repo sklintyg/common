@@ -30,4 +30,7 @@ public class RespConstants {
     public static final String HUVUDDIAGNOSKOD_SVAR_TEXT_ID = "fk7263.label.diagnosisCode";
     public static final String DIAGNOS_FORTYDLIGANDE_SVAR_ID = "3";
     public static final String DIAGNOS_FORTYDLIGANDE_SVAR_TEXT_ID = "fk7263.label.diagnosfortydligande";
+
+    public static final String SJUKDOMSFORLOPP_CATEGORY_ID = "sjukdomforlopp";
+    public static final String SJUKDOMSFORLOPP_CATEGORY_TEXT_ID = "fk7263.label.progressofdesease";
 }

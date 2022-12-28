@@ -30,10 +30,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
-import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
-import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategoryTest;
+import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategoryWithMessageProviderTest;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryAvstangningSmittskyddTest {
@@ -71,11 +70,11 @@ class CategoryAvstangningSmittskyddTest {
     }
 
     @Nested
-    class IncludeConfigCategoryTests extends ConfigCategoryTest {
+    class IncludeConfigCategoryTests extends ConfigCategoryWithMessageProviderTest {
 
         @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return null;
+        protected CertificateMessagesProvider getMessageProviderMock() {
+            return messagesProvider;
         }
 
         @Override
