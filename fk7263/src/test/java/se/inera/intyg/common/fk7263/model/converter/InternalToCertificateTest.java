@@ -30,6 +30,7 @@ import static se.inera.intyg.common.fk7263.model.converter.RespConstants.DIAGNOS
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.HUVUDDIAGNOSKOD_SVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.INTYGET_BASERAS_PA_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.SJUKDOMSFORLOPP_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.SJUKDOMSFORLOPP_SVAR_ID;
 
@@ -132,5 +133,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionFunktionsnedsattningar() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
         assertEquals(8, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryIntygetBaserasPa() {
+        final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
+        assertEquals(9, actualCertificate.getData().get(INTYGET_BASERAS_PA_CATEGORY_ID).getIndex());
     }
 }

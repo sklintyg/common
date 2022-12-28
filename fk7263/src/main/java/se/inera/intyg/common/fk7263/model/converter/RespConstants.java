@@ -40,5 +40,7 @@ public class RespConstants {
     public static final String FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID = "fk7263.label.disabilities";
 
     public static final String FUNKTIONSNEDSATTNING_SVAR_ID = "5";
+    public static final String INTYGET_BASERAS_PA_CATEGORY_ID = "intygetBaserasPa";
+    public static final String INTYGET_BASERAS_PA_CATEGORY_TEXT_ID = "fk7263.label.basedon";
 
 }
