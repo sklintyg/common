@@ -19,7 +19,7 @@
 
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AKTIVITETSBEGRANSNINGAR_CATEGORY_TEXT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AKTIVITETSBEGRANSNINGAR_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AKTIVITETSBEGRANSNINGAR_SVAR_ID;
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.stringValue;
 
@@ -32,7 +32,7 @@ public class QuestionAktivitetsbegransningar {
     public static CertificateDataElement toCertificate(String aktivitetsbegransningar, int index) {
         return CertificateDataElement.builder()
             .id(AKTIVITETSBEGRANSNINGAR_SVAR_ID)
-            .parent(AKTIVITETSBEGRANSNINGAR_CATEGORY_TEXT_ID)
+            .parent(AKTIVITETSBEGRANSNINGAR_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigViewText.builder()
