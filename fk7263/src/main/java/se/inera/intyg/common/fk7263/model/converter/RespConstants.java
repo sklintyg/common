@@ -36,4 +36,8 @@ public class RespConstants {
 
     public static final String SJUKDOMSFORLOPP_SVAR_ID = "4";
 
+    public static final String FUNKTIONSNEDSATTNING_CATEGORY_ID = "funktionsnedsattning";
+    public static final String FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID = "fk7263.label.disabilities";
+
+
 }
