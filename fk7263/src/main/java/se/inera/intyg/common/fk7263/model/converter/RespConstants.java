@@ -115,7 +115,7 @@ public class RespConstants {
     public static final String KONTAKT_MED_FK_SVAR_ID = "16";
 
     public static final String OVRIGA_UPPLYSNINGAR_CATEGORY_ID = "ovrigaUpplysningar";
-    public static final String OVRIGA_UPPLYSNINGAR_CATEGORY_TEXT_ID = "fk7263.label.reference.to.field13";
+    public static final String OVRIGA_UPPLYSNINGAR_CATEGORY_TEXT_ID = "fk7263.label.otherinformation";
     public static final String OVRIGA_UPPLYSNINGAR_SVAR_ID = "17";
     public static final String FORSKRIVARKOD_OCH_ARBETSPLATSKOD_CATEGORY_ID = "forskrivarkodOchArbetsplatskod";
     public static final String FORSKRIVARKOD_OCH_ARBETSPLATSKOD_CATEGORY_TEXT_ID = "fk7263.label.workcodes";
