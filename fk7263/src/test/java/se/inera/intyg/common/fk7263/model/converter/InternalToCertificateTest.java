@@ -40,6 +40,7 @@ import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AVSTANG
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.BEHANDLING_ELLER_ATGARD_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.DIAGNOS_FORTYDLIGANDE_SVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.FORSKRIVARKOD_OCH_ARBETSPLATSKOD_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.HUVUDDIAGNOSKOD_SVAR_ID;
@@ -342,5 +343,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionOvrigaUpplysningar() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
         assertEquals(38, actualCertificate.getData().get(OVRIGA_UPPLYSNINGAR_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryForskrivarkodOchArbetsplatskod() {
+        final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
+        assertEquals(39, actualCertificate.getData().get(FORSKRIVARKOD_OCH_ARBETSPLATSKOD_CATEGORY_ID).getIndex());
     }
 }

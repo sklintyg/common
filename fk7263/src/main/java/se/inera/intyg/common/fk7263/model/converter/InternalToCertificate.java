@@ -28,6 +28,7 @@ import se.inera.intyg.common.fk7263.model.converter.certificate.category.Categor
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryAvstangningSmittskydd;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryBehandlingEllerAtgard;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryDiagnos;
+import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryForskrivarkodOchArbetsplatskod;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryFunktionsnedsattning;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryIntygetBaserasPa;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryKontaktMedFk;
@@ -198,6 +199,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionOvrigaUpplysningar.toCertificate(internalCertificate.getKommentar(), index++)
+            )
+            .addElement(
+                CategoryForskrivarkodOchArbetsplatskod.toCertificate(index++, messagesProvider)
             )
             .build();
     }
