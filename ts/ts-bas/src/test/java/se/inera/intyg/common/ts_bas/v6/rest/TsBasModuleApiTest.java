@@ -24,6 +24,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -33,16 +34,17 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 import static se.inera.intyg.common.ts_parent.rest.TsParentModuleApi.REGISTER_CERTIFICATE_VERSION1;
 import static se.inera.intyg.common.ts_parent.rest.TsParentModuleApi.REGISTER_CERTIFICATE_VERSION3;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
-
 import javax.xml.bind.JAXB;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
-
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -58,17 +60,15 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.w3.wsaddressing10.AttributedURIType;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateRequestType;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateResponseType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.ResultOfCall;
+import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.services.texts.IntygTextsService;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
@@ -78,8 +78,10 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHold
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.common.support.modules.transformer.XslTransformerUtil;
 import se.inera.intyg.common.support.services.BefattningService;
+import se.inera.intyg.common.ts_bas.v6.model.converter.InternalToCertificate;
 import se.inera.intyg.common.ts_bas.v6.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_bas.v6.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.ts_bas.v6.model.internal.BedomningKorkortstyp;
@@ -120,6 +122,8 @@ public class TsBasModuleApiTest {
 
     @Mock
     private SendTSClient sendTsBasClient;
+    @Mock
+    private InternalToCertificate internalToCertificate;
 
     @Mock
     private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
@@ -356,7 +360,8 @@ public class TsBasModuleApiTest {
         updatedPatient.setPostort("updated post city");
 
         final String validMinimalJson = getResourceAsString(new ClassPathResource("v6/scenarios/internal/valid-minimal.json"));
-        when(objectMapper.readValue(validMinimalJson, TsBasUtlatandeV6.class)).thenReturn(ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
+        when(objectMapper.readValue(validMinimalJson, TsBasUtlatandeV6.class)).thenReturn(
+            ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
         when(objectMapper.writeValueAsString(any())).thenReturn(validMinimalJson);
         final String res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient);
 
@@ -497,6 +502,43 @@ public class TsBasModuleApiTest {
         TsBasUtlatandeV6 updatedUtlatande = (TsBasUtlatandeV6) moduleApi.getUtlatandeFromJson(updatedJson);
         assertEquals(updatedUtlatande.getBedomning().getKorkortstyp().size(), 1);
         assertTrue(updatedUtlatande.getBedomning().getKorkortstyp().contains(BedomningKorkortstyp.C));
+    }
+
+    @Test
+    public void shallConvertInternalToCertificate() throws Exception {
+        final var expectedCertificate = CertificateBuilder.create().build();
+        final var certificateAsJson = "certificateAsJson";
+        final var typeAheadProvider = mock(TypeAheadProvider.class);
+
+        final var internalCertificate = TsBasUtlatandeV6.builder()
+            .setId("123")
+            .setTextVersion("1.0")
+            .setGrundData(new GrundData())
+            .build();
+
+        doReturn(internalCertificate)
+            .when(objectMapper).readValue(eq(certificateAsJson), eq(TsBasUtlatandeV6.class));
+
+        doReturn(expectedCertificate)
+            .when(internalToCertificate).convert(eq(internalCertificate), any(CertificateTextProvider.class));
+
+        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider);
+
+        assertEquals(expectedCertificate, actualCertificate);
+    }
+
+    @Test
+    public void getCertficateMessagesProviderGetExistingKey() throws ModuleException {
+        final var certificateMessagesProvider = moduleApi.getMessagesProvider();
+
+        assertEquals(certificateMessagesProvider.get("common.continue"), "Fortsätt");
+    }
+
+    @Test
+    public void getCertficateMessagesProviderGetMissingKey() throws ModuleException {
+        final var certificateMessagesProvider = moduleApi.getMessagesProvider();
+
+        assertNull(certificateMessagesProvider.get("not.existing"));
     }
 
     private CreateNewDraftHolder createNewDraftHolder() {
