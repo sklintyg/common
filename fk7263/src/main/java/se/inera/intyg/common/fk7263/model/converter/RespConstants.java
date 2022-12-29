@@ -104,4 +104,7 @@ public class RespConstants {
     public static final String ARBETFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_SVAR_ID = "13";
     public static final String ARBETFORMAGA_PROGRNOS_CATEGORY_ID = "arbetsformogaPrognos";
     public static final String ARBETFORMAGA_PROGRNOS_CATEGORY_TEXT_ID = "fk7263.label.prognosis";
+
+    public static final String ARBETFORMAGA_PROGRNOS_SVAR_ID = "14";
+
 }

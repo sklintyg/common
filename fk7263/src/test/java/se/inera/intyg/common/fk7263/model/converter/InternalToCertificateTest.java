@@ -32,6 +32,7 @@ import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFO
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_PROGRNOS_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_PROGRNOS_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSLIVSINRIKTAD_REHABILITERING_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSLIVSINRIKTAD_REHABILITERING_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_ID;
@@ -293,5 +294,11 @@ class InternalToCertificateTest {
     void shallIncludeCategoryArbetsformogaPrognos() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
         assertEquals(31, actualCertificate.getData().get(ARBETFORMAGA_PROGRNOS_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionArbetsformogaPrognos() {
+        final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
+        assertEquals(32, actualCertificate.getData().get(ARBETFORMAGA_PROGRNOS_SVAR_ID).getIndex());
     }
 }
