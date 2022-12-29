@@ -119,5 +119,6 @@ public class RespConstants {
     public static final String OVRIGA_UPPLYSNINGAR_SVAR_ID = "17";
     public static final String FORSKRIVARKOD_OCH_ARBETSPLATSKOD_CATEGORY_ID = "forskrivarkodOchArbetsplatskod";
     public static final String FORSKRIVARKOD_OCH_ARBETSPLATSKOD_CATEGORY_TEXT_ID = "fk7263.label.workcodes";
+    public static final String FORSKRIVARKOD_OCH_ARBETSPLATSKOD_SVAR_ID = "18";
 
 }

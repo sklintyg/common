@@ -45,6 +45,7 @@ import se.inera.intyg.common.fk7263.model.converter.certificate.question.Questio
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionAvstangningSmittskydd;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionBehandlingEllerAtgardAnnanAtgard;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionBehandlingEllerAtgardSjukvard;
+import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionForskrivarkodOchArbetsplatskod;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionFortydligandeDiagnos;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionHuvuddiagnoskod;
@@ -202,6 +203,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 CategoryForskrivarkodOchArbetsplatskod.toCertificate(index++, messagesProvider)
+            )
+            .addElement(
+                QuestionForskrivarkodOchArbetsplatskod.toCertificate(internalCertificate.getForskrivarkodOchArbetsplatskod(), index)
             )
             .build();
     }
