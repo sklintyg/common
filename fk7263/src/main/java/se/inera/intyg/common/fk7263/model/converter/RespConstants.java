@@ -106,5 +106,7 @@ public class RespConstants {
     public static final String ARBETFORMAGA_PROGRNOS_CATEGORY_TEXT_ID = "fk7263.label.prognosis";
 
     public static final String ARBETFORMAGA_PROGRNOS_SVAR_ID = "14";
+    public static final String RESOR_TILL_FRAN_ARBETE_CATEGORY_ID = "resorTillFranArbete";
+    public static final String RESOR_TILL_FRAN_ARBETE_CATEGORY_TEXT_ID = "fk7263.label.othertransport";
 
 }

@@ -52,6 +52,7 @@ import static se.inera.intyg.common.fk7263.model.converter.RespConstants.REKOMME
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.REKOMMENDATIONER_KONTAKT_MED_AF_DELSVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.REKOMMENDATIONER_KONTAKT_MED_FHV_DELSVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.REKOMMENDATIONER_OVRIGT_DELSVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.RESOR_TILL_FRAN_ARBETE_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.SJUKDOMSFORLOPP_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.SJUKDOMSFORLOPP_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.TELEFONKONTAKT_MED_PATIENTEN_DELSVAR_ID;
@@ -300,5 +301,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionArbetsformogaPrognos() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
         assertEquals(32, actualCertificate.getData().get(ARBETFORMAGA_PROGRNOS_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryResorTillFranArbete() {
+        final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
+        assertEquals(33, actualCertificate.getData().get(RESOR_TILL_FRAN_ARBETE_CATEGORY_ID).getIndex());
     }
 }

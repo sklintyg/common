@@ -32,6 +32,7 @@ import se.inera.intyg.common.fk7263.model.converter.certificate.category.Categor
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryIntygetBaserasPa;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryPatientensArbetsformagaBedoms;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryRekommendationer;
+import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryResorTillFranArbete;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategorySjukdomforlopp;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionAktivitetsbegransningar;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionArbetsformogaBedomning;
@@ -174,6 +175,9 @@ public class InternalToCertificate {
             .addElement(
                 QuestionArbetsformogaPrognos.toCertificate(internalCertificate.getArbetsformagaPrognosGarInteAttBedomaBeskrivning(),
                     index++)
+            )
+            .addElement(
+                CategoryResorTillFranArbete.toCertificate(index++, messagesProvider)
             )
             .build();
     }
