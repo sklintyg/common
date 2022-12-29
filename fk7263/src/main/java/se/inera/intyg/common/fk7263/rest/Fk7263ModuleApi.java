@@ -75,7 +75,6 @@ import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.MessagesParser;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -121,9 +120,6 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     private static final Comparator<? super DatePeriodType> PERIOD_START = Comparator.comparing(DatePeriodType::getStart);
     private static final String SPACE = "---";
-    @Autowired
-    private IntygTextsService intygTexts;
-
     @Autowired
     private WebcertModelFactory<Fk7263Utlatande> webcertModelFactory;
 
