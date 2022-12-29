@@ -30,6 +30,7 @@ import se.inera.intyg.common.fk7263.model.converter.certificate.category.Categor
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryFunktionsnedsattning;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryIntygetBaserasPa;
+import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryKontaktMedFk;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryPatientensArbetsformagaBedoms;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryRekommendationer;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryResorTillFranArbete;
@@ -182,6 +183,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionResorTillFranArbete.toCertificate(internalCertificate.isRessattTillArbeteAktuellt(), index++)
+            )
+            .addElement(
+                CategoryKontaktMedFk.toCertificate(index++, messagesProvider)
             )
             .build();
     }
