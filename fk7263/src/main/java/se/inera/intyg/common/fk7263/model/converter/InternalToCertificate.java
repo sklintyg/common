@@ -23,6 +23,7 @@ import se.inera.intyg.common.fk7263.model.converter.certificate.MetaDataGrundDat
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryAktivitetsbegransningar;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryArbetsformogaBedomning;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryArbetsformogaForsakringsmedicinskaBeslutstodet;
+import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryArbetsformogaPrognos;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryArbetslivsinriktadRehabilitering;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryAvstangningSmittskydd;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryBehandlingEllerAtgard;
@@ -34,6 +35,7 @@ import se.inera.intyg.common.fk7263.model.converter.certificate.category.Categor
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategorySjukdomforlopp;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionAktivitetsbegransningar;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionArbetsformogaBedomning;
+import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionArbetsformogaForsakringsmedicinskaBeslutstod;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionArbetslivsinriktadRehabilitering;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionAvstangningSmittskydd;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionBehandlingEllerAtgardAnnanAtgard;
@@ -160,6 +162,13 @@ public class InternalToCertificate {
             )
             .addElement(
                 CategoryArbetsformogaForsakringsmedicinskaBeslutstodet.toCertificate(index++, messagesProvider)
+            )
+            .addElement(
+                QuestionArbetsformogaForsakringsmedicinskaBeslutstod.toCertificate(
+                    internalCertificate.getArbetsformagaPrognos(), index++)
+            )
+            .addElement(
+                CategoryArbetsformogaPrognos.toCertificate(index++, messagesProvider)
             )
             .build();
     }
