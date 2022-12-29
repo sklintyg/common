@@ -22,6 +22,7 @@ package se.inera.intyg.common.fk7263.model.converter;
 import se.inera.intyg.common.fk7263.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryAktivitetsbegransningar;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryArbetsformogaBedomning;
+import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryArbetsformogaForsakringsmedicinskaBeslutstodet;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryArbetslivsinriktadRehabilitering;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryAvstangningSmittskydd;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryBehandlingEllerAtgard;
@@ -156,6 +157,9 @@ public class InternalToCertificate {
             .addElement(
                 QuestionArbetsformogaBedomning.toCertificate(internalCertificate.getNedsattMed25(), internalCertificate.getNedsattMed50(),
                     internalCertificate.getNedsattMed75(), internalCertificate.getNedsattMed100(), index++, messagesProvider)
+            )
+            .addElement(
+                CategoryArbetsformogaForsakringsmedicinskaBeslutstodet.toCertificate(index++, messagesProvider)
             )
             .build();
     }

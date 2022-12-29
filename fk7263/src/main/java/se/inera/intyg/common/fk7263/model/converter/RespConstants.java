@@ -97,4 +97,9 @@ public class RespConstants {
     public static final String ARBETFORMAGA_BEDOMNING_NEDSATT_50_TEXT_ID = "fk7263.nedsattningsgrad.nedsatt_med_1_2";
     public static final String ARBETFORMAGA_BEDOMNING_NEDSATT_75_TEXT_ID = "fk7263.nedsattningsgrad.nedsatt_med_3_4";
     public static final String ARBETFORMAGA_BEDOMNING_NEDSATT_100_TEXT_ID = "fk7263.nedsattningsgrad.helt_nedsatt";
+
+    public static final String ARBETFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_CATEGORY_ID = "arbetsformogaForsakringsmedicinska";
+    public static final String ARBETFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_CATEGORY_TEXT_ID =
+        "fk7263.label.patientworkcapacityjudgement";
+
 }
