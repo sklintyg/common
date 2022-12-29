@@ -25,6 +25,7 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETFORMAGA_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETFORMAGA_SVAR_ID;
 
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -125,11 +126,7 @@ class QuestionPatientensArbetsformogaBedomsTest {
         @Test
         void shouldNotDisplayValues() {
 
-            final var expectedValue = List.of(
-                CertificateDataValueViewText.builder().build(),
-                CertificateDataValueViewText.builder().build(),
-                CertificateDataValueViewText.builder().build()
-            );
+            final var expectedValue = Collections.emptyList();
 
             final var element = QuestionPatientensArbetsformogaBedoms.toCertificate(false,
                 false, false, null, 0, messagesProvider);
@@ -146,9 +143,7 @@ class QuestionPatientensArbetsformogaBedomsTest {
             final var expectedValue = List.of(
                 CertificateDataValueViewText.builder()
                     .text("test string")
-                    .build(),
-                CertificateDataValueViewText.builder().build(),
-                CertificateDataValueViewText.builder().build()
+                    .build()
             );
 
             final var element = QuestionPatientensArbetsformogaBedoms.toCertificate(true,
@@ -164,8 +159,6 @@ class QuestionPatientensArbetsformogaBedomsTest {
             when(messagesProvider.get(any())).thenReturn("test string");
 
             final var expectedValue = List.of(
-                CertificateDataValueViewText.builder().build(),
-                CertificateDataValueViewText.builder().build(),
                 CertificateDataValueViewText.builder()
                     .text("test string")
                     .build()
@@ -184,11 +177,9 @@ class QuestionPatientensArbetsformogaBedomsTest {
             when(messagesProvider.get(any())).thenReturn("test string");
 
             final var expectedValue = List.of(
-                CertificateDataValueViewText.builder().build(),
                 CertificateDataValueViewText.builder()
                     .text("test string")
-                    .build(),
-                CertificateDataValueViewText.builder().build()
+                    .build()
             );
 
             final var element = QuestionPatientensArbetsformogaBedoms.toCertificate(false,

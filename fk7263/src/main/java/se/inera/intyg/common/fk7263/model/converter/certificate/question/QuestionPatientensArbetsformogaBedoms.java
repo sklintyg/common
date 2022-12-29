@@ -25,6 +25,7 @@ import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENT
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETFORMAGA_NUVARANDE_ARBETE_TEXT_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETFORMAGA_SVAR_ID;
 
+import java.util.ArrayList;
 import java.util.List;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -48,20 +49,40 @@ public class QuestionPatientensArbetsformogaBedoms {
             .value(
                 CertificateDataValueViewList.builder()
                     .list(
-                        List.of(
-                            nuvarandeArbete != null && nuvarandeArbete ? viewTextWithDynamicValue(nuvarandeArbetsuppgifter,
-                                messagesProvider) : CertificateDataValueViewText.builder().build(),
-                            arbetssokande != null && arbetssokande ? CertificateDataValueViewText.builder()
-                                .text(messagesProvider.get(PATIENTENS_ARBETFORMAGA_ARBETSLOSHET_TEXT_ID))
-                                .build() : CertificateDataValueViewText.builder().build(),
-                            foraldraledighet != null && foraldraledighet ? CertificateDataValueViewText.builder()
-                                .text(messagesProvider.get(PATIENTENS_ARBETFORMAGA_FORALDRALEDIGHET_TEXT_ID))
-                                .build() : CertificateDataValueViewText.builder().build()
-                        )
+                        certificateDataValueViewTextList(nuvarandeArbete, foraldraledighet, arbetssokande, nuvarandeArbetsuppgifter,
+                            messagesProvider)
                     )
                     .build()
             )
             .build();
+    }
+
+    private static List<CertificateDataValueViewText> certificateDataValueViewTextList(Boolean nuvarandeArbete, Boolean foraldraledighet,
+        Boolean arbetssokande, String nuvarandeArbetsuppgifter, CertificateMessagesProvider messagesProvider) {
+
+        List<CertificateDataValueViewText> certificateDataValueViewTextList = new ArrayList<>();
+
+        if (nuvarandeArbete != null && nuvarandeArbete) {
+            certificateDataValueViewTextList.add(viewTextWithDynamicValue(nuvarandeArbetsuppgifter, messagesProvider));
+        }
+
+        if (arbetssokande != null && arbetssokande) {
+            certificateDataValueViewTextList.add(
+                CertificateDataValueViewText.builder()
+                    .text(messagesProvider.get(PATIENTENS_ARBETFORMAGA_ARBETSLOSHET_TEXT_ID))
+                    .build()
+            );
+        }
+
+        if (foraldraledighet != null && foraldraledighet) {
+            certificateDataValueViewTextList.add(
+                CertificateDataValueViewText.builder()
+                    .text(messagesProvider.get(PATIENTENS_ARBETFORMAGA_FORALDRALEDIGHET_TEXT_ID))
+                    .build()
+            );
+        }
+
+        return certificateDataValueViewTextList;
     }
 
     private static CertificateDataValueViewText viewTextWithDynamicValue(String nuvarandeArbetsuppgifter,
