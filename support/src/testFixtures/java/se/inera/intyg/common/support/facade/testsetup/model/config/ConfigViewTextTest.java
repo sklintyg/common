@@ -26,7 +26,6 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
-import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 
 public abstract class ConfigViewTextTest extends ConfigTest {
@@ -40,16 +39,6 @@ public abstract class ConfigViewTextTest extends ConfigTest {
         return CertificateDataConfigTypes.UE_VIEW_TEXT;
     }
 
-    @Override
-    protected CertificateTextProvider getTextProviderMock() {
-        return null;
-    }
-
-    @Override
-    protected String getTextId() {
-        return null;
-    }
-
     @Test
     void shallIncludeMessageId() {
         final var question = getElement();
@@ -58,6 +47,17 @@ public abstract class ConfigViewTextTest extends ConfigTest {
             verify(getMessageProviderMock(), atLeastOnce()).get(getMessageId());
         } else if (getMessageId() != null) {
             assertEquals(question.getConfig().getText(), getMessageId());
+        }
+    }
+
+    @Test
+    void shallIncludeTextId() {
+        final var question = getElement();
+        if (getTextId() != null && getTextProviderMock() != null) {
+            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+            verify(getTextProviderMock(), atLeastOnce()).get(getTextId());
+        } else if (getTextId() != null) {
+            assertEquals(question.getConfig().getText(), getTextId());
         }
     }
 }

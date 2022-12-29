@@ -43,6 +43,7 @@ import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.Cate
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategorySjukhusvard;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategorySomnOchVakenhetsstorningar;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategorySynfunktioner;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
 
 @Component(value = "internalToCertificateTsBasV6")
@@ -54,6 +55,9 @@ public class InternalToCertificate {
             .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
             .addElement(
                 CategoryIntygetAvser.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionIntygetAvser.toCertificate(internalCertificate.getIntygAvser(), index++, texts)
             )
             .addElement(
                 CategoryIdentitet.toCertificate(index++, texts)

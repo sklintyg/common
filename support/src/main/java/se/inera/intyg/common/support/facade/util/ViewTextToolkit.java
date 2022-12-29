@@ -21,7 +21,7 @@ package se.inera.intyg.common.support.facade.util;
 
 public final class ViewTextToolkit {
 
-    private static final String NOT_SPECIFIED = "Ej angivet";
+    private static final String NOT_SPECIFIED = "Ej Angivet";
     private static final String YES = "Ja";
     private static final String NO = "Nej";
 
@@ -48,6 +48,10 @@ public final class ViewTextToolkit {
     }
 
     public static String multipleStringValues(String... value) {
+        if (value == null) {
+            return NOT_SPECIFIED;
+        }
+
         StringBuilder stringBuilder = new StringBuilder();
         for (String text : value) {
             if (text == null) {
