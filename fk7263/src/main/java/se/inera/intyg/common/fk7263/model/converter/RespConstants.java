@@ -112,4 +112,5 @@ public class RespConstants {
 
     public static final String KONTAKT_MED_FK_CATEGORY_ID = "kontaktMedFk";
     public static final String KONTAKT_MED_FK_CATEGORY_TEXT_ID = "fk7263.label.fkcontact";
+    public static final String KONTAKT_MED_FK_SVAR_ID = "16";
 }
