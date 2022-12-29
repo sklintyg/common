@@ -43,6 +43,7 @@ import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.Cate
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategorySjukhusvard;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategorySomnOchVakenhetsstorningar;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategorySynfunktioner;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionIdentitet;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
 
@@ -61,6 +62,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 CategoryIdentitet.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionIdentitet.toCertificate(internalCertificate.getVardkontakt(), index++, texts)
             )
             .addElement(
                 CategorySynfunktioner.toCertificate(index++, texts)
