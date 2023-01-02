@@ -19,7 +19,23 @@
 
 package se.inera.intyg.common.ts_bas.v6.model.converter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.BALANSRUBBNINGAR_YRSEL_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.DUBBELSEENDE_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.IDENTITET_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.IDENTITET_STYRKT_GENOM_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.INTYG_AVSER_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.INTYG_AVSER_SVAR_ID_1;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.NYSTAGMUS_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PROGRESSIV_OGONSJUKDOM_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SEENDE_NEDSATT_BELYSNING_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SYNFALTSDEFEKTER_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SYNFUNKTIONER_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.VARDEN_FOR_SYNSKARPA_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,6 +47,8 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Syn;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Synskarpevarden;
 import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -51,6 +69,19 @@ class InternalToCertificateTest {
             .setId("certificateId")
             .setTextVersion("1.0")
             .setGrundData(getGrundData())
+            .setSyn(
+                Syn.builder()
+                    .setVansterOga(
+                        Synskarpevarden.builder().build()
+                    )
+                    .setHogerOga(
+                        Synskarpevarden.builder().build()
+                    )
+                    .setBinokulart(
+                        Synskarpevarden.builder().build()
+                    )
+                    .build()
+            )
             .build();
     }
 
@@ -70,5 +101,95 @@ class InternalToCertificateTest {
     void shallIncludeMetadata() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertNotNull(actualCertificate.getMetadata(), "Shall contain metadata");
+    }
+
+    @Test
+    void shallIncludeCategoryIntygetAvser() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(0, actualCertificate.getData().get(INTYG_AVSER_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionIntygetAvser() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(1, actualCertificate.getData().get(INTYG_AVSER_SVAR_ID_1).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryIdentitet() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(2, actualCertificate.getData().get(IDENTITET_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionIdentitet() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(3, actualCertificate.getData().get(IDENTITET_STYRKT_GENOM_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategorySynfunktioner() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(4, actualCertificate.getData().get(SYNFUNKTIONER_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionSynfaltsdefekter() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(5, actualCertificate.getData().get(SYNFALTSDEFEKTER_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionNattblindhet() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(6, actualCertificate.getData().get(SEENDE_NEDSATT_BELYSNING_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionProgressivOgonsjukdom() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(7, actualCertificate.getData().get(PROGRESSIV_OGONSJUKDOM_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeLakarintygMessage() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(8, actualCertificate.getData().get(LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionDubbelseende() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(9, actualCertificate.getData().get(DUBBELSEENDE_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionNystagmus() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(10, actualCertificate.getData().get(NYSTAGMUS_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionSynskarpa() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(11, actualCertificate.getData().get(VARDEN_FOR_SYNSKARPA_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionKorrektionsglasensStyrka() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(12, actualCertificate.getData().get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeMessageKorrektionsglasensStyrka() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(13, actualCertificate.getData().get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryHorselOchBalanssinne() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(14, actualCertificate.getData().get(BALANSRUBBNINGAR_YRSEL_CATEGORY_ID).getIndex());
     }
 }
