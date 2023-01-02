@@ -45,6 +45,7 @@ import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.Cate
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategorySynfunktioner;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionBalansrubbningar;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionBeskrivningRiskfaktorer;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionDiabetesTyp;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionFunktionsnedsattningBeskrivning;
@@ -156,6 +157,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionHarDiabetes.toCertificate(internalCertificate.getDiabetes(), index++, texts)
+            )
+            .addElement(
+                QuestionDiabetesTyp.toCertificate(internalCertificate.getDiabetes(), index++, texts)
             )
             .addElement(
                 CategoryNeurologiskaSjukdomar.toCertificate(index++, texts)
