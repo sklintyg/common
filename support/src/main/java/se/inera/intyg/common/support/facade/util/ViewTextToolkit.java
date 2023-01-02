@@ -76,4 +76,16 @@ public final class ViewTextToolkit {
 
         return stringBuilder.toString().trim();
     }
+
+    public static String withComma(String... value) {
+        final var stringBuilder = new StringBuilder();
+        for (int i = 0; i < value.length; i++) {
+            if (i < value.length - 1) {
+                stringBuilder.append(value[i]).append(", ");
+            } else {
+                stringBuilder.append(value[i]);
+            }
+        }
+        return stringBuilder.toString();
+    }
 }
