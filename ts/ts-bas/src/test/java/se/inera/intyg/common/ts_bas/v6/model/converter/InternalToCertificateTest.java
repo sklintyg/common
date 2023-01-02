@@ -36,6 +36,7 @@ import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SYNFALTSDEFE
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SYNFUNKTIONER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.UPPFATTA_SAMTALSTAMMA_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.VARDEN_FOR_SYNSKARPA_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -198,5 +199,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionBalansrubbningar() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(15, actualCertificate.getData().get(BALANSRUBBNINGAR_YRSEL_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionUppfattaSamtal4Meter() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(16, actualCertificate.getData().get(UPPFATTA_SAMTALSTAMMA_SVAR_ID).getIndex());
     }
 }
