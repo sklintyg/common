@@ -45,6 +45,7 @@ import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.Cate
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategorySynfunktioner;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionBalansrubbningar;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionDubbelseende;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionIdentitet;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
@@ -118,6 +119,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 CategoryFunktionsnedsattning.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionFunktionsnedsattning.toCertificate(internalCertificate.getFunktionsnedsattning(), index++, texts)
             )
             .addElement(
                 CategoryHjartOchKarlsjukdom.toCertificate(index++, texts)
