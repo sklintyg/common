@@ -43,6 +43,7 @@ import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.Cate
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategorySjukhusvard;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategorySomnOchVakenhetsstorningar;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategorySynfunktioner;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionBalansrubbningar;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionIdentitet;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionIntygetAvser;
@@ -107,6 +108,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 CategoryHorselOchBalanssinne.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionBalansrubbningar.toCertificate(internalCertificate.getHorselBalans(), index++, texts)
             )
             .addElement(
                 CategoryFunktionsnedsattning.toCertificate(index++, texts)
