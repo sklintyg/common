@@ -20,8 +20,8 @@
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.booleanValue;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SYNFALTSDEFEKTER_SVAR_ID;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SYNFALTSDEFEKTER_SVAR_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SEENDE_NEDSATT_BELYSNING_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SEENDE_NEDSATT_BELYSNING_SVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SYNFUNKTIONER_CATEGORY_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -30,22 +30,22 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigVi
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewText;
 import se.inera.intyg.common.ts_bas.v6.model.internal.Syn;
 
-public class QuestionSynfaltsdefekter {
+public class QuestionNattblindhet {
 
     public static CertificateDataElement toCertificate(Syn syn, int index, CertificateTextProvider textProvider) {
-        final var synfaltsdefekter = syn != null ? syn.getSynfaltsdefekter() : null;
+        final var nattblindhet = syn != null ? syn.getNattblindhet() : null;
         return CertificateDataElement.builder()
-            .id(SYNFALTSDEFEKTER_SVAR_ID)
+            .id(SEENDE_NEDSATT_BELYSNING_SVAR_ID)
             .parent(SYNFUNKTIONER_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigViewText.builder()
-                    .text(textProvider.get(SYNFALTSDEFEKTER_SVAR_TEXT_ID))
+                    .text(textProvider.get(SEENDE_NEDSATT_BELYSNING_SVAR_TEXT_ID))
                     .build()
             )
             .value(
                 CertificateDataValueViewText.builder()
-                    .text(booleanValue(synfaltsdefekter))
+                    .text(booleanValue(nattblindhet))
                     .build()
             )
             .build();
