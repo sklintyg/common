@@ -54,6 +54,7 @@ import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionLakarintygAvOgonspecialistMessage;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionNattblindhet;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionNystagmus;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionOtillrackligRorelseFormoga;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionSynskarpa;
@@ -126,6 +127,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionFunktionsnedsattningBeskrivning.toCertificate(internalCertificate.getFunktionsnedsattning(), index++, texts)
+            )
+            .addElement(
+                QuestionOtillrackligRorelseFormoga.toCertificate(internalCertificate.getFunktionsnedsattning(), index++, texts)
             )
             .addElement(
                 CategoryHjartOchKarlsjukdom.toCertificate(index++, texts)
