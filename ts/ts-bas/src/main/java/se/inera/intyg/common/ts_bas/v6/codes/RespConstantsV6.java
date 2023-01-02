@@ -80,7 +80,7 @@ public final class RespConstantsV6 {
 
     public static final String SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID = "8.1";
     public static final String SYNKARPA_SKICKAS_SEPARAT_JSON_ID = "synskarpaSkickasSeparat";
-    public static final String SYNKARPA_SKICKAS_SEPARAT_DELSVAR_TEXT_ID = "FRG_8.RBK";
+    public static final String SYNKARPA_TEXT_ID = "FRG_8.RBK";
     public static final String SYNKARPA_SKICKAS_SEPARAT_SVAR_TEXT_ID = "DFR_8.1.RBK";
     public static final String SYNKARPA_SKICKAS_SEPARAT_DESCRIPTION_ID = "FRG_8.HLP";
     public static final String VARDEN_FOR_SYNSKARPA_ID = "8";
@@ -89,6 +89,10 @@ public final class RespConstantsV6 {
     public static final String VANSTER_OGA_LABEL_ID = "ts-bas.label.syn.vansteroga";
     public static final String BINOKULART_LABEL_ID = "ts-bas.label.syn.binokulart";
     public static final String UTAN_KORREKTION_TEXT_ID = "ts-bas.label.syn.utankorrektion";
+    public static final String SYNSKARPA_TYP_ID = "synskarpaTyp";
+    public static final String UTAN_KORREKTION_ID = "utanKorrektion";
+    public static final String MED_KORREKTION_ID = "medKorrektion";
+    public static final String KONTAKTLINSER_ID = "kontaktlinser";
     public static final String MED_KORREKTION_TEXT_ID = "ts-bas.label.syn.medkorrektion";
     public static final String KONTAKTLINSER_TEXT_ID = "ts-bas.label.syn.kontaktlins";
     public static final String HOGER_OGA_UTAN_KORREKTION_DELSVAR_ID_8 = "8.2";

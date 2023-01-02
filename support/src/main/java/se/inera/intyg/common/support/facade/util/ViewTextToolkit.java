@@ -47,6 +47,14 @@ public final class ViewTextToolkit {
         }
     }
 
+    public static String doubleValue(Double value) {
+        if (value == null) {
+            return NOT_SPECIFIED;
+        } else {
+            return value.toString();
+        }
+    }
+
     public static String multipleStringValues(String... value) {
         if (value == null) {
             return NOT_SPECIFIED;

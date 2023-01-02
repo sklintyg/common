@@ -28,7 +28,6 @@ import static org.mockito.Mockito.verify;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
-import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigViewTable;
 import se.inera.intyg.common.support.facade.model.config.ViewColumn;
@@ -46,24 +45,18 @@ public abstract class ConfigViewTableTest extends ConfigTest {
         return CertificateDataConfigTypes.UE_VIEW_TABLE;
     }
 
-    @Override
-    protected CertificateTextProvider getTextProviderMock() {
-        return null;
-    }
-
-    @Override
-    protected String getTextId() {
-        return null;
-    }
-
     @Test
-    void shallIncludeMessageId() {
+    void shallIncludeTextId() {
         final var question = getElement();
         if (getMessageId() != null && getMessageProviderMock() != null) {
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
             verify(getMessageProviderMock(), atLeastOnce()).get(getMessageId());
         } else if (getMessageId() != null) {
             assertEquals(question.getConfig().getText(), getMessageId());
+        }
+        if (getTextId() != null && getTextProviderMock() != null) {
+            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+            verify(getTextProviderMock(), atLeastOnce()).get(getTextId());
         }
     }
 
