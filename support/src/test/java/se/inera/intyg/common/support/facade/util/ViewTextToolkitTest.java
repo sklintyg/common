@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 
 class ViewTextToolkitTest {
 
-    private static final String NOT_SPECIFIED = "Ej angivet";
+    private static final String NOT_SPECIFIED = "Ej Angivet";
     private static final String YES = "Ja";
     private static final String NO = "Nej";
 

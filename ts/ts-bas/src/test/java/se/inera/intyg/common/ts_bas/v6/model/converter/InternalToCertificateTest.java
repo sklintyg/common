@@ -24,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.BALANSRUBBNINGAR_YRSEL_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.BALANSRUBBNINGAR_YRSEL_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.DUBBELSEENDE_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HAR_DIABETES_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HAR_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HJART_ELLER_KARLSJUKDOM_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HJART_ELLER_KARLSJUKDOM_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.IDENTITET_CATEGORY_ID;
@@ -268,5 +270,17 @@ class InternalToCertificateTest {
     void shallIncludeQuestionBeskrivningRiskfaktorer() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(25, actualCertificate.getData().get(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryDiabetes() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(26, actualCertificate.getData().get(HAR_DIABETES_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionHarDiabetes() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(27, actualCertificate.getData().get(HAR_DIABETES_SVAR_ID).getIndex());
     }
 }
