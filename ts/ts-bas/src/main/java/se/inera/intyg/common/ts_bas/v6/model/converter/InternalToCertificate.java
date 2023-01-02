@@ -58,6 +58,7 @@ import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionNystagmus;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionOtillrackligRorelseFormoga;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionRiskfaktorerForStroke;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionSynskarpa;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionUppfattaSamtal4Meter;
@@ -141,6 +142,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionHjarnskadaEfterTrauma.toCertificate(internalCertificate.getHjartKarl(), index++, texts)
+            )
+            .addElement(
+                QuestionRiskfaktorerForStroke.toCertificate(internalCertificate.getHjartKarl(), index++, texts)
             )
             .addElement(
                 CategoryDiabetes.toCertificate(index++, texts)
