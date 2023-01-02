@@ -44,6 +44,7 @@ import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.Cate
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategorySomnOchVakenhetsstorningar;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategorySynfunktioner;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionBalansrubbningar;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionBeskrivningRiskfaktorer;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionFunktionsnedsattningBeskrivning;
@@ -145,6 +146,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionRiskfaktorerForStroke.toCertificate(internalCertificate.getHjartKarl(), index++, texts)
+            )
+            .addElement(
+                QuestionBeskrivningRiskfaktorer.toCertificate(internalCertificate.getHjartKarl(), index++, texts)
             )
             .addElement(
                 CategoryDiabetes.toCertificate(index++, texts)
