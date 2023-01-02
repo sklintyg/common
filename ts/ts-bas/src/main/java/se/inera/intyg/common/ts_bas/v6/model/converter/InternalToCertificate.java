@@ -43,10 +43,12 @@ import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.Cate
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategorySjukhusvard;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategorySomnOchVakenhetsstorningar;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategorySynfunktioner;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionDubbelseende;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionIdentitet;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionLakarintygAvOgonspecialistMessage;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionNattblindhet;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionNystagmus;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionSynfaltsdefekter;
 import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
@@ -84,6 +86,12 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionLakarintygAvOgonspecialistMessage.toCertificate(internalCertificate.getSyn(), index++, texts)
+            )
+            .addElement(
+                QuestionDubbelseende.toCertificate(internalCertificate.getSyn(), index++, texts)
+            )
+            .addElement(
+                QuestionNystagmus.toCertificate(internalCertificate.getSyn(), index++, texts)
             )
             .addElement(
                 CategoryHorselOchBalanssinne.toCertificate(index++, texts)
