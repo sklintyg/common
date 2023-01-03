@@ -28,6 +28,7 @@ import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.BEHANDLING_D
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.DEMENS_KOGNITIV_FUNKTION_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.DUBBELSEENDE_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.FOREKOMST_MEDVETANDESTORNING_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HAR_DIABETES_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HAR_DIABETES_SVAR_ID;
@@ -61,6 +62,7 @@ import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.RISKFAKTORER
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SEENDE_NEDSATT_BELYSNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.STADIGVARANDE_MEDICINERING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SYNFALTSDEFEKTER_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SYNFUNKTIONER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID;
@@ -499,5 +501,17 @@ class InternalToCertificateTest {
     void shallIncludeQuestionVardatsPaSjukhusOrsak() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(58, actualCertificate.getData().get(ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryOvrigMedicinering() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(59, actualCertificate.getData().get(STADIGVARANDE_MEDICINERING_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionStadigvarandeMedicinering() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(60, actualCertificate.getData().get(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID).getIndex());
     }
 }
