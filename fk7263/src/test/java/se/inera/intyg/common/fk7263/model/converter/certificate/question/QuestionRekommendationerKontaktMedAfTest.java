@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Inera AB (http://www.inera.se)
+ * Copyright (C) 2023 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -44,13 +44,12 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueViewTextT
 @ExtendWith(MockitoExtension.class)
 class QuestionRekommendationerKontaktMedAfTest {
 
-
     @Mock
     CertificateMessagesProvider messagesProvider;
 
     @BeforeEach
     void setUp() {
-        when(messagesProvider.get(any(String.class))).thenReturn("test string");
+        when(messagesProvider.get(any(String.class))).thenReturn(REKOMMENDATIONER_KONTAKT_MED_AF_DELSVAR_TEXT_ID);
     }
 
     @Nested
@@ -80,7 +79,6 @@ class QuestionRekommendationerKontaktMedAfTest {
     @Nested
     class IncludeConfigViewTextTests extends ConfigViewTextTest {
 
-
         @Override
         protected CertificateDataElement getElement() {
             return QuestionRekommendationerKontaktMedAf.toCertificate(null, 0, messagesProvider);
@@ -97,7 +95,7 @@ class QuestionRekommendationerKontaktMedAfTest {
         }
 
         @Override
-        protected String getMessageId() {
+        protected String getTextId() {
             return REKOMMENDATIONER_KONTAKT_MED_AF_DELSVAR_TEXT_ID;
         }
     }

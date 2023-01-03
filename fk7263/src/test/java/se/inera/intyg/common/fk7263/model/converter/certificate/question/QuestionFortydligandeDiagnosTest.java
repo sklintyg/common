@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Inera AB (http://www.inera.se)
+ * Copyright (C) 2023 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -48,7 +48,7 @@ class QuestionFortydligandeDiagnosTest {
 
     @BeforeEach
     void setUp() {
-        when(messagesProvider.get(any(String.class))).thenReturn("test string");
+        when(messagesProvider.get(any(String.class))).thenReturn(DIAGNOS_FORTYDLIGANDE_SVAR_TEXT_ID);
     }
 
     @Nested
@@ -78,12 +78,10 @@ class QuestionFortydligandeDiagnosTest {
     @Nested
     class IncludeConfigViewTextTests extends ConfigViewTextTest {
 
-
         @Override
         protected CertificateDataElement getElement() {
             return QuestionFortydligandeDiagnos.toCertificate(null, null, null, null, 0, messagesProvider);
         }
-
 
         @Override
         protected String getDescriptionId() {
@@ -96,7 +94,7 @@ class QuestionFortydligandeDiagnosTest {
         }
 
         @Override
-        protected String getMessageId() {
+        protected String getTextId() {
             return DIAGNOS_FORTYDLIGANDE_SVAR_TEXT_ID;
         }
     }

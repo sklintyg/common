@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Inera AB (http://www.inera.se)
+ * Copyright (C) 2023 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -64,7 +64,6 @@ class QuestionArbetslivsinriktadRehabiliteringTest {
     @Nested
     class IncludeConfigViewTextTests extends ConfigViewTextTest {
 
-
         @Override
         protected CertificateDataElement getElement() {
             return QuestionArbetslivsinriktadRehabilitering.toCertificate(null, 0);
@@ -81,7 +80,7 @@ class QuestionArbetslivsinriktadRehabiliteringTest {
         }
 
         @Override
-        protected String getMessageId() {
+        protected String getTextId() {
             return null;
         }
     }

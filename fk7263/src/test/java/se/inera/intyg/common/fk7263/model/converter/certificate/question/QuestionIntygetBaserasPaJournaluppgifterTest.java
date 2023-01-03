@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Inera AB (http://www.inera.se)
+ * Copyright (C) 2023 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -66,12 +66,10 @@ class QuestionIntygetBaserasPaJournaluppgifterTest {
     @Nested
     class IncludeConfigViewTextTests extends ConfigViewTextTest {
 
-
         @Override
         protected CertificateDataElement getElement() {
             return QuestionIntygetBaserasPaJournaluppgifter.toCertificate(null, 0);
         }
-
 
         @Override
         protected String getDescriptionId() {
@@ -84,7 +82,7 @@ class QuestionIntygetBaserasPaJournaluppgifterTest {
         }
 
         @Override
-        protected String getMessageId() {
+        protected String getTextId() {
             return JOURNALUPPGIFTER_DELSVAR_TEXT;
         }
     }

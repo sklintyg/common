@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Inera AB (http://www.inera.se)
+ * Copyright (C) 2023 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -66,7 +66,6 @@ class QuestionResorTillFranArbeteTest {
     @Nested
     class IncludeConfigViewTextTests extends ConfigViewTextTest {
 
-
         @Override
         protected CertificateDataElement getElement() {
             return QuestionResorTillFranArbete.toCertificate(null, 0);
@@ -83,7 +82,7 @@ class QuestionResorTillFranArbeteTest {
         }
 
         @Override
-        protected String getMessageId() {
+        protected String getTextId() {
             return null;
         }
     }

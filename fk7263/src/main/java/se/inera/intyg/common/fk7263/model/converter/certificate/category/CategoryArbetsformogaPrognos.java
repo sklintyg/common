@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Inera AB (http://www.inera.se)
+ * Copyright (C) 2023 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,8 +19,8 @@
 
 package se.inera.intyg.common.fk7263.model.converter.certificate.category;
 
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_PROGRNOS_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_PROGRNOS_CATEGORY_TEXT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_PROGNOS_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_PROGNOS_CATEGORY_TEXT_ID;
 
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -30,11 +30,11 @@ public class CategoryArbetsformogaPrognos {
 
     public static CertificateDataElement toCertificate(int index, CertificateMessagesProvider messagesProvider) {
         return CertificateDataElement.builder()
-            .id(ARBETFORMAGA_PROGRNOS_CATEGORY_ID)
+            .id(ARBETSFORMAGA_PROGNOS_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigCategory.builder()
-                    .text(messagesProvider.get(ARBETFORMAGA_PROGRNOS_CATEGORY_TEXT_ID))
+                    .text(messagesProvider.get(ARBETSFORMAGA_PROGNOS_CATEGORY_TEXT_ID))
                     .build()
             )
             .build();

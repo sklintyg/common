@@ -91,6 +91,8 @@ public abstract class ConfigTest {
         if (getTextProviderMock() != null && getTextId() != null && !question.getConfig().getText().equals(getTextId())) {
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
             verify(getTextProviderMock(), atLeastOnce()).get(getTextId());
+        } else {
+            assertEquals(getTextId(), question.getConfig().getText());
         }
     }
 

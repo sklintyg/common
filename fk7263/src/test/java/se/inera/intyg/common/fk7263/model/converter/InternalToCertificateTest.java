@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Inera AB (http://www.inera.se)
+ * Copyright (C) 2023 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,12 +27,12 @@ import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AKTIVIT
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AKTIVITETSBEGRANSNINGAR_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ANNAN_ATGARD_DELSVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ANNAT_DELSVAR_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_SVAR_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_SVAR_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_PROGRNOS_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_PROGRNOS_SVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_SVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_SVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_PROGNOS_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_PROGNOS_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSLIVSINRIKTAD_REHABILITERING_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSLIVSINRIKTAD_REHABILITERING_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_ID;
@@ -277,37 +277,37 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeCategoryArbetsformogaBedomning() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(27, actualCertificate.getData().get(ARBETFORMAGA_BEDOMNING_CATEGORY_ID).getIndex());
+        assertEquals(27, actualCertificate.getData().get(ARBETSFORMAGA_BEDOMNING_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionArbetsformogaBedomning() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(28, actualCertificate.getData().get(ARBETFORMAGA_BEDOMNING_SVAR_ID).getIndex());
+        assertEquals(28, actualCertificate.getData().get(ARBETSFORMAGA_BEDOMNING_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeCategoryArbetsformogaForsakringsmedicinskaBeslutstodet() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(29, actualCertificate.getData().get(ARBETFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_CATEGORY_ID).getIndex());
+        assertEquals(29, actualCertificate.getData().get(ARBETSFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionArbetsformogaForsakringsmedicinskaBeslutstodet() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(30, actualCertificate.getData().get(ARBETFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_SVAR_ID).getIndex());
+        assertEquals(30, actualCertificate.getData().get(ARBETSFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeCategoryArbetsformogaPrognos() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(31, actualCertificate.getData().get(ARBETFORMAGA_PROGRNOS_CATEGORY_ID).getIndex());
+        assertEquals(31, actualCertificate.getData().get(ARBETSFORMAGA_PROGNOS_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionArbetsformogaPrognos() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(32, actualCertificate.getData().get(ARBETFORMAGA_PROGRNOS_SVAR_ID).getIndex());
+        assertEquals(32, actualCertificate.getData().get(ARBETSFORMAGA_PROGNOS_SVAR_ID).getIndex());
     }
 
     @Test

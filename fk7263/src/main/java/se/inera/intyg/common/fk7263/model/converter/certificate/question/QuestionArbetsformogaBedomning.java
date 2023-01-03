@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Inera AB (http://www.inera.se)
+ * Copyright (C) 2023 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,18 +19,18 @@
 
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_FOM_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_FOM_TEXT;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_NEDSATT_100_TEXT_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_NEDSATT_25_TEXT_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_NEDSATT_50_TEXT_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_NEDSATT_75_TEXT_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_NEDSATT_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_NEDSATT_TEXT;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_SVAR_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_TOM_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_TOM_TEXT;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_FOM_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_FOM_TEXT;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_NEDSATT_100_TEXT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_NEDSATT_25_TEXT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_NEDSATT_50_TEXT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_NEDSATT_75_TEXT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_NEDSATT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_NEDSATT_TEXT;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_SVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_TOM_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_TOM_TEXT;
 
 import java.util.List;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
@@ -50,24 +50,24 @@ public class QuestionArbetsformogaBedomning {
         InternalLocalDateInterval nedsattMed75, InternalLocalDateInterval nedsattMed100, int index,
         CertificateMessagesProvider messagesProvider) {
         return CertificateDataElement.builder()
-            .id(ARBETFORMAGA_BEDOMNING_SVAR_ID)
-            .parent(ARBETFORMAGA_BEDOMNING_CATEGORY_ID)
+            .id(ARBETSFORMAGA_BEDOMNING_SVAR_ID)
+            .parent(ARBETSFORMAGA_BEDOMNING_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigViewTable.builder()
                     .columns(
                         List.of(
                             ViewColumn.builder()
-                                .id(ARBETFORMAGA_BEDOMNING_NEDSATT_ID)
-                                .title(ARBETFORMAGA_BEDOMNING_NEDSATT_TEXT)
+                                .id(ARBETSFORMAGA_BEDOMNING_NEDSATT_ID)
+                                .title(ARBETSFORMAGA_BEDOMNING_NEDSATT_TEXT)
                                 .build(),
                             ViewColumn.builder()
-                                .id(ARBETFORMAGA_BEDOMNING_FOM_ID)
-                                .title(ARBETFORMAGA_BEDOMNING_FOM_TEXT)
+                                .id(ARBETSFORMAGA_BEDOMNING_FOM_ID)
+                                .title(ARBETSFORMAGA_BEDOMNING_FOM_TEXT)
                                 .build(),
                             ViewColumn.builder()
-                                .id(ARBETFORMAGA_BEDOMNING_TOM_ID)
-                                .title(ARBETFORMAGA_BEDOMNING_TOM_TEXT)
+                                .id(ARBETSFORMAGA_BEDOMNING_TOM_ID)
+                                .title(ARBETSFORMAGA_BEDOMNING_TOM_TEXT)
                                 .build()
                         )
                     )
@@ -80,29 +80,29 @@ public class QuestionArbetsformogaBedomning {
                             CertificateDataValueViewRow.builder()
                                 .columns(
                                     nedsattMed25 != null
-                                        ? getColumnNedsatt(nedsattMed25, ARBETFORMAGA_BEDOMNING_NEDSATT_25_TEXT_ID, messagesProvider)
-                                        : getEmptyColumnNedsatt(ARBETFORMAGA_BEDOMNING_NEDSATT_25_TEXT_ID, messagesProvider)
+                                        ? getColumnNedsatt(nedsattMed25, ARBETSFORMAGA_BEDOMNING_NEDSATT_25_TEXT_ID, messagesProvider)
+                                        : getEmptyColumnNedsatt(ARBETSFORMAGA_BEDOMNING_NEDSATT_25_TEXT_ID, messagesProvider)
                                 )
                                 .build(),
                             CertificateDataValueViewRow.builder()
                                 .columns(
                                     nedsattMed50 != null
-                                        ? getColumnNedsatt(nedsattMed50, ARBETFORMAGA_BEDOMNING_NEDSATT_50_TEXT_ID, messagesProvider)
-                                        : getEmptyColumnNedsatt(ARBETFORMAGA_BEDOMNING_NEDSATT_50_TEXT_ID, messagesProvider)
+                                        ? getColumnNedsatt(nedsattMed50, ARBETSFORMAGA_BEDOMNING_NEDSATT_50_TEXT_ID, messagesProvider)
+                                        : getEmptyColumnNedsatt(ARBETSFORMAGA_BEDOMNING_NEDSATT_50_TEXT_ID, messagesProvider)
                                 )
                                 .build(),
                             CertificateDataValueViewRow.builder()
                                 .columns(
                                     nedsattMed75 != null
-                                        ? getColumnNedsatt(nedsattMed75, ARBETFORMAGA_BEDOMNING_NEDSATT_75_TEXT_ID, messagesProvider)
-                                        : getEmptyColumnNedsatt(ARBETFORMAGA_BEDOMNING_NEDSATT_75_TEXT_ID, messagesProvider)
+                                        ? getColumnNedsatt(nedsattMed75, ARBETSFORMAGA_BEDOMNING_NEDSATT_75_TEXT_ID, messagesProvider)
+                                        : getEmptyColumnNedsatt(ARBETSFORMAGA_BEDOMNING_NEDSATT_75_TEXT_ID, messagesProvider)
                                 )
                                 .build(),
                             CertificateDataValueViewRow.builder()
                                 .columns(
                                     nedsattMed100 != null
-                                        ? getColumnNedsatt(nedsattMed100, ARBETFORMAGA_BEDOMNING_NEDSATT_100_TEXT_ID, messagesProvider)
-                                        : getEmptyColumnNedsatt(ARBETFORMAGA_BEDOMNING_NEDSATT_100_TEXT_ID, messagesProvider)
+                                        ? getColumnNedsatt(nedsattMed100, ARBETSFORMAGA_BEDOMNING_NEDSATT_100_TEXT_ID, messagesProvider)
+                                        : getEmptyColumnNedsatt(ARBETSFORMAGA_BEDOMNING_NEDSATT_100_TEXT_ID, messagesProvider)
                                 )
                                 .build()
                         )
@@ -116,15 +116,15 @@ public class QuestionArbetsformogaBedomning {
         CertificateMessagesProvider messagesProvider) {
         return List.of(
             CertificateDataTextValue.builder()
-                .id(ARBETFORMAGA_BEDOMNING_NEDSATT_ID)
+                .id(ARBETSFORMAGA_BEDOMNING_NEDSATT_ID)
                 .text(messagesProvider.get(textId))
                 .build(),
             CertificateDataTextValue.builder()
-                .id(ARBETFORMAGA_BEDOMNING_FOM_ID)
+                .id(ARBETSFORMAGA_BEDOMNING_FOM_ID)
                 .text(NOT_PROVIDED)
                 .build(),
             CertificateDataTextValue.builder()
-                .id(ARBETFORMAGA_BEDOMNING_TOM_ID)
+                .id(ARBETSFORMAGA_BEDOMNING_TOM_ID)
                 .text(NOT_PROVIDED)
                 .build());
     }
@@ -133,15 +133,15 @@ public class QuestionArbetsformogaBedomning {
         CertificateMessagesProvider messagesProvider) {
         return List.of(
             CertificateDataTextValue.builder()
-                .id(ARBETFORMAGA_BEDOMNING_NEDSATT_ID)
+                .id(ARBETSFORMAGA_BEDOMNING_NEDSATT_ID)
                 .text(messagesProvider.get(textId))
                 .build(),
             CertificateDataTextValue.builder()
-                .id(ARBETFORMAGA_BEDOMNING_FOM_ID)
+                .id(ARBETSFORMAGA_BEDOMNING_FOM_ID)
                 .text(nedsattMed.fromAsLocalDate().toString())
                 .build(),
             CertificateDataTextValue.builder()
-                .id(ARBETFORMAGA_BEDOMNING_TOM_ID)
+                .id(ARBETSFORMAGA_BEDOMNING_TOM_ID)
                 .text(nedsattMed.tomAsLocalDate().toString())
                 .build());
     }

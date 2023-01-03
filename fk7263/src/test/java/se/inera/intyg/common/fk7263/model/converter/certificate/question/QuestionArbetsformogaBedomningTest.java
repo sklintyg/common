@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Inera AB (http://www.inera.se)
+ * Copyright (C) 2023 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,14 +24,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_FOM_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_FOM_TEXT;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_NEDSATT_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_NEDSATT_TEXT;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_SVAR_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_TOM_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_BEDOMNING_TOM_TEXT;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_FOM_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_FOM_TEXT;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_NEDSATT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_NEDSATT_TEXT;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_SVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_TOM_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_TOM_TEXT;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -73,12 +73,12 @@ class QuestionArbetsformogaBedomningTest {
 
         @Override
         protected String getId() {
-            return ARBETFORMAGA_BEDOMNING_SVAR_ID;
+            return ARBETSFORMAGA_BEDOMNING_SVAR_ID;
         }
 
         @Override
         protected String getParent() {
-            return ARBETFORMAGA_BEDOMNING_CATEGORY_ID;
+            return ARBETSFORMAGA_BEDOMNING_CATEGORY_ID;
         }
 
         @Override
@@ -115,16 +115,16 @@ class QuestionArbetsformogaBedomningTest {
         protected List<ViewColumn> getColumns() {
             return List.of(
                 ViewColumn.builder()
-                    .id(ARBETFORMAGA_BEDOMNING_NEDSATT_ID)
-                    .title(ARBETFORMAGA_BEDOMNING_NEDSATT_TEXT)
+                    .id(ARBETSFORMAGA_BEDOMNING_NEDSATT_ID)
+                    .title(ARBETSFORMAGA_BEDOMNING_NEDSATT_TEXT)
                     .build(),
                 ViewColumn.builder()
-                    .id(ARBETFORMAGA_BEDOMNING_FOM_ID)
-                    .title(ARBETFORMAGA_BEDOMNING_FOM_TEXT)
+                    .id(ARBETSFORMAGA_BEDOMNING_FOM_ID)
+                    .title(ARBETSFORMAGA_BEDOMNING_FOM_TEXT)
                     .build(),
                 ViewColumn.builder()
-                    .id(ARBETFORMAGA_BEDOMNING_TOM_ID)
-                    .title(ARBETFORMAGA_BEDOMNING_TOM_TEXT)
+                    .id(ARBETSFORMAGA_BEDOMNING_TOM_ID)
+                    .title(ARBETSFORMAGA_BEDOMNING_TOM_TEXT)
                     .build()
             );
         }

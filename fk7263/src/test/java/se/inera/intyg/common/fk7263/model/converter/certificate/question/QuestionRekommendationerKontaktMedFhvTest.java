@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Inera AB (http://www.inera.se)
+ * Copyright (C) 2023 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -49,7 +49,7 @@ class QuestionRekommendationerKontaktMedFhvTest {
 
     @BeforeEach
     void setUp() {
-        when(messagesProvider.get(any(String.class))).thenReturn("test string");
+        when(messagesProvider.get(any(String.class))).thenReturn(REKOMMENDATIONER_KONTAKT_MED_FHV_DELSVAR_TEXT_ID);
     }
 
     @Nested
@@ -79,7 +79,6 @@ class QuestionRekommendationerKontaktMedFhvTest {
     @Nested
     class IncludeConfigViewTextTests extends ConfigViewTextTest {
 
-
         @Override
         protected CertificateDataElement getElement() {
             return QuestionRekommendationerKontaktMedFhv.toCertificate(null, 0, messagesProvider);
@@ -96,7 +95,7 @@ class QuestionRekommendationerKontaktMedFhvTest {
         }
 
         @Override
-        protected String getMessageId() {
+        protected String getTextId() {
             return REKOMMENDATIONER_KONTAKT_MED_FHV_DELSVAR_TEXT_ID;
         }
     }

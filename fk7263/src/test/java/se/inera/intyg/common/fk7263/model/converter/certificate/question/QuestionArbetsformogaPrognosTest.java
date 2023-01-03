@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Inera AB (http://www.inera.se)
+ * Copyright (C) 2023 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,8 +19,8 @@
 
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_PROGRNOS_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_PROGRNOS_SVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_PROGNOS_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_PROGNOS_SVAR_ID;
 
 import java.util.List;
 import org.junit.jupiter.api.Nested;
@@ -49,12 +49,12 @@ class QuestionArbetsformogaPrognosTest {
 
         @Override
         protected String getId() {
-            return ARBETFORMAGA_PROGRNOS_SVAR_ID;
+            return ARBETSFORMAGA_PROGNOS_SVAR_ID;
         }
 
         @Override
         protected String getParent() {
-            return ARBETFORMAGA_PROGRNOS_CATEGORY_ID;
+            return ARBETSFORMAGA_PROGNOS_CATEGORY_ID;
         }
 
         @Override
@@ -66,12 +66,10 @@ class QuestionArbetsformogaPrognosTest {
     @Nested
     class IncludeConfigViewTextTests extends ConfigViewTextTest {
 
-
         @Override
         protected CertificateDataElement getElement() {
             return QuestionArbetsformogaPrognos.toCertificate(null, 0);
         }
-
 
         @Override
         protected String getDescriptionId() {
@@ -84,7 +82,7 @@ class QuestionArbetsformogaPrognosTest {
         }
 
         @Override
-        protected String getMessageId() {
+        protected String getTextId() {
             return null;
         }
     }

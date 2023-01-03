@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Inera AB (http://www.inera.se)
+ * Copyright (C) 2023 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,8 +19,8 @@
 
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_SVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_SVAR_ID;
 
 import java.util.List;
 import org.junit.jupiter.api.Nested;
@@ -49,12 +49,12 @@ class QuestionArbetsformogaForsakringsmedicinskaBeslutstodTest {
 
         @Override
         protected String getId() {
-            return ARBETFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_SVAR_ID;
+            return ARBETSFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_SVAR_ID;
         }
 
         @Override
         protected String getParent() {
-            return ARBETFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_CATEGORY_ID;
+            return ARBETSFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_CATEGORY_ID;
         }
 
         @Override
@@ -66,12 +66,10 @@ class QuestionArbetsformogaForsakringsmedicinskaBeslutstodTest {
     @Nested
     class IncludeConfigViewTextTests extends ConfigViewTextTest {
 
-
         @Override
         protected CertificateDataElement getElement() {
             return QuestionArbetsformogaForsakringsmedicinskaBeslutstod.toCertificate(null, 0);
         }
-
 
         @Override
         protected String getDescriptionId() {
@@ -84,7 +82,7 @@ class QuestionArbetsformogaForsakringsmedicinskaBeslutstodTest {
         }
 
         @Override
-        protected String getMessageId() {
+        protected String getTextId() {
             return null;
         }
     }

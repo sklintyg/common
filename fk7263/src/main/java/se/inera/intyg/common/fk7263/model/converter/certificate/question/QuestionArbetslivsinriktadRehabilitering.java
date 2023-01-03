@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Inera AB (http://www.inera.se)
+ * Copyright (C) 2023 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -32,7 +32,7 @@ public class QuestionArbetslivsinriktadRehabilitering {
     private static final String NO = "Nej";
     private static final String YES = "Ja";
     private static final String NOT_PROVIDED = "Ej angivet";
-    private static final String UN_JUDGEABLE = "Går inte att bedöma";
+    private static final String UNJUDGEABLE = "Går inte att bedöma";
 
     public static CertificateDataElement toCertificate(Rehabilitering rehab, int index) {
 
@@ -57,7 +57,7 @@ public class QuestionArbetslivsinriktadRehabilitering {
             return NOT_PROVIDED;
         }
         if (rehabilitering.equals(Rehabilitering.rehabiliteringGarInteAttBedoma)) {
-            return UN_JUDGEABLE;
+            return UNJUDGEABLE;
         }
         if (rehabilitering.equals(Rehabilitering.rehabiliteringAktuell)) {
             return YES;

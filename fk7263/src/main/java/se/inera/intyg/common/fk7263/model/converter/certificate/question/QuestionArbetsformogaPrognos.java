@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Inera AB (http://www.inera.se)
+ * Copyright (C) 2023 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,8 +19,8 @@
 
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_PROGRNOS_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_PROGRNOS_SVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_PROGNOS_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_PROGNOS_SVAR_ID;
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.stringValue;
 
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -31,8 +31,8 @@ public class QuestionArbetsformogaPrognos {
 
     public static CertificateDataElement toCertificate(String prognos, int index) {
         return CertificateDataElement.builder()
-            .id(ARBETFORMAGA_PROGRNOS_SVAR_ID)
-            .parent(ARBETFORMAGA_PROGRNOS_CATEGORY_ID)
+            .id(ARBETSFORMAGA_PROGNOS_SVAR_ID)
+            .parent(ARBETSFORMAGA_PROGNOS_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigViewText.builder()

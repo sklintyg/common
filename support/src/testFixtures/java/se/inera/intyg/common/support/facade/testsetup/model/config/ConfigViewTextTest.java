@@ -33,8 +33,6 @@ public abstract class ConfigViewTextTest extends ConfigTest {
 
     protected abstract CertificateMessagesProvider getMessageProviderMock();
 
-    protected abstract String getMessageId();
-
     @Override
     protected CertificateDataConfigTypes getType() {
         return CertificateDataConfigTypes.UE_VIEW_TEXT;
@@ -45,19 +43,15 @@ public abstract class ConfigViewTextTest extends ConfigTest {
         return null;
     }
 
-    @Override
-    protected String getTextId() {
-        return null;
-    }
 
     @Test
     void shallIncludeMessageId() {
         final var question = getElement();
-        if (getMessageId() != null && getMessageProviderMock() != null) {
+        if (getTextId() != null && getMessageProviderMock() != null) {
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(getMessageProviderMock(), atLeastOnce()).get(getMessageId());
-        } else if (getMessageId() != null) {
-            assertEquals(question.getConfig().getText(), getMessageId());
+            verify(getMessageProviderMock(), atLeastOnce()).get(getTextId());
+        } else if (getTextId() != null) {
+            assertEquals(question.getConfig().getText(), getTextId());
         }
     }
 }

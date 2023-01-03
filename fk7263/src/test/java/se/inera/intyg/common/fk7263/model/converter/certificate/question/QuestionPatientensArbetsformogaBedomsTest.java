@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Inera AB (http://www.inera.se)
+ * Copyright (C) 2023 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -99,7 +99,7 @@ class QuestionPatientensArbetsformogaBedomsTest {
     class IncludePatientensArbetsformogaBedomsValueTest {
 
         @Test
-        void shouldDisplayAllValues() {
+        void allValuesShouldBeDisplayed() {
             when(messagesProvider.get(any())).thenReturn("test string");
 
             final var nuvarandeArbetsuppgifter = "test";
@@ -124,7 +124,7 @@ class QuestionPatientensArbetsformogaBedomsTest {
         }
 
         @Test
-        void shouldNotDisplayValues() {
+        void valuesShouldNotBeDisplayed() {
 
             final var expectedValue = Collections.emptyList();
 
@@ -137,7 +137,7 @@ class QuestionPatientensArbetsformogaBedomsTest {
         }
 
         @Test
-        void shouldDisplayFirstValue() {
+        void firstValueShouldBeDisplayed() {
             when(messagesProvider.get(any())).thenReturn("test string");
 
             final var expectedValue = List.of(
@@ -155,7 +155,7 @@ class QuestionPatientensArbetsformogaBedomsTest {
         }
 
         @Test
-        void shouldDisplayThirdValue() {
+        void thirdValueShouldBeDisplayed() {
             when(messagesProvider.get(any())).thenReturn("test string");
 
             final var expectedValue = List.of(
@@ -173,7 +173,7 @@ class QuestionPatientensArbetsformogaBedomsTest {
         }
 
         @Test
-        void shouldDisplaySecondValue() {
+        void secondValueShouldBeDisplayed() {
             when(messagesProvider.get(any())).thenReturn("test string");
 
             final var expectedValue = List.of(

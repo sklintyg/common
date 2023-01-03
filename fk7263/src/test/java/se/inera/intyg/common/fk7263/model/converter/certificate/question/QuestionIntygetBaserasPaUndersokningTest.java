@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Inera AB (http://www.inera.se)
+ * Copyright (C) 2023 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -67,12 +67,10 @@ class QuestionIntygetBaserasPaUndersokningTest {
     @Nested
     class IncludeConfigViewTextTests extends ConfigViewTextTest {
 
-
         @Override
         protected CertificateDataElement getElement() {
             return QuestionIntygetBaserasPaUndersokning.toCertificate(null, 0);
         }
-
 
         @Override
         protected String getDescriptionId() {
@@ -85,7 +83,7 @@ class QuestionIntygetBaserasPaUndersokningTest {
         }
 
         @Override
-        protected String getMessageId() {
+        protected String getTextId() {
             return UNDERSOKNING_AV_PATIENTEN_DELSVAR_TEXT;
         }
     }

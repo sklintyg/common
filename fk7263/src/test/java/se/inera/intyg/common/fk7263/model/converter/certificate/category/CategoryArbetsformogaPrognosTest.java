@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Inera AB (http://www.inera.se)
+ * Copyright (C) 2023 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -21,8 +21,8 @@ package se.inera.intyg.common.fk7263.model.converter.certificate.category;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_PROGRNOS_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETFORMAGA_PROGRNOS_CATEGORY_TEXT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_PROGNOS_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_PROGNOS_CATEGORY_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -55,7 +55,7 @@ class CategoryArbetsformogaPrognosTest {
 
         @Override
         protected String getId() {
-            return ARBETFORMAGA_PROGRNOS_CATEGORY_ID;
+            return ARBETSFORMAGA_PROGNOS_CATEGORY_ID;
         }
 
         @Override
@@ -84,7 +84,7 @@ class CategoryArbetsformogaPrognosTest {
 
         @Override
         protected String getTextId() {
-            return ARBETFORMAGA_PROGRNOS_CATEGORY_TEXT_ID;
+            return ARBETSFORMAGA_PROGNOS_CATEGORY_TEXT_ID;
         }
 
         @Override
