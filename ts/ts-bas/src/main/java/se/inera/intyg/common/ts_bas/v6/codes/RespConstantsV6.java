@@ -245,7 +245,7 @@ public final class RespConstantsV6 {
 
     public static final String LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID = "26.2";
     public static final String LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID = "missbrukberoendordineratlakamedel";
-    public static final String LAKEMEDEL_ORDINERAD_DOS_DELSVAR_TEXT_ID = "DFR_26.2.RBK";
+    public static final String LAKEMEDEL_ORDINERAD_DOS_DELSVAR_TEXT_ID = "DFR_26.1.RBK";
 
     public static final String PSYKISK_SJUKDOM_STORNING_CATEGORY_ID = "psykiskt";
     public static final String PSYKISK_SJUKDOM_STORNING_CATEGORY_TEXT_ID = "KAT_12.RBK";
