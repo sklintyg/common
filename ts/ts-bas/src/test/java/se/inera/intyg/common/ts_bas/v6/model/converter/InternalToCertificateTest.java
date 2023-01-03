@@ -37,7 +37,9 @@ import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.INTYG_AVSER_
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.MEDVETANDESTORNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.MEDVETANDESTORNING_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.NEDSATT_NJURFUNKTION_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.NEUROLOGISK_SJUKDOM_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.NJURFUNKTION_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.NYSTAGMUS_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PROGRESSIV_OGONSJUKDOM_SVAR_ID;
@@ -338,5 +340,17 @@ class InternalToCertificateTest {
     void shallIncludeQuestionMedvetandestorningBeskrivning() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(35, actualCertificate.getData().get(FOREKOMST_MEDVETANDESTORNING_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludCategoryNjursjukdomar() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(36, actualCertificate.getData().get(NJURFUNKTION_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludQuestionNedsattNjurfunktion() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(37, actualCertificate.getData().get(NEDSATT_NJURFUNKTION_SVAR_ID).getIndex());
     }
 }
