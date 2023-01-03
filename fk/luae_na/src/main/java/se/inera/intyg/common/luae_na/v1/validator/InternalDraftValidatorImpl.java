@@ -33,6 +33,8 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKT
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AVSLUTADBEHANDLING_SVAR_ID_18;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_SVAR_ID_7;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_ID_23;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FORSLAG_TILL_ATGARD_SVAR_ID_24;
@@ -59,8 +61,8 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SJU
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SUBSTANSINTAG_SVAR_ID_21;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
 
 import com.google.common.base.Strings;
 import java.time.LocalDate;
@@ -308,7 +310,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
 
         if (Strings.nullToEmpty(utlatande.getDiagnosgrund()).trim().isEmpty()) {
             ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS, DIAGNOSGRUND_SVAR_JSON_ID_7,
-                ValidationMessageType.EMPTY, DIAGNOSGRUND_SVAR_JSON_ID_7);
+                ValidationMessageType.EMPTY, DIAGNOSGRUND_SVAR_ID_7);
         }
 
         if (utlatande.getNyBedomningDiagnosgrund() == null) {
@@ -320,7 +322,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
         if (utlatande.getNyBedomningDiagnosgrund() != null && utlatande.getNyBedomningDiagnosgrund()
             && Strings.nullToEmpty(utlatande.getDiagnosForNyBedomning()).trim().isEmpty()) {
             ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS, DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45,
-                ValidationMessageType.EMPTY, NYDIAGNOS_SVAR_ID_45);
+                ValidationMessageType.EMPTY, DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45);
         }
         // R14 Inverted test of R13
         if ((utlatande.getNyBedomningDiagnosgrund() == null || !utlatande.getNyBedomningDiagnosgrund())

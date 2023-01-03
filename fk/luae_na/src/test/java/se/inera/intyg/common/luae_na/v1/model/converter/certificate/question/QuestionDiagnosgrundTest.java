@@ -153,7 +153,7 @@ class QuestionDiagnosgrundTest {
 
             @Override
             protected String getQuestionId() {
-                return DIAGNOSGRUND_SVAR_JSON_ID_7;
+                return DIAGNOSGRUND_SVAR_ID_7;
             }
 
             @Override
