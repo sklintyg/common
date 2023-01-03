@@ -51,6 +51,7 @@ import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionAlkoholNarkotikaVardinsatser;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionBalansrubbningar;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionBedomningKorkortsTyp;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionBedomningLakareSpecialKompetens;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionBeskrivningRiskfaktorer;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionDiabetesBehandling;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionDiabetesTyp;
@@ -297,6 +298,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionBedomningKorkortsTyp.toCertificate(internalCertificate.getBedomning(), index++, texts)
+            )
+            .addElement(
+                QuestionBedomningLakareSpecialKompetens.toCertificate(internalCertificate.getBedomning(), index, texts)
             )
             .build();
     }
