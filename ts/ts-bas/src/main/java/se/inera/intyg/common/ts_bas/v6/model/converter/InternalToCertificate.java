@@ -52,7 +52,7 @@ import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionFunktionsnedsattningBeskrivning;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionHarDiabetes;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionHjarnskadaEfterTrauma;
-import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionHjartOchKarlsjukdom;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionHjartOchKarlsjukdomar;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionIdentitet;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionKorrektionsglasensStyrka;
@@ -142,7 +142,7 @@ public class InternalToCertificate {
                 CategoryHjartOchKarlsjukdom.toCertificate(index++, texts)
             )
             .addElement(
-                QuestionHjartOchKarlsjukdom.toCertificate(internalCertificate.getHjartKarl(), index++, texts)
+                QuestionHjartOchKarlsjukdomar.toCertificate(internalCertificate.getHjartKarl(), index++, texts)
             )
             .addElement(
                 QuestionHjarnskadaEfterTrauma.toCertificate(internalCertificate.getHjartKarl(), index++, texts)

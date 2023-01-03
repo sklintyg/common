@@ -30,7 +30,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigVi
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewText;
 import se.inera.intyg.common.ts_bas.v6.model.internal.HjartKarl;
 
-public class QuestionHjartOchKarlsjukdom {
+public class QuestionHjartOchKarlsjukdomar {
 
     public static CertificateDataElement toCertificate(HjartKarl hjartKarl, int index, CertificateTextProvider textProvider) {
         final var hjartKarlsjukdom = hjartKarl != null && hjartKarl.getHjartKarlSjukdom() != null

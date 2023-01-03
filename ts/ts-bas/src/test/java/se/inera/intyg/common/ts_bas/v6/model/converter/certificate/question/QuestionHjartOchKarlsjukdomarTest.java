@@ -44,7 +44,7 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueViewTextT
 import se.inera.intyg.common.ts_bas.v6.model.internal.HjartKarl;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionHjartOchKarlsjukdomTest {
+class QuestionHjartOchKarlsjukdomarTest {
 
     @Mock
     CertificateTextProvider textProvider;
@@ -59,7 +59,7 @@ class QuestionHjartOchKarlsjukdomTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionHjartOchKarlsjukdom.toCertificate(null, 0, textProvider);
+            return QuestionHjartOchKarlsjukdomar.toCertificate(null, 0, textProvider);
         }
 
         @Override
@@ -88,7 +88,7 @@ class QuestionHjartOchKarlsjukdomTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionHjartOchKarlsjukdom.toCertificate(null, 0, textProvider);
+            return QuestionHjartOchKarlsjukdomar.toCertificate(null, 0, textProvider);
         }
 
         @Override
@@ -118,7 +118,7 @@ class QuestionHjartOchKarlsjukdomTest {
 
         @Override
         protected CertificateDataElement getElement(HjartKarl expectedValue) {
-            return QuestionHjartOchKarlsjukdom.toCertificate(expectedValue, 0, textProvider);
+            return QuestionHjartOchKarlsjukdomar.toCertificate(expectedValue, 0, textProvider);
         }
 
         @Override
