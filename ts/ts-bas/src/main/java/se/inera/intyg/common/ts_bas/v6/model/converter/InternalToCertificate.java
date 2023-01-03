@@ -59,6 +59,7 @@ import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionKorrektionsglasensStyrkaMessage;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionLakarintygAvOgonspecialistMessage;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionMedvetandestorning;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionMedvetandestorningBeskrivning;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionNattblindhet;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionNystagmus;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionOtillrackligRorelseFormoga;
@@ -182,6 +183,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionMedvetandestorning.toCertificate(internalCertificate.getMedvetandestorning(), index++, texts)
+            )
+            .addElement(
+                QuestionMedvetandestorningBeskrivning.toCertificate(internalCertificate.getMedvetandestorning(), index++, texts)
             )
             .addElement(
                 CategoryNjursjukdomar.toCertificate(index++, texts)
