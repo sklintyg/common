@@ -51,6 +51,7 @@ import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.UNDERSOKNING
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.UPPFATTA_SAMTALSTAMMA_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.VARDEN_FOR_SYNSKARPA_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INSULIN_ELLER_TABLETT_MESSAGE_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -296,5 +297,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionDiabetesBehandling() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(29, actualCertificate.getData().get(BEHANDLING_DIABETES_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionTablettEllerInsulinMessage() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(30, actualCertificate.getData().get(INSULIN_ELLER_TABLETT_MESSAGE_ID).getIndex());
     }
 }
