@@ -40,6 +40,7 @@ import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.INTYG_AVSER_
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.INTYG_AVSER_SVAR_ID_1;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.MEDVETANDESTORNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.MEDVETANDESTORNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
@@ -513,5 +514,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionStadigvarandeMedicinering() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(60, actualCertificate.getData().get(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionStadigvarandeMedicineringBeskrivning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(61, actualCertificate.getData().get(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID).getIndex());
     }
 }
