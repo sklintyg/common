@@ -47,6 +47,7 @@ import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.NEUROLOGISK_
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.NJURFUNKTION_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.NYSTAGMUS_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PROGRESSIV_OGONSJUKDOM_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_MESSAGE_ID;
@@ -485,5 +486,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionTidpunktVardPaSjukhus() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(56, actualCertificate.getData().get(TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionVardinrattningensNamn() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(57, actualCertificate.getData().get(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID).getIndex());
     }
 }
