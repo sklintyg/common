@@ -42,6 +42,7 @@ import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigViewTex
 import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueViewTextTest;
 import se.inera.intyg.common.ts_bas.v6.model.internal.Diabetes;
+import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionDiabetesTypTest {
@@ -125,7 +126,7 @@ class QuestionDiabetesTypTest {
         protected List<InputExpectedValuePair<Diabetes, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
                 new InputExpectedValuePair<>(Diabetes.builder().build(), CertificateDataValueViewText.builder().text("Ej Angivet").build()),
-                new InputExpectedValuePair<>(Diabetes.builder().setDiabetesTyp("Typ 2").build(),
+                new InputExpectedValuePair<>(Diabetes.builder().setDiabetesTyp(DiabetesKod.DIABETES_TYP_2.name()).build(),
                     CertificateDataValueViewText.builder().text("Typ 2").build())
             );
         }
