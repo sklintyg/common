@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2023 Inera AB (http://www.inera.se)
  *
- * This file is part of sklintyg (https://github.com/sklintyg).
+ * This file is part of sklint (https://github.com/sklintyg).
  *
  * sklintyg is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
