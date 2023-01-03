@@ -36,8 +36,8 @@ import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.Cate
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategoryMedvetandestorning;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategoryNeurologiskaSjukdomar;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategoryNjursjukdomar;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategoryOvrigKommentar;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategoryOvrigMedicinering;
-import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategoryOvrigt;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategoryPsykiskSjukdom;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategoryPsykiskUtvecklingsstorning;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategorySjukhusvard;
@@ -71,6 +71,7 @@ import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionNedsattNjurfunktion;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionNystagmus;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionOtillrackligRorelseFormoga;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionOvrigKommentar;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionPsykiskSjukdom;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionPsykiskSyndrom;
@@ -285,7 +286,10 @@ public class InternalToCertificate {
                 QuestionStadigvarandeMedicineringBeskrivning.toCertificate(internalCertificate.getMedicinering(), index++, texts)
             )
             .addElement(
-                CategoryOvrigt.toCertificate(index++, texts)
+                CategoryOvrigKommentar.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionOvrigKommentar.toCertificate(internalCertificate.getKommentar(), index++, texts)
             )
             .addElement(
                 CategoryBedomning.toCertificate(index, texts)

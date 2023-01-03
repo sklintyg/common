@@ -17,25 +17,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category;
+package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
+import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.OVRIGA_KOMMENTARER_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.OVRIGA_KOMMENTARER_CATEGORY_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.OVRIGA_KOMMENTARER_DELSVARSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.OVRIGA_KOMMENTARER_DELSVARSVAR_TEXT_ID;
 
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewText;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
-import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategoryTest;
+import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigViewTextTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
+import se.inera.intyg.common.support.facade.testsetup.model.value.ValueViewTextTest;
 
 @ExtendWith(MockitoExtension.class)
-class CategoryOvrigtTest {
+class QuestionOvrigKommentarTest {
 
     @Mock
     CertificateTextProvider textProvider;
@@ -50,17 +58,17 @@ class CategoryOvrigtTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return se.inera.intyg.common.ts_bas.v7.model.converter.certificate.category.CategoryOvrigt.toCertificate(0, textProvider);
+            return QuestionOvrigKommentar.toCertificate(null, 0, textProvider);
         }
 
         @Override
         protected String getId() {
-            return OVRIGA_KOMMENTARER_CATEGORY_ID;
+            return OVRIGA_KOMMENTARER_DELSVARSVAR_ID;
         }
 
         @Override
         protected String getParent() {
-            return null;
+            return OVRIGA_KOMMENTARER_CATEGORY_ID;
         }
 
         @Override
@@ -70,7 +78,7 @@ class CategoryOvrigtTest {
     }
 
     @Nested
-    class IncludeConfigCategoryTests extends ConfigCategoryTest {
+    class IncludeConfigViewText extends ConfigViewTextTest {
 
         @Override
         protected CertificateTextProvider getTextProviderMock() {
@@ -79,17 +87,45 @@ class CategoryOvrigtTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return CategoryOvrigt.toCertificate(0, textProvider);
+            return QuestionOvrigKommentar.toCertificate(null, 0, textProvider);
         }
 
         @Override
         protected String getTextId() {
-            return OVRIGA_KOMMENTARER_CATEGORY_TEXT_ID;
+            return OVRIGA_KOMMENTARER_DELSVARSVAR_TEXT_ID;
         }
 
         @Override
         protected String getDescriptionId() {
             return null;
+        }
+
+        @Override
+        protected CertificateMessagesProvider getMessageProviderMock() {
+            return null;
+        }
+
+        @Override
+        protected String getMessageId() {
+            return null;
+        }
+    }
+
+    @Nested
+    @TestInstance(PER_CLASS)
+    class IncludeValueViewText extends ValueViewTextTest<String> {
+
+        @Override
+        protected CertificateDataElement getElement(String expectedValue) {
+            return QuestionOvrigKommentar.toCertificate(expectedValue, 0, textProvider);
+        }
+
+        @Override
+        protected List<InputExpectedValuePair<String, CertificateDataValueViewText>> inputExpectedValuePairList() {
+            return List.of(
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                new InputExpectedValuePair<>("kommentar", CertificateDataValueViewText.builder().text("kommentar").build())
+            );
         }
     }
 }
