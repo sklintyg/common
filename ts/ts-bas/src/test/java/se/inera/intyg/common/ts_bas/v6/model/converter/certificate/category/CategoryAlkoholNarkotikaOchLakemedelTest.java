@@ -35,7 +35,7 @@ import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategoryTest;
 
 @ExtendWith(MockitoExtension.class)
-class CategoryAlkoholNarkotikaOchLakamedelTest {
+class CategoryAlkoholNarkotikaOchLakemedelTest {
 
     @Mock
     private CertificateTextProvider texts;
@@ -51,7 +51,7 @@ class CategoryAlkoholNarkotikaOchLakamedelTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return CategoryAlkoholNarkotikaOchLakamedel.toCertificate(
+            return CategoryAlkoholNarkotikaOchLakemedel.toCertificate(
                 0, texts);
         }
 
@@ -81,7 +81,7 @@ class CategoryAlkoholNarkotikaOchLakamedelTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return CategoryAlkoholNarkotikaOchLakamedel.toCertificate(0, texts);
+            return CategoryAlkoholNarkotikaOchLakemedel.toCertificate(0, texts);
         }
 
         @Override

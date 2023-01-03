@@ -36,20 +36,26 @@ import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.IDENTITET_ST
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.INTYG_AVSER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.INTYG_AVSER_SVAR_ID_1;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.MEDVETANDESTORNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.MEDVETANDESTORNING_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.NEDSATT_NJURFUNKTION_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.NEUROLOGISK_SJUKDOM_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.NJURFUNKTION_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.NYSTAGMUS_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PROGRESSIV_OGONSJUKDOM_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_MESSAGE_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.RISKFAKTORER_STROKE_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SEENDE_NEDSATT_BELYSNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SYNFALTSDEFEKTER_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SYNFUNKTIONER_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TECKEN_PA_HJARNSKADA_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_CATEGORY_ID;
@@ -62,6 +68,7 @@ import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.UNDERSOKNING
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.UPPFATTA_SAMTALSTAMMA_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.VARDEN_FOR_SYNSKARPA_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INSULIN_ELLER_TABLETT_MESSAGE_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -380,5 +387,47 @@ class InternalToCertificateTest {
     void shallIncludeQuestionSomnOchVakenhetsstorningar() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(41, actualCertificate.getData().get(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryAlkoholNarkotikaOchLakemedel() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(42, actualCertificate.getData().get(MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionAlkoholNarkotikaTeckenMissbruk() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(43, actualCertificate.getData().get(TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionAlkoholNarkotikaVardinsatser() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(44, actualCertificate.getData().get(VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionAlkoholNarkotikaProvtagning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(45, actualCertificate.getData().get(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionAlkoholNarkotikaProvtagningMessage() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(46, actualCertificate.getData().get(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_MESSAGE_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionAlkoholNarkotikaLakarordineratLakemedelsbruk() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(47, actualCertificate.getData().get(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionAlkoholNarkotikaLakarordineratDos() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(48, actualCertificate.getData().get(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID).getIndex());
     }
 }

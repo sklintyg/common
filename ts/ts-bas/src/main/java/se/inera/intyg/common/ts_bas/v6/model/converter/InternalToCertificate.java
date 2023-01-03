@@ -24,7 +24,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.MetaDataGrundData;
-import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategoryAlkoholNarkotikaOchLakamedel;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategoryAlkoholNarkotikaOchLakemedel;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategoryBedomning;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategoryDemensOchAndraKognitivaStorningar;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategoryDiabetes;
@@ -43,6 +43,12 @@ import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.Cate
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategorySjukhusvard;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategorySomnOchVakenhetsstorningar;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategorySynfunktioner;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionAlkoholNarkotikaLakarordineratDos;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionAlkoholNarkotikaLakarordineratLakemedelsbruk;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionAlkoholNarkotikaProvtagning;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionAlkoholNarkotikaProvtagningMessage;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionAlkoholNarkotikaTeckenMissbruk;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionAlkoholNarkotikaVardinsatser;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionBalansrubbningar;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionBeskrivningRiskfaktorer;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionDiabetesBehandling;
@@ -209,7 +215,26 @@ public class InternalToCertificate {
                 QuestionSomnOchVakenhetsstorningar.toCertificate(internalCertificate.getSomnVakenhet(), index++, texts)
             )
             .addElement(
-                CategoryAlkoholNarkotikaOchLakamedel.toCertificate(index++, texts)
+                CategoryAlkoholNarkotikaOchLakemedel.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionAlkoholNarkotikaTeckenMissbruk.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
+            )
+            .addElement(
+                QuestionAlkoholNarkotikaVardinsatser.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
+            )
+            .addElement(
+                QuestionAlkoholNarkotikaProvtagning.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
+            )
+            .addElement(
+                QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
+            )
+            .addElement(
+                QuestionAlkoholNarkotikaLakarordineratLakemedelsbruk.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++,
+                    texts)
+            )
+            .addElement(
+                QuestionAlkoholNarkotikaLakarordineratDos.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
             )
             .addElement(
                 CategoryPsykiskSjukdomStorning.toCertificate(index++, texts)
