@@ -28,6 +28,7 @@ import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.BEHANDLING_D
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.DEMENS_KOGNITIV_FUNKTION_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.DUBBELSEENDE_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.FOREKOMST_MEDVETANDESTORNING_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HAR_DIABETES_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HAR_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HJART_ELLER_KARLSJUKDOM_CATEGORY_ID;
@@ -74,6 +75,7 @@ import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.UNDERSOKNING
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.UPPFATTA_SAMTALSTAMMA_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.VARDEN_FOR_SYNSKARPA_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INSULIN_ELLER_TABLETT_MESSAGE_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -464,5 +466,17 @@ class InternalToCertificateTest {
     void shallIncludeQuestionPsykiskSyndrom() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(53, actualCertificate.getData().get(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategorySjukhusvard() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(54, actualCertificate.getData().get(VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionVardatsPaSjukhus() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(55, actualCertificate.getData().get(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID).getIndex());
     }
 }
