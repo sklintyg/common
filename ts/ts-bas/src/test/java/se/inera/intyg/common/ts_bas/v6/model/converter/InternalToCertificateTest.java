@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.BALANSRUBBNINGAR_YRSEL_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.BALANSRUBBNINGAR_YRSEL_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.BEHANDLING_DIABETES_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.DEMENS_KOGNITIV_FUNKTION_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.DUBBELSEENDE_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.FOREKOMST_MEDVETANDESTORNING_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HAR_DIABETES_CATEGORY_ID;
@@ -51,6 +52,7 @@ import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SYNFALTSDEFE
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SYNFUNKTIONER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TECKEN_PA_HJARNSKADA_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TYP_AV_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID;
@@ -352,5 +354,17 @@ class InternalToCertificateTest {
     void shallIncludQuestionNedsattNjurfunktion() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(37, actualCertificate.getData().get(NEDSATT_NJURFUNKTION_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludCategoryDemensOchAndraKognitivaStorningar() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(38, actualCertificate.getData().get(DEMENS_KOGNITIV_FUNKTION_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionKognitivaFormoga() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(39, actualCertificate.getData().get(TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_ID).getIndex());
     }
 }
