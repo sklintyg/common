@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.BALANSRUBBNINGAR_YRSEL_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.BALANSRUBBNINGAR_YRSEL_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.BEDOMNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.BEHANDLING_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.DEMENS_KOGNITIV_FUNKTION_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.DUBBELSEENDE_SVAR_ID;
@@ -40,6 +41,7 @@ import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.INTYG_AVSER_
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.INTYG_AVSER_SVAR_ID_1;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.MEDVETANDESTORNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.MEDVETANDESTORNING_SVAR_ID;
@@ -534,5 +536,17 @@ class InternalToCertificateTest {
     void shallIncludeQuestionOvrigKommentar() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(63, actualCertificate.getData().get(OVRIGA_KOMMENTARER_DELSVARSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryBedomning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(64, actualCertificate.getData().get(BEDOMNING_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionBedomningKorkortsTyp() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(65, actualCertificate.getData().get(LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID).getIndex());
     }
 }

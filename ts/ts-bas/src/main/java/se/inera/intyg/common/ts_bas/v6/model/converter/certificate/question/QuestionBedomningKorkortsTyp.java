@@ -21,48 +21,44 @@ package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.multipleStringValues;
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.withComma;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.INTYG_AVSER_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.INTYG_AVSER_SVAR_ID_1;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.INTYG_AVSER_SVAR_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.BEDOMNING_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_TEXT_ID;
 
 import java.util.Set;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigViewText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewText;
-import se.inera.intyg.common.ts_bas.v6.model.internal.IntygAvser;
-import se.inera.intyg.common.ts_bas.v6.model.internal.IntygAvserKategori;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Bedomning;
+import se.inera.intyg.common.ts_bas.v6.model.internal.BedomningKorkortstyp;
 
-public class QuestionIntygetAvser {
+public class QuestionBedomningKorkortsTyp {
 
-    private static final String NOT_PROVIDED = "Ej Angivet";
-
-    public static CertificateDataElement toCertificate(IntygAvser intygAvser, int index,
-        CertificateTextProvider texts) {
-        final var korkort = intygAvser != null && intygAvser.getKorkortstyp() != null ? intygAvser.getKorkortstyp() : null;
-        final var korkortsTyper = getKorkortstypName(korkort);
-
+    public static CertificateDataElement toCertificate(Bedomning bedomning, int index, CertificateTextProvider textProvider) {
+        final var bedomningKorkortstyp = bedomning != null && bedomning.getKorkortstyp() != null ? bedomning.getKorkortstyp() : null;
+        final var korkortsTyper = getBedomningKorkortstypName(bedomningKorkortstyp);
         return CertificateDataElement.builder()
-            .id(INTYG_AVSER_SVAR_ID_1)
-            .parent(INTYG_AVSER_CATEGORY_ID)
+            .id(LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID)
+            .parent(BEDOMNING_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigViewText.builder()
-                    .text(texts.get(INTYG_AVSER_SVAR_TEXT_ID))
+                    .text(textProvider.get(LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_TEXT_ID))
                     .build()
             )
             .value(
                 CertificateDataValueViewText.builder()
                     .text(
-                        multipleStringValues(korkortsTyper).equals(NOT_PROVIDED)
-                            ? multipleStringValues(korkortsTyper) : withComma(multipleStringValues(korkortsTyper).split(" "))
+                        korkortsTyper == null ? multipleStringValues(korkortsTyper)
+                            : withComma(multipleStringValues(korkortsTyper).split(" "))
                     )
                     .build()
             )
             .build();
     }
 
-    private static String[] getKorkortstypName(Set<IntygAvserKategori> korkort) {
+    private static String[] getBedomningKorkortstypName(Set<BedomningKorkortstyp> korkort) {
         return korkort != null ? korkort.stream()
             .map(Enum::name)
             .toArray(String[]::new) : null;
