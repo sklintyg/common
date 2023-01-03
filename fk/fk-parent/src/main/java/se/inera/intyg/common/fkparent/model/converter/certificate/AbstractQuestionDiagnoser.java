@@ -174,8 +174,9 @@ public abstract class AbstractQuestionDiagnoser {
                 return 1;
             case DIAGNOSES_LIST_ITEM_3_ID:
                 return 2;
+            default:
+                return 0;
         }
-        return 0;
     }
 
     private static String convertIntToId(String id) {
@@ -186,7 +187,8 @@ public abstract class AbstractQuestionDiagnoser {
                 return DIAGNOSES_LIST_ITEM_2_ID;
             case "3":
                 return DIAGNOSES_LIST_ITEM_3_ID;
+            default:
+                return "";
         }
-        return "";
     }
 }
