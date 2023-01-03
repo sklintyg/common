@@ -22,9 +22,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOSGRUND_SVAR_JSON_ID_7;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.NYDIAGNOS_SVAR_ID_45;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_SVAR_ID_7;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
@@ -478,7 +479,7 @@ public class InternalDraftValidatorTest {
         assertEquals("diagnos", res.getValidationErrors().get(0).getCategory());
         assertEquals("diagnosgrund", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-        assertEquals(DIAGNOSGRUND_SVAR_JSON_ID_7, res.getValidationErrors().get(0).getQuestionId());
+        assertEquals(DIAGNOSGRUND_SVAR_ID_7, res.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
@@ -509,7 +510,7 @@ public class InternalDraftValidatorTest {
         assertEquals("diagnos", res.getValidationErrors().get(0).getCategory());
         assertEquals("diagnosForNyBedomning", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-        assertEquals(NYDIAGNOS_SVAR_ID_45, res.getValidationErrors().get(0).getQuestionId());
+        assertEquals(DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45, res.getValidationErrors().get(0).getQuestionId());
     }
 
     @Test
