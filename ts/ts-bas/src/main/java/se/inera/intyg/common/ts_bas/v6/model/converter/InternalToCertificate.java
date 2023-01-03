@@ -81,6 +81,7 @@ import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionSynskarpa;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionTablettEllerInsulinMessage;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionTeckenPaNeurologiskSjukdom;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionTidpunktVardPaSjukhus;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionUppfattaSamtal4Meter;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionVardatsPaSjukhus;
 import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
@@ -260,6 +261,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionVardatsPaSjukhus.toCertificate(internalCertificate.getSjukhusvard(), index++, texts)
+            )
+            .addElement(
+                QuestionTidpunktVardPaSjukhus.toCertificate(internalCertificate.getSjukhusvard(), index++, texts)
             )
             .addElement(
                 CategoryOvrigMedicinering.toCertificate(index++, texts)

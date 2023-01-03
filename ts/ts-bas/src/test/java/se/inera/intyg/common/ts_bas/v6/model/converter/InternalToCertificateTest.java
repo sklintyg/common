@@ -67,6 +67,7 @@ import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TECKEN_PA_HJ
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TYP_AV_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID;
@@ -478,5 +479,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionVardatsPaSjukhus() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(55, actualCertificate.getData().get(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionTidpunktVardPaSjukhus() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(56, actualCertificate.getData().get(TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID).getIndex());
     }
 }
