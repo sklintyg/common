@@ -35,7 +35,7 @@ import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategoryTest;
 
 @ExtendWith(MockitoExtension.class)
-class CategoryPsykiskSjukdomStorningTest {
+class CategoryPsykiskSjukdomTest {
 
     @Mock
     private CertificateTextProvider texts;
@@ -51,7 +51,7 @@ class CategoryPsykiskSjukdomStorningTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return CategoryPsykiskSjukdomStorning.toCertificate(0, texts);
+            return CategoryPsykiskSjukdom.toCertificate(0, texts);
         }
 
         @Override
@@ -80,7 +80,7 @@ class CategoryPsykiskSjukdomStorningTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return CategoryPsykiskSjukdomStorning.toCertificate(0, texts);
+            return CategoryPsykiskSjukdom.toCertificate(0, texts);
         }
 
         @Override

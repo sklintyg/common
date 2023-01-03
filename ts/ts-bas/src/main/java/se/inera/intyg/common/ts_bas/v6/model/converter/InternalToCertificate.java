@@ -38,7 +38,7 @@ import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.Cate
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategoryNjursjukdomar;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategoryOvrigMedicinering;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategoryOvrigt;
-import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategoryPsykiskSjukdomStorning;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategoryPsykiskSjukdom;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategoryPsykiskUtvecklingsstorning;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategorySjukhusvard;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category.CategorySomnOchVakenhetsstorningar;
@@ -72,6 +72,7 @@ import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionNystagmus;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionOtillrackligRorelseFormoga;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionPsykiskSjukdom;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionRiskfaktorerForStroke;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionSomnOchVakenhetsstorningar;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionSynfaltsdefekter;
@@ -237,7 +238,10 @@ public class InternalToCertificate {
                 QuestionAlkoholNarkotikaLakarordineratDos.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
             )
             .addElement(
-                CategoryPsykiskSjukdomStorning.toCertificate(index++, texts)
+                CategoryPsykiskSjukdom.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionPsykiskSjukdom.toCertificate(internalCertificate.getPsykiskt(), index++, texts)
             )
             .addElement(
                 CategoryPsykiskUtvecklingsstorning.toCertificate(index++, texts)

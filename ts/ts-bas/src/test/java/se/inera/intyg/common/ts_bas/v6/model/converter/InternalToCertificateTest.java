@@ -48,6 +48,8 @@ import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.OTILLRACKLIG
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PROGRESSIV_OGONSJUKDOM_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_MESSAGE_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PSYKISK_SJUKDOM_STORNING_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PSYKISK_SJUKDOM_STORNING_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.RISKFAKTORER_STROKE_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SEENDE_NEDSATT_BELYSNING_SVAR_ID;
@@ -429,5 +431,17 @@ class InternalToCertificateTest {
     void shallIncludeQuestionAlkoholNarkotikaLakarordineratDos() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(48, actualCertificate.getData().get(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryPsykiskSjukdom() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(49, actualCertificate.getData().get(PSYKISK_SJUKDOM_STORNING_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionPsykiskSjukdom() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(50, actualCertificate.getData().get(PSYKISK_SJUKDOM_STORNING_DELSVAR_ID).getIndex());
     }
 }

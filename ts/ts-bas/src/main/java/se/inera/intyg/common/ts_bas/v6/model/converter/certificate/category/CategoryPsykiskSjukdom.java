@@ -26,7 +26,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory;
 
-public class CategoryPsykiskSjukdomStorning {
+public class CategoryPsykiskSjukdom {
 
     public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
