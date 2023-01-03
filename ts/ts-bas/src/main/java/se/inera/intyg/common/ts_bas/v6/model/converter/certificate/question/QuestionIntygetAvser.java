@@ -20,6 +20,7 @@
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.multipleStringValues;
+import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.withComma;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.INTYG_AVSER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.INTYG_AVSER_SVAR_ID_1;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.INTYG_AVSER_SVAR_TEXT_ID;
@@ -33,6 +34,8 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_bas.v6.model.internal.IntygAvserKategori;
 
 public class QuestionIntygetAvser {
+
+    private static final String NOT_PROVIDED = "Ej Angivet";
 
     public static CertificateDataElement toCertificate(IntygAvser intygAvser, int index,
         CertificateTextProvider texts) {
@@ -51,7 +54,8 @@ public class QuestionIntygetAvser {
             .value(
                 CertificateDataValueViewText.builder()
                     .text(
-                        multipleStringValues(korkortsTyper)
+                        multipleStringValues(korkortsTyper).equals(NOT_PROVIDED)
+                            ? multipleStringValues(korkortsTyper) : withComma(multipleStringValues(korkortsTyper).split(" "))
                     )
                     .build()
             )
@@ -59,21 +63,8 @@ public class QuestionIntygetAvser {
     }
 
     private static String[] formatKorkortsTyper(Set<IntygAvserKategori> korkort) {
-        final var korkortsTyper = korkort != null ? korkort.stream()
+        return korkort != null ? korkort.stream()
             .map(Enum::name)
             .toArray(String[]::new) : null;
-
-        if (korkortsTyper == null) {
-            return null;
-        }
-
-        for (int i = 0; i < korkortsTyper.length; i++) {
-            if (i == korkortsTyper.length - 1) {
-                continue;
-            }
-
-            korkortsTyper[i] += ",";
-        }
-        return korkortsTyper;
     }
 }
