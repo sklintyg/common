@@ -73,6 +73,8 @@ import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionOtillrackligRorelseFormoga;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionProgressivOgonsjukdom;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionPsykiskSjukdom;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionPsykiskSyndrom;
+import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionPsykiskUtvecklingsstorning;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionRiskfaktorerForStroke;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionSomnOchVakenhetsstorningar;
 import se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question.QuestionSynfaltsdefekter;
@@ -245,6 +247,12 @@ public class InternalToCertificate {
             )
             .addElement(
                 CategoryPsykiskUtvecklingsstorning.toCertificate(index++, texts)
+            )
+            .addElement(
+                QuestionPsykiskUtvecklingsstorning.toCertificate(internalCertificate.getUtvecklingsstorning(), index++, texts)
+            )
+            .addElement(
+                QuestionPsykiskSyndrom.toCertificate(internalCertificate.getUtvecklingsstorning(), index++, texts)
             )
             .addElement(
                 CategorySjukhusvard.toCertificate(index++, texts)
