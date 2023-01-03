@@ -128,10 +128,12 @@ class QuestionBedomningKorkortsTypTest {
             return List.of(
                 new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej Angivet").build()),
                 new InputExpectedValuePair<>(Bedomning.builder().setKorkortstyp(Set.of(BedomningKorkortstyp.C1E)).build(),
-                    CertificateDataValueViewText.builder().text("C1E").build()),
+                    CertificateDataValueViewText.builder().text(Set.of("C1E").toString()
+                        .replace("[", "").replace("]", "")).build()),
                 new InputExpectedValuePair<>(
                     Bedomning.builder().setKorkortstyp(Set.of(BedomningKorkortstyp.C1E, BedomningKorkortstyp.C1)).build(),
-                    CertificateDataValueViewText.builder().text("C1E, C1").build())
+                    CertificateDataValueViewText.builder().text(Set.of("C1E", "C1").toString()
+                        .replace("[", "").replace("]", "")).build())
             );
         }
     }
