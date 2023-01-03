@@ -34,6 +34,8 @@ import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.IDENTITET_ST
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.INTYG_AVSER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.INTYG_AVSER_SVAR_ID_1;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.MEDVETANDESTORNING_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.MEDVETANDESTORNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.NEUROLOGISK_SJUKDOM_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.NYSTAGMUS_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID;
@@ -317,5 +319,17 @@ class InternalToCertificateTest {
     void shallIncludeQuestionTeckenNeurologiskaSjukdomar() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(32, actualCertificate.getData().get(TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryMedvetandestorning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(33, actualCertificate.getData().get(MEDVETANDESTORNING_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionMedvetandestorning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(34, actualCertificate.getData().get(MEDVETANDESTORNING_SVAR_ID).getIndex());
     }
 }
