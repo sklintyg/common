@@ -1745,9 +1745,9 @@ class InternalToCertificateTest {
                     () -> assertEquals("ICD-10-SE", certificateDataConfigDiagnoses.getTerminology().get(0).getLabel()),
                     () -> assertEquals("KSH_97_P", certificateDataConfigDiagnoses.getTerminology().get(1).getId()),
                     () -> assertEquals("KSH97-P (Primärvård)", certificateDataConfigDiagnoses.getTerminology().get(1).getLabel()),
-                    () -> assertEquals("1", certificateDataConfigDiagnoses.getList().get(0).getId()),
-                    () -> assertEquals("2", certificateDataConfigDiagnoses.getList().get(1).getId()),
-                    () -> assertEquals("3", certificateDataConfigDiagnoses.getList().get(2).getId())
+                    () -> assertEquals("diagnoser[0].row", certificateDataConfigDiagnoses.getList().get(0).getId()),
+                    () -> assertEquals("diagnoser[1].diagnoskod", certificateDataConfigDiagnoses.getList().get(1).getId()),
+                    () -> assertEquals("diagnoser[2].diagnoskod", certificateDataConfigDiagnoses.getList().get(2).getId())
                 );
             }
 
@@ -1769,7 +1769,7 @@ class InternalToCertificateTest {
 
                 final var certificateDataConfigDiagnoses = (CertificateDataValueDiagnosisList) question.getValue();
                 assertAll(
-                    () -> assertEquals("1", certificateDataConfigDiagnoses.getList().get(0).getId()),
+                    () -> assertEquals("diagnoser[0].row", certificateDataConfigDiagnoses.getList().get(0).getId()),
                     () -> assertEquals(expectedDiagnos.getDiagnosKodSystem(),
                         certificateDataConfigDiagnoses.getList().get(0).getTerminology()),
                     () -> assertEquals(expectedDiagnos.getDiagnosKod(), certificateDataConfigDiagnoses.getList().get(0).getCode()),
@@ -1797,7 +1797,7 @@ class InternalToCertificateTest {
 
                 final var certificateDataConfigDiagnoses = (CertificateDataValueDiagnosisList) question.getValue();
                 assertAll(
-                    () -> assertEquals("2", certificateDataConfigDiagnoses.getList().get(0).getId()),
+                    () -> assertEquals("diagnoser[1].diagnoskod", certificateDataConfigDiagnoses.getList().get(0).getId()),
                     () -> assertEquals(expectedDiagnos.getDiagnosKodSystem(),
                         certificateDataConfigDiagnoses.getList().get(0).getTerminology()),
                     () -> assertEquals(expectedDiagnos.getDiagnosKod(), certificateDataConfigDiagnoses.getList().get(0).getCode()),
@@ -1825,7 +1825,7 @@ class InternalToCertificateTest {
 
                 final var certificateDataConfigDiagnoses = (CertificateDataValueDiagnosisList) question.getValue();
                 assertAll(
-                    () -> assertEquals("3", certificateDataConfigDiagnoses.getList().get(0).getId()),
+                    () -> assertEquals("diagnoser[2].diagnoskod", certificateDataConfigDiagnoses.getList().get(0).getId()),
                     () -> assertEquals(expectedDiagnos.getDiagnosKodSystem(),
                         certificateDataConfigDiagnoses.getList().get(0).getTerminology()),
                     () -> assertEquals(expectedDiagnos.getDiagnosKod(), certificateDataConfigDiagnoses.getList().get(0).getCode()),
@@ -1854,9 +1854,9 @@ class InternalToCertificateTest {
 
                 final var certificateDataConfigDiagnoses = (CertificateDataValueDiagnosisList) question.getValue();
                 assertAll(
-                    () -> assertEquals("1", certificateDataConfigDiagnoses.getList().get(0).getId()),
-                    () -> assertEquals("2", certificateDataConfigDiagnoses.getList().get(1).getId()),
-                    () -> assertEquals("3", certificateDataConfigDiagnoses.getList().get(2).getId()),
+                    () -> assertEquals("diagnoser[0].row", certificateDataConfigDiagnoses.getList().get(0).getId()),
+                    () -> assertEquals("diagnoser[1].diagnoskod", certificateDataConfigDiagnoses.getList().get(1).getId()),
+                    () -> assertEquals("diagnoser[2].diagnoskod", certificateDataConfigDiagnoses.getList().get(2).getId()),
                     () -> assertEquals(expectedDiagnosFirst.getDiagnosKod(), certificateDataConfigDiagnoses.getList().get(0).getCode()),
                     () -> assertEquals(expectedDiagnosSecond.getDiagnosKod(), certificateDataConfigDiagnoses.getList().get(1).getCode()),
                     () -> assertEquals(expectedDiagnosThird.getDiagnosKod(), certificateDataConfigDiagnoses.getList().get(2).getCode())
@@ -1872,7 +1872,7 @@ class InternalToCertificateTest {
                 final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
                 assertAll("Validation question validation",
                     () -> assertEquals(DIAGNOS_SVAR_ID_6, certificateDataValidationMandatory.getQuestionId()),
-                    () -> assertEquals("$1", certificateDataValidationMandatory.getExpression())
+                    () -> assertEquals("'$diagnoser[0].row'", certificateDataValidationMandatory.getExpression())
                 );
             }
 
