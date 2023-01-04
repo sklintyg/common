@@ -21,8 +21,8 @@ package se.inera.intyg.common.fk7263.model.converter.certificate.category;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETFORMAGA_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETFORMAGA_CATEGORY_TEXT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETSFORMAGA_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETSFORMAGA_CATEGORY_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -55,7 +55,7 @@ class CategoryPatientensArbetsformagaBedomsTest {
 
         @Override
         protected String getId() {
-            return PATIENTENS_ARBETFORMAGA_CATEGORY_ID;
+            return PATIENTENS_ARBETSFORMAGA_CATEGORY_ID;
         }
 
         @Override
@@ -84,7 +84,7 @@ class CategoryPatientensArbetsformagaBedomsTest {
 
         @Override
         protected String getTextId() {
-            return PATIENTENS_ARBETFORMAGA_CATEGORY_TEXT_ID;
+            return PATIENTENS_ARBETSFORMAGA_CATEGORY_TEXT_ID;
         }
 
         @Override

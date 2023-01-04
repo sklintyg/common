@@ -22,8 +22,8 @@ package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETFORMAGA_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETFORMAGA_SVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETSFORMAGA_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETSFORMAGA_SVAR_ID;
 
 import java.util.Collections;
 import java.util.List;
@@ -56,12 +56,12 @@ class QuestionPatientensArbetsformogaBedomsTest {
 
         @Override
         protected String getId() {
-            return PATIENTENS_ARBETFORMAGA_SVAR_ID;
+            return PATIENTENS_ARBETSFORMAGA_SVAR_ID;
         }
 
         @Override
         protected String getParent() {
-            return PATIENTENS_ARBETFORMAGA_CATEGORY_ID;
+            return PATIENTENS_ARBETSFORMAGA_CATEGORY_ID;
         }
 
         @Override

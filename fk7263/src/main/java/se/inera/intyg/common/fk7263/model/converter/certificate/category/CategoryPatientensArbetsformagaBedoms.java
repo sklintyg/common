@@ -19,8 +19,8 @@
 
 package se.inera.intyg.common.fk7263.model.converter.certificate.category;
 
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETFORMAGA_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETFORMAGA_CATEGORY_TEXT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETSFORMAGA_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETSFORMAGA_CATEGORY_TEXT_ID;
 
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -30,11 +30,11 @@ public class CategoryPatientensArbetsformagaBedoms {
 
     public static CertificateDataElement toCertificate(int index, CertificateMessagesProvider messagesProvider) {
         return CertificateDataElement.builder()
-            .id(PATIENTENS_ARBETFORMAGA_CATEGORY_ID)
+            .id(PATIENTENS_ARBETSFORMAGA_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigCategory.builder()
-                    .text(messagesProvider.get(PATIENTENS_ARBETFORMAGA_CATEGORY_TEXT_ID))
+                    .text(messagesProvider.get(PATIENTENS_ARBETSFORMAGA_CATEGORY_TEXT_ID))
                     .build()
             )
             .build();

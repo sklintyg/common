@@ -52,8 +52,8 @@ import static se.inera.intyg.common.fk7263.model.converter.RespConstants.KONTAKT
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.KONTAKT_MED_FK_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.OVRIGA_UPPLYSNINGAR_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.OVRIGA_UPPLYSNINGAR_SVAR_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETFORMAGA_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETFORMAGA_SVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETSFORMAGA_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETSFORMAGA_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.REKOMMENDATIONER_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.REKOMMENDATIONER_KONTAKT_MED_AF_DELSVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.REKOMMENDATIONER_KONTAKT_MED_FHV_DELSVAR_ID;
@@ -265,13 +265,13 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeCategoryPatientensArbetsformagaBedoms() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(25, actualCertificate.getData().get(PATIENTENS_ARBETFORMAGA_CATEGORY_ID).getIndex());
+        assertEquals(25, actualCertificate.getData().get(PATIENTENS_ARBETSFORMAGA_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionPatientensArbetsformagaBedoms() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(26, actualCertificate.getData().get(PATIENTENS_ARBETFORMAGA_SVAR_ID).getIndex());
+        assertEquals(26, actualCertificate.getData().get(PATIENTENS_ARBETSFORMAGA_SVAR_ID).getIndex());
     }
 
     @Test

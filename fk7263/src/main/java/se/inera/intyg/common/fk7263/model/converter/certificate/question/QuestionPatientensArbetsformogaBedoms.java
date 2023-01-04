@@ -19,11 +19,11 @@
 
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETFORMAGA_ARBETSLOSHET_TEXT_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETFORMAGA_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETFORMAGA_FORALDRALEDIGHET_TEXT_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETFORMAGA_NUVARANDE_ARBETE_TEXT_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETFORMAGA_SVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETSFORMAGA_ARBETSLOSHET_TEXT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETSFORMAGA_CATEGORY_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETSFORMAGA_FORALDRALEDIGHET_TEXT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETSFORMAGA_NUVARANDE_ARBETE_TEXT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETSFORMAGA_SVAR_ID;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +39,8 @@ public class QuestionPatientensArbetsformogaBedoms {
         String nuvarandeArbetsuppgifter, int index, CertificateMessagesProvider messagesProvider) {
 
         return CertificateDataElement.builder()
-            .id(PATIENTENS_ARBETFORMAGA_SVAR_ID)
-            .parent(PATIENTENS_ARBETFORMAGA_CATEGORY_ID)
+            .id(PATIENTENS_ARBETSFORMAGA_SVAR_ID)
+            .parent(PATIENTENS_ARBETSFORMAGA_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigViewList.builder()
@@ -69,7 +69,7 @@ public class QuestionPatientensArbetsformogaBedoms {
         if (arbetssokande != null && arbetssokande) {
             certificateDataValueViewTextList.add(
                 CertificateDataValueViewText.builder()
-                    .text(messagesProvider.get(PATIENTENS_ARBETFORMAGA_ARBETSLOSHET_TEXT_ID))
+                    .text(messagesProvider.get(PATIENTENS_ARBETSFORMAGA_ARBETSLOSHET_TEXT_ID))
                     .build()
             );
         }
@@ -77,7 +77,7 @@ public class QuestionPatientensArbetsformogaBedoms {
         if (foraldraledighet != null && foraldraledighet) {
             certificateDataValueViewTextList.add(
                 CertificateDataValueViewText.builder()
-                    .text(messagesProvider.get(PATIENTENS_ARBETFORMAGA_FORALDRALEDIGHET_TEXT_ID))
+                    .text(messagesProvider.get(PATIENTENS_ARBETSFORMAGA_FORALDRALEDIGHET_TEXT_ID))
                     .build()
             );
         }
@@ -90,12 +90,12 @@ public class QuestionPatientensArbetsformogaBedoms {
 
         if (nuvarandeArbetsuppgifter == null) {
             return CertificateDataValueViewText.builder()
-                .text(messagesProvider.get(PATIENTENS_ARBETFORMAGA_NUVARANDE_ARBETE_TEXT_ID))
+                .text(messagesProvider.get(PATIENTENS_ARBETSFORMAGA_NUVARANDE_ARBETE_TEXT_ID))
                 .build();
         }
 
         return CertificateDataValueViewText.builder()
-            .text(messagesProvider.get(PATIENTENS_ARBETFORMAGA_NUVARANDE_ARBETE_TEXT_ID) + " - " + nuvarandeArbetsuppgifter)
+            .text(messagesProvider.get(PATIENTENS_ARBETSFORMAGA_NUVARANDE_ARBETE_TEXT_ID) + " - " + nuvarandeArbetsuppgifter)
             .build();
     }
 }
