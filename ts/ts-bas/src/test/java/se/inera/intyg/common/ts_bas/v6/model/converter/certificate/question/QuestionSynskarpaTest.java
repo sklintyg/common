@@ -53,18 +53,6 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.Synskarpevarden;
 @ExtendWith(MockitoExtension.class)
 class QuestionSynskarpaTest {
 
-    private final Syn syn = Syn.builder()
-        .setHogerOga(
-            Synskarpevarden.builder().build()
-        )
-        .setVansterOga(
-            Synskarpevarden.builder().build()
-
-        )
-        .setBinokulart(
-            Synskarpevarden.builder().build()
-        )
-        .build();
     @Mock
     CertificateTextProvider textProvider;
 
@@ -78,7 +66,7 @@ class QuestionSynskarpaTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionSynskarpa.toCertificate(syn, 0, textProvider);
+            return QuestionSynskarpa.toCertificate(null, 0, textProvider);
         }
 
         @Override
@@ -107,7 +95,7 @@ class QuestionSynskarpaTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionSynskarpa.toCertificate(syn, 0, textProvider);
+            return QuestionSynskarpa.toCertificate(null, 0, textProvider);
         }
 
         @Override

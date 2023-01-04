@@ -47,10 +47,12 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.Syn;
 
 public class QuestionSynskarpa {
 
+    private static final String NOT_SPECIFIED = "Ej Angivet";
+
     public static CertificateDataElement toCertificate(Syn syn, int index, CertificateTextProvider textProvider) {
+        final var binokulart = syn != null && syn.getBinokulart() != null ? syn.getBinokulart() : null;
         final var hogerOga = syn != null && syn.getHogerOga() != null ? syn.getHogerOga() : null;
         final var vansterOga = syn != null && syn.getVansterOga() != null ? syn.getVansterOga() : null;
-        final var binokulart = syn != null && syn.getBinokulart() != null ? syn.getBinokulart() : null;
         return CertificateDataElement.builder()
             .id(VARDEN_FOR_SYNSKARPA_ID)
             .parent(SYNFUNKTIONER_CATEGORY_ID)
@@ -92,15 +94,15 @@ public class QuestionSynskarpa {
                                             .build(),
                                         CertificateDataTextValue.builder()
                                             .id(UTAN_KORREKTION_ID)
-                                            .text(doubleValue(hogerOga.getUtanKorrektion()))
+                                            .text(hogerOga != null ? doubleValue(hogerOga.getUtanKorrektion()) : NOT_SPECIFIED)
                                             .build(),
                                         CertificateDataTextValue.builder()
                                             .id(MED_KORREKTION_ID)
-                                            .text(doubleValue(hogerOga.getMedKorrektion()))
+                                            .text(hogerOga != null ? doubleValue(hogerOga.getMedKorrektion()) : NOT_SPECIFIED)
                                             .build(),
                                         CertificateDataTextValue.builder()
                                             .id(KONTAKTLINSER_ID)
-                                            .text(booleanValue(hogerOga.getKontaktlins()))
+                                            .text(hogerOga != null ? booleanValue(hogerOga.getKontaktlins()) : NOT_SPECIFIED)
                                             .build()
                                     ))
                                 .build(),
@@ -113,15 +115,15 @@ public class QuestionSynskarpa {
                                             .build(),
                                         CertificateDataTextValue.builder()
                                             .id(UTAN_KORREKTION_ID)
-                                            .text(doubleValue(vansterOga.getUtanKorrektion()))
+                                            .text(vansterOga != null ? doubleValue(vansterOga.getUtanKorrektion()) : NOT_SPECIFIED)
                                             .build(),
                                         CertificateDataTextValue.builder()
                                             .id(MED_KORREKTION_ID)
-                                            .text(doubleValue(vansterOga.getMedKorrektion()))
+                                            .text(vansterOga != null ? doubleValue(vansterOga.getMedKorrektion()) : NOT_SPECIFIED)
                                             .build(),
                                         CertificateDataTextValue.builder()
                                             .id(KONTAKTLINSER_ID)
-                                            .text(booleanValue(vansterOga.getKontaktlins()))
+                                            .text(vansterOga != null ? booleanValue(vansterOga.getKontaktlins()) : NOT_SPECIFIED)
                                             .build()
                                     ))
                                 .build(),
@@ -134,11 +136,11 @@ public class QuestionSynskarpa {
                                             .build(),
                                         CertificateDataTextValue.builder()
                                             .id(UTAN_KORREKTION_ID)
-                                            .text(doubleValue(binokulart.getUtanKorrektion()))
+                                            .text(binokulart != null ? doubleValue(binokulart.getUtanKorrektion()) : NOT_SPECIFIED)
                                             .build(),
                                         CertificateDataTextValue.builder()
                                             .id(MED_KORREKTION_ID)
-                                            .text(doubleValue(binokulart.getMedKorrektion()))
+                                            .text(binokulart != null ? doubleValue(binokulart.getMedKorrektion()) : NOT_SPECIFIED)
                                             .build(),
                                         CertificateDataTextValue.builder()
                                             .id(KONTAKTLINSER_ID)

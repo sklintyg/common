@@ -51,11 +51,10 @@ public class QuestionDiabetesBehandling {
             .value(
                 CertificateDataValueViewText.builder()
                     .text(
-                        !multipleStringValues(kostToString(kost), tabletterToString(tabletter), insulinToString(insulin)).equals(
+                        multipleStringValues(kostToString(kost), tabletterToString(tabletter), insulinToString(insulin)).equals(
                             NOT_PROVIDED)
-                            ? withComma(
-                            multipleStringValues(kostToString(kost), tabletterToString(tabletter), insulinToString(insulin)).split(" "))
-                            : multipleStringValues(kostToString(kost), tabletterToString(tabletter), insulinToString(insulin))
+                            ? multipleStringValues(kostToString(kost), tabletterToString(tabletter), insulinToString(insulin))
+                            : multipleStringValues(withComma(kostToString(kost), tabletterToString(tabletter), insulinToString(insulin)))
                     )
                     .build()
             )

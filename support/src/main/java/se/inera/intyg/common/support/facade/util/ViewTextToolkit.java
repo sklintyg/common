@@ -80,6 +80,9 @@ public final class ViewTextToolkit {
     public static String withComma(String... value) {
         final var stringBuilder = new StringBuilder();
         for (int i = 0; i < value.length; i++) {
+            if (value[i] == null) {
+                continue;
+            }
             if (i < value.length - 1) {
                 stringBuilder.append(value[i]).append(", ");
             } else {

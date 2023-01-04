@@ -55,7 +55,7 @@ public class QuestionIntygetAvser {
                 CertificateDataValueViewText.builder()
                     .text(
                         multipleStringValues(korkortsTyper).equals(NOT_PROVIDED)
-                            ? multipleStringValues(korkortsTyper) : withComma(multipleStringValues(korkortsTyper).split(" "))
+                            ? multipleStringValues(korkortsTyper) : multipleStringValues(withComma(korkortsTyper))
                     )
                     .build()
             )
