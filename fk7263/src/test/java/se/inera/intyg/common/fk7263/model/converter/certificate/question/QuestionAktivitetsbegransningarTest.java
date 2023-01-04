@@ -29,6 +29,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
+import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewText;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
@@ -68,6 +69,11 @@ class QuestionAktivitetsbegransningarTest {
     class IncludeConfigViewTextTests extends ConfigViewTextTest {
 
         @Override
+        protected CertificateTextProvider getTextProviderMock() {
+            return null;
+        }
+
+        @Override
         protected CertificateDataElement getElement() {
             return QuestionAktivitetsbegransningar.toCertificate(null, 0);
         }
@@ -79,6 +85,11 @@ class QuestionAktivitetsbegransningarTest {
 
         @Override
         protected CertificateMessagesProvider getMessageProviderMock() {
+            return null;
+        }
+
+        @Override
+        protected String getMessageId() {
             return null;
         }
 
@@ -100,7 +111,7 @@ class QuestionAktivitetsbegransningarTest {
         @Override
         protected List<InputExpectedValuePair<String, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej Angivet").build()),
                 new InputExpectedValuePair<>("test", CertificateDataValueViewText.builder().text("test").build())
             );
         }

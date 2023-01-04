@@ -116,15 +116,15 @@ class QuestionArbetsformogaBedomningTest {
             return List.of(
                 ViewColumn.builder()
                     .id(ARBETSFORMAGA_BEDOMNING_NEDSATT_ID)
-                    .title(ARBETSFORMAGA_BEDOMNING_NEDSATT_TEXT)
+                    .text(ARBETSFORMAGA_BEDOMNING_NEDSATT_TEXT)
                     .build(),
                 ViewColumn.builder()
                     .id(ARBETSFORMAGA_BEDOMNING_FOM_ID)
-                    .title(ARBETSFORMAGA_BEDOMNING_FOM_TEXT)
+                    .text(ARBETSFORMAGA_BEDOMNING_FOM_TEXT)
                     .build(),
                 ViewColumn.builder()
                     .id(ARBETSFORMAGA_BEDOMNING_TOM_ID)
-                    .title(ARBETSFORMAGA_BEDOMNING_TOM_TEXT)
+                    .text(ARBETSFORMAGA_BEDOMNING_TOM_TEXT)
                     .build()
             );
         }

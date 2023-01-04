@@ -34,6 +34,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
+import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewText;
@@ -79,6 +80,11 @@ class QuestionFortydligandeDiagnosTest {
     class IncludeConfigViewTextTests extends ConfigViewTextTest {
 
         @Override
+        protected CertificateTextProvider getTextProviderMock() {
+            return null;
+        }
+
+        @Override
         protected CertificateDataElement getElement() {
             return QuestionFortydligandeDiagnos.toCertificate(null, null, null, null, 0, messagesProvider);
         }
@@ -91,6 +97,11 @@ class QuestionFortydligandeDiagnosTest {
         @Override
         protected CertificateMessagesProvider getMessageProviderMock() {
             return messagesProvider;
+        }
+
+        @Override
+        protected String getMessageId() {
+            return null;
         }
 
         @Override
@@ -114,7 +125,7 @@ class QuestionFortydligandeDiagnosTest {
         void shouldIncludeTextValue() {
             final var expectedResult1 = "test1 test2 test3 test4";
             final var expectedResult2 = "test1 test2";
-            final var expectedResult3 = "Ej angivet";
+            final var expectedResult3 = "Ej Angivet";
 
             assertAll(
                 () -> assertEquals(

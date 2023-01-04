@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
+import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewText;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
@@ -68,6 +69,11 @@ class QuestionIntygetBaserasPaUndersokningTest {
     class IncludeConfigViewTextTests extends ConfigViewTextTest {
 
         @Override
+        protected CertificateTextProvider getTextProviderMock() {
+            return null;
+        }
+
+        @Override
         protected CertificateDataElement getElement() {
             return QuestionIntygetBaserasPaUndersokning.toCertificate(null, 0);
         }
@@ -79,6 +85,11 @@ class QuestionIntygetBaserasPaUndersokningTest {
 
         @Override
         protected CertificateMessagesProvider getMessageProviderMock() {
+            return null;
+        }
+
+        @Override
+        protected String getMessageId() {
             return null;
         }
 
@@ -100,10 +111,10 @@ class QuestionIntygetBaserasPaUndersokningTest {
         @Override
         protected List<InputExpectedValuePair<InternalDate, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej Angivet").build()),
                 new InputExpectedValuePair<>(new InternalDate(LocalDate.now()),
                     CertificateDataValueViewText.builder().text(LocalDate.now().toString()).build()),
-                new InputExpectedValuePair<>(new InternalDate("1234"), CertificateDataValueViewText.builder().text("Ej angivet").build())
+                new InputExpectedValuePair<>(new InternalDate("1234"), CertificateDataValueViewText.builder().text("Ej Angivet").build())
             );
         }
     }
