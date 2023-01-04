@@ -39,6 +39,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.w3.wsaddressing10.AttributedURIType;
 import se.inera.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
@@ -58,6 +59,7 @@ import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertifica
 import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificate.v1.GetMedicalCertificateResponderInterface;
 import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificate.v1.GetMedicalCertificateResponseType;
 import se.inera.intyg.common.fk7263.model.converter.ArbetsformagaToGiltighet;
+import se.inera.intyg.common.fk7263.model.converter.InternalToCertificate;
 import se.inera.intyg.common.fk7263.model.converter.InternalToTransport;
 import se.inera.intyg.common.fk7263.model.converter.TransportToInternal;
 import se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg;
@@ -70,6 +72,8 @@ import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.fk7263.validator.InternalDraftValidator;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter.ModelConverter;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
+import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvider;
+import se.inera.intyg.common.services.messages.MessagesParser;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -116,7 +120,6 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     private static final Comparator<? super DatePeriodType> PERIOD_START = Comparator.comparing(DatePeriodType::getStart);
     private static final String SPACE = "---";
-
     @Autowired
     private WebcertModelFactory<Fk7263Utlatande> webcertModelFactory;
 
@@ -138,6 +141,23 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     @Autowired(required = false)
     private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
+    private Map<String, String> validationMessages;
+
+    public Fk7263ModuleApi() {
+        init();
+    }
+
+    private void init() {
+        try {
+            final var inputStream1 = new ClassPathResource("/META-INF/resources/webjars/common/webcert/messages.js").getInputStream();
+            final var inputStream2
+                = new ClassPathResource("/META-INF/resources/webjars/fk7263/webcert/views/messages.js").getInputStream();
+            validationMessages = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
+        } catch (IOException exception) {
+            LOG.error("Error during initialization. Could not read messages files");
+            throw new RuntimeException("Error during initialization. Could not read messages files", exception);
+        }
+    }
 
     private static String buildSistaSjukskrivningsgrad(Fk7263Utlatande internal) {
         InternalDate lastPeriod = null;
@@ -671,9 +691,10 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public Certificate getCertificateFromJson(String certificateAsJson,
-        TypeAheadProvider typeAheadProvider) throws ModuleException, IOException {
-        throw new UnsupportedOperationException();
+    public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson);
+        final var certificateMessagesProvider = getMessagesProvider();
+        return InternalToCertificate.convert(internalCertificate, certificateMessagesProvider);
     }
 
     @Override
@@ -686,9 +707,10 @@ public class Fk7263ModuleApi implements ModuleApi {
         throw new UnsupportedOperationException();
     }
 
+
     @Override
     public CertificateMessagesProvider getMessagesProvider() {
-        throw new UnsupportedOperationException();
+        return DefaultCertificateMessagesProvider.create(validationMessages);
     }
 
 }

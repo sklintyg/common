@@ -144,7 +144,7 @@ class QuestionNyBedomningDiagnosgrundTest {
 
             @Override
             protected String getQuestionId() {
-                return DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45;
+                return NYDIAGNOS_SVAR_ID_45;
             }
 
             @Override

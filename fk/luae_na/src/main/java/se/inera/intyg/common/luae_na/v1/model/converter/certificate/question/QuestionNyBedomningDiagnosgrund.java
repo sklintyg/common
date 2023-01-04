@@ -59,7 +59,7 @@ public class QuestionNyBedomningDiagnosgrund {
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45)
+                        .questionId(NYDIAGNOS_SVAR_ID_45)
                         .expression(singleExpression(DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45))
                         .build()
                 }
@@ -68,6 +68,6 @@ public class QuestionNyBedomningDiagnosgrund {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return ValueToolkit.booleanValue(certificate.getData(),NYDIAGNOS_SVAR_ID_45, DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45);
+        return ValueToolkit.booleanValue(certificate.getData(), NYDIAGNOS_SVAR_ID_45, DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45);
     }
 }

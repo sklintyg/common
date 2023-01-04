@@ -72,6 +72,6 @@ public class QuestionDiagnosForNyBedomning {
 
     public static String toInternal(Certificate certificate) {
         return ValueToolkit.textValue(
-            certificate.getData(),DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45, DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45);
+            certificate.getData(), DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45, DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45);
     }
 }

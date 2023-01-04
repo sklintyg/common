@@ -59,7 +59,6 @@ public final class ViewTextToolkit {
         if (value == null) {
             return NOT_SPECIFIED;
         }
-
         StringBuilder stringBuilder = new StringBuilder();
         for (String text : value) {
             if (text == null) {

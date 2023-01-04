@@ -63,7 +63,7 @@ public class QuestionDiagnosgrund {
                         .limit(TEXT_LIMIT)
                         .build(),
                     CertificateDataValidationMandatory.builder()
-                        .questionId(DIAGNOSGRUND_SVAR_JSON_ID_7)
+                        .questionId(DIAGNOSGRUND_SVAR_ID_7)
                         .expression(singleExpression(DIAGNOSGRUND_SVAR_JSON_ID_7))
                         .build()
                 }
@@ -72,6 +72,6 @@ public class QuestionDiagnosgrund {
     }
 
     public static String toInternal(Certificate certificate) {
-        return ValueToolkit.textValue(certificate.getData(),DIAGNOSGRUND_SVAR_ID_7, DIAGNOSGRUND_SVAR_JSON_ID_7);
+        return ValueToolkit.textValue(certificate.getData(), DIAGNOSGRUND_SVAR_ID_7, DIAGNOSGRUND_SVAR_JSON_ID_7);
     }
 }
