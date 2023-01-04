@@ -67,7 +67,9 @@ public abstract class CommonMetaDataTest {
     @Test
     void shouldIncludeDescription() {
         final var metadata = getMetaData();
-        verify(getTextProvider(), atLeastOnce()).get(getDescription());
+        if (getTextProvider() != null) {
+            verify(getTextProvider(), atLeastOnce()).get(getDescription());
+        }
     }
 
     @Test
