@@ -23,9 +23,11 @@ import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetai
 import static se.inera.intyg.common.support.modules.transformer.XslTransformerUtil.isRegisterCertificateV3;
 import static se.inera.intyg.common.support.modules.transformer.XslTransformerUtil.isRegisterTsBas;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBElement;
@@ -36,6 +38,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.oxm.MarshallingFailureException;
 import org.springframework.stereotype.Component;
 import org.w3.wsaddressing10.AttributedURIType;
@@ -45,7 +48,11 @@ import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateres
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateResponseType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter.ModelConverter;
+import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
+import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvider;
+import se.inera.intyg.common.services.messages.MessagesParser;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -59,9 +66,11 @@ import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolv
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
+import se.inera.intyg.common.ts_bas.v6.model.converter.InternalToCertificate;
 import se.inera.intyg.common.ts_bas.v6.model.converter.InternalToTransport;
 import se.inera.intyg.common.ts_bas.v6.model.converter.TransportToInternal;
 import se.inera.intyg.common.ts_bas.v6.model.converter.UtlatandeToIntyg;
@@ -90,14 +99,30 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
     @Autowired(required = false)
     @Qualifier("tsBasRegisterCertificateVersion")
     private String registerCertificateVersion;
+    @Autowired
+    private InternalToCertificate internalToCertificate;
 
     @Autowired(required = false)
     private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
 
     private SendTSClient sendTsBasClient;
+    private Map<String, String> validationMessages;
 
     public TsBasModuleApiV6() {
         super(TsBasUtlatandeV6.class);
+        initMessages();
+    }
+
+    private void initMessages() {
+        try {
+            final var inputStream1 = new ClassPathResource("/META-INF/resources/webjars/common/webcert/messages.js").getInputStream();
+            final var inputStream2
+                = new ClassPathResource("/META-INF/resources/webjars/ts-bas/webcert/views/messages.js").getInputStream();
+            validationMessages = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
+        } catch (IOException exception) {
+            LOG.error("Error during initialization. Could not read messages files");
+            throw new RuntimeException("Error during initialization. Could not read messages files", exception);
+        }
     }
 
     @PostConstruct
@@ -266,5 +291,17 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
 
         JAXBElement<RevokeMedicalCertificateRequestType> el = new ObjectFactory().createRevokeMedicalCertificateRequest(request);
         return XmlMarshallerHelper.marshal(el);
+    }
+
+    @Override
+    public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson);
+        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+        return internalToCertificate.convert(internalCertificate, certificateTextProvider);
+    }
+
+    @Override
+    public CertificateMessagesProvider getMessagesProvider() {
+        return DefaultCertificateMessagesProvider.create(validationMessages);
     }
 }

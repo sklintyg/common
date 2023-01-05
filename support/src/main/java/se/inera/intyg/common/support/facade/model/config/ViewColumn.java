@@ -31,7 +31,7 @@ import se.inera.intyg.common.support.facade.model.config.ViewColumn.ViewColumnBu
 public class ViewColumn {
 
     String id;
-    String title;
+    String text;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class ViewColumnBuilder {

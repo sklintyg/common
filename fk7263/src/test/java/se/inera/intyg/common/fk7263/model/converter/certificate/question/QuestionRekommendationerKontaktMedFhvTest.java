@@ -34,6 +34,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
+import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewText;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
@@ -80,6 +81,11 @@ class QuestionRekommendationerKontaktMedFhvTest {
     class IncludeConfigViewTextTests extends ConfigViewTextTest {
 
         @Override
+        protected CertificateTextProvider getTextProviderMock() {
+            return null;
+        }
+
+        @Override
         protected CertificateDataElement getElement() {
             return QuestionRekommendationerKontaktMedFhv.toCertificate(null, 0, messagesProvider);
         }
@@ -92,6 +98,11 @@ class QuestionRekommendationerKontaktMedFhvTest {
         @Override
         protected CertificateMessagesProvider getMessageProviderMock() {
             return messagesProvider;
+        }
+
+        @Override
+        protected String getMessageId() {
+            return null;
         }
 
         @Override
@@ -112,7 +123,7 @@ class QuestionRekommendationerKontaktMedFhvTest {
         @Override
         protected List<InputExpectedValuePair<Boolean, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej Angivet").build()),
                 new InputExpectedValuePair<>(false, CertificateDataValueViewText.builder().text("Nej").build()),
                 new InputExpectedValuePair<>(true, CertificateDataValueViewText.builder().text("Ja").build())
             );

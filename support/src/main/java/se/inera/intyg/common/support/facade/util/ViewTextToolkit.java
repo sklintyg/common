@@ -21,7 +21,7 @@ package se.inera.intyg.common.support.facade.util;
 
 public final class ViewTextToolkit {
 
-    private static final String NOT_SPECIFIED = "Ej angivet";
+    private static final String NOT_SPECIFIED = "Ej Angivet";
     private static final String YES = "Ja";
     private static final String NO = "Nej";
 
@@ -47,7 +47,18 @@ public final class ViewTextToolkit {
         }
     }
 
+    public static String doubleValue(Double value) {
+        if (value == null) {
+            return NOT_SPECIFIED;
+        } else {
+            return value.toString();
+        }
+    }
+
     public static String multipleStringValues(String... value) {
+        if (value == null) {
+            return NOT_SPECIFIED;
+        }
         StringBuilder stringBuilder = new StringBuilder();
         for (String text : value) {
             if (text == null) {
@@ -63,5 +74,20 @@ public final class ViewTextToolkit {
         }
 
         return stringBuilder.toString().trim();
+    }
+
+    public static String withComma(String... value) {
+        final var stringBuilder = new StringBuilder();
+        for (int i = 0; i < value.length; i++) {
+            if (value[i] == null) {
+                continue;
+            }
+            if (i < value.length - 1) {
+                stringBuilder.append(value[i]).append(", ");
+            } else {
+                stringBuilder.append(value[i]);
+            }
+        }
+        return stringBuilder.toString();
     }
 }

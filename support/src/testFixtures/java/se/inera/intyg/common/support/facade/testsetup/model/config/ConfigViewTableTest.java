@@ -57,13 +57,17 @@ public abstract class ConfigViewTableTest extends ConfigTest {
     }
 
     @Test
-    void shallIncludeMessageId() {
+    void shallIncludeTextId() {
         final var question = getElement();
         if (getMessageId() != null && getMessageProviderMock() != null) {
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
             verify(getMessageProviderMock(), atLeastOnce()).get(getMessageId());
         } else if (getMessageId() != null) {
             assertEquals(question.getConfig().getText(), getMessageId());
+        }
+        if (getTextId() != null && getTextProviderMock() != null) {
+            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+            verify(getTextProviderMock(), atLeastOnce()).get(getTextId());
         }
     }
 
