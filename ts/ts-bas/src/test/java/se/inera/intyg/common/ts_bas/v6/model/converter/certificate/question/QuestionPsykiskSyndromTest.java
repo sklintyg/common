@@ -22,8 +22,8 @@ package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PSYKISK_SYNDROM_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PSYKISK_SYNDROM_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PSYKISK_UTVECKLINGSSTORNING_CATEGORY_ID;
 
 import java.util.List;
@@ -64,7 +64,7 @@ class QuestionPsykiskSyndromTest {
 
         @Override
         protected String getId() {
-            return ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID;
+            return PSYKISK_SYNDROM_DELSVAR_ID;
         }
 
         @Override
@@ -93,7 +93,7 @@ class QuestionPsykiskSyndromTest {
 
         @Override
         protected String getTextId() {
-            return ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_TEXT_ID;
+            return PSYKISK_SYNDROM_DELSVAR_TEXT_ID;
         }
 
         @Override

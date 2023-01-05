@@ -23,8 +23,8 @@ import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HJART_ELLER_KARLSJUKDOM_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.RISKFAKTORER_STROKE_SVAR_ID;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.RISKFAKTORER_STROKE_SVAR_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HJART_ELLER_KARLSJUKDOM_RISKFAKTORER_STROKE_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HJART_ELLER_KARLSJUKDOM_RISKFAKTORER_STROKE_SVAR_TEXT_ID;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -64,7 +64,7 @@ class QuestionRiskfaktorerForStrokeTest {
 
         @Override
         protected String getId() {
-            return RISKFAKTORER_STROKE_SVAR_ID;
+            return HJART_ELLER_KARLSJUKDOM_RISKFAKTORER_STROKE_SVAR_ID;
         }
 
         @Override
@@ -93,7 +93,7 @@ class QuestionRiskfaktorerForStrokeTest {
 
         @Override
         protected String getTextId() {
-            return RISKFAKTORER_STROKE_SVAR_TEXT_ID;
+            return HJART_ELLER_KARLSJUKDOM_RISKFAKTORER_STROKE_SVAR_TEXT_ID;
         }
 
         @Override

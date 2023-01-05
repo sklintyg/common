@@ -40,7 +40,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBool
 import se.inera.intyg.common.ts_bas.v7.model.internal.HorselBalans;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
 
-public class QuestionUppfattaSamtal4Meter {
+public class QuestionUppfattaSamtalFyraMeter {
 
     public static CertificateDataElement toCertificate(HorselBalans horselBalans, int index, CertificateTextProvider textProvider) {
         final var uppfattaSamtal = horselBalans != null ? horselBalans.getSvartUppfattaSamtal4Meter() : null;

@@ -21,7 +21,6 @@ package se.inera.intyg.common.ts_bas.v6.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.BALANSRUBBNINGAR_YRSEL_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.BALANSRUBBNINGAR_YRSEL_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.BEDOMNING_CATEGORY_ID;
@@ -35,7 +34,10 @@ import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.FOREKOMST_VA
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HAR_DIABETES_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HAR_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HJART_ELLER_KARLSJUKDOM_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HJART_ELLER_KARLSJUKDOM_RISKFAKTORER_STROKE_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HJART_ELLER_KARLSJUKDOM_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HJART_ELLER_KARLSJUKDOM_TECKEN_PA_HJARNSKADA_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HJART_ELLER_KARLSJUKDOM_TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.IDENTITET_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.IDENTITET_STYRKT_GENOM_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.INTYG_AVSER_CATEGORY_ID;
@@ -61,10 +63,10 @@ import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PROVTAGNING_
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_MESSAGE_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PSYKISK_SJUKDOM_STORNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PSYKISK_SJUKDOM_STORNING_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PSYKISK_SYNDROM_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PSYKISK_UTVECKLINGSSTORNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.RISKFAKTORER_STROKE_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SEENDE_NEDSATT_BELYSNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID;
@@ -73,13 +75,11 @@ import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SYNFALTSDEFE
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SYNFUNKTIONER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TECKEN_PA_HJARNSKADA_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TYP_AV_DIABETES_SVAR_ID;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID;
@@ -296,19 +296,19 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeQuestionHjarnskadaEfterTrauama() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(23, actualCertificate.getData().get(TECKEN_PA_HJARNSKADA_SVAR_ID).getIndex());
+        assertEquals(23, actualCertificate.getData().get(HJART_ELLER_KARLSJUKDOM_TECKEN_PA_HJARNSKADA_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionRiskfaktorerEfterStroke() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(24, actualCertificate.getData().get(RISKFAKTORER_STROKE_SVAR_ID).getIndex());
+        assertEquals(24, actualCertificate.getData().get(HJART_ELLER_KARLSJUKDOM_RISKFAKTORER_STROKE_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionBeskrivningRiskfaktorer() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(25, actualCertificate.getData().get(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID).getIndex());
+        assertEquals(25, actualCertificate.getData().get(HJART_ELLER_KARLSJUKDOM_TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID).getIndex());
     }
 
     @Test
@@ -476,7 +476,7 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeQuestionPsykiskSyndrom() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(53, actualCertificate.getData().get(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID).getIndex());
+        assertEquals(53, actualCertificate.getData().get(PSYKISK_SYNDROM_DELSVAR_ID).getIndex());
     }
 
     @Test

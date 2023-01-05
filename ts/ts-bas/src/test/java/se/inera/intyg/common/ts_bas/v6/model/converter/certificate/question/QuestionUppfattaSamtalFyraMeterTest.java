@@ -44,7 +44,7 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueViewTextT
 import se.inera.intyg.common.ts_bas.v6.model.internal.HorselBalans;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionUppfattaSamtal4MeterTest {
+class QuestionUppfattaSamtalFyraMeterTest {
 
     @Mock
     CertificateTextProvider textProvider;
@@ -59,7 +59,7 @@ class QuestionUppfattaSamtal4MeterTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionUppfattaSamtal4Meter.toCertificate(null, 0, textProvider);
+            return QuestionUppfattaSamtalFyraMeter.toCertificate(null, 0, textProvider);
         }
 
         @Override
@@ -88,7 +88,7 @@ class QuestionUppfattaSamtal4MeterTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionUppfattaSamtal4Meter.toCertificate(null, 0, textProvider);
+            return QuestionUppfattaSamtalFyraMeter.toCertificate(null, 0, textProvider);
         }
 
         @Override
@@ -118,7 +118,7 @@ class QuestionUppfattaSamtal4MeterTest {
 
         @Override
         protected CertificateDataElement getElement(HorselBalans expectedValue) {
-            return QuestionUppfattaSamtal4Meter.toCertificate(expectedValue, 0, textProvider);
+            return QuestionUppfattaSamtalFyraMeter.toCertificate(expectedValue, 0, textProvider);
         }
 
         @Override

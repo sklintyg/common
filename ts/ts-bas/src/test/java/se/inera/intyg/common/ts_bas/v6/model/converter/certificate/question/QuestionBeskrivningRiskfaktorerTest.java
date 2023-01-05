@@ -23,8 +23,8 @@ import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HJART_ELLER_KARLSJUKDOM_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HJART_ELLER_KARLSJUKDOM_TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HJART_ELLER_KARLSJUKDOM_TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_TEXT_ID;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -64,7 +64,7 @@ class QuestionBeskrivningRiskfaktorerTest {
 
         @Override
         protected String getId() {
-            return TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID;
+            return HJART_ELLER_KARLSJUKDOM_TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID;
         }
 
         @Override
@@ -93,7 +93,7 @@ class QuestionBeskrivningRiskfaktorerTest {
 
         @Override
         protected String getTextId() {
-            return TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_TEXT_ID;
+            return HJART_ELLER_KARLSJUKDOM_TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_TEXT_ID;
         }
 
         @Override

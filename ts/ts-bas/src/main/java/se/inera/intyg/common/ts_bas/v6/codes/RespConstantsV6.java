@@ -85,13 +85,13 @@ public final class RespConstantsV6 {
     public static final String HJART_ELLER_KARLSJUKDOM_CATEGORY_TEXT_ID = "KAT_4.RBK";
     public static final String HJART_ELLER_KARLSJUKDOM_SVAR_ID = "14";
     public static final String HJART_ELLER_KARLSJUKDOM_SVAR_TEXT_ID = "FRG_14.RBK";
-    public static final String TECKEN_PA_HJARNSKADA_SVAR_ID = "15";
-    public static final String TECKEN_PA_HJARNSKADA_SVAR_TEXT_ID = "FRG_15.RBK";
+    public static final String HJART_ELLER_KARLSJUKDOM_TECKEN_PA_HJARNSKADA_SVAR_ID = "15";
+    public static final String HJART_ELLER_KARLSJUKDOM_TECKEN_PA_HJARNSKADA_SVAR_TEXT_ID = "FRG_15.RBK";
 
-    public static final String RISKFAKTORER_STROKE_SVAR_ID = "16";
-    public static final String RISKFAKTORER_STROKE_SVAR_TEXT_ID = "FRG_16.RBK";
-    public static final String TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID = "16.1";
-    public static final String TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_TEXT_ID = "DFR_16.2.RBK";
+    public static final String HJART_ELLER_KARLSJUKDOM_RISKFAKTORER_STROKE_SVAR_ID = "16";
+    public static final String HJART_ELLER_KARLSJUKDOM_RISKFAKTORER_STROKE_SVAR_TEXT_ID = "FRG_16.RBK";
+    public static final String HJART_ELLER_KARLSJUKDOM_TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID = "16.1";
+    public static final String HJART_ELLER_KARLSJUKDOM_TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_TEXT_ID = "DFR_16.2.RBK";
 
     public static final String HAR_DIABETES_CATEGORY_ID = "diabetes";
     public static final String HAR_DIABETES_CATEGORY_TEXT_ID = "KAT_5.RBK";
@@ -159,8 +159,8 @@ public final class RespConstantsV6 {
     public static final String PSYKISK_UTVECKLINGSSTORNING_CATEGORY_TEXT_ID = "KAT_13.RBK";
     public static final String PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID = "28.1";
     public static final String PSYKISK_UTVECKLINGSSTORNING_DELSVAR_TEXT_ID = "FRG_28.RBK";
-    public static final String ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID = "29.1";
-    public static final String ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_TEXT_ID = "FRG_29.RBK";
+    public static final String PSYKISK_SYNDROM_DELSVAR_ID = "29.1";
+    public static final String PSYKISK_SYNDROM_DELSVAR_TEXT_ID = "FRG_29.RBK";
 
     public static final String VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID = "sjukhusvard";
     public static final String VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_TEXT_ID = "KAT_14.RBK";

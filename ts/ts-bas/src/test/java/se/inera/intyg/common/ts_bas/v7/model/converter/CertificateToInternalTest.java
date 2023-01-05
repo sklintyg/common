@@ -76,12 +76,12 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionSynskarpaSkickasSeparat;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTeckenPaNeurologiskSjukdom;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionTidpunktVardPaSjukhus;
-import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionUppfattaSamtal4Meter;
-import se.inera.intyg.common.ts_bas.v7.model.internal.Bedomning;
-import se.inera.intyg.common.ts_bas.v7.model.internal.BedomningKorkortstyp;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionUppfattaSamtalFyraMeter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionVardatsPaSjukhus;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionVardatsPaSjukhusOrsak;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionVardinrattningensNamn;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Bedomning;
+import se.inera.intyg.common.ts_bas.v7.model.internal.BedomningKorkortstyp;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Diabetes;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Funktionsnedsattning;
 import se.inera.intyg.common.ts_bas.v7.model.internal.HjartKarl;
@@ -94,10 +94,10 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Medvetandestorning;
 import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Neurologi;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Njurar;
-import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Psykiskt;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Sjukhusvard;
 import se.inera.intyg.common.ts_bas.v7.model.internal.SomnVakenhet;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Synskarpevarden;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Utvecklingsstorning;
@@ -252,7 +252,7 @@ class CertificateToInternalTest {
                 expectedInternalCertificate.getVardkontakt(), 0, textProvider))
             .addElement(QuestionSynskarpa.toCertificate(syn, 0, textProvider))
             .addElement(QuestionBalansrubbningar.toCertificate(horselBalans, 0, textProvider))
-            .addElement(QuestionUppfattaSamtal4Meter.toCertificate(horselBalans, 0, textProvider))
+            .addElement(QuestionUppfattaSamtalFyraMeter.toCertificate(horselBalans, 0, textProvider))
             .addElement(QuestionFunktionsnedsattning.toCertificate(funktionsnedsattning, 0, textProvider))
             .addElement(QuestionFunktionsnedsattningBeskrivning.toCertificate(funktionsnedsattning, 0, textProvider))
             .addElement(QuestionOtillrackligRorelseFormoga.toCertificate(funktionsnedsattning, 0, textProvider))
@@ -587,6 +587,7 @@ class CertificateToInternalTest {
         assertEquals(expectedInternalCertificate.getNarkotikaLakemedel().getLakemedelOchDos(),
             actualInternalCertificate.getNarkotikaLakemedel().getLakemedelOchDos());
     }
+
     @Test
     void shallIncludePsykiskt() {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);

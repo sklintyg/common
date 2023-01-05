@@ -48,7 +48,7 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.HorselBalans;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionUppfattaSamtal4MeterTest {
+class QuestionUppfattaSamtalFyraMeterTest {
 
     @Mock
     CertificateTextProvider textProvider;
@@ -67,7 +67,7 @@ class QuestionUppfattaSamtal4MeterTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionUppfattaSamtal4Meter.toCertificate(null, 0, textProvider);
+                return QuestionUppfattaSamtalFyraMeter.toCertificate(null, 0, textProvider);
             }
 
             @Override
@@ -111,7 +111,7 @@ class QuestionUppfattaSamtal4MeterTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionUppfattaSamtal4Meter.toCertificate(null, 0, textProvider);
+                return QuestionUppfattaSamtalFyraMeter.toCertificate(null, 0, textProvider);
             }
 
             @Override
@@ -130,7 +130,7 @@ class QuestionUppfattaSamtal4MeterTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionUppfattaSamtal4Meter.toCertificate(null, 0, textProvider);
+                return QuestionUppfattaSamtalFyraMeter.toCertificate(null, 0, textProvider);
             }
 
             @Override
@@ -159,7 +159,7 @@ class QuestionUppfattaSamtal4MeterTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionUppfattaSamtal4Meter.toCertificate(null, 0, textProvider);
+                return QuestionUppfattaSamtalFyraMeter.toCertificate(null, 0, textProvider);
             }
 
             @Override
@@ -185,7 +185,7 @@ class QuestionUppfattaSamtal4MeterTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionUppfattaSamtal4Meter.toCertificate(null, 0, textProvider);
+            return QuestionUppfattaSamtalFyraMeter.toCertificate(null, 0, textProvider);
         }
 
         @Override
@@ -206,12 +206,12 @@ class QuestionUppfattaSamtal4MeterTest {
                 final var horselBalans = HorselBalans.builder()
                     .setSvartUppfattaSamtal4Meter(expectedValue)
                     .build();
-                return QuestionUppfattaSamtal4Meter.toCertificate(horselBalans, 0, textProvider);
+                return QuestionUppfattaSamtalFyraMeter.toCertificate(horselBalans, 0, textProvider);
             }
 
             @Override
             protected Boolean toInternalBooleanValue(Certificate certificate) {
-                return QuestionUppfattaSamtal4Meter.toInternal(certificate);
+                return QuestionUppfattaSamtalFyraMeter.toInternal(certificate);
             }
         }
     }

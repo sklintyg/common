@@ -33,6 +33,13 @@ import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 
 public class QuestionIdentitet {
 
+    private static final String ID_KORT = "ID_KORT";
+    private static final String FORETAG_ELLER_TJANSTEKORT = "FORETAG_ELLER_TJANSTEKORT";
+    private static final String KORKORT = "KORKORT";
+    private static final String PERS_KANNEDOM = "PERS_KANNEDOM";
+    private static final String FORSAKRAN_KAP18 = "FORSAKRAN_KAP18";
+    private static final String PASS = "PASS";
+
     public static CertificateDataElement toCertificate(Vardkontakt vardkontakt, int index, CertificateTextProvider textProvider) {
         var identitetStyrktGenom = vardkontakt != null && vardkontakt.getIdkontroll() != null ? vardkontakt.getIdkontroll() : null;
         if (identitetStyrktGenom != null) {
@@ -57,17 +64,17 @@ public class QuestionIdentitet {
 
     private static String getDescriptionValue(String identitetStyrktGenom) {
         switch (identitetStyrktGenom) {
-            case "ID_KORT":
+            case ID_KORT:
                 return IdKontrollKod.ID_KORT.getDescription();
-            case "FORETAG_ELLER_TJANSTEKORT":
+            case FORETAG_ELLER_TJANSTEKORT:
                 return IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getDescription();
-            case "KORKORT":
+            case KORKORT:
                 return IdKontrollKod.KORKORT.getDescription();
-            case "PERS_KANNEDOM":
+            case PERS_KANNEDOM:
                 return IdKontrollKod.PERS_KANNEDOM.getDescription();
-            case "FORSAKRAN_KAP18":
+            case FORSAKRAN_KAP18:
                 return IdKontrollKod.FORSAKRAN_KAP18.getDescription();
-            case "PASS":
+            case PASS:
                 return IdKontrollKod.PASS.getDescription();
             default:
                 return null;

@@ -21,8 +21,8 @@ package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.stringValue;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HJART_ELLER_KARLSJUKDOM_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HJART_ELLER_KARLSJUKDOM_TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HJART_ELLER_KARLSJUKDOM_TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_TEXT_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -36,12 +36,12 @@ public class QuestionBeskrivningRiskfaktorer {
         final var hjartKarlBeskrivningRiskfaktorer =
             hjartKarl != null && hjartKarl.getBeskrivningRiskfaktorer() != null ? hjartKarl.getBeskrivningRiskfaktorer() : null;
         return CertificateDataElement.builder()
-            .id(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID)
+            .id(HJART_ELLER_KARLSJUKDOM_TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID)
             .parent(HJART_ELLER_KARLSJUKDOM_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigViewText.builder()
-                    .text(textProvider.get(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_TEXT_ID))
+                    .text(textProvider.get(HJART_ELLER_KARLSJUKDOM_TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_TEXT_ID))
                     .build()
             )
             .value(

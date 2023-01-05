@@ -21,8 +21,8 @@ package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.booleanValue;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HJART_ELLER_KARLSJUKDOM_CATEGORY_ID;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TECKEN_PA_HJARNSKADA_SVAR_ID;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TECKEN_PA_HJARNSKADA_SVAR_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HJART_ELLER_KARLSJUKDOM_TECKEN_PA_HJARNSKADA_SVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.HJART_ELLER_KARLSJUKDOM_TECKEN_PA_HJARNSKADA_SVAR_TEXT_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -36,12 +36,12 @@ public class QuestionHjarnskadaEfterTrauma {
         final var hjartKarlHjarnskadaEfterTrauama =
             hjartKarl != null && hjartKarl.getHjarnskadaEfterTrauma() != null ? hjartKarl.getHjarnskadaEfterTrauma() : null;
         return CertificateDataElement.builder()
-            .id(TECKEN_PA_HJARNSKADA_SVAR_ID)
+            .id(HJART_ELLER_KARLSJUKDOM_TECKEN_PA_HJARNSKADA_SVAR_ID)
             .parent(HJART_ELLER_KARLSJUKDOM_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigViewText.builder()
-                    .text(textProvider.get(TECKEN_PA_HJARNSKADA_SVAR_TEXT_ID))
+                    .text(textProvider.get(HJART_ELLER_KARLSJUKDOM_TECKEN_PA_HJARNSKADA_SVAR_TEXT_ID))
                     .build()
             )
             .value(

@@ -20,8 +20,8 @@
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.booleanValue;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_TEXT_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PSYKISK_SYNDROM_DELSVAR_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PSYKISK_SYNDROM_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PSYKISK_UTVECKLINGSSTORNING_CATEGORY_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -37,11 +37,11 @@ public class QuestionPsykiskSyndrom {
         final var harSyndrom = utvecklingsstorning != null ? utvecklingsstorning.getHarSyndrom() : null;
         return CertificateDataElement.builder()
             .index(index)
-            .id(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID)
+            .id(PSYKISK_SYNDROM_DELSVAR_ID)
             .parent(PSYKISK_UTVECKLINGSSTORNING_CATEGORY_ID)
             .config(
                 CertificateDataConfigViewText.builder()
-                    .text(textProvider.get(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_TEXT_ID))
+                    .text(textProvider.get(PSYKISK_SYNDROM_DELSVAR_TEXT_ID))
                     .build()
             )
             .value(
