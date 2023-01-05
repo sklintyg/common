@@ -31,15 +31,17 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMe
 import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 
 public class QuestionKorrektionsglasensStyrkaMessage {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
+    public static CertificateDataElement toCertificate(Syn syn, int index, CertificateTextProvider texts) {
 
         return CertificateDataElement.builder()
             .id(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_ID)
             .parent(SYNFUNKTIONER_CATEGORY_ID)
             .index(index)
+            .visible(setVisibility(syn))
             .config(
                 CertificateDataConfigMessage.builder()
                     .message(texts.get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_TEXT_ID))
@@ -55,5 +57,10 @@ public class QuestionKorrektionsglasensStyrkaMessage {
                 }
             )
             .build();
+    }
+
+    private static Boolean setVisibility(Syn syn) {
+        final var korrektionsglasensStyrka = syn != null ? syn.getKorrektionsglasensStyrka() : null;
+        return korrektionsglasensStyrka != null && korrektionsglasensStyrka;
     }
 }

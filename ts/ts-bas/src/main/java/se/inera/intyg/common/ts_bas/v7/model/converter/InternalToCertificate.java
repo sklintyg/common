@@ -126,7 +126,7 @@ public class InternalToCertificate {
                 QuestionProgressivOgonsjukdom.toCertificate(internalCertificate.getSyn(), index++, texts)
             )
             .addElement(
-                QuestionLakarintygAvOgonspecialistMessage.toCertificate(index++, texts)
+                QuestionLakarintygAvOgonspecialistMessage.toCertificate(internalCertificate.getSyn(), index++, texts)
             )
             .addElement(
                 QuestionDubbelseende.toCertificate(internalCertificate.getSyn(), index++, texts)
@@ -147,7 +147,7 @@ public class InternalToCertificate {
                 QuestionKorrektionsglasensStyrka.toCertificate(internalCertificate.getSyn(), index++, texts)
             )
             .addElement(
-                QuestionKorrektionsglasensStyrkaMessage.toCertificate(index++, texts)
+                QuestionKorrektionsglasensStyrkaMessage.toCertificate(internalCertificate.getSyn(), index++, texts)
             )
             .addElement(
                 CategoryHorselOchBalanssinne.toCertificate(index++, texts)
@@ -198,7 +198,7 @@ public class InternalToCertificate {
                 QuestionDiabetesBehandling.toCertificate(internalCertificate.getDiabetes(), index++, texts)
             )
             .addElement(
-                QuestionTablettEllerInsulinMessage.toCertificate(index++, texts)
+                QuestionTablettEllerInsulinMessage.toCertificate(internalCertificate.getDiabetes(), index++, texts)
             )
             .addElement(
                 CategoryNeurologiskaSjukdomar.toCertificate(index++, texts)
@@ -246,7 +246,7 @@ public class InternalToCertificate {
                 QuestionAlkoholNarkotikaProvtagning.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
             )
             .addElement(
-                QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(index++, texts)
+                QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
             )
             .addElement(
                 QuestionAlkoholNarkotikaLakarordinerat.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)

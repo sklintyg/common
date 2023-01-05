@@ -35,15 +35,17 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMe
 import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 
 public class QuestionLakarintygAvOgonspecialistMessage {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
+    public static CertificateDataElement toCertificate(Syn syn, int index, CertificateTextProvider texts) {
 
         return CertificateDataElement.builder()
             .id(LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID)
             .parent(SYNFUNKTIONER_CATEGORY_ID)
             .index(index)
+            .visible(setVisibility(syn))
             .config(
                 CertificateDataConfigMessage.builder()
                     .message(texts.get(LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_TEXT_ID))
@@ -67,5 +69,14 @@ public class QuestionLakarintygAvOgonspecialistMessage {
                 }
             )
             .build();
+    }
+
+    private static Boolean setVisibility(Syn syn) {
+        final var nattblindhet = syn != null ? syn.getNattblindhet() : null;
+        final var progressivOgonsjukdom = syn != null ? syn.getProgressivOgonsjukdom() : null;
+        final var synfaltsdefekter = syn != null ? syn.getSynfaltsdefekter() : null;
+
+        return nattblindhet != null && nattblindhet || progressivOgonsjukdom != null
+            && progressivOgonsjukdom || synfaltsdefekter != null && synfaltsdefekter;
     }
 }

@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID;
@@ -32,6 +34,7 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONE
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -41,6 +44,7 @@ import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigMessageTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionLakarintygAvOgonspecialistMessageTest {
@@ -58,7 +62,7 @@ class QuestionLakarintygAvOgonspecialistMessageTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionLakarintygAvOgonspecialistMessage.toCertificate(0, textProvider);
+            return QuestionLakarintygAvOgonspecialistMessage.toCertificate(null, 0, textProvider);
 
         }
 
@@ -88,7 +92,7 @@ class QuestionLakarintygAvOgonspecialistMessageTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionLakarintygAvOgonspecialistMessage.toCertificate(0, textProvider);
+            return QuestionLakarintygAvOgonspecialistMessage.toCertificate(null, 0, textProvider);
         }
 
         @Override
@@ -127,7 +131,7 @@ class QuestionLakarintygAvOgonspecialistMessageTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionLakarintygAvOgonspecialistMessage.toCertificate(0, textProvider);
+            return QuestionLakarintygAvOgonspecialistMessage.toCertificate(null, 0, textProvider);
         }
 
         @Override
@@ -151,7 +155,7 @@ class QuestionLakarintygAvOgonspecialistMessageTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionLakarintygAvOgonspecialistMessage.toCertificate(0, textProvider);
+            return QuestionLakarintygAvOgonspecialistMessage.toCertificate(null, 0, textProvider);
         }
 
         @Override
@@ -175,12 +179,55 @@ class QuestionLakarintygAvOgonspecialistMessageTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionLakarintygAvOgonspecialistMessage.toCertificate(0, textProvider);
+            return QuestionLakarintygAvOgonspecialistMessage.toCertificate(null, 0, textProvider);
         }
 
         @Override
         protected int getValidationIndex() {
             return 2;
+        }
+    }
+
+    @Nested
+    class IncludeVisibilityTests {
+
+        @Test
+        void shouldBeVisibleIfNattblindhetIsTrue() {
+            final var syn = Syn.builder().setNattblindhet(true).build();
+            final var element = QuestionLakarintygAvOgonspecialistMessage.toCertificate(syn, 0, textProvider);
+            assertTrue(element.getVisible());
+        }
+
+        @Test
+        void shouldBeVisibleIfProgressivOgonsjukdomIsTrue() {
+            final var syn = Syn.builder().setProgressivOgonsjukdom(true).build();
+            final var element = QuestionLakarintygAvOgonspecialistMessage.toCertificate(syn, 0, textProvider);
+            assertTrue(element.getVisible());
+        }
+
+        @Test
+        void shouldBeVisibleIfSynfaltsdefekterIsTrue() {
+            final var syn = Syn.builder().setSynfaltsdefekter(true).build();
+            final var element = QuestionLakarintygAvOgonspecialistMessage.toCertificate(syn, 0, textProvider);
+            assertTrue(element.getVisible());
+        }
+
+        @Test
+        void shouldNotBeVisibileIfValuesAreFalse() {
+            final var syn = Syn.builder()
+                .setNattblindhet(false)
+                .setProgressivOgonsjukdom(false)
+                .setSynfaltsdefekter(false)
+                .build();
+
+            final var element = QuestionLakarintygAvOgonspecialistMessage.toCertificate(null, 0, textProvider);
+            assertFalse(element.getVisible());
+        }
+
+        @Test
+        void shouldNotBeVisibileIfSynIsNull() {
+            final var element = QuestionLakarintygAvOgonspecialistMessage.toCertificate(null, 0, textProvider);
+            assertFalse(element.getVisible());
         }
     }
 }

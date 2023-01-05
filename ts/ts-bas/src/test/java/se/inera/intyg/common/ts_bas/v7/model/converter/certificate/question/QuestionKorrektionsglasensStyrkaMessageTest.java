@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
@@ -28,6 +30,7 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.UNDERSOKNING
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -37,6 +40,7 @@ import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigMessageTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionKorrektionsglasensStyrkaMessageTest {
@@ -54,7 +58,7 @@ class QuestionKorrektionsglasensStyrkaMessageTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionKorrektionsglasensStyrkaMessage.toCertificate(0, textProvider);
+            return QuestionKorrektionsglasensStyrkaMessage.toCertificate(null, 0, textProvider);
 
         }
 
@@ -84,7 +88,7 @@ class QuestionKorrektionsglasensStyrkaMessageTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionKorrektionsglasensStyrkaMessage.toCertificate(0, textProvider);
+            return QuestionKorrektionsglasensStyrkaMessage.toCertificate(null, 0, textProvider);
         }
 
         @Override
@@ -123,12 +127,37 @@ class QuestionKorrektionsglasensStyrkaMessageTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionKorrektionsglasensStyrkaMessage.toCertificate(0, textProvider);
+            return QuestionKorrektionsglasensStyrkaMessage.toCertificate(null, 0, textProvider);
         }
 
         @Override
         protected int getValidationIndex() {
             return 0;
+        }
+    }
+
+    @Nested
+    class IncludeVisibilityTests {
+
+        @Test
+        void shouldBeVisibleIfkorrektionsglasensStyrkaIsTrue() {
+            final var syn = Syn.builder().setKorrektionsglasensStyrka(true).build();
+            final var element = QuestionKorrektionsglasensStyrkaMessage.toCertificate(syn, 0, textProvider);
+            assertTrue(element.getVisible());
+        }
+
+        @Test
+        void shouldNotBeVisibleIfkorrektionsglasensStyrkaIsFalse() {
+            final var syn = Syn.builder().setKorrektionsglasensStyrka(false).build();
+            final var element = QuestionKorrektionsglasensStyrkaMessage.toCertificate(syn, 0, textProvider);
+            assertFalse(element.getVisible());
+        }
+
+        @Test
+        void shouldNotBeVisibleIfkorrektionsglasensStyrkaIsNull() {
+            final var syn = Syn.builder().build();
+            final var element = QuestionKorrektionsglasensStyrkaMessage.toCertificate(syn, 0, textProvider);
+            assertFalse(element.getVisible());
         }
     }
 }

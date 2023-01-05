@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BEHANDLING_DIABETES_SVAR_ID;
@@ -29,6 +31,7 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TABLETTBEHAN
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -38,6 +41,7 @@ import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigMessageTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Diabetes;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionTablettEllerInsulinMessageTest {
@@ -55,7 +59,7 @@ class QuestionTablettEllerInsulinMessageTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionTablettEllerInsulinMessage.toCertificate(0, textProvider);
+            return QuestionTablettEllerInsulinMessage.toCertificate(null, 0, textProvider);
         }
 
         @Override
@@ -84,7 +88,7 @@ class QuestionTablettEllerInsulinMessageTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionTablettEllerInsulinMessage.toCertificate(0, textProvider);
+            return QuestionTablettEllerInsulinMessage.toCertificate(null, 0, textProvider);
         }
 
         @Override
@@ -123,12 +127,50 @@ class QuestionTablettEllerInsulinMessageTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionTablettEllerInsulinMessage.toCertificate(0, textProvider);
+            return QuestionTablettEllerInsulinMessage.toCertificate(null, 0, textProvider);
         }
 
         @Override
         protected int getValidationIndex() {
             return 0;
+        }
+    }
+
+    @Nested
+    class IncludeVisibilityTests {
+
+        @Test
+        void shouldBeVisibleIfTabletterIsTrue() {
+            final var diabetes = Diabetes.builder().setTabletter(true).build();
+            final var element = QuestionTablettEllerInsulinMessage.toCertificate(diabetes, 0, textProvider);
+            assertTrue(element.getVisible());
+        }
+
+        @Test
+        void shouldBeVisibleIfInsulinIsTrue() {
+            final var diabetes = Diabetes.builder().setInsulin(true).build();
+            final var element = QuestionTablettEllerInsulinMessage.toCertificate(diabetes, 0, textProvider);
+            assertTrue(element.getVisible());
+        }
+
+        @Test
+        void shouldNotBeVisibleIfTabletterIsFalse() {
+            final var diabetes = Diabetes.builder().setTabletter(false).build();
+            final var element = QuestionTablettEllerInsulinMessage.toCertificate(diabetes, 0, textProvider);
+            assertFalse(element.getVisible());
+        }
+
+        @Test
+        void shouldNotBeVisibleIfInsulinIsFalse() {
+            final var diabetes = Diabetes.builder().setInsulin(false).build();
+            final var element = QuestionTablettEllerInsulinMessage.toCertificate(diabetes, 0, textProvider);
+            assertFalse(element.getVisible());
+        }
+
+        @Test
+        void shouldNotBeVisibleIfDiabetesIsNull() {
+            final var element = QuestionTablettEllerInsulinMessage.toCertificate(null, 0, textProvider);
+            assertFalse(element.getVisible());
         }
     }
 }
