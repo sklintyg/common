@@ -33,6 +33,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUtlatandeBaseratPa;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -68,6 +69,7 @@ class CertificateToInternalTest {
             .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now()))
             .setAnnatGrundForMU(new InternalDate(LocalDate.now()))
             .setAnnatGrundForMUBeskrivning("annat")
+            .setMotiveringTillInteBaseratPaUndersokning("motivering")
             .build();
 
         certificate = CertificateBuilder.create()
@@ -78,6 +80,10 @@ class CertificateToInternalTest {
             )
             .addElement(
                 QuestionAnnatBeskrivning.toCertificate(expectedInternalCertificate.getAnnatGrundForMUBeskrivning(), 0, textProvider)
+            )
+            .addElement(
+                QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(
+                    expectedInternalCertificate.getMotiveringTillInteBaseratPaUndersokning(), 0, textProvider)
             )
             .build();
     }
@@ -142,5 +148,13 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getAnnatGrundForMUBeskrivning(),
             actualInternalCertificate.getAnnatGrundForMUBeskrivning());
+    }
+
+
+    @Test
+    void shallIncludeMotiveringTillInteBaseratPaUndersokning() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getMotiveringTillInteBaseratPaUndersokning(),
+            actualInternalCertificate.getMotiveringTillInteBaseratPaUndersokning());
     }
 }

@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryGrundForMU;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUtlatandeBaseratPa;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -45,6 +46,10 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionAnnatBeskrivning.toCertificate(internalCertificate.getAnnatGrundForMUBeskrivning(), index++, textProvider)
+            )
+            .addElement(
+                QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(
+                    internalCertificate.getMotiveringTillInteBaseratPaUndersokning(), index++, textProvider)
             )
             .build();
     }
