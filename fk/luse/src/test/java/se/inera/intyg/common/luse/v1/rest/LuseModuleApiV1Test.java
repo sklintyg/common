@@ -69,6 +69,7 @@ import se.inera.intyg.common.luse.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.luse.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.luse.v1.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -113,6 +114,9 @@ public class LuseModuleApiV1Test {
     private CertificateToInternal certificateToInternal;
     @Mock
     private InternalToCertificate internalToCertificate;
+
+    @Mock
+    private IntygTextsService intygTextsService;
 
     @Mock
     private RegisterCertificateResponderInterface registerCertificateResponderInterface;
