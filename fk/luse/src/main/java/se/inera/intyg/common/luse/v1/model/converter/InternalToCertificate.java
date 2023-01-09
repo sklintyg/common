@@ -21,6 +21,8 @@ package se.inera.intyg.common.luse.v1.model.converter;
 
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryGrundForMU;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUtlatandeBaseratPa;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
@@ -30,8 +32,16 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 public class InternalToCertificate {
 
     public Certificate convert(LuseUtlatandeV1 internalCertificate, CertificateTextProvider textProvider) {
+        int index = 0;
         return CertificateBuilder.create()
             .metadata(MetaDataGrundData.toCertificate(internalCertificate, textProvider))
+            .addElement(
+                CategoryGrundForMU.toCertificate(index++, textProvider)
+            )
+            .addElement(QuestionUtlatandeBaseratPa.toCertificate(internalCertificate.getUndersokningAvPatienten(),
+                internalCertificate.getJournaluppgifter(), internalCertificate.getAnhorigsBeskrivningAvPatienten(),
+                internalCertificate.getAnnatGrundForMU(), index++, textProvider)
+            )
             .build();
     }
 }
