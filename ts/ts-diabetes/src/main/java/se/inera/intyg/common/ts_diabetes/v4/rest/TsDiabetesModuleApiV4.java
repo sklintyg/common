@@ -30,12 +30,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.xml.bind.JAXB;
 import javax.xml.ws.soap.SOAPFaultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
+import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
+import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvider;
+import se.inera.intyg.common.services.messages.MessagesParser;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.Status;
@@ -52,6 +58,8 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.CertificateToInternal;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.InternalToCertificate;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.InternalToTransport;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.TransportToInternal;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.UtlatandeToIntyg;
@@ -72,9 +80,29 @@ public class TsDiabetesModuleApiV4 extends TsParentModuleApi<TsDiabetesUtlatande
     public static final String SCHEMATRON_FILE = "tstrk1031.v4.sch";
 
     private static final Logger LOG = LoggerFactory.getLogger(TsDiabetesModuleApiV4.class);
+    private Map<String, String> validationMessages;
+
+    @Autowired
+    private InternalToCertificate internalToCertificate;
+
+    @Autowired
+    private CertificateToInternal certificateToInternal;
 
     public TsDiabetesModuleApiV4() {
         super(TsDiabetesUtlatandeV4.class);
+        init();
+    }
+
+    private void init() {
+        try {
+            final var inputStream1 = new ClassPathResource("/META-INF/resources/webjars/common/webcert/messages.js").getInputStream();
+            final var inputStream2
+                = new ClassPathResource("/META-INF/resources/webjars/ts-diabetes/webcert/views/messages.js").getInputStream();
+            validationMessages = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
+        } catch (IOException exception) {
+            LOG.error("Error during initialization. Could not read messages files");
+            throw new RuntimeException("Error during initialization. Could not read messages files", exception);
+        }
     }
 
     /**
@@ -203,12 +231,21 @@ public class TsDiabetesModuleApiV4 extends TsParentModuleApi<TsDiabetesUtlatande
 
     @Override
     public Certificate getCertificateFromJson(String certificateAsJson,
-        TypeAheadProvider typeAheadProvider) throws ModuleException, IOException {
-        throw new UnsupportedOperationException();
+        TypeAheadProvider typeAheadProvider) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson);
+        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+        return internalToCertificate.convert(internalCertificate, certificateTextProvider);
     }
 
     @Override
-    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException, IOException {
-        throw new UnsupportedOperationException();
+    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson);
+        final var updateInternalCertificate = certificateToInternal.convert(certificate, internalCertificate);
+        return toInternalModelResponse(updateInternalCertificate);
+    }
+
+    @Override
+    public CertificateMessagesProvider getMessagesProvider() {
+        return DefaultCertificateMessagesProvider.create(validationMessages);
     }
 }
