@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
@@ -28,6 +30,7 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROVTAGNING_
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -37,6 +40,7 @@ import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigMessageTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
+import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionAlkoholNarkotikaProvtagningMessageTest {
@@ -54,7 +58,7 @@ class QuestionAlkoholNarkotikaProvtagningMessageTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(0, textProvider);
+            return QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(null, 0, textProvider);
 
         }
 
@@ -84,7 +88,7 @@ class QuestionAlkoholNarkotikaProvtagningMessageTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(0, textProvider);
+            return QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(null, 0, textProvider);
         }
 
         @Override
@@ -123,12 +127,36 @@ class QuestionAlkoholNarkotikaProvtagningMessageTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(0, textProvider);
+            return QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(null, 0, textProvider);
         }
 
         @Override
         protected int getValidationIndex() {
             return 0;
+        }
+    }
+
+    @Nested
+    class IncludeVisibilityTests {
+
+        @Test
+        void shouldBeVisibleIfProvtagningBehovsIsTrue() {
+            final var narkotikaLakemedel = NarkotikaLakemedel.builder().setProvtagningBehovs(true).build();
+            final var element = QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(narkotikaLakemedel, 0, textProvider);
+            assertTrue(element.getVisible());
+        }
+
+        @Test
+        void shouldNotBeVisibleIfProvtagningBehovsIsFalse() {
+            final var narkotikaLakemedel = NarkotikaLakemedel.builder().setProvtagningBehovs(false).build();
+            final var element = QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(narkotikaLakemedel, 0, textProvider);
+            assertFalse(element.getVisible());
+        }
+
+        @Test
+        void shouldNotBeVisibleIfProvtagningBehovsIsNull() {
+            final var element = QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(null, 0, textProvider);
+            assertFalse(element.getVisible());
         }
     }
 }

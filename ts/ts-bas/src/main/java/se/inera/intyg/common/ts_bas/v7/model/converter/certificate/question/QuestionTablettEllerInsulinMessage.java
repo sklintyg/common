@@ -32,14 +32,16 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMe
 import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
+import se.inera.intyg.common.ts_bas.v7.model.internal.Diabetes;
 
 public class QuestionTablettEllerInsulinMessage {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(Diabetes diabetes, int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
             .id(INSULIN_ELLER_TABLETT_MESSAGE_ID)
             .index(index)
             .parent(HAR_DIABETES_CATEGORY_ID)
+            .visible(getVisibility(diabetes))
             .config(
                 CertificateDataConfigMessage.builder()
                     .message(textProvider.get(INSULIN_ELLER_TABLETT_MESSAGE_TEXT_ID))
@@ -57,5 +59,16 @@ public class QuestionTablettEllerInsulinMessage {
                 }
             )
             .build();
+    }
+
+    private static Boolean getVisibility(Diabetes diabetes) {
+        if (diabetes == null) {
+            return false;
+        }
+        return isTrue(diabetes.getInsulin()) || isTrue(diabetes.getTabletter());
+    }
+
+    private static Boolean isTrue(Boolean value) {
+        return value != null ? value : false;
     }
 }

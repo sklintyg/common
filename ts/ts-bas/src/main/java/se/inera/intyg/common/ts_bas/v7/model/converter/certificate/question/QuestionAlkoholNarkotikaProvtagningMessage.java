@@ -31,15 +31,17 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMe
 import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
+import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 
 public class QuestionAlkoholNarkotikaProvtagningMessage {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
+    public static CertificateDataElement toCertificate(NarkotikaLakemedel narkotikaLakemedel, int index, CertificateTextProvider texts) {
 
         return CertificateDataElement.builder()
             .id(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_MESSAGE_ID)
             .parent(MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID)
             .index(index)
+            .visible(getVisibility(narkotikaLakemedel))
             .config(
                 CertificateDataConfigMessage.builder()
                     .message(texts.get(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_MESSAGE_TEXT_ID))
@@ -55,5 +57,12 @@ public class QuestionAlkoholNarkotikaProvtagningMessage {
                 }
             )
             .build();
+    }
+
+    private static Boolean getVisibility(NarkotikaLakemedel narkotikaLakemedel) {
+        if (narkotikaLakemedel == null || narkotikaLakemedel.getProvtagningBehovs() == null) {
+            return false;
+        }
+        return narkotikaLakemedel.getProvtagningBehovs();
     }
 }
