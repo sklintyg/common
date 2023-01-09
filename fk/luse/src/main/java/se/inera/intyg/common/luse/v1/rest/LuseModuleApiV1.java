@@ -65,7 +65,6 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
 
     @Autowired
     private InternalToCertificate internalToCertificate;
-
     @Autowired
     private CertificateToInternal certificateToInternal;
     public static final String SCHEMATRON_FILE = "luse.v1.sch";
