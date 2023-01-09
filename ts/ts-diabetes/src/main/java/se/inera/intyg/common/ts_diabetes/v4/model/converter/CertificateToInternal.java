@@ -20,18 +20,18 @@
 package se.inera.intyg.common.ts_diabetes.v4.model.converter;
 
 import org.springframework.stereotype.Component;
-import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
 
-@Component(value = "internalToCertificateTsDiabetesV4")
-public class InternalToCertificate {
+@Component(value = "certificateToInternalTsDiabetesV4")
+public class CertificateToInternal {
 
-    public Certificate convert(TsDiabetesUtlatandeV4 internalCertificate, CertificateTextProvider textProvider) {
-        return CertificateBuilder.create()
-            .metadata(MetaDataGrundData.toCertificate(internalCertificate, textProvider))
+    public TsDiabetesUtlatandeV4 convert(Certificate certificate, TsDiabetesUtlatandeV4 internalCertificate) {
+        return TsDiabetesUtlatandeV4.builder()
+            .setId(internalCertificate.getId())
+            .setTextVersion(internalCertificate.getTextVersion())
+            .setGrundData(MetaDataGrundData.toInternal(certificate.getMetadata(), internalCertificate.getGrundData()))
             .build();
     }
 }
