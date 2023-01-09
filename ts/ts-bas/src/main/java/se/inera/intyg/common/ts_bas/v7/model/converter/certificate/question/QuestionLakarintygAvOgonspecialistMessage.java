@@ -72,11 +72,13 @@ public class QuestionLakarintygAvOgonspecialistMessage {
     }
 
     private static Boolean getVisibility(Syn syn) {
-        final var nattblindhet = syn != null ? syn.getNattblindhet() : null;
-        final var progressivOgonsjukdom = syn != null ? syn.getProgressivOgonsjukdom() : null;
-        final var synfaltsdefekter = syn != null ? syn.getSynfaltsdefekter() : null;
+        if (syn == null) {
+            return false;
+        }
+        return isTrue(syn.getNattblindhet()) || isTrue(syn.getProgressivOgonsjukdom()) || isTrue(syn.getSynfaltsdefekter());
+    }
 
-        return nattblindhet != null && nattblindhet || progressivOgonsjukdom != null
-            && progressivOgonsjukdom || synfaltsdefekter != null && synfaltsdefekter;
+    private static Boolean isTrue(Boolean value) {
+        return value != null ? value : false;
     }
 }

@@ -62,8 +62,13 @@ public class QuestionTablettEllerInsulinMessage {
     }
 
     private static Boolean getVisibility(Diabetes diabetes) {
-        final var tabletter = diabetes != null && diabetes.getTabletter() != null ? diabetes.getTabletter() : null;
-        final var insulin = diabetes != null && diabetes.getInsulin() != null ? diabetes.getInsulin() : null;
-        return tabletter != null && tabletter || insulin != null && insulin;
+        if (diabetes == null) {
+            return false;
+        }
+        return isTrue(diabetes.getInsulin()) || isTrue(diabetes.getTabletter());
+    }
+
+    private static Boolean isTrue(Boolean value) {
+        return value != null ? value : false;
     }
 }

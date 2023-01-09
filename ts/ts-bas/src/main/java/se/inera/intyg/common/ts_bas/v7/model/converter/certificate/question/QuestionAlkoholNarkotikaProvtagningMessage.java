@@ -60,7 +60,9 @@ public class QuestionAlkoholNarkotikaProvtagningMessage {
     }
 
     private static Boolean getVisibility(NarkotikaLakemedel narkotikaLakemedel) {
-        final var provtagningBehovs = narkotikaLakemedel != null ? narkotikaLakemedel.getProvtagningBehovs() : null;
-        return provtagningBehovs != null && provtagningBehovs;
+        if (narkotikaLakemedel == null || narkotikaLakemedel.getProvtagningBehovs() == null) {
+            return false;
+        }
+        return narkotikaLakemedel.getProvtagningBehovs();
     }
 }

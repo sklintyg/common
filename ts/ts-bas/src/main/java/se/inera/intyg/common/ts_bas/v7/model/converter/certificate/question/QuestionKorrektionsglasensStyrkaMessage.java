@@ -60,7 +60,9 @@ public class QuestionKorrektionsglasensStyrkaMessage {
     }
 
     private static Boolean getVisibility(Syn syn) {
-        final var korrektionsglasensStyrka = syn != null ? syn.getKorrektionsglasensStyrka() : null;
-        return korrektionsglasensStyrka != null && korrektionsglasensStyrka;
+        if (syn == null || syn.getKorrektionsglasensStyrka() == null) {
+            return false;
+        }
+        return syn.getKorrektionsglasensStyrka();
     }
 }
