@@ -41,7 +41,7 @@ public class QuestionAlkoholNarkotikaProvtagningMessage {
             .id(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_MESSAGE_ID)
             .parent(MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID)
             .index(index)
-            .visible(setVisibility(narkotikaLakemedel))
+            .visible(getVisibility(narkotikaLakemedel))
             .config(
                 CertificateDataConfigMessage.builder()
                     .message(texts.get(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_MESSAGE_TEXT_ID))
@@ -59,7 +59,7 @@ public class QuestionAlkoholNarkotikaProvtagningMessage {
             .build();
     }
 
-    private static Boolean setVisibility(NarkotikaLakemedel narkotikaLakemedel) {
+    private static Boolean getVisibility(NarkotikaLakemedel narkotikaLakemedel) {
         final var provtagningBehovs = narkotikaLakemedel != null ? narkotikaLakemedel.getProvtagningBehovs() : null;
         return provtagningBehovs != null && provtagningBehovs;
     }

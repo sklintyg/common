@@ -45,7 +45,7 @@ public class QuestionLakarintygAvOgonspecialistMessage {
             .id(LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID)
             .parent(SYNFUNKTIONER_CATEGORY_ID)
             .index(index)
-            .visible(setVisibility(syn))
+            .visible(getVisibility(syn))
             .config(
                 CertificateDataConfigMessage.builder()
                     .message(texts.get(LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_TEXT_ID))
@@ -71,7 +71,7 @@ public class QuestionLakarintygAvOgonspecialistMessage {
             .build();
     }
 
-    private static Boolean setVisibility(Syn syn) {
+    private static Boolean getVisibility(Syn syn) {
         final var nattblindhet = syn != null ? syn.getNattblindhet() : null;
         final var progressivOgonsjukdom = syn != null ? syn.getProgressivOgonsjukdom() : null;
         final var synfaltsdefekter = syn != null ? syn.getSynfaltsdefekter() : null;

@@ -41,7 +41,7 @@ public class QuestionKorrektionsglasensStyrkaMessage {
             .id(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_ID)
             .parent(SYNFUNKTIONER_CATEGORY_ID)
             .index(index)
-            .visible(setVisibility(syn))
+            .visible(getVisibility(syn))
             .config(
                 CertificateDataConfigMessage.builder()
                     .message(texts.get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_TEXT_ID))
@@ -59,7 +59,7 @@ public class QuestionKorrektionsglasensStyrkaMessage {
             .build();
     }
 
-    private static Boolean setVisibility(Syn syn) {
+    private static Boolean getVisibility(Syn syn) {
         final var korrektionsglasensStyrka = syn != null ? syn.getKorrektionsglasensStyrka() : null;
         return korrektionsglasensStyrka != null && korrektionsglasensStyrka;
     }

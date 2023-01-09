@@ -41,7 +41,7 @@ public class QuestionTablettEllerInsulinMessage {
             .id(INSULIN_ELLER_TABLETT_MESSAGE_ID)
             .index(index)
             .parent(HAR_DIABETES_CATEGORY_ID)
-            .visible(setVisibility(diabetes))
+            .visible(getVisibility(diabetes))
             .config(
                 CertificateDataConfigMessage.builder()
                     .message(textProvider.get(INSULIN_ELLER_TABLETT_MESSAGE_TEXT_ID))
@@ -61,7 +61,7 @@ public class QuestionTablettEllerInsulinMessage {
             .build();
     }
 
-    private static Boolean setVisibility(Diabetes diabetes) {
+    private static Boolean getVisibility(Diabetes diabetes) {
         final var tabletter = diabetes != null && diabetes.getTabletter() != null ? diabetes.getTabletter() : null;
         final var insulin = diabetes != null && diabetes.getInsulin() != null ? diabetes.getInsulin() : null;
         return tabletter != null && tabletter || insulin != null && insulin;
