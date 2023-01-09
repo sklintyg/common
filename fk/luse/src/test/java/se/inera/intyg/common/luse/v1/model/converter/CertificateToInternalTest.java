@@ -25,16 +25,20 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import se.inera.intyg.common.fkparent.model.internal.Underlag;
+import se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlag;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUtlatandeBaseratPa;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -72,6 +76,13 @@ class CertificateToInternalTest {
             .setAnnatGrundForMUBeskrivning("annat")
             .setMotiveringTillInteBaseratPaUndersokning("motivering")
             .setKannedomOmPatient(new InternalDate(LocalDate.now()))
+            .setUnderlag(
+                List.of(
+                    Underlag.create(UnderlagsTyp.UTREDNING_AV_ANNAN_SPECIALISTKLINIK, new InternalDate(LocalDate.now()), "hamtasFran"),
+                    Underlag.create(UnderlagsTyp.UNDERLAG_FRAN_ARBETSTERAPEUT, new InternalDate(LocalDate.now()), "hamtasFran"),
+                    Underlag.create(UnderlagsTyp.UNDERLAG_FRANPSYKOLOG, new InternalDate(LocalDate.now()), "hamtasFran")
+                )
+            )
             .build();
 
         certificate = CertificateBuilder.create()
@@ -89,6 +100,9 @@ class CertificateToInternalTest {
             )
             .addElement(
                 QuestionKannedomOmPatient.toCertificate(expectedInternalCertificate.getKannedomOmPatient(), 0, textProvider)
+            )
+            .addElement(
+                QuestionUnderlag.toCertificate(expectedInternalCertificate.getUnderlag(), 0, textProvider)
             )
             .build();
     }
@@ -168,5 +182,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getKannedomOmPatient(),
             actualInternalCertificate.getKannedomOmPatient());
+    }
+
+    @Test
+    void shallIncludeUnderlag() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getUnderlag(),
+            actualInternalCertificate.getUnderlag());
     }
 }

@@ -16,7 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question;
+
+package se.inera.intyg.common.luse.v1.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
@@ -31,15 +32,15 @@ import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTy
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRAN_LOGOPED;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UTREDNING_AV_ANNAN_SPECIALISTKLINIK;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UTREDNING_FRAN_VARDINRATTNING_UTOMLANDS;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAG_DATUM_TEXT;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_TEXT_ID;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAG_TYPE_TEXT_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAG_DATUM_TEXT;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_TEXT_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAG_TYPE_TEXT_ID;
 
 import java.time.LocalDate;
 import java.util.Collections;
