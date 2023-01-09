@@ -21,12 +21,14 @@ package se.inera.intyg.common.luse.v1.rest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -58,12 +60,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import se.inera.intyg.common.luse.v1.model.converter.CertificateToInternal;
+import se.inera.intyg.common.luse.v1.model.converter.InternalToCertificate;
 import se.inera.intyg.common.luse.v1.model.converter.SvarIdHelperImpl;
 import se.inera.intyg.common.luse.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
 import se.inera.intyg.common.luse.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.luse.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.luse.v1.validator.InternalDraftValidatorImpl;
+import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -80,6 +86,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponderInterface;
@@ -102,6 +109,10 @@ public class LuseModuleApiV1Test {
     private static final String INTYG_TYPE_VERSION_1 = "1.0";
 
     private final String PNR_TOLVAN = "19121212-1212";
+    @Mock
+    private CertificateToInternal certificateToInternal;
+    @Mock
+    private InternalToCertificate internalToCertificate;
 
     @Mock
     private RegisterCertificateResponderInterface registerCertificateResponderInterface;
@@ -537,6 +548,71 @@ public class LuseModuleApiV1Test {
 
         assertNotNull(additionalInfo);
         assertEquals("Skada på multipla böjmuskler och deras senor på handleds- och handnivå", additionalInfo);
+    }
+
+    @Test
+    public void shallConvertInternalToCertificate() throws Exception {
+        final var expectedCertificate = CertificateBuilder.create().build();
+        final var certificateAsJson = "certificateAsJson";
+        final var typeAheadProvider = mock(TypeAheadProvider.class);
+
+        final var internalCertificate = LuseUtlatandeV1.builder()
+            .setId("123")
+            .setTextVersion("1.0")
+            .setGrundData(new GrundData())
+            .build();
+
+        doReturn(internalCertificate)
+            .when(objectMapper).readValue(eq(certificateAsJson), eq(LuseUtlatandeV1.class));
+
+        doReturn(expectedCertificate)
+            .when(internalToCertificate).convert(eq(internalCertificate), any(CertificateTextProvider.class));
+
+        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider);
+
+        assertEquals(expectedCertificate, actualCertificate);
+    }
+
+
+    @Test
+    public void shallConvertCertificateToInternal() throws Exception {
+        final var expectedJson = "expectedJson";
+        final var certificate = CertificateBuilder.create().build();
+        final var certificateAsJson = "certificateAsJson";
+
+        final var internalCertificate = LuseUtlatandeV1.builder()
+            .setId("123")
+            .setTextVersion("1.0")
+            .setGrundData(new GrundData())
+            .build();
+
+        doReturn(internalCertificate)
+            .when(objectMapper).readValue(eq(certificateAsJson), eq(LuseUtlatandeV1.class));
+
+        doReturn(expectedJson)
+            .when(objectMapper).writeValueAsString(internalCertificate);
+
+        doReturn(internalCertificate)
+            .when(certificateToInternal).convert(certificate, internalCertificate);
+
+        final var actualJson = moduleApi.getJsonFromCertificate(certificate, certificateAsJson);
+        assertEquals(expectedJson, actualJson);
+    }
+
+    @Test
+    public void getCertficateMessagesProviderGetExistingKey() {
+
+        final var certificateMessagesProvider = moduleApi.getMessagesProvider();
+
+        assertEquals(certificateMessagesProvider.get("common.continue"), "Fortsätt");
+    }
+
+    @Test
+    public void getCertficateMessagesProviderGetMissingKey() {
+
+        final var certificateMessagesProvider = moduleApi.getMessagesProvider();
+
+        assertNull(certificateMessagesProvider.get("not.existing"));
     }
 
     private GetCertificateResponseType createGetCertificateResponseType() throws ScenarioNotFoundException {
