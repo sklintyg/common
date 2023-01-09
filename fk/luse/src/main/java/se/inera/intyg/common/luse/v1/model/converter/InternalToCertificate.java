@@ -26,6 +26,7 @@ import se.inera.intyg.common.luse.v1.model.converter.certificate.question.Questi
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlag;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlagFinns;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUtlatandeBaseratPa;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -55,6 +56,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionKannedomOmPatient.toCertificate(internalCertificate.getKannedomOmPatient(), index++, textProvider)
+            )
+            .addElement(
+                QuestionUnderlagFinns.toCertificate(internalCertificate.getUnderlagFinns(), index++, textProvider)
             )
             .addElement(
                 QuestionUnderlag.toCertificate(internalCertificate.getUnderlag(), index++, textProvider)

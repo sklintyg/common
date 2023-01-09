@@ -28,6 +28,7 @@ import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.GRUNDF
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KANNEDOM_SVAR_ID_2;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -114,8 +115,14 @@ class InternalToCertificateTest {
     }
 
     @Test
+    void shallIncludeQuestionUnderlagFinns() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(5, actualCertificate.getData().get(UNDERLAGFINNS_SVAR_ID_3).getIndex());
+    }
+
+    @Test
     void shallIncludeQuestionUnderlag() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(5, actualCertificate.getData().get(UNDERLAG_SVAR_ID_4).getIndex());
+        assertEquals(6, actualCertificate.getData().get(UNDERLAG_SVAR_ID_4).getIndex());
     }
 }

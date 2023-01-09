@@ -39,6 +39,7 @@ import se.inera.intyg.common.luse.v1.model.converter.certificate.question.Questi
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlag;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlagFinns;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUtlatandeBaseratPa;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -76,6 +77,7 @@ class CertificateToInternalTest {
             .setAnnatGrundForMUBeskrivning("annat")
             .setMotiveringTillInteBaseratPaUndersokning("motivering")
             .setKannedomOmPatient(new InternalDate(LocalDate.now()))
+            .setUnderlagFinns(true)
             .setUnderlag(
                 List.of(
                     Underlag.create(UnderlagsTyp.UTREDNING_AV_ANNAN_SPECIALISTKLINIK, new InternalDate(LocalDate.now()), "hamtasFran"),
@@ -100,6 +102,9 @@ class CertificateToInternalTest {
             )
             .addElement(
                 QuestionKannedomOmPatient.toCertificate(expectedInternalCertificate.getKannedomOmPatient(), 0, textProvider)
+            )
+            .addElement(
+                QuestionUnderlagFinns.toCertificate(expectedInternalCertificate.getUnderlagFinns(), 0, textProvider)
             )
             .addElement(
                 QuestionUnderlag.toCertificate(expectedInternalCertificate.getUnderlag(), 0, textProvider)
@@ -182,6 +187,13 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getKannedomOmPatient(),
             actualInternalCertificate.getKannedomOmPatient());
+    }
+
+    @Test
+    void shallIncludeUnderlagFinns() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getUnderlagFinns(),
+            actualInternalCertificate.getUnderlagFinns());
     }
 
     @Test
