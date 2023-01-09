@@ -12,5 +12,6 @@ dependencies {
 
   testCompile "org.apache.commons:commons-lang3"
   testCompile "org.assertj:assertj-core"
+  testImplementation testFixtures(project(":common-support"))
 
 }

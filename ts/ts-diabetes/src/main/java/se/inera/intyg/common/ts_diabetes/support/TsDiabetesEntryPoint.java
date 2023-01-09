@@ -19,10 +19,8 @@
 package se.inera.intyg.common.ts_diabetes.support;
 
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
@@ -39,7 +37,7 @@ public class TsDiabetesEntryPoint implements ModuleEntryPoint {
     public static final String KV_UTLATANDETYP_INTYG_CODE = "TSTRK1031";
     private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
     // CHECKSTYLE:OFF LineLength
-    private static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
+    public static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
 
     // Depending on context, an IntygTextRepository may not be available (e.g Intygstjansten)
     @Autowired(required = false)
