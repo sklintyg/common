@@ -33,6 +33,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUtlatandeBaseratPa;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
@@ -70,6 +71,7 @@ class CertificateToInternalTest {
             .setAnnatGrundForMU(new InternalDate(LocalDate.now()))
             .setAnnatGrundForMUBeskrivning("annat")
             .setMotiveringTillInteBaseratPaUndersokning("motivering")
+            .setKannedomOmPatient(new InternalDate(LocalDate.now()))
             .build();
 
         certificate = CertificateBuilder.create()
@@ -84,6 +86,9 @@ class CertificateToInternalTest {
             .addElement(
                 QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(
                     expectedInternalCertificate.getMotiveringTillInteBaseratPaUndersokning(), 0, textProvider)
+            )
+            .addElement(
+                QuestionKannedomOmPatient.toCertificate(expectedInternalCertificate.getKannedomOmPatient(), 0, textProvider)
             )
             .build();
     }
@@ -156,5 +161,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getMotiveringTillInteBaseratPaUndersokning(),
             actualInternalCertificate.getMotiveringTillInteBaseratPaUndersokning());
+    }
+
+    @Test
+    void shallIncludeKannedomOmPatient() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getKannedomOmPatient(),
+            actualInternalCertificate.getKannedomOmPatient());
     }
 }

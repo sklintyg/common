@@ -42,6 +42,8 @@ public class RespConstants {
 
 
     public static final String KANNEDOM_SVAR_ID_2 = "2";
+    public static final String KANNEDOM_SVAR_TEXT_ID = "FRG_2.RBK";
+
     public static final String KANNEDOM_DELSVAR_ID_2 = "2.1";
     public static final String KANNEDOM_SVAR_JSON_ID_2 = "kannedomOmPatient";
 

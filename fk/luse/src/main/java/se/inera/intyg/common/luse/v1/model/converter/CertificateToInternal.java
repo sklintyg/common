@@ -27,6 +27,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUtlatandeBaseratPa;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
@@ -54,6 +55,9 @@ public class CertificateToInternal {
             )
             .setMotiveringTillInteBaseratPaUndersokning(
                 QuestionMotiveringTillInteBaseratPaUndersokning.toInternal(certificate)
+            )
+            .setKannedomOmPatient(
+                QuestionKannedomOmPatient.toInternal(certificate)
             )
             .build();
     }
