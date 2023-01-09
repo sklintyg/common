@@ -63,4 +63,27 @@ public class RespConstants {
     public static final String DIAGNOS_CATEGORY_ID = "diagnos";
     public static final String DIAGNOS_CATEGORY_TEXT_ID = "KAT_3.RBK";
 
+    public static final String DIAGNOS_CATEGORY_TEXT = "KAT_3.RBK";
+    public static final String DIAGNOS_SVAR_TEXT_ID = "FRG_6.RBK";
+    public static final String DIAGNOS_SVAR_ID = "6";
+    public static final String DIAGNOS_SVAR_BESKRIVNING = "FRG_6.HLP";
+    public static final String DIAGNOS_DELSVAR_TEXT = "DFR_6.2.RBK";
+    public static final String DIAGNOS_ICD_10_ID = "ICD_10_SE";
+    public static final String DIAGNOS_ICD_10_LABEL = "ICD-10-SE";
+    public static final String DIAGNOS_KSH_97_ID = "KSH_97_P";
+    public static final String DIAGNOS_KSH_97_LABEL = "KSH97-P (Primärvård)";
+    public static final String DIAGNOSES_LIST_ITEM_1_ID = "diagnoser[0].row";
+    public static final String DIAGNOSES_LIST_ITEM_2_ID = "diagnoser[1].diagnoskod";
+    public static final String DIAGNOSES_LIST_ITEM_3_ID = "diagnoser[2].diagnoskod";
+
+
+    public static final String DIAGNOSGRUND_SVAR_ID_7 = "7";
+    public static final String DIAGNOSGRUND_DELSVAR_ID_7 = "7.1";
+    public static final String NYDIAGNOS_SVAR_ID_45 = "45";
+    public static final String DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45 = "45.1";
+    public static final String DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45 = "45.2";
+    public static final String DIAGNOSGRUND_SVAR_JSON_ID_7 = "diagnosgrund";
+    public static final String DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45 = "nyBedomningDiagnosgrund";
+    public static final String DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45 = "diagnosForNyBedomning";
+
 }

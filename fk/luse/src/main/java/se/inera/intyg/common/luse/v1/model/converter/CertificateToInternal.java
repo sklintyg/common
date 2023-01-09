@@ -25,9 +25,11 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnos;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlag;
@@ -35,10 +37,16 @@ import se.inera.intyg.common.luse.v1.model.converter.certificate.question.Questi
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUtlatandeBaseratPa;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
 @Component(value = "certificateToInternalFk7800")
 public class CertificateToInternal {
 
+    private final WebcertModuleService webcertModuleService;
+
+    public CertificateToInternal(@Autowired(required = false) WebcertModuleService webcertModuleService) {
+        this.webcertModuleService = webcertModuleService;
+    }
 
     public LuseUtlatandeV1 convert(Certificate certificate, LuseUtlatandeV1 internalCertificate) {
         return LuseUtlatandeV1.builder()
@@ -67,6 +75,9 @@ public class CertificateToInternal {
             )
             .setUnderlag(
                 QuestionUnderlag.toInternal(certificate, UNDERLAG_SVAR_ID_4)
+            )
+            .setDiagnoser(
+                QuestionDiagnos.toInternal(certificate, webcertModuleService)
             )
             .build();
     }

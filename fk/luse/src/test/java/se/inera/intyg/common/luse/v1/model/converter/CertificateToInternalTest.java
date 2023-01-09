@@ -32,10 +32,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnos;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlag;
@@ -50,6 +52,7 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 @ExtendWith(MockitoExtension.class)
@@ -59,6 +62,8 @@ class CertificateToInternalTest {
     private LuseUtlatandeV1 expectedInternalCertificate;
     @Mock
     private CertificateTextProvider textProvider;
+    @Mock
+    private WebcertModuleService webcertModuleService;
     @InjectMocks
     private CertificateToInternal certificateToInternal;
 
@@ -85,6 +90,12 @@ class CertificateToInternalTest {
                     Underlag.create(UnderlagsTyp.UNDERLAG_FRANPSYKOLOG, new InternalDate(LocalDate.now()), "hamtasFran")
                 )
             )
+            .setDiagnoser(
+                List.of(
+                    Diagnos.create("kod", "kodsystem", "beskrivning", null),
+                    Diagnos.create("kod", "kodsystem", "beskrivning", null)
+                )
+            )
             .build();
 
         certificate = CertificateBuilder.create()
@@ -108,6 +119,9 @@ class CertificateToInternalTest {
             )
             .addElement(
                 QuestionUnderlag.toCertificate(expectedInternalCertificate.getUnderlag(), 0, textProvider)
+            )
+            .addElement(
+                QuestionDiagnos.toCertificate(expectedInternalCertificate.getDiagnoser(), 0, textProvider)
             )
             .build();
     }
@@ -201,5 +215,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getUnderlag(),
             actualInternalCertificate.getUnderlag());
+    }
+
+    @Test
+    void shallIncludeDiagnos() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getDiagnoser(),
+            actualInternalCertificate.getDiagnoser());
     }
 }

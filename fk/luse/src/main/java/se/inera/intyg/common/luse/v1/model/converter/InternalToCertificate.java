@@ -24,6 +24,7 @@ import se.inera.intyg.common.luse.v1.model.converter.certificate.MetaDataGrundDa
 import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryGrundForMU;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnos;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlag;
@@ -66,6 +67,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 CategoryDiagnos.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionDiagnos.toCertificate(internalCertificate.getDiagnoser(), index++, textProvider)
             )
             .build();
     }
