@@ -62,6 +62,9 @@ class DefaultCertificateTextProviderTest {
     private static final String FK_7801_NEW_LINE_TWO_KEY = "fk7801NewLineTwo.HLP";
     private static final String FK_7801_NEW_LINE_TWO_TEXT = "kan utgöra\nbåde en";
     private static final String FK_7801_NEW_LINE_TWO_TEXT_FIXED = "kan utgöra både en";
+    private static final String TS_BAS_INTYGET_AVSER_HELP_TEXT_KEY = "FRG_1.HLP";
+    private static final String TS_BAS_INTYGET_AVSER_HELP_TEXT = "C1E, C och CE.\n ";
+    private static final String TS_BAS_INTYGET_AVSER_HELP_TEXT_FIXED = "C1E, C och CE.\n";
 
     @BeforeEach
     void setUp() {
@@ -79,6 +82,7 @@ class DefaultCertificateTextProviderTest {
         texts.put(HEADER_KEY, HEADER_TEXT);
         texts.put(FK_7801_NEW_LINE_ONE_KEY, FK_7801_NEW_LINE_ONE_TEXT);
         texts.put(FK_7801_NEW_LINE_TWO_KEY, FK_7801_NEW_LINE_TWO_TEXT);
+        texts.put(TS_BAS_INTYGET_AVSER_HELP_TEXT_KEY, TS_BAS_INTYGET_AVSER_HELP_TEXT);
 
         final var intygTexts = new IntygTexts(
             "1.0",
@@ -183,5 +187,11 @@ class DefaultCertificateTextProviderTest {
     void shallRemoveIncorrectNewLineInFK7801Two() {
         final var actualText = defaultCertificateTextProvider.get(FK_7801_NEW_LINE_TWO_KEY);
         assertEquals(FK_7801_NEW_LINE_TWO_TEXT_FIXED, actualText);
+    }
+
+    @Test
+    void shallAddNewlineInTsbasV7() {
+        final var actualText = defaultCertificateTextProvider.get(TS_BAS_INTYGET_AVSER_HELP_TEXT_KEY);
+        assertEquals(TS_BAS_INTYGET_AVSER_HELP_TEXT_FIXED, actualText);
     }
 }
