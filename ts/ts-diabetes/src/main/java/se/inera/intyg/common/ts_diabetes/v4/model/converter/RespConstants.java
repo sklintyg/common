@@ -22,6 +22,7 @@ public final class RespConstants {
 
     // Kat 1 - Intyget avser
     public static final String INTYG_AVSER_CATEGORY_ID = "intygAvser";
+    public static final String INTYG_AVSER_CATEGORY_TEXT_ID = "KAT_1.RBK";
     public static final String INTYG_AVSER_SVAR_ID_1 = "1";
     public static final String INTYG_AVSER_DELSVAR_ID = "1.1";
     public static final String INTYG_AVSER_SVAR_JSON_ID = "intygAvser";
