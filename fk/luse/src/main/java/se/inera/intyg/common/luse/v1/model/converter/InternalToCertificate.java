@@ -21,6 +21,7 @@ package se.inera.intyg.common.luse.v1.model.converter;
 
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryBakgrund;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryGrundForMU;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
@@ -82,6 +83,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionDiagnosgrundForNyBedomning.toCertificate(internalCertificate.getDiagnosForNyBedomning(), index++, textProvider)
+            )
+            .addElement(
+                CategoryBakgrund.toCertificate(index++, textProvider)
             )
             .build();
     }

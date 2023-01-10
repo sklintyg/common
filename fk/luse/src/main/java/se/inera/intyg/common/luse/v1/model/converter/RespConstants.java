@@ -81,7 +81,14 @@ public class RespConstants {
     public static final String DIAGNOSGRUND_FOR_NY_BEDOMNING_DELSVAR_ID = "45.2";
     public static final String DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_TEXT_ID = "DFR_45.2.RBK";
     public static final String DIAGNOSGRUND_SVAR_JSON_ID = "diagnosgrund";
-    public static final String DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID = "DiagnosgrundNyBedomning";
+    public static final String DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID = "diagnosgrundNyBedomning";
     public static final String DIAGNOSGRUND_FOR_NY_BEDOMNING_DELSVAR_JSON_ID = "diagnosgrundForNyBedomning";
+
+    public static final String BAKGRUND_CATEGORY_ID = "bakgrund";
+    public static final String BAKGRUND_CATEGORY_TEXT_ID = "KAT_3.RBK";
+
+    public static final String SJUKDOMSFORLOPP_SVAR_ID = "5";
+    public static final String SJUKDOMSFORLOPP_SVAR_JSON_ID = "sjukdomsforlopp";
+    public static final String SJUKDOMSFORLOPP_SVAR_TEXT_ID = "FRG_5.RBK";
 
 }
