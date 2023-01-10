@@ -18,7 +18,10 @@
  */
 package se.inera.intyg.common.fkparent.model.converter.certificate;
 
-import se.inera.intyg.common.fkparent.model.converter.RespConstants;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ACCORDION_CLOSE_TEXT;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ACCORDION_OPEN_TEXT;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
+
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.Accordion;
@@ -35,7 +38,7 @@ public abstract class AbstractQuestionFunktionsnedsattning {
         String headerId, String jsonId, int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
             .id(questionId)
-            .parent(RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID)
+            .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigTextArea.builder()
@@ -43,8 +46,8 @@ public abstract class AbstractQuestionFunktionsnedsattning {
                     .description(textProvider.get(descriptionId))
                     .accordion(
                         Accordion.builder()
-                            .openText(RespConstants.FUNKTIONSNEDSATTNING_ACCORDION_OPEN_TEXT)
-                            .closeText(RespConstants.FUNKTIONSNEDSATTNING_ACCORDION_CLOSE_TEXT)
+                            .openText(FUNKTIONSNEDSATTNING_ACCORDION_OPEN_TEXT)
+                            .closeText(FUNKTIONSNEDSATTNING_ACCORDION_CLOSE_TEXT)
                             .header(textProvider.get(headerId))
                             .build()
                     )
