@@ -29,6 +29,7 @@ import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNO
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_SVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOS_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
@@ -173,5 +174,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionSjukdomsforlopp() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(13, actualCertificate.getData().get(SJUKDOMSFORLOPP_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryFunktionsnedsattning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(14, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_CATEGORY_ID).getIndex());
     }
 }
