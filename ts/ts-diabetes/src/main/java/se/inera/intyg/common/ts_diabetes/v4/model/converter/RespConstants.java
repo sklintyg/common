@@ -21,9 +21,29 @@ package se.inera.intyg.common.ts_diabetes.v4.model.converter;
 public final class RespConstants {
 
     // Kat 1 - Intyget avser
-    public static final String INTYGETAVSER_SVAR_ID = "1";
-    public static final String INTYGETAVSER_DELSVAR_ID = "1.1";
-    public static final String INTYGETAVSER_SVAR_JSON_ID = "intygAvser";
+    public static final String INTYG_AVSER_CATEGORY_ID = "intygAvser";
+    public static final String INTYG_AVSER_SVAR_ID_1 = "1";
+    public static final String INTYG_AVSER_DELSVAR_ID = "1.1";
+    public static final String INTYG_AVSER_SVAR_JSON_ID = "intygAvser";
+    public static final String INTYG_AVSER_SVAR_TEXT_ID = "FRG_1.RBK";
+    public static final String INTYG_AVSER_SVAR_DESCRIPTION_ID = "FRG_1.HLP";
+
+    public static final String INTYG_AVSER_VAR1_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR1.RBK";
+    public static final String INTYG_AVSER_VAR2_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR2.RBK";
+    public static final String INTYG_AVSER_VAR3_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR3.RBK";
+    public static final String INTYG_AVSER_VAR4_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR4.RBK";
+    public static final String INTYG_AVSER_VAR5_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR5.RBK";
+    public static final String INTYG_AVSER_VAR6_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR6.RBK";
+    public static final String INTYG_AVSER_VAR7_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR7.RBK";
+    public static final String INTYG_AVSER_VAR8_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR8.RBK";
+    public static final String INTYG_AVSER_VAR9_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR9.RBK";
+    public static final String INTYG_AVSER_VAR12_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR12.RBK";
+    public static final String INTYG_AVSER_VAR13_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR13.RBK";
+    public static final String INTYG_AVSER_VAR14_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR14.RBK";
+    public static final String INTYG_AVSER_VAR15_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR15.RBK";
+    public static final String INTYG_AVSER_VAR16_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR16.RBK";
+    public static final String INTYG_AVSER_VAR17_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR17.RBK";
+    public static final String INTYG_AVSER_VAR18_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR18.RBK";
 
     // Kat 2 - Identitet
     public static final String IDENTITET_STYRKT_GENOM_SVAR_ID = "2";

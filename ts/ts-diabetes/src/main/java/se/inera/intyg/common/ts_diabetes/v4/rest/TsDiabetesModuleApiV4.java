@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.ts_diabetes.v4.rest;
 
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYGETAVSER_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYGETAVSER_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_SVAR_ID_1;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -176,9 +176,9 @@ public class TsDiabetesModuleApiV4 extends TsParentModuleApi<TsDiabetesUtlatande
         List<CVType> types = new ArrayList<>();
         try {
             for (Svar svar : intyg.getSvar()) {
-                if (INTYGETAVSER_SVAR_ID.equals(svar.getId())) {
+                if (INTYG_AVSER_SVAR_ID_1.equals(svar.getId())) {
                     for (Svar.Delsvar delsvar : svar.getDelsvar()) {
-                        if (INTYGETAVSER_DELSVAR_ID.equals(delsvar.getId())) {
+                        if (INTYG_AVSER_DELSVAR_ID.equals(delsvar.getId())) {
                             CVType cv = TransportConverterUtil.getCVSvarContent(delsvar);
                             if (cv != null) {
                                 types.add(cv);
