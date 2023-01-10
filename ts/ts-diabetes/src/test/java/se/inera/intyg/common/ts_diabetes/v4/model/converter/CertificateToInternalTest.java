@@ -39,10 +39,13 @@ import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionIdentitetStyrktGenom;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionIntygetAvser;
+import se.inera.intyg.common.ts_diabetes.v4.model.internal.IdKontroll;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
+import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvIdKontroll;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 @ExtendWith(MockitoExtension.class)
@@ -64,12 +67,16 @@ class CertificateToInternalTest {
             .setTextVersion("textVersion")
             .setGrundData(getGrundData())
             .setIntygAvser(IntygAvser.create(EnumSet.of(IntygAvserKategori.VAR1, IntygAvserKategori.VAR2)))
+            .setIdentitetStyrktGenom(IdKontroll.create(KvIdKontroll.PERS_KANNEDOM))
             .build();
 
         certificate = CertificateBuilder.create()
             .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, textProvider))
             .addElement(
                 QuestionIntygetAvser.toCertificate(expectedInternalCertificate.getIntygAvser(), 0, textProvider)
+            )
+            .addElement(
+                QuestionIdentitetStyrktGenom.toCertificate(expectedInternalCertificate.getIdentitetStyrktGenom(), 0, textProvider)
             )
             .build();
     }
@@ -108,5 +115,11 @@ class CertificateToInternalTest {
     void shallIncludeIntygetAvser() {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(actualInternalCertificate.getIntygAvser(), expectedInternalCertificate.getIntygAvser());
+    }
+
+    @Test
+    void shallIncludeIdentitetStyrktGenom() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getIdentitetStyrktGenom(), expectedInternalCertificate.getIdentitetStyrktGenom());
     }
 }

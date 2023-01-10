@@ -54,6 +54,7 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID_2;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_SVAR_ID_1;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_SVAR_JSON_ID;
@@ -289,8 +290,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
 
     private void validateIdentitetStyrkt(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
         if (utlatande.getIdentitetStyrktGenom() == null) {
-            addValidationError(validationMessages, IDENTITET_CATEGORY_ID, IDENTITET_STYRKT_GENOM_JSON_ID + ".typ",
-                ValidationMessageType.EMPTY);
+            addValidationErrorWithQuestionId(validationMessages, IDENTITET_CATEGORY_ID, IDENTITET_STYRKT_GENOM_JSON_ID + ".typ",
+                ValidationMessageType.EMPTY, IDENTITET_STYRKT_GENOM_SVAR_ID_2);
         }
     }
 
