@@ -31,6 +31,7 @@ import se.inera.intyg.common.luse.v1.model.converter.certificate.MetaDataGrundDa
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnos;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrund;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrundForNyBedomning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrundNyBedomning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
@@ -86,6 +87,9 @@ public class CertificateToInternal {
             )
             .setNyBedomningDiagnosgrund(
                 QuestionDiagnosgrundNyBedomning.toInternal(certificate)
+            )
+            .setDiagnosForNyBedomning(
+                QuestionDiagnosgrundForNyBedomning.toInternal(certificate)
             )
             .build();
     }
