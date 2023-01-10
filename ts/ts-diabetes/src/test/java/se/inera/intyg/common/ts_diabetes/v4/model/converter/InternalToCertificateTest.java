@@ -19,9 +19,12 @@
 
 package se.inera.intyg.common.ts_diabetes.v4.model.converter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_CATEGORY_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_SVAR_ID_1;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -74,5 +77,17 @@ class InternalToCertificateTest {
     void shallIncludeMetadata() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertNotNull(actualCertificate.getMetadata(), "Shall contain metadata");
+    }
+
+    @Test
+    void shallIncludeCategoryIntygetAvser() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(0, actualCertificate.getData().get(INTYG_AVSER_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionIntygetAvser() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(1, actualCertificate.getData().get(INTYG_AVSER_SVAR_ID_1).getIndex());
     }
 }

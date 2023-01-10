@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
+import java.util.EnumSet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,6 +39,9 @@ import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionIntygetAvser;
+import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvser;
+import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -59,10 +63,14 @@ class CertificateToInternalTest {
             .setId("id")
             .setTextVersion("textVersion")
             .setGrundData(getGrundData())
+            .setIntygAvser(IntygAvser.create(EnumSet.of(IntygAvserKategori.VAR1, IntygAvserKategori.VAR2)))
             .build();
 
         certificate = CertificateBuilder.create()
             .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, textProvider))
+            .addElement(
+                QuestionIntygetAvser.toCertificate(expectedInternalCertificate.getIntygAvser(), 0, textProvider)
+            )
             .build();
     }
 
@@ -94,5 +102,11 @@ class CertificateToInternalTest {
     void shallIncludeGrundData() {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertNotNull(actualInternalCertificate.getGrundData(), "GrundData is missing!");
+    }
+
+    @Test
+    void shallIncludeIntygetAvser() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getIntygAvser(), expectedInternalCertificate.getIntygAvser());
     }
 }
