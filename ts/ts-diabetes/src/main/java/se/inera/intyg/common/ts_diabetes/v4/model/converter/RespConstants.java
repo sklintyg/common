@@ -62,6 +62,8 @@ public final class RespConstants {
     public static final String IDENTITET_STYRKT_GENOM_PASS_TEXT_ID = "KV_ID_KONTROLL.IDK6.RBK";
 
     // Kat 3 - Allmänt
+    public static final String ALLMANT_CATEGORY_ID = "allmant";
+    public static final String ALLMANT_CATEGORY_TEXT_ID = "allmant";
     public static final String ALLMANT_JSON_ID = "allmant";
     public static final String ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID = "205";
     public static final String ALLMANT_PATIENTEN_FOLJS_AV_DELSVAR_ID = "205.1";

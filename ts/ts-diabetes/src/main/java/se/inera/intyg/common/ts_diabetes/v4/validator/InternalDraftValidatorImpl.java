@@ -26,6 +26,7 @@ import static se.inera.intyg.common.support.validate.ValidatorUtil.addValidation
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID;
@@ -91,7 +92,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     private static final int MAX_SEVENTY_ONE_CHARS = 71;
     private static final int MAX_HUNDRED_EIGHTY_NINE_CHARS = 189;
 
-    protected static final String CATEGORY_ALLMANT = "allmant";
     protected static final String CATEGORY_HYPOGLYKEMI = "hypoglykemi";
     protected static final String CATEGORY_OVRIGT = "ovrigt";
     protected static final String CATEGORY_BEDOMNING = "bedomning";
@@ -236,7 +236,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             validateBehandling(utlatande, validationMessages);
             validateMedicineringMedforRiskForHypoglykemiTidpunkt(utlatande, validationMessages);
         } else {
-            addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_JSON_ID, ValidationMessageType.EMPTY);
+            addValidationError(validationMessages, ALLMANT_CATEGORY_ID, ALLMANT_JSON_ID, ValidationMessageType.EMPTY);
         }
 
         // Kategori 4 - Hypoglykemi
@@ -297,7 +297,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
 
     private void validatePatientenFoljsAv(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
         if (utlatande.getAllmant().getPatientenFoljsAv() == null) {
-            addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_JSON_ID + "." + ALLMANT_PATIENTEN_FOLJS_AV_JSON_ID,
+            addValidationError(validationMessages, ALLMANT_CATEGORY_ID, ALLMANT_JSON_ID + "." + ALLMANT_PATIENTEN_FOLJS_AV_JSON_ID,
                 ValidationMessageType.EMPTY);
         }
     }
@@ -306,7 +306,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         final var diabetesSedanArFieldPath = ALLMANT_JSON_ID + "." + ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID;
         final var cleanedDiabetesDiagnosAr = Strings.nullToEmpty(utlatande.getAllmant().getDiabetesDiagnosAr()).trim();
         if (cleanedDiabetesDiagnosAr.isEmpty()) {
-            addValidationError(validationMessages, CATEGORY_ALLMANT, diabetesSedanArFieldPath, ValidationMessageType.EMPTY, B_02B);
+            addValidationError(validationMessages, ALLMANT_CATEGORY_ID, diabetesSedanArFieldPath, ValidationMessageType.EMPTY, B_02B);
             return;
         }
 
@@ -314,18 +314,18 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         try {
             parsedYear = Year.parse(cleanedDiabetesDiagnosAr);
         } catch (DateTimeParseException e) {
-            addValidationError(validationMessages, CATEGORY_ALLMANT, diabetesSedanArFieldPath,
+            addValidationError(validationMessages, ALLMANT_CATEGORY_ID, diabetesSedanArFieldPath,
                 ValidationMessageType.INVALID_FORMAT, B_02B);
             return;
         }
 
         // R2
         if (ValidatorUtil.isYearBeforeBirth(parsedYear, utlatande.getGrundData().getPatient().getPersonId())) {
-            addValidationError(validationMessages, CATEGORY_ALLMANT, diabetesSedanArFieldPath,
+            addValidationError(validationMessages, ALLMANT_CATEGORY_ID, diabetesSedanArFieldPath,
                 ValidationMessageType.OTHER, D_02);
         }
         if (parsedYear.isAfter(Year.now())) {
-            addValidationError(validationMessages, CATEGORY_ALLMANT, diabetesSedanArFieldPath,
+            addValidationError(validationMessages, ALLMANT_CATEGORY_ID, diabetesSedanArFieldPath,
                 ValidationMessageType.OTHER, D_02);
         }
 
@@ -336,15 +336,16 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         final var annanTypAvDiabetesBeskrivningFieldPath = ALLMANT_JSON_ID + "." + ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID;
         final var allmant = utlatande.getAllmant();
         if (allmant.getTypAvDiabetes() == null) {
-            addValidationError(validationMessages, CATEGORY_ALLMANT, typAvDiabetesFieldPath, ValidationMessageType.EMPTY);
+            addValidationError(validationMessages, ALLMANT_CATEGORY_ID, typAvDiabetesFieldPath, ValidationMessageType.EMPTY);
         }
 
         if (eligibleForRule3(utlatande) && Strings.nullToEmpty(allmant.getBeskrivningAnnanTypAvDiabetes()).trim().isEmpty()) {
-            addValidationError(validationMessages, CATEGORY_ALLMANT, annanTypAvDiabetesBeskrivningFieldPath,
+            addValidationError(validationMessages, ALLMANT_CATEGORY_ID, annanTypAvDiabetesBeskrivningFieldPath,
                 ValidationMessageType.EMPTY);
         } else if (eligibleForRule3(utlatande)
             && Strings.nullToEmpty(allmant.getBeskrivningAnnanTypAvDiabetes()).trim().length() > MAX_FIFTY_THREE_CHARS) {
-            addValidationError(validationMessages, CATEGORY_ALLMANT, annanTypAvDiabetesBeskrivningFieldPath, ValidationMessageType.OTHER);
+            addValidationError(validationMessages, ALLMANT_CATEGORY_ID, annanTypAvDiabetesBeskrivningFieldPath,
+                ValidationMessageType.OTHER);
         }
     }
 
@@ -352,13 +353,13 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         final var medicineringForDiabetes = ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID;
         final var allmant = utlatande.getAllmant();
         if (allmant.getMedicineringForDiabetes() == null) {
-            addValidationError(validationMessages, CATEGORY_ALLMANT, medicineringForDiabetes, ValidationMessageType.EMPTY);
+            addValidationError(validationMessages, ALLMANT_CATEGORY_ID, medicineringForDiabetes, ValidationMessageType.EMPTY);
         }
     }
 
     private void validateMedicineringMedforRiskForHypoglykemi(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
         if (eligibleForRule32(utlatande) && utlatande.getAllmant().getMedicineringMedforRiskForHypoglykemi() == null) {
-            addValidationError(validationMessages, CATEGORY_ALLMANT,
+            addValidationError(validationMessages, ALLMANT_CATEGORY_ID,
                 ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID,
                 ValidationMessageType.EMPTY);
         }
@@ -368,7 +369,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         if (eligibleForRule30(utlatande)) {
             final var behandling = utlatande.getAllmant().getBehandling();
             if (behandling == null) {
-                addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID,
+                addValidationError(validationMessages, ALLMANT_CATEGORY_ID, ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID,
                     ValidationMessageType.EMPTY, "common.validation.ue-checkgroup.empty");
                 return;
             }
@@ -377,18 +378,18 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             if (isNotTrue(behandling.getInsulin())
                 && isNotTrue(behandling.getTabletter())
                 && isNotTrue(behandling.getAnnan())) {
-                addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID,
+                addValidationError(validationMessages, ALLMANT_CATEGORY_ID, ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID,
                     ValidationMessageType.EMPTY, "common.validation.ue-checkgroup.empty");
             }
 
             // R18: Om annan , ange vilken.
             if (eligibleForRule18(utlatande) && Strings.nullToEmpty(behandling.getAnnanAngeVilken()).trim().isEmpty()) {
-                addValidationError(validationMessages, CATEGORY_ALLMANT,
+                addValidationError(validationMessages, ALLMANT_CATEGORY_ID,
                     BEHANDLING_ROOT_FIELD_PATH + ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID,
                     ValidationMessageType.EMPTY);
             } else if (eligibleForRule18(utlatande)
                 && Strings.nullToEmpty(behandling.getAnnanAngeVilken()).trim().length() > MAX_FIFTY_THREE_CHARS) {
-                addValidationError(validationMessages, CATEGORY_ALLMANT,
+                addValidationError(validationMessages, ALLMANT_CATEGORY_ID,
                     BEHANDLING_ROOT_FIELD_PATH + ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID, ValidationMessageType.OTHER);
             }
         }
@@ -397,7 +398,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     private void validateMedicineringMedforRiskForHypoglykemiTidpunkt(TsDiabetesUtlatandeV4 utlatande,
         List<ValidationMessage> validationMessages) {
         if (eligibleForRule30(utlatande) && utlatande.getAllmant().getMedicineringMedforRiskForHypoglykemiTidpunkt() == null) {
-            addValidationError(validationMessages, CATEGORY_ALLMANT,
+            addValidationError(validationMessages, ALLMANT_CATEGORY_ID,
                 ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID,
                 ValidationMessageType.EMPTY);
         }
@@ -406,7 +407,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             final var patientBirthDate = ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId());
             validateDateWithinInterval(utlatande.getAllmant().getMedicineringMedforRiskForHypoglykemiTidpunkt(), patientBirthDate,
                 LocalDate.now(),
-                validationMessages, CATEGORY_ALLMANT,
+                validationMessages, ALLMANT_CATEGORY_ID,
                 ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID, D_11, D_08);
         }
     }
