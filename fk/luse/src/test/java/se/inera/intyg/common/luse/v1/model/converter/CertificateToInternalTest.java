@@ -38,6 +38,7 @@ import se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnos;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrund;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlag;
@@ -96,6 +97,7 @@ class CertificateToInternalTest {
                     Diagnos.create("kod", "kodsystem", "beskrivning", null)
                 )
             )
+            .setDiagnosgrund("diagnosgrund")
             .build();
 
         certificate = CertificateBuilder.create()
@@ -122,6 +124,9 @@ class CertificateToInternalTest {
             )
             .addElement(
                 QuestionDiagnos.toCertificate(expectedInternalCertificate.getDiagnoser(), 0, textProvider)
+            )
+            .addElement(
+                QuestionDiagnosgrund.toCertificate(expectedInternalCertificate.getDiagnosgrund(), 0, textProvider)
             )
             .build();
     }
@@ -222,5 +227,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getDiagnoser(),
             actualInternalCertificate.getDiagnoser());
+    }
+
+    @Test
+    void shallIncludeDiagnosgrund() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getDiagnosgrund(),
+            actualInternalCertificate.getDiagnosgrund());
     }
 }

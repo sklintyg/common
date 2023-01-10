@@ -30,6 +30,7 @@ import org.springframework.stereotype.Component;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnos;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrund;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlag;
@@ -78,6 +79,9 @@ public class CertificateToInternal {
             )
             .setDiagnoser(
                 QuestionDiagnos.toInternal(certificate, webcertModuleService)
+            )
+            .setDiagnosgrund(
+                QuestionDiagnosgrund.toInternal(certificate)
             )
             .build();
     }

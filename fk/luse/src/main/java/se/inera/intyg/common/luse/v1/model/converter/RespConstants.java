@@ -61,7 +61,7 @@ public class RespConstants {
     public static final String UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID = "DFR_4.3.HLP";
 
     public static final String DIAGNOS_CATEGORY_ID = "diagnos";
-    public static final String DIAGNOS_CATEGORY_TEXT_ID = "KAT_3.RBK";
+    public static final String DIAGNOS_CATEGORY_TEXT_ID = "KAT_4.RBK";
 
     public static final String DIAGNOS_CATEGORY_TEXT = "KAT_3.RBK";
     public static final String DIAGNOS_SVAR_TEXT_ID = "FRG_6.RBK";
@@ -77,12 +77,14 @@ public class RespConstants {
     public static final String DIAGNOSES_LIST_ITEM_3_ID = "diagnoser[2].diagnoskod";
 
 
-    public static final String DIAGNOSGRUND_SVAR_ID_7 = "7";
+    public static final String DIAGNOSGRUND_SVAR_ID = "7";
+    public static final String DIAGNOSGRUND_SVAR_TEXT_ID = "FRG_7.RBK";
+
     public static final String DIAGNOSGRUND_DELSVAR_ID_7 = "7.1";
     public static final String NYDIAGNOS_SVAR_ID_45 = "45";
     public static final String DIAGNOSGRUND_NYBEDOMNING_DELSVAR_ID_45 = "45.1";
     public static final String DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45 = "45.2";
-    public static final String DIAGNOSGRUND_SVAR_JSON_ID_7 = "diagnosgrund";
+    public static final String DIAGNOSGRUND_SVAR_JSON_ID = "diagnosgrund";
     public static final String DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45 = "nyBedomningDiagnosgrund";
     public static final String DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45 = "diagnosForNyBedomning";
 
