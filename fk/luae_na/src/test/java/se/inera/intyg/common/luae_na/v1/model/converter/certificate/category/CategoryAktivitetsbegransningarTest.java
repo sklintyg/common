@@ -34,7 +34,7 @@ import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategoryTest;
 
 @ExtendWith(MockitoExtension.class)
-class CategoryAktivietsbegransningarTest {
+class CategoryAktivitetsbegransningarTest {
 
     @Mock
     private CertificateTextProvider texts;
@@ -49,7 +49,7 @@ class CategoryAktivietsbegransningarTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return CategoryAktivietsbegransningar.toCertificate(3, texts);
+            return CategoryAktivitetsbegransningar.toCertificate(3, texts);
         }
 
         @Override
@@ -78,7 +78,7 @@ class CategoryAktivietsbegransningarTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return CategoryAktivietsbegransningar.toCertificate(3, texts);
+            return CategoryAktivitetsbegransningar.toCertificate(3, texts);
         }
 
         @Override

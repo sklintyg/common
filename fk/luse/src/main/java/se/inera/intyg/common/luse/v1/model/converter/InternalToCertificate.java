@@ -21,6 +21,7 @@ package se.inera.intyg.common.luse.v1.model.converter;
 
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryAktivitetsbegransningar;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryBakgrund;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryFunktionsnedsattning;
@@ -128,6 +129,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionFunktionsnedsattningAnnan.toCertificate(internalCertificate.getFunktionsnedsattningAnnan(), index++, textProvider)
+            )
+            .addElement(
+                CategoryAktivitetsbegransningar.toCertificate(index++, textProvider)
             )
             .build();
     }

@@ -16,24 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.luae_na.v1.model.converter.certificate.category;
+package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_TEXT_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION_ID;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
+import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_TEXT_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigHeader;
 
-public class CategoryAktivietsbegransningar {
+public class QuestionAktivitetsbegransningarHeader {
 
     public static CertificateDataElement toCertificate(int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
-            .id(AKTIVITETSBEGRANSNING_CATEGORY_ID)
+            .id(AKTIVITETSBEGRANSNING_SVAR_ID_17)
+            .parent(AKTIVITETSBEGRANSNING_CATEGORY_ID)
             .index(index)
             .config(
-                CertificateDataConfigCategory.builder()
-                    .text(textProvider.get(AKTIVITETSBEGRANSNING_CATEGORY_TEXT_ID))
+                CertificateDataConfigHeader.builder()
+                    .text(textProvider.get(AKTIVITETSBEGRANSNING_SVAR_TEXT_ID))
+                    .description(textProvider.get(AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION_ID))
                     .build()
             )
             .build();
