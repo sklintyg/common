@@ -36,6 +36,7 @@ import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAktivitetsbegransningar;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnos;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrund;
@@ -118,6 +119,7 @@ class CertificateToInternalTest {
             .setFunktionsnedsattningSynHorselTal("funktionsnedsattningSynHorselTal")
             .setFunktionsnedsattningBalansKoordination("funktionsnedsattningKoordination")
             .setFunktionsnedsattningAnnan("funktionsnedsattningAnnan")
+            .setAktivitetsbegransning("aktivitetsbegransning")
             .build();
 
         certificate = CertificateBuilder.create()
@@ -171,6 +173,9 @@ class CertificateToInternalTest {
                 expectedInternalCertificate.getFunktionsnedsattningBalansKoordination(), 0, textProvider))
             .addElement(QuestionFunktionsnedsattningAnnan.toCertificate(
                 expectedInternalCertificate.getFunktionsnedsattningAnnan(), 0, textProvider))
+            .addElement(
+                QuestionAktivitetsbegransningar.toCertificate(expectedInternalCertificate.getAktivitetsbegransning(), 0, textProvider)
+            )
             .build();
     }
 
@@ -347,5 +352,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(actualInternalCertificate.getFunktionsnedsattningAnnan(),
             expectedInternalCertificate.getFunktionsnedsattningAnnan());
+    }
+
+    @Test
+    void shallIncludeAktivitetsbegransning() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getAktivitetsbegransning(),
+            expectedInternalCertificate.getAktivitetsbegransning());
     }
 }

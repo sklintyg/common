@@ -26,6 +26,8 @@ import se.inera.intyg.common.luse.v1.model.converter.certificate.category.Catego
 import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryFunktionsnedsattning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryGrundForMU;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAktivitetsbegransningar;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAktivitetsbegransningarHeader;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnos;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrund;
@@ -132,6 +134,12 @@ public class InternalToCertificate {
             )
             .addElement(
                 CategoryAktivitetsbegransningar.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionAktivitetsbegransningarHeader.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionAktivitetsbegransningar.toCertificate(internalCertificate.getAktivitetsbegransning(), index++, textProvider)
             )
             .build();
     }
