@@ -47,6 +47,10 @@ public class RespConstants {
     public static final String MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION = "Detta är ett stöd för ifyllnad och ingen fråga"
         + " från Försäkringskassan. Informationen du anger här kan vara till hjälp för Försäkringskassan i deras handläggning. "
         + "Informationen du anger nedan, kommer att överföras till fältet \"{0}\" vid signering.";
+    public static final String GRUNDFORMU_JOURNALUPPGIFTER_LABEL = "KV_FKMU_0001.JOURNALUPPGIFTER.RBK";
+    public static final String GRUNDFORMU_ANHORIG_BESKRIVNING_LABEL = "KV_FKMU_0001.ANHORIG.RBK";
+    public static final String GRUNDFORMU_UNDERSOKNING_LABEL = "KV_FKMU_0001.UNDERSOKNING.RBK";
+    public static final String GRUNDFORMU_ANNAT_LABEL = "KV_FKMU_0001.ANNAT.RBK";
     public static final String UNDERLAGFINNS_SELECTED_TEXT = "Ja";
     public static final String UNDERLAGFINNS_UNSELECTED_TEXT = "Nej";
     public static final String UNDERLAGFINNS_SVAR_TEXT = "FRG_3.RBK";
