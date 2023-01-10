@@ -71,6 +71,11 @@ public final class RespConstants {
     public static final String UNDERLAG_HAMTAS_FRAN_DELSVAR_ID_4 = "4.3";
     public static final String UNDERLAG_SVAR_JSON_ID_4 = "underlag";
 
+    public static final String UNDERLAG_TYPE_TEXT_ID = "FRG_4.RBK";
+    public static final String UNDERLAG_DATUM_TEXT = "Datum";
+    public static final String UNDERLAG_INFORMATION_SOURCE_TEXT_ID = "DFR_4.3.RBK";
+    public static final String UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID = "DFR_4.3.HLP";
+
 
     public static final String SJUKDOMSFORLOPP_SVAR_ID_5 = "5";
     public static final String SJUKDOMSFORLOPP_DELSVAR_ID_5 = "5.1";
@@ -145,7 +150,8 @@ public final class RespConstants {
     public static final String FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16 = "16";
     public static final String FUNKTIONSNEDSATTNING_PAVERKAN_DELSVAR_ID_16 = "16.1";
     public static final String FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16 = "funktionsnedsattningPaverkan";
-
+    public static final String FUNKTIONSNEDSATTNING_ACCORDION_OPEN_TEXT = "Visa fritextfältet";
+    public static final String FUNKTIONSNEDSATTNING_ACCORDION_CLOSE_TEXT = "Dölj fritextfältet";
     public static final String AKTIVITETSBEGRANSNING_SVAR_ID_17 = "17";
     public static final String AKTIVITETSBEGRANSNING_DELSVAR_ID_17 = "17.1";
     public static final String AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17 = "aktivitetsbegransning";
