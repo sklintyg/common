@@ -28,8 +28,8 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KONCENTRATION_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KONCENTRATION_DESCRIPTION_ID;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_ID_10;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_JSON_ID_10;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_JSON_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KONCENTRATION_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -66,7 +66,7 @@ class QuestionFunktionsnedsattningKoncentrationTest {
 
         @Override
         protected String getId() {
-            return FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_ID_10;
+            return FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_ID;
         }
 
         @Override
@@ -105,7 +105,7 @@ class QuestionFunktionsnedsattningKoncentrationTest {
 
         @Override
         protected String getJsonId() {
-            return FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_JSON_ID_10;
+            return FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_JSON_ID;
         }
     }
 
@@ -146,7 +146,7 @@ class QuestionFunktionsnedsattningKoncentrationTest {
 
         @Override
         protected String getJsonId() {
-            return FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_JSON_ID_10;
+            return FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_JSON_ID;
         }
 
         @Override

@@ -36,14 +36,10 @@ public class RespConstants {
     public static final String KANNEDOM_SVAR_ID_2 = "2";
     public static final String KANNEDOM_SVAR_TEXT_ID = "FRG_2.RBK";
     public static final String KANNEDOM_SVAR_JSON_ID_2 = "kannedomOmPatient";
-
-
     public static final String UNDERLAGFINNS_SVAR_ID_3 = "3";
     public static final String UNDERLAGFINNS_SVAR_JSON_ID_3 = "underlagFinns";
-
     public static final String UNDERLAG_SVAR_ID_4 = "4";
     public static final String UNDERLAG_SVAR_JSON_ID_4 = "underlag";
-
     public static final String MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1 = "1.4";
     public static final String MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_TEXT = "Motivering till varför det medicinska underlaget "
         + "inte baseras på en undersökning av patienten:";
@@ -54,7 +50,6 @@ public class RespConstants {
     public static final String UNDERLAGFINNS_SELECTED_TEXT = "Ja";
     public static final String UNDERLAGFINNS_UNSELECTED_TEXT = "Nej";
     public static final String UNDERLAGFINNS_SVAR_TEXT = "FRG_3.RBK";
-
     public static final String UNDERLAG_TYPE_TEXT_ID = "FRG_4.RBK";
     public static final String UNDERLAG_DATUM_TEXT = "Datum";
     public static final String UNDERLAG_INFORMATION_SOURCE_TEXT_ID = "DFR_4.3.RBK";
@@ -68,25 +63,20 @@ public class RespConstants {
     public static final String DIAGNOS_ICD_10_LABEL = "ICD-10-SE";
     public static final String DIAGNOS_KSH_97_ID = "KSH_97_P";
     public static final String DIAGNOS_KSH_97_LABEL = "KSH97-P (Primärvård)";
-
     public static final String DIAGNOSGRUND_SVAR_ID = "7";
     public static final String DIAGNOSGRUND_SVAR_TEXT_ID = "FRG_7.RBK";
-
     public static final String DIAGNOSGRUND_NY_BEDOMNING_SVAR_ID = "45";
     public static final String DIAGNOSGRUND_NY_BEDOMNING_SVAR_TEXT_ID = "FRG_45.RBK";
     public static final String DIAGNOSGRUND_NY_BEDOMNING_SVAR_DESCRIPTION_ID = "FRG_45.HLP";
     public static final String DIAGNOSGRUND_NY_BEDOMNING_SELECTED_TEXT = "Ja";
     public static final String DIAGNOSGRUND_NY_BEDOMNING_UNSELECTED_TEXT = "Nej";
-
     public static final String DIAGNOSGRUND_FOR_NY_BEDOMNING_DELSVAR_ID = "45.2";
     public static final String DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_TEXT_ID = "DFR_45.2.RBK";
     public static final String DIAGNOSGRUND_SVAR_JSON_ID = "diagnosgrund";
     public static final String DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID = "diagnosgrundNyBedomning";
     public static final String DIAGNOSGRUND_FOR_NY_BEDOMNING_DELSVAR_JSON_ID = "diagnosgrundForNyBedomning";
-
     public static final String BAKGRUND_CATEGORY_ID = "bakgrund";
     public static final String BAKGRUND_CATEGORY_TEXT_ID = "KAT_3.RBK";
-
     public static final String SJUKDOMSFORLOPP_SVAR_ID = "5";
     public static final String SJUKDOMSFORLOPP_SVAR_JSON_ID = "sjukdomsforlopp";
     public static final String SJUKDOMSFORLOPP_SVAR_TEXT_ID = "FRG_5.RBK";
@@ -94,58 +84,43 @@ public class RespConstants {
     public static final String FUNKTIONSNEDSATTNING_CATEGORY_ID = "funktionsnedsattning";
     public static final String FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID = "KAT_5.RBK";
     public static final String FUNKTIONSNEDSATTNING_CATEGORY_DESCRIPTION_ID = "KAT_5.HLP";
-
-    public static final String FUNKTIONSNEDSATTNING_ACCORDION_OPEN_TEXT = "Visa fritextfältet";
-    public static final String FUNKTIONSNEDSATTNING_ACCORDION_CLOSE_TEXT = "Dölj fritextfältet";
-
-    public static final String FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID_8 = "8";
-    public static final String FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_ID_8 = "8.1";
+    public static final String FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID = "8";
     public static final String FUNKTIONSNEDSATTNING_INTELLEKTUELL_TEXT_ID = "FRG_8.RBK";
     public static final String FUNKTIONSNEDSATTNING_INTELLEKTUELL_DESCRIPTION_ID = "FRG_8.HLP";
     public static final String FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_TEXT_ID = "DFR_8.1.RBK";
-    public static final String FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID_8 = "funktionsnedsattningIntellektuell";
+    public static final String FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID = "funktionsnedsattningIntellektuell";
 
-    public static final String FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID_9 = "9";
-    public static final String FUNKTIONSNEDSATTNING_KOMMUNIKATION_DELSVAR_ID_9 = "9.1";
+    public static final String FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID = "9";
     public static final String FUNKTIONSNEDSATTNING_KOMMUNIKATION_TEXT_ID = "FRG_9.RBK";
     public static final String FUNKTIONSNEDSATTNING_KOMMUNIKATION_DESCRIPTION_ID = "FRG_9.HLP";
     public static final String FUNKTIONSNEDSATTNING_KOMMUNIKATION_DELSVAR_TEXT_ID = "DFR_9.1.RBK";
-    public static final String FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID_9 = "funktionsnedsattningKommunikation";
+    public static final String FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID = "funktionsnedsattningKommunikation";
 
-    public static final String FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_ID_10 = "10";
-    public static final String FUNKTIONSNEDSATTNING_KONCENTRATION_DELSVAR_ID_10 = "10.1";
+    public static final String FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_ID = "10";
     public static final String FUNKTIONSNEDSATTNING_KONCENTRATION_TEXT_ID = "FRG_10.RBK";
     public static final String FUNKTIONSNEDSATTNING_KONCENTRATION_DESCRIPTION_ID = "FRG_10.HLP";
     public static final String FUNKTIONSNEDSATTNING_KONCENTRATION_DELSVAR_TEXT_ID = "DFR_10.1.RBK";
-    public static final String FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_JSON_ID_10 = "funktionsnedsattningKoncentration";
+    public static final String FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_JSON_ID = "funktionsnedsattningKoncentration";
 
-    public static final String FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID_11 = "11";
-    public static final String FUNKTIONSNEDSATTNING_PSYKISK_DELSVAR_ID_11 = "11.1";
+    public static final String FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID = "11";
     public static final String FUNKTIONSNEDSATTNING_PSYKISK_TEXT_ID = "FRG_11.RBK";
     public static final String FUNKTIONSNEDSATTNING_PSYKISK_DESCRIPTION_ID = "FRG_11.HLP";
     public static final String FUNKTIONSNEDSATTNING_PSYKISK_DELSVAR_TEXT_ID = "DFR_11.1.RBK";
-    public static final String FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID_11 = "funktionsnedsattningPsykisk";
+    public static final String FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID = "funktionsnedsattningPsykisk";
 
-    public static final String FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID_12 = "12";
-    public static final String FUNKTIONSNEDSATTNING_SYNHORSELTAL_DELSVAR_ID_12 = "12.1";
+    public static final String FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID = "12";
     public static final String FUNKTIONSNEDSATTNING_SYNHORSELTAL_TEXT_ID = "FRG_12.RBK";
     public static final String FUNKTIONSNEDSATTNING_SYNHORSELTAL_DESCRIPTION_ID = "FRG_12.HLP";
     public static final String FUNKTIONSNEDSATTNING_SYNHORSELTAL_DELSVAR_TEXT_ID = "DFR_12.1.RBK";
-    public static final String FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_JSON_ID_12 = "funktionsnedsattningSynHorselTal";
-
-    public static final String FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID_13 = "13";
-    public static final String FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DELSVAR_ID_13 = "13.1";
+    public static final String FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_JSON_ID = "funktionsnedsattningSynHorselTal";
+    public static final String FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID = "13";
     public static final String FUNKTIONSNEDSATTNING_BALANSKOORDINATION_TEXT_ID = "FRG_13.RBK";
     public static final String FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DESCRIPTION_ID = "FRG_13.HLP";
     public static final String FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DELSVAR_TEXT_ID = "DFR_13.1.RBK";
-    public static final String FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID_13 = "funktionsnedsattningBalansKoordination";
-
-    public static final String FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14 = "14";
-    public static final String FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_ID_14 = "14.1";
+    public static final String FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID = "funktionsnedsattningBalansKoordination";
+    public static final String FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID = "14";
     public static final String FUNKTIONSNEDSATTNING_ANNAN_TEXT_ID = "FRG_14.RBK";
     public static final String FUNKTIONSNEDSATTNING_ANNAN_DESCRIPTION_ID = "FRG_14.HLP";
     public static final String FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_TEXT_ID = "DFR_14.1.RBK";
-    public static final String FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID_14 = "funktionsnedsattningAnnan";
-
-
+    public static final String FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID = "funktionsnedsattningAnnan";
 }

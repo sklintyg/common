@@ -21,23 +21,23 @@ package se.inera.intyg.common.luse.v1.model.converter.certificate.category;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID_14;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID_13;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID_13;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_DESCRIPTION_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID_8;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID_8;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID_9;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID_9;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_ID_10;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_JSON_ID_10;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID_11;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID_11;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID_12;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_JSON_ID_12;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_JSON_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_JSON_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import java.util.List;
@@ -125,32 +125,32 @@ class CategoryFunktionsnedsattningTest {
         protected List<CertificateDataValidationMandatory> getListOfQuestions() {
             return List.of(
                 CertificateDataValidationMandatory.builder()
-                    .questionId(FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID_8)
-                    .expression(singleExpression(FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID_8))
+                    .questionId(FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID)
+                    .expression(singleExpression(FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID))
                     .build(),
                 CertificateDataValidationMandatory.builder()
-                    .questionId(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID_9)
-                    .expression(singleExpression(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID_9))
+                    .questionId(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID)
+                    .expression(singleExpression(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID))
                     .build(),
                 CertificateDataValidationMandatory.builder()
-                    .questionId(FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_ID_10)
-                    .expression(singleExpression(FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_JSON_ID_10))
+                    .questionId(FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_ID)
+                    .expression(singleExpression(FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_JSON_ID))
                     .build(),
                 CertificateDataValidationMandatory.builder()
-                    .questionId(FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID_11)
-                    .expression(singleExpression(FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID_11))
+                    .questionId(FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID)
+                    .expression(singleExpression(FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID))
                     .build(),
                 CertificateDataValidationMandatory.builder()
-                    .questionId(FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID_12)
-                    .expression(singleExpression(FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_JSON_ID_12))
+                    .questionId(FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID)
+                    .expression(singleExpression(FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_JSON_ID))
                     .build(),
                 CertificateDataValidationMandatory.builder()
-                    .questionId(FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID_13)
-                    .expression(singleExpression(FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID_13))
+                    .questionId(FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID)
+                    .expression(singleExpression(FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID))
                     .build(),
                 CertificateDataValidationMandatory.builder()
-                    .questionId(FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14)
-                    .expression(singleExpression(FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID_14))
+                    .questionId(FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID)
+                    .expression(singleExpression(FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID))
                     .build()
             );
         }

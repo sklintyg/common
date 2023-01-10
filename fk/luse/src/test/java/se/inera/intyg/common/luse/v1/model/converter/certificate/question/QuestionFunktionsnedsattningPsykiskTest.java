@@ -28,8 +28,8 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_DESCRIPTION_ID;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID_11;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID_11;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -66,7 +66,7 @@ class QuestionFunktionsnedsattningPsykiskTest {
 
         @Override
         protected String getId() {
-            return FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID_11;
+            return FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID;
         }
 
         @Override
@@ -105,7 +105,7 @@ class QuestionFunktionsnedsattningPsykiskTest {
 
         @Override
         protected String getJsonId() {
-            return FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID_11;
+            return FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID;
         }
     }
 
@@ -146,7 +146,7 @@ class QuestionFunktionsnedsattningPsykiskTest {
 
         @Override
         protected String getJsonId() {
-            return FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID_11;
+            return FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID;
         }
 
         @Override

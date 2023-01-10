@@ -27,8 +27,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DESCRIPTION_ID;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID_13;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID_13;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_TEXT_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
 
@@ -66,7 +66,7 @@ class QuestionFunktionsnedsattningBalansKoordinationTest {
 
         @Override
         protected String getId() {
-            return FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID_13;
+            return FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID;
         }
 
         @Override
@@ -105,7 +105,7 @@ class QuestionFunktionsnedsattningBalansKoordinationTest {
 
         @Override
         protected String getJsonId() {
-            return FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID_13;
+            return FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID;
         }
     }
 
@@ -146,7 +146,7 @@ class QuestionFunktionsnedsattningBalansKoordinationTest {
 
         @Override
         protected String getJsonId() {
-            return FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID_13;
+            return FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID;
         }
 
         @Override

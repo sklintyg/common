@@ -20,8 +20,8 @@ package se.inera.intyg.common.luse.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_DESCRIPTION_ID;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID_12;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_JSON_ID_12;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_JSON_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_TEXT_ID;
 
 import se.inera.intyg.common.fkparent.model.converter.certificate.AbstractQuestionFunktionsnedsattning;
@@ -36,18 +36,18 @@ public class QuestionFunktionsnedsattningSynHorselTal extends AbstractQuestionFu
         CertificateTextProvider textProvider) {
         return toCertificate(
             funktionsnedattningSynHorselTal,
-            FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID_12,
+            FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID,
             FUNKTIONSNEDSATTNING_SYNHORSELTAL_TEXT_ID,
             FUNKTIONSNEDSATTNING_SYNHORSELTAL_DESCRIPTION_ID,
             FUNKTIONSNEDSATTNING_SYNHORSELTAL_DELSVAR_TEXT_ID,
-            FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_JSON_ID_12,
+            FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_JSON_ID,
             index,
             textProvider
         );
     }
 
     public static String toInternal(Certificate certificate) {
-        return ValueToolkit.textValue(certificate.getData(), FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID_12,
-            FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_JSON_ID_12);
+        return ValueToolkit.textValue(certificate.getData(), FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID,
+            FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_JSON_ID);
     }
 }

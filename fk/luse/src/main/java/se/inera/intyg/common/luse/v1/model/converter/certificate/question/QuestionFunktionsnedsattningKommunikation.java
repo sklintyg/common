@@ -20,8 +20,8 @@ package se.inera.intyg.common.luse.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_DESCRIPTION_ID;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID_9;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID_9;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_TEXT_ID;
 
 import se.inera.intyg.common.fkparent.model.converter.certificate.AbstractQuestionFunktionsnedsattning;
@@ -36,18 +36,18 @@ public class QuestionFunktionsnedsattningKommunikation extends AbstractQuestionF
         CertificateTextProvider textProvider) {
         return toCertificate(
             funktionsnedsattningKommunikation,
-            FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID_9,
+            FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID,
             FUNKTIONSNEDSATTNING_KOMMUNIKATION_TEXT_ID,
             FUNKTIONSNEDSATTNING_KOMMUNIKATION_DESCRIPTION_ID,
             FUNKTIONSNEDSATTNING_KOMMUNIKATION_DELSVAR_TEXT_ID,
-            FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID_9,
+            FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID,
             index,
             textProvider
         );
     }
 
     public static String toInternal(Certificate certificate) {
-        return ValueToolkit.textValue(certificate.getData(), FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID_9,
-            FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID_9);
+        return ValueToolkit.textValue(certificate.getData(), FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID,
+            FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID);
     }
 }

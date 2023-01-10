@@ -27,8 +27,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_DESCRIPTION_ID;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID_14;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_TEXT_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
 
@@ -66,7 +66,7 @@ class QuestionFunktionsnedsattningAnnanTest {
 
         @Override
         protected String getId() {
-            return FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14;
+            return FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID;
         }
 
         @Override
@@ -105,7 +105,7 @@ class QuestionFunktionsnedsattningAnnanTest {
 
         @Override
         protected String getJsonId() {
-            return FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID_14;
+            return FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID;
         }
     }
 
@@ -146,7 +146,7 @@ class QuestionFunktionsnedsattningAnnanTest {
 
         @Override
         protected String getJsonId() {
-            return FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID_14;
+            return FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID;
         }
 
         @Override
