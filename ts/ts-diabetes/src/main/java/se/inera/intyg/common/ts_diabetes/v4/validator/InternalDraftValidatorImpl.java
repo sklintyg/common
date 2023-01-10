@@ -52,7 +52,9 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_SVAR_ID_1;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_SVAR_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_JSON_ID;
@@ -88,9 +90,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     private static final int MAX_SEVENTY_ONE_CHARS = 71;
     private static final int MAX_HUNDRED_EIGHTY_NINE_CHARS = 189;
 
-    protected static final String CATEGORY_INTYGET_AVSER_BEHORIGHET = "intygAvser";
     protected static final String CATEGORY_ALLMANT = "allmant";
-    protected static final String CATEGORY_IDENTITET = "identitetStyrktGenom";
     protected static final String CATEGORY_HYPOGLYKEMI = "hypoglykemi";
     protected static final String CATEGORY_OVRIGT = "ovrigt";
     protected static final String CATEGORY_BEDOMNING = "bedomning";
@@ -282,14 +282,14 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     private void validateIntygetAvser(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
         final var intygAvser = utlatande.getIntygAvser() == null ? null : utlatande.getIntygAvser().getKategorier();
         if (intygAvser == null || intygAvser.isEmpty()) {
-            addValidationErrorWithQuestionId(validationMessages, CATEGORY_INTYGET_AVSER_BEHORIGHET,
+            addValidationErrorWithQuestionId(validationMessages, INTYG_AVSER_CATEGORY_ID,
                 INTYG_AVSER_SVAR_JSON_ID + ".kategorier", ValidationMessageType.EMPTY, INTYG_AVSER_SVAR_ID_1);
         }
     }
 
     private void validateIdentitetStyrkt(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
         if (utlatande.getIdentitetStyrktGenom() == null) {
-            addValidationError(validationMessages, CATEGORY_IDENTITET, IDENTITET_STYRKT_GENOM_JSON_ID + ".typ",
+            addValidationError(validationMessages, IDENTITET_CATEGORY_ID, IDENTITET_STYRKT_GENOM_JSON_ID + ".typ",
                 ValidationMessageType.EMPTY);
         }
     }

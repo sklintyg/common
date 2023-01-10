@@ -47,6 +47,8 @@ public final class RespConstants {
     public static final String INTYG_AVSER_VAR18_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR18.RBK";
 
     // Kat 2 - Identitet
+    public static final String IDENTITET_CATEGORY_ID = "identitetStyrktGenom";
+    public static final String IDENTITET_CATEGORY_TEXT_ID = "KAT_2.RBK";
     public static final String IDENTITET_STYRKT_GENOM_SVAR_ID = "2";
     public static final String IDENTITET_STYRKT_GENOM_DELSVAR_ID = "2.1";
     public static final String IDENTITET_STYRKT_GENOM_JSON_ID = "identitetStyrktGenom";
