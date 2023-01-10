@@ -29,7 +29,14 @@ import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNO
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_SVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOS_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID_13;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID_8;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID_9;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_ID_10;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID_11;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID_12;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
@@ -180,5 +187,47 @@ class InternalToCertificateTest {
     void shallIncludeCategoryFunktionsnedsattning() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(14, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionFunktionsnedsattningIntellektuell() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(15, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID_8).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionFunktionsnedsattningKommunikation() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(16, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID_9).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionFunktionsnedsattningKoncentration() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(17, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_ID_10).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionFunktionsnedsattningPsykisk() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(18, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID_11).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionFunktionsnedsattningSynHorselTal() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(19, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID_12).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionFunktionsnedsattningBalansKoordination() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(20, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID_13).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionFunktionsnedsattningAnnan() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(21, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14).getIndex());
     }
 }

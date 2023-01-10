@@ -41,6 +41,13 @@ import se.inera.intyg.common.luse.v1.model.converter.certificate.question.Questi
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrund;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrundForNyBedomning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrundNyBedomning;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningAnnan;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningBalansKoordination;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningIntellektuell;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningKommunikation;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningKoncentration;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPsykisk;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningSynHorselTal;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionSjukdomsforlopp;
@@ -104,6 +111,13 @@ class CertificateToInternalTest {
             .setNyBedomningDiagnosgrund(true)
             .setDiagnosForNyBedomning("nyBedomning")
             .setSjukdomsforlopp("sjukdomsforlopp")
+            .setFunktionsnedsattningIntellektuell("funktionsnedsattningIntellektuell")
+            .setFunktionsnedsattningKommunikation("funktionsnedsattningKommunikation")
+            .setFunktionsnedsattningKoncentration("funktionsnedsattningKoncentration")
+            .setFunktionsnedsattningPsykisk("funktionsnedsattningPsykisk")
+            .setFunktionsnedsattningSynHorselTal("funktionsnedsattningSynHorselTal")
+            .setFunktionsnedsattningBalansKoordination("funktionsnedsattningKoordination")
+            .setFunktionsnedsattningAnnan("funktionsnedsattningAnnan")
             .build();
 
         certificate = CertificateBuilder.create()
@@ -143,6 +157,20 @@ class CertificateToInternalTest {
             .addElement(
                 QuestionSjukdomsforlopp.toCertificate(expectedInternalCertificate.getSjukdomsforlopp(), 0, textProvider)
             )
+            .addElement(QuestionFunktionsnedsattningIntellektuell.toCertificate(
+                expectedInternalCertificate.getFunktionsnedsattningIntellektuell(), 0, textProvider))
+            .addElement(QuestionFunktionsnedsattningKommunikation.toCertificate(
+                expectedInternalCertificate.getFunktionsnedsattningKommunikation(), 0, textProvider))
+            .addElement(QuestionFunktionsnedsattningKoncentration.toCertificate(
+                expectedInternalCertificate.getFunktionsnedsattningKoncentration(), 0, textProvider))
+            .addElement(QuestionFunktionsnedsattningPsykisk.toCertificate(
+                expectedInternalCertificate.getFunktionsnedsattningPsykisk(), 0, textProvider))
+            .addElement(QuestionFunktionsnedsattningSynHorselTal.toCertificate(
+                expectedInternalCertificate.getFunktionsnedsattningSynHorselTal(), 0, textProvider))
+            .addElement(QuestionFunktionsnedsattningBalansKoordination.toCertificate(
+                expectedInternalCertificate.getFunktionsnedsattningBalansKoordination(), 0, textProvider))
+            .addElement(QuestionFunktionsnedsattningAnnan.toCertificate(
+                expectedInternalCertificate.getFunktionsnedsattningAnnan(), 0, textProvider))
             .build();
     }
 
@@ -270,5 +298,54 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getSjukdomsforlopp(),
             actualInternalCertificate.getSjukdomsforlopp());
+    }
+
+    @Test
+    void shallIncludeFunktionsnedsattningIntellektuell() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getFunktionsnedsattningIntellektuell(),
+            expectedInternalCertificate.getFunktionsnedsattningIntellektuell());
+    }
+
+    @Test
+    void shallIncludeFunktionsnedsattningKommunikation() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getFunktionsnedsattningKommunikation(),
+            expectedInternalCertificate.getFunktionsnedsattningKommunikation());
+    }
+
+    @Test
+    void shallIncludeFunktionsnedsattningKoncentration() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getFunktionsnedsattningKoncentration(),
+            expectedInternalCertificate.getFunktionsnedsattningKoncentration());
+    }
+
+    @Test
+    void shallIncludeFunktionsnedsattningPsykisk() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getFunktionsnedsattningPsykisk(),
+            expectedInternalCertificate.getFunktionsnedsattningPsykisk());
+    }
+
+    @Test
+    void shallIncludeFunktionsnedsattningSynHorselTal() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getFunktionsnedsattningSynHorselTal(),
+            expectedInternalCertificate.getFunktionsnedsattningSynHorselTal());
+    }
+
+    @Test
+    void shallIncludeFunktionsnedsattningBalansKoordination() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getFunktionsnedsattningBalansKoordination(),
+            expectedInternalCertificate.getFunktionsnedsattningBalansKoordination());
+    }
+
+    @Test
+    void shallIncludeFunktionsnedsattningAnnan() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getFunktionsnedsattningAnnan(),
+            expectedInternalCertificate.getFunktionsnedsattningAnnan());
     }
 }

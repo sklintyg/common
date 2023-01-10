@@ -150,7 +150,8 @@ public final class RespConstants {
     public static final String FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16 = "16";
     public static final String FUNKTIONSNEDSATTNING_PAVERKAN_DELSVAR_ID_16 = "16.1";
     public static final String FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16 = "funktionsnedsattningPaverkan";
-
+    public static final String FUNKTIONSNEDSATTNING_ACCORDION_OPEN_TEXT = "Visa fritextfältet";
+    public static final String FUNKTIONSNEDSATTNING_ACCORDION_CLOSE_TEXT = "Dölj fritextfältet";
     public static final String AKTIVITETSBEGRANSNING_SVAR_ID_17 = "17";
     public static final String AKTIVITETSBEGRANSNING_DELSVAR_ID_17 = "17.1";
     public static final String AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17 = "aktivitetsbegransning";

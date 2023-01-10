@@ -16,12 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
+package se.inera.intyg.common.fkparent.model.converter.certificate;
 
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ACCORDION_CLOSE_TEXT;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ACCORDION_OPEN_TEXT;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
-
+import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.Accordion;
@@ -34,11 +31,11 @@ public abstract class AbstractQuestionFunktionsnedsattning {
 
     private static final short TEXT_LIMIT = (short) 3500;
 
-    static CertificateDataElement toCertificate(String textValue, String questionId, String textId, String descriptionId, String headerId,
-        String jsonId, int index, CertificateTextProvider textProvider) {
+    protected static CertificateDataElement toCertificate(String textValue, String questionId, String textId, String descriptionId,
+        String headerId, String jsonId, int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
             .id(questionId)
-            .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
+            .parent(RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigTextArea.builder()
@@ -46,8 +43,8 @@ public abstract class AbstractQuestionFunktionsnedsattning {
                     .description(textProvider.get(descriptionId))
                     .accordion(
                         Accordion.builder()
-                            .openText(FUNKTIONSNEDSATTNING_ACCORDION_OPEN_TEXT)
-                            .closeText(FUNKTIONSNEDSATTNING_ACCORDION_CLOSE_TEXT)
+                            .openText(RespConstants.FUNKTIONSNEDSATTNING_ACCORDION_OPEN_TEXT)
+                            .closeText(RespConstants.FUNKTIONSNEDSATTNING_ACCORDION_CLOSE_TEXT)
                             .header(textProvider.get(headerId))
                             .build()
                     )

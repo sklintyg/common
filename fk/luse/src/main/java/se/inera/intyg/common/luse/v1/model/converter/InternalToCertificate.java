@@ -30,6 +30,13 @@ import se.inera.intyg.common.luse.v1.model.converter.certificate.question.Questi
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrund;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrundForNyBedomning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrundNyBedomning;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningAnnan;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningBalansKoordination;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningIntellektuell;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningKommunikation;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningKoncentration;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPsykisk;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningSynHorselTal;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionSjukdomsforlopp;
@@ -94,6 +101,33 @@ public class InternalToCertificate {
             )
             .addElement(
                 CategoryFunktionsnedsattning.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionFunktionsnedsattningIntellektuell.toCertificate(internalCertificate.getFunktionsnedsattningIntellektuell(), index++,
+                    textProvider)
+            )
+            .addElement(
+                QuestionFunktionsnedsattningKommunikation.toCertificate(internalCertificate.getFunktionsnedsattningKommunikation(), index++,
+                    textProvider)
+            )
+            .addElement(
+                QuestionFunktionsnedsattningKoncentration.toCertificate(internalCertificate.getFunktionsnedsattningKoncentration(), index++,
+                    textProvider)
+            )
+            .addElement(
+                QuestionFunktionsnedsattningPsykisk.toCertificate(internalCertificate.getFunktionsnedsattningPsykisk(), index++,
+                    textProvider)
+            )
+            .addElement(
+                QuestionFunktionsnedsattningSynHorselTal.toCertificate(internalCertificate.getFunktionsnedsattningSynHorselTal(), index++,
+                    textProvider)
+            )
+            .addElement(
+                QuestionFunktionsnedsattningBalansKoordination.toCertificate(
+                    internalCertificate.getFunktionsnedsattningBalansKoordination(), index++, textProvider)
+            )
+            .addElement(
+                QuestionFunktionsnedsattningAnnan.toCertificate(internalCertificate.getFunktionsnedsattningAnnan(), index++, textProvider)
             )
             .build();
     }

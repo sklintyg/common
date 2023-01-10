@@ -33,6 +33,13 @@ import se.inera.intyg.common.luse.v1.model.converter.certificate.question.Questi
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrund;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrundForNyBedomning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrundNyBedomning;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningAnnan;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningBalansKoordination;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningIntellektuell;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningKommunikation;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningKoncentration;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPsykisk;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningSynHorselTal;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionSjukdomsforlopp;
@@ -63,38 +70,24 @@ public class CertificateToInternal {
                 GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1))
             .setAnhorigsBeskrivningAvPatienten(QuestionUtlatandeBaseratPa.toInternal(certificate,
                 GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1))
-            .setAnnatGrundForMU(
-                QuestionUtlatandeBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
-            .setAnnatGrundForMUBeskrivning(
-                QuestionAnnatBeskrivning.toInternal(certificate)
-            )
-            .setMotiveringTillInteBaseratPaUndersokning(
-                QuestionMotiveringTillInteBaseratPaUndersokning.toInternal(certificate)
-            )
-            .setKannedomOmPatient(
-                QuestionKannedomOmPatient.toInternal(certificate)
-            )
-            .setUnderlagFinns(
-                QuestionUnderlagFinns.toInternal(certificate)
-            )
-            .setUnderlag(
-                QuestionUnderlag.toInternal(certificate, UNDERLAG_SVAR_ID_4)
-            )
-            .setDiagnoser(
-                QuestionDiagnos.toInternal(certificate, webcertModuleService)
-            )
-            .setDiagnosgrund(
-                QuestionDiagnosgrund.toInternal(certificate)
-            )
-            .setNyBedomningDiagnosgrund(
-                QuestionDiagnosgrundNyBedomning.toInternal(certificate)
-            )
-            .setDiagnosForNyBedomning(
-                QuestionDiagnosgrundForNyBedomning.toInternal(certificate)
-            )
-            .setSjukdomsforlopp(
-                QuestionSjukdomsforlopp.toInternal(certificate)
-            )
+            .setAnnatGrundForMU(QuestionUtlatandeBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
+            .setAnnatGrundForMUBeskrivning(QuestionAnnatBeskrivning.toInternal(certificate))
+            .setMotiveringTillInteBaseratPaUndersokning(QuestionMotiveringTillInteBaseratPaUndersokning.toInternal(certificate))
+            .setKannedomOmPatient(QuestionKannedomOmPatient.toInternal(certificate))
+            .setUnderlagFinns(QuestionUnderlagFinns.toInternal(certificate))
+            .setUnderlag(QuestionUnderlag.toInternal(certificate, UNDERLAG_SVAR_ID_4))
+            .setDiagnoser(QuestionDiagnos.toInternal(certificate, webcertModuleService))
+            .setDiagnosgrund(QuestionDiagnosgrund.toInternal(certificate))
+            .setNyBedomningDiagnosgrund(QuestionDiagnosgrundNyBedomning.toInternal(certificate))
+            .setDiagnosForNyBedomning(QuestionDiagnosgrundForNyBedomning.toInternal(certificate))
+            .setSjukdomsforlopp(QuestionSjukdomsforlopp.toInternal(certificate))
+            .setFunktionsnedsattningIntellektuell(QuestionFunktionsnedsattningIntellektuell.toInternal(certificate))
+            .setFunktionsnedsattningKommunikation(QuestionFunktionsnedsattningKommunikation.toInternal(certificate))
+            .setFunktionsnedsattningKoncentration(QuestionFunktionsnedsattningKoncentration.toInternal(certificate))
+            .setFunktionsnedsattningPsykisk(QuestionFunktionsnedsattningPsykisk.toInternal(certificate))
+            .setFunktionsnedsattningSynHorselTal(QuestionFunktionsnedsattningSynHorselTal.toInternal(certificate))
+            .setFunktionsnedsattningBalansKoordination(QuestionFunktionsnedsattningBalansKoordination.toInternal(certificate))
+            .setFunktionsnedsattningAnnan(QuestionFunktionsnedsattningAnnan.toInternal(certificate))
             .build();
     }
 }
