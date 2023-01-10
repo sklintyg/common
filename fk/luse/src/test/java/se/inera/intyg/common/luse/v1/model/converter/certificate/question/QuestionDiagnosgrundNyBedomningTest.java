@@ -21,12 +21,13 @@ package se.inera.intyg.common.luse.v1.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAGFINNS_SELECTED_TEXT;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_TEXT;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAGFINNS_UNSELECTED_TEXT;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_SELECTED_TEXT;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_SVAR_DESCRIPTION_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_SVAR_TEXT_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_UNSELECTED_TEXT;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -45,7 +46,7 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.InternalBoolea
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueBooleanTest;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionUnderlagFinnsTest {
+class QuestionDiagnosgrundNyBedomningTest {
 
     @Mock
     private CertificateTextProvider texts;
@@ -60,17 +61,17 @@ class QuestionUnderlagFinnsTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionUnderlagFinns.toCertificate(null, 0, texts);
+            return QuestionDiagnosgrundNyBedomning.toCertificate(null, 0, texts);
         }
 
         @Override
         protected String getId() {
-            return UNDERLAGFINNS_SVAR_ID_3;
+            return DIAGNOSGRUND_NY_BEDOMNING_SVAR_ID;
         }
 
         @Override
         protected String getParent() {
-            return GRUNDFORMU_CATEGORY_ID;
+            return DIAGNOS_CATEGORY_ID;
         }
 
         @Override
@@ -80,21 +81,21 @@ class QuestionUnderlagFinnsTest {
     }
 
     @Nested
-    class IncludeConfigRadioBooleanTest extends ConfigRadioBooleanTest {
+    class IncludeConfigRadioBooleanTests extends ConfigRadioBooleanTest {
 
         @Override
         protected String getId() {
-            return UNDERLAGFINNS_SVAR_JSON_ID_3;
+            return DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID;
         }
 
         @Override
         protected String getSelectedText() {
-            return UNDERLAGFINNS_SELECTED_TEXT;
+            return DIAGNOSGRUND_NY_BEDOMNING_SELECTED_TEXT;
         }
 
         @Override
         protected String getUnselectedText() {
-            return UNDERLAGFINNS_UNSELECTED_TEXT;
+            return DIAGNOSGRUND_NY_BEDOMNING_UNSELECTED_TEXT;
         }
 
         @Override
@@ -104,38 +105,38 @@ class QuestionUnderlagFinnsTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionUnderlagFinns.toCertificate(null, 0, texts);
+            return QuestionDiagnosgrundNyBedomning.toCertificate(null, 0, texts);
         }
 
         @Override
         protected String getTextId() {
-            return UNDERLAGFINNS_SVAR_TEXT;
+            return DIAGNOSGRUND_NY_BEDOMNING_SVAR_TEXT_ID;
         }
 
         @Override
         protected String getDescriptionId() {
-            return null;
+            return DIAGNOSGRUND_NY_BEDOMNING_SVAR_DESCRIPTION_ID;
         }
     }
 
     @Nested
     class IncludeValueBooleanTests extends ValueBooleanTest {
 
-        private final Boolean expectedValue = true;
+        private final boolean expectedBoolean = true;
 
         @Override
         protected String getJsonId() {
-            return UNDERLAGFINNS_SVAR_JSON_ID_3;
+            return DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID;
         }
 
         @Override
         protected Boolean getBoolean() {
-            return expectedValue;
+            return expectedBoolean;
         }
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionUnderlagFinns.toCertificate(expectedValue, 0, texts);
+            return QuestionDiagnosgrundNyBedomning.toCertificate(expectedBoolean, 0, texts);
         }
     }
 
@@ -144,17 +145,17 @@ class QuestionUnderlagFinnsTest {
 
         @Override
         protected String getQuestionId() {
-            return UNDERLAGFINNS_SVAR_ID_3;
+            return DIAGNOSGRUND_NY_BEDOMNING_SVAR_ID;
         }
 
         @Override
         protected String getExpression() {
-            return "$" + UNDERLAGFINNS_SVAR_JSON_ID_3;
+            return "$" + DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID;
         }
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionUnderlagFinns.toCertificate(null, 0, texts);
+            return QuestionDiagnosgrundNyBedomning.toCertificate(null, 0, texts);
         }
 
         @Override
@@ -165,16 +166,16 @@ class QuestionUnderlagFinnsTest {
 
     @Nested
     @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalBooleanTests extends InternalBooleanValueTest {
+    class IncludeInternalValidationBoolean extends InternalBooleanValueTest {
 
         @Override
         protected CertificateDataElement getElement(Boolean expectedValue) {
-            return QuestionUnderlagFinns.toCertificate(expectedValue, 0, texts);
+            return QuestionDiagnosgrundNyBedomning.toCertificate(expectedValue, 0, texts);
         }
 
         @Override
         protected Boolean toInternalBooleanValue(Certificate certificate) {
-            return QuestionUnderlagFinns.toInternal(certificate);
+            return QuestionDiagnosgrundNyBedomning.toInternal(certificate);
         }
     }
 }

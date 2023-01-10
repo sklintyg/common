@@ -28,15 +28,19 @@ import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNO
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigTextAreaTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationTextTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InternalTextValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
 
 @ExtendWith(MockitoExtension.class)
@@ -164,6 +168,21 @@ class QuestionDiagnosgrundTest {
         @Override
         protected int getValidationIndex() {
             return 1;
+        }
+    }
+
+    @Nested
+    @TestInstance(Lifecycle.PER_CLASS)
+    class IncludeInternalTests extends InternalTextValueTest {
+
+        @Override
+        protected CertificateDataElement getElement(String expectedValue) {
+            return QuestionDiagnosgrund.toCertificate(expectedValue, 0, texts);
+        }
+
+        @Override
+        protected String toInternalTextValue(Certificate certificate) {
+            return QuestionDiagnosgrund.toInternal(certificate);
         }
     }
 }

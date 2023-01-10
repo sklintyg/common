@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_SVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_SVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOS_SVAR_ID;
@@ -145,5 +146,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionDiagnosgrund() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(9, actualCertificate.getData().get(DIAGNOSGRUND_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionDiagnosgrundNyBedomning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(10, actualCertificate.getData().get(DIAGNOSGRUND_NY_BEDOMNING_SVAR_ID).getIndex());
     }
 }

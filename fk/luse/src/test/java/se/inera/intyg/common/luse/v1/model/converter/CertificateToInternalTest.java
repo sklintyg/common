@@ -39,6 +39,7 @@ import se.inera.intyg.common.luse.v1.model.converter.certificate.MetaDataGrundDa
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnos;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrund;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrundNyBedomning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlag;
@@ -98,6 +99,7 @@ class CertificateToInternalTest {
                 )
             )
             .setDiagnosgrund("diagnosgrund")
+            .setNyBedomningDiagnosgrund(true)
             .build();
 
         certificate = CertificateBuilder.create()
@@ -127,6 +129,9 @@ class CertificateToInternalTest {
             )
             .addElement(
                 QuestionDiagnosgrund.toCertificate(expectedInternalCertificate.getDiagnosgrund(), 0, textProvider)
+            )
+            .addElement(
+                QuestionDiagnosgrundNyBedomning.toCertificate(expectedInternalCertificate.getNyBedomningDiagnosgrund(), 0, textProvider)
             )
             .build();
     }
@@ -234,5 +239,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getDiagnosgrund(),
             actualInternalCertificate.getDiagnosgrund());
+    }
+
+    @Test
+    void shallIncludeDiagnosgrundNyBedomning() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getNyBedomningDiagnosgrund(),
+            actualInternalCertificate.getNyBedomningDiagnosgrund());
     }
 }
