@@ -43,6 +43,7 @@ import se.inera.intyg.common.luse.v1.model.converter.certificate.question.Questi
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrundNyBedomning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionSjukdomsforlopp;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlag;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlagFinns;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUtlatandeBaseratPa;
@@ -102,6 +103,7 @@ class CertificateToInternalTest {
             .setDiagnosgrund("diagnosgrund")
             .setNyBedomningDiagnosgrund(true)
             .setDiagnosForNyBedomning("nyBedomning")
+            .setSjukdomsforlopp("sjukdomsforlopp")
             .build();
 
         certificate = CertificateBuilder.create()
@@ -137,6 +139,9 @@ class CertificateToInternalTest {
             )
             .addElement(
                 QuestionDiagnosgrundForNyBedomning.toCertificate(expectedInternalCertificate.getDiagnosForNyBedomning(), 0, textProvider)
+            )
+            .addElement(
+                QuestionSjukdomsforlopp.toCertificate(expectedInternalCertificate.getSjukdomsforlopp(), 0, textProvider)
             )
             .build();
     }
@@ -258,5 +263,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getDiagnosForNyBedomning(),
             actualInternalCertificate.getDiagnosForNyBedomning());
+    }
+
+    @Test
+    void shallIncludeSjukdomsforlopp() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getSjukdomsforlopp(),
+            actualInternalCertificate.getSjukdomsforlopp());
     }
 }

@@ -34,6 +34,7 @@ import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.GRUNDF
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KANNEDOM_SVAR_ID_2;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_SVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
 
@@ -166,5 +167,11 @@ class InternalToCertificateTest {
     void shallIncludeCategoryBakgrund() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(12, actualCertificate.getData().get(BAKGRUND_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionSjukdomsforlopp() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(13, actualCertificate.getData().get(SJUKDOMSFORLOPP_SVAR_ID).getIndex());
     }
 }
