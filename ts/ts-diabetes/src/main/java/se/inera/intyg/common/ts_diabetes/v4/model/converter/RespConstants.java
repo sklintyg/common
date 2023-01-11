@@ -83,6 +83,11 @@ public final class RespConstants {
     public static final String ALLMANT_TYP_AV_DIABETES_JSON_ID = "typAvDiabetes";
     public static final String ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID = "18.2";
     public static final String ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID = "beskrivningAnnanTypAvDiabetes";
+    public static final String ALLMANT_TYP_AV_DIABETES_TEXT_ID = "FRG_18.RBK";
+    public static final String ALLMANT_TYP_AV_DIABETES_TYP1_LABEL_ID = "SVAR_TYP1.RBK";
+    public static final String ALLMANT_TYP_AV_DIABETES_TYP2_LABEL_ID = "SVAR_TYP2.RBK";
+    public static final String ALLMANT_TYP_AV_DIABETES_LADA_LABEL_ID = "SVAR_LADA.RBK";
+    public static final String ALLMANT_TYP_AV_DIABETES_ANNAN_LABEL_ID = "SVAR_ANNAN.RBK";
 
     public static final String ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID = "207";
     public static final String ALLMANT_MEDICINERING_FOR_DIABETES_DELSVAR_ID = "207.1";

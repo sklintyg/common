@@ -22,6 +22,7 @@ package se.inera.intyg.common.ts_diabetes.v4.model.converter;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesTyp;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionIdentitetStyrktGenom;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionPatientenFoljsAv;
@@ -41,6 +42,7 @@ public class CertificateToInternal {
             .setAllmant(
                 Allmant.builder()
                     .setPatientenFoljsAv(QuestionPatientenFoljsAv.toInternal(certificate))
+                    .setTypAvDiabetes(QuestionDiabetesTyp.toInternal(certificate))
                     .build()
             )
             .build();
