@@ -54,6 +54,7 @@ import se.inera.intyg.common.luse.v1.model.converter.certificate.question.Questi
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPagaendeBehandling;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPlaneradBehandling;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingSubstansintag;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskaForutsattningarForArbete;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionSjukdomsforlopp;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlag;
@@ -128,6 +129,7 @@ class CertificateToInternalTest {
             .setPagaendeBehandling("pagaendeBehandling")
             .setPlaneradBehandling("planeradBehandling")
             .setSubstansintag("substansintag")
+            .setMedicinskaForutsattningarForArbete("medicinskaForutsattningarForArbete")
             .build();
 
         certificate = CertificateBuilder.create()
@@ -198,6 +200,10 @@ class CertificateToInternalTest {
             )
             .addElement(
                 QuestionMedicinskBehandlingSubstansintag.toCertificate(expectedInternalCertificate.getSubstansintag(), 0, textProvider)
+            )
+            .addElement(
+                QuestionMedicinskaForutsattningarForArbete.toCertificate(
+                    expectedInternalCertificate.getMedicinskaForutsattningarForArbete(), 0, textProvider)
             )
             .build();
     }
@@ -410,5 +416,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(actualInternalCertificate.getSubstansintag(),
             expectedInternalCertificate.getSubstansintag());
+    }
+
+    @Test
+    void shallIncludeMedicinskaForutsattningarForArbete() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getMedicinskaForutsattningarForArbete(),
+            expectedInternalCertificate.getMedicinskaForutsattningarForArbete());
     }
 }
