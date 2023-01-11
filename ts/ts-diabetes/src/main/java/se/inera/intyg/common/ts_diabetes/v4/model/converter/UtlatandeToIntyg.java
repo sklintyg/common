@@ -41,7 +41,7 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID_205;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_OVRIGA_KOMMENTARER_DELSVAR_ID;
@@ -173,7 +173,7 @@ public final class UtlatandeToIntyg {
 
     private static void buildAllmant(Allmant allmant, List<Svar> svars) {
         if (allmant.getPatientenFoljsAv() != null) {
-            svars.add(aSvar(ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID)
+            svars.add(aSvar(ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID_205)
                 .withDelsvar(ALLMANT_PATIENTEN_FOLJS_AV_DELSVAR_ID,
                     aCV(KV_VARDNIVA_CODE_SYSTEM, allmant.getPatientenFoljsAv().getCode(),
                         allmant.getPatientenFoljsAv().getDescription()))

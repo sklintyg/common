@@ -24,10 +24,12 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.category.CategoryAllmant;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.category.CategoryIdentitet;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.category.CategoryIntygetAvser;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionIdentitetStyrktGenom;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionIntygetAvser;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionPatientenFoljsAv;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
 
 @Component(value = "internalToCertificateTsDiabetesV4")
@@ -40,7 +42,9 @@ public class InternalToCertificate {
             .addElement(CategoryIntygetAvser.toCertificate(index++, textProvider))
             .addElement(QuestionIntygetAvser.toCertificate(internalCertificate.getIntygAvser(), index++, textProvider))
             .addElement(CategoryIdentitet.toCertificate(index++, textProvider))
-            .addElement(QuestionIdentitetStyrktGenom.toCertificate(internalCertificate.getIdentitetStyrktGenom(), index, textProvider))
+            .addElement(QuestionIdentitetStyrktGenom.toCertificate(internalCertificate.getIdentitetStyrktGenom(), index++, textProvider))
+            .addElement(CategoryAllmant.toCertificate(index++, textProvider))
+            .addElement(QuestionPatientenFoljsAv.toCertificate(internalCertificate.getAllmant(), index, textProvider))
             .build();
     }
 }

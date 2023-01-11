@@ -77,7 +77,7 @@ public final class TransportToInternal {
                 case RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID_2:
                     handleIdentitetStyrkt(utlatande, svar);
                     break;
-                case RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID:
+                case RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID_205:
                     handleAllmantPatientenFoljsAv(allmant, svar);
                     break;
                 case RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID:
