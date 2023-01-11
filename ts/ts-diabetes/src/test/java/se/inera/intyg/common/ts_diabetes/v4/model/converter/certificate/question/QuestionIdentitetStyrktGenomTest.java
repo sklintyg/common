@@ -219,7 +219,7 @@ class QuestionIdentitetStyrktGenomTest {
             protected List<InputExpectedValuePair<IdKontroll, IdKontroll>> inputExpectedValuePairList() {
                 return List.of(
                     new InputExpectedValuePair<>(
-                        null, IdKontroll.create(null)),
+                        null, null),
                     new InputExpectedValuePair<>(
                         IdKontroll.create(KvIdKontroll.PERS_KANNEDOM),
                         IdKontroll.create(KvIdKontroll.PERS_KANNEDOM))

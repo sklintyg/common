@@ -117,7 +117,7 @@ public class QuestionIdentitetStyrktGenom {
     public static IdKontroll toInternal(Certificate certificate) {
         final var codeValue = codeValue(certificate.getData(), IDENTITET_STYRKT_GENOM_SVAR_ID);
         if (codeValue == null || codeValue.isEmpty()) {
-            return IdKontroll.create(null);
+            return null;
         }
         return IdKontroll.create(KvIdKontroll.fromCode(codeValue));
     }
