@@ -70,8 +70,8 @@ public abstract class AbstractQuestionUnderlag {
 
     private static final short LIMIT = 0;
 
-    public static CertificateDataElement toCertificate(List<Underlag> underlag, int index, CertificateTextProvider texts, String questionId,
-        String parentId) {
+    public static CertificateDataElement toCertificate(List<Underlag> underlag, String questionId, String parentId, int index,
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(questionId)
             .parent(parentId)
