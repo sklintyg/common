@@ -161,15 +161,31 @@ public class RespConstants {
     public static final String CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE_TEXT_ID = "KAT_8.RBK";
 
     public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22 = "22";
-    public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22 = "22.1";
     public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_TEXT_ID = "FRG_22.RBK";
     public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_DESCRIPTION_ID = "FRG_22.HLP";
     public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22 = "medicinskaForutsattningarForArbete";
 
     public static final String FORMAGATROTSBEGRANSNING_SVAR_ID_23 = "23";
-    public static final String FORMAGATROTSBEGRANSNING_DELSVAR_ID_23 = "23.1";
     public static final String FORMAGATROTSBEGRANSNING_TEXT_ID = "FRG_23.RBK";
     public static final String FORMAGATROTSBEGRANSNING_DESCRIPTION_ID = "FRG_23.HLP";
     public static final String FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23 = "formagaTrotsBegransning";
+    public static final String OVRIGT_CATEGORY_ID = "ovrigt";
+    public static final String OVRIGT_CATEGORY_TEXT_ID = "KAT_9.RBK";
 
+    public static final String OVRIGT_SVAR_ID_25 = "25";
+    public static final String OVRIGT_DELSVAR_ID_25 = "25.1";
+    public static final String OVRIGT_TEXT_ID = "FRG_25.RBK";
+    public static final String OVRIGT_SVAR_JSON_ID_25 = "ovrigt";
+
+    public static final String KONTAKT_CATEGORY_ID = "kontakt";
+    public static final String KONTAKT_CATEGORY_TEXT_ID = "KAT_10.RBK";
+    public static final String KONTAKT_ONSKAS_SVAR_ID_26 = "26";
+    public static final String KONTAKT_ONSKAS_SVAR_JSON_ID_26 = "kontaktMedFk";
+    public static final String KONTAKT_ONSKAS_SVAR_TEXT_ID = "FRG_26.RBK";
+    public static final String KONTAKT_ONSKAS_SVAR_DESCRIPTION_ID = "FRG_26.HLP";
+    public static final String KONTAKT_ONSKAS_DELSVAR_ID_26 = "26.1";
+    public static final String KONTAKT_ONSKAS_DELSVAR_TEXT_ID = "DFR_26.1.RBK";
+    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26 = "26.2";
+    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26 = "anledningTillKontakt";
+    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT_ID = "DFR_26.2.RBK";
 }

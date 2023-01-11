@@ -28,6 +28,7 @@ import se.inera.intyg.common.luse.v1.model.converter.certificate.category.Catego
 import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryGrundForMU;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryMedicinskBehandling;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryMedicinskaForutsattningarForArbete;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryOvrigt;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAktivitetsbegransningar;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAktivitetsbegransningarHeader;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
@@ -192,6 +193,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionFormagaTrotsBegransning.toCertificate(internalCertificate.getFormagaTrotsBegransning(), index++, textProvider)
+            )
+            .addElement(
+                CategoryOvrigt.toCertificate(index++, textProvider)
             )
             .build();
     }
