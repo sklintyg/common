@@ -71,13 +71,13 @@ public final class TransportToInternal {
 
         for (Svar svar : source.getSvar()) {
             switch (svar.getId()) {
-                case RespConstants.INTYG_AVSER_SVAR_ID_1:
+                case RespConstants.INTYG_AVSER_SVAR_ID:
                     handleIntygAvser(intygAvserSet, svar);
                     break;
-                case RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID_2:
+                case RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID:
                     handleIdentitetStyrkt(utlatande, svar);
                     break;
-                case RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID_205:
+                case RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID:
                     handleAllmantPatientenFoljsAv(allmant, svar);
                     break;
                 case RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID:

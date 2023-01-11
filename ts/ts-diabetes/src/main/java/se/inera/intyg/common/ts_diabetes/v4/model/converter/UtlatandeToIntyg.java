@@ -41,7 +41,7 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID_205;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_OVRIGA_KOMMENTARER_DELSVAR_ID;
@@ -72,9 +72,9 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID_2;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_SVAR_ID_1;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DELSVAR_ID;
@@ -132,7 +132,7 @@ public final class UtlatandeToIntyg {
             int intygAvserInstans = 1;
             for (IntygAvserKategori intygAvserKategori : source.getIntygAvser().getKategorier()) {
                 final var korkortsbehorighetKod = KorkortsbehorighetKod.fromCode(intygAvserKategori.name());
-                svars.add(aSvar(INTYG_AVSER_SVAR_ID_1, intygAvserInstans++)
+                svars.add(aSvar(INTYG_AVSER_SVAR_ID, intygAvserInstans++)
                     .withDelsvar(INTYG_AVSER_DELSVAR_ID,
                         aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, korkortsbehorighetKod.getCode(), korkortsbehorighetKod.getDescription()))
                     .build());
@@ -141,7 +141,7 @@ public final class UtlatandeToIntyg {
 
         // Kat 2 - Identitet
         if (source.getIdentitetStyrktGenom() != null && source.getIdentitetStyrktGenom().getTyp() != null) {
-            svars.add(aSvar(IDENTITET_STYRKT_GENOM_SVAR_ID_2)
+            svars.add(aSvar(IDENTITET_STYRKT_GENOM_SVAR_ID)
                 .withDelsvar(IDENTITET_STYRKT_GENOM_DELSVAR_ID,
                     aCV(KV_ID_KONTROLL_CODE_SYSTEM, source.getIdentitetStyrktGenom().getTyp().getCode(),
                         source.getIdentitetStyrktGenom().getTyp().getDescription()))
@@ -173,7 +173,7 @@ public final class UtlatandeToIntyg {
 
     private static void buildAllmant(Allmant allmant, List<Svar> svars) {
         if (allmant.getPatientenFoljsAv() != null) {
-            svars.add(aSvar(ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID_205)
+            svars.add(aSvar(ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID)
                 .withDelsvar(ALLMANT_PATIENTEN_FOLJS_AV_DELSVAR_ID,
                     aCV(KV_VARDNIVA_CODE_SYSTEM, allmant.getPatientenFoljsAv().getCode(),
                         allmant.getPatientenFoljsAv().getDescription()))

@@ -25,7 +25,7 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_DESCRIPTION_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_PRIMARVARD_LABEL_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_SPECIALISTVARD_LABEL_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID_205;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_TEXT_ID;
 
 import java.util.List;
@@ -46,7 +46,7 @@ public class QuestionPatientenFoljsAv {
     public static CertificateDataElement toCertificate(Allmant allmant, int index, CertificateTextProvider texts) {
         final var patientenFoljsAv = allmant != null && allmant.getPatientenFoljsAv() != null ? allmant.getPatientenFoljsAv() : null;
         return CertificateDataElement.builder()
-            .id(ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID_205)
+            .id(ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID)
             .index(index)
             .parent(ALLMANT_CATEGORY_ID)
             .config(
@@ -78,7 +78,7 @@ public class QuestionPatientenFoljsAv {
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID_205)
+                        .questionId(ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID)
                         .expression(
                             multipleOrExpression(KvVardniva.PRIMARVARD.getCode(), KvVardniva.SPECIALISTVARD.getCode())
                         )
@@ -89,7 +89,7 @@ public class QuestionPatientenFoljsAv {
     }
 
     public static KvVardniva toInternal(Certificate certificate) {
-        final var codeValue = codeValue(certificate.getData(), ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID_205);
+        final var codeValue = codeValue(certificate.getData(), ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID);
         if (codeValue == null || codeValue.isEmpty()) {
             return null;
         }

@@ -22,7 +22,7 @@ import static se.inera.intyg.common.support.facade.util.ValidationExpressionTool
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_SVAR_DESCRIPTION_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_SVAR_ID_1;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_SVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_VAR12_LABEL_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_VAR13_LABEL_ID;
@@ -65,7 +65,7 @@ public class QuestionIntygetAvser {
         CertificateTextProvider texts) {
         final var intygetAvserKategorier = intygAvser != null && intygAvser.getKategorier() != null ? intygAvser.getKategorier() : null;
         return CertificateDataElement.builder()
-            .id(INTYG_AVSER_SVAR_ID_1)
+            .id(INTYG_AVSER_SVAR_ID)
             .parent(INTYG_AVSER_CATEGORY_ID)
             .index(index)
             .config(
@@ -155,7 +155,7 @@ public class QuestionIntygetAvser {
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(INTYG_AVSER_SVAR_ID_1)
+                        .questionId(INTYG_AVSER_SVAR_ID)
                         .expression(
                             multipleOrExpression(IntygAvserKategori.VAR12.name(), IntygAvserKategori.VAR13.name(),
                                 IntygAvserKategori.VAR14.name(), IntygAvserKategori.VAR15.name(), IntygAvserKategori.VAR16.name(),
@@ -178,7 +178,7 @@ public class QuestionIntygetAvser {
     }
 
     public static IntygAvser toInternal(Certificate certificate) {
-        final var certificateDataValueCodes = codeListValue(certificate.getData(), INTYG_AVSER_SVAR_ID_1);
+        final var certificateDataValueCodes = codeListValue(certificate.getData(), INTYG_AVSER_SVAR_ID);
         if (certificateDataValueCodes.isEmpty()) {
             return IntygAvser.create(EnumSet.noneOf(IntygAvserKategori.class));
         }

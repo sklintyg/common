@@ -26,7 +26,7 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_DESCRIPTION_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_PRIMARVARD_LABEL_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_SPECIALISTVARD_LABEL_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID_205;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_TEXT_ID;
 
 import java.util.List;
@@ -75,7 +75,7 @@ class QuestionPatientenFoljsAvTest {
 
         @Override
         protected String getId() {
-            return ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID_205;
+            return ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID;
         }
 
         @Override
@@ -157,7 +157,7 @@ class QuestionPatientenFoljsAvTest {
 
         @Override
         protected String getQuestionId() {
-            return ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID_205;
+            return ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID;
         }
 
         @Override
@@ -216,7 +216,7 @@ class QuestionPatientenFoljsAvTest {
                 .addElement(QuestionPatientenFoljsAv.toCertificate(null, 0, textProvider))
                 .build();
 
-            certificate.getData().put(ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID_205, CertificateDataElement.builder()
+            certificate.getData().put(ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID, CertificateDataElement.builder()
                 .value(
                     CertificateDataValueCode.builder()
                         .id("")

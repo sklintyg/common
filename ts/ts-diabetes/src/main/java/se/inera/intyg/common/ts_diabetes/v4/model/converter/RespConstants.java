@@ -23,7 +23,7 @@ public final class RespConstants {
     // Kat 1 - Intyget avser
     public static final String INTYG_AVSER_CATEGORY_ID = "intygAvser";
     public static final String INTYG_AVSER_CATEGORY_TEXT_ID = "KAT_1.RBK";
-    public static final String INTYG_AVSER_SVAR_ID_1 = "1";
+    public static final String INTYG_AVSER_SVAR_ID = "1";
     public static final String INTYG_AVSER_DELSVAR_ID = "1.1";
     public static final String INTYG_AVSER_SVAR_JSON_ID = "intygAvser";
     public static final String INTYG_AVSER_SVAR_TEXT_ID = "FRG_1.RBK";
@@ -49,7 +49,7 @@ public final class RespConstants {
     // Kat 2 - Identitet
     public static final String IDENTITET_CATEGORY_ID = "identitetStyrktGenom";
     public static final String IDENTITET_CATEGORY_TEXT_ID = "KAT_2.RBK";
-    public static final String IDENTITET_STYRKT_GENOM_SVAR_ID_2 = "2";
+    public static final String IDENTITET_STYRKT_GENOM_SVAR_ID = "2";
     public static final String IDENTITET_STYRKT_GENOM_DELSVAR_ID = "2.1";
     public static final String IDENTITET_STYRKT_GENOM_JSON_ID = "identitetStyrktGenom";
     public static final String IDENTITET_STYRKT_GENOM_TEXT_ID = "FRG_2.RBK";
@@ -65,7 +65,7 @@ public final class RespConstants {
     public static final String ALLMANT_CATEGORY_ID = "allmant";
     public static final String ALLMANT_CATEGORY_TEXT_ID = "KAT_3.RBK";
     public static final String ALLMANT_JSON_ID = "allmant";
-    public static final String ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID_205 = "205";
+    public static final String ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID = "205";
     public static final String ALLMANT_PATIENTEN_FOLJS_AV_DELSVAR_ID = "205.1";
     public static final String ALLMANT_PATIENTEN_FOLJS_AV_JSON_ID = "patientenFoljsAv";
     public static final String ALLMANT_PATIENTEN_FOLJS_AV_PRIMARVARD_LABEL_ID = "KV_VARDNIVA_VN1.RBK";

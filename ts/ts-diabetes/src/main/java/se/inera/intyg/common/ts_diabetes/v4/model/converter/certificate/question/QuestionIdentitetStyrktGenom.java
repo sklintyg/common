@@ -28,7 +28,7 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_KORKORT_TEXT_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_PASS_TEXT_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_PERS_KANNEDOM_TEXT_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID_2;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_TEXT_ID;
 
 import java.util.Arrays;
@@ -50,7 +50,7 @@ public class QuestionIdentitetStyrktGenom {
     public static CertificateDataElement toCertificate(IdKontroll idKontroll, int index, CertificateTextProvider textProvider) {
         final var identitetStyrktGenom = idKontroll != null && idKontroll.getTyp() != null ? idKontroll.getTyp() : null;
         return CertificateDataElement.builder()
-            .id(IDENTITET_STYRKT_GENOM_SVAR_ID_2)
+            .id(IDENTITET_STYRKT_GENOM_SVAR_ID)
             .index(index)
             .parent(IDENTITET_CATEGORY_ID)
             .config(
@@ -97,7 +97,7 @@ public class QuestionIdentitetStyrktGenom {
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
-                        .questionId(IDENTITET_STYRKT_GENOM_SVAR_ID_2)
+                        .questionId(IDENTITET_STYRKT_GENOM_SVAR_ID)
                         .expression(
                             multipleOrExpression(
                                 IdKontrollKod.ID_KORT.getCode(),
@@ -115,7 +115,7 @@ public class QuestionIdentitetStyrktGenom {
     }
 
     public static IdKontroll toInternal(Certificate certificate) {
-        final var codeValue = codeValue(certificate.getData(), IDENTITET_STYRKT_GENOM_SVAR_ID_2);
+        final var codeValue = codeValue(certificate.getData(), IDENTITET_STYRKT_GENOM_SVAR_ID);
         if (codeValue == null || codeValue.isEmpty()) {
             return IdKontroll.create(null);
         }

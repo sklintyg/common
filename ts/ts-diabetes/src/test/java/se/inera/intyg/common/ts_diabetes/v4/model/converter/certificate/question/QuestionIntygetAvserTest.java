@@ -24,7 +24,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_SVAR_DESCRIPTION_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_SVAR_ID_1;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_SVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_VAR12_LABEL_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_VAR13_LABEL_ID;
@@ -97,7 +97,7 @@ class QuestionIntygetAvserTest {
 
             @Override
             protected String getId() {
-                return INTYG_AVSER_SVAR_ID_1;
+                return INTYG_AVSER_SVAR_ID;
             }
 
             @Override
@@ -250,7 +250,7 @@ class QuestionIntygetAvserTest {
 
             @Override
             protected String getQuestionId() {
-                return INTYG_AVSER_SVAR_ID_1;
+                return INTYG_AVSER_SVAR_ID;
             }
 
             @Override
@@ -317,7 +317,7 @@ class QuestionIntygetAvserTest {
                 .addElement(QuestionIntygetAvser.toCertificate(expectedValue, 0, texts))
                 .build();
 
-            certificate.getData().put(INTYG_AVSER_SVAR_ID_1, CertificateDataElement.builder()
+            certificate.getData().put(INTYG_AVSER_SVAR_ID, CertificateDataElement.builder()
                 .value(
                     CertificateDataValueCodeList.builder()
                         .list(
