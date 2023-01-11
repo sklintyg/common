@@ -25,6 +25,7 @@ import static se.inera.intyg.common.support.validate.ValidatorUtil.addValidation
 import static se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_CATEGORY_ID;
@@ -376,8 +377,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         if (eligibleForRule30(utlatande)) {
             final var behandling = utlatande.getAllmant().getBehandling();
             if (behandling == null) {
-                addValidationError(validationMessages, ALLMANT_CATEGORY_ID, ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID,
-                    ValidationMessageType.EMPTY, "common.validation.ue-checkgroup.empty");
+                addValidationErrorWithQuestionId(validationMessages, ALLMANT_CATEGORY_ID,
+                    ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID, ValidationMessageType.EMPTY,
+                    "common.validation.ue-checkgroup.empty", ALLMANT_BEHANDLING_SVAR_ID);
                 return;
             }
 
@@ -385,8 +387,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             if (isNotTrue(behandling.getInsulin())
                 && isNotTrue(behandling.getTabletter())
                 && isNotTrue(behandling.getAnnan())) {
-                addValidationError(validationMessages, ALLMANT_CATEGORY_ID, ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID,
-                    ValidationMessageType.EMPTY, "common.validation.ue-checkgroup.empty");
+                addValidationErrorWithQuestionId(validationMessages, ALLMANT_CATEGORY_ID,
+                    ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID,
+                    ValidationMessageType.EMPTY, "common.validation.ue-checkgroup.empty", ALLMANT_BEHANDLING_SVAR_ID);
             }
 
             // R18: Om annan , ange vilken.
