@@ -25,6 +25,7 @@ import static se.inera.intyg.common.support.validate.ValidatorUtil.addValidation
 import static se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID;
@@ -331,7 +332,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             addValidationError(validationMessages, ALLMANT_CATEGORY_ID, diabetesSedanArFieldPath,
                 ValidationMessageType.OTHER, D_02);
         }
-
     }
 
     private void validateTypAvDiabetes(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
@@ -344,12 +344,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         }
 
         if (eligibleForRule3(utlatande) && Strings.nullToEmpty(allmant.getBeskrivningAnnanTypAvDiabetes()).trim().isEmpty()) {
-            addValidationError(validationMessages, ALLMANT_CATEGORY_ID, annanTypAvDiabetesBeskrivningFieldPath,
-                ValidationMessageType.EMPTY);
+            addValidationErrorWithQuestionId(validationMessages, ALLMANT_CATEGORY_ID, annanTypAvDiabetesBeskrivningFieldPath,
+                ValidationMessageType.EMPTY, ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID);
         } else if (eligibleForRule3(utlatande)
             && Strings.nullToEmpty(allmant.getBeskrivningAnnanTypAvDiabetes()).trim().length() > MAX_FIFTY_THREE_CHARS) {
-            addValidationError(validationMessages, ALLMANT_CATEGORY_ID, annanTypAvDiabetesBeskrivningFieldPath,
-                ValidationMessageType.OTHER);
+            addValidationErrorWithQuestionId(validationMessages, ALLMANT_CATEGORY_ID, annanTypAvDiabetesBeskrivningFieldPath,
+                ValidationMessageType.OTHER, ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID);
         }
     }
 
