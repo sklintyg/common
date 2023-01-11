@@ -22,23 +22,9 @@ public class RespConstants {
 
     public static final String DIAGNOS_CATEGORY_ID = "diagnos";
     public static final String DIAGNOS_SVAR_ID_6 = "6";
-    public static final String DIAGNOS_BESKRIVNING_DELSVAR_ID_6 = "6.1";
-    public static final String DIAGNOS_DELSVAR_ID_6 = "6.2";
-    public static final String BIDIAGNOS_1_BESKRIVNING_DELSVAR_ID_6 = "6.3";
-    public static final String BIDIAGNOS_1_DELSVAR_ID_6 = "6.4";
-    public static final String BIDIAGNOS_2_BESKRIVNING_DELSVAR_ID_6 = "6.5";
-    public static final String BIDIAGNOS_2_DELSVAR_ID_6 = "6.6";
-    public static final String DIAGNOS_SVAR_JSON_ID_6 = "diagnoser";
     public static final String DIAGNOS_CATEGORY_TEXT_ID = "KAT_4.RBK";
     public static final String DIAGNOS_SVAR_TEXT_ID = "FRG_6.RBK";
     public static final String DIAGNOS_SVAR_DESCRIPTION_ID = "FRG_6.HLP";
-    public static final String DIAGNOS_DELSVAR_TEXT_ID = "DFR_6.2.RBK";
-    public static final String DIAGNOS_ICD_10_ID = "ICD_10_SE";
-    public static final String DIAGNOS_ICD_10_LABEL = "ICD-10-SE";
-    public static final String DIAGNOS_KSH_97_ID = "KSH_97_P";
-    public static final String DIAGNOS_KSH_97_LABEL = "KSH97-P (Primärvård)";
-
-
     public static final String DIAGNOSGRUND_SVAR_ID_7 = "7";
     public static final String DIAGNOSGRUND_TEXT_ID = "FRG_7.RBK";
     public static final String DIAGNOSGRUND_DELSVAR_ID_7 = "7.1";
@@ -103,19 +89,15 @@ public class RespConstants {
     public static final String UNDERLAGFINNS_SELECTED_TEXT = "Ja";
     public static final String UNDERLAGFINNS_UNSELECTED_TEXT = "Nej";
     public static final String UNDERLAGFINNS_SVAR_TEXT = "FRG_3.RBK";
-
     public static final String UNDERLAG_TYPE_TEXT_ID = "FRG_4.RBK";
     public static final String UNDERLAG_DATUM_TEXT = "Datum";
     public static final String UNDERLAG_HAMTAS_FRAN_DELSVAR_ID_4 = "4.3";
-
     public static final String UNDERLAG_DATUM_DELSVAR_ID_4 = "4.2";
     public static final String UNDERLAG_INFORMATION_SOURCE_TEXT_ID = "DFR_4.3.RBK";
     public static final String UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID = "DFR_4.3.HLP";
     public static final String UNDERLAG_CODE_SYSTEM = "KV_FKMU_0005";
-
     public static final String BAKGRUND_CATEGORY_ID = "bakgrund";
     public static final String BAKGRUND_CATEGORY_TEXT_ID = "KAT_3.RBK";
-
     public static final String SJUKDOMSFORLOPP_SVAR_ID_5 = "5";
     public static final String SJUKDOMSFORLOPP_DELSVAR_ID_5 = "5.1";
     public static final String SJUKDOMSFORLOPP_SVAR_JSON_ID_5 = "sjukdomsforlopp";
@@ -124,10 +106,6 @@ public class RespConstants {
     public static final String FUNKTIONSNEDSATTNING_CATEGORY_ID = "funktionsnedsattning";
     public static final String FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID = "KAT_5.RBK";
     public static final String FUNKTIONSNEDSATTNING_CATEGORY_DESCRIPTION_ID = "KAT_5.HLP";
-
-    public static final String FUNKTIONSNEDSATTNING_ACCORDION_OPEN_TEXT = "Visa fritextfältet";
-    public static final String FUNKTIONSNEDSATTNING_ACCORDION_CLOSE_TEXT = "Dölj fritextfältet";
-
     public static final String FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID_8 = "8";
     public static final String FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_ID_8 = "8.1";
     public static final String FUNKTIONSNEDSATTNING_INTELLEKTUELL_TEXT_ID = "FRG_8.RBK";
