@@ -124,6 +124,7 @@ public final class RespConstants {
     public static final String ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_DELSVAR_ID = "210.1";
     public static final String ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID
         = "medicineringMedforRiskForHypoglykemiTidpunkt";
+    public static final String ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_TEXT_ID = "FRG_210.RBK";
 
     // Kat 4 - Hypoglykemi
     public static final String HYPOGLYKEMI_JSON_ID = "hypoglykemi";

@@ -37,6 +37,7 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID_205;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_JSON_ID;
@@ -410,20 +411,19 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     private void validateMedicineringMedforRiskForHypoglykemiTidpunkt(TsDiabetesUtlatandeV4 utlatande,
         List<ValidationMessage> validationMessages) {
         if (eligibleForRule30(utlatande) && utlatande.getAllmant().getMedicineringMedforRiskForHypoglykemiTidpunkt() == null) {
-            addValidationError(validationMessages, ALLMANT_CATEGORY_ID,
+            addValidationErrorWithQuestionId(validationMessages, ALLMANT_CATEGORY_ID,
                 ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID,
-                ValidationMessageType.EMPTY);
+                ValidationMessageType.EMPTY, ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID);
         }
 
         if (eligibleForRule19(utlatande)) {
             final var patientBirthDate = ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId());
-            validateDateWithinInterval(utlatande.getAllmant().getMedicineringMedforRiskForHypoglykemiTidpunkt(), patientBirthDate,
-                LocalDate.now(),
-                validationMessages, ALLMANT_CATEGORY_ID,
-                ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID, D_11, D_08);
+            validateDateWithinIntervalWithQuestionId(utlatande.getAllmant().getMedicineringMedforRiskForHypoglykemiTidpunkt(),
+                patientBirthDate, LocalDate.now(), validationMessages, ALLMANT_CATEGORY_ID,
+                ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID, D_11, D_08,
+                ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID);
         }
     }
-
 
     private void validateKontrollSjukdomstillstand(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
         final var hypoglykemi = utlatande.getHypoglykemi();
@@ -606,35 +606,41 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
 
     // CHECKSTYLE:OFF ParameterNumber
     private boolean validateDateWithinInterval(InternalDate dateToValidate, LocalDate notBeforeDate, LocalDate notAfterDate,
+        List<ValidationMessage> validationMessages, String category, String field, String notBeforeMessage, String notAfterMessage) {
+        return validateDateWithinIntervalWithQuestionId(dateToValidate, notBeforeDate, notAfterDate, validationMessages, category, field,
+            notBeforeMessage, notAfterMessage, null);
+    }
+
+    private boolean validateDateWithinIntervalWithQuestionId(InternalDate dateToValidate, LocalDate notBeforeDate, LocalDate notAfterDate,
         List<ValidationMessage> validationMessages, String category,
-        String field, String notBeforeMessage, String notAfterMessage) {
+        String field, String notBeforeMessage, String notAfterMessage, String questionId) {
 
         if (dateToValidate == null) {
-            addValidationError(validationMessages, category, field, ValidationMessageType.EMPTY);
+            addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.EMPTY, questionId);
             return false;
         }
 
         if (!dateToValidate.isValidDate()) {
             if (dateToValidate.isCorrectFormat()) {
-                addValidationError(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT,
-                    "common.validation.date_invalid");
+                addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT,
+                    "common.validation.date_invalid", questionId);
             } else {
-                addValidationError(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT);
+                addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT, questionId);
             }
             return false;
         }
 
         final var dateToValidateLocalDate = dateToValidate.asLocalDate();
         if (dateToValidateLocalDate.isBefore(notBeforeDate)) {
-            addValidationError(validationMessages, category, field, ValidationMessageType.OTHER, notBeforeMessage);
+            addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.OTHER, notBeforeMessage,
+                questionId);
             return false;
         }
         if (dateToValidateLocalDate.isAfter(notAfterDate)) {
-            addValidationError(validationMessages, category, field, ValidationMessageType.OTHER, notAfterMessage);
+            addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.OTHER, notAfterMessage, questionId);
             return false;
         }
 
         return true;
     } // CHECKSTYLE:ON ParameterNumber
-
 }
