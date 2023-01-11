@@ -94,6 +94,10 @@ public final class RespConstants {
     public static final String ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID = "207";
     public static final String ALLMANT_MEDICINERING_FOR_DIABETES_DELSVAR_ID = "207.1";
     public static final String ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID = "medicineringForDiabetes";
+    public static final String ALLMANT_MEDICINERING_FOR_DIABETES_TEXT_ID = "FRG_207.RBK";
+
+    public static final String SVAR_JA_TEXT_ID = "SVAR_JA.RBK";
+    public static final String SVAR_NEJ_TEXT_ID = "SVAR_NEJ.RBK";
 
     public static final String ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID = "208";
     public static final String ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_DELSVAR_ID = "208.1";

@@ -31,6 +31,7 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_JSON_ID;
@@ -357,7 +358,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         final var medicineringForDiabetes = ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID;
         final var allmant = utlatande.getAllmant();
         if (allmant.getMedicineringForDiabetes() == null) {
-            addValidationError(validationMessages, ALLMANT_CATEGORY_ID, medicineringForDiabetes, ValidationMessageType.EMPTY);
+            addValidationErrorWithQuestionId(validationMessages, ALLMANT_CATEGORY_ID, medicineringForDiabetes, ValidationMessageType.EMPTY,
+                ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID);
         }
     }
 

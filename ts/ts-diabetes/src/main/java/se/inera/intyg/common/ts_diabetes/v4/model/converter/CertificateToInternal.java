@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBeskrivningAnnanTyp;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesHarMedicinering;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesTyp;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionIdentitetStyrktGenom;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionIntygetAvser;
@@ -45,6 +46,7 @@ public class CertificateToInternal {
                     .setPatientenFoljsAv(QuestionPatientenFoljsAv.toInternal(certificate))
                     .setTypAvDiabetes(QuestionDiabetesTyp.toInternal(certificate))
                     .setBeskrivningAnnanTypAvDiabetes(QuestionDiabetesBeskrivningAnnanTyp.toInternal(certificate))
+                    .setMedicineringForDiabetes(QuestionDiabetesHarMedicinering.toInternal(certificate))
                     .build()
             )
             .build();

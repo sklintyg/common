@@ -28,6 +28,7 @@ import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.category
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.category.CategoryIdentitet;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.category.CategoryIntygetAvser;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBeskrivningAnnanTyp;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesHarMedicinering;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesTyp;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionIdentitetStyrktGenom;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionIntygetAvser;
@@ -50,6 +51,7 @@ public class InternalToCertificate {
             // TODO: Add question for diabetes diagnosis year
             .addElement(QuestionDiabetesTyp.toCertificate(internalCertificate.getAllmant(), ++index, textProvider))
             .addElement(QuestionDiabetesBeskrivningAnnanTyp.toCertificate(internalCertificate.getAllmant(), ++index, textProvider))
+            .addElement(QuestionDiabetesHarMedicinering.toCertificate(internalCertificate.getAllmant(), ++index, textProvider))
             .build();
     }
 }

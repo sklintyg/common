@@ -40,6 +40,7 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBeskrivningAnnanTyp;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesHarMedicinering;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesTyp;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionIdentitetStyrktGenom;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionIntygetAvser;
@@ -72,6 +73,7 @@ class CertificateToInternalTest {
             .setPatientenFoljsAv(KvVardniva.SPECIALISTVARD)
             .setTypAvDiabetes(KvTypAvDiabetes.ANNAN)
             .setBeskrivningAnnanTypAvDiabetes("Här är en beskrivning")
+            .setMedicineringForDiabetes(true)
             .build();
 
         expectedInternalCertificate = TsDiabetesUtlatandeV4.builder()
@@ -94,6 +96,7 @@ class CertificateToInternalTest {
             .addElement(QuestionPatientenFoljsAv.toCertificate(allmant, 0, textProvider))
             .addElement(QuestionDiabetesTyp.toCertificate(allmant, 0, textProvider))
             .addElement(QuestionDiabetesBeskrivningAnnanTyp.toCertificate(allmant, 0, textProvider))
+            .addElement(QuestionDiabetesHarMedicinering.toCertificate(allmant, 0, textProvider))
             .build();
     }
 
@@ -158,5 +161,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(actualInternalCertificate.getAllmant().getBeskrivningAnnanTypAvDiabetes(),
             expectedInternalCertificate.getAllmant().getBeskrivningAnnanTypAvDiabetes());
+    }
+
+    @Test
+    void shallIncludeDiabetesHarMedicinering() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getAllmant().getMedicineringForDiabetes(),
+            expectedInternalCertificate.getAllmant().getMedicineringForDiabetes());
     }
 }
