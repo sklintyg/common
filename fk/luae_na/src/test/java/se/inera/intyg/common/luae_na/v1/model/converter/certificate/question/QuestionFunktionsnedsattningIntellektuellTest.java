@@ -43,12 +43,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
+import se.inera.intyg.common.support.facade.testsetup.model.config.AccordionTest;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionFunktionsnedsattningIntellektuellTest {
@@ -110,25 +112,33 @@ class QuestionFunktionsnedsattningIntellektuellTest {
             verify(texts, atLeastOnce()).get(FUNKTIONSNEDSATTNING_INTELLEKTUELL_DESCRIPTION_ID);
         }
 
-        @Test
-        void shouldIncludeConfigAccordionOpenText() {
-            final var expectedOpenText = "Visa fritextfältet";
-            final var question = QuestionFunktionsnedsattningIntellektuell.toCertificate(null, 0, texts);
-            assertEquals(expectedOpenText, question.getConfig().getAccordion().getOpenText());
-        }
+        @Nested
+        class IncludeAccordionTests extends AccordionTest {
 
-        @Test
-        void shouldIncludeConfigAccordionClosedText() {
-            final var expectedOpenText = "Dölj fritextfältet";
-            final var question = QuestionFunktionsnedsattningIntellektuell.toCertificate(null, 0, texts);
-            assertEquals(expectedOpenText, question.getConfig().getAccordion().getCloseText());
-        }
+            @Override
+            protected String getExpectedOpenText() {
+                return "Visa fritextfältet";
+            }
 
-        @Test
-        void shouldIncludeConfigAccordionHeader() {
-            final var question = QuestionFunktionsnedsattningIntellektuell.toCertificate(null, 0, texts);
-            assertTrue(question.getConfig().getAccordion().getHeader().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_TEXT_ID);
+            @Override
+            protected String getExpectedCloseText() {
+                return "Dölj fritextfältet";
+            }
+
+            @Override
+            protected String getExpectedAccordionHeader() {
+                return FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_TEXT_ID;
+            }
+
+            @Override
+            protected CertificateTextProvider getTextProviderMock() {
+                return texts;
+            }
+
+            @Override
+            protected CertificateDataElement getElement() {
+                return QuestionFunktionsnedsattningIntellektuell.toCertificate(null, 0, texts);
+            }
         }
 
         @Test

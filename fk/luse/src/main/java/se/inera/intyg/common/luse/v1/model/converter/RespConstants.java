@@ -63,10 +63,6 @@ public class RespConstants {
     public static final String DIAGNOS_CATEGORY_TEXT_ID = "KAT_4.RBK";
     public static final String DIAGNOS_SVAR_TEXT_ID = "FRG_6.RBK";
     public static final String DIAGNOS_SVAR_ID = "6";
-    public static final String DIAGNOS_ICD_10_ID = "ICD_10_SE";
-    public static final String DIAGNOS_ICD_10_LABEL = "ICD-10-SE";
-    public static final String DIAGNOS_KSH_97_ID = "KSH_97_P";
-    public static final String DIAGNOS_KSH_97_LABEL = "KSH97-P (Primärvård)";
     public static final String DIAGNOSGRUND_SVAR_ID = "7";
     public static final String DIAGNOSGRUND_SVAR_TEXT_ID = "FRG_7.RBK";
     public static final String DIAGNOSGRUND_NY_BEDOMNING_SVAR_ID = "45";
@@ -77,7 +73,7 @@ public class RespConstants {
     public static final String DIAGNOSGRUND_FOR_NY_BEDOMNING_DELSVAR_ID = "45.2";
     public static final String DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_TEXT_ID = "DFR_45.2.RBK";
     public static final String DIAGNOSGRUND_SVAR_JSON_ID = "diagnosgrund";
-    public static final String DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID = "diagnosgrundNyBedomning";
+    public static final String DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID = "nyBedomningDiagnosgrund";
     public static final String DIAGNOSGRUND_FOR_NY_BEDOMNING_DELSVAR_JSON_ID = "diagnosgrundForNyBedomning";
     public static final String BAKGRUND_CATEGORY_ID = "bakgrund";
     public static final String BAKGRUND_CATEGORY_TEXT_ID = "KAT_3.RBK";
@@ -93,19 +89,16 @@ public class RespConstants {
     public static final String FUNKTIONSNEDSATTNING_INTELLEKTUELL_DESCRIPTION_ID = "FRG_8.HLP";
     public static final String FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_TEXT_ID = "DFR_8.1.RBK";
     public static final String FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID = "funktionsnedsattningIntellektuell";
-
     public static final String FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID = "9";
     public static final String FUNKTIONSNEDSATTNING_KOMMUNIKATION_TEXT_ID = "FRG_9.RBK";
     public static final String FUNKTIONSNEDSATTNING_KOMMUNIKATION_DESCRIPTION_ID = "FRG_9.HLP";
     public static final String FUNKTIONSNEDSATTNING_KOMMUNIKATION_DELSVAR_TEXT_ID = "DFR_9.1.RBK";
     public static final String FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID = "funktionsnedsattningKommunikation";
-
     public static final String FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_ID = "10";
     public static final String FUNKTIONSNEDSATTNING_KONCENTRATION_TEXT_ID = "FRG_10.RBK";
     public static final String FUNKTIONSNEDSATTNING_KONCENTRATION_DESCRIPTION_ID = "FRG_10.HLP";
     public static final String FUNKTIONSNEDSATTNING_KONCENTRATION_DELSVAR_TEXT_ID = "DFR_10.1.RBK";
     public static final String FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_JSON_ID = "funktionsnedsattningKoncentration";
-
     public static final String FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID = "11";
     public static final String FUNKTIONSNEDSATTNING_PSYKISK_TEXT_ID = "FRG_11.RBK";
     public static final String FUNKTIONSNEDSATTNING_PSYKISK_DESCRIPTION_ID = "FRG_11.HLP";
