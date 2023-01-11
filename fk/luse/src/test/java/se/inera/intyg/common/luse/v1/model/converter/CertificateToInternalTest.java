@@ -57,6 +57,7 @@ import se.inera.intyg.common.luse.v1.model.converter.certificate.question.Questi
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingSubstansintag;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskaForutsattningarForArbete;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionOvrigt;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionSjukdomsforlopp;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlag;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlagFinns;
@@ -132,6 +133,7 @@ class CertificateToInternalTest {
             .setSubstansintag("substansintag")
             .setMedicinskaForutsattningarForArbete("medicinskaForutsattningarForArbete")
             .setFormagaTrotsBegransning("formagaTrotsBegransning")
+            .setOvrigt("ovrigt")
             .build();
 
         certificate = CertificateBuilder.create()
@@ -209,6 +211,9 @@ class CertificateToInternalTest {
             )
             .addElement(
                 QuestionFormagaTrotsBegransning.toCertificate(expectedInternalCertificate.getFormagaTrotsBegransning(), 0, textProvider)
+            )
+            .addElement(
+                QuestionOvrigt.toCertificate(expectedInternalCertificate.getOvrigt(), 0, textProvider)
             )
             .build();
     }
@@ -435,5 +440,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(actualInternalCertificate.getFormagaTrotsBegransning(),
             expectedInternalCertificate.getFormagaTrotsBegransning());
+    }
+
+    @Test
+    void shallIncludeOvrigt() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getOvrigt(),
+            expectedInternalCertificate.getOvrigt());
     }
 }

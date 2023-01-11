@@ -52,6 +52,7 @@ import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MEDICI
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PAGAENDEBEHANDLING_DELSVAR_ID_19;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_DELSVAR_ID_20;
@@ -341,5 +342,11 @@ class InternalToCertificateTest {
     void shallIncludeCategoryOvrigt() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(37, actualCertificate.getData().get(OVRIGT_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionOvrigt() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(38, actualCertificate.getData().get(OVRIGT_SVAR_ID_25).getIndex());
     }
 }
