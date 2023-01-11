@@ -42,6 +42,10 @@ import se.inera.intyg.common.luse.v1.model.converter.certificate.question.Questi
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPsykisk;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningSynHorselTal;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingAvslutadBehandling;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPagaendeBehandling;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPlaneradBehandling;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingSubstansintag;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionSjukdomsforlopp;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlag;
@@ -90,6 +94,10 @@ public class CertificateToInternal {
             .setFunktionsnedsattningBalansKoordination(QuestionFunktionsnedsattningBalansKoordination.toInternal(certificate))
             .setFunktionsnedsattningAnnan(QuestionFunktionsnedsattningAnnan.toInternal(certificate))
             .setAktivitetsbegransning(QuestionAktivitetsbegransningar.toInternal(certificate))
+            .setAvslutadBehandling(QuestionMedicinskBehandlingAvslutadBehandling.toInternal(certificate))
+            .setPagaendeBehandling(QuestionMedicinskBehandlingPagaendeBehandling.toInternal(certificate))
+            .setPlaneradBehandling(QuestionMedicinskBehandlingPlaneradBehandling.toInternal(certificate))
+            .setSubstansintag(QuestionMedicinskBehandlingSubstansintag.toInternal(certificate))
             .build();
     }
 }

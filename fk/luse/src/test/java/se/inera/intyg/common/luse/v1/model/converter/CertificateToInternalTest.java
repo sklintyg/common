@@ -50,6 +50,10 @@ import se.inera.intyg.common.luse.v1.model.converter.certificate.question.Questi
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPsykisk;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningSynHorselTal;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingAvslutadBehandling;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPagaendeBehandling;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPlaneradBehandling;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingSubstansintag;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionSjukdomsforlopp;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlag;
@@ -120,6 +124,10 @@ class CertificateToInternalTest {
             .setFunktionsnedsattningBalansKoordination("funktionsnedsattningKoordination")
             .setFunktionsnedsattningAnnan("funktionsnedsattningAnnan")
             .setAktivitetsbegransning("aktivitetsbegransning")
+            .setAvslutadBehandling("avslutadBehandling")
+            .setPagaendeBehandling("pagaendeBehandling")
+            .setPlaneradBehandling("planeradBehandling")
+            .setSubstansintag("substansintag")
             .build();
 
         certificate = CertificateBuilder.create()
@@ -175,6 +183,21 @@ class CertificateToInternalTest {
                 expectedInternalCertificate.getFunktionsnedsattningAnnan(), 0, textProvider))
             .addElement(
                 QuestionAktivitetsbegransningar.toCertificate(expectedInternalCertificate.getAktivitetsbegransning(), 0, textProvider)
+            )
+            .addElement(
+                QuestionMedicinskBehandlingAvslutadBehandling.toCertificate(expectedInternalCertificate.getAvslutadBehandling(), 0,
+                    textProvider)
+            )
+            .addElement(
+                QuestionMedicinskBehandlingPagaendeBehandling.toCertificate(expectedInternalCertificate.getPagaendeBehandling(), 0,
+                    textProvider)
+            )
+            .addElement(
+                QuestionMedicinskBehandlingPlaneradBehandling.toCertificate(expectedInternalCertificate.getPlaneradBehandling(), 0,
+                    textProvider)
+            )
+            .addElement(
+                QuestionMedicinskBehandlingSubstansintag.toCertificate(expectedInternalCertificate.getSubstansintag(), 0, textProvider)
             )
             .build();
     }
@@ -359,5 +382,33 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(actualInternalCertificate.getAktivitetsbegransning(),
             expectedInternalCertificate.getAktivitetsbegransning());
+    }
+
+    @Test
+    void shallIncludeAvslutadBehandling() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getAvslutadBehandling(),
+            expectedInternalCertificate.getAvslutadBehandling());
+    }
+
+    @Test
+    void shallIncludePagaendeBehandling() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getPagaendeBehandling(),
+            expectedInternalCertificate.getPagaendeBehandling());
+    }
+
+    @Test
+    void shallIncludePlaneradBehandling() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getPlaneradBehandling(),
+            expectedInternalCertificate.getPlaneradBehandling());
+    }
+
+    @Test
+    void shallIncludeSubstansintag() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getSubstansintag(),
+            expectedInternalCertificate.getSubstansintag());
     }
 }
