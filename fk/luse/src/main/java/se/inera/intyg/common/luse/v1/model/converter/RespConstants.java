@@ -182,6 +182,8 @@ public class RespConstants {
     public static final String KONTAKT_ONSKAS_SVAR_ID_26 = "26";
     public static final String KONTAKT_ONSKAS_SVAR_JSON_ID_26 = "kontaktMedFk";
     public static final String KONTAKT_ONSKAS_SVAR_TEXT_ID = "FRG_26.RBK";
+    public static final String KONTAKT_ONSKAS_SELECTED_TEXT = "Ja";
+    public static final String KONTAKT_ONSKAS_UNSELECTED_TEXT = "Ej angivet";
     public static final String KONTAKT_ONSKAS_SVAR_DESCRIPTION_ID = "FRG_26.HLP";
     public static final String KONTAKT_ONSKAS_DELSVAR_ID_26 = "26.1";
     public static final String KONTAKT_ONSKAS_DELSVAR_TEXT_ID = "DFR_26.1.RBK";

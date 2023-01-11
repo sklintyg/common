@@ -46,6 +46,7 @@ import se.inera.intyg.common.luse.v1.model.converter.certificate.question.Questi
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPsykisk;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningSynHorselTal;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKontaktMedFk;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingAvslutadBehandling;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingAvslutadBehandlingHeader;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPagaendeBehandling;
@@ -204,6 +205,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 CategoryKontakt.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionKontaktMedFk.toCertificate(internalCertificate.getKontaktMedFk(), index++, textProvider)
             )
             .build();
     }

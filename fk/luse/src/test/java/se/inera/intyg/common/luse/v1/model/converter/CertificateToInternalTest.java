@@ -51,6 +51,7 @@ import se.inera.intyg.common.luse.v1.model.converter.certificate.question.Questi
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPsykisk;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningSynHorselTal;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKontaktMedFk;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingAvslutadBehandling;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPagaendeBehandling;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPlaneradBehandling;
@@ -134,6 +135,7 @@ class CertificateToInternalTest {
             .setMedicinskaForutsattningarForArbete("medicinskaForutsattningarForArbete")
             .setFormagaTrotsBegransning("formagaTrotsBegransning")
             .setOvrigt("ovrigt")
+            .setKontaktMedFk(true)
             .build();
 
         certificate = CertificateBuilder.create()
@@ -214,6 +216,9 @@ class CertificateToInternalTest {
             )
             .addElement(
                 QuestionOvrigt.toCertificate(expectedInternalCertificate.getOvrigt(), 0, textProvider)
+            )
+            .addElement(
+                QuestionKontaktMedFk.toCertificate(expectedInternalCertificate.getKontaktMedFk(), 0, textProvider)
             )
             .build();
     }
@@ -447,5 +452,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(actualInternalCertificate.getOvrigt(),
             expectedInternalCertificate.getOvrigt());
+    }
+
+    @Test
+    void shallIncludeKontaktMedFk() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getKontaktMedFk(),
+            expectedInternalCertificate.getKontaktMedFk());
     }
 }

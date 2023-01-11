@@ -43,6 +43,7 @@ import se.inera.intyg.common.luse.v1.model.converter.certificate.question.Questi
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPsykisk;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningSynHorselTal;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKontaktMedFk;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingAvslutadBehandling;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPagaendeBehandling;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPlaneradBehandling;
@@ -104,6 +105,7 @@ public class CertificateToInternal {
             .setMedicinskaForutsattningarForArbete(QuestionMedicinskaForutsattningarForArbete.toInternal(certificate))
             .setFormagaTrotsBegransning(QuestionFormagaTrotsBegransning.toInternal(certificate))
             .setOvrigt(QuestionOvrigt.toInternal(certificate))
+            .setKontaktMedFk(QuestionKontaktMedFk.toInternal(certificate))
             .build();
     }
 }
