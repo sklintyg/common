@@ -59,6 +59,7 @@ import se.inera.intyg.common.luse.v1.model.converter.certificate.question.Questi
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskaForutsattningarForArbete;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionOvrigt;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionSjukdomsforlopp;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlag;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlagFinns;
@@ -211,7 +212,7 @@ public class InternalToCertificate {
                 QuestionKontaktMedFk.toCertificate(internalCertificate.getKontaktMedFk(), index++, textProvider)
             )
             .addElement(
-                QuestionKontaktAnledning.toCertificate(internalCertificate.getAnledningTillKontakt(), index++, textProvider)
+                QuestionKontaktAnledning.toCertificate(internalCertificate.getAnledningTillKontakt(), index, textProvider)
             )
             .build();
     }

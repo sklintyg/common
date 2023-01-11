@@ -22,7 +22,6 @@ public class RespConstants {
 
     public static final String GRUNDFORMU_CATEGORY_ID = "grundformu";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT_ID = "KAT_1.RBK";
-
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1 = "1";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1 = "1.3";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1 = "undersokningAvPatienten";
@@ -58,7 +57,6 @@ public class RespConstants {
     public static final String UNDERLAG_DATUM_TEXT = "Datum";
     public static final String UNDERLAG_INFORMATION_SOURCE_TEXT_ID = "DFR_4.3.RBK";
     public static final String UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID = "DFR_4.3.HLP";
-
     public static final String DIAGNOS_CATEGORY_ID = "diagnos";
     public static final String DIAGNOS_CATEGORY_TEXT_ID = "KAT_4.RBK";
     public static final String DIAGNOS_SVAR_TEXT_ID = "FRG_6.RBK";
@@ -80,7 +78,6 @@ public class RespConstants {
     public static final String SJUKDOMSFORLOPP_SVAR_ID = "5";
     public static final String SJUKDOMSFORLOPP_SVAR_JSON_ID = "sjukdomsforlopp";
     public static final String SJUKDOMSFORLOPP_SVAR_TEXT_ID = "FRG_5.RBK";
-
     public static final String FUNKTIONSNEDSATTNING_CATEGORY_ID = "funktionsnedsattning";
     public static final String FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID = "KAT_5.RBK";
     public static final String FUNKTIONSNEDSATTNING_CATEGORY_DESCRIPTION_ID = "KAT_5.HLP";
@@ -104,7 +101,6 @@ public class RespConstants {
     public static final String FUNKTIONSNEDSATTNING_PSYKISK_DESCRIPTION_ID = "FRG_11.HLP";
     public static final String FUNKTIONSNEDSATTNING_PSYKISK_DELSVAR_TEXT_ID = "DFR_11.1.RBK";
     public static final String FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID = "funktionsnedsattningPsykisk";
-
     public static final String FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID = "12";
     public static final String FUNKTIONSNEDSATTNING_SYNHORSELTAL_TEXT_ID = "FRG_12.RBK";
     public static final String FUNKTIONSNEDSATTNING_SYNHORSELTAL_DESCRIPTION_ID = "FRG_12.HLP";
@@ -120,7 +116,6 @@ public class RespConstants {
     public static final String FUNKTIONSNEDSATTNING_ANNAN_DESCRIPTION_ID = "FRG_14.HLP";
     public static final String FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_TEXT_ID = "DFR_14.1.RBK";
     public static final String FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID = "funktionsnedsattningAnnan";
-
     public static final String AKTIVITETSBEGRANSNING_SVAR_ID = "17";
     public static final String AKTIVITETSBEGRANSNING_DELSVAR_ID = "17.1";
     public static final String AKTIVITETSBEGRANSNING_SVAR_JSON_ID = "aktivitetsbegransning";
@@ -129,53 +124,43 @@ public class RespConstants {
     public static final String AKTIVITETSBEGRANSNING_SVAR_TEXT_ID = "FRG_17.RBK";
     public static final String AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION_ID = "FRG_17.HLP";
     public static final String AKTIVITETSBEGRANSNING_DELSVAR_TEXT_ID = "DFR_17.1.RBK";
-
     public static final String MEDICINSKABEHANDLINGAR_CATEGORY_ID = "medicinskabehandlingar";
     public static final String MEDICINSKABEHANDLINGAR_CATEGORY_TEXT = "KAT_7.RBK";
-
     public static final String AVSLUTADBEHANDLING_SVAR_ID = "18";
     public static final String AVSLUTADBEHANDLING_DELSVAR_ID = "18.1";
     public static final String AVSLUTADBEHANDLING_SVAR_JSON_ID = "avslutadBehandling";
     public static final String AVSLUTADBEHANDLING_SVAR_TEXT = "FRG_18.RBK";
     public static final String AVSLUTADBEHANDLING_DELSVAR_TEXT = "DFR_18.1.RBK";
-
     public static final String PAGAENDEBEHANDLING_SVAR_ID = "19";
     public static final String PAGAENDEBEHANDLING_DELSVAR_ID = "19.1";
     public static final String PAGAENDEBEHANDLING_SVAR_JSON_ID = "pagaendeBehandling";
     public static final String PAGAENDEBEHANDLING_SVAR_TEXT = "FRG_19.RBK";
     public static final String PAGAENDEBEHANDLING_DELSVAR_TEXT = "DFR_19.1.RBK";
-
     public static final String PLANERADBEHANDLING_SVAR_ID = "20";
     public static final String PLANERADBEHANDLING_DELSVAR_ID = "20.1";
     public static final String PLANERADBEHANDLING_SVAR_JSON_ID = "planeradBehandling";
     public static final String PLANERADBEHANDLING_SVAR_TEXT = "FRG_20.RBK";
     public static final String PLANERADBEHANDLING_DELSVAR_TEXT = "DFR_20.1.RBK";
-
     public static final String SUBSTANSINTAG_SVAR_ID = "21";
     public static final String SUBSTANSINTAG_DELSVAR_ID = "21.1";
     public static final String SUBSTANSINTAG_SVAR_JSON_ID = "substansintag";
     public static final String SUBSTANSINTAG_SVAR_TEXT = "FRG_21.RBK";
     public static final String SUBSTANSINTAG_DELSVAR_TEXT = "DFR_21.1.RBK";
-
     public static final String CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE = "medicinskaforutsattningarforarbete";
     public static final String CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE_TEXT_ID = "KAT_8.RBK";
-
     public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID = "22";
     public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_TEXT_ID = "FRG_22.RBK";
     public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_DESCRIPTION_ID = "FRG_22.HLP";
     public static final String MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID = "medicinskaForutsattningarForArbete";
-
     public static final String FORMAGATROTSBEGRANSNING_SVAR_ID = "23";
     public static final String FORMAGATROTSBEGRANSNING_TEXT_ID = "FRG_23.RBK";
     public static final String FORMAGATROTSBEGRANSNING_DESCRIPTION_ID = "FRG_23.HLP";
     public static final String FORMAGATROTSBEGRANSNING_SVAR_JSON_ID = "formagaTrotsBegransning";
     public static final String OVRIGT_CATEGORY_ID = "ovrigt";
     public static final String OVRIGT_CATEGORY_TEXT_ID = "KAT_9.RBK";
-
     public static final String OVRIGT_SVAR_ID = "25";
     public static final String OVRIGT_TEXT_ID = "FRG_25.RBK";
     public static final String OVRIGT_SVAR_JSON_ID = "ovrigt";
-
     public static final String KONTAKT_CATEGORY_ID = "kontakt";
     public static final String KONTAKT_CATEGORY_TEXT_ID = "KAT_10.RBK";
     public static final String KONTAKT_ONSKAS_SVAR_ID = "26";
