@@ -35,6 +35,7 @@ import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNO
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_SVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOS_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_ID_23;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
@@ -327,5 +328,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionMedicinskaForutsattningarForArbete() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(35, actualCertificate.getData().get(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionFormagaTrotsBegransning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(36, actualCertificate.getData().get(FORMAGATROTSBEGRANSNING_SVAR_ID_23).getIndex());
     }
 }
