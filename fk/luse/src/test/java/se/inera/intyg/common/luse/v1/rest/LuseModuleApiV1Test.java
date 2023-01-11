@@ -46,9 +46,12 @@ import static se.inera.intyg.common.fkparent.rest.FkParentModuleApi.PREFIX;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFactory;
 import javax.xml.ws.soap.SOAPFaultException;
@@ -60,6 +63,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import se.inera.intyg.common.luse.support.LuseEntryPoint;
 import se.inera.intyg.common.luse.v1.model.converter.CertificateToInternal;
 import se.inera.intyg.common.luse.v1.model.converter.InternalToCertificate;
 import se.inera.intyg.common.luse.v1.model.converter.SvarIdHelperImpl;
@@ -70,6 +74,7 @@ import se.inera.intyg.common.luse.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.luse.v1.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.services.texts.IntygTextsService;
+import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -605,7 +610,10 @@ public class LuseModuleApiV1Test {
 
     @Test
     public void getCertficateMessagesProviderGetExistingKey() {
-
+        IntygTexts intygTexts1 = new IntygTexts("1.0", LuseEntryPoint.MODULE_ID, LocalDate.now(), LocalDate.now().plusDays(1),
+            Collections.emptySortedMap(),
+            Collections.emptyList(), new Properties());
+        doReturn(intygTexts1).when(intygTextsService).getIntygTextsPojo(any(), any());
         final var certificateMessagesProvider = moduleApi.getMessagesProvider();
 
         assertEquals(certificateMessagesProvider.get("common.continue"), "Fortsätt");
@@ -613,7 +621,10 @@ public class LuseModuleApiV1Test {
 
     @Test
     public void getCertficateMessagesProviderGetMissingKey() {
-
+        IntygTexts intygTexts1 = new IntygTexts("1.0", LuseEntryPoint.MODULE_ID, LocalDate.now(), LocalDate.now().plusDays(1),
+            Collections.emptySortedMap(),
+            Collections.emptyList(), new Properties());
+        doReturn(intygTexts1).when(intygTextsService).getIntygTextsPojo(any(), any());
         final var certificateMessagesProvider = moduleApi.getMessagesProvider();
 
         assertNull(certificateMessagesProvider.get("not.existing"));
