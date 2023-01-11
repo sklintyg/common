@@ -30,6 +30,7 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_KORKORT_TEXT_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_PASS_TEXT_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_PERS_KANNEDOM_TEXT_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_TEXT_ID;
 
 import java.util.Arrays;
@@ -52,7 +53,6 @@ import se.inera.intyg.common.support.facade.testsetup.model.validation.Validatio
 import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueCodeTest;
-import se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.IdKontroll;
 import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvIdKontroll;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
@@ -81,7 +81,7 @@ class QuestionIdentitetStyrktGenomTest {
 
             @Override
             protected String getId() {
-                return RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID;
+                return IDENTITET_STYRKT_GENOM_SVAR_ID;
             }
 
             @Override
