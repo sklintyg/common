@@ -25,8 +25,8 @@ import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAK
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SELECTED_TEXT;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_DESCRIPTION_ID;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_TEXT_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_UNSELECTED_TEXT;
 
@@ -66,7 +66,7 @@ class QuestionKontaktMedFkTest {
 
         @Override
         protected String getId() {
-            return KONTAKT_ONSKAS_SVAR_ID_26;
+            return KONTAKT_ONSKAS_SVAR_ID;
         }
 
         @Override
@@ -85,7 +85,7 @@ class QuestionKontaktMedFkTest {
 
         @Override
         protected String getJsonId() {
-            return KONTAKT_ONSKAS_SVAR_JSON_ID_26;
+            return KONTAKT_ONSKAS_SVAR_JSON_ID;
         }
 
         @Override
@@ -131,7 +131,7 @@ class QuestionKontaktMedFkTest {
 
         @Override
         protected String getJsonId() {
-            return KONTAKT_ONSKAS_SVAR_JSON_ID_26;
+            return KONTAKT_ONSKAS_SVAR_JSON_ID;
         }
 
         @Override

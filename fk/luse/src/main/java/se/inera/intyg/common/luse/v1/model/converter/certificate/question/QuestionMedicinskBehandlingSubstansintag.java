@@ -18,10 +18,10 @@
  */
 package se.inera.intyg.common.luse.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SUBSTANSINTAG_DELSVAR_ID_21;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SUBSTANSINTAG_DELSVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SUBSTANSINTAG_DELSVAR_TEXT;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SUBSTANSINTAG_SVAR_ID_21;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SUBSTANSINTAG_SVAR_JSON_ID_21;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SUBSTANSINTAG_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SUBSTANSINTAG_SVAR_JSON_ID;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -38,25 +38,25 @@ public class QuestionMedicinskBehandlingSubstansintag {
 
     public static CertificateDataElement toCertificate(String textValue, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(SUBSTANSINTAG_DELSVAR_ID_21)
-            .parent(SUBSTANSINTAG_SVAR_ID_21)
+            .id(SUBSTANSINTAG_DELSVAR_ID)
+            .parent(SUBSTANSINTAG_SVAR_ID)
             .index(index)
             .config(
                 CertificateDataConfigTextArea.builder()
-                    .id(SUBSTANSINTAG_SVAR_JSON_ID_21)
+                    .id(SUBSTANSINTAG_SVAR_JSON_ID)
                     .text(texts.get(SUBSTANSINTAG_DELSVAR_TEXT))
                     .build()
             )
             .value(
                 CertificateDataTextValue.builder()
-                    .id(SUBSTANSINTAG_SVAR_JSON_ID_21)
+                    .id(SUBSTANSINTAG_SVAR_JSON_ID)
                     .text(textValue)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationText.builder()
-                        .id(SUBSTANSINTAG_SVAR_JSON_ID_21)
+                        .id(SUBSTANSINTAG_SVAR_JSON_ID)
                         .limit(TEXT_LIMIT)
                         .build()
                 }
@@ -65,6 +65,6 @@ public class QuestionMedicinskBehandlingSubstansintag {
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), SUBSTANSINTAG_DELSVAR_ID_21, SUBSTANSINTAG_SVAR_JSON_ID_21);
+        return textValue(certificate.getData(), SUBSTANSINTAG_DELSVAR_ID, SUBSTANSINTAG_SVAR_JSON_ID);
     }
 }

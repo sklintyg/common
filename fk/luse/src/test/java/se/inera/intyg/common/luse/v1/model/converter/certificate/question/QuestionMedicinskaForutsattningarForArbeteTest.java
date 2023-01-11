@@ -23,8 +23,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_DESCRIPTION_ID;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -65,7 +65,7 @@ class QuestionMedicinskaForutsattningarForArbeteTest {
 
         @Override
         protected String getId() {
-            return MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22;
+            return MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID;
         }
 
         @Override
@@ -104,7 +104,7 @@ class QuestionMedicinskaForutsattningarForArbeteTest {
 
         @Override
         protected String getJsonId() {
-            return MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
+            return MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID;
         }
     }
 
@@ -120,7 +120,7 @@ class QuestionMedicinskaForutsattningarForArbeteTest {
 
         @Override
         protected String getJsonId() {
-            return MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
+            return MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID;
         }
 
         @Override
@@ -134,12 +134,12 @@ class QuestionMedicinskaForutsattningarForArbeteTest {
 
         @Override
         protected String getQuestionId() {
-            return MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22;
+            return MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID;
         }
 
         @Override
         protected String getExpression() {
-            return "$" + MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
+            return "$" + MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID;
         }
 
         @Override

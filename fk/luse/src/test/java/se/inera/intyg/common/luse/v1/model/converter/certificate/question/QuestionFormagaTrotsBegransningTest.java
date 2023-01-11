@@ -23,8 +23,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_DESCRIPTION_ID;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_ID_23;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_JSON_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -64,7 +64,7 @@ class QuestionFormagaTrotsBegransningTest {
 
         @Override
         protected String getId() {
-            return FORMAGATROTSBEGRANSNING_SVAR_ID_23;
+            return FORMAGATROTSBEGRANSNING_SVAR_ID;
         }
 
         @Override
@@ -103,7 +103,7 @@ class QuestionFormagaTrotsBegransningTest {
 
         @Override
         protected String getJsonId() {
-            return FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23;
+            return FORMAGATROTSBEGRANSNING_SVAR_JSON_ID;
         }
     }
 
@@ -119,7 +119,7 @@ class QuestionFormagaTrotsBegransningTest {
 
         @Override
         protected String getJsonId() {
-            return FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23;
+            return FORMAGATROTSBEGRANSNING_SVAR_JSON_ID;
         }
 
         @Override

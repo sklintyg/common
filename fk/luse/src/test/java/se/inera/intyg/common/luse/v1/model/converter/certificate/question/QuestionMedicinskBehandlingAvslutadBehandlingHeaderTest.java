@@ -21,7 +21,7 @@ package se.inera.intyg.common.luse.v1.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AVSLUTADBEHANDLING_SVAR_ID_18;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AVSLUTADBEHANDLING_SVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AVSLUTADBEHANDLING_SVAR_TEXT;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
 
@@ -56,7 +56,7 @@ class QuestionMedicinskBehandlingAvslutadBehandlingHeaderTest {
 
         @Override
         protected String getId() {
-            return AVSLUTADBEHANDLING_SVAR_ID_18;
+            return AVSLUTADBEHANDLING_SVAR_ID;
         }
 
         @Override

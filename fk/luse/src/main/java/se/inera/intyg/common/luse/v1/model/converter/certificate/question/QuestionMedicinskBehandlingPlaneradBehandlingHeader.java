@@ -19,7 +19,7 @@
 package se.inera.intyg.common.luse.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_TEXT;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -30,7 +30,7 @@ public class QuestionMedicinskBehandlingPlaneradBehandlingHeader {
 
     public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(PLANERADBEHANDLING_SVAR_ID_20)
+            .id(PLANERADBEHANDLING_SVAR_ID)
             .parent(MEDICINSKABEHANDLINGAR_CATEGORY_ID)
             .index(index)
             .config(

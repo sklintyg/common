@@ -21,11 +21,11 @@ package se.inera.intyg.common.luse.v1.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT_ID;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -65,12 +65,12 @@ class QuestionKontaktAnledningTest {
 
         @Override
         protected String getId() {
-            return ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
+            return ANLEDNING_TILL_KONTAKT_DELSVAR_ID;
         }
 
         @Override
         protected String getParent() {
-            return KONTAKT_ONSKAS_SVAR_ID_26;
+            return KONTAKT_ONSKAS_SVAR_ID;
         }
 
         @Override
@@ -104,7 +104,7 @@ class QuestionKontaktAnledningTest {
 
         @Override
         protected String getJsonId() {
-            return ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
+            return ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID;
         }
     }
 
@@ -120,7 +120,7 @@ class QuestionKontaktAnledningTest {
 
         @Override
         protected String getJsonId() {
-            return ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
+            return ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID;
         }
 
         @Override
@@ -134,12 +134,12 @@ class QuestionKontaktAnledningTest {
 
         @Override
         protected String getQuestionId() {
-            return KONTAKT_ONSKAS_SVAR_ID_26;
+            return KONTAKT_ONSKAS_SVAR_ID;
         }
 
         @Override
         protected String getExpression() {
-            return "$" + KONTAKT_ONSKAS_SVAR_JSON_ID_26;
+            return "$" + KONTAKT_ONSKAS_SVAR_JSON_ID;
         }
 
         @Override

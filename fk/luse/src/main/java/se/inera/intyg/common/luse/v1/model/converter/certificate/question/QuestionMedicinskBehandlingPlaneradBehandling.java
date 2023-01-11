@@ -18,10 +18,10 @@
  */
 package se.inera.intyg.common.luse.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_DELSVAR_ID_20;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_DELSVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_DELSVAR_TEXT;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -38,25 +38,25 @@ public class QuestionMedicinskBehandlingPlaneradBehandling {
 
     public static CertificateDataElement toCertificate(String textValue, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(PLANERADBEHANDLING_DELSVAR_ID_20)
-            .parent(PLANERADBEHANDLING_SVAR_ID_20)
+            .id(PLANERADBEHANDLING_DELSVAR_ID)
+            .parent(PLANERADBEHANDLING_SVAR_ID)
             .index(index)
             .config(
                 CertificateDataConfigTextArea.builder()
-                    .id(PLANERADBEHANDLING_SVAR_JSON_ID_20)
+                    .id(PLANERADBEHANDLING_SVAR_JSON_ID)
                     .text(texts.get(PLANERADBEHANDLING_DELSVAR_TEXT))
                     .build()
             )
             .value(
                 CertificateDataTextValue.builder()
-                    .id(PLANERADBEHANDLING_SVAR_JSON_ID_20)
+                    .id(PLANERADBEHANDLING_SVAR_JSON_ID)
                     .text(textValue)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationText.builder()
-                        .id(PLANERADBEHANDLING_SVAR_JSON_ID_20)
+                        .id(PLANERADBEHANDLING_SVAR_JSON_ID)
                         .limit(TEXT_LIMIT)
                         .build()
                 }
@@ -65,6 +65,6 @@ public class QuestionMedicinskBehandlingPlaneradBehandling {
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), PLANERADBEHANDLING_DELSVAR_ID_20, PLANERADBEHANDLING_SVAR_JSON_ID_20);
+        return textValue(certificate.getData(), PLANERADBEHANDLING_DELSVAR_ID, PLANERADBEHANDLING_SVAR_JSON_ID);
     }
 }

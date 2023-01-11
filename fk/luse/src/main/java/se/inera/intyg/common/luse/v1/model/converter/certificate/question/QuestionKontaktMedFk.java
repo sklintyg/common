@@ -22,8 +22,8 @@ import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAK
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_TEXT_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SELECTED_TEXT;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_DESCRIPTION_ID;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_TEXT_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_UNSELECTED_TEXT;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
@@ -38,12 +38,12 @@ public class QuestionKontaktMedFk {
 
     public static CertificateDataElement toCertificate(Boolean kontaktOnskas, int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
-            .id(KONTAKT_ONSKAS_SVAR_ID_26)
+            .id(KONTAKT_ONSKAS_SVAR_ID)
             .parent(KONTAKT_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigCheckboxBoolean.builder()
-                    .id(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
+                    .id(KONTAKT_ONSKAS_SVAR_JSON_ID)
                     .text(textProvider.get(KONTAKT_ONSKAS_SVAR_TEXT_ID))
                     .description(textProvider.get(KONTAKT_ONSKAS_SVAR_DESCRIPTION_ID))
                     .label(textProvider.get(KONTAKT_ONSKAS_DELSVAR_TEXT_ID))
@@ -53,7 +53,7 @@ public class QuestionKontaktMedFk {
             )
             .value(
                 CertificateDataValueBoolean.builder()
-                    .id(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
+                    .id(KONTAKT_ONSKAS_SVAR_JSON_ID)
                     .selected(kontaktOnskas)
                     .build()
             )
@@ -61,7 +61,7 @@ public class QuestionKontaktMedFk {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), KONTAKT_ONSKAS_SVAR_ID_26, KONTAKT_ONSKAS_SVAR_JSON_ID_26);
+        return booleanValue(certificate.getData(), KONTAKT_ONSKAS_SVAR_ID, KONTAKT_ONSKAS_SVAR_JSON_ID);
     }
 
 }

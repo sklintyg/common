@@ -22,8 +22,8 @@ package se.inera.intyg.common.luse.v1.model.converter.certificate.question;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.OVRIGT_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.OVRIGT_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -63,7 +63,7 @@ class QuestionOvrigtTest {
 
         @Override
         protected String getId() {
-            return OVRIGT_SVAR_ID_25;
+            return OVRIGT_SVAR_ID;
         }
 
         @Override
@@ -102,7 +102,7 @@ class QuestionOvrigtTest {
 
         @Override
         protected String getJsonId() {
-            return OVRIGT_SVAR_JSON_ID_25;
+            return OVRIGT_SVAR_JSON_ID;
         }
     }
 
@@ -118,7 +118,7 @@ class QuestionOvrigtTest {
 
         @Override
         protected String getJsonId() {
-            return OVRIGT_SVAR_JSON_ID_25;
+            return OVRIGT_SVAR_JSON_ID;
         }
 
         @Override

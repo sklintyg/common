@@ -21,10 +21,10 @@ package se.inera.intyg.common.luse.v1.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_DELSVAR_ID_20;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_DELSVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_DELSVAR_TEXT;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -63,12 +63,12 @@ class QuestionMedicinskBehandlingPlaneradBehandlingTest {
 
         @Override
         protected String getId() {
-            return PLANERADBEHANDLING_DELSVAR_ID_20;
+            return PLANERADBEHANDLING_DELSVAR_ID;
         }
 
         @Override
         protected String getParent() {
-            return PLANERADBEHANDLING_SVAR_ID_20;
+            return PLANERADBEHANDLING_SVAR_ID;
         }
 
         @Override
@@ -102,7 +102,7 @@ class QuestionMedicinskBehandlingPlaneradBehandlingTest {
 
         @Override
         protected String getJsonId() {
-            return PLANERADBEHANDLING_SVAR_JSON_ID_20;
+            return PLANERADBEHANDLING_SVAR_JSON_ID;
         }
     }
 
@@ -118,7 +118,7 @@ class QuestionMedicinskBehandlingPlaneradBehandlingTest {
 
         @Override
         protected String getJsonId() {
-            return PLANERADBEHANDLING_SVAR_JSON_ID_20;
+            return PLANERADBEHANDLING_SVAR_JSON_ID;
         }
 
         @Override

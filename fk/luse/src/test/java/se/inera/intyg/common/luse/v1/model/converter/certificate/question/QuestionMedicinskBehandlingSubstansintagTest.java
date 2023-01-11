@@ -21,10 +21,10 @@ package se.inera.intyg.common.luse.v1.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SUBSTANSINTAG_DELSVAR_ID_21;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SUBSTANSINTAG_DELSVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SUBSTANSINTAG_DELSVAR_TEXT;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SUBSTANSINTAG_SVAR_ID_21;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SUBSTANSINTAG_SVAR_JSON_ID_21;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SUBSTANSINTAG_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SUBSTANSINTAG_SVAR_JSON_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -63,12 +63,12 @@ class QuestionMedicinskBehandlingSubstansintagTest {
 
         @Override
         protected String getId() {
-            return SUBSTANSINTAG_DELSVAR_ID_21;
+            return SUBSTANSINTAG_DELSVAR_ID;
         }
 
         @Override
         protected String getParent() {
-            return SUBSTANSINTAG_SVAR_ID_21;
+            return SUBSTANSINTAG_SVAR_ID;
         }
 
         @Override
@@ -102,7 +102,7 @@ class QuestionMedicinskBehandlingSubstansintagTest {
 
         @Override
         protected String getJsonId() {
-            return SUBSTANSINTAG_SVAR_JSON_ID_21;
+            return SUBSTANSINTAG_SVAR_JSON_ID;
         }
     }
 
@@ -118,7 +118,7 @@ class QuestionMedicinskBehandlingSubstansintagTest {
 
         @Override
         protected String getJsonId() {
-            return SUBSTANSINTAG_SVAR_JSON_ID_21;
+            return SUBSTANSINTAG_SVAR_JSON_ID;
         }
 
         @Override

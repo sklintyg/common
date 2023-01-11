@@ -22,7 +22,7 @@ package se.inera.intyg.common.luse.v1.model.converter.certificate.question;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_TEXT;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -56,7 +56,7 @@ class QuestionMedicinskBehandlingPlaneradBehandlingHeaderTest {
 
         @Override
         protected String getId() {
-            return PLANERADBEHANDLING_SVAR_ID_20;
+            return PLANERADBEHANDLING_SVAR_ID;
         }
 
         @Override
