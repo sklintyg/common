@@ -20,7 +20,7 @@ package se.inera.intyg.common.luse.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION_ID;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_TEXT_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -31,7 +31,7 @@ public class QuestionAktivitetsbegransningarHeader {
 
     public static CertificateDataElement toCertificate(int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
-            .id(AKTIVITETSBEGRANSNING_SVAR_ID_17)
+            .id(AKTIVITETSBEGRANSNING_SVAR_ID)
             .parent(AKTIVITETSBEGRANSNING_CATEGORY_ID)
             .index(index)
             .config(

@@ -21,10 +21,10 @@ package se.inera.intyg.common.luse.v1.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_TEXT_ID;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -64,12 +64,12 @@ class QuestionAktivitetsbegransningarTest {
 
         @Override
         protected String getId() {
-            return AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
+            return AKTIVITETSBEGRANSNING_DELSVAR_ID;
         }
 
         @Override
         protected String getParent() {
-            return AKTIVITETSBEGRANSNING_SVAR_ID_17;
+            return AKTIVITETSBEGRANSNING_SVAR_ID;
         }
 
         @Override
@@ -103,7 +103,7 @@ class QuestionAktivitetsbegransningarTest {
 
         @Override
         protected String getJsonId() {
-            return AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
+            return AKTIVITETSBEGRANSNING_SVAR_JSON_ID;
         }
     }
 
@@ -119,7 +119,7 @@ class QuestionAktivitetsbegransningarTest {
 
         @Override
         protected String getJsonId() {
-            return AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
+            return AKTIVITETSBEGRANSNING_SVAR_JSON_ID;
         }
 
         @Override
@@ -152,12 +152,12 @@ class QuestionAktivitetsbegransningarTest {
 
         @Override
         protected String getQuestionId() {
-            return AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
+            return AKTIVITETSBEGRANSNING_DELSVAR_ID;
         }
 
         @Override
         protected String getExpression() {
-            return "$" + AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
+            return "$" + AKTIVITETSBEGRANSNING_SVAR_JSON_ID;
         }
 
         @Override

@@ -18,10 +18,10 @@
  */
 package se.inera.intyg.common.luse.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_TEXT_ID;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
-import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -40,30 +40,30 @@ public class QuestionAktivitetsbegransningar {
 
     public static CertificateDataElement toCertificate(String textValue, int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
-            .id(AKTIVITETSBEGRANSNING_DELSVAR_ID_17)
-            .parent(AKTIVITETSBEGRANSNING_SVAR_ID_17)
+            .id(AKTIVITETSBEGRANSNING_DELSVAR_ID)
+            .parent(AKTIVITETSBEGRANSNING_SVAR_ID)
             .index(index)
             .config(
                 CertificateDataConfigTextArea.builder()
-                    .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
+                    .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID)
                     .text(textProvider.get(AKTIVITETSBEGRANSNING_DELSVAR_TEXT_ID))
                     .build()
             )
             .value(
                 CertificateDataTextValue.builder()
-                    .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
+                    .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID)
                     .text(textValue)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationText.builder()
-                        .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
+                        .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID)
                         .limit(TEXT_LIMIT)
                         .build(),
                     CertificateDataValidationMandatory.builder()
-                        .questionId(AKTIVITETSBEGRANSNING_DELSVAR_ID_17)
-                        .expression(singleExpression(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17))
+                        .questionId(AKTIVITETSBEGRANSNING_DELSVAR_ID)
+                        .expression(singleExpression(AKTIVITETSBEGRANSNING_SVAR_JSON_ID))
                         .build()
                 }
             )
@@ -71,7 +71,7 @@ public class QuestionAktivitetsbegransningar {
     }
 
     public static String toInternal(Certificate certificate) {
-        return ValueToolkit.textValue(certificate.getData(), AKTIVITETSBEGRANSNING_DELSVAR_ID_17,
-            AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17);
+        return ValueToolkit.textValue(certificate.getData(), AKTIVITETSBEGRANSNING_DELSVAR_ID,
+            AKTIVITETSBEGRANSNING_SVAR_JSON_ID);
     }
 }
