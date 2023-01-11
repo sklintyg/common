@@ -231,9 +231,9 @@ class QuestionUnderlagTest {
                     ),
                     CertificateDataValueMedicalInvestigationList.builder()
                         .list(List.of(
-                            getMedicalInvestigation(0, "2022-12-16", "fran psykolog", UNDERLAG_FRANPSYKOLOG),
-                            getDefaultInvestigation(1),
-                            getDefaultInvestigation(2)
+                                getMedicalInvestigation(0, "2022-12-16", "fran psykolog", UNDERLAG_FRANPSYKOLOG),
+                                getDefaultInvestigation(1),
+                                getDefaultInvestigation(2)
                             )
                         ).build()
                 ),
@@ -244,9 +244,9 @@ class QuestionUnderlagTest {
                     ),
                     CertificateDataValueMedicalInvestigationList.builder()
                         .list(List.of(
-                            getMedicalInvestigation(0, "2022-11-14", "fran arbetsterapeut", UNDERLAG_FRAN_ARBETSTERAPEUT),
-                            getMedicalInvestigation(1, "2022-11-15", "fran skolhalsovard", UNDERLAG_FRANSKOLHALSOVARD),
-                            getDefaultInvestigation(2)
+                                getMedicalInvestigation(0, "2022-11-14", "fran arbetsterapeut", UNDERLAG_FRAN_ARBETSTERAPEUT),
+                                getMedicalInvestigation(1, "2022-11-15", "fran skolhalsovard", UNDERLAG_FRANSKOLHALSOVARD),
+                                getDefaultInvestigation(2)
                             )
                         ).build()
                 ),
@@ -317,7 +317,8 @@ class QuestionUnderlagTest {
 
         @Override
         protected String getExpression() {
-            return "'underlag[0].typ' && 'underlag[0].datum' && 'underlag[0].hamtasFran'";
+            return "!empty('" + UNDERLAG_SVAR_JSON_ID_4 + "[0].typ')" + " && " + "!empty('" + UNDERLAG_SVAR_JSON_ID_4 + "[0].datum')"
+                + " && " + "!empty('" + UNDERLAG_SVAR_JSON_ID_4 + "[0].hamtasFran')";
         }
     }
 
@@ -495,7 +496,7 @@ class QuestionUnderlagTest {
                         getUnderlag(null, null, null),
                         getUnderlag(null, null, null),
                         getUnderlag(NEUROPSYKIATRISKT_UTLATANDE, null, null)
-                        ),
+                    ),
                     List.of(
                         getUnderlag(null, null, null),
                         getUnderlag(null, null, null),
@@ -509,5 +510,4 @@ class QuestionUnderlagTest {
             return Underlag.create(type, date, hamtasFran);
         }
     }
-
 }

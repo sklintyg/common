@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.DIAGNOS_ICD_10_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_ICD_10_ID;
 
 import java.util.Arrays;
 import java.util.List;
@@ -114,7 +114,7 @@ class CertificateToInternalTest {
                 expectedInternalCertificate.getJournaluppgifter(), expectedInternalCertificate.getAnhorigsBeskrivningAvPatienten(),
                 expectedInternalCertificate.getAnnatGrundForMU(), 0, textProvider))
             .addElement(QuestionAnnatBeskrivning
-                .toCertificate(expectedInternalCertificate.getAnnatGrundForMUBeskrivning(), 0,textProvider))
+                .toCertificate(expectedInternalCertificate.getAnnatGrundForMUBeskrivning(), 0, textProvider))
             .addElement(QuestionMotiveringTillInteBaseratPaUndersokning
                 .toCertificate(expectedInternalCertificate.getMotiveringTillInteBaseratPaUndersokning(), 0, textProvider))
             .addElement(QuestionKannedomOmPatient.toCertificate(expectedInternalCertificate.getKannedomOmPatient(), 0, textProvider))
@@ -124,7 +124,7 @@ class CertificateToInternalTest {
             .addElement(QuestionFunktionsnedsattningDebut.toCertificate(expectedInternalCertificate.getFunktionsnedsattningDebut(), 0,
                 textProvider))
             .addElement(QuestionFunktionsnedsattningPaverkan.toCertificate(expectedInternalCertificate.getFunktionsnedsattningPaverkan(), 0,
-                    textProvider))
+                textProvider))
             .addElement(QuestionOvrigt.toCertificate(expectedInternalCertificate.getOvrigt(), 0, textProvider))
             .addElement(QuestionKontaktOnskas.toCertificate(expectedInternalCertificate.getKontaktMedFk(), 0, textProvider))
             .addElement(QuestionKontaktAnledning.toCertificate(expectedInternalCertificate.getAnledningTillKontakt(), 0,

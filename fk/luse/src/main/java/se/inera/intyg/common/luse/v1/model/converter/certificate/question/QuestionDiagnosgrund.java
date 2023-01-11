@@ -16,58 +16,62 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
+package se.inera.intyg.common.luse.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ACCORDION_CLOSE_TEXT;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ACCORDION_OPEN_TEXT;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_SVAR_JSON_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_SVAR_TEXT_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.Accordion;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 
-public abstract class AbstractQuestionFunktionsnedsattning {
+public class QuestionDiagnosgrund {
 
-    private static final short TEXT_LIMIT = (short) 3500;
+    private static final short TEXT_LIMIT = 3500;
 
-    static CertificateDataElement toCertificate(String textValue, String questionId, String textId, String descriptionId, String headerId,
-        String jsonId, int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(String diagnosgrund, int index,
+        CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(questionId)
-            .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
+            .id(DIAGNOSGRUND_SVAR_ID)
+            .parent(DIAGNOS_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigTextArea.builder()
-                    .text(textProvider.get(textId))
-                    .description(textProvider.get(descriptionId))
-                    .accordion(
-                        Accordion.builder()
-                            .openText(FUNKTIONSNEDSATTNING_ACCORDION_OPEN_TEXT)
-                            .closeText(FUNKTIONSNEDSATTNING_ACCORDION_CLOSE_TEXT)
-                            .header(textProvider.get(headerId))
-                            .build()
-                    )
-                    .id(jsonId)
+                    .id(DIAGNOSGRUND_SVAR_JSON_ID)
+                    .text(texts.get(DIAGNOSGRUND_SVAR_TEXT_ID))
                     .build()
             )
             .value(
                 CertificateDataTextValue.builder()
-                    .id(jsonId)
-                    .text(textValue)
+                    .id(DIAGNOSGRUND_SVAR_JSON_ID)
+                    .text(diagnosgrund)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationText.builder()
-                        .id(jsonId)
+                        .id(DIAGNOSGRUND_SVAR_JSON_ID)
                         .limit(TEXT_LIMIT)
+                        .build(),
+                    CertificateDataValidationMandatory.builder()
+                        .questionId(DIAGNOSGRUND_SVAR_ID)
+                        .expression(singleExpression(DIAGNOSGRUND_SVAR_JSON_ID))
                         .build()
                 }
             )
             .build();
+    }
+
+    public static String toInternal(Certificate certificate) {
+        return textValue(certificate.getData(), DIAGNOSGRUND_SVAR_ID, DIAGNOSGRUND_SVAR_JSON_ID);
     }
 }
