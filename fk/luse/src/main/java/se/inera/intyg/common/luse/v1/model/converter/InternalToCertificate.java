@@ -26,6 +26,7 @@ import se.inera.intyg.common.luse.v1.model.converter.certificate.category.Catego
 import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryFunktionsnedsattning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryGrundForMU;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryKontakt;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryMedicinskBehandling;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryMedicinskaForutsattningarForArbete;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.category.CategoryOvrigt;
@@ -200,6 +201,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionOvrigt.toCertificate(internalCertificate.getOvrigt(), index++, textProvider)
+            )
+            .addElement(
+                CategoryKontakt.toCertificate(index++, textProvider)
             )
             .build();
     }

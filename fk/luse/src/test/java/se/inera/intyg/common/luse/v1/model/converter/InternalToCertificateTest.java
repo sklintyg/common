@@ -48,6 +48,7 @@ import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.GRUNDF
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KANNEDOM_SVAR_ID_2;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1;
@@ -348,5 +349,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionOvrigt() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(38, actualCertificate.getData().get(OVRIGT_SVAR_ID_25).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryKontakt() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(39, actualCertificate.getData().get(KONTAKT_CATEGORY_ID).getIndex());
     }
 }
