@@ -118,6 +118,7 @@ public final class RespConstants {
     public static final String ALLMANT_BEHANDLING_ANNAN_TEXT_ID = "DFR_209.3.RBK";
     public static final String ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID = "209.4";
     public static final String ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID = "annanAngeVilken";
+    public static final String ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_TEXT_ID = "DFR_209.4.RBK";
 
     public static final String ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID = "210";
     public static final String ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_DELSVAR_ID = "210.1";

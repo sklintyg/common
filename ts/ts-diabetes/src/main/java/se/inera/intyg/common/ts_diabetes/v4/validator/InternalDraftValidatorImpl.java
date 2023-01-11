@@ -23,6 +23,7 @@ import static org.apache.commons.lang3.BooleanUtils.isNotTrue;
 import static org.apache.commons.lang3.BooleanUtils.isTrue;
 import static se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError;
 import static se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_SVAR_ID;
@@ -394,13 +395,14 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
 
             // R18: Om annan , ange vilken.
             if (eligibleForRule18(utlatande) && Strings.nullToEmpty(behandling.getAnnanAngeVilken()).trim().isEmpty()) {
-                addValidationError(validationMessages, ALLMANT_CATEGORY_ID,
+                addValidationErrorWithQuestionId(validationMessages, ALLMANT_CATEGORY_ID,
                     BEHANDLING_ROOT_FIELD_PATH + ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID,
-                    ValidationMessageType.EMPTY);
+                    ValidationMessageType.EMPTY, ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID);
             } else if (eligibleForRule18(utlatande)
                 && Strings.nullToEmpty(behandling.getAnnanAngeVilken()).trim().length() > MAX_FIFTY_THREE_CHARS) {
                 addValidationError(validationMessages, ALLMANT_CATEGORY_ID,
-                    BEHANDLING_ROOT_FIELD_PATH + ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID, ValidationMessageType.OTHER);
+                    BEHANDLING_ROOT_FIELD_PATH + ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID, ValidationMessageType.OTHER,
+                    ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID);
             }
         }
     }

@@ -27,6 +27,7 @@ import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBehandling;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBehandlingAnnan;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBeskrivningAnnanTyp;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesHarMedicinering;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesMedicineringHypoglykemiRisk;
@@ -60,6 +61,7 @@ public class CertificateToInternal {
                             .setInsulin(QuestionDiabetesBehandling.toInternal(certificate, ALLMANT_BEHANDLING_INSULIN_JSON_ID))
                             .setTabletter(QuestionDiabetesBehandling.toInternal(certificate, ALLMANT_BEHANDLING_TABLETTER_JSON_ID))
                             .setAnnan(QuestionDiabetesBehandling.toInternal(certificate, ALLMANT_BEHANDLING_ANNAN_JSON_ID))
+                            .setAnnanAngeVilken(QuestionDiabetesBehandlingAnnan.toInternal(certificate))
                             .build()
                     )
                     .build()

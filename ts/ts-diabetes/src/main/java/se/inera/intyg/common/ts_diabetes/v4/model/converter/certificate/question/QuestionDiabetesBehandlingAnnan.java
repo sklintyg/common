@@ -20,10 +20,12 @@ package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.questio
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_TEXT_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_TEXT_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_SVAR_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -35,43 +37,43 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
-import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvTypAvDiabetes;
 
-public class QuestionDiabetesBeskrivningAnnanTyp {
+public class QuestionDiabetesBehandlingAnnan {
 
     private static final short TEXT_LIMIT = 53;
 
     public static CertificateDataElement toCertificate(Allmant allmant, int index, CertificateTextProvider textProvider) {
-        final var beskrivningAnnanTypAvDiabetes = allmant != null ? allmant.getBeskrivningAnnanTypAvDiabetes() : null;
+        final var behandling = allmant != null && allmant.getBehandling() != null ? allmant.getBehandling() : null;
+        final var annanAngeVilken = behandling != null ? behandling.getAnnanAngeVilken() : null;
         return CertificateDataElement.builder()
-            .id(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID)
-            .parent(ALLMANT_TYP_AV_DIABETES_SVAR_ID)
+            .id(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID)
+            .parent(ALLMANT_BEHANDLING_SVAR_ID)
             .index(index)
             .config(
                 CertificateDataConfigTextField.builder()
-                    .text(textProvider.get(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_TEXT_ID))
-                    .id(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID)
+                    .text(textProvider.get(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_TEXT_ID))
+                    .id(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID)
                     .build()
             )
             .value(
                 CertificateDataTextValue.builder()
-                    .id(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID)
-                    .text(beskrivningAnnanTypAvDiabetes)
+                    .id(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID)
+                    .text(annanAngeVilken)
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationText.builder()
-                        .id(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID)
+                        .id(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID)
                         .limit(TEXT_LIMIT)
                         .build(),
                     CertificateDataValidationMandatory.builder()
                         .questionId(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID)
-                        .expression(singleExpression(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID))
+                        .expression(singleExpression(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID))
                         .build(),
                     CertificateDataValidationShow.builder()
-                        .questionId(ALLMANT_TYP_AV_DIABETES_SVAR_ID)
-                        .expression(singleExpression(KvTypAvDiabetes.ANNAN.getCode()))
+                        .questionId(ALLMANT_BEHANDLING_SVAR_ID)
+                        .expression(singleExpression(ALLMANT_BEHANDLING_ANNAN_JSON_ID))
                         .build()
                 }
             )
@@ -79,7 +81,7 @@ public class QuestionDiabetesBeskrivningAnnanTyp {
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID,
-            ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID);
+        return textValue(certificate.getData(), ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID,
+            ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID);
     }
 }

@@ -28,6 +28,7 @@ import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.category
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.category.CategoryIdentitet;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.category.CategoryIntygetAvser;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBehandling;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBehandlingAnnan;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBeskrivningAnnanTyp;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesHarMedicinering;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesMedicineringHypoglykemiRisk;
@@ -56,6 +57,7 @@ public class InternalToCertificate {
             .addElement(QuestionDiabetesHarMedicinering.toCertificate(internalCertificate.getAllmant(), ++index, textProvider))
             .addElement(QuestionDiabetesMedicineringHypoglykemiRisk.toCertificate(internalCertificate.getAllmant(), ++index, textProvider))
             .addElement(QuestionDiabetesBehandling.toCertificate(internalCertificate.getAllmant(), ++index, textProvider))
+            .addElement(QuestionDiabetesBehandlingAnnan.toCertificate(internalCertificate.getAllmant(), ++index, textProvider))
             .build();
     }
 }

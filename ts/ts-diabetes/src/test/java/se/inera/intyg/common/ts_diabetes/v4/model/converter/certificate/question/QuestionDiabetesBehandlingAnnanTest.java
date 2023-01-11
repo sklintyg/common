@@ -21,10 +21,12 @@ package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.questio
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_TEXT_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_TEXT_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_SVAR_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -43,10 +45,10 @@ import se.inera.intyg.common.support.facade.testsetup.model.validation.Validatio
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalTextValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
-import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvTypAvDiabetes;
+import se.inera.intyg.common.ts_diabetes.v4.model.internal.Behandling;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionDiabetesBeskrivningAnnanTypTest {
+class QuestionDiabetesBehandlingAnnanTest {
 
     @Mock
     private CertificateTextProvider textProvider;
@@ -64,17 +66,17 @@ class QuestionDiabetesBeskrivningAnnanTypTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionDiabetesBeskrivningAnnanTyp.toCertificate(null, getIndex(), textProvider);
+                return QuestionDiabetesBehandlingAnnan.toCertificate(null, getIndex(), textProvider);
             }
 
             @Override
             protected String getId() {
-                return ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID;
+                return ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID;
             }
 
             @Override
             protected String getParent() {
-                return ALLMANT_TYP_AV_DIABETES_SVAR_ID;
+                return ALLMANT_BEHANDLING_SVAR_ID;
             }
 
             @Override
@@ -93,12 +95,12 @@ class QuestionDiabetesBeskrivningAnnanTypTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionDiabetesBeskrivningAnnanTyp.toCertificate(null, 0, getTextProviderMock());
+                return QuestionDiabetesBehandlingAnnan.toCertificate(null, 0, getTextProviderMock());
             }
 
             @Override
             protected String getTextId() {
-                return ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_TEXT_ID;
+                return ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_TEXT_ID;
             }
 
             @Override
@@ -108,7 +110,7 @@ class QuestionDiabetesBeskrivningAnnanTypTest {
 
             @Override
             protected String getJsonId() {
-                return ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID;
+                return ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID;
             }
         }
 
@@ -117,14 +119,17 @@ class QuestionDiabetesBeskrivningAnnanTypTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionDiabetesBeskrivningAnnanTyp.toCertificate(
-                    Allmant.builder().setBeskrivningAnnanTypAvDiabetes(getText()).build(), 0,
+                return QuestionDiabetesBehandlingAnnan.toCertificate(
+                    Allmant.builder()
+                        .setBehandling(
+                            Behandling.builder().setAnnanAngeVilken(getText()).build())
+                        .build(), 0,
                     textProvider);
             }
 
             @Override
             protected String getJsonId() {
-                return ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID;
+                return ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID;
             }
 
             @Override
@@ -138,7 +143,7 @@ class QuestionDiabetesBeskrivningAnnanTypTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionDiabetesBeskrivningAnnanTyp.toCertificate(null, 0, textProvider);
+                return QuestionDiabetesBehandlingAnnan.toCertificate(null, 0, textProvider);
             }
 
             @Override
@@ -157,7 +162,7 @@ class QuestionDiabetesBeskrivningAnnanTypTest {
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionDiabetesBeskrivningAnnanTyp.toCertificate(null, 0, textProvider);
+                return QuestionDiabetesBehandlingAnnan.toCertificate(null, 0, textProvider);
             }
 
             @Override
@@ -172,7 +177,7 @@ class QuestionDiabetesBeskrivningAnnanTypTest {
 
             @Override
             protected String getExpression() {
-                return "$" + ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID;
+                return "$" + ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID;
             }
         }
 
@@ -181,17 +186,17 @@ class QuestionDiabetesBeskrivningAnnanTypTest {
 
             @Override
             protected String getQuestionId() {
-                return ALLMANT_TYP_AV_DIABETES_SVAR_ID;
+                return ALLMANT_BEHANDLING_SVAR_ID;
             }
 
             @Override
             protected String getExpression() {
-                return "$" + KvTypAvDiabetes.ANNAN.getCode();
+                return "$" + ALLMANT_BEHANDLING_ANNAN_JSON_ID;
             }
 
             @Override
             protected CertificateDataElement getElement() {
-                return QuestionDiabetesBeskrivningAnnanTyp.toCertificate(null, 0, textProvider);
+                return QuestionDiabetesBehandlingAnnan.toCertificate(null, 0, textProvider);
             }
 
             @Override
@@ -210,13 +215,16 @@ class QuestionDiabetesBeskrivningAnnanTypTest {
 
             @Override
             protected CertificateDataElement getElement(String expectedValue) {
-                return QuestionDiabetesBeskrivningAnnanTyp.toCertificate(
-                    Allmant.builder().setBeskrivningAnnanTypAvDiabetes(expectedValue).build(), 0, textProvider);
+                return QuestionDiabetesBehandlingAnnan.toCertificate(
+                    Allmant.builder()
+                        .setBehandling(
+                            Behandling.builder().setAnnanAngeVilken(expectedValue).build())
+                        .build(), 0, textProvider);
             }
 
             @Override
             protected String toInternalTextValue(Certificate certificate) {
-                return QuestionDiabetesBeskrivningAnnanTyp.toInternal(certificate);
+                return QuestionDiabetesBehandlingAnnan.toInternal(certificate);
             }
         }
     }

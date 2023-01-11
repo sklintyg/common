@@ -40,6 +40,7 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBehandling;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBehandlingAnnan;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBeskrivningAnnanTyp;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesHarMedicinering;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesMedicineringHypoglykemiRisk;
@@ -83,6 +84,7 @@ class CertificateToInternalTest {
                     .setInsulin(true)
                     .setTabletter(true)
                     .setAnnan(true)
+                    .setAnnanAngeVilken("Det här är en annan!")
                     .build()
             )
             .build();
@@ -110,6 +112,7 @@ class CertificateToInternalTest {
             .addElement(QuestionDiabetesHarMedicinering.toCertificate(allmant, 0, textProvider))
             .addElement(QuestionDiabetesMedicineringHypoglykemiRisk.toCertificate(allmant, 0, textProvider))
             .addElement(QuestionDiabetesBehandling.toCertificate(allmant, 0, textProvider))
+            .addElement(QuestionDiabetesBehandlingAnnan.toCertificate(allmant, 0, textProvider))
             .build();
     }
 
@@ -209,5 +212,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getAllmant().getBehandling().getAnnan(),
             actualInternalCertificate.getAllmant().getBehandling().getAnnan());
+    }
+
+    @Test
+    void shallIncludeBehandlingAnnanVilken() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getAllmant().getBehandling().getAnnanAngeVilken(),
+            actualInternalCertificate.getAllmant().getBehandling().getAnnanAngeVilken());
     }
 }
