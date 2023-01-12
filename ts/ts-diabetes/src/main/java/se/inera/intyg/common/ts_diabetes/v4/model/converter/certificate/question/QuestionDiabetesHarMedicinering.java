@@ -39,7 +39,7 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
 public class QuestionDiabetesHarMedicinering {
 
     public static CertificateDataElement toCertificate(Allmant allmant, int index, CertificateTextProvider textProvider) {
-        final var harDiabetes =
+        final var harMedicineringForDiabetes =
             allmant != null && allmant.getMedicineringForDiabetes() != null ? allmant.getMedicineringForDiabetes() : null;
         return CertificateDataElement.builder()
             .id(ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID)
@@ -56,7 +56,7 @@ public class QuestionDiabetesHarMedicinering {
             .value(
                 CertificateDataValueBoolean.builder()
                     .id(ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID)
-                    .selected(harDiabetes)
+                    .selected(harMedicineringForDiabetes)
                     .build()
             )
             .validation(
