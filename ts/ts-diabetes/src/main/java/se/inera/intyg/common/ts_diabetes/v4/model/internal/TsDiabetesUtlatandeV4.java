@@ -26,7 +26,7 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ID_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYGETAVSER_SVAR_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_SVAR_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SIGNATURE;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.TEXTVERSION_JSON_ID;
@@ -116,7 +116,7 @@ public abstract class TsDiabetesUtlatandeV4 implements Utlatande {
         @JsonProperty(SIGNATURE)
         public abstract Builder setSignature(String signature);
 
-        @JsonProperty(INTYGETAVSER_SVAR_JSON_ID)
+        @JsonProperty(INTYG_AVSER_SVAR_JSON_ID)
         public abstract Builder setIntygAvser(IntygAvser intygAvser);
 
         @JsonProperty(IDENTITET_STYRKT_GENOM_JSON_ID)

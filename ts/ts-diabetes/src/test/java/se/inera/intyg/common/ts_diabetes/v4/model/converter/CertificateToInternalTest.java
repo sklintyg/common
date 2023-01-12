@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
+import java.util.EnumSet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,12 +34,31 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBehandling;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBehandlingAnnan;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBeskrivningAnnanTyp;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesHarMedicinering;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesMedicineringHypoglykemiRisk;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesMedicineringHypoglykemiRiskDatum;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesTyp;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionIdentitetStyrktGenom;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionIntygetAvser;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionPatientenFoljsAv;
+import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
+import se.inera.intyg.common.ts_diabetes.v4.model.internal.Behandling;
+import se.inera.intyg.common.ts_diabetes.v4.model.internal.IdKontroll;
+import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvser;
+import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
+import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvIdKontroll;
+import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvTypAvDiabetes;
+import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvVardniva;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 @ExtendWith(MockitoExtension.class)
@@ -55,14 +75,48 @@ class CertificateToInternalTest {
     void setup() {
         when(textProvider.get(anyString())).thenReturn("Test string");
 
+        final var allmant = Allmant.builder()
+            .setPatientenFoljsAv(KvVardniva.SPECIALISTVARD)
+            .setTypAvDiabetes(KvTypAvDiabetes.ANNAN)
+            .setBeskrivningAnnanTypAvDiabetes("Här är en beskrivning")
+            .setMedicineringForDiabetes(true)
+            .setMedicineringMedforRiskForHypoglykemi(true)
+            .setBehandling(
+                Behandling.builder()
+                    .setInsulin(true)
+                    .setTabletter(true)
+                    .setAnnan(true)
+                    .setAnnanAngeVilken("Det här är en annan!")
+                    .build()
+            )
+            .setMedicineringMedforRiskForHypoglykemiTidpunkt(new InternalDate("2022-01-01"))
+            .build();
+
         expectedInternalCertificate = TsDiabetesUtlatandeV4.builder()
             .setId("id")
             .setTextVersion("textVersion")
             .setGrundData(getGrundData())
+            .setIntygAvser(IntygAvser.create(EnumSet.of(IntygAvserKategori.VAR1, IntygAvserKategori.VAR2)))
+            .setIdentitetStyrktGenom(IdKontroll.create(KvIdKontroll.PERS_KANNEDOM))
+            .setAllmant(allmant)
             .build();
 
         certificate = CertificateBuilder.create()
             .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, textProvider))
+            .addElement(
+                QuestionIntygetAvser.toCertificate(expectedInternalCertificate.getIntygAvser(), 0, textProvider)
+            )
+            .addElement(
+                QuestionIdentitetStyrktGenom.toCertificate(expectedInternalCertificate.getIdentitetStyrktGenom(), 0, textProvider)
+            )
+            .addElement(QuestionPatientenFoljsAv.toCertificate(allmant, 0, textProvider))
+            .addElement(QuestionDiabetesTyp.toCertificate(allmant, 0, textProvider))
+            .addElement(QuestionDiabetesBeskrivningAnnanTyp.toCertificate(allmant, 0, textProvider))
+            .addElement(QuestionDiabetesHarMedicinering.toCertificate(allmant, 0, textProvider))
+            .addElement(QuestionDiabetesMedicineringHypoglykemiRisk.toCertificate(allmant, 0, textProvider))
+            .addElement(QuestionDiabetesBehandling.toCertificate(allmant, 0, textProvider))
+            .addElement(QuestionDiabetesBehandlingAnnan.toCertificate(allmant, 0, textProvider))
+            .addElement(QuestionDiabetesMedicineringHypoglykemiRiskDatum.toCertificate(allmant, 0, textProvider))
             .build();
     }
 
@@ -94,5 +148,87 @@ class CertificateToInternalTest {
     void shallIncludeGrundData() {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertNotNull(actualInternalCertificate.getGrundData(), "GrundData is missing!");
+    }
+
+    @Test
+    void shallIncludeIntygetAvser() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getIntygAvser(), expectedInternalCertificate.getIntygAvser());
+    }
+
+    @Test
+    void shallIncludeIdentitetStyrktGenom() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getIdentitetStyrktGenom(), expectedInternalCertificate.getIdentitetStyrktGenom());
+    }
+
+    @Test
+    void shallIncludePatientenFoljsAv() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getAllmant().getPatientenFoljsAv(),
+            expectedInternalCertificate.getAllmant().getPatientenFoljsAv());
+    }
+
+    @Test
+    void shallIncludeDiabetesTyp() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getAllmant().getTypAvDiabetes(),
+            expectedInternalCertificate.getAllmant().getTypAvDiabetes());
+    }
+
+    @Test
+    void shallIncludeDiabetesBeskrivningAnnanTyp() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getAllmant().getBeskrivningAnnanTypAvDiabetes(),
+            expectedInternalCertificate.getAllmant().getBeskrivningAnnanTypAvDiabetes());
+    }
+
+    @Test
+    void shallIncludeDiabetesHarMedicinering() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getAllmant().getMedicineringForDiabetes(),
+            expectedInternalCertificate.getAllmant().getMedicineringForDiabetes());
+    }
+
+    @Test
+    void shallIncludeDiabetesMedicineringHypoglykemiRisk() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getAllmant().getMedicineringMedforRiskForHypoglykemi(),
+            expectedInternalCertificate.getAllmant().getMedicineringMedforRiskForHypoglykemi());
+    }
+
+    @Test
+    void shallIncludeDiabetesInsulin() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getAllmant().getBehandling().getInsulin(),
+            actualInternalCertificate.getAllmant().getBehandling().getInsulin());
+    }
+
+    @Test
+    void shallIncludeDiabetesTabletter() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getAllmant().getBehandling().getTabletter(),
+            actualInternalCertificate.getAllmant().getBehandling().getTabletter());
+    }
+
+    @Test
+    void shallIncludeDiabetesAnnan() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getAllmant().getBehandling().getAnnan(),
+            actualInternalCertificate.getAllmant().getBehandling().getAnnan());
+    }
+
+    @Test
+    void shallIncludeBehandlingAnnanVilken() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getAllmant().getBehandling().getAnnanAngeVilken(),
+            actualInternalCertificate.getAllmant().getBehandling().getAnnanAngeVilken());
+    }
+
+    @Test
+    void shallIncludeMedicineringHypoglykemiRiskDatum() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getAllmant().getMedicineringMedforRiskForHypoglykemiTidpunkt(),
+            actualInternalCertificate.getAllmant().getMedicineringMedforRiskForHypoglykemiTidpunkt());
     }
 }
