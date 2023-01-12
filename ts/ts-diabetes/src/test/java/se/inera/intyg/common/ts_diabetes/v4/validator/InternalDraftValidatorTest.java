@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
@@ -39,13 +40,11 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.validator.InternalDraftValidatorImpl.CATEGORY_ALLMANT;
 import static se.inera.intyg.common.ts_diabetes.v4.validator.InternalDraftValidatorImpl.CATEGORY_BEDOMNING;
 import static se.inera.intyg.common.ts_diabetes.v4.validator.InternalDraftValidatorImpl.CATEGORY_HYPOGLYKEMI;
 import static se.inera.intyg.common.ts_diabetes.v4.validator.InternalDraftValidatorImpl.CATEGORY_OVRIGT;
 
 import com.google.common.collect.ImmutableSet;
-
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
@@ -88,7 +87,7 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_ALLMANT, error.getCategory()),
+            () -> assertEquals(ALLMANT_CATEGORY_ID, error.getCategory()),
             () -> assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID, error.getField()),
             () -> assertEquals(ValidationMessageType.OTHER, error.getType()),
             () -> assertEquals("common.validation.d-02", error.getMessage())
@@ -105,7 +104,7 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_ALLMANT, error.getCategory()),
+            () -> assertEquals(ALLMANT_CATEGORY_ID, error.getCategory()),
             () -> assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID, error.getField()),
             () -> assertEquals(ValidationMessageType.OTHER, error.getType()),
             () -> assertEquals("common.validation.d-02", error.getMessage())
@@ -122,7 +121,7 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_ALLMANT, error.getCategory()),
+            () -> assertEquals(ALLMANT_CATEGORY_ID, error.getCategory()),
             () -> assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID, error.getField()),
             () -> assertEquals(ValidationMessageType.INVALID_FORMAT, error.getType()),
             () -> assertEquals("common.validation.b-02b", error.getMessage())
@@ -139,7 +138,7 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_ALLMANT, error.getCategory()),
+            () -> assertEquals(ALLMANT_CATEGORY_ID, error.getCategory()),
             () -> assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID, error.getField()),
             () -> assertEquals(ValidationMessageType.EMPTY, error.getType())
         );
@@ -155,7 +154,7 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_ALLMANT, error.getCategory()),
+            () -> assertEquals(ALLMANT_CATEGORY_ID, error.getCategory()),
             () -> assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID, error.getField()),
             () -> assertEquals(ValidationMessageType.OTHER, error.getType())
         );
@@ -171,7 +170,7 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_ALLMANT, error.getCategory()),
+            () -> assertEquals(ALLMANT_CATEGORY_ID, error.getCategory()),
             () -> assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID, error.getField()),
             () -> assertEquals(ValidationMessageType.EMPTY, error.getType())
         );
@@ -227,7 +226,7 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_ALLMANT, error.getCategory()),
+            () -> assertEquals(ALLMANT_CATEGORY_ID, error.getCategory()),
             () -> assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID + "." + ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID,
                 error.getField()),
             () -> assertEquals(ValidationMessageType.EMPTY, error.getType())
@@ -245,8 +244,8 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_ALLMANT, error.getCategory()),
-            () -> assertEquals(CATEGORY_ALLMANT + "." + ALLMANT_BEHANDLING_JSON_ID + "." + ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID,
+            () -> assertEquals(ALLMANT_CATEGORY_ID, error.getCategory()),
+            () -> assertEquals(ALLMANT_CATEGORY_ID + "." + ALLMANT_BEHANDLING_JSON_ID + "." + ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID,
                 error.getField()),
             () -> assertEquals(ValidationMessageType.OTHER, error.getType())
         );
@@ -262,7 +261,7 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_ALLMANT, error.getCategory()),
+            () -> assertEquals(ALLMANT_CATEGORY_ID, error.getCategory()),
             () -> assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID, error.getField()),
             () -> assertEquals(ValidationMessageType.OTHER, error.getType()),
             () -> assertEquals(error.getMessage(), "common.validation.d-11")
@@ -279,7 +278,7 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_ALLMANT, error.getCategory()),
+            () -> assertEquals(ALLMANT_CATEGORY_ID, error.getCategory()),
             () -> assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID, error.getField()),
             () -> assertEquals(ValidationMessageType.OTHER, error.getType()),
             () -> assertEquals(error.getMessage(), "common.validation.d-08")
@@ -296,7 +295,7 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_ALLMANT, error.getCategory()),
+            () -> assertEquals(ALLMANT_CATEGORY_ID, error.getCategory()),
             () -> assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID, error.getField()),
             () -> assertEquals(ValidationMessageType.INVALID_FORMAT, error.getType())
         );
@@ -580,8 +579,8 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_ALLMANT, error.getCategory()),
-            () -> assertEquals(CATEGORY_ALLMANT + "." + ALLMANT_BEHANDLING_JSON_ID, error.getField()),
+            () -> assertEquals(ALLMANT_CATEGORY_ID, error.getCategory()),
+            () -> assertEquals(ALLMANT_CATEGORY_ID + "." + ALLMANT_BEHANDLING_JSON_ID, error.getField()),
             () -> assertEquals(ValidationMessageType.EMPTY, error.getType())
         );
     }
@@ -596,8 +595,9 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_ALLMANT, error.getCategory()),
-            () -> assertEquals(CATEGORY_ALLMANT + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID, error.getField()),
+            () -> assertEquals(ALLMANT_CATEGORY_ID, error.getCategory()),
+            () -> assertEquals(ALLMANT_CATEGORY_ID + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID,
+                error.getField()),
             () -> assertEquals(ValidationMessageType.EMPTY, error.getType())
         );
     }
@@ -612,7 +612,7 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_ALLMANT, error.getCategory()),
+            () -> assertEquals(ALLMANT_CATEGORY_ID, error.getCategory()),
             () -> assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID, error.getField()),
             () -> assertEquals(ValidationMessageType.EMPTY, error.getType())
         );
@@ -636,7 +636,7 @@ public class InternalDraftValidatorTest {
 
     @Test
     public void failureDueToRules34() throws Exception {
-        final var utlatande =  ScenarioFinder.getInternalScenario("fail-R34").asInternalModel();
+        final var utlatande = ScenarioFinder.getInternalScenario("fail-R34").asInternalModel();
         final var res = validator.validateDraft(utlatande);
 
         final var error = res.getValidationErrors().get(0);

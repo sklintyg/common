@@ -36,11 +36,13 @@ import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAktivitetsbegransningar;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnos;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrund;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrundForNyBedomning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrundNyBedomning;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFormagaTrotsBegransning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningAnnan;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningBalansKoordination;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningIntellektuell;
@@ -49,7 +51,15 @@ import se.inera.intyg.common.luse.v1.model.converter.certificate.question.Questi
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPsykisk;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningSynHorselTal;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKontaktAnledning;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKontaktMedFk;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingAvslutadBehandling;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPagaendeBehandling;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPlaneradBehandling;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingSubstansintag;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskaForutsattningarForArbete;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionOvrigt;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionSjukdomsforlopp;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlag;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlagFinns;
@@ -118,6 +128,16 @@ class CertificateToInternalTest {
             .setFunktionsnedsattningSynHorselTal("funktionsnedsattningSynHorselTal")
             .setFunktionsnedsattningBalansKoordination("funktionsnedsattningKoordination")
             .setFunktionsnedsattningAnnan("funktionsnedsattningAnnan")
+            .setAktivitetsbegransning("aktivitetsbegransning")
+            .setAvslutadBehandling("avslutadBehandling")
+            .setPagaendeBehandling("pagaendeBehandling")
+            .setPlaneradBehandling("planeradBehandling")
+            .setSubstansintag("substansintag")
+            .setMedicinskaForutsattningarForArbete("medicinskaForutsattningarForArbete")
+            .setFormagaTrotsBegransning("formagaTrotsBegransning")
+            .setOvrigt("ovrigt")
+            .setKontaktMedFk(true)
+            .setAnledningTillKontakt("anledningTillKontakt")
             .build();
 
         certificate = CertificateBuilder.create()
@@ -171,6 +191,40 @@ class CertificateToInternalTest {
                 expectedInternalCertificate.getFunktionsnedsattningBalansKoordination(), 0, textProvider))
             .addElement(QuestionFunktionsnedsattningAnnan.toCertificate(
                 expectedInternalCertificate.getFunktionsnedsattningAnnan(), 0, textProvider))
+            .addElement(
+                QuestionAktivitetsbegransningar.toCertificate(expectedInternalCertificate.getAktivitetsbegransning(), 0, textProvider)
+            )
+            .addElement(
+                QuestionMedicinskBehandlingAvslutadBehandling.toCertificate(expectedInternalCertificate.getAvslutadBehandling(), 0,
+                    textProvider)
+            )
+            .addElement(
+                QuestionMedicinskBehandlingPagaendeBehandling.toCertificate(expectedInternalCertificate.getPagaendeBehandling(), 0,
+                    textProvider)
+            )
+            .addElement(
+                QuestionMedicinskBehandlingPlaneradBehandling.toCertificate(expectedInternalCertificate.getPlaneradBehandling(), 0,
+                    textProvider)
+            )
+            .addElement(
+                QuestionMedicinskBehandlingSubstansintag.toCertificate(expectedInternalCertificate.getSubstansintag(), 0, textProvider)
+            )
+            .addElement(
+                QuestionMedicinskaForutsattningarForArbete.toCertificate(
+                    expectedInternalCertificate.getMedicinskaForutsattningarForArbete(), 0, textProvider)
+            )
+            .addElement(
+                QuestionFormagaTrotsBegransning.toCertificate(expectedInternalCertificate.getFormagaTrotsBegransning(), 0, textProvider)
+            )
+            .addElement(
+                QuestionOvrigt.toCertificate(expectedInternalCertificate.getOvrigt(), 0, textProvider)
+            )
+            .addElement(
+                QuestionKontaktMedFk.toCertificate(expectedInternalCertificate.getKontaktMedFk(), 0, textProvider)
+            )
+            .addElement(
+                QuestionKontaktAnledning.toCertificate(expectedInternalCertificate.getAnledningTillKontakt(), 0, textProvider)
+            )
             .build();
     }
 
@@ -347,5 +401,75 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(actualInternalCertificate.getFunktionsnedsattningAnnan(),
             expectedInternalCertificate.getFunktionsnedsattningAnnan());
+    }
+
+    @Test
+    void shallIncludeAktivitetsbegransning() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getAktivitetsbegransning(),
+            expectedInternalCertificate.getAktivitetsbegransning());
+    }
+
+    @Test
+    void shallIncludeAvslutadBehandling() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getAvslutadBehandling(),
+            expectedInternalCertificate.getAvslutadBehandling());
+    }
+
+    @Test
+    void shallIncludePagaendeBehandling() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getPagaendeBehandling(),
+            expectedInternalCertificate.getPagaendeBehandling());
+    }
+
+    @Test
+    void shallIncludePlaneradBehandling() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getPlaneradBehandling(),
+            expectedInternalCertificate.getPlaneradBehandling());
+    }
+
+    @Test
+    void shallIncludeSubstansintag() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getSubstansintag(),
+            expectedInternalCertificate.getSubstansintag());
+    }
+
+    @Test
+    void shallIncludeMedicinskaForutsattningarForArbete() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getMedicinskaForutsattningarForArbete(),
+            expectedInternalCertificate.getMedicinskaForutsattningarForArbete());
+    }
+
+    @Test
+    void shallIncludeFormagaTrotsBegransning() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getFormagaTrotsBegransning(),
+            expectedInternalCertificate.getFormagaTrotsBegransning());
+    }
+
+    @Test
+    void shallIncludeOvrigt() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getOvrigt(),
+            expectedInternalCertificate.getOvrigt());
+    }
+
+    @Test
+    void shallIncludeKontaktMedFk() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getKontaktMedFk(),
+            expectedInternalCertificate.getKontaktMedFk());
+    }
+
+    @Test
+    void shallIncludeAnledningTillKontakt() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getAnledningTillKontakt(),
+            expectedInternalCertificate.getAnledningTillKontakt());
     }
 }

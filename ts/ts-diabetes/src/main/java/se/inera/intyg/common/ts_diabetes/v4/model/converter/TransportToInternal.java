@@ -71,7 +71,7 @@ public final class TransportToInternal {
 
         for (Svar svar : source.getSvar()) {
             switch (svar.getId()) {
-                case RespConstants.INTYGETAVSER_SVAR_ID:
+                case RespConstants.INTYG_AVSER_SVAR_ID:
                     handleIntygAvser(intygAvserSet, svar);
                     break;
                 case RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID:
@@ -136,7 +136,7 @@ public final class TransportToInternal {
                 case RespConstants.BEDOMNING_OVRIGA_KOMMENTARER_SVAR_ID:
                     handleOvrigaKommentarer(bedomning, svar);
                     break;
-                 default:
+                default:
                     break;
             }
         }
@@ -156,7 +156,7 @@ public final class TransportToInternal {
     private static void handleIntygAvser(Set<IntygAvserKategori> intygAvserSet, Svar svar) throws ConverterException {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
-                case RespConstants.INTYGETAVSER_DELSVAR_ID:
+                case RespConstants.INTYG_AVSER_DELSVAR_ID:
                     intygAvserSet.add(IntygAvserKategori.valueOf(getCVSvarContent(delsvar).getCode()));
                     break;
                 default:

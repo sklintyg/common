@@ -28,11 +28,13 @@ import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERL
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAktivitetsbegransningar;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnos;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrund;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrundForNyBedomning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionDiagnosgrundNyBedomning;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFormagaTrotsBegransning;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningAnnan;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningBalansKoordination;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningIntellektuell;
@@ -41,7 +43,15 @@ import se.inera.intyg.common.luse.v1.model.converter.certificate.question.Questi
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPsykisk;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionFunktionsnedsattningSynHorselTal;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKannedomOmPatient;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKontaktAnledning;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionKontaktMedFk;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingAvslutadBehandling;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPagaendeBehandling;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingPlaneradBehandling;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskBehandlingSubstansintag;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMedicinskaForutsattningarForArbete;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
+import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionOvrigt;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionSjukdomsforlopp;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlag;
 import se.inera.intyg.common.luse.v1.model.converter.certificate.question.QuestionUnderlagFinns;
@@ -88,6 +98,16 @@ public class CertificateToInternal {
             .setFunktionsnedsattningSynHorselTal(QuestionFunktionsnedsattningSynHorselTal.toInternal(certificate))
             .setFunktionsnedsattningBalansKoordination(QuestionFunktionsnedsattningBalansKoordination.toInternal(certificate))
             .setFunktionsnedsattningAnnan(QuestionFunktionsnedsattningAnnan.toInternal(certificate))
+            .setAktivitetsbegransning(QuestionAktivitetsbegransningar.toInternal(certificate))
+            .setAvslutadBehandling(QuestionMedicinskBehandlingAvslutadBehandling.toInternal(certificate))
+            .setPagaendeBehandling(QuestionMedicinskBehandlingPagaendeBehandling.toInternal(certificate))
+            .setPlaneradBehandling(QuestionMedicinskBehandlingPlaneradBehandling.toInternal(certificate))
+            .setSubstansintag(QuestionMedicinskBehandlingSubstansintag.toInternal(certificate))
+            .setMedicinskaForutsattningarForArbete(QuestionMedicinskaForutsattningarForArbete.toInternal(certificate))
+            .setFormagaTrotsBegransning(QuestionFormagaTrotsBegransning.toInternal(certificate))
+            .setOvrigt(QuestionOvrigt.toInternal(certificate))
+            .setKontaktMedFk(QuestionKontaktMedFk.toInternal(certificate))
+            .setAnledningTillKontakt(QuestionKontaktAnledning.toInternal(certificate))
             .build();
     }
 }

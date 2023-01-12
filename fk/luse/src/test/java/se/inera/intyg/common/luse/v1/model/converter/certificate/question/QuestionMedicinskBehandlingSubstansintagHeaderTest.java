@@ -16,12 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.luae_na.v1.model.converter.certificate.category;
+
+package se.inera.intyg.common.luse.v1.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_TEXT_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SUBSTANSINTAG_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SUBSTANSINTAG_SVAR_TEXT;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -31,10 +33,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
-import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategoryTest;
+import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigHeaderTest;
 
 @ExtendWith(MockitoExtension.class)
-class CategoryAktivietsbegransningarTest {
+class QuestionMedicinskBehandlingSubstansintagHeaderTest {
 
     @Mock
     private CertificateTextProvider texts;
@@ -45,31 +47,31 @@ class CategoryAktivietsbegransningarTest {
     }
 
     @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
+    class IncludeCommonElementTests extends CommonElementTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return CategoryAktivietsbegransningar.toCertificate(3, texts);
+            return QuestionMedicinskBehandlingSubstansintagHeader.toCertificate(0, texts);
         }
 
         @Override
         protected String getId() {
-            return AKTIVITETSBEGRANSNING_CATEGORY_ID;
+            return SUBSTANSINTAG_SVAR_ID;
         }
 
         @Override
         protected String getParent() {
-            return null;
+            return MEDICINSKABEHANDLINGAR_CATEGORY_ID;
         }
 
         @Override
         protected int getIndex() {
-            return 3;
+            return 0;
         }
     }
 
     @Nested
-    class IncludeConfigCategoryTest extends ConfigCategoryTest {
+    class IncludeConfigHeaderTests extends ConfigHeaderTest {
 
         @Override
         protected CertificateTextProvider getTextProviderMock() {
@@ -78,12 +80,12 @@ class CategoryAktivietsbegransningarTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return CategoryAktivietsbegransningar.toCertificate(3, texts);
+            return QuestionMedicinskBehandlingSubstansintagHeader.toCertificate(0, texts);
         }
 
         @Override
         protected String getTextId() {
-            return AKTIVITETSBEGRANSNING_CATEGORY_TEXT_ID;
+            return SUBSTANSINTAG_SVAR_TEXT;
         }
 
         @Override

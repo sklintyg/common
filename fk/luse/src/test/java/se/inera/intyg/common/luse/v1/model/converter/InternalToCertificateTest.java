@@ -23,12 +23,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AVSLUTADBEHANDLING_DELSVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AVSLUTADBEHANDLING_SVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.BAKGRUND_CATEGORY_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_FOR_NY_BEDOMNING_DELSVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_SVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_SVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOS_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
@@ -41,8 +49,20 @@ import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.GRUNDF
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KANNEDOM_SVAR_ID_2;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.OVRIGT_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PAGAENDEBEHANDLING_DELSVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_DELSVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SUBSTANSINTAG_DELSVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SUBSTANSINTAG_SVAR_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
 
@@ -229,5 +249,125 @@ class InternalToCertificateTest {
     void shallIncludeQuestionFunktionsnedsattningAnnan() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(21, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryAktivitetsbegransningar() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(22, actualCertificate.getData().get(AKTIVITETSBEGRANSNING_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionAktivitetsbegransningarHeader() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(23, actualCertificate.getData().get(AKTIVITETSBEGRANSNING_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionAktivitetsbegransningar() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(24, actualCertificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryMedicinskBehandling() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(25, actualCertificate.getData().get(MEDICINSKABEHANDLINGAR_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionMedicinskBehandlingAvslutadBehandlingHeader() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(26, actualCertificate.getData().get(AVSLUTADBEHANDLING_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionMedicinskBehandlingAvslutadBehandling() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(27, actualCertificate.getData().get(AVSLUTADBEHANDLING_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionMedicinskBehandlingPagaendeBehandlingHeader() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(28, actualCertificate.getData().get(PAGAENDEBEHANDLING_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionMedicinskBehandlingPagaendeBehandling() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(29, actualCertificate.getData().get(PAGAENDEBEHANDLING_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionMedicinskBehandlingPlaneradBehandlingHeader() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(30, actualCertificate.getData().get(PLANERADBEHANDLING_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionMedicinskBehandlingPlaneradBehandling() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(31, actualCertificate.getData().get(PLANERADBEHANDLING_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionMedicinskBehandlingSubstansintagHeader() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(32, actualCertificate.getData().get(SUBSTANSINTAG_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionMedicinskBehandlingSubstansintag() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(33, actualCertificate.getData().get(SUBSTANSINTAG_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryMedicinskaForutsattningarForArbete() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(34, actualCertificate.getData().get(CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionMedicinskaForutsattningarForArbete() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(35, actualCertificate.getData().get(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionFormagaTrotsBegransning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(36, actualCertificate.getData().get(FORMAGATROTSBEGRANSNING_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryOvrigt() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(37, actualCertificate.getData().get(OVRIGT_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionOvrigt() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(38, actualCertificate.getData().get(OVRIGT_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryKontakt() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(39, actualCertificate.getData().get(KONTAKT_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionKontaktMedFk() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(40, actualCertificate.getData().get(KONTAKT_ONSKAS_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionAnledningTillKontakt() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(41, actualCertificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID).getIndex());
     }
 }

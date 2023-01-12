@@ -19,9 +19,23 @@
 
 package se.inera.intyg.common.ts_diabetes.v4.model.converter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_CATEGORY_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_CATEGORY_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_CATEGORY_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_SVAR_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -74,5 +88,83 @@ class InternalToCertificateTest {
     void shallIncludeMetadata() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertNotNull(actualCertificate.getMetadata(), "Shall contain metadata");
+    }
+
+    @Test
+    void shallIncludeCategoryIntygetAvser() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(0, actualCertificate.getData().get(INTYG_AVSER_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionIntygetAvser() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(1, actualCertificate.getData().get(INTYG_AVSER_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryIdentitet() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(2, actualCertificate.getData().get(IDENTITET_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionIdentitetStyrktGenom() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(3, actualCertificate.getData().get(IDENTITET_STYRKT_GENOM_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryAllmant() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(4, actualCertificate.getData().get(ALLMANT_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionPatientenFoljsAv() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(5, actualCertificate.getData().get(ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionDiabetesTyp() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(7, actualCertificate.getData().get(ALLMANT_TYP_AV_DIABETES_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionDiabetesBeskrivningAnnanTyp() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(8, actualCertificate.getData().get(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionDiabetesHarMedicinering() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(9, actualCertificate.getData().get(ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionDiabetesMedicineringHypoglykemiRisk() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(10, actualCertificate.getData().get(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionDiabetesBehandling() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(11, actualCertificate.getData().get(ALLMANT_BEHANDLING_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionDiabetesBehandlingAnnan() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(12, actualCertificate.getData().get(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionMedicineringHypoglykemiRiskDatum() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(13, actualCertificate.getData().get(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID).getIndex());
     }
 }

@@ -76,10 +76,7 @@ public class InternalDraftValidatorTest {
 
     @InjectMocks
     InternalDraftValidatorImpl validator;
-
-//    @Mock
-//    WebcertModuleService moduleService;
-
+    
     private static InternalValidatorHelper internalValidatorHelper = new InternalValidatorHelper();
 
     public static TsDiabetesUtlatandeV3 setupPassingHypoglykemierDates(TsDiabetesUtlatandeV3 utlatande) {
