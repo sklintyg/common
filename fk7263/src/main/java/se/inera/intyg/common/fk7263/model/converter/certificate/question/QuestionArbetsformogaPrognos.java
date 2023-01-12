@@ -21,15 +21,15 @@ package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_PROGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_PROGNOS_SVAR_ID;
-import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.stringValue;
 
+import se.inera.intyg.common.fk7263.model.internal.PrognosBedomning;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigViewText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewText;
 
 public class QuestionArbetsformogaPrognos {
 
-    public static CertificateDataElement toCertificate(String prognos, int index) {
+    public static CertificateDataElement toCertificate(PrognosBedomning prognos, int index) {
         return CertificateDataElement.builder()
             .id(ARBETSFORMAGA_PROGNOS_SVAR_ID)
             .parent(ARBETSFORMAGA_PROGNOS_CATEGORY_ID)
@@ -40,9 +40,24 @@ public class QuestionArbetsformogaPrognos {
             )
             .value(
                 CertificateDataValueViewText.builder()
-                    .text(stringValue(prognos))
+                    .text(mapPrognosBedomningToString(prognos))
                     .build()
             )
             .build();
+    }
+
+    private static String mapPrognosBedomningToString(PrognosBedomning prognosBedomning) {
+        switch (prognosBedomning) {
+            case arbetsformagaPrognosJa:
+                return "Ja";
+            case arbetsformagaPrognosJaDelvis:
+                return "Ja, delvis";
+            case arbetsformagaPrognosNej:
+                return "Nej";
+            case arbetsformagaPrognosGarInteAttBedoma:
+                return "Går inte att bedöma";
+            default:
+                return "Ej angivet";
+        }
     }
 }

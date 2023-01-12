@@ -125,7 +125,7 @@ class QuestionFortydligandeDiagnosTest {
         void shouldIncludeTextValue() {
             final var expectedResult1 = "test1 test2 test3 test4";
             final var expectedResult2 = "test1 test2";
-            final var expectedResult3 = "Ej Angivet";
+            final var expectedResult3 = "Ej angivet";
 
             assertAll(
                 () -> assertEquals(

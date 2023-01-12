@@ -22,11 +22,15 @@ package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.verify;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_FOM_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_FOM_TEXT;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_NEDSATT_100_TEXT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_NEDSATT_25_TEXT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_NEDSATT_50_TEXT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_NEDSATT_75_TEXT_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_NEDSATT_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_NEDSATT_TEXT;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_SVAR_ID;
@@ -59,7 +63,7 @@ class QuestionArbetsformogaBedomningTest {
 
     @BeforeEach
     void setUp() {
-        when(messagesProvider.get(any(String.class))).thenReturn("test string");
+        //when(messagesProvider.get(any(String.class))).thenReturn("test string");
     }
 
     @Nested
@@ -150,15 +154,55 @@ class QuestionArbetsformogaBedomningTest {
         }
 
         @Test
-        void shouldIncludeColumns() {
-            final var element = QuestionArbetsformogaBedomning.toCertificate(null, null, null,
+        void shouldIncludeRowText() {
+            final var expectedInternalLocalDateInterval = new InternalLocalDateInterval();
+            expectedInternalLocalDateInterval.setFrom(new InternalDate(LocalDate.now()));
+            expectedInternalLocalDateInterval.setTom(new InternalDate(LocalDate.now()));
+            final var element = QuestionArbetsformogaBedomning.toCertificate(expectedInternalLocalDateInterval,
+                expectedInternalLocalDateInterval, expectedInternalLocalDateInterval,
+                expectedInternalLocalDateInterval, 0, messagesProvider);
+
+            assertAll(
+                () -> verify(messagesProvider, atLeastOnce()).get(ARBETSFORMAGA_BEDOMNING_NEDSATT_25_TEXT_ID),
+                () -> verify(messagesProvider, atLeastOnce()).get(ARBETSFORMAGA_BEDOMNING_NEDSATT_50_TEXT_ID),
+                () -> verify(messagesProvider, atLeastOnce()).get(ARBETSFORMAGA_BEDOMNING_NEDSATT_75_TEXT_ID),
+                () -> verify(messagesProvider, atLeastOnce()).get(ARBETSFORMAGA_BEDOMNING_NEDSATT_100_TEXT_ID)
+            );
+        }
+
+        @Test
+        void shouldIncludeRowId() {
+            final var expectedInternalLocalDateInterval = new InternalLocalDateInterval();
+            expectedInternalLocalDateInterval.setFrom(new InternalDate(LocalDate.now()));
+            expectedInternalLocalDateInterval.setTom(new InternalDate(LocalDate.now()));
+            final var element = QuestionArbetsformogaBedomning.toCertificate(expectedInternalLocalDateInterval,
+                null, null,
                 null, 0, messagesProvider);
+
+            final var value = (CertificateDataValueViewTable) element.getValue();
+
+            assertAll(
+                () -> assertEquals(ARBETSFORMAGA_BEDOMNING_NEDSATT_ID, value.getRows().get(0).getColumns().get(0).getId()),
+                () -> assertEquals(ARBETSFORMAGA_BEDOMNING_FOM_ID, value.getRows().get(0).getColumns().get(1).getId()),
+                () -> assertEquals(ARBETSFORMAGA_BEDOMNING_TOM_ID, value.getRows().get(0).getColumns().get(2).getId())
+            );
+        }
+
+        @Test
+        void shouldIncludeColumns() {
+            final var expectedInternalLocalDateInterval = new InternalLocalDateInterval();
+            expectedInternalLocalDateInterval.setFrom(new InternalDate(LocalDate.now()));
+            expectedInternalLocalDateInterval.setTom(new InternalDate(LocalDate.now()));
+            final var element = QuestionArbetsformogaBedomning.toCertificate(expectedInternalLocalDateInterval,
+                expectedInternalLocalDateInterval, expectedInternalLocalDateInterval,
+                expectedInternalLocalDateInterval, 0, messagesProvider);
             final var value = (CertificateDataValueViewTable) element.getValue();
 
             assertAll(
                 () -> assertNotNull(value.getRows().get(0).getColumns()),
                 () -> assertNotNull(value.getRows().get(1).getColumns()),
-                () -> assertNotNull(value.getRows().get(2).getColumns())
+                () -> assertNotNull(value.getRows().get(2).getColumns()),
+                () -> assertNotNull(value.getRows().get(3).getColumns())
             );
         }
 
@@ -189,26 +233,12 @@ class QuestionArbetsformogaBedomningTest {
         }
 
         @Test
-        void shouldIncludeColumnsWithNoValues() {
-            final var expectedInternalLocalDateInterval = "Ej Angivet";
+        void shouldNotIncludeColumnsWithNoValues() {
             final var element = QuestionArbetsformogaBedomning.toCertificate(null, null, null,
                 null, 0, messagesProvider);
             final var value = (CertificateDataValueViewTable) element.getValue();
 
-            assertAll(
-                () -> assertEquals(expectedInternalLocalDateInterval,
-                    value.getRows().get(0).getColumns().get(1).getText()),
-                () -> assertEquals(expectedInternalLocalDateInterval,
-                    value.getRows().get(0).getColumns().get(2).getText()),
-                () -> assertEquals(expectedInternalLocalDateInterval,
-                    value.getRows().get(1).getColumns().get(1).getText()),
-                () -> assertEquals(expectedInternalLocalDateInterval,
-                    value.getRows().get(1).getColumns().get(2).getText()),
-                () -> assertEquals(expectedInternalLocalDateInterval,
-                    value.getRows().get(2).getColumns().get(1).getText()),
-                () -> assertEquals(expectedInternalLocalDateInterval,
-                    value.getRows().get(2).getColumns().get(2).getText())
-            );
+            assertEquals(0, value.getRows().size());
         }
     }
 }

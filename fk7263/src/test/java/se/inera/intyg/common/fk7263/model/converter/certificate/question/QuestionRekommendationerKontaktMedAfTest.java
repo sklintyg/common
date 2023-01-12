@@ -123,7 +123,7 @@ class QuestionRekommendationerKontaktMedAfTest {
         @Override
         protected List<InputExpectedValuePair<Boolean, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>(false, CertificateDataValueViewText.builder().text("Nej").build()),
                 new InputExpectedValuePair<>(true, CertificateDataValueViewText.builder().text("Ja").build())
             );

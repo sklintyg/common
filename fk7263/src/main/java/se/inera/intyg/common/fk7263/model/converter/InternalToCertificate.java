@@ -180,7 +180,7 @@ public class InternalToCertificate {
                 CategoryArbetsformogaPrognos.toCertificate(index++, messagesProvider)
             )
             .addElement(
-                QuestionArbetsformogaPrognos.toCertificate(internalCertificate.getArbetsformagaPrognosGarInteAttBedomaBeskrivning(),
+                QuestionArbetsformogaPrognos.toCertificate(internalCertificate.getPrognosBedomning(),
                     index++)
             )
             .addElement(

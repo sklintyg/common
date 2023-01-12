@@ -108,7 +108,7 @@ class QuestionArbetslivsinriktadRehabiliteringTest {
         @Override
         protected List<InputExpectedValuePair<Rehabilitering, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>(Rehabilitering.rehabiliteringEjAktuell,
                     CertificateDataValueViewText.builder().text("Nej").build()),
                 new InputExpectedValuePair<>(Rehabilitering.rehabiliteringAktuell,
