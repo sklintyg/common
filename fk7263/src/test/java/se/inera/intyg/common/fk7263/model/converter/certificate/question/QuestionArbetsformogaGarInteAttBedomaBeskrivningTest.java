@@ -19,14 +19,19 @@
 
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.RESOR_TILL_FRAN_ARBETE_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.RESOR_TILL_FRAN_ARBETE_SVAR_ID;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_GAR_INTE_BEDOMA_SVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_GAR_INTE_BEDOMA_TEXT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_PROGNOS_SVAR_ID;
 
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -38,24 +43,32 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedV
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueViewTextTest;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionResorTillFranArbeteTest {
+class QuestionArbetsformogaGarInteAttBedomaBeskrivningTest {
+
+    @Mock
+    private CertificateMessagesProvider texts;
+
+    @BeforeEach
+    void setup() {
+        when(texts.get(any(String.class))).thenReturn("Test string");
+    }
 
     @Nested
     class IncludeCommonElementTests extends CommonElementTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionResorTillFranArbete.toCertificate(null, 0);
+            return QuestionArbetsformogaGarInteAttBedomaBeskrivning.toCertificate(null, 0, texts);
         }
 
         @Override
         protected String getId() {
-            return RESOR_TILL_FRAN_ARBETE_SVAR_ID;
+            return ARBETSFORMAGA_GAR_INTE_BEDOMA_SVAR_ID;
         }
 
         @Override
         protected String getParent() {
-            return RESOR_TILL_FRAN_ARBETE_CATEGORY_ID;
+            return ARBETSFORMAGA_PROGNOS_SVAR_ID;
         }
 
         @Override
@@ -74,7 +87,12 @@ class QuestionResorTillFranArbeteTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionResorTillFranArbete.toCertificate(null, 0);
+            return QuestionArbetsformogaGarInteAttBedomaBeskrivning.toCertificate(null, 0, texts);
+        }
+
+        @Override
+        protected String getTextId() {
+            return "Test string";
         }
 
         @Override
@@ -84,35 +102,29 @@ class QuestionResorTillFranArbeteTest {
 
         @Override
         protected CertificateMessagesProvider getMessageProviderMock() {
-            return null;
+            return texts;
         }
 
         @Override
         protected String getMessageId() {
-            return null;
-        }
-
-        @Override
-        protected String getTextId() {
-            return null;
+            return ARBETSFORMAGA_GAR_INTE_BEDOMA_TEXT_ID;
         }
     }
 
     @Nested
     @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeValueViewTextTests extends ValueViewTextTest<Boolean> {
+    class IncludeValueViewTextTests extends ValueViewTextTest<String> {
 
         @Override
-        protected CertificateDataElement getElement(Boolean expectedValue) {
-            return QuestionResorTillFranArbete.toCertificate(expectedValue, 0);
+        protected CertificateDataElement getElement(String expectedValue) {
+            return QuestionArbetsformogaGarInteAttBedomaBeskrivning.toCertificate(expectedValue, 0, texts);
         }
 
         @Override
-        protected List<InputExpectedValuePair<Boolean, CertificateDataValueViewText>> inputExpectedValuePairList() {
+        protected List<InputExpectedValuePair<String, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
-                new InputExpectedValuePair<>(false, CertificateDataValueViewText.builder().text("Ej angivet").build()),
-                new InputExpectedValuePair<>(true, CertificateDataValueViewText.builder().text("Ja").build())
+                new InputExpectedValuePair<>("test", CertificateDataValueViewText.builder().text("test").build()),
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build())
             );
         }
     }

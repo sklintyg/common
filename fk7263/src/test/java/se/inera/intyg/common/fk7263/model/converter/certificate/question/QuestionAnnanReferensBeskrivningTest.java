@@ -19,15 +19,13 @@
 
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.RESOR_TILL_FRAN_ARBETE_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.RESOR_TILL_FRAN_ARBETE_SVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ANNAT_BESKRIVNING_DELSVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.INTYGET_BASERAS_PA_CATEGORY_ID;
 
 import java.util.List;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -37,25 +35,24 @@ import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigViewTex
 import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueViewTextTest;
 
-@ExtendWith(MockitoExtension.class)
-class QuestionResorTillFranArbeteTest {
+class QuestionAnnanReferensBeskrivningTest {
 
     @Nested
     class IncludeCommonElementTests extends CommonElementTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionResorTillFranArbete.toCertificate(null, 0);
+            return QuestionAnnanReferensBeskrivning.toCertificate(null, 0);
         }
 
         @Override
         protected String getId() {
-            return RESOR_TILL_FRAN_ARBETE_SVAR_ID;
+            return ANNAT_BESKRIVNING_DELSVAR_ID;
         }
 
         @Override
         protected String getParent() {
-            return RESOR_TILL_FRAN_ARBETE_CATEGORY_ID;
+            return INTYGET_BASERAS_PA_CATEGORY_ID;
         }
 
         @Override
@@ -74,7 +71,12 @@ class QuestionResorTillFranArbeteTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionResorTillFranArbete.toCertificate(null, 0);
+            return QuestionAnnanReferensBeskrivning.toCertificate(null, 0);
+        }
+
+        @Override
+        protected String getTextId() {
+            return null;
         }
 
         @Override
@@ -91,28 +93,22 @@ class QuestionResorTillFranArbeteTest {
         protected String getMessageId() {
             return null;
         }
-
-        @Override
-        protected String getTextId() {
-            return null;
-        }
     }
 
     @Nested
     @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeValueViewTextTests extends ValueViewTextTest<Boolean> {
+    class IncludeValueViewTextTests extends ValueViewTextTest<String> {
 
         @Override
-        protected CertificateDataElement getElement(Boolean expectedValue) {
-            return QuestionResorTillFranArbete.toCertificate(expectedValue, 0);
+        protected CertificateDataElement getElement(String expectedValue) {
+            return QuestionAnnanReferensBeskrivning.toCertificate(expectedValue, 0);
         }
 
         @Override
-        protected List<InputExpectedValuePair<Boolean, CertificateDataValueViewText>> inputExpectedValuePairList() {
+        protected List<InputExpectedValuePair<String, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
-                new InputExpectedValuePair<>(false, CertificateDataValueViewText.builder().text("Ej angivet").build()),
-                new InputExpectedValuePair<>(true, CertificateDataValueViewText.builder().text("Ja").build())
+                new InputExpectedValuePair<>("test", CertificateDataValueViewText.builder().text("test").build()),
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().build())
             );
         }
     }

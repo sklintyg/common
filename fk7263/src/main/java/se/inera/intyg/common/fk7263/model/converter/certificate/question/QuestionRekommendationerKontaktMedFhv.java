@@ -22,7 +22,7 @@ package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.REKOMMENDATIONER_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.REKOMMENDATIONER_KONTAKT_MED_FHV_DELSVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.REKOMMENDATIONER_KONTAKT_MED_FHV_DELSVAR_TEXT_ID;
-import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.booleanValueWithoutFalse;
+import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.radioBooleanValue;
 
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -43,7 +43,7 @@ public class QuestionRekommendationerKontaktMedFhv {
             )
             .value(
                 CertificateDataValueViewText.builder()
-                    .text(booleanValueWithoutFalse(kontaktMedFhv))
+                    .text(radioBooleanValue(kontaktMedFhv))
                     .build()
             )
             .build();

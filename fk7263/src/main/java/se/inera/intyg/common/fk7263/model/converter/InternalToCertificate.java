@@ -38,8 +38,10 @@ import se.inera.intyg.common.fk7263.model.converter.certificate.category.Categor
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategoryResorTillFranArbete;
 import se.inera.intyg.common.fk7263.model.converter.certificate.category.CategorySjukdomforlopp;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionAktivitetsbegransningar;
+import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionAnnanReferensBeskrivning;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionArbetsformogaBedomning;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionArbetsformogaForsakringsmedicinskaBeslutstod;
+import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionArbetsformogaGarInteAttBedomaBeskrivning;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionArbetsformogaPrognos;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionArbetslivsinriktadRehabilitering;
 import se.inera.intyg.common.fk7263.model.converter.certificate.question.QuestionAvstangningSmittskydd;
@@ -87,9 +89,7 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionFortydligandeDiagnos.toCertificate(internalCertificate.getDiagnosBeskrivning(),
-                    internalCertificate.getDiagnosBeskrivning1(), internalCertificate.getDiagnosBeskrivning2(),
-                    internalCertificate.getDiagnosBeskrivning3(), index++,
-                    messagesProvider)
+                    index++, messagesProvider)
             )
             .addElement(
                 CategorySjukdomforlopp.toCertificate(index++, messagesProvider)
@@ -117,6 +117,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionIntygetBaserasPaAnnat.toCertificate(internalCertificate.getAnnanReferens(), index++)
+            )
+            .addElement(
+                QuestionAnnanReferensBeskrivning.toCertificate(internalCertificate.getAnnanReferensBeskrivning(), index++)
             )
             .addElement(
                 CategoryAktivitetsbegransningar.toCertificate(index++, messagesProvider)
@@ -158,8 +161,8 @@ public class InternalToCertificate {
                 CategoryPatientensArbetsformagaBedoms.toCertificate(index++, messagesProvider)
             )
             .addElement(
-                QuestionPatientensArbetsformogaBedoms.toCertificate(internalCertificate.isArbetsloshet(),
-                    internalCertificate.isForaldrarledighet(), internalCertificate.isNuvarandeArbete(),
+                QuestionPatientensArbetsformogaBedoms.toCertificate(internalCertificate.isNuvarandeArbete(),
+                    internalCertificate.isForaldrarledighet(), internalCertificate.isArbetsloshet(),
                     internalCertificate.getNuvarandeArbetsuppgifter(), index++, messagesProvider)
             )
             .addElement(
@@ -182,6 +185,10 @@ public class InternalToCertificate {
             .addElement(
                 QuestionArbetsformogaPrognos.toCertificate(internalCertificate.getPrognosBedomning(),
                     index++)
+            )
+            .addElement(
+                QuestionArbetsformogaGarInteAttBedomaBeskrivning.toCertificate(
+                    internalCertificate.getArbetsformagaPrognosGarInteAttBedomaBeskrivning(), index++, messagesProvider)
             )
             .addElement(
                 CategoryResorTillFranArbete.toCertificate(index++, messagesProvider)

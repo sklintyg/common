@@ -20,12 +20,12 @@
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETSFORMAGA_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.PATIENTENS_ARBETSFORMAGA_SVAR_ID;
 
-import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -126,14 +126,12 @@ class QuestionPatientensArbetsformogaBedomsTest {
         @Test
         void valuesShouldNotBeDisplayed() {
 
-            final var expectedValue = Collections.emptyList();
-
             final var element = QuestionPatientensArbetsformogaBedoms.toCertificate(false,
                 false, false, null, 0, messagesProvider);
 
             final var actualValue = (CertificateDataValueViewList) element.getValue();
 
-            assertEquals(expectedValue, actualValue.getList());
+            assertTrue(actualValue.getList().isEmpty());
         }
 
         @Test
@@ -142,12 +140,12 @@ class QuestionPatientensArbetsformogaBedomsTest {
 
             final var expectedValue = List.of(
                 CertificateDataValueViewText.builder()
-                    .text("test string")
+                    .text("test string" + " - " + "arbetsuppgifter")
                     .build()
             );
 
             final var element = QuestionPatientensArbetsformogaBedoms.toCertificate(true,
-                false, false, null, 0, messagesProvider);
+                false, false, "arbetsuppgifter", 0, messagesProvider);
 
             final var actualValue = (CertificateDataValueViewList) element.getValue();
 
@@ -183,7 +181,7 @@ class QuestionPatientensArbetsformogaBedomsTest {
             );
 
             final var element = QuestionPatientensArbetsformogaBedoms.toCertificate(false,
-                false, true, null, 0, messagesProvider);
+                true, false, null, 0, messagesProvider);
 
             final var actualValue = (CertificateDataValueViewList) element.getValue();
 

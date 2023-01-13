@@ -28,7 +28,7 @@ public final class ViewTextToolkit {
     private ViewTextToolkit() {
     }
 
-    public static String booleanValueWithoutFalse(Boolean value) {
+    public static String radioBooleanValue(Boolean value) {
         if (value == null || !value) {
             return NOT_SPECIFIED;
         }

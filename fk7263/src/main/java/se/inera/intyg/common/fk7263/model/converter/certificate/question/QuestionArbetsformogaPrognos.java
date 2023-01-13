@@ -47,6 +47,9 @@ public class QuestionArbetsformogaPrognos {
     }
 
     private static String mapPrognosBedomningToString(PrognosBedomning prognosBedomning) {
+        if (prognosBedomning == null) {
+            return "Ej angivet";
+        }
         switch (prognosBedomning) {
             case arbetsformagaPrognosJa:
                 return "Ja";

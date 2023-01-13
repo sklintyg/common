@@ -19,31 +19,27 @@
 
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.REKOMMENDATIONER_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.REKOMMENDATIONER_KONTAKT_MED_AF_DELSVAR_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.REKOMMENDATIONER_KONTAKT_MED_AF_DELSVAR_TEXT_ID;
-import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.radioBooleanValue;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ANNAT_BESKRIVNING_DELSVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.INTYGET_BASERAS_PA_CATEGORY_ID;
 
-import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigViewText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewText;
 
-public class QuestionRekommendationerKontaktMedAf {
+public class QuestionAnnanReferensBeskrivning {
 
-    public static CertificateDataElement toCertificate(Boolean kontaktMedAf, int index, CertificateMessagesProvider messagesProvider) {
+    public static CertificateDataElement toCertificate(String annanReferensBeskrivning, int index) {
         return CertificateDataElement.builder()
-            .id(REKOMMENDATIONER_KONTAKT_MED_AF_DELSVAR_ID)
-            .parent(REKOMMENDATIONER_CATEGORY_ID)
+            .id(ANNAT_BESKRIVNING_DELSVAR_ID)
+            .parent(INTYGET_BASERAS_PA_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigViewText.builder()
-                    .text(messagesProvider.get(REKOMMENDATIONER_KONTAKT_MED_AF_DELSVAR_TEXT_ID))
                     .build()
             )
             .value(
                 CertificateDataValueViewText.builder()
-                    .text(radioBooleanValue(kontaktMedAf))
+                    .text(annanReferensBeskrivning)
                     .build()
             )
             .build();

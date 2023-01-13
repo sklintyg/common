@@ -19,31 +19,31 @@
 
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.REKOMMENDATIONER_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.REKOMMENDATIONER_KONTAKT_MED_AF_DELSVAR_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.REKOMMENDATIONER_KONTAKT_MED_AF_DELSVAR_TEXT_ID;
-import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.radioBooleanValue;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_GAR_INTE_BEDOMA_SVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_GAR_INTE_BEDOMA_TEXT_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_PROGNOS_SVAR_ID;
+import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.stringValue;
 
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigViewText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewText;
 
-public class QuestionRekommendationerKontaktMedAf {
+public class QuestionArbetsformogaGarInteAttBedomaBeskrivning {
 
-    public static CertificateDataElement toCertificate(Boolean kontaktMedAf, int index, CertificateMessagesProvider messagesProvider) {
+    public static CertificateDataElement toCertificate(String beslutstod, int index, CertificateMessagesProvider messagesProvider) {
         return CertificateDataElement.builder()
-            .id(REKOMMENDATIONER_KONTAKT_MED_AF_DELSVAR_ID)
-            .parent(REKOMMENDATIONER_CATEGORY_ID)
+            .id(ARBETSFORMAGA_GAR_INTE_BEDOMA_SVAR_ID)
+            .parent(ARBETSFORMAGA_PROGNOS_SVAR_ID)
             .index(index)
             .config(
                 CertificateDataConfigViewText.builder()
-                    .text(messagesProvider.get(REKOMMENDATIONER_KONTAKT_MED_AF_DELSVAR_TEXT_ID))
+                    .text(messagesProvider.get(ARBETSFORMAGA_GAR_INTE_BEDOMA_TEXT_ID))
                     .build()
             )
             .value(
                 CertificateDataValueViewText.builder()
-                    .text(radioBooleanValue(kontaktMedAf))
+                    .text(stringValue(beslutstod))
                     .build()
             )
             .build();
