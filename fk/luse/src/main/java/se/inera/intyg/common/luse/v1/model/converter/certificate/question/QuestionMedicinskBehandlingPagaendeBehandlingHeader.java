@@ -16,24 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.luae_na.v1.model.converter.certificate.category;
+package se.inera.intyg.common.luse.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_TEXT_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_TEXT;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigHeader;
 
-public class CategoryAktivietsbegransningar {
+public class QuestionMedicinskBehandlingPagaendeBehandlingHeader {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(AKTIVITETSBEGRANSNING_CATEGORY_ID)
+            .id(PAGAENDEBEHANDLING_SVAR_ID)
+            .parent(MEDICINSKABEHANDLINGAR_CATEGORY_ID)
             .index(index)
             .config(
-                CertificateDataConfigCategory.builder()
-                    .text(textProvider.get(AKTIVITETSBEGRANSNING_CATEGORY_TEXT_ID))
+                CertificateDataConfigHeader.builder()
+                    .text(texts.get(PAGAENDEBEHANDLING_SVAR_TEXT))
                     .build()
             )
             .build();

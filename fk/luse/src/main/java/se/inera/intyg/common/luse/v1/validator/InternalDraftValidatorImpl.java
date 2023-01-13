@@ -18,27 +18,47 @@
  */
 package se.inera.intyg.common.luse.v1.validator;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSLUTADBEHANDLING_SVAR_JSON_ID_18;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOSGRUND_SVAR_JSON_ID_7;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNEDOM_SVAR_JSON_ID_2;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SJUKDOMSFORLOPP_SVAR_JSON_ID_5;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SUBSTANSINTAG_SVAR_JSON_ID_21;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AVSLUTADBEHANDLING_DELSVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.AVSLUTADBEHANDLING_SVAR_JSON_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_FOR_NY_BEDOMNING_DELSVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_SVAR_JSON_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_JSON_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KANNEDOM_SVAR_ID_2;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KANNEDOM_SVAR_JSON_ID_2;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.OVRIGT_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PAGAENDEBEHANDLING_DELSVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_DELSVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_SVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SJUKDOMSFORLOPP_SVAR_JSON_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SUBSTANSINTAG_DELSVAR_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.SUBSTANSINTAG_SVAR_JSON_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
@@ -107,8 +127,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
 
         if (utlatande.getUndersokningAvPatienten() == null && utlatande.getJournaluppgifter() == null
             && utlatande.getAnhorigsBeskrivningAvPatienten() == null && utlatande.getAnnatGrundForMU() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU, GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1,
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU,
+                GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1,
+                ValidationMessageType.EMPTY, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
         }
 
         if (utlatande.getUndersokningAvPatienten() != null) {
@@ -129,34 +150,39 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
 
         // R2
         if (utlatande.getAnnatGrundForMU() != null && Strings.nullToEmpty(utlatande.getAnnatGrundForMUBeskrivning()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,
-                GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1, ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU,
+                GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1, ValidationMessageType.EMPTY,
+                GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1);
         }
         // R3
         if (utlatande.getAnnatGrundForMU() == null && !Strings.isNullOrEmpty(utlatande.getAnnatGrundForMUBeskrivning())) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1,
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU,
+                GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1,
                 ValidationMessageType.INCORRECT_COMBINATION,
-                "luse.validation.grund-for-mu.incorrect_combination_annat_beskrivning");
+                "luse.validation.grund-for-mu.incorrect_combination_annat_beskrivning",
+                GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1);
         }
 
         if (utlatande.getKannedomOmPatient() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU, KANNEDOM_SVAR_JSON_ID_2, ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU, KANNEDOM_SVAR_JSON_ID_2,
+                ValidationMessageType.EMPTY,
+                KANNEDOM_SVAR_ID_2);
         } else {
             boolean dateIsValid = ValidatorUtil.validateDateAndCheckIfFuture(utlatande.getKannedomOmPatient(), validationMessages,
-                CATEGORY_GRUNDFORMU, KANNEDOM_SVAR_JSON_ID_2, "common.validation.c-06");
+                CATEGORY_GRUNDFORMU, KANNEDOM_SVAR_JSON_ID_2, "common.validation.c-06", KANNEDOM_SVAR_ID_2);
             if (dateIsValid && checkIfNotFuture(utlatande.getKannedomOmPatient().asLocalDate())) {
                 if (utlatande.getUndersokningAvPatienten() != null && utlatande.getUndersokningAvPatienten().isValidDate()
                     && utlatande.getKannedomOmPatient().asLocalDate().isAfter(utlatande.getUndersokningAvPatienten().asLocalDate())) {
-                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU, KANNEDOM_SVAR_JSON_ID_2,
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU, KANNEDOM_SVAR_JSON_ID_2,
                         ValidationMessageType.OTHER,
-                        "luse.validation.grund-for-mu.kannedom.after", "KV_FKMU_0001.UNDERSOKNING.RBK");
+                        "luse.validation.grund-for-mu.kannedom.after", "KV_FKMU_0001.UNDERSOKNING.RBK", KANNEDOM_SVAR_ID_2);
                 }
                 if (utlatande.getAnhorigsBeskrivningAvPatienten() != null && utlatande.getAnhorigsBeskrivningAvPatienten().isValidDate()
                     && utlatande.getKannedomOmPatient().asLocalDate()
                     .isAfter(utlatande.getAnhorigsBeskrivningAvPatienten().asLocalDate())) {
-                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU, KANNEDOM_SVAR_JSON_ID_2,
+                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU, KANNEDOM_SVAR_JSON_ID_2,
                         ValidationMessageType.OTHER,
-                        "luse.validation.grund-for-mu.kannedom.after", "KV_FKMU_0001.ANHORIG.RBK");
+                        "luse.validation.grund-for-mu.kannedom.after", "KV_FKMU_0001.ANHORIG.RBK", KANNEDOM_SVAR_ID_2);
                 }
             }
 
@@ -171,29 +197,30 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
     @VisibleForTesting
     void validateUnderlag(LuseUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (utlatande.getUnderlagFinns() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU, UNDERLAGFINNS_SVAR_JSON_ID_3,
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU, UNDERLAGFINNS_SVAR_JSON_ID_3,
+                ValidationMessageType.EMPTY, UNDERLAGFINNS_SVAR_ID_3);
         } else if (utlatande.getUnderlagFinns() && utlatande.getUnderlag().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU, UNDERLAG_SVAR_JSON_ID_4,
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU, UNDERLAG_SVAR_JSON_ID_4,
+                ValidationMessageType.EMPTY, UNDERLAG_SVAR_ID_4);
         } else if (!utlatande.getUnderlagFinns() && !utlatande.getUnderlag().isEmpty()) {
             // R6
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU, UNDERLAGFINNS_SVAR_JSON_ID_3,
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU, UNDERLAGFINNS_SVAR_JSON_ID_3,
                 ValidationMessageType.OTHER,
-                "luse.validation.underlagfinns.incorrect_combination");
+                "luse.validation.underlagfinns.incorrect_combination", UNDERLAG_SVAR_ID_4);
         }
 
         if (utlatande.getUnderlag().size() > MAX_UNDERLAG) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU, UNDERLAG_SVAR_JSON_ID_4, ValidationMessageType.OTHER,
-                "luse.validation.underlag.too_many");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU, UNDERLAG_SVAR_JSON_ID_4,
+                ValidationMessageType.OTHER,
+                "luse.validation.underlag.too_many", UNDERLAG_SVAR_ID_4);
         }
         for (int i = 0; i < utlatande.getUnderlag().size(); i++) {
             Underlag underlag = utlatande.getUnderlag().get(i);
             // Alla underlagstyper är godkända här utom Underlag från skolhälsovård
             if (underlag.getTyp() == null) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU,
                     UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].typ", ValidationMessageType.EMPTY,
-                    "luse.validation.underlag.missing");
+                    "luse.validation.underlag.missing", UNDERLAG_SVAR_ID_4);
             } else if (!underlag.getTyp().getId().equals(Underlag.UnderlagsTyp.NEUROPSYKIATRISKT_UTLATANDE.getId())
                 && !underlag.getTyp().getId().equals(Underlag.UnderlagsTyp.UNDERLAG_FRAN_HABILITERINGEN.getId())
                 && !underlag.getTyp().getId().equals(Underlag.UnderlagsTyp.UNDERLAG_FRAN_ARBETSTERAPEUT.getId())
@@ -204,31 +231,32 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
                 && !underlag.getTyp().getId().equals(Underlag.UnderlagsTyp.UTREDNING_AV_ANNAN_SPECIALISTKLINIK.getId())
                 && !underlag.getTyp().getId().equals(Underlag.UnderlagsTyp.UTREDNING_FRAN_VARDINRATTNING_UTOMLANDS.getId())
                 && !underlag.getTyp().getId().equals(Underlag.UnderlagsTyp.OVRIGT.getId())) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU, UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].typ",
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU,
+                    UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].typ",
                     ValidationMessageType.INVALID_FORMAT,
-                    "luse.validation.underlag.incorrect_format");
+                    "luse.validation.underlag.incorrect_format", UNDERLAG_SVAR_ID_4);
             }
             if (underlag.getDatum() == null) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU,
                     UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum", ValidationMessageType.EMPTY,
-                    "luse.validation.underlag.date.missing");
+                    "luse.validation.underlag.date.missing", UNDERLAG_SVAR_ID_4);
             } else {
                 ValidatorUtil.validateDateAndCheckIfFuture(underlag.getDatum(), validationMessages, CATEGORY_GRUNDFORMU,
-                    UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum", "common.validation.c-06");
+                    UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum", "common.validation.c-06", UNDERLAG_SVAR_ID_4);
             }
             if (Strings.nullToEmpty(underlag.getHamtasFran()).trim().isEmpty()) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU,
                     UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].hamtasFran",
                     ValidationMessageType.EMPTY,
-                    "luse.validation.underlag.hamtas-fran.missing");
+                    "luse.validation.underlag.hamtas-fran.missing", UNDERLAG_SVAR_ID_4);
             }
         }
 
         if (utlatande.getUnderlag().size() > 1 && !validateFirstUnderlagIsPresent(utlatande.getUnderlag())) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU,
                 UNDERLAG_SVAR_JSON_ID_4 + "[0]",
                 ValidationMessageType.INCORRECT_COMBINATION,
-                "common.validation.c-05");
+                "common.validation.c-05", UNDERLAG_SVAR_ID_4);
         }
     }
 
@@ -241,22 +269,24 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
 
     private void validateSjukdomsforlopp(LuseUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (Strings.nullToEmpty(utlatande.getSjukdomsforlopp()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_SJUKDOMSFORLOPP, SJUKDOMSFORLOPP_SVAR_JSON_ID_5,
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_SJUKDOMSFORLOPP, SJUKDOMSFORLOPP_SVAR_JSON_ID,
+                ValidationMessageType.EMPTY, SJUKDOMSFORLOPP_SVAR_ID);
         }
     }
 
     private void validateAktivitetsbegransning(LuseUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (Strings.nullToEmpty(utlatande.getAktivitetsbegransning()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_AKTIVITETSBEGRANSNING, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17,
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_AKTIVITETSBEGRANSNING,
+                AKTIVITETSBEGRANSNING_SVAR_JSON_ID,
+                ValidationMessageType.EMPTY, AKTIVITETSBEGRANSNING_DELSVAR_ID);
         }
     }
 
     private void validateMedicinskaForutsattningarForArbete(LuseUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (Strings.nullToEmpty(utlatande.getMedicinskaForutsattningarForArbete()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE,
-                MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22, ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE,
+                MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID, ValidationMessageType.EMPTY,
+                MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID);
         }
     }
 
@@ -269,35 +299,36 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
             && Strings.nullToEmpty(utlatande.getFunktionsnedsattningKoncentration()).trim().isEmpty()
             && Strings.nullToEmpty(utlatande.getFunktionsnedsattningPsykisk()).trim().isEmpty()
             && Strings.nullToEmpty(utlatande.getFunktionsnedsattningSynHorselTal()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35,
-                ValidationMessageType.EMPTY, "common.validation.funktionsnedsattning.empty");
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING,
+                FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35,
+                ValidationMessageType.EMPTY, "common.validation.funktionsnedsattning.empty", FUNKTIONSNEDSATTNING_CATEGORY_ID);
         }
     }
 
     private void validateDiagnosgrund(LuseUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
 
         if (Strings.nullToEmpty(utlatande.getDiagnosgrund()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS, DIAGNOSGRUND_SVAR_JSON_ID_7,
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS, DIAGNOSGRUND_SVAR_JSON_ID,
+                ValidationMessageType.EMPTY, DIAGNOSGRUND_SVAR_ID);
         }
 
         if (utlatande.getNyBedomningDiagnosgrund() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS, DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45,
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS, DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID,
+                ValidationMessageType.EMPTY, DIAGNOSGRUND_NY_BEDOMNING_SVAR_ID);
         }
 
         // R13
         if (utlatande.getNyBedomningDiagnosgrund() != null && utlatande.getNyBedomningDiagnosgrund()
             && Strings.nullToEmpty(utlatande.getDiagnosForNyBedomning()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS, DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45,
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS, DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45,
+                ValidationMessageType.EMPTY, DIAGNOSGRUND_FOR_NY_BEDOMNING_DELSVAR_ID);
         }
         // R14 Inverted test of R13
         if ((utlatande.getNyBedomningDiagnosgrund() == null || !utlatande.getNyBedomningDiagnosgrund())
             && !Strings.isNullOrEmpty(utlatande.getDiagnosForNyBedomning())) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS, DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45,
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS, DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID,
                 ValidationMessageType.INCORRECT_COMBINATION,
-                "luse.validation.diagnosfornybedomning.incorrect_combination");
+                "luse.validation.diagnosfornybedomning.incorrect_combination", DIAGNOSGRUND_NY_BEDOMNING_SVAR_ID);
         }
     }
 
@@ -305,44 +336,50 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
         // R11
         if ((utlatande.getKontaktMedFk() == null || !utlatande.getKontaktMedFk())
             && !Strings.nullToEmpty(utlatande.getAnledningTillKontakt()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_KONTAKT, KONTAKT_ONSKAS_SVAR_JSON_ID_26,
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_KONTAKT, KONTAKT_ONSKAS_SVAR_JSON_ID,
                 ValidationMessageType.INCORRECT_COMBINATION,
-                "luse.validation.kontakt.incorrect_combination");
+                "luse.validation.kontakt.incorrect_combination", KONTAKT_ONSKAS_SVAR_ID);
         }
     }
 
     private void validateBlanksForOptionalFields(LuseUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (ValidatorUtil.isBlankButNotNull(utlatande.getAnledningTillKontakt())) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_KONTAKT, ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26,
-                ValidationMessageType.BLANK);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_KONTAKT, ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID,
+                ValidationMessageType.BLANK, ANLEDNING_TILL_KONTAKT_DELSVAR_ID);
         }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getAnnatGrundForMUBeskrivning())) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,
-                GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1, ValidationMessageType.BLANK);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_GRUNDFORMU,
+                GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1, ValidationMessageType.BLANK,
+                GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1);
         }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getAvslutadBehandling())) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDICINSKABEHANDLINGAR, AVSLUTADBEHANDLING_SVAR_JSON_ID_18,
-                ValidationMessageType.BLANK);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_MEDICINSKABEHANDLINGAR,
+                AVSLUTADBEHANDLING_SVAR_JSON_ID,
+                ValidationMessageType.BLANK, AVSLUTADBEHANDLING_DELSVAR_ID);
         }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getFormagaTrotsBegransning())) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE,
-                FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23, ValidationMessageType.BLANK);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE,
+                FORMAGATROTSBEGRANSNING_SVAR_JSON_ID, ValidationMessageType.BLANK, FORMAGATROTSBEGRANSNING_SVAR_ID);
         }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getPagaendeBehandling())) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDICINSKABEHANDLINGAR, PAGAENDEBEHANDLING_SVAR_JSON_ID_19,
-                ValidationMessageType.BLANK);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_MEDICINSKABEHANDLINGAR,
+                PAGAENDEBEHANDLING_SVAR_JSON_ID,
+                ValidationMessageType.BLANK, PAGAENDEBEHANDLING_DELSVAR_ID);
         }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getPlaneradBehandling())) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDICINSKABEHANDLINGAR, PLANERADBEHANDLING_SVAR_JSON_ID_20,
-                ValidationMessageType.BLANK);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_MEDICINSKABEHANDLINGAR,
+                PLANERADBEHANDLING_SVAR_JSON_ID,
+                ValidationMessageType.BLANK, PLANERADBEHANDLING_DELSVAR_ID);
         }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getSubstansintag())) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDICINSKABEHANDLINGAR, SUBSTANSINTAG_SVAR_JSON_ID_21,
-                ValidationMessageType.BLANK);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_MEDICINSKABEHANDLINGAR,
+                SUBSTANSINTAG_SVAR_JSON_ID,
+                ValidationMessageType.BLANK, SUBSTANSINTAG_DELSVAR_ID);
         }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getOvrigt())) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_OVRIGT, OVRIGT_SVAR_JSON_ID_25, ValidationMessageType.BLANK);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_OVRIGT, OVRIGT_SVAR_JSON_ID,
+                ValidationMessageType.BLANK,
+                OVRIGT_SVAR_ID);
         }
     }
-
 }

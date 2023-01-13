@@ -16,14 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
+
+package se.inera.intyg.common.luse.v1.model.converter.certificate.category;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_CATEGORY_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_TEXT_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
+import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -33,10 +32,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
-import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigHeaderTest;
+import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategoryTest;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionAktivetsbegransningarHeaderTest {
+class CategoryDiagnosTest {
 
     @Mock
     private CertificateTextProvider texts;
@@ -47,31 +46,31 @@ class QuestionAktivetsbegransningarHeaderTest {
     }
 
     @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
+    class IncludeCommonElementTests extends CommonElementTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionAktivetsbegransningarHeader.toCertificate(3, texts);
+            return CategoryDiagnos.toCertificate(0, texts);
         }
 
         @Override
         protected String getId() {
-            return AKTIVITETSBEGRANSNING_SVAR_ID_17;
+            return DIAGNOS_CATEGORY_ID;
         }
 
         @Override
         protected String getParent() {
-            return AKTIVITETSBEGRANSNING_CATEGORY_ID;
+            return null;
         }
 
         @Override
         protected int getIndex() {
-            return 3;
+            return 0;
         }
     }
 
     @Nested
-    class IncludeConfigHeaderTest extends ConfigHeaderTest {
+    class IncludeConfigCategoryTests extends ConfigCategoryTest {
 
         @Override
         protected CertificateTextProvider getTextProviderMock() {
@@ -80,17 +79,17 @@ class QuestionAktivetsbegransningarHeaderTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionAktivetsbegransningarHeader.toCertificate(3, texts);
+            return CategoryDiagnos.toCertificate(0, texts);
         }
 
         @Override
         protected String getTextId() {
-            return AKTIVITETSBEGRANSNING_SVAR_TEXT_ID;
+            return DIAGNOS_CATEGORY_TEXT_ID;
         }
 
         @Override
         protected String getDescriptionId() {
-            return AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION_ID;
+            return null;
         }
     }
 }
