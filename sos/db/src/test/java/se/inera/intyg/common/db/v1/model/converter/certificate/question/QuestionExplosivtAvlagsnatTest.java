@@ -27,7 +27,6 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_AVLAGSNAT_QUESTION_SELECTED_TEXT;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_AVLAGSNAT_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_AVLAGSNAT_QUESTION_UNSELECTED_TEXT;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_IMPLANTAT_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_AVLAGSNAT_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_AVLAGSNAT_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_IMPLANTAT_DELSVAR_ID;
@@ -85,7 +84,7 @@ class QuestionExplosivtAvlagsnatTest {
         @Test
         void shouldIncludeParentId() {
             final var question = QuestionExplosivtAvlagsnat.toCertificate(true, 0, texts);
-            assertEquals(EXPLOSIVT_IMPLANTAT_CATEGORY_ID, question.getParent());
+            assertEquals(EXPLOSIV_IMPLANTAT_DELSVAR_ID, question.getParent());
         }
 
         @Test

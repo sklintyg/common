@@ -21,7 +21,6 @@ package se.inera.intyg.common.db.v1.model.converter.certificate.question;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_AVLAGSNAT_QUESTION_SELECTED_TEXT;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_AVLAGSNAT_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_AVLAGSNAT_QUESTION_UNSELECTED_TEXT;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_IMPLANTAT_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_AVLAGSNAT_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_AVLAGSNAT_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_IMPLANTAT_DELSVAR_ID;
@@ -44,7 +43,7 @@ public class QuestionExplosivtAvlagsnat {
     public static CertificateDataElement toCertificate(Boolean dodsdatumSakert, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(EXPLOSIV_AVLAGSNAT_DELSVAR_ID)
-            .parent(EXPLOSIVT_IMPLANTAT_CATEGORY_ID)
+            .parent(EXPLOSIV_IMPLANTAT_DELSVAR_ID)
             .index(index)
             .config(
                 CertificateDataConfigRadioBoolean.builder()

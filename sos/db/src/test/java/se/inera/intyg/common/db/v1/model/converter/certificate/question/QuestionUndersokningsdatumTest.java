@@ -27,7 +27,6 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_DATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_DATUM_QUESTION_TEXT_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_DELSVAR_ID;
 
 import java.time.LocalDate;
@@ -85,7 +84,7 @@ class QuestionUndersokningsdatumTest {
         @Test
         void shouldIncludeParentId() {
             final var question = QuestionUndersokningsdatum.toCertificate(null, 0, texts);
-            assertEquals(UNDERSOKNING_YTTRE_CATEGORY_ID, question.getParent());
+            assertEquals(UNDERSOKNING_YTTRE_DELSVAR_ID, question.getParent());
         }
 
         @Test

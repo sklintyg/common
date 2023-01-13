@@ -21,7 +21,6 @@ package se.inera.intyg.common.doi.v1.model.converter.certificate.question;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_ANLEDNING_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_ANLEDNING_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_ANLEDNING_QUESTION_TEXT_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_OM_DELSVAR_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
@@ -44,7 +43,7 @@ public class QuestionOperationAnledning {
     public static CertificateDataElement toCertificate(String anledningOperation, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(OPERATION_ANLEDNING_DELSVAR_ID)
-            .parent(OPERATION_CATEGORY_ID)
+            .parent(OPERATION_OM_DELSVAR_ID)
             .index(index)
             .config(
                 CertificateDataConfigTextField.builder()

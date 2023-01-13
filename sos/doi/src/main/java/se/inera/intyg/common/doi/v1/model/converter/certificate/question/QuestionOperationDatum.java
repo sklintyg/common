@@ -18,7 +18,6 @@
  */
 package se.inera.intyg.common.doi.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_DATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_DATUM_QUESTION_TEXT_ID;
@@ -46,7 +45,7 @@ public class QuestionOperationDatum {
     public static CertificateDataElement toCertificate(LocalDate operationDatum, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(OPERATION_DATUM_DELSVAR_ID)
-            .parent(OPERATION_CATEGORY_ID)
+            .parent(OPERATION_OM_DELSVAR_ID)
             .index(index)
             .config(
                 CertificateDataConfigDate.builder()
