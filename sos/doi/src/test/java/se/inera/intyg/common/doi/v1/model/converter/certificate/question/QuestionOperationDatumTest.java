@@ -24,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_DATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_DATUM_QUESTION_TEXT_ID;
@@ -85,7 +84,7 @@ class QuestionOperationDatumTest {
         @Test
         void shouldIncludeParentId() {
             final var question = QuestionOperationDatum.toCertificate(null, 0, texts);
-            assertEquals(OPERATION_CATEGORY_ID, question.getParent());
+            assertEquals(OPERATION_OM_DELSVAR_ID, question.getParent());
         }
 
         @Test

@@ -1559,7 +1559,7 @@ class InternalToCertificateTest {
                 assertAll("Validating question",
                     () -> assertEquals(NUVARANDE_ARBETE_SVAR_ID_29, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(SYSSELSATTNING_CATEGORY_ID, question.getParent()),
+                    () -> assertEquals(TYP_AV_SYSSELSATTNING_SVAR_ID_28, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
                     () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
@@ -4806,7 +4806,7 @@ class InternalToCertificateTest {
                 assertAll("Validating question",
                     () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(ATGARDER_CATEGORY_ID, question.getParent()),
+                    () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
                     () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")

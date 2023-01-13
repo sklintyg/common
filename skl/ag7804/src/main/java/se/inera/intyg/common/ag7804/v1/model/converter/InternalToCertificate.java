@@ -257,7 +257,7 @@ public final class InternalToCertificate {
             .addElement(createOvrigtQuestion(internalCertificate.getOvrigt(), index++, texts))
             .addElement(createKontaktCategory(index++, texts))
             .addElement(createKontaktQuestion(internalCertificate.getKontaktMedAg(), index++, texts))
-            .addElement(createKontaktBeskrivning(internalCertificate.getAnledningTillKontakt(), index++, texts))
+            .addElement(createKontaktBeskrivning(internalCertificate.getAnledningTillKontakt(), index, texts))
             .build();
     }
 
@@ -487,7 +487,7 @@ public final class InternalToCertificate {
         return CertificateDataElement.builder()
             .id(NUVARANDE_ARBETE_SVAR_ID_29)
             .index(index)
-            .parent(CATEGORY_SYSSELSATTNING)
+            .parent(TYP_AV_SYSSELSATTNING_SVAR_ID_28)
             .config(
                 CertificateDataConfigTextArea.builder()
                     .text(texts.get(NUVARANDE_ARBETE_SVAR_TEXT))
@@ -1404,7 +1404,7 @@ public final class InternalToCertificate {
         return CertificateDataElement.builder()
             .id(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44)
             .index(index)
-            .parent(CATEGORY_ATGARDER)
+            .parent(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
             .config(
                 CertificateDataConfigTextArea.builder()
                     .text(texts.get(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_TEXT))

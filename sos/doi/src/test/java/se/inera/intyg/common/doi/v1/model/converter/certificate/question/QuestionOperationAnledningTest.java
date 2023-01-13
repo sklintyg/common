@@ -27,7 +27,6 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_ANLEDNING_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_ANLEDNING_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_ANLEDNING_QUESTION_TEXT_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_OM_DELSVAR_ID;
 
 import java.util.stream.Stream;
@@ -86,7 +85,7 @@ class QuestionOperationAnledningTest {
         @Test
         void shouldIncludeParentId() {
             final var question = QuestionOperationAnledning.toCertificate("", 0, texts);
-            assertEquals(OPERATION_CATEGORY_ID, question.getParent());
+            assertEquals(OPERATION_OM_DELSVAR_ID, question.getParent());
         }
 
         @Test
