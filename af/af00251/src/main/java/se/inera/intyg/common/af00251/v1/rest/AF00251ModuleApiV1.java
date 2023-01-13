@@ -203,4 +203,9 @@ public class AF00251ModuleApiV1 extends AfParentModuleApi<AF00251UtlatandeV1> {
             throw new ModuleConverterException("Could not create a new internal Webcert model", e);
         }
     }
+
+    @Override
+    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException {
+        return null;
+    }
 }

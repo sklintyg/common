@@ -55,6 +55,7 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.AdditionalMetaData;
@@ -217,6 +218,11 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
     public CertificateMessagesProvider getMessagesProvider() {
         final var dynamicKeys = getDynamicKeyMap();
         return DefaultCertificateMessagesProvider.create(validationMessages, dynamicKeys);
+    }
+
+    @Override
+    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException {
+        return null;
     }
 
     private Map<String, String> getDynamicKeyMap() {

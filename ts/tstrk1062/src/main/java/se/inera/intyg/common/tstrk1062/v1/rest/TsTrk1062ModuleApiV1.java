@@ -18,26 +18,24 @@
  */
 package se.inera.intyg.common.tstrk1062.v1.rest;
 
-import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.*;
+import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS;
+import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
 
+import com.google.common.base.Strings;
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.xml.bind.JAXB;
 import javax.xml.ws.soap.SOAPFaultException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.google.common.base.Strings;
-
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
@@ -158,5 +156,10 @@ public class TsTrk1062ModuleApiV1 extends TsParentModuleApi<TsTrk1062UtlatandeV1
         List<ResolveOrder> otherStrat = Arrays.asList(PU, PARAMS);
 
         return new PatientDetailResolveOrder(null, adressStrat, otherStrat);
+    }
+
+    @Override
+    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException {
+        return null;
     }
 }

@@ -248,4 +248,9 @@ public class TsDiabetesModuleApiV4 extends TsParentModuleApi<TsDiabetesUtlatande
     public CertificateMessagesProvider getMessagesProvider() {
         return DefaultCertificateMessagesProvider.create(validationMessages);
     }
+
+    @Override
+    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException {
+        return null;
+    }
 }

@@ -43,6 +43,7 @@ import se.inera.intyg.common.sos_parent.rest.SosParentModuleApi;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
@@ -152,5 +153,10 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
     @Override
     public CertificateMessagesProvider getMessagesProvider() {
         return DefaultCertificateMessagesProvider.create(validationMessages);
+    }
+
+    @Override
+    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException {
+        return null;
     }
 }

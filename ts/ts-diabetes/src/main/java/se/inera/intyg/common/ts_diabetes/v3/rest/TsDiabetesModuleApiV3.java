@@ -211,4 +211,9 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
     public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException, IOException {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException {
+        return null;
+    }
 }

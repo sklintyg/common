@@ -178,4 +178,9 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
         return DefaultCertificateMessagesProvider.create(validationMessages);
     }
 
+    @Override
+    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException {
+        return null;
+    }
+
 }

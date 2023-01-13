@@ -304,4 +304,9 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
     public CertificateMessagesProvider getMessagesProvider() {
         return DefaultCertificateMessagesProvider.create(validationMessages);
     }
+
+    @Override
+    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException {
+        return null;
+    }
 }
