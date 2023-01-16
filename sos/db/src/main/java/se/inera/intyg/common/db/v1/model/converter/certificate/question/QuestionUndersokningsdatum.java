@@ -21,7 +21,6 @@ package se.inera.intyg.common.db.v1.model.converter.certificate.question;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_DATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_DATUM_QUESTION_TEXT_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_DELSVAR_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateValue;
@@ -47,7 +46,7 @@ public class QuestionUndersokningsdatum {
     public static CertificateDataElement toCertificate(LocalDate undersokningsdatum, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(UNDERSOKNING_DATUM_DELSVAR_ID)
-            .parent(UNDERSOKNING_YTTRE_CATEGORY_ID)
+            .parent(UNDERSOKNING_YTTRE_DELSVAR_ID)
             .index(index)
             .config(
                 CertificateDataConfigDate.builder()

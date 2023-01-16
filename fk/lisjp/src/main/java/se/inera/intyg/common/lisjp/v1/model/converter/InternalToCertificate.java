@@ -552,7 +552,7 @@ public final class InternalToCertificate {
         return CertificateDataElement.builder()
             .id(NUVARANDE_ARBETE_SVAR_ID_29)
             .index(index)
-            .parent(SYSSELSATTNING_CATEGORY_ID)
+            .parent(TYP_AV_SYSSELSATTNING_SVAR_ID_28)
             .config(
                 CertificateDataConfigTextArea.builder()
                     .text(texts.get(NUVARANDE_ARBETE_SVAR_TEXT))
@@ -1395,7 +1395,7 @@ public final class InternalToCertificate {
         return CertificateDataElement.builder()
             .id(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44)
             .index(index)
-            .parent(ATGARDER_CATEGORY_ID)
+            .parent(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
             .config(
                 CertificateDataConfigTextArea.builder()
                     .text(texts.get(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_TEXT))
