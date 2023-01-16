@@ -101,6 +101,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -321,7 +322,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     }
 
     private void validatePatientenFoljsAv(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getAllmant().getPatientenFoljsAv() == null) {
+        final var allmant = Objects.requireNonNull(utlatande.getAllmant());
+        if (allmant.getPatientenFoljsAv() == null) {
             addValidationErrorWithQuestionId(validationMessages, ALLMANT_CATEGORY_ID,
                 ALLMANT_JSON_ID + "." + ALLMANT_PATIENTEN_FOLJS_AV_JSON_ID, ValidationMessageType.EMPTY,
                 ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID);
@@ -330,7 +332,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
 
     private void validateDiagnosAr(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
         final var diabetesSedanArFieldPath = ALLMANT_JSON_ID + "." + ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID;
-        final var cleanedDiabetesDiagnosAr = Strings.nullToEmpty(utlatande.getAllmant().getDiabetesDiagnosAr()).trim();
+        final var allmant = Objects.requireNonNull(utlatande.getAllmant());
+        final var cleanedDiabetesDiagnosAr = Strings.nullToEmpty(allmant.getDiabetesDiagnosAr()).trim();
         if (cleanedDiabetesDiagnosAr.isEmpty()) {
             addValidationError(validationMessages, ALLMANT_CATEGORY_ID, diabetesSedanArFieldPath, ValidationMessageType.EMPTY, B_02B);
             return;
@@ -359,7 +362,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     private void validateTypAvDiabetes(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
         final var typAvDiabetesFieldPath = ALLMANT_JSON_ID + "." + ALLMANT_TYP_AV_DIABETES_JSON_ID;
         final var annanTypAvDiabetesBeskrivningFieldPath = ALLMANT_JSON_ID + "." + ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID;
-        final var allmant = utlatande.getAllmant();
+        final var allmant = Objects.requireNonNull(utlatande.getAllmant());
         if (allmant.getTypAvDiabetes() == null) {
             addValidationErrorWithQuestionId(validationMessages, ALLMANT_CATEGORY_ID, typAvDiabetesFieldPath, ValidationMessageType.EMPTY,
                 ALLMANT_TYP_AV_DIABETES_SVAR_ID);
@@ -377,7 +380,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
 
     private void validateMedicineringForDiabetes(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
         final var medicineringForDiabetes = ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID;
-        final var allmant = utlatande.getAllmant();
+        final var allmant = Objects.requireNonNull(utlatande.getAllmant());
         if (allmant.getMedicineringForDiabetes() == null) {
             addValidationErrorWithQuestionId(validationMessages, ALLMANT_CATEGORY_ID, medicineringForDiabetes, ValidationMessageType.EMPTY,
                 ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID);
@@ -385,7 +388,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     }
 
     private void validateMedicineringMedforRiskForHypoglykemi(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        if (eligibleForRule32(utlatande) && utlatande.getAllmant().getMedicineringMedforRiskForHypoglykemi() == null) {
+        final var allmant = Objects.requireNonNull(utlatande.getAllmant());
+        if (eligibleForRule32(utlatande) && allmant.getMedicineringMedforRiskForHypoglykemi() == null) {
             addValidationErrorWithQuestionId(validationMessages, ALLMANT_CATEGORY_ID,
                 ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID,
                 ValidationMessageType.EMPTY, ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID);
@@ -393,8 +397,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     }
 
     private void validateBehandling(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
+        final var allmant = Objects.requireNonNull(utlatande.getAllmant());
         if (eligibleForRule30(utlatande)) {
-            final var behandling = utlatande.getAllmant().getBehandling();
+            final var behandling = allmant.getBehandling();
             if (behandling == null) {
                 addValidationErrorWithQuestionId(validationMessages, ALLMANT_CATEGORY_ID,
                     ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID, ValidationMessageType.EMPTY,
@@ -427,7 +432,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
 
     private void validateMedicineringMedforRiskForHypoglykemiTidpunkt(TsDiabetesUtlatandeV4 utlatande,
         List<ValidationMessage> validationMessages) {
-        if (eligibleForRule30(utlatande) && utlatande.getAllmant().getMedicineringMedforRiskForHypoglykemiTidpunkt() == null) {
+        final var allmant = Objects.requireNonNull(utlatande.getAllmant());
+        if (eligibleForRule30(utlatande) && allmant.getMedicineringMedforRiskForHypoglykemiTidpunkt() == null) {
             addValidationErrorWithQuestionId(validationMessages, ALLMANT_CATEGORY_ID,
                 ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID,
                 ValidationMessageType.EMPTY, ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID);
@@ -435,15 +441,15 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
 
         if (eligibleForRule19(utlatande)) {
             final var patientBirthDate = ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId());
-            validateDateWithinIntervalWithQuestionId(utlatande.getAllmant().getMedicineringMedforRiskForHypoglykemiTidpunkt(),
+            validateDateWithinIntervalWithQuestionId(allmant.getMedicineringMedforRiskForHypoglykemiTidpunkt(),
                 patientBirthDate, LocalDate.now(), validationMessages, ALLMANT_CATEGORY_ID,
-                ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID, D_11, D_08,
+                ALLMANT_JSON_ID + "." + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID,
                 ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID);
         }
     }
 
     private void validateKontrollSjukdomstillstand(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        final var hypoglykemi = utlatande.getHypoglykemi();
+        final var hypoglykemi = Objects.requireNonNull(utlatande.getHypoglykemi());
         if (hypoglykemi.getKontrollSjukdomstillstand() == null) {
             addValidationErrorWithQuestionId(validationMessages, HYPOGLYKEMI_CATEGORY_ID,
                 HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_JSON_ID, ValidationMessageType.EMPTY,
@@ -464,7 +470,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     }
 
     private void validateForstarRiskerMedHypoglykemi(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getHypoglykemi().getForstarRiskerMedHypoglykemi() == null) {
+        final var hypoglykemi = Objects.requireNonNull(utlatande.getHypoglykemi());
+        if (hypoglykemi.getForstarRiskerMedHypoglykemi() == null) {
             addValidationErrorWithQuestionId(validationMessages, HYPOGLYKEMI_CATEGORY_ID,
                 HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_FORSTAR_RISKER_MED_HYPOGLYKEMI_JSON_ID, ValidationMessageType.EMPTY,
                 HYPOGLYKEMI_FORSTAR_RISKER_MED_HYPOGLYKEMI_SVAR_ID);
@@ -472,7 +479,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     }
 
     private void validateFormagaKannaVarningsTecken(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getHypoglykemi().getFormagaKannaVarningstecken() == null) {
+        final var hypoglykemi = Objects.requireNonNull(utlatande.getHypoglykemi());
+        if (hypoglykemi.getFormagaKannaVarningstecken() == null) {
             addValidationErrorWithQuestionId(validationMessages, HYPOGLYKEMI_CATEGORY_ID,
                 HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_FORMAGA_KANNA_VARNINGSTECKEN_JSON_ID, ValidationMessageType.EMPTY,
                 HYPOGLYKEMI_FORMAGA_KANNA_VARNINGSTECKEN_SVAR_ID);
@@ -480,7 +488,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     }
 
     private void validateVidtaAdekvataAtgarder(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getHypoglykemi().getVidtaAdekvataAtgarder() == null) {
+        final var hypoglykemi = Objects.requireNonNull(utlatande.getHypoglykemi());
+        if (hypoglykemi.getVidtaAdekvataAtgarder() == null) {
             addValidationErrorWithQuestionId(validationMessages, HYPOGLYKEMI_CATEGORY_ID,
                 HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_JSON_ID, ValidationMessageType.EMPTY,
                 HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_SVAR_ID);
@@ -488,7 +497,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     }
 
     private void validateAterkommandeSenasteAret(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        final var hypoglykemi = utlatande.getHypoglykemi();
+        final var hypoglykemi = Objects.requireNonNull(utlatande.getHypoglykemi());
         if (hypoglykemi.getAterkommandeSenasteAret() == null) {
             addValidationErrorWithQuestionId(validationMessages, HYPOGLYKEMI_CATEGORY_ID,
                 HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_JSON_ID, ValidationMessageType.EMPTY,
@@ -500,7 +509,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             final var patientBirthDate = ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId());
             validateDateWithinIntervalWithQuestionId(hypoglykemi.getAterkommandeSenasteAretTidpunkt(), patientBirthDate, LocalDate.now(),
                 validationMessages, HYPOGLYKEMI_CATEGORY_ID,
-                HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID, D_11, D_08,
+                HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID,
                 HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID);
         }
 
@@ -518,7 +527,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     }
 
     private void validateAterkommandeVaketSenasteTolv(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        final var hypoglykemi = utlatande.getHypoglykemi();
+        final var hypoglykemi = Objects.requireNonNull(utlatande.getHypoglykemi());
         if (hypoglykemi.getAterkommandeVaketSenasteTolv() == null) {
             addValidationErrorWithQuestionId(validationMessages, HYPOGLYKEMI_CATEGORY_ID,
                 HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_JSON_ID, ValidationMessageType.EMPTY,
@@ -537,13 +546,13 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             final var patientBirthDate = ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId());
             validateDateWithinIntervalWithQuestionId(hypoglykemi.getAterkommandeVaketSenasteTreTidpunkt(), patientBirthDate,
                 LocalDate.now(), validationMessages, HYPOGLYKEMI_CATEGORY_ID,
-                HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID, D_11, D_08,
+                HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID,
                 HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_DELSVAR_ID);
         }
     }
 
     private void validateAllvarligSenasteTolvManaderna(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        final var hypoglykemi = utlatande.getHypoglykemi();
+        final var hypoglykemi = Objects.requireNonNull(utlatande.getHypoglykemi());
         if (hypoglykemi.getAllvarligSenasteTolvManaderna() == null) {
             addValidationErrorWithQuestionId(validationMessages, HYPOGLYKEMI_CATEGORY_ID,
                 HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_JSON_ID, ValidationMessageType.EMPTY,
@@ -555,13 +564,14 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             final var patientBirthDate = ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId());
             validateDateWithinIntervalWithQuestionId(hypoglykemi.getAllvarligSenasteTolvManadernaTidpunkt(), patientBirthDate,
                 LocalDate.now(), validationMessages, HYPOGLYKEMI_CATEGORY_ID,
-                HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_JSON_ID, D_11, D_08,
+                HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_JSON_ID,
                 HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_DELSVAR_ID);
         }
     }
 
     private void validateRegelbundnaBlodsockerkontroller(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getHypoglykemi().getRegelbundnaBlodsockerkontroller() == null) {
+        final var hypoglykemi = Objects.requireNonNull(utlatande.getHypoglykemi());
+        if (hypoglykemi.getRegelbundnaBlodsockerkontroller() == null) {
             addValidationErrorWithQuestionId(validationMessages, HYPOGLYKEMI_CATEGORY_ID,
                 HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_JSON_ID, ValidationMessageType.EMPTY,
                 HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_SVAR_ID);
@@ -569,7 +579,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     }
 
     private void validateKomplikationerAvSjukdomen(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        final var ovrigt = utlatande.getOvrigt();
+        final var ovrigt = Objects.requireNonNull(utlatande.getOvrigt());
         if (ovrigt.getKomplikationerAvSjukdomen() == null) {
             addValidationErrorWithQuestionId(validationMessages, OVRIGT_CATEGORY_ID,
                 OVRIGT_CATEGORY_ID + "." + OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID, ValidationMessageType.EMPTY,
@@ -590,7 +600,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     }
 
     private void validateBorBedomasAvSpecialist(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        final var shouldBeExaminedBySpecialist = utlatande.getOvrigt().getBorUndersokasAvSpecialist();
+        final var shouldBeExaminedBySpecialist = Objects.requireNonNull(utlatande.getOvrigt()).getBorUndersokasAvSpecialist();
         if (shouldBeExaminedBySpecialist != null && shouldBeExaminedBySpecialist.length() > MAX_SEVENTY_ONE_CHARS) {
             addValidationErrorWithQuestionId(validationMessages, OVRIGT_CATEGORY_ID, OVRIGT_CATEGORY_ID + "."
                 + OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_JSON_ID, ValidationMessageType.OTHER,
@@ -616,7 +626,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         }
 
         if (eligibleForRule35(utlatande)) {
-            final var selectedKategorier = getLicenceTypes(utlatande.getIntygAvser().getKategorier());
+            final var intygAvser = Objects.requireNonNull(utlatande.getIntygAvser());
+            final var selectedKategorier = getLicenceTypes(intygAvser.getKategorier());
             final var selectedBehorigheterMutable = new HashSet<>(selectedBehorigheter);
             selectedBehorigheterMutable.retainAll(HIGHER_LICENCE_TYPES);
             if (!selectedKategorier.containsAll(selectedBehorigheterMutable)) {
@@ -628,7 +639,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     }
 
     private void validateOvrigaKommentarer(TsDiabetesUtlatandeV4 utlatande, List<ValidationMessage> validationMessages) {
-        final var commentsAndInfo = utlatande.getBedomning().getOvrigaKommentarer();
+        final var commentsAndInfo = Objects.requireNonNull(utlatande.getBedomning()).getOvrigaKommentarer();
         if (commentsAndInfo != null && commentsAndInfo.length() > MAX_HUNDRED_EIGHTY_NINE_CHARS) {
             addValidationErrorWithQuestionId(validationMessages, BEDOMNING_CATEGORY_ID, BEDOMNING_CATEGORY_ID + "."
                 + BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID, ValidationMessageType.OTHER, BEDOMNING_OVRIGA_KOMMENTARER_SVAR_ID);
@@ -642,20 +653,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         return enumCodes.stream().map(code -> KorkortsbehorighetKod.fromCode(code.name())).collect(ImmutableSet.toImmutableSet());
     }
 
-    // CHECKSTYLE:OFF ParameterNumber
-    private boolean validateDateWithinInterval(InternalDate dateToValidate, LocalDate notBeforeDate, LocalDate notAfterDate,
-        List<ValidationMessage> validationMessages, String category, String field, String notBeforeMessage, String notAfterMessage) {
-        return validateDateWithinIntervalWithQuestionId(dateToValidate, notBeforeDate, notAfterDate, validationMessages, category, field,
-            notBeforeMessage, notAfterMessage, null);
-    }
-
-    private boolean validateDateWithinIntervalWithQuestionId(InternalDate dateToValidate, LocalDate notBeforeDate, LocalDate notAfterDate,
-        List<ValidationMessage> validationMessages, String category,
-        String field, String notBeforeMessage, String notAfterMessage, String questionId) {
+    private void validateDateWithinIntervalWithQuestionId(InternalDate dateToValidate, LocalDate notBeforeDate, LocalDate notAfterDate,
+        List<ValidationMessage> validationMessages, String category, String field, String questionId) {
 
         if (dateToValidate == null) {
             addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.EMPTY, questionId);
-            return false;
+            return;
         }
 
         if (!dateToValidate.isValidDate()) {
@@ -665,20 +668,19 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
             } else {
                 addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.INVALID_FORMAT, questionId);
             }
-            return false;
+            return;
         }
 
         final var dateToValidateLocalDate = dateToValidate.asLocalDate();
         if (dateToValidateLocalDate.isBefore(notBeforeDate)) {
-            addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.OTHER, notBeforeMessage,
+            addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.OTHER,
+                InternalDraftValidatorImpl.D_11,
                 questionId);
-            return false;
+            return;
         }
         if (dateToValidateLocalDate.isAfter(notAfterDate)) {
-            addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.OTHER, notAfterMessage, questionId);
-            return false;
+            addValidationErrorWithQuestionId(validationMessages, category, field, ValidationMessageType.OTHER,
+                InternalDraftValidatorImpl.D_08, questionId);
         }
-
-        return true;
-    } // CHECKSTYLE:ON ParameterNumber
+    }
 }
