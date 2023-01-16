@@ -26,6 +26,8 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionBedomningOvrigaKommentarer;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionBedomningUppfyllerBehorighetskrav;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBehandling;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBehandlingAnnan;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBeskrivningAnnanTyp;
@@ -33,11 +35,32 @@ import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesMedicineringHypoglykemiRisk;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesMedicineringHypoglykemiRiskDatum;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesTyp;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionHypoglykemiAllvarligSenasteTolvManaderna;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionHypoglykemiAllvarligSenasteTolvManadernaTidpunkt;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionHypoglykemiAterkommandeSenasteAret;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionHypoglykemiAterkommandeSenasteAretKontrolleras;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionHypoglykemiAterkommandeSenasteAretTidpunkt;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionHypoglykemiAterkommandeSenasteAretTrafik;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionHypoglykemiAterkommandeVaketSenasteTolv;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionHypoglykemiAterkommandeVaketSenasteTre;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionHypoglykemiFormagaKannaVarningstecken;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionHypoglykemiForstarRiskerMedHypoglykemi;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionHypoglykemiKontrollSjukdomstillstand;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionHypoglykemiKontrollSjukdomstillstandVarfor;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionHypoglykemiRegelbundnaBlodsockerkontroller;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionHypoglykemiVidtaAdekvataAtgarder;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionIdentitetStyrktGenom;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionIntygetAvser;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionOvrigtBorUndersokasAvSpecialist;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionOvrigtKomplikationerAvSjukdomen;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionOvrigtKomplikationerAvSjukdomenAnges;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionPatientenFoljsAv;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
+import se.inera.intyg.common.ts_diabetes.v4.model.internal.Bedomning;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Behandling;
+import se.inera.intyg.common.ts_diabetes.v4.model.internal.Hypoglykemi;
+import se.inera.intyg.common.ts_diabetes.v4.model.internal.Ovrigt;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
 
 @Component(value = "certificateToInternalTsDiabetesV4")
@@ -67,6 +90,40 @@ public class CertificateToInternal {
                     )
                     .setMedicineringMedforRiskForHypoglykemiTidpunkt(
                         QuestionDiabetesMedicineringHypoglykemiRiskDatum.toInternal(certificate))
+                    .build()
+            )
+            .setHypoglykemi(
+                Hypoglykemi.builder()
+                    .setKontrollSjukdomstillstand(QuestionHypoglykemiKontrollSjukdomstillstand.toInternal(certificate))
+                    .setKontrollSjukdomstillstandVarfor(QuestionHypoglykemiKontrollSjukdomstillstandVarfor.toInternal(certificate))
+                    .setForstarRiskerMedHypoglykemi(QuestionHypoglykemiForstarRiskerMedHypoglykemi.toInternal(certificate))
+                    .setFormagaKannaVarningstecken(QuestionHypoglykemiFormagaKannaVarningstecken.toInternal(certificate))
+                    .setVidtaAdekvataAtgarder(QuestionHypoglykemiVidtaAdekvataAtgarder.toInternal(certificate))
+                    .setAterkommandeSenasteAret(QuestionHypoglykemiAterkommandeSenasteAret.toInternal(certificate))
+                    .setAterkommandeSenasteAretTidpunkt(QuestionHypoglykemiAterkommandeSenasteAretTidpunkt.toInternal(certificate))
+                    .setAterkommandeSenasteAretKontrolleras(QuestionHypoglykemiAterkommandeSenasteAretKontrolleras.toInternal(certificate))
+                    .setAterkommandeSenasteAretTrafik(QuestionHypoglykemiAterkommandeSenasteAretTrafik.toInternal(certificate))
+                    .setAterkommandeVaketSenasteTolv(QuestionHypoglykemiAterkommandeVaketSenasteTolv.toInternal(certificate))
+                    .setAterkommandeVaketSenasteTre(QuestionHypoglykemiAterkommandeVaketSenasteTre.toInternal(certificate))
+                    .setAterkommandeVaketSenasteTreTidpunkt(QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toInternal(certificate))
+                    .setAllvarligSenasteTolvManaderna(QuestionHypoglykemiAllvarligSenasteTolvManaderna.toInternal(certificate))
+                    .setAllvarligSenasteTolvManadernaTidpunkt(
+                        QuestionHypoglykemiAllvarligSenasteTolvManadernaTidpunkt.toInternal(certificate))
+                    .setRegelbundnaBlodsockerkontroller(QuestionHypoglykemiRegelbundnaBlodsockerkontroller.toInternal(certificate))
+                    .build()
+            )
+            .setOvrigt(
+                Ovrigt.builder()
+                    .setKomplikationerAvSjukdomen(QuestionOvrigtKomplikationerAvSjukdomen.toInternal(certificate))
+                    .setKomplikationerAvSjukdomenAnges(QuestionOvrigtKomplikationerAvSjukdomenAnges.toInternal(certificate))
+                    .setBorUndersokasAvSpecialist(QuestionOvrigtBorUndersokasAvSpecialist.toInternal(certificate))
+                    .build()
+
+            )
+            .setBedomning(
+                Bedomning.builder()
+                    .setUppfyllerBehorighetskrav(QuestionBedomningUppfyllerBehorighetskrav.toInternal(certificate))
+                    .setOvrigaKommentarer(QuestionBedomningOvrigaKommentarer.toInternal(certificate))
                     .build()
             )
             .build();
