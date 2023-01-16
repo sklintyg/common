@@ -208,8 +208,8 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
     }
 
     @Override
-    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException {
-        return null;
+    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) {
+        throw new UnsupportedOperationException();
     }
 
     private String updateInternalAfterSigning(String internalModel, String base64EncodedSignatureXml)

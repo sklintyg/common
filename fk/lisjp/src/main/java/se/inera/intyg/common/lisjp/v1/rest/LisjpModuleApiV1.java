@@ -18,7 +18,6 @@
  */
 package se.inera.intyg.common.lisjp.v1.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,7 +29,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
@@ -79,9 +77,6 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
     private static final String CERTIFICATE_FILE_PREFIX = "lakarintyg_sjukpenning";
 
     private Map<String, String> validationMessages;
-
-    @Autowired
-    protected ObjectMapper objectMapper;
 
     public LisjpModuleApiV1() {
         super(LisjpUtlatandeV1.class);

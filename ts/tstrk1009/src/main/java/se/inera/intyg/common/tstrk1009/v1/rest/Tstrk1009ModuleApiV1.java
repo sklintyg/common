@@ -180,7 +180,7 @@ public class Tstrk1009ModuleApiV1 extends TsParentModuleApi<Tstrk1009UtlatandeV1
     }
 
     @Override
-    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException {
-        return null;
+    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) {
+        throw new UnsupportedOperationException();
     }
 }
