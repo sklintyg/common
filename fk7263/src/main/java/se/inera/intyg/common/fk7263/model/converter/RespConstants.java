@@ -45,6 +45,7 @@ public class RespConstants {
     public static final String JOURNALUPPGIFTER_DELSVAR_ID = "6.3";
     public static final String JOURNALUPPGIFTER_DELSVAR_TEXT = "Journaluppgifter, den";
     public static final String ANNAT_DELSVAR_ID = "6.4";
+    public static final String ANNAT_BESKRIVNING_DELSVAR_ID = "6.5";
     public static final String ANNAT_DELSVAR_TEXT = "Annat, den";
     public static final String AKTIVITETSBEGRANSNINGAR_CATEGORY_ID = "aktivitetsbegransningar";
     public static final String AKTIVITETSBEGRANSNINGAR_CATEGORY_TEXT_ID = "fk7263.label.limitation";
@@ -93,6 +94,8 @@ public class RespConstants {
     public static final String ARBETSFORMAGA_PROGNOS_CATEGORY_ID = "arbetsformogaPrognos";
     public static final String ARBETSFORMAGA_PROGNOS_CATEGORY_TEXT_ID = "fk7263.label.prognosis";
     public static final String ARBETSFORMAGA_PROGNOS_SVAR_ID = "14";
+    public static final String ARBETSFORMAGA_GAR_INTE_BEDOMA_SVAR_ID = "14.1";
+    public static final String ARBETSFORMAGA_GAR_INTE_BEDOMA_TEXT_ID = "fk7263.label.clarifying";
     public static final String RESOR_TILL_FRAN_ARBETE_CATEGORY_ID = "resorTillFranArbete";
     public static final String RESOR_TILL_FRAN_ARBETE_CATEGORY_TEXT_ID = "fk7263.label.othertransport";
     public static final String RESOR_TILL_FRAN_ARBETE_SVAR_ID = "15";

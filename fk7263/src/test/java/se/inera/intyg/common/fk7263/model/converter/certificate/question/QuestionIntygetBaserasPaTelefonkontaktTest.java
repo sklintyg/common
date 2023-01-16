@@ -110,10 +110,10 @@ class QuestionIntygetBaserasPaTelefonkontaktTest {
         @Override
         protected List<InputExpectedValuePair<InternalDate, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>(new InternalDate(LocalDate.now()),
                     CertificateDataValueViewText.builder().text(LocalDate.now().toString()).build()),
-                new InputExpectedValuePair<>(new InternalDate("1234"), CertificateDataValueViewText.builder().text("Ej Angivet").build())
+                new InputExpectedValuePair<>(new InternalDate("1234"), CertificateDataValueViewText.builder().text("Ej angivet").build())
             );
         }
     }

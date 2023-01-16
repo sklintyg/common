@@ -32,6 +32,7 @@ import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSF
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_TOM_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_TOM_TEXT;
 
+import java.util.ArrayList;
 import java.util.List;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -76,57 +77,43 @@ public class QuestionArbetsformogaBedomning {
             .value(
                 CertificateDataValueViewTable.builder()
                     .rows(
-                        List.of(
-                            CertificateDataValueViewRow.builder()
-                                .columns(
-                                    nedsattMed25 != null
-                                        ? getColumnNedsatt(nedsattMed25, ARBETSFORMAGA_BEDOMNING_NEDSATT_25_TEXT_ID, messagesProvider)
-                                        : getEmptyColumnNedsatt(ARBETSFORMAGA_BEDOMNING_NEDSATT_25_TEXT_ID, messagesProvider)
-                                )
-                                .build(),
-                            CertificateDataValueViewRow.builder()
-                                .columns(
-                                    nedsattMed50 != null
-                                        ? getColumnNedsatt(nedsattMed50, ARBETSFORMAGA_BEDOMNING_NEDSATT_50_TEXT_ID, messagesProvider)
-                                        : getEmptyColumnNedsatt(ARBETSFORMAGA_BEDOMNING_NEDSATT_50_TEXT_ID, messagesProvider)
-                                )
-                                .build(),
-                            CertificateDataValueViewRow.builder()
-                                .columns(
-                                    nedsattMed75 != null
-                                        ? getColumnNedsatt(nedsattMed75, ARBETSFORMAGA_BEDOMNING_NEDSATT_75_TEXT_ID, messagesProvider)
-                                        : getEmptyColumnNedsatt(ARBETSFORMAGA_BEDOMNING_NEDSATT_75_TEXT_ID, messagesProvider)
-                                )
-                                .build(),
-                            CertificateDataValueViewRow.builder()
-                                .columns(
-                                    nedsattMed100 != null
-                                        ? getColumnNedsatt(nedsattMed100, ARBETSFORMAGA_BEDOMNING_NEDSATT_100_TEXT_ID, messagesProvider)
-                                        : getEmptyColumnNedsatt(ARBETSFORMAGA_BEDOMNING_NEDSATT_100_TEXT_ID, messagesProvider)
-                                )
-                                .build()
-                        )
+                        getRows(nedsattMed25, nedsattMed50, nedsattMed75, nedsattMed100, messagesProvider)
                     )
                     .build()
             )
             .build();
     }
 
-    private static List<CertificateDataTextValue> getEmptyColumnNedsatt(String textId,
-        CertificateMessagesProvider messagesProvider) {
-        return List.of(
-            CertificateDataTextValue.builder()
-                .id(ARBETSFORMAGA_BEDOMNING_NEDSATT_ID)
-                .text(messagesProvider.get(textId))
-                .build(),
-            CertificateDataTextValue.builder()
-                .id(ARBETSFORMAGA_BEDOMNING_FOM_ID)
-                .text(NOT_PROVIDED)
-                .build(),
-            CertificateDataTextValue.builder()
-                .id(ARBETSFORMAGA_BEDOMNING_TOM_ID)
-                .text(NOT_PROVIDED)
-                .build());
+    private static List<CertificateDataValueViewRow> getRows(InternalLocalDateInterval nedsattMed25, InternalLocalDateInterval nedsattMed50,
+        InternalLocalDateInterval nedsattMed75, InternalLocalDateInterval nedsattMed100, CertificateMessagesProvider messagesProvider) {
+        final var rows = new ArrayList<CertificateDataValueViewRow>();
+        if (nedsattMed25 != null) {
+            rows.add(
+                CertificateDataValueViewRow.builder()
+                    .columns(getColumnNedsatt(nedsattMed25, ARBETSFORMAGA_BEDOMNING_NEDSATT_25_TEXT_ID, messagesProvider))
+                    .build());
+        }
+
+        if (nedsattMed50 != null) {
+            rows.add(
+                CertificateDataValueViewRow.builder()
+                    .columns(getColumnNedsatt(nedsattMed50, ARBETSFORMAGA_BEDOMNING_NEDSATT_50_TEXT_ID, messagesProvider))
+                    .build());
+        }
+        if (nedsattMed75 != null) {
+            rows.add(
+                CertificateDataValueViewRow.builder()
+                    .columns(getColumnNedsatt(nedsattMed75, ARBETSFORMAGA_BEDOMNING_NEDSATT_75_TEXT_ID, messagesProvider))
+                    .build());
+        }
+        if (nedsattMed100 != null) {
+            rows.add(
+                CertificateDataValueViewRow.builder()
+                    .columns(getColumnNedsatt(nedsattMed100, ARBETSFORMAGA_BEDOMNING_NEDSATT_100_TEXT_ID, messagesProvider))
+                    .build());
+        }
+
+        return rows;
     }
 
     private static List<CertificateDataTextValue> getColumnNedsatt(InternalLocalDateInterval nedsattMed, String textId,

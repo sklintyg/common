@@ -26,11 +26,13 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AKTIVITETSBEGRANSNINGAR_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AKTIVITETSBEGRANSNINGAR_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ANNAN_ATGARD_DELSVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ANNAT_BESKRIVNING_DELSVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ANNAT_DELSVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_BEDOMNING_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_SVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_GAR_INTE_BEDOMA_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_PROGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_PROGNOS_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSLIVSINRIKTAD_REHABILITERING_CATEGORY_ID;
@@ -197,164 +199,176 @@ class InternalToCertificateTest {
     }
 
     @Test
+    void shallIncludeQuestionIntygetBaserasPaAnnanReferensBeskrivning() {
+        final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
+        assertEquals(14, actualCertificate.getData().get(ANNAT_BESKRIVNING_DELSVAR_ID).getIndex());
+    }
+
+    @Test
     void shallIncludeCategoryAktivitetsbegransningar() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(14, actualCertificate.getData().get(AKTIVITETSBEGRANSNINGAR_CATEGORY_ID).getIndex());
+        assertEquals(15, actualCertificate.getData().get(AKTIVITETSBEGRANSNINGAR_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionAktivitetsbegransningar() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(15, actualCertificate.getData().get(AKTIVITETSBEGRANSNINGAR_SVAR_ID).getIndex());
+        assertEquals(16, actualCertificate.getData().get(AKTIVITETSBEGRANSNINGAR_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeCategoryRekommendationer() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(16, actualCertificate.getData().get(REKOMMENDATIONER_CATEGORY_ID).getIndex());
+        assertEquals(17, actualCertificate.getData().get(REKOMMENDATIONER_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionRekommendationerKontaktMedAf() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(17, actualCertificate.getData().get(REKOMMENDATIONER_KONTAKT_MED_AF_DELSVAR_ID).getIndex());
+        assertEquals(18, actualCertificate.getData().get(REKOMMENDATIONER_KONTAKT_MED_AF_DELSVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionRekommendationerKontaktMedFhv() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(18, actualCertificate.getData().get(REKOMMENDATIONER_KONTAKT_MED_FHV_DELSVAR_ID).getIndex());
+        assertEquals(19, actualCertificate.getData().get(REKOMMENDATIONER_KONTAKT_MED_FHV_DELSVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionRekommendationerOvrigt() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(19, actualCertificate.getData().get(REKOMMENDATIONER_OVRIGT_DELSVAR_ID).getIndex());
+        assertEquals(20, actualCertificate.getData().get(REKOMMENDATIONER_OVRIGT_DELSVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeCategoryBehandlingEllerAtgard() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(20, actualCertificate.getData().get(BEHANDLING_ELLER_ATGARD_CATEGORY_ID).getIndex());
+        assertEquals(21, actualCertificate.getData().get(BEHANDLING_ELLER_ATGARD_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionBehandlingEllerAtgardSjukvard() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(21, actualCertificate.getData().get(INOM_SJUKVARD_DELSVAR_ID).getIndex());
+        assertEquals(22, actualCertificate.getData().get(INOM_SJUKVARD_DELSVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionBehandlingEllerAtgardAnnanAtgard() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(22, actualCertificate.getData().get(ANNAN_ATGARD_DELSVAR_ID).getIndex());
+        assertEquals(23, actualCertificate.getData().get(ANNAN_ATGARD_DELSVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeCategoryArbetslivsinriktadRehabilitering() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(23, actualCertificate.getData().get(ARBETSLIVSINRIKTAD_REHABILITERING_CATEGORY_ID).getIndex());
+        assertEquals(24, actualCertificate.getData().get(ARBETSLIVSINRIKTAD_REHABILITERING_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionArbetslivsinriktadRehabilitering() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(24, actualCertificate.getData().get(ARBETSLIVSINRIKTAD_REHABILITERING_SVAR_ID).getIndex());
+        assertEquals(25, actualCertificate.getData().get(ARBETSLIVSINRIKTAD_REHABILITERING_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeCategoryPatientensArbetsformagaBedoms() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(25, actualCertificate.getData().get(PATIENTENS_ARBETSFORMAGA_CATEGORY_ID).getIndex());
+        assertEquals(26, actualCertificate.getData().get(PATIENTENS_ARBETSFORMAGA_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionPatientensArbetsformagaBedoms() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(26, actualCertificate.getData().get(PATIENTENS_ARBETSFORMAGA_SVAR_ID).getIndex());
+        assertEquals(27, actualCertificate.getData().get(PATIENTENS_ARBETSFORMAGA_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeCategoryArbetsformogaBedomning() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(27, actualCertificate.getData().get(ARBETSFORMAGA_BEDOMNING_CATEGORY_ID).getIndex());
+        assertEquals(28, actualCertificate.getData().get(ARBETSFORMAGA_BEDOMNING_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionArbetsformogaBedomning() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(28, actualCertificate.getData().get(ARBETSFORMAGA_BEDOMNING_SVAR_ID).getIndex());
+        assertEquals(29, actualCertificate.getData().get(ARBETSFORMAGA_BEDOMNING_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeCategoryArbetsformogaForsakringsmedicinskaBeslutstodet() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(29, actualCertificate.getData().get(ARBETSFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_CATEGORY_ID).getIndex());
+        assertEquals(30, actualCertificate.getData().get(ARBETSFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionArbetsformogaForsakringsmedicinskaBeslutstodet() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(30, actualCertificate.getData().get(ARBETSFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_SVAR_ID).getIndex());
+        assertEquals(31, actualCertificate.getData().get(ARBETSFORMAGA_FORSAKRINGSMEDICINSKA_BESLUTSTODET_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeCategoryArbetsformogaPrognos() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(31, actualCertificate.getData().get(ARBETSFORMAGA_PROGNOS_CATEGORY_ID).getIndex());
+        assertEquals(32, actualCertificate.getData().get(ARBETSFORMAGA_PROGNOS_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionArbetsformogaPrognos() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(32, actualCertificate.getData().get(ARBETSFORMAGA_PROGNOS_SVAR_ID).getIndex());
+        assertEquals(33, actualCertificate.getData().get(ARBETSFORMAGA_PROGNOS_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionArbetsformogaGarInteAttBedomaBeskrivning() {
+        final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
+        assertEquals(34, actualCertificate.getData().get(ARBETSFORMAGA_GAR_INTE_BEDOMA_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeCategoryResorTillFranArbete() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(33, actualCertificate.getData().get(RESOR_TILL_FRAN_ARBETE_CATEGORY_ID).getIndex());
+        assertEquals(35, actualCertificate.getData().get(RESOR_TILL_FRAN_ARBETE_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionResorTillFranArbete() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(34, actualCertificate.getData().get(RESOR_TILL_FRAN_ARBETE_SVAR_ID).getIndex());
+        assertEquals(36, actualCertificate.getData().get(RESOR_TILL_FRAN_ARBETE_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeCategoryKontaktMedFk() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(35, actualCertificate.getData().get(KONTAKT_MED_FK_CATEGORY_ID).getIndex());
+        assertEquals(37, actualCertificate.getData().get(KONTAKT_MED_FK_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionKontaktMedFk() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(36, actualCertificate.getData().get(KONTAKT_MED_FK_SVAR_ID).getIndex());
+        assertEquals(38, actualCertificate.getData().get(KONTAKT_MED_FK_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeCategoryOvrigaUpplysningar() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(37, actualCertificate.getData().get(OVRIGA_UPPLYSNINGAR_CATEGORY_ID).getIndex());
+        assertEquals(39, actualCertificate.getData().get(OVRIGA_UPPLYSNINGAR_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionOvrigaUpplysningar() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(38, actualCertificate.getData().get(OVRIGA_UPPLYSNINGAR_SVAR_ID).getIndex());
+        assertEquals(40, actualCertificate.getData().get(OVRIGA_UPPLYSNINGAR_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeCategoryForskrivarkodOchArbetsplatskod() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(39, actualCertificate.getData().get(FORSKRIVARKOD_OCH_ARBETSPLATSKOD_CATEGORY_ID).getIndex());
+        assertEquals(41, actualCertificate.getData().get(FORSKRIVARKOD_OCH_ARBETSPLATSKOD_CATEGORY_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionForskrivarkodOchArbetsplatskod() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
-        assertEquals(40, actualCertificate.getData().get(FORSKRIVARKOD_OCH_ARBETSPLATSKOD_SVAR_ID).getIndex());
+        assertEquals(42, actualCertificate.getData().get(FORSKRIVARKOD_OCH_ARBETSPLATSKOD_SVAR_ID).getIndex());
     }
 }

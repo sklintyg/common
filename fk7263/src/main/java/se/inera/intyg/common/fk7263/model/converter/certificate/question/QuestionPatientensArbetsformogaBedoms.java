@@ -62,8 +62,11 @@ public class QuestionPatientensArbetsformogaBedoms {
 
         List<CertificateDataValueViewText> certificateDataValueViewTextList = new ArrayList<>();
 
-        if (nuvarandeArbete != null && nuvarandeArbete) {
-            certificateDataValueViewTextList.add(viewTextWithDynamicValue(nuvarandeArbetsuppgifter, messagesProvider));
+        if (nuvarandeArbete != null && nuvarandeArbete && nuvarandeArbetsuppgifter != null) {
+            certificateDataValueViewTextList.add(
+                CertificateDataValueViewText.builder()
+                    .text(messagesProvider.get(PATIENTENS_ARBETSFORMAGA_NUVARANDE_ARBETE_TEXT_ID) + " - " + nuvarandeArbetsuppgifter)
+                    .build());
         }
 
         if (arbetssokande != null && arbetssokande) {
@@ -83,19 +86,5 @@ public class QuestionPatientensArbetsformogaBedoms {
         }
 
         return certificateDataValueViewTextList;
-    }
-
-    private static CertificateDataValueViewText viewTextWithDynamicValue(String nuvarandeArbetsuppgifter,
-        CertificateMessagesProvider messagesProvider) {
-
-        if (nuvarandeArbetsuppgifter == null) {
-            return CertificateDataValueViewText.builder()
-                .text(messagesProvider.get(PATIENTENS_ARBETSFORMAGA_NUVARANDE_ARBETE_TEXT_ID))
-                .build();
-        }
-
-        return CertificateDataValueViewText.builder()
-            .text(messagesProvider.get(PATIENTENS_ARBETSFORMAGA_NUVARANDE_ARBETE_TEXT_ID) + " - " + nuvarandeArbetsuppgifter)
-            .build();
     }
 }

@@ -28,6 +28,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import se.inera.intyg.common.fk7263.model.internal.PrognosBedomning;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -100,18 +101,19 @@ class QuestionArbetsformogaPrognosTest {
 
     @Nested
     @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeValueViewTextTests extends ValueViewTextTest<String> {
+    class IncludeValueViewTextTests extends ValueViewTextTest<PrognosBedomning> {
 
         @Override
-        protected CertificateDataElement getElement(String expectedValue) {
+        protected CertificateDataElement getElement(PrognosBedomning expectedValue) {
             return QuestionArbetsformogaPrognos.toCertificate(expectedValue, 0);
         }
 
         @Override
-        protected List<InputExpectedValuePair<String, CertificateDataValueViewText>> inputExpectedValuePairList() {
+        protected List<InputExpectedValuePair<PrognosBedomning, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej Angivet").build()),
-                new InputExpectedValuePair<>("test", CertificateDataValueViewText.builder().text("test").build())
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
+                new InputExpectedValuePair<>(PrognosBedomning.arbetsformagaPrognosJa,
+                    CertificateDataValueViewText.builder().text("Ja").build())
             );
         }
     }

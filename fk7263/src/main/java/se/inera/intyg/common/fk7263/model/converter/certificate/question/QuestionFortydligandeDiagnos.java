@@ -22,7 +22,7 @@ package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.DIAGNOS_FORTYDLIGANDE_SVAR_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.DIAGNOS_FORTYDLIGANDE_SVAR_TEXT_ID;
-import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.multipleStringValues;
+import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.stringValue;
 
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -31,8 +31,8 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueView
 
 public class QuestionFortydligandeDiagnos {
 
-    public static CertificateDataElement toCertificate(String diagnosBeskrivning1, String diagnosBeskrivning2,
-        String diagnosBeskrivning3, String diagnosBeskrivning4, int index, CertificateMessagesProvider messagesProvider) {
+    public static CertificateDataElement toCertificate(String diagnosBeskrivning1,
+        int index, CertificateMessagesProvider messagesProvider) {
         return CertificateDataElement.builder()
             .id(DIAGNOS_FORTYDLIGANDE_SVAR_ID)
             .parent(DIAGNOS_CATEGORY_ID)
@@ -44,7 +44,7 @@ public class QuestionFortydligandeDiagnos {
             )
             .value(
                 CertificateDataValueViewText.builder()
-                    .text(multipleStringValues(diagnosBeskrivning1, diagnosBeskrivning2, diagnosBeskrivning3, diagnosBeskrivning4))
+                    .text(stringValue(diagnosBeskrivning1))
                     .build()
             )
             .build();

@@ -19,8 +19,8 @@
 
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_ID;
-import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_SVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ANNAT_BESKRIVNING_DELSVAR_ID;
+import static se.inera.intyg.common.fk7263.model.converter.RespConstants.INTYGET_BASERAS_PA_CATEGORY_ID;
 
 import java.util.List;
 import org.junit.jupiter.api.Nested;
@@ -35,24 +35,24 @@ import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigViewTex
 import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueViewTextTest;
 
-class QuestionAvstangningSmittskyddTest {
+class QuestionAnnanReferensBeskrivningTest {
 
     @Nested
     class IncludeCommonElementTests extends CommonElementTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionAvstangningSmittskydd.toCertificate(null, 0);
+            return QuestionAnnanReferensBeskrivning.toCertificate(null, 0);
         }
 
         @Override
         protected String getId() {
-            return AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_SVAR_ID;
+            return ANNAT_BESKRIVNING_DELSVAR_ID;
         }
 
         @Override
         protected String getParent() {
-            return AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_ID;
+            return INTYGET_BASERAS_PA_CATEGORY_ID;
         }
 
         @Override
@@ -71,7 +71,12 @@ class QuestionAvstangningSmittskyddTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionAvstangningSmittskydd.toCertificate(null, 0);
+            return QuestionAnnanReferensBeskrivning.toCertificate(null, 0);
+        }
+
+        @Override
+        protected String getTextId() {
+            return null;
         }
 
         @Override
@@ -88,28 +93,22 @@ class QuestionAvstangningSmittskyddTest {
         protected String getMessageId() {
             return null;
         }
-
-        @Override
-        protected String getTextId() {
-            return null;
-        }
     }
 
     @Nested
     @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeValueViewTextTests extends ValueViewTextTest<Boolean> {
+    class IncludeValueViewTextTests extends ValueViewTextTest<String> {
 
         @Override
-        protected CertificateDataElement getElement(Boolean expectedValue) {
-            return QuestionAvstangningSmittskydd.toCertificate(expectedValue, 0);
+        protected CertificateDataElement getElement(String expectedValue) {
+            return QuestionAnnanReferensBeskrivning.toCertificate(expectedValue, 0);
         }
 
         @Override
-        protected List<InputExpectedValuePair<Boolean, CertificateDataValueViewText>> inputExpectedValuePairList() {
+        protected List<InputExpectedValuePair<String, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
-                new InputExpectedValuePair<>(false, CertificateDataValueViewText.builder().text("Ej angivet").build()),
-                new InputExpectedValuePair<>(true, CertificateDataValueViewText.builder().text("Ja").build())
+                new InputExpectedValuePair<>("test", CertificateDataValueViewText.builder().text("test").build()),
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().build())
             );
         }
     }

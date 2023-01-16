@@ -21,7 +21,7 @@ package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AVSTANGNING_ENLIGT_SMITTSKYDDSLAGEN_SVAR_ID;
-import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.booleanValue;
+import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.radioBooleanValue;
 
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigViewText;
@@ -40,7 +40,7 @@ public class QuestionAvstangningSmittskydd {
             )
             .value(
                 CertificateDataValueViewText.builder()
-                    .text(booleanValue(avstangningSmittskydd))
+                    .text(radioBooleanValue(avstangningSmittskydd))
                     .build()
             )
             .build();
