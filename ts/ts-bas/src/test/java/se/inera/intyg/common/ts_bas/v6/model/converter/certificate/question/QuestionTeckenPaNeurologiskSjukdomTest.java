@@ -124,7 +124,7 @@ class QuestionTeckenPaNeurologiskSjukdomTest {
         @Override
         protected List<InputExpectedValuePair<Neurologi, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>(Neurologi.create(false), CertificateDataValueViewText.builder().text("Nej").build()),
                 new InputExpectedValuePair<>(Neurologi.create(true), CertificateDataValueViewText.builder().text("Ja").build())
             );

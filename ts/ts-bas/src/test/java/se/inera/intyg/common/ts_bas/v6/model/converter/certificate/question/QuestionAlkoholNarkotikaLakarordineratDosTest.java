@@ -124,7 +124,7 @@ class QuestionAlkoholNarkotikaLakarordineratDosTest {
         @Override
         protected List<InputExpectedValuePair<NarkotikaLakemedel, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>(
                     NarkotikaLakemedel.builder().setLakemedelOchDos("lakemedelOchDos").build(),
                     CertificateDataValueViewText.builder().text("lakemedelOchDos").build())

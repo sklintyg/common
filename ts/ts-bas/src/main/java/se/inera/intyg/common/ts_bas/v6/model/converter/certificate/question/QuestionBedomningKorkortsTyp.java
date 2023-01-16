@@ -35,7 +35,7 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.BedomningKorkortstyp;
 
 public class QuestionBedomningKorkortsTyp {
 
-    private static final String NOT_SPECIFIED = "Ej Angivet";
+    private static final String NOT_SPECIFIED = "Ej angivet";
 
     public static CertificateDataElement toCertificate(Bedomning bedomning, int index, CertificateTextProvider textProvider) {
         final var bedomningKorkortstyp = bedomning != null && bedomning.getKorkortstyp() != null

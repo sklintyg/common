@@ -126,7 +126,7 @@ class QuestionBedomningKorkortsTypTest {
         @Override
         protected List<InputExpectedValuePair<Bedomning, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>(Bedomning.builder().setKorkortstyp(Set.of(BedomningKorkortstyp.C1E)).build(),
                     CertificateDataValueViewText.builder().text(Set.of("C1E").toString()
                         .replace("[", "").replace("]", "")).build()),

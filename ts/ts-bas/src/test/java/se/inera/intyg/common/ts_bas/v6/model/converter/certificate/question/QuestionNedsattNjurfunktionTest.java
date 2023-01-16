@@ -124,7 +124,7 @@ class QuestionNedsattNjurfunktionTest {
         @Override
         protected List<InputExpectedValuePair<Njurar, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>(Njurar.create(true), CertificateDataValueViewText.builder().text("Ja").build()),
                 new InputExpectedValuePair<>(Njurar.create(false), CertificateDataValueViewText.builder().text("Nej").build())
             );

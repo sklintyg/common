@@ -124,7 +124,7 @@ class QuestionSynfaltsdefekterTest {
         @Override
         protected List<InputExpectedValuePair<Syn, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(Syn.builder().build(), CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                new InputExpectedValuePair<>(Syn.builder().build(), CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>(Syn.builder().setSynfaltsdefekter(false).build(),
                     CertificateDataValueViewText.builder().text("Nej").build()),
                 new InputExpectedValuePair<>(Syn.builder().setSynfaltsdefekter(true).build(),

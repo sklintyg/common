@@ -125,7 +125,7 @@ class QuestionHjartOchKarlsjukdomarTest {
         protected List<InputExpectedValuePair<HjartKarl, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
                 new InputExpectedValuePair<>(HjartKarl.builder().build(), CertificateDataValueViewText.builder()
-                    .text("Ej Angivet").build()),
+                    .text("Ej angivet").build()),
                 new InputExpectedValuePair<>(HjartKarl.builder().setHjartKarlSjukdom(true).build(),
                     CertificateDataValueViewText.builder().text("Ja").build()),
                 new InputExpectedValuePair<>(HjartKarl.builder().setHjartKarlSjukdom(false).build(),

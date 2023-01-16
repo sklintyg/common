@@ -125,7 +125,7 @@ class QuestionFunktionsnedsattningTest {
         protected List<InputExpectedValuePair<Funktionsnedsattning, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
                 new InputExpectedValuePair<>(Funktionsnedsattning.builder().build(),
-                    CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                    CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>(Funktionsnedsattning.builder().setFunktionsnedsattning(false).build(),
                     CertificateDataValueViewText.builder().text("Nej").build()),
                 new InputExpectedValuePair<>(Funktionsnedsattning.builder().setFunktionsnedsattning(true).build(),

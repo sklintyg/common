@@ -126,7 +126,7 @@ class QuestionIdentitetTest {
         protected List<InputExpectedValuePair<Vardkontakt, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
                 new InputExpectedValuePair<>(
-                    Vardkontakt.create(null, null), CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                    Vardkontakt.create(null, null), CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>(Vardkontakt.create(null, String.valueOf(IdKontrollKod.KORKORT)),
                     CertificateDataValueViewText.builder().text(IdKontrollKod.KORKORT.getDescription()).build())
             );

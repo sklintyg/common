@@ -124,7 +124,7 @@ class QuestionPsykiskSjukdomTest {
         @Override
         protected List<InputExpectedValuePair<Psykiskt, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>(Psykiskt.create(true), CertificateDataValueViewText.builder().text("Ja").build()),
                 new InputExpectedValuePair<>(Psykiskt.create(false), CertificateDataValueViewText.builder().text("Nej").build())
             );

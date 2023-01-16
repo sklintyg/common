@@ -125,7 +125,7 @@ class QuestionBalansrubbningarTest {
         protected List<InputExpectedValuePair<HorselBalans, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
                 new InputExpectedValuePair<>(HorselBalans.builder().build(),
-                    CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                    CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>(HorselBalans.builder().setBalansrubbningar(false).build(),
                     CertificateDataValueViewText.builder().text("Nej").build()),
                 new InputExpectedValuePair<>(HorselBalans.builder().setBalansrubbningar(true).build(),

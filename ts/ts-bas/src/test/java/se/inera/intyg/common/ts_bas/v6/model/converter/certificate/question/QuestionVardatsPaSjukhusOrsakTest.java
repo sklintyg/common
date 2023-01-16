@@ -124,7 +124,7 @@ class QuestionVardatsPaSjukhusOrsakTest {
         @Override
         protected List<InputExpectedValuePair<Sjukhusvard, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>(Sjukhusvard.builder().setAnledning("anledning").build(),
                     CertificateDataValueViewText.builder().text("anledning").build())
             );
