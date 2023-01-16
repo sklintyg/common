@@ -53,7 +53,7 @@ public abstract class ValueCodeListTest<T> extends ValueTest {
     void shouldIncludeCodeValueList(InputExpectedValuePair<T, CertificateDataValueCodeList> inputExpectedValuePair) {
         final var question = getElement(inputExpectedValuePair.getInput());
         final var value = (CertificateDataValueCodeList) question.getValue();
-        assertEquals(inputExpectedValuePair.getExpectedValue(), value.getList());
+        assertEquals(inputExpectedValuePair.getExpectedValue(), value);
     }
 }
 

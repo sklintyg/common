@@ -223,25 +223,30 @@ class QuestionIntygetAvserTest {
             @Override
             protected List<InputExpectedValuePair<IntygAvser, CertificateDataValueCodeList>> inputExpectedValuePairList() {
                 return List.of(
-                    new InputExpectedValuePair(null, Collections.emptyList()),
-                    new InputExpectedValuePair(IntygAvser.create(null), Collections.emptyList()),
-                    new InputExpectedValuePair(IntygAvser.create(
+                    new InputExpectedValuePair<>(null, CertificateDataValueCodeList.builder().list(Collections.emptyList()).build()),
+                    new InputExpectedValuePair<>(IntygAvser.create(null),
+                        CertificateDataValueCodeList.builder()
+                            .list(Collections.emptyList())
+                            .build()),
+                    new InputExpectedValuePair<>(IntygAvser.create(
                         EnumSet.copyOf(Set.of(IntygAvserKategori.VAR3, IntygAvserKategori.VAR2, IntygAvserKategori.VAR1))),
-                        List.of(
-                            CertificateDataValueCode.builder()
-                                .id(IntygAvserKategori.VAR1.name())
-                                .code(IntygAvserKategori.VAR1.name())
-                                .build(),
-                            CertificateDataValueCode.builder()
-                                .id(IntygAvserKategori.VAR2.name())
-                                .code(IntygAvserKategori.VAR2.name())
-                                .build(),
-                            CertificateDataValueCode.builder()
-                                .id(IntygAvserKategori.VAR3.name())
-                                .code(IntygAvserKategori.VAR3.name())
-                                .build())
-                    )
-                );
+                        CertificateDataValueCodeList.builder().list(
+                            List.of(
+                                CertificateDataValueCode.builder()
+                                    .id(IntygAvserKategori.VAR1.name())
+                                    .code(IntygAvserKategori.VAR1.name())
+                                    .build(),
+                                CertificateDataValueCode.builder()
+                                    .id(IntygAvserKategori.VAR2.name())
+                                    .code(IntygAvserKategori.VAR2.name())
+                                    .build(),
+                                CertificateDataValueCode.builder()
+                                    .id(IntygAvserKategori.VAR3.name())
+                                    .code(IntygAvserKategori.VAR3.name())
+                                    .build()
+                            ))
+                            .build()
+                    ));
             }
         }
 

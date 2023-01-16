@@ -190,21 +190,23 @@ class QuestionBedomningKorkortsTypTest {
         @Override
         protected List<InputExpectedValuePair<Bedomning, CertificateDataValueCodeList>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair(
-                    Bedomning.builder().setKorkortstyp(
-                        EnumSet.of(BedomningKorkortstyp.VAR1, BedomningKorkortstyp.VAR2)).build(),
-                    List.of(
-                        CertificateDataValueCode.builder()
-                            .id(BedomningKorkortstyp.VAR1.name())
-                            .code(BedomningKorkortstyp.VAR1.name())
-                            .build(),
-                        CertificateDataValueCode.builder()
-                            .id(BedomningKorkortstyp.VAR2.name())
-                            .code(BedomningKorkortstyp.VAR2.name())
-                            .build()
-                    )
-                )
-            );
+                new InputExpectedValuePair<>(
+                    Bedomning.builder()
+                        .setKorkortstyp(EnumSet.of(BedomningKorkortstyp.VAR1, BedomningKorkortstyp.VAR2))
+                        .build(),
+                    CertificateDataValueCodeList.builder().list(
+                        List.of(
+                            CertificateDataValueCode.builder()
+                                .id(BedomningKorkortstyp.VAR1.name())
+                                .code(BedomningKorkortstyp.VAR1.name())
+                                .build(),
+                            CertificateDataValueCode.builder()
+                                .id(BedomningKorkortstyp.VAR2.name())
+                                .code(BedomningKorkortstyp.VAR2.name())
+                                .build()
+                        ))
+                        .build()
+                ));
         }
     }
 
@@ -339,16 +341,16 @@ class QuestionBedomningKorkortsTypTest {
         @Override
         protected List<InputExpectedValuePair<Bedomning, Set<BedomningKorkortstyp>>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair(
+                new InputExpectedValuePair<>(
                     null, Collections.emptySet()
                 ),
-                new InputExpectedValuePair(
+                new InputExpectedValuePair<>(
                     Bedomning.builder().build(), Collections.emptySet()
                 ),
-                new InputExpectedValuePair(
+                new InputExpectedValuePair<>(
                     Bedomning.builder().setKorkortstyp(EnumSet.of(BedomningKorkortstyp.VAR1)).build(), EnumSet.of(BedomningKorkortstyp.VAR1)
                 ),
-                new InputExpectedValuePair(
+                new InputExpectedValuePair<>(
                     Bedomning.builder().setKorkortstyp(EnumSet.of(BedomningKorkortstyp.VAR1, BedomningKorkortstyp.VAR2)).build(),
                     EnumSet.of(BedomningKorkortstyp.VAR1, BedomningKorkortstyp.VAR2))
             );
