@@ -125,7 +125,7 @@ class QuestionBeskrivningRiskfaktorerTest {
         protected List<InputExpectedValuePair<HjartKarl, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
                 new InputExpectedValuePair<>(HjartKarl.builder().build(), CertificateDataValueViewText.builder()
-                    .text("Ej Angivet").build()),
+                    .text("Ej angivet").build()),
                 new InputExpectedValuePair<>(HjartKarl.builder().setBeskrivningRiskfaktorer("beskrivning").build(),
                     CertificateDataValueViewText.builder().text("beskrivning").build())
             );

@@ -84,6 +84,9 @@ public final class ViewTextToolkit {
     }
 
     public static String withComma(String... value) {
+        if (value == null) {
+            return NOT_SPECIFIED;
+        }
         final var stringBuilder = new StringBuilder();
         for (int i = 0; i < value.length; i++) {
             if (value[i] == null) {

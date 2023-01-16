@@ -124,7 +124,7 @@ class QuestionSomnOchVakenhetsstorningarTest {
         @Override
         protected List<InputExpectedValuePair<SomnVakenhet, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>(SomnVakenhet.create(true), CertificateDataValueViewText.builder().text("Ja").build()),
                 new InputExpectedValuePair<>(SomnVakenhet.create(false), CertificateDataValueViewText.builder().text("Nej").build())
             );

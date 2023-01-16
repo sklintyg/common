@@ -124,7 +124,7 @@ class QuestionAlkoholNarkotikaTeckenMissbrukTest {
         @Override
         protected List<InputExpectedValuePair<NarkotikaLakemedel, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>(
                     NarkotikaLakemedel.builder().setTeckenMissbruk(true).build(),
                     CertificateDataValueViewText.builder().text("Ja").build()), new InputExpectedValuePair<>(

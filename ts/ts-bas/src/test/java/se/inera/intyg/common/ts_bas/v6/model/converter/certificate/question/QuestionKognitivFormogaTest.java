@@ -124,7 +124,7 @@ class QuestionKognitivFormogaTest {
         @Override
         protected List<InputExpectedValuePair<Kognitivt, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>(Kognitivt.create(true), CertificateDataValueViewText.builder().text("Ja").build()),
                 new InputExpectedValuePair<>(Kognitivt.create(false), CertificateDataValueViewText.builder().text("Nej").build())
             );

@@ -31,7 +31,7 @@ public class QuestionArbetslivsinriktadRehabilitering {
 
     private static final String NO = "Nej";
     private static final String YES = "Ja";
-    private static final String NOT_PROVIDED = "Ej Angivet";
+    private static final String NOT_PROVIDED = "Ej angivet";
     private static final String UNJUDGEABLE = "Går inte att bedöma";
 
     public static CertificateDataElement toCertificate(Rehabilitering rehab, int index) {

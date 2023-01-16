@@ -126,7 +126,7 @@ class QuestionIntygetAvserTest {
         @Override
         protected List<InputExpectedValuePair<IntygAvser, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(IntygAvser.create(null), CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                new InputExpectedValuePair<>(IntygAvser.create(null), CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>(IntygAvser.create(EnumSet.of(IntygAvserKategori.C1)),
                     CertificateDataValueViewText.builder().text(IntygAvserKategori.C1.name()).build()),
                 new InputExpectedValuePair<>(IntygAvser.create(EnumSet.of(IntygAvserKategori.C1, IntygAvserKategori.D1E)),

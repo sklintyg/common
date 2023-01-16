@@ -124,7 +124,7 @@ class QuestionMedvetandestorningTest {
         @Override
         protected List<InputExpectedValuePair<Medvetandestorning, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>(
                     Medvetandestorning.builder().setMedvetandestorning(true).build(),
                     CertificateDataValueViewText.builder().text("Ja").build()),

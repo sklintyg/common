@@ -125,7 +125,7 @@ class QuestionDiabetesTypTest {
         @Override
         protected List<InputExpectedValuePair<Diabetes, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(Diabetes.builder().build(), CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                new InputExpectedValuePair<>(Diabetes.builder().build(), CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>(Diabetes.builder().setDiabetesTyp(DiabetesKod.DIABETES_TYP_2.name()).build(),
                     CertificateDataValueViewText.builder().text("Typ 2").build())
             );

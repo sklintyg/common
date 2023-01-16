@@ -125,7 +125,7 @@ class QuestionFunktionsnedsattningBeskrivningTest {
         protected List<InputExpectedValuePair<Funktionsnedsattning, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
                 new InputExpectedValuePair<>(Funktionsnedsattning.builder().build(),
-                    CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                    CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>(Funktionsnedsattning.builder().setBeskrivning("beskrivning").build(),
                     CertificateDataValueViewText.builder().text("beskrivning").build())
             );

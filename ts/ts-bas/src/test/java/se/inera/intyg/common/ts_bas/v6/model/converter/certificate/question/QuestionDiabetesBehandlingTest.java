@@ -124,7 +124,7 @@ class QuestionDiabetesBehandlingTest {
         @Override
         protected List<InputExpectedValuePair<Diabetes, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(Diabetes.builder().build(), CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                new InputExpectedValuePair<>(Diabetes.builder().build(), CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>(Diabetes.builder()
                     .setInsulin(true)
                     .build(),

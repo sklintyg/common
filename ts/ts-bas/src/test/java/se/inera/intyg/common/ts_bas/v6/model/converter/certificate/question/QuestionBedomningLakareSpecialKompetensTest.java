@@ -124,7 +124,7 @@ class QuestionBedomningLakareSpecialKompetensTest {
         @Override
         protected List<InputExpectedValuePair<Bedomning, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>(Bedomning.builder().setLakareSpecialKompetens("lakareSpecialkompetens").build(),
                     CertificateDataValueViewText.builder().text("lakareSpecialkompetens").build())
             );

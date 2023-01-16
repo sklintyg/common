@@ -123,7 +123,7 @@ class QuestionOvrigKommentarTest {
         @Override
         protected List<InputExpectedValuePair<String, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>("kommentar", CertificateDataValueViewText.builder().text("kommentar").build())
             );
         }

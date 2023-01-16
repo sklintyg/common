@@ -124,7 +124,7 @@ class QuestionStadigvarandeMedicineringTest {
         @Override
         protected List<InputExpectedValuePair<Medicinering, CertificateDataValueViewText>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej Angivet").build()),
+                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
                 new InputExpectedValuePair<>(Medicinering.builder().setStadigvarandeMedicinering(true).build(),
                     CertificateDataValueViewText.builder().text("Ja").build()),
                 new InputExpectedValuePair<>(Medicinering.builder().setStadigvarandeMedicinering(false).build(),
