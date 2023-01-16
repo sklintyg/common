@@ -21,13 +21,13 @@ package se.inera.intyg.common.ts_diabetes.v4.model.internal;
 // CHECKSTYLE:OFF LineLength
 
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.GRUNDDATA_SVAR_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ID_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_SVAR_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.SIGNATURE;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.TEXTVERSION_JSON_ID;
 
@@ -125,13 +125,13 @@ public abstract class TsDiabetesUtlatandeV4 implements Utlatande {
         @JsonProperty(ALLMANT_JSON_ID)
         public abstract Builder setAllmant(Allmant allmant);
 
-        @JsonProperty(HYPOGLYKEMI_JSON_ID)
+        @JsonProperty(HYPOGLYKEMI_CATEGORY_ID)
         public abstract Builder setHypoglykemi(Hypoglykemi hypoglykemi);
 
-        @JsonProperty(OVRIGT_JSON_ID)
+        @JsonProperty(OVRIGT_CATEGORY_ID)
         public abstract Builder setOvrigt(Ovrigt ovrigt);
 
-        @JsonProperty(BEDOMNING_JSON_ID)
+        @JsonProperty(BEDOMNING_CATEGORY_ID)
         public abstract Builder setBedomning(Bedomning bedomning);
     }
 
