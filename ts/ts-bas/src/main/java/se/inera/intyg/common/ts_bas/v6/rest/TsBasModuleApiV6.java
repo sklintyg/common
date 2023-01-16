@@ -310,7 +310,7 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
     }
 
     @Override
-    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException {
+    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
         if (utlatande instanceof TsBasUtlatandeV6) {
             return toInteralModelResponse((TsBasUtlatandeV6) utlatande);
         }

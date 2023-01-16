@@ -213,7 +213,7 @@ public class LuaenaModuleApiV1 extends FkParentModuleApi<LuaenaUtlatandeV1> {
     }
 
     @Override
-    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException {
+    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
         throw new UnsupportedOperationException();
     }
 

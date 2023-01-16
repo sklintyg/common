@@ -191,7 +191,7 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
     }
 
     @Override
-    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException {
+    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
         throw new UnsupportedOperationException();
     }
 }

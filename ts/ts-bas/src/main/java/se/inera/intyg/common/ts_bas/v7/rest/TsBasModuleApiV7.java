@@ -208,7 +208,7 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
     }
 
     @Override
-    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) {
+    public String getJsonFromUtlatande(Utlatande utlatande) {
         throw new UnsupportedOperationException();
     }
 

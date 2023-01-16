@@ -455,7 +455,7 @@ public class TsDiabetesModuleApiV3Test {
         TsDiabetesUtlatandeV3 utlatande = ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel();
 
         final var expectedJsonString = toJsonString(utlatande);
-        final var actualJsonString = moduleApi.getUtlatandeToInternalModelResponse(utlatande);
+        final var actualJsonString = moduleApi.getJsonFromUtlatande(utlatande);
 
         assertEquals(expectedJsonString, actualJsonString);
     }

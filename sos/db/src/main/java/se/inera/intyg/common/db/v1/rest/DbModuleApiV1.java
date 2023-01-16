@@ -156,7 +156,7 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
     }
 
     @Override
-    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) {
+    public String getJsonFromUtlatande(Utlatande utlatande) {
         throw new UnsupportedOperationException();
     }
 }

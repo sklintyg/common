@@ -221,7 +221,7 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
     }
 
     @Override
-    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) {
+    public String getJsonFromUtlatande(Utlatande utlatande) {
         throw new UnsupportedOperationException();
     }
 

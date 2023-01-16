@@ -274,7 +274,7 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
     }
 
     @Override
-    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) {
+    public String getJsonFromUtlatande(Utlatande utlatande) {
         throw new UnsupportedOperationException();
     }
 }

@@ -35,5 +35,5 @@ public interface ModuleFacadeApi {
 
     CertificateMessagesProvider getMessagesProvider();
 
-    String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException;
+    String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException;
 }

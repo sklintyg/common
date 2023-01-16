@@ -714,10 +714,12 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException {
+    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
         if (utlatande instanceof Fk7263Utlatande) {
             return toInternalModelResponse((Fk7263Utlatande) utlatande);
         }
-        throw new IllegalArgumentException();
+        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+        throw new IllegalArgumentException(
+            "Utlatande was not instance of class Fk7263Utlatande, utlatande was instance of class: " + message);
     }
 }

@@ -333,7 +333,7 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
     }
 
     @Override
-    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException {
+    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
         if (utlatande instanceof TsDiabetesUtlatandeV2) {
             return toInteralModelResponse((TsDiabetesUtlatandeV2) utlatande);
         }

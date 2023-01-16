@@ -153,7 +153,7 @@ public class Ag114ModuleApiV1 extends AgParentModuleApi<Ag114UtlatandeV1> {
     }
 
     @Override
-    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) {
+    public String getJsonFromUtlatande(Utlatande utlatande) {
         throw new UnsupportedOperationException();
     }
 }

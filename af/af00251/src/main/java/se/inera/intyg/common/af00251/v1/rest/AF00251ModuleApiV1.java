@@ -205,7 +205,7 @@ public class AF00251ModuleApiV1 extends AfParentModuleApi<AF00251UtlatandeV1> {
     }
 
     @Override
-    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) {
+    public String getJsonFromUtlatande(Utlatande utlatande) {
         throw new UnsupportedOperationException();
     }
 }

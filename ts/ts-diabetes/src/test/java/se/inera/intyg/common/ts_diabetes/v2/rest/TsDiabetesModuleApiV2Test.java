@@ -509,7 +509,7 @@ public class TsDiabetesModuleApiV2Test {
     public void shallConvertUtlatandeToInternalModelResponse() throws ModuleException, ScenarioNotFoundException {
         final TsDiabetesUtlatandeV2 utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
         final var expectedJsonString = toJsonString(utlatande);
-        final var actualJsonString = moduleApi.getUtlatandeToInternalModelResponse(utlatande);
+        final var actualJsonString = moduleApi.getJsonFromUtlatande(utlatande);
 
         assertEquals(expectedJsonString, actualJsonString);
     }

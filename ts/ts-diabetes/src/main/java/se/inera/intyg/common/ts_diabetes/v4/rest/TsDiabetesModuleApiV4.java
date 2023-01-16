@@ -250,7 +250,7 @@ public class TsDiabetesModuleApiV4 extends TsParentModuleApi<TsDiabetesUtlatande
     }
 
     @Override
-    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) {
+    public String getJsonFromUtlatande(Utlatande utlatande) {
         throw new UnsupportedOperationException();
     }
 }
