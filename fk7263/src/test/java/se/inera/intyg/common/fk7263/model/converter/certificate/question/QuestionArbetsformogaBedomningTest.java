@@ -39,7 +39,6 @@ import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSF
 
 import java.time.LocalDate;
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -60,11 +59,6 @@ class QuestionArbetsformogaBedomningTest {
 
     @Mock
     CertificateMessagesProvider messagesProvider;
-
-    @BeforeEach
-    void setUp() {
-        //when(messagesProvider.get(any(String.class))).thenReturn("test string");
-    }
 
     @Nested
     class IncludeCommonElementTests extends CommonElementTest {
