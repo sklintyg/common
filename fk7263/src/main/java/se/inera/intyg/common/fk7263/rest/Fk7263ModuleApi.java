@@ -223,7 +223,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     @Override
     public String createNewInternal(CreateNewDraftHolder draftCertificateHolder) throws ModuleException {
         try {
-            return toInteralModelResponse(webcertModelFactory.createNewWebcertDraft(draftCertificateHolder));
+            return toInternalModelResponse(webcertModelFactory.createNewWebcertDraft(draftCertificateHolder));
 
         } catch (ConverterException e) {
             LOG.error("Could not create a new internal Webcert model", e);
@@ -235,7 +235,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     public String createNewInternalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, Utlatande template)
         throws ModuleException {
         try {
-            return toInteralModelResponse(webcertModelFactory.createCopy(draftCertificateHolder, template));
+            return toInternalModelResponse(webcertModelFactory.createCopy(draftCertificateHolder, template));
         } catch (ConverterException e) {
             LOG.error("Could not create a new internal Webcert model", e);
             throw new ModuleConverterException("Could not create a new internal Webcert model", e);
@@ -542,7 +542,7 @@ public class Fk7263ModuleApi implements ModuleApi {
         try {
             Fk7263Utlatande intyg = getInternal(internalModel);
             WebcertModelFactoryUtil.updateSkapadAv(intyg, hosPerson, signingDate);
-            return toInteralModelResponse(intyg);
+            return toInternalModelResponse(intyg);
         } catch (ModuleException e) {
             throw new ModuleException("Error while updating internal model skapadAv", e);
         }
@@ -553,13 +553,13 @@ public class Fk7263ModuleApi implements ModuleApi {
         try {
             Fk7263Utlatande intyg = getInternal(internalModel);
             WebcertModelFactoryUtil.populateWithPatientInfo(intyg.getGrundData(), patient);
-            return toInteralModelResponse(intyg);
+            return toInternalModelResponse(intyg);
         } catch (ModuleException | ConverterException e) {
             throw new ModuleException("Error while updating internal model with patient", e);
         }
     }
 
-    private String toInteralModelResponse(Fk7263Utlatande internalModel) throws ModuleException {
+    private String toInternalModelResponse(Fk7263Utlatande internalModel) throws ModuleException {
         try {
             StringWriter writer = new StringWriter();
             objectMapper.writeValue(writer, internalModel);
@@ -611,7 +611,7 @@ public class Fk7263ModuleApi implements ModuleApi {
             internal.setAnnanReferens(null);
             internal.setAnnanReferensBeskrivning(null);
 
-            return toInteralModelResponse(webcertModelFactory.createCopy(draftCopyHolder, internal));
+            return toInternalModelResponse(webcertModelFactory.createCopy(draftCopyHolder, internal));
         } catch (ConverterException e) {
             LOG.error("Could not create a new internal Webcert model", e);
             throw new ModuleConverterException("Could not create a new internal Webcert model", e);
@@ -716,7 +716,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     @Override
     public String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException {
         if (utlatande instanceof Fk7263Utlatande) {
-            return toInteralModelResponse((Fk7263Utlatande) utlatande);
+            return toInternalModelResponse((Fk7263Utlatande) utlatande);
         }
         throw new IllegalArgumentException();
     }
