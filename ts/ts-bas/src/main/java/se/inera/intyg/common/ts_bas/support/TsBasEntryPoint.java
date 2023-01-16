@@ -37,7 +37,8 @@ public class TsBasEntryPoint implements ModuleEntryPoint {
     public static final String KV_UTLATANDETYP_INTYG_CODE = "TSTRK1007";
     // CHECKSTYLE:OFF LineLength
     private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
-    public static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
+    public static final String DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
+    public static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_2.RBK";
     private static final String MODULE_DESCRIPTION = "Läkarintyg - avseende högre körkortsbehörigheter eller taxiförarlegitimation - på begäran av Transportstyrelsen";
     // CHECKSTYLE:ON LineLength
 
@@ -66,7 +67,7 @@ public class TsBasEntryPoint implements ModuleEntryPoint {
             final String latestVersion = repo.get().getLatestVersion(getModuleId());
             final IntygTexts texts = repo.get().getTexts(getModuleId(), latestVersion);
             if (texts != null) {
-                return texts.getTexter().get(DETAILED_DESCRIPTION_TEXT_KEY);
+                return texts.getTexter().get(DESCRIPTION_TEXT_KEY);
             }
         }
         return null;
