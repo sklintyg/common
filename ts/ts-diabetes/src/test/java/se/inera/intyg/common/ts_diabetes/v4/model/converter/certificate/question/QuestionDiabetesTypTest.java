@@ -19,7 +19,7 @@
 
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_CATEGORY_ID;
@@ -28,6 +28,7 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_TEXT_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_TYP1_LABEL_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_TYP2_LABEL_ID;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -101,7 +102,7 @@ class QuestionDiabetesTypTest {
                     .build(),
                 RadioMultipleCode.builder()
                     .id(KvTypAvDiabetes.TYP2.getCode())
-                    .label(textProvider.get(ALLMANT_TYP_AV_DIABETES_TYP1_LABEL_ID))
+                    .label(textProvider.get(ALLMANT_TYP_AV_DIABETES_TYP2_LABEL_ID))
                     .build(),
                 RadioMultipleCode.builder()
                     .id(KvTypAvDiabetes.LADA.getCode())
@@ -246,7 +247,7 @@ class QuestionDiabetesTypTest {
 
             final var actualValue = QuestionDiabetesTyp.toInternal(certificate);
 
-            assertTrue(actualValue == null);
+            assertNull(actualValue);
         }
     }
 }
