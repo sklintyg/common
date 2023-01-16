@@ -266,8 +266,7 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
     }
 
     @Override
-    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException {
-        return null;
+    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) {
+        throw new UnsupportedOperationException();
     }
-
 }

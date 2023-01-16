@@ -179,8 +179,8 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
     }
 
     @Override
-    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException {
-        return null;
+    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) {
+        throw new UnsupportedOperationException();
     }
 
 }

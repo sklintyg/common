@@ -23,8 +23,10 @@ import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetai
 import static se.inera.intyg.common.support.modules.transformer.XslTransformerUtil.isRegisterCertificateV3;
 import static se.inera.intyg.common.support.modules.transformer.XslTransformerUtil.isRegisterTsBas;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +68,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolv
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
@@ -104,7 +107,8 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
 
     @Autowired(required = false)
     private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
-
+    @Autowired
+    private ObjectMapper objectMapper;
     private SendTSClient sendTsBasClient;
     private Map<String, String> validationMessages;
 
@@ -307,6 +311,19 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
 
     @Override
     public String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException {
-        return null;
+        if (utlatande instanceof TsBasUtlatandeV6) {
+            return toInteralModelResponse((TsBasUtlatandeV6) utlatande);
+        }
+        throw new IllegalArgumentException();
+    }
+
+    private String toInteralModelResponse(TsBasUtlatandeV6 internalModel) throws ModuleException {
+        try {
+            StringWriter writer = new StringWriter();
+            objectMapper.writeValue(writer, internalModel);
+            return writer.toString();
+        } catch (IOException e) {
+            throw new ModuleSystemException("Failed to serialize internal model", e);
+        }
     }
 }

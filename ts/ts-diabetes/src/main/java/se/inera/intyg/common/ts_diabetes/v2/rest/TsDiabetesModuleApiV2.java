@@ -21,8 +21,10 @@ package se.inera.intyg.common.ts_diabetes.v2.rest;
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS;
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -123,6 +125,8 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
 
     @Autowired
     private PdfGenerator<TsDiabetesUtlatandeV2> pdfGenerator;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     public TsDiabetesModuleApiV2() {
         super(TsDiabetesUtlatandeV2.class);
@@ -330,6 +334,19 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
 
     @Override
     public String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException {
-        return null;
+        if (utlatande instanceof TsDiabetesUtlatandeV2) {
+            return toInteralModelResponse((TsDiabetesUtlatandeV2) utlatande);
+        }
+        throw new IllegalArgumentException();
+    }
+
+    private String toInteralModelResponse(TsDiabetesUtlatandeV2 internalModel) throws ModuleException {
+        try {
+            StringWriter writer = new StringWriter();
+            objectMapper.writeValue(writer, internalModel);
+            return writer.toString();
+        } catch (IOException e) {
+            throw new ModuleSystemException("Failed to serialize internal model", e);
+        }
     }
 }

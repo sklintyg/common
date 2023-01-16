@@ -35,6 +35,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.StringWriter;
 import javax.xml.bind.JAXB;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFactory;
@@ -447,6 +448,26 @@ public class TsDiabetesModuleApiV3Test {
         String res = moduleApi.createRevokeRequest(utlatande, skapadAv, meddelande);
         assertNotNull(res);
         assertNotEquals("", res);
+    }
+
+    @Test
+    public void shallConvertUtlatandeToInternalModelResponse() throws ScenarioNotFoundException, ModuleException {
+        TsDiabetesUtlatandeV3 utlatande = ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel();
+
+        final var expectedJsonString = toJsonString(utlatande);
+        final var actualJsonString = moduleApi.getUtlatandeToInternalModelResponse(utlatande);
+
+        assertEquals(expectedJsonString, actualJsonString);
+    }
+
+    private String toJsonString(TsDiabetesUtlatandeV3 utlatande) throws ModuleException {
+        StringWriter writer = new StringWriter();
+        try {
+            objectMapper.writeValue(writer, utlatande);
+        } catch (IOException e) {
+            throw new ModuleException("Failed to serialize internal model", e);
+        }
+        return writer.toString();
     }
 
     private GetCertificateResponseType createGetCertificateResponseType() throws ScenarioNotFoundException {

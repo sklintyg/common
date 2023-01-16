@@ -221,8 +221,8 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
     }
 
     @Override
-    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException {
-        return null;
+    public String getUtlatandeToInternalModelResponse(Utlatande utlatande) {
+        throw new UnsupportedOperationException();
     }
 
     private Map<String, String> getDynamicKeyMap() {

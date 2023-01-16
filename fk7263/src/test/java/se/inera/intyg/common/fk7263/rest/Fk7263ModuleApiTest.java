@@ -471,6 +471,15 @@ public class Fk7263ModuleApiTest {
         assertNull(certificateMessagesProvider.get("not.existing"));
     }
 
+    @Test
+    public void shallConvertUtlatandeToInternalModelResponse() throws ModuleException, IOException {
+        Fk7263Utlatande utlatande = getUtlatandeFromFile();
+        final var expectedJsonString = toJsonString(utlatande);
+        final var actualJsonString = fk7263ModuleApi.getUtlatandeToInternalModelResponse(utlatande);
+
+        assertEquals(expectedJsonString, actualJsonString);
+    }
+
     private Fk7263Utlatande getUtlatandeFromFile() throws IOException {
         return new CustomObjectMapper().readValue(new ClassPathResource(
             TESTFILE_UTLATANDE).getFile(), Fk7263Utlatande.class);

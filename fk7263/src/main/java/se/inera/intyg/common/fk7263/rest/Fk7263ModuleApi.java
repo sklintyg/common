@@ -699,7 +699,7 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     @Override
     public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException, IOException {
-        return certificateAsJson;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -715,6 +715,9 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     @Override
     public String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException {
-        return toInteralModelResponse((Fk7263Utlatande) utlatande);
+        if (utlatande instanceof Fk7263Utlatande) {
+            return toInteralModelResponse((Fk7263Utlatande) utlatande);
+        }
+        throw new IllegalArgumentException();
     }
 }

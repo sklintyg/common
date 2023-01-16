@@ -214,7 +214,7 @@ public class LuaenaModuleApiV1 extends FkParentModuleApi<LuaenaUtlatandeV1> {
 
     @Override
     public String getUtlatandeToInternalModelResponse(Utlatande utlatande) throws ModuleException {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     private Map<String, String> getDynamicKeyMap() {
