@@ -221,9 +221,15 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
     }
 
     @Override
-    public String getJsonFromUtlatande(Utlatande utlatande) {
-        throw new UnsupportedOperationException();
+    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+        if (utlatande instanceof LuseUtlatandeV1) {
+            return toInternalModelResponse((LuseUtlatandeV1) utlatande);
+        }
+        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+        throw new IllegalArgumentException(
+            "Utlatande was not instance of class LuseUtlatandeV1, utlatande was instance of class: " + message);
     }
+
 
     private Map<String, String> getDynamicKeyMap() {
         final var provider = getTextProvider(LuseEntryPoint.MODULE_ID);

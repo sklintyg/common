@@ -21,6 +21,7 @@ package se.inera.intyg.common.ts_bas.v6.rest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
@@ -543,12 +544,17 @@ public class TsBasModuleApiTest {
     }
 
     @Test
-    public void shallConvertUtlatandeToInternalModelResponse() throws ModuleException, ScenarioNotFoundException {
+    public void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande() throws ModuleException, ScenarioNotFoundException {
         final TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
         final var expectedJsonString = toJsonString(utlatande);
         final var actualJsonString = moduleApi.getJsonFromUtlatande(utlatande);
 
         assertEquals(expectedJsonString, actualJsonString);
+    }
+
+    @Test
+    public void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
     }
 
     private String toJsonString(TsBasUtlatandeV6 utlatande) throws ModuleException {

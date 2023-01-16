@@ -214,7 +214,12 @@ public class LuaenaModuleApiV1 extends FkParentModuleApi<LuaenaUtlatandeV1> {
 
     @Override
     public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
-        throw new UnsupportedOperationException();
+        if (utlatande instanceof LuaenaUtlatandeV1) {
+            return toInternalModelResponse((LuaenaUtlatandeV1) utlatande);
+        }
+        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+        throw new IllegalArgumentException(
+            "Utlatande was not instance of class LuaenaUtlatandeV1, utlatande was instance of class: " + message);
     }
 
     private Map<String, String> getDynamicKeyMap() {

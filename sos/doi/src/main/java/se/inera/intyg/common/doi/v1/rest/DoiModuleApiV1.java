@@ -192,6 +192,11 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
 
     @Override
     public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
-        throw new UnsupportedOperationException();
+        if (utlatande instanceof DoiUtlatandeV1) {
+            return toInternalModelResponse(utlatande);
+        }
+        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+        throw new IllegalArgumentException(
+            "Utlatande was not instance of class DoiUtlatandeV1, utlatande was instance of class: " + message);
     }
 }

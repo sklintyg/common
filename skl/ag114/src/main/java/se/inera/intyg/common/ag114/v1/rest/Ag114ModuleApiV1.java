@@ -153,7 +153,12 @@ public class Ag114ModuleApiV1 extends AgParentModuleApi<Ag114UtlatandeV1> {
     }
 
     @Override
-    public String getJsonFromUtlatande(Utlatande utlatande) {
-        throw new UnsupportedOperationException();
+    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+        if (utlatande instanceof Ag114UtlatandeV1) {
+            return toInternalModelResponse((Ag114UtlatandeV1) utlatande);
+        }
+        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+        throw new IllegalArgumentException(
+            "Utlatande was not instance of class Ag114UtlatandeV1, utlatande was instance of class: " + message);
     }
 }

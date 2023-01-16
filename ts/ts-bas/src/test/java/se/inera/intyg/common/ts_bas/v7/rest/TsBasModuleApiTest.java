@@ -21,6 +21,7 @@ package se.inera.intyg.common.ts_bas.v7.rest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -79,6 +80,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 import se.inera.intyg.common.ts_bas.v7.utils.Scenario;
 import se.inera.intyg.common.ts_bas.v7.utils.ScenarioFinder;
+import se.inera.intyg.common.ts_bas.v7.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
@@ -466,6 +468,31 @@ public class TsBasModuleApiTest {
         final var certificateMessagesProvider = moduleApi.getMessagesProvider();
 
         assertNull(certificateMessagesProvider.get("not.existing"));
+    }
+
+    @Test
+    public void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande()
+        throws ModuleException, ScenarioNotFoundException {
+        final TsBasUtlatandeV7 utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
+        final var expectedJsonString = toJsonString(utlatande);
+        final var actualJsonString = moduleApi.getJsonFromUtlatande(utlatande);
+
+        assertEquals(expectedJsonString, actualJsonString);
+    }
+
+    @Test
+    public void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
+    }
+
+    private String toJsonString(TsBasUtlatandeV7 utlatande) throws ModuleException {
+        StringWriter writer = new StringWriter();
+        try {
+            objectMapper.writeValue(writer, utlatande);
+        } catch (IOException e) {
+            throw new ModuleException("Failed to serialize internal model", e);
+        }
+        return writer.toString();
     }
 
     private CreateNewDraftHolder createNewDraftHolder() {

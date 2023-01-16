@@ -208,8 +208,13 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
     }
 
     @Override
-    public String getJsonFromUtlatande(Utlatande utlatande) {
-        throw new UnsupportedOperationException();
+    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+        if (utlatande instanceof TsBasUtlatandeV7) {
+            return toInternalModelResponse(utlatande);
+        }
+        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+        throw new IllegalArgumentException(
+            "Utlatande was not instance of class TsBasUtlatandeV7, utlatande was instance of class: " + message);
     }
 
     private String updateInternalAfterSigning(String internalModel, String base64EncodedSignatureXml)

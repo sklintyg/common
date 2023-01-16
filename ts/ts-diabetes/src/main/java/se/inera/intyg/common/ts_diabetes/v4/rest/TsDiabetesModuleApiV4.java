@@ -250,7 +250,12 @@ public class TsDiabetesModuleApiV4 extends TsParentModuleApi<TsDiabetesUtlatande
     }
 
     @Override
-    public String getJsonFromUtlatande(Utlatande utlatande) {
-        throw new UnsupportedOperationException();
+    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+        if (utlatande instanceof TsDiabetesUtlatandeV4) {
+            return toInternalModelResponse(utlatande);
+        }
+        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+        throw new IllegalArgumentException(
+            "Utlatande was not instance of class TsDiabetesUtlatandeV4, utlatande was instance of class: " + message);
     }
 }

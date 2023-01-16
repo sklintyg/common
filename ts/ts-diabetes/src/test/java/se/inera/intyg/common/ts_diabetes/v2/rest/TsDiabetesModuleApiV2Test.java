@@ -21,6 +21,7 @@ package se.inera.intyg.common.ts_diabetes.v2.rest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -506,7 +507,7 @@ public class TsDiabetesModuleApiV2Test {
     }
 
     @Test
-    public void shallConvertUtlatandeToInternalModelResponse() throws ModuleException, ScenarioNotFoundException {
+    public void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande() throws ModuleException, ScenarioNotFoundException {
         final TsDiabetesUtlatandeV2 utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
         final var expectedJsonString = toJsonString(utlatande);
         final var actualJsonString = moduleApi.getJsonFromUtlatande(utlatande);
@@ -514,6 +515,11 @@ public class TsDiabetesModuleApiV2Test {
         assertEquals(expectedJsonString, actualJsonString);
     }
 
+    @Test
+    public void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
+    }
+    
     private String toJsonString(TsDiabetesUtlatandeV2 utlatande) throws ModuleException {
         StringWriter writer = new StringWriter();
         try {

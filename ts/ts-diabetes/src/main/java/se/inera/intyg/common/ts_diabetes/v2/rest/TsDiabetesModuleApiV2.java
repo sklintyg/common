@@ -24,7 +24,6 @@ import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetai
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.StringReader;
-import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -335,18 +334,10 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
     @Override
     public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
         if (utlatande instanceof TsDiabetesUtlatandeV2) {
-            return toInteralModelResponse((TsDiabetesUtlatandeV2) utlatande);
+            return toInternalModelResponse(utlatande);
         }
-        throw new IllegalArgumentException();
-    }
-
-    private String toInteralModelResponse(TsDiabetesUtlatandeV2 internalModel) throws ModuleException {
-        try {
-            StringWriter writer = new StringWriter();
-            objectMapper.writeValue(writer, internalModel);
-            return writer.toString();
-        } catch (IOException e) {
-            throw new ModuleSystemException("Failed to serialize internal model", e);
-        }
+        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+        throw new IllegalArgumentException(
+            "Utlatande was not instance of class TsDiabetesUtlatandeV2, utlatande was instance of class: " + message);
     }
 }

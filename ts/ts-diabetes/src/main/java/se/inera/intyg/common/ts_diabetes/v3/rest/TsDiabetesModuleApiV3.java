@@ -26,7 +26,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import java.io.StringReader;
-import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,7 +51,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolv
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
-import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
@@ -221,18 +219,10 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
     @Override
     public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
         if (utlatande instanceof TsDiabetesUtlatandeV3) {
-            return toInteralModelResponse((TsDiabetesUtlatandeV3) utlatande);
+            return toInternalModelResponse(utlatande);
         }
-        throw new IllegalArgumentException();
-    }
-
-    private String toInteralModelResponse(TsDiabetesUtlatandeV3 internalModel) throws ModuleException {
-        try {
-            StringWriter writer = new StringWriter();
-            objectMapper.writeValue(writer, internalModel);
-            return writer.toString();
-        } catch (IOException e) {
-            throw new ModuleSystemException("Failed to serialize internal model", e);
-        }
+        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+        throw new IllegalArgumentException(
+            "Utlatande was not instance of class TsDiabetesUtlatandeV3, utlatande was instance of class: " + message);
     }
 }
