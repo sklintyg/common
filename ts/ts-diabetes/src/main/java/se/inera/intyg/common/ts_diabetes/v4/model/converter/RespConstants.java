@@ -198,16 +198,21 @@ public final class RespConstants {
     public static final String HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_DESCRIPTION_ID = "FRG_204.HLP";
 
     // Kat 6 - Övrigt
-    public static final String OVRIGT_JSON_ID = "ovrigt";
+    public static final String OVRIGT_CATEGORY_ID = "ovrigt";
+    public static final String OVRIGT_CATEGORY_TEXT_ID = "KAT_6.RBK";
     public static final String OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID = "206";
     public static final String OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_DELSVAR_ID = "206.1";
     public static final String OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID = "komplikationerAvSjukdomen";
+    public static final String OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_TEXT_ID = "FRG_206.RBK";
     public static final String OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DELSVAR_ID = "206.2";
     public static final String OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID = "komplikationerAvSjukdomenAnges";
+    public static final String OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_TEXT_ID = "DFR_206.2.RBK";
+    public static final String OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DESCRIPTION_ID = "DFR_206.2.HLP";
 
     public static final String OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_SVAR_ID = "34";
     public static final String OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_DELSVAR_ID = "34.1";
     public static final String OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_JSON_ID = "borUndersokasAvSpecialist";
+    public static final String OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_TEXT_ID = "FRG_34.RBK";
 
     // Kat 7 - Bedömning
     public static final String BEDOMNING_SVAR_ID = "33";
