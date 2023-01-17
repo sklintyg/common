@@ -22,7 +22,6 @@ import static se.inera.intyg.common.support.facade.util.ValidationExpressionTool
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_DESCRIPTION_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_SVAR_ID;
@@ -52,7 +51,7 @@ public class QuestionHypoglykemiAterkommandeSenasteAret {
             .index(index)
             .config(
                 CertificateDataConfigRadioBoolean.builder()
-                    .id(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_DELSVAR_ID)
+                    .id(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_JSON_ID)
                     .text(textProvider.get(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TEXT_ID))
                     .description(textProvider.get(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_DESCRIPTION_ID))
                     .selectedText(textProvider.get(SVAR_JA_TEXT_ID))

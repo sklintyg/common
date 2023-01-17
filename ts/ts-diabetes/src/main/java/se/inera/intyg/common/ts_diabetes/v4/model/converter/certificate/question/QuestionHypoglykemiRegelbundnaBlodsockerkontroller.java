@@ -22,7 +22,6 @@ import static se.inera.intyg.common.support.facade.util.ValidationExpressionTool
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_CATEGORY_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_DESCRIPTION_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_SVAR_ID;
@@ -54,7 +53,7 @@ public class QuestionHypoglykemiRegelbundnaBlodsockerkontroller {
             .index(index)
             .config(
                 CertificateDataConfigRadioBoolean.builder()
-                    .id(HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_DELSVAR_ID)
+                    .id(HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_JSON_ID)
                     .text(textProvider.get(HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_TEXT_ID))
                     .description(textProvider.get(HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_DESCRIPTION_ID))
                     .selectedText(textProvider.get(SVAR_JA_TEXT_ID))

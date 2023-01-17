@@ -20,7 +20,6 @@ package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.questio
 
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_TEXT_ID;
@@ -47,7 +46,7 @@ public class QuestionOvrigtBorUndersokasAvSpecialist {
             .index(index)
             .config(
                 CertificateDataConfigTextArea.builder()
-                    .id(OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_DELSVAR_ID)
+                    .id(OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_JSON_ID)
                     .text(textProvider.get(OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_TEXT_ID))
                     .build()
             )

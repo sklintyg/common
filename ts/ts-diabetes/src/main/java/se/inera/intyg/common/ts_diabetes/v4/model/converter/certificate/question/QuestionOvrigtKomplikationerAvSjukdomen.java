@@ -21,7 +21,6 @@ package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.questio
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_TEXT_ID;
@@ -48,7 +47,7 @@ public class QuestionOvrigtKomplikationerAvSjukdomen {
             .index(index)
             .config(
                 CertificateDataConfigRadioBoolean.builder()
-                    .id(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_DELSVAR_ID)
+                    .id(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID)
                     .text(textProvider.get(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_TEXT_ID))
                     .selectedText(textProvider.get(SVAR_JA_TEXT_ID))
                     .unselectedText(textProvider.get(SVAR_NEJ_TEXT_ID))

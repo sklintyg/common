@@ -20,7 +20,6 @@ package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.questio
 
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_OVRIGA_KOMMENTARER_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_OVRIGA_KOMMENTARER_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_OVRIGA_KOMMENTARER_TEXT_ID;
@@ -47,7 +46,7 @@ public class QuestionBedomningOvrigaKommentarer {
             .index(index)
             .config(
                 CertificateDataConfigTextArea.builder()
-                    .id(BEDOMNING_OVRIGA_KOMMENTARER_DELSVAR_ID)
+                    .id(BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID)
                     .text(textProvider.get(BEDOMNING_OVRIGA_KOMMENTARER_TEXT_ID))
                     .build()
             )
