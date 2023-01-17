@@ -21,7 +21,6 @@ package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.questio
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_OVRIGA_KOMMENTARER_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_OVRIGA_KOMMENTARER_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_OVRIGA_KOMMENTARER_TEXT_ID;
@@ -103,7 +102,7 @@ class QuestionBedomningOvrigaKommentarerTest {
 
         @Override
         protected String getJsonId() {
-            return BEDOMNING_OVRIGA_KOMMENTARER_DELSVAR_ID;
+            return BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID;
         }
     }
 
