@@ -22,7 +22,6 @@ package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.questio
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_TEXT_ID;
@@ -104,7 +103,7 @@ class QuestionOvrigtBorUndersokasAvSpecialistTest {
 
         @Override
         protected String getJsonId() {
-            return OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_DELSVAR_ID;
+            return OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_JSON_ID;
         }
     }
 
