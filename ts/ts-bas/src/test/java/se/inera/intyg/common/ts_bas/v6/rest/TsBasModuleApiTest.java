@@ -558,13 +558,11 @@ public class TsBasModuleApiTest {
     }
 
     private String toJsonString(TsBasUtlatandeV6 utlatande) throws ModuleException {
-        StringWriter writer = new StringWriter();
         try {
-            objectMapper.writeValue(writer, utlatande);
+            return objectMapper.writeValueAsString(utlatande);
         } catch (IOException e) {
             throw new ModuleException("Failed to serialize internal model", e);
         }
-        return writer.toString();
     }
 
     private CreateNewDraftHolder createNewDraftHolder() {

@@ -39,7 +39,6 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -491,13 +490,11 @@ public class Ag114ModuleApiTest {
     }
 
     private String toJsonString(Ag114UtlatandeV1 utlatande) throws ModuleException {
-        final var writer = new StringWriter();
         try {
-            objectMapper.writeValue(writer, utlatande);
+            return objectMapper.writeValueAsString(utlatande);
         } catch (IOException e) {
             throw new ModuleException("Failed to serialize internal model", e);
         }
-        return writer.toString();
     }
 
     private GetCertificateResponseType createGetCertificateResponseType(final StatusKod statusKod, final String part)

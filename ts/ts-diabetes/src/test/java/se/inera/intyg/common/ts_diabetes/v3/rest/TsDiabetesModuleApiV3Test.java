@@ -36,7 +36,6 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.IOException;
 import java.io.StringReader;
-import java.io.StringWriter;
 import javax.xml.bind.JAXB;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFactory;
@@ -476,13 +475,11 @@ public class TsDiabetesModuleApiV3Test {
     }
 
     private String toJsonString(TsDiabetesUtlatandeV3 utlatande) throws ModuleException {
-        StringWriter writer = new StringWriter();
         try {
-            objectMapper.writeValue(writer, utlatande);
+            return objectMapper.writeValueAsString(utlatande);
         } catch (IOException e) {
             throw new ModuleException("Failed to serialize internal model", e);
         }
-        return writer.toString();
     }
 
     private GetCertificateResponseType createGetCertificateResponseType() throws ScenarioNotFoundException {

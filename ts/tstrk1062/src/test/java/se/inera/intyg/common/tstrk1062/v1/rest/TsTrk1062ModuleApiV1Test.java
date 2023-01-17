@@ -35,7 +35,6 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.IOException;
 import java.io.StringReader;
-import java.io.StringWriter;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -368,13 +367,11 @@ public class TsTrk1062ModuleApiV1Test {
     }
 
     private String toJsonString(TsTrk1062UtlatandeV1 utlatande) throws ModuleException {
-        StringWriter writer = new StringWriter();
         try {
-            objectMapper.writeValue(writer, utlatande);
+            return objectMapper.writeValueAsString(utlatande);
         } catch (IOException e) {
             throw new ModuleException("Failed to serialize internal model", e);
         }
-        return writer.toString();
     }
 
     private Intyg getIntyg(String href) throws Exception {

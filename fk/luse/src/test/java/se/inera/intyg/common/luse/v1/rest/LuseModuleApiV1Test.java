@@ -47,7 +47,6 @@ import static se.inera.intyg.common.fkparent.rest.FkParentModuleApi.PREFIX;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
@@ -648,13 +647,11 @@ public class LuseModuleApiV1Test {
     }
 
     private String toJsonString(LuseUtlatandeV1 utlatande) throws ModuleException {
-        final var writer = new StringWriter();
         try {
-            objectMapper.writeValue(writer, utlatande);
+            return objectMapper.writeValueAsString(utlatande);
         } catch (IOException e) {
             throw new ModuleException("Failed to serialize internal model", e);
         }
-        return writer.toString();
     }
 
     private GetCertificateResponseType createGetCertificateResponseType() throws ScenarioNotFoundException {

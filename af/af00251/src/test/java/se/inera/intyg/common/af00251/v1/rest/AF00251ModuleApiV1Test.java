@@ -39,7 +39,6 @@ import static org.mockito.Mockito.when;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.List;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFactory;
@@ -502,13 +501,11 @@ public class AF00251ModuleApiV1Test {
     }
 
     private String toJsonString(AF00251UtlatandeV1 utlatande) throws ModuleException {
-        final var writer = new StringWriter();
         try {
-            objectMapper.writeValue(writer, utlatande);
+            return objectMapper.writeValueAsString(utlatande);
         } catch (IOException e) {
             throw new ModuleException("Failed to serialize internal model", e);
         }
-        return writer.toString();
     }
 
     private AF00251UtlatandeV1 getUtlatandeFromFile() throws IOException {

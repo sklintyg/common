@@ -44,7 +44,6 @@ import static se.inera.intyg.common.lisjp.v1.rest.LisjpModuleApiV1.PREFIX;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -631,13 +630,11 @@ public class LisjpModuleApiTest {
     }
 
     private String toJsonString(LisjpUtlatandeV1 utlatande) throws ModuleException {
-        final var writer = new StringWriter();
         try {
-            objectMapper.writeValue(writer, utlatande);
+            return objectMapper.writeValueAsString(utlatande);
         } catch (IOException e) {
             throw new ModuleException("Failed to serialize internal model", e);
         }
-        return writer.toString();
     }
 
     private GetCertificateResponseType createGetCertificateResponseType() throws ScenarioNotFoundException {

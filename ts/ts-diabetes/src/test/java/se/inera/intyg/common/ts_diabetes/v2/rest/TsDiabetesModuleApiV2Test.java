@@ -35,7 +35,6 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.IOException;
 import java.io.StringReader;
-import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.List;
@@ -519,15 +518,13 @@ public class TsDiabetesModuleApiV2Test {
     public void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
         assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
     }
-    
+
     private String toJsonString(TsDiabetesUtlatandeV2 utlatande) throws ModuleException {
-        StringWriter writer = new StringWriter();
         try {
-            objectMapper.writeValue(writer, utlatande);
+            return objectMapper.writeValueAsString(utlatande);
         } catch (IOException e) {
             throw new ModuleException("Failed to serialize internal model", e);
         }
-        return writer.toString();
     }
 
     private CreateNewDraftHolder createNewDraftHolder() {

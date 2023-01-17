@@ -44,7 +44,6 @@ import static se.inera.intyg.common.fkparent.rest.FkParentModuleApi.PREFIX;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -438,13 +437,11 @@ public class LuaenaModuleApiTest {
     }
 
     private String toJsonString(LuaenaUtlatandeV1 utlatande) throws ModuleException {
-        final var writer = new StringWriter();
         try {
-            objectMapper.writeValue(writer, utlatande);
+            return objectMapper.writeValueAsString(utlatande);
         } catch (IOException e) {
             throw new ModuleException("Failed to serialize internal model", e);
         }
-        return writer.toString();
     }
 
     private RegisterCertificateResponseType createReturnVal(ResultCodeType res) {
