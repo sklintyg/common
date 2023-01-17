@@ -39,6 +39,7 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -190,25 +191,29 @@ class QuestionIntygetAvserTest {
             @Override
             protected List<InputExpectedValuePair<IntygAvser, CertificateDataValueCodeList>> inputExpectedValuePairList() {
                 return List.of(
-                    new InputExpectedValuePair(null, Collections.emptyList()),
-                    new InputExpectedValuePair(IntygAvser.create(null), Collections.emptyList()),
-                    new InputExpectedValuePair(IntygAvser.create(
+                    new InputExpectedValuePair<>(null, CertificateDataValueCodeList.builder().list(Collections.emptyList()).build()),
+                    new InputExpectedValuePair<>(
+                        IntygAvser.create(null),
+                        CertificateDataValueCodeList.builder().list(Collections.emptyList()).build()),
+                    new InputExpectedValuePair<>(IntygAvser.create(
                         EnumSet.copyOf(Set.of(IntygAvserKategori.IAV3, IntygAvserKategori.IAV2, IntygAvserKategori.IAV1))),
-                        List.of(
-                            CertificateDataValueCode.builder()
-                                .id(IntygAvserKategori.IAV1.name())
-                                .code(IntygAvserKategori.IAV1.name())
-                                .build(),
-                            CertificateDataValueCode.builder()
-                                .id(IntygAvserKategori.IAV2.name())
-                                .code(IntygAvserKategori.IAV2.name())
-                                .build(),
-                            CertificateDataValueCode.builder()
-                                .id(IntygAvserKategori.IAV3.name())
-                                .code(IntygAvserKategori.IAV3.name())
-                                .build())
-                    )
-                );
+                        CertificateDataValueCodeList.builder().list(
+                            List.of(
+                                CertificateDataValueCode.builder()
+                                    .id(IntygAvserKategori.IAV1.name())
+                                    .code(IntygAvserKategori.IAV1.name())
+                                    .build(),
+                                CertificateDataValueCode.builder()
+                                    .id(IntygAvserKategori.IAV2.name())
+                                    .code(IntygAvserKategori.IAV2.name())
+                                    .build(),
+                                CertificateDataValueCode.builder()
+                                    .id(IntygAvserKategori.IAV3.name())
+                                    .code(IntygAvserKategori.IAV3.name())
+                                    .build()
+                            ))
+                            .build()
+                    ));
             }
         }
 
@@ -261,9 +266,9 @@ class QuestionIntygetAvserTest {
             @Override
             protected List<InputExpectedValuePair<IntygAvser, IntygAvser>> inputExpectedValuePairList() {
                 return List.of(
-                    new InputExpectedValuePair(null, IntygAvser.create(null)),
-                    new InputExpectedValuePair(IntygAvser.create(null), IntygAvser.create(null)),
-                    new InputExpectedValuePair(
+                    new InputExpectedValuePair<>(null, IntygAvser.create(null)),
+                    new InputExpectedValuePair<>(IntygAvser.create(null), IntygAvser.create(null)),
+                    new InputExpectedValuePair<>(
                         IntygAvser.create(
                             EnumSet.copyOf(Set.of(IntygAvserKategori.IAV3, IntygAvserKategori.IAV2, IntygAvserKategori.IAV1))),
                         IntygAvser.create(
@@ -303,7 +308,7 @@ class QuestionIntygetAvserTest {
 
             final var actualValue = QuestionIntygetAvser.toInternal(certificate);
 
-            assertTrue(actualValue.getKorkortstyp().isEmpty());
+            assertTrue(Objects.requireNonNull(actualValue.getKorkortstyp()).isEmpty());
         }
     }
 }

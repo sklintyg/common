@@ -165,7 +165,7 @@ class QuestionDiabetesBehandlingTest {
         @Override
         protected List<InputExpectedValuePair<Allmant, CertificateDataValueCodeList>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair(
+                new InputExpectedValuePair<>(
                     Allmant.builder().setBehandling(
                             Behandling.builder()
                                 .setInsulin(true)
@@ -174,22 +174,23 @@ class QuestionDiabetesBehandlingTest {
                                 .build()
                         )
                         .build(),
-                    List.of(
-                        CertificateDataValueCode.builder()
-                            .id(ALLMANT_BEHANDLING_INSULIN_JSON_ID)
-                            .code(ALLMANT_BEHANDLING_INSULIN_JSON_ID)
-                            .build(),
-                        CertificateDataValueCode.builder()
-                            .id(ALLMANT_BEHANDLING_TABLETTER_JSON_ID)
-                            .code(ALLMANT_BEHANDLING_TABLETTER_JSON_ID)
-                            .build(),
-                        CertificateDataValueCode.builder()
-                            .id(ALLMANT_BEHANDLING_ANNAN_JSON_ID)
-                            .code(ALLMANT_BEHANDLING_ANNAN_JSON_ID)
-                            .build()
-                    )
-                )
-            );
+                    CertificateDataValueCodeList.builder().list(
+                        List.of(
+                            CertificateDataValueCode.builder()
+                                .id(ALLMANT_BEHANDLING_INSULIN_JSON_ID)
+                                .code(ALLMANT_BEHANDLING_INSULIN_JSON_ID)
+                                .build(),
+                            CertificateDataValueCode.builder()
+                                .id(ALLMANT_BEHANDLING_TABLETTER_JSON_ID)
+                                .code(ALLMANT_BEHANDLING_TABLETTER_JSON_ID)
+                                .build(),
+                            CertificateDataValueCode.builder()
+                                .id(ALLMANT_BEHANDLING_ANNAN_JSON_ID)
+                                .code(ALLMANT_BEHANDLING_ANNAN_JSON_ID)
+                                .build()
+                        ))
+                        .build()
+                ));
         }
     }
 

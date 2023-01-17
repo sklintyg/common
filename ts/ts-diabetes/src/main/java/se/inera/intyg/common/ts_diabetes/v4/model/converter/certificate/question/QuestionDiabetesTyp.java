@@ -26,6 +26,7 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_TEXT_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_TYP1_LABEL_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_TYP2_LABEL_ID;
 
 import java.util.List;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -60,7 +61,7 @@ public class QuestionDiabetesTyp {
                                 .build(),
                             RadioMultipleCode.builder()
                                 .id(KvTypAvDiabetes.TYP2.getCode())
-                                .label(texts.get(ALLMANT_TYP_AV_DIABETES_TYP1_LABEL_ID))
+                                .label(texts.get(ALLMANT_TYP_AV_DIABETES_TYP2_LABEL_ID))
                                 .build(),
                             RadioMultipleCode.builder()
                                 .id(KvTypAvDiabetes.LADA.getCode())

@@ -30,19 +30,33 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_KONTROLLERAS_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_CATEGORY_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_FORMAGA_KANNA_VARNINGSTECKEN_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_FORSTAR_RISKER_MED_HYPOGLYKEMI_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.validator.InternalDraftValidatorImpl.CATEGORY_BEDOMNING;
-import static se.inera.intyg.common.ts_diabetes.v4.validator.InternalDraftValidatorImpl.CATEGORY_HYPOGLYKEMI;
-import static se.inera.intyg.common.ts_diabetes.v4.validator.InternalDraftValidatorImpl.CATEGORY_OVRIGT;
 
 import com.google.common.collect.ImmutableSet;
 import org.junit.jupiter.api.Test;
@@ -182,21 +196,21 @@ public class InternalDraftValidatorTest {
         final var res = validator.validateDraft(utlatande);
 
         final var expectedErrors = ImmutableSet.of(
-            new ValidationMessage(HYPOGLYKEMI_JSON_ID,
-                (RespConstants.HYPOGLYKEMI_JSON_ID + '.' + RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID),
-                ValidationMessageType.EMPTY),
-            new ValidationMessage(HYPOGLYKEMI_JSON_ID,
-                (RespConstants.HYPOGLYKEMI_JSON_ID + '.' + RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_KONTROLLERAS_JSON_ID),
-                ValidationMessageType.EMPTY),
-            new ValidationMessage(HYPOGLYKEMI_JSON_ID,
-                (RespConstants.HYPOGLYKEMI_JSON_ID + '.' + RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_JSON_ID),
-                ValidationMessageType.EMPTY));
+            ValidationMessage.create(HYPOGLYKEMI_CATEGORY_ID,
+                (RespConstants.HYPOGLYKEMI_CATEGORY_ID + '.' + RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID),
+                ValidationMessageType.EMPTY, HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID),
+            ValidationMessage.create(HYPOGLYKEMI_CATEGORY_ID,
+                (RespConstants.HYPOGLYKEMI_CATEGORY_ID + '.' + RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_KONTROLLERAS_JSON_ID),
+                ValidationMessageType.EMPTY, HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_KONTROLLERAS_DELSVAR_ID),
+            ValidationMessage.create(HYPOGLYKEMI_CATEGORY_ID,
+                (RespConstants.HYPOGLYKEMI_CATEGORY_ID + '.' + RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_JSON_ID),
+                ValidationMessageType.EMPTY, HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_DELSVAR_ID));
 
         assertAll(
-            () -> assertTrue(res.hasErrorMessages()),
-            () -> assertFalse(res.hasWarningMessages()),
-            () -> assertEquals(3, res.getValidationErrors().size()),
-            () -> assertTrue(res.getValidationErrors().containsAll(expectedErrors))
+            () -> assertTrue(res.hasErrorMessages(), "Should have error messages"),
+            () -> assertFalse(res.hasWarningMessages(), "Should not have warning messages"),
+            () -> assertEquals(3, res.getValidationErrors().size(), "Wrong number of error messages"),
+            () -> assertTrue(res.getValidationErrors().containsAll(expectedErrors), "Should have expected error messages")
         );
     }
 
@@ -210,8 +224,9 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_HYPOGLYKEMI, error.getCategory()),
-            () -> assertEquals(HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID, error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID, error.getCategory()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID, error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_DELSVAR_ID, error.getQuestionId()),
             () -> assertEquals(ValidationMessageType.EMPTY, error.getType())
         );
     }
@@ -311,8 +326,9 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_HYPOGLYKEMI, error.getCategory()),
-            () -> assertEquals(HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID, error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID, error.getCategory()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID, error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID, error.getQuestionId()),
             () -> assertEquals(ValidationMessageType.OTHER, error.getType()),
             () -> assertEquals(error.getMessage(), "common.validation.d-11")
         );
@@ -328,8 +344,9 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_HYPOGLYKEMI, error.getCategory()),
-            () -> assertEquals(HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID, error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID, error.getCategory()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID, error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID, error.getQuestionId()),
             () -> assertEquals(ValidationMessageType.OTHER, error.getType()),
             () -> assertEquals(error.getMessage(), "common.validation.d-08")
         );
@@ -345,8 +362,10 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_HYPOGLYKEMI, error.getCategory()),
-            () -> assertEquals(HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID, error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID, error.getCategory()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID,
+                error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_DELSVAR_ID, error.getQuestionId()),
             () -> assertEquals(ValidationMessageType.OTHER, error.getType()),
             () -> assertEquals(error.getMessage(), "common.validation.d-11")
         );
@@ -362,8 +381,10 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_HYPOGLYKEMI, error.getCategory()),
-            () -> assertEquals(HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID, error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID, error.getCategory()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID,
+                error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_DELSVAR_ID, error.getQuestionId()),
             () -> assertEquals(ValidationMessageType.OTHER, error.getType()),
             () -> assertEquals(error.getMessage(), "common.validation.d-08")
         );
@@ -379,8 +400,10 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_HYPOGLYKEMI, error.getCategory()),
-            () -> assertEquals(HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_JSON_ID, error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID, error.getCategory()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_JSON_ID,
+                error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_DELSVAR_ID, error.getQuestionId()),
             () -> assertEquals(ValidationMessageType.OTHER, error.getType()),
             () -> assertEquals(error.getMessage(), "common.validation.d-11")
         );
@@ -396,8 +419,10 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_HYPOGLYKEMI, error.getCategory()),
-            () -> assertEquals(HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_JSON_ID, error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID, error.getCategory()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_JSON_ID,
+                error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_DELSVAR_ID, error.getQuestionId()),
             () -> assertEquals(ValidationMessageType.OTHER, error.getType()),
             () -> assertEquals(error.getMessage(), "common.validation.d-08")
         );
@@ -413,8 +438,9 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_BEDOMNING, error.getCategory()),
-            () -> assertEquals(BEDOMNING_JSON_ID + "." + BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID, error.getField()),
+            () -> assertEquals(BEDOMNING_CATEGORY_ID, error.getCategory()),
+            () -> assertEquals(BEDOMNING_CATEGORY_ID + "." + BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID, error.getField()),
+            () -> assertEquals(BEDOMNING_SVAR_ID, error.getQuestionId()),
             () -> assertEquals(ValidationMessageType.INCORRECT_COMBINATION, error.getType())
         );
     }
@@ -429,8 +455,9 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_HYPOGLYKEMI, error.getCategory()),
-            () -> assertEquals(HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID, error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID, error.getCategory()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID, error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_DELSVAR_ID, error.getQuestionId()),
             () -> assertEquals(ValidationMessageType.EMPTY, error.getType())
         );
     }
@@ -445,8 +472,9 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_HYPOGLYKEMI, error.getCategory()),
-            () -> assertEquals(HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID, error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID, error.getCategory()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID, error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_DELSVAR_ID, error.getQuestionId()),
             () -> assertEquals(ValidationMessageType.OTHER, error.getType())
         );
     }
@@ -461,8 +489,8 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_HYPOGLYKEMI, error.getCategory()),
-            () -> assertEquals(HYPOGLYKEMI_JSON_ID, error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID, error.getCategory()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID, error.getField()),
             () -> assertEquals(ValidationMessageType.EMPTY, error.getType())
         );
     }
@@ -473,12 +501,12 @@ public class InternalDraftValidatorTest {
         final var res = validator.validateDraft(utlatande);
 
         final var expectedErrors = ImmutableSet.of(
-            new ValidationMessage(HYPOGLYKEMI_JSON_ID,
-                (RespConstants.HYPOGLYKEMI_JSON_ID + '.' + RespConstants.HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_JSON_ID),
-                ValidationMessageType.EMPTY),
-            new ValidationMessage(HYPOGLYKEMI_JSON_ID,
-                (RespConstants.HYPOGLYKEMI_JSON_ID + '.' + RespConstants.HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_JSON_ID),
-                ValidationMessageType.EMPTY));
+            ValidationMessage.create(HYPOGLYKEMI_CATEGORY_ID,
+                (RespConstants.HYPOGLYKEMI_CATEGORY_ID + '.' + RespConstants.HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_JSON_ID),
+                ValidationMessageType.EMPTY, HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_SVAR_ID),
+            ValidationMessage.create(HYPOGLYKEMI_CATEGORY_ID,
+                (RespConstants.HYPOGLYKEMI_CATEGORY_ID + '.' + RespConstants.HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_JSON_ID),
+                ValidationMessageType.EMPTY, HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_SVAR_ID));
 
         assertAll(
             () -> assertTrue(res.hasErrorMessages()),
@@ -498,8 +526,9 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_OVRIGT, error.getCategory()),
-            () -> assertEquals(OVRIGT_JSON_ID + "." + OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID, error.getField()),
+            () -> assertEquals(OVRIGT_CATEGORY_ID, error.getCategory()),
+            () -> assertEquals(OVRIGT_CATEGORY_ID + "." + OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID, error.getField()),
+            () -> assertEquals(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DELSVAR_ID, error.getQuestionId()),
             () -> assertEquals(ValidationMessageType.EMPTY, error.getType())
         );
     }
@@ -514,8 +543,9 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_OVRIGT, error.getCategory()),
-            () -> assertEquals(OVRIGT_JSON_ID + "." + OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID, error.getField()),
+            () -> assertEquals(OVRIGT_CATEGORY_ID, error.getCategory()),
+            () -> assertEquals(OVRIGT_CATEGORY_ID + "." + OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID, error.getField()),
+            () -> assertEquals(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DELSVAR_ID, error.getQuestionId()),
             () -> assertEquals(ValidationMessageType.OTHER, error.getType())
         );
     }
@@ -530,8 +560,8 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_HYPOGLYKEMI, error.getCategory()),
-            () -> assertEquals(HYPOGLYKEMI_JSON_ID, error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID, error.getCategory()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID, error.getField()),
             () -> assertEquals(ValidationMessageType.EMPTY, error.getType())
         );
     }
@@ -542,24 +572,24 @@ public class InternalDraftValidatorTest {
         final var res = validator.validateDraft(utlatande);
 
         final var expectedErrors = ImmutableSet.of(
-            new ValidationMessage(HYPOGLYKEMI_JSON_ID,
-                (RespConstants.HYPOGLYKEMI_JSON_ID + '.' + RespConstants.HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_JSON_ID),
-                ValidationMessageType.EMPTY),
-            new ValidationMessage(HYPOGLYKEMI_JSON_ID,
-                (RespConstants.HYPOGLYKEMI_JSON_ID + '.' + RespConstants.HYPOGLYKEMI_FORSTAR_RISKER_MED_HYPOGLYKEMI_JSON_ID),
-                ValidationMessageType.EMPTY),
-            new ValidationMessage(HYPOGLYKEMI_JSON_ID,
-                (RespConstants.HYPOGLYKEMI_JSON_ID + '.' + RespConstants.HYPOGLYKEMI_FORMAGA_KANNA_VARNINGSTECKEN_JSON_ID),
-                ValidationMessageType.EMPTY),
-            new ValidationMessage(HYPOGLYKEMI_JSON_ID,
-                (RespConstants.HYPOGLYKEMI_JSON_ID + '.' + RespConstants.HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_JSON_ID),
-                ValidationMessageType.EMPTY),
-            new ValidationMessage(HYPOGLYKEMI_JSON_ID,
-                (RespConstants.HYPOGLYKEMI_JSON_ID + '.' + RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_JSON_ID),
-                ValidationMessageType.EMPTY),
-            new ValidationMessage(HYPOGLYKEMI_JSON_ID,
-                (RespConstants.HYPOGLYKEMI_JSON_ID + '.' + RespConstants.HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_JSON_ID),
-                ValidationMessageType.EMPTY));
+            ValidationMessage.create(HYPOGLYKEMI_CATEGORY_ID,
+                (RespConstants.HYPOGLYKEMI_CATEGORY_ID + '.' + RespConstants.HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_JSON_ID),
+                ValidationMessageType.EMPTY, HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_SVAR_ID),
+            ValidationMessage.create(HYPOGLYKEMI_CATEGORY_ID,
+                (RespConstants.HYPOGLYKEMI_CATEGORY_ID + '.' + RespConstants.HYPOGLYKEMI_FORSTAR_RISKER_MED_HYPOGLYKEMI_JSON_ID),
+                ValidationMessageType.EMPTY, HYPOGLYKEMI_FORSTAR_RISKER_MED_HYPOGLYKEMI_SVAR_ID),
+            ValidationMessage.create(HYPOGLYKEMI_CATEGORY_ID,
+                (RespConstants.HYPOGLYKEMI_CATEGORY_ID + '.' + RespConstants.HYPOGLYKEMI_FORMAGA_KANNA_VARNINGSTECKEN_JSON_ID),
+                ValidationMessageType.EMPTY, HYPOGLYKEMI_FORMAGA_KANNA_VARNINGSTECKEN_SVAR_ID),
+            ValidationMessage.create(HYPOGLYKEMI_CATEGORY_ID,
+                (RespConstants.HYPOGLYKEMI_CATEGORY_ID + '.' + RespConstants.HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_JSON_ID),
+                ValidationMessageType.EMPTY, HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_SVAR_ID),
+            ValidationMessage.create(HYPOGLYKEMI_CATEGORY_ID,
+                (RespConstants.HYPOGLYKEMI_CATEGORY_ID + '.' + RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_JSON_ID),
+                ValidationMessageType.EMPTY, HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_SVAR_ID),
+            ValidationMessage.create(HYPOGLYKEMI_CATEGORY_ID,
+                (RespConstants.HYPOGLYKEMI_CATEGORY_ID + '.' + RespConstants.HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_JSON_ID),
+                ValidationMessageType.EMPTY, HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_SVAR_ID));
 
         assertAll(
             () -> assertTrue(res.hasErrorMessages()),
@@ -628,8 +658,10 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_HYPOGLYKEMI, error.getCategory()),
-            () -> assertEquals(HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID, error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID, error.getCategory()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID,
+                error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_DELSVAR_ID, error.getQuestionId()),
             () -> assertEquals(ValidationMessageType.EMPTY, error.getType())
         );
     }
@@ -644,8 +676,10 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_HYPOGLYKEMI, error.getCategory()),
-            () -> assertEquals(HYPOGLYKEMI_JSON_ID + "." + HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_JSON_ID, error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID, error.getCategory()),
+            () -> assertEquals(HYPOGLYKEMI_CATEGORY_ID + "." + HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_JSON_ID,
+                error.getField()),
+            () -> assertEquals(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_DELSVAR_ID, error.getQuestionId()),
             () -> assertEquals(ValidationMessageType.EMPTY, error.getType())
         );
     }
@@ -660,8 +694,9 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_BEDOMNING, error.getCategory()),
-            () -> assertEquals(BEDOMNING_JSON_ID + "." + BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID, error.getField()),
+            () -> assertEquals(BEDOMNING_CATEGORY_ID, error.getCategory()),
+            () -> assertEquals(BEDOMNING_CATEGORY_ID + "." + BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID, error.getField()),
+            () -> assertEquals(BEDOMNING_SVAR_ID, error.getQuestionId()),
             () -> assertEquals(ValidationMessageType.INCORRECT_COMBINATION, error.getType()),
             () -> assertEquals(error.getMessage(), "common.validation.d-12")
         );
@@ -677,8 +712,9 @@ public class InternalDraftValidatorTest {
             () -> assertTrue(res.hasErrorMessages()),
             () -> assertFalse(res.hasWarningMessages()),
             () -> assertEquals(1, res.getValidationErrors().size()),
-            () -> assertEquals(CATEGORY_BEDOMNING, error.getCategory()),
-            () -> assertEquals(BEDOMNING_JSON_ID + "." + BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID, error.getField()),
+            () -> assertEquals(BEDOMNING_CATEGORY_ID, error.getCategory()),
+            () -> assertEquals(BEDOMNING_CATEGORY_ID + "." + BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID, error.getField()),
+            () -> assertEquals(BEDOMNING_SVAR_ID, error.getQuestionId()),
             () -> assertEquals(ValidationMessageType.INCORRECT_COMBINATION, error.getType()),
             () -> assertEquals(error.getMessage(), "common.validation.d-12")
         );

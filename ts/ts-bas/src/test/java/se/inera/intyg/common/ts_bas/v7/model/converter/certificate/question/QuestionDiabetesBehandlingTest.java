@@ -160,28 +160,29 @@ class QuestionDiabetesBehandlingTest {
         @Override
         protected List<InputExpectedValuePair<Diabetes, CertificateDataValueCodeList>> inputExpectedValuePairList() {
             return List.of(
-                new InputExpectedValuePair(
+                new InputExpectedValuePair<>(
                     Diabetes.builder()
                         .setKost(true)
                         .setTabletter(true)
                         .setInsulin(true)
                         .build(),
-                    List.of(
-                        CertificateDataValueCode.builder()
-                            .id(KOSTBEHANDLING_DELSVAR_JSON_ID)
-                            .code(KOSTBEHANDLING_DELSVAR_JSON_ID)
-                            .build(),
-                        CertificateDataValueCode.builder()
-                            .id(TABLETTBEHANDLING_DELSVAR_JSON_ID)
-                            .code(TABLETTBEHANDLING_DELSVAR_JSON_ID)
-                            .build(),
-                        CertificateDataValueCode.builder()
-                            .id(INSULINBEHANDLING_DELSVAR_JSON_ID)
-                            .code(INSULINBEHANDLING_DELSVAR_JSON_ID)
-                            .build()
-
-                    ))
-            );
+                    CertificateDataValueCodeList.builder().list(
+                        List.of(
+                            CertificateDataValueCode.builder()
+                                .id(KOSTBEHANDLING_DELSVAR_JSON_ID)
+                                .code(KOSTBEHANDLING_DELSVAR_JSON_ID)
+                                .build(),
+                            CertificateDataValueCode.builder()
+                                .id(TABLETTBEHANDLING_DELSVAR_JSON_ID)
+                                .code(TABLETTBEHANDLING_DELSVAR_JSON_ID)
+                                .build(),
+                            CertificateDataValueCode.builder()
+                                .id(INSULINBEHANDLING_DELSVAR_JSON_ID)
+                                .code(INSULINBEHANDLING_DELSVAR_JSON_ID)
+                                .build()
+                        ))
+                        .build()
+                ));
         }
     }
 
