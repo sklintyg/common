@@ -31,6 +31,7 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID;
@@ -335,7 +336,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         final var allmant = Objects.requireNonNull(utlatande.getAllmant());
         final var cleanedDiabetesDiagnosAr = Strings.nullToEmpty(allmant.getDiabetesDiagnosAr()).trim();
         if (cleanedDiabetesDiagnosAr.isEmpty()) {
-            addValidationError(validationMessages, ALLMANT_CATEGORY_ID, diabetesSedanArFieldPath, ValidationMessageType.EMPTY, B_02B);
+            addValidationErrorWithQuestionId(validationMessages, ALLMANT_CATEGORY_ID, diabetesSedanArFieldPath, ValidationMessageType.EMPTY,
+                B_02B, ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID);
             return;
         }
 
@@ -343,19 +345,19 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         try {
             parsedYear = Year.parse(cleanedDiabetesDiagnosAr);
         } catch (DateTimeParseException e) {
-            addValidationError(validationMessages, ALLMANT_CATEGORY_ID, diabetesSedanArFieldPath,
-                ValidationMessageType.INVALID_FORMAT, B_02B);
+            addValidationErrorWithQuestionId(validationMessages, ALLMANT_CATEGORY_ID, diabetesSedanArFieldPath,
+                ValidationMessageType.INVALID_FORMAT, B_02B, ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID);
             return;
         }
 
         // R2
         if (ValidatorUtil.isYearBeforeBirth(parsedYear, utlatande.getGrundData().getPatient().getPersonId())) {
-            addValidationError(validationMessages, ALLMANT_CATEGORY_ID, diabetesSedanArFieldPath,
-                ValidationMessageType.OTHER, D_02);
+            addValidationErrorWithQuestionId(validationMessages, ALLMANT_CATEGORY_ID, diabetesSedanArFieldPath,
+                ValidationMessageType.OTHER, D_02, ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID);
         }
         if (parsedYear.isAfter(Year.now())) {
-            addValidationError(validationMessages, ALLMANT_CATEGORY_ID, diabetesSedanArFieldPath,
-                ValidationMessageType.OTHER, D_02);
+            addValidationErrorWithQuestionId(validationMessages, ALLMANT_CATEGORY_ID, diabetesSedanArFieldPath,
+                ValidationMessageType.OTHER, D_02, ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID);
         }
     }
 
@@ -459,12 +461,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
 
         if (eligibleForRule27(utlatande) && Strings.nullToEmpty(hypoglykemi.getKontrollSjukdomstillstandVarfor()).trim().isEmpty()) {
             addValidationErrorWithQuestionId(validationMessages, HYPOGLYKEMI_CATEGORY_ID, HYPOGLYKEMI_CATEGORY_ID + "."
-                + HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID, ValidationMessageType.EMPTY,
+                    + HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID, ValidationMessageType.EMPTY,
                 HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_DELSVAR_ID);
         } else if (eligibleForRule27(utlatande)
             && Strings.nullToEmpty(hypoglykemi.getKontrollSjukdomstillstandVarfor()).trim().length() > MAX_FIFTY_THREE_CHARS) {
             addValidationErrorWithQuestionId(validationMessages, HYPOGLYKEMI_CATEGORY_ID, HYPOGLYKEMI_CATEGORY_ID + "."
-                + HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID, ValidationMessageType.OTHER,
+                    + HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID, ValidationMessageType.OTHER,
                 HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_DELSVAR_ID);
         }
     }
@@ -589,12 +591,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
 
         if (eligibleForRule29(utlatande) && Strings.nullToEmpty(ovrigt.getKomplikationerAvSjukdomenAnges()).trim().isEmpty()) {
             addValidationErrorWithQuestionId(validationMessages, OVRIGT_CATEGORY_ID, OVRIGT_CATEGORY_ID + "."
-                + OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID, ValidationMessageType.EMPTY,
+                    + OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID, ValidationMessageType.EMPTY,
                 OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DELSVAR_ID);
         } else if (eligibleForRule29(utlatande)
             && Strings.nullToEmpty(ovrigt.getKomplikationerAvSjukdomenAnges()).trim().length() > MAX_HUNDRED_EIGHTY_NINE_CHARS) {
             addValidationErrorWithQuestionId(validationMessages, OVRIGT_CATEGORY_ID, OVRIGT_CATEGORY_ID + "."
-                + OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID, ValidationMessageType.OTHER,
+                    + OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID, ValidationMessageType.OTHER,
                 OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DELSVAR_ID);
         }
     }
@@ -603,7 +605,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         final var shouldBeExaminedBySpecialist = Objects.requireNonNull(utlatande.getOvrigt()).getBorUndersokasAvSpecialist();
         if (shouldBeExaminedBySpecialist != null && shouldBeExaminedBySpecialist.length() > MAX_SEVENTY_ONE_CHARS) {
             addValidationErrorWithQuestionId(validationMessages, OVRIGT_CATEGORY_ID, OVRIGT_CATEGORY_ID + "."
-                + OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_JSON_ID, ValidationMessageType.OTHER,
+                    + OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_JSON_ID, ValidationMessageType.OTHER,
                 OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_SVAR_ID);
         }
     }

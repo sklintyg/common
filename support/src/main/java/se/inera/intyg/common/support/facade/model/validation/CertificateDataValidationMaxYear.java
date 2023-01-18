@@ -18,8 +18,25 @@
  */
 package se.inera.intyg.common.support.facade.model.validation;
 
-public enum CertificateDataValidationType {
-    SHOW_VALIDATION, HIDE_VALIDATION, MAX_DATE_VALIDATION, TEXT_VALIDATION, ENABLE_VALIDATION,
-    DISABLE_VALIDATION, MANDATORY_VALIDATION, AUTO_FILL_VALIDATION, DISABLE_SUB_ELEMENT_VALIDATION, CATEGORY_MANDATORY_VALIDATION,
-    MAX_YEAR_VALIDATION, MIN_YEAR_VALIDATION, HIGHLIGHT_VALIDATION
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Value;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxYear.CertificateDataValidationMaxYearBuilder;
+
+@JsonDeserialize(builder = CertificateDataValidationMaxYearBuilder.class)
+@Value
+@Builder
+public class CertificateDataValidationMaxYear implements CertificateDataValidation {
+
+    @Getter(onMethod = @__(@Override))
+    CertificateDataValidationType type = CertificateDataValidationType.MAX_YEAR_VALIDATION;
+    String id;
+    short numberOfYears;
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class CertificateDataValidationMaxYearBuilder {
+
+    }
 }

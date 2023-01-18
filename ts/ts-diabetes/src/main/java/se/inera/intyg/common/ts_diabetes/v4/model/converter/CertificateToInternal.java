@@ -31,6 +31,7 @@ import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBehandling;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBehandlingAnnan;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBeskrivningAnnanTyp;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesDiagnosAr;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesHarMedicinering;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesMedicineringHypoglykemiRisk;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesMedicineringHypoglykemiRiskDatum;
@@ -76,6 +77,7 @@ public class CertificateToInternal {
             .setAllmant(
                 Allmant.builder()
                     .setPatientenFoljsAv(QuestionPatientenFoljsAv.toInternal(certificate))
+                    .setDiabetesDiagnosAr(QuestionDiabetesDiagnosAr.toInternal(certificate))
                     .setTypAvDiabetes(QuestionDiabetesTyp.toInternal(certificate))
                     .setBeskrivningAnnanTypAvDiabetes(QuestionDiabetesBeskrivningAnnanTyp.toInternal(certificate))
                     .setMedicineringForDiabetes(QuestionDiabetesHarMedicinering.toInternal(certificate))
