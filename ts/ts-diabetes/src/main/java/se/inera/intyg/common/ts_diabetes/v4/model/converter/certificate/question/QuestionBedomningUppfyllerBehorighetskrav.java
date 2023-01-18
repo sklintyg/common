@@ -41,7 +41,7 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_KORKORTSBEHORIGHET_VAR9_LABEL_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DESCRIPTION_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -75,7 +75,7 @@ public class QuestionBedomningUppfyllerBehorighetskrav {
             .index(index)
             .config(
                 CertificateDataConfigCheckboxMultipleCode.builder()
-                    .text(texts.get(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT_ID))
+                    .text(texts.get(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT))
                     .description(texts.get(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DESCRIPTION_ID))
                     .layout(Layout.INLINE)
                     .list(

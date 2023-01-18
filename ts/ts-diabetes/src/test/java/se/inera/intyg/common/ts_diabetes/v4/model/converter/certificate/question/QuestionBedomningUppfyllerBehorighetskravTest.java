@@ -41,7 +41,7 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_KORKORTSBEHORIGHET_VAR9_LABEL_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DESCRIPTION_ID;
-import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT;
 
 import java.util.Collections;
 import java.util.EnumSet;
@@ -124,7 +124,7 @@ class QuestionBedomningUppfyllerBehorighetskravTest {
 
         @Override
         protected String getTextId() {
-            return BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT_ID;
+            return BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT;
         }
 
         @Override
