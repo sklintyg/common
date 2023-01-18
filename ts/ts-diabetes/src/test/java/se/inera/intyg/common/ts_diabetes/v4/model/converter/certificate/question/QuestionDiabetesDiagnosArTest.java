@@ -26,7 +26,6 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_TEXT_ID;
 
-import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.TestInstance;
@@ -40,10 +39,8 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigYearTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
-import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMaxYearTest;
-import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMinYearTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalTextValueTest;
-import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.ValueYearTest;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
 
 @ExtendWith(MockitoExtension.class)
@@ -111,7 +108,7 @@ class QuestionDiabetesDiagnosArTest {
     }
 
     @Nested
-    class IncludeValueTextTests extends ValueTextTest {
+    class IncludeValueYearTests extends ValueYearTest {
 
         @Override
         protected CertificateDataElement getElement() {
@@ -124,7 +121,7 @@ class QuestionDiabetesDiagnosArTest {
         }
 
         @Override
-        protected String getText() {
+        protected String getYear() {
             return "2022";
         }
     }
@@ -150,54 +147,6 @@ class QuestionDiabetesDiagnosArTest {
         @Override
         protected int getValidationIndex() {
             return 0;
-        }
-    }
-
-    @Nested
-    class IncludeValidationMaxYearTests extends ValidationMaxYearTest {
-
-        @Override
-        protected String getId() {
-            return ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID;
-        }
-
-        @Override
-        protected short getYearsInFuture() {
-            return 0;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiabetesDiagnosAr.toCertificate(null, null, 0, texts);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 1;
-        }
-    }
-
-    @Nested
-    class IncludeValidationMinYearTests extends ValidationMinYearTest {
-
-        @Override
-        protected String getId() {
-            return ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID;
-        }
-
-        @Override
-        protected short getYearsInPast() {
-            return 10;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiabetesDiagnosAr.toCertificate(null, LocalDate.now().minusYears(10).toString(), 0, texts);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 2;
         }
     }
 

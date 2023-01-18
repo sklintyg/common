@@ -45,6 +45,8 @@ public class CertificateDataConfigYear implements CertificateDataConfig {
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
     String id;
+    String maxYear;
+    String minYear;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataConfigYearBuilder {

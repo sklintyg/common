@@ -20,7 +20,7 @@
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.yearValue;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID;
@@ -33,14 +33,12 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigYear;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxYear;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMinYear;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueYear;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
 
 public class QuestionDiabetesDiagnosAr {
 
-    private static final short YEAR_LIMIT = 0;
+    private static final String CURRENT_YEAR = String.valueOf(LocalDate.now().getYear());
     private static final int[] SUBSTRING_INDEX = {0, 4};
 
     public static CertificateDataElement toCertificate(Allmant allmant, String patientId, int index, CertificateTextProvider textProvider) {
@@ -53,12 +51,14 @@ public class QuestionDiabetesDiagnosAr {
                 CertificateDataConfigYear.builder()
                     .id(ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID)
                     .text(textProvider.get(ALLMANT_DIABETES_DIAGNOS_AR_TEXT_ID))
+                    .maxYear(CURRENT_YEAR)
+                    .minYear(getMinYear(patientId))
                     .build()
             )
             .value(
-                CertificateDataTextValue.builder()
+                CertificateDataValueYear.builder()
                     .id(ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID)
-                    .text(diagnosAr)
+                    .year(diagnosAr)
                     .build()
             )
             .validation(
@@ -66,30 +66,18 @@ public class QuestionDiabetesDiagnosAr {
                     CertificateDataValidationMandatory.builder()
                         .questionId(ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID)
                         .expression(singleExpression(ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID))
-                        .build(),
-                    CertificateDataValidationMaxYear.builder()
-                        .id(ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID)
-                        .numberOfYears(YEAR_LIMIT)
-                        .build(),
-                    CertificateDataValidationMinYear.builder()
-                        .id(ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID)
-                        .numberOfYears(getNumberOfYears(patientId))
                         .build()
                 }
             )
             .build();
-
     }
 
-    private static short getNumberOfYears(String patientId) {
-        if (patientId == null) {
-            return 0;
-        }
-        return (short) (Short.parseShort(String.valueOf(LocalDate.now().getYear())) - Short.parseShort(
-            patientId.substring(SUBSTRING_INDEX[0], SUBSTRING_INDEX[1])));
+    private static String getMinYear(String patientId) {
+        return patientId != null ? String.valueOf((Short.parseShort(String.valueOf(LocalDate.now().getYear())) - Short.parseShort(
+            patientId.substring(SUBSTRING_INDEX[0], SUBSTRING_INDEX[1])))) : null;
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID, ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID);
+        return yearValue(certificate.getData(), ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID, ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID);
     }
 }
