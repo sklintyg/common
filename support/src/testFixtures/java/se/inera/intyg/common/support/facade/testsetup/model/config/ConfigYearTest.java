@@ -28,6 +28,10 @@ public abstract class ConfigYearTest extends ConfigTest {
 
     protected abstract String getJsonId();
 
+    protected abstract String getMinYear();
+
+    protected abstract String getMaxYear();
+
     @Override
     protected CertificateDataConfigTypes getType() {
         return CertificateDataConfigTypes.UE_YEAR;
@@ -40,4 +44,17 @@ public abstract class ConfigYearTest extends ConfigTest {
         assertEquals(getJsonId(), config.getId());
     }
 
+    @Test
+    void shouldIncludeMinYear() {
+        final var question = getElement();
+        final var config = (CertificateDataConfigYear) question.getConfig();
+        assertEquals(getMinYear(), config.getMinYear());
+    }
+
+    @Test
+    void shouldIncludeMaxYear() {
+        final var question = getElement();
+        final var config = (CertificateDataConfigYear) question.getConfig();
+        assertEquals(getMaxYear(), config.getMaxYear());
+    }
 }

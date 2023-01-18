@@ -26,6 +26,7 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_TEXT_ID;
 
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.TestInstance;
@@ -88,7 +89,7 @@ class QuestionDiabetesDiagnosArTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionDiabetesDiagnosAr.toCertificate(null, null, 0, texts);
+            return QuestionDiabetesDiagnosAr.toCertificate(null, "191212121212", 0, texts);
         }
 
         @Override
@@ -104,6 +105,16 @@ class QuestionDiabetesDiagnosArTest {
         @Override
         protected String getJsonId() {
             return ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID;
+        }
+
+        @Override
+        protected String getMinYear() {
+            return "1912";
+        }
+
+        @Override
+        protected String getMaxYear() {
+            return String.valueOf(LocalDate.now().getYear());
         }
     }
 

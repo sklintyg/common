@@ -73,8 +73,7 @@ public class QuestionDiabetesDiagnosAr {
     }
 
     private static String getMinYear(String patientId) {
-        return patientId != null ? String.valueOf((Short.parseShort(String.valueOf(LocalDate.now().getYear())) - Short.parseShort(
-            patientId.substring(SUBSTRING_INDEX[0], SUBSTRING_INDEX[1])))) : null;
+        return patientId != null ? patientId.substring(SUBSTRING_INDEX[0], SUBSTRING_INDEX[1]) : null;
     }
 
     public static String toInternal(Certificate certificate) {
