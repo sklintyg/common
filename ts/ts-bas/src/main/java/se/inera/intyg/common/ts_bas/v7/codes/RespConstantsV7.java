@@ -79,6 +79,7 @@ public final class RespConstantsV7 {
     public static final String NYSTAGMUS_SVAR_TEXT_ID = "FRG_7.RBK";
 
     public static final String SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID = "8.1";
+    public static final String SYNKARPA_SKICKAS_SEPARAT_HEADER_ID = "8.0";
     public static final String SYNKARPA_SKICKAS_SEPARAT_JSON_ID = "synskarpaSkickasSeparat";
     public static final String SYNKARPA_SKICKAS_SEPARAT_DELSVAR_TEXT_ID = "FRG_8.RBK";
     public static final String SYNKARPA_SKICKAS_SEPARAT_SVAR_TEXT_ID = "DFR_8.1.RBK";
