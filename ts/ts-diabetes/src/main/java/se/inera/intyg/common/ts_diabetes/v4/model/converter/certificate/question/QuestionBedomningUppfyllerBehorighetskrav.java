@@ -81,71 +81,71 @@ public class QuestionBedomningUppfyllerBehorighetskrav {
                     .list(
                         List.of(
                             CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR12.getType())
+                                .id(BedomningKorkortstyp.VAR12.name())
                                 .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR12_LABEL_ID))
                                 .build(),
                             CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR13.getType())
+                                .id(BedomningKorkortstyp.VAR13.name())
                                 .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR13_LABEL_ID))
                                 .build(),
                             CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR14.getType())
+                                .id(BedomningKorkortstyp.VAR14.name())
                                 .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR14_LABEL_ID))
                                 .build(),
                             CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR15.getType())
+                                .id(BedomningKorkortstyp.VAR15.name())
                                 .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR15_LABEL_ID))
                                 .build(),
                             CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR16.getType())
+                                .id(BedomningKorkortstyp.VAR16.name())
                                 .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR16_LABEL_ID))
                                 .build(),
                             CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR17.getType())
+                                .id(BedomningKorkortstyp.VAR17.name())
                                 .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR17_LABEL_ID))
                                 .build(),
                             CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR18.getType())
+                                .id(BedomningKorkortstyp.VAR18.name())
                                 .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR18_LABEL_ID))
                                 .build(),
                             CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR1.getType())
+                                .id(BedomningKorkortstyp.VAR1.name())
                                 .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR1_LABEL_ID))
                                 .build(),
                             CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR2.getType())
+                                .id(BedomningKorkortstyp.VAR2.name())
                                 .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR2_LABEL_ID))
                                 .build(),
                             CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR3.getType())
+                                .id(BedomningKorkortstyp.VAR3.name())
                                 .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR3_LABEL_ID))
                                 .build(),
                             CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR4.getType())
+                                .id(BedomningKorkortstyp.VAR4.name())
                                 .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR4_LABEL_ID))
                                 .build(),
                             CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR5.getType())
+                                .id(BedomningKorkortstyp.VAR5.name())
                                 .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR5_LABEL_ID))
                                 .build(),
                             CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR6.getType())
+                                .id(BedomningKorkortstyp.VAR6.name())
                                 .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR6_LABEL_ID))
                                 .build(),
                             CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR7.getType())
+                                .id(BedomningKorkortstyp.VAR7.name())
                                 .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR7_LABEL_ID))
                                 .build(),
                             CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR8.getType())
+                                .id(BedomningKorkortstyp.VAR8.name())
                                 .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR8_LABEL_ID))
                                 .build(),
                             CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR9.getType())
+                                .id(BedomningKorkortstyp.VAR9.name())
                                 .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR9_LABEL_ID))
                                 .build(),
                             CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR11.getType())
+                                .id(BedomningKorkortstyp.VAR11.name())
                                 .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR11_LABEL_ID))
                                 .build()
                         )
@@ -170,11 +170,11 @@ public class QuestionBedomningUppfyllerBehorighetskrav {
                     CertificateDataValidationDisableSubElement.builder()
                         .questionId(BEDOMNING_SVAR_ID)
                         .expression(multipleOrExpression(getLicenceOptions(false).toArray(new String[0])))
-                        .id(List.of(BedomningKorkortstyp.VAR11.getType()))
+                        .id(List.of(BedomningKorkortstyp.VAR11.name()))
                         .build(),
                     CertificateDataValidationDisableSubElement.builder()
                         .questionId(BEDOMNING_SVAR_ID)
-                        .expression(singleExpression(BedomningKorkortstyp.VAR11.getType()))
+                        .expression(singleExpression(BedomningKorkortstyp.VAR11.name()))
                         .id(getLicenceOptions(false))
                         .build()
                 }
@@ -183,15 +183,15 @@ public class QuestionBedomningUppfyllerBehorighetskrav {
     }
 
     private static List<String> getLicenceOptions(boolean includeUndecided) {
-        final var licenseOptions = new ArrayList<>(List.of(BedomningKorkortstyp.VAR12.getType(), BedomningKorkortstyp.VAR13.getType(),
-            BedomningKorkortstyp.VAR14.getType(), BedomningKorkortstyp.VAR15.getType(), BedomningKorkortstyp.VAR16.getType(),
-            BedomningKorkortstyp.VAR17.getType(), BedomningKorkortstyp.VAR18.getType(), BedomningKorkortstyp.VAR1.getType(),
-            BedomningKorkortstyp.VAR2.getType(), BedomningKorkortstyp.VAR3.getType(), BedomningKorkortstyp.VAR4.getType(),
-            BedomningKorkortstyp.VAR5.getType(), BedomningKorkortstyp.VAR6.getType(), BedomningKorkortstyp.VAR7.getType(),
-            BedomningKorkortstyp.VAR8.getType(), BedomningKorkortstyp.VAR9.getType()));
+        final var licenseOptions = new ArrayList<>(List.of(BedomningKorkortstyp.VAR12.name(), BedomningKorkortstyp.VAR13.name(),
+            BedomningKorkortstyp.VAR14.name(), BedomningKorkortstyp.VAR15.name(), BedomningKorkortstyp.VAR16.name(),
+            BedomningKorkortstyp.VAR17.name(), BedomningKorkortstyp.VAR18.name(), BedomningKorkortstyp.VAR1.name(),
+            BedomningKorkortstyp.VAR2.name(), BedomningKorkortstyp.VAR3.name(), BedomningKorkortstyp.VAR4.name(),
+            BedomningKorkortstyp.VAR5.name(), BedomningKorkortstyp.VAR6.name(), BedomningKorkortstyp.VAR7.name(),
+            BedomningKorkortstyp.VAR8.name(), BedomningKorkortstyp.VAR9.name()));
 
         if (includeUndecided) {
-            licenseOptions.add(BedomningKorkortstyp.VAR11.getType());
+            licenseOptions.add(BedomningKorkortstyp.VAR11.name());
         }
         return licenseOptions;
     }
@@ -199,8 +199,8 @@ public class QuestionBedomningUppfyllerBehorighetskrav {
 
     private static CertificateDataValueCode getValueCode(BedomningKorkortstyp bedomningKorkortstyp) {
         return CertificateDataValueCode.builder()
-            .id(bedomningKorkortstyp.getType())
-            .code(bedomningKorkortstyp.getType())
+            .id(bedomningKorkortstyp.name())
+            .code(bedomningKorkortstyp.name())
             .build();
     }
 
@@ -223,6 +223,6 @@ public class QuestionBedomningUppfyllerBehorighetskrav {
 
     private static BedomningKorkortstyp getBedomningKorkortstyp(CertificateDataValueCode certificateDataValueCode) {
         return certificateDataValueCode.getId() != null && !certificateDataValueCode.getId().isEmpty()
-            ? BedomningKorkortstyp.fromCode(certificateDataValueCode.getId()) : null;
+            ? BedomningKorkortstyp.valueOf(certificateDataValueCode.getId()) : null;
     }
 }
