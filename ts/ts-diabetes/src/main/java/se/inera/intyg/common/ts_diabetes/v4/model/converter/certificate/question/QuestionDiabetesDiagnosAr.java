@@ -19,6 +19,7 @@
 
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question;
 
+import static se.inera.intyg.common.support.facade.util.PatientToolkit.birthYear;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.yearValue;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_CATEGORY_ID;
@@ -35,13 +36,14 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueYear;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 public class QuestionDiabetesDiagnosAr {
 
     private static final String CURRENT_YEAR = String.valueOf(LocalDate.now().getYear());
-    private static final int[] SUBSTRING_INDEX = {0, 4};
 
-    public static CertificateDataElement toCertificate(Allmant allmant, String patientId, int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(Allmant allmant, Personnummer patientId, int index,
+        CertificateTextProvider textProvider) {
         final var diagnosAr = allmant != null ? allmant.getDiabetesDiagnosAr() : null;
         return CertificateDataElement.builder()
             .id(ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID)
@@ -52,7 +54,7 @@ public class QuestionDiabetesDiagnosAr {
                     .id(ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID)
                     .text(textProvider.get(ALLMANT_DIABETES_DIAGNOS_AR_TEXT_ID))
                     .maxYear(CURRENT_YEAR)
-                    .minYear(getMinYear(patientId))
+                    .minYear(String.valueOf(birthYear(patientId)))
                     .build()
             )
             .value(
@@ -70,10 +72,6 @@ public class QuestionDiabetesDiagnosAr {
                 }
             )
             .build();
-    }
-
-    private static String getMinYear(String patientId) {
-        return patientId != null ? patientId.substring(SUBSTRING_INDEX[0], SUBSTRING_INDEX[1]) : null;
     }
 
     public static String toInternal(Certificate certificate) {

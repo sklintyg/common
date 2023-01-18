@@ -23,15 +23,24 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 public final class PatientToolkit {
 
+    private static final int[] SUBSTRING_INDEX = {0, 4, 6, 8};
+
     public static LocalDate birthDate(Personnummer personId) {
         if (personId == null) {
             throw new IllegalArgumentException("Cannot get birth date when personId is null!");
         }
 
         return LocalDate.of(
-            Integer.parseInt(personId.getOriginalPnr().substring(0, 4)),
-            Integer.parseInt(personId.getOriginalPnr().substring(4, 6)),
-            Integer.parseInt(personId.getOriginalPnr().substring(6, 8))
+            Integer.parseInt(personId.getOriginalPnr().substring(SUBSTRING_INDEX[0], SUBSTRING_INDEX[1])),
+            Integer.parseInt(personId.getOriginalPnr().substring(SUBSTRING_INDEX[1], SUBSTRING_INDEX[2])),
+            Integer.parseInt(personId.getOriginalPnr().substring(SUBSTRING_INDEX[2], SUBSTRING_INDEX[3]))
         );
+    }
+
+    public static Integer birthYear(Personnummer personId) {
+        if (personId == null) {
+            throw new IllegalArgumentException("Cannot get birth year when personId is null!");
+        }
+        return Integer.parseInt(personId.getOriginalPnr().substring(SUBSTRING_INDEX[0], SUBSTRING_INDEX[1]));
     }
 }

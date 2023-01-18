@@ -77,7 +77,7 @@ public class InternalToCertificate {
             .addElement(CategoryAllmant.toCertificate(index++, textProvider))
             .addElement(QuestionPatientenFoljsAv.toCertificate(internalCertificate.getAllmant(), index++, textProvider))
             .addElement(QuestionDiabetesDiagnosAr.toCertificate(internalCertificate.getAllmant(),
-                internalCertificate.getGrundData().getPatient().getPersonId().getPersonnummer(), index++, textProvider))
+                internalCertificate.getGrundData().getPatient().getPersonId(), index++, textProvider))
             .addElement(QuestionDiabetesTyp.toCertificate(internalCertificate.getAllmant(), index++, textProvider))
             .addElement(QuestionDiabetesBeskrivningAnnanTyp.toCertificate(internalCertificate.getAllmant(), index++, textProvider))
             .addElement(QuestionDiabetesHarMedicinering.toCertificate(internalCertificate.getAllmant(), index++, textProvider))

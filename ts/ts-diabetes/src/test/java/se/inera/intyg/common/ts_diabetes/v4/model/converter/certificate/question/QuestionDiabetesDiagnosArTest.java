@@ -43,12 +43,14 @@ import se.inera.intyg.common.support.facade.testsetup.model.validation.Validatio
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalTextValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueYearTest;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionDiabetesDiagnosArTest {
 
     @Mock
     private CertificateTextProvider texts;
+    private Personnummer patientId = Personnummer.createPersonnummer("19121212-1212").get();
 
     @BeforeEach
     void setup() {
@@ -60,7 +62,7 @@ class QuestionDiabetesDiagnosArTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionDiabetesDiagnosAr.toCertificate(null, null, 0, texts);
+            return QuestionDiabetesDiagnosAr.toCertificate(null, patientId, 0, texts);
         }
 
         @Override
@@ -89,7 +91,7 @@ class QuestionDiabetesDiagnosArTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionDiabetesDiagnosAr.toCertificate(null, "191212121212", 0, texts);
+            return QuestionDiabetesDiagnosAr.toCertificate(null, patientId, 0, texts);
         }
 
         @Override
@@ -123,7 +125,7 @@ class QuestionDiabetesDiagnosArTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionDiabetesDiagnosAr.toCertificate(Allmant.builder().setDiabetesDiagnosAr("2022").build(), null, 0, texts);
+            return QuestionDiabetesDiagnosAr.toCertificate(Allmant.builder().setDiabetesDiagnosAr("2022").build(), patientId, 0, texts);
         }
 
         @Override
@@ -152,7 +154,7 @@ class QuestionDiabetesDiagnosArTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionDiabetesDiagnosAr.toCertificate(null, null, 0, texts);
+            return QuestionDiabetesDiagnosAr.toCertificate(null, patientId, 0, texts);
         }
 
         @Override
@@ -167,7 +169,8 @@ class QuestionDiabetesDiagnosArTest {
 
         @Override
         protected CertificateDataElement getElement(String expectedValue) {
-            return QuestionDiabetesDiagnosAr.toCertificate(Allmant.builder().setDiabetesDiagnosAr(expectedValue).build(), null, 0, texts);
+            return QuestionDiabetesDiagnosAr.toCertificate(Allmant.builder().setDiabetesDiagnosAr(expectedValue).build(), patientId, 0,
+                texts);
         }
 
         @Override

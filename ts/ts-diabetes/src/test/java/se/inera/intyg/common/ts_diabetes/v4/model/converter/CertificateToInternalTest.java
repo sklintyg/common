@@ -169,7 +169,8 @@ class CertificateToInternalTest {
                 QuestionIdentitetStyrktGenom.toCertificate(expectedInternalCertificate.getIdentitetStyrktGenom(), 0, textProvider)
             )
             .addElement(QuestionPatientenFoljsAv.toCertificate(allmant, 0, textProvider))
-            .addElement(QuestionDiabetesDiagnosAr.toCertificate(allmant, null, 0, textProvider))
+            .addElement(
+                QuestionDiabetesDiagnosAr.toCertificate(allmant, Personnummer.createPersonnummer("19121212-1212").get(), 0, textProvider))
             .addElement(QuestionDiabetesTyp.toCertificate(allmant, 0, textProvider))
             .addElement(QuestionDiabetesBeskrivningAnnanTyp.toCertificate(allmant, 0, textProvider))
             .addElement(QuestionDiabetesHarMedicinering.toCertificate(allmant, 0, textProvider))

@@ -36,7 +36,20 @@ class PatientToolkitTest {
     }
 
     @Test
-    void shallThrowIllegalArgumentExceptionIfPersonIdIsNull() {
+    void shallReturnBirthYearForPersonId() {
+        final var expectedBirthYear = 1912;
+        final var personId = Personnummer.createPersonnummer("19121212-1212").get();
+        final var actualBirthYear = PatientToolkit.birthYear(personId);
+        assertEquals(expectedBirthYear, actualBirthYear);
+    }
+
+    @Test
+    void shallThrowIllegalArgumentExceptionIfPersonIdIsNullBirthYear() {
+        assertThrows(IllegalArgumentException.class, () -> PatientToolkit.birthYear(null));
+    }
+
+    @Test
+    void shallThrowIllegalArgumentExceptionIfPersonIdIsNullBirthDate() {
         assertThrows(IllegalArgumentException.class, () -> PatientToolkit.birthDate(null));
     }
 }
