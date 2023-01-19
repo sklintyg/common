@@ -21,6 +21,7 @@ package se.inera.intyg.common.ts_diabetes.v2.rest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -29,13 +30,14 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.List;
-
 import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -43,7 +45,6 @@ import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,11 +60,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.w3.wsaddressing10.AttributedURIType;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateRequestType;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateResponseType;
@@ -501,11 +497,34 @@ public class TsDiabetesModuleApiV2Test {
         updatedPatient.setPostort("updated post city");
 
         final String validMinimalJson = getResourceAsString(new ClassPathResource("v2/scenarios/internal/valid-minimal.json"));
-        when(objectMapper.readValue(validMinimalJson, TsDiabetesUtlatandeV2.class)).thenReturn(ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
+        when(objectMapper.readValue(validMinimalJson, TsDiabetesUtlatandeV2.class)).thenReturn(
+            ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
         when(objectMapper.writeValueAsString(any())).thenReturn(validMinimalJson);
         final String res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient);
         assertNotNull(res);
         JSONAssert.assertEquals(validMinimalJson, res, JSONCompareMode.LENIENT);
+    }
+
+    @Test
+    public void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande() throws ModuleException, ScenarioNotFoundException {
+        final TsDiabetesUtlatandeV2 utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
+        final var expectedJsonString = toJsonString(utlatande);
+        final var actualJsonString = moduleApi.getJsonFromUtlatande(utlatande);
+
+        assertEquals(expectedJsonString, actualJsonString);
+    }
+
+    @Test
+    public void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
+    }
+
+    private String toJsonString(TsDiabetesUtlatandeV2 utlatande) throws ModuleException {
+        try {
+            return objectMapper.writeValueAsString(utlatande);
+        } catch (IOException e) {
+            throw new ModuleException("Failed to serialize internal model", e);
+        }
     }
 
     private CreateNewDraftHolder createNewDraftHolder() {

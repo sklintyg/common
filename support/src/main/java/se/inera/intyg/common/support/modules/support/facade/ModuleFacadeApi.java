@@ -22,6 +22,7 @@ import java.io.IOException;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 
 public interface ModuleFacadeApi {
@@ -33,4 +34,6 @@ public interface ModuleFacadeApi {
     CertificateTextProvider getTextProvider(String certificateType, String certificateTypeVersion);
 
     CertificateMessagesProvider getMessagesProvider();
+
+    String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException;
 }

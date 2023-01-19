@@ -104,7 +104,6 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
 
     @Autowired(required = false)
     private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
-
     private SendTSClient sendTsBasClient;
     private Map<String, String> validationMessages;
 
@@ -303,5 +302,15 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
     @Override
     public CertificateMessagesProvider getMessagesProvider() {
         return DefaultCertificateMessagesProvider.create(validationMessages);
+    }
+
+    @Override
+    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+        if (utlatande instanceof TsBasUtlatandeV6) {
+            return toInternalModelResponse(utlatande);
+        }
+        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+        throw new IllegalArgumentException(
+            "Utlatande was not instance of class TsBasUtlatandeV6, utlatande was instance of class: " + message);
     }
 }

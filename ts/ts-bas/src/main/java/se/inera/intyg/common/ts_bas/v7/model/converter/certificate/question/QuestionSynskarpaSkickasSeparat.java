@@ -28,10 +28,8 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KONTAKTLINSE
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.KONTAKTLINSER_VANSTER_OGA_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNFUNKTIONER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DELSVAR_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_DESCRIPTION_ID;
+import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_HEADER_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SYNKARPA_SKICKAS_SEPARAT_SVAR_TEXT_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VANSTER_OGA_MED_KORREKTION_JSON_ID;
@@ -53,13 +51,11 @@ public class QuestionSynskarpaSkickasSeparat {
         final var synskarpaSkickaSeparat = syn != null ? syn.getSynskarpaSkickasSeparat() : null;
         return CertificateDataElement.builder()
             .id(SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID)
-            .parent(SYNFUNKTIONER_CATEGORY_ID)
+            .parent(SYNKARPA_SKICKAS_SEPARAT_HEADER_ID)
             .index(index)
             .config(
                 CertificateDataConfigCheckboxBoolean.builder()
                     .id(SYNKARPA_SKICKAS_SEPARAT_JSON_ID)
-                    .text(textProvider.get(SYNKARPA_SKICKAS_SEPARAT_DELSVAR_TEXT_ID))
-                    .description(textProvider.get(SYNKARPA_SKICKAS_SEPARAT_DESCRIPTION_ID))
                     .label(textProvider.get(SYNKARPA_SKICKAS_SEPARAT_SVAR_TEXT_ID))
                     .selectedText(SVAR_JA_TEXT)
                     .unselectedText(SVAR_NEJ_TEXT)

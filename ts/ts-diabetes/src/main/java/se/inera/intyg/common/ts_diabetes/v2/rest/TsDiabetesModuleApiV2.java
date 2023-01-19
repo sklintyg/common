@@ -21,6 +21,7 @@ package se.inera.intyg.common.ts_diabetes.v2.rest;
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS;
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Arrays;
@@ -123,6 +124,8 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
 
     @Autowired
     private PdfGenerator<TsDiabetesUtlatandeV2> pdfGenerator;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     public TsDiabetesModuleApiV2() {
         super(TsDiabetesUtlatandeV2.class);
@@ -326,5 +329,15 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
     @Override
     public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException, IOException {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+        if (utlatande instanceof TsDiabetesUtlatandeV2) {
+            return toInternalModelResponse(utlatande);
+        }
+        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+        throw new IllegalArgumentException(
+            "Utlatande was not instance of class TsDiabetesUtlatandeV2, utlatande was instance of class: " + message);
     }
 }

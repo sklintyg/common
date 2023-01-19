@@ -22,6 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -63,6 +64,7 @@ import se.inera.intyg.common.luae_na.v1.model.converter.SvarIdHelperImpl;
 import se.inera.intyg.common.luae_na.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.luae_na.v1.utils.ScenarioFinder;
+import se.inera.intyg.common.luae_na.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
@@ -401,7 +403,7 @@ public class LuaenaModuleApiTest {
             Collections.emptySortedMap(),
             Collections.emptyList(), new Properties());
         doReturn(intygTexts1).when(intygTexts).getIntygTextsPojo(any(), any());
-        
+
         final var certificateMessagesProvider = moduleApi.getMessagesProvider();
 
         assertEquals(certificateMessagesProvider.get("common.continue"), "Fortsätt");
@@ -417,6 +419,29 @@ public class LuaenaModuleApiTest {
         final var certificateMessagesProvider = moduleApi.getMessagesProvider();
 
         assertNull(certificateMessagesProvider.get("not.existing"));
+    }
+
+    @Test
+    public void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande()
+        throws ModuleException, ScenarioNotFoundException {
+        final var utlatande = ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel();
+        final var expectedJsonString = toJsonString(utlatande);
+        final var actualJsonString = moduleApi.getJsonFromUtlatande(utlatande);
+
+        assertEquals(expectedJsonString, actualJsonString);
+    }
+
+    @Test
+    public void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
+    }
+
+    private String toJsonString(LuaenaUtlatandeV1 utlatande) throws ModuleException {
+        try {
+            return objectMapper.writeValueAsString(utlatande);
+        } catch (IOException e) {
+            throw new ModuleException("Failed to serialize internal model", e);
+        }
     }
 
     private RegisterCertificateResponseType createReturnVal(ResultCodeType res) {

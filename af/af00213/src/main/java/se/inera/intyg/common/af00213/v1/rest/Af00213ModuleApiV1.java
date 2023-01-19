@@ -178,4 +178,14 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
         return DefaultCertificateMessagesProvider.create(validationMessages);
     }
 
+    @Override
+    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+        if (utlatande instanceof Af00213UtlatandeV1) {
+            return toInternalModelResponse((Af00213UtlatandeV1) utlatande);
+        }
+        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+        throw new IllegalArgumentException(
+            "Utlatande was not instance of class Af00213UtlatandeV1, utlatande was instance of class: " + message);
+    }
+
 }

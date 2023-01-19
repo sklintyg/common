@@ -21,6 +21,7 @@ package se.inera.intyg.common.ts_diabetes.v3.rest;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.INTYGETAVSER_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.INTYGETAVSER_SVAR_ID;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import java.io.IOException;
@@ -35,6 +36,7 @@ import javax.xml.bind.JAXB;
 import javax.xml.ws.soap.SOAPFaultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -72,6 +74,8 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
     public static final String SCHEMATRON_FILE = "tstrk1031.v3.sch";
 
     private static final Logger LOG = LoggerFactory.getLogger(TsDiabetesModuleApiV3.class);
+    @Autowired
+    private ObjectMapper objectMapper;
 
     public TsDiabetesModuleApiV3() {
         super(TsDiabetesUtlatandeV3.class);
@@ -210,5 +214,15 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
     @Override
     public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException, IOException {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+        if (utlatande instanceof TsDiabetesUtlatandeV3) {
+            return toInternalModelResponse(utlatande);
+        }
+        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+        throw new IllegalArgumentException(
+            "Utlatande was not instance of class TsDiabetesUtlatandeV3, utlatande was instance of class: " + message);
     }
 }

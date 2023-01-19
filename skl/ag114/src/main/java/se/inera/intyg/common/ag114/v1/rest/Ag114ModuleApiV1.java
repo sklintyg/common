@@ -20,11 +20,9 @@ package se.inera.intyg.common.ag114.v1.rest;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
 import se.inera.intyg.common.ag114.pdf.PdfGenerator;
 import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
 import se.inera.intyg.common.ag114.v1.model.converter.InternalToTransport;
@@ -154,4 +152,13 @@ public class Ag114ModuleApiV1 extends AgParentModuleApi<Ag114UtlatandeV1> {
         throw new UnsupportedOperationException("AG1-14 does not support renewewal.");
     }
 
+    @Override
+    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+        if (utlatande instanceof Ag114UtlatandeV1) {
+            return toInternalModelResponse((Ag114UtlatandeV1) utlatande);
+        }
+        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+        throw new IllegalArgumentException(
+            "Utlatande was not instance of class Ag114UtlatandeV1, utlatande was instance of class: " + message);
+    }
 }
