@@ -23,6 +23,7 @@ import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetai
 import static se.inera.intyg.common.support.modules.transformer.XslTransformerUtil.isRegisterCertificateV3;
 import static se.inera.intyg.common.support.modules.transformer.XslTransformerUtil.isRegisterTsBas;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Arrays;
@@ -104,7 +105,8 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
 
     @Autowired(required = false)
     private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
-
+    @Autowired
+    private ObjectMapper objectMapper;
     private SendTSClient sendTsBasClient;
     private Map<String, String> validationMessages;
 
@@ -303,5 +305,15 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
     @Override
     public CertificateMessagesProvider getMessagesProvider() {
         return DefaultCertificateMessagesProvider.create(validationMessages);
+    }
+
+    @Override
+    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+        if (utlatande instanceof TsBasUtlatandeV6) {
+            return toInternalModelResponse(utlatande);
+        }
+        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+        throw new IllegalArgumentException(
+            "Utlatande was not instance of class TsBasUtlatandeV6, utlatande was instance of class: " + message);
     }
 }

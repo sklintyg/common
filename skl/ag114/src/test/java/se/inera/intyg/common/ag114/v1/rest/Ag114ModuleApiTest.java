@@ -18,11 +18,34 @@
  */
 package se.inera.intyg.common.ag114.v1.rest;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import javax.xml.soap.SOAPFactory;
+import javax.xml.transform.Source;
+import javax.xml.ws.soap.SOAPFaultException;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -78,29 +101,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
-
-import javax.xml.soap.SOAPFactory;
-import javax.xml.transform.Source;
-import javax.xml.ws.soap.SOAPFaultException;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
@@ -473,6 +473,28 @@ public class Ag114ModuleApiTest {
     @Test(expected = UnsupportedOperationException.class)
     public void testGetModuleSpecificArendeParameters() throws Exception {
         moduleApi.getModuleSpecificArendeParameters(getUtlatandeFromFile(), Arrays.asList("1", "2"));
+    }
+
+    @Test
+    public void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande() throws ModuleException, IOException {
+        final var utlatande = getUtlatandeFromFile();
+        final var expectedJsonString = toJsonString(utlatande);
+        final var actualJsonString = moduleApi.getJsonFromUtlatande(utlatande);
+
+        assertEquals(expectedJsonString, actualJsonString);
+    }
+
+    @Test
+    public void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
+    }
+
+    private String toJsonString(Ag114UtlatandeV1 utlatande) throws ModuleException {
+        try {
+            return objectMapper.writeValueAsString(utlatande);
+        } catch (IOException e) {
+            throw new ModuleException("Failed to serialize internal model", e);
+        }
     }
 
     private GetCertificateResponseType createGetCertificateResponseType(final StatusKod statusKod, final String part)

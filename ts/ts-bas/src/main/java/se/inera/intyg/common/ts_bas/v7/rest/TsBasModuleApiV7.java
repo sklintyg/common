@@ -42,6 +42,7 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
@@ -204,6 +205,16 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
     @Override
     public CertificateMessagesProvider getMessagesProvider() {
         return DefaultCertificateMessagesProvider.create(validationMessages);
+    }
+
+    @Override
+    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+        if (utlatande instanceof TsBasUtlatandeV7) {
+            return toInternalModelResponse(utlatande);
+        }
+        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+        throw new IllegalArgumentException(
+            "Utlatande was not instance of class TsBasUtlatandeV7, utlatande was instance of class: " + message);
     }
 
     private String updateInternalAfterSigning(String internalModel, String base64EncodedSignatureXml)

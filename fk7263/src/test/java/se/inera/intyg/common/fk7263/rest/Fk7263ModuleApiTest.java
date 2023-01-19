@@ -21,6 +21,7 @@ package se.inera.intyg.common.fk7263.rest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -469,6 +470,20 @@ public class Fk7263ModuleApiTest {
         final var certificateMessagesProvider = fk7263ModuleApi.getMessagesProvider();
 
         assertNull(certificateMessagesProvider.get("not.existing"));
+    }
+
+    @Test
+    public void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande() throws ModuleException, IOException {
+        final var utlatande = getUtlatandeFromFile();
+        final var expectedJsonString = toJsonString(utlatande);
+        final var actualJsonString = fk7263ModuleApi.getJsonFromUtlatande(utlatande);
+
+        assertEquals(expectedJsonString, actualJsonString);
+    }
+
+    @Test
+    public void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> fk7263ModuleApi.getJsonFromUtlatande(null));
     }
 
     private Fk7263Utlatande getUtlatandeFromFile() throws IOException {

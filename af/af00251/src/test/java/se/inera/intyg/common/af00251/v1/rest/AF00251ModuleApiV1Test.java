@@ -25,6 +25,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -483,6 +484,28 @@ public class AF00251ModuleApiV1Test {
         String result = moduleApi.getAdditionalInfo(intyg);
 
         assertNull(result);
+    }
+
+    @Test
+    public void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande() throws ModuleException, IOException {
+        final var utlatande = getUtlatandeFromFile();
+        final var expectedJsonString = toJsonString(utlatande);
+        final var actualJsonString = moduleApi.getJsonFromUtlatande(utlatande);
+
+        assertEquals(expectedJsonString, actualJsonString);
+    }
+
+    @Test
+    public void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
+    }
+
+    private String toJsonString(AF00251UtlatandeV1 utlatande) throws ModuleException {
+        try {
+            return objectMapper.writeValueAsString(utlatande);
+        } catch (IOException e) {
+            throw new ModuleException("Failed to serialize internal model", e);
+        }
     }
 
     private AF00251UtlatandeV1 getUtlatandeFromFile() throws IOException {

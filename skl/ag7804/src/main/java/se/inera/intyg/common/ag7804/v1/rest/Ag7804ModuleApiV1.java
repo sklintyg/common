@@ -265,4 +265,13 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
         return DefaultCertificateMessagesProvider.create(validationMessages);
     }
 
+    @Override
+    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+        if (utlatande instanceof Ag7804UtlatandeV1) {
+            return toInternalModelResponse((Ag7804UtlatandeV1) utlatande);
+        }
+        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+        throw new IllegalArgumentException(
+            "Utlatande was not instance of class Ag7804UtlatandeV1, utlatande was instance of class: " + message);
+    }
 }

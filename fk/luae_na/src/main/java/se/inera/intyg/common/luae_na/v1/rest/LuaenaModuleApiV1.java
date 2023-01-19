@@ -54,6 +54,7 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.AdditionalMetaData;
@@ -209,6 +210,16 @@ public class LuaenaModuleApiV1 extends FkParentModuleApi<LuaenaUtlatandeV1> {
     public CertificateMessagesProvider getMessagesProvider() {
         final var dynamicKeys = getDynamicKeyMap();
         return DefaultCertificateMessagesProvider.create(validationMessages, dynamicKeys);
+    }
+
+    @Override
+    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+        if (utlatande instanceof LuaenaUtlatandeV1) {
+            return toInternalModelResponse((LuaenaUtlatandeV1) utlatande);
+        }
+        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+        throw new IllegalArgumentException(
+            "Utlatande was not instance of class LuaenaUtlatandeV1, utlatande was instance of class: " + message);
     }
 
     private Map<String, String> getDynamicKeyMap() {

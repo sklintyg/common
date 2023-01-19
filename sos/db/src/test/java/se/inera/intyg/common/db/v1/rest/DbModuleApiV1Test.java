@@ -22,6 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -517,6 +518,29 @@ public class DbModuleApiV1Test {
                 Maps.newTreeMap(), Collections.emptyList(), new Properties()));
         moduleApi.getCertificateFromJson("internal model", typeAheadProvider);
         verify(typeAheadProvider).getValues(TypeAheadEnum.MUNICIPALITIES);
+    }
+
+    @Test
+    public void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande()
+        throws ModuleException, ScenarioNotFoundException {
+        final var utlatande = ScenarioFinder.getInternalScenario("pass-1").asInternalModel();
+        final var expectedJsonString = toJsonString(utlatande);
+        final var actualJsonString = moduleApi.getJsonFromUtlatande(utlatande);
+
+        assertEquals(expectedJsonString, actualJsonString);
+    }
+
+    @Test
+    public void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
+    }
+
+    private String toJsonString(DbUtlatandeV1 utlatande) throws ModuleException {
+        try {
+            return objectMapper.writeValueAsString(utlatande);
+        } catch (IOException e) {
+            throw new ModuleException("Failed to serialize internal model", e);
+        }
     }
 
     private GrundData getGrundData() {

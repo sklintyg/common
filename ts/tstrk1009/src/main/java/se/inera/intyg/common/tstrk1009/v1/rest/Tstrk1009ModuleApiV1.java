@@ -23,24 +23,20 @@ import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetai
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_DELSVAR_ID_1;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_SVAR_ID_1;
 
-
+import com.google.common.base.Strings;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.xml.bind.JAXBElement;
 import javax.xml.ws.soap.SOAPFaultException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import com.google.common.base.Strings;
-
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
@@ -65,7 +61,6 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 /**
@@ -182,5 +177,15 @@ public class Tstrk1009ModuleApiV1 extends TsParentModuleApi<Tstrk1009UtlatandeV1
             .map(cv -> Korkortsbehorighet.fromCode(cv.getCode()))
             .map(Korkortsbehorighet::getValue)
             .collect(Collectors.joining(", "));
+    }
+
+    @Override
+    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+        if (utlatande instanceof Tstrk1009UtlatandeV1) {
+            return toInternalModelResponse(utlatande);
+        }
+        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+        throw new IllegalArgumentException(
+            "Utlatande was not instance of class Tstrk1009UtlatandeV1, utlatande was instance of class: " + message);
     }
 }
