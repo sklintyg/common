@@ -40,7 +40,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 public class QuestionDiabetesDiagnosAr {
 
-    private static final String CURRENT_YEAR = String.valueOf(LocalDate.now().getYear());
+    private static final Integer CURRENT_YEAR = LocalDate.now().getYear();
 
     public static CertificateDataElement toCertificate(Allmant allmant, Personnummer patientId, int index,
         CertificateTextProvider textProvider) {
@@ -54,13 +54,13 @@ public class QuestionDiabetesDiagnosAr {
                     .id(ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID)
                     .text(textProvider.get(ALLMANT_DIABETES_DIAGNOS_AR_TEXT_ID))
                     .maxYear(CURRENT_YEAR)
-                    .minYear(String.valueOf(birthYear(patientId)))
+                    .minYear(birthYear(patientId))
                     .build()
             )
             .value(
                 CertificateDataValueYear.builder()
                     .id(ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID)
-                    .year(diagnosAr)
+                    .year(diagnosAr != null ? Integer.valueOf(diagnosAr) : null)
                     .build()
             )
             .validation(
@@ -75,6 +75,7 @@ public class QuestionDiabetesDiagnosAr {
     }
 
     public static String toInternal(Certificate certificate) {
-        return yearValue(certificate.getData(), ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID, ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID);
+        final var yearValue = yearValue(certificate.getData(), ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID, ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID);
+        return yearValue != null ? String.valueOf(yearValue) : null;
     }
 }

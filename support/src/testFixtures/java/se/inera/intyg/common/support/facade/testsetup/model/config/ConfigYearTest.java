@@ -28,9 +28,9 @@ public abstract class ConfigYearTest extends ConfigTest {
 
     protected abstract String getJsonId();
 
-    protected abstract String getMinYear();
+    protected abstract Integer getMinYear();
 
-    protected abstract String getMaxYear();
+    protected abstract Integer getMaxYear();
 
     @Override
     protected CertificateDataConfigTypes getType() {

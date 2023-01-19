@@ -27,6 +27,7 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_TEXT_ID;
 
 import java.time.LocalDate;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.TestInstance;
@@ -40,7 +41,8 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigYearTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
-import se.inera.intyg.common.support.facade.testsetup.model.value.InternalTextValueTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InternalValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueYearTest;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
 import se.inera.intyg.schemas.contract.Personnummer;
@@ -110,13 +112,13 @@ class QuestionDiabetesDiagnosArTest {
         }
 
         @Override
-        protected String getMinYear() {
-            return "1912";
+        protected Integer getMinYear() {
+            return 1912;
         }
 
         @Override
-        protected String getMaxYear() {
-            return String.valueOf(LocalDate.now().getYear());
+        protected Integer getMaxYear() {
+            return LocalDate.now().getYear();
         }
     }
 
@@ -134,8 +136,8 @@ class QuestionDiabetesDiagnosArTest {
         }
 
         @Override
-        protected String getYear() {
-            return "2022";
+        protected Integer getYear() {
+            return 2022;
         }
     }
 
@@ -165,17 +167,26 @@ class QuestionDiabetesDiagnosArTest {
 
     @Nested
     @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalTextValueTests extends InternalTextValueTest {
+    class IncludeInternalTextValueTests extends InternalValueTest<String, String> {
 
         @Override
-        protected CertificateDataElement getElement(String expectedValue) {
-            return QuestionDiabetesDiagnosAr.toCertificate(Allmant.builder().setDiabetesDiagnosAr(expectedValue).build(), patientId, 0,
-                texts);
+        protected CertificateDataElement getElement(String input) {
+            return QuestionDiabetesDiagnosAr.toCertificate(Allmant.builder().setDiabetesDiagnosAr(input).build(), patientId, 0, texts);
         }
 
         @Override
-        protected String toInternalTextValue(Certificate certificate) {
+        protected String toInternalValue(Certificate certificate) {
             return QuestionDiabetesDiagnosAr.toInternal(certificate);
         }
+
+        @Override
+        protected List<InputExpectedValuePair<String, String>> inputExpectedValuePairList() {
+            return List.of(
+                new InputExpectedValuePair<>(null, null),
+                new InputExpectedValuePair<>("1912", "1912")
+            );
+        }
     }
+
+
 }

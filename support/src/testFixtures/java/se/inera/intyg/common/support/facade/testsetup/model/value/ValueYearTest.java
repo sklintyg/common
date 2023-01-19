@@ -31,7 +31,7 @@ public abstract class ValueYearTest extends ValueTest {
 
     protected abstract String getJsonId();
 
-    protected abstract String getYear();
+    protected abstract Integer getYear();
 
     @Override
     protected CertificateDataValueType getType() {

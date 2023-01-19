@@ -77,18 +77,22 @@ public final class ValueToolkit {
         return textDataValue.getText();
     }
 
-    public static String yearValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
+    public static Integer yearValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
         final var dataValue = getValue(data, questionId);
         if (!(dataValue instanceof CertificateDataValueYear)) {
             return null;
         }
 
-        final var textDataValue = (CertificateDataValueYear) dataValue;
-        if (!Objects.equals(textDataValue.getId(), valueId)) {
+        final var yearDataValue = (CertificateDataValueYear) dataValue;
+        if (!Objects.equals(yearDataValue.getId(), valueId)) {
             return null;
         }
 
-        return textDataValue.getYear();
+        if (yearDataValue.getYear() == null) {
+            return null;
+        }
+
+        return yearDataValue.getYear();
     }
 
     public static String uncertainDateValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {

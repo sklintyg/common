@@ -33,7 +33,7 @@ public class CertificateDataValueYear implements CertificateDataValue {
     @Getter(onMethod = @__(@Override))
     CertificateDataValueType type = CertificateDataValueType.YEAR;
     String id;
-    String year;
+    Integer year;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataValueYearBuilder {
