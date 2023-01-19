@@ -23,14 +23,14 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-import java.util.*;
-
+import java.util.Optional;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
-
 import se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
@@ -58,7 +58,7 @@ public class LuaefsEntryPointTest {
     public void testGetDetailedModuleDescriptionReturnStringWhenIntygTextsRepositorySet() throws Exception {
         when(repoMock.getLatestVersion(anyString())).thenReturn("1.0");
         SortedMap<String, String> map = new TreeMap<>();
-        map.put(FkAbstractModuleEntryPoint.DETAILED_DESCRIPTION_TEXT_KEY, "hello");
+        map.put(FkAbstractModuleEntryPoint.DESCRIPTION_TEXT_KEY, "hello");
 
         IntygTexts intygTexts = new IntygTexts("1.0", null, null, null, map, null, null);
         when(repoMock.getTexts(anyString(), anyString())).thenReturn(intygTexts);

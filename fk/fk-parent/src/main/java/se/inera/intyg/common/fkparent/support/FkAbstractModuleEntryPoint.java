@@ -19,9 +19,7 @@
 package se.inera.intyg.common.fkparent.support;
 
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
@@ -33,7 +31,8 @@ import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
  */
 public abstract class FkAbstractModuleEntryPoint implements ModuleEntryPoint {
 
-    public static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
+    public static final String DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
+    public static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_2.RBK";
     public static final String DEFAULT_RECIPIENT_ID = "FKASSA";
 
     // Depending on context, an IntygTextRepository may not be available (e.g Intygstjansten)
@@ -46,7 +45,7 @@ public abstract class FkAbstractModuleEntryPoint implements ModuleEntryPoint {
             final String latestVersion = repo.get().getLatestVersion(getModuleId());
             final IntygTexts texts = repo.get().getTexts(getModuleId(), latestVersion);
             if (texts != null) {
-                return texts.getTexter().get(DETAILED_DESCRIPTION_TEXT_KEY);
+                return texts.getTexter().get(DESCRIPTION_TEXT_KEY);
             }
         }
         return null;
