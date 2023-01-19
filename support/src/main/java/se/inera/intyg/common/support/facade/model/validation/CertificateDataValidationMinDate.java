@@ -18,8 +18,26 @@
  */
 package se.inera.intyg.common.support.facade.model.validation;
 
-public enum CertificateDataValidationType {
-    SHOW_VALIDATION, HIDE_VALIDATION, MAX_DATE_VALIDATION, MIN_DATE_VALIDATION, TEXT_VALIDATION, ENABLE_VALIDATION,
-    DISABLE_VALIDATION, MANDATORY_VALIDATION, AUTO_FILL_VALIDATION, DISABLE_SUB_ELEMENT_VALIDATION, CATEGORY_MANDATORY_VALIDATION,
-    HIGHLIGHT_VALIDATION
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.time.LocalDate;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Value;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMinDate.CertificateDataValidationMinDateBuilder;
+
+@JsonDeserialize(builder = CertificateDataValidationMinDateBuilder.class)
+@Value
+@Builder
+public class CertificateDataValidationMinDate implements CertificateDataValidation {
+
+    @Getter(onMethod = @__(@Override))
+    CertificateDataValidationType type = CertificateDataValidationType.MIN_DATE_VALIDATION;
+    String id;
+    LocalDate minDate;
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class CertificateDataValidationMinDateBuilder {
+
+    }
 }

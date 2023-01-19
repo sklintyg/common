@@ -20,6 +20,7 @@ package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.questio
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateValue;
+import static se.inera.intyg.common.support.facade.util.PatientToolkit.birthDate;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID;
@@ -33,16 +34,19 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDa
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMinDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Hypoglykemi;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 public class QuestionHypoglykemiAterkommandeSenasteAretTidpunkt {
 
     private static final short NUMBER_OF_DAYS = 0;
 
-    public static CertificateDataElement toCertificate(Hypoglykemi hypoglykemi, int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(Hypoglykemi hypoglykemi, Personnummer personId, int index,
+        CertificateTextProvider textProvider) {
         final var aterkommandeSenasteAretTidpunkt =
             hypoglykemi != null && hypoglykemi.getAterkommandeSenasteAretTidpunkt() != null
                 ? hypoglykemi.getAterkommandeSenasteAretTidpunkt() : null;
@@ -75,6 +79,10 @@ public class QuestionHypoglykemiAterkommandeSenasteAretTidpunkt {
                     CertificateDataValidationMaxDate.builder()
                         .id(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID)
                         .numberOfDays(NUMBER_OF_DAYS)
+                        .build(),
+                    CertificateDataValidationMinDate.builder()
+                        .id(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID)
+                        .minDate(personId != null ? birthDate(personId) : null)
                         .build()
                 }
             )

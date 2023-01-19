@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question;
 
+import static se.inera.intyg.common.support.facade.util.PatientToolkit.birthDate;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateValue;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_CATEGORY_ID;
@@ -34,16 +35,18 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDa
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMinDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 public class QuestionDiabetesMedicineringHypoglykemiRiskDatum {
 
     private static final short LIMIT = 0;
 
-    public static CertificateDataElement toCertificate(Allmant allmant, int index, CertificateTextProvider texts) {
+    public static CertificateDataElement toCertificate(Allmant allmant, Personnummer personId, int index, CertificateTextProvider texts) {
         final var medicineringMedforRiskForHypoglykemi =
             allmant != null && allmant.getMedicineringMedforRiskForHypoglykemiTidpunkt() != null
                 ? allmant.getMedicineringMedforRiskForHypoglykemiTidpunkt()
@@ -77,6 +80,10 @@ public class QuestionDiabetesMedicineringHypoglykemiRiskDatum {
                     CertificateDataValidationShow.builder()
                         .questionId(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID)
                         .expression(singleExpression(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID))
+                        .build(),
+                    CertificateDataValidationMinDate.builder()
+                        .id(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID)
+                        .minDate(personId != null ? birthDate(personId) : null)
                         .build()
                 }
             )
