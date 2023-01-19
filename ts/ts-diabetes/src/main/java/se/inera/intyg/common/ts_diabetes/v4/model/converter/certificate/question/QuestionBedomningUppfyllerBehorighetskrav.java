@@ -75,7 +75,7 @@ public class QuestionBedomningUppfyllerBehorighetskrav {
             .index(index)
             .config(
                 CertificateDataConfigCheckboxMultipleCode.builder()
-                    .text(texts.get(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT))
+                    .text(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT)
                     .description(texts.get(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DESCRIPTION_ID))
                     .layout(Layout.INLINE)
                     .list(
