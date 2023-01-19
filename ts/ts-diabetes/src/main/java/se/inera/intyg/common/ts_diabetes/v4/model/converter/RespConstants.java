@@ -75,6 +75,7 @@ public final class RespConstants {
     public static final String ALLMANT_PATIENTEN_FOLJS_AV_DESCRIPTION_ID = "FRG_205.HLP";
 
     public static final String ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID = "35";
+    public static final String ALLMANT_DIABETES_DIAGNOS_AR_TEXT_ID = "FRG_35.RBK";
     public static final String ALLMANT_DIABETES_DIAGNOS_AR_DELSVAR_ID = "35.1";
     public static final String ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID = "diabetesDiagnosAr";
 

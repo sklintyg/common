@@ -46,6 +46,7 @@ import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBehandling;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBehandlingAnnan;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesBeskrivningAnnanTyp;
+import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesDiagnosAr;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesHarMedicinering;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesMedicineringHypoglykemiRisk;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question.QuestionDiabetesMedicineringHypoglykemiRiskDatum;
@@ -102,6 +103,7 @@ class CertificateToInternalTest {
 
         final var allmant = Allmant.builder()
             .setPatientenFoljsAv(KvVardniva.SPECIALISTVARD)
+            .setDiabetesDiagnosAr("1990")
             .setTypAvDiabetes(KvTypAvDiabetes.ANNAN)
             .setBeskrivningAnnanTypAvDiabetes("Här är en beskrivning")
             .setMedicineringForDiabetes(true)
@@ -167,6 +169,8 @@ class CertificateToInternalTest {
                 QuestionIdentitetStyrktGenom.toCertificate(expectedInternalCertificate.getIdentitetStyrktGenom(), 0, textProvider)
             )
             .addElement(QuestionPatientenFoljsAv.toCertificate(allmant, 0, textProvider))
+            .addElement(
+                QuestionDiabetesDiagnosAr.toCertificate(allmant, Personnummer.createPersonnummer("19121212-1212").get(), 0, textProvider))
             .addElement(QuestionDiabetesTyp.toCertificate(allmant, 0, textProvider))
             .addElement(QuestionDiabetesBeskrivningAnnanTyp.toCertificate(allmant, 0, textProvider))
             .addElement(QuestionDiabetesHarMedicinering.toCertificate(allmant, 0, textProvider))
@@ -177,14 +181,14 @@ class CertificateToInternalTest {
             .addElement(QuestionHypoglykemiKontrollSjukdomstillstand.toCertificate(hypoglykemi, 0, textProvider))
             .addElement(QuestionHypoglykemiKontrollSjukdomstillstandVarfor.toCertificate(hypoglykemi, 0, textProvider))
             .addElement(QuestionHypoglykemiForstarRiskerMedHypoglykemi.toCertificate(hypoglykemi, 0, textProvider))
-            .addElement(QuestionHypoglykemiFormagaKannaVarningstecken.toCertificate(hypoglykemi,0, textProvider))
+            .addElement(QuestionHypoglykemiFormagaKannaVarningstecken.toCertificate(hypoglykemi, 0, textProvider))
             .addElement(QuestionHypoglykemiVidtaAdekvataAtgarder.toCertificate(hypoglykemi, 0, textProvider))
-            .addElement(QuestionHypoglykemiAterkommandeSenasteAret.toCertificate(hypoglykemi,0, textProvider))
+            .addElement(QuestionHypoglykemiAterkommandeSenasteAret.toCertificate(hypoglykemi, 0, textProvider))
             .addElement(QuestionHypoglykemiAterkommandeSenasteAretTidpunkt.toCertificate(hypoglykemi, 0, textProvider))
             .addElement(QuestionHypoglykemiAterkommandeSenasteAretKontrolleras.toCertificate(hypoglykemi, 0, textProvider))
-            .addElement(QuestionHypoglykemiAterkommandeSenasteAretTrafik.toCertificate(hypoglykemi,0, textProvider))
+            .addElement(QuestionHypoglykemiAterkommandeSenasteAretTrafik.toCertificate(hypoglykemi, 0, textProvider))
             .addElement(QuestionHypoglykemiAterkommandeVaketSenasteTolv.toCertificate(hypoglykemi, 0, textProvider))
-            .addElement(QuestionHypoglykemiAterkommandeVaketSenasteTre.toCertificate(hypoglykemi,0, textProvider))
+            .addElement(QuestionHypoglykemiAterkommandeVaketSenasteTre.toCertificate(hypoglykemi, 0, textProvider))
             .addElement(QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toCertificate(hypoglykemi, 0, textProvider))
             .addElement(QuestionHypoglykemiAllvarligSenasteTolvManaderna.toCertificate(hypoglykemi, 0, textProvider))
             .addElement(QuestionHypoglykemiAllvarligSenasteTolvManadernaTidpunkt.toCertificate(hypoglykemi, 0, textProvider))
@@ -244,6 +248,13 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(actualInternalCertificate.getAllmant().getPatientenFoljsAv(),
             expectedInternalCertificate.getAllmant().getPatientenFoljsAv());
+    }
+
+    @Test
+    void shallIncludeDiagnosAr() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(actualInternalCertificate.getAllmant().getDiabetesDiagnosAr(),
+            expectedInternalCertificate.getAllmant().getDiabetesDiagnosAr());
     }
 
     @Test

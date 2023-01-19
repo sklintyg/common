@@ -34,4 +34,11 @@ public final class PatientToolkit {
             Integer.parseInt(personId.getOriginalPnr().substring(6, 8))
         );
     }
+
+    public static Integer birthYear(Personnummer personId) {
+        if (personId == null) {
+            throw new IllegalArgumentException("Cannot get birth year when personId is null!");
+        }
+        return Integer.parseInt(personId.getOriginalPnr().substring(0, 4));
+    }
 }

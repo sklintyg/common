@@ -38,6 +38,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueYear;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
@@ -74,6 +75,24 @@ public final class ValueToolkit {
         }
 
         return textDataValue.getText();
+    }
+
+    public static Integer yearValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
+        final var dataValue = getValue(data, questionId);
+        if (!(dataValue instanceof CertificateDataValueYear)) {
+            return null;
+        }
+
+        final var yearDataValue = (CertificateDataValueYear) dataValue;
+        if (!Objects.equals(yearDataValue.getId(), valueId)) {
+            return null;
+        }
+
+        if (yearDataValue.getYear() == null) {
+            return null;
+        }
+
+        return yearDataValue.getYear();
     }
 
     public static String uncertainDateValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
