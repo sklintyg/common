@@ -221,7 +221,9 @@ public final class RespConstants {
     public static final String BEDOMNING_SVAR_ID = "33";
     public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID = "33.1";
     public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID = "uppfyllerBehorighetskrav";
-    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT_ID = "FRG_33.RBK";
+    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT = "Patienten uppfyller kraven enligt 6 kap. i Transportstyrelsens "
+        + "föreskrifter och allmänna råd (TSFS 2010:125) om medicinska krav för innehav av körkort m.m. Föreskrivna krav på läkarens "
+        + "specialistkompetens vid diabetessjukdom anges i 17 kap.";
     public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DESCRIPTION_ID = "FRG_33.HLP";
 
     public static final String BEDOMNING_OVRIGA_KOMMENTARER_SVAR_ID = "32";
