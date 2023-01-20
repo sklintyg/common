@@ -62,7 +62,7 @@ public class FkAbstractModuleEntryPointTest {
         final String detailedText = "detailed text";
         when(repo.getLatestVersion(MODULE_ID)).thenReturn(version);
         IntygTexts texts = new IntygTexts(version, MODULE_ID, LocalDate.now().minusDays(1), null,
-            new TreeMap<>(ImmutableMap.of(FkAbstractModuleEntryPoint.DETAILED_DESCRIPTION_TEXT_KEY, detailedText)), null, null);
+            new TreeMap<>(ImmutableMap.of(FkAbstractModuleEntryPoint.DESCRIPTION_TEXT_KEY, detailedText)), null, null);
         when(repo.getTexts(MODULE_ID, version)).thenReturn(texts);
 
         String res = entryPoint.getDetailedModuleDescription();
