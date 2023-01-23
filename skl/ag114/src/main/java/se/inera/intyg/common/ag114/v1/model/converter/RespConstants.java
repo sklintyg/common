@@ -23,12 +23,13 @@ package se.inera.intyg.common.ag114.v1.model.converter;
  */
 public final class RespConstants {
 
-    public static final String CATEGORY_GRUNDFORMU = "grundformu";
-    public static final String CATEGORY_SYSSELSATTNING = "sysselsattning";
-    public static final String CATEGORY_DIAGNOS = "diagnos";
-    public static final String CATEGORY_ARBETSFORMAGA = "arbetsformaga";
-    public static final String CATEGORY_BEDOMNING = "bedomning";
-    public static final String CATEGORY_KONTAKT = "kontakt";
+    public static final String CATEGORY_GRUNDFORMU_ID = "grundformu";
+    public static final String CATEGORY_SYSSELSATTNING_ID = "sysselsattning";
+    public static final String CATEGORY_SYSSELSATTNING_TEXT_ID = "KAT_1.RBK";
+    public static final String CATEGORY_DIAGNOS_ID = "diagnos";
+    public static final String CATEGORY_ARBETSFORMAGA_ID = "arbetsformaga";
+    public static final String CATEGORY_BEDOMNING_ID = "bedomning";
+    public static final String CATEGORY_KONTAKT_ID = "kontakt";
 
     public static final String TYP_AV_SYSSELSATTNING_SVAR_ID = "1";
     public static final String TYP_AV_SYSSELSATTNING_DELSVAR_ID = "1.1";

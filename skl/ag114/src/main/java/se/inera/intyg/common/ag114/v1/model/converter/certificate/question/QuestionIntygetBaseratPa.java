@@ -19,7 +19,7 @@
 
 package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_GRUNDFORMU;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_GRUNDFORMU_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_DESCRIPTION_TEXT_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT_ID;
@@ -35,7 +35,7 @@ public class QuestionIntygetBaseratPa extends AbstractQuestionIntygetBaseratPa {
     public static CertificateDataElement toCertificate(InternalDate undersokningPatient, InternalDate journaluppgifter,
         InternalDate beskrivningPatient, InternalDate annat, int index, CertificateTextProvider textProvider) {
         return toCertificate(undersokningPatient, journaluppgifter, beskrivningPatient, annat,
-            GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID, CATEGORY_GRUNDFORMU, index, GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT_ID,
+            GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID, CATEGORY_GRUNDFORMU_ID, index, GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT_ID,
             GRUNDFORMEDICINSKTUNDERLAG_SVAR_DESCRIPTION_TEXT_ID, textProvider);
     }
 

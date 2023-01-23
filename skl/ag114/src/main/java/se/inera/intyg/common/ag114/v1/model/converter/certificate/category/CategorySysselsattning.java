@@ -19,22 +19,22 @@
 
 package se.inera.intyg.common.ag114.v1.model.converter.certificate.category;
 
-import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_GRUNDFORMU_ID;
-import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_SYSSELSATTNING_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_SYSSELSATTNING_TEXT_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory;
 
-public class CategoryGrundForMedicinsktUnderlag {
+public class CategorySysselsattning {
 
     public static CertificateDataElement toCertificate(int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
-            .id(CATEGORY_GRUNDFORMU_ID)
+            .id(CATEGORY_SYSSELSATTNING_ID)
             .index(index)
             .config(
                 CertificateDataConfigCategory.builder()
-                    .text(textProvider.get(GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT_ID))
+                    .text(textProvider.get(CATEGORY_SYSSELSATTNING_TEXT_ID))
                     .build()
             )
             .build();

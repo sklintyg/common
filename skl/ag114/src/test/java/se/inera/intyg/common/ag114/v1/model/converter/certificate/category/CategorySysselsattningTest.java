@@ -21,8 +21,8 @@ package se.inera.intyg.common.ag114.v1.model.converter.certificate.category;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_GRUNDFORMU_ID;
-import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_SYSSELSATTNING_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_SYSSELSATTNING_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -35,7 +35,7 @@ import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategoryTest;
 
 @ExtendWith(MockitoExtension.class)
-class CategoryGrundForMedicinsktUnderlagTest {
+class CategorySysselsattningTest {
 
     @Mock
     private CertificateTextProvider texts;
@@ -50,12 +50,12 @@ class CategoryGrundForMedicinsktUnderlagTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return CategoryGrundForMedicinsktUnderlag.toCertificate(0, texts);
+            return CategorySysselsattning.toCertificate(0, texts);
         }
 
         @Override
         protected String getId() {
-            return CATEGORY_GRUNDFORMU_ID;
+            return CATEGORY_SYSSELSATTNING_ID;
         }
 
         @Override
@@ -79,12 +79,12 @@ class CategoryGrundForMedicinsktUnderlagTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return CategoryGrundForMedicinsktUnderlag.toCertificate(0, texts);
+            return CategorySysselsattning.toCertificate(0, texts);
         }
 
         @Override
         protected String getTextId() {
-            return GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT_ID;
+            return CATEGORY_SYSSELSATTNING_TEXT_ID;
         }
 
         @Override

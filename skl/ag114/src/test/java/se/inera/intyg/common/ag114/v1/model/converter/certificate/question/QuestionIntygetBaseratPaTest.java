@@ -21,7 +21,7 @@ package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_GRUNDFORMU;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_GRUNDFORMU_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_DESCRIPTION_TEXT_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT_ID;
@@ -86,7 +86,7 @@ class QuestionIntygetBaseratPaTest {
 
         @Override
         protected String getParent() {
-            return CATEGORY_GRUNDFORMU;
+            return CATEGORY_GRUNDFORMU_ID;
         }
 
         @Override

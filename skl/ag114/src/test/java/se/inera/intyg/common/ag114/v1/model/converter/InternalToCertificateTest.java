@@ -23,7 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_GRUNDFORMU;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_GRUNDFORMU_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_SYSSELSATTNING_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID;
 
@@ -83,7 +84,7 @@ class InternalToCertificateTest {
     @Test
     void shallIncludeCategoryGrundForMedicinsktUnderlag() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(0, actualCertificate.getData().get(CATEGORY_GRUNDFORMU).getIndex());
+        assertEquals(0, actualCertificate.getData().get(CATEGORY_GRUNDFORMU_ID).getIndex());
     }
 
     @Test
@@ -96,5 +97,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionAnnatBeskrivning() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(2, actualCertificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategorySysselsattning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(3, actualCertificate.getData().get(CATEGORY_SYSSELSATTNING_ID).getIndex());
     }
 }
