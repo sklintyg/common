@@ -34,6 +34,10 @@ public final class RespConstants {
     public static final String TYP_AV_SYSSELSATTNING_SVAR_ID = "1";
     public static final String TYP_AV_SYSSELSATTNING_DELSVAR_ID = "1.1";
     public static final String TYP_AV_SYSSELSATTNING_SVAR_JSON_ID = "sysselsattning";
+    public static final String TYP_AV_SYSSELSATTNING_SVAR_LABEL_ID = "KV_FKMU_0002.NUVARANDE_ARBETE.RBK";
+    public static final String TYP_AV_SYSSELSATTNING_SVAR_TEXT_ID = "FRG_1.RBK";
+    public static final String ANSWER_YES = "Ja";
+    public static final String ANSWER_NOT_SELECTED = "Ej angivet";
 
     public static final String NUVARANDE_ARBETE_SVAR_ID = "2";
     public static final String NUVARANDE_ARBETE_DELSVAR_ID = "2.1";

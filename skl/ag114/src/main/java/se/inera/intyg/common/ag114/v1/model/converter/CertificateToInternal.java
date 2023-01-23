@@ -28,6 +28,7 @@ import org.springframework.stereotype.Component;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSysselsattningTyp;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.support.facade.model.Certificate;
 
@@ -35,24 +36,28 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 public class CertificateToInternal {
 
     public Ag114UtlatandeV1 convert(Certificate certificate, Ag114UtlatandeV1 internalCertificate) {
-        return Ag114UtlatandeV1.builder()
-            .setId(internalCertificate.getId())
-            .setTextVersion(internalCertificate.getTextVersion())
-            .setGrundData(MetaDataGrundData.toInternal(certificate.getMetadata(), internalCertificate.getGrundData()))
-            .setUndersokningAvPatienten(
-                QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1))
-            .setTelefonkontaktMedPatienten(
-                QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1)
-            )
-            .setJournaluppgifter(
-                QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1)
-            )
-            .setAnnatGrundForMU(
-                QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
-            )
-            .setAnnatGrundForMUBeskrivning(
-                QuestionAnnatBeskrivning.toInternal(certificate)
-            )
-            .build();
+        return
+            Ag114UtlatandeV1.builder()
+                .setId(internalCertificate.getId())
+                .setTextVersion(internalCertificate.getTextVersion())
+                .setGrundData(MetaDataGrundData.toInternal(certificate.getMetadata(), internalCertificate.getGrundData()))
+                .setUndersokningAvPatienten(
+                    QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1))
+                .setTelefonkontaktMedPatienten(
+                    QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1)
+                )
+                .setJournaluppgifter(
+                    QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1)
+                )
+                .setAnnatGrundForMU(
+                    QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
+                )
+                .setAnnatGrundForMUBeskrivning(
+                    QuestionAnnatBeskrivning.toInternal(certificate)
+                )
+                .setSysselsattning(
+                    QuestionSysselsattningTyp.toInternal()
+                )
+                .build();
     }
 }

@@ -25,6 +25,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,7 +35,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSysselsattningTyp;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
+import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
+import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning.SysselsattningsTyp;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -68,6 +72,9 @@ class CertificateToInternalTest {
             .setJournaluppgifter(new InternalDate(LocalDate.now()))
             .setAnnatGrundForMU(new InternalDate(LocalDate.now()))
             .setAnnatGrundForMUBeskrivning("annatBeskrivning")
+            .setSysselsattning(List.of(
+                Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE)
+            ))
             .build();
 
         certificate = CertificateBuilder.create()
@@ -79,6 +86,9 @@ class CertificateToInternalTest {
             )
             .addElement(
                 QuestionAnnatBeskrivning.toCertificate(expectedInternalCertificate.getAnnatGrundForMUBeskrivning(), 0, textProvider)
+            )
+            .addElement(
+                QuestionSysselsattningTyp.toCertificate(0, textProvider)
             )
             .build();
 
@@ -144,5 +154,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getAnnatGrundForMUBeskrivning(),
             actualInternalCertificate.getAnnatGrundForMUBeskrivning());
+    }
+
+    @Test
+    void shallIncludeSysselsattningsTyp() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getSysselsattning(),
+            actualInternalCertificate.getSysselsattning());
     }
 }
