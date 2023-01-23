@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Inera AB (http://www.inera.se)
+ * Copyright (C) 2023 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -98,7 +98,7 @@
             'label.makulera': 'Makulera intyg',
             'label.makulera.body.common-header': 'Ett intyg kan makuleras om det innehåller allvarliga fel. Exempel på ett allvarligt fel är om intyget är utfärdat på fel patient. Om intyget har skickats elektroniskt till en mottagare kommer denna att informeras om makuleringen. Invånaren kan inte se makulerade intyg på <LINK:minaintyg>.',
             'label.makulera.body.has-arenden.addition': 'Om du går vidare och makulerar intyget kommer dina ej hanterade ärenden markeras som hanterade.',
-            'label.makulera.body.common-footer': 'Om du fått ny information om patienten eller av annan anledning behöver korrigera innehållet i intyget, bör du istället ersätta intyget med ett nytt intyg..',
+            'label.makulera.body.common-footer': 'Om du fått ny information om patienten eller av annan anledning behöver korrigera innehållet i intyget, bör du istället ersätta intyget med ett nytt intyg.',
             'db.makulera.body.common-header': '<p>För att makulera ett dödsbevis som är skickat på fel person måste du genomföra följande två steg:</p><ol type="1"><li><b>Kontakta omedelbart Skatteverket</b> på telefon <b>010-574 94 89</b> för att begära att intyget makuleras.<br><i>OBS! telefonnumret gäller endast för att makulera Dödsbevis, inga andra frågor.</i></li><li>Tryck på "Makulera" för att makulera dödsbeviset i Webcert.</li></ol>',
             'doi.makulera.body.common-header': '<p>För att makulera ett dödsorsaksintyg som är skickat på fel person måste du genomföra följande två steg:</p><ol type="1"><li>Kontakta omedelbart Socialstyrelsen (Dödsorsaksproduktionen) på telefon <b>075-247 39 00</b> för att begära att intyget makuleras.</li><li>Tryck på "Makulera" för att makulera dödsorsaksintyget i Webcert.</li></ol>',
             'label.makulera.title.radio': 'Ange för ${recipient} varför du makulerar intyget:',
