@@ -74,6 +74,8 @@ public final class RespConstants {
     public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID = "anledningTillKontakt";
     public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_ID = "9.2";
 
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT_ID = "KAT_7.RBK";
+
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID = "10";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID = "baseratPa";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID = "10.1";
