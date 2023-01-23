@@ -32,6 +32,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -66,6 +67,7 @@ class CertificateToInternalTest {
             .setTelefonkontaktMedPatienten(new InternalDate(LocalDate.now()))
             .setJournaluppgifter(new InternalDate(LocalDate.now()))
             .setAnnatGrundForMU(new InternalDate(LocalDate.now()))
+            .setAnnatGrundForMUBeskrivning("annatBeskrivning")
             .build();
 
         certificate = CertificateBuilder.create()
@@ -74,6 +76,9 @@ class CertificateToInternalTest {
                 QuestionIntygetBaseratPa.toCertificate(expectedInternalCertificate.getUndersokningAvPatienten(),
                     expectedInternalCertificate.getTelefonkontaktMedPatienten(),
                     expectedInternalCertificate.getJournaluppgifter(), expectedInternalCertificate.getAnnatGrundForMU(), 0, textProvider)
+            )
+            .addElement(
+                QuestionAnnatBeskrivning.toCertificate(expectedInternalCertificate.getAnnatGrundForMUBeskrivning(), 0, textProvider)
             )
             .build();
 
@@ -132,5 +137,12 @@ class CertificateToInternalTest {
     void shallIncludeAnnatGrundForMU() {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getAnnatGrundForMU(), actualInternalCertificate.getAnnatGrundForMU());
+    }
+
+    @Test
+    void shallIncludeAnnatBeskrivning() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getAnnatGrundForMUBeskrivning(),
+            actualInternalCertificate.getAnnatGrundForMUBeskrivning());
     }
 }

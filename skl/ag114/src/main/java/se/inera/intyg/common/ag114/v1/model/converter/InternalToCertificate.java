@@ -22,6 +22,7 @@ package se.inera.intyg.common.ag114.v1.model.converter;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategoryGrundForMedicinsktUnderlag;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -43,6 +44,9 @@ public class InternalToCertificate {
                     internalCertificate.getUndersokningAvPatienten(), internalCertificate.getTelefonkontaktMedPatienten(),
                     internalCertificate.getJournaluppgifter(), internalCertificate.getAnnatGrundForMU(), index++, textProvider
                 )
+            )
+            .addElement(
+                QuestionAnnatBeskrivning.toCertificate(internalCertificate.getAnnatGrundForMUBeskrivning(), index++, textProvider)
             )
             .build();
     }
