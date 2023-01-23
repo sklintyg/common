@@ -1,7 +1,7 @@
 #!groovy
 
 node {
-    def buildVersion = "3.18.0.${BUILD_NUMBER}"
+    def buildVersion = "3.18.0.186.${BUILD_NUMBER}"
 
     stage('checkout') {
         git url: "https://github.com/sklintyg/common.git", branch: GIT_BRANCH

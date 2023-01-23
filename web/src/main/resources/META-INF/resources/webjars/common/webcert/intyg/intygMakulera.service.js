@@ -115,7 +115,11 @@ angular.module('common').factory('common.IntygMakulera',
                     if(intyg.isLocked){
                         return 'label.makulera.locked.body.common-footer';
                     } else {
-                        return 'label.makulera.body.common-footer';
+                        if (intyg.intygType === 'db' || intyg.intygType === 'doi') {
+                            return intyg.intygType + '.label.makulera.body.common-footer';
+                        } else {
+                            return 'label.makulera.body.common-footer';
+                        }
                     }
                 }
 
