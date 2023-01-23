@@ -77,6 +77,8 @@ public final class RespConstants {
     public static final String GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT_ID = "KAT_7.RBK";
 
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID = "10";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT_ID = "FRG_10.RBK";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_DESCRIPTION_TEXT_ID = "FRG_10.HLP";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID = "baseratPa";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID = "10.1";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID = "10.2";

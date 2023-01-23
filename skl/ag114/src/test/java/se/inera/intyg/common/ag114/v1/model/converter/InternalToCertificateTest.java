@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_GRUNDFORMU;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -82,5 +83,11 @@ class InternalToCertificateTest {
     void shallIncludeCategoryGrundForMedicinsktUnderlag() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(0, actualCertificate.getData().get(CATEGORY_GRUNDFORMU).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionIntygetBaseratPa() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(1, actualCertificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID).getIndex());
     }
 }
