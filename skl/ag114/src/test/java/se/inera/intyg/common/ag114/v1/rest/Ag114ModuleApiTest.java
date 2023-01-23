@@ -22,6 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -30,6 +31,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -59,12 +61,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.ag114.pdf.PdfGenerator;
 import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
+import se.inera.intyg.common.ag114.v1.model.converter.CertificateToInternal;
+import se.inera.intyg.common.ag114.v1.model.converter.InternalToCertificate;
 import se.inera.intyg.common.ag114.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ag114.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
 import se.inera.intyg.common.ag114.v1.utils.ScenarioFinder;
+import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.services.texts.IntygTextsService;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -83,6 +89,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
@@ -110,7 +117,13 @@ public class Ag114ModuleApiTest {
     private static final String TEST_HSA_ID = "hsaId";
     private static final String TEST_PATIENT_PERSONNR = "191212121212";
     private static final String INTYG_TYPE_VERSION_1 = "1.0";
+    @Mock
+    private CertificateToInternal certificateToInternal;
+    @Mock
+    private InternalToCertificate internalToCertificate;
 
+    @Mock
+    private IntygTextsService intygTexts;
     @Mock
     private RegisterCertificateResponderInterface registerCertificateResponderInterface;
 
@@ -495,6 +508,69 @@ public class Ag114ModuleApiTest {
         } catch (IOException e) {
             throw new ModuleException("Failed to serialize internal model", e);
         }
+    }
+
+    @Test
+    public void shallConvertInternalToCertificate() throws Exception {
+        final var expectedCertificate = CertificateBuilder.create().build();
+        final var certificateAsJson = "certificateAsJson";
+        final var typeAheadProvider = mock(TypeAheadProvider.class);
+
+        final var internalCertificate = Ag114UtlatandeV1.builder()
+            .setId("123")
+            .setTextVersion("1.0")
+            .setGrundData(new GrundData())
+            .build();
+
+        doReturn(internalCertificate)
+            .when(objectMapper).readValue(eq(certificateAsJson), eq(Ag114UtlatandeV1.class));
+
+        doReturn(expectedCertificate)
+            .when(internalToCertificate).convert(eq(internalCertificate), any(CertificateTextProvider.class));
+
+        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider);
+
+        assertEquals(expectedCertificate, actualCertificate);
+    }
+
+
+    @Test
+    public void shallConvertCertificateToInternal() throws Exception {
+        final var expectedJson = "expectedJson";
+        final var certificate = CertificateBuilder.create().build();
+        final var certificateAsJson = "certificateAsJson";
+
+        final var internalCertificate = Ag114UtlatandeV1.builder()
+            .setId("123")
+            .setTextVersion("1.0")
+            .setGrundData(new GrundData())
+            .build();
+
+        doReturn(internalCertificate)
+            .when(objectMapper).readValue(eq(certificateAsJson), eq(Ag114UtlatandeV1.class));
+
+        doReturn(expectedJson)
+            .when(objectMapper).writeValueAsString(internalCertificate);
+
+        doReturn(internalCertificate)
+            .when(certificateToInternal).convert(certificate, internalCertificate);
+
+        final var actualJson = moduleApi.getJsonFromCertificate(certificate, certificateAsJson);
+        assertEquals(expectedJson, actualJson);
+    }
+
+    @Test
+    public void getCertficateMessagesProviderGetExistingKey() {
+        final var certificateMessagesProvider = moduleApi.getMessagesProvider();
+
+        assertEquals(certificateMessagesProvider.get("common.continue"), "Fortsätt");
+    }
+
+    @Test
+    public void getCertficateMessagesProviderGetMissingKey() {
+        final var certificateMessagesProvider = moduleApi.getMessagesProvider();
+
+        assertNull(certificateMessagesProvider.get("not.existing"));
     }
 
     private GetCertificateResponseType createGetCertificateResponseType(final StatusKod statusKod, final String part)
