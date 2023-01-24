@@ -21,6 +21,7 @@ package se.inera.intyg.common.ag114.v1.model.converter;
 
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.MetaDataGrundData;
+
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategoryArbetsformaga;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategoryBedomning;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategoryDiagnos;
@@ -40,6 +41,7 @@ import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.Quest
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionOnskaFormedlaDiagnos;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionOvrigaUpplysningar;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSysselsattningTyp;
+
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;

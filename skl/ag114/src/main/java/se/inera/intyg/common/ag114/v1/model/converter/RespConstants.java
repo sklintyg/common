@@ -36,7 +36,6 @@ public final class RespConstants {
     public static final String CATEGORY_OVRIGT_TEXT_ID = "KAT_5.RBK";
     public static final String CATEGORY_KONTAKT_ID = "kontakt";
     public static final String CATEGORY_KONTAKT_TEXT_ID = "KAT_6.RBK";
-
     public static final String TYP_AV_SYSSELSATTNING_SVAR_ID = "1";
     public static final String TYP_AV_SYSSELSATTNING_SVAR_JSON_ID = "sysselsattning";
     public static final String TYP_AV_SYSSELSATTNING_SVAR_LABEL_ID = "KV_FKMU_0002.NUVARANDE_ARBETE.RBK";
@@ -44,25 +43,20 @@ public final class RespConstants {
     public static final String ANSWER_YES = "Ja";
     public static final String ANSWER_NO = "Nej";
     public static final String ANSWER_NOT_SELECTED = "Ej angivet";
-
     public static final String NUVARANDE_ARBETE_SVAR_ID = "2";
     public static final String NUVARANDE_ARBETE_SVAR_TEXT_ID = "FRG_2.RBK";
     public static final String NUVARANDE_ARBETE_SVAR_DESCRIPTION_ID = "FRG_2.HLP";
     public static final String NUVARANDE_ARBETE_SVAR_JSON_ID = "nuvarandeArbete";
-
     public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID = "3";
     public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_TEXT_ID = "FRG_3.RBK";
     public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_DESCRIPTION_ID = "FRG_3.HLP";
     public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID = "onskarFormedlaDiagnos";
-
     public static final String TYP_AV_DIAGNOS_SVAR_ID = "4";
     public static final String TYP_AV_DIAGNOS_SVAR_TEXT_ID = "FRG_4.RBK";
-
     public static final String NEDSATT_ARBETSFORMAGA_SVAR_ID = "5";
     public static final String NEDSATT_ARBETSFORMAGA_SVAR_TEXT_ID = "FRG_5.RBK";
     public static final String NEDSATT_ARBETSFORMAGA_SVAR_DESCRIPTION_ID = "FRG_5.HLP";
     public static final String NEDSATT_ARBETSFORMAGA_SVAR_JSON_ID = "nedsattArbetsformaga";
-
     public static final String ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID = "6";
     public static final String ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_TEXT_ID = "FRG_6.RBK";
     public static final String ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_DESCRIPTION_ID = "FRG_6.HLP";
@@ -70,19 +64,16 @@ public final class RespConstants {
     public static final String ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_TEXT_ID = "DFR_6.2.RBK";
     public static final String ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID = "arbetsformagaTrotsSjukdom";
     public static final String ARBETSFORMAGA_TROTS_SJUKDOM_BESKRIVNING_SVAR_JSON_ID = "arbetsformagaTrotsSjukdomBeskrivning";
-
     public static final String OVRIGT_SVAR_ID = "8";
     public static final String OVRIGT_SVAR_TEXT_ID = "FRG_8.RBK";
     public static final String OVRIGT_DELSVAR_ID = "8.1";
     public static final String OVRIGT_SVAR_JSON_ID = "ovrigaUpplysningar";
-
     public static final String BEDOMNING_SVAR_I = "7";
     public static final String SJUKSKRIVNINGSGRAD_DELSVAR_ID = "7.1";
     public static final String SJUKSKRIVNINGSPERIOD_DELSVAR_ID = "7.2";
     public static final String SJUKSKRIVNINGSGRAD_SVAR_JSON_ID = "sjukskrivningsgrad";
     public static final String SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID = "sjukskrivningsperiod";
     public static final String SJUKSKRIVNINGSGRAD_UNIT_OF_MEASURE = "%";
-
     public static final String KONTAKT_ONSKAS_SVAR_ID = "9";
     public static final String KONTAKT_ONSKAS_DELSVAR_ID = "9.1";
     public static final String KONTAKT_ONSKAS_SVAR_JSON_ID = "kontaktMedArbetsgivaren";
@@ -90,9 +81,7 @@ public final class RespConstants {
     public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_ID = "9.2";
     public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID = "anledningTillKontakt";
     public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT_ID = "DFR_9.2.RBK";
-
     public static final String GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT_ID = "KAT_7.RBK";
-
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID = "10";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT_ID = "FRG_10.RBK";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_DESCRIPTION_TEXT_ID = "FRG_10.HLP";
@@ -106,6 +95,7 @@ public final class RespConstants {
     public static final String GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_ID = "10.3";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_JSON_ID = "annatGrundForMUBeskrivning";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_TEXT_ID = "DFR_10.3.RBK";
+
 
     private RespConstants() {
     }
