@@ -28,6 +28,7 @@ import org.springframework.stereotype.Component;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionNuvarandeArbete;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSysselsattningTyp;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -57,6 +58,9 @@ public class CertificateToInternal {
                 )
                 .setSysselsattning(
                     QuestionSysselsattningTyp.toInternal()
+                )
+                .setNuvarandeArbete(
+                    QuestionNuvarandeArbete.toInternal(certificate)
                 )
                 .build();
     }

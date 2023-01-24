@@ -40,6 +40,8 @@ public final class RespConstants {
     public static final String ANSWER_NOT_SELECTED = "Ej angivet";
 
     public static final String NUVARANDE_ARBETE_SVAR_ID = "2";
+    public static final String NUVARANDE_ARBETE_SVAR_TEXT_ID = "FRG_2.RBK";
+    public static final String NUVARANDE_ARBETE_SVAR_DESCRIPTION_ID = "FRG_2.HLP";
     public static final String NUVARANDE_ARBETE_DELSVAR_ID = "2.1";
     public static final String NUVARANDE_ARBETE_SVAR_JSON_ID = "nuvarandeArbete";
 

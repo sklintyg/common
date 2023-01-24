@@ -35,6 +35,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionNuvarandeArbete;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSysselsattningTyp;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
@@ -75,6 +76,7 @@ class CertificateToInternalTest {
             .setSysselsattning(List.of(
                 Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE)
             ))
+            .setNuvarandeArbete("nuvarandeArbete")
             .build();
 
         certificate = CertificateBuilder.create()
@@ -89,6 +91,9 @@ class CertificateToInternalTest {
             )
             .addElement(
                 QuestionSysselsattningTyp.toCertificate(0, textProvider)
+            )
+            .addElement(
+                QuestionNuvarandeArbete.toCertificate(expectedInternalCertificate.getNuvarandeArbete(), 0, textProvider)
             )
             .build();
 
@@ -161,5 +166,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getSysselsattning(),
             actualInternalCertificate.getSysselsattning());
+    }
+
+    @Test
+    void shallIncludeNuvarandeArbete() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getNuvarandeArbete(),
+            actualInternalCertificate.getNuvarandeArbete());
     }
 }
