@@ -86,8 +86,10 @@ public final class RespConstants {
     public static final String KONTAKT_ONSKAS_SVAR_ID = "9";
     public static final String KONTAKT_ONSKAS_DELSVAR_ID = "9.1";
     public static final String KONTAKT_ONSKAS_SVAR_JSON_ID = "kontaktMedArbetsgivaren";
-    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID = "anledningTillKontakt";
+    public static final String KONTAKT_ONSKAS_SVAR_LABEL_ID = "FRG_9.RBK";
     public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_ID = "9.2";
+    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID = "anledningTillKontakt";
+    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT_ID = "DFR_9.2.RBK";
 
     public static final String GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT_ID = "KAT_7.RBK";
 

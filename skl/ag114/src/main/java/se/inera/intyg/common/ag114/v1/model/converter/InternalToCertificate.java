@@ -28,11 +28,13 @@ import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.Categ
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategoryKontakt;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategoryOvrigt;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategorySysselsattning;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionAnledningTillKontakt;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionArbetsformagaTrotsSjukdom;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionArbetsformagaTrotsSjukdomBeskrivning;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionDiagnos;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionKontaktMedArbetsgivaren;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionNedsattArbetsformaga;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionNuvarandeArbete;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionOnskaFormedlaDiagnos;
@@ -104,6 +106,12 @@ public class InternalToCertificate {
             )
             .addElement(
                 CategoryKontakt.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionKontaktMedArbetsgivaren.toCertificate(internalCertificate.getKontaktMedArbetsgivaren(), index++, textProvider)
+            )
+            .addElement(
+                QuestionAnledningTillKontakt.toCertificate(internalCertificate.getAnledningTillKontakt(), index++, textProvider)
             )
             .build();
     }

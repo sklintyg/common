@@ -34,11 +34,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionAnledningTillKontakt;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionArbetsformagaTrotsSjukdom;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionArbetsformagaTrotsSjukdomBeskrivning;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionDiagnos;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionKontaktMedArbetsgivaren;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionNedsattArbetsformaga;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionNuvarandeArbete;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionOnskaFormedlaDiagnos;
@@ -96,6 +98,8 @@ class CertificateToInternalTest {
             .setArbetsformagaTrotsSjukdom(true)
             .setArbetsformagaTrotsSjukdomBeskrivning("trotsSjukdomBeskrivning")
             .setOvrigaUpplysningar("ovrigaUpplysningar")
+            .setKontaktMedArbetsgivaren(true)
+            .setAnledningTillKontakt("anledningTillKontakt")
             .build();
 
         certificate = CertificateBuilder.create()
@@ -132,6 +136,12 @@ class CertificateToInternalTest {
             )
             .addElement(
                 QuestionOvrigaUpplysningar.toCertificate(expectedInternalCertificate.getOvrigaUpplysningar(), 0, textProvider)
+            )
+            .addElement(
+                QuestionKontaktMedArbetsgivaren.toCertificate(expectedInternalCertificate.getKontaktMedArbetsgivaren(), 0, textProvider)
+            )
+            .addElement(
+                QuestionAnledningTillKontakt.toCertificate(expectedInternalCertificate.getAnledningTillKontakt(), 0, textProvider)
             )
             .build();
 
@@ -253,5 +263,19 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getOvrigaUpplysningar(),
             actualInternalCertificate.getOvrigaUpplysningar());
+    }
+
+    @Test
+    void shallIncludeKontaktMedArbetsgivaren() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getKontaktMedArbetsgivaren(),
+            actualInternalCertificate.getKontaktMedArbetsgivaren());
+    }
+
+    @Test
+    void shallIncludeAnledningTillKontakt() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getAnledningTillKontakt(),
+            actualInternalCertificate.getAnledningTillKontakt());
     }
 }
