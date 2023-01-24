@@ -29,6 +29,7 @@ import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEG
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -124,5 +125,11 @@ class InternalToCertificateTest {
     void shallIncludeCategoryDiagnos() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(6, actualCertificate.getData().get(CATEGORY_DIAGNOS_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionOnskaFormedlaDiagnos() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(7, actualCertificate.getData().get(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID).getIndex());
     }
 }

@@ -36,6 +36,7 @@ import se.inera.intyg.common.ag114.v1.model.converter.certificate.MetaDataGrundD
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionNuvarandeArbete;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionOnskaFormedlaDiagnos;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSysselsattningTyp;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
@@ -77,6 +78,7 @@ class CertificateToInternalTest {
                 Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE)
             ))
             .setNuvarandeArbete("nuvarandeArbete")
+            .setOnskarFormedlaDiagnos(true)
             .build();
 
         certificate = CertificateBuilder.create()
@@ -94,6 +96,9 @@ class CertificateToInternalTest {
             )
             .addElement(
                 QuestionNuvarandeArbete.toCertificate(expectedInternalCertificate.getNuvarandeArbete(), 0, textProvider)
+            )
+            .addElement(
+                QuestionOnskaFormedlaDiagnos.toCertificate(expectedInternalCertificate.getOnskarFormedlaDiagnos(), 0, textProvider)
             )
             .build();
 
@@ -173,5 +178,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getNuvarandeArbete(),
             actualInternalCertificate.getNuvarandeArbete());
+    }
+
+    @Test
+    void shallIncludeOnskaFormedlaDiagnos() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getOnskarFormedlaDiagnos(),
+            actualInternalCertificate.getOnskarFormedlaDiagnos());
     }
 }

@@ -38,6 +38,7 @@ public final class RespConstants {
     public static final String TYP_AV_SYSSELSATTNING_SVAR_LABEL_ID = "KV_FKMU_0002.NUVARANDE_ARBETE.RBK";
     public static final String TYP_AV_SYSSELSATTNING_SVAR_TEXT_ID = "FRG_1.RBK";
     public static final String ANSWER_YES = "Ja";
+    public static final String ANSWER_NO = "Nej";
     public static final String ANSWER_NOT_SELECTED = "Ej angivet";
 
     public static final String NUVARANDE_ARBETE_SVAR_ID = "2";
@@ -47,6 +48,8 @@ public final class RespConstants {
     public static final String NUVARANDE_ARBETE_SVAR_JSON_ID = "nuvarandeArbete";
 
     public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID = "3";
+    public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_TEXT_ID = "FRG_3.RBK";
+    public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_DESCRIPTION_ID = "FRG_3.HLP";
     public static final String ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID = "3.1";
     public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID = "onskarFormedlaDiagnos";
 
