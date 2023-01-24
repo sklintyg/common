@@ -25,6 +25,7 @@ import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.Categ
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategoryGrundForMedicinsktUnderlag;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategorySysselsattning;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionDiagnos;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionNuvarandeArbete;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionOnskaFormedlaDiagnos;
@@ -67,6 +68,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionOnskaFormedlaDiagnos.toCertificate(internalCertificate.getOnskarFormedlaDiagnos(), index++, textProvider)
+            )
+            .addElement(
+                QuestionDiagnos.toCertificate(internalCertificate.getDiagnoser(), index++, textProvider)
             )
             .build();
     }

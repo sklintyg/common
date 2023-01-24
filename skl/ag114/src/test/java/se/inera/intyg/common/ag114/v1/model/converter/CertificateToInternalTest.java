@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_ICD_10_ID;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -34,6 +35,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionDiagnos;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionNuvarandeArbete;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionOnskaFormedlaDiagnos;
@@ -41,6 +43,7 @@ import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.Quest
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning.SysselsattningsTyp;
+import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -49,6 +52,7 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 @ExtendWith(MockitoExtension.class)
@@ -58,6 +62,8 @@ class CertificateToInternalTest {
     @Mock
     private CertificateTextProvider textProvider;
     private Certificate certificate;
+    @Mock
+    private WebcertModuleService webcertModuleService;
     @InjectMocks
     private CertificateToInternal certificateToInternal;
 
@@ -79,6 +85,9 @@ class CertificateToInternalTest {
             ))
             .setNuvarandeArbete("nuvarandeArbete")
             .setOnskarFormedlaDiagnos(true)
+            .setDiagnoser(
+                List.of(Diagnos.create("F502", DIAGNOS_ICD_10_ID, "diagnosBeskrivning", null))
+            )
             .build();
 
         certificate = CertificateBuilder.create()
@@ -99,6 +108,9 @@ class CertificateToInternalTest {
             )
             .addElement(
                 QuestionOnskaFormedlaDiagnos.toCertificate(expectedInternalCertificate.getOnskarFormedlaDiagnos(), 0, textProvider)
+            )
+            .addElement(
+                QuestionDiagnos.toCertificate(expectedInternalCertificate.getDiagnoser(), 0, textProvider)
             )
             .build();
 
@@ -185,5 +197,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getOnskarFormedlaDiagnos(),
             actualInternalCertificate.getOnskarFormedlaDiagnos());
+    }
+
+    @Test
+    void shallIncludeDiagnos() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getDiagnoser(),
+            actualInternalCertificate.getDiagnoser());
     }
 }

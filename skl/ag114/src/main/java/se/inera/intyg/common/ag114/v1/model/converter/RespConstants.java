@@ -54,6 +54,7 @@ public final class RespConstants {
     public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID = "onskarFormedlaDiagnos";
 
     public static final String TYP_AV_DIAGNOS_SVAR_ID = "4";
+    public static final String TYP_AV_DIAGNOS_SVAR_TEXT_ID = "FRG_4.RBK";
     public static final String TYP_AV_DIAGNOS_BESKRIVNING_DELSVAR_ID = "4.1";
     public static final String TYP_AV_DIAGNOS_DELSVAR_ID = "4.2";
     public static final String TYP_AV_DIAGNOS_SVAR_JSON_ID = "diagnoser";

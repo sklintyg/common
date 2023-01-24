@@ -24,18 +24,27 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionDiagnos;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionNuvarandeArbete;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionOnskaFormedlaDiagnos;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSysselsattningTyp;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
 @Component(value = "certificateToInternalAg1-14")
 public class CertificateToInternal {
+
+    private final WebcertModuleService webcertModuleService;
+
+    public CertificateToInternal(@Autowired(required = false) WebcertModuleService webcertModuleService) {
+        this.webcertModuleService = webcertModuleService;
+    }
 
     public Ag114UtlatandeV1 convert(Certificate certificate, Ag114UtlatandeV1 internalCertificate) {
         return
@@ -66,6 +75,8 @@ public class CertificateToInternal {
                 .setOnskarFormedlaDiagnos(
                     QuestionOnskaFormedlaDiagnos.toInternal(certificate)
                 )
+                .setDiagnoser(
+                    QuestionDiagnos.toInternal(certificate, webcertModuleService))
                 .build();
     }
 }
