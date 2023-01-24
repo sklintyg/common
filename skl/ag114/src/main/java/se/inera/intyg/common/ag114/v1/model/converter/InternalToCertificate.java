@@ -22,8 +22,10 @@ package se.inera.intyg.common.ag114.v1.model.converter;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategoryArbetsformaga;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategoryBedomning;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategoryGrundForMedicinsktUnderlag;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategoryOvrigt;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategorySysselsattning;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionArbetsformagaTrotsSjukdom;
@@ -88,6 +90,12 @@ public class InternalToCertificate {
             .addElement(
                 QuestionArbetsformagaTrotsSjukdomBeskrivning.toCertificate(internalCertificate.getArbetsformagaTrotsSjukdomBeskrivning(),
                     index++, textProvider)
+            )
+            .addElement(
+                CategoryBedomning.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                CategoryOvrigt.toCertificate(index++, textProvider)
             )
             .build();
     }

@@ -31,6 +31,9 @@ public final class RespConstants {
     public static final String CATEGORY_ARBETSFORMAGA_ID = "arbetsformaga";
     public static final String CATEGORY_ARBETSFORMAGA_TEXT_ID = "KAT_3.RBK";
     public static final String CATEGORY_BEDOMNING_ID = "bedomning";
+    public static final String CATEGORY_BEDOMNING_TEXT_ID = "KAT_4.RBK";
+    public static final String CATEGORY_OVRIGT_ID = "ovrigt";
+    public static final String CATEGORY_OVRIGT_TEXT_ID = "KAT_5.RBK";
     public static final String CATEGORY_KONTAKT_ID = "kontakt";
 
     public static final String TYP_AV_SYSSELSATTNING_SVAR_ID = "1";

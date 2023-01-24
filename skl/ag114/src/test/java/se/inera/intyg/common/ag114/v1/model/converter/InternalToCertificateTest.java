@@ -26,8 +26,10 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_ARBETSFORMAGA_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_BEDOMNING_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_DIAGNOS_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_GRUNDFORMU_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_OVRIGT_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_SYSSELSATTNING_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID;
@@ -166,5 +168,17 @@ class InternalToCertificateTest {
     void shallIncludeQuestionArbetsformagaTrotsSjukdomBeskrivning() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(12, actualCertificate.getData().get(ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryBedomning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(13, actualCertificate.getData().get(CATEGORY_BEDOMNING_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryOvrigt() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(14, actualCertificate.getData().get(CATEGORY_OVRIGT_ID).getIndex());
     }
 }
