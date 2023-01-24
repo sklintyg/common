@@ -29,6 +29,7 @@ public final class RespConstants {
     public static final String CATEGORY_DIAGNOS_ID = "diagnos";
     public static final String CATEGORY_DIAGNOS_TEXT_ID = "KAT_2.RBK";
     public static final String CATEGORY_ARBETSFORMAGA_ID = "arbetsformaga";
+    public static final String CATEGORY_ARBETSFORMAGA_TEXT_ID = "KAT_3.RBK";
     public static final String CATEGORY_BEDOMNING_ID = "bedomning";
     public static final String CATEGORY_KONTAKT_ID = "kontakt";
 

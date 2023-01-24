@@ -21,6 +21,7 @@ package se.inera.intyg.common.ag114.v1.model.converter;
 
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategoryArbetsformaga;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategoryGrundForMedicinsktUnderlag;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategorySysselsattning;
@@ -71,6 +72,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionDiagnos.toCertificate(internalCertificate.getDiagnoser(), index++, textProvider)
+            )
+            .addElement(
+                CategoryArbetsformaga.toCertificate(index++, textProvider)
             )
             .build();
     }
