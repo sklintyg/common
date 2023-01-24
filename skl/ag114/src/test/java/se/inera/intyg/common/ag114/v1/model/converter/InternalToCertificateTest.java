@@ -29,6 +29,7 @@ import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEG
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_SYSSELSATTNING_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.NEDSATT_ARBETSFORMAGA_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_ID;
@@ -145,5 +146,11 @@ class InternalToCertificateTest {
     void shallIncludeCategoryArbetsformaga() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(9, actualCertificate.getData().get(CATEGORY_ARBETSFORMAGA_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionNedsattArbetsformaga() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(10, actualCertificate.getData().get(NEDSATT_ARBETSFORMAGA_SVAR_ID).getIndex());
     }
 }

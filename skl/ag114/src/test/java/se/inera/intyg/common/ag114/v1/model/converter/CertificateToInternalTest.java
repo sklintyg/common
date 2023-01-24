@@ -37,6 +37,7 @@ import se.inera.intyg.common.ag114.v1.model.converter.certificate.MetaDataGrundD
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionDiagnos;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionNedsattArbetsformaga;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionNuvarandeArbete;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionOnskaFormedlaDiagnos;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSysselsattningTyp;
@@ -88,6 +89,7 @@ class CertificateToInternalTest {
             .setDiagnoser(
                 List.of(Diagnos.create("F502", DIAGNOS_ICD_10_ID, "diagnosBeskrivning", null))
             )
+            .setNedsattArbetsformaga("nedsattArbetsformaga")
             .build();
 
         certificate = CertificateBuilder.create()
@@ -111,6 +113,9 @@ class CertificateToInternalTest {
             )
             .addElement(
                 QuestionDiagnos.toCertificate(expectedInternalCertificate.getDiagnoser(), 0, textProvider)
+            )
+            .addElement(
+                QuestionNedsattArbetsformaga.toCertificate(expectedInternalCertificate.getNedsattArbetsformaga(), 0, textProvider)
             )
             .build();
 
@@ -204,5 +209,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getDiagnoser(),
             actualInternalCertificate.getDiagnoser());
+    }
+
+    @Test
+    void shallIncludeNedsattArbetsformaga() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getNedsattArbetsformaga(),
+            actualInternalCertificate.getNedsattArbetsformaga());
     }
 }

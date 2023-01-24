@@ -28,6 +28,7 @@ import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.Categ
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionDiagnos;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionNedsattArbetsformaga;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionNuvarandeArbete;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionOnskaFormedlaDiagnos;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSysselsattningTyp;
@@ -75,6 +76,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 CategoryArbetsformaga.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionNedsattArbetsformaga.toCertificate(internalCertificate.getNedsattArbetsformaga(), index++, textProvider)
             )
             .build();
     }

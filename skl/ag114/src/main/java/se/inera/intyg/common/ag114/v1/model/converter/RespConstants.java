@@ -34,7 +34,6 @@ public final class RespConstants {
     public static final String CATEGORY_KONTAKT_ID = "kontakt";
 
     public static final String TYP_AV_SYSSELSATTNING_SVAR_ID = "1";
-    public static final String TYP_AV_SYSSELSATTNING_DELSVAR_ID = "1.1";
     public static final String TYP_AV_SYSSELSATTNING_SVAR_JSON_ID = "sysselsattning";
     public static final String TYP_AV_SYSSELSATTNING_SVAR_LABEL_ID = "KV_FKMU_0002.NUVARANDE_ARBETE.RBK";
     public static final String TYP_AV_SYSSELSATTNING_SVAR_TEXT_ID = "FRG_1.RBK";
@@ -45,22 +44,19 @@ public final class RespConstants {
     public static final String NUVARANDE_ARBETE_SVAR_ID = "2";
     public static final String NUVARANDE_ARBETE_SVAR_TEXT_ID = "FRG_2.RBK";
     public static final String NUVARANDE_ARBETE_SVAR_DESCRIPTION_ID = "FRG_2.HLP";
-    public static final String NUVARANDE_ARBETE_DELSVAR_ID = "2.1";
     public static final String NUVARANDE_ARBETE_SVAR_JSON_ID = "nuvarandeArbete";
 
     public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID = "3";
     public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_TEXT_ID = "FRG_3.RBK";
     public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_DESCRIPTION_ID = "FRG_3.HLP";
-    public static final String ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID = "3.1";
     public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID = "onskarFormedlaDiagnos";
 
     public static final String TYP_AV_DIAGNOS_SVAR_ID = "4";
     public static final String TYP_AV_DIAGNOS_SVAR_TEXT_ID = "FRG_4.RBK";
-    public static final String TYP_AV_DIAGNOS_BESKRIVNING_DELSVAR_ID = "4.1";
-    public static final String TYP_AV_DIAGNOS_DELSVAR_ID = "4.2";
-    public static final String TYP_AV_DIAGNOS_SVAR_JSON_ID = "diagnoser";
 
     public static final String NEDSATT_ARBETSFORMAGA_SVAR_ID = "5";
+    public static final String NEDSATT_ARBETSFORMAGA_SVAR_TEXT_ID = "FRG_5.RBK";
+    public static final String NEDSATT_ARBETSFORMAGA_SVAR_DESCRIPTION_ID = "FRG_5.HLP";
     public static final String NEDSATT_ARBETSFORMAGA_DELSVAR_ID = "5.1";
     public static final String NEDSATT_ARBETSFORMAGA_SVAR_JSON_ID = "nedsattArbetsformaga";
 

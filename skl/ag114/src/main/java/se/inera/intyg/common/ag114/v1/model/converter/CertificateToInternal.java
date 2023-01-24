@@ -30,6 +30,7 @@ import se.inera.intyg.common.ag114.v1.model.converter.certificate.MetaDataGrundD
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionDiagnos;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionNedsattArbetsformaga;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionNuvarandeArbete;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionOnskaFormedlaDiagnos;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSysselsattningTyp;
@@ -76,7 +77,11 @@ public class CertificateToInternal {
                     QuestionOnskaFormedlaDiagnos.toInternal(certificate)
                 )
                 .setDiagnoser(
-                    QuestionDiagnos.toInternal(certificate, webcertModuleService))
+                    QuestionDiagnos.toInternal(certificate, webcertModuleService)
+                )
+                .setNedsattArbetsformaga(
+                    QuestionNedsattArbetsformaga.toInternal(certificate)
+                )
                 .build();
     }
 }
