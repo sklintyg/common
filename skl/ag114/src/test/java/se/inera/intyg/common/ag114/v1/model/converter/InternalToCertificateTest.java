@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_ARBETSFORMAGA_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_DIAGNOS_ID;
@@ -159,5 +160,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionArbetsformagaTrotsSjukdom() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(11, actualCertificate.getData().get(ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionArbetsformagaTrotsSjukdomBeskrivning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(12, actualCertificate.getData().get(ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID).getIndex());
     }
 }

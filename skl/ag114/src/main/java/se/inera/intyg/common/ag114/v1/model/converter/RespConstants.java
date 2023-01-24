@@ -62,8 +62,8 @@ public final class RespConstants {
     public static final String ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID = "6";
     public static final String ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_TEXT_ID = "FRG_6.RBK";
     public static final String ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_DESCRIPTION_ID = "FRG_6.HLP";
-    public static final String ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID = "6.1";
-    public static final String ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2 = "6.2";
+    public static final String ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID = "6.2";
+    public static final String ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_TEXT_ID = "DFR_6.2.RBK";
     public static final String ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID = "arbetsformagaTrotsSjukdom";
     public static final String ARBETSFORMAGA_TROTS_SJUKDOM_BESKRIVNING_SVAR_JSON_ID = "arbetsformagaTrotsSjukdomBeskrivning";
 
