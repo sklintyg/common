@@ -38,7 +38,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
-import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigTextFieldTest;
+import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigTextAreaTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationTextTest;
@@ -81,7 +81,7 @@ class QuestionAnnatBeskrivningTest {
     }
 
     @Nested
-    class IncludeConfigTextFieldTests extends ConfigTextFieldTest {
+    class IncludeConfigTextAreaTests extends ConfigTextAreaTest {
 
         @Override
         protected CertificateTextProvider getTextProviderMock() {

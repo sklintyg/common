@@ -29,7 +29,7 @@ import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextField;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
@@ -47,7 +47,7 @@ public class QuestionAnnatBeskrivning {
             .parent(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID)
             .index(index)
             .config(
-                CertificateDataConfigTextField.builder()
+                CertificateDataConfigTextArea.builder()
                     .id(GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_JSON_ID)
                     .text(texts.get(GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_TEXT_ID))
                     .build()
