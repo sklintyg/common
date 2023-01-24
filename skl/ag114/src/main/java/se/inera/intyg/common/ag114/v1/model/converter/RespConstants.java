@@ -71,6 +71,7 @@ public final class RespConstants {
     public static final String ARBETSFORMAGA_TROTS_SJUKDOM_BESKRIVNING_SVAR_JSON_ID = "arbetsformagaTrotsSjukdomBeskrivning";
 
     public static final String OVRIGT_SVAR_ID = "8";
+    public static final String OVRIGT_SVAR_TEXT_ID = "FRG_8.RBK";
     public static final String OVRIGT_DELSVAR_ID = "8.1";
     public static final String OVRIGT_SVAR_JSON_ID = "ovrigaUpplysningar";
 

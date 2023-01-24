@@ -36,6 +36,7 @@ import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.NEDSATT_ARBETSFORMAGA_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.OVRIGT_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID;
 
@@ -180,5 +181,11 @@ class InternalToCertificateTest {
     void shallIncludeCategoryOvrigt() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(14, actualCertificate.getData().get(CATEGORY_OVRIGT_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionOvrigaUpplysningar() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(15, actualCertificate.getData().get(OVRIGT_SVAR_ID).getIndex());
     }
 }
