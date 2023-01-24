@@ -46,7 +46,8 @@ angular.module('doi').constant('doi.messages', {
 
         'doi.label.status.recieved': 'Dödsorsaksintyget är signerat och har nu skickats till Socialstyrelsen.<br><br>Glöm inte att göra en journalanteckning att dödsorsaksintyg är inlämnat!',
 
-        'doi.makulera.body.common-header': '<p>För att makulera ett dödsorsaksintyg som är inskickat på fel person behöver du göra följande:</p><ol type="1"><li>Genom att trycka på ”Makulera” makulerar du dödsorsaksintyget i Webcert, men detta kommer inte att återkalla dödsorsaksintyget hos Socialstyrelsen.</li><li><b>Förutom att trycka på ”Makulera” måste du omedelbart ta kontakt med Socialstyrelsen så att felet kan åtgärdas.</b> Du tar kontakt med Socialstyrelsen genom att ringa Socialstyrelsens växel på telefon <b>075 247 30 00</b>.</li></ol>',
+        'doi.label.makulera.body.common-footer': '<b>Du ska endast makulera om intyget är utfärdat på fel person.</b> Om du behöver ändra innehållet i intyget ska du välja "Avbryt" och därefter välja "Ersätt".',
+        'doi.makulera.body.common-header': '<p>För att makulera ett dödsorsaksintyg som är skickat på fel person måste du genomföra följande två steg:</p><ol type="1"><li>Kontakta omedelbart Socialstyrelsen (Dödsorsaksproduktionen) på telefon <b class="unbreakable">075-247 39 00</b> för att begära att intyget makuleras.</li><li>Tryck på "Makulera" för att makulera dödsorsaksintyget i Webcert.</li></ol>',
         'doi.makulera.locked.body.common-header': 'Ett låst utkast kan makuleras om det är utfärdat på fel person. Genom att trycka på "Makulera" makulerar du det låsta utkastet i Webcert.',
         'doi.modal.ersatt.text.info': 'Om dödsorsaksintyget är utfärdat på fel patient ska du istället makulera dödsorsaksintyget.',
         'doi.modal.ersatt.text':
