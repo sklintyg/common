@@ -34,9 +34,12 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTe
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 
 public class QuestionArbetsformagaTrotsSjukdomBeskrivning {
+
+    private static final short LIMIT = 3500;
 
     public static CertificateDataElement toCertificate(String arbetsformagaTrotsSjukdomBeskrivning, int index,
         CertificateTextProvider textProvider) {
@@ -65,6 +68,10 @@ public class QuestionArbetsformagaTrotsSjukdomBeskrivning {
                     CertificateDataValidationShow.builder()
                         .questionId(ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID)
                         .expression(singleExpression(ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID))
+                        .build(),
+                    CertificateDataValidationText.builder()
+                        .id(ARBETSFORMAGA_TROTS_SJUKDOM_BESKRIVNING_SVAR_JSON_ID)
+                        .limit(LIMIT)
                         .build()
                 }
             )
