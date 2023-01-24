@@ -29,6 +29,7 @@ import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEG
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_BEDOMNING_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_DIAGNOS_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_GRUNDFORMU_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_KONTAKT_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_OVRIGT_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_SYSSELSATTNING_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_ID;
@@ -187,5 +188,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionOvrigaUpplysningar() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(15, actualCertificate.getData().get(OVRIGT_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryKontakt() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(16, actualCertificate.getData().get(CATEGORY_KONTAKT_ID).getIndex());
     }
 }

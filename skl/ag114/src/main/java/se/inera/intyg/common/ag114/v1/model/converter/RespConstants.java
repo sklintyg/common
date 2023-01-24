@@ -35,6 +35,7 @@ public final class RespConstants {
     public static final String CATEGORY_OVRIGT_ID = "ovrigt";
     public static final String CATEGORY_OVRIGT_TEXT_ID = "KAT_5.RBK";
     public static final String CATEGORY_KONTAKT_ID = "kontakt";
+    public static final String CATEGORY_KONTAKT_TEXT_ID = "KAT_6.RBK";
 
     public static final String TYP_AV_SYSSELSATTNING_SVAR_ID = "1";
     public static final String TYP_AV_SYSSELSATTNING_SVAR_JSON_ID = "sysselsattning";
