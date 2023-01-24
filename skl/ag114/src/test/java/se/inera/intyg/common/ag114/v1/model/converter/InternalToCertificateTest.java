@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_DIAGNOS_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_GRUNDFORMU_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_SYSSELSATTNING_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_ID;
@@ -117,5 +118,11 @@ class InternalToCertificateTest {
     void shallIncludeQuestionNuvarandeArbete() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(5, actualCertificate.getData().get(NUVARANDE_ARBETE_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryDiagnos() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(6, actualCertificate.getData().get(CATEGORY_DIAGNOS_ID).getIndex());
     }
 }

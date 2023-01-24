@@ -21,6 +21,7 @@ package se.inera.intyg.common.ag114.v1.model.converter;
 
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategoryGrundForMedicinsktUnderlag;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategorySysselsattning;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
@@ -59,6 +60,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionNuvarandeArbete.toCertificate(internalCertificate.getNuvarandeArbete(), index++, textProvider)
+            )
+            .addElement(
+                CategoryDiagnos.toCertificate(index++, textProvider)
             )
             .build();
     }
