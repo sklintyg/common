@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionArbetsformagaTrotsSjukdom;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionDiagnos;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionNedsattArbetsformaga;
@@ -81,6 +82,9 @@ public class CertificateToInternal {
                 )
                 .setNedsattArbetsformaga(
                     QuestionNedsattArbetsformaga.toInternal(certificate)
+                )
+                .setArbetsformagaTrotsSjukdom(
+                    QuestionArbetsformagaTrotsSjukdom.toInternal(certificate)
                 )
                 .build();
     }

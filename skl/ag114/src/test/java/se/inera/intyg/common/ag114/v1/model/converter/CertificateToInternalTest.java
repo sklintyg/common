@@ -35,6 +35,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionArbetsformagaTrotsSjukdom;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionDiagnos;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionNedsattArbetsformaga;
@@ -90,6 +91,7 @@ class CertificateToInternalTest {
                 List.of(Diagnos.create("F502", DIAGNOS_ICD_10_ID, "diagnosBeskrivning", null))
             )
             .setNedsattArbetsformaga("nedsattArbetsformaga")
+            .setArbetsformagaTrotsSjukdom(true)
             .build();
 
         certificate = CertificateBuilder.create()
@@ -116,6 +118,9 @@ class CertificateToInternalTest {
             )
             .addElement(
                 QuestionNedsattArbetsformaga.toCertificate(expectedInternalCertificate.getNedsattArbetsformaga(), 0, textProvider)
+            )
+            .addElement(
+                QuestionArbetsformagaTrotsSjukdom.toCertificate(expectedInternalCertificate.getArbetsformagaTrotsSjukdom(), 0, textProvider)
             )
             .build();
 
@@ -216,5 +221,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getNedsattArbetsformaga(),
             actualInternalCertificate.getNedsattArbetsformaga());
+    }
+
+    @Test
+    void shallIncludeArbetsformagaTrotsSjukdom() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getArbetsformagaTrotsSjukdom(),
+            actualInternalCertificate.getArbetsformagaTrotsSjukdom());
     }
 }
