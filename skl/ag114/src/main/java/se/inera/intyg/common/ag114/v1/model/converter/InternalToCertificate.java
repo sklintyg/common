@@ -42,6 +42,7 @@ import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.Quest
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSjukskrivningsgrad;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSjukskrivningsgradHeader;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSjukskrivningsperiod;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSjukskrivningsperiodMessage;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSysselsattningTyp;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -109,6 +110,9 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionSjukskrivningsperiod.toCertificate(internalCertificate.getSjukskrivningsperiod(), index++, textProvider)
+            )
+            .addElement(
+                QuestionSjukskrivningsperiodMessage.toCertificate(index++, textProvider)
             )
             .addElement(
                 CategoryOvrigt.toCertificate(index++, textProvider)
