@@ -24,6 +24,7 @@ import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ONSKA
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_TEXT_ID;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import java.util.List;
 import se.inera.intyg.common.fkparent.model.converter.certificate.AbstractQuestionDiagnoser;
@@ -31,17 +32,28 @@ import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
 public class QuestionDiagnos extends AbstractQuestionDiagnoser {
 
     public static CertificateDataElement toCertificate(List<Diagnos> diagnoser, int index, CertificateTextProvider textProvider) {
         return toCertificate(diagnoser, TYP_AV_DIAGNOS_SVAR_ID, CATEGORY_DIAGNOS_ID, TYP_AV_DIAGNOS_SVAR_TEXT_ID, null,
-            getAdditionalShowValidation(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID, ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID), index,
+            getAdditionalValidations(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID, ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID), index,
             textProvider);
     }
 
     public static List<Diagnos> toInternal(Certificate certificate, WebcertModuleService webcertModuleService) {
         return toInternal(certificate, TYP_AV_DIAGNOS_SVAR_ID, webcertModuleService);
+    }
+
+    private static List<CertificateDataValidation> getAdditionalValidations(String questionId, String jsonId) {
+        return List.of(
+            CertificateDataValidationShow.builder()
+                .questionId(questionId)
+                .expression(singleExpression(jsonId))
+                .build()
+        );
     }
 }

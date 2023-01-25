@@ -41,7 +41,6 @@ import se.inera.intyg.common.support.facade.model.config.DiagnosesListItem;
 import se.inera.intyg.common.support.facade.model.config.DiagnosesTerminology;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
@@ -52,7 +51,7 @@ public abstract class AbstractQuestionDiagnoser {
     public static final short LIMIT_DIAGNOSIS_DESC = (short) 81;
 
     protected static CertificateDataElement toCertificate(List<Diagnos> diagnoser, String questionId, String parentId, String textId,
-        String descriptionId, CertificateDataValidation additionalShowValidation, int index,
+        String descriptionId, List<CertificateDataValidation> additionalValidations, int index,
         CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
             .id(questionId)
@@ -95,25 +94,32 @@ public abstract class AbstractQuestionDiagnoser {
                     .build()
             )
             .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(questionId)
-                        .expression(withCitation(singleExpression(DIAGNOSES_LIST_ITEM_1_ID)))
-                        .build(),
-                    CertificateDataValidationText.builder()
-                        .limit(LIMIT_DIAGNOSIS_DESC)
-                        .build(),
-                    additionalShowValidation
-                }
+                getValidations(additionalValidations, questionId)
             )
             .build();
     }
 
-    protected static CertificateDataValidation getAdditionalShowValidation(String questionId, String jsonId) {
-        return CertificateDataValidationShow.builder()
-            .questionId(questionId)
-            .expression(singleExpression(jsonId))
-            .build();
+    private static CertificateDataValidation[] getValidations(List<CertificateDataValidation> additionalValidations, String questionId) {
+        final var certificateDataValidationsList = new ArrayList<CertificateDataValidation>();
+
+        certificateDataValidationsList.add(
+            CertificateDataValidationMandatory.builder()
+                .questionId(questionId)
+                .expression(withCitation(singleExpression(DIAGNOSES_LIST_ITEM_1_ID)))
+                .build());
+        certificateDataValidationsList.add(
+            CertificateDataValidationText.builder()
+                .limit(LIMIT_DIAGNOSIS_DESC)
+                .build());
+
+        if (additionalValidations != null) {
+            certificateDataValidationsList.addAll(
+                additionalValidations
+            );
+        }
+
+        final var certificateDataValidationsArray = new CertificateDataValidation[certificateDataValidationsList.size()];
+        return certificateDataValidationsList.toArray(certificateDataValidationsArray);
     }
 
     private static List<CertificateDataValueDiagnosis> createDiagnosValue(List<Diagnos> diagnoses) {
