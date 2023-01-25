@@ -19,7 +19,7 @@
 
 package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_BEDOMNING_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_HEADER_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_SVAR_JSON_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_SVAR_TEXT_ID;
@@ -43,7 +43,7 @@ public class QuestionSjukskrivningsgrad {
     public static CertificateDataElement toCertificate(String sjukskrivningsgrad, int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
             .id(SJUKSKRIVNINGSGRAD_SVAR_ID)
-            .parent(CATEGORY_BEDOMNING_ID)
+            .parent(SJUKSKRIVNINGSGRAD_HEADER_ID)
             .index(index)
             .config(
                 CertificateDataConfigInteger.builder()
