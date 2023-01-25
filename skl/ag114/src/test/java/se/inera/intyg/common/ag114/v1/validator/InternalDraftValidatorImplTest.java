@@ -39,6 +39,7 @@ import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.NEDSATT_ARBETSFORMAGA_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.validator.InternalDraftValidatorImpl.AG114_SJUKSKRIVNINGSGRAD_INVALID_PERCENT;
@@ -177,6 +178,7 @@ public class InternalDraftValidatorImplTest {
         Assert.assertEquals(CATEGORY_BEDOMNING, error.getCategory());
         Assert.assertEquals(SJUKSKRIVNINGSGRAD_SVAR_JSON_ID_7_1, error.getField());
         assertEquals(ValidationMessageType.EMPTY, error.getType());
+        assertEquals(SJUKSKRIVNINGSGRAD_SVAR_ID, error.getQuestionId());
     }
 
     @Test
@@ -189,6 +191,8 @@ public class InternalDraftValidatorImplTest {
         Assert.assertEquals(SJUKSKRIVNINGSGRAD_SVAR_JSON_ID_7_1, error.getField());
         assertEquals(ValidationMessageType.OTHER, error.getType());
         assertEquals(AG114_SJUKSKRIVNINGSGRAD_INVALID_PERCENT, error.getMessage());
+        assertEquals(SJUKSKRIVNINGSGRAD_SVAR_ID, error.getQuestionId());
+
     }
 
     @Test
