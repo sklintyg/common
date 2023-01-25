@@ -46,6 +46,7 @@ import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.Quest
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionOnskaFormedlaDiagnos;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionOvrigaUpplysningar;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSjukskrivningsgrad;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSjukskrivningsperiod;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSysselsattningTyp;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
@@ -55,6 +56,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -77,7 +79,9 @@ class CertificateToInternalTest {
     @BeforeEach
     void setUp() {
         when(textProvider.get(anyString())).thenReturn("Test string");
-
+        final var internalLocalDateInterval = new InternalLocalDateInterval();
+        internalLocalDateInterval.setFrom(new InternalDate(LocalDate.now()));
+        internalLocalDateInterval.setTom(new InternalDate(LocalDate.now()));
         expectedInternalCertificate = Ag114UtlatandeV1.builder()
             .setId("id")
             .setTextVersion("textVersion")
@@ -102,6 +106,7 @@ class CertificateToInternalTest {
             .setKontaktMedArbetsgivaren(true)
             .setAnledningTillKontakt("anledningTillKontakt")
             .setSjukskrivningsgrad("15")
+            .setSjukskrivningsperiod(internalLocalDateInterval)
             .build();
 
         certificate = CertificateBuilder.create()
@@ -147,6 +152,9 @@ class CertificateToInternalTest {
             )
             .addElement(
                 QuestionSjukskrivningsgrad.toCertificate(expectedInternalCertificate.getSjukskrivningsgrad(), 0, textProvider)
+            )
+            .addElement(
+                QuestionSjukskrivningsperiod.toCertificate(expectedInternalCertificate.getSjukskrivningsperiod(), 0, textProvider)
             )
             .build();
 
@@ -289,5 +297,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getSjukskrivningsgrad(),
             actualInternalCertificate.getSjukskrivningsgrad());
+    }
+
+    @Test
+    void shallIncludeSjukskrivningsgPeriod() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getSjukskrivningsperiod(),
+            actualInternalCertificate.getSjukskrivningsperiod());
     }
 }
