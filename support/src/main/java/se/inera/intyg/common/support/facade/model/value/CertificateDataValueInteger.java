@@ -34,6 +34,7 @@ public class CertificateDataValueInteger implements CertificateDataValue {
     CertificateDataValueType type = CertificateDataValueType.INTEGER;
     String id;
     Integer value;
+    String unitOfMeasurement;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataValueIntegerBuilder {

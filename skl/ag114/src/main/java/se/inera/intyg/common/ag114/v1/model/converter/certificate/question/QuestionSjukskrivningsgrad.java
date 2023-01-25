@@ -26,6 +26,7 @@ import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKS
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_UNIT_OF_MEASURE;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.integerValue;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.isNumeric;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -49,7 +50,7 @@ public class QuestionSjukskrivningsgrad {
                 CertificateDataConfigInteger.builder()
                     .id(SJUKSKRIVNINGSGRAD_SVAR_JSON_ID)
                     .text(textProvider.get(SJUKSKRIVNINGSGRAD_SVAR_TEXT_ID))
-                    .unit(SJUKSKRIVNINGSGRAD_UNIT_OF_MEASURE)
+                    .unitOfMeasurement(SJUKSKRIVNINGSGRAD_UNIT_OF_MEASURE)
                     .min(MIN)
                     .max(MAX)
                     .build()
@@ -58,6 +59,7 @@ public class QuestionSjukskrivningsgrad {
                 CertificateDataValueInteger.builder()
                     .id(SJUKSKRIVNINGSGRAD_SVAR_JSON_ID)
                     .value(isNumeric(sjukskrivningsgrad) ? Integer.valueOf(sjukskrivningsgrad) : null)
+                    .unitOfMeasurement(SJUKSKRIVNINGSGRAD_UNIT_OF_MEASURE)
                     .build()
             )
             .validation(
@@ -69,18 +71,6 @@ public class QuestionSjukskrivningsgrad {
                 }
             )
             .build();
-    }
-
-    private static boolean isNumeric(String stringNumber) {
-        if (stringNumber == null || stringNumber.isEmpty()) {
-            return false;
-        }
-        try {
-            Integer.parseInt(stringNumber);
-        } catch (NumberFormatException exception) {
-            return false;
-        }
-        return true;
     }
 
     public static String toInternal(Certificate certificate) {

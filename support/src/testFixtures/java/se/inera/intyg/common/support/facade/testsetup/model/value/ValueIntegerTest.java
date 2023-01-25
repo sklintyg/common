@@ -33,6 +33,8 @@ public abstract class ValueIntegerTest extends ValueTest {
 
     protected abstract Integer getValue();
 
+    protected abstract String getUnitOfMeasurement();
+
     @Override
     protected CertificateDataValueType getType() {
         return CertificateDataValueType.INTEGER;
@@ -50,5 +52,12 @@ public abstract class ValueIntegerTest extends ValueTest {
         final var question = getElement();
         final var value = (CertificateDataValueInteger) question.getValue();
         assertEquals(getValue(), value.getValue());
+    }
+
+    @Test
+    void shouldIncludeUnitOfMeasurement() {
+        final var question = getElement();
+        final var value = (CertificateDataValueInteger) question.getValue();
+        assertEquals(getUnitOfMeasurement(), value.getUnitOfMeasurement());
     }
 }

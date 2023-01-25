@@ -236,6 +236,18 @@ public final class ValueToolkit {
         return element.getValue();
     }
 
+    public static boolean isNumeric(String stringNumber) {
+        if (stringNumber == null || stringNumber.isEmpty()) {
+            return false;
+        }
+        try {
+            Integer.parseInt(stringNumber);
+        } catch (NumberFormatException exception) {
+            return false;
+        }
+        return true;
+    }
+
     public static GrundData grundData(CertificateMetadata metadata, GrundData grundData) {
         if (metadata == null) {
             return grundData;

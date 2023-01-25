@@ -45,7 +45,7 @@ public class CertificateDataConfigInteger implements CertificateDataConfig {
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
     String id;
-    String unit;
+    String unitOfMeasurement;
     Integer min;
     Integer max;
 

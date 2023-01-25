@@ -109,6 +109,7 @@ public abstract class AbstractQuestionDiagnoser {
                 .build());
         certificateDataValidationsList.add(
             CertificateDataValidationText.builder()
+                .id(questionId)
                 .limit(LIMIT_DIAGNOSIS_DESC)
                 .build());
 
@@ -151,7 +152,7 @@ public abstract class AbstractQuestionDiagnoser {
 
     protected static List<Diagnos> toInternal(Certificate certificate, String questionId, WebcertModuleService moduleService) {
         var diagnosisList = diagnosisListValue(certificate.getData(), questionId);
-        int maxDiagnosIndex = getMaxDiagnosIndex(diagnosisList);
+        int maxDiagnosIndex = getMaxDiagnosisIndex(diagnosisList);
 
         List<Diagnos> newDiagnosisList = new ArrayList<>();
         while (newDiagnosisList.size() < maxDiagnosIndex) {
@@ -169,7 +170,7 @@ public abstract class AbstractQuestionDiagnoser {
         return newDiagnosisList;
     }
 
-    private static int getMaxDiagnosIndex(List<CertificateDataValueDiagnosis> diagnosisList) {
+    private static int getMaxDiagnosisIndex(List<CertificateDataValueDiagnosis> diagnosisList) {
         int value = 0;
         for (CertificateDataValueDiagnosis diagnosis : diagnosisList) {
             int diagnosisIndex = convertIdToInt(diagnosis.getId()) + 1;

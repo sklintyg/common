@@ -32,7 +32,7 @@ public abstract class ConfigIntegerTest extends ConfigTest {
 
     protected abstract Integer getMax();
 
-    protected abstract String getUnit();
+    protected abstract String getUnitOfMeasurement();
 
     @Override
     protected CertificateDataConfigTypes getType() {
@@ -64,6 +64,6 @@ public abstract class ConfigIntegerTest extends ConfigTest {
     void shouldIncludeUnit() {
         final var question = getElement();
         final var config = (CertificateDataConfigInteger) question.getConfig();
-        assertEquals(getUnit(), config.getUnit());
+        assertEquals(getUnitOfMeasurement(), config.getUnitOfMeasurement());
     }
 }

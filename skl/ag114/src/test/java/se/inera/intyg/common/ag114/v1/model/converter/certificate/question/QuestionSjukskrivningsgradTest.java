@@ -99,7 +99,7 @@ class QuestionSjukskrivningsgradTest {
         }
 
         @Override
-        protected String getUnit() {
+        protected String getUnitOfMeasurement() {
             return SJUKSKRIVNINGSGRAD_UNIT_OF_MEASURE;
         }
 
@@ -140,6 +140,11 @@ class QuestionSjukskrivningsgradTest {
         @Override
         protected Integer getValue() {
             return 100;
+        }
+
+        @Override
+        protected String getUnitOfMeasurement() {
+            return SJUKSKRIVNINGSGRAD_UNIT_OF_MEASURE;
         }
     }
 
