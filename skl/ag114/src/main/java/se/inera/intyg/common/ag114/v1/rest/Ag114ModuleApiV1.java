@@ -35,7 +35,7 @@ import se.inera.intyg.common.ag114.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.ag114.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.ag114.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
-import se.inera.intyg.common.agparent.model.internal.Diagnos;
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.agparent.rest.AgParentModuleApi;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvider;

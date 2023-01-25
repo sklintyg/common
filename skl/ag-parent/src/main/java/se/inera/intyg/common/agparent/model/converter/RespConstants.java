@@ -32,14 +32,6 @@ public final class RespConstants {
     public static final String ARBETSLIVSINRIKTADE_ATGARDER_CODE_SYSTEM = "KV_FKMU_0004";
     public static final String PROGNOS_CODE_SYSTEM = "KV_FKMU_0006";
     public static final String PROGNOS_DAGAR_TILL_ARBETE_CODE_SYSTEM = "KV_FKMU_0007";
-    public static final String DIAGNOS_ICD_10_ID = "ICD_10_SE";
-    public static final String DIAGNOS_ICD_10_LABEL = "ICD-10-SE";
-    public static final String DIAGNOS_KSH_97_ID = "KSH_97_P";
-    public static final String DIAGNOS_KSH_97_LABEL = "KSH97-P (Primärvård)";
-    public static final String DIAGNOSES_LIST_ITEM_1_ID = "diagnoser[0].row";
-    public static final String DIAGNOSES_LIST_ITEM_2_ID = "diagnoser[1].diagnoskod";
-    public static final String DIAGNOSES_LIST_ITEM_3_ID = "diagnoser[2].diagnoskod";
-
 
     private RespConstants() {
     }

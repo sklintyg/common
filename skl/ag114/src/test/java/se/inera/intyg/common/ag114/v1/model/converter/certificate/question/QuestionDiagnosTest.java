@@ -22,15 +22,17 @@ package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_DIAGNOS_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_TEXT_ID;
-import static se.inera.intyg.common.agparent.model.converter.RespConstants.DIAGNOSES_LIST_ITEM_1_ID;
-import static se.inera.intyg.common.agparent.model.converter.RespConstants.DIAGNOSES_LIST_ITEM_2_ID;
-import static se.inera.intyg.common.agparent.model.converter.RespConstants.DIAGNOSES_LIST_ITEM_3_ID;
-import static se.inera.intyg.common.agparent.model.converter.RespConstants.DIAGNOS_ICD_10_ID;
-import static se.inera.intyg.common.agparent.model.converter.RespConstants.DIAGNOS_ICD_10_LABEL;
-import static se.inera.intyg.common.agparent.model.converter.RespConstants.DIAGNOS_KSH_97_ID;
-import static se.inera.intyg.common.agparent.model.converter.RespConstants.DIAGNOS_KSH_97_LABEL;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOSES_LIST_ITEM_1_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOSES_LIST_ITEM_2_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOSES_LIST_ITEM_3_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_ICD_10_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_ICD_10_LABEL;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_KSH_97_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_KSH_97_LABEL;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.withCitation;
 
@@ -43,7 +45,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import se.inera.intyg.common.agparent.model.internal.Diagnos;
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -52,6 +54,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiag
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigDiagnosTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
+import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationTextTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalValueTest;
@@ -286,6 +289,30 @@ class QuestionDiagnosTest {
         @Override
         protected short getLimit() {
             return (short) 81;
+        }
+    }
+
+    @Nested
+    class IncludeValidationShowTests extends ValidationShowTest {
+
+        @Override
+        protected String getQuestionId() {
+            return ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID;
+        }
+
+        @Override
+        protected String getExpression() {
+            return "$" + ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID;
+        }
+
+        @Override
+        protected CertificateDataElement getElement() {
+            return QuestionDiagnos.toCertificate(null, 0, textProvider);
+        }
+
+        @Override
+        protected int getValidationIndex() {
+            return 2;
         }
     }
 

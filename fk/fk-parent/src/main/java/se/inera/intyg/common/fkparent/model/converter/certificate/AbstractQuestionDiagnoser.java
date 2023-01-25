@@ -32,7 +32,6 @@ import static se.inera.intyg.common.support.facade.util.ValueToolkit.diagnosisLi
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -42,6 +41,7 @@ import se.inera.intyg.common.support.facade.model.config.DiagnosesListItem;
 import se.inera.intyg.common.support.facade.model.config.DiagnosesTerminology;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
@@ -51,8 +51,9 @@ public abstract class AbstractQuestionDiagnoser {
 
     public static final short LIMIT_DIAGNOSIS_DESC = (short) 81;
 
-    protected static CertificateDataElement toCertificate(List<Diagnos> diagnoser, String questionId, String parentId, int index,
-        String textId, String descriptionId, CertificateTextProvider textProvider) {
+    protected static CertificateDataElement toCertificate(List<Diagnos> diagnoser, String questionId, String parentId, String textId,
+        String descriptionId, CertificateDataValidation additionalShowValidation, int index,
+        CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
             .id(questionId)
             .parent(parentId)
@@ -101,9 +102,17 @@ public abstract class AbstractQuestionDiagnoser {
                         .build(),
                     CertificateDataValidationText.builder()
                         .limit(LIMIT_DIAGNOSIS_DESC)
-                        .build()
+                        .build(),
+                    additionalShowValidation
                 }
             )
+            .build();
+    }
+
+    protected static CertificateDataValidation getAdditionalShowValidation(String questionId, String jsonId) {
+        return CertificateDataValidationShow.builder()
+            .questionId(questionId)
+            .expression(singleExpression(jsonId))
             .build();
     }
 
@@ -135,7 +144,7 @@ public abstract class AbstractQuestionDiagnoser {
     }
 
     protected static List<Diagnos> toInternal(Certificate certificate, String questionId, WebcertModuleService moduleService) {
-        var diagnosisList = diagnosisListValue(certificate.getData(), RespConstants.DIAGNOS_SVAR_ID_6);
+        var diagnosisList = diagnosisListValue(certificate.getData(), questionId);
         int maxDiagnosIndex = getMaxDiagnosIndex(diagnosisList);
 
         List<Diagnos> newDiagnosisList = new ArrayList<>();
