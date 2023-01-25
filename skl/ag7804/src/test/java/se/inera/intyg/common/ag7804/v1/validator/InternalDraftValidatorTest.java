@@ -48,7 +48,7 @@ import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
 import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
-import se.inera.intyg.common.agparent.model.internal.Diagnos;
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -569,8 +569,8 @@ public class InternalDraftValidatorTest {
         Ag7804UtlatandeV1 utlatande = builderTemplate
             .setSjukskrivningar(
                 Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
-                    new InternalLocalDateInterval(new InternalDate(LocalDate.now()),
-                        new InternalDate(LocalDate.now().plusDays(2)))),
+                        new InternalLocalDateInterval(new InternalDate(LocalDate.now()),
+                            new InternalDate(LocalDate.now().plusDays(2)))),
                     Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
                         new InternalDate(LocalDate.now().plusDays(3)), new InternalDate(LocalDate.now().plusDays(4))))))
             .setArbetstidsforlaggning(false)
@@ -586,8 +586,8 @@ public class InternalDraftValidatorTest {
         Ag7804UtlatandeV1 utlatande = builderTemplate
             .setSjukskrivningar(
                 Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
-                    new InternalLocalDateInterval(new InternalDate(LocalDate.now()),
-                        new InternalDate(LocalDate.now().plusDays(2)))),
+                        new InternalLocalDateInterval(new InternalDate(LocalDate.now()),
+                            new InternalDate(LocalDate.now().plusDays(2)))),
                     Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
                         new InternalDate(LocalDate.now().plusDays(1)), new InternalDate(LocalDate.now().plusDays(2))))))
             .setArbetstidsforlaggning(false)
@@ -609,8 +609,8 @@ public class InternalDraftValidatorTest {
         Ag7804UtlatandeV1 utlatande = builderTemplate
             .setSjukskrivningar(
                 Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
-                    new InternalLocalDateInterval(new InternalDate(LocalDate.now().plusDays(1)),
-                        new InternalDate(LocalDate.now().plusDays(2)))),
+                        new InternalLocalDateInterval(new InternalDate(LocalDate.now().plusDays(1)),
+                            new InternalDate(LocalDate.now().plusDays(2)))),
                     Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
                         new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now().plusDays(2))))))
             .setArbetstidsforlaggning(false)
@@ -632,8 +632,8 @@ public class InternalDraftValidatorTest {
         Ag7804UtlatandeV1 utlatande = builderTemplate
             .setSjukskrivningar(
                 Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
-                    new InternalLocalDateInterval(new InternalDate(LocalDate.now()),
-                        new InternalDate(LocalDate.now().plusDays(2)))),
+                        new InternalLocalDateInterval(new InternalDate(LocalDate.now()),
+                            new InternalDate(LocalDate.now().plusDays(2)))),
                     Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
                         new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now().plusDays(2))))))
             .setArbetstidsforlaggning(false)

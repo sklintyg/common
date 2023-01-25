@@ -31,7 +31,7 @@ import java.util.List;
 
 import com.google.common.base.Strings;
 
-import se.inera.intyg.common.agparent.model.internal.Diagnos;
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;

@@ -82,7 +82,7 @@ import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning.SjukskrivningsG
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
-import se.inera.intyg.common.agparent.model.internal.Diagnos;
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;

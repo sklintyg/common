@@ -21,6 +21,7 @@ package se.inera.intyg.common.ag114.v1.model.converter;
 
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.MetaDataGrundData;
+
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategoryArbetsformaga;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategoryBedomning;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.category.CategoryDiagnos;

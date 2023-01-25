@@ -40,7 +40,6 @@ public final class RespConstants {
     public static final String DIAGNOSES_LIST_ITEM_2_ID = "diagnoser[1].diagnoskod";
     public static final String DIAGNOSES_LIST_ITEM_3_ID = "diagnoser[2].diagnoskod";
 
-
     private RespConstants() {
     }
 

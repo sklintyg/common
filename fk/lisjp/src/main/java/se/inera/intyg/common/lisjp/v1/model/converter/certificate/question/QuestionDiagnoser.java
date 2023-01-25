@@ -34,7 +34,8 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 public class QuestionDiagnoser extends AbstractQuestionDiagnoser {
 
     public static CertificateDataElement toCertificate(List<Diagnos> diagnoser, int index, CertificateTextProvider textProvider) {
-        return toCertificate(diagnoser, DIAGNOS_SVAR_ID_6, DIAGNOS_CATEGORY_ID, index, DIAGNOS_SVAR_TEXT_ID, DIAGNOS_SVAR_DESCRIPTION_ID,
+        return toCertificate(diagnoser, DIAGNOS_SVAR_ID_6, DIAGNOS_CATEGORY_ID, DIAGNOS_SVAR_TEXT_ID, DIAGNOS_SVAR_DESCRIPTION_ID, null,
+            index,
             textProvider);
     }
 
