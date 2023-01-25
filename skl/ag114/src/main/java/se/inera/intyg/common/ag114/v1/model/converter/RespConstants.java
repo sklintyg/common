@@ -68,10 +68,11 @@ public final class RespConstants {
     public static final String OVRIGT_SVAR_TEXT_ID = "FRG_8.RBK";
     public static final String OVRIGT_DELSVAR_ID = "8.1";
     public static final String OVRIGT_SVAR_JSON_ID = "ovrigaUpplysningar";
-    public static final String BEDOMNING_SVAR_I = "7";
-    public static final String SJUKSKRIVNINGSGRAD_DELSVAR_ID = "7.1";
+    public static final String BEDOMNING_SVAR_ID = "7";
+    public static final String SJUKSKRIVNINGSGRAD_SVAR_ID = "7.1";
     public static final String SJUKSKRIVNINGSPERIOD_DELSVAR_ID = "7.2";
     public static final String SJUKSKRIVNINGSGRAD_SVAR_JSON_ID = "sjukskrivningsgrad";
+    public static final String SJUKSKRIVNINGSGRAD_SVAR_TEXT_ID = "DFR_7.1.RBK";
     public static final String SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID = "sjukskrivningsperiod";
     public static final String SJUKSKRIVNINGSGRAD_UNIT_OF_MEASURE = "%";
     public static final String KONTAKT_ONSKAS_SVAR_ID = "9";

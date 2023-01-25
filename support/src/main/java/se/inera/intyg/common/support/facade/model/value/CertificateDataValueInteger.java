@@ -18,8 +18,25 @@
  */
 package se.inera.intyg.common.support.facade.model.value;
 
-public enum CertificateDataValueType {
-    BOOLEAN, TEXT, DATE, DATE_LIST, DATE_RANGE, DATE_RANGE_LIST, CODE_LIST, CODE, DIAGNOSIS_LIST, DIAGNOSIS, ICF, UNKOWN, UNCERTAIN_DATE,
-    CAUSE_OF_DEATH_LIST, MEDICAL_INVESTIGATION_LIST, MEDICAL_INVESTIGATION, VISUAL_ACUITIES, DOUBLE, VISUAL_ACUITY, VIEW_TEXT,
-    VIEW_LIST, VIEW_TABLE, VIEW_ROW, YEAR, INTEGER, CAUSE_OF_DEATH
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Value;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueInteger.CertificateDataValueIntegerBuilder;
+
+@JsonDeserialize(builder = CertificateDataValueIntegerBuilder.class)
+@Value
+@Builder
+public class CertificateDataValueInteger implements CertificateDataValue {
+
+    @Getter(onMethod = @__(@Override))
+    CertificateDataValueType type = CertificateDataValueType.INTEGER;
+    String id;
+    Integer value;
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class CertificateDataValueIntegerBuilder {
+
+    }
 }
