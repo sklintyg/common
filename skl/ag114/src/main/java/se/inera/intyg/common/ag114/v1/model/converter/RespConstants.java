@@ -23,58 +23,68 @@ package se.inera.intyg.common.ag114.v1.model.converter;
  */
 public final class RespConstants {
 
-    public static final String CATEGORY_GRUNDFORMU = "grundformu";
-    public static final String CATEGORY_SYSSELSATTNING = "sysselsattning";
-    public static final String CATEGORY_DIAGNOS = "diagnos";
-    public static final String CATEGORY_ARBETSFORMAGA = "arbetsformaga";
-    public static final String CATEGORY_BEDOMNING = "bedomning";
-    public static final String CATEGORY_KONTAKT = "kontakt";
-
+    public static final String CATEGORY_GRUNDFORMU_ID = "grundformu";
+    public static final String CATEGORY_SYSSELSATTNING_ID = "sysselsattning";
+    public static final String CATEGORY_SYSSELSATTNING_TEXT_ID = "KAT_1.RBK";
+    public static final String CATEGORY_DIAGNOS_ID = "diagnos";
+    public static final String CATEGORY_DIAGNOS_TEXT_ID = "KAT_2.RBK";
+    public static final String CATEGORY_ARBETSFORMAGA_ID = "arbetsformaga";
+    public static final String CATEGORY_ARBETSFORMAGA_TEXT_ID = "KAT_3.RBK";
+    public static final String CATEGORY_BEDOMNING_ID = "bedomning";
+    public static final String CATEGORY_BEDOMNING_TEXT_ID = "KAT_4.RBK";
+    public static final String CATEGORY_OVRIGT_ID = "ovrigt";
+    public static final String CATEGORY_OVRIGT_TEXT_ID = "KAT_5.RBK";
+    public static final String CATEGORY_KONTAKT_ID = "kontakt";
+    public static final String CATEGORY_KONTAKT_TEXT_ID = "KAT_6.RBK";
     public static final String TYP_AV_SYSSELSATTNING_SVAR_ID = "1";
-    public static final String TYP_AV_SYSSELSATTNING_DELSVAR_ID = "1.1";
     public static final String TYP_AV_SYSSELSATTNING_SVAR_JSON_ID = "sysselsattning";
-
+    public static final String TYP_AV_SYSSELSATTNING_SVAR_LABEL_ID = "KV_FKMU_0002.NUVARANDE_ARBETE.RBK";
+    public static final String TYP_AV_SYSSELSATTNING_SVAR_TEXT_ID = "FRG_1.RBK";
+    public static final String ANSWER_YES = "Ja";
+    public static final String ANSWER_NO = "Nej";
+    public static final String ANSWER_NOT_SELECTED = "Ej angivet";
     public static final String NUVARANDE_ARBETE_SVAR_ID = "2";
-    public static final String NUVARANDE_ARBETE_DELSVAR_ID = "2.1";
+    public static final String NUVARANDE_ARBETE_SVAR_TEXT_ID = "FRG_2.RBK";
+    public static final String NUVARANDE_ARBETE_SVAR_DESCRIPTION_ID = "FRG_2.HLP";
     public static final String NUVARANDE_ARBETE_SVAR_JSON_ID = "nuvarandeArbete";
-
     public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID = "3";
-    public static final String ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID = "3.1";
+    public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_TEXT_ID = "FRG_3.RBK";
+    public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_DESCRIPTION_ID = "FRG_3.HLP";
     public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID = "onskarFormedlaDiagnos";
-
     public static final String TYP_AV_DIAGNOS_SVAR_ID = "4";
-    public static final String TYP_AV_DIAGNOS_BESKRIVNING_DELSVAR_ID = "4.1";
-    public static final String TYP_AV_DIAGNOS_DELSVAR_ID = "4.2";
-    public static final String TYP_AV_DIAGNOS_SVAR_JSON_ID = "diagnoser";
-
+    public static final String TYP_AV_DIAGNOS_SVAR_TEXT_ID = "FRG_4.RBK";
     public static final String NEDSATT_ARBETSFORMAGA_SVAR_ID = "5";
-    public static final String NEDSATT_ARBETSFORMAGA_DELSVAR_ID = "5.1";
+    public static final String NEDSATT_ARBETSFORMAGA_SVAR_TEXT_ID = "FRG_5.RBK";
+    public static final String NEDSATT_ARBETSFORMAGA_SVAR_DESCRIPTION_ID = "FRG_5.HLP";
     public static final String NEDSATT_ARBETSFORMAGA_SVAR_JSON_ID = "nedsattArbetsformaga";
-
     public static final String ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID = "6";
-    public static final String ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID = "6.1";
-    public static final String ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2 = "6.2";
+    public static final String ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_TEXT_ID = "FRG_6.RBK";
+    public static final String ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_DESCRIPTION_ID = "FRG_6.HLP";
+    public static final String ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID = "6.2";
+    public static final String ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_TEXT_ID = "DFR_6.2.RBK";
     public static final String ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID = "arbetsformagaTrotsSjukdom";
     public static final String ARBETSFORMAGA_TROTS_SJUKDOM_BESKRIVNING_SVAR_JSON_ID = "arbetsformagaTrotsSjukdomBeskrivning";
-
     public static final String OVRIGT_SVAR_ID = "8";
+    public static final String OVRIGT_SVAR_TEXT_ID = "FRG_8.RBK";
     public static final String OVRIGT_DELSVAR_ID = "8.1";
     public static final String OVRIGT_SVAR_JSON_ID = "ovrigaUpplysningar";
-
     public static final String BEDOMNING_SVAR_I = "7";
     public static final String SJUKSKRIVNINGSGRAD_DELSVAR_ID = "7.1";
     public static final String SJUKSKRIVNINGSPERIOD_DELSVAR_ID = "7.2";
     public static final String SJUKSKRIVNINGSGRAD_SVAR_JSON_ID = "sjukskrivningsgrad";
     public static final String SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID = "sjukskrivningsperiod";
     public static final String SJUKSKRIVNINGSGRAD_UNIT_OF_MEASURE = "%";
-
     public static final String KONTAKT_ONSKAS_SVAR_ID = "9";
     public static final String KONTAKT_ONSKAS_DELSVAR_ID = "9.1";
     public static final String KONTAKT_ONSKAS_SVAR_JSON_ID = "kontaktMedArbetsgivaren";
-    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID = "anledningTillKontakt";
+    public static final String KONTAKT_ONSKAS_SVAR_LABEL_ID = "FRG_9.RBK";
     public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_ID = "9.2";
-
+    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID = "anledningTillKontakt";
+    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT_ID = "DFR_9.2.RBK";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT_ID = "KAT_7.RBK";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID = "10";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT_ID = "FRG_10.RBK";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_DESCRIPTION_TEXT_ID = "FRG_10.HLP";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID = "baseratPa";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID = "10.1";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID = "10.2";
@@ -82,8 +92,10 @@ public final class RespConstants {
     public static final String GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID = "journaluppgifter";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID = "telefonkontaktMedPatienten";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID = "annatGrundForMU";
-    public static final String GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID = "10.3";
-    public static final String GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID = "annatGrundForMUBeskrivning";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_ID = "10.3";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_JSON_ID = "annatGrundForMUBeskrivning";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_TEXT_ID = "DFR_10.3.RBK";
+
 
     private RespConstants() {
     }

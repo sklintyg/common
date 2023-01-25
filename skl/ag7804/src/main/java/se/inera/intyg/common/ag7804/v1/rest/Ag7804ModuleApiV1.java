@@ -40,7 +40,7 @@ import se.inera.intyg.common.ag7804.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.ag7804.v1.model.mapper.FK7804ToAG7804Mapper;
 import se.inera.intyg.common.ag7804.v1.pdf.PdfGenerator;
-import se.inera.intyg.common.agparent.model.internal.Diagnos;
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.agparent.rest.AgParentModuleApi;
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;

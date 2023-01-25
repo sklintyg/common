@@ -33,7 +33,6 @@ public final class RespConstants {
     public static final String PROGNOS_CODE_SYSTEM = "KV_FKMU_0006";
     public static final String PROGNOS_DAGAR_TILL_ARBETE_CODE_SYSTEM = "KV_FKMU_0007";
 
-
     private RespConstants() {
     }
 

@@ -19,6 +19,29 @@
 
 package se.inera.intyg.common.ag114.v1.model.converter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_ARBETSFORMAGA_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_BEDOMNING_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_DIAGNOS_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_GRUNDFORMU_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_KONTAKT_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_OVRIGT_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_SYSSELSATTNING_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.NEDSATT_ARBETSFORMAGA_SVAR_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.OVRIGT_SVAR_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -74,5 +97,119 @@ class InternalToCertificateTest {
     void shallIncludeMetadata() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertNotNull(actualCertificate.getMetadata(), "Shall contain metadata");
+    }
+
+    @Test
+    void shallIncludeCategoryGrundForMedicinsktUnderlag() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(0, actualCertificate.getData().get(CATEGORY_GRUNDFORMU_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionIntygetBaseratPa() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(1, actualCertificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionAnnatBeskrivning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(2, actualCertificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategorySysselsattning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(3, actualCertificate.getData().get(CATEGORY_SYSSELSATTNING_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionSysselsattningTyp() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(4, actualCertificate.getData().get(TYP_AV_SYSSELSATTNING_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionNuvarandeArbete() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(5, actualCertificate.getData().get(NUVARANDE_ARBETE_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryDiagnos() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(6, actualCertificate.getData().get(CATEGORY_DIAGNOS_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionOnskaFormedlaDiagnos() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(7, actualCertificate.getData().get(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionDiagnos() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(8, actualCertificate.getData().get(TYP_AV_DIAGNOS_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryArbetsformaga() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(9, actualCertificate.getData().get(CATEGORY_ARBETSFORMAGA_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionNedsattArbetsformaga() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(10, actualCertificate.getData().get(NEDSATT_ARBETSFORMAGA_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionArbetsformagaTrotsSjukdom() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(11, actualCertificate.getData().get(ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionArbetsformagaTrotsSjukdomBeskrivning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(12, actualCertificate.getData().get(ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryBedomning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(13, actualCertificate.getData().get(CATEGORY_BEDOMNING_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryOvrigt() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(14, actualCertificate.getData().get(CATEGORY_OVRIGT_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionOvrigaUpplysningar() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(15, actualCertificate.getData().get(OVRIGT_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryKontakt() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(16, actualCertificate.getData().get(CATEGORY_KONTAKT_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionKontaktMedArbetsgivaren() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(17, actualCertificate.getData().get(KONTAKT_ONSKAS_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionAnledningTillKontakt() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(18, actualCertificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID).getIndex());
     }
 }

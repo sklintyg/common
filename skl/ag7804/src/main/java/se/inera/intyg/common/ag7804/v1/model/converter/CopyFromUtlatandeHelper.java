@@ -120,9 +120,9 @@ public final class CopyFromUtlatandeHelper {
             .collect(Collectors.toList());
     }
 
-    private static List<se.inera.intyg.common.agparent.model.internal.Diagnos> convertDiagnos(ImmutableList<Diagnos> diagnoser) {
+    private static List<se.inera.intyg.common.fkparent.model.internal.Diagnos> convertDiagnos(ImmutableList<Diagnos> diagnoser) {
         return diagnoser.stream()
-            .map(d -> se.inera.intyg.common.agparent.model.internal.Diagnos.create(d.getDiagnosKod(), d.getDiagnosKodSystem(),
+            .map(d -> se.inera.intyg.common.fkparent.model.internal.Diagnos.create(d.getDiagnosKod(), d.getDiagnosKodSystem(),
                 d.getDiagnosBeskrivning(), d.getDiagnosDisplayName()))
             .collect(Collectors.toList());
     }
