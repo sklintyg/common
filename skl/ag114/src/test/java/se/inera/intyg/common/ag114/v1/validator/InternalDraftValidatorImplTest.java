@@ -203,7 +203,6 @@ public class InternalDraftValidatorImplTest {
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, error.getType());
         assertEquals(COMMON_VALIDATION_DATE_PERIOD_INVALID_ORDER, error.getMessage());
         assertEquals(SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID, error.getQuestionId());
-
     }
 
     @Test

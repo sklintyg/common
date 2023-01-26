@@ -84,7 +84,7 @@ class QuestionSjukskrivningsperiodMessageTest {
 
         @Override
         protected MessageLevel getMessageLevel() {
-            return MessageLevel.OBSERVE;
+            return MessageLevel.INFO;
         }
 
         @Override
@@ -120,7 +120,8 @@ class QuestionSjukskrivningsperiodMessageTest {
 
         @Override
         protected String getExpression() {
-            return SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID + " > " + DATE_RANGE_LIMIT;
+            return SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID + ".to" + " - " + SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID + ".from" + " > "
+                + DATE_RANGE_LIMIT;
         }
 
         @Override
