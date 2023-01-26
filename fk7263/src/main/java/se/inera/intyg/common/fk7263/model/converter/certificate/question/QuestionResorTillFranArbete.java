@@ -21,7 +21,7 @@ package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.RESOR_TILL_FRAN_ARBETE_CATEGORY_ID;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.RESOR_TILL_FRAN_ARBETE_SVAR_ID;
-import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.radioBooleanValue;
+import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.booleanValue;
 
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigViewText;
@@ -40,7 +40,7 @@ public class QuestionResorTillFranArbete {
             )
             .value(
                 CertificateDataValueViewText.builder()
-                    .text(radioBooleanValue(kanResorTillFran))
+                    .text(booleanValue(kanResorTillFran))
                     .build()
             )
             .build();
