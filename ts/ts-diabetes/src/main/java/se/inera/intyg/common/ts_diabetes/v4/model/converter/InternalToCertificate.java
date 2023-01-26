@@ -122,7 +122,8 @@ public class InternalToCertificate {
             .addElement(QuestionOvrigtKomplikationerAvSjukdomenAnges.toCertificate(internalCertificate.getOvrigt(), index++, textProvider))
             .addElement(QuestionOvrigtBorUndersokasAvSpecialist.toCertificate(internalCertificate.getOvrigt(), index++, textProvider))
             .addElement(CategoryBedomning.toCertificate(index++, textProvider))
-            .addElement(QuestionBedomningUppfyllerBehorighetskrav.toCertificate(internalCertificate.getBedomning(), index++, textProvider))
+            .addElement(QuestionBedomningUppfyllerBehorighetskrav.toCertificate(internalCertificate.getBedomning(),
+                internalCertificate.getTextVersion(), index++, textProvider))
             .addElement(QuestionBedomningOvrigaKommentarer.toCertificate(internalCertificate.getBedomning(), index, textProvider))
             .build();
     }

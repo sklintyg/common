@@ -196,7 +196,7 @@ class CertificateToInternalTest {
             .addElement(QuestionOvrigtKomplikationerAvSjukdomen.toCertificate(ovrigt, 0, textProvider))
             .addElement(QuestionOvrigtKomplikationerAvSjukdomenAnges.toCertificate(ovrigt, 0, textProvider))
             .addElement(QuestionOvrigtBorUndersokasAvSpecialist.toCertificate(ovrigt, 0, textProvider))
-            .addElement(QuestionBedomningUppfyllerBehorighetskrav.toCertificate(bedomning, 0, textProvider))
+            .addElement(QuestionBedomningUppfyllerBehorighetskrav.toCertificate(bedomning, "textVersion", 0, textProvider))
             .addElement(QuestionBedomningOvrigaKommentarer.toCertificate(bedomning, 0, textProvider))
             .build();
     }
