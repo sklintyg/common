@@ -695,6 +695,8 @@
             'common.validation.ue-cause-of-death-list.empty': 'Ange ett svar',
             'common.validation.ue-visual-acuity.empty': 'Ange ett svar',
             'common.validation.ue-medical-investigation.empty': 'Ange ett svar',
+            'common.validation.ue-integer.empty': 'Ange ett svar',
+            'common.validation.ue-date-range.empty': 'Ange ett svar',
             'common.validation.ue-percent-field.empty': 'Ange ett svar.',
             'common.validation.ue-sjukfranvaro.niva.empty': 'Ange ett svar.',
             'common.validation.ue-sjukfranvaro.niva.invalid_format': 'Ange omfattning i intervallet 1-100',
