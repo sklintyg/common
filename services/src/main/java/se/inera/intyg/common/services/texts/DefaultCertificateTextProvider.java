@@ -23,9 +23,11 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 public final class DefaultCertificateTextProvider implements CertificateTextProvider {
 
     private final IntygTexts intygTexts;
-    private static final String ANGULAR_LAUNCH_ICON = "<i class=\"material-icons md-18\">launch</i>";
+    private static final String ANGULAR_LAUNCH_ICON =
+        "<a href=\"https://www.transportstyrelsen.se\" target=\"_blank\">Vägtrafik -"
+            + " transportstyrelsen.se</a>\t<i class=\"material-icons md-18\">launch</i>";
     private static final String REACT_LAUNCH_ICON =
-        "<img src=\"/static/media/external_link.d2f947d1.svg\" class=\"sc-jrsJWt cHhwhV iu-ml-200 iu-fs-100\">";
+        "<LINK:transportstyrelsenVagtrafik>";
 
     private DefaultCertificateTextProvider(IntygTexts intygTexts) {
         this.intygTexts = intygTexts;
@@ -69,6 +71,7 @@ public final class DefaultCertificateTextProvider implements CertificateTextProv
     private String fixSpacingOfText(StringBuilder stringBuilder) {
         String result;
         result = stringBuilder.toString().replaceAll("^\n+|^\\s+", "");
+        result = result.replaceAll(ANGULAR_LAUNCH_ICON, REACT_LAUNCH_ICON);
         result = result.replaceAll("\n\n+", "**");
         result = result.replaceAll("\t", "");
         result = result.replaceAll("\\s\\s+", " ");
@@ -79,7 +82,6 @@ public final class DefaultCertificateTextProvider implements CertificateTextProv
         result = result.replaceAll("obehag\nvid", "obehag vid");
         result = result.replaceAll("utgöra\nbåde", "utgöra både");
         result = result.replaceAll("C1E, C och CE. ", "C1E, C och CE.\n");
-        result = result.replaceAll(ANGULAR_LAUNCH_ICON, REACT_LAUNCH_ICON);
         return result;
     }
 

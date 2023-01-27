@@ -66,9 +66,9 @@ class DefaultCertificateTextProviderTest {
     private static final String TS_BAS_INTYGET_AVSER_HELP_TEXT = "C1E, C och CE.\n ";
     private static final String TS_BAS_INTYGET_AVSER_HELP_TEXT_FIXED = "C1E, C och CE.\n";
     private static final String ANGULAR_LAUNCH_ICON_KEY = "angularKey";
-    private static final String ANGULAR_LAUNCH_ICON_VALUE = "<i class=\"material-icons md-18\">launch</i>";
-    private static final String REACT_LAUNCH_ICON_VALUE =
-        "<img src=\"/static/media/external_link.d2f947d1.svg\" class=\"sc-jrsJWt cHhwhV iu-ml-200 iu-fs-100\">";
+    private static final String ANGULAR_LAUNCH_ICON_VALUE = "<a href=\"https://www.transportstyrelsen.se\" target=\"_blank\">Vägtrafik -"
+        + " transportstyrelsen.se</a>\t<i class=\"material-icons md-18\">launch</i>";
+    private static final String REACT_LAUNCH_ICON_VALUE = "<LINK:transportstyrelsenVagtrafik>";
 
     @BeforeEach
     void setUp() {
