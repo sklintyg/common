@@ -42,6 +42,8 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DESCRIPTION_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.VERSION_4_0;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,7 +68,7 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.BedomningKorkortstyp;
 
 public class QuestionBedomningUppfyllerBehorighetskrav {
 
-    public static CertificateDataElement toCertificate(Bedomning bedomning, int index, CertificateTextProvider texts) {
+    public static CertificateDataElement toCertificate(Bedomning bedomning, String textVersion, int index, CertificateTextProvider texts) {
         final var uppfyllerBehorighetskrav = bedomning != null && bedomning.getUppfyllerBehorighetskrav() != null
             ? bedomning.getUppfyllerBehorighetskrav() : null;
         return CertificateDataElement.builder()
@@ -75,7 +77,8 @@ public class QuestionBedomningUppfyllerBehorighetskrav {
             .index(index)
             .config(
                 CertificateDataConfigCheckboxMultipleCode.builder()
-                    .text(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT)
+                    .text(textVersion.equals(VERSION_4_0) ? BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT :
+                        texts.get(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT_ID))
                     .description(texts.get(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DESCRIPTION_ID))
                     .layout(Layout.INLINE)
                     .list(
