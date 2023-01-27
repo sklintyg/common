@@ -65,6 +65,11 @@ class DefaultCertificateTextProviderTest {
     private static final String TS_BAS_INTYGET_AVSER_HELP_TEXT_KEY = "FRG_1.HLP";
     private static final String TS_BAS_INTYGET_AVSER_HELP_TEXT = "C1E, C och CE.\n ";
     private static final String TS_BAS_INTYGET_AVSER_HELP_TEXT_FIXED = "C1E, C och CE.\n";
+    private static final String ANGULAR_TRANSPORTSTYRELSEN_LINK_KEY = "angularKey";
+    private static final String ANGULAR_TRANSPORTSTYRELSEN_LINK_VALUE =
+        "<a href=\"https://www.transportstyrelsen.se\" target=\"_blank\">Vägtrafik -"
+            + " transportstyrelsen.se</a>\t<i class=\"material-icons md-18\">launch</i>";
+    private static final String REACT_TRANSPORTSTYRELSEN_LINK_KEY = "<LINK:transportstyrelsenVagtrafik>";
 
     @BeforeEach
     void setUp() {
@@ -83,6 +88,7 @@ class DefaultCertificateTextProviderTest {
         texts.put(FK_7801_NEW_LINE_ONE_KEY, FK_7801_NEW_LINE_ONE_TEXT);
         texts.put(FK_7801_NEW_LINE_TWO_KEY, FK_7801_NEW_LINE_TWO_TEXT);
         texts.put(TS_BAS_INTYGET_AVSER_HELP_TEXT_KEY, TS_BAS_INTYGET_AVSER_HELP_TEXT);
+        texts.put(ANGULAR_TRANSPORTSTYRELSEN_LINK_KEY, ANGULAR_TRANSPORTSTYRELSEN_LINK_VALUE);
 
         final var intygTexts = new IntygTexts(
             "1.0",
@@ -193,5 +199,11 @@ class DefaultCertificateTextProviderTest {
     void shallAddNewlineInTsbasV7() {
         final var actualText = defaultCertificateTextProvider.get(TS_BAS_INTYGET_AVSER_HELP_TEXT_KEY);
         assertEquals(TS_BAS_INTYGET_AVSER_HELP_TEXT_FIXED, actualText);
+    }
+
+    @Test
+    void shallReplaceAngularLaunchIconWithReactLaunchIcon() {
+        final var actualText = defaultCertificateTextProvider.get(ANGULAR_TRANSPORTSTYRELSEN_LINK_KEY);
+        assertEquals(REACT_TRANSPORTSTYRELSEN_LINK_KEY, actualText);
     }
 }

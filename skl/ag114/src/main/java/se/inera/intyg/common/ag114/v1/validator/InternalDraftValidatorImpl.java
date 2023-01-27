@@ -43,6 +43,7 @@ import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.NEDSA
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID;
 import static se.inera.intyg.common.support.validate.ValidatorUtil.validateDate;
 
@@ -154,12 +155,14 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
 
         // Sjukskrivningsgrad
         if (validatorUtilSKL.hasNoContent(utlatande.getSjukskrivningsgrad())) {
-            ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_BEDOMNING, SJUKSKRIVNINGSGRAD_SVAR_JSON_ID_7_1,
-                ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, RespConstants.CATEGORY_BEDOMNING,
+                SJUKSKRIVNINGSGRAD_SVAR_JSON_ID_7_1,
+                ValidationMessageType.EMPTY, SJUKSKRIVNINGSGRAD_SVAR_ID);
         } else {
             if (!validatorUtilSKL.isIntInRange(utlatande.getSjukskrivningsgrad(), SJUKSKRIVNINGSGRAD_FROM, SJUKSKRIVNINGSGRAD_TOM)) {
-                ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_BEDOMNING, SJUKSKRIVNINGSGRAD_SVAR_JSON_ID_7_1,
-                    ValidationMessageType.OTHER, AG114_SJUKSKRIVNINGSGRAD_INVALID_PERCENT);
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, RespConstants.CATEGORY_BEDOMNING,
+                    SJUKSKRIVNINGSGRAD_SVAR_JSON_ID_7_1,
+                    ValidationMessageType.OTHER, AG114_SJUKSKRIVNINGSGRAD_INVALID_PERCENT, SJUKSKRIVNINGSGRAD_SVAR_ID);
             }
         }
         // Sjukskrivningsperiod
