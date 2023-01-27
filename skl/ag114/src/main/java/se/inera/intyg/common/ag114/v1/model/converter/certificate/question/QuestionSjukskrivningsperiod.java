@@ -56,9 +56,9 @@ public class QuestionSjukskrivningsperiod {
             .value(
                 CertificateDataValueDateRange.builder()
                     .id(SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID)
-                    .from(sjukskrivningsPeriod != null && sjukskrivningsPeriod.getFrom() != null ? sjukskrivningsPeriod.fromAsLocalDate()
+                    .from(sjukskrivningsPeriod != null ? sjukskrivningsPeriod.fromAsLocalDate()
                         : null)
-                    .to(sjukskrivningsPeriod != null && sjukskrivningsPeriod.getTom() != null ? sjukskrivningsPeriod.tomAsLocalDate()
+                    .to(sjukskrivningsPeriod != null ? sjukskrivningsPeriod.tomAsLocalDate()
                         : null)
                     .build()
             )
