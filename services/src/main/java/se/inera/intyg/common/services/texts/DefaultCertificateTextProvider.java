@@ -23,10 +23,10 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 public final class DefaultCertificateTextProvider implements CertificateTextProvider {
 
     private final IntygTexts intygTexts;
-    private static final String ANGULAR_LAUNCH_ICON =
+    private static final String ANGULAR_TRANSPORTSTYRELSEN_LINK =
         "<a href=\"https://www.transportstyrelsen.se\" target=\"_blank\">Vägtrafik -"
             + " transportstyrelsen.se</a>\t<i class=\"material-icons md-18\">launch</i>";
-    private static final String REACT_LAUNCH_ICON =
+    private static final String REACT_TRANSPORTSTYRELSEN_LINK =
         "<LINK:transportstyrelsenVagtrafik>";
 
     private DefaultCertificateTextProvider(IntygTexts intygTexts) {
@@ -60,7 +60,7 @@ public final class DefaultCertificateTextProvider implements CertificateTextProv
             parseList(stringBuilder, parts[i], i == parts.length - 1);
         }
 
-        if (!isHeadline(key) || stringBuilder.toString().contains(ANGULAR_LAUNCH_ICON)) {
+        if (!isHeadline(key) || stringBuilder.toString().contains(ANGULAR_TRANSPORTSTYRELSEN_LINK)) {
             result = fixSpacingOfText(stringBuilder);
         } else {
             result = stringBuilder.toString();
@@ -71,7 +71,7 @@ public final class DefaultCertificateTextProvider implements CertificateTextProv
     private String fixSpacingOfText(StringBuilder stringBuilder) {
         String result;
         result = stringBuilder.toString().replaceAll("^\n+|^\\s+", "");
-        result = result.replaceAll(ANGULAR_LAUNCH_ICON, REACT_LAUNCH_ICON);
+        result = result.replaceAll(ANGULAR_TRANSPORTSTYRELSEN_LINK, REACT_TRANSPORTSTYRELSEN_LINK);
         result = result.replaceAll("\n\n+", "**");
         result = result.replaceAll("\t", "");
         result = result.replaceAll("\\s\\s+", " ");
