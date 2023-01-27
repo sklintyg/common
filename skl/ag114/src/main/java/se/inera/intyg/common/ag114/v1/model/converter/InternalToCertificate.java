@@ -40,8 +40,9 @@ import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.Quest
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionNuvarandeArbete;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionOnskaFormedlaDiagnos;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionOvrigaUpplysningar;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSjukskrivningsgrad;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSjukskrivningsgradHeader;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSysselsattningTyp;
-
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
@@ -99,6 +100,12 @@ public class InternalToCertificate {
             )
             .addElement(
                 CategoryBedomning.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionSjukskrivningsgradHeader.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionSjukskrivningsgrad.toCertificate(internalCertificate.getSjukskrivningsgrad(), index++, textProvider)
             )
             .addElement(
                 CategoryOvrigt.toCertificate(index++, textProvider)

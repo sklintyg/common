@@ -23,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_ICD_10_ID;
 
 import java.time.LocalDate;
@@ -46,6 +45,7 @@ import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.Quest
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionNuvarandeArbete;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionOnskaFormedlaDiagnos;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionOvrigaUpplysningar;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSjukskrivningsgrad;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSysselsattningTyp;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
@@ -55,10 +55,6 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
-import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
-import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -105,6 +101,7 @@ class CertificateToInternalTest {
             .setOvrigaUpplysningar("ovrigaUpplysningar")
             .setKontaktMedArbetsgivaren(true)
             .setAnledningTillKontakt("anledningTillKontakt")
+            .setSjukskrivningsgrad("15")
             .build();
 
         certificate = CertificateBuilder.create()
@@ -147,6 +144,9 @@ class CertificateToInternalTest {
             )
             .addElement(
                 QuestionAnledningTillKontakt.toCertificate(expectedInternalCertificate.getAnledningTillKontakt(), 0, textProvider)
+            )
+            .addElement(
+                QuestionSjukskrivningsgrad.toCertificate(expectedInternalCertificate.getSjukskrivningsgrad(), 0, textProvider)
             )
             .build();
 
@@ -282,5 +282,12 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getAnledningTillKontakt(),
             actualInternalCertificate.getAnledningTillKontakt());
+    }
+
+    @Test
+    void shallIncludeSjukskrivningsgrad() {
+        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
+        assertEquals(expectedInternalCertificate.getSjukskrivningsgrad(),
+            actualInternalCertificate.getSjukskrivningsgrad());
     }
 }

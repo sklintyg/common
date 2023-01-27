@@ -38,6 +38,7 @@ import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.Quest
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionNuvarandeArbete;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionOnskaFormedlaDiagnos;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionOvrigaUpplysningar;
+import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSjukskrivningsgrad;
 import se.inera.intyg.common.ag114.v1.model.converter.certificate.question.QuestionSysselsattningTyp;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -102,6 +103,9 @@ public class CertificateToInternal {
                 )
                 .setAnledningTillKontakt(
                     QuestionAnledningTillKontakt.toInternal(certificate)
+                )
+                .setSjukskrivningsgrad(
+                    QuestionSjukskrivningsgrad.toInternal(certificate)
                 )
                 .build();
     }

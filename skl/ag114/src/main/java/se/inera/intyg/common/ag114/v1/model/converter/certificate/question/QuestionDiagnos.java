@@ -25,7 +25,6 @@ import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ONSKA
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_TEXT_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
-
 import java.util.List;
 import se.inera.intyg.common.fkparent.model.converter.certificate.AbstractQuestionDiagnoser;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;

@@ -38,6 +38,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueInteger;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueYear;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -75,6 +76,23 @@ public final class ValueToolkit {
         }
 
         return textDataValue.getText();
+    }
+
+    public static String integerValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
+        final var dataValue = getValue(data, questionId);
+        if (!(dataValue instanceof CertificateDataValueInteger)) {
+            return null;
+        }
+
+        final var integerDataValue = (CertificateDataValueInteger) dataValue;
+        if (!Objects.equals(integerDataValue.getId(), valueId)) {
+            return null;
+        }
+
+        if (integerDataValue.getValue() == null) {
+            return null;
+        }
+        return String.valueOf(integerDataValue.getValue());
     }
 
     public static Integer yearValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
@@ -216,6 +234,18 @@ public final class ValueToolkit {
         }
 
         return element.getValue();
+    }
+
+    public static boolean isNumeric(String stringNumber) {
+        if (stringNumber == null || stringNumber.isEmpty()) {
+            return false;
+        }
+        try {
+            Integer.parseInt(stringNumber);
+        } catch (NumberFormatException exception) {
+            return false;
+        }
+        return true;
     }
 
     public static GrundData grundData(CertificateMetadata metadata, GrundData grundData) {

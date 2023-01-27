@@ -40,11 +40,10 @@ import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.NEDSA
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.OVRIGT_SVAR_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_HEADER_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -184,32 +183,44 @@ class InternalToCertificateTest {
     }
 
     @Test
+    void shallIncludeQuestionSjukskrivningsgradHeader() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(14, actualCertificate.getData().get(SJUKSKRIVNINGSGRAD_HEADER_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionSjukskrivningsgrad() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(15, actualCertificate.getData().get(SJUKSKRIVNINGSGRAD_SVAR_ID).getIndex());
+    }
+
+    @Test
     void shallIncludeCategoryOvrigt() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(14, actualCertificate.getData().get(CATEGORY_OVRIGT_ID).getIndex());
+        assertEquals(16, actualCertificate.getData().get(CATEGORY_OVRIGT_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionOvrigaUpplysningar() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(15, actualCertificate.getData().get(OVRIGT_SVAR_ID).getIndex());
+        assertEquals(17, actualCertificate.getData().get(OVRIGT_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeCategoryKontakt() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(16, actualCertificate.getData().get(CATEGORY_KONTAKT_ID).getIndex());
+        assertEquals(18, actualCertificate.getData().get(CATEGORY_KONTAKT_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionKontaktMedArbetsgivaren() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(17, actualCertificate.getData().get(KONTAKT_ONSKAS_SVAR_ID).getIndex());
+        assertEquals(19, actualCertificate.getData().get(KONTAKT_ONSKAS_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionAnledningTillKontakt() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(18, actualCertificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID).getIndex());
+        assertEquals(20, actualCertificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID).getIndex());
     }
 }
