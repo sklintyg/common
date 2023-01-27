@@ -40,6 +40,8 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiag
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueInteger;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueYear;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
@@ -234,6 +236,33 @@ public final class ValueToolkit {
         }
 
         return element.getValue();
+    }
+
+    public static InternalLocalDateInterval dateRangeValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
+        final var dataValue = getValue(data, questionId);
+        if (!(dataValue instanceof CertificateDataValueDateRange)) {
+            return null;
+        }
+
+        final var dateRangeValue = (CertificateDataValueDateRange) dataValue;
+        if (!Objects.equals(dateRangeValue.getId(), valueId)) {
+            return null;
+        }
+
+        if (dateRangeValue.getFrom() == null && dateRangeValue.getTo() == null) {
+            return null;
+        }
+
+        final var internalLocalDateInterval = new InternalLocalDateInterval();
+
+        if (dateRangeValue.getFrom() != null) {
+            internalLocalDateInterval.setFrom(new InternalDate(dateRangeValue.getFrom()));
+        }
+
+        if (dateRangeValue.getTo() != null) {
+            internalLocalDateInterval.setTom(new InternalDate(dateRangeValue.getTo()));
+        }
+        return internalLocalDateInterval;
     }
 
     public static boolean isNumeric(String stringNumber) {

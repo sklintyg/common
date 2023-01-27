@@ -98,4 +98,15 @@ public final class ValidationExpressionToolkit {
         return s + " == " + value;
     }
 
+    public static String subtract(String s, String value) {
+        return s + " - " + value;
+    }
+
+    public static String to(String s) {
+        return s + ".to";
+    }
+
+    public static String from(String s) {
+        return s + ".from";
+    }
 }

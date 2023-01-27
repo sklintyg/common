@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.appendAttribute;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.equalsWith;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.from;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.lessThan;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.lessThanOrEqual;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.moreThan;
@@ -29,6 +30,8 @@ import static se.inera.intyg.common.support.facade.util.ValidationExpressionTool
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.not;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.subtract;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.to;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.withCitation;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.wrapWithNotEmpty;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.wrapWithParenthesis;
@@ -110,5 +113,20 @@ class ValidationExpressionToolkitTest {
     @Test
     void shallWrapWithNotEmpty() {
         assertEquals("!empty(variable)", wrapWithNotEmpty("variable"));
+    }
+
+    @Test
+    void shallSubtract() {
+        assertEquals("variable - variable", subtract("variable", "variable"));
+    }
+
+    @Test
+    void shallAddTo() {
+        assertEquals("variable.to", to("variable"));
+    }
+
+    @Test
+    void shallAddFrom() {
+        assertEquals("variable.from", from("variable"));
     }
 }

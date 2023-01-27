@@ -39,6 +39,7 @@ import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.NEDSATT_ARBETSFORMAGA_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID;
@@ -205,6 +206,7 @@ public class InternalDraftValidatorImplTest {
         Assert.assertEquals(SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".tom", error.getField());
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, error.getType());
         assertEquals(COMMON_VALIDATION_DATE_PERIOD_INVALID_ORDER, error.getMessage());
+        assertEquals(SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID, error.getQuestionId());
     }
 
     @Test
