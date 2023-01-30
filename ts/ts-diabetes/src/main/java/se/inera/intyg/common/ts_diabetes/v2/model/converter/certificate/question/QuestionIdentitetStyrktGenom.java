@@ -19,18 +19,30 @@
 
 package se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question;
 
+import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.stringValue;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.IDENTITET_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID;
 
-import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigViewText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewText;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.Vardkontakt;
+import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 
 public class QuestionIdentitetStyrktGenom {
 
-    public static CertificateDataElement toCertificate(Vardkontakt vardkontakt, int index, CertificateTextProvider textProvider) {
+    private static final String ID_KORT = "ID_KORT";
+    private static final String FORETAG_ELLER_TJANSTEKORT = "FORETAG_ELLER_TJANSTEKORT";
+    private static final String KORKORT = "KORKORT";
+    private static final String PERS_KANNEDOM = "PERS_KANNEDOM";
+    private static final String FORSAKRAN_KAP18 = "FORSAKRAN_KAP18";
+    private static final String PASS = "PASS";
+
+    public static CertificateDataElement toCertificate(Vardkontakt vardkontakt, int index) {
+        var identitetStyrktGenom = vardkontakt != null && vardkontakt.getIdkontroll() != null ? vardkontakt.getIdkontroll() : null;
+        if (identitetStyrktGenom != null) {
+            identitetStyrktGenom = getDescriptionValue(identitetStyrktGenom);
+        }
         return CertificateDataElement.builder()
             .id(IDENTITET_STYRKT_GENOM_SVAR_ID)
             .parent(IDENTITET_CATEGORY_ID)
@@ -41,8 +53,28 @@ public class QuestionIdentitetStyrktGenom {
             )
             .value(
                 CertificateDataValueViewText.builder()
+                    .text(stringValue(identitetStyrktGenom))
                     .build()
             )
             .build();
+    }
+
+    private static String getDescriptionValue(String identitetStyrktGenom) {
+        switch (identitetStyrktGenom) {
+            case ID_KORT:
+                return IdKontrollKod.ID_KORT.getDescription();
+            case FORETAG_ELLER_TJANSTEKORT:
+                return IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getDescription();
+            case KORKORT:
+                return IdKontrollKod.KORKORT.getDescription();
+            case PERS_KANNEDOM:
+                return IdKontrollKod.PERS_KANNEDOM.getDescription();
+            case FORSAKRAN_KAP18:
+                return IdKontrollKod.FORSAKRAN_KAP18.getDescription();
+            case PASS:
+                return IdKontrollKod.PASS.getDescription();
+            default:
+                return null;
+        }
     }
 }

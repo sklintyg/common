@@ -22,13 +22,16 @@ package se.inera.intyg.common.ts_diabetes.v2.testability;
 import se.inera.intyg.common.support.facade.util.TestabilityTestDataDecorator;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
+import se.inera.intyg.common.ts_diabetes.v2.model.internal.Vardkontakt;
+import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 
 public class TSTRK1031TestabilityTestDataDecorator implements TestabilityTestDataDecorator<TsDiabetesUtlatandeV2> {
 
     @Override
     public void decorateWithMinimumValues(TsDiabetesUtlatandeV2 utlatande) {
         utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.C1E);
-        
+        utlatande.setVardkontakt(new Vardkontakt());
+        utlatande.getVardkontakt().setIdkontroll(IdKontrollKod.KORKORT.name());
     }
 
     @Override

@@ -47,7 +47,7 @@ public class InternalToCertificate {
                 CategoryIdentitetStyrktGenom.toCertificate(index++, textProvider)
             )
             .addElement(
-                QuestionIdentitetStyrktGenom.toCertificate(internalCertificate.getVardkontakt(), index++, textProvider)
+                QuestionIdentitetStyrktGenom.toCertificate(internalCertificate.getVardkontakt(), index++)
             )
             .build();
     }
