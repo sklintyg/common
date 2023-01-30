@@ -18,10 +18,9 @@
  */
 package se.inera.intyg.common.support.model;
 
-import java.time.LocalDate;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
+import java.time.LocalDate;
 
 /**
  * A way of handling date intervals in our internal model that allows faulty
@@ -51,20 +50,13 @@ public class InternalLocalDateInterval {
      *
      * @param from String representing start date
      * @param tom String representing end date
-     * @throws ModelException if from or tom is null
      */
     public InternalLocalDateInterval(String from, String tom) {
-        if (from == null || tom == null) {
-            throw new ModelException("Got null while trying to create InternalLocalDateInterval");
-        }
         this.from = new InternalDate(from);
         this.tom = new InternalDate(tom);
     }
 
     public InternalLocalDateInterval(InternalDate from, InternalDate tom) {
-        if (from == null || tom == null) {
-            throw new ModelException("Got null while trying to create InternalLocalDateInterval");
-        }
         this.from = from;
         this.tom = tom;
     }
@@ -174,11 +166,8 @@ public class InternalLocalDateInterval {
         }
         InternalLocalDateInterval otherInterval = (InternalLocalDateInterval) other;
 
-        if (!this.isValid() || !otherInterval.isValid()) {
-            return false;
-        }
-        return this.fromAsLocalDate().equals(otherInterval.fromAsLocalDate())
-            && this.tomAsLocalDate().equals(otherInterval.tomAsLocalDate());
+        return Objects.equal(this.fromAsLocalDate(), otherInterval.fromAsLocalDate())
+            && Objects.equal(this.tomAsLocalDate(), otherInterval.tomAsLocalDate());
     }
 
     @JsonIgnore
