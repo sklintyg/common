@@ -129,13 +129,13 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDouble;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueVisualAcuities;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueVisualAcuity;
-import se.inera.intyg.common.support.facade.util.TestabilityTestdataToolkit;
+import se.inera.intyg.common.support.facade.util.TestabilityTestdataProvider;
 import se.inera.intyg.common.ts_bas.v7.model.internal.BedomningKorkortstyp;
 import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 
-public class TsBasTestabilityTestdataToolkit implements TestabilityTestdataToolkit {
+public class TsBasTestabilityTestdataProvider implements TestabilityTestdataProvider {
 
     public Map<String, CertificateDataValue> getMinimumValues() {
         final var values = new HashMap<String, CertificateDataValue>();

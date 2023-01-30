@@ -48,7 +48,7 @@ import se.inera.intyg.common.luae_fs.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.luae_fs.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
 import se.inera.intyg.common.luae_fs.v1.pdf.LuaefsPdfDefinitionBuilder;
-import se.inera.intyg.common.luae_fs.v1.testability.LuaefsTestabilityTestdataToolkit;
+import se.inera.intyg.common.luae_fs.v1.testability.LuaefsTestabilityTestdataProvider;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.MessagesParser;
@@ -238,7 +238,7 @@ public class LuaefsModuleApiV1 extends FkParentModuleApi<LuaefsUtlatandeV1> {
     @Override
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
         final var certificate = getCertificateFromJson(model, typeAheadProvider);
-        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new LuaefsTestabilityTestdataToolkit());
+        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new LuaefsTestabilityTestdataProvider());
         return getJsonFromCertificate(certificate, model);
     }
 

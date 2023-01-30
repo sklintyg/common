@@ -96,9 +96,9 @@ import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigationList;
-import se.inera.intyg.common.support.facade.util.TestabilityTestdataToolkit;
+import se.inera.intyg.common.support.facade.util.TestabilityTestdataProvider;
 
-public class LuseTestabilityTestdataToolkit implements TestabilityTestdataToolkit {
+public class LuseTestabilityTestdataProvider implements TestabilityTestdataProvider {
 
     public Map<String, CertificateDataValue> getMinimumValues() {
         final var values = new HashMap<String, CertificateDataValue>();

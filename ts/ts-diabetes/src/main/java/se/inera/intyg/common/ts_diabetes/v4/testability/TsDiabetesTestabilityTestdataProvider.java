@@ -92,14 +92,14 @@ import java.util.List;
 import java.util.Map;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCodeList;
-import se.inera.intyg.common.support.facade.util.TestabilityTestdataToolkit;
+import se.inera.intyg.common.support.facade.util.TestabilityTestdataProvider;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.BedomningKorkortstyp;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvTypAvDiabetes;
 import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvVardniva;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 
-public class TsDiabetesTestabilityTestdataToolkit implements TestabilityTestdataToolkit {
+public class TsDiabetesTestabilityTestdataProvider implements TestabilityTestdataProvider {
 
     public Map<String, CertificateDataValue> getMinimumValues() {
         final var values = new HashMap<String, CertificateDataValue>();

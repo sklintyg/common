@@ -23,13 +23,15 @@ import java.time.LocalDate;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.model.internal.PrognosBedomning;
 import se.inera.intyg.common.fk7263.model.internal.Rehabilitering;
+import se.inera.intyg.common.support.facade.util.TestabilityTestDataDecorator;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.LocalDateInterval;
 
-public class TestDataUtil {
+public class Fk7263TestabilityTestDataDecorator implements TestabilityTestDataDecorator<Fk7263Utlatande> {
 
-    public static void decorateWithMinimumValues(Fk7263Utlatande utlatande) {
+    @Override
+    public void decorateWithMinimumValues(Fk7263Utlatande utlatande) {
         utlatande.setAvstangningSmittskydd(false);
         utlatande.setDiagnosKod("diagnoskod");
         utlatande.setDiagnosBeskrivning("beskrivning");
@@ -45,7 +47,8 @@ public class TestDataUtil {
             new InternalLocalDateInterval(LocalDate.now().toString(), LocalDate.now().toString()));
     }
 
-    public static void decorateWithMaximumValues(Fk7263Utlatande utlatande) {
+    @Override
+    public void decorateWithMaximumValues(Fk7263Utlatande utlatande) {
         utlatande.setAvstangningSmittskydd(true);
         utlatande.setDiagnosKod("diagnoskod");
         utlatande.setDiagnosBeskrivning("beskrivning");

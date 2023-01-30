@@ -82,9 +82,9 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCaus
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeathList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
-import se.inera.intyg.common.support.facade.util.TestabilityTestdataToolkit;
+import se.inera.intyg.common.support.facade.util.TestabilityTestdataProvider;
 
-public class DoiTestabilityTestdataToolkit implements TestabilityTestdataToolkit {
+public class DoiTestabilityTestdataProvider implements TestabilityTestdataProvider {
 
     private static final String DESCRIPTION_ID = "description";
     private static final String DEBUT_ID = "debut";
