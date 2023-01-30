@@ -24,14 +24,23 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.category.CategoryIntygetAvser;
+import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
 
 @Component(value = "internalToCertificateTsDiabetesV2")
 public class InternalToCertificate {
 
     public Certificate convert(TsDiabetesUtlatandeV2 internalCertificate, CertificateTextProvider textProvider) {
+        int index = 0;
         return CertificateBuilder.create()
             .metadata(MetaDataGrundData.toCertificate(internalCertificate, textProvider))
+            .addElement(
+                CategoryIntygetAvser.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionIntygetAvser.toCertificate(internalCertificate.getIntygAvser(), index++)
+            )
             .build();
     }
 

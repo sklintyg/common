@@ -380,7 +380,7 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
             } else if (FillType.MAXIMAL.equals(fillType)) {
                 TestDataUtil.decorateWithMaximumValues(utlatande);
             }
-            return model;
+            return getJsonFromUtlatande(utlatande);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

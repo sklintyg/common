@@ -734,7 +734,7 @@ public class Fk7263ModuleApi implements ModuleApi {
             } else if (FillType.MAXIMAL.equals(fillType)) {
                 TestDataUtil.decorateWithMaximumValues(utlatande);
             }
-            return model;
+            return getJsonFromUtlatande(utlatande);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
