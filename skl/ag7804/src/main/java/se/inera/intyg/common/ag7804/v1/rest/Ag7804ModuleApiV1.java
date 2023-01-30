@@ -40,14 +40,16 @@ import se.inera.intyg.common.ag7804.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.ag7804.v1.model.mapper.FK7804ToAG7804Mapper;
 import se.inera.intyg.common.ag7804.v1.pdf.PdfGenerator;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.ag7804.v1.testability.Ag7804TestabilityTestdataToolkit;
 import se.inera.intyg.common.agparent.rest.AgParentModuleApi;
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.MessagesParser;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.util.TestabilityToolkit;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -62,6 +64,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
+import se.inera.intyg.common.support.modules.support.facade.FillType;
 import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
@@ -273,5 +276,12 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
         final var message = utlatande == null ? "null" : utlatande.getClass().toString();
         throw new IllegalArgumentException(
             "Utlatande was not instance of class Ag7804UtlatandeV1, utlatande was instance of class: " + message);
+    }
+
+    @Override
+    public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
+        final var certificate = getCertificateFromJson(model, typeAheadProvider);
+        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new Ag7804TestabilityTestdataToolkit());
+        return getJsonFromCertificate(certificate, model);
     }
 }

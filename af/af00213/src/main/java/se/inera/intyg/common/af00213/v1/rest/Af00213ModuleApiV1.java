@@ -33,12 +33,14 @@ import se.inera.intyg.common.af00213.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.af00213.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.af00213.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
+import se.inera.intyg.common.af00213.v1.testability.Af00213TestabilityTestdataToolkit;
 import se.inera.intyg.common.af_parent.rest.AfParentModuleApi;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.MessagesParser;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.util.TestabilityToolkit;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Relation;
@@ -49,6 +51,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHold
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.modules.support.facade.FillType;
 import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
@@ -188,4 +191,10 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
             "Utlatande was not instance of class Af00213UtlatandeV1, utlatande was instance of class: " + message);
     }
 
+    @Override
+    public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
+        final var certificate = getCertificateFromJson(model, typeAheadProvider);
+        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new Af00213TestabilityTestdataToolkit());
+        return getJsonFromCertificate(certificate, model);
+    }
 }

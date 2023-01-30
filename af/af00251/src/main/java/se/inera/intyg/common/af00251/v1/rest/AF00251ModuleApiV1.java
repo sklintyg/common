@@ -48,6 +48,8 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHold
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.modules.support.facade.FillType;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -212,5 +214,10 @@ public class AF00251ModuleApiV1 extends AfParentModuleApi<AF00251UtlatandeV1> {
         final var message = utlatande == null ? "null" : utlatande.getClass().toString();
         throw new IllegalArgumentException(
             "Utlatande was not instance of class AF00251UtlatandeV1, utlatande was instance of class: " + message);
+    }
+
+    @Override
+    public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
+        return model;
     }
 }

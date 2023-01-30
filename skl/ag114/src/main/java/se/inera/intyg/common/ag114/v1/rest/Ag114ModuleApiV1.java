@@ -35,8 +35,8 @@ import se.inera.intyg.common.ag114.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.ag114.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.ag114.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.agparent.rest.AgParentModuleApi;
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.MessagesParser;
@@ -52,6 +52,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHold
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
+import se.inera.intyg.common.support.modules.support.facade.FillType;
 import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
@@ -211,5 +212,10 @@ public class Ag114ModuleApiV1 extends AgParentModuleApi<Ag114UtlatandeV1> {
         final var message = utlatande == null ? "null" : utlatande.getClass().toString();
         throw new IllegalArgumentException(
             "Utlatande was not instance of class Ag114UtlatandeV1, utlatande was instance of class: " + message);
+    }
+
+    @Override
+    public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
+        return model;
     }
 }

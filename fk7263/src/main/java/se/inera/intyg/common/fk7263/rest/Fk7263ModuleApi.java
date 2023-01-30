@@ -69,6 +69,7 @@ import se.inera.intyg.common.fk7263.pdf.PdfDefaultGenerator;
 import se.inera.intyg.common.fk7263.pdf.PdfGeneratorException;
 import se.inera.intyg.common.fk7263.schemas.clinicalprocess.healthcond.certificate.converter.ClinicalProcessCertificateMetaTypeConverter;
 import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
+import se.inera.intyg.common.fk7263.testability.TestDataUtil;
 import se.inera.intyg.common.fk7263.validator.InternalDraftValidator;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter.ModelConverter;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
@@ -102,6 +103,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
+import se.inera.intyg.common.support.modules.support.facade.FillType;
 import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
@@ -721,5 +723,20 @@ public class Fk7263ModuleApi implements ModuleApi {
         final var message = utlatande == null ? "null" : utlatande.getClass().toString();
         throw new IllegalArgumentException(
             "Utlatande was not instance of class Fk7263Utlatande, utlatande was instance of class: " + message);
+    }
+
+    @Override
+    public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
+        try {
+            final var utlatande = getUtlatandeFromJson(model);
+            if (FillType.MINIMAL.equals(fillType)) {
+                TestDataUtil.decorateWithMinimumValues(utlatande);
+            } else if (FillType.MAXIMAL.equals(fillType)) {
+                TestDataUtil.decorateWithMaximumValues(utlatande);
+            }
+            return model;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

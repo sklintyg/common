@@ -39,6 +39,7 @@ import se.inera.intyg.common.doi.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.doi.v1.model.mapper.DbToDoiMapper;
 import se.inera.intyg.common.doi.v1.pdf.DoiPdfGenerator;
+import se.inera.intyg.common.doi.v1.testability.DoiTestabilityTestdataToolkit;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.MessagesParser;
@@ -47,6 +48,7 @@ import se.inera.intyg.common.sos_parent.pdf.SoSPdfGeneratorException;
 import se.inera.intyg.common.sos_parent.rest.SosParentModuleApi;
 import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.util.TestabilityToolkit;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
@@ -58,6 +60,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftCreationResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
+import se.inera.intyg.common.support.modules.support.facade.FillType;
 import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -198,5 +201,12 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
         final var message = utlatande == null ? "null" : utlatande.getClass().toString();
         throw new IllegalArgumentException(
             "Utlatande was not instance of class DoiUtlatandeV1, utlatande was instance of class: " + message);
+    }
+
+    @Override
+    public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
+        final var certificate = getCertificateFromJson(model, typeAheadProvider);
+        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new DoiTestabilityTestdataToolkit());
+        return getJsonFromCertificate(certificate, model);
     }
 }
