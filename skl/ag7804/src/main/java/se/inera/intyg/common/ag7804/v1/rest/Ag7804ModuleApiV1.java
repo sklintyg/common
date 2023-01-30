@@ -40,7 +40,7 @@ import se.inera.intyg.common.ag7804.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.ag7804.v1.model.mapper.FK7804ToAG7804Mapper;
 import se.inera.intyg.common.ag7804.v1.pdf.PdfGenerator;
-import se.inera.intyg.common.ag7804.v1.testability.Ag7804TestabilityTestdataToolkit;
+import se.inera.intyg.common.ag7804.v1.testability.Ag7804TestabilityTestdataProvider;
 import se.inera.intyg.common.agparent.rest.AgParentModuleApi;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
@@ -281,7 +281,7 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
     @Override
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
         final var certificate = getCertificateFromJson(model, typeAheadProvider);
-        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new Ag7804TestabilityTestdataToolkit());
+        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new Ag7804TestabilityTestdataProvider());
         return getJsonFromCertificate(certificate, model);
     }
 }

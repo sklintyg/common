@@ -53,6 +53,7 @@ import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.MessagesParser;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.util.TestabilityToolkit;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -84,7 +85,7 @@ import se.inera.intyg.common.ts_diabetes.v2.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
 import se.inera.intyg.common.ts_diabetes.v2.pdf.PdfGenerator;
 import se.inera.intyg.common.ts_diabetes.v2.pdf.PdfGeneratorException;
-import se.inera.intyg.common.ts_diabetes.v2.testability.TestDataUtil;
+import se.inera.intyg.common.ts_diabetes.v2.testability.TSTRK1031TestabilityTestDataDecorator;
 import se.inera.intyg.common.ts_diabetes.v2.util.TSDiabetesCertificateMetaTypeConverter;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
@@ -375,11 +376,7 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
         try {
             final var utlatande = (TsDiabetesUtlatandeV2) getUtlatandeFromJson(model);
-            if (FillType.MINIMAL.equals(fillType)) {
-                TestDataUtil.decorateWithMinimumValues(utlatande);
-            } else if (FillType.MAXIMAL.equals(fillType)) {
-                TestDataUtil.decorateWithMaximumValues(utlatande);
-            }
+            TestabilityToolkit.decorateCertificateWithTestData(utlatande, fillType, new TSTRK1031TestabilityTestDataDecorator());
             return getJsonFromUtlatande(utlatande);
         } catch (IOException e) {
             throw new RuntimeException(e);

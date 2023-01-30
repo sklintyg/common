@@ -30,6 +30,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.modules.support.facade.FillType;
 
 public class TestabilityToolkit {
@@ -37,14 +38,23 @@ public class TestabilityToolkit {
     private static final int DEFAULT_SICK_LEAVE_LENGTH = 14;
     private static final int DEFAULT_SHORT_SICK_LEAVE_LENGTH = 4;
 
-    public static void fillCertificateWithTestData(Certificate certificate, FillType fillType,
-        TestabilityTestdataToolkit testabilityTestdataToolkit) {
+    public static <T extends Utlatande> void decorateCertificateWithTestData(T utlatande, FillType fillType,
+        TestabilityTestDataDecorator<T> testabilityTestdataToolkit) {
         if (FillType.MINIMAL.equals(fillType)) {
-            final var minimumValuesLisjp = testabilityTestdataToolkit.getMinimumValues();
-            updateCertificate(certificate, minimumValuesLisjp);
+            testabilityTestdataToolkit.decorateWithMinimumValues(utlatande);
         } else if (FillType.MAXIMAL.equals(fillType)) {
-            final var maximumValuesLisjp = testabilityTestdataToolkit.getMaximumValues();
-            updateCertificate(certificate, maximumValuesLisjp);
+            testabilityTestdataToolkit.decorateWithMaximumValues(utlatande);
+        }
+    }
+
+    public static void fillCertificateWithTestData(Certificate certificate, FillType fillType,
+        TestabilityTestdataProvider testabilityTestdataProvider) {
+        if (FillType.MINIMAL.equals(fillType)) {
+            final var minimumValues = testabilityTestdataProvider.getMinimumValues();
+            updateCertificate(certificate, minimumValues);
+        } else if (FillType.MAXIMAL.equals(fillType)) {
+            final var maximumValues = testabilityTestdataProvider.getMaximumValues();
+            updateCertificate(certificate, maximumValues);
         }
     }
 

@@ -69,7 +69,7 @@ import se.inera.intyg.common.fk7263.pdf.PdfDefaultGenerator;
 import se.inera.intyg.common.fk7263.pdf.PdfGeneratorException;
 import se.inera.intyg.common.fk7263.schemas.clinicalprocess.healthcond.certificate.converter.ClinicalProcessCertificateMetaTypeConverter;
 import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
-import se.inera.intyg.common.fk7263.testability.TestDataUtil;
+import se.inera.intyg.common.fk7263.testability.Fk7263TestabilityTestDataDecorator;
 import se.inera.intyg.common.fk7263.validator.InternalDraftValidator;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter.ModelConverter;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
@@ -78,6 +78,7 @@ import se.inera.intyg.common.services.messages.MessagesParser;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.util.TestabilityToolkit;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -729,11 +730,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
         try {
             final var utlatande = getUtlatandeFromJson(model);
-            if (FillType.MINIMAL.equals(fillType)) {
-                TestDataUtil.decorateWithMinimumValues(utlatande);
-            } else if (FillType.MAXIMAL.equals(fillType)) {
-                TestDataUtil.decorateWithMaximumValues(utlatande);
-            }
+            TestabilityToolkit.decorateCertificateWithTestData(utlatande, fillType, new Fk7263TestabilityTestDataDecorator());
             return getJsonFromUtlatande(utlatande);
         } catch (IOException e) {
             throw new RuntimeException(e);

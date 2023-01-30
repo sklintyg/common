@@ -17,18 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.ts_diabetes.v2.testability;
+package se.inera.intyg.common.support.facade.util;
 
-import se.inera.intyg.common.ts_diabetes.v2.model.internal.IntygAvserKategori;
-import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
+public interface TestabilityTestDataDecorator<T> {
 
-public class TestDataUtil {
+    void decorateWithMinimumValues(T utlatande);
 
-    public static void decorateWithMinimumValues(TsDiabetesUtlatandeV2 utlatande) {
-        utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.C1E);
-    }
-
-    public static void decorateWithMaximumValues(TsDiabetesUtlatandeV2 utlatande) {
-        utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.C1E);
-    }
+    void decorateWithMaximumValues(T utlatande);
 }
