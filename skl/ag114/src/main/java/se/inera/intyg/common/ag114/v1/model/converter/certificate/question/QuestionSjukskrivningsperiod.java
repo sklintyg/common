@@ -28,6 +28,7 @@ import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKS
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateRangeValue;
 
+import java.time.LocalDate;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -57,7 +58,7 @@ public class QuestionSjukskrivningsperiod {
                 CertificateDataValueDateRange.builder()
                     .id(SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID)
                     .from(sjukskrivningsPeriod != null ? sjukskrivningsPeriod.fromAsLocalDate()
-                        : null)
+                        : LocalDate.now())
                     .to(sjukskrivningsPeriod != null ? sjukskrivningsPeriod.tomAsLocalDate()
                         : null)
                     .build()

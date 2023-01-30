@@ -177,7 +177,7 @@ class QuestionSjukskrivningsperiodTest {
 
     @Nested
     @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalValueTests extends InternalValueTest<InternalLocalDateInterval, InternalLocalDateInterval> {
+    class IncludeInternalDateRangeFromValueTests extends InternalValueTest<InternalLocalDateInterval, LocalDate> {
 
         @Override
         protected CertificateDataElement getElement(InternalLocalDateInterval input) {
@@ -185,19 +185,46 @@ class QuestionSjukskrivningsperiodTest {
         }
 
         @Override
-        protected InternalLocalDateInterval toInternalValue(Certificate certificate) {
-            return QuestionSjukskrivningsperiod.toInternal(certificate);
+        protected LocalDate toInternalValue(Certificate certificate) {
+            final var internalLocalDateInterval = QuestionSjukskrivningsperiod.toInternal(certificate);
+            return internalLocalDateInterval.fromAsLocalDate();
         }
 
         @Override
-        protected List<InputExpectedValuePair<InternalLocalDateInterval, InternalLocalDateInterval>> inputExpectedValuePairList() {
+        protected List<InputExpectedValuePair<InternalLocalDateInterval, LocalDate>> inputExpectedValuePairList() {
             final var dateRange = new InternalLocalDateInterval();
             dateRange.setFrom(new InternalDate(LocalDate.now()));
-            dateRange.setTom(new InternalDate(LocalDate.now()));
+
+            return List.of(
+                new InputExpectedValuePair<>(null, LocalDate.now()),
+                new InputExpectedValuePair<>(dateRange, dateRange.fromAsLocalDate())
+            );
+        }
+    }
+
+    @Nested
+    @TestInstance(Lifecycle.PER_CLASS)
+    class IncludeInternalDateRangeToValueTests extends InternalValueTest<InternalLocalDateInterval, LocalDate> {
+
+        @Override
+        protected CertificateDataElement getElement(InternalLocalDateInterval input) {
+            return QuestionSjukskrivningsperiod.toCertificate(input, 0, texts);
+        }
+
+        @Override
+        protected LocalDate toInternalValue(Certificate certificate) {
+            final var internalLocalDateInterval = QuestionSjukskrivningsperiod.toInternal(certificate);
+            return internalLocalDateInterval.tomAsLocalDate();
+        }
+
+        @Override
+        protected List<InputExpectedValuePair<InternalLocalDateInterval, LocalDate>> inputExpectedValuePairList() {
+            final var dateRange = new InternalLocalDateInterval();
+            dateRange.setFrom(new InternalDate(LocalDate.now()));
 
             return List.of(
                 new InputExpectedValuePair<>(null, null),
-                new InputExpectedValuePair<>(dateRange, dateRange)
+                new InputExpectedValuePair<>(dateRange, dateRange.tomAsLocalDate())
             );
         }
     }
