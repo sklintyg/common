@@ -36,4 +36,6 @@ public interface ModuleFacadeApi {
     CertificateMessagesProvider getMessagesProvider();
 
     String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException;
+
+    String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException;
 }

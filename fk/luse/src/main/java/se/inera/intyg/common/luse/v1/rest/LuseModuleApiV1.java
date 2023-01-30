@@ -48,11 +48,13 @@ import se.inera.intyg.common.luse.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.luse.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
 import se.inera.intyg.common.luse.v1.pdf.LusePdfDefinitionBuilder;
+import se.inera.intyg.common.luse.v1.testability.LuseTestabilityTestdataToolkit;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.MessagesParser;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.util.TestabilityToolkit;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
@@ -62,6 +64,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.AdditionalMetaData;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
+import se.inera.intyg.common.support.modules.support.facade.FillType;
 import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -230,6 +233,12 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
             "Utlatande was not instance of class LuseUtlatandeV1, utlatande was instance of class: " + message);
     }
 
+    @Override
+    public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
+        final var certificate = getCertificateFromJson(model, typeAheadProvider);
+        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new LuseTestabilityTestdataToolkit());
+        return getJsonFromCertificate(certificate, model);
+    }
 
     private Map<String, String> getDynamicKeyMap() {
         final var provider = getTextProvider(LuseEntryPoint.MODULE_ID);
