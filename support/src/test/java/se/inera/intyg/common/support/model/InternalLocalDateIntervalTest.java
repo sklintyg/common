@@ -100,6 +100,36 @@ public class InternalLocalDateIntervalTest {
     }
 
     @Test
+    public void testEqualsWithNullInternal() {
+        InternalDate fromString = null;
+        InternalDate tomString = null;
+
+        InternalLocalDateInterval interval1 = new InternalLocalDateInterval(fromString, tomString);
+        InternalLocalDateInterval interval2 = new InternalLocalDateInterval(fromString, tomString);
+        assertTrue(interval1.equals(interval2));
+    }
+
+    @Test
+    public void testEqualsWithFromAsNull() {
+        InternalDate fromString = null;
+        InternalDate tomString = new InternalDate("2011-03-02");
+
+        InternalLocalDateInterval interval1 = new InternalLocalDateInterval(fromString, tomString);
+        InternalLocalDateInterval interval2 = new InternalLocalDateInterval(fromString, tomString);
+        assertTrue(interval1.equals(interval2));
+    }
+
+    @Test
+    public void testEqualsWithTomAsNull() {
+        InternalDate fromString = new InternalDate("2011-02-01");
+        InternalDate tomString = null;
+
+        InternalLocalDateInterval interval1 = new InternalLocalDateInterval(fromString, tomString);
+        InternalLocalDateInterval interval2 = new InternalLocalDateInterval(fromString, tomString);
+        assertTrue(interval1.equals(interval2));
+    }
+
+    @Test
     public void testNotEquals() {
         InternalDate fromString1 = new InternalDate("2011-02-01");
         InternalDate tomString1 = new InternalDate("2011-03-02");
