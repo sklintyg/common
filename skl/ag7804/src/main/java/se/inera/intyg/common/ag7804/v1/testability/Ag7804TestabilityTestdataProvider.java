@@ -84,6 +84,7 @@ public class Ag7804TestabilityTestdataProvider implements TestabilityTestdataPro
     private static String EXAMPLE_TEXT = "Detta är ett exempel";
     private static final int DEFAULT_SICK_LEAVE_LENGTH = 14;
 
+    @Override
     public Map<String, CertificateDataValue> getMinimumValues() {
         final var values = new HashMap<String, CertificateDataValue>();
 
@@ -115,6 +116,7 @@ public class Ag7804TestabilityTestdataProvider implements TestabilityTestdataPro
         return values;
     }
 
+    @Override
     public Map<String, CertificateDataValue> getMaximumValues() {
         final var values = new HashMap<String, CertificateDataValue>();
 

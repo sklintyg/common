@@ -91,6 +91,7 @@ public class DoiTestabilityTestdataProvider implements TestabilityTestdataProvid
     private final String kommun = "Östersund";
     private final String identitetStyrktText = "Körkort";
 
+    @Override
     public Map<String, CertificateDataValue> getMinimumValues() {
         final var values = new HashMap<String, CertificateDataValue>();
 
@@ -129,6 +130,7 @@ public class DoiTestabilityTestdataProvider implements TestabilityTestdataProvid
         return values;
     }
 
+    @Override
     public Map<String, CertificateDataValue> getMaximumValues() {
         final var values = new HashMap<String, CertificateDataValue>();
 

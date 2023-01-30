@@ -71,6 +71,7 @@ import se.inera.intyg.common.support.facade.util.TestabilityTestdataProvider;
 
 public class LuaefsTestabilityTestdataProvider implements TestabilityTestdataProvider {
 
+    @Override
     public Map<String, CertificateDataValue> getMinimumValues() {
         final var values = new HashMap<String, CertificateDataValue>();
         final var underlagBaseratPa = getDataValueDateListMinimal(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1,
@@ -98,6 +99,7 @@ public class LuaefsTestabilityTestdataProvider implements TestabilityTestdataPro
         return values;
     }
 
+    @Override
     public Map<String, CertificateDataValue> getMaximumValues() {
         final var values = new HashMap<String, CertificateDataValue>();
         final var underlagBaseratPa = getDataValueDateListMaximal(List.of(

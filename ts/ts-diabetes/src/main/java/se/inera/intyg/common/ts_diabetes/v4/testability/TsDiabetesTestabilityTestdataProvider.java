@@ -101,6 +101,7 @@ import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 
 public class TsDiabetesTestabilityTestdataProvider implements TestabilityTestdataProvider {
 
+    @Override
     public Map<String, CertificateDataValue> getMinimumValues() {
         final var values = new HashMap<String, CertificateDataValue>();
 
@@ -132,6 +133,7 @@ public class TsDiabetesTestabilityTestdataProvider implements TestabilityTestdat
         return values;
     }
 
+    @Override
     public Map<String, CertificateDataValue> getMaximumValues() {
         final var values = new HashMap<String, CertificateDataValue>();
 

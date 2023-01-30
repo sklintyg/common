@@ -137,6 +137,7 @@ import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 
 public class TsBasTestabilityTestdataProvider implements TestabilityTestdataProvider {
 
+    @Override
     public Map<String, CertificateDataValue> getMinimumValues() {
         final var values = new HashMap<String, CertificateDataValue>();
 
@@ -227,6 +228,7 @@ public class TsBasTestabilityTestdataProvider implements TestabilityTestdataProv
         return values;
     }
 
+    @Override
     public Map<String, CertificateDataValue> getMaximumValues() {
         final var values = new HashMap<String, CertificateDataValue>();
 
