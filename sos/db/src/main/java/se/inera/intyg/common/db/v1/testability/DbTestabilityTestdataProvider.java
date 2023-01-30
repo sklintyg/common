@@ -62,6 +62,7 @@ public class DbTestabilityTestdataProvider implements TestabilityTestdataProvide
     private final String identitetStyrktText = "Körkort";
     private final LocalDate antraffadDodDate = LocalDate.of(2022, 5, 23);
 
+    @Override
     public Map<String, CertificateDataValue> getMinimumValues() {
         final var values = new HashMap<String, CertificateDataValue>();
 
@@ -122,6 +123,7 @@ public class DbTestabilityTestdataProvider implements TestabilityTestdataProvide
         return values;
     }
 
+    @Override
     public Map<String, CertificateDataValue> getMaximumValues() {
         final var values = new HashMap<String, CertificateDataValue>();
 

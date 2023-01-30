@@ -51,6 +51,7 @@ public class LispTestabilityTestdataProvider implements TestabilityTestdataProvi
 
     private static String EXAMPLE_TEXT = "Detta är ett exempel";
 
+    @Override
     public Map<String, CertificateDataValue> getMinimumValues() {
         final var values = new HashMap<String, CertificateDataValue>();
 
@@ -69,6 +70,7 @@ public class LispTestabilityTestdataProvider implements TestabilityTestdataProvi
         return values;
     }
 
+    @Override
     public Map<String, CertificateDataValue> getMaximumValues() {
         final var values = new HashMap<String, CertificateDataValue>();
 
