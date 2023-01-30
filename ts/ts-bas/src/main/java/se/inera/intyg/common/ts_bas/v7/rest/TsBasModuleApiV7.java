@@ -40,6 +40,7 @@ import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvide
 import se.inera.intyg.common.services.messages.MessagesParser;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.util.TestabilityToolkit;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
@@ -48,6 +49,7 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.modules.support.facade.FillType;
 import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
@@ -59,6 +61,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.TransportToInternal;
 import se.inera.intyg.common.ts_bas.v7.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 import se.inera.intyg.common.ts_bas.v7.pdf.PdfGenerator;
+import se.inera.intyg.common.ts_bas.v7.testability.TsBasTestabilityTestdataProvider;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.ts_parent.integration.SendTSClientFactory;
 import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
@@ -215,6 +218,13 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
         final var message = utlatande == null ? "null" : utlatande.getClass().toString();
         throw new IllegalArgumentException(
             "Utlatande was not instance of class TsBasUtlatandeV7, utlatande was instance of class: " + message);
+    }
+
+    @Override
+    public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
+        final var certificate = getCertificateFromJson(model, typeAheadProvider);
+        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new TsBasTestabilityTestdataProvider());
+        return getJsonFromCertificate(certificate, model);
     }
 
     private String updateInternalAfterSigning(String internalModel, String base64EncodedSignatureXml)

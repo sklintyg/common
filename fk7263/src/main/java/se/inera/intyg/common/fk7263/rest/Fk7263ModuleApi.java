@@ -69,6 +69,7 @@ import se.inera.intyg.common.fk7263.pdf.PdfDefaultGenerator;
 import se.inera.intyg.common.fk7263.pdf.PdfGeneratorException;
 import se.inera.intyg.common.fk7263.schemas.clinicalprocess.healthcond.certificate.converter.ClinicalProcessCertificateMetaTypeConverter;
 import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
+import se.inera.intyg.common.fk7263.testability.Fk7263TestabilityTestDataDecorator;
 import se.inera.intyg.common.fk7263.validator.InternalDraftValidator;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter.ModelConverter;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
@@ -77,6 +78,7 @@ import se.inera.intyg.common.services.messages.MessagesParser;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.util.TestabilityToolkit;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -102,6 +104,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
+import se.inera.intyg.common.support.modules.support.facade.FillType;
 import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
@@ -721,5 +724,16 @@ public class Fk7263ModuleApi implements ModuleApi {
         final var message = utlatande == null ? "null" : utlatande.getClass().toString();
         throw new IllegalArgumentException(
             "Utlatande was not instance of class Fk7263Utlatande, utlatande was instance of class: " + message);
+    }
+
+    @Override
+    public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
+        try {
+            final var utlatande = getUtlatandeFromJson(model);
+            TestabilityToolkit.decorateCertificateWithTestData(utlatande, fillType, new Fk7263TestabilityTestDataDecorator());
+            return getJsonFromUtlatande(utlatande);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
