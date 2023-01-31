@@ -79,5 +79,12 @@ public class TSTRK1031TestabilityTestDataDecorator implements TestabilityTestDat
         utlatande.getHypoglykemier().setAllvarligForekomstVakenTid(true);
         utlatande.getHypoglykemier().setAllvarligForekomstVakenTidObservationstid(new InternalDate(LocalDate.now()));
 
+        utlatande.getSyn().setSeparatOgonlakarintyg(false);
+        utlatande.getSyn().setSynfaltsprovningUtanAnmarkning(true);
+        final var synskarpaValue = 1.5;
+        utlatande.getSyn().setHoger(synskarpaValue, synskarpaValue);
+        utlatande.getSyn().setVanster(synskarpaValue, synskarpaValue);
+        utlatande.getSyn().setBinokulart(synskarpaValue, synskarpaValue);
+        utlatande.getSyn().setDiplopi(true);
     }
 }

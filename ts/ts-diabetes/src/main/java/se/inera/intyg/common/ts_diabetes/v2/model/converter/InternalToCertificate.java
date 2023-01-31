@@ -28,6 +28,7 @@ import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.category
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.category.CategoryHypoglykemi;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.category.CategoryIdentitetStyrktGenom;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.category.CategoryIntygetAvser;
+import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.category.CategorySyn;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionDiabetesAnnanBehandlingBeskrivning;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionDiabetesBehandling;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionDiabetesDiagnosAr;
@@ -45,6 +46,10 @@ import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionHypoglykemiTeckenNedsattHjarnfunktion;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionIdentitetStyrktGenom;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionIntygetAvser;
+import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionSynDubbelseende;
+import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionSynSeparatOgonlakarintyg;
+import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionSynSynskarpa;
+import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionSynUtanAnmarkning;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
 
 @Component(value = "internalToCertificateTsDiabetesV2")
@@ -131,6 +136,24 @@ public class InternalToCertificate {
             .addElement(
                 QuestionHypoglykemiAllvarligForekomstVakenTidObservationstid.toCertificate(
                     internalCertificate.getHypoglykemier().getAllvarligForekomstVakenTidObservationstid(), index++, textProvider)
+            )
+            .addElement(
+                CategorySyn.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionSynSeparatOgonlakarintyg.toCertificate(internalCertificate.getSyn().getSeparatOgonlakarintyg(), index++,
+                    textProvider)
+            )
+            .addElement(
+                QuestionSynUtanAnmarkning.toCertificate(internalCertificate.getSyn().getSynfaltsprovningUtanAnmarkning(), index++,
+                    textProvider)
+            )
+            .addElement(
+                QuestionSynSynskarpa.toCertificate(internalCertificate.getSyn().getHoger(), internalCertificate.getSyn().getVanster(),
+                    internalCertificate.getSyn().getBinokulart(), index++, textProvider)
+            )
+            .addElement(
+                QuestionSynDubbelseende.toCertificate(internalCertificate.getSyn().getDiplopi(), index++, textProvider)
             )
             .build();
     }

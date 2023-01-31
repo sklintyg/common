@@ -55,6 +55,7 @@ public final class RespConstants {
     public static final String ALLMANT_BEHANDLING_INSULIN_TEXT_ID = "DFR_19.4.RBK";
     public static final String ALLMANT_BEHANDLING_ANNAN_DELSVAR_ID = "209.3";
     public static final String ALLMANT_BEHANDLING_ANNAN_TEXT_ID = "DFR_19.5.RBK";
+
     // Kat 4 - Hypoglykemi
     public static final String HYPOGLYKEMI_CATEGORY_ID = "hypoglykemi";
     public static final String HYPOGLYKEMI_CATEGORY_TEXT_ID = "KAT_2.RBK";
@@ -78,7 +79,27 @@ public final class RespConstants {
     public static final String HYPOGLYKEMI_ALLVARLIG_FOREKOMST_VAKEN_TID_SVAR_TEXT_ID = "FRG_42.RBK";
     public static final String HYPOGLYKEMI_ALLVARLIG_FOREKOMST_VAKEN_TID_OBSERVATIONSTID_SVAR_ID = "208";
     public static final String HYPOGLYKEMI_ALLVARLIG_FOREKOMST_VAKEN_TID_OBSERVATIONSTID_SVAR_TEXT_ID = "DFR_42.2.RBK";
-    
+    // Kat 5 - Syn
+    public static final String SYN_CATEGORY_ID = "syn";
+    public static final String SYN_CATEGORY_TEXT_ID = "KAT_3.RBK";
+    public static final String SYN_SEPARAT_OGONLAKARINTYG_SVAR_ID = "309";
+    public static final String SYN_SEPARAT_OGONLAKARINTYG_SVAR_TEXT_ID = "FRG_43.RBK";
+    public static final String SYN_UTAN_ANMARKNING_SVAR_ID = "310";
+    public static final String SYN_UTAN_ANMARKNING_SVAR_TEXT_ID = "FRG_44.RBK";
+    public static final String SYN_VARDEN_SYNSKARPA_SVAR_ID = "311";
+    public static final String SYN_VARDEN_SYNSKARPA_SVAR_TEXT_ID = "FRG_8.RBK";
+    public static final String SYN_DUBBELSEENDE_SVAR_ID = "312";
+    public static final String SYN_DUBBELSEENDE_SVAR_TEXT_ID = "FRG_6.RBK";
+    public static final String HOGER_OGA_LABEL = "Höger öga";
+    public static final String VANSTER_OGA_LABEL = "Vänster öga";
+    public static final String BINOKULART_LABEL = "Binokulärt";
+    public static final String UTAN_KORREKTION_TEXT = "Utan korrektion";
+    public static final String MED_KORREKTION_TEXT = "Med korrektion";
+    public static final String SYNSKARPA_TYP_ID = "synskarpaTyp";
+    public static final String UTAN_KORREKTION_ID = "utanKorrektion";
+    public static final String MED_KORREKTION_ID = "medKorrektion";
+    public static final String KONTAKTLINSER_ID = "kontaktlinser";
+    public static final String KONTAKTLINSER_TEXT_ID = "ts-bas.label.syn.kontaktlins";
     // Kat 6 - Övrigt
     public static final String OVRIGT_CATEGORY_ID = "ovrigt";
     public static final String OVRIGT_CATEGORY_TEXT_ID = "KAT_6.RBK";

@@ -31,6 +31,8 @@ import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_FOREKOMST_BESKRIVNING_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_FOREKOMST_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_FOREKOMST_TRAFIKEN_BESKRIVNING_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_FOREKOMST_TRAFIKEN_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_FOREKOMST_VAKEN_TID_OBSERVATIONSTID_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_FOREKOMST_VAKEN_TID_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.HYPOGLYKEMI_CATEGORY_ID;
@@ -41,6 +43,11 @@ import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.IDENTITET_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.INTYG_AVSER_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.SYN_CATEGORY_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.SYN_DUBBELSEENDE_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.SYN_SEPARAT_OGONLAKARINTYG_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.SYN_UTAN_ANMARKNING_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.SYN_VARDEN_SYNSKARPA_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -192,20 +199,62 @@ class InternalToCertificateTest {
     }
 
     @Test
+    void shallIncludeQuestionHypoglykemiAllvarligForekomstTrafiken() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(16, actualCertificate.getData().get(HYPOGLYKEMI_ALLVARLIG_FOREKOMST_TRAFIKEN_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionHypoglykemiAllvarligForekomstTrafikenBeskrivning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(17, actualCertificate.getData().get(HYPOGLYKEMI_ALLVARLIG_FOREKOMST_TRAFIKEN_BESKRIVNING_SVAR_ID).getIndex());
+    }
+
+    @Test
     void shallIncludeQuestionHypoglykemiEgenkontrollBlodsocker() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(16, actualCertificate.getData().get(HYPOGLYKEMI_EGENKONTROLL_BLODSOCKER_SVAR_ID).getIndex());
+        assertEquals(18, actualCertificate.getData().get(HYPOGLYKEMI_EGENKONTROLL_BLODSOCKER_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionHypoglykemiAllvarligForekomstVakenTid() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(17, actualCertificate.getData().get(HYPOGLYKEMI_ALLVARLIG_FOREKOMST_VAKEN_TID_SVAR_ID).getIndex());
+        assertEquals(19, actualCertificate.getData().get(HYPOGLYKEMI_ALLVARLIG_FOREKOMST_VAKEN_TID_SVAR_ID).getIndex());
     }
 
     @Test
     void shallIncludeQuestionHypoglykemiAllvarligForekomstVakenTidObervationstid() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(18, actualCertificate.getData().get(HYPOGLYKEMI_ALLVARLIG_FOREKOMST_VAKEN_TID_OBSERVATIONSTID_SVAR_ID).getIndex());
+        assertEquals(20, actualCertificate.getData().get(HYPOGLYKEMI_ALLVARLIG_FOREKOMST_VAKEN_TID_OBSERVATIONSTID_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategorySyn() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(21, actualCertificate.getData().get(SYN_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionSynSeparatOgonlakarintyg() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(22, actualCertificate.getData().get(SYN_SEPARAT_OGONLAKARINTYG_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionSynUtanAnmarkning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(23, actualCertificate.getData().get(SYN_UTAN_ANMARKNING_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionSynskarpa() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(24, actualCertificate.getData().get(SYN_VARDEN_SYNSKARPA_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionSynDubbelseende() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(25, actualCertificate.getData().get(SYN_DUBBELSEENDE_SVAR_ID).getIndex());
     }
 }
