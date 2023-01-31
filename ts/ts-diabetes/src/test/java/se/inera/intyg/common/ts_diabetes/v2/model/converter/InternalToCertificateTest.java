@@ -29,6 +29,15 @@ import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.ALLMANT_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_FOREKOMST_BESKRIVNING_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_FOREKOMST_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_FOREKOMST_VAKEN_TID_OBSERVATIONSTID_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_FOREKOMST_VAKEN_TID_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.HYPOGLYKEMI_CATEGORY_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.HYPOGLYKEMI_EGENKONTROLL_BLODSOCKER_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.HYPOGLYKEMI_KUNSKAP_OM_ATGARDER_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.HYPOGLYKEMI_SAKNAR_FORMAGA_KANNA_VARNINGSTECKEN_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.HYPOGLYKEMI_TECKEN_NEDSATT_HJARNFUNKTION_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.IDENTITET_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.INTYG_AVSER_SVAR_ID;
@@ -144,5 +153,59 @@ class InternalToCertificateTest {
     void shallIncludeQuestionDiabetesAnnanBehandlingBeskrivning() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(9, actualCertificate.getData().get(ALLMANT_BEHANDLING_ANNAN_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryHypoglykemi() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(10, actualCertificate.getData().get(HYPOGLYKEMI_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionHypoglykemiKunskapOmAtgarder() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(11, actualCertificate.getData().get(HYPOGLYKEMI_KUNSKAP_OM_ATGARDER_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionHypoglykemiNedsattHjarnfunktion() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(12, actualCertificate.getData().get(HYPOGLYKEMI_TECKEN_NEDSATT_HJARNFUNKTION_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionHypoglykemiSaknarFormagaKannaVarningstecken() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(13, actualCertificate.getData().get(HYPOGLYKEMI_SAKNAR_FORMAGA_KANNA_VARNINGSTECKEN_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionHypoglykemiAllvarligForekomst() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(14, actualCertificate.getData().get(HYPOGLYKEMI_ALLVARLIG_FOREKOMST_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionHypoglykemiAllvarligForekomstBeskrivning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(15, actualCertificate.getData().get(HYPOGLYKEMI_ALLVARLIG_FOREKOMST_BESKRIVNING_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionHypoglykemiEgenkontrollBlodsocker() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(16, actualCertificate.getData().get(HYPOGLYKEMI_EGENKONTROLL_BLODSOCKER_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionHypoglykemiAllvarligForekomstVakenTid() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(17, actualCertificate.getData().get(HYPOGLYKEMI_ALLVARLIG_FOREKOMST_VAKEN_TID_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionHypoglykemiAllvarligForekomstVakenTidObervationstid() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(18, actualCertificate.getData().get(HYPOGLYKEMI_ALLVARLIG_FOREKOMST_VAKEN_TID_OBSERVATIONSTID_SVAR_ID).getIndex());
     }
 }

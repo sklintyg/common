@@ -21,6 +21,7 @@ package se.inera.intyg.common.ts_diabetes.v2.testability;
 
 import java.time.LocalDate;
 import se.inera.intyg.common.support.facade.util.TestabilityTestDataDecorator;
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.Vardkontakt;
@@ -34,6 +35,9 @@ public class TSTRK1031TestabilityTestDataDecorator implements TestabilityTestDat
         utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.C1E);
         utlatande.setVardkontakt(new Vardkontakt());
         utlatande.getVardkontakt().setIdkontroll(IdKontrollKod.KORKORT.name());
+        utlatande.getDiabetes().setObservationsperiod(String.valueOf(LocalDate.now()));
+        utlatande.getDiabetes().setDiabetestyp(DiabetesKod.DIABETES_TYP_1.name());
+        utlatande.getDiabetes().setTabletter(true);
     }
 
     @Override
@@ -52,8 +56,10 @@ public class TSTRK1031TestabilityTestDataDecorator implements TestabilityTestDat
         utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.AM);
         utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.TAXI);
         utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.TRAKTOR);
+
         utlatande.setVardkontakt(new Vardkontakt());
         utlatande.getVardkontakt().setIdkontroll(IdKontrollKod.KORKORT.name());
+
         utlatande.getDiabetes().setObservationsperiod(String.valueOf(LocalDate.now()));
         utlatande.getDiabetes().setDiabetestyp(DiabetesKod.DIABETES_TYP_2.name());
         utlatande.getDiabetes().setInsulin(true);
@@ -61,5 +67,17 @@ public class TSTRK1031TestabilityTestDataDecorator implements TestabilityTestDat
         utlatande.getDiabetes().setTabletter(true);
         utlatande.getDiabetes().setInsulinBehandlingsperiod("insulin behandling period");
         utlatande.getDiabetes().setAnnanBehandlingBeskrivning("annan behandling beskrivning");
+
+        utlatande.getHypoglykemier().setKunskapOmAtgarder(true);
+        utlatande.getHypoglykemier().setTeckenNedsattHjarnfunktion(true);
+        utlatande.getHypoglykemier().setSaknarFormagaKannaVarningstecken(true);
+        utlatande.getHypoglykemier().setAllvarligForekomst(true);
+        utlatande.getHypoglykemier().setAllvarligForekomstBeskrivning("hur många sådana episoder?");
+        utlatande.getHypoglykemier().setAllvarligForekomstTrafiken(true);
+        utlatande.getHypoglykemier().setAllvarligForekomstTrafikBeskrivning("hur många sådana episoder och när inträffade de?");
+        utlatande.getHypoglykemier().setEgenkontrollBlodsocker(true);
+        utlatande.getHypoglykemier().setAllvarligForekomstVakenTid(true);
+        utlatande.getHypoglykemier().setAllvarligForekomstVakenTidObservationstid(new InternalDate(LocalDate.now()));
+
     }
 }
