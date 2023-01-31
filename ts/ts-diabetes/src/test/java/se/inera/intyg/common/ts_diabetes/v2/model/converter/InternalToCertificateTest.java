@@ -48,6 +48,8 @@ import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.IDENTITET_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.INTYG_AVSER_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.OVRIGT_KOMMENTARER_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.SYN_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.SYN_DUBBELSEENDE_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.SYN_SEPARAT_OGONLAKARINTYG_SVAR_ID;
@@ -291,5 +293,17 @@ class InternalToCertificateTest {
     void shallIncludeQuestionBedomningLamplighetInnehaBehorighet() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(30, actualCertificate.getData().get(BEDOMNING_LAMPLIGHET_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryOvrigt() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(31, actualCertificate.getData().get(OVRIGT_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionOvrigtKommentarer() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(32, actualCertificate.getData().get(OVRIGT_KOMMENTARER_SVAR_ID).getIndex());
     }
 }

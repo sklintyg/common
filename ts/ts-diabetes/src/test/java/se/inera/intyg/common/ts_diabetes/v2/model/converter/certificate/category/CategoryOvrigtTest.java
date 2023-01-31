@@ -17,39 +17,50 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question;
+package se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.category;
 
-import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
-import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_SVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_TEXT;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.OVRIGT_CATEGORY_TEXT_ID;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
-import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigHeaderTest;
+import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategoryTest;
 
 @ExtendWith(MockitoExtension.class)
-class QuestionBedomningKorkortstypHeaderTest {
+class CategoryOvrigtTest {
+
+    @Mock
+    private CertificateTextProvider texts;
+
+    @BeforeEach
+    void setup() {
+        when(texts.get(any(String.class))).thenReturn("Test string");
+    }
 
     @Nested
     class IncludeCommonElementTests extends CommonElementTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionBedomningKorkortstypHeader.toCertificate(0);
+            return CategoryOvrigt.toCertificate(0, texts);
         }
 
         @Override
         protected String getId() {
-            return BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_SVAR_ID;
+            return OVRIGT_CATEGORY_ID;
         }
 
         @Override
         protected String getParent() {
-            return BEDOMNING_CATEGORY_ID;
+            return null;
         }
 
         @Override
@@ -59,21 +70,21 @@ class QuestionBedomningKorkortstypHeaderTest {
     }
 
     @Nested
-    class IncludeConfigHeaderTests extends ConfigHeaderTest {
+    class IncludeConfigCategoryTests extends ConfigCategoryTest {
 
         @Override
         protected CertificateTextProvider getTextProviderMock() {
-            return null;
+            return texts;
         }
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionBedomningKorkortstypHeader.toCertificate(0);
+            return CategoryOvrigt.toCertificate(0, texts);
         }
 
         @Override
         protected String getTextId() {
-            return BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_TEXT;
+            return OVRIGT_CATEGORY_TEXT_ID;
         }
 
         @Override

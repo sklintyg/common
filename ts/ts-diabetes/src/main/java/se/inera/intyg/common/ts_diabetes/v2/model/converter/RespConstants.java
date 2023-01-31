@@ -102,70 +102,22 @@ public final class RespConstants {
     // Kat 7 - Bedömning
     public static final String BEDOMNING_CATEGORY_ID = "bedomning";
     public static final String BEDOMNING_CATEGORY_TEXT_ID = "KAT_4.RBK";
-    public static final String BEDOMNING_SVAR_ID = "33";
     public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID = "33.1";
     public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_TEXT_ID = "DFR_33.1.RBK";
-    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_TEXT_ID = "FRG_33.RBK";
     public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_SVAR_ID = "33.0";
     public static final String BEDOMNING_LAKARE_SPECIAL_KOMPETENS_SVAR_ID = "34";
     public static final String BEDOMNING_LAKARE_SPECIAL_KOMPETENS_SVAR_TEXT_ID = "FRG_34.RBK";
-    public static final String BEDOMNING_LAMPLIGHET_SVAR_ID = "35";
+    public static final String BEDOMNING_LAMPLIGHET_SVAR_ID = "35.0";
     public static final String BEDOMNING_LAMPLIGHET_SVAR_TEXT_ID = "FRG_45.RBK";
-    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID = "uppfyllerBehorighetskrav";
-    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT = "Patienten uppfyller kraven enligt 6 kap. i Transportstyrelsens "
-        + "föreskrifter och allmänna råd (TSFS 2010:125) om medicinska krav för innehav av körkort m.m. Föreskrivna krav på läkarens "
-        + "specialistkompetens vid diabetessjukdom anges i 17 kap.";
-    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT_ID = "FRG_33.RBK";
-    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DESCRIPTION_ID = "FRG_33.HLP";
-
-    public static final String BEDOMNING_OVRIGA_KOMMENTARER_SVAR_ID = "32";
-    public static final String BEDOMNING_OVRIGA_KOMMENTARER_DELSVAR_ID = "32.1";
-    public static final String BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID = "ovrigaKommentarer";
-    public static final String BEDOMNING_OVRIGA_KOMMENTARER_TEXT_ID = "FRG_32.RBK";
+    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_TEXT =
+        "Patienten uppfyller kraven enligt 6 kap. i Transportstyrelsens "
+            + "föreskrifter och allmänna råd (TSFS 2010:125) om medicinska krav för innehav av körkort m.m. Föreskrivna krav på läkarens "
+            + "specialistkompetens vid diabetessjukdom anges i 17 kap.";
 
     // Kat 6 - Övrigt
     public static final String OVRIGT_CATEGORY_ID = "ovrigt";
-    public static final String OVRIGT_CATEGORY_TEXT_ID = "KAT_6.RBK";
-    public static final String OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID = "206";
-    public static final String OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_DELSVAR_ID = "206.1";
-    public static final String OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID = "komplikationerAvSjukdomen";
-    public static final String OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_TEXT_ID = "FRG_206.RBK";
-    public static final String OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DELSVAR_ID = "206.2";
-    public static final String OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID = "komplikationerAvSjukdomenAnges";
-    public static final String OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_TEXT_ID = "DFR_206.2.RBK";
-    public static final String OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DESCRIPTION_ID = "DFR_206.2.HLP";
-
-    public static final String OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_SVAR_ID = "34";
-    public static final String OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_DELSVAR_ID = "34.1";
-    public static final String OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_JSON_ID = "borUndersokasAvSpecialist";
-    public static final String OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_TEXT_ID = "FRG_34.RBK";
-
-
-    public static final String BEDOMNING_KORKORTSBEHORIGHET_VAR12_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR12.RBK";
-    public static final String BEDOMNING_KORKORTSBEHORIGHET_VAR13_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR13.RBK";
-    public static final String BEDOMNING_KORKORTSBEHORIGHET_VAR14_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR14.RBK";
-    public static final String BEDOMNING_KORKORTSBEHORIGHET_VAR15_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR15.RBK";
-    public static final String BEDOMNING_KORKORTSBEHORIGHET_VAR16_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR16.RBK";
-    public static final String BEDOMNING_KORKORTSBEHORIGHET_VAR17_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR17.RBK";
-    public static final String BEDOMNING_KORKORTSBEHORIGHET_VAR18_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR18.RBK";
-    public static final String BEDOMNING_KORKORTSBEHORIGHET_VAR1_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR1.RBK";
-    public static final String BEDOMNING_KORKORTSBEHORIGHET_VAR2_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR2.RBK";
-    public static final String BEDOMNING_KORKORTSBEHORIGHET_VAR3_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR3.RBK";
-    public static final String BEDOMNING_KORKORTSBEHORIGHET_VAR4_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR4.RBK";
-    public static final String BEDOMNING_KORKORTSBEHORIGHET_VAR5_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR5.RBK";
-    public static final String BEDOMNING_KORKORTSBEHORIGHET_VAR6_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR6.RBK";
-    public static final String BEDOMNING_KORKORTSBEHORIGHET_VAR7_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR7.RBK";
-    public static final String BEDOMNING_KORKORTSBEHORIGHET_VAR8_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR8.RBK";
-    public static final String BEDOMNING_KORKORTSBEHORIGHET_VAR9_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR9.RBK";
-    public static final String BEDOMNING_KORKORTSBEHORIGHET_VAR11_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR11.RBK";
-
-    public static final String GRUNDDATA_SVAR_JSON_ID = "grundData";
-    public static final String TEXTVERSION_JSON_ID = "textVersion";
-    public static final String ID_JSON_ID = "id";
-    public static final String SIGNATURE = "signature";
-    public static final String KATEGORIER_JSON_ID = "kategorier";
-    public static final String TYP_JSON_ID = "typ";
-    public static final String VERSION_4_0 = "4.0";
+    public static final String OVRIGT_CATEGORY_TEXT_ID = "FRG_32.RBK";
+    public static final String OVRIGT_KOMMENTARER_SVAR_ID = "350";
 
     private RespConstants() {
     }

@@ -29,6 +29,7 @@ import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.category
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.category.CategoryHypoglykemi;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.category.CategoryIdentitetStyrktGenom;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.category.CategoryIntygetAvser;
+import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.category.CategoryOvrigt;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.category.CategorySyn;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionBedomningKorkortstyp;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionBedomningKorkortstypHeader;
@@ -51,6 +52,7 @@ import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionHypoglykemiTeckenNedsattHjarnfunktion;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionIdentitetStyrktGenom;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionIntygetAvser;
+import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionOvrigtKommentarer;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionSynDubbelseende;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionSynSeparatOgonlakarintyg;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionSynSynskarpa;
@@ -164,7 +166,7 @@ public class InternalToCertificate {
                 CategoryBedomning.toCertificate(index++, textProvider)
             )
             .addElement(
-                QuestionBedomningKorkortstypHeader.toCertificate(index++, textProvider)
+                QuestionBedomningKorkortstypHeader.toCertificate(index++)
             )
             .addElement(
                 QuestionBedomningKorkortstyp.toCertificate(internalCertificate.getBedomning(), index++, textProvider)
@@ -176,6 +178,12 @@ public class InternalToCertificate {
             .addElement(
                 QuestionBedomningLamplighetInnehaBehorighet.toCertificate(
                     internalCertificate.getBedomning().getLamplighetInnehaBehorighet(), index++, textProvider)
+            )
+            .addElement(
+                CategoryOvrigt.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionOvrigtKommentarer.toCertificate(internalCertificate.getKommentarer(), index)
             )
             .build();
     }

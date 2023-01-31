@@ -39,6 +39,20 @@ public class TSTRK1031TestabilityTestDataDecorator implements TestabilityTestDat
         utlatande.getDiabetes().setObservationsperiod(String.valueOf(LocalDate.now()));
         utlatande.getDiabetes().setDiabetestyp(DiabetesKod.DIABETES_TYP_1.name());
         utlatande.getDiabetes().setTabletter(true);
+
+        utlatande.getHypoglykemier().setKunskapOmAtgarder(false);
+        utlatande.getHypoglykemier().setTeckenNedsattHjarnfunktion(false);
+        utlatande.getHypoglykemier().setSaknarFormagaKannaVarningstecken(false);
+        utlatande.getHypoglykemier().setAllvarligForekomst(false);
+        utlatande.getHypoglykemier().setAllvarligForekomstTrafiken(false);
+        utlatande.getHypoglykemier().setEgenkontrollBlodsocker(false);
+        utlatande.getHypoglykemier().setAllvarligForekomstVakenTid(false);
+
+        utlatande.getSyn().setSeparatOgonlakarintyg(true);
+
+        utlatande.getBedomning().getKorkortstyp().add(BedomningKorkortstyp.BE);
+        utlatande.getBedomning().setKanInteTaStallning(false);
+        utlatande.getBedomning().setLamplighetInnehaBehorighet(false);
     }
 
     @Override
@@ -106,5 +120,7 @@ public class TSTRK1031TestabilityTestDataDecorator implements TestabilityTestDat
             .setLakareSpecialKompetens("Patienten bör före ärendets avgörande undersökas av läkare med specialistkompetens i");
         utlatande.getBedomning().setKommentarer("En kommentar");
         utlatande.getBedomning().setLamplighetInnehaBehorighet(true);
+
+        utlatande.setKommentarer("Övriga kommentarer");
     }
 }

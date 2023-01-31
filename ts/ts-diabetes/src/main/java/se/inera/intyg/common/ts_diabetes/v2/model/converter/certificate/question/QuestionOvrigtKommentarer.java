@@ -19,27 +19,30 @@
 
 package se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question;
 
-import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
-import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_SVAR_ID;
-import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_TEXT;
+import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.stringValue;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.OVRIGT_KOMMENTARER_SVAR_ID;
 
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigHeader;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigViewText;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewText;
 
-public class QuestionBedomningKorkortstypHeader {
+public class QuestionOvrigtKommentarer {
 
-    public static CertificateDataElement toCertificate(int index) {
+    public static CertificateDataElement toCertificate(String kommentarer, int index) {
         return CertificateDataElement.builder()
-            .id(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_SVAR_ID)
-            .parent(BEDOMNING_CATEGORY_ID)
+            .id(OVRIGT_KOMMENTARER_SVAR_ID)
+            .parent(OVRIGT_CATEGORY_ID)
             .index(index)
             .config(
-                CertificateDataConfigHeader.builder()
-                    .text(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_TEXT)
+                CertificateDataConfigViewText.builder()
+                    .build()
+            )
+            .value(
+                CertificateDataValueViewText.builder()
+                    .text(stringValue(kommentarer))
                     .build()
             )
             .build();
-
     }
 }
-
