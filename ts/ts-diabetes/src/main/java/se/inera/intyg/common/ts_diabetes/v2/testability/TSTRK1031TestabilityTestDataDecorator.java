@@ -22,6 +22,7 @@ package se.inera.intyg.common.ts_diabetes.v2.testability;
 import java.time.LocalDate;
 import se.inera.intyg.common.support.facade.util.TestabilityTestDataDecorator;
 import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.ts_diabetes.v2.model.internal.BedomningKorkortstyp;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.Vardkontakt;
@@ -86,5 +87,24 @@ public class TSTRK1031TestabilityTestDataDecorator implements TestabilityTestDat
         utlatande.getSyn().setVanster(synskarpaValue, synskarpaValue);
         utlatande.getSyn().setBinokulart(synskarpaValue, synskarpaValue);
         utlatande.getSyn().setDiplopi(true);
+
+        utlatande.getBedomning().getKorkortstyp().add(BedomningKorkortstyp.BE);
+        utlatande.getBedomning().getKorkortstyp().add(BedomningKorkortstyp.B);
+        utlatande.getBedomning().getKorkortstyp().add(BedomningKorkortstyp.A);
+        utlatande.getBedomning().getKorkortstyp().add(BedomningKorkortstyp.AM);
+        utlatande.getBedomning().getKorkortstyp().add(BedomningKorkortstyp.A1);
+        utlatande.getBedomning().getKorkortstyp().add(BedomningKorkortstyp.A2);
+        utlatande.getBedomning().getKorkortstyp().add(BedomningKorkortstyp.TAXI);
+        utlatande.getBedomning().getKorkortstyp().add(BedomningKorkortstyp.TRAKTOR);
+        utlatande.getBedomning().getKorkortstyp().add(BedomningKorkortstyp.C);
+        utlatande.getBedomning().getKorkortstyp().add(BedomningKorkortstyp.C1E);
+        utlatande.getBedomning().getKorkortstyp().add(BedomningKorkortstyp.C1);
+        utlatande.getBedomning().getKorkortstyp().add(BedomningKorkortstyp.CE);
+
+        utlatande.getBedomning().setKanInteTaStallning(true);
+        utlatande.getBedomning()
+            .setLakareSpecialKompetens("Patienten bör före ärendets avgörande undersökas av läkare med specialistkompetens i");
+        utlatande.getBedomning().setKommentarer("En kommentar");
+        utlatande.getBedomning().setLamplighetInnehaBehorighet(true);
     }
 }

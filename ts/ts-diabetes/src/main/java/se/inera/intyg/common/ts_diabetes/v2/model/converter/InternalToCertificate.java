@@ -25,10 +25,15 @@ import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.category.CategoryAllmant;
+import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.category.CategoryBedomning;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.category.CategoryHypoglykemi;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.category.CategoryIdentitetStyrktGenom;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.category.CategoryIntygetAvser;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.category.CategorySyn;
+import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionBedomningKorkortstyp;
+import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionBedomningKorkortstypHeader;
+import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionBedomningLakareSpecialKompetens;
+import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionBedomningLamplighetInnehaBehorighet;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionDiabetesAnnanBehandlingBeskrivning;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionDiabetesBehandling;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionDiabetesDiagnosAr;
@@ -154,6 +159,23 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionSynDubbelseende.toCertificate(internalCertificate.getSyn().getDiplopi(), index++, textProvider)
+            )
+            .addElement(
+                CategoryBedomning.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionBedomningKorkortstypHeader.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionBedomningKorkortstyp.toCertificate(internalCertificate.getBedomning(), index++, textProvider)
+            )
+            .addElement(
+                QuestionBedomningLakareSpecialKompetens.toCertificate(internalCertificate.getBedomning().getLakareSpecialKompetens(),
+                    index++, textProvider)
+            )
+            .addElement(
+                QuestionBedomningLamplighetInnehaBehorighet.toCertificate(
+                    internalCertificate.getBedomning().getLamplighetInnehaBehorighet(), index++, textProvider)
             )
             .build();
     }

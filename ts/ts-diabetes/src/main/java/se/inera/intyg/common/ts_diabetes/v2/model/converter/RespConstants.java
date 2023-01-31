@@ -98,8 +98,31 @@ public final class RespConstants {
     public static final String SYNSKARPA_TYP_ID = "synskarpaTyp";
     public static final String UTAN_KORREKTION_ID = "utanKorrektion";
     public static final String MED_KORREKTION_ID = "medKorrektion";
-    public static final String KONTAKTLINSER_ID = "kontaktlinser";
-    public static final String KONTAKTLINSER_TEXT_ID = "ts-bas.label.syn.kontaktlins";
+
+    // Kat 7 - Bedömning
+    public static final String BEDOMNING_CATEGORY_ID = "bedomning";
+    public static final String BEDOMNING_CATEGORY_TEXT_ID = "KAT_4.RBK";
+    public static final String BEDOMNING_SVAR_ID = "33";
+    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID = "33.1";
+    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_TEXT_ID = "DFR_33.1.RBK";
+    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_TEXT_ID = "FRG_33.RBK";
+    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_SVAR_ID = "33.0";
+    public static final String BEDOMNING_LAKARE_SPECIAL_KOMPETENS_SVAR_ID = "34";
+    public static final String BEDOMNING_LAKARE_SPECIAL_KOMPETENS_SVAR_TEXT_ID = "FRG_34.RBK";
+    public static final String BEDOMNING_LAMPLIGHET_SVAR_ID = "35";
+    public static final String BEDOMNING_LAMPLIGHET_SVAR_TEXT_ID = "FRG_45.RBK";
+    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID = "uppfyllerBehorighetskrav";
+    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT = "Patienten uppfyller kraven enligt 6 kap. i Transportstyrelsens "
+        + "föreskrifter och allmänna råd (TSFS 2010:125) om medicinska krav för innehav av körkort m.m. Föreskrivna krav på läkarens "
+        + "specialistkompetens vid diabetessjukdom anges i 17 kap.";
+    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT_ID = "FRG_33.RBK";
+    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DESCRIPTION_ID = "FRG_33.HLP";
+
+    public static final String BEDOMNING_OVRIGA_KOMMENTARER_SVAR_ID = "32";
+    public static final String BEDOMNING_OVRIGA_KOMMENTARER_DELSVAR_ID = "32.1";
+    public static final String BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID = "ovrigaKommentarer";
+    public static final String BEDOMNING_OVRIGA_KOMMENTARER_TEXT_ID = "FRG_32.RBK";
+
     // Kat 6 - Övrigt
     public static final String OVRIGT_CATEGORY_ID = "ovrigt";
     public static final String OVRIGT_CATEGORY_TEXT_ID = "KAT_6.RBK";
@@ -117,22 +140,6 @@ public final class RespConstants {
     public static final String OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_JSON_ID = "borUndersokasAvSpecialist";
     public static final String OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_TEXT_ID = "FRG_34.RBK";
 
-    // Kat 7 - Bedömning
-    public static final String BEDOMNING_CATEGORY_ID = "bedomning";
-    public static final String BEDOMNING_CATEGORY_TEXT_ID = "KAT_7.RBK";
-    public static final String BEDOMNING_SVAR_ID = "33";
-    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID = "33.1";
-    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID = "uppfyllerBehorighetskrav";
-    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT = "Patienten uppfyller kraven enligt 6 kap. i Transportstyrelsens "
-        + "föreskrifter och allmänna råd (TSFS 2010:125) om medicinska krav för innehav av körkort m.m. Föreskrivna krav på läkarens "
-        + "specialistkompetens vid diabetessjukdom anges i 17 kap.";
-    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT_ID = "FRG_33.RBK";
-    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DESCRIPTION_ID = "FRG_33.HLP";
-
-    public static final String BEDOMNING_OVRIGA_KOMMENTARER_SVAR_ID = "32";
-    public static final String BEDOMNING_OVRIGA_KOMMENTARER_DELSVAR_ID = "32.1";
-    public static final String BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID = "ovrigaKommentarer";
-    public static final String BEDOMNING_OVRIGA_KOMMENTARER_TEXT_ID = "FRG_32.RBK";
 
     public static final String BEDOMNING_KORKORTSBEHORIGHET_VAR12_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR12.RBK";
     public static final String BEDOMNING_KORKORTSBEHORIGHET_VAR13_LABEL_ID = "KV_KORKORTSBEHORIGHET.VAR13.RBK";

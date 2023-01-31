@@ -29,6 +29,11 @@ import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.ALLMANT_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.BEDOMNING_LAKARE_SPECIAL_KOMPETENS_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.BEDOMNING_LAMPLIGHET_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_FOREKOMST_BESKRIVNING_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_FOREKOMST_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_FOREKOMST_TRAFIKEN_BESKRIVNING_SVAR_ID;
@@ -256,5 +261,35 @@ class InternalToCertificateTest {
     void shallIncludeQuestionSynDubbelseende() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(25, actualCertificate.getData().get(SYN_DUBBELSEENDE_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryBedomning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(26, actualCertificate.getData().get(BEDOMNING_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionBedomningKorkortstypHeader() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(27, actualCertificate.getData().get(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionBedomningKorkortstyp() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(28, actualCertificate.getData().get(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionBedomningLakareSpecialKompetens() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(29, actualCertificate.getData().get(BEDOMNING_LAKARE_SPECIAL_KOMPETENS_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionBedomningLamplighetInnehaBehorighet() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(30, actualCertificate.getData().get(BEDOMNING_LAMPLIGHET_SVAR_ID).getIndex());
     }
 }
