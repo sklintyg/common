@@ -24,8 +24,14 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.category.CategoryAllmant;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.category.CategoryIdentitetStyrktGenom;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.category.CategoryIntygetAvser;
+import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionDiabetesAnnanBehandlingBeskrivning;
+import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionDiabetesBehandling;
+import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionDiabetesDiagnosAr;
+import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionDiabetesInsulinBehandlingsperiod;
+import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionDiabetesTyp;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionIdentitetStyrktGenom;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
@@ -48,6 +54,27 @@ public class InternalToCertificate {
             )
             .addElement(
                 QuestionIdentitetStyrktGenom.toCertificate(internalCertificate.getVardkontakt(), index++)
+            )
+            .addElement(
+                CategoryAllmant.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                QuestionDiabetesDiagnosAr.toCertificate(internalCertificate.getDiabetes().getObservationsperiod(), index++, textProvider)
+            )
+            .addElement(
+                QuestionDiabetesTyp.toCertificate(internalCertificate.getDiabetes().getDiabetestyp(), index++, textProvider)
+            )
+            .addElement(
+                QuestionDiabetesBehandling.toCertificate(internalCertificate.getDiabetes().getEndastKost(),
+                    internalCertificate.getDiabetes().getTabletter(), internalCertificate.getDiabetes().getInsulin(), index++, textProvider)
+            )
+            .addElement(
+                QuestionDiabetesInsulinBehandlingsperiod.toCertificate(internalCertificate.getDiabetes().getInsulinBehandlingsperiod(),
+                    index++, textProvider)
+            )
+            .addElement(
+                QuestionDiabetesAnnanBehandlingBeskrivning.toCertificate(internalCertificate.getDiabetes().getAnnanBehandlingBeskrivning(),
+                    index++, textProvider)
             )
             .build();
     }

@@ -23,8 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.booleanValue;
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.multipleStringValues;
+import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.multipleStringValuesWithComma;
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.stringValue;
-import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.withComma;
 
 import org.junit.jupiter.api.Test;
 
@@ -66,6 +66,6 @@ class ViewTextToolkitTest {
     @Test
     void shallAddCommas() {
         final var expectedValue = "test, test, test";
-        assertEquals(expectedValue, withComma("test", "test", "test"));
+        assertEquals(expectedValue, multipleStringValuesWithComma("test", "test", "test"));
     }
 }

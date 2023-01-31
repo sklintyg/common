@@ -19,10 +19,12 @@
 
 package se.inera.intyg.common.ts_diabetes.v2.testability;
 
+import java.time.LocalDate;
 import se.inera.intyg.common.support.facade.util.TestabilityTestDataDecorator;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.Vardkontakt;
+import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 
 public class TSTRK1031TestabilityTestDataDecorator implements TestabilityTestDataDecorator<TsDiabetesUtlatandeV2> {
@@ -37,5 +39,27 @@ public class TSTRK1031TestabilityTestDataDecorator implements TestabilityTestDat
     @Override
     public void decorateWithMaximumValues(TsDiabetesUtlatandeV2 utlatande) {
         utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.C1E);
+        utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.D1E);
+        utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.A);
+        utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.D1);
+        utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.D);
+        utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.C1);
+        utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.C);
+        utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.BE);
+        utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.B);
+        utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.A1);
+        utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.A2);
+        utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.AM);
+        utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.TAXI);
+        utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.TRAKTOR);
+        utlatande.setVardkontakt(new Vardkontakt());
+        utlatande.getVardkontakt().setIdkontroll(IdKontrollKod.KORKORT.name());
+        utlatande.getDiabetes().setObservationsperiod(String.valueOf(LocalDate.now()));
+        utlatande.getDiabetes().setDiabetestyp(DiabetesKod.DIABETES_TYP_2.name());
+        utlatande.getDiabetes().setInsulin(true);
+        utlatande.getDiabetes().setEndastKost(true);
+        utlatande.getDiabetes().setTabletter(true);
+        utlatande.getDiabetes().setInsulinBehandlingsperiod("insulin behandling period");
+        utlatande.getDiabetes().setAnnanBehandlingBeskrivning("annan behandling beskrivning");
     }
 }

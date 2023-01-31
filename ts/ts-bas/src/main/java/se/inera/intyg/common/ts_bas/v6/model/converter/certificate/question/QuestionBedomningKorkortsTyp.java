@@ -20,7 +20,7 @@
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.multipleStringValues;
-import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.withComma;
+import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.multipleStringValuesWithComma;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.BEDOMNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_TEXT_ID;
@@ -53,7 +53,7 @@ public class QuestionBedomningKorkortsTyp {
             .value(
                 CertificateDataValueViewText.builder()
                     .text(
-                        korkortsTyper != null ? multipleStringValues(withComma(korkortsTyper)) : NOT_SPECIFIED
+                        korkortsTyper != null ? multipleStringValues(multipleStringValuesWithComma(korkortsTyper)) : NOT_SPECIFIED
                     )
                     .build()
             )

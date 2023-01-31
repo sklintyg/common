@@ -80,10 +80,10 @@ public final class ViewTextToolkit {
             return NOT_SPECIFIED;
         }
 
-        return stringBuilder.toString().trim();
+        return text;
     }
 
-    public static String withComma(String... value) {
+    public static String multipleStringValuesWithComma(String... value) {
         if (value == null) {
             return NOT_SPECIFIED;
         }
@@ -98,6 +98,13 @@ public final class ViewTextToolkit {
                 stringBuilder.append(value[i]);
             }
         }
-        return stringBuilder.toString();
+
+        final var text = stringBuilder.toString().trim();
+
+        if (text.isEmpty()) {
+            return NOT_SPECIFIED;
+        }
+
+        return text;
     }
 }

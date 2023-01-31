@@ -20,7 +20,7 @@
 package se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.multipleStringValues;
-import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.withComma;
+import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.multipleStringValuesWithComma;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.INTYG_AVSER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.INTYG_AVSER_SVAR_ID;
 
@@ -50,7 +50,7 @@ public class QuestionIntygetAvser {
                 CertificateDataValueViewText.builder()
                     .text(
                         multipleStringValues(korkortsTyper).equals(NOT_PROVIDED)
-                            ? multipleStringValues(korkortsTyper) : multipleStringValues(withComma(korkortsTyper))
+                            ? NOT_PROVIDED : multipleStringValuesWithComma(korkortsTyper)
                     )
                     .build()
             )

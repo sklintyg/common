@@ -42,7 +42,7 @@ public final class RespConstants {
 
     // Kat 3 - Allmänt
     public static final String ALLMANT_CATEGORY_ID = "allmant";
-    public static final String ALLMANT_CATEGORY_TEXT_ID = "KAT_3.RBK";
+    public static final String ALLMANT_CATEGORY_TEXT_ID = "KAT_1.RBK";
     public static final String ALLMANT_JSON_ID = "allmant";
     public static final String ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID = "205";
     public static final String ALLMANT_PATIENTEN_FOLJS_AV_DELSVAR_ID = "205.1";
@@ -86,16 +86,16 @@ public final class RespConstants {
 
     public static final String ALLMANT_BEHANDLING_SVAR_ID = "209";
     public static final String ALLMANT_BEHANDLING_JSON_ID = "behandling";
-    public static final String ALLMANT_BEHANDLING_TEXT_ID = "FRG_209.RBK";
+    public static final String ALLMANT_BEHANDLING_TEXT_ID = "FRG_19.RBK";
     public static final String ALLMANT_BEHANDLING_INSULIN_DELSVAR_ID = "209.1";
     public static final String ALLMANT_BEHANDLING_INSULIN_JSON_ID = "insulin";
-    public static final String ALLMANT_BEHANDLING_INSULIN_TEXT_ID = "DFR_209.1.RBK";
+    public static final String ALLMANT_BEHANDLING_INSULIN_TEXT_ID = "DFR_19.4.RBK";
     public static final String ALLMANT_BEHANDLING_TABLETTER_DELSVAR_ID = "209.2";
     public static final String ALLMANT_BEHANDLING_TABLETTER_JSON_ID = "tabletter";
     public static final String ALLMANT_BEHANDLING_TABLETTER_TEXT_ID = "DFR_209.2.RBK";
     public static final String ALLMANT_BEHANDLING_ANNAN_DELSVAR_ID = "209.3";
     public static final String ALLMANT_BEHANDLING_ANNAN_JSON_ID = "annan";
-    public static final String ALLMANT_BEHANDLING_ANNAN_TEXT_ID = "DFR_209.3.RBK";
+    public static final String ALLMANT_BEHANDLING_ANNAN_TEXT_ID = "DFR_19.5.RBK";
     public static final String ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID = "209.4";
     public static final String ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID = "annanAngeVilken";
     public static final String ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_TEXT_ID = "DFR_209.4.RBK";

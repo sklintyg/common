@@ -23,6 +23,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.ALLMANT_BEHANDLING_INSULIN_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.ALLMANT_BEHANDLING_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.ALLMANT_CATEGORY_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.IDENTITET_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.INTYG_AVSER_SVAR_ID;
@@ -102,5 +108,41 @@ class InternalToCertificateTest {
     void shallIncludeQuestionIdentitetStyrktGenom() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
         assertEquals(3, actualCertificate.getData().get(IDENTITET_STYRKT_GENOM_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeCategoryAllmant() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(4, actualCertificate.getData().get(ALLMANT_CATEGORY_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionDiabetesDiagnosAr() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(5, actualCertificate.getData().get(ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionDiabetesTyp() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(6, actualCertificate.getData().get(ALLMANT_TYP_AV_DIABETES_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionDiabetesBehandling() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(7, actualCertificate.getData().get(ALLMANT_BEHANDLING_SVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionDiabetesInsulinBehandlingsperiod() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(8, actualCertificate.getData().get(ALLMANT_BEHANDLING_INSULIN_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallIncludeQuestionDiabetesAnnanBehandlingBeskrivning() {
+        final var actualCertificate = internalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(9, actualCertificate.getData().get(ALLMANT_BEHANDLING_ANNAN_DELSVAR_ID).getIndex());
     }
 }
