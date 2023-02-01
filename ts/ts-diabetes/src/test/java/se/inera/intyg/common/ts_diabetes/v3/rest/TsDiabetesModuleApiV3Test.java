@@ -21,6 +21,7 @@ package se.inera.intyg.common.ts_diabetes.v3.rest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
@@ -28,6 +29,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -52,6 +54,9 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.oxm.UnmarshallingFailureException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.services.texts.IntygTextsService;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -68,8 +73,10 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
+import se.inera.intyg.common.ts_diabetes.v3.model.converter.InternalToCertificate;
 import se.inera.intyg.common.ts_diabetes.v3.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
 import se.inera.intyg.common.ts_diabetes.v3.utils.ScenarioFinder;
@@ -98,7 +105,10 @@ public class TsDiabetesModuleApiV3Test {
 
     private final String LOGICAL_ADDRESS = "logical address";
     private final String PNR_TOLVAN = "19121212-1212";
-
+    @Mock
+    InternalToCertificate internalToCertificate;
+    @Mock
+    private IntygTextsService intygTexts;
     @Mock
     private RegisterCertificateResponderInterface registerCertificateResponderInterface;
 
@@ -472,6 +482,43 @@ public class TsDiabetesModuleApiV3Test {
     @Test
     public void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
         assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
+    }
+
+    @Test
+    public void shallConvertInternalToCertificate() throws Exception {
+        final var expectedCertificate = CertificateBuilder.create().build();
+        final var certificateAsJson = "certificateAsJson";
+        final var typeAheadProvider = mock(TypeAheadProvider.class);
+
+        var internalCertificate = TsDiabetesUtlatandeV3.builder()
+            .setId("123")
+            .setTextVersion("1.0")
+            .setGrundData(new GrundData())
+            .build();
+
+        doReturn(internalCertificate)
+            .when(objectMapper).readValue(eq(certificateAsJson), eq(TsDiabetesUtlatandeV3.class));
+
+        doReturn(expectedCertificate)
+            .when(internalToCertificate).convert(eq(internalCertificate), any(CertificateTextProvider.class));
+
+        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider);
+
+        assertEquals(expectedCertificate, actualCertificate);
+    }
+
+    @Test
+    public void getCertficateMessagesProviderGetExistingKey() {
+        final var certificateMessagesProvider = moduleApi.getMessagesProvider();
+
+        assertEquals(certificateMessagesProvider.get("common.continue"), "Fortsätt");
+    }
+
+    @Test
+    public void getCertficateMessagesProviderGetMissingKey() {
+        final var certificateMessagesProvider = moduleApi.getMessagesProvider();
+
+        assertNull(certificateMessagesProvider.get("not.existing"));
     }
 
     private String toJsonString(TsDiabetesUtlatandeV3 utlatande) throws ModuleException {
