@@ -33,7 +33,7 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.Diabetes;
 public class QuestionDiabetesTyp {
 
     private static final String DIABETES_TYP_1 = "DIABETES_TYP_1";
-    private static final String DIABETES_TYP_2 = "DIABETES_TYP_2";
+    public static final String DIABETES_TYP_2 = "DIABETES_TYP_2";
 
     public static CertificateDataElement toCertificate(Diabetes diabetes, int index, CertificateTextProvider texts) {
         final var diabetesTyp = diabetes != null && diabetes.getDiabetesTyp() != null ? diabetes.getDiabetesTyp() : null;

@@ -33,7 +33,7 @@ import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 
 public class QuestionIdentitet {
 
-    private static final String ID_KORT = "ID_KORT";
+    public static final String ID_KORT = "ID_KORT";
     private static final String FORETAG_ELLER_TJANSTEKORT = "FORETAG_ELLER_TJANSTEKORT";
     private static final String KORKORT = "KORKORT";
     private static final String PERS_KANNEDOM = "PERS_KANNEDOM";

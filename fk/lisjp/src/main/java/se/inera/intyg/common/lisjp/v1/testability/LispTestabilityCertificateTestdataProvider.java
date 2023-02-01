@@ -45,9 +45,9 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
-import se.inera.intyg.common.support.facade.util.TestabilityTestdataProvider;
+import se.inera.intyg.common.support.facade.util.TestabilityCertificateTestdataProvider;
 
-public class LispTestabilityTestdataProvider implements TestabilityTestdataProvider {
+public class LispTestabilityCertificateTestdataProvider implements TestabilityCertificateTestdataProvider {
 
     private static String EXAMPLE_TEXT = "Detta är ett exempel";
 

@@ -53,6 +53,7 @@ import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvide
 import se.inera.intyg.common.services.messages.MessagesParser;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.util.TestabilityToolkit;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -78,6 +79,7 @@ import se.inera.intyg.common.ts_bas.v6.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
 import se.inera.intyg.common.ts_bas.v6.model.transformer.TsBasTransformerType;
 import se.inera.intyg.common.ts_bas.v6.pdf.PdfGenerator;
+import se.inera.intyg.common.ts_bas.v6.testability.TsBasV6TestabilityUtlatandeTestDataProvider;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.ts_parent.integration.SendTSClientFactory;
 import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
@@ -317,6 +319,13 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
 
     @Override
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        return model;
+        try {
+            final var utlatande = (TsBasUtlatandeV6) getUtlatandeFromJson(model);
+            final var updatedUtlatande = TestabilityToolkit.getUtlatandeWithTestData(utlatande, fillType,
+                new TsBasV6TestabilityUtlatandeTestDataProvider());
+            return getJsonFromUtlatande(updatedUtlatande);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -69,7 +69,7 @@ import se.inera.intyg.common.fk7263.pdf.PdfDefaultGenerator;
 import se.inera.intyg.common.fk7263.pdf.PdfGeneratorException;
 import se.inera.intyg.common.fk7263.schemas.clinicalprocess.healthcond.certificate.converter.ClinicalProcessCertificateMetaTypeConverter;
 import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
-import se.inera.intyg.common.fk7263.testability.Fk7263TestabilityTestDataDecorator;
+import se.inera.intyg.common.fk7263.testability.Fk7263TestabilityUtlatandeTestDataProvider;
 import se.inera.intyg.common.fk7263.validator.InternalDraftValidator;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter.ModelConverter;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
@@ -730,8 +730,9 @@ public class Fk7263ModuleApi implements ModuleApi {
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
         try {
             final var utlatande = getUtlatandeFromJson(model);
-            TestabilityToolkit.decorateCertificateWithTestData(utlatande, fillType, new Fk7263TestabilityTestDataDecorator());
-            return getJsonFromUtlatande(utlatande);
+            final var updatedUtlatande = TestabilityToolkit.getUtlatandeWithTestData(utlatande, fillType,
+                new Fk7263TestabilityUtlatandeTestDataProvider());
+            return getJsonFromUtlatande(updatedUtlatande);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -67,9 +67,9 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigation;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigationList;
-import se.inera.intyg.common.support.facade.util.TestabilityTestdataProvider;
+import se.inera.intyg.common.support.facade.util.TestabilityCertificateTestdataProvider;
 
-public class LuaefsTestabilityTestdataProvider implements TestabilityTestdataProvider {
+public class LuaefsTestabilityCertificateTestdataProvider implements TestabilityCertificateTestdataProvider {
 
     @Override
     public Map<String, CertificateDataValue> getMinimumValues() {

@@ -22,7 +22,7 @@ package se.inera.intyg.common.support.facade.util;
 import java.util.Map;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 
-public interface TestabilityTestdataProvider {
+public interface TestabilityCertificateTestdataProvider {
 
     Map<String, CertificateDataValue> getMinimumValues();
 
