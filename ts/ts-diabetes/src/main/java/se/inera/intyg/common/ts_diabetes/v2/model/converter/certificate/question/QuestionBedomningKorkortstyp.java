@@ -19,7 +19,6 @@
 
 package se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question;
 
-import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.multipleStringValues;
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.multipleStringValuesWithComma;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_TEXT_ID;
@@ -51,10 +50,7 @@ public class QuestionBedomningKorkortstyp {
             )
             .value(
                 CertificateDataValueViewText.builder()
-                    .text(
-                        multipleStringValues(korkortsTyper).equals(NOT_PROVIDED)
-                            ? NOT_PROVIDED : multipleStringValuesWithComma(korkortsTyper)
-                    )
+                    .text(korkortsTyper != null ? multipleStringValuesWithComma(korkortsTyper) : NOT_PROVIDED)
                     .build()
             )
             .build();
@@ -62,7 +58,7 @@ public class QuestionBedomningKorkortstyp {
     }
 
     private static String[] getKorkortstypName(Set<BedomningKorkortstyp> korkort) {
-        return korkort != null ? korkort.stream()
+        return korkort != null && !korkort.isEmpty() ? korkort.stream()
             .map(Enum::name)
             .toArray(String[]::new) : null;
     }

@@ -19,7 +19,6 @@
 
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
-import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.multipleStringValues;
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.multipleStringValuesWithComma;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.BEHANDLING_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.BEHANDLING_DIABETES_SVAR_TEXT_ID;
@@ -51,11 +50,10 @@ public class QuestionDiabetesBehandling {
             .value(
                 CertificateDataValueViewText.builder()
                     .text(
-                        multipleStringValues(kostToString(kost), tabletterToString(tabletter), insulinToString(insulin)).equals(
+                        multipleStringValuesWithComma(kostToString(kost), tabletterToString(tabletter), insulinToString(insulin)).equals(
                             NOT_PROVIDED)
-                            ? multipleStringValues(kostToString(kost), tabletterToString(tabletter), insulinToString(insulin))
-                            : multipleStringValues(
-                                multipleStringValuesWithComma(kostToString(kost), tabletterToString(tabletter), insulinToString(insulin)))
+                            ? NOT_PROVIDED
+                            : multipleStringValuesWithComma(kostToString(kost), tabletterToString(tabletter), insulinToString(insulin))
                     )
                     .build()
             )

@@ -61,7 +61,7 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.TransportToInternal;
 import se.inera.intyg.common.ts_bas.v7.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 import se.inera.intyg.common.ts_bas.v7.pdf.PdfGenerator;
-import se.inera.intyg.common.ts_bas.v7.testability.TsBasTestabilityCertificateTestdataProvider;
+import se.inera.intyg.common.ts_bas.v7.testability.TsBasV7TestabilityCertificateTestdataProvider;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.ts_parent.integration.SendTSClientFactory;
 import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
@@ -223,7 +223,7 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
     @Override
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
         final var certificate = getCertificateFromJson(model, typeAheadProvider);
-        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new TsBasTestabilityCertificateTestdataProvider());
+        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new TsBasV7TestabilityCertificateTestdataProvider());
         return getJsonFromCertificate(certificate, model);
     }
 

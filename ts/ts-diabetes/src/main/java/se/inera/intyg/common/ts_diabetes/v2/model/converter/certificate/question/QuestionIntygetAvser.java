@@ -19,7 +19,6 @@
 
 package se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question;
 
-import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.multipleStringValues;
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.multipleStringValuesWithComma;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.INTYG_AVSER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.INTYG_AVSER_SVAR_ID;
@@ -32,8 +31,6 @@ import se.inera.intyg.common.ts_diabetes.v2.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.IntygAvserKategori;
 
 public class QuestionIntygetAvser {
-
-    private static final String NOT_PROVIDED = "Ej Angivet";
 
     public static CertificateDataElement toCertificate(IntygAvser intygetAvser, int index) {
         final var korkort = intygetAvser != null && intygetAvser.getKorkortstyp() != null ? intygetAvser.getKorkortstyp() : null;
@@ -48,10 +45,7 @@ public class QuestionIntygetAvser {
             )
             .value(
                 CertificateDataValueViewText.builder()
-                    .text(
-                        multipleStringValues(korkortsTyper).equals(NOT_PROVIDED)
-                            ? NOT_PROVIDED : multipleStringValuesWithComma(korkortsTyper)
-                    )
+                    .text(multipleStringValuesWithComma(korkortsTyper))
                     .build()
             )
             .build();

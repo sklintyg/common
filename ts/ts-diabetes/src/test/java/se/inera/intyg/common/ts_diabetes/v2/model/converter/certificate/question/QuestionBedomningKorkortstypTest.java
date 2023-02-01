@@ -127,13 +127,20 @@ class QuestionBedomningKorkortstypTest {
             final var bedomningOneValue = new Bedomning();
             bedomningOneValue.getKorkortstyp().add(BedomningKorkortstyp.C1);
 
+            final var bedomningEmptyValue = new Bedomning();
+            bedomningEmptyValue.getKorkortstyp();
+
             final var bedomningMultipleValues = new Bedomning();
             bedomningMultipleValues.getKorkortstyp().add(BedomningKorkortstyp.C1);
             bedomningMultipleValues.getKorkortstyp().add(BedomningKorkortstyp.D1E);
 
             return List.of(
+                new InputExpectedValuePair<>(null,
+                    CertificateDataValueViewText.builder().text("Kan inte ta ställning").build()),
+                new InputExpectedValuePair<>(bedomningEmptyValue,
+                    CertificateDataValueViewText.builder().text("Kan inte ta ställning").build()),
                 new InputExpectedValuePair<>(new Bedomning(),
-                    CertificateDataValueViewText.builder().text("Ej angivet").build()),
+                    CertificateDataValueViewText.builder().text("Kan inte ta ställning").build()),
                 new InputExpectedValuePair<>(bedomningOneValue, CertificateDataValueViewText.builder().text("C1").build()),
                 new InputExpectedValuePair<>(bedomningMultipleValues, CertificateDataValueViewText.builder()
                     .text("C1, D1E").build())

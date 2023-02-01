@@ -135,7 +135,7 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 
-public class TsBasTestabilityCertificateTestdataProvider implements TestabilityCertificateTestdataProvider {
+public class TsBasV7TestabilityCertificateTestdataProvider implements TestabilityCertificateTestdataProvider {
 
     @Override
     public Map<String, CertificateDataValue> getMinimumValues() {

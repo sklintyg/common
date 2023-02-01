@@ -85,7 +85,7 @@ import se.inera.intyg.common.ts_diabetes.v2.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
 import se.inera.intyg.common.ts_diabetes.v2.pdf.PdfGenerator;
 import se.inera.intyg.common.ts_diabetes.v2.pdf.PdfGeneratorException;
-import se.inera.intyg.common.ts_diabetes.v2.testability.TSTRK1031TestabilityTestDataDecorator;
+import se.inera.intyg.common.ts_diabetes.v2.testability.TsDiabetesV2TestabilityTestDataProvider;
 import se.inera.intyg.common.ts_diabetes.v2.util.TSDiabetesCertificateMetaTypeConverter;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
@@ -377,7 +377,7 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
         try {
             final var utlatande = (TsDiabetesUtlatandeV2) getUtlatandeFromJson(model);
             final var updatedUtlatande = TestabilityToolkit.getUtlatandeWithTestData(utlatande, fillType,
-                new TSTRK1031TestabilityTestDataDecorator());
+                new TsDiabetesV2TestabilityTestDataProvider());
             return getJsonFromUtlatande(updatedUtlatande);
         } catch (IOException e) {
             throw new RuntimeException(e);

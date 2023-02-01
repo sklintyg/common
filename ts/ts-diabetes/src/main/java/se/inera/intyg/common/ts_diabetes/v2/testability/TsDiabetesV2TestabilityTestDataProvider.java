@@ -29,7 +29,7 @@ import se.inera.intyg.common.ts_diabetes.v2.model.internal.Vardkontakt;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 
-public class TSTRK1031TestabilityTestDataDecorator implements TestabilityUtlatandeTestDataProvider<TsDiabetesUtlatandeV2> {
+public class TsDiabetesV2TestabilityTestDataProvider implements TestabilityUtlatandeTestDataProvider<TsDiabetesUtlatandeV2> {
 
     @Override
     public TsDiabetesUtlatandeV2 getMinimumValues(TsDiabetesUtlatandeV2 utlatande) {
