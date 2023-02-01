@@ -177,7 +177,7 @@ class QuestionSjukskrivningsperiodTest {
 
     @Nested
     @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalValueTests extends InternalValueTest<InternalLocalDateInterval, InternalLocalDateInterval> {
+    class IncludeInternalDateRangeFromValueTests extends InternalValueTest<InternalLocalDateInterval, InternalLocalDateInterval> {
 
         @Override
         protected CertificateDataElement getElement(InternalLocalDateInterval input) {
@@ -193,11 +193,20 @@ class QuestionSjukskrivningsperiodTest {
         protected List<InputExpectedValuePair<InternalLocalDateInterval, InternalLocalDateInterval>> inputExpectedValuePairList() {
             final var dateRange = new InternalLocalDateInterval();
             dateRange.setFrom(new InternalDate(LocalDate.now()));
-            dateRange.setTom(new InternalDate(LocalDate.now()));
 
             return List.of(
-                new InputExpectedValuePair<>(null, null),
-                new InputExpectedValuePair<>(dateRange, dateRange)
+                new InputExpectedValuePair<>(
+                    null,
+                    new InternalLocalDateInterval(new InternalDate(LocalDate.now()), null)
+                ),
+                new InputExpectedValuePair<>(
+                    new InternalLocalDateInterval(new InternalDate(LocalDate.now().plusDays(10)), null),
+                    new InternalLocalDateInterval(new InternalDate(LocalDate.now().plusDays(10)), null)
+                ),
+                new InputExpectedValuePair<>(
+                    new InternalLocalDateInterval(null, new InternalDate(LocalDate.now().plusDays(15))),
+                    new InternalLocalDateInterval(null, new InternalDate(LocalDate.now().plusDays(15)))
+                )
             );
         }
     }
