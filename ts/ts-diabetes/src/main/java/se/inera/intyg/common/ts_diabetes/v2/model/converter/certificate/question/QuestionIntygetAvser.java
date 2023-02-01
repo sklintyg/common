@@ -33,7 +33,7 @@ import se.inera.intyg.common.ts_diabetes.v2.model.internal.IntygAvserKategori;
 public class QuestionIntygetAvser {
 
     public static CertificateDataElement toCertificate(IntygAvser intygetAvser, int index) {
-        final var korkort = intygetAvser != null && intygetAvser.getKorkortstyp() != null ? intygetAvser.getKorkortstyp() : null;
+        final var korkort = intygetAvser != null ? intygetAvser.getKorkortstyp() : null;
         final var korkortsTyper = getKorkortstypName(korkort);
         return CertificateDataElement.builder()
             .id(INTYG_AVSER_SVAR_ID)
@@ -58,4 +58,3 @@ public class QuestionIntygetAvser {
             .toArray(String[]::new) : null;
     }
 }
-

@@ -37,7 +37,7 @@ public class QuestionBedomningKorkortstyp {
     private static final String NOT_PROVIDED = "Kan inte ta ställning";
 
     public static CertificateDataElement toCertificate(Bedomning bedomning, int index, CertificateTextProvider textProvider) {
-        final var korkort = bedomning != null && bedomning.getKorkortstyp() != null ? bedomning.getKorkortstyp() : null;
+        final var korkort = bedomning != null ? bedomning.getKorkortstyp() : null;
         final var korkortsTyper = getKorkortstypName(korkort);
         return CertificateDataElement.builder()
             .id(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID)
