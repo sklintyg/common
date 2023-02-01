@@ -19,8 +19,7 @@
 
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
-import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.multipleStringValues;
-import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.withComma;
+import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.multipleStringValuesWithComma;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.INTYG_AVSER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.INTYG_AVSER_SVAR_ID_1;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.INTYG_AVSER_SVAR_TEXT_ID;
@@ -34,8 +33,6 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_bas.v6.model.internal.IntygAvserKategori;
 
 public class QuestionIntygetAvser {
-
-    private static final String NOT_PROVIDED = "Ej Angivet";
 
     public static CertificateDataElement toCertificate(IntygAvser intygAvser, int index,
         CertificateTextProvider texts) {
@@ -53,10 +50,7 @@ public class QuestionIntygetAvser {
             )
             .value(
                 CertificateDataValueViewText.builder()
-                    .text(
-                        multipleStringValues(korkortsTyper).equals(NOT_PROVIDED)
-                            ? multipleStringValues(korkortsTyper) : multipleStringValues(withComma(korkortsTyper))
-                    )
+                    .text(multipleStringValuesWithComma(korkortsTyper))
                     .build()
             )
             .build();

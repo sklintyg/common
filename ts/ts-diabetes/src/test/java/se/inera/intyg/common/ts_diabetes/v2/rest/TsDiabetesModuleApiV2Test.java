@@ -25,6 +25,7 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -64,8 +65,11 @@ import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.ri
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateRequestType;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateResponseType;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.utils.ResultOfCallUtil;
+import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.services.texts.IntygTextsService;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.model.UtkastStatus;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
@@ -78,10 +82,12 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.ts_diabetes.v2.integration.RegisterTSDiabetesResponderImpl;
+import se.inera.intyg.common.ts_diabetes.v2.model.converter.InternalToCertificate;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.IntygAvserKategori;
@@ -122,6 +128,8 @@ public class TsDiabetesModuleApiV2Test {
 
     private static ClassPathResource revokeCertificateFile;
 
+    @Mock
+    InternalToCertificate internalToCertificate;
     @InjectMocks
     private TsDiabetesModuleApiV2 moduleApi;
 
@@ -519,6 +527,42 @@ public class TsDiabetesModuleApiV2Test {
         assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
     }
 
+    @Test
+    public void shallConvertInternalToCertificate() throws Exception {
+        final var expectedCertificate = CertificateBuilder.create().build();
+        final var certificateAsJson = "certificateAsJson";
+        final var typeAheadProvider = mock(TypeAheadProvider.class);
+
+        var internalCertificate = new TsDiabetesUtlatandeV2();
+        internalCertificate.setId("123");
+        internalCertificate.setTextVersion("1.0");
+        internalCertificate.setGrundData(new GrundData());
+
+        doReturn(internalCertificate)
+            .when(objectMapper).readValue(eq(certificateAsJson), eq(TsDiabetesUtlatandeV2.class));
+
+        doReturn(expectedCertificate)
+            .when(internalToCertificate).convert(eq(internalCertificate), any(CertificateTextProvider.class));
+
+        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider);
+
+        assertEquals(expectedCertificate, actualCertificate);
+    }
+
+    @Test
+    public void getCertficateMessagesProviderGetExistingKey() {
+        final var certificateMessagesProvider = moduleApi.getMessagesProvider();
+
+        assertEquals(certificateMessagesProvider.get("common.continue"), "Fortsätt");
+    }
+
+    @Test
+    public void getCertficateMessagesProviderGetMissingKey() {
+        final var certificateMessagesProvider = moduleApi.getMessagesProvider();
+
+        assertNull(certificateMessagesProvider.get("not.existing"));
+    }
+
     private String toJsonString(TsDiabetesUtlatandeV2 utlatande) throws ModuleException {
         try {
             return objectMapper.writeValueAsString(utlatande);
@@ -526,6 +570,7 @@ public class TsDiabetesModuleApiV2Test {
             throw new ModuleException("Failed to serialize internal model", e);
         }
     }
+
 
     private CreateNewDraftHolder createNewDraftHolder() {
         HoSPersonal hosPersonal = createHosPersonal();

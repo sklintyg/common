@@ -22,9 +22,9 @@ package se.inera.intyg.common.support.facade.util;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.booleanValue;
-import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.multipleStringValues;
+import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.multipleStringValuesWithComma;
+import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.radioBooleanValue;
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.stringValue;
-import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.withComma;
 
 import org.junit.jupiter.api.Test;
 
@@ -44,6 +44,15 @@ class ViewTextToolkitTest {
     }
 
     @Test
+    void shallConvertRadioBooleanValues() {
+        assertAll(
+            () -> assertEquals(YES, radioBooleanValue(true)),
+            () -> assertEquals(NOT_SPECIFIED, radioBooleanValue(false)),
+            () -> assertEquals(NOT_SPECIFIED, radioBooleanValue(null))
+        );
+    }
+
+    @Test
     void shallConvertStringValue() {
         final var expectedValue = "expectedValue";
         assertAll(
@@ -52,20 +61,14 @@ class ViewTextToolkitTest {
         );
     }
 
-
     @Test
-    void shallConvertMultipleStringValues() {
-        final var expectedValue = "expectedValue";
-        final var expectedValuex3 = "expectedValue expectedValue expectedValue";
-        assertAll(
-            () -> assertEquals(expectedValuex3, multipleStringValues(expectedValue, expectedValue, expectedValue)),
-            () -> assertEquals(NOT_SPECIFIED, multipleStringValues(null, null, null))
-        );
-    }
-
-    @Test
-    void shallAddCommas() {
+    void shallConvertMultipleStringValuesWithComma() {
         final var expectedValue = "test, test, test";
-        assertEquals(expectedValue, withComma("test", "test", "test"));
+        assertAll(
+            () -> assertEquals(expectedValue, multipleStringValuesWithComma("test", "test", "test")),
+            () -> assertEquals(expectedValue, multipleStringValuesWithComma("    test", "test", "test     ")),
+            () -> assertEquals(NOT_SPECIFIED, multipleStringValuesWithComma("", "", "")),
+            () -> assertEquals(NOT_SPECIFIED, multipleStringValuesWithComma(null, null, null))
+        );
     }
 }

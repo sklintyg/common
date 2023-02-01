@@ -21,7 +21,7 @@ package se.inera.intyg.common.support.facade.util;
 
 public interface TestabilityUtlatandeTestDataProvider<T> {
 
-    T decorateWithMinimumValues(T utlatande);
+    T getMinimumValues(T utlatande);
 
-    T decorateWithMaximumValues(T utlatande);
+    T getMaximumValues(T utlatande);
 }

@@ -50,7 +50,7 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.Vardkontakt;
 public class TsBasV6TestabilityUtlatandeTestDataProvider implements TestabilityUtlatandeTestDataProvider<TsBasUtlatandeV6> {
 
     @Override
-    public TsBasUtlatandeV6 decorateWithMinimumValues(TsBasUtlatandeV6 utlatande) {
+    public TsBasUtlatandeV6 getMinimumValues(TsBasUtlatandeV6 utlatande) {
         return utlatande.toBuilder()
             .setIntygAvser(IntygAvser.create(EnumSet.of(IntygAvserKategori.C1)))
             .setVardkontakt(Vardkontakt.create(null, ID_KORT))
@@ -152,7 +152,7 @@ public class TsBasV6TestabilityUtlatandeTestDataProvider implements TestabilityU
     }
 
     @Override
-    public TsBasUtlatandeV6 decorateWithMaximumValues(TsBasUtlatandeV6 utlatande) {
+    public TsBasUtlatandeV6 getMaximumValues(TsBasUtlatandeV6 utlatande) {
         return utlatande.toBuilder()
             .setIntygAvser(
                 IntygAvser.create(

@@ -41,9 +41,9 @@ public class TestabilityToolkit {
     public static <T extends Utlatande> T getUtlatandeWithTestData(T utlatande, FillType fillType,
         TestabilityUtlatandeTestDataProvider<T> testabilityUtlatandeTestDataProvider) {
         if (FillType.MINIMAL.equals(fillType)) {
-            return testabilityUtlatandeTestDataProvider.decorateWithMinimumValues(utlatande);
+            return testabilityUtlatandeTestDataProvider.getMinimumValues(utlatande);
         } else if (FillType.MAXIMAL.equals(fillType)) {
-            return testabilityUtlatandeTestDataProvider.decorateWithMaximumValues(utlatande);
+            return testabilityUtlatandeTestDataProvider.getMaximumValues(utlatande);
         }
         return utlatande;
     }

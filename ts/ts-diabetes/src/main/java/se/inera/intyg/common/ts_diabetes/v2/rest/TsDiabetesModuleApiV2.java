@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ws.rs.NotSupportedException;
 import javax.xml.bind.JAXB;
@@ -39,6 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.w3.wsaddressing10.AttributedURIType;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
@@ -47,7 +49,11 @@ import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateres
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateResponseType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter.ModelConverter;
+import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
+import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvider;
+import se.inera.intyg.common.services.messages.MessagesParser;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.util.TestabilityToolkit;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -72,12 +78,14 @@ import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.ts_diabetes.v2.integration.RegisterTSDiabetesResponderImpl;
+import se.inera.intyg.common.ts_diabetes.v2.model.converter.InternalToCertificate;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.InternalToTransportConverter;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.TransportToInternalConverter;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
 import se.inera.intyg.common.ts_diabetes.v2.pdf.PdfGenerator;
 import se.inera.intyg.common.ts_diabetes.v2.pdf.PdfGeneratorException;
+import se.inera.intyg.common.ts_diabetes.v2.testability.TsDiabetesV2TestabilityTestDataProvider;
 import se.inera.intyg.common.ts_diabetes.v2.util.TSDiabetesCertificateMetaTypeConverter;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
@@ -101,7 +109,9 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
 
 
     private static final Logger LOG = LoggerFactory.getLogger(TsDiabetesModuleApiV2.class);
-
+    private Map<String, String> validationMessages;
+    @Autowired
+    private InternalToCertificate internalToCertificate;
     @Autowired(required = false)
     @Qualifier("sendTsDiabetesClient")
     private SendTSClient sendTsDiabetesClient;
@@ -130,6 +140,19 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
 
     public TsDiabetesModuleApiV2() {
         super(TsDiabetesUtlatandeV2.class);
+        initMessages();
+    }
+
+    private void initMessages() {
+        try {
+            final var inputStream1 = new ClassPathResource("/META-INF/resources/webjars/common/webcert/messages.js").getInputStream();
+            final var inputStream2
+                = new ClassPathResource("/META-INF/resources/webjars/ts-diabetes/webcert/views/messages.js").getInputStream();
+            validationMessages = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
+        } catch (IOException exception) {
+            LOG.error("Error during initialization. Could not read messages files");
+            throw new RuntimeException("Error during initialization. Could not read messages files", exception);
+        }
     }
 
     @PostConstruct
@@ -324,7 +347,14 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
     @Override
     public Certificate getCertificateFromJson(String certificateAsJson,
         TypeAheadProvider typeAheadProvider) throws ModuleException, IOException {
-        throw new UnsupportedOperationException();
+        final var internalCertificate = getInternal(certificateAsJson);
+        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+        return internalToCertificate.convert(internalCertificate, certificateTextProvider);
+    }
+
+    @Override
+    public CertificateMessagesProvider getMessagesProvider() {
+        return DefaultCertificateMessagesProvider.create(validationMessages);
     }
 
     @Override
@@ -344,6 +374,13 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
 
     @Override
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        return model;
+        try {
+            final var utlatande = (TsDiabetesUtlatandeV2) getUtlatandeFromJson(model);
+            final var updatedUtlatande = TestabilityToolkit.getUtlatandeWithTestData(utlatande, fillType,
+                new TsDiabetesV2TestabilityTestDataProvider());
+            return getJsonFromUtlatande(updatedUtlatande);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

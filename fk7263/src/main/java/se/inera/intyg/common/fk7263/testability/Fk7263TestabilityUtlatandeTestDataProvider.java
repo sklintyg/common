@@ -31,7 +31,7 @@ import se.inera.intyg.common.support.model.LocalDateInterval;
 public class Fk7263TestabilityUtlatandeTestDataProvider implements TestabilityUtlatandeTestDataProvider<Fk7263Utlatande> {
 
     @Override
-    public Fk7263Utlatande decorateWithMinimumValues(Fk7263Utlatande utlatande) {
+    public Fk7263Utlatande getMinimumValues(Fk7263Utlatande utlatande) {
         utlatande.setAvstangningSmittskydd(false);
         utlatande.setDiagnosKod("diagnoskod");
         utlatande.setDiagnosBeskrivning("beskrivning");
@@ -49,7 +49,7 @@ public class Fk7263TestabilityUtlatandeTestDataProvider implements TestabilityUt
     }
 
     @Override
-    public Fk7263Utlatande decorateWithMaximumValues(Fk7263Utlatande utlatande) {
+    public Fk7263Utlatande getMaximumValues(Fk7263Utlatande utlatande) {
         utlatande.setAvstangningSmittskydd(true);
         utlatande.setDiagnosKod("diagnoskod");
         utlatande.setDiagnosBeskrivning("beskrivning");

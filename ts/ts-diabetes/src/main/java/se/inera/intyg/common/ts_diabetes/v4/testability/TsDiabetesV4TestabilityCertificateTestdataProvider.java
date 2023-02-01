@@ -99,7 +99,7 @@ import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvTypAvDiabetes;
 import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvVardniva;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 
-public class TsDiabetesTestabilityCertificateTestdataProvider implements TestabilityCertificateTestdataProvider {
+public class TsDiabetesV4TestabilityCertificateTestdataProvider implements TestabilityCertificateTestdataProvider {
 
     @Override
     public Map<String, CertificateDataValue> getMinimumValues() {

@@ -62,34 +62,13 @@ public final class ViewTextToolkit {
         }
     }
 
-    public static String multipleStringValues(String... value) {
-        if (value == null) {
-            return NOT_SPECIFIED;
-        }
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String text : value) {
-            if (text == null) {
-                continue;
-            }
-            stringBuilder.append(text).append(" ");
-        }
-
-        final var text = stringBuilder.toString().trim();
-
-        if (text.isEmpty()) {
-            return NOT_SPECIFIED;
-        }
-
-        return stringBuilder.toString().trim();
-    }
-
-    public static String withComma(String... value) {
+    public static String multipleStringValuesWithComma(String... value) {
         if (value == null) {
             return NOT_SPECIFIED;
         }
         final var stringBuilder = new StringBuilder();
         for (int i = 0; i < value.length; i++) {
-            if (value[i] == null) {
+            if (value[i] == null || value[i].isEmpty()) {
                 continue;
             }
             if (i < value.length - 1) {
@@ -98,6 +77,13 @@ public final class ViewTextToolkit {
                 stringBuilder.append(value[i]);
             }
         }
-        return stringBuilder.toString();
+
+        final var text = stringBuilder.toString().trim();
+
+        if (text.isEmpty()) {
+            return NOT_SPECIFIED;
+        }
+
+        return text;
     }
 }
