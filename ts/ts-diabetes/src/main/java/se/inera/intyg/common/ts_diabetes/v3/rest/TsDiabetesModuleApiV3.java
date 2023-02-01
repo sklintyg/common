@@ -40,6 +40,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.util.TestabilityToolkit;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
@@ -60,6 +61,7 @@ import se.inera.intyg.common.ts_diabetes.v3.model.converter.TransportToInternal;
 import se.inera.intyg.common.ts_diabetes.v3.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
 import se.inera.intyg.common.ts_diabetes.v3.pdf.PdfGenerator;
+import se.inera.intyg.common.ts_diabetes.v3.testability.TsDiabetesV3TestabilityTestDataProvider;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
 import se.inera.intyg.schemas.contract.Personnummer;
@@ -229,6 +231,13 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
 
     @Override
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        return model;
+        try {
+            final var utlatande = (TsDiabetesUtlatandeV3) getUtlatandeFromJson(model);
+            final var updatedUtlatande = TestabilityToolkit.getUtlatandeWithTestData(utlatande, fillType,
+                new TsDiabetesV3TestabilityTestDataProvider());
+            return getJsonFromUtlatande(updatedUtlatande);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
