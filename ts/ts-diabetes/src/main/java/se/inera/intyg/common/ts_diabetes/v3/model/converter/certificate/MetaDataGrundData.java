@@ -19,7 +19,7 @@
 
 package se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate;
 
-import static se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint.DESCRIPTION_TEXT_KEY;
+import static se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint.DETAILED_DESCRIPTION_TEXT_KEY;
 import static se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint.MODULE_NAME;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -35,7 +35,7 @@ public class MetaDataGrundData {
             .type(internalCertificate.getTyp())
             .typeVersion(internalCertificate.getTextVersion())
             .name(MODULE_NAME)
-            .description(textProvider.get(DESCRIPTION_TEXT_KEY))
+            .description(textProvider.get(DETAILED_DESCRIPTION_TEXT_KEY))
             .unit(
                 MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getSkapadAv().getVardenhet())
             )

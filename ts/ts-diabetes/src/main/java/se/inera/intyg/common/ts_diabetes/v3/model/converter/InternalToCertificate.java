@@ -24,6 +24,13 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.category.CategoryAllmant;
+import se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.category.CategoryBedomning;
+import se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.category.CategoryHypoglykemi;
+import se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.category.CategoryIdentitetStyrktGenom;
+import se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.category.CategoryIntygetAvser;
+import se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.category.CategoryOvrigt;
+import se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.category.CategorySyn;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
 
 @Component(value = "internalToCertificateTsDiabetesV3")
@@ -33,6 +40,27 @@ public class InternalToCertificate {
         int index = 0;
         return CertificateBuilder.create()
             .metadata(MetaDataGrundData.toCertificate(internalCertificate, textProvider))
+            .addElement(
+                CategoryIntygetAvser.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                CategoryIdentitetStyrktGenom.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                CategoryAllmant.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                CategoryHypoglykemi.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                CategorySyn.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                CategoryOvrigt.toCertificate(index++, textProvider)
+            )
+            .addElement(
+                CategoryBedomning.toCertificate(index++, textProvider)
+            )
             .build();
     }
 }

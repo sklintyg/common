@@ -20,7 +20,7 @@
 package se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate;
 
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint.DESCRIPTION_TEXT_KEY;
+import static se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint.DETAILED_DESCRIPTION_TEXT_KEY;
 import static se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint.MODULE_NAME;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -90,7 +90,7 @@ class MetaDataGrundDataTest {
 
             @Override
             protected String getDescription() {
-                return DESCRIPTION_TEXT_KEY;
+                return DETAILED_DESCRIPTION_TEXT_KEY;
             }
 
             @Override

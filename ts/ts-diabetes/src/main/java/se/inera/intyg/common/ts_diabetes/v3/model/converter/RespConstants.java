@@ -25,12 +25,18 @@ public final class RespConstants {
     public static final String INTYGETAVSER_DELSVAR_ID = "1.1";
     public static final String INTYGETAVSER_SVAR_JSON_ID = "intygAvser";
 
+    public static final String INTYG_AVSER_CATEGORY_ID = "intygAvser";
+    public static final String INTYG_AVSER_CATEGORY_TEXT_ID = "KAT_1.RBK";
     // Kat 2 - Identitet
+    public static final String IDENTITET_CATEGORY_ID = "identitetStyrktGenom";
+    public static final String IDENTITET_CATEGORY_TEXT_ID = "KAT_2.RBK";
     public static final String IDENTITET_STYRKT_GENOM_SVAR_ID = "2";
     public static final String IDENTITET_STYRKT_GENOM_DELSVAR_ID = "2.1";
     public static final String IDENTITET_STYRKT_GENOM_JSON_ID = "identitetStyrktGenom";
 
     // Kat 3 - Allmänt
+    public static final String ALLMANT_CATEGORY_ID = "allmant";
+    public static final String ALLMANT_CATEGORY_TEXT_ID = "KAT_1.RBK";
     public static final String ALLMANT_JSON_ID = "allmant";
     public static final String ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID = "35";
     public static final String ALLMANT_DIABETES_DIAGNOS_AR_DELSVAR_ID = "35.1";
@@ -60,6 +66,8 @@ public final class RespConstants {
     public static final String ALLMANT_BEHANDLING_RISK_HYPOGLYKEMI_JSON_ID = "riskHypoglykemi";
 
     // Kat 4 - Hypoglykemier
+    public static final String HYPOGLYKEMI_CATEGORY_ID = "hypoglykemi";
+    public static final String HYPOGLYKEMI_CATEGORY_TEXT_ID = "KAT_4.RBK";
     public static final String HYPOGLYKEMIER_JSON_ID = "hypoglykemier";
     public static final String HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_SVAR_ID = "41";
     public static final String HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_DELSVAR_ID = "41.1";
@@ -90,6 +98,8 @@ public final class RespConstants {
     public static final String HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID = "forekomstTrafikTidpunkt";
 
     // Kat 5 - Synfunktion
+    public static final String SYN_CATEGORY_ID = "syn";
+    public static final String SYN_CATEGORY_TEXT_ID = "KAT_5.RBK";
     public static final String SYNFUNKTION_JSON_ID = "synfunktion";
     public static final String SYNFUNKTION_MISSTANKE_OGONSJUKDOM_SVAR_ID = "103";
     public static final String SYNFUNKTION_MISSTANKE_OGONSJUKDOM_DELSVAR_ID = "103.1";
@@ -115,11 +125,16 @@ public final class RespConstants {
     public static final String SYNFUNKTION_SYNSKARPA_BINOKULART_MED_KORREKTION_DELSVAR_ID = "8.7";
 
     // Kat 6 - Övrigt
+    public static final String OVRIGT_CATEGORY_ID = "ovrigt";
+    public static final String OVRIGT_CATEGORY_TEXT_ID = "KAT_6.RBK";
     public static final String OVRIGT_SVAR_ID = "32";
+    public static final String OVRIGT_SVAR_TEXT_ID = "FRG_32.RBK";
     public static final String OVRIGT_DELSVAR_ID = "32.1";
     public static final String OVRIGT_DELSVAR_JSON_ID = "ovrigt";
 
     // Kat 7 - Bedömning
+    public static final String BEDOMNING_CATEGORY_ID = "bedomning";
+    public static final String BEDOMNING_CATEGORY_TEXT_ID = "KAT_7.RBK";
     public static final String BEDOMNING_SVAR_ID = "33";
     public static final String BEDOMNING_JSON_ID = "bedomning";
     public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID = "33.1";

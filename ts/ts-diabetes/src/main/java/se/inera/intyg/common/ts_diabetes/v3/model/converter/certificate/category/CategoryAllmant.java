@@ -16,24 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.category;
+package se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.category;
 
-import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
-import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.OVRIGT_CATEGORY_TEXT_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.ALLMANT_CATEGORY_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.ALLMANT_CATEGORY_TEXT_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory;
 
-public class CategoryOvrigt {
+public class CategoryAllmant {
 
     public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(OVRIGT_CATEGORY_ID)
+            .id(ALLMANT_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigCategory.builder()
-                    .text(texts.get(OVRIGT_CATEGORY_TEXT_ID))
+                    .text(texts.get(ALLMANT_CATEGORY_TEXT_ID))
                     .build()
             )
             .build();
