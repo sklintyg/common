@@ -19,9 +19,12 @@
 
 package se.inera.intyg.common.support.facade.util;
 
-public interface TestabilityTestDataDecorator<T> {
+import java.util.Map;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 
-    void decorateWithMinimumValues(T utlatande);
+public interface TestabilityCertificateTestdataProvider {
 
-    void decorateWithMaximumValues(T utlatande);
+    Map<String, CertificateDataValue> getMinimumValues();
+
+    Map<String, CertificateDataValue> getMaximumValues();
 }

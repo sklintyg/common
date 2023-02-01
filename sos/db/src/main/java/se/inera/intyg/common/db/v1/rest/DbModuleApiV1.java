@@ -34,7 +34,7 @@ import se.inera.intyg.common.db.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.db.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
 import se.inera.intyg.common.db.v1.pdf.DbPdfGenerator;
-import se.inera.intyg.common.db.v1.testability.DbTestabilityTestdataProvider;
+import se.inera.intyg.common.db.v1.testability.DbTestabilityCertificateTestdataProvider;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.MessagesParser;
@@ -171,7 +171,7 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
     @Override
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
         final var certificate = getCertificateFromJson(model, typeAheadProvider);
-        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new DbTestabilityTestdataProvider());
+        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new DbTestabilityCertificateTestdataProvider());
         return getJsonFromCertificate(certificate, model);
     }
 }

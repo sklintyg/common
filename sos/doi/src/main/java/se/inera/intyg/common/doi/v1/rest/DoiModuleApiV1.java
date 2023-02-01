@@ -39,7 +39,7 @@ import se.inera.intyg.common.doi.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.doi.v1.model.mapper.DbToDoiMapper;
 import se.inera.intyg.common.doi.v1.pdf.DoiPdfGenerator;
-import se.inera.intyg.common.doi.v1.testability.DoiTestabilityTestdataProvider;
+import se.inera.intyg.common.doi.v1.testability.DoiTestabilityCertificateTestdataProvider;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.MessagesParser;
@@ -206,7 +206,7 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
     @Override
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
         final var certificate = getCertificateFromJson(model, typeAheadProvider);
-        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new DoiTestabilityTestdataProvider());
+        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new DoiTestabilityCertificateTestdataProvider());
         return getJsonFromCertificate(certificate, model);
     }
 }
