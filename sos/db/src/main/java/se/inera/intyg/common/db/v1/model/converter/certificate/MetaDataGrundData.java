@@ -22,6 +22,7 @@ import static se.inera.intyg.common.db.support.DbModuleEntryPoint.DETAILED_DESCR
 import static se.inera.intyg.common.db.support.DbModuleEntryPoint.MODULE_DESCRIPTION;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.grundData;
 
+import se.inera.intyg.common.db.support.DbModuleEntryPoint;
 import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;

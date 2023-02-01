@@ -21,6 +21,7 @@ package se.inera.intyg.common.af00213.v1.model.converter.certificate;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.DESCRIPTION;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.grundData;
 
+import se.inera.intyg.common.af00213.support.Af00213EntryPoint;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
@@ -33,6 +34,7 @@ public class MetaDataGrundData {
         return CertificateMetadata.builder()
             .id(internalCertificate.getId())
             .type(internalCertificate.getTyp())
+            .typeName(Af00213EntryPoint.ISSUER_TYPE_ID)
             .typeVersion(internalCertificate.getTextVersion())
             .name("Arbetsförmedlingens medicinska utlåtande")
             .description(texts.get(DESCRIPTION))

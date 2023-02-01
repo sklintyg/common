@@ -23,6 +23,7 @@ import static se.inera.intyg.common.ag114.support.Ag114EntryPoint.MODULE_NAME;
 import static se.inera.intyg.common.agparent.support.AgAbstractModuleEntryPoint.DETAILED_DESCRIPTION_TEXT_KEY;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.grundData;
 
+import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
@@ -35,6 +36,7 @@ public class MetaDataGrundData {
         return CertificateMetadata.builder()
             .id(internalCertificate.getId())
             .type(internalCertificate.getTyp())
+            .typeName(Ag114EntryPoint.ISSUER_TYPE_ID)
             .typeVersion(internalCertificate.getTextVersion())
             .name(MODULE_NAME)
             .description(texts.get(DETAILED_DESCRIPTION_TEXT_KEY))

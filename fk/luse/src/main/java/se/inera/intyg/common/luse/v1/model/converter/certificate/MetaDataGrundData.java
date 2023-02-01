@@ -23,6 +23,7 @@ import static se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint.
 import static se.inera.intyg.common.luse.support.LuseEntryPoint.MODULE_NAME;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.grundData;
 
+import se.inera.intyg.common.luse.support.LuseEntryPoint;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
@@ -35,6 +36,7 @@ public class MetaDataGrundData {
         return CertificateMetadata.builder()
             .id(internalCertificate.getId())
             .type(internalCertificate.getTyp())
+            .typeName(LuseEntryPoint.ISSUER_TYPE_ID)
             .typeVersion(internalCertificate.getTextVersion())
             .name(MODULE_NAME)
             .description(texts.get(DETAILED_DESCRIPTION_TEXT_KEY))
