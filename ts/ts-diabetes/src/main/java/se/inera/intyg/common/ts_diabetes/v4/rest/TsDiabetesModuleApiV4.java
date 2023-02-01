@@ -67,7 +67,7 @@ import se.inera.intyg.common.ts_diabetes.v4.model.converter.TransportToInternal;
 import se.inera.intyg.common.ts_diabetes.v4.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
 import se.inera.intyg.common.ts_diabetes.v4.pdf.PdfGenerator;
-import se.inera.intyg.common.ts_diabetes.v4.testability.TsDiabetesTestabilityTestdataProvider;
+import se.inera.intyg.common.ts_diabetes.v4.testability.TsDiabetesTestabilityCertificateTestdataProvider;
 import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
 import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
 import se.inera.intyg.schemas.contract.Personnummer;
@@ -265,7 +265,7 @@ public class TsDiabetesModuleApiV4 extends TsParentModuleApi<TsDiabetesUtlatande
     @Override
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
         final var certificate = getCertificateFromJson(model, typeAheadProvider);
-        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new TsDiabetesTestabilityTestdataProvider());
+        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new TsDiabetesTestabilityCertificateTestdataProvider());
         return getJsonFromCertificate(certificate, model);
     }
 }

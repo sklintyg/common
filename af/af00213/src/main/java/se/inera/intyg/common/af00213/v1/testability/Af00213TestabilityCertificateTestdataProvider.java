@@ -43,9 +43,9 @@ import java.util.Map;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
-import se.inera.intyg.common.support.facade.util.TestabilityTestdataProvider;
+import se.inera.intyg.common.support.facade.util.TestabilityCertificateTestdataProvider;
 
-public class Af00213TestabilityTestdataProvider implements TestabilityTestdataProvider {
+public class Af00213TestabilityCertificateTestdataProvider implements TestabilityCertificateTestdataProvider {
 
     private static String EXAMPLE_TEXT = "Detta är ett exempel";
 

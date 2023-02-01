@@ -77,9 +77,9 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRange;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
-import se.inera.intyg.common.support.facade.util.TestabilityTestdataProvider;
+import se.inera.intyg.common.support.facade.util.TestabilityCertificateTestdataProvider;
 
-public class Ag7804TestabilityTestdataProvider implements TestabilityTestdataProvider {
+public class Ag7804TestabilityCertificateTestdataProvider implements TestabilityCertificateTestdataProvider {
 
     private static String EXAMPLE_TEXT = "Detta är ett exempel";
     private static final int DEFAULT_SICK_LEAVE_LENGTH = 14;

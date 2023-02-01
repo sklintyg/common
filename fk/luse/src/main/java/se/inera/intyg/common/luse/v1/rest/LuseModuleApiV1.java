@@ -48,7 +48,7 @@ import se.inera.intyg.common.luse.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.luse.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
 import se.inera.intyg.common.luse.v1.pdf.LusePdfDefinitionBuilder;
-import se.inera.intyg.common.luse.v1.testability.LuseTestabilityTestdataProvider;
+import se.inera.intyg.common.luse.v1.testability.LuseTestabilityCertificateTestdataProvider;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvider;
 import se.inera.intyg.common.services.messages.MessagesParser;
@@ -236,7 +236,7 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
     @Override
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
         final var certificate = getCertificateFromJson(model, typeAheadProvider);
-        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new LuseTestabilityTestdataProvider());
+        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new LuseTestabilityCertificateTestdataProvider());
         return getJsonFromCertificate(certificate, model);
     }
 

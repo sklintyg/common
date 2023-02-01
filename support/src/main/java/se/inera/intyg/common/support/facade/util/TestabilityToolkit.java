@@ -38,22 +38,23 @@ public class TestabilityToolkit {
     private static final int DEFAULT_SICK_LEAVE_LENGTH = 14;
     private static final int DEFAULT_SHORT_SICK_LEAVE_LENGTH = 4;
 
-    public static <T extends Utlatande> void decorateCertificateWithTestData(T utlatande, FillType fillType,
-        TestabilityTestDataDecorator<T> testabilityTestdataToolkit) {
+    public static <T extends Utlatande> T getUtlatandeWithTestData(T utlatande, FillType fillType,
+        TestabilityUtlatandeTestDataProvider<T> testabilityUtlatandeTestDataProvider) {
         if (FillType.MINIMAL.equals(fillType)) {
-            testabilityTestdataToolkit.decorateWithMinimumValues(utlatande);
+            return testabilityUtlatandeTestDataProvider.decorateWithMinimumValues(utlatande);
         } else if (FillType.MAXIMAL.equals(fillType)) {
-            testabilityTestdataToolkit.decorateWithMaximumValues(utlatande);
+            return testabilityUtlatandeTestDataProvider.decorateWithMaximumValues(utlatande);
         }
+        return utlatande;
     }
 
     public static void fillCertificateWithTestData(Certificate certificate, FillType fillType,
-        TestabilityTestdataProvider testabilityTestdataProvider) {
+        TestabilityCertificateTestdataProvider testabilityCertificateTestdataProvider) {
         if (FillType.MINIMAL.equals(fillType)) {
-            final var minimumValues = testabilityTestdataProvider.getMinimumValues();
+            final var minimumValues = testabilityCertificateTestdataProvider.getMinimumValues();
             updateCertificate(certificate, minimumValues);
         } else if (FillType.MAXIMAL.equals(fillType)) {
-            final var maximumValues = testabilityTestdataProvider.getMaximumValues();
+            final var maximumValues = testabilityCertificateTestdataProvider.getMaximumValues();
             updateCertificate(certificate, maximumValues);
         }
     }

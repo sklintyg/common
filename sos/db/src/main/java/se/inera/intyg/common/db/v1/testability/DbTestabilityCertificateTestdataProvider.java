@@ -54,9 +54,9 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
-import se.inera.intyg.common.support.facade.util.TestabilityTestdataProvider;
+import se.inera.intyg.common.support.facade.util.TestabilityCertificateTestdataProvider;
 
-public class DbTestabilityTestdataProvider implements TestabilityTestdataProvider {
+public class DbTestabilityCertificateTestdataProvider implements TestabilityCertificateTestdataProvider {
 
     private final String kommun = "Östersund";
     private final String identitetStyrktText = "Körkort";
