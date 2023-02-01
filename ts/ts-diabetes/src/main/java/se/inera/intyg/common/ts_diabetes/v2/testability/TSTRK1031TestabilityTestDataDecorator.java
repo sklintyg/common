@@ -20,7 +20,7 @@
 package se.inera.intyg.common.ts_diabetes.v2.testability;
 
 import java.time.LocalDate;
-import se.inera.intyg.common.support.facade.util.TestabilityTestDataDecorator;
+import se.inera.intyg.common.support.facade.util.TestabilityUtlatandeTestDataProvider;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.BedomningKorkortstyp;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.IntygAvserKategori;
@@ -29,10 +29,10 @@ import se.inera.intyg.common.ts_diabetes.v2.model.internal.Vardkontakt;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 
-public class TSTRK1031TestabilityTestDataDecorator implements TestabilityTestDataDecorator<TsDiabetesUtlatandeV2> {
+public class TSTRK1031TestabilityTestDataDecorator implements TestabilityUtlatandeTestDataProvider<TsDiabetesUtlatandeV2> {
 
     @Override
-    public void decorateWithMinimumValues(TsDiabetesUtlatandeV2 utlatande) {
+    public TsDiabetesUtlatandeV2 getMinimumValues(TsDiabetesUtlatandeV2 utlatande) {
         utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.C1E);
         utlatande.setVardkontakt(new Vardkontakt());
         utlatande.getVardkontakt().setIdkontroll(IdKontrollKod.KORKORT.name());
@@ -53,10 +53,11 @@ public class TSTRK1031TestabilityTestDataDecorator implements TestabilityTestDat
         utlatande.getBedomning().getKorkortstyp().add(BedomningKorkortstyp.BE);
         utlatande.getBedomning().setKanInteTaStallning(false);
         utlatande.getBedomning().setLamplighetInnehaBehorighet(false);
+        return utlatande;
     }
 
     @Override
-    public void decorateWithMaximumValues(TsDiabetesUtlatandeV2 utlatande) {
+    public TsDiabetesUtlatandeV2 getMaximumValues(TsDiabetesUtlatandeV2 utlatande) {
         utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.C1E);
         utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.D1E);
         utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.A);
@@ -122,5 +123,6 @@ public class TSTRK1031TestabilityTestDataDecorator implements TestabilityTestDat
         utlatande.getBedomning().setLamplighetInnehaBehorighet(true);
 
         utlatande.setKommentarer("Övriga kommentarer");
+        return utlatande;
     }
 }

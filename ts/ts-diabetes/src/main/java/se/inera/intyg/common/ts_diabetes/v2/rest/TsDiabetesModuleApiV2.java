@@ -376,7 +376,7 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
         try {
             final var utlatande = (TsDiabetesUtlatandeV2) getUtlatandeFromJson(model);
-            TestabilityToolkit.decorateCertificateWithTestData(utlatande, fillType, new TSTRK1031TestabilityTestDataDecorator());
+            TestabilityToolkit.getUtlatandeWithTestData(utlatande, fillType, new TSTRK1031TestabilityTestDataDecorator());
             return getJsonFromUtlatande(utlatande);
         } catch (IOException e) {
             throw new RuntimeException(e);
