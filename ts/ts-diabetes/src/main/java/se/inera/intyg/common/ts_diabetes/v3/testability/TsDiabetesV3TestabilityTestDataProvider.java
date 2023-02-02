@@ -41,7 +41,55 @@ public class TsDiabetesV3TestabilityTestDataProvider implements TestabilityUtlat
 
     @Override
     public TsDiabetesUtlatandeV3 getMinimumValues(TsDiabetesUtlatandeV3 utlatande) {
-        return utlatande;
+        return utlatande.toBuilder()
+            .setIntygAvser(
+                IntygAvser.create(
+                    EnumSet.of(
+                        IntygAvserKategori.IAV1
+                    )
+                )
+            )
+            .setIdentitetStyrktGenom(
+                IdKontroll.create(KvIdKontroll.PASS)
+            )
+            .setAllmant(
+                Allmant.builder()
+                    .setDiabetesDiagnosAr(String.valueOf(LocalDate.now()))
+                    .setTypAvDiabetes(KvTypAvDiabetes.TYP1)
+                    .build()
+            )
+            .setSynfunktion(
+                Synfunktion.builder()
+                    .setBinokulart(
+                        Synskarpevarden.builder()
+                            .setMedKorrektion(1.0)
+                            .build()
+                    )
+                    .setHoger(
+                        Synskarpevarden.builder()
+                            .setMedKorrektion(1.0)
+                            .build()
+                    )
+                    .setVanster(
+                        Synskarpevarden.builder()
+                            .setMedKorrektion(1.0)
+                            .build()
+                    )
+                    .setMisstankeOgonsjukdom(false)
+                    .setSkickasSeparat(false)
+                    .build()
+            )
+            .setBedomning(
+                Bedomning.builder()
+                    .setLampligtInnehav(false)
+                    .setUppfyllerBehorighetskrav(
+                        EnumSet.of(
+                            BedomningKorkortstyp.VAR1
+                        )
+                    )
+                    .build()
+            )
+            .build();
     }
 
     @Override

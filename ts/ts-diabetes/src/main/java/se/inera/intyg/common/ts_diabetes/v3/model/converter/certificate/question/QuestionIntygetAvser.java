@@ -36,7 +36,7 @@ public class QuestionIntygetAvser {
 
     public static CertificateDataElement toCertificate(IntygAvser intygetAvser, int index, CertificateTextProvider textProvider) {
         final var korkort = intygetAvser != null ? intygetAvser.getKategorier() : null;
-        final var korkortsTyper = getKorkortstypName(korkort);
+        final var korkortsTyper = getKorkortstypName(korkort, textProvider);
         return CertificateDataElement.builder()
             .id(INTYG_AVSER_SVAR_ID)
             .parent(INTYG_AVSER_CATEGORY_ID)
@@ -55,9 +55,10 @@ public class QuestionIntygetAvser {
 
     }
 
-    private static String[] getKorkortstypName(Set<IntygAvserKategori> korkort) {
+    private static String[] getKorkortstypName(Set<IntygAvserKategori> korkort, CertificateTextProvider textProvider) {
         return korkort != null ? korkort.stream()
             .map(Enum::name)
+            .map(kategori -> textProvider.get("KV_INTYGET_AVSER." + kategori + ".RBK"))
             .toArray(String[]::new) : null;
     }
 }

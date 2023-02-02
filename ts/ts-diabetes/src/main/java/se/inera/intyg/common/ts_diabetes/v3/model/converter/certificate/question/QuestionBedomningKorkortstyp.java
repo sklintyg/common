@@ -36,7 +36,7 @@ public class QuestionBedomningKorkortstyp {
 
     public static CertificateDataElement toCertificate(Bedomning bedomning, int index, CertificateTextProvider textProvider) {
         final var korkort = bedomning != null ? bedomning.getUppfyllerBehorighetskrav() : null;
-        final var korkortsTyper = getKorkortstypName(korkort);
+        final var korkortsTyper = getKorkortstypName(korkort, textProvider);
         return CertificateDataElement.builder()
             .id(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID)
             .parent(BEDOMNING_CATEGORY_ID)
@@ -55,9 +55,10 @@ public class QuestionBedomningKorkortstyp {
 
     }
 
-    private static String[] getKorkortstypName(Set<BedomningKorkortstyp> korkort) {
+    private static String[] getKorkortstypName(Set<BedomningKorkortstyp> korkort, CertificateTextProvider textProvider) {
         return korkort != null ? korkort.stream()
             .map(Enum::name)
+            .map(kategori -> textProvider.get("KV_KORKORTSBEHORIGHET." + kategori + ".RBK"))
             .toArray(String[]::new) : null;
     }
 }

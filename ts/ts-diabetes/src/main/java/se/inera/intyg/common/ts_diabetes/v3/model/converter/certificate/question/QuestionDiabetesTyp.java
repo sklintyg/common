@@ -32,10 +32,12 @@ import se.inera.intyg.common.ts_diabetes.v3.model.internal.Allmant;
 
 public class QuestionDiabetesTyp {
 
-    private static final String DIABETES_TYP_1 = "DIABETES_TYP_1";
+    private static final String DIABETES_TYP_1 = "TYP1";
     private static final String DIABETES_TYP_1_RESPONSE = "Typ 1";
-    private static final String DIABETES_TYP_2 = "DIABETES_TYP_2";
+    private static final String DIABETES_TYP_2 = "TYP2";
     private static final String DIABETES_TYP_2_RESPONSE = "Typ 2";
+    private static final String ANNAN = "ANNAN";
+    private static final String ANNAN_RESPONSE = "Annan";
 
     public static CertificateDataElement toCertificate(Allmant allmant, int index, CertificateTextProvider textProvider) {
         final var diabetesTyp = allmant != null && allmant.getTypAvDiabetes() != null ? allmant.getTypAvDiabetes().name() : null;
@@ -65,6 +67,8 @@ public class QuestionDiabetesTyp {
                 return DIABETES_TYP_1_RESPONSE;
             case DIABETES_TYP_2:
                 return DIABETES_TYP_2_RESPONSE;
+            case ANNAN:
+                return ANNAN_RESPONSE;
             default:
                 return null;
         }
