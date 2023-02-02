@@ -29,7 +29,7 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigViewText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewText;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.IdKontroll;
-import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
+import se.inera.intyg.common.ts_diabetes.v3.model.kodverk.KvIdKontroll;
 
 public class QuestionIdentitetStyrktGenom {
 
@@ -65,17 +65,17 @@ public class QuestionIdentitetStyrktGenom {
     private static String getDescriptionValue(String identitetStyrktGenom) {
         switch (identitetStyrktGenom) {
             case ID_KORT:
-                return IdKontrollKod.ID_KORT.getDescription();
+                return KvIdKontroll.ID_KORT.getDescription();
             case FORETAG_ELLER_TJANSTEKORT:
-                return IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getDescription();
+                return KvIdKontroll.FORETAG_ELLER_TJANSTEKORT.getDescription();
             case KORKORT:
-                return IdKontrollKod.KORKORT.getDescription();
+                return KvIdKontroll.KORKORT.getDescription();
             case PERS_KANNEDOM:
-                return IdKontrollKod.PERS_KANNEDOM.getDescription();
+                return KvIdKontroll.PERS_KANNEDOM.getDescription();
             case FORSAKRAN_KAP18:
-                return IdKontrollKod.FORSAKRAN_KAP18.getDescription();
+                return KvIdKontroll.FORSAKRAN_KAP18.getDescription();
             case PASS:
-                return IdKontrollKod.PASS.getDescription();
+                return KvIdKontroll.PASS.getDescription();
             default:
                 return null;
         }

@@ -180,7 +180,7 @@ public class InternalToCertificate {
                     internalCertificate.getBedomning(), index++, textProvider)
             )
             .addElement(
-                QuestionBedomningLakareSpecialKompetens.toCertificate(internalCertificate.getBedomning(), index++, textProvider)
+                QuestionBedomningLakareSpecialKompetens.toCertificate(internalCertificate.getBedomning(), index, textProvider)
             )
             .build();
     }
