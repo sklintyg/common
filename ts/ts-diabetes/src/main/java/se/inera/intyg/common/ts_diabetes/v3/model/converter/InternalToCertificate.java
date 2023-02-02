@@ -55,6 +55,7 @@ import se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.question
 import se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.question.QuestionIntygetAvser;
 import se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.question.QuestionOvrigtKommentarer;
 import se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.question.QuestionSynMisstankeOgonsjukdom;
+import se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.question.QuestionSynMisstankeOgonsjukdomMessage;
 import se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.question.QuestionSynSeparatOgonlakarintyg;
 import se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.question.QuestionSynSynskarpa;
 import se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.question.QuestionSynSynskarpaMessage;
@@ -148,6 +149,9 @@ public class InternalToCertificate {
             .addElement(
                 QuestionSynMisstankeOgonsjukdom.toCertificate(internalCertificate.getSynfunktion(), index++,
                     textProvider)
+            )
+            .addElement(
+                QuestionSynMisstankeOgonsjukdomMessage.toCertificate(internalCertificate.getSynfunktion(), index++, textProvider)
             )
             .addElement(
                 QuestionSynSynskarpaMessage.toCertificate(index++, textProvider)

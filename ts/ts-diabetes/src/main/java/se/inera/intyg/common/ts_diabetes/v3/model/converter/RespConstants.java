@@ -201,6 +201,8 @@ public final class RespConstants {
     public static final String SYN_UTAN_ANMARKNING_SVAR_TEXT_ID = "FRG_103.RBK";
     public static final String SYN_VARDEN_SYNSKARPA_SVAR_ID = "311";
     public static final String SYN_VARDEN_SYNSKARPA_MESSAGE_ID = "311.0";
+    public static final String SYN_VARDEN_MISSTANKE_OGONSJUKDOM_MESSAGE_ID = "312.0";
+    public static final String SYN_VARDEN_MISSTANKE_OGONSJUKDOM_MESSAGE_TEXT_ID = "TSDIA-001.ALERT";
     public static final String SYN_VARDEN_SYNSKARPA_SVAR_TEXT_ID = "FRG_8.RBK";
     public static final String SYN_VARDEN_SYNSKARPA_MESSAGE_TEXT_ID = "TSDIA-002.ALERT";
     public static final String SYN_DUBBELSEENDE_SVAR_ID = "312";

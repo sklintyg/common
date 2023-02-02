@@ -36,7 +36,7 @@ public class QuestionDiabetesBehandling {
     private static final String KOST = "Endast kost";
     private static final String TABLETTER = "Tabletter";
     private static final String INSULIN = "Insulin";
-    private static final String ANNAN = "Annan";
+    private static final String ANNAN = "Annan behandling";
 
     public static CertificateDataElement toCertificate(Allmant allmant, int index, CertificateTextProvider textProvider) {
         final var behandling = allmant != null && allmant.getBehandling() != null ? allmant.getBehandling() : null;

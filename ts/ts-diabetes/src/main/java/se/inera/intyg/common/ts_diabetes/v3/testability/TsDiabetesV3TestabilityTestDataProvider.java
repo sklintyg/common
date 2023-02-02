@@ -19,8 +19,23 @@
 
 package se.inera.intyg.common.ts_diabetes.v3.testability;
 
+import java.time.LocalDate;
+import java.util.EnumSet;
 import se.inera.intyg.common.support.facade.util.TestabilityUtlatandeTestDataProvider;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.Allmant;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.Bedomning;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.BedomningKorkortstyp;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.Behandling;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.Hypoglykemier;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.IdKontroll;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.IntygAvser;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.IntygAvserKategori;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.Synfunktion;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.Synskarpevarden;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
+import se.inera.intyg.common.ts_diabetes.v3.model.kodverk.KvIdKontroll;
+import se.inera.intyg.common.ts_diabetes.v3.model.kodverk.KvTypAvDiabetes;
 
 public class TsDiabetesV3TestabilityTestDataProvider implements TestabilityUtlatandeTestDataProvider<TsDiabetesUtlatandeV3> {
 
@@ -31,6 +46,111 @@ public class TsDiabetesV3TestabilityTestDataProvider implements TestabilityUtlat
 
     @Override
     public TsDiabetesUtlatandeV3 getMaximumValues(TsDiabetesUtlatandeV3 utlatande) {
-        return utlatande;
+        return utlatande.toBuilder()
+            .setIntygAvser(
+                IntygAvser.create(
+                    EnumSet.of(
+                        IntygAvserKategori.IAV1,
+                        IntygAvserKategori.IAV2,
+                        IntygAvserKategori.IAV3,
+                        IntygAvserKategori.IAV4,
+                        IntygAvserKategori.IAV5,
+                        IntygAvserKategori.IAV6,
+                        IntygAvserKategori.IAV7,
+                        IntygAvserKategori.IAV8,
+                        IntygAvserKategori.IAV9,
+                        IntygAvserKategori.IAV11,
+                        IntygAvserKategori.IAV12,
+                        IntygAvserKategori.IAV13,
+                        IntygAvserKategori.IAV14,
+                        IntygAvserKategori.IAV15,
+                        IntygAvserKategori.IAV16,
+                        IntygAvserKategori.IAV17
+                    )
+                )
+            )
+            .setIdentitetStyrktGenom(
+                IdKontroll.create(KvIdKontroll.PASS)
+            )
+            .setAllmant(
+                Allmant.builder()
+                    .setDiabetesDiagnosAr(String.valueOf(LocalDate.now()))
+                    .setTypAvDiabetes(KvTypAvDiabetes.ANNAN)
+                    .setBeskrivningAnnanTypAvDiabetes("Annan typ av diabetes")
+                    .setBehandling(
+                        Behandling.builder()
+                            .setEndastKost(true)
+                            .setInsulin(true)
+                            .setInsulinSedanAr(String.valueOf(LocalDate.now()))
+                            .setTabletter(true)
+                            .setAnnanBehandling(true)
+                            .setAnnanBehandlingBeskrivning("Annan behandling beskrivning")
+                            .setRiskHypoglykemi(true)
+                            .build()
+                    )
+                    .build()
+            )
+            .setHypoglykemier(
+                Hypoglykemier.builder()
+                    .setEgenkontrollBlodsocker(true)
+                    .setNedsattHjarnfunktion(true)
+                    .setSjukdomenUnderKontroll(true)
+                    .setFormagaVarningstecken(true)
+                    .setAterkommandeSenasteAret(true)
+                    .setAterkommandeSenasteTidpunkt(new InternalDate(LocalDate.now()))
+                    .setForekomstTrafik(true)
+                    .setForekomstTrafikTidpunkt(new InternalDate(LocalDate.now()))
+                    .setAterkommandeSenasteKvartalet(true)
+                    .setSenasteTidpunktVaken(new InternalDate(LocalDate.now()))
+                    .build()
+            )
+            .setSynfunktion(
+                Synfunktion.builder()
+                    .setBinokulart(
+                        Synskarpevarden.builder()
+                            .setMedKorrektion(1.0)
+                            .setUtanKorrektion(1.0)
+                            .build()
+                    )
+                    .setHoger(
+                        Synskarpevarden.builder()
+                            .setUtanKorrektion(1.0)
+                            .setMedKorrektion(1.0)
+                            .build()
+                    )
+                    .setVanster(
+                        Synskarpevarden.builder()
+                            .setMedKorrektion(1.0)
+                            .setUtanKorrektion(1.0)
+                            .build()
+                    )
+                    .setMisstankeOgonsjukdom(true)
+                    .setSkickasSeparat(true)
+                    .build()
+            )
+            .setOvrigt("Övrigt")
+            .setBedomning(
+                Bedomning.builder()
+                    .setLampligtInnehav(true)
+                    .setUppfyllerBehorighetskrav(
+                        EnumSet.of(
+                            BedomningKorkortstyp.VAR1,
+                            BedomningKorkortstyp.VAR2,
+                            BedomningKorkortstyp.VAR3,
+                            BedomningKorkortstyp.VAR4,
+                            BedomningKorkortstyp.VAR5,
+                            BedomningKorkortstyp.VAR6,
+                            BedomningKorkortstyp.VAR7,
+                            BedomningKorkortstyp.VAR8,
+                            BedomningKorkortstyp.VAR11,
+                            BedomningKorkortstyp.VAR12,
+                            BedomningKorkortstyp.VAR13,
+                            BedomningKorkortstyp.VAR14
+                        )
+                    )
+                    .setBorUndersokasBeskrivning("Undersökas beskrivning")
+                    .build()
+            )
+            .build();
     }
 }

@@ -20,28 +20,29 @@
 package se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.question;
 
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYN_CATEGORY_ID;
-import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYN_VARDEN_SYNSKARPA_MESSAGE_ID;
-import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYN_VARDEN_SYNSKARPA_MESSAGE_TEXT_ID;
-import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYN_VARDEN_SYNSKARPA_SVAR_TEXT_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYN_VARDEN_MISSTANKE_OGONSJUKDOM_MESSAGE_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYN_VARDEN_MISSTANKE_OGONSJUKDOM_MESSAGE_TEXT_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMessage;
 import se.inera.intyg.common.support.facade.model.config.MessageLevel;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.Synfunktion;
 
-public class QuestionSynSynskarpaMessage {
+public class QuestionSynMisstankeOgonsjukdomMessage {
 
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(Synfunktion synfunktion, int index, CertificateTextProvider textProvider) {
+        final var misstankeOgonsjukdom = synfunktion != null ? synfunktion.getMisstankeOgonsjukdom() : null;
         return CertificateDataElement.builder()
-            .id(SYN_VARDEN_SYNSKARPA_MESSAGE_ID)
+            .id(SYN_VARDEN_MISSTANKE_OGONSJUKDOM_MESSAGE_ID)
             .parent(SYN_CATEGORY_ID)
             .index(index)
+            .visible(misstankeOgonsjukdom)
             .config(
                 CertificateDataConfigMessage.builder()
-                    .text(textProvider.get(SYN_VARDEN_SYNSKARPA_SVAR_TEXT_ID))
-                    .message(textProvider.get(SYN_VARDEN_SYNSKARPA_MESSAGE_TEXT_ID))
-                    .level(MessageLevel.OBSERVE)
+                    .message(textProvider.get(SYN_VARDEN_MISSTANKE_OGONSJUKDOM_MESSAGE_TEXT_ID))
+                    .level(MessageLevel.INFO)
                     .build()
             )
             .build();
