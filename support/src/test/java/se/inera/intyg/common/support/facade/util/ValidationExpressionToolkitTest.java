@@ -26,6 +26,7 @@ import static se.inera.intyg.common.support.facade.util.ValidationExpressionTool
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.lessThan;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.lessThanOrEqual;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.moreThan;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.moreThanOrEqual;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleAndExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.not;
@@ -128,5 +129,15 @@ class ValidationExpressionToolkitTest {
     @Test
     void shallAddFrom() {
         assertEquals("variable.from", from("variable"));
+    }
+
+    @Test
+    void shallAddMoreThanOrEquals() {
+        assertEquals("variable >= variable2", moreThanOrEqual("variable", "variable2"));
+    }
+
+    @Test
+    void shallAddMoreThanOrEqualsWithLong() {
+        assertEquals("variable >= 2", moreThanOrEqual("variable", 2L));
     }
 }

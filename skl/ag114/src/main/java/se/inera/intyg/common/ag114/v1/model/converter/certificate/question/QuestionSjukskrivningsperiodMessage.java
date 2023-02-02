@@ -25,7 +25,7 @@ import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKS
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_PERIOD_MESSAGE_TEXT_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.from;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.moreThan;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.moreThanOrEqual;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.subtract;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.to;
 
@@ -56,7 +56,7 @@ public class QuestionSjukskrivningsperiodMessage {
                     CertificateDataValidationShow.builder()
                         .questionId(SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID)
                         .expression(
-                            moreThan(subtract(to(SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID), from(SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID)),
+                            moreThanOrEqual(subtract(to(SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID), from(SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID)),
                                 DATE_RANGE_LIMIT)
                         )
                         .build()
