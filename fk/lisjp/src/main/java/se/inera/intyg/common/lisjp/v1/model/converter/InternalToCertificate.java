@@ -1012,6 +1012,10 @@ public final class InternalToCertificate {
                         .questionId(ARBETSTIDSFORLAGGNING_SVAR_ID_33)
                         .expression(singleExpression(ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33))
                         .build(),
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build(),
                 }
             )
             .build();
@@ -1047,6 +1051,10 @@ public final class InternalToCertificate {
                         .questionId(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33)
                         .expression(singleExpression(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33))
                         .build(),
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
                 }
             )
             .build();
