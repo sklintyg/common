@@ -21,9 +21,9 @@ package se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.questio
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYN_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYN_SEPARAT_OGONLAKARINTYG_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYN_SEPARAT_OGONLAKARINTYG_SVAR_TEXT_ID;
-import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYN_VARDEN_SYNSKARPA_MESSAGE_ID;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,7 +69,7 @@ class QuestionSynSeparatOgonlakarintygTest {
 
         @Override
         protected String getParent() {
-            return SYN_VARDEN_SYNSKARPA_MESSAGE_ID;
+            return SYN_CATEGORY_ID;
         }
 
         @Override
