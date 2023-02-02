@@ -85,11 +85,13 @@ public class QuestionSynSynskarpa {
                                             .build(),
                                         CertificateDataTextValue.builder()
                                             .id(UTAN_KORREKTION_ID)
-                                            .text(hogerOga != null ? doubleValue(hogerOga.getUtanKorrektion()) : NOT_SPECIFIED)
+                                            .text(hogerOga != null && hogerOga.getUtanKorrektion() != null ? doubleValue(
+                                                hogerOga.getUtanKorrektion()) : NOT_SPECIFIED)
                                             .build(),
                                         CertificateDataTextValue.builder()
                                             .id(MED_KORREKTION_ID)
-                                            .text(hogerOga != null ? doubleValue(hogerOga.getMedKorrektion()) : NOT_SPECIFIED)
+                                            .text(hogerOga != null && hogerOga.getMedKorrektion() != null ? doubleValue(
+                                                hogerOga.getMedKorrektion()) : NOT_SPECIFIED)
                                             .build()
                                     )
                                 ).build(),
@@ -102,11 +104,13 @@ public class QuestionSynSynskarpa {
                                             .build(),
                                         CertificateDataTextValue.builder()
                                             .id(UTAN_KORREKTION_ID)
-                                            .text(vansterOga != null ? doubleValue(vansterOga.getUtanKorrektion()) : NOT_SPECIFIED)
+                                            .text(vansterOga != null && vansterOga.getUtanKorrektion() != null ? doubleValue(
+                                                vansterOga.getUtanKorrektion()) : NOT_SPECIFIED)
                                             .build(),
                                         CertificateDataTextValue.builder()
                                             .id(MED_KORREKTION_ID)
-                                            .text(vansterOga != null ? doubleValue(vansterOga.getMedKorrektion()) : NOT_SPECIFIED)
+                                            .text(vansterOga != null && vansterOga.getMedKorrektion() != null ? doubleValue(
+                                                vansterOga.getMedKorrektion()) : NOT_SPECIFIED)
                                             .build()
                                     )
                                 ).build(),
@@ -119,11 +123,13 @@ public class QuestionSynSynskarpa {
                                             .build(),
                                         CertificateDataTextValue.builder()
                                             .id(UTAN_KORREKTION_ID)
-                                            .text(binokulart != null ? doubleValue(binokulart.getUtanKorrektion()) : NOT_SPECIFIED)
+                                            .text(binokulart != null && binokulart.getUtanKorrektion() != null ? doubleValue(
+                                                binokulart.getUtanKorrektion()) : NOT_SPECIFIED)
                                             .build(),
                                         CertificateDataTextValue.builder()
                                             .id(MED_KORREKTION_ID)
-                                            .text(binokulart != null ? doubleValue(binokulart.getMedKorrektion()) : NOT_SPECIFIED)
+                                            .text(binokulart != null && binokulart.getMedKorrektion() != null ? doubleValue(
+                                                binokulart.getMedKorrektion()) : NOT_SPECIFIED)
                                             .build()
                                     )
                                 ).build()
