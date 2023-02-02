@@ -78,6 +78,14 @@ public final class ValidationExpressionToolkit {
         return s1 + " <= " + s2;
     }
 
+    public static String moreThanOrEqual(String s1, String s2) {
+        return s1 + " >= " + s2;
+    }
+
+    public static String moreThanOrEqual(String s1, Long l) {
+        return moreThanOrEqual(s1, l.toString());
+    }
+
     public static String lessThanOrEqual(String s1, Long l) {
         return lessThanOrEqual(s1, l.toString());
     }
