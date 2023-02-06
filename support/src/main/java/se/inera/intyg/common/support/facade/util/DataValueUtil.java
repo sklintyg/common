@@ -28,6 +28,8 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCodeList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateList;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRange;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueInteger;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueYear;
 
 public final class DataValueUtil {
@@ -118,6 +120,22 @@ public final class DataValueUtil {
         return CertificateDataValueYear.builder()
             .id(id)
             .year(LocalDate.now().getYear())
+            .build();
+    }
+
+    public static CertificateDataValueInteger getDataValueInteger(String id, String unitOfMeasurement, Integer value) {
+        return CertificateDataValueInteger.builder()
+            .id(id)
+            .unitOfMeasurement(unitOfMeasurement)
+            .value(value)
+            .build();
+    }
+
+    public static CertificateDataValueDateRange getDataValueDateRange(String id, LocalDate from, LocalDate to) {
+        return CertificateDataValueDateRange.builder()
+            .id(id)
+            .from(from)
+            .to(to)
             .build();
     }
 }
