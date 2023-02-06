@@ -35,6 +35,7 @@ import se.inera.intyg.common.ag114.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.ag114.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.ag114.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
+import se.inera.intyg.common.ag114.v1.testability.Ag114V1TestabilityCertificateTestdataProvider;
 import se.inera.intyg.common.agparent.rest.AgParentModuleApi;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
@@ -42,6 +43,7 @@ import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvide
 import se.inera.intyg.common.services.messages.MessagesParser;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.util.TestabilityToolkit;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -216,6 +218,8 @@ public class Ag114ModuleApiV1 extends AgParentModuleApi<Ag114UtlatandeV1> {
 
     @Override
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        return model;
+        final var certificate = getCertificateFromJson(model, typeAheadProvider);
+        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new Ag114V1TestabilityCertificateTestdataProvider());
+        return getJsonFromCertificate(certificate, model);
     }
 }
