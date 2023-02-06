@@ -25,12 +25,18 @@ public final class RespConstants {
     public static final String INTYGETAVSER_DELSVAR_ID = "1.1";
     public static final String INTYGETAVSER_SVAR_JSON_ID = "intygAvser";
 
+    public static final String INTYG_AVSER_CATEGORY_ID = "intygAvser";
+    public static final String INTYG_AVSER_CATEGORY_TEXT_ID = "KAT_1.RBK";
     // Kat 2 - Identitet
+    public static final String IDENTITET_CATEGORY_ID = "identitetStyrktGenom";
+    public static final String IDENTITET_CATEGORY_TEXT_ID = "KAT_2.RBK";
     public static final String IDENTITET_STYRKT_GENOM_SVAR_ID = "2";
     public static final String IDENTITET_STYRKT_GENOM_DELSVAR_ID = "2.1";
     public static final String IDENTITET_STYRKT_GENOM_JSON_ID = "identitetStyrktGenom";
 
     // Kat 3 - Allmänt
+    public static final String ALLMANT_CATEGORY_ID = "allmant";
+    public static final String ALLMANT_CATEGORY_TEXT_ID = "KAT_3.RBK";
     public static final String ALLMANT_JSON_ID = "allmant";
     public static final String ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID = "35";
     public static final String ALLMANT_DIABETES_DIAGNOS_AR_DELSVAR_ID = "35.1";
@@ -60,6 +66,8 @@ public final class RespConstants {
     public static final String ALLMANT_BEHANDLING_RISK_HYPOGLYKEMI_JSON_ID = "riskHypoglykemi";
 
     // Kat 4 - Hypoglykemier
+    public static final String HYPOGLYKEMI_CATEGORY_ID = "hypoglykemi";
+    public static final String HYPOGLYKEMI_CATEGORY_TEXT_ID = "KAT_4.RBK";
     public static final String HYPOGLYKEMIER_JSON_ID = "hypoglykemier";
     public static final String HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_SVAR_ID = "41";
     public static final String HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_DELSVAR_ID = "41.1";
@@ -90,6 +98,8 @@ public final class RespConstants {
     public static final String HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID = "forekomstTrafikTidpunkt";
 
     // Kat 5 - Synfunktion
+    public static final String SYN_CATEGORY_ID = "syn";
+    public static final String SYN_CATEGORY_TEXT_ID = "KAT_5.RBK";
     public static final String SYNFUNKTION_JSON_ID = "synfunktion";
     public static final String SYNFUNKTION_MISSTANKE_OGONSJUKDOM_SVAR_ID = "103";
     public static final String SYNFUNKTION_MISSTANKE_OGONSJUKDOM_DELSVAR_ID = "103.1";
@@ -115,11 +125,15 @@ public final class RespConstants {
     public static final String SYNFUNKTION_SYNSKARPA_BINOKULART_MED_KORREKTION_DELSVAR_ID = "8.7";
 
     // Kat 6 - Övrigt
+    public static final String OVRIGT_CATEGORY_ID = "ovrigt";
+    public static final String OVRIGT_CATEGORY_TEXT_ID = "KAT_6.RBK";
     public static final String OVRIGT_SVAR_ID = "32";
     public static final String OVRIGT_DELSVAR_ID = "32.1";
     public static final String OVRIGT_DELSVAR_JSON_ID = "ovrigt";
 
     // Kat 7 - Bedömning
+    public static final String BEDOMNING_CATEGORY_ID = "bedomning";
+    public static final String BEDOMNING_CATEGORY_TEXT_ID = "KAT_7.RBK";
     public static final String BEDOMNING_SVAR_ID = "33";
     public static final String BEDOMNING_JSON_ID = "bedomning";
     public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID = "33.1";
@@ -138,5 +152,78 @@ public final class RespConstants {
 
     private RespConstants() {
     }
+
+    public static final String INTYG_AVSER_SVAR_ID = "1";
+    public static final String ALLMANT_DIABETES_DIAGNOS_AR_TEXT_ID = "FRG_35.RBK";
+    public static final String ALLMANT_TYP_AV_DIABETES_TEXT_ID = "FRG_18.RBK";
+    public static final String ALLMANT_BEHANDLING_TEXT_ID = "FRG_109.RBK";
+    public static final String ALLMANT_BEHANDLING_INSULIN_TEXT_ID = "DFR_109.4.RBK";
+    public static final String ALLMANT_BEHANDLING_ANNAN_DELSVAR_ID = "209.3";
+    public static final String ALLMANT_BEHANDLING_ANNAN_TEXT_ID = "DFR_109.6.RBK";
+    public static final String HYPOGLYKEMI_TECKEN_NEDSATT_HJARNFUNKTION_SVAR_ID = "201";
+    public static final String HYPOGLYKEMI_TECKEN_NEDSATT_HJARNFUNKTION_SVAR_TEXT_ID = "FRG_37.RBK";
+    public static final String HYPOGLYKEMI_EGENKONTROLL_BLODSOCKER_SVAR_ID = "206";
+    public static final String HYPOGLYKEMI_GODTAGBAR_KONTROLL_SVAR_ID = "208.0";
+    public static final String HYPOGLYKEMI_FORMOGA_VARNINGSTECKEN_SVAR_ID = "208";
+    public static final String HYPOGLYKEMI_FORMOGA_VARNINGSTECKEN_SVAR_TEXT_ID = "FRG_110.RBK";
+    public static final String HYPOGLYKEMI_GODTAGBAR_KONTROLL_SVAR_TEXT_ID = "FRG_100.RBK";
+    public static final String HYPOGLYKEMI_EGENKONTROLL_BLODSOCKER_SVAR_TEXT_ID = "FRG_41.RBK";
+    public static final String SYN_SEPARAT_OGONLAKARINTYG_SVAR_ID = "309";
+    public static final String SYN_SEPARAT_OGONLAKARINTYG_SVAR_TEXT_ID = "DFR_8.1.RBK";
+    public static final String SYN_UTAN_ANMARKNING_SVAR_ID = "310";
+    public static final String SYN_UTAN_ANMARKNING_SVAR_TEXT_ID = "FRG_103.RBK";
+    public static final String SYN_VARDEN_SYNSKARPA_SVAR_ID = "311";
+    public static final String SYN_VARDEN_SYNSKARPA_MESSAGE_ID = "311.0";
+    public static final String SYN_VARDEN_MISSTANKE_OGONSJUKDOM_MESSAGE_ID = "312.0";
+    public static final String SYN_VARDEN_MISSTANKE_OGONSJUKDOM_MESSAGE_TEXT_ID = "TSDIA-001.ALERT";
+    public static final String SYN_VARDEN_SYNSKARPA_SVAR_TEXT_ID = "FRG_8.RBK";
+    public static final String SYN_VARDEN_SYNSKARPA_MESSAGE_TEXT_ID = "TSDIA-002.ALERT";
+    public static final String HOGER_OGA_LABEL = "Höger öga";
+    public static final String VANSTER_OGA_LABEL = "Vänster öga";
+    public static final String BINOKULART_LABEL = "Binokulärt";
+    public static final String UTAN_KORREKTION_TEXT = "Utan korrektion";
+    public static final String MED_KORREKTION_TEXT = "Med korrektion";
+    public static final String SYNSKARPA_TYP_ID = "synskarpaTyp";
+    public static final String UTAN_KORREKTION_ID = "utanKorrektion";
+    public static final String MED_KORREKTION_ID = "medKorrektion";
+    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_TEXT_ID = "FRG_33.RBK";
+    public static final String BEDOMNING_LAKARE_SPECIAL_KOMPETENS_SVAR_ID = "34";
+    public static final String BEDOMNING_LAKARE_SPECIAL_KOMPETENS_SVAR_TEXT_ID = "FRG_34.RBK";
+    public static final String BEDOMNING_LAMPLIGHET_SVAR_TEXT_ID = "FRG_45.RBK";
+    public static final String OVRIGT_KOMMENTARER_SVAR_ID = "350";
+    public static final String OVRIGT_KOMMENTARER_SVAR_TEXT_ID = "FRG_32.RBK";
+    public static final String INTYG_AVSER_SVAR_TEXT_ID = "FRG_1.RBK";
+    public static final String IDENTITET_STYRKT_GENOM_TEXT_ID = "FRG_2.RBK";
+    public static final String ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_TEXT_ID = "DFR_18.2.RBK";
+
+    public static final String ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID = "207";
+
+    public static final String SVAR_JA_TEXT_ID = "SVAR_JA.RBK";
+    public static final String SVAR_NEJ_TEXT_ID = "SVAR_NEJ.RBK";
+
+    public static final String ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID = "308";
+    public static final String ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID = "medicineringMedforRiskForHypoglykemi";
+    public static final String ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TEXT_ID = "DFR_109.7.RBK";
+    public static final String HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_SVAR_ID = "200";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_SVAR_ID = "106";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_JSON_ID = "aterkommandeSenasteAret";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TEXT_ID = "FRG_106.RBK";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID = "106.2";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_TEXT_ID = "DFR_106.2.RBK";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_DELSVAR_ID = "106.5";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_TIDPUNKT_DELSVAR_ID = "106.6";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_TEXT_ID = "FRG_108.RBK";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_TIDPUNKT_TEXT_ID = "DFR_108.2.RBK";
+
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_SVAR_ID = "107";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_DELSVAR_ID = "107.3";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TEXT_ID = "FRG_107.RBK";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_DELSVAR_ID = "107.5";
+    public static final String HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_TEXT_ID = "DFR_107.2.RBK";
+
+    public static final String HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_SVAR_ID = "203";
+
+    // Kat 6 - Övrigt
+    public static final String OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID = "206";
 
 }

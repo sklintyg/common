@@ -19,6 +19,8 @@
 
 package se.inera.intyg.common.support.facade.util;
 
+import se.inera.intyg.common.support.model.InternalDate;
+
 public final class ViewTextToolkit {
 
     private static final String NOT_SPECIFIED = "Ej angivet";
@@ -85,5 +87,13 @@ public final class ViewTextToolkit {
         }
 
         return text;
+    }
+
+    public static String internalDateValue(InternalDate value) {
+        if (value == null) {
+            return NOT_SPECIFIED;
+        } else {
+            return value.toString();
+        }
     }
 }
