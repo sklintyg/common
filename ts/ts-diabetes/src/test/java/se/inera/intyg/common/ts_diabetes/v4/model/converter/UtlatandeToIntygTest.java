@@ -43,7 +43,6 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.IdKontroll;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
 import se.inera.intyg.schemas.contract.Personnummer;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 public class UtlatandeToIntygTest {
 
@@ -75,14 +74,14 @@ public class UtlatandeToIntygTest {
         final String patientPostnummer = "patientPostnummer";
         final String patientPostort = "patientPostort";
 
-        TsDiabetesUtlatandeV4 utlatande = buildUtlatande(intygsId, textVersion, enhetsId, enhetsnamn, patientPersonId,
+        final var utlatande = buildUtlatande(intygsId, textVersion, enhetsId, enhetsnamn, patientPersonId,
             skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost,
             telefonNummer,
             vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer,
             patientPostort,
             null, null).build();
 
-        Intyg intyg = se.inera.intyg.common.ts_diabetes.v4.model.converter.UtlatandeToIntyg.convert(utlatande);
+        final var intyg = UtlatandeToIntyg.convert(utlatande);
 
         assertEquals(enhetsId, intyg.getIntygsId().getRoot());
         assertEquals(intygsId, intyg.getIntygsId().getExtension());
@@ -122,20 +121,16 @@ public class UtlatandeToIntygTest {
 
     @Test
     public void emptyUtlatandeShouldHaveNoIncompleteSvar() {
-        // Given
-        TsDiabetesUtlatandeV4 utlatande = buildUtlatande().build();
+        final var utlatande = buildUtlatande().build();
 
-        // When
-        Intyg intyg = se.inera.intyg.common.ts_diabetes.v4.model.converter.UtlatandeToIntyg.convert(utlatande);
+        final var intyg = UtlatandeToIntyg.convert(utlatande);
 
-        // Then
         assertThat(intyg.getSvar()).allMatch(svar -> svar.getDelsvar().size() != 0);
     }
 
     @Test
     public void svarWithoutDelsvarInJsonShouldNotPropagateToXml() {
-        // Given
-        TsDiabetesUtlatandeV4 utlatande = buildUtlatande()
+        final var utlatande = buildUtlatande()
             .setIntygAvser(IntygAvser.create(null))
             .setIdentitetStyrktGenom(IdKontroll.create(null))
             .setAllmant(Allmant.builder()
@@ -145,11 +140,53 @@ public class UtlatandeToIntygTest {
             .setBedomning(Bedomning.builder().build())
             .build();
 
-        // When
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        final var intyg = UtlatandeToIntyg.convert(utlatande);
 
-        // Then
         assertThat(intyg.getSvar()).allMatch(svar -> svar.getDelsvar().size() != 0);
+    }
+
+    @Test
+    public void shouldIncludeBehandlingWhenMedicineringMedRiskForHypglykemi() {
+        final var utlatande = buildUtlatande()
+            .setIntygAvser(IntygAvser.create(null))
+            .setIdentitetStyrktGenom(IdKontroll.create(null))
+            .setAllmant(Allmant.builder()
+                .setMedicineringMedforRiskForHypoglykemi(true)
+                .setBehandling(Behandling.builder()
+                    .setInsulin(true)
+                    .setTabletter(false)
+                    .setAnnan(false)
+                    .build())
+                .build())
+            .setHypoglykemi(Hypoglykemi.builder().build())
+            .setBedomning(Bedomning.builder().build())
+            .build();
+
+        final var intyg = UtlatandeToIntyg.convert(utlatande);
+
+        assertEquals(1, intyg.getSvar().stream().filter(svar -> svar.getId().equals("209")).count());
+    }
+
+    @Test
+    public void shouldNotIncludeBehandlingWhenNotMedicineringMedRiskForHypglykemi() {
+        final var utlatande = buildUtlatande()
+            .setIntygAvser(IntygAvser.create(null))
+            .setIdentitetStyrktGenom(IdKontroll.create(null))
+            .setAllmant(Allmant.builder()
+                .setMedicineringMedforRiskForHypoglykemi(false)
+                .setBehandling(Behandling.builder()
+                    .setInsulin(false)
+                    .setTabletter(false)
+                    .setAnnan(false)
+                    .build())
+                .build())
+            .setHypoglykemi(Hypoglykemi.builder().build())
+            .setBedomning(Bedomning.builder().build())
+            .build();
+
+        final var intyg = UtlatandeToIntyg.convert(utlatande);
+
+        assertEquals(0, intyg.getSvar().stream().filter(svar -> svar.getId().equals("209")).count());
     }
 
     private static TsDiabetesUtlatandeV4.Builder buildUtlatande() {
@@ -173,14 +210,14 @@ public class UtlatandeToIntygTest {
         String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
         String patientPostort, RelationKod relationKod, String relationIntygsId) {
 
-        TsDiabetesUtlatandeV4.Builder template = TsDiabetesUtlatandeV4.builder();
+        final var template = TsDiabetesUtlatandeV4.builder();
         template.setId(intygsId);
         template.setTextVersion(textVersion);
 
-        GrundData grundData = new GrundData();
-        HoSPersonal skapadAv = new HoSPersonal();
+        final var grundData = new GrundData();
+        final var skapadAv = new HoSPersonal();
 
-        Vardenhet vardenhet = new Vardenhet();
+        final var vardenhet = new Vardenhet();
         vardenhet.setEnhetsid(enhetsId);
         vardenhet.setEnhetsnamn(enhetsnamn);
         vardenhet.setArbetsplatsKod(arbetsplatsKod);
@@ -190,7 +227,7 @@ public class UtlatandeToIntygTest {
         vardenhet.setEpost(epost);
         vardenhet.setTelefonnummer(telefonNummer);
 
-        Vardgivare vardgivare = new Vardgivare();
+        final var vardgivare = new Vardgivare();
         vardgivare.setVardgivarid(vardgivarid);
         vardgivare.setVardgivarnamn(vardgivarNamn);
         vardenhet.setVardgivare(vardgivare);
@@ -201,9 +238,9 @@ public class UtlatandeToIntygTest {
         skapadAv.setForskrivarKod(forskrivarKod);
         grundData.setSkapadAv(skapadAv);
 
-        Personnummer personId = Personnummer.createPersonnummer(patientPersonId).get();
+        final var personId = Personnummer.createPersonnummer(patientPersonId).orElseThrow();
 
-        Patient patient = new Patient();
+        final var patient = new Patient();
         patient.setPersonId(personId);
         patient.setFornamn(fornamn);
         patient.setEfternamn(efternamn);
@@ -215,7 +252,7 @@ public class UtlatandeToIntygTest {
         grundData.setPatient(patient);
         grundData.setSigneringsdatum(signeringsdatum);
         if (relationKod != null) {
-            Relation relation = new Relation();
+            final var relation = new Relation();
             relation.setRelationIntygsId(relationIntygsId);
             relation.setRelationKod(relationKod);
             grundData.setRelation(relation);

@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.ts_diabetes.v4.model.converter;
 
+import static java.lang.Boolean.TRUE;
 import static se.inera.intyg.common.support.Constants.KV_ID_KONTROLL_CODE_SYSTEM;
 import static se.inera.intyg.common.support.Constants.KV_KORKORTSBEHORIGHET_CODE_SYSTEM;
 import static se.inera.intyg.common.support.Constants.KV_UTLATANDETYP_INTYG_CODE_SYSTEM;
@@ -219,7 +220,7 @@ public final class UtlatandeToIntyg {
                 .build());
         }
 
-        if (allmant.getBehandling() != null) {
+        if (allmant.getBehandling() != null && TRUE.equals(allmant.getMedicineringMedforRiskForHypoglykemi())) {
             // Here we rely on withDelsvar not adding a delsvar if content is null
             final var behandlingSvar = aSvar(ALLMANT_BEHANDLING_SVAR_ID)
                 .withDelsvar(ALLMANT_BEHANDLING_INSULIN_DELSVAR_ID,
