@@ -97,8 +97,12 @@ class QuestionAktivitetsbegransningTest {
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate);
-
-            assertEquals(expectedValue, updatedCertificate.getAktivitetsbegransning());
+            
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getAktivitetsbegransning());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getAktivitetsbegransning());
+            }
         }
     }
 

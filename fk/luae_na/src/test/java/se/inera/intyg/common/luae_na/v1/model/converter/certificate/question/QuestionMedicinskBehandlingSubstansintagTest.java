@@ -19,6 +19,7 @@
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.SUBSTANSINTAG_DELSVAR_ID_21;
@@ -157,7 +158,11 @@ class QuestionMedicinskBehandlingSubstansintagTest {
 
             final var actualValue = QuestionMedicinskBehandlingSubstansintag.toInternal(certificate);
 
-            assertEquals(expectedValue, actualValue);
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(actualValue);
+            } else {
+                assertEquals(expectedValue, actualValue);
+            }
         }
     }
 }

@@ -170,7 +170,11 @@ class QuestionLandTest {
 
             final var actualValue = QuestionLand.toInternal(certificate);
 
-            assertEquals(expectedValue, actualValue);
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(actualValue);
+            } else {
+                assertEquals(expectedValue, actualValue);
+            }
         }
     }
 }
