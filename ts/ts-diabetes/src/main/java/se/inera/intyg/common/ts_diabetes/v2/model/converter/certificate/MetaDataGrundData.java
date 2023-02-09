@@ -25,6 +25,7 @@ import static se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint.MOD
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.util.MetaDataToolkit;
+import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
 
 public class MetaDataGrundData {
@@ -33,6 +34,7 @@ public class MetaDataGrundData {
         return CertificateMetadata.builder()
             .id(internalCertificate.getId())
             .type(internalCertificate.getTyp())
+            .typeName(TsDiabetesEntryPoint.KV_UTLATANDETYP_INTYG_CODE)
             .typeVersion(internalCertificate.getTextVersion())
             .name(MODULE_NAME)
             .description(textProvider.get(DESCRIPTION_TEXT_KEY))
