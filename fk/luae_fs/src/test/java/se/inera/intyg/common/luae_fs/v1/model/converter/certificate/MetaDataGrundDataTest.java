@@ -26,6 +26,7 @@ import static se.inera.intyg.common.luae_fs.v1.model.converter.certificate.MetaD
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.mockito.Mockito;
+import se.inera.intyg.common.luae_fs.support.LuaefsEntryPoint;
 import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Patient;
@@ -98,6 +99,11 @@ class MetaDataGrundDataTest {
             @Override
             protected CertificateTextProvider getTextProvider() {
                 return texts;
+            }
+
+            @Override
+            protected String getTypeName() {
+                return LuaefsEntryPoint.ISSUER_TYPE_ID;
             }
         }
 

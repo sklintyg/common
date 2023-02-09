@@ -41,6 +41,8 @@ public abstract class CommonMetaDataTest {
 
     protected abstract CertificateTextProvider getTextProvider();
 
+    protected abstract String getTypeName();
+
     @Test
     void shouldIncludeId() {
         final var metadata = getMetaData();
@@ -57,6 +59,12 @@ public abstract class CommonMetaDataTest {
     void shouldIncludeTypeName() {
         final var metadata = getMetaData();
         assertTrue(metadata.getTypeName().length() > 0);
+    }
+
+    @Test
+    void shouldIncludeCorrectTypeName() {
+        final var metadata = getMetaData();
+        assertEquals(getTypeName(), metadata.getTypeName());
     }
 
     @Test
