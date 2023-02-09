@@ -23,6 +23,7 @@ import static se.inera.intyg.common.fk7263.support.Fk7263EntryPoint.MODULE_DETAI
 import static se.inera.intyg.common.fk7263.support.Fk7263EntryPoint.MODULE_NAME;
 
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
+import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.util.MetaDataToolkit;
 
@@ -32,6 +33,7 @@ public class MetaDataGrundData {
         return CertificateMetadata.builder()
             .id(internalCertificate.getId())
             .type(internalCertificate.getTyp())
+            .typeName(Fk7263EntryPoint.ISSUER_TYPE_ID)
             .typeVersion(internalCertificate.getTextVersion())
             .name(MODULE_NAME)
             .description(MODULE_DETAILED_DESCRIPTION)

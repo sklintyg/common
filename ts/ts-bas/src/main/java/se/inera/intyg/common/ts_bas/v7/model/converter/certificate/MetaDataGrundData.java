@@ -26,6 +26,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.util.MetaDataToolkit;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 
 public class MetaDataGrundData {
@@ -34,6 +35,7 @@ public class MetaDataGrundData {
         return CertificateMetadata.builder()
             .id(internalCertificate.getId())
             .type(internalCertificate.getTyp())
+            .typeName(TsBasEntryPoint.KV_UTLATANDETYP_INTYG_CODE)
             .typeVersion(internalCertificate.getTextVersion())
             .name(MODULE_NAME)
             .description(texts.get(DETAILED_DESCRIPTION_TEXT_KEY))

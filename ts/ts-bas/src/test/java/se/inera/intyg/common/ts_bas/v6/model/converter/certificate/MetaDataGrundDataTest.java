@@ -37,6 +37,7 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -99,6 +100,11 @@ class MetaDataGrundDataTest {
             @Override
             protected CertificateTextProvider getTextProvider() {
                 return texts;
+            }
+
+            @Override
+            protected String getTypeName() {
+                return TsBasEntryPoint.KV_UTLATANDETYP_INTYG_CODE;
             }
         }
     }

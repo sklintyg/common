@@ -37,6 +37,7 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -98,6 +99,11 @@ class MetaDataGrundDataTest {
             @Override
             protected CertificateTextProvider getTextProvider() {
                 return texts;
+            }
+
+            @Override
+            protected String getTypeName() {
+                return TsDiabetesEntryPoint.KV_UTLATANDETYP_INTYG_CODE;
             }
         }
 

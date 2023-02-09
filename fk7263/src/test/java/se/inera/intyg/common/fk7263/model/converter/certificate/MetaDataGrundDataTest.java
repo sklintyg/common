@@ -25,6 +25,7 @@ import static se.inera.intyg.common.fk7263.support.Fk7263EntryPoint.MODULE_NAME;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
+import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Patient;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
@@ -90,6 +91,11 @@ class MetaDataGrundDataTest {
             @Override
             protected CertificateTextProvider getTextProvider() {
                 return null;
+            }
+
+            @Override
+            protected String getTypeName() {
+                return Fk7263EntryPoint.ISSUER_TYPE_ID;
             }
         }
     }

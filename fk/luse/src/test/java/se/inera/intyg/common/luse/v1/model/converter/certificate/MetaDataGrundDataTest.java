@@ -27,6 +27,7 @@ import static se.inera.intyg.common.luse.v1.model.converter.certificate.MetaData
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.mockito.Mockito;
+import se.inera.intyg.common.luse.support.LuseEntryPoint;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Patient;
@@ -98,6 +99,11 @@ class MetaDataGrundDataTest {
             @Override
             protected CertificateTextProvider getTextProvider() {
                 return texts;
+            }
+
+            @Override
+            protected String getTypeName() {
+                return LuseEntryPoint.ISSUER_TYPE_ID;
             }
         }
 

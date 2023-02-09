@@ -20,6 +20,7 @@ package se.inera.intyg.common.support.facade.testsetup.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
@@ -40,6 +41,8 @@ public abstract class CommonMetaDataTest {
 
     protected abstract CertificateTextProvider getTextProvider();
 
+    protected abstract String getTypeName();
+
     @Test
     void shouldIncludeId() {
         final var metadata = getMetaData();
@@ -50,6 +53,18 @@ public abstract class CommonMetaDataTest {
     void shouldIncludeType() {
         final var metadata = getMetaData();
         assertEquals(getInternalCertificate().getTyp(), metadata.getType());
+    }
+
+    @Test
+    void shouldIncludeTypeName() {
+        final var metadata = getMetaData();
+        assertTrue(metadata.getTypeName().length() > 0);
+    }
+
+    @Test
+    void shouldIncludeCorrectTypeName() {
+        final var metadata = getMetaData();
+        assertEquals(getTypeName(), metadata.getTypeName());
     }
 
     @Test

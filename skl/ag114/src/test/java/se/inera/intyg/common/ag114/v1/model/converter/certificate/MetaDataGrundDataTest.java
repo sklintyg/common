@@ -27,6 +27,7 @@ import static se.inera.intyg.common.agparent.support.AgAbstractModuleEntryPoint.
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.mockito.Mockito;
+import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Patient;
@@ -96,6 +97,11 @@ class MetaDataGrundDataTest {
         @Override
         protected CertificateTextProvider getTextProvider() {
             return texts;
+        }
+
+        @Override
+        protected String getTypeName() {
+            return Ag114EntryPoint.ISSUER_TYPE_ID;
         }
     }
 
