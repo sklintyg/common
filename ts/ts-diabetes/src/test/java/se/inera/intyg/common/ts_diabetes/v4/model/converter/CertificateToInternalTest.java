@@ -21,6 +21,7 @@ package se.inera.intyg.common.ts_diabetes.v4.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -318,6 +319,28 @@ class CertificateToInternalTest {
         final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
         assertEquals(expectedInternalCertificate.getAllmant().getMedicineringMedforRiskForHypoglykemiTidpunkt(),
             actualInternalCertificate.getAllmant().getMedicineringMedforRiskForHypoglykemiTidpunkt());
+    }
+
+    @Test
+    void shallNotIncludeBehandlingWhenMedicineringMedforRiskIsFalse() {
+        final var allmant = Allmant.builder().setMedicineringMedforRiskForHypoglykemi(false).build();
+        final var utlatande = TsDiabetesUtlatandeV4.builder().setId("id").setTextVersion("textVersion")
+            .setGrundData(getGrundData()).build();
+        final var cert = CertificateBuilder.create()
+            .addElement(QuestionDiabetesMedicineringHypoglykemiRisk.toCertificate(allmant, 0, textProvider)).build();
+        final var actualInternalCertificate = certificateToInternal.convert(cert, utlatande);
+        assertNull(actualInternalCertificate.getAllmant().getBehandling());
+    }
+
+    @Test
+    void shallNotIncludeBehandlingWhenMedicineringMedforRiskIsNull() {
+        final var allmant = Allmant.builder().setMedicineringMedforRiskForHypoglykemi(null).build();
+        final var utlatande = TsDiabetesUtlatandeV4.builder().setId("id").setTextVersion("textVersion")
+            .setGrundData(getGrundData()).build();
+        final var cert = CertificateBuilder.create()
+            .addElement(QuestionDiabetesMedicineringHypoglykemiRisk.toCertificate(allmant, 0, textProvider)).build();
+        final var actualInternalCertificate = certificateToInternal.convert(cert, utlatande);
+        assertNull(actualInternalCertificate.getAllmant().getBehandling());
     }
 
     @Test

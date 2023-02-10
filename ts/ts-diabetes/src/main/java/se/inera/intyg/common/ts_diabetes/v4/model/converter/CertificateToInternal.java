@@ -19,6 +19,7 @@
 
 package se.inera.intyg.common.ts_diabetes.v4.model.converter;
 
+import static java.lang.Boolean.TRUE;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_INSULIN_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_TABLETTER_JSON_ID;
@@ -83,12 +84,12 @@ public class CertificateToInternal {
                     .setMedicineringForDiabetes(QuestionDiabetesHarMedicinering.toInternal(certificate))
                     .setMedicineringMedforRiskForHypoglykemi(QuestionDiabetesMedicineringHypoglykemiRisk.toInternal(certificate))
                     .setBehandling(
-                        Behandling.builder()
+                        TRUE.equals(QuestionDiabetesMedicineringHypoglykemiRisk.toInternal(certificate)) ? Behandling.builder()
                             .setInsulin(QuestionDiabetesBehandling.toInternal(certificate, ALLMANT_BEHANDLING_INSULIN_JSON_ID))
                             .setTabletter(QuestionDiabetesBehandling.toInternal(certificate, ALLMANT_BEHANDLING_TABLETTER_JSON_ID))
                             .setAnnan(QuestionDiabetesBehandling.toInternal(certificate, ALLMANT_BEHANDLING_ANNAN_JSON_ID))
                             .setAnnanAngeVilken(QuestionDiabetesBehandlingAnnan.toInternal(certificate))
-                            .build()
+                            .build() : null
                     )
                     .setMedicineringMedforRiskForHypoglykemiTidpunkt(
                         QuestionDiabetesMedicineringHypoglykemiRiskDatum.toInternal(certificate))
