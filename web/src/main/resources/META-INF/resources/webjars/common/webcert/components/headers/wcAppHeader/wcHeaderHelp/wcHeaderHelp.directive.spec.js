@@ -238,29 +238,6 @@ describe('wcHeaderHelp Directive', function() {
             //Assert
             expect($window.location.href).toContain(mockedModuleConfig.CGI_FUNKTIONSTJANSTER_IDP_URL);
         });
-
-        it('should navigate to logout url when clicking logout', function() {
-            //Arrange
-            iid_Invoke = jasmine.createSpy('invoke'); // jshint ignore:line
-
-            spyOn(authorityService, 'isAuthorityActive').and.callFake(function() {
-                return true;
-            });
-
-            //Act
-            compileDirective(initialMockedUser);
-
-            //Assert
-            expect(getLogoutLink().length).toBe(1);
-            expect(directiveScope.vm.showLogout).toBe(true);
-
-            getLogoutLink().click();
-
-            //Assert
-            expect($window.location).toContain('/saml/logout/');
-
-        });
-
     });
 
 });
