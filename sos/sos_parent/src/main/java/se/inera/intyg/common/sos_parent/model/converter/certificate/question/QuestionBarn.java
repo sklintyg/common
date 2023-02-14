@@ -32,6 +32,7 @@ import static se.inera.intyg.common.support.facade.util.PatientToolkit.birthDate
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.lessThanOrEqual;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.moreThan;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.withCitation;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.wrapWithAttribute;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 
@@ -79,9 +80,7 @@ public class QuestionBarn {
                         .questionId(DODSDATUM_DELSVAR_ID)
                         .expression(
                             lessThanOrEqual(
-                                singleExpression(
-                                    wrapWithAttribute(DODSDATUM_JSON_ID, TO_EPOCH_DAY)
-                                ),
+                                wrapWithAttribute(withCitation(DODSDATUM_JSON_ID), TO_EPOCH_DAY),
                                 birthDate(personId)
                                     .plusDays(TWENTY_EIGHT_DAYS)
                                     .toEpochDay()
@@ -98,9 +97,7 @@ public class QuestionBarn {
                         .questionId(DODSDATUM_DELSVAR_ID)
                         .expression(
                             moreThan(
-                                singleExpression(
-                                    wrapWithAttribute(DODSDATUM_JSON_ID, TO_EPOCH_DAY)
-                                ),
+                                wrapWithAttribute(withCitation(DODSDATUM_JSON_ID), TO_EPOCH_DAY),
                                 birthDate(personId)
                                     .plusDays(TWENTY_EIGHT_DAYS)
                                     .toEpochDay()

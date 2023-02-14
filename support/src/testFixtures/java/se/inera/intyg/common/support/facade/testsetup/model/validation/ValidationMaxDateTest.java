@@ -46,6 +46,6 @@ public abstract class ValidationMaxDateTest extends ValidationTest {
     void shouldIncludeValidationMaxDateNumberOfDays() {
         final var question = getElement();
         final var certificateDataValidation = (CertificateDataValidationMaxDate) question.getValidation()[getValidationIndex()];
-        assertEquals(getDaysInFuture(), certificateDataValidation.getExpression());
+        assertEquals(getDaysInFuture(), certificateDataValidation.getNumberOfDays());
     }
 }

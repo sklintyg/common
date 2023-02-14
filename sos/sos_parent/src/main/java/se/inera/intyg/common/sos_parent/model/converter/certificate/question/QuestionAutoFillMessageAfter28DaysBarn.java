@@ -59,9 +59,7 @@ public class QuestionAutoFillMessageAfter28DaysBarn {
                         .questionId(DODSDATUM_DELSVAR_ID)
                         .expression(
                             moreThan(
-                                singleExpression(
-                                    wrapWithAttribute(withCitation(DODSDATUM_JSON_ID), TO_EPOCH_DAY)
-                                ),
+                                wrapWithAttribute(withCitation(DODSDATUM_JSON_ID), TO_EPOCH_DAY),
                                 birthDate(personId)
                                     .plusDays(TWENTY_EIGHT_DAYS)
                                     .toEpochDay()

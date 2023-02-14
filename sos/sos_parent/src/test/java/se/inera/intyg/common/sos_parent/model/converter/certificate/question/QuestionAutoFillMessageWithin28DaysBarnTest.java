@@ -114,7 +114,7 @@ class QuestionAutoFillMessageWithin28DaysBarnTest {
             @Override
             protected String getExpression() {
                 final var withinTwentyEightDaysAfter19121212 = -20811;
-                return "$" + DODSDATUM_JSON_ID + ".toEpochDay <= " + withinTwentyEightDaysAfter19121212;
+                return "epochDay('" + DODSDATUM_JSON_ID + "') <= " + withinTwentyEightDaysAfter19121212;
             }
 
             @Override

@@ -200,7 +200,7 @@ class QuestionBarnTest {
             final var withinTwentyEightDaysAfter19121212 = -20811;
             final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
             final var certificateDataValidationAutoFill = (CertificateDataValidationAutoFill) question.getValidation()[1];
-            assertEquals("$" + DODSDATUM_JSON_ID + ".toEpochDay <= " + withinTwentyEightDaysAfter19121212,
+            assertEquals("epochDay('" + DODSDATUM_JSON_ID + "') <= " + withinTwentyEightDaysAfter19121212,
                 certificateDataValidationAutoFill.getExpression());
         }
 
@@ -245,7 +245,7 @@ class QuestionBarnTest {
             final var withinTwentyEightDaysAfter19121212 = -20811;
             final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
             final var certificateDataValidationAutoFill = (CertificateDataValidationAutoFill) question.getValidation()[2];
-            assertEquals("$" + DODSDATUM_JSON_ID + ".toEpochDay > " + withinTwentyEightDaysAfter19121212,
+            assertEquals("epochDay('" + DODSDATUM_JSON_ID + "') > " + withinTwentyEightDaysAfter19121212,
                 certificateDataValidationAutoFill.getExpression());
         }
 
