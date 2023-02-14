@@ -69,7 +69,6 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMedicalInvestigation;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
@@ -128,8 +127,6 @@ class QuestionUnderlagTest {
 
         @Test
         void shouldIncludeTypeText() {
-            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
-
             verify(texts, atLeastOnce()).get(UNDERLAG_TYPE_TEXT_ID);
         }
 
@@ -142,15 +139,11 @@ class QuestionUnderlagTest {
 
         @Test
         void shouldIncludeInformationSourceText() {
-            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
-
             verify(texts, atLeastOnce()).get(UNDERLAG_INFORMATION_SOURCE_TEXT_ID);
         }
 
         @Test
         void shouldIncludeTypeInformationSourceDescription() {
-            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
-
             verify(texts, atLeastOnce()).get(UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID);
         }
 
@@ -216,6 +209,18 @@ class QuestionUnderlagTest {
                 () -> assertNotNull(config.getList().get(0).getTypeOptions()),
                 () -> assertNotNull(config.getList().get(1).getTypeOptions()),
                 () -> assertNotNull(config.getList().get(2).getTypeOptions())
+            );
+
+        }
+
+        @Test
+        void shouldIncludeConfigMaxDate() {
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
+            final var config = (CertificateDataConfigMedicalInvestigation) question.getConfig();
+            assertAll(
+                () -> assertEquals(LocalDate.now(), config.getList().get(0).getMaxDate()),
+                () -> assertEquals(LocalDate.now(), config.getList().get(1).getMaxDate()),
+                () -> assertEquals(LocalDate.now(), config.getList().get(2).getMaxDate())
             );
 
         }
@@ -392,49 +397,6 @@ class QuestionUnderlagTest {
             protected int getValidationIndex() {
                 return 1;
             }
-        }
-
-        @Test
-        void shouldIncludeMaxDateValidation() {
-            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
-
-            assertAll(
-                () -> assertEquals(CertificateDataValidationType.MAX_DATE_VALIDATION, question.getValidation()[2].getType()),
-                () -> assertEquals(CertificateDataValidationType.MAX_DATE_VALIDATION, question.getValidation()[3].getType()),
-                () -> assertEquals(CertificateDataValidationType.MAX_DATE_VALIDATION, question.getValidation()[4].getType())
-            );
-        }
-
-        @Test
-        void shouldIncludeMaxDateValidationLimit() {
-            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
-            final var firstMaxDateValidation = (CertificateDataValidationMaxDate) question.getValidation()[2];
-            final var secondMaxDateValidation = (CertificateDataValidationMaxDate) question.getValidation()[3];
-            final var thirdMaxDateValidation = (CertificateDataValidationMaxDate) question.getValidation()[4];
-            final var limit = (short) 0;
-
-            assertAll(
-                () -> assertEquals(limit, firstMaxDateValidation.getNumberOfDays()),
-                () -> assertEquals(limit, secondMaxDateValidation.getNumberOfDays()),
-                () -> assertEquals(limit, thirdMaxDateValidation.getNumberOfDays())
-            );
-        }
-
-        @Test
-        void shouldIncludeMaxDateValidationId() {
-            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
-            final var firstMaxDateValidation = (CertificateDataValidationMaxDate) question.getValidation()[2];
-            final var secondMaxDateValidation = (CertificateDataValidationMaxDate) question.getValidation()[3];
-            final var thirdMaxDateValidation = (CertificateDataValidationMaxDate) question.getValidation()[4];
-            final var firstExpectedId = "'" + UNDERLAG_SVAR_JSON_ID_4 + "[0].datum'";
-            final var secondExpectedId = "'" + UNDERLAG_SVAR_JSON_ID_4 + "[1].datum'";
-            final var thirdExpectedId = "'" + UNDERLAG_SVAR_JSON_ID_4 + "[2].datum'";
-
-            assertAll(
-                () -> assertEquals(firstExpectedId, firstMaxDateValidation.getId()),
-                () -> assertEquals(secondExpectedId, secondMaxDateValidation.getId()),
-                () -> assertEquals(thirdExpectedId, thirdMaxDateValidation.getId())
-            );
         }
     }
 

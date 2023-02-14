@@ -37,15 +37,12 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.model.InternalDate;
 
 
 public class QuestionAntraffadDod {
-
-    public static final short NUMBER_OF_DAYS_IN_FUTURE = (short) 0;
 
     public static CertificateDataElement toCertificate(LocalDate antraffadDodDate, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
@@ -55,6 +52,7 @@ public class QuestionAntraffadDod {
             .config(
                 CertificateDataConfigDate.builder()
                     .text(texts.get(ANTRAFFAD_DOD_QUESTION_TEXT_ID))
+                    .maxDate(LocalDate.now())
                     .id(ANTRAFFAT_DOD_DATUM_JSON_ID)
                     .build()
             )
@@ -78,10 +76,6 @@ public class QuestionAntraffadDod {
                                 not(withCitation(DODSDATUM_SAKERT_JSON_ID))
                             )
                         )
-                        .build(),
-                    CertificateDataValidationMaxDate.builder()
-                        .id(ANTRAFFAT_DOD_DATUM_JSON_ID)
-                        .numberOfDays(NUMBER_OF_DAYS_IN_FUTURE)
                         .build()
                 }
             )

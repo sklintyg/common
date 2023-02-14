@@ -33,14 +33,12 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.model.InternalDate;
 
 public class QuestionOperationDatum {
 
-    public static final short NUMBER_OF_DAYS_IN_FUTURE = (short) 0;
 
     public static CertificateDataElement toCertificate(LocalDate operationDatum, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
@@ -50,6 +48,7 @@ public class QuestionOperationDatum {
             .config(
                 CertificateDataConfigDate.builder()
                     .id(OPERATION_DATUM_JSON_ID)
+                    .maxDate(LocalDate.now())
                     .text(texts.get(OPERATION_DATUM_QUESTION_TEXT_ID))
                     .build()
             )
@@ -68,10 +67,6 @@ public class QuestionOperationDatum {
                     CertificateDataValidationShow.builder()
                         .questionId(OPERATION_OM_DELSVAR_ID)
                         .expression(singleExpression(OmOperation.JA.name()))
-                        .build(),
-                    CertificateDataValidationMaxDate.builder()
-                        .id(OPERATION_DATUM_JSON_ID)
-                        .numberOfDays(NUMBER_OF_DAYS_IN_FUTURE)
                         .build()
                 }
             )

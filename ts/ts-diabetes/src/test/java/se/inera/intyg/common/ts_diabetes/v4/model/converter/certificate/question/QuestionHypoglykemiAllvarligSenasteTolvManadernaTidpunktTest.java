@@ -41,8 +41,6 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigDateTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
-import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMaxDateTest;
-import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMinDateTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalValueTest;
@@ -96,7 +94,8 @@ class QuestionHypoglykemiAllvarligSenasteTolvManadernaTidpunktTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionHypoglykemiAllvarligSenasteTolvManadernaTidpunkt.toCertificate(null, null, 0, textProvider);
+            final var personId = Personnummer.createPersonnummer("191212121212").orElseThrow();
+            return QuestionHypoglykemiAllvarligSenasteTolvManadernaTidpunkt.toCertificate(null, personId, 0, textProvider);
         }
 
         @Override
@@ -113,6 +112,12 @@ class QuestionHypoglykemiAllvarligSenasteTolvManadernaTidpunktTest {
         protected String getDescriptionId() {
             return null;
         }
+
+        @Override
+        protected LocalDate getMinDate() { return LocalDate.parse("1912-12-12"); }
+
+        @Override
+        protected  LocalDate getMaxDate() { return LocalDate.now(); }
     }
 
     @Nested
@@ -181,55 +186,6 @@ class QuestionHypoglykemiAllvarligSenasteTolvManadernaTidpunktTest {
         @Override
         protected String getExpression() {
             return "$" + HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_JSON_ID;
-        }
-    }
-
-    @Nested
-    class IncludeValidationMaxDateTest extends ValidationMaxDateTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionHypoglykemiAllvarligSenasteTolvManadernaTidpunkt.toCertificate(null, null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 2;
-        }
-
-        @Override
-        protected String getId() {
-            return HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_JSON_ID;
-        }
-
-        @Override
-        protected short getDaysInFuture() {
-            return 0;
-        }
-    }
-
-    @Nested
-    class IncludeValidationMinDateTest extends ValidationMinDateTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            final var personId = Personnummer.createPersonnummer("191212121212").orElseThrow();
-            return QuestionHypoglykemiAllvarligSenasteTolvManadernaTidpunkt.toCertificate(null, personId, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 3;
-        }
-
-        @Override
-        protected String getId() {
-            return HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_JSON_ID;
-        }
-
-        @Override
-        protected LocalDate getMinDate() {
-            return LocalDate.parse("1912-12-12");
         }
     }
 

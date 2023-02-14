@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,8 @@ import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleDate;
 public abstract class ConfigCheckboxMultipleDateTest extends ConfigTest {
 
     protected abstract List<CheckboxMultipleDate> getCheckboxMultipleDates();
+    protected abstract List<LocalDate> getMaxDates();
+    protected abstract List<LocalDate> getMinDates();
 
     @Override
     protected CertificateDataConfigTypes getType() {
@@ -61,6 +64,28 @@ public abstract class ConfigCheckboxMultipleDateTest extends ConfigTest {
         for (int i = 0; i < expectedLabelIds.size(); i++) {
             assertTrue(actualLabels.get(i).getLabel().trim().length() > 0, "Missing label at index " + i);
             verify(getTextProviderMock(), atLeastOnce()).get(expectedLabelIds.get(i).getLabel());
+        }
+    }
+
+    @Test
+    void shouldIncludeMaxDate() {
+        final var question = getElement();
+        final var config = (CertificateDataConfigCheckboxMultipleDate) question.getConfig();
+        final var expectedMaxDates = getMaxDates();
+
+        for (int i = 0; i < expectedMaxDates.size(); i++) {
+            assertEquals(expectedMaxDates.get(i), config.getList().get(i).getMaxDate());
+        }
+    }
+
+    @Test
+    void shouldIncludeMinDate() {
+        final var question = getElement();
+        final var config = (CertificateDataConfigCheckboxMultipleDate) question.getConfig();
+        final var expectedMinDates = getMinDates();
+
+        for (int i = 0; i < expectedMinDates.size(); i++) {
+            assertEquals(expectedMinDates.get(i), config.getList().get(i).getMinDate());
         }
     }
 }

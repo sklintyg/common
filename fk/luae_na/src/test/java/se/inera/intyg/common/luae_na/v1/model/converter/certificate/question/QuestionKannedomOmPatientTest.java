@@ -41,7 +41,6 @@ import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDate;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
@@ -96,13 +95,19 @@ class QuestionKannedomOmPatientTest {
             final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
             final var config = (CertificateDataConfigDate) question.getConfig();
 
-            assertEquals(KANNEDOM_SVAR_JSON_ID_2, config.getId());
+            assertEquals(LocalDate.now(), config.getMaxDate());
+        }
+
+        @Test
+        void shouldIncludeMaxDate() {
+            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
+            final var config = (CertificateDataConfigDate) question.getConfig();
+
+            assertEquals(LocalDate.now(), config.getMaxDate());
         }
 
         @Test
         void shouldIncludeConfigText() {
-            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
-
             verify(texts, atLeastOnce()).get(KANNEDOM_SVAR_TEXT);
         }
 
@@ -145,23 +150,6 @@ class QuestionKannedomOmPatientTest {
             final var certificateDataValidationText = (CertificateDataValidationMandatory) question.getValidation()[0];
 
             assertEquals(expectedExpression, certificateDataValidationText.getExpression());
-        }
-
-        @Test
-        void shouldIncludeValidationMaxDate() {
-            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
-            final var certificateDataValidationText = question.getValidation()[1];
-
-            assertEquals(CertificateDataValidationType.MAX_DATE_VALIDATION, certificateDataValidationText.getType());
-        }
-
-        @Test
-        void shouldIncludeValidationMaxDateLimit() {
-            final var expectedLimit = (short) 0;
-            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
-            final var certificateDataValidationText = (CertificateDataValidationMaxDate) question.getValidation()[1];
-
-            assertEquals(expectedLimit, certificateDataValidationText.getNumberOfDays());
         }
     }
 

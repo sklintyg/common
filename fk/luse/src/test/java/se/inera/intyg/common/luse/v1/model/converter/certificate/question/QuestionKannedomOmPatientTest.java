@@ -109,6 +109,13 @@ class QuestionKannedomOmPatientTest {
         protected String getDescriptionId() {
             return null;
         }
+
+        @Override
+        protected LocalDate getMaxDate() { return LocalDate.now(); }
+
+        @Override
+        protected LocalDate getMinDate() { return null; }
+
     }
 
     @Nested

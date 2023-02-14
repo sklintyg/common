@@ -115,15 +115,6 @@
       <option name="JAVA_DECLARATION" value="true" />
     </context>
   </template>
-  <template name="validationmindate" value="@org.junit.jupiter.api.Nested&#10;class IncludeValidationMinDateTest extends se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMinDateTest {&#10;&#10;    @java.lang.Override&#10;    protected se.inera.intyg.common.support.facade.model.CertificateDataElement getElement() {&#10;        return $elementImpl$.toCertificate(null, 0, textProvider);&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected int getValidationIndex() {&#10;        return $validationIndex$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.lang.String getId() {&#10;        return $id$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected java.time.LocalDate getMinDate() {&#10;        return $minDate$;&#10;    }&#10;}" description="create text-block validation min date" toReformat="true" toShortenFQNames="true">
-    <variable name="elementImpl" expression="substringBefore(className(), &quot;Test&quot;)" defaultValue="" alwaysStopAt="true" />
-    <variable name="validationIndex" expression="" defaultValue="&quot;0&quot;" alwaysStopAt="true" />
-    <variable name="id" expression="" defaultValue="&quot;null&quot;" alwaysStopAt="true" />
-    <variable name="minDate" expression="" defaultValue="&quot;null&quot;" alwaysStopAt="true" />
-    <context>
-      <option name="JAVA_DECLARATION" value="true" />
-    </context>
-  </template>
   <template name="validationtext" value="@org.junit.jupiter.api.Nested&#10;class IncludeValidationTextTest extends se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationTextTest {&#10;&#10;    @java.lang.Override&#10;    protected se.inera.intyg.common.support.facade.model.CertificateDataElement getElement() {&#10;        return $elementImpl$.toCertificate(null, 0, textProvider);&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected int getValidationIndex() {&#10;        return $validationIndex$;&#10;    }&#10;&#10;    @java.lang.Override&#10;    protected short getLimit() {&#10;        return $limit$;&#10;    }&#10;}" description="create text-block validation text" toReformat="true" toShortenFQNames="true">
     <variable name="elementImpl" expression="substringBefore(className(), &quot;Test&quot;)" defaultValue="" alwaysStopAt="true" />
     <variable name="validationIndex" expression="" defaultValue="&quot;null&quot;" alwaysStopAt="true" />

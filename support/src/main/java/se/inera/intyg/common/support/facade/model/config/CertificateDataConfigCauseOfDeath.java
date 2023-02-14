@@ -20,6 +20,7 @@ package se.inera.intyg.common.support.facade.model.config;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.time.LocalDate;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
@@ -46,6 +47,8 @@ public class CertificateDataConfigCauseOfDeath implements CertificateDataConfig 
     Accordion accordion;
     String id;
     CauseOfDeath causeOfDeath;
+    LocalDate maxDate;
+    LocalDate minDate;
 
 
     @JsonPOJOBuilder(withPrefix = "")

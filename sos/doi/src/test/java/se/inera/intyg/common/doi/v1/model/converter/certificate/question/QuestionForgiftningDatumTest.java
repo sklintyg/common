@@ -47,7 +47,6 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDate;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
@@ -106,6 +105,13 @@ class QuestionForgiftningDatumTest {
             final var question = QuestionForgiftningDatum.toCertificate(null, 0, texts);
             final var certificateDataConfigDate = (CertificateDataConfigDate) question.getConfig();
             assertEquals(FORGIFTNING_DATUM_JSON_ID, certificateDataConfigDate.getId());
+        }
+
+        @Test
+        void shouldIncludeMaxDate() {
+            final var question = QuestionForgiftningDatum.toCertificate(null, 0, texts);
+            final var certificateDataConfigDate = (CertificateDataConfigDate) question.getConfig();
+            assertEquals(LocalDate.now(), certificateDataConfigDate.getMaxDate());
         }
 
         @Test
@@ -178,26 +184,6 @@ class QuestionForgiftningDatumTest {
             protected int getValidationIndex() {
                 return 1;
             }
-        }
-
-        @Test
-        void shouldIncludeValidationMaxDateType() {
-            final var question = QuestionForgiftningDatum.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataValidationType.MAX_DATE_VALIDATION, question.getValidation()[2].getType());
-        }
-
-        @Test
-        void shouldIncludeValidationMaxDateId() {
-            final var question = QuestionForgiftningDatum.toCertificate(null, 0, texts);
-            final var certificateDataValidationMaxDate = (CertificateDataValidationMaxDate) question.getValidation()[2];
-            assertEquals(FORGIFTNING_DATUM_JSON_ID, certificateDataValidationMaxDate.getId());
-        }
-
-        @Test
-        void shouldIncludeValidationMaxDateNumberOfDays() {
-            final var question = QuestionForgiftningDatum.toCertificate(null, 0, texts);
-            final var certificateDataValidationMaxDate = (CertificateDataValidationMaxDate) question.getValidation()[2];
-            assertEquals(0, certificateDataValidationMaxDate.getNumberOfDays());
         }
     }
 

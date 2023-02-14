@@ -57,7 +57,6 @@ import se.inera.intyg.common.support.facade.model.config.CodeItem;
 import se.inera.intyg.common.support.facade.model.config.MedicalInvestigation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
@@ -67,8 +66,6 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedi
 import se.inera.intyg.common.support.model.InternalDate;
 
 public abstract class AbstractQuestionUnderlag {
-
-    private static final short LIMIT = 0;
 
     public static CertificateDataElement toCertificate(List<Underlag> underlag, String questionId, String parentId, int index,
         CertificateTextProvider texts) {
@@ -91,6 +88,7 @@ public abstract class AbstractQuestionUnderlag {
                                 .typeOptions(
                                     getTypeOptions()
                                 )
+                                .maxDate(LocalDate.now())
                                 .build(),
                             MedicalInvestigation.builder()
                                 .investigationTypeId(UNDERLAG_SVAR_JSON_ID_4 + "[1].typ")
@@ -99,6 +97,7 @@ public abstract class AbstractQuestionUnderlag {
                                 .typeOptions(
                                     getTypeOptions()
                                 )
+                                .maxDate(LocalDate.now())
                                 .build(),
                             MedicalInvestigation.builder()
                                 .investigationTypeId(UNDERLAG_SVAR_JSON_ID_4 + "[2].typ")
@@ -107,6 +106,7 @@ public abstract class AbstractQuestionUnderlag {
                                 .typeOptions(
                                     getTypeOptions()
                                 )
+                                .maxDate(LocalDate.now())
                                 .build()
                         )
                     )
@@ -136,19 +136,7 @@ public abstract class AbstractQuestionUnderlag {
                     CertificateDataValidationShow.builder()
                         .questionId(UNDERLAGFINNS_SVAR_ID_3)
                         .expression(singleExpression(UNDERLAGFINNS_SVAR_JSON_ID_3))
-                        .build(),
-                    CertificateDataValidationMaxDate.builder()
-                        .id(withCitation(UNDERLAG_SVAR_JSON_ID_4 + "[0].datum"))
-                        .numberOfDays(LIMIT)
-                        .build(),
-                    CertificateDataValidationMaxDate.builder()
-                        .id(withCitation(UNDERLAG_SVAR_JSON_ID_4 + "[1].datum"))
-                        .numberOfDays(LIMIT)
-                        .build(),
-                    CertificateDataValidationMaxDate.builder()
-                        .id(withCitation(UNDERLAG_SVAR_JSON_ID_4 + "[2].datum"))
-                        .numberOfDays(LIMIT)
-                        .build(),
+                        .build()
                 }
             )
             .build();

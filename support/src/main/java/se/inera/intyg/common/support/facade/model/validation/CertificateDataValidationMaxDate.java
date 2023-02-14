@@ -32,8 +32,8 @@ public class CertificateDataValidationMaxDate implements CertificateDataValidati
 
     @Getter(onMethod = @__(@Override))
     CertificateDataValidationType type = CertificateDataValidationType.MAX_DATE_VALIDATION;
-    String id;
-    short numberOfDays;
+    String questionId;
+    String expression;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataValidationMaxDateBuilder {

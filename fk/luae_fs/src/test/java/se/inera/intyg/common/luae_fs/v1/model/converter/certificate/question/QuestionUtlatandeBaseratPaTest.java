@@ -118,6 +118,16 @@ class QuestionUtlatandeBaseratPaTest {
         }
 
         @Override
+        protected List<LocalDate> getMaxDates() {
+            return Collections.nCopies(4, LocalDate.now());
+        }
+
+        @Override
+        protected List<LocalDate> getMinDates() {
+            return Collections.nCopies(4, null);
+        }
+
+        @Override
         protected List<CheckboxMultipleDate> getCheckboxMultipleDates() {
             return List.of(
                 CheckboxMultipleDate.builder()

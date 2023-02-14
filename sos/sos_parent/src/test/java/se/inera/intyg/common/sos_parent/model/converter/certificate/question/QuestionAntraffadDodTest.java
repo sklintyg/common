@@ -46,7 +46,7 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDate;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
@@ -105,6 +105,13 @@ class QuestionAntraffadDodTest {
             final var question = QuestionAntraffadDod.toCertificate(null, 0, texts);
             final var certificateDataConfigDate = (CertificateDataConfigDate) question.getConfig();
             assertEquals(ANTRAFFAT_DOD_DATUM_JSON_ID, certificateDataConfigDate.getId());
+        }
+
+        @Test
+        void shouldIncludeMaxDate() {
+            final var question = QuestionAntraffadDod.toCertificate(null, 0, texts);
+            final var certificateDataConfigDate = (CertificateDataConfigDate) question.getConfig();
+            assertEquals(LocalDate.now(), certificateDataConfigDate.getMaxDate());
         }
 
         @Test
@@ -180,23 +187,23 @@ class QuestionAntraffadDodTest {
         }
 
         @Test
-        void shouldIncludeValidationMaxDateType() {
+        void shouldIncludeShowValidationType() {
             final var question = QuestionAntraffadDod.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataValidationType.MAX_DATE_VALIDATION, question.getValidation()[2].getType());
+            assertEquals(CertificateDataValidationType.SHOW_VALIDATION, question.getValidation()[1].getType());
         }
 
         @Test
-        void shouldIncludeValidationMaxDateId() {
+        void shouldIncludeValidationId() {
             final var question = QuestionAntraffadDod.toCertificate(null, 0, texts);
-            final var certificateDataValidationMaxDate = (CertificateDataValidationMaxDate) question.getValidation()[2];
-            assertEquals(ANTRAFFAT_DOD_DATUM_JSON_ID, certificateDataValidationMaxDate.getId());
+            final var certificateDataValidationMaxDate = (CertificateDataValidationShow) question.getValidation()[1];
+            assertEquals(DODSDATUM_SAKERT_DELSVAR_ID, certificateDataValidationMaxDate.getQuestionId());
         }
 
         @Test
-        void shouldIncludeValidationMaxDateNumberOfDays() {
+        void shouldIncludeValidationExpression() {
             final var question = QuestionAntraffadDod.toCertificate(null, 0, texts);
-            final var certificateDataValidationMaxDate = (CertificateDataValidationMaxDate) question.getValidation()[2];
-            assertEquals(0, certificateDataValidationMaxDate.getNumberOfDays());
+            final var certificateDataValidationMaxDate = (CertificateDataValidationShow) question.getValidation()[1];
+            assertEquals("exists('" + DODSDATUM_SAKERT_JSON_ID + "') && !'" + DODSDATUM_SAKERT_JSON_ID + "'", certificateDataValidationMaxDate.getExpression());
         }
     }
 

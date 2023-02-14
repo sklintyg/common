@@ -52,7 +52,6 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCa
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.config.CodeItem;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath;
@@ -174,6 +173,13 @@ class QuestionTerminalDodsorsakTest {
         }
 
         @Test
+        void shouldIncludeMaxDate() {
+            final var question = QuestionTerminalDodsorsak.toCertificate(causeOfDeathEmpty, 0, texts);
+            final var config = (CertificateDataConfigCauseOfDeath) question.getConfig();
+            assertEquals(config.getMaxDate(), LocalDate.now());
+        }
+
+        @Test
         void shouldIncludeValueTypeTerminalCauseOfDeath() {
             final var question = QuestionTerminalDodsorsak.toCertificate(causeOfDeathEmpty, 0, texts);
             assertEquals(CertificateDataValueType.CAUSE_OF_DEATH, question.getValue().getType());
@@ -240,26 +246,6 @@ class QuestionTerminalDodsorsakTest {
             final var question = QuestionTerminalDodsorsak.toCertificate(causeOfDeathEmpty, 0, texts);
             final var certificateDataValidationMaxDate = (CertificateDataValidationText) question.getValidation()[1];
             assertEquals(120, certificateDataValidationMaxDate.getLimit());
-        }
-
-        @Test
-        void shouldIncludeValidationMaxDateType() {
-            final var question = QuestionTerminalDodsorsak.toCertificate(causeOfDeathEmpty, 0, texts);
-            assertEquals(CertificateDataValidationType.MAX_DATE_VALIDATION, question.getValidation()[2].getType());
-        }
-
-        @Test
-        void shouldIncludeValidationMaxDateId() {
-            final var question = QuestionTerminalDodsorsak.toCertificate(causeOfDeathEmpty, 0, texts);
-            final var certificateDataValidationMaxDate = (CertificateDataValidationMaxDate) question.getValidation()[2];
-            assertEquals(DODSORSAK_DATUM_DELSVAR_ID, certificateDataValidationMaxDate.getId());
-        }
-
-        @Test
-        void shouldIncludeValidationMaxDateNumberOfDays() {
-            final var question = QuestionTerminalDodsorsak.toCertificate(causeOfDeathEmpty, 0, texts);
-            final var certificateDataValidationMaxDate = (CertificateDataValidationMaxDate) question.getValidation()[2];
-            assertEquals(0, certificateDataValidationMaxDate.getNumberOfDays());
         }
     }
 

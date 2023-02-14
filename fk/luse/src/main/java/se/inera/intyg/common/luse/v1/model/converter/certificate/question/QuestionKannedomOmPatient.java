@@ -25,19 +25,17 @@ import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.KANNED
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateValue;
 
+import java.time.LocalDate;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.model.InternalDate;
 
 public class QuestionKannedomOmPatient {
-
-    private static final short LIMIT = 0;
 
     public static CertificateDataElement toCertificate(InternalDate kannedomOmPatient, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
@@ -47,6 +45,7 @@ public class QuestionKannedomOmPatient {
             .config(
                 CertificateDataConfigDate.builder()
                     .id(KANNEDOM_SVAR_JSON_ID_2)
+                    .maxDate(LocalDate.now())
                     .text(texts.get(KANNEDOM_SVAR_TEXT_ID))
                     .build()
             )
@@ -61,10 +60,6 @@ public class QuestionKannedomOmPatient {
                     CertificateDataValidationMandatory.builder()
                         .questionId(KANNEDOM_SVAR_ID_2)
                         .expression(singleExpression(KANNEDOM_SVAR_JSON_ID_2))
-                        .build(),
-                    CertificateDataValidationMaxDate.builder()
-                        .id(KANNEDOM_SVAR_JSON_ID_2)
-                        .numberOfDays(LIMIT)
                         .build()
                 }
             )
