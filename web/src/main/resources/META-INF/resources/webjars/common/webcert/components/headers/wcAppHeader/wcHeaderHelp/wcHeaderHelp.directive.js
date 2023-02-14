@@ -53,13 +53,15 @@ angular.module('common').directive('wcHeaderHelp',
                     };
 
                     $scope.onLogoutClick = function() {
+                        var logoutLocation;
                         if (UtilsService.endsWith($scope.user.authenticationScheme, ':fake')) {
-                            $window.location = '/logout';
+                            logoutLocation = '/logout';
                         } else {
                             // iid is a global object from /vendor/netid.js
                             iid_Invoke('Logout'); // jshint ignore:line
-                            $window.location = '/saml/logout/';
+                            logoutLocation = '/saml/logout/';
                         }
+                        $window.jQuery('<form action="' + logoutLocation + '" method="post" />').appendTo('body').submit().remove();
                     };
 
                     // About ----------------------------------------------------------------
