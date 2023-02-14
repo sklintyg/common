@@ -111,10 +111,14 @@ class QuestionKannedomOmPatientTest {
         }
 
         @Override
-        protected LocalDate getMaxDate() { return LocalDate.now(); }
+        protected LocalDate getMaxDate() {
+            return LocalDate.now();
+        }
 
         @Override
-        protected LocalDate getMinDate() { return null; }
+        protected LocalDate getMinDate() {
+            return null;
+        }
 
     }
 

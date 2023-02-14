@@ -116,10 +116,14 @@ class QuestionDiabetesMedicineringHypoglykemiRiskDatumTest {
         }
 
         @Override
-        protected LocalDate getMinDate() { return LocalDate.parse("1912-12-12"); }
+        protected LocalDate getMinDate() {
+            return LocalDate.parse("1912-12-12");
+        }
 
         @Override
-        protected  LocalDate getMaxDate() { return LocalDate.now(); }
+        protected  LocalDate getMaxDate() {
+            return LocalDate.now();
+        }
     }
 
     @Nested
