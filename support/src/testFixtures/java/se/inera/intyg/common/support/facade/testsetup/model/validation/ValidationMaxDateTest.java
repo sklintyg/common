@@ -39,7 +39,7 @@ public abstract class ValidationMaxDateTest extends ValidationTest {
     void shouldIncludeValidationMaxDateId() {
         final var question = getElement();
         final var certificateDataValidation = (CertificateDataValidationMaxDate) question.getValidation()[getValidationIndex()];
-        assertEquals(getId(), certificateDataValidation.getQuestionId());
+        assertEquals(getId(), certificateDataValidation.getId());
     }
 
     @Test
