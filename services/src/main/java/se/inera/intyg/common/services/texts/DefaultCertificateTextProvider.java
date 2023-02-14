@@ -82,7 +82,6 @@ public final class DefaultCertificateTextProvider implements CertificateTextProv
         result = result.replaceAll("obehag\nvid", "obehag vid");
         result = result.replaceAll("utgöra\nbåde", "utgöra både");
         result = result.replaceAll("C1E, C och CE. ", "C1E, C och CE.\n");
-        result = result.replaceAll(ANGULAR_TRANSPORTSTYRELSEN_LINK, REACT_TRANSPORTSTYRELSEN_LINK_KEY);
         return result;
     }
 
