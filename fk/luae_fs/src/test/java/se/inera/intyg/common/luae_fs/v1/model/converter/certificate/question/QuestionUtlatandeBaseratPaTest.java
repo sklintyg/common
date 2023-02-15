@@ -207,7 +207,7 @@ class QuestionUtlatandeBaseratPaTest {
 
         @Override
         protected int getValidationIndex() {
-            return 4;
+            return 0;
         }
 
         @Override
