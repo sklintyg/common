@@ -356,7 +356,7 @@ class QuestionPrognosTest {
 
             final var certificate = CertificateBuilder.create()
                 .addElement(QuestionPrognos.toCertificate(expectedValue, index, texts))
-                .addElement(InternalToCertificate.createPrognosTimeperiodQuestion(expectedValue, index, texts))
+                .addElement(QuestionPrognosTimePeriod.toCertificate(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);

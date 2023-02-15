@@ -32,15 +32,12 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBET
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ATGARDER_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_ID_39;
 
 import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,26 +47,19 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
-import se.inera.intyg.common.lisjp.model.internal.Prognos;
-import se.inera.intyg.common.lisjp.model.internal.PrognosDagarTillArbeteTyp;
-import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.support.facade.model.CertificateDataElementStyleEnum;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDropdown;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisableSubElement;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationEnable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCodeList;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -98,319 +88,6 @@ class InternalToCertificateTest {
 
         texts = Mockito.mock(CertificateTextProvider.class);
         when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
-    }
-
-    @Nested
-    class QuestionPrognosTimeperiod {
-
-        private LisjpUtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void createInternalCertificateToConvert() {
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        @Test
-        void shouldIncludeQuestionElement() {
-            final var expectedIndex = 25;
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
-
-            assertAll("Validating question",
-                () -> assertEquals(PROGNOS_BESKRIVNING_DELSVAR_ID_39, question.getId()),
-                () -> assertEquals(expectedIndex, question.getIndex()),
-                () -> assertEquals(BEDOMNING_CATEGORY_ID, question.getParent()),
-                () -> assertNotNull(question.getValue(), "Missing value"),
-                () -> assertNotNull(question.getValidation(), "Missing validation"),
-                () -> assertNotNull(question.getConfig(), "Missing config")
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionConfig() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
-
-            assertEquals(CertificateDataConfigTypes.UE_DROPDOWN, question.getConfig().getType());
-
-            final var certificateDataConfigDropdown = (CertificateDataConfigDropdown) question.getConfig();
-            assertAll("Validating question configuration",
-                () -> assertNull(certificateDataConfigDropdown.getText(), "Should not have text"),
-                () -> assertNull(certificateDataConfigDropdown.getDescription(), "Should not have description"),
-                () -> assertNull(certificateDataConfigDropdown.getHeader(), "Should not have a header"),
-                () -> assertNull(certificateDataConfigDropdown.getIcon(), "Should not have an iconr"),
-                () -> assertNull(certificateDataConfigDropdown.getLabel(), "Should not have a label")
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionConfigDefaultChoice() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
-
-            assertEquals(CertificateDataConfigTypes.UE_DROPDOWN, question.getConfig().getType());
-
-            final var certificateDataConfigDropdown = (CertificateDataConfigDropdown) question.getConfig();
-            assertAll("Validating question configuration",
-                () -> assertEquals("",
-                    certificateDataConfigDropdown.getList().get(0).getId()),
-                () -> assertTrue(certificateDataConfigDropdown.getList().get(0).getLabel().trim().length() > 0,
-                    "Missing label"),
-                () -> assertEquals("Välj tidsperiod",
-                    certificateDataConfigDropdown.getList().get(0).getLabel())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionConfig30Days() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
-
-            assertEquals(CertificateDataConfigTypes.UE_DROPDOWN, question.getConfig().getType());
-
-            final var certificateDataConfigDropdown = (CertificateDataConfigDropdown) question.getConfig();
-            assertAll("Validating question configuration",
-                () -> assertEquals(PrognosDagarTillArbeteTyp.DAGAR_30.getId(),
-                    certificateDataConfigDropdown.getList().get(1).getId()),
-                () -> assertTrue(certificateDataConfigDropdown.getList().get(1).getLabel().trim().length() > 0,
-                    "Missing label")
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionConfig60Days() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
-
-            assertEquals(CertificateDataConfigTypes.UE_DROPDOWN, question.getConfig().getType());
-
-            final var certificateDataConfigDropdown = (CertificateDataConfigDropdown) question.getConfig();
-            assertAll("Validating question configuration",
-                () -> assertEquals(PrognosDagarTillArbeteTyp.DAGAR_60.getId(),
-                    certificateDataConfigDropdown.getList().get(2).getId()),
-                () -> assertTrue(certificateDataConfigDropdown.getList().get(2).getLabel().trim().length() > 0,
-                    "Missing label")
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionConfig90Days() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
-
-            assertEquals(CertificateDataConfigTypes.UE_DROPDOWN, question.getConfig().getType());
-
-            final var certificateDataConfigDropdown = (CertificateDataConfigDropdown) question.getConfig();
-            assertAll("Validating question configuration",
-                () -> assertEquals(PrognosDagarTillArbeteTyp.DAGAR_90.getId(),
-                    certificateDataConfigDropdown.getList().get(3).getId()),
-                () -> assertTrue(certificateDataConfigDropdown.getList().get(3).getLabel().trim().length() > 0,
-                    "Missing label")
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionConfig180Days() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
-
-            assertEquals(CertificateDataConfigTypes.UE_DROPDOWN, question.getConfig().getType());
-
-            final var certificateDataConfigDropdown = (CertificateDataConfigDropdown) question.getConfig();
-            assertAll("Validating question configuration",
-                () -> assertEquals(PrognosDagarTillArbeteTyp.DAGAR_180.getId(),
-                    certificateDataConfigDropdown.getList().get(4).getId()),
-                () -> assertTrue(certificateDataConfigDropdown.getList().get(4).getLabel().trim().length() > 0,
-                    "Missing label")
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionConfig365Days() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
-
-            assertEquals(CertificateDataConfigTypes.UE_DROPDOWN, question.getConfig().getType());
-
-            final var certificateDataConfigDropdown = (CertificateDataConfigDropdown) question.getConfig();
-            assertAll("Validating question configuration",
-                () -> assertEquals(PrognosDagarTillArbeteTyp.DAGAR_365.getId(),
-                    certificateDataConfigDropdown.getList().get(5).getId()),
-                () -> assertTrue(certificateDataConfigDropdown.getList().get(5).getLabel().trim().length() > 0,
-                    "Missing label")
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValue30Days() {
-            final var expectedPrognos = Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_30);
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .setPrognos(expectedPrognos)
-                .build();
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
-
-            final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
-            assertAll("Validating question value",
-                () -> assertEquals(expectedPrognos.getDagarTillArbete().getId(), certificateDataValueCode.getId()),
-                () -> assertEquals(expectedPrognos.getDagarTillArbete().getId(), certificateDataValueCode.getCode())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValue60Days() {
-            final var expectedPrognos = Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_60);
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .setPrognos(expectedPrognos)
-                .build();
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
-
-            final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
-            assertAll("Validating question value",
-                () -> assertEquals(expectedPrognos.getDagarTillArbete().getId(), certificateDataValueCode.getId()),
-                () -> assertEquals(expectedPrognos.getDagarTillArbete().getId(), certificateDataValueCode.getCode())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValue90Days() {
-            final var expectedPrognos = Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_90);
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .setPrognos(expectedPrognos)
-                .build();
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
-
-            final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
-            assertAll("Validating question value",
-                () -> assertEquals(expectedPrognos.getDagarTillArbete().getId(), certificateDataValueCode.getId()),
-                () -> assertEquals(expectedPrognos.getDagarTillArbete().getId(), certificateDataValueCode.getCode())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValue180Days() {
-            final var expectedPrognos = Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_180);
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .setPrognos(expectedPrognos)
-                .build();
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
-
-            final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
-            assertAll("Validating question value",
-                () -> assertEquals(expectedPrognos.getDagarTillArbete().getId(), certificateDataValueCode.getId()),
-                () -> assertEquals(expectedPrognos.getDagarTillArbete().getId(), certificateDataValueCode.getCode())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValue365Days() {
-            final var expectedPrognos = Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_365);
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .setPrognos(expectedPrognos)
-                .build();
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
-
-            final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
-            assertAll("Validating question value",
-                () -> assertEquals(expectedPrognos.getDagarTillArbete().getId(), certificateDataValueCode.getId()),
-                () -> assertEquals(expectedPrognos.getDagarTillArbete().getId(), certificateDataValueCode.getCode())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValidationMandatory() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
-
-            final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[1];
-            assertAll("Validation question validation",
-                () -> assertEquals(PROGNOS_BESKRIVNING_DELSVAR_ID_39, certificateDataValidationMandatory.getQuestionId()),
-                () -> assertEquals("$TRETTIO_DGR || $SEXTIO_DGR || $NITTIO_DGR || $HUNDRAATTIO_DAGAR || $TREHUNDRASEXTIOFEM_DAGAR",
-                    certificateDataValidationMandatory.getExpression())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValidationHide() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
-
-            final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[0];
-            assertAll("Validation question validation",
-                () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValidationEnable() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
-
-            final var certificateDataValidationEnable = (CertificateDataValidationEnable) question.getValidation()[2];
-            assertAll("Validation question validation",
-                () -> assertEquals(PROGNOS_SVAR_ID_39, certificateDataValidationEnable.getQuestionId()),
-                () -> assertEquals("$" + PrognosTyp.ATER_X_ANTAL_DGR.getId(),
-                    certificateDataValidationEnable.getExpression())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionConfigHiddenStyle() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
-
-            final var certificateDataConfigStyle = question.getStyle();
-            assertAll("Validation question config style",
-                () -> assertEquals(certificateDataConfigStyle, CertificateDataElementStyleEnum.HIDDEN)
-            );
-        }
     }
 
     @Nested
