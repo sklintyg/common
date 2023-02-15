@@ -44,10 +44,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTA
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_BESKRIVNING;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_CATEGORY_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_TEXT;
@@ -97,6 +93,7 @@ import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.Quest
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAvstangningSmittskydd;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionBehovAvSjukskrivning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionDiagnoser;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionForsakringsmedicinsktBeslutsstod;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionMotiveringEjUndersokning;
@@ -174,7 +171,8 @@ public final class InternalToCertificate {
                 QuestionMotiveringTidigtStartdatum.toCertificate(internalCertificate.getMotiveringTillTidigtStartdatumForSjukskrivning(),
                     index++))
             .addElement(
-                createForsakringsmedicinsktBeslutsstodQuestion(internalCertificate.getForsakringsmedicinsktBeslutsstod(), index++, texts))
+                QuestionForsakringsmedicinsktBeslutsstod.toCertificate(internalCertificate.getForsakringsmedicinsktBeslutsstod(), index++,
+                    texts))
             .addElement(createArbetstidsforlaggningQuestion(internalCertificate.getArbetstidsforlaggning(), index++, texts))
             .addElement(
                 createMotiveringArbetstidsforlaggningQuestion(internalCertificate.getArbetstidsforlaggningMotivering(), index++, texts))
@@ -189,36 +187,6 @@ public final class InternalToCertificate {
             .addElement(createKontaktCategory(index++, texts))
             .addElement(createKontaktQuestion(internalCertificate.getKontaktMedFk(), index++, texts))
             .addElement(createKontaktBeskrivning(internalCertificate.getAnledningTillKontakt(), index, texts))
-            .build();
-    }
-
-    public static CertificateDataElement createForsakringsmedicinsktBeslutsstodQuestion(String value, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37)
-            .index(index)
-            .parent(BEDOMNING_CATEGORY_ID)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .text(texts.get(FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_TEXT))
-                    .description(texts.get(FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_BESKRIVNING))
-                    .id(FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37)
-                    .build()
-            )
-            .value(
-                CertificateDataTextValue.builder()
-                    .id(FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37)
-                    .text(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
             .build();
     }
 

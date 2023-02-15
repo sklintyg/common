@@ -31,8 +31,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBET
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_ID_33;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
@@ -64,6 +62,7 @@ import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.Quest
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAvstangningSmittskydd;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionBehovAvSjukskrivning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionDiagnoser;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionForsakringsmedicinsktBeslutsstod;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionMotiveringEjUndersokning;
@@ -92,7 +91,6 @@ public final class CertificateToInternal {
         final var funktionsnedsattningIcfKoder = getFunktionsnedsattningIcfKoder(certificate);
         final var aktivitetsbegransning = getAktivitetsbegransning(certificate);
         final var aktivitetsBegransningIcfKoder = getAktivitetsbegransningIcfKoder(certificate);
-        final var forsakringsmedicinsktBeslutsstod = getForsakringsmedicinsktBeslutsstod(certificate);
         final var arbetstidsforlaggning = getArbetstidsforlaggning(certificate);
         final var arbetstidsforlaggningMotivering = getArbetstidsforlaggningMotivering(certificate);
         final var arbetsresor = getArbetsresor(certificate);
@@ -117,6 +115,8 @@ public final class CertificateToInternal {
             .setPagaendeBehandling(QuestionPagaendeBehandling.toInternal(certificate))
             .setPlaneradBehandling(QuestionPlaneradBehandling.toInternal(certificate))
             .setSjukskrivningar(QuestionBehovAvSjukskrivning.toInternal(certificate))
+            .setMotiveringTillTidigtStartdatumForSjukskrivning(QuestionMotiveringTidigtStartdatum.toInternal(certificate))
+            .setForsakringsmedicinsktBeslutsstod(QuestionForsakringsmedicinsktBeslutsstod.toInternal(certificate))
             .setTelefonkontaktMedPatienten(telefonkontakt)
             .setJournaluppgifter(journaluppgifter)
             .setAnnatGrundForMU(annat)
@@ -124,8 +124,6 @@ public final class CertificateToInternal {
             .setFunktionsKategorier(funktionsnedsattningIcfKoder)
             .setAktivitetsbegransning(aktivitetsbegransning)
             .setAktivitetsKategorier(aktivitetsBegransningIcfKoder)
-            .setMotiveringTillTidigtStartdatumForSjukskrivning(QuestionMotiveringTidigtStartdatum.toInternal(certificate))
-            .setForsakringsmedicinsktBeslutsstod(forsakringsmedicinsktBeslutsstod)
             .setArbetstidsforlaggning(arbetstidsforlaggning)
             .setArbetstidsforlaggningMotivering(arbetstidsforlaggningMotivering)
             .setArbetsresor(arbetsresor)
@@ -165,11 +163,6 @@ public final class CertificateToInternal {
 
     private static List<String> getAktivitetsbegransningIcfKoder(Certificate certificate) {
         return icfCodeValue(certificate.getData(), AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17);
-    }
-
-    private static String getForsakringsmedicinsktBeslutsstod(Certificate certificate) {
-        return textValue(certificate.getData(), FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37,
-            FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37);
     }
 
     private static Boolean getArbetstidsforlaggning(Certificate certificate) {
