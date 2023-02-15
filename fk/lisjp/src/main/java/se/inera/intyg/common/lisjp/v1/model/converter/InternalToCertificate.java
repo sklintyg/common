@@ -18,14 +18,6 @@
  */
 package se.inera.intyg.common.lisjp.v1.model.converter;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_BESKRIVNING;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_ICF_COLLECTION;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_ICF_INFO;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_ICF_PLACEHOLDER;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT;
@@ -64,7 +56,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSA
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_CATEGORY_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_TEXT;
@@ -124,6 +115,7 @@ import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.Categ
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryFunktionsnedsattning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategorySmittbararpenning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategorySysselsattning;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAktivitetsbegransningar;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAnnatGrundForMUBeskrivning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAvstangningSmittskydd;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionDiagnoser;
@@ -143,7 +135,6 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCa
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDropdown;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigIcf;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioMultipleCodeOptionalDropdown;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigSickLeavePeriod;
@@ -159,7 +150,6 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataIcfValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
@@ -200,7 +190,7 @@ public final class InternalToCertificate {
             .addElement(CategoryFunktionsnedsattning.toCertificate(index++, texts))
             .addElement(QuestionFunktionsnedsattning.toCertificate(internalCertificate.getFunktionsnedsattning(),
                 internalCertificate.getFunktionsKategorier(), index++, texts))
-            .addElement(createAktivitetsbegransningQuestion(internalCertificate.getAktivitetsbegransning(),
+            .addElement(QuestionAktivitetsbegransningar.toCertificate(internalCertificate.getAktivitetsbegransning(),
                 internalCertificate.getAktivitetsKategorier(), index++, texts))
             .addElement(createMedicinskaBehandlingarCategory(index++, texts))
             .addElement(createPagaendeBehandlingQuestion(internalCertificate.getPagaendeBehandling(), index++, texts))
@@ -226,49 +216,6 @@ public final class InternalToCertificate {
             .addElement(createKontaktCategory(index++, texts))
             .addElement(createKontaktQuestion(internalCertificate.getKontaktMedFk(), index++, texts))
             .addElement(createKontaktBeskrivning(internalCertificate.getAnledningTillKontakt(), index, texts))
-            .build();
-    }
-
-
-    public static CertificateDataElement createAktivitetsbegransningQuestion(String value, List<String> activityLimitationCategories,
-        int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(AKTIVITETSBEGRANSNING_SVAR_ID_17)
-            .index(index)
-            .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
-            .config(
-                CertificateDataConfigIcf.builder()
-                    .header(texts.get(AKTIVITETSBEGRANSNING_SVAR_TEXT))
-                    .text(texts.get(AKTIVITETSBEGRANSNING_DELSVAR_TEXT))
-                    .description(texts.get(AKTIVITETSBEGRANSNING_DELSVAR_BESKRIVNING))
-                    .modalLabel(AKTIVITETSBEGRANSNING_ICF_INFO)
-                    .collectionsLabel(AKTIVITETSBEGRANSNING_ICF_COLLECTION)
-                    .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
-                    .placeholder(AKTIVITETSBEGRANSNING_ICF_PLACEHOLDER)
-                    .build()
-            )
-            .value(
-                CertificateDataIcfValue.builder()
-                    .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
-                    .text(value)
-                    .icfCodes(activityLimitationCategories)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(AKTIVITETSBEGRANSNING_SVAR_ID_17)
-                        .expression(
-                            singleExpression(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
-                        )
-                        .build(),
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
             .build();
     }
 

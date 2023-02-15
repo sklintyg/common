@@ -65,58 +65,6 @@ class CertificateToInternalTest {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionAktivitetsbegransning {
-
-        private LisjpUtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<String> textValues() {
-            return Stream.of("Här kommer en text!", "", null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludeAktivitetsBegransningValueText(String expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createAktivitetsbegransningQuestion(expectedValue, Collections.emptyList(), index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getAktivitetsbegransning());
-        }
-
-        Stream<List<String>> icfCodeValues() {
-            return Stream.of(Arrays.asList("Test 0", "Test 1", "Test 2"), null, Collections.emptyList());
-        }
-
-        @ParameterizedTest
-        @MethodSource({"icfCodeValues"})
-        void shouldIncludeAktivitetsBegransningValueIcfCodes(List<String> expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createAktivitetsbegransningQuestion("", expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getAktivitetsKategorier());
-        }
-    }
-
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionMedicinskaBehandlingar {
 
         private LisjpUtlatandeV1 internalCertificate;
