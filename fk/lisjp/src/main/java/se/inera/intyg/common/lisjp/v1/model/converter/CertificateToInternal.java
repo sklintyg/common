@@ -25,8 +25,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLED
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSRESOR_SVAR_ID_34;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSRESOR_SVAR_JSON_ID_34;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
@@ -55,6 +53,7 @@ import se.inera.intyg.common.lisjp.model.internal.PrognosDagarTillArbeteTyp;
 import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAnnatGrundForMUBeskrivning;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionArbetsresor;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionArbetstidsforlaggning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAvstangningSmittskydd;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionBehovAvSjukskrivning;
@@ -89,7 +88,6 @@ public final class CertificateToInternal {
         final var funktionsnedsattningIcfKoder = getFunktionsnedsattningIcfKoder(certificate);
         final var aktivitetsbegransning = getAktivitetsbegransning(certificate);
         final var aktivitetsBegransningIcfKoder = getAktivitetsbegransningIcfKoder(certificate);
-        final var arbetsresor = getArbetsresor(certificate);
         final var prognos = getPrognos(certificate);
         final var atgarder = getAtgarder(certificate);
         final var atgarderBeskrivning = getAtgarderBeskrivning(certificate);
@@ -115,6 +113,7 @@ public final class CertificateToInternal {
             .setForsakringsmedicinsktBeslutsstod(QuestionForsakringsmedicinsktBeslutsstod.toInternal(certificate))
             .setArbetstidsforlaggning(QuestionArbetstidsforlaggning.toInternal(certificate))
             .setArbetstidsforlaggningMotivering(QuestionMotiveringArbetstidsforlaggning.toInternal(certificate))
+            .setArbetsresor(QuestionArbetsresor.toInternal(certificate))
             .setTelefonkontaktMedPatienten(telefonkontakt)
             .setJournaluppgifter(journaluppgifter)
             .setAnnatGrundForMU(annat)
@@ -122,7 +121,6 @@ public final class CertificateToInternal {
             .setFunktionsKategorier(funktionsnedsattningIcfKoder)
             .setAktivitetsbegransning(aktivitetsbegransning)
             .setAktivitetsKategorier(aktivitetsBegransningIcfKoder)
-            .setArbetsresor(arbetsresor)
             .setPrognos(prognos)
             .setArbetslivsinriktadeAtgarder(atgarder)
             .setArbetslivsinriktadeAtgarderBeskrivning(atgarderBeskrivning)
@@ -159,10 +157,6 @@ public final class CertificateToInternal {
 
     private static List<String> getAktivitetsbegransningIcfKoder(Certificate certificate) {
         return icfCodeValue(certificate.getData(), AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17);
-    }
-
-    private static Boolean getArbetsresor(Certificate certificate) {
-        return booleanValue(certificate.getData(), ARBETSRESOR_SVAR_ID_34, ARBETSRESOR_SVAR_JSON_ID_34);
     }
 
     private static Prognos getPrognos(Certificate certificate) {

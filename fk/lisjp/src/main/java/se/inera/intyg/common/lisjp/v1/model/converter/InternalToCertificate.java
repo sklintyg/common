@@ -28,9 +28,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBET
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSRESOR_SVAR_ID_34;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSRESOR_SVAR_JSON_ID_34;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSRESOR_SVAR_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ATGARDER_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ATGARDER_CATEGORY_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
@@ -81,6 +78,7 @@ import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.Categ
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategorySysselsattning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAktivitetsbegransningar;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAnnatGrundForMUBeskrivning;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionArbetsresor;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionArbetstidsforlaggning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAvstangningSmittskydd;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionBehovAvSjukskrivning;
@@ -169,7 +167,7 @@ public final class InternalToCertificate {
             .addElement(
                 QuestionMotiveringArbetstidsforlaggning.toCertificate(internalCertificate.getArbetstidsforlaggningMotivering(), index++,
                     texts))
-            .addElement(createArbetsresorQuestion(internalCertificate.getArbetsresor(), index++, texts))
+            .addElement(QuestionArbetsresor.toCertificate(internalCertificate.getArbetsresor(), index++, texts))
             .addElement(createPrognosQuestion(internalCertificate.getPrognos(), index++, texts))
             .addElement(createPrognosTimeperiodQuestion(internalCertificate.getPrognos(), index++, texts))
             .addElement(createAtgarderCategory(index++, texts))
@@ -180,37 +178,6 @@ public final class InternalToCertificate {
             .addElement(createKontaktCategory(index++, texts))
             .addElement(createKontaktQuestion(internalCertificate.getKontaktMedFk(), index++, texts))
             .addElement(createKontaktBeskrivning(internalCertificate.getAnledningTillKontakt(), index, texts))
-            .build();
-    }
-
-    public static CertificateDataElement createArbetsresorQuestion(Boolean value, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(ARBETSRESOR_SVAR_ID_34)
-            .index(index)
-            .parent(BEDOMNING_CATEGORY_ID)
-            .config(
-                CertificateDataConfigCheckboxBoolean.builder()
-                    .id(ARBETSRESOR_SVAR_JSON_ID_34)
-                    .label(texts.get(ARBETSRESOR_SVAR_TEXT))
-                    .selectedText(texts.get(ANSWER_YES))
-                    .unselectedText(texts.get(ANSWER_NO))
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(ARBETSRESOR_SVAR_JSON_ID_34)
-                    .selected(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
             .build();
     }
 
