@@ -96,7 +96,6 @@ public final class CertificateToInternal {
         final var journaluppgifter = getGrundForMUJournaluppgifter(certificate);
         final var annat = getGrundForMUAnnat(certificate);
         final var motiveringTillInteBaseratPaUndersokning = getMotiveringTillInteBaseratPaUndersokning(certificate);
-        final var diagnos = getDiagnos(certificate, moduleService);
         final var funktionsnedsattning = getFunktionsnedsattning(certificate);
         final var funktionsnedsattningIcfKoder = getFunktionsnedsattningIcfKoder(certificate);
         final var aktivitetsbegransning = getAktivitetsbegransning(certificate);
@@ -125,11 +124,11 @@ public final class CertificateToInternal {
             .setUndersokningAvPatienten(QuestionMotiveringEjUndersokning.toInternal(certificate))
             .setSysselsattning(QuestionSysselsattning.toInternal(certificate))
             .setNuvarandeArbete(QuestionSysselsattningYrke.toInternal(certificate))
+            .setDiagnoser(QuestionDiagnoser.toInternal(certificate, moduleService))
             .setTelefonkontaktMedPatienten(telefonkontakt)
             .setJournaluppgifter(journaluppgifter)
             .setAnnatGrundForMU(annat)
             .setMotiveringTillInteBaseratPaUndersokning(motiveringTillInteBaseratPaUndersokning)
-            .setDiagnoser(diagnos)
             .setFunktionsnedsattning(funktionsnedsattning)
             .setFunktionsKategorier(funktionsnedsattningIcfKoder)
             .setAktivitetsbegransning(aktivitetsbegransning)

@@ -121,7 +121,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
 import se.inera.intyg.common.lisjp.model.internal.Prognos;
@@ -204,7 +203,7 @@ public final class InternalToCertificate {
             .addElement(QuestionSysselsattning.toCertificate(internalCertificate.getSysselsattning(), index++, texts))
             .addElement(QuestionSysselsattningYrke.toCertificate(internalCertificate.getNuvarandeArbete(), index++, texts))
             .addElement(CategoryDiagnos.toCertificate(index++, texts))
-            .addElement(createDiagnosQuestion(internalCertificate.getDiagnoser(), index++, texts))
+            .addElement(QuestionDiagnoser.toCertificate(internalCertificate.getDiagnoser(), index++, texts))
             .addElement(createFunktionsnedsattningCategory(index++, texts))
             .addElement(createFunktionsnedsattningQuestion(internalCertificate.getFunktionsnedsattning(),
                 internalCertificate.getFunktionsKategorier(), index++, texts))
@@ -235,10 +234,6 @@ public final class InternalToCertificate {
             .addElement(createKontaktQuestion(internalCertificate.getKontaktMedFk(), index++, texts))
             .addElement(createKontaktBeskrivning(internalCertificate.getAnledningTillKontakt(), index, texts))
             .build();
-    }
-
-    public static CertificateDataElement createDiagnosQuestion(List<Diagnos> value, int index, CertificateTextProvider texts) {
-        return QuestionDiagnoser.toCertificate(value, index, texts);
     }
 
     private static CertificateDataElement createFunktionsnedsattningCategory(int index,

@@ -19,8 +19,6 @@
 package se.inera.intyg.common.lisjp.v1.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
@@ -37,7 +35,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
 import se.inera.intyg.common.lisjp.model.internal.Prognos;
@@ -64,79 +61,6 @@ class CertificateToInternalTest {
     void setup() {
         texts = Mockito.mock(CertificateTextProvider.class);
         when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
-    }
-
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionDiagnos {
-
-        private final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
-        private final String DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION = "Beskrivning utan egen text";
-        private LisjpUtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            moduleService = mock(WebcertModuleService.class);
-            when(moduleService.getDescriptionFromDiagnosKod(anyString(), anyString())).thenReturn(DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION);
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<List<Diagnos>> diagnosisListValues() {
-            return Stream.of(Arrays.asList(
-                Diagnos.create("F500", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION)
-            ), Arrays.asList(
-                Diagnos.create("", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION),
-                Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION),
-                Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION)
-            ), Collections.emptyList());
-        }
-
-        @ParameterizedTest
-        @MethodSource("diagnosisListValues")
-        void shouldIncludeDiagnosValue(List<Diagnos> expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createDiagnosQuestion(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getDiagnoser());
-        }
-
-        @Test
-        void shouldIncludeDiagnosValueNull() {
-            final var index = 1;
-            final List<Diagnos> expectedValue = Collections.emptyList();
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createDiagnosQuestion(null, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-            assertEquals(expectedValue, updatedCertificate.getDiagnoser());
-        }
-
-        @Test
-        void shouldExcludeDiagnosKodNull() {
-            final var index = 1;
-            var diagnoser = Arrays.asList(
-                Diagnos.create(null, "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION),
-                Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION),
-                Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION));
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createDiagnosQuestion(diagnoser, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-            assertEquals(updatedCertificate.getDiagnoser().size(), 3);
-        }
     }
 
     @Nested
