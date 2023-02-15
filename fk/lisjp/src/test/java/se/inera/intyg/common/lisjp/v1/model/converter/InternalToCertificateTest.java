@@ -61,8 +61,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTA
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
@@ -72,7 +70,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANE
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_ID_39;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -92,7 +89,6 @@ import se.inera.intyg.common.lisjp.model.internal.PrognosDagarTillArbeteTyp;
 import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
-import se.inera.intyg.common.lisjp.model.internal.Sysselsattning.SysselsattningsTyp;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
@@ -157,121 +153,6 @@ class InternalToCertificateTest {
     @DisplayName("Should convert categories and questions")
     class DataElements {
 
-        @Nested
-        class QuestionSysselsattningYrkeQuestion {
-
-            private LisjpUtlatandeV1 internalCertificate;
-
-            @BeforeEach
-            void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
-                    .setGrundData(grundData)
-                    .setId("id")
-                    .setTextVersion("TextVersion")
-                    .build();
-            }
-
-            @Test
-            void shouldIncludeQuestionElement() {
-                final var expectedIndex = 8;
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(NUVARANDE_ARBETE_SVAR_ID_29);
-
-                assertAll("Validating question",
-                    () -> assertEquals(NUVARANDE_ARBETE_SVAR_ID_29, question.getId()),
-                    () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(TYP_AV_SYSSELSATTNING_SVAR_ID_28, question.getParent()),
-                    () -> assertNotNull(question.getValue(), "Missing value"),
-                    () -> assertNotNull(question.getValidation(), "Missing validation"),
-                    () -> assertNotNull(question.getConfig(), "Missing config")
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionConfig() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(NUVARANDE_ARBETE_SVAR_ID_29);
-
-                assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
-
-                final var certificateDataConfigTextArea = (CertificateDataConfigTextArea) question.getConfig();
-                assertAll("Validating question configuration",
-                    () -> assertTrue(certificateDataConfigTextArea.getText().trim().length() > 0, "Missing text"),
-                    () -> assertNull(certificateDataConfigTextArea.getDescription(), "Shouldnt have description"),
-                    () -> assertEquals(NUVARANDE_ARBETE_SVAR_JSON_ID_29, certificateDataConfigTextArea.getId())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValueText() {
-                final var expectedText = "Text value for question";
-                internalCertificate = LisjpUtlatandeV1.builder()
-                    .setGrundData(grundData)
-                    .setId("id")
-                    .setTextVersion("TextVersion")
-                    .setNuvarandeArbete(expectedText)
-                    .build();
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(NUVARANDE_ARBETE_SVAR_ID_29);
-
-                final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
-                assertAll("Validating question value",
-                    () -> assertEquals(NUVARANDE_ARBETE_SVAR_JSON_ID_29, certificateDataValueText.getId()),
-                    () -> assertEquals(expectedText, certificateDataValueText.getText())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValueTextEmpty() {
-                internalCertificate = LisjpUtlatandeV1.builder()
-                    .setGrundData(grundData)
-                    .setId("id")
-                    .setTextVersion("TextVersion")
-                    .build();
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(NUVARANDE_ARBETE_SVAR_ID_29);
-
-                final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
-                assertAll("Validating question value",
-                    () -> assertEquals(NUVARANDE_ARBETE_SVAR_JSON_ID_29, certificateDataValueText.getId()),
-                    () -> assertNull(certificateDataValueText.getText())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValidationMandatory() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(NUVARANDE_ARBETE_SVAR_ID_29);
-
-                final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-                assertAll("Validation question validation",
-                    () -> assertEquals(NUVARANDE_ARBETE_SVAR_ID_29, certificateDataValidationMandatory.getQuestionId()),
-                    () -> assertEquals("$" + NUVARANDE_ARBETE_SVAR_JSON_ID_29,
-                        certificateDataValidationMandatory.getExpression())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValidationShow() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(NUVARANDE_ARBETE_SVAR_ID_29);
-
-                final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
-                assertAll("Validation question validation",
-                    () -> assertEquals(TYP_AV_SYSSELSATTNING_SVAR_ID_28, certificateDataValidationShow.getQuestionId()),
-                    () -> assertEquals("$" + SysselsattningsTyp.NUVARANDE_ARBETE.getId(), certificateDataValidationShow.getExpression())
-                );
-            }
-        }
 
         @Nested
         class CategoryDiagnos {

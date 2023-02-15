@@ -41,8 +41,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTA
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
@@ -79,6 +77,7 @@ import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.Quest
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionMotiveringEjUndersokning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionSysselsattning;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionSysselsattningYrke;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -97,7 +96,6 @@ public final class CertificateToInternal {
         final var journaluppgifter = getGrundForMUJournaluppgifter(certificate);
         final var annat = getGrundForMUAnnat(certificate);
         final var motiveringTillInteBaseratPaUndersokning = getMotiveringTillInteBaseratPaUndersokning(certificate);
-        final var nuvarandeArbete = getNuvarandeArbete(certificate);
         final var diagnos = getDiagnos(certificate, moduleService);
         final var funktionsnedsattning = getFunktionsnedsattning(certificate);
         final var funktionsnedsattningIcfKoder = getFunktionsnedsattningIcfKoder(certificate);
@@ -126,11 +124,11 @@ public final class CertificateToInternal {
             .setAnnatGrundForMUBeskrivning(QuestionAnnatGrundForMUBeskrivning.toInternal(certificate))
             .setUndersokningAvPatienten(QuestionMotiveringEjUndersokning.toInternal(certificate))
             .setSysselsattning(QuestionSysselsattning.toInternal(certificate))
+            .setNuvarandeArbete(QuestionSysselsattningYrke.toInternal(certificate))
             .setTelefonkontaktMedPatienten(telefonkontakt)
             .setJournaluppgifter(journaluppgifter)
             .setAnnatGrundForMU(annat)
             .setMotiveringTillInteBaseratPaUndersokning(motiveringTillInteBaseratPaUndersokning)
-            .setNuvarandeArbete(nuvarandeArbete)
             .setDiagnoser(diagnos)
             .setFunktionsnedsattning(funktionsnedsattning)
             .setFunktionsKategorier(funktionsnedsattningIcfKoder)
@@ -168,10 +166,6 @@ public final class CertificateToInternal {
     private static String getMotiveringTillInteBaseratPaUndersokning(Certificate certificate) {
         return textValue(certificate.getData(), GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1,
             MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1);
-    }
-
-    private static String getNuvarandeArbete(Certificate certificate) {
-        return textValue(certificate.getData(), NUVARANDE_ARBETE_SVAR_ID_29, NUVARANDE_ARBETE_SVAR_JSON_ID_29);
     }
 
     private static List<Diagnos> getDiagnos(Certificate certificate, WebcertModuleService moduleService) {
