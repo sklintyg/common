@@ -31,8 +31,8 @@ import static se.inera.intyg.common.support.facade.util.ValidationExpressionTool
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.not;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.wrapWithParenthesis;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
-import se.inera.intyg.common.lisjp.v1.model.converter.RespConstants;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
@@ -40,7 +40,6 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
-import se.inera.intyg.common.support.model.InternalDate;
 
 public class QuestionMotiveringEjUndersokning {
 
@@ -96,8 +95,8 @@ public class QuestionMotiveringEjUndersokning {
             .build();
     }
 
-    public static InternalDate toInternal(Certificate certificate) {
-        return QuestionIntygetBaseratPa.toInternal(certificate,
-            RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1);
+    public static String toInternal(Certificate certificate) {
+        return textValue(certificate.getData(), GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1,
+            MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1);
     }
 }

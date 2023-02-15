@@ -20,24 +20,17 @@ package se.inera.intyg.common.lisjp.v1.model.converter;
 
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.icfCodeValue;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.icfTextValue;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
 import java.util.List;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAktivitetsbegransningar;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAnnatGrundForMUBeskrivning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionArbetsresor;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionArbetstidsforlaggning;
@@ -49,6 +42,8 @@ import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.Quest
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionForsakringsmedicinsktBeslutsstod;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionKontakt;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionKontaktBeskrivning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionMotiveringArbetstidsforlaggning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionMotiveringEjUndersokning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionMotiveringTidigtStartdatum;
@@ -60,7 +55,6 @@ import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.Quest
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionSysselsattningYrke;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.support.facade.model.Certificate;
-import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
 public final class CertificateToInternal {
@@ -71,23 +65,12 @@ public final class CertificateToInternal {
 
     public static LisjpUtlatandeV1 convert(Certificate certificate, LisjpUtlatandeV1 internalCertificate,
         WebcertModuleService moduleService) {
-        final var telefonkontakt = getGrundForMUTelefonkontakt(certificate);
-        final var journaluppgifter = getGrundForMUJournaluppgifter(certificate);
-        final var annat = getGrundForMUAnnat(certificate);
-        final var motiveringTillInteBaseratPaUndersokning = getMotiveringTillInteBaseratPaUndersokning(certificate);
-        final var funktionsnedsattningIcfKoder = getFunktionsnedsattningIcfKoder(certificate);
-        final var aktivitetsbegransning = getAktivitetsbegransning(certificate);
-        final var aktivitetsBegransningIcfKoder = getAktivitetsbegransningIcfKoder(certificate);
-        final var kontakt = getKontakt(certificate);
-        final var kontaktBeskrivning = getKontaktBeskrivning(certificate);
-
         return LisjpUtlatandeV1.builder()
             .setId(internalCertificate.getId())
             .setTextVersion(internalCertificate.getTextVersion())
             .setGrundData(MetaDataGrundData.toInternal(certificate.getMetadata(), internalCertificate.getGrundData()))
             .setAvstangningSmittskydd(QuestionAvstangningSmittskydd.toInternal(certificate))
             .setAnnatGrundForMUBeskrivning(QuestionAnnatGrundForMUBeskrivning.toInternal(certificate))
-            .setUndersokningAvPatienten(QuestionMotiveringEjUndersokning.toInternal(certificate))
             .setSysselsattning(QuestionSysselsattning.toInternal(certificate))
             .setNuvarandeArbete(QuestionSysselsattningYrke.toInternal(certificate))
             .setDiagnoser(QuestionDiagnoser.toInternal(certificate, moduleService))
@@ -104,53 +87,29 @@ public final class CertificateToInternal {
             .setArbetslivsinriktadeAtgarder(QuestionAtgarder.toInternal(certificate))
             .setArbetslivsinriktadeAtgarderBeskrivning(QuestionAtgarderBeskrivning.toInternal(certificate))
             .setOvrigt(QuestionOvrigt.toInternal(certificate))
-            .setTelefonkontaktMedPatienten(telefonkontakt)
-            .setJournaluppgifter(journaluppgifter)
-            .setAnnatGrundForMU(annat)
-            .setMotiveringTillInteBaseratPaUndersokning(motiveringTillInteBaseratPaUndersokning)
-            .setFunktionsKategorier(funktionsnedsattningIcfKoder)
-            .setAktivitetsbegransning(aktivitetsbegransning)
-            .setAktivitetsKategorier(aktivitetsBegransningIcfKoder)
-            .setKontaktMedFk(kontakt)
-            .setAnledningTillKontakt(kontaktBeskrivning)
+            .setKontaktMedFk(QuestionKontakt.toInternal(certificate))
+            .setAnledningTillKontakt(QuestionKontaktBeskrivning.toInternal(certificate))
+            .setAktivitetsbegransning(QuestionAktivitetsbegransningar.toInternal(certificate))
+            .setMotiveringTillInteBaseratPaUndersokning(QuestionMotiveringEjUndersokning.toInternal(certificate))
+            .setUndersokningAvPatienten(QuestionIntygetBaseratPa.toInternal(certificate,
+                GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1))
+            .setTelefonkontaktMedPatienten(
+                QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1))
+            .setJournaluppgifter(
+                QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1))
+            .setAnnatGrundForMU(QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
+            .setFunktionsKategorier(getFunktionsnedsattningIcfKoder(certificate))
+            .setAktivitetsKategorier(getAktivitetsbegransningIcfKoder(certificate))
             .build();
     }
 
-    private static InternalDate getGrundForMUTelefonkontakt(Certificate certificate) {
-        return QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1);
-    }
-
-    private static InternalDate getGrundForMUJournaluppgifter(Certificate certificate) {
-        return QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1);
-    }
-
-    private static InternalDate getGrundForMUAnnat(Certificate certificate) {
-        return QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1);
-    }
-
-    private static String getMotiveringTillInteBaseratPaUndersokning(Certificate certificate) {
-        return textValue(certificate.getData(), GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1,
-            MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1);
-    }
 
     private static List<String> getFunktionsnedsattningIcfKoder(Certificate certificate) {
         return icfCodeValue(certificate.getData(), FUNKTIONSNEDSATTNING_SVAR_ID_35, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35);
     }
 
-    private static String getAktivitetsbegransning(Certificate certificate) {
-        return icfTextValue(certificate.getData(), AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17);
-    }
-
     private static List<String> getAktivitetsbegransningIcfKoder(Certificate certificate) {
         return icfCodeValue(certificate.getData(), AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17);
-    }
-
-    private static Boolean getKontakt(Certificate certificate) {
-        return booleanValue(certificate.getData(), KONTAKT_ONSKAS_SVAR_ID_26, KONTAKT_ONSKAS_SVAR_JSON_ID_26);
-    }
-
-    private static String getKontaktBeskrivning(Certificate certificate) {
-        return textValue(certificate.getData(), ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26, ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26);
     }
 }
 

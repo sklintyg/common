@@ -18,27 +18,12 @@
  */
 package se.inera.intyg.common.lisjp.v1.model.converter;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANSWER_NO;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANSWER_YES;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_CATEGORY_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_BESKRIVNING;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_TEXT;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
-
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryAtgarder;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryBedomning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryFunktionsnedsattning;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryKontakt;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryMedicinskaBehandlingar;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryOvrigt;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategorySmittbararpenning;
@@ -55,6 +40,8 @@ import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.Quest
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionForsakringsmedicinsktBeslutsstod;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionKontakt;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionKontaktBeskrivning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionMotiveringArbetstidsforlaggning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionMotiveringEjUndersokning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionMotiveringTidigtStartdatum;
@@ -69,15 +56,6 @@ import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
-import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 
 public final class InternalToCertificate {
 
@@ -132,94 +110,9 @@ public final class InternalToCertificate {
                 QuestionAtgarderBeskrivning.toCertificate(internalCertificate.getArbetslivsinriktadeAtgarderBeskrivning(), index++, texts))
             .addElement(CategoryOvrigt.toCertificate(index++, texts))
             .addElement(QuestionOvrigt.toCertificate(internalCertificate.getOvrigt(), index++, texts))
-            .addElement(createKontaktCategory(index++, texts))
-            .addElement(createKontaktQuestion(internalCertificate.getKontaktMedFk(), index++, texts))
-            .addElement(createKontaktBeskrivning(internalCertificate.getAnledningTillKontakt(), index, texts))
-            .build();
-    }
-
-    private static CertificateDataElement createKontaktCategory(int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(KONTAKT_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigCategory.builder()
-                    .text(texts.get(KONTAKT_CATEGORY_TEXT))
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
-            .build();
-    }
-
-    public static CertificateDataElement createKontaktQuestion(Boolean value, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(KONTAKT_ONSKAS_SVAR_ID_26)
-            .index(index)
-            .parent(KONTAKT_CATEGORY_ID)
-            .config(
-                CertificateDataConfigCheckboxBoolean.builder()
-                    .id(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
-                    .text(texts.get(KONTAKT_ONSKAS_SVAR_TEXT))
-                    .description(texts.get(KONTAKT_ONSKAS_SVAR_BESKRIVNING))
-                    .selectedText(texts.get(ANSWER_YES))
-                    .unselectedText(texts.get(ANSWER_NO))
-                    .label(texts.get(KONTAKT_ONSKAS_DELSVAR_TEXT))
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
-                    .selected(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
-            .build();
-    }
-
-    public static CertificateDataElement createKontaktBeskrivning(String value, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26)
-            .index(index)
-            .parent(KONTAKT_ONSKAS_SVAR_ID_26)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26)
-                    .text(texts.get(ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT))
-                    .build()
-            )
-            .value(
-                CertificateDataTextValue.builder()
-                    .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26)
-                    .text(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(KONTAKT_ONSKAS_SVAR_ID_26)
-                        .expression(
-                            singleExpression(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
-                        )
-                        .build()
-                }
-            )
+            .addElement(CategoryKontakt.toCertificate(index++, texts))
+            .addElement(QuestionKontakt.toCertificate(internalCertificate.getKontaktMedFk(), index++, texts))
+            .addElement(QuestionKontaktBeskrivning.toCertificate(internalCertificate.getAnledningTillKontakt(), index, texts))
             .build();
     }
 }
