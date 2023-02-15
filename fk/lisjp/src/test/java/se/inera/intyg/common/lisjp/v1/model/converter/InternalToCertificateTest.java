@@ -31,9 +31,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTA
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -47,7 +44,6 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTe
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -77,159 +73,6 @@ class InternalToCertificateTest {
 
         texts = Mockito.mock(CertificateTextProvider.class);
         when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
-    }
-
-    @Nested
-    class CategoryOvrigt {
-
-        private LisjpUtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void createInternalCertificateToConvert() {
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-
-        }
-
-        @Test
-        void shouldIncludeCategoryElement() {
-            final var expectedIndex = 29;
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var category = certificate.getData().get(OVRIGT_CATEGORY_ID);
-
-            assertAll("Validating category",
-                () -> assertEquals(OVRIGT_CATEGORY_ID, category.getId()),
-                () -> assertEquals(expectedIndex, category.getIndex()),
-                () -> assertNull(category.getParent(), "Should not contain a parent"),
-                () -> assertNull(category.getValue(), "Should not contain a value"),
-                () -> assertNull(category.getValidation(), "Should not include validation"),
-                () -> assertNotNull(category.getConfig(), "Should include config")
-            );
-        }
-
-        @Test
-        void shouldIncludeCategoryConfig() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var category = certificate.getData().get(OVRIGT_CATEGORY_ID);
-
-            assertEquals(CertificateDataConfigTypes.CATEGORY, category.getConfig().getType());
-
-            assertAll("Validating category configuration",
-                () -> assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text"),
-                () -> assertNull(category.getConfig().getDescription(), "Should not contain description")
-            );
-        }
-    }
-
-    @Nested
-    class QuestionOvrigt {
-
-        private LisjpUtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void createInternalCertificateToConvert() {
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        @Test
-        void shouldIncludeQuestionElement() {
-            final var expectedIndex = 30;
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(OVRIGT_SVAR_ID_25);
-
-            assertAll("Validating question",
-                () -> assertEquals(OVRIGT_SVAR_ID_25, question.getId()),
-                () -> assertEquals(expectedIndex, question.getIndex()),
-                () -> assertEquals(OVRIGT_CATEGORY_ID, question.getParent()),
-                () -> assertNotNull(question.getValue(), "Missing value"),
-                () -> assertNotNull(question.getValidation(), "Missing validation"),
-                () -> assertNotNull(question.getConfig(), "Missing config")
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionConfig() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(OVRIGT_SVAR_ID_25);
-
-            assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
-
-            final var certificateDataConfigTextArea = (CertificateDataConfigTextArea) question.getConfig();
-            assertAll("Validating question configuration",
-                () -> assertNull(certificateDataConfigTextArea.getText(), "Should not include text"),
-                () -> assertNull(certificateDataConfigTextArea.getDescription(), "Should not include description"),
-                () -> assertNull(certificateDataConfigTextArea.getHeader(), "Should not include a header"),
-                () -> assertNull(certificateDataConfigTextArea.getLabel(), "Should not include a label"),
-                () -> assertNull(certificateDataConfigTextArea.getIcon(), "Should not include icon"),
-                () -> assertEquals(OVRIGT_SVAR_JSON_ID_25, certificateDataConfigTextArea.getId())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValueText() {
-            final var expectedText = "Text value for question";
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .setOvrigt(expectedText)
-                .build();
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(OVRIGT_SVAR_ID_25);
-
-            final var certificateDataValue = (CertificateDataTextValue) question.getValue();
-            assertAll("Validating question value",
-                () -> assertEquals(OVRIGT_SVAR_JSON_ID_25, certificateDataValue.getId()),
-                () -> assertEquals(expectedText, certificateDataValue.getText())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValueTextEmpty() {
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(OVRIGT_SVAR_ID_25);
-
-            final var certificateDataValue = (CertificateDataTextValue) question.getValue();
-            assertAll("Validating question value",
-                () -> assertEquals(OVRIGT_SVAR_JSON_ID_25, certificateDataValue.getId()),
-                () -> assertNull(certificateDataValue.getText())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValidationText() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(OVRIGT_SVAR_ID_25);
-
-            final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[0];
-            assertAll("Validation question validation",
-                () -> assertEquals(OVRIGT_SVAR_JSON_ID_25, certificateDataValidationText.getId()),
-                () -> assertEquals(2700, certificateDataValidationText.getLimit())
-            );
-        }
     }
 
     @Nested

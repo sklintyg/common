@@ -32,10 +32,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTA
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_CATEGORY_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.MetaDataGrundData;
@@ -44,6 +40,7 @@ import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.Categ
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryFunktionsnedsattning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryMedicinskaBehandlingar;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryOvrigt;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategorySmittbararpenning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategorySysselsattning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAktivitetsbegransningar;
@@ -61,6 +58,7 @@ import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.Quest
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionMotiveringArbetstidsforlaggning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionMotiveringEjUndersokning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionMotiveringTidigtStartdatum;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionOvrigt;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionPagaendeBehandling;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionPlaneradBehandling;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionPrognos;
@@ -78,14 +76,10 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTe
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 
 public final class InternalToCertificate {
-
-    private static final short LIMIT_OVRIGT = (short) 2700;
-
 
     private InternalToCertificate() {
 
@@ -136,52 +130,11 @@ public final class InternalToCertificate {
             .addElement(QuestionAtgarder.toCertificate(internalCertificate.getArbetslivsinriktadeAtgarder(), index++, texts))
             .addElement(
                 QuestionAtgarderBeskrivning.toCertificate(internalCertificate.getArbetslivsinriktadeAtgarderBeskrivning(), index++, texts))
-            .addElement(createOvrigtCategory(index++, texts))
-            .addElement(createOvrigtQuestion(internalCertificate.getOvrigt(), index++, texts))
+            .addElement(CategoryOvrigt.toCertificate(index++, texts))
+            .addElement(QuestionOvrigt.toCertificate(internalCertificate.getOvrigt(), index++, texts))
             .addElement(createKontaktCategory(index++, texts))
             .addElement(createKontaktQuestion(internalCertificate.getKontaktMedFk(), index++, texts))
             .addElement(createKontaktBeskrivning(internalCertificate.getAnledningTillKontakt(), index, texts))
-            .build();
-    }
-
-    private static CertificateDataElement createOvrigtCategory(int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(OVRIGT_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigCategory.builder()
-                    .text(texts.get(OVRIGT_CATEGORY_TEXT))
-                    .build()
-            )
-            .build();
-    }
-
-    public static CertificateDataElement createOvrigtQuestion(String value, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(OVRIGT_SVAR_ID_25)
-            .index(index)
-            .parent(OVRIGT_CATEGORY_ID)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(OVRIGT_SVAR_JSON_ID_25)
-                    .build()
-            )
-            .value(
-                CertificateDataTextValue.builder()
-                    .id(OVRIGT_SVAR_JSON_ID_25)
-                    .text(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationText.builder()
-                        .id(OVRIGT_SVAR_JSON_ID_25)
-                        .limit(LIMIT_OVRIGT)
-                        .build()
-                }
-            )
             .build();
     }
 
