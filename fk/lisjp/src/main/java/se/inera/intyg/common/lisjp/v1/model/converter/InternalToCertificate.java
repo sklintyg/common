@@ -65,7 +65,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSA
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_BESKRIVNING;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ICF_COLLECTION;
@@ -130,6 +129,7 @@ import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryDiagnos;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryFunktionsnedsattning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategorySmittbararpenning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategorySysselsattning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAnnatGrundForMUBeskrivning;
@@ -204,7 +204,7 @@ public final class InternalToCertificate {
             .addElement(QuestionSysselsattningYrke.toCertificate(internalCertificate.getNuvarandeArbete(), index++, texts))
             .addElement(CategoryDiagnos.toCertificate(index++, texts))
             .addElement(QuestionDiagnoser.toCertificate(internalCertificate.getDiagnoser(), index++, texts))
-            .addElement(createFunktionsnedsattningCategory(index++, texts))
+            .addElement(CategoryFunktionsnedsattning.toCertificate(index++, texts))
             .addElement(createFunktionsnedsattningQuestion(internalCertificate.getFunktionsnedsattning(),
                 internalCertificate.getFunktionsKategorier(), index++, texts))
             .addElement(createAktivitetsbegransningQuestion(internalCertificate.getAktivitetsbegransning(),
@@ -233,27 +233,6 @@ public final class InternalToCertificate {
             .addElement(createKontaktCategory(index++, texts))
             .addElement(createKontaktQuestion(internalCertificate.getKontaktMedFk(), index++, texts))
             .addElement(createKontaktBeskrivning(internalCertificate.getAnledningTillKontakt(), index, texts))
-            .build();
-    }
-
-    private static CertificateDataElement createFunktionsnedsattningCategory(int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(FUNKTIONSNEDSATTNING_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigCategory.builder()
-                    .text(texts.get(FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID))
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
             .build();
     }
 

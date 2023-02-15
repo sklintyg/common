@@ -144,67 +144,6 @@ class InternalToCertificateTest {
     }
 
     @Nested
-    class CategoryFunktionsnedsattning {
-
-        private LisjpUtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void createInternalCertificateToConvert() {
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-
-        }
-
-        @Test
-        void shouldIncludeCategoryElement() {
-            final var expectedIndex = 11;
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var category = certificate.getData().get(FUNKTIONSNEDSATTNING_CATEGORY_ID);
-
-            assertAll("Validating category",
-                () -> assertEquals(FUNKTIONSNEDSATTNING_CATEGORY_ID, category.getId()),
-                () -> assertEquals(expectedIndex, category.getIndex()),
-                () -> assertNull(category.getParent(), "Should not contain a parent"),
-                () -> assertNull(category.getValue(), "Should not contain a value"),
-                () -> assertNotNull(category.getValidation(), "Should include validation"),
-                () -> assertNotNull(category.getConfig(), "Should include config")
-            );
-        }
-
-        @Test
-        void shouldIncludeCategoryConfig() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var category = certificate.getData().get(FUNKTIONSNEDSATTNING_CATEGORY_ID);
-
-            assertEquals(CertificateDataConfigTypes.CATEGORY, category.getConfig().getType());
-
-            assertAll("Validating category configuration",
-                () -> assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text"),
-                () -> assertNull(category.getConfig().getDescription(), "Should not contain a description")
-            );
-        }
-
-        @Test
-        void shouldIncludeValidationHide() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_CATEGORY_ID);
-
-            final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[0];
-            assertAll("Validation question validation",
-                () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
-            );
-        }
-    }
-
-    @Nested
     class QuestionFunktionsnedsattning {
 
         private LisjpUtlatandeV1 internalCertificate;
