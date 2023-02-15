@@ -65,59 +65,6 @@ class CertificateToInternalTest {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionFunktionsnedsattning {
-
-        private LisjpUtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<String> textValues() {
-            return Stream.of("Här kommer en text!", "", null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludeFunktionsnedsattningValueText(String expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createFunktionsnedsattningQuestion(expectedValue,
-                    internalCertificate.getFunktionsKategorier(), index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getFunktionsnedsattning());
-        }
-
-        Stream<List<String>> icfCodeValues() {
-            return Stream.of(Arrays.asList("Test 0", "Test 1", "Test 2"), null, Collections.emptyList());
-        }
-
-        @ParameterizedTest
-        @MethodSource({"icfCodeValues"})
-        void shouldIncludeFunktionsnedsattningValueIcfCodes(List<String> expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createFunktionsnedsattningQuestion("", expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getFunktionsKategorier());
-        }
-    }
-
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionAktivitetsbegransning {
 
         private LisjpUtlatandeV1 internalCertificate;

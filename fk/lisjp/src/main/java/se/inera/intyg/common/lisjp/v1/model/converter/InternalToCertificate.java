@@ -65,14 +65,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSA
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_BESKRIVNING;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ICF_COLLECTION;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ICF_INFO;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ICF_PLACEHOLDER;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_35;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_CATEGORY_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_TEXT;
@@ -135,6 +127,7 @@ import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.Categ
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAnnatGrundForMUBeskrivning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAvstangningSmittskydd;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionDiagnoser;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionMotiveringEjUndersokning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionSysselsattning;
@@ -205,7 +198,7 @@ public final class InternalToCertificate {
             .addElement(CategoryDiagnos.toCertificate(index++, texts))
             .addElement(QuestionDiagnoser.toCertificate(internalCertificate.getDiagnoser(), index++, texts))
             .addElement(CategoryFunktionsnedsattning.toCertificate(index++, texts))
-            .addElement(createFunktionsnedsattningQuestion(internalCertificate.getFunktionsnedsattning(),
+            .addElement(QuestionFunktionsnedsattning.toCertificate(internalCertificate.getFunktionsnedsattning(),
                 internalCertificate.getFunktionsKategorier(), index++, texts))
             .addElement(createAktivitetsbegransningQuestion(internalCertificate.getAktivitetsbegransning(),
                 internalCertificate.getAktivitetsKategorier(), index++, texts))
@@ -236,47 +229,6 @@ public final class InternalToCertificate {
             .build();
     }
 
-    public static CertificateDataElement createFunktionsnedsattningQuestion(String value,
-        List<String> disabilityCategories, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(FUNKTIONSNEDSATTNING_SVAR_ID_35)
-            .index(index)
-            .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
-            .config(
-                CertificateDataConfigIcf.builder()
-                    .header(texts.get(FUNKTIONSNEDSATTNING_SVAR_TEXT))
-                    .text(texts.get(FUNKTIONSNEDSATTNING_DELSVAR_TEXT))
-                    .description(texts.get(FUNKTIONSNEDSATTNING_DELSVAR_BESKRIVNING))
-                    .modalLabel(FUNKTIONSNEDSATTNING_ICF_INFO)
-                    .collectionsLabel(FUNKTIONSNEDSATTNING_ICF_COLLECTION)
-                    .id(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35)
-                    .placeholder(FUNKTIONSNEDSATTNING_ICF_PLACEHOLDER)
-                    .build()
-            )
-            .value(
-                CertificateDataIcfValue.builder()
-                    .id(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35)
-                    .text(value)
-                    .icfCodes(disabilityCategories)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(FUNKTIONSNEDSATTNING_SVAR_ID_35)
-                        .expression(
-                            singleExpression(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35)
-                        )
-                        .build(),
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
-            .build();
-    }
 
     public static CertificateDataElement createAktivitetsbegransningQuestion(String value, List<String> activityLimitationCategories,
         int index,

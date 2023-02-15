@@ -74,6 +74,7 @@ import se.inera.intyg.common.lisjp.v1.model.converter.certificate.MetaDataGrundD
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAnnatGrundForMUBeskrivning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAvstangningSmittskydd;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionDiagnoser;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionMotiveringEjUndersokning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionSysselsattning;
@@ -96,7 +97,6 @@ public final class CertificateToInternal {
         final var journaluppgifter = getGrundForMUJournaluppgifter(certificate);
         final var annat = getGrundForMUAnnat(certificate);
         final var motiveringTillInteBaseratPaUndersokning = getMotiveringTillInteBaseratPaUndersokning(certificate);
-        final var funktionsnedsattning = getFunktionsnedsattning(certificate);
         final var funktionsnedsattningIcfKoder = getFunktionsnedsattningIcfKoder(certificate);
         final var aktivitetsbegransning = getAktivitetsbegransning(certificate);
         final var aktivitetsBegransningIcfKoder = getAktivitetsbegransningIcfKoder(certificate);
@@ -125,11 +125,11 @@ public final class CertificateToInternal {
             .setSysselsattning(QuestionSysselsattning.toInternal(certificate))
             .setNuvarandeArbete(QuestionSysselsattningYrke.toInternal(certificate))
             .setDiagnoser(QuestionDiagnoser.toInternal(certificate, moduleService))
+            .setFunktionsnedsattning(QuestionFunktionsnedsattning.toInternal(certificate))
             .setTelefonkontaktMedPatienten(telefonkontakt)
             .setJournaluppgifter(journaluppgifter)
             .setAnnatGrundForMU(annat)
             .setMotiveringTillInteBaseratPaUndersokning(motiveringTillInteBaseratPaUndersokning)
-            .setFunktionsnedsattning(funktionsnedsattning)
             .setFunktionsKategorier(funktionsnedsattningIcfKoder)
             .setAktivitetsbegransning(aktivitetsbegransning)
             .setAktivitetsKategorier(aktivitetsBegransningIcfKoder)
@@ -169,10 +169,6 @@ public final class CertificateToInternal {
 
     private static List<Diagnos> getDiagnos(Certificate certificate, WebcertModuleService moduleService) {
         return QuestionDiagnoser.toInternal(certificate, moduleService);
-    }
-
-    private static String getFunktionsnedsattning(Certificate certificate) {
-        return icfTextValue(certificate.getData(), FUNKTIONSNEDSATTNING_SVAR_ID_35, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35);
     }
 
     private static List<String> getFunktionsnedsattningIcfKoder(Certificate certificate) {
