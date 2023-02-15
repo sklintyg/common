@@ -31,7 +31,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBET
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_ID_33;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_35;
@@ -39,7 +38,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKT
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39;
@@ -69,6 +67,7 @@ import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.Quest
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionMotiveringEjUndersokning;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionMotiveringTidigtStartdatum;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionPagaendeBehandling;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionPlaneradBehandling;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionSysselsattning;
@@ -93,7 +92,6 @@ public final class CertificateToInternal {
         final var funktionsnedsattningIcfKoder = getFunktionsnedsattningIcfKoder(certificate);
         final var aktivitetsbegransning = getAktivitetsbegransning(certificate);
         final var aktivitetsBegransningIcfKoder = getAktivitetsbegransningIcfKoder(certificate);
-        final var motiveringTillTidigtStartdatum = getMotiveringTidigtStartdatum(certificate);
         final var forsakringsmedicinsktBeslutsstod = getForsakringsmedicinsktBeslutsstod(certificate);
         final var arbetstidsforlaggning = getArbetstidsforlaggning(certificate);
         final var arbetstidsforlaggningMotivering = getArbetstidsforlaggningMotivering(certificate);
@@ -126,7 +124,7 @@ public final class CertificateToInternal {
             .setFunktionsKategorier(funktionsnedsattningIcfKoder)
             .setAktivitetsbegransning(aktivitetsbegransning)
             .setAktivitetsKategorier(aktivitetsBegransningIcfKoder)
-            .setMotiveringTillTidigtStartdatumForSjukskrivning(motiveringTillTidigtStartdatum)
+            .setMotiveringTillTidigtStartdatumForSjukskrivning(QuestionMotiveringTidigtStartdatum.toInternal(certificate))
             .setForsakringsmedicinsktBeslutsstod(forsakringsmedicinsktBeslutsstod)
             .setArbetstidsforlaggning(arbetstidsforlaggning)
             .setArbetstidsforlaggningMotivering(arbetstidsforlaggningMotivering)
@@ -167,11 +165,6 @@ public final class CertificateToInternal {
 
     private static List<String> getAktivitetsbegransningIcfKoder(Certificate certificate) {
         return icfCodeValue(certificate.getData(), AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17);
-    }
-
-    private static String getMotiveringTidigtStartdatum(Certificate certificate) {
-        return textValue(certificate.getData(), BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32,
-            MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID);
     }
 
     private static String getForsakringsmedicinsktBeslutsstod(Certificate certificate) {

@@ -43,7 +43,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ATGAR
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_BESKRIVNING;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37;
@@ -56,7 +55,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTA
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_CATEGORY_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
@@ -74,11 +72,8 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGN
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_SANNOLIKT_INTE;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_STOR_SANNOLIKHET;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_TEXT;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.appendAttribute;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.lessThanOrEqual;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.wrapWithParenthesis;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -105,6 +100,7 @@ import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.Quest
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionMotiveringEjUndersokning;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionMotiveringTidigtStartdatum;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionPagaendeBehandling;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionPlaneradBehandling;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionSysselsattning;
@@ -139,10 +135,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 
 public final class InternalToCertificate {
 
-    private static final short LIMIT_MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING = (short) 150;
     private static final short LIMIT_OVRIGT = (short) 2700;
-
-    private static final String VALIDATION_DAYS_TIDIGT_START_DATUM = "-7";
 
 
     private InternalToCertificate() {
@@ -177,8 +170,9 @@ public final class InternalToCertificate {
             .addElement(CategoryBedomning.toCertificate(index++, texts))
             .addElement(QuestionBehovAvSjukskrivning.toCertificate(internalCertificate.getSjukskrivningar(), index++, texts,
                 internalCertificate.getGrundData().getRelation()))
-            .addElement(createMotiveringTidigtStartdatumQuestion(internalCertificate.getMotiveringTillTidigtStartdatumForSjukskrivning(),
-                index++, texts))
+            .addElement(
+                QuestionMotiveringTidigtStartdatum.toCertificate(internalCertificate.getMotiveringTillTidigtStartdatumForSjukskrivning(),
+                    index++))
             .addElement(
                 createForsakringsmedicinsktBeslutsstodQuestion(internalCertificate.getForsakringsmedicinsktBeslutsstod(), index++, texts))
             .addElement(createArbetstidsforlaggningQuestion(internalCertificate.getArbetstidsforlaggning(), index++, texts))
@@ -195,70 +189,6 @@ public final class InternalToCertificate {
             .addElement(createKontaktCategory(index++, texts))
             .addElement(createKontaktQuestion(internalCertificate.getKontaktMedFk(), index++, texts))
             .addElement(createKontaktBeskrivning(internalCertificate.getAnledningTillKontakt(), index, texts))
-            .build();
-    }
-
-    public static CertificateDataElement createMotiveringTidigtStartdatumQuestion(String value, int index,
-        CertificateTextProvider texts) {
-        var attribute = "from";
-        return CertificateDataElement.builder()
-            .id(BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32)
-            .index(index)
-            .parent(BEDOMNING_CATEGORY_ID)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .text("Ange orsak för att starta perioden mer än 7 dagar bakåt i tiden.")
-                    .description("Observera att detta inte är en fråga från Försäkringskassan."
-                        + "Information om varför sjukskrivningen startar mer än en vecka före"
-                        + " dagens datum kan vara till hjälp för Försäkringskassan "
-                        + "i deras handläggning.</br></br>"
-                        + "Informationen du anger nedan, kommer att överföras till fältet \"Övriga upplysningar\" vid signering.")
-                    .icon("lightbulb_outline")
-                    .id(MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID)
-                    .build()
-            )
-            .value(
-                CertificateDataTextValue.builder()
-                    .id(MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID)
-                    .text(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32)
-                        .expression(
-                            multipleOrExpression(
-                                wrapWithParenthesis(
-                                    singleExpression(
-                                        lessThanOrEqual(
-                                            appendAttribute(
-                                                SjukskrivningsGrad.NEDSATT_1_4.getId(), attribute), VALIDATION_DAYS_TIDIGT_START_DATUM))),
-                                wrapWithParenthesis(
-                                    singleExpression(
-                                        lessThanOrEqual(
-                                            appendAttribute(
-                                                SjukskrivningsGrad.NEDSATT_HALFTEN.getId(), attribute),
-                                            VALIDATION_DAYS_TIDIGT_START_DATUM))),
-                                wrapWithParenthesis(
-                                    singleExpression(
-                                        lessThanOrEqual(
-                                            appendAttribute(
-                                                SjukskrivningsGrad.NEDSATT_3_4.getId(), attribute), VALIDATION_DAYS_TIDIGT_START_DATUM))),
-                                wrapWithParenthesis(
-                                    singleExpression(
-                                        lessThanOrEqual(
-                                            appendAttribute(
-                                                SjukskrivningsGrad.HELT_NEDSATT.getId(), attribute), VALIDATION_DAYS_TIDIGT_START_DATUM)))
-                            )
-                        )
-                        .build(),
-                    CertificateDataValidationText.builder()
-                        .id(MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID)
-                        .limit(LIMIT_MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING)
-                        .build()
-                }
-            )
             .build();
     }
 
