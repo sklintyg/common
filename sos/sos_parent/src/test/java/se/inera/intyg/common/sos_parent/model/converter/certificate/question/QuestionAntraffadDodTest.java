@@ -203,7 +203,10 @@ class QuestionAntraffadDodTest {
         void shouldIncludeValidationExpression() {
             final var question = QuestionAntraffadDod.toCertificate(null, 0, texts);
             final var certificateDataValidationMaxDate = (CertificateDataValidationShow) question.getValidation()[1];
-            assertEquals("exists('" + DODSDATUM_SAKERT_JSON_ID + "') && !'" + DODSDATUM_SAKERT_JSON_ID + "'", certificateDataValidationMaxDate.getExpression());
+            assertEquals(
+                "exists('" + DODSDATUM_SAKERT_JSON_ID + "') && !'" + DODSDATUM_SAKERT_JSON_ID + "'",
+                certificateDataValidationMaxDate.getExpression()
+            );
         }
     }
 

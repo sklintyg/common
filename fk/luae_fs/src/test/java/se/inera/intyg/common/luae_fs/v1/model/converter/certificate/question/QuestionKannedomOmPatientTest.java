@@ -26,7 +26,6 @@ import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KAN
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.KANNEDOM_SVAR_TEXT_ID;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
