@@ -155,53 +155,6 @@ class InternalToCertificateTest {
 
 
         @Nested
-        class CategoryDiagnos {
-
-            private LisjpUtlatandeV1 internalCertificate;
-
-            @BeforeEach
-            void createInternalCertificateToConvert() {
-                internalCertificate = LisjpUtlatandeV1.builder()
-                    .setGrundData(grundData)
-                    .setId("id")
-                    .setTextVersion("TextVersion")
-                    .build();
-
-            }
-
-            @Test
-            void shouldIncludeCategoryElement() {
-                final var expectedIndex = 9;
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var category = certificate.getData().get(DIAGNOS_CATEGORY_ID);
-
-                assertAll("Validating category",
-                    () -> assertEquals(DIAGNOS_CATEGORY_ID, category.getId()),
-                    () -> assertEquals(expectedIndex, category.getIndex()),
-                    () -> assertNull(category.getParent(), "Should not contain a parent"),
-                    () -> assertNull(category.getValue(), "Should not contain a value"),
-                    () -> assertNull(category.getValidation(), "Should not include validation"),
-                    () -> assertNotNull(category.getConfig(), "Should include config")
-                );
-            }
-
-            @Test
-            void shouldIncludeCategoryConfig() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var category = certificate.getData().get(DIAGNOS_CATEGORY_ID);
-
-                assertEquals(CertificateDataConfigTypes.CATEGORY, category.getConfig().getType());
-
-                assertAll("Validating category configuration",
-                    () -> assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text")
-                );
-            }
-        }
-
-        @Nested
         class QuestionDiagnos {
 
             private LisjpUtlatandeV1 internalCertificate;

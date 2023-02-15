@@ -60,8 +60,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_TRE_FJARDEDEL;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_CATEGORY_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_BESKRIVNING;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37;
@@ -132,6 +130,7 @@ import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategorySmittbararpenning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategorySysselsattning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAnnatGrundForMUBeskrivning;
@@ -204,7 +203,7 @@ public final class InternalToCertificate {
             .addElement(CategorySysselsattning.toCertificate(index++, texts))
             .addElement(QuestionSysselsattning.toCertificate(internalCertificate.getSysselsattning(), index++, texts))
             .addElement(QuestionSysselsattningYrke.toCertificate(internalCertificate.getNuvarandeArbete(), index++, texts))
-            .addElement(createDiagnosCategory(index++, texts))
+            .addElement(CategoryDiagnos.toCertificate(index++, texts))
             .addElement(createDiagnosQuestion(internalCertificate.getDiagnoser(), index++, texts))
             .addElement(createFunktionsnedsattningCategory(index++, texts))
             .addElement(createFunktionsnedsattningQuestion(internalCertificate.getFunktionsnedsattning(),
@@ -235,19 +234,6 @@ public final class InternalToCertificate {
             .addElement(createKontaktCategory(index++, texts))
             .addElement(createKontaktQuestion(internalCertificate.getKontaktMedFk(), index++, texts))
             .addElement(createKontaktBeskrivning(internalCertificate.getAnledningTillKontakt(), index, texts))
-            .build();
-    }
-
-    private static CertificateDataElement createDiagnosCategory(int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(DIAGNOS_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigCategory.builder()
-                    .text(texts.get(DIAGNOS_CATEGORY_TEXT))
-                    .build()
-            )
             .build();
     }
 
