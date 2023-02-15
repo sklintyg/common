@@ -43,7 +43,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ATGAR
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEDOMNING_CATEGORY_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_EN_FJARDEDEL;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_HALFTEN;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_HELT_NEDSATT;
@@ -101,6 +100,7 @@ import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryBedomning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryFunktionsnedsattning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryMedicinskaBehandlingar;
@@ -188,7 +188,7 @@ public final class InternalToCertificate {
             .addElement(CategoryMedicinskaBehandlingar.toCertificate(index++, texts))
             .addElement(QuestionPagaendeBehandling.toCertificate(internalCertificate.getPagaendeBehandling(), index++, texts))
             .addElement(QuestionPlaneradBehandling.toCertificate(internalCertificate.getPlaneradBehandling(), index++, texts))
-            .addElement(createBedomningCategory(index++, texts))
+            .addElement(CategoryBedomning.toCertificate(index++, texts))
             .addElement(createBehovAvSjukskrivningQuestion(internalCertificate.getSjukskrivningar(), index++, texts,
                 internalCertificate.getGrundData().getRelation()))
             .addElement(createMotiveringTidigtStartdatumQuestion(internalCertificate.getMotiveringTillTidigtStartdatumForSjukskrivning(),
@@ -209,23 +209,6 @@ public final class InternalToCertificate {
             .addElement(createKontaktCategory(index++, texts))
             .addElement(createKontaktQuestion(internalCertificate.getKontaktMedFk(), index++, texts))
             .addElement(createKontaktBeskrivning(internalCertificate.getAnledningTillKontakt(), index, texts))
-            .build();
-    }
-
-
-    private static CertificateDataElement createBedomningCategory(int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(BEDOMNING_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigCategory.builder()
-                    .text(texts.get(BEDOMNING_CATEGORY_TEXT))
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{}
-            )
             .build();
     }
 
