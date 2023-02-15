@@ -881,7 +881,7 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
 
-                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[5];
+                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
                 assertAll("Validation question validation",
                     () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
                     () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
