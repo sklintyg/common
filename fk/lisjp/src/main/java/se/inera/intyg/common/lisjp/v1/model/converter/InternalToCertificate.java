@@ -50,13 +50,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGN
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_DAGAR_365;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_DAGAR_60;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_DAGAR_90;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_ATER_X_ANTAL_DAGAR;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_BESKRIVNING;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_ID_39;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_PROGNOS_OKLAR;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_SANNOLIKT_INTE;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_STOR_SANNOLIKHET;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_TEXT;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
@@ -91,6 +85,7 @@ import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.Quest
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionMotiveringTidigtStartdatum;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionPagaendeBehandling;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionPlaneradBehandling;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionPrognos;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionSysselsattning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionSysselsattningYrke;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
@@ -103,11 +98,9 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCa
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDropdown;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioMultipleCodeOptionalDropdown;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.DropdownItem;
-import se.inera.intyg.common.support.facade.model.config.RadioMultipleCodeOptionalDropdown;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisableSubElement;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationEnable;
@@ -168,7 +161,7 @@ public final class InternalToCertificate {
                 QuestionMotiveringArbetstidsforlaggning.toCertificate(internalCertificate.getArbetstidsforlaggningMotivering(), index++,
                     texts))
             .addElement(QuestionArbetsresor.toCertificate(internalCertificate.getArbetsresor(), index++, texts))
-            .addElement(createPrognosQuestion(internalCertificate.getPrognos(), index++, texts))
+            .addElement(QuestionPrognos.toCertificate(internalCertificate.getPrognos(), index++, texts))
             .addElement(createPrognosTimeperiodQuestion(internalCertificate.getPrognos(), index++, texts))
             .addElement(createAtgarderCategory(index++, texts))
             .addElement(createAtgarderQuestion(internalCertificate.getArbetslivsinriktadeAtgarder(), index++, texts))
@@ -179,71 +172,6 @@ public final class InternalToCertificate {
             .addElement(createKontaktQuestion(internalCertificate.getKontaktMedFk(), index++, texts))
             .addElement(createKontaktBeskrivning(internalCertificate.getAnledningTillKontakt(), index, texts))
             .build();
-    }
-
-    public static CertificateDataElement createPrognosQuestion(Prognos prognos, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(PROGNOS_SVAR_ID_39)
-            .index(index)
-            .parent(BEDOMNING_CATEGORY_ID)
-            .config(
-                CertificateDataConfigRadioMultipleCodeOptionalDropdown.builder()
-                    .text(texts.get(PROGNOS_SVAR_TEXT))
-                    .description(texts.get(PROGNOS_SVAR_BESKRIVNING))
-                    .list(
-                        Arrays.asList(
-                            RadioMultipleCodeOptionalDropdown.builder()
-                                .id(PrognosTyp.MED_STOR_SANNOLIKHET.getId())
-                                .label(texts.get(PROGNOS_SVAR_STOR_SANNOLIKHET))
-                                .build(),
-                            RadioMultipleCodeOptionalDropdown.builder()
-                                .id(PrognosTyp.ATER_X_ANTAL_DGR.getId())
-                                .label(texts.get(PROGNOS_SVAR_ATER_X_ANTAL_DAGAR))
-                                .dropdownQuestionId(PROGNOS_BESKRIVNING_DELSVAR_ID_39)
-                                .build(),
-                            RadioMultipleCodeOptionalDropdown.builder()
-                                .id(PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING.getId())
-                                .label(texts.get(PROGNOS_SVAR_SANNOLIKT_INTE))
-                                .build(),
-                            RadioMultipleCodeOptionalDropdown.builder()
-                                .id(PrognosTyp.PROGNOS_OKLAR.getId())
-                                .label(texts.get(PROGNOS_SVAR_PROGNOS_OKLAR))
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .value(
-                CertificateDataValueCode.builder()
-                    .id(getPrognosValue(prognos))
-                    .code(getPrognosValue(prognos))
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(PROGNOS_SVAR_ID_39)
-                        .expression(
-                            multipleOrExpression(
-                                singleExpression(PrognosTyp.MED_STOR_SANNOLIKHET.getId()),
-                                singleExpression(PrognosTyp.ATER_X_ANTAL_DGR.getId()),
-                                singleExpression(PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING.getId()),
-                                singleExpression(PrognosTyp.PROGNOS_OKLAR.getId())
-                            )
-                        )
-                        .build(),
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
-            .build();
-    }
-
-    private static String getPrognosValue(Prognos prognos) {
-        return (prognos != null && prognos.getTyp() != null) ? prognos.getTyp().getId() : null;
     }
 
     public static CertificateDataElement createPrognosTimeperiodQuestion(Prognos prognos, int index,
