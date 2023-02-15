@@ -65,54 +65,6 @@ class CertificateToInternalTest {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionMedicinskaBehandlingar {
-
-        private LisjpUtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<String> textValues() {
-            return Stream.of("Här kommer en text!", "", null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludePagaendeBehandlingValue(String expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createPagaendeBehandlingQuestion(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getPagaendeBehandling());
-        }
-
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludePlaneradBehandlingValue(String expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createPlaneradBehandlingQuestion(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getPlaneradBehandling());
-        }
-    }
-
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class QuestionBedomning {
 
         private LisjpUtlatandeV1 internalCertificate;

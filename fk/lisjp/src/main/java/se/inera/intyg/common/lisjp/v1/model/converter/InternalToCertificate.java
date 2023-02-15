@@ -69,10 +69,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIG
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_CATEGORY_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_DELSVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_DELSVAR_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
@@ -122,6 +118,7 @@ import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.Quest
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionMotiveringEjUndersokning;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionPagaendeBehandling;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionSysselsattning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionSysselsattningYrke;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
@@ -193,7 +190,7 @@ public final class InternalToCertificate {
             .addElement(QuestionAktivitetsbegransningar.toCertificate(internalCertificate.getAktivitetsbegransning(),
                 internalCertificate.getAktivitetsKategorier(), index++, texts))
             .addElement(CategoryMedicinskaBehandlingar.toCertificate(index++, texts))
-            .addElement(createPagaendeBehandlingQuestion(internalCertificate.getPagaendeBehandling(), index++, texts))
+            .addElement(QuestionPagaendeBehandling.toCertificate(internalCertificate.getPagaendeBehandling(), index++, texts))
             .addElement(createPlaneradBehandlingQuestion(internalCertificate.getPlaneradBehandling(), index++, texts))
             .addElement(createBedomningCategory(index++, texts))
             .addElement(createBehovAvSjukskrivningQuestion(internalCertificate.getSjukskrivningar(), index++, texts,
@@ -216,36 +213,6 @@ public final class InternalToCertificate {
             .addElement(createKontaktCategory(index++, texts))
             .addElement(createKontaktQuestion(internalCertificate.getKontaktMedFk(), index++, texts))
             .addElement(createKontaktBeskrivning(internalCertificate.getAnledningTillKontakt(), index, texts))
-            .build();
-    }
-
-    public static CertificateDataElement createPagaendeBehandlingQuestion(String value, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(PAGAENDEBEHANDLING_SVAR_ID_19)
-            .index(index)
-            .parent(MEDICINSKABEHANDLINGAR_CATEGORY_ID)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .header(texts.get(PAGAENDEBEHANDLING_SVAR_TEXT))
-                    .text(texts.get(PAGAENDEBEHANDLING_DELSVAR_TEXT))
-                    .id(PAGAENDEBEHANDLING_SVAR_JSON_ID_19)
-                    .build()
-            )
-            .value(
-                CertificateDataTextValue.builder()
-                    .id(PAGAENDEBEHANDLING_SVAR_JSON_ID_19)
-                    .text(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
             .build();
     }
 

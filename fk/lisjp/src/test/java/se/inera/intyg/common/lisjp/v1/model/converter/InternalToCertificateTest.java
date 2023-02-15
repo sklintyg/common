@@ -51,8 +51,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIV
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39;
@@ -128,109 +126,6 @@ class InternalToCertificateTest {
 
         texts = Mockito.mock(CertificateTextProvider.class);
         when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
-    }
-
-    @Nested
-    class QuestionPagaendeBehandling {
-
-        private LisjpUtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void createInternalCertificateToConvert() {
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        @Test
-        void shouldIncludeQuestionElement() {
-            final var expectedIndex = 15;
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PAGAENDEBEHANDLING_SVAR_ID_19);
-
-            assertAll("Validating question",
-                () -> assertEquals(PAGAENDEBEHANDLING_SVAR_ID_19, question.getId()),
-                () -> assertEquals(expectedIndex, question.getIndex()),
-                () -> assertEquals(MEDICINSKABEHANDLINGAR_CATEGORY_ID, question.getParent()),
-                () -> assertNotNull(question.getValue(), "Missing value"),
-                () -> assertNotNull(question.getValidation(), "Missing validation"),
-                () -> assertNotNull(question.getConfig(), "Missing config")
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionConfig() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PAGAENDEBEHANDLING_SVAR_ID_19);
-
-            assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
-
-            final var certificateDataConfigTextArea = (CertificateDataConfigTextArea) question.getConfig();
-            assertAll("Validating question configuration",
-                () -> assertTrue(certificateDataConfigTextArea.getHeader().trim().length() > 0, "Missing header"),
-                () -> assertTrue(certificateDataConfigTextArea.getText().trim().length() > 0, "Missing text"),
-                () -> assertNull(certificateDataConfigTextArea.getDescription(), "Should not include description"),
-                () -> assertEquals(PAGAENDEBEHANDLING_SVAR_JSON_ID_19, certificateDataConfigTextArea.getId())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValueText() {
-            final var expectedText = "Text value for question";
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .setPagaendeBehandling(expectedText)
-                .build();
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PAGAENDEBEHANDLING_SVAR_ID_19);
-
-            final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
-            assertAll("Validating question value",
-                () -> assertEquals(PAGAENDEBEHANDLING_SVAR_JSON_ID_19, certificateDataValueText.getId()),
-                () -> assertEquals(expectedText, certificateDataValueText.getText())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValueTextEmpty() {
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PAGAENDEBEHANDLING_SVAR_ID_19);
-
-            final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
-            assertAll("Validating question value",
-                () -> assertEquals(PAGAENDEBEHANDLING_SVAR_JSON_ID_19, certificateDataValueText.getId()),
-                () -> assertNull(certificateDataValueText.getText())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValidationHide() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PAGAENDEBEHANDLING_SVAR_ID_19);
-
-            final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[0];
-            assertAll("Validation question validation",
-                () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
-            );
-        }
     }
 
     @Nested

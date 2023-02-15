@@ -43,8 +43,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIV
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39;
@@ -63,7 +61,6 @@ import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.lisjp.model.internal.Prognos;
 import se.inera.intyg.common.lisjp.model.internal.PrognosDagarTillArbeteTyp;
@@ -77,6 +74,7 @@ import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.Quest
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionMotiveringEjUndersokning;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionPagaendeBehandling;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionSysselsattning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionSysselsattningYrke;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
@@ -100,7 +98,6 @@ public final class CertificateToInternal {
         final var funktionsnedsattningIcfKoder = getFunktionsnedsattningIcfKoder(certificate);
         final var aktivitetsbegransning = getAktivitetsbegransning(certificate);
         final var aktivitetsBegransningIcfKoder = getAktivitetsbegransningIcfKoder(certificate);
-        final var pagaendeBehandling = getPagaendeBehandling(certificate);
         final var planeradBehandling = getPlaneradBehandling(certificate);
         final var motiveringTillTidigtStartdatum = getMotiveringTidigtStartdatum(certificate);
         final var forsakringsmedicinsktBeslutsstod = getForsakringsmedicinsktBeslutsstod(certificate);
@@ -126,6 +123,7 @@ public final class CertificateToInternal {
             .setNuvarandeArbete(QuestionSysselsattningYrke.toInternal(certificate))
             .setDiagnoser(QuestionDiagnoser.toInternal(certificate, moduleService))
             .setFunktionsnedsattning(QuestionFunktionsnedsattning.toInternal(certificate))
+            .setPagaendeBehandling(QuestionPagaendeBehandling.toInternal(certificate))
             .setTelefonkontaktMedPatienten(telefonkontakt)
             .setJournaluppgifter(journaluppgifter)
             .setAnnatGrundForMU(annat)
@@ -133,7 +131,6 @@ public final class CertificateToInternal {
             .setFunktionsKategorier(funktionsnedsattningIcfKoder)
             .setAktivitetsbegransning(aktivitetsbegransning)
             .setAktivitetsKategorier(aktivitetsBegransningIcfKoder)
-            .setPagaendeBehandling(pagaendeBehandling)
             .setPlaneradBehandling(planeradBehandling)
             .setSjukskrivningar(sjukskrivningar)
             .setMotiveringTillTidigtStartdatumForSjukskrivning(motiveringTillTidigtStartdatum)
@@ -167,10 +164,6 @@ public final class CertificateToInternal {
             MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1);
     }
 
-    private static List<Diagnos> getDiagnos(Certificate certificate, WebcertModuleService moduleService) {
-        return QuestionDiagnoser.toInternal(certificate, moduleService);
-    }
-
     private static List<String> getFunktionsnedsattningIcfKoder(Certificate certificate) {
         return icfCodeValue(certificate.getData(), FUNKTIONSNEDSATTNING_SVAR_ID_35, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35);
     }
@@ -181,10 +174,6 @@ public final class CertificateToInternal {
 
     private static List<String> getAktivitetsbegransningIcfKoder(Certificate certificate) {
         return icfCodeValue(certificate.getData(), AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17);
-    }
-
-    private static String getPagaendeBehandling(Certificate certificate) {
-        return textValue(certificate.getData(), PAGAENDEBEHANDLING_SVAR_ID_19, PAGAENDEBEHANDLING_SVAR_JSON_ID_19);
     }
 
     private static String getPlaneradBehandling(Certificate certificate) {
