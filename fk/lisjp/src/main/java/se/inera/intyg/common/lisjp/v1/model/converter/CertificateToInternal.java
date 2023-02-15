@@ -24,7 +24,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLED
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
@@ -37,18 +36,16 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.icfCodeValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.icfTextValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAnnatGrundForMUBeskrivning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionArbetsresor;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionArbetstidsforlaggning;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAtgarder;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAvstangningSmittskydd;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionBehovAvSjukskrivning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionDiagnoser;
@@ -83,7 +80,6 @@ public final class CertificateToInternal {
         final var funktionsnedsattningIcfKoder = getFunktionsnedsattningIcfKoder(certificate);
         final var aktivitetsbegransning = getAktivitetsbegransning(certificate);
         final var aktivitetsBegransningIcfKoder = getAktivitetsbegransningIcfKoder(certificate);
-        final var atgarder = getAtgarder(certificate);
         final var atgarderBeskrivning = getAtgarderBeskrivning(certificate);
         final var ovrigt = getOvrigt(certificate);
         final var kontakt = getKontakt(certificate);
@@ -109,6 +105,7 @@ public final class CertificateToInternal {
             .setArbetstidsforlaggningMotivering(QuestionMotiveringArbetstidsforlaggning.toInternal(certificate))
             .setArbetsresor(QuestionArbetsresor.toInternal(certificate))
             .setPrognos(QuestionPrognos.toInternal(certificate))
+            .setArbetslivsinriktadeAtgarder(QuestionAtgarder.toInternal(certificate))
             .setTelefonkontaktMedPatienten(telefonkontakt)
             .setJournaluppgifter(journaluppgifter)
             .setAnnatGrundForMU(annat)
@@ -116,7 +113,6 @@ public final class CertificateToInternal {
             .setFunktionsKategorier(funktionsnedsattningIcfKoder)
             .setAktivitetsbegransning(aktivitetsbegransning)
             .setAktivitetsKategorier(aktivitetsBegransningIcfKoder)
-            .setArbetslivsinriktadeAtgarder(atgarder)
             .setArbetslivsinriktadeAtgarderBeskrivning(atgarderBeskrivning)
             .setOvrigt(ovrigt)
             .setKontaktMedFk(kontakt)
@@ -151,16 +147,6 @@ public final class CertificateToInternal {
 
     private static List<String> getAktivitetsbegransningIcfKoder(Certificate certificate) {
         return icfCodeValue(certificate.getData(), AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17);
-    }
-
-    private static List<ArbetslivsinriktadeAtgarder> getAtgarder(Certificate certificate) {
-        var codeList = codeListValue(certificate.getData(), ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
-        return codeList
-            .stream()
-            .map(
-                code -> ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal.fromId(code.getId()))
-            )
-            .collect(Collectors.toList());
     }
 
     private static String getAtgarderBeskrivning(Certificate certificate) {

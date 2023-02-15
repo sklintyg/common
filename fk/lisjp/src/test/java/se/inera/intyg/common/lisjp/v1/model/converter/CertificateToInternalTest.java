@@ -21,21 +21,15 @@ package se.inera.intyg.common.lisjp.v1.model.converter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
-import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
@@ -55,69 +49,6 @@ class CertificateToInternalTest {
         when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionAtgard {
-
-        private LisjpUtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<List<ArbetslivsinriktadeAtgarder>> codeListValues() {
-            return Stream.of(
-                Arrays.asList(
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT)
-                ),
-                Arrays.asList(
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OVRIGT),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE)
-
-                ),
-                Collections.emptyList());
-        }
-
-        @ParameterizedTest
-        @MethodSource("codeListValues")
-        void shouldIncludeAtgardValue(List<ArbetslivsinriktadeAtgarder> expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createAtgarderQuestion(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getArbetslivsinriktadeAtgarder());
-        }
-
-        @Test
-        void shouldIncludeAtgardValueNull() {
-            final var index = 1;
-            final List<ArbetslivsinriktadeAtgarder> expectedValue = Collections.emptyList();
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createAtgarderQuestion(null, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getArbetslivsinriktadeAtgarder());
-        }
-    }
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)

@@ -27,9 +27,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBET
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ATGARDER_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ATGARDER_CATEGORY_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
@@ -46,13 +43,9 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIG
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryAtgarder;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryBedomning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryFunktionsnedsattning;
@@ -63,6 +56,7 @@ import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.Quest
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAnnatGrundForMUBeskrivning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionArbetsresor;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionArbetstidsforlaggning;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAtgarder;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAvstangningSmittskydd;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionBehovAvSjukskrivning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionDiagnoser;
@@ -85,19 +79,13 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisableSubElement;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCodeList;
 
 public final class InternalToCertificate {
 
@@ -149,8 +137,8 @@ public final class InternalToCertificate {
             .addElement(QuestionArbetsresor.toCertificate(internalCertificate.getArbetsresor(), index++, texts))
             .addElement(QuestionPrognos.toCertificate(internalCertificate.getPrognos(), index++, texts))
             .addElement(QuestionPrognosTimePeriod.toCertificate(internalCertificate.getPrognos(), index++, texts))
-            .addElement(createAtgarderCategory(index++, texts))
-            .addElement(createAtgarderQuestion(internalCertificate.getArbetslivsinriktadeAtgarder(), index++, texts))
+            .addElement(CategoryAtgarder.toCertificate(index++, texts))
+            .addElement(QuestionAtgarder.toCertificate(internalCertificate.getArbetslivsinriktadeAtgarder(), index++, texts))
             .addElement(createAtgarderBeskrivning(internalCertificate.getArbetslivsinriktadeAtgarderBeskrivning(), index++, texts))
             .addElement(createOvrigtCategory(index++, texts))
             .addElement(createOvrigtQuestion(internalCertificate.getOvrigt(), index++, texts))
@@ -158,172 +146,6 @@ public final class InternalToCertificate {
             .addElement(createKontaktQuestion(internalCertificate.getKontaktMedFk(), index++, texts))
             .addElement(createKontaktBeskrivning(internalCertificate.getAnledningTillKontakt(), index, texts))
             .build();
-    }
-
-    private static CertificateDataElement createAtgarderCategory(int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(ATGARDER_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigCategory.builder()
-                    .text(texts.get(ATGARDER_CATEGORY_TEXT))
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
-            .build();
-    }
-
-
-    public static CertificateDataElement createAtgarderQuestion(List<ArbetslivsinriktadeAtgarder> atgarder, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
-            .index(index)
-            .parent(ATGARDER_CATEGORY_ID)
-            .config(
-                CertificateDataConfigCheckboxMultipleCode.builder()
-                    .text(texts.get(ARBETSLIVSINRIKTADE_ATGARDER_TEXT))
-                    .list(
-                        Arrays.asList(
-                            CheckboxMultipleCode.builder()
-                                .id(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId())
-                                .label(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getLabel())
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId())
-                                .label(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getLabel())
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId())
-                                .label(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getLabel())
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId())
-                                .label(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getLabel())
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId())
-                                .label(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getLabel())
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId())
-                                .label(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getLabel())
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId())
-                                .label(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getLabel())
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId())
-                                .label(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getLabel())
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId())
-                                .label(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getLabel())
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId())
-                                .label(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getLabel())
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
-                                .label(ArbetslivsinriktadeAtgarderVal.OVRIGT.getLabel())
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .value(
-                CertificateDataValueCodeList.builder()
-                    .list(createAtgarderCodeList(atgarder))
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
-                        .expression(
-                            multipleOrExpression(
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
-                            )
-                        )
-                        .build(),
-                    CertificateDataValidationDisableSubElement.builder()
-                        .questionId(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
-                        .expression(
-                            multipleOrExpression(
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
-                            )
-                        )
-                        .id(Collections.singletonList(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId()))
-                        .build(),
-                    CertificateDataValidationDisableSubElement.builder()
-                        .questionId(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
-                        .expression(
-                            singleExpression(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId())
-                        )
-                        .id(
-                            Arrays.asList(
-                                ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId(),
-                                ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId(),
-                                ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId(),
-                                ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId(),
-                                ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId(),
-                                ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId(),
-                                ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId(),
-                                ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId(),
-                                ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId(),
-                                ArbetslivsinriktadeAtgarderVal.OVRIGT.getId()
-                            )
-                        )
-                        .build(),
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
-            .build();
-    }
-
-    private static List<CertificateDataValueCode> createAtgarderCodeList(List<ArbetslivsinriktadeAtgarder> atgarder) {
-        if (atgarder == null) {
-            return Collections.emptyList();
-        }
-
-        return atgarder.stream()
-            .map(atgard -> CertificateDataValueCode.builder()
-                .id(atgard.getTyp().getId())
-                .code(atgard.getTyp().getId())
-                .build())
-            .collect(Collectors.toList());
     }
 
     public static CertificateDataElement createAtgarderBeskrivning(String value, int index,
