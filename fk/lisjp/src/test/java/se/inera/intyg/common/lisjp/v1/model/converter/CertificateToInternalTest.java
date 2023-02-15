@@ -21,7 +21,6 @@ package se.inera.intyg.common.lisjp.v1.model.converter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -40,13 +39,9 @@ import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.Ar
 import se.inera.intyg.common.lisjp.model.internal.Prognos;
 import se.inera.intyg.common.lisjp.model.internal.PrognosDagarTillArbeteTyp;
 import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
-import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
-import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
@@ -61,68 +56,6 @@ class CertificateToInternalTest {
     void setup() {
         texts = Mockito.mock(CertificateTextProvider.class);
         when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
-    }
-
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionBedomning {
-
-        private LisjpUtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<List<Sjukskrivning>> sickLeaveValues() {
-            return Stream.of(
-                Arrays.asList(
-                    Sjukskrivning.create(
-                        SjukskrivningsGrad.HELT_NEDSATT, new InternalLocalDateInterval(
-                            new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now())
-                        )
-                    ),
-                    Sjukskrivning.create(
-                        SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
-                            new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now())
-                        )
-                    )
-                ), Collections.emptyList()
-            );
-        }
-
-        @ParameterizedTest
-        @MethodSource("sickLeaveValues")
-        void shouldIncludeBehovAvSjukskrivningValue(List<Sjukskrivning> expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createBehovAvSjukskrivningQuestion(expectedValue, index, texts,
-                    internalCertificate.getGrundData().getRelation()))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getSjukskrivningar());
-        }
-
-        @Test
-        void shouldIncludeBehovAvSjukskrivningValueNull() {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createBehovAvSjukskrivningQuestion(null, index, texts,
-                    internalCertificate.getGrundData().getRelation()))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(Collections.emptyList(), updatedCertificate.getSjukskrivningar());
-        }
     }
 
     @Nested

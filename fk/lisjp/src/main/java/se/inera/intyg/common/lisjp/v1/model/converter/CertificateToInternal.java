@@ -32,7 +32,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBET
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_ID_33;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_35;
@@ -52,7 +51,6 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateRangeListValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.icfCodeValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.icfTextValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
@@ -63,11 +61,10 @@ import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.lisjp.model.internal.Prognos;
 import se.inera.intyg.common.lisjp.model.internal.PrognosDagarTillArbeteTyp;
 import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
-import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
-import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAnnatGrundForMUBeskrivning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAvstangningSmittskydd;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionBehovAvSjukskrivning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionDiagnoser;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionFunktionsnedsattning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
@@ -79,7 +76,6 @@ import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.Quest
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
 public final class CertificateToInternal {
@@ -108,7 +104,6 @@ public final class CertificateToInternal {
         final var ovrigt = getOvrigt(certificate);
         final var kontakt = getKontakt(certificate);
         final var kontaktBeskrivning = getKontaktBeskrivning(certificate);
-        final var sjukskrivningar = getSjukskrivningar(certificate);
 
         return LisjpUtlatandeV1.builder()
             .setId(internalCertificate.getId())
@@ -123,6 +118,7 @@ public final class CertificateToInternal {
             .setFunktionsnedsattning(QuestionFunktionsnedsattning.toInternal(certificate))
             .setPagaendeBehandling(QuestionPagaendeBehandling.toInternal(certificate))
             .setPlaneradBehandling(QuestionPlaneradBehandling.toInternal(certificate))
+            .setSjukskrivningar(QuestionBehovAvSjukskrivning.toInternal(certificate))
             .setTelefonkontaktMedPatienten(telefonkontakt)
             .setJournaluppgifter(journaluppgifter)
             .setAnnatGrundForMU(annat)
@@ -130,7 +126,6 @@ public final class CertificateToInternal {
             .setFunktionsKategorier(funktionsnedsattningIcfKoder)
             .setAktivitetsbegransning(aktivitetsbegransning)
             .setAktivitetsKategorier(aktivitetsBegransningIcfKoder)
-            .setSjukskrivningar(sjukskrivningar)
             .setMotiveringTillTidigtStartdatumForSjukskrivning(motiveringTillTidigtStartdatum)
             .setForsakringsmedicinsktBeslutsstod(forsakringsmedicinsktBeslutsstod)
             .setArbetstidsforlaggning(arbetstidsforlaggning)
@@ -172,17 +167,6 @@ public final class CertificateToInternal {
 
     private static List<String> getAktivitetsbegransningIcfKoder(Certificate certificate) {
         return icfCodeValue(certificate.getData(), AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17);
-    }
-
-    private static List<Sjukskrivning> getSjukskrivningar(Certificate certificate) {
-        var list = dateRangeListValue(certificate.getData(), BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
-        return list.stream().map(
-            item -> Sjukskrivning.create(
-                SjukskrivningsGrad.fromId(item.getId()), new InternalLocalDateInterval(
-                    new InternalDate(item.getFrom()), new InternalDate(item.getTo())
-                )
-            )
-        ).collect(Collectors.toList());
     }
 
     private static String getMotiveringTidigtStartdatum(Certificate certificate) {
