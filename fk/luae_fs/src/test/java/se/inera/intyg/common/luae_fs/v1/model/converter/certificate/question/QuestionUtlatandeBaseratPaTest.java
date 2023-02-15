@@ -52,7 +52,6 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCheckboxMultipleDateTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
-import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMaxDateTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueDateListTest;
@@ -195,103 +194,6 @@ class QuestionUtlatandeBaseratPaTest {
                 new InputExpectedValuePair<>(Arrays.asList(null, null, null, null), CertificateDataValueDateList.builder()
                     .list(Collections.emptyList()).build())
             );
-        }
-    }
-
-
-    @Nested
-    class IncludeValidationMaxDateTestUndersokning extends ValidationMaxDateTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionUtlatandeBaseratPa.toCertificate(null, null, null, null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
-
-        @Override
-        protected String getId() {
-            return GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
-        }
-
-        @Override
-        protected short getDaysInFuture() {
-            return 0;
-        }
-    }
-
-    @Nested
-    class IncludeValidationMaxDateTestJournalUppgifter extends ValidationMaxDateTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionUtlatandeBaseratPa.toCertificate(null, null, null, null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 1;
-        }
-
-        @Override
-        protected String getId() {
-            return GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
-        }
-
-        @Override
-        protected short getDaysInFuture() {
-            return 0;
-        }
-    }
-
-    @Nested
-    class IncludeValidationMaxDateTestAnhorigsBeskrivning extends ValidationMaxDateTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionUtlatandeBaseratPa.toCertificate(null, null, null, null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 2;
-        }
-
-        @Override
-        protected String getId() {
-            return GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1;
-        }
-
-        @Override
-        protected short getDaysInFuture() {
-            return 0;
-        }
-    }
-
-    @Nested
-    class IncludeValidationMaxDateTestAnnat extends ValidationMaxDateTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionUtlatandeBaseratPa.toCertificate(null, null, null, null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 3;
-        }
-
-        @Override
-        protected String getId() {
-            return GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
-        }
-
-        @Override
-        protected short getDaysInFuture() {
-            return 0;
         }
     }
 
