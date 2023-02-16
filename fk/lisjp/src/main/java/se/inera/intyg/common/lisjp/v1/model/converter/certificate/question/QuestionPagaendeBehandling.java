@@ -19,57 +19,24 @@
 
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_DELSVAR_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_TEXT;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
+import se.inera.intyg.common.fkparent.model.converter.certificate.AbstractQuestionPagaendeBehandling;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 
-public class QuestionPagaendeBehandling {
+public class QuestionPagaendeBehandling extends AbstractQuestionPagaendeBehandling {
 
     public static CertificateDataElement toCertificate(String value, int index,
         CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(PAGAENDEBEHANDLING_SVAR_ID_19)
-            .index(index)
-            .parent(MEDICINSKABEHANDLINGAR_CATEGORY_ID)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .header(texts.get(PAGAENDEBEHANDLING_SVAR_TEXT))
-                    .text(texts.get(PAGAENDEBEHANDLING_DELSVAR_TEXT))
-                    .id(PAGAENDEBEHANDLING_SVAR_JSON_ID_19)
-                    .build()
-            )
-            .value(
-                CertificateDataTextValue.builder()
-                    .id(PAGAENDEBEHANDLING_SVAR_JSON_ID_19)
-                    .text(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(exists(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
-            .build();
+        return toCertificate(value, PAGAENDEBEHANDLING_SVAR_ID_19, MEDICINSKABEHANDLINGAR_CATEGORY_ID, PAGAENDEBEHANDLING_SVAR_JSON_ID_19,
+            index, texts);
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), PAGAENDEBEHANDLING_SVAR_ID_19, PAGAENDEBEHANDLING_SVAR_JSON_ID_19);
+        return toInternal(certificate, PAGAENDEBEHANDLING_SVAR_ID_19, PAGAENDEBEHANDLING_SVAR_JSON_ID_19);
     }
 }
