@@ -25,9 +25,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;

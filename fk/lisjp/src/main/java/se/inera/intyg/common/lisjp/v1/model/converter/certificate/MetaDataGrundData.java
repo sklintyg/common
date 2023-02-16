@@ -19,7 +19,7 @@
 
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DESCRIPTION;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DESCRIPTION;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.grundData;
 
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;

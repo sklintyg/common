@@ -19,16 +19,16 @@
 
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSELSATTNING_ARBETE;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSELSATTNING_ARBETSSOKANDE;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSELSATTNING_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSELSATTNING_FORALDRALEDIG;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSELSATTNING_STUDIER;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSELSATTNING_SVAR_BESKRIVNING;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SYSSELSATTNING_SVAR_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.SYSSELSATTNING_ARBETE;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.SYSSELSATTNING_ARBETSSOKANDE;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.SYSSELSATTNING_CATEGORY_ID;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.SYSSELSATTNING_FORALDRALEDIG;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.SYSSELSATTNING_STUDIER;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.SYSSELSATTNING_SVAR_BESKRIVNING;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.SYSSELSATTNING_SVAR_TEXT;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;

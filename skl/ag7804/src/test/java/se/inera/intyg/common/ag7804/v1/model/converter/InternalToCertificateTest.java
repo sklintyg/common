@@ -77,7 +77,7 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_BESKR
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_SVAR_ID_39;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.YES_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

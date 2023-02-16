@@ -24,9 +24,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;

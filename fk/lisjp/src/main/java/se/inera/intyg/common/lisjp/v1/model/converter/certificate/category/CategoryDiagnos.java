@@ -19,8 +19,8 @@
 
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.category;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_CATEGORY_TEXT;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_TEXT;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;

@@ -19,16 +19,16 @@
 
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_DAGAR_180;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_DAGAR_30;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_DAGAR_365;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_DAGAR_60;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_DAGAR_90;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_ID_39;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_DAGAR_180;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_DAGAR_30;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_DAGAR_365;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_DAGAR_60;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_DAGAR_90;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_SVAR_ID_39;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
