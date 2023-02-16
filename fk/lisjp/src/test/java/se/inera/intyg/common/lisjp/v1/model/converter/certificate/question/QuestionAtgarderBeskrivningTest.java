@@ -215,8 +215,11 @@ class QuestionAtgarderBeskrivningTest {
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getArbetslivsinriktadeAtgarderBeskrivning());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getArbetslivsinriktadeAtgarderBeskrivning());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getArbetslivsinriktadeAtgarderBeskrivning());
+            }
         }
     }
 }

@@ -213,8 +213,11 @@ class QuestionKontaktBeskrivningTest {
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getAnledningTillKontakt());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getAnledningTillKontakt());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getAnledningTillKontakt());
+            }
         }
     }
 }

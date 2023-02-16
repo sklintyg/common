@@ -225,8 +225,11 @@ class QuestionSysselsattningYrkeTest {
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getNuvarandeArbete());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getNuvarandeArbete());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getNuvarandeArbete());
+            }
         }
     }
 }

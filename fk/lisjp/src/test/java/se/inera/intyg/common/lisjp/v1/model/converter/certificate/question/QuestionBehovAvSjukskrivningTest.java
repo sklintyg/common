@@ -539,7 +539,7 @@ class QuestionBehovAvSjukskrivningTest {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create()
-                .addElement(se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionBehovAvSjukskrivning.toCertificate(
+                .addElement(QuestionBehovAvSjukskrivning.toCertificate(
                     expectedValue, index, texts,
                     internalCertificate.getGrundData().getRelation()))
                 .build();

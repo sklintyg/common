@@ -231,7 +231,11 @@ class QuestionMotiveringEjUndersokningTest {
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
-            assertEquals(expectedValue, updatedCertificate.getMotiveringTillInteBaseratPaUndersokning());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getMotiveringTillInteBaseratPaUndersokning());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getMotiveringTillInteBaseratPaUndersokning());
+            }
         }
     }
 }

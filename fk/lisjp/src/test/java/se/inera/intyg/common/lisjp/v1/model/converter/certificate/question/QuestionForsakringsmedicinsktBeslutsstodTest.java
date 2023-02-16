@@ -214,8 +214,11 @@ class QuestionForsakringsmedicinsktBeslutsstodTest {
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getForsakringsmedicinsktBeslutsstod());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getForsakringsmedicinsktBeslutsstod());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getForsakringsmedicinsktBeslutsstod());
+            }
         }
     }
 }

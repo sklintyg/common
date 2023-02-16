@@ -230,8 +230,11 @@ class QuestionAnnatGrundForMUBeskrivningTest {
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getAnnatGrundForMUBeskrivning());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getAnnatGrundForMUBeskrivning());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getAnnatGrundForMUBeskrivning());
+            }
         }
     }
 }

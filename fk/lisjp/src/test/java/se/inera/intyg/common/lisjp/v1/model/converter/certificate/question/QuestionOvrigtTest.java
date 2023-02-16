@@ -211,8 +211,11 @@ class QuestionOvrigtTest {
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getOvrigt());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getOvrigt());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getOvrigt());
+            }
         }
     }
 }

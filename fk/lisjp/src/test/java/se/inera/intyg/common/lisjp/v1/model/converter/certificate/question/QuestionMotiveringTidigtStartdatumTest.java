@@ -230,7 +230,11 @@ class QuestionMotiveringTidigtStartdatumTest {
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
-            assertEquals(expectedValue, updatedCertificate.getMotiveringTillTidigtStartdatumForSjukskrivning());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getMotiveringTillTidigtStartdatumForSjukskrivning());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getMotiveringTillTidigtStartdatumForSjukskrivning());
+            }
         }
     }
 }

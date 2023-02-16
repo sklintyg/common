@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -171,6 +172,35 @@ class ValueToolkitTest {
 
             var response = ValueToolkit.textValue(data, QUESTION_ID_1, VALUE_ID_1);
             assertNull(response);
+        }
+
+        @Test
+        void shouldReturnNullIfGivenEmptyString() {
+            CertificateDataElement certificateDataElement = CertificateDataElement.builder()
+                .id(QUESTION_ID_1)
+                .value(
+                    CertificateDataTextValue.builder()
+                        .id(VALUE_ID_1)
+                        .text("")
+                        .build())
+                .build();
+            data.put(QUESTION_ID_1, certificateDataElement);
+            var response = ValueToolkit.textValue(data, QUESTION_ID_1, VALUE_ID_1);
+            Assertions.assertNull(response);
+        }
+
+        @Test
+        void shouldReturnNullIfGivenStringIsNull() {
+            CertificateDataElement certificateDataElement = CertificateDataElement.builder()
+                .id(QUESTION_ID_1)
+                .value(
+                    CertificateDataTextValue.builder()
+                        .id(VALUE_ID_1)
+                        .build())
+                .build();
+            data.put(QUESTION_ID_1, certificateDataElement);
+            var response = ValueToolkit.textValue(data, QUESTION_ID_1, VALUE_ID_1);
+            Assertions.assertNull(response);
         }
     }
 

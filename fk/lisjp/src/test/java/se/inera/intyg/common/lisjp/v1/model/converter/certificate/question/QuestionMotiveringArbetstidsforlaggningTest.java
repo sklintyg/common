@@ -241,8 +241,11 @@ class QuestionMotiveringArbetstidsforlaggningTest {
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getArbetstidsforlaggningMotivering());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getArbetstidsforlaggningMotivering());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getArbetstidsforlaggningMotivering());
+            }
         }
     }
 }

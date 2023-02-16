@@ -213,7 +213,11 @@ class QuestionPlaneradBehandlingTest {
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
-            assertEquals(expectedValue, updatedCertificate.getPlaneradBehandling());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getPlaneradBehandling());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getPlaneradBehandling());
+            }
         }
     }
 }

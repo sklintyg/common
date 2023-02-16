@@ -19,6 +19,7 @@
 package se.inera.intyg.common.support.facade.testsetup.model.value;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -46,6 +47,10 @@ public abstract class InternalTextValueTest {
 
         final var actualValue = toInternalTextValue(certificate);
 
-        assertEquals(expectedValue, actualValue);
+        if (expectedValue == null || expectedValue.isEmpty()) {
+            assertNull(actualValue);
+        } else {
+            assertEquals(expectedValue, actualValue);
+        }
     }
 }

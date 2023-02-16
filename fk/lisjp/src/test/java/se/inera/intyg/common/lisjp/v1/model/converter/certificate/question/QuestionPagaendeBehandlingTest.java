@@ -212,8 +212,11 @@ class QuestionPagaendeBehandlingTest {
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getPagaendeBehandling());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getPagaendeBehandling());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getPagaendeBehandling());
+            }
         }
     }
 }

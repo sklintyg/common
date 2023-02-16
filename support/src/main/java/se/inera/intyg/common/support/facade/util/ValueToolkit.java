@@ -77,6 +77,10 @@ public final class ValueToolkit {
             return null;
         }
 
+        if (textDataValue.getText() == null || textDataValue.getText().isEmpty()) {
+            return null;
+        }
+
         return textDataValue.getText();
     }
 
