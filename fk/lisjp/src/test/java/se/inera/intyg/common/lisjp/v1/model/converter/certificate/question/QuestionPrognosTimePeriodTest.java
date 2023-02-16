@@ -77,7 +77,7 @@ class QuestionPrognosTimePeriodTest {
     }
 
     @Nested
-    class QuestionPrognosTimeperiod {
+    class ToCertificate {
 
         private LisjpUtlatandeV1 internalCertificate;
 
@@ -344,7 +344,8 @@ class QuestionPrognosTimePeriodTest {
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[1];
             assertAll("Validation question validation",
                 () -> assertEquals(PROGNOS_BESKRIVNING_DELSVAR_ID_39, certificateDataValidationMandatory.getQuestionId()),
-                () -> assertEquals("$TRETTIO_DGR || $SEXTIO_DGR || $NITTIO_DGR || $HUNDRAATTIO_DAGAR || $TREHUNDRASEXTIOFEM_DAGAR",
+                () -> assertEquals(
+                    "exists(TRETTIO_DGR) || exists(SEXTIO_DGR) || exists(NITTIO_DGR) || exists(HUNDRAATTIO_DAGAR) || exists(TREHUNDRASEXTIOFEM_DAGAR)",
                     certificateDataValidationMandatory.getExpression())
             );
         }
@@ -358,7 +359,7 @@ class QuestionPrognosTimePeriodTest {
             final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[0];
             assertAll("Validation question validation",
                 () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
+                () -> assertEquals("exists(" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27 + ")", certificateDataValidationHide.getExpression())
             );
         }
 
@@ -371,7 +372,7 @@ class QuestionPrognosTimePeriodTest {
             final var certificateDataValidationEnable = (CertificateDataValidationEnable) question.getValidation()[2];
             assertAll("Validation question validation",
                 () -> assertEquals(PROGNOS_SVAR_ID_39, certificateDataValidationEnable.getQuestionId()),
-                () -> assertEquals("$" + PrognosTyp.ATER_X_ANTAL_DGR.getId(),
+                () -> assertEquals("exists(" + PrognosTyp.ATER_X_ANTAL_DGR.getId() + ")",
                     certificateDataValidationEnable.getExpression())
             );
         }

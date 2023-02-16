@@ -302,7 +302,8 @@ class QuestionPrognosTest {
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
             assertAll("Validation question validation",
                 () -> assertEquals(PROGNOS_SVAR_ID_39, certificateDataValidationMandatory.getQuestionId()),
-                () -> assertEquals("$STOR_SANNOLIKHET || $ATER_X_ANTAL_DGR || $SANNOLIKT_INTE || $PROGNOS_OKLAR",
+                () -> assertEquals(
+                    "exists(STOR_SANNOLIKHET) || exists(ATER_X_ANTAL_DGR) || exists(SANNOLIKT_INTE) || exists(PROGNOS_OKLAR)",
                     certificateDataValidationMandatory.getExpression())
             );
         }
@@ -316,7 +317,7 @@ class QuestionPrognosTest {
             final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
             assertAll("Validation question validation",
                 () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
+                () -> assertEquals("exists(" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27 + ")", certificateDataValidationHide.getExpression())
             );
         }
     }

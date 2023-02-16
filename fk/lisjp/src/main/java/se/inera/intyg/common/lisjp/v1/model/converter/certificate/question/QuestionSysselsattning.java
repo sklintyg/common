@@ -29,8 +29,8 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.SYSSE
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.SYSSELSATTNING_SVAR_BESKRIVNING;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.SYSSELSATTNING_SVAR_TEXT;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
 
 import java.util.Arrays;
@@ -96,16 +96,16 @@ public class QuestionSysselsattning {
                         .questionId(TYP_AV_SYSSELSATTNING_SVAR_ID_28)
                         .expression(
                             multipleOrExpression(
-                                singleExpression(SysselsattningsTyp.NUVARANDE_ARBETE.getId()),
-                                singleExpression(SysselsattningsTyp.ARBETSSOKANDE.getId()),
-                                singleExpression(SysselsattningsTyp.FORADLRARLEDIGHET_VARD_AV_BARN.getId()),
-                                singleExpression(SysselsattningsTyp.STUDIER.getId())
+                                exists(SysselsattningsTyp.NUVARANDE_ARBETE.getId()),
+                                exists(SysselsattningsTyp.ARBETSSOKANDE.getId()),
+                                exists(SysselsattningsTyp.FORADLRARLEDIGHET_VARD_AV_BARN.getId()),
+                                exists(SysselsattningsTyp.STUDIER.getId())
                             )
                         )
                         .build(),
                     CertificateDataValidationHide.builder()
                         .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .expression(exists(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
                         .build()
                 }
             )

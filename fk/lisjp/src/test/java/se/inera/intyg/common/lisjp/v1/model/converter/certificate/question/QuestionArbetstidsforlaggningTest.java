@@ -216,7 +216,7 @@ class QuestionArbetstidsforlaggningTest {
             final var certificateDataValidation = (CertificateDataValidationMandatory) question.getValidation()[1];
             assertAll("Question validation",
                 () -> assertEquals(ARBETSTIDSFORLAGGNING_SVAR_ID_33, certificateDataValidation.getQuestionId()),
-                () -> assertEquals("$" + ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33, certificateDataValidation.getExpression())
+                () -> assertEquals("exists(" + ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33 + ")", certificateDataValidation.getExpression())
             );
         }
 
@@ -229,7 +229,7 @@ class QuestionArbetstidsforlaggningTest {
             final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[2];
             assertAll("Validation question validation",
                 () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
+                () -> assertEquals("exists(" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27 + ")", certificateDataValidationHide.getExpression())
             );
         }
     }

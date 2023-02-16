@@ -177,8 +177,9 @@ class QuestionAtgarderBeskrivningTest {
             assertAll("Validation question validation",
                 () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, certificateDataValidationShow.getQuestionId()),
                 () -> assertEquals(
-                    "$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS || $ERGONOMISK || $HJALPMEDEL ||"
-                        + " $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER",
+                    "exists(ARBETSTRANING) || exists(ARBETSANPASSNING) || exists(SOKA_NYTT_ARBETE) || exists(BESOK_ARBETSPLATS) ||"
+                        + " exists(ERGONOMISK) || exists(HJALPMEDEL) ||"
+                        + " exists(KONFLIKTHANTERING) || exists(KONTAKT_FHV) || exists(OMFORDELNING) || exists(OVRIGA_ATGARDER)",
                     certificateDataValidationShow.getExpression())
             );
         }

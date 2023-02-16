@@ -23,6 +23,7 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.NUVAR
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_TEXT;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
@@ -64,7 +65,7 @@ public class QuestionSysselsattningYrke {
                         .build(),
                     CertificateDataValidationShow.builder()
                         .questionId(TYP_AV_SYSSELSATTNING_SVAR_ID_28)
-                        .expression(singleExpression(SysselsattningsTyp.NUVARANDE_ARBETE.getId()))
+                        .expression(exists(SysselsattningsTyp.NUVARANDE_ARBETE.getId()))
                         .build()
                 }
             )

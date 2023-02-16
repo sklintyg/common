@@ -27,8 +27,8 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_TEXT;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_TRE_FJARDEDEL;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateRangeListValue;
 
 import java.time.format.DateTimeFormatter;
@@ -98,10 +98,10 @@ public class QuestionBehovAvSjukskrivning {
                     CertificateDataValidationMandatory.builder()
                         .questionId(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32)
                         .expression(multipleOrExpression(
-                            singleExpression(SjukskrivningsGrad.NEDSATT_1_4.getId()),
-                            singleExpression(SjukskrivningsGrad.NEDSATT_HALFTEN.getId()),
-                            singleExpression(SjukskrivningsGrad.NEDSATT_3_4.getId()),
-                            singleExpression(SjukskrivningsGrad.HELT_NEDSATT.getId())
+                            exists(SjukskrivningsGrad.NEDSATT_1_4.getId()),
+                            exists(SjukskrivningsGrad.NEDSATT_HALFTEN.getId()),
+                            exists(SjukskrivningsGrad.NEDSATT_3_4.getId()),
+                            exists(SjukskrivningsGrad.HELT_NEDSATT.getId())
                         ))
                         .build()
                 }

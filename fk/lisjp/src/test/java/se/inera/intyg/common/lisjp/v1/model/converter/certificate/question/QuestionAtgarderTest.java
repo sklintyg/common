@@ -626,8 +626,9 @@ class QuestionAtgarderTest {
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
             assertAll("Validation question validation",
                 () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, certificateDataValidationMandatory.getQuestionId()),
-                () -> assertEquals("$EJ_AKTUELLT || $ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS "
-                        + "|| $ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER",
+                () -> assertEquals(
+                    "exists(EJ_AKTUELLT) || exists(ARBETSTRANING) || exists(ARBETSANPASSNING) || exists(SOKA_NYTT_ARBETE) || exists(BESOK_ARBETSPLATS) "
+                        + "|| exists(ERGONOMISK) || exists(HJALPMEDEL) || exists(KONFLIKTHANTERING) || exists(KONTAKT_FHV) || exists(OMFORDELNING) || exists(OVRIGA_ATGARDER)",
                     certificateDataValidationMandatory.getExpression())
             );
         }
@@ -644,8 +645,9 @@ class QuestionAtgarderTest {
                 () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, certificateDataValidationDisableSubElement.getQuestionId()),
                 () -> assertTrue(certificateDataValidationDisableSubElement.getId().size() == 1),
                 () -> assertEquals("EJ_AKTUELLT", certificateDataValidationDisableSubElement.getId().get(0)),
-                () -> assertEquals("$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS "
-                        + "|| $ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER",
+                () -> assertEquals(
+                    "exists(ARBETSTRANING) || exists(ARBETSANPASSNING) || exists(SOKA_NYTT_ARBETE) || exists(BESOK_ARBETSPLATS) "
+                        + "|| exists(ERGONOMISK) || exists(HJALPMEDEL) || exists(KONFLIKTHANTERING) || exists(KONTAKT_FHV) || exists(OMFORDELNING) || exists(OVRIGA_ATGARDER)",
                     certificateDataValidationDisableSubElement.getExpression())
             );
         }
@@ -661,7 +663,7 @@ class QuestionAtgarderTest {
             assertAll("Validation question validation",
                 () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, certificateDataValidationDisableSubElement.getQuestionId()),
                 () -> assertTrue(certificateDataValidationDisableSubElement.getId().size() == 10),
-                () -> assertEquals("$EJ_AKTUELLT",
+                () -> assertEquals("exists(EJ_AKTUELLT)",
                     certificateDataValidationDisableSubElement.getExpression())
             );
         }
@@ -675,7 +677,7 @@ class QuestionAtgarderTest {
             final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[3];
             assertAll("Validation question validation",
                 () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
+                () -> assertEquals("exists(" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27 + ")", certificateDataValidationHide.getExpression())
             );
         }
     }

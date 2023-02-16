@@ -334,7 +334,7 @@ class QuestionSysselsattningTest {
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
             assertAll("Validation question validation",
                 () -> assertEquals(TYP_AV_SYSSELSATTNING_SVAR_ID_28, certificateDataValidationMandatory.getQuestionId()),
-                () -> assertEquals("$NUVARANDE_ARBETE || $ARBETSSOKANDE || $FORALDRALEDIG || $STUDIER",
+                () -> assertEquals("exists(NUVARANDE_ARBETE) || exists(ARBETSSOKANDE) || exists(FORALDRALEDIG) || exists(STUDIER)",
                     certificateDataValidationMandatory.getExpression())
             );
         }
@@ -348,7 +348,7 @@ class QuestionSysselsattningTest {
             final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
             assertAll("Validation question validation",
                 () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
+                () -> assertEquals("exists(" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27 + ")", certificateDataValidationHide.getExpression())
             );
         }
     }

@@ -30,8 +30,8 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGN
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_SVAR_SANNOLIKT_INTE;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_SVAR_STOR_SANNOLIKHET;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_SVAR_TEXT;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
 
 import java.util.Arrays;
@@ -95,16 +95,16 @@ public class QuestionPrognos {
                         .questionId(PROGNOS_SVAR_ID_39)
                         .expression(
                             multipleOrExpression(
-                                singleExpression(PrognosTyp.MED_STOR_SANNOLIKHET.getId()),
-                                singleExpression(PrognosTyp.ATER_X_ANTAL_DGR.getId()),
-                                singleExpression(PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING.getId()),
-                                singleExpression(PrognosTyp.PROGNOS_OKLAR.getId())
+                                exists(PrognosTyp.MED_STOR_SANNOLIKHET.getId()),
+                                exists(PrognosTyp.ATER_X_ANTAL_DGR.getId()),
+                                exists(PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING.getId()),
+                                exists(PrognosTyp.PROGNOS_OKLAR.getId())
                             )
                         )
                         .build(),
                     CertificateDataValidationHide.builder()
                         .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .expression(exists(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
                         .build()
                 }
             )

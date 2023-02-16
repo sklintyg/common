@@ -490,10 +490,10 @@ class QuestionBehovAvSjukskrivningTest {
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
             assertAll("Validation question validation",
                 () -> assertEquals(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32, certificateDataValidationMandatory.getQuestionId()),
-                () -> assertEquals("$" + SjukskrivningsGrad.NEDSATT_1_4.getId()
-                        + " || $" + SjukskrivningsGrad.NEDSATT_HALFTEN.getId()
-                        + " || $" + SjukskrivningsGrad.NEDSATT_3_4.getId()
-                        + " || $" + SjukskrivningsGrad.HELT_NEDSATT.getId(),
+                () -> assertEquals("exists(" + SjukskrivningsGrad.NEDSATT_1_4.getId() + ")"
+                        + " || exists(" + SjukskrivningsGrad.NEDSATT_HALFTEN.getId() + ")"
+                        + " || exists(" + SjukskrivningsGrad.NEDSATT_3_4.getId() + ")"
+                        + " || exists(" + SjukskrivningsGrad.HELT_NEDSATT.getId() + ")",
                     certificateDataValidationMandatory.getExpression())
             );
         }

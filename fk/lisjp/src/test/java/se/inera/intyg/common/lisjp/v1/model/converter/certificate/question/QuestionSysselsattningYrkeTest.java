@@ -191,7 +191,8 @@ class QuestionSysselsattningYrkeTest {
             final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
             assertAll("Validation question validation",
                 () -> assertEquals(TYP_AV_SYSSELSATTNING_SVAR_ID_28, certificateDataValidationShow.getQuestionId()),
-                () -> assertEquals("$" + SysselsattningsTyp.NUVARANDE_ARBETE.getId(), certificateDataValidationShow.getExpression())
+                () -> assertEquals("exists(" + SysselsattningsTyp.NUVARANDE_ARBETE.getId() + ")",
+                    certificateDataValidationShow.getExpression())
             );
         }
     }
