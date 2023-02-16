@@ -98,7 +98,11 @@ class QuestionUtredningBehandlingTest {
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate);
 
-            assertEquals(expectedValue, updatedCertificate.getUtredningBehandling());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getUtredningBehandling());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getUtredningBehandling());
+            }
         }
     }
 

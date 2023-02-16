@@ -98,7 +98,11 @@ class QuestionArbetspaverkanTest {
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate);
 
-            assertEquals(expectedValue, updatedCertificate.getArbetetsPaverkan());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getArbetetsPaverkan());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getArbetetsPaverkan());
+            }
         }
     }
 

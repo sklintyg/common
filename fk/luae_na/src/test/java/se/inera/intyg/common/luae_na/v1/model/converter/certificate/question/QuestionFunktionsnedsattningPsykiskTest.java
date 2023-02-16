@@ -19,6 +19,7 @@
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeastOnce;
@@ -195,7 +196,11 @@ class QuestionFunktionsnedsattningPsykiskTest {
 
             final var actualValue = QuestionFunktionsnedsattningPsykisk.toInternal(certificate);
 
-            assertEquals(expectedValue, actualValue);
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(actualValue);
+            } else {
+                assertEquals(expectedValue, actualValue);
+            }
         }
     }
 }

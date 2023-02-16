@@ -98,8 +98,12 @@ class QuestionFunktionsnedsattningTest {
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate);
-
-            assertEquals(expectedValue, updatedCertificate.getFunktionsnedsattning());
+            
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getFunktionsnedsattning());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getFunktionsnedsattning());
+            }
         }
     }
 

@@ -218,7 +218,11 @@ class QuestionOperationAnledningTest {
 
             final var actualValue = QuestionOperationAnledning.toInternal(certificate);
 
-            assertEquals(expectedValue, actualValue);
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(actualValue);
+            } else {
+                assertEquals(expectedValue, actualValue);
+            }
         }
     }
 }

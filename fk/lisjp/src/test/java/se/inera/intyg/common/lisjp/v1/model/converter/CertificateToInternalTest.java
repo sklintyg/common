@@ -19,6 +19,7 @@
 package se.inera.intyg.common.lisjp.v1.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -244,7 +245,11 @@ class CertificateToInternalTest {
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
-            assertEquals(expectedValue, updatedCertificate.getAnnatGrundForMUBeskrivning());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getAnnatGrundForMUBeskrivning());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getAnnatGrundForMUBeskrivning());
+            }
         }
     }
 
@@ -278,7 +283,11 @@ class CertificateToInternalTest {
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
-            assertEquals(expectedValue, updatedCertificate.getMotiveringTillInteBaseratPaUndersokning());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getMotiveringTillInteBaseratPaUndersokning());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getMotiveringTillInteBaseratPaUndersokning());
+            }
         }
     }
 
@@ -365,7 +374,11 @@ class CertificateToInternalTest {
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
-            assertEquals(expectedValue, updatedCertificate.getNuvarandeArbete());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getNuvarandeArbete());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getNuvarandeArbete());
+            }
         }
     }
 
@@ -577,7 +590,11 @@ class CertificateToInternalTest {
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
-            assertEquals(expectedValue, updatedCertificate.getPagaendeBehandling());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getPagaendeBehandling());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getPagaendeBehandling());
+            }
         }
 
         @ParameterizedTest
@@ -591,7 +608,11 @@ class CertificateToInternalTest {
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
-            assertEquals(expectedValue, updatedCertificate.getPlaneradBehandling());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getPlaneradBehandling());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getPlaneradBehandling());
+            }
         }
     }
 
@@ -687,7 +708,11 @@ class CertificateToInternalTest {
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
-            assertEquals(expectedValue, updatedCertificate.getMotiveringTillTidigtStartdatumForSjukskrivning());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getMotiveringTillTidigtStartdatumForSjukskrivning());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getMotiveringTillTidigtStartdatumForSjukskrivning());
+            }
         }
     }
 
@@ -721,7 +746,11 @@ class CertificateToInternalTest {
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
-            assertEquals(expectedValue, updatedCertificate.getForsakringsmedicinsktBeslutsstod());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getForsakringsmedicinsktBeslutsstod());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getForsakringsmedicinsktBeslutsstod());
+            }
         }
     }
 
@@ -789,7 +818,11 @@ class CertificateToInternalTest {
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
-            assertEquals(expectedValue, updatedCertificate.getArbetstidsforlaggningMotivering());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getArbetstidsforlaggningMotivering());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getArbetstidsforlaggningMotivering());
+            }
         }
     }
 
@@ -963,7 +996,11 @@ class CertificateToInternalTest {
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
-            assertEquals(expectedValue, updatedCertificate.getArbetslivsinriktadeAtgarderBeskrivning());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getArbetslivsinriktadeAtgarderBeskrivning());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getArbetslivsinriktadeAtgarderBeskrivning());
+            }
         }
     }
 
@@ -997,7 +1034,11 @@ class CertificateToInternalTest {
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
-            assertEquals(expectedValue, updatedCertificate.getOvrigt());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getOvrigt());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getOvrigt());
+            }
         }
     }
 
@@ -1065,7 +1106,11 @@ class CertificateToInternalTest {
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
-            assertEquals(expectedValue, updatedCertificate.getAnledningTillKontakt());
+            if (expectedValue == null || expectedValue.isEmpty()) {
+                assertNull(updatedCertificate.getAnledningTillKontakt());
+            } else {
+                assertEquals(expectedValue, updatedCertificate.getAnledningTillKontakt());
+            }
         }
     }
 
