@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_IAV10_LABEL_ID;
@@ -127,7 +127,7 @@ public class QuestionIntygetAvser {
                     CertificateDataValidationMandatory.builder()
                         .questionId(INTYG_AVSER_SVAR_ID_1)
                         .expression(
-                            multipleOrExpression(IntygAvserKategori.IAV1.name(), IntygAvserKategori.IAV2.name(),
+                            multipleOrExpressionWithExists(IntygAvserKategori.IAV1.name(), IntygAvserKategori.IAV2.name(),
                                 IntygAvserKategori.IAV3.name(), IntygAvserKategori.IAV4.name(), IntygAvserKategori.IAV5.name(),
                                 IntygAvserKategori.IAV6.name(), IntygAvserKategori.IAV7.name(), IntygAvserKategori.IAV8.name(),
                                 IntygAvserKategori.IAV9.name(), IntygAvserKategori.IAV10.name())

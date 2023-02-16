@@ -151,7 +151,7 @@ class QuestionHjarnskadaEfterTraumaTest {
 
             @Override
             protected String getExpression() {
-                return "$" + TECKEN_PA_HJARNSKADA_JSON_ID;
+                return "exists(" + TECKEN_PA_HJARNSKADA_JSON_ID + ")";
             }
 
             @Override

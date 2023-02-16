@@ -166,14 +166,14 @@ class QuestionSynskarpaSkickasSeparatTest {
 
             @Override
             protected String getExpression() {
-                return VANSTER_OGA_UTAN_KORREKTION_JSON_ID
-                    + " || " + VANSTER_OGA_MED_KORREKTION_JSON_ID
-                    + " || " + KONTAKTLINSER_VANSTER_OGA_JSON_ID
-                    + " || " + HOGER_OGA_UTAN_KORREKTION_JSON_ID
-                    + " || " + HOGER_OGA_MED_KORREKTION_JSON_ID
-                    + " || " + KONTAKTLINSER_HOGER_OGA_DELSVAR_JSON_ID
-                    + " || " + BINOKULART_UTAN_KORREKTION_JSON_ID
-                    + " || " + BINOKULART_MED_KORREKTION_JSON_ID;
+                return "exists(" + VANSTER_OGA_UTAN_KORREKTION_JSON_ID
+                    + ") || exists(" + VANSTER_OGA_MED_KORREKTION_JSON_ID
+                    + ") || exists(" + KONTAKTLINSER_VANSTER_OGA_JSON_ID
+                    + ") || exists(" + HOGER_OGA_UTAN_KORREKTION_JSON_ID
+                    + ") || exists(" + HOGER_OGA_MED_KORREKTION_JSON_ID
+                    + ") || exists(" + KONTAKTLINSER_HOGER_OGA_DELSVAR_JSON_ID
+                    + ") || exists(" + BINOKULART_UTAN_KORREKTION_JSON_ID
+                    + ") || exists(" + BINOKULART_MED_KORREKTION_JSON_ID + ")";
             }
 
             @Override

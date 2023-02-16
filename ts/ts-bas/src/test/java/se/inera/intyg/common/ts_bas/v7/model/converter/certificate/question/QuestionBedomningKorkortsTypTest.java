@@ -221,17 +221,17 @@ class QuestionBedomningKorkortsTypTest {
         @Override
         protected String getExpression() {
             return
-                BedomningKorkortstyp.VAR1.name()
-                    + " || " + BedomningKorkortstyp.VAR2.name()
-                    + " || " + BedomningKorkortstyp.VAR3.name()
-                    + " || " + BedomningKorkortstyp.VAR4.name()
-                    + " || " + BedomningKorkortstyp.VAR5.name()
-                    + " || " + BedomningKorkortstyp.VAR6.name()
-                    + " || " + BedomningKorkortstyp.VAR7.name()
-                    + " || " + BedomningKorkortstyp.VAR8.name()
-                    + " || " + BedomningKorkortstyp.VAR9.name()
-                    + " || " + BedomningKorkortstyp.VAR10.name()
-                    + " || " + BedomningKorkortstyp.VAR11.name();
+                    "exists(" + BedomningKorkortstyp.VAR1.name()
+                    + ") || exists(" + BedomningKorkortstyp.VAR2.name()
+                    + ") || exists(" + BedomningKorkortstyp.VAR3.name()
+                    + ") || exists(" + BedomningKorkortstyp.VAR4.name()
+                    + ") || exists(" + BedomningKorkortstyp.VAR5.name()
+                    + ") || exists(" + BedomningKorkortstyp.VAR6.name()
+                    + ") || exists(" + BedomningKorkortstyp.VAR7.name()
+                    + ") || exists(" + BedomningKorkortstyp.VAR8.name()
+                    + ") || exists(" + BedomningKorkortstyp.VAR9.name()
+                    + ") || exists(" + BedomningKorkortstyp.VAR10.name()
+                    + ") || exists(" + BedomningKorkortstyp.VAR11.name() + ")";
         }
 
         @Override
@@ -255,7 +255,7 @@ class QuestionBedomningKorkortsTypTest {
 
         @Override
         protected String getExpression() {
-            return "$" + BedomningKorkortstyp.VAR11.name();
+            return "exists(" + BedomningKorkortstyp.VAR11.name() + ")";
         }
 
         @Override
@@ -296,16 +296,16 @@ class QuestionBedomningKorkortsTypTest {
         @Override
         protected String getExpression() {
             return
-                BedomningKorkortstyp.VAR1.name()
-                    + " || " + BedomningKorkortstyp.VAR2.name()
-                    + " || " + BedomningKorkortstyp.VAR3.name()
-                    + " || " + BedomningKorkortstyp.VAR4.name()
-                    + " || " + BedomningKorkortstyp.VAR5.name()
-                    + " || " + BedomningKorkortstyp.VAR6.name()
-                    + " || " + BedomningKorkortstyp.VAR7.name()
-                    + " || " + BedomningKorkortstyp.VAR8.name()
-                    + " || " + BedomningKorkortstyp.VAR9.name()
-                    + " || " + BedomningKorkortstyp.VAR10.name();
+                    "exists(" + BedomningKorkortstyp.VAR1.name()
+                    + ") || exists(" + BedomningKorkortstyp.VAR2.name()
+                    + ") || exists(" + BedomningKorkortstyp.VAR3.name()
+                    + ") || exists(" + BedomningKorkortstyp.VAR4.name()
+                    + ") || exists(" + BedomningKorkortstyp.VAR5.name()
+                    + ") || exists(" + BedomningKorkortstyp.VAR6.name()
+                    + ") || exists(" + BedomningKorkortstyp.VAR7.name()
+                    + ") || exists(" + BedomningKorkortstyp.VAR8.name()
+                    + ") || exists(" + BedomningKorkortstyp.VAR9.name()
+                    + ") || exists(" + BedomningKorkortstyp.VAR10.name() + ")";
         }
 
         @Override

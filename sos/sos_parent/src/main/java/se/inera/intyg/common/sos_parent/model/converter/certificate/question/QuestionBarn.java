@@ -29,6 +29,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_J
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TO_EPOCH_DAY;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TWENTY_EIGHT_DAYS;
 import static se.inera.intyg.common.support.facade.util.PatientToolkit.birthDate;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.lessThanOrEqual;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.moreThan;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
@@ -74,7 +75,7 @@ public class QuestionBarn {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(BARN_DELSVAR_ID)
-                        .expression(singleExpression(BARN_JSON_ID))
+                        .expression(exists(BARN_JSON_ID))
                         .build(),
                     CertificateDataValidationAutoFill.builder()
                         .questionId(DODSDATUM_DELSVAR_ID)

@@ -164,7 +164,7 @@ class QuestionDiabetesTypTest {
 
         @Override
         protected String getExpression() {
-            return DiabetesKod.DIABETES_TYP_1.name() + " || " + DiabetesKod.DIABETES_TYP_2.name();
+            return "exists(" + DiabetesKod.DIABETES_TYP_1.name() + ") || exists(" + DiabetesKod.DIABETES_TYP_2.name() + ")";
         }
 
         @Override

@@ -152,7 +152,7 @@ class QuestionSynfaltsdefekterTest {
 
             @Override
             protected String getExpression() {
-                return "$" + SYNFALTSDEFEKTER_JSON_ID;
+                return "exists(" + SYNFALTSDEFEKTER_JSON_ID + ")";
             }
 
             @Override

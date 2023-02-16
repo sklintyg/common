@@ -233,7 +233,7 @@ class QuestionHarUtredningBehandlingTest {
                 final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
                 assertAll("Validation question validation",
                     () -> assertEquals(UTREDNING_BEHANDLING_DELSVAR_ID_31, certificateDataValidationMandatory.getQuestionId()),
-                    () -> assertEquals("$" + UTREDNING_BEHANDLING_SVAR_JSON_ID_31, certificateDataValidationMandatory.getExpression())
+                    () -> assertEquals("exists(" + UTREDNING_BEHANDLING_SVAR_JSON_ID_31 + ")", certificateDataValidationMandatory.getExpression())
                 );
             }
         }

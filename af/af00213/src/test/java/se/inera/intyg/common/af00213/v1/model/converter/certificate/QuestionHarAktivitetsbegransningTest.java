@@ -236,7 +236,7 @@ class QuestionHarAktivitetsbegransningTest {
                 final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
                 assertAll("Validation question validation",
                     () -> assertEquals(AKTIVITETSBEGRANSNING_DELSVAR_ID_21, certificateDataValidationMandatory.getQuestionId()),
-                    () -> assertEquals("$" + AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21, certificateDataValidationMandatory.getExpression())
+                    () -> assertEquals("exists(" + AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21 + ")", certificateDataValidationMandatory.getExpression())
                 );
             }
 

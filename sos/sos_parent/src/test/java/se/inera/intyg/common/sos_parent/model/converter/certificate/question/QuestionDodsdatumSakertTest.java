@@ -180,7 +180,7 @@ class QuestionDodsdatumSakertTest {
         void shouldIncludeValidationMandatoryExpression() {
             final var question = QuestionDodsdatumSakert.toCertificate(true, 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals("$" + DODSDATUM_SAKERT_JSON_ID, certificateDataValidationMandatory.getExpression());
+            assertEquals("exists(" + DODSDATUM_SAKERT_JSON_ID + ")", certificateDataValidationMandatory.getExpression());
         }
     }
 

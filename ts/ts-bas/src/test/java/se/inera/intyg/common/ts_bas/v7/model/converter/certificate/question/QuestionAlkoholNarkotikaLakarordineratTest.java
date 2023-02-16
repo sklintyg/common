@@ -150,7 +150,7 @@ class QuestionAlkoholNarkotikaLakarordineratTest {
 
             @Override
             protected String getExpression() {
-                return "$missbrukberoendlakarordinerat";
+                return "exists(missbrukberoendlakarordinerat)";
             }
 
             @Override

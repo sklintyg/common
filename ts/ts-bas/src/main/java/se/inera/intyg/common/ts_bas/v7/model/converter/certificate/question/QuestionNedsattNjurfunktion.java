@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.NEDSATT_NJURFUNKTION_JSON_ID;
@@ -62,7 +63,7 @@ public class QuestionNedsattNjurfunktion {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(NEDSATT_NJURFUNKTION_SVAR_ID)
-                        .expression(singleExpression(NEDSATT_NJURFUNKTION_JSON_ID))
+                        .expression(exists(NEDSATT_NJURFUNKTION_JSON_ID))
                         .build()
                 }
             )

@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_JA_TEXT;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SVAR_NEJ_TEXT;
@@ -64,7 +64,7 @@ public class QuestionSomnOchVakenhetsstorningar {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID)
-                        .expression(singleExpression(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID))
+                        .expression(exists(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID))
                         .build()
                 }
             )

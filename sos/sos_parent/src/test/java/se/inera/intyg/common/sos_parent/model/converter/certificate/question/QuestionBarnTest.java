@@ -179,7 +179,7 @@ class QuestionBarnTest {
         void shouldIncludeValidationMandatoryExpression() {
             final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals("$" + BARN_JSON_ID, certificateDataValidationMandatory.getExpression());
+            assertEquals("exists(" + BARN_JSON_ID + ")", certificateDataValidationMandatory.getExpression());
         }
 
         @Test

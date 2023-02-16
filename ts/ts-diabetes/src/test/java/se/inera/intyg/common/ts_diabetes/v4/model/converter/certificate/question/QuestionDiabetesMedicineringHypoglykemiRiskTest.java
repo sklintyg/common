@@ -160,7 +160,7 @@ class QuestionDiabetesMedicineringHypoglykemiRiskTest {
 
             @Override
             protected String getExpression() {
-                return "$" + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
+                return "exists(" + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID + ")";
             }
 
             @Override

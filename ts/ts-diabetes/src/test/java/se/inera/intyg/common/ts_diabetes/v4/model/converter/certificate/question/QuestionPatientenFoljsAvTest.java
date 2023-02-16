@@ -162,7 +162,7 @@ class QuestionPatientenFoljsAvTest {
 
         @Override
         protected String getExpression() {
-            return KvVardniva.PRIMARVARD.getCode() + " || " + KvVardniva.SPECIALISTVARD.getCode();
+            return "exists(" + KvVardniva.PRIMARVARD.getCode() + ") || exists(" + KvVardniva.SPECIALISTVARD.getCode() + ")";
         }
 
         @Override

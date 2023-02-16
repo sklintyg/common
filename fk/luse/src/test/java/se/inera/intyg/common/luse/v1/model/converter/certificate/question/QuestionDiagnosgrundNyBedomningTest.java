@@ -150,7 +150,7 @@ class QuestionDiagnosgrundNyBedomningTest {
 
         @Override
         protected String getExpression() {
-            return "$" + DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID;
+            return "exists(" + DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID + ")";
         }
 
         @Override

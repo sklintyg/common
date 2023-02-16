@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question;
 
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_DESCRIPTION_ID;
@@ -99,7 +99,7 @@ public class QuestionIdentitetStyrktGenom {
                     CertificateDataValidationMandatory.builder()
                         .questionId(IDENTITET_STYRKT_GENOM_SVAR_ID)
                         .expression(
-                            multipleOrExpression(
+                            multipleOrExpressionWithExists(
                                 IdKontrollKod.ID_KORT.getCode(),
                                 IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode(),
                                 IdKontrollKod.KORKORT.getCode(),

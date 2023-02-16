@@ -204,8 +204,8 @@ class QuestionDiabetesBehandlingTest {
 
         @Override
         protected String getExpression() {
-            return ALLMANT_BEHANDLING_INSULIN_JSON_ID + " || " + ALLMANT_BEHANDLING_TABLETTER_JSON_ID + " || "
-                + ALLMANT_BEHANDLING_ANNAN_JSON_ID;
+            return "exists(" + ALLMANT_BEHANDLING_INSULIN_JSON_ID + ") || exists(" + ALLMANT_BEHANDLING_TABLETTER_JSON_ID + ") || exists("
+                + ALLMANT_BEHANDLING_ANNAN_JSON_ID + ")";
         }
 
         @Override
@@ -229,7 +229,7 @@ class QuestionDiabetesBehandlingTest {
 
         @Override
         protected String getExpression() {
-            return "$" + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
+            return "exists(" + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID + ")";
         }
 
         @Override

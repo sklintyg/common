@@ -21,8 +21,7 @@ package se.inera.intyg.common.doi.v1.model.converter.certificate.question;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAKS_UPPGIFTER_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.GRUNDER_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.GRUNDER_QUESTION_TEXT_ID;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
 
 import java.util.Arrays;
@@ -91,12 +90,12 @@ public class QuestionGrunderDodsorsaksuppgifter {
                     CertificateDataValidationMandatory.builder()
                         .questionId(GRUNDER_DELSVAR_ID)
                         .expression(
-                            multipleOrExpression(
-                                singleExpression(Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN.name()),
-                                singleExpression(Dodsorsaksgrund.UNDERSOKNING_EFTER_DODEN.name()),
-                                singleExpression(Dodsorsaksgrund.KLINISK_OBDUKTION.name()),
-                                singleExpression(Dodsorsaksgrund.RATTSMEDICINSK_OBDUKTION.name()),
-                                singleExpression(Dodsorsaksgrund.RATTSMEDICINSK_BESIKTNING.name())
+                            multipleOrExpressionWithExists(
+                                Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN.name(),
+                                Dodsorsaksgrund.UNDERSOKNING_EFTER_DODEN.name(),
+                                Dodsorsaksgrund.KLINISK_OBDUKTION.name(),
+                                Dodsorsaksgrund.RATTSMEDICINSK_OBDUKTION.name(),
+                                Dodsorsaksgrund.RATTSMEDICINSK_BESIKTNING.name()
                             )
                         )
                         .build()

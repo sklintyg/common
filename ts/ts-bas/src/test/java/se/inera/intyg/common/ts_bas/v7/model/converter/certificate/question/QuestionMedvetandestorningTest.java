@@ -151,7 +151,7 @@ class QuestionMedvetandestorningTest {
 
             @Override
             protected String getExpression() {
-                return "$" + MEDVETANDESTORNING_JSON_ID;
+                return "exists(" + MEDVETANDESTORNING_JSON_ID + ")";
             }
 
             @Override

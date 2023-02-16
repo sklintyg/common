@@ -152,7 +152,7 @@ class QuestionNattblindhetTest {
 
             @Override
             protected String getExpression() {
-                return "$" + SEENDE_NEDSATT_BELYSNING_JSON_ID;
+                return "exists(" + SEENDE_NEDSATT_BELYSNING_JSON_ID + ")";
             }
 
             @Override

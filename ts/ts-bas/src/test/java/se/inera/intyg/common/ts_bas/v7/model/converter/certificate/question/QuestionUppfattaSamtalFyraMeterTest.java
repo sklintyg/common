@@ -154,7 +154,7 @@ class QuestionUppfattaSamtalFyraMeterTest {
 
             @Override
             protected String getExpression() {
-                return "$" + UPPFATTA_SAMTALSTAMMA_JSON_ID;
+                return "exists(" + UPPFATTA_SAMTALSTAMMA_JSON_ID + ")";
             }
 
             @Override

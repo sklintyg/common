@@ -149,7 +149,7 @@ class QuestionAlkoholNarkotikaVardinsatserTest {
 
             @Override
             protected String getExpression() {
-                return "$missbrukberoendevardinsatser";
+                return "exists(missbrukberoendevardinsatser)";
             }
 
             @Override

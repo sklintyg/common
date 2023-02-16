@@ -52,6 +52,16 @@ public final class ValidationExpressionToolkit {
         });
     }
 
+    public static String multipleOrExpressionWithExists(String... expression) {
+        return Arrays.stream(expression).reduce("", (s, s2) -> {
+            if (!s.isEmpty()) {
+                s += " || ";
+            }
+            s += "exists(" + s2 + ")";
+            return s;
+        });
+    }
+
     public static String multipleAndExpression(String... expression) {
         return Arrays.stream(expression).reduce("", (s, s2) -> {
             if (!s.isEmpty()) {

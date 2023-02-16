@@ -188,7 +188,7 @@ class QuestionHypoglykemiVidtaAdekvataAtgarderTest {
 
         @Override
         protected String getExpression() {
-            return "$" + HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_JSON_ID;
+            return "exists(" + HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_JSON_ID + ")";
         }
     }
 

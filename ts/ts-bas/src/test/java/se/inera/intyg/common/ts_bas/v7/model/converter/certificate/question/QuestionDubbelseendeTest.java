@@ -152,7 +152,7 @@ class QuestionDubbelseendeTest {
 
             @Override
             protected String getExpression() {
-                return "$" + DUBBELSEENDE_JSON_ID;
+                return "exists(" + DUBBELSEENDE_JSON_ID + ")";
             }
 
             @Override

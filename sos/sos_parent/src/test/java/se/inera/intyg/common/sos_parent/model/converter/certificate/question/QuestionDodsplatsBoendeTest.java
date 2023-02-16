@@ -184,10 +184,10 @@ class QuestionDodsplatsBoendeTest {
 
         @Test
         void shouldIncludeValidationMandatoryExpression() {
-            final var expectedExpression = "$" + DodsplatsBoende.SJUKHUS.name()
-                + " || $" + DodsplatsBoende.ORDINART_BOENDE.name()
-                + " || $" + DodsplatsBoende.SARSKILT_BOENDE.name()
-                + " || $" + DodsplatsBoende.ANNAN.name();
+            final var expectedExpression = "exists(" + DodsplatsBoende.SJUKHUS.name()
+                + ") || exists(" + DodsplatsBoende.ORDINART_BOENDE.name()
+                + ") || exists(" + DodsplatsBoende.SARSKILT_BOENDE.name()
+                + ") || exists(" + DodsplatsBoende.ANNAN.name() + ")";
 
             final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];

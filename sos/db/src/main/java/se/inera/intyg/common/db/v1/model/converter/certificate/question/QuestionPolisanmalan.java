@@ -25,6 +25,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALA
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_QUESTION_UNSELECTED_TEXT;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_DELSVAR_ID;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 
@@ -64,7 +65,7 @@ public class QuestionPolisanmalan {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(POLISANMALAN_DELSVAR_ID)
-                        .expression(singleExpression(POLISANMALAN_JSON_ID))
+                        .expression(exists(POLISANMALAN_JSON_ID))
                         .build(),
                     CertificateDataValidationDisable.builder()
                         .questionId(UNDERSOKNING_YTTRE_DELSVAR_ID)

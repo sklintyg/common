@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleAndExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BINOKULART_LABEL_ID;
@@ -103,7 +104,7 @@ public class QuestionSynskarpa {
                         .questionId(VARDEN_FOR_SYNSKARPA_ID)
                         .expression(
                             multipleAndExpression(
-                                BINOKULART_UTAN_KORREKTION_JSON_ID, VANSTER_OGA_UTAN_KORREKTION_JSON_ID, HOGER_OGA_UTAN_KORREKTION_JSON_ID)
+                                exists(BINOKULART_UTAN_KORREKTION_JSON_ID), exists(VANSTER_OGA_UTAN_KORREKTION_JSON_ID), exists(HOGER_OGA_UTAN_KORREKTION_JSON_ID))
                         )
                         .build(),
                     CertificateDataValidationDisable.builder()

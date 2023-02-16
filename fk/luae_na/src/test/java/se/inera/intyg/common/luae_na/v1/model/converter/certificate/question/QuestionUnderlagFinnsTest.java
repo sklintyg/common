@@ -158,7 +158,7 @@ class QuestionUnderlagFinnsTest {
 
         @Test
         void shouldIncludeValidationMandatoryExpression() {
-            final var expectedExpression = "$" + UNDERLAGFINNS_SVAR_JSON_ID_3;
+            final var expectedExpression = "exists(" + UNDERLAGFINNS_SVAR_JSON_ID_3 + ")";
             final var question = QuestionUnderlagFinns.toCertificate(null, 0, texts);
             final var certificateDataValidationText = (CertificateDataValidationMandatory) question.getValidation()[0];
 

@@ -139,7 +139,9 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNIN
 import static se.inera.intyg.common.ag7804.converter.RespConstants.SYSSELSATTNING_SVAR_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.YES_ID;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.not;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
@@ -452,11 +454,11 @@ public final class InternalToCertificate {
                     CertificateDataValidationMandatory.builder()
                         .questionId(TYP_AV_SYSSELSATTNING_SVAR_ID_28)
                         .expression(
-                            multipleOrExpression(
-                                singleExpression(SysselsattningsTyp.NUVARANDE_ARBETE.getId()),
-                                singleExpression(SysselsattningsTyp.ARBETSSOKANDE.getId()),
-                                singleExpression(SysselsattningsTyp.FORADLRARLEDIGHET_VARD_AV_BARN.getId()),
-                                singleExpression(SysselsattningsTyp.STUDIER.getId())
+                            multipleOrExpressionWithExists(
+                                SysselsattningsTyp.NUVARANDE_ARBETE.getId(),
+                                SysselsattningsTyp.ARBETSSOKANDE.getId(),
+                                SysselsattningsTyp.FORADLRARLEDIGHET_VARD_AV_BARN.getId(),
+                                SysselsattningsTyp.STUDIER.getId()
                             )
                         )
                         .build(),
@@ -508,7 +510,7 @@ public final class InternalToCertificate {
                         .build(),
                     CertificateDataValidationShow.builder()
                         .questionId(TYP_AV_SYSSELSATTNING_SVAR_ID_28)
-                        .expression(singleExpression(SysselsattningsTyp.NUVARANDE_ARBETE.getId()))
+                        .expression(exists(SysselsattningsTyp.NUVARANDE_ARBETE.getId()))
                         .build(),
                     CertificateDataValidationHide.builder()
                         .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
@@ -575,11 +577,11 @@ public final class InternalToCertificate {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
-                        .expression(multipleOrExpression(YES_ID, NO_ID))
+                        .expression(multipleOrExpressionWithExists(YES_ID, NO_ID))
                         .build(),
                     CertificateDataValidationHighlight.builder()
                         .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
-                        .expression(multipleOrExpression(YES_ID, NO_ID, not(YES_ID), not(NO_ID)))
+                        .expression(multipleOrExpression(exists(YES_ID), exists(NO_ID), not(exists(YES_ID)), not(exists(NO_ID))))
                         .build(),
                 }
             )
@@ -636,11 +638,11 @@ public final class InternalToCertificate {
                         .build(),
                     CertificateDataValidationHide.builder()
                         .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
-                        .expression(singleExpression(NO_ID))
+                        .expression(exists(NO_ID))
                         .build(),
                     CertificateDataValidationEnable.builder()
                         .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
-                        .expression(multipleOrExpression(YES_ID, NO_ID))
+                        .expression(multipleOrExpressionWithExists(YES_ID, NO_ID))
                         .build(),
                     CertificateDataValidationText.builder()
                         .limit(LIMIT_DIAGNOSIS_DESC)
@@ -915,11 +917,11 @@ public final class InternalToCertificate {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32)
-                        .expression(multipleOrExpression(
-                            singleExpression(SjukskrivningsGrad.NEDSATT_1_4.getId()),
-                            singleExpression(SjukskrivningsGrad.NEDSATT_HALFTEN.getId()),
-                            singleExpression(SjukskrivningsGrad.NEDSATT_3_4.getId()),
-                            singleExpression(SjukskrivningsGrad.HELT_NEDSATT.getId())
+                        .expression(multipleOrExpressionWithExists(
+                            SjukskrivningsGrad.NEDSATT_1_4.getId(),
+                            SjukskrivningsGrad.NEDSATT_HALFTEN.getId(),
+                            SjukskrivningsGrad.NEDSATT_3_4.getId(),
+                            SjukskrivningsGrad.HELT_NEDSATT.getId()
                         ))
                         .build()
                 }
@@ -1012,18 +1014,15 @@ public final class InternalToCertificate {
                 new CertificateDataValidation[]{
                     CertificateDataValidationShow.builder()
                         .questionId(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32)
-                        .expression(multipleOrExpression(
-                            singleExpression(
-                                se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad.NEDSATT_1_4.getId()),
-                            singleExpression(
-                                se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad.NEDSATT_HALFTEN.getId()),
-                            singleExpression(
-                                se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad.NEDSATT_3_4.getId())
+                        .expression(multipleOrExpressionWithExists(
+                            se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad.NEDSATT_1_4.getId(),
+                            se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad.NEDSATT_HALFTEN.getId(),
+                            se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad.NEDSATT_3_4.getId()
                         ))
                         .build(),
                     CertificateDataValidationMandatory.builder()
                         .questionId(ARBETSTIDSFORLAGGNING_SVAR_ID_33)
-                        .expression(singleExpression(ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33))
+                        .expression(exists(ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33))
                         .build(),
                     CertificateDataValidationHide.builder()
                         .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
@@ -1150,11 +1149,11 @@ public final class InternalToCertificate {
                     CertificateDataValidationMandatory.builder()
                         .questionId(PROGNOS_SVAR_ID_39)
                         .expression(
-                            multipleOrExpression(
-                                singleExpression(PrognosTyp.MED_STOR_SANNOLIKHET.getId()),
-                                singleExpression(PrognosTyp.ATER_X_ANTAL_DGR.getId()),
-                                singleExpression(PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING.getId()),
-                                singleExpression(PrognosTyp.PROGNOS_OKLAR.getId())
+                            multipleOrExpressionWithExists(
+                                PrognosTyp.MED_STOR_SANNOLIKHET.getId(),
+                                PrognosTyp.ATER_X_ANTAL_DGR.getId(),
+                                PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING.getId(),
+                                PrognosTyp.PROGNOS_OKLAR.getId()
                             )
                         )
                         .build(),
@@ -1224,12 +1223,12 @@ public final class InternalToCertificate {
                     CertificateDataValidationMandatory.builder()
                         .questionId(PROGNOS_BESKRIVNING_DELSVAR_ID_39)
                         .expression(
-                            multipleOrExpression(
-                                singleExpression(PrognosDagarTillArbeteTyp.DAGAR_30.getId()),
-                                singleExpression(PrognosDagarTillArbeteTyp.DAGAR_60.getId()),
-                                singleExpression(PrognosDagarTillArbeteTyp.DAGAR_90.getId()),
-                                singleExpression(PrognosDagarTillArbeteTyp.DAGAR_180.getId()),
-                                singleExpression(PrognosDagarTillArbeteTyp.DAGAR_365.getId())
+                            multipleOrExpressionWithExists(
+                                PrognosDagarTillArbeteTyp.DAGAR_30.getId(),
+                                PrognosDagarTillArbeteTyp.DAGAR_60.getId(),
+                                PrognosDagarTillArbeteTyp.DAGAR_90.getId(),
+                                PrognosDagarTillArbeteTyp.DAGAR_180.getId(),
+                                PrognosDagarTillArbeteTyp.DAGAR_365.getId()
                             )
                         )
                         .build(),
@@ -1330,31 +1329,31 @@ public final class InternalToCertificate {
                     CertificateDataValidationMandatory.builder()
                         .questionId(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
                         .expression(
-                            multipleOrExpression(
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
+                            multipleOrExpressionWithExists(
+                                ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId(),
+                                ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId(),
+                                ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId(),
+                                ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId(),
+                                ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId(),
+                                ArbetslivsinriktadeAtgarderVal.OVRIGT.getId()
                             )
                         )
                         .build(),
                     CertificateDataValidationDisableSubElement.builder()
                         .questionId(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
                         .expression(
-                            multipleOrExpression(
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
+                            multipleOrExpressionWithExists(
+                                ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId(),
+                                ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId(),
+                                ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId(),
+                                ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId(),
+                                ArbetslivsinriktadeAtgarderVal.OVRIGT.getId()
                             )
                         )
                         .id(Collections.singletonList(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId()))
@@ -1362,7 +1361,7 @@ public final class InternalToCertificate {
                     CertificateDataValidationDisableSubElement.builder()
                         .questionId(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
                         .expression(
-                            singleExpression(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId())
+                            exists(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId())
                         )
                         .id(
                             Arrays.asList(
@@ -1422,15 +1421,15 @@ public final class InternalToCertificate {
                     CertificateDataValidationShow.builder()
                         .questionId(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
                         .expression(
-                            multipleOrExpression(
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
+                            multipleOrExpressionWithExists(
+                                ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId(),
+                                ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId(),
+                                ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId(),
+                                ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId(),
+                                ArbetslivsinriktadeAtgarderVal.OVRIGT.getId()
                             )
                         )
                         .build(),

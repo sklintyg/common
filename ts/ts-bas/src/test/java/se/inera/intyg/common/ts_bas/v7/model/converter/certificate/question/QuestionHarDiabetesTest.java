@@ -151,7 +151,7 @@ class QuestionHarDiabetesTest {
 
             @Override
             protected String getExpression() {
-                return "$" + HAR_DIABETES_JSON_ID;
+                return "exists(" + HAR_DIABETES_JSON_ID + ")";
             }
 
             @Override

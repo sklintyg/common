@@ -187,7 +187,7 @@ class QuestionHypoglykemiAterkommandeVaketSenasteTreTest {
 
         @Override
         protected String getExpression() {
-            return "$" + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID;
+            return "exists(" + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID + ")";
         }
     }
 

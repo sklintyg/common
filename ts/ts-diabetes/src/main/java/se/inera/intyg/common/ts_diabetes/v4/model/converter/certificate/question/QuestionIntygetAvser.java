@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question;
 
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.INTYG_AVSER_SVAR_DESCRIPTION_ID;
@@ -157,7 +157,7 @@ public class QuestionIntygetAvser {
                     CertificateDataValidationMandatory.builder()
                         .questionId(INTYG_AVSER_SVAR_ID)
                         .expression(
-                            multipleOrExpression(IntygAvserKategori.VAR12.name(), IntygAvserKategori.VAR13.name(),
+                            multipleOrExpressionWithExists(IntygAvserKategori.VAR12.name(), IntygAvserKategori.VAR13.name(),
                                 IntygAvserKategori.VAR14.name(), IntygAvserKategori.VAR15.name(), IntygAvserKategori.VAR16.name(),
                                 IntygAvserKategori.VAR17.name(), IntygAvserKategori.VAR18.name(), IntygAvserKategori.VAR1.name(),
                                 IntygAvserKategori.VAR2.name(), IntygAvserKategori.VAR3.name(), IntygAvserKategori.VAR4.name(),

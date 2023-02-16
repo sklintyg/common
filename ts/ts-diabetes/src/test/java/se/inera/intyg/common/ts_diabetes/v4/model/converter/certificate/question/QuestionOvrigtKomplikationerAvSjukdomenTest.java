@@ -161,7 +161,7 @@ class QuestionOvrigtKomplikationerAvSjukdomenTest {
 
         @Override
         protected String getExpression() {
-            return "$" + OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID;
+            return "exists(" + OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID + ")";
         }
     }
 
