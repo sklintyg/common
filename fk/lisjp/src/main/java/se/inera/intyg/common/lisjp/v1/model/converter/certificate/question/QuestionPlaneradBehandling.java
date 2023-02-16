@@ -19,57 +19,24 @@
 
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_DELSVAR_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_TEXT;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
+import se.inera.intyg.common.fkparent.model.converter.certificate.AbstractQuestionPlaneradBehandling;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 
-public class QuestionPlaneradBehandling {
+public class QuestionPlaneradBehandling extends AbstractQuestionPlaneradBehandling {
 
     public static CertificateDataElement toCertificate(String value, int index,
         CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(PLANERADBEHANDLING_SVAR_ID_20)
-            .index(index)
-            .parent(MEDICINSKABEHANDLINGAR_CATEGORY_ID)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .header(texts.get(PLANERADBEHANDLING_SVAR_TEXT))
-                    .text(texts.get(PLANERADBEHANDLING_DELSVAR_TEXT))
-                    .id(PLANERADBEHANDLING_SVAR_JSON_ID_20)
-                    .build()
-            )
-            .value(
-                CertificateDataTextValue.builder()
-                    .id(PLANERADBEHANDLING_SVAR_JSON_ID_20)
-                    .text(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(exists(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
-            .build();
+        return toCertificate(value, PLANERADBEHANDLING_SVAR_ID_20, MEDICINSKABEHANDLINGAR_CATEGORY_ID, PLANERADBEHANDLING_SVAR_JSON_ID_20,
+            index, texts);
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), PLANERADBEHANDLING_SVAR_ID_20, PLANERADBEHANDLING_SVAR_JSON_ID_20);
+        return toInternal(certificate, PLANERADBEHANDLING_SVAR_ID_20, PLANERADBEHANDLING_SVAR_JSON_ID_20);
     }
 }
