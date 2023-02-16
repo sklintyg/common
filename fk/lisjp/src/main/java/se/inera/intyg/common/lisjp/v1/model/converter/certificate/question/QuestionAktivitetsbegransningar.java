@@ -31,6 +31,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTA
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.icfCodeValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.icfTextValue;
 
 import java.util.List;
@@ -87,7 +88,11 @@ public class QuestionAktivitetsbegransningar {
             .build();
     }
 
-    public static String toInternal(Certificate certificate) {
+    public static String toInternalTextValue(Certificate certificate) {
         return icfTextValue(certificate.getData(), AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17);
+    }
+
+    public static List<String> toInternalCodeValue(Certificate certificate) {
+        return icfCodeValue(certificate.getData(), AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17);
     }
 }

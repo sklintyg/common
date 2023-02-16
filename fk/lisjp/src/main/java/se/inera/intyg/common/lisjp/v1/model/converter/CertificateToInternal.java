@@ -18,17 +18,11 @@
  */
 package se.inera.intyg.common.lisjp.v1.model.converter;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_35;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.icfCodeValue;
 
-import java.util.List;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAktivitetsbegransningar;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionAnnatGrundForMUBeskrivning;
@@ -74,7 +68,7 @@ public final class CertificateToInternal {
             .setSysselsattning(QuestionSysselsattning.toInternal(certificate))
             .setNuvarandeArbete(QuestionSysselsattningYrke.toInternal(certificate))
             .setDiagnoser(QuestionDiagnoser.toInternal(certificate, moduleService))
-            .setFunktionsnedsattning(QuestionFunktionsnedsattning.toInternal(certificate))
+            .setFunktionsnedsattning(QuestionFunktionsnedsattning.toInternalTextValue(certificate))
             .setPagaendeBehandling(QuestionPagaendeBehandling.toInternal(certificate))
             .setPlaneradBehandling(QuestionPlaneradBehandling.toInternal(certificate))
             .setSjukskrivningar(QuestionBehovAvSjukskrivning.toInternal(certificate))
@@ -89,7 +83,7 @@ public final class CertificateToInternal {
             .setOvrigt(QuestionOvrigt.toInternal(certificate))
             .setKontaktMedFk(QuestionKontakt.toInternal(certificate))
             .setAnledningTillKontakt(QuestionKontaktBeskrivning.toInternal(certificate))
-            .setAktivitetsbegransning(QuestionAktivitetsbegransningar.toInternal(certificate))
+            .setAktivitetsbegransning(QuestionAktivitetsbegransningar.toInternalTextValue(certificate))
             .setMotiveringTillInteBaseratPaUndersokning(QuestionMotiveringEjUndersokning.toInternal(certificate))
             .setUndersokningAvPatienten(QuestionIntygetBaseratPa.toInternal(certificate,
                 GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1))
@@ -98,18 +92,9 @@ public final class CertificateToInternal {
             .setJournaluppgifter(
                 QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1))
             .setAnnatGrundForMU(QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
-            .setFunktionsKategorier(getFunktionsnedsattningIcfKoder(certificate))
-            .setAktivitetsKategorier(getAktivitetsbegransningIcfKoder(certificate))
+            .setFunktionsKategorier(QuestionFunktionsnedsattning.toInternalCodeValue(certificate))
+            .setAktivitetsKategorier(QuestionAktivitetsbegransningar.toInternalCodeValue(certificate))
             .build();
-    }
-
-
-    private static List<String> getFunktionsnedsattningIcfKoder(Certificate certificate) {
-        return icfCodeValue(certificate.getData(), FUNKTIONSNEDSATTNING_SVAR_ID_35, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35);
-    }
-
-    private static List<String> getAktivitetsbegransningIcfKoder(Certificate certificate) {
-        return icfCodeValue(certificate.getData(), AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17);
     }
 }
 
