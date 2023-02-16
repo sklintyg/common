@@ -3169,7 +3169,7 @@ class InternalToCertificateTest {
                 final var certificateDataValidation = (CertificateDataValidationMandatory) question.getValidation()[1];
                 assertAll("Validation question validation",
                     () -> assertEquals(ARBETSTIDSFORLAGGNING_SVAR_ID_33, certificateDataValidation.getQuestionId()),
-                    () -> assertEquals("$" + ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33,
+                    () -> assertEquals("exists(" + ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33 + ")",
                         certificateDataValidation.getExpression())
                 );
             }
@@ -4521,8 +4521,8 @@ class InternalToCertificateTest {
                             "|| exists(BESOK_ARBETSPLATS) " +
                             "|| exists(ERGONOMISK) " +
                             "|| exists(HJALPMEDEL) " +
-                            "|| exists(KONTAKT_FHV)" +
-                            "|| exists(OMFORDELNING)" +
+                            "|| exists(KONTAKT_FHV) " +
+                            "|| exists(OMFORDELNING) " +
                             "|| exists(OVRIGA_ATGARDER)",
                         certificateDataValidationMandatory.getExpression()
                     )
@@ -4678,7 +4678,7 @@ class InternalToCertificateTest {
                 assertAll("Validation question validation",
                     () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, certificateDataValidationShow.getQuestionId()),
                     () -> assertEquals(
-                        "exists(ARBETSTRANING) || exists(ARBETSANPASSNING) || exists(BESOK_ARBETSPLATS) || exists(ERGONOMISK)"
+                        "exists(ARBETSTRANING) || exists(ARBETSANPASSNING) || exists(BESOK_ARBETSPLATS) || exists(ERGONOMISK) "
                             + "|| exists(HJALPMEDEL) || exists(KONTAKT_FHV) || exists(OMFORDELNING) || exists(OVRIGA_ATGARDER)",
                         certificateDataValidationShow.getExpression())
                 );
