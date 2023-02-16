@@ -23,6 +23,7 @@ import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.Categ
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryBedomning;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryFunktionsnedsattning;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryGrundForMU;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryKontakt;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryMedicinskaBehandlingar;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.category.CategoryOvrigt;
@@ -69,7 +70,7 @@ public final class InternalToCertificate {
             .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
             .addElement(CategorySmittbararpenning.toCertificate(index++, texts))
             .addElement(QuestionAvstangningSmittskydd.toCertificate(internalCertificate.getAvstangningSmittskydd(), index++, texts))
-            .addElement(CategorySmittbararpenning.toCertificate(index++, texts))
+            .addElement(CategoryGrundForMU.toCertificate(index++, texts))
             .addElement(QuestionIntygetBaseratPa.toCertificate(internalCertificate, index++, texts))
             .addElement(
                 QuestionAnnatGrundForMUBeskrivning.toCertificate(internalCertificate.getAnnatGrundForMUBeskrivning(), index++, texts))
