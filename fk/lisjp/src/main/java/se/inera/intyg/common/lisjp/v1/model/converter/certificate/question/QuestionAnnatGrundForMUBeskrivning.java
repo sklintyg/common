@@ -19,61 +19,25 @@
 
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_TEXT_ID;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
-import se.inera.intyg.common.lisjp.v1.model.converter.RespConstants;
+import se.inera.intyg.common.fkparent.model.converter.certificate.AbstractQuestionAnnatGrundForMUBeskrivning;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 
-public class QuestionAnnatGrundForMUBeskrivning {
+public class QuestionAnnatGrundForMUBeskrivning extends AbstractQuestionAnnatGrundForMUBeskrivning {
 
     public static CertificateDataElement toCertificate(String value, int index,
         CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1)
-            .index(index)
-            .parent(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1)
-                    .text(texts.get(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataTextValue.builder()
-                    .id(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1)
-                    .text(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1)
-                        .expression(singleExpression(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
-                        .expression(singleExpression(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
-                        .build()
-                }
-            )
-            .build();
+        return toCertificate(value, GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1,
+            GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1, index, texts);
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
-            RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1);
+        return toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
+            GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1);
     }
 }
