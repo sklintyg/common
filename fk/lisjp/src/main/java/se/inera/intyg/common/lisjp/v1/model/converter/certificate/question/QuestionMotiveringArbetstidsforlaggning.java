@@ -21,68 +21,22 @@ package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_TEXT;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_ID_33;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
+import se.inera.intyg.common.fkparent.model.converter.certificate.AbstractQuestionMotiveringArbetstidsforlaggning;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 
-public class QuestionMotiveringArbetstidsforlaggning {
+public class QuestionMotiveringArbetstidsforlaggning extends AbstractQuestionMotiveringArbetstidsforlaggning {
 
     public static CertificateDataElement toCertificate(String value, int index,
         CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33)
-            .index(index)
-            .parent(ARBETSTIDSFORLAGGNING_SVAR_ID_33)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .text(texts.get(ARBETSTIDSFORLAGGNING_MOTIVERING_TEXT))
-                    .id(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33)
-                    .build()
-            )
-            .value(
-                CertificateDataTextValue.builder()
-                    .id(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33)
-                    .text(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(ARBETSTIDSFORLAGGNING_SVAR_ID_33)
-                        .expression(
-                            exists(ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33)
-                        )
-                        .build(),
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33)
-                        .expression(singleExpression(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33))
-                        .build(),
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(exists(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
-            .build();
+        return toCertificate(value, ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33, ARBETSTIDSFORLAGGNING_SVAR_ID_33,
+            ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33, index, texts);
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33,
-            ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33);
+        return toInternal(certificate, ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33, ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33);
     }
 }
