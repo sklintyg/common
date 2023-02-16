@@ -234,7 +234,9 @@ class QuestionHarArbetspaverkanTest {
                 final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
                 assertAll("Validation question validation",
                     () -> assertEquals(ARBETETS_PAVERKAN_DELSVAR_ID_41, certificateDataValidationMandatory.getQuestionId()),
-                    () -> assertEquals("exists(" + ARBETETS_PAVERKAN_SVAR_JSON_ID_41 + ")", certificateDataValidationMandatory.getExpression())
+                    () -> assertEquals(
+                        "exists(" + ARBETETS_PAVERKAN_SVAR_JSON_ID_41 + ")", certificateDataValidationMandatory.getExpression()
+                    )
                 );
             }
         }

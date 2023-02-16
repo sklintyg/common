@@ -1332,8 +1332,10 @@ class InternalToCertificateTest {
                 final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
                 assertAll("Validation question validation",
                     () -> assertEquals(TYP_AV_SYSSELSATTNING_SVAR_ID_28, certificateDataValidationMandatory.getQuestionId()),
-                    () -> assertEquals("exists(NUVARANDE_ARBETE) || exists(ARBETSSOKANDE) || exists(FORALDRALEDIG) || exists(STUDIER)",
-                        certificateDataValidationMandatory.getExpression())
+                    () -> assertEquals(
+                        "exists(NUVARANDE_ARBETE) || exists(ARBETSSOKANDE) || exists(FORALDRALEDIG) || exists(STUDIER)",
+                        certificateDataValidationMandatory.getExpression()
+                    )
                 );
             }
 
@@ -1665,7 +1667,10 @@ class InternalToCertificateTest {
                 final var certificateDataValidationHighlight = (CertificateDataValidationHighlight) question.getValidation()[1];
                 assertAll("Validation question validation",
                     () -> assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100, certificateDataValidationHighlight.getQuestionId()),
-                    () -> assertEquals("exists(YES) || exists(NO) || !exists(YES) || !exists(NO)", certificateDataValidationHighlight.getExpression())
+                    () -> assertEquals(
+                        "exists(YES) || exists(NO) || !exists(YES) || !exists(NO)",
+                        certificateDataValidationHighlight.getExpression()
+                    )
                 );
             }
         }
@@ -3654,8 +3659,10 @@ class InternalToCertificateTest {
                 final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
                 assertAll("Validation question validation",
                     () -> assertEquals(PROGNOS_SVAR_ID_39, certificateDataValidationMandatory.getQuestionId()),
-                    () -> assertEquals("exists(STOR_SANNOLIKHET) || exists(ATER_X_ANTAL_DGR) || exists(SANNOLIKT_INTE) || exists(PROGNOS_OKLAR)",
-                        certificateDataValidationMandatory.getExpression())
+                    () -> assertEquals(
+                        "exists(STOR_SANNOLIKHET) || exists(ATER_X_ANTAL_DGR) || exists(SANNOLIKT_INTE) || exists(PROGNOS_OKLAR)",
+                        certificateDataValidationMandatory.getExpression()
+                    )
                 );
             }
 
@@ -3941,8 +3948,10 @@ class InternalToCertificateTest {
                 final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[1];
                 assertAll("Validation question validation",
                     () -> assertEquals(PROGNOS_BESKRIVNING_DELSVAR_ID_39, certificateDataValidationMandatory.getQuestionId()),
-                    () -> assertEquals("exists(TRETTIO_DGR) || exists(SEXTIO_DGR) || exists(NITTIO_DGR) || exists(HUNDRAATTIO_DAGAR) || exists(TREHUNDRASEXTIOFEM_DAGAR)",
-                        certificateDataValidationMandatory.getExpression())
+                    () -> assertEquals(
+                        "exists(TRETTIO_DGR) || exists(SEXTIO_DGR) || exists(NITTIO_DGR) || exists(HUNDRAATTIO_DAGAR) || exists(TREHUNDRASEXTIOFEM_DAGAR)",
+                        certificateDataValidationMandatory.getExpression()
+                    )
                 );
             }
 
@@ -4523,7 +4532,8 @@ class InternalToCertificateTest {
                     () -> assertTrue(certificateDataValidationDisableSubElement.getId().size() == 1),
                     () -> assertEquals("EJ_AKTUELLT", certificateDataValidationDisableSubElement.getId().get(0)),
                     () -> assertEquals("exists(ARBETSTRANING) || exists(ARBETSANPASSNING) || exists(BESOK_ARBETSPLATS) "
-                            + "|| exists(ERGONOMISK) || exists(HJALPMEDEL) || exists(KONTAKT_FHV) || exists(OMFORDELNING) || exists(OVRIGA_ATGARDER)",
+                            + "|| exists(ERGONOMISK) || exists(HJALPMEDEL) || exists(KONTAKT_FHV) || exists(OMFORDELNING) || "
+                            + "exists(OVRIGA_ATGARDER)",
                         certificateDataValidationDisableSubElement.getExpression())
                 );
             }
@@ -4658,8 +4668,8 @@ class InternalToCertificateTest {
                 assertAll("Validation question validation",
                     () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, certificateDataValidationShow.getQuestionId()),
                     () -> assertEquals(
-                        "exists(ARBETSTRANING) || exists(ARBETSANPASSNING) || exists(BESOK_ARBETSPLATS) || exists(ERGONOMISK) || exists(HJALPMEDEL) ||"
-                            + " exists(KONTAKT_FHV) || exists(OMFORDELNING) || exists(OVRIGA_ATGARDER)",
+                        "exists(ARBETSTRANING) || exists(ARBETSANPASSNING) || exists(BESOK_ARBETSPLATS) || exists(ERGONOMISK)"
+                            + "|| exists(HJALPMEDEL) || exists(KONTAKT_FHV) || exists(OMFORDELNING) || exists(OVRIGA_ATGARDER)",
                         certificateDataValidationShow.getExpression())
                 );
             }

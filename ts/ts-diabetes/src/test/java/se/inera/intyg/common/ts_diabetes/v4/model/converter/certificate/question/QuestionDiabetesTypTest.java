@@ -172,7 +172,9 @@ class QuestionDiabetesTypTest {
 
         @Override
         protected String getExpression() {
-            return "exists(" + KvTypAvDiabetes.TYP1.getCode() + ") || exists(" + KvTypAvDiabetes.TYP2.getCode() + ") || exists(" + KvTypAvDiabetes.LADA.getCode()
+            return "exists(" + KvTypAvDiabetes.TYP1.getCode()
+                + ") || exists(" + KvTypAvDiabetes.TYP2.getCode()
+                + ") || exists(" + KvTypAvDiabetes.LADA.getCode()
                 + ") || exists(" + KvTypAvDiabetes.ANNAN.getCode() + ")";
         }
 

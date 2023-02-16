@@ -104,7 +104,10 @@ public class QuestionSynskarpa {
                         .questionId(VARDEN_FOR_SYNSKARPA_ID)
                         .expression(
                             multipleAndExpression(
-                                exists(BINOKULART_UTAN_KORREKTION_JSON_ID), exists(VANSTER_OGA_UTAN_KORREKTION_JSON_ID), exists(HOGER_OGA_UTAN_KORREKTION_JSON_ID))
+                                exists(BINOKULART_UTAN_KORREKTION_JSON_ID),
+                                exists(VANSTER_OGA_UTAN_KORREKTION_JSON_ID),
+                                exists(HOGER_OGA_UTAN_KORREKTION_JSON_ID)
+                            )
                         )
                         .build(),
                     CertificateDataValidationDisable.builder()

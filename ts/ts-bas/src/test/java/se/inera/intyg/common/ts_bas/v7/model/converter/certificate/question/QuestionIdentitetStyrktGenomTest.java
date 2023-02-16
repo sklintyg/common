@@ -183,9 +183,12 @@ class QuestionIdentitetStyrktGenomTest {
 
             @Override
             protected String getExpression() {
-                return "exists(" + IdKontrollKod.ID_KORT.getCode() + ") || exists(" + IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode() + ") || exists("
-                    + IdKontrollKod.KORKORT.getCode() + ") || exists(" + IdKontrollKod.PERS_KANNEDOM.getCode() + ") || exists("
-                    + IdKontrollKod.FORSAKRAN_KAP18.getCode() + ") || exists(" + IdKontrollKod.PASS.getCode() + ")";
+                return "exists(" + IdKontrollKod.ID_KORT.getCode()
+                    + ") || exists(" + IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode()
+                    + ") || exists(" + IdKontrollKod.KORKORT.getCode()
+                    + ") || exists(" + IdKontrollKod.PERS_KANNEDOM.getCode()
+                    + ") || exists(" + IdKontrollKod.FORSAKRAN_KAP18.getCode()
+                    + ") || exists(" + IdKontrollKod.PASS.getCode() + ")";
             }
 
             @Override

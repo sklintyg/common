@@ -178,8 +178,11 @@ class QuestionOtillrackligRorelseFormogaTest {
 
             @Override
             protected String getExpression() {
-                return "exists(" + IntygAvserKategori.IAV5.name() + ") || exists(" + IntygAvserKategori.IAV6.name() + ") || exists(" + IntygAvserKategori.IAV7.name()
-                    + ") || exists(" + IntygAvserKategori.IAV8.name() + ") || exists(" + IntygAvserKategori.IAV9.name() + ")";
+                return "exists(" + IntygAvserKategori.IAV5.name()
+                    + ") || exists(" + IntygAvserKategori.IAV6.name()
+                    + ") || exists(" + IntygAvserKategori.IAV7.name()
+                    + ") || exists(" + IntygAvserKategori.IAV8.name()
+                    + ") || exists(" + IntygAvserKategori.IAV9.name() + ")";
             }
 
             @Override
