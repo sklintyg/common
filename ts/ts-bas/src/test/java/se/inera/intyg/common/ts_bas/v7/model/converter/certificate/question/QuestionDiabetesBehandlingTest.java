@@ -196,7 +196,9 @@ class QuestionDiabetesBehandlingTest {
 
         @Override
         protected String getExpression() {
-            return KOSTBEHANDLING_DELSVAR_JSON_ID + " || " + TABLETTBEHANDLING_DELSVAR_JSON_ID + " || " + INSULINBEHANDLING_DELSVAR_JSON_ID;
+            return "exists(" + KOSTBEHANDLING_DELSVAR_JSON_ID
+                + ") || exists(" + TABLETTBEHANDLING_DELSVAR_JSON_ID
+                + ") || exists(" + INSULINBEHANDLING_DELSVAR_JSON_ID + ")";
         }
 
         @Override
@@ -220,7 +222,7 @@ class QuestionDiabetesBehandlingTest {
 
         @Override
         protected String getExpression() {
-            return "$" + DiabetesKod.DIABETES_TYP_2.name();
+            return "exists(" + DiabetesKod.DIABETES_TYP_2.name() + ")";
         }
 
         @Override

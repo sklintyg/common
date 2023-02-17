@@ -172,7 +172,7 @@ class QuestionExplosivtImplantatTest {
         void shouldIncludeValidationMandatoryExpression() {
             final var question = QuestionExplosivtImplantat.toCertificate(true, 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals("$" + EXPLOSIV_IMPLANTAT_JSON_ID, certificateDataValidationMandatory.getExpression());
+            assertEquals("exists(" + EXPLOSIV_IMPLANTAT_JSON_ID + ")", certificateDataValidationMandatory.getExpression());
         }
     }
 

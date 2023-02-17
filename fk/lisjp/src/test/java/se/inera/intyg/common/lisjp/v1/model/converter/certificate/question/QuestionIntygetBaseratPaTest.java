@@ -50,9 +50,9 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleDate;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateList;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -423,72 +423,28 @@ class QuestionIntygetBaseratPaTest {
         }
 
         @Test
-        void shouldIncludeQuestionValidationMaxDateUndersokning() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
-
-            final var certificateDataValidationMaxDate = (CertificateDataValidationMaxDate) question.getValidation()[1];
-            assertAll("Validation question validation",
-                () -> assertEquals(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1,
-                    certificateDataValidationMaxDate.getId()),
-                () -> assertEquals(0, certificateDataValidationMaxDate.getNumberOfDays())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValidationMaxDateTelefon() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
-
-            final var certificateDataValidationMaxDate = (CertificateDataValidationMaxDate) question.getValidation()[2];
-            assertAll("Validation question validation",
-                () -> assertEquals(GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1,
-                    certificateDataValidationMaxDate.getId()),
-                () -> assertEquals(0, certificateDataValidationMaxDate.getNumberOfDays())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValidationMaxDateJournal() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
-
-            final var certificateDataValidationMaxDate = (CertificateDataValidationMaxDate) question.getValidation()[3];
-            assertAll("Validation question validation",
-                () -> assertEquals(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1,
-                    certificateDataValidationMaxDate.getId()),
-                () -> assertEquals(0, certificateDataValidationMaxDate.getNumberOfDays())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValidationMaxDateAnnat() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
-
-            final var certificateDataValidationMaxDate = (CertificateDataValidationMaxDate) question.getValidation()[4];
-            assertAll("Validation question validation",
-                () -> assertEquals(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1,
-                    certificateDataValidationMaxDate.getId()),
-                () -> assertEquals(0, certificateDataValidationMaxDate.getNumberOfDays())
-            );
-        }
-
-        @Test
         void shouldIncludeCategoryValidationHide() {
             final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
             final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
 
-            final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[5];
+            final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
             assertAll("Validation question validation",
                 () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
                 () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
             );
+        }
+
+        @Test
+        void shouldIncludeMaxDateInConfig() {
+            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+            final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
+            final var config = (CertificateDataConfigCheckboxMultipleDate) question.getConfig();
+            final var list = config.getList();
+            for (CheckboxMultipleDate date : list) {
+                assertEquals(LocalDate.now(), date.getMaxDate());
+            }
         }
     }
 

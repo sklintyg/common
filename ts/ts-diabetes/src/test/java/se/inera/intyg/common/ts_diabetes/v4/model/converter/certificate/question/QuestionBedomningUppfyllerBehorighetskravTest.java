@@ -248,15 +248,15 @@ class QuestionBedomningUppfyllerBehorighetskravTest {
 
         @Override
         protected String getExpression() {
-            return BedomningKorkortstyp.VAR12.name() + " || " + BedomningKorkortstyp.VAR13.name()
-                + " || " + BedomningKorkortstyp.VAR14.name() + " || " + BedomningKorkortstyp.VAR15.name()
-                + " || " + BedomningKorkortstyp.VAR16.name() + " || " + BedomningKorkortstyp.VAR17.name()
-                + " || " + BedomningKorkortstyp.VAR18.name() + " || " + BedomningKorkortstyp.VAR1.name()
-                + " || " + BedomningKorkortstyp.VAR2.name() + " || " + BedomningKorkortstyp.VAR3.name()
-                + " || " + BedomningKorkortstyp.VAR4.name() + " || " + BedomningKorkortstyp.VAR5.name()
-                + " || " + BedomningKorkortstyp.VAR6.name() + " || " + BedomningKorkortstyp.VAR7.name()
-                + " || " + BedomningKorkortstyp.VAR8.name() + " || " + BedomningKorkortstyp.VAR9.name()
-                + " || " + BedomningKorkortstyp.VAR11.name();
+            return "exists(" + BedomningKorkortstyp.VAR12.name() + ") || exists(" + BedomningKorkortstyp.VAR13.name()
+                + ") || exists(" + BedomningKorkortstyp.VAR14.name() + ") || exists(" + BedomningKorkortstyp.VAR15.name()
+                + ") || exists(" + BedomningKorkortstyp.VAR16.name() + ") || exists(" + BedomningKorkortstyp.VAR17.name()
+                + ") || exists(" + BedomningKorkortstyp.VAR18.name() + ") || exists(" + BedomningKorkortstyp.VAR1.name()
+                + ") || exists(" + BedomningKorkortstyp.VAR2.name() + ") || exists(" + BedomningKorkortstyp.VAR3.name()
+                + ") || exists(" + BedomningKorkortstyp.VAR4.name() + ") || exists(" + BedomningKorkortstyp.VAR5.name()
+                + ") || exists(" + BedomningKorkortstyp.VAR6.name() + ") || exists(" + BedomningKorkortstyp.VAR7.name()
+                + ") || exists(" + BedomningKorkortstyp.VAR8.name() + ") || exists(" + BedomningKorkortstyp.VAR9.name()
+                + ") || exists(" + BedomningKorkortstyp.VAR11.name() + ")";
         }
     }
 
@@ -280,14 +280,14 @@ class QuestionBedomningUppfyllerBehorighetskravTest {
 
         @Override
         protected String getExpression() {
-            return BedomningKorkortstyp.VAR12.name() + " || " + BedomningKorkortstyp.VAR13.name()
-                + " || " + BedomningKorkortstyp.VAR14.name() + " || " + BedomningKorkortstyp.VAR15.name()
-                + " || " + BedomningKorkortstyp.VAR16.name() + " || " + BedomningKorkortstyp.VAR17.name()
-                + " || " + BedomningKorkortstyp.VAR18.name() + " || " + BedomningKorkortstyp.VAR1.name()
-                + " || " + BedomningKorkortstyp.VAR2.name() + " || " + BedomningKorkortstyp.VAR3.name()
-                + " || " + BedomningKorkortstyp.VAR4.name() + " || " + BedomningKorkortstyp.VAR5.name()
-                + " || " + BedomningKorkortstyp.VAR6.name() + " || " + BedomningKorkortstyp.VAR7.name()
-                + " || " + BedomningKorkortstyp.VAR8.name() + " || " + BedomningKorkortstyp.VAR9.name();
+            return "exists(" + BedomningKorkortstyp.VAR12.name() + ") || exists(" + BedomningKorkortstyp.VAR13.name()
+                + ") || exists(" + BedomningKorkortstyp.VAR14.name() + ") || exists(" + BedomningKorkortstyp.VAR15.name()
+                + ") || exists(" + BedomningKorkortstyp.VAR16.name() + ") || exists(" + BedomningKorkortstyp.VAR17.name()
+                + ") || exists(" + BedomningKorkortstyp.VAR18.name() + ") || exists(" + BedomningKorkortstyp.VAR1.name()
+                + ") || exists(" + BedomningKorkortstyp.VAR2.name() + ") || exists(" + BedomningKorkortstyp.VAR3.name()
+                + ") || exists(" + BedomningKorkortstyp.VAR4.name() + ") || exists(" + BedomningKorkortstyp.VAR5.name()
+                + ") || exists(" + BedomningKorkortstyp.VAR6.name() + ") || exists(" + BedomningKorkortstyp.VAR7.name()
+                + ") || exists(" + BedomningKorkortstyp.VAR8.name() + ") || exists(" + BedomningKorkortstyp.VAR9.name() + ")";
         }
 
         @Override
@@ -316,7 +316,7 @@ class QuestionBedomningUppfyllerBehorighetskravTest {
 
         @Override
         protected String getExpression() {
-            return "$" + BedomningKorkortstyp.VAR11.name();
+            return "exists(" + BedomningKorkortstyp.VAR11.name() + ")";
         }
 
         @Override

@@ -188,7 +188,7 @@ class QuestionHypoglykemiFormagaKannaVarningsteckenTest {
 
         @Override
         protected String getExpression() {
-            return "$" + HYPOGLYKEMI_FORMAGA_KANNA_VARNINGSTECKEN_JSON_ID;
+            return "exists(" + HYPOGLYKEMI_FORMAGA_KANNA_VARNINGSTECKEN_JSON_ID + ")";
         }
     }
 

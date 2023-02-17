@@ -152,7 +152,7 @@ class QuestionNystagmusTest {
 
             @Override
             protected String getExpression() {
-                return "$" + NYSTAGMUS_JSON_ID;
+                return "exists(" + NYSTAGMUS_JSON_ID + ")";
             }
 
             @Override

@@ -174,7 +174,7 @@ class QuestionExplosivtAvlagsnatTest {
         void shouldIncludeValidationMandatoryExpression() {
             final var question = QuestionExplosivtAvlagsnat.toCertificate(true, 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals("$" + EXPLOSIV_AVLAGSNAT_JSON_ID, certificateDataValidationMandatory.getExpression());
+            assertEquals("exists(" + EXPLOSIV_AVLAGSNAT_JSON_ID + ")", certificateDataValidationMandatory.getExpression());
         }
 
         @Nested

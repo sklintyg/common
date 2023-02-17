@@ -59,7 +59,6 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeath;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.config.CodeItem;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath;
@@ -142,6 +141,14 @@ class QuestionTerminalDodsorsakFoljdAvTest {
                 causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
             verify(texts, atLeastOnce()).get(FOLJD_AV_QUESTION_TEXT_ID);
+        }
+
+        @Test
+        void shouldIncludeMaxDate() {
+            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
+                causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
+            CertificateDataConfigCauseOfDeath causeOfDeath = (CertificateDataConfigCauseOfDeath) question.getConfig();
+            assertEquals(LocalDate.now(), causeOfDeath.getMaxDate());
         }
 
         Stream<String> dodsOrsakerLabelStream() {
@@ -286,30 +293,6 @@ class QuestionTerminalDodsorsakFoljdAvTest {
             final var certificateDataValidationMaxDate = (CertificateDataValidationText) question.getValidation()[0];
             assertEquals(80, certificateDataValidationMaxDate.getLimit());
         }
-
-        @Test
-        void shouldIncludeValidationMaxDateType() {
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
-            assertEquals(CertificateDataValidationType.MAX_DATE_VALIDATION, question.getValidation()[1].getType());
-        }
-
-        @Test
-        void shouldIncludeValidationMaxDateId() {
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
-            final var certificateDataValidationMaxDate = (CertificateDataValidationMaxDate) question.getValidation()[1];
-            assertEquals("'" + FOLJD_JSON_ID + "[0].datum'", certificateDataValidationMaxDate.getId());
-        }
-
-        @Test
-        void shouldIncludeValidationMaxDateNumberOfDays() {
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
-            final var certificateDataValidationMaxDate = (CertificateDataValidationMaxDate) question.getValidation()[1];
-            assertEquals(0, certificateDataValidationMaxDate.getNumberOfDays());
-        }
-
     }
 
     @Nested

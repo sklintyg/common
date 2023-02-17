@@ -25,7 +25,7 @@ import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERL
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_TEXT;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.UNDERLAGFINNS_UNSELECTED_TEXT;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -61,7 +61,7 @@ public class QuestionUnderlagFinns {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(UNDERLAGFINNS_SVAR_ID_3)
-                        .expression(singleExpression(UNDERLAGFINNS_SVAR_JSON_ID_3))
+                        .expression(exists(UNDERLAGFINNS_SVAR_JSON_ID_3))
                         .build()
                 }
             )

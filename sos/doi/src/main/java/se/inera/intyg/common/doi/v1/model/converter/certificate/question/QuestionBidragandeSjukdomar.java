@@ -27,6 +27,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DE
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_CATEGORY_ID;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import se.inera.intyg.common.doi.model.internal.Dodsorsak;
@@ -38,7 +39,6 @@ import se.inera.intyg.common.support.facade.model.config.CauseOfDeath;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeathList;
 import se.inera.intyg.common.support.facade.model.config.CodeItem;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath;
@@ -50,7 +50,6 @@ import se.inera.intyg.common.support.model.InternalDate;
 public class QuestionBidragandeSjukdomar {
 
     public static final short LIMIT = (short) 55;
-    public static final short NUMBER_OF_DAYS_IN_FUTURE = (short) 0;
 
     public static CertificateDataElement toCertificate(List<Dodsorsak> bidragandeSjukdomar, int index, CertificateTextProvider texts) {
 
@@ -102,14 +101,6 @@ public class QuestionBidragandeSjukdomar {
                     textLimit("5"),
                     textLimit("6"),
                     textLimit("7"),
-                    dateLimit("0"),
-                    dateLimit("1"),
-                    dateLimit("2"),
-                    dateLimit("3"),
-                    dateLimit("4"),
-                    dateLimit("5"),
-                    dateLimit("6"),
-                    dateLimit("7")
                 }
             )
             .build();
@@ -121,11 +112,8 @@ public class QuestionBidragandeSjukdomar {
             .descriptionId(BIDRAGANDE_SJUKDOM_JSON_ID + "[" + id + "].beskrivning")
             .debutId(BIDRAGANDE_SJUKDOM_JSON_ID + "[" + id + "].datum")
             .specifications(getSpecifications())
+            .maxDate(LocalDate.now())
             .build();
-    }
-
-    private static CertificateDataValidationMaxDate dateLimit(String id) {
-        return CertificateDataValidationMaxDate.builder().id(id).numberOfDays(NUMBER_OF_DAYS_IN_FUTURE).build();
     }
 
     private static CertificateDataValidationText textLimit(String id) {

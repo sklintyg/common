@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PROGRESSIV_OGONSJUKDOM_SVAR_ID;
@@ -62,7 +62,7 @@ public class QuestionProgressivOgonsjukdom {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(PROGRESSIV_OGONSJUKDOM_SVAR_ID)
-                        .expression(singleExpression(PROGRESSIV_OGONSJUKDOM_JSON_ID))
+                        .expression(exists(PROGRESSIV_OGONSJUKDOM_JSON_ID))
                         .build()
                 }
             )

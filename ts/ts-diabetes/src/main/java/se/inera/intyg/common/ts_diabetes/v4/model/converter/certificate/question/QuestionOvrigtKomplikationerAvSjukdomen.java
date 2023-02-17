@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question;
 
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID;
@@ -63,7 +63,7 @@ public class QuestionOvrigtKomplikationerAvSjukdomen {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID)
-                        .expression(singleExpression(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID))
+                        .expression(exists(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID))
                         .build()
                 }
             )

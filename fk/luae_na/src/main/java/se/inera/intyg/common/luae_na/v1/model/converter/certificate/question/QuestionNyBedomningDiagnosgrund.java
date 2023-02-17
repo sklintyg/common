@@ -23,7 +23,7 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIA
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.NYDIAGNOS_SVAR_ID_45;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -60,7 +60,7 @@ public class QuestionNyBedomningDiagnosgrund {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(NYDIAGNOS_SVAR_ID_45)
-                        .expression(singleExpression(DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45))
+                        .expression(exists(DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45))
                         .build()
                 }
             )

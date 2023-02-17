@@ -26,7 +26,7 @@ import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ARBET
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_TEXT_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_ARBETSFORMAGA_ID;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -63,7 +63,7 @@ public class QuestionArbetsformagaTrotsSjukdom {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID)
-                        .expression(singleExpression(ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID))
+                        .expression(exists(ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID))
                         .build()
                 }
             )

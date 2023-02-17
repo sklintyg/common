@@ -164,11 +164,11 @@ class QuestionHypoglykemiRegelbundnaBlodsockerkontrollerTest {
 
         @Override
         protected String getExpression() {
-            return IntygAvserKategori.VAR1.name()
-                + " || " + IntygAvserKategori.VAR2.name() + " || " + IntygAvserKategori.VAR3.name()
-                + " || " + IntygAvserKategori.VAR4.name() + " || " + IntygAvserKategori.VAR5.name()
-                + " || " + IntygAvserKategori.VAR6.name() + " || " + IntygAvserKategori.VAR7.name()
-                + " || " + IntygAvserKategori.VAR8.name() + " || " + IntygAvserKategori.VAR9.name();
+            return "exists(" + IntygAvserKategori.VAR1.name()
+                + ") || exists(" + IntygAvserKategori.VAR2.name() + ") || exists(" + IntygAvserKategori.VAR3.name()
+                + ") || exists(" + IntygAvserKategori.VAR4.name() + ") || exists(" + IntygAvserKategori.VAR5.name()
+                + ") || exists(" + IntygAvserKategori.VAR6.name() + ") || exists(" + IntygAvserKategori.VAR7.name()
+                + ") || exists(" + IntygAvserKategori.VAR8.name() + ") || exists(" + IntygAvserKategori.VAR9.name() + ")";
         }
     }
 
@@ -192,7 +192,7 @@ class QuestionHypoglykemiRegelbundnaBlodsockerkontrollerTest {
 
         @Override
         protected String getExpression() {
-            return "$" + HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_JSON_ID;
+            return "exists(" + HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_JSON_ID + ")";
         }
     }
 

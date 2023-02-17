@@ -41,7 +41,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.db.model.internal.Undersokning;
-import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionUndersokningYttre;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioMultipleCode;
@@ -174,9 +173,9 @@ class QuestionUndersokningYttreTest {
 
         @Test
         void shouldIncludeValidationMandatoryExpression() {
-            final var expectedExpression = "$" + Undersokning.JA.name()
-                + " || $" + Undersokning.UNDERSOKNING_SKA_GORAS.name()
-                + " || $" + Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN.name();
+            final var expectedExpression = "exists(" + Undersokning.JA.name()
+                + ") || exists(" + Undersokning.UNDERSOKNING_SKA_GORAS.name()
+                + ") || exists(" + Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN.name() + ")";
 
             final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];

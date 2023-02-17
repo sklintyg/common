@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_UTVECKLINGSSTORNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID;
@@ -65,7 +65,7 @@ public class QuestionPsykiskUtvecklingsstorning {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID)
-                        .expression(singleExpression(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID))
+                        .expression(exists(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID))
                         .build()
                 }
             )

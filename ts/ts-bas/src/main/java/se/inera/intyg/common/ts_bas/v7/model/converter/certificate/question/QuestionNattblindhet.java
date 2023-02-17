@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.SEENDE_NEDSATT_BELYSNING_JSON_ID;
@@ -63,7 +64,7 @@ public class QuestionNattblindhet {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(SEENDE_NEDSATT_BELYSNING_SVAR_ID)
-                        .expression(singleExpression(SEENDE_NEDSATT_BELYSNING_JSON_ID))
+                        .expression(exists(SEENDE_NEDSATT_BELYSNING_JSON_ID))
                         .build()
                 }
             )

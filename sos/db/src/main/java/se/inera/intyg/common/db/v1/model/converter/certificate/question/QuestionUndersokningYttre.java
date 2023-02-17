@@ -21,8 +21,7 @@ package se.inera.intyg.common.db.v1.model.converter.certificate.question;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_QUESTION_TEXT_ID;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
 
 import java.util.Arrays;
@@ -75,10 +74,10 @@ public class QuestionUndersokningYttre {
                     CertificateDataValidationMandatory.builder()
                         .questionId(UNDERSOKNING_YTTRE_DELSVAR_ID)
                         .expression(
-                            multipleOrExpression(
-                                singleExpression(Undersokning.JA.name()),
-                                singleExpression(Undersokning.UNDERSOKNING_SKA_GORAS.name()),
-                                singleExpression(Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN.name())
+                            multipleOrExpressionWithExists(
+                                Undersokning.JA.name(),
+                                Undersokning.UNDERSOKNING_SKA_GORAS.name(),
+                                Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN.name()
                             )
                         )
                         .build()

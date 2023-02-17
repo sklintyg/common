@@ -25,7 +25,7 @@ import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUN
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_QUESTION_DESCRIPTION;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_QUESTION_TEXT;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -62,7 +62,7 @@ public class QuestionHarFunktionsnedsattning {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(FUNKTIONSNEDSATTNING_DELSVAR_ID_11)
-                        .expression(singleExpression(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11))
+                        .expression(exists(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11))
                         .build()
                 }
             )

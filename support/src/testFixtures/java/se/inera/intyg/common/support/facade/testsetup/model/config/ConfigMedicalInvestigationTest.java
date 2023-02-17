@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,8 @@ public abstract class ConfigMedicalInvestigationTest extends ConfigTest {
     protected abstract String getInformationSourceText();
     protected abstract String getInformationSourceDescription();
     protected abstract List<MedicalInvestigation> getMedicalInvestigations();
+    protected abstract List<LocalDate> getMaxDates();
+    protected abstract List<LocalDate> getMinDates();
 
     @Override
     protected CertificateDataConfigTypes getType() {
@@ -109,6 +112,28 @@ public abstract class ConfigMedicalInvestigationTest extends ConfigTest {
         final var actualTypeOptions = getConfig().getList().stream().map(MedicalInvestigation::getInformationSourceId)
             .collect(Collectors.toList());
         assertEquals(expectedTypeOptions, actualTypeOptions);
+    }
+
+    @Test
+    void shouldIncludeMaxDate() {
+        final var question = getElement();
+        final var config = (CertificateDataConfigMedicalInvestigation) question.getConfig();
+        final var expectedMaxDates = getMaxDates();
+
+        for (int i = 0; i < expectedMaxDates.size(); i++) {
+            assertEquals(expectedMaxDates.get(i), config.getList().get(i).getMaxDate());
+        }
+    }
+
+    @Test
+    void shouldIncludeMinDate() {
+        final var question = getElement();
+        final var config = (CertificateDataConfigMedicalInvestigation) question.getConfig();
+        final var expectedMinDates = getMinDates();
+
+        for (int i = 0; i < expectedMinDates.size(); i++) {
+            assertEquals(expectedMinDates.get(i), config.getList().get(i).getMinDate());
+        }
     }
 
     private CertificateDataConfigMedicalInvestigation getConfig() {

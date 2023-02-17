@@ -22,8 +22,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_B
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_BOENDE_QUESTION_DESCRIPTION_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_BOENDE_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_SVAR_ID;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
 
 import java.util.Arrays;
@@ -81,11 +80,11 @@ public class QuestionDodsplatsBoende {
                     CertificateDataValidationMandatory.builder()
                         .questionId(DODSPLATS_BOENDE_DELSVAR_ID)
                         .expression(
-                            multipleOrExpression(
-                                singleExpression(DodsplatsBoende.SJUKHUS.name()),
-                                singleExpression(DodsplatsBoende.ORDINART_BOENDE.name()),
-                                singleExpression(DodsplatsBoende.SARSKILT_BOENDE.name()),
-                                singleExpression(DodsplatsBoende.ANNAN.name())
+                            multipleOrExpressionWithExists(
+                                DodsplatsBoende.SJUKHUS.name(),
+                                DodsplatsBoende.ORDINART_BOENDE.name(),
+                                DodsplatsBoende.SARSKILT_BOENDE.name(),
+                                DodsplatsBoende.ANNAN.name()
                             )
                         )
                         .build()

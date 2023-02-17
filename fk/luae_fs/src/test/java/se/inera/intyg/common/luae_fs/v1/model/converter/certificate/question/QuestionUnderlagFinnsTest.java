@@ -156,7 +156,7 @@ class QuestionUnderlagFinnsTest {
 
         @Override
         protected String getExpression() {
-            return "$" + UNDERLAGFINNS_SVAR_JSON_ID_3;
+            return "exists(" + UNDERLAGFINNS_SVAR_JSON_ID_3 + ")";
         }
     }
 

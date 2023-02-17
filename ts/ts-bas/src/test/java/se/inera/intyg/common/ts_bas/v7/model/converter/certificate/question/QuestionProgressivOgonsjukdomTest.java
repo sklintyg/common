@@ -152,7 +152,7 @@ class QuestionProgressivOgonsjukdomTest {
 
             @Override
             protected String getExpression() {
-                return "$" + PROGRESSIV_OGONSJUKDOM_JSON_ID;
+                return "exists(" + PROGRESSIV_OGONSJUKDOM_JSON_ID + ")";
             }
 
             @Override

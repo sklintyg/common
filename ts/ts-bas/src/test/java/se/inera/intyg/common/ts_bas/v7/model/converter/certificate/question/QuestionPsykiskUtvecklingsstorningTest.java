@@ -151,7 +151,7 @@ class QuestionPsykiskUtvecklingsstorningTest {
 
             @Override
             protected String getExpression() {
-                return "$utvecklingsstorning";
+                return "exists(utvecklingsstorning)";
             }
 
             @Override

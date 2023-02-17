@@ -188,7 +188,7 @@ class QuestionHypoglykemiKontrollSjukdomstillstandTest {
 
         @Override
         protected String getExpression() {
-            return "$" + HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_JSON_ID;
+            return "exists(" + HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_JSON_ID + ")";
         }
     }
 

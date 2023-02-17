@@ -714,7 +714,7 @@ class CertificateToInternalTest {
 
         @ParameterizedTest
         @MethodSource("textValues")
-        void shouldIncludeForsakringsmedicinsktBeslutsstödValue(String expectedValue) {
+        void shouldIncludeForsakringsmedicinsktBeslutsstodValue(String expectedValue) {
             final var index = 1;
 
             final var certificate = CertificateBuilder.create().addElement(

@@ -41,8 +41,6 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigDateTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
-import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMaxDateTest;
-import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMinDateTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalValueTest;
@@ -96,7 +94,8 @@ class QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunktTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toCertificate(null, null, 0, textProvider);
+            final var personId = Personnummer.createPersonnummer("191212121212").orElseThrow();
+            return QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toCertificate(null, personId, 0, textProvider);
         }
 
         @Override
@@ -112,6 +111,16 @@ class QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunktTest {
         @Override
         protected String getDescriptionId() {
             return null;
+        }
+
+        @Override
+        protected LocalDate getMinDate() {
+            return LocalDate.parse("1912-12-12");
+        }
+
+        @Override
+        protected  LocalDate getMaxDate() {
+            return LocalDate.now();
         }
     }
 
@@ -185,61 +194,13 @@ class QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunktTest {
     }
 
     @Nested
-    class IncludeValidationMaxDateTest extends ValidationMaxDateTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toCertificate(null, null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 2;
-        }
-
-        @Override
-        protected String getId() {
-            return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID;
-        }
-
-        @Override
-        protected short getDaysInFuture() {
-            return 0;
-        }
-    }
-
-    @Nested
-    class IncludeValidationMinDateTest extends ValidationMinDateTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            final var personId = Personnummer.createPersonnummer("191212121212").orElseThrow();
-            return QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toCertificate(null, personId, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 3;
-        }
-
-        @Override
-        protected String getId() {
-            return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID;
-        }
-
-        @Override
-        protected LocalDate getMinDate() {
-            return LocalDate.parse("1912-12-12");
-        }
-    }
-
-    @Nested
     @TestInstance(Lifecycle.PER_CLASS)
     class IncludeInternalDateValueTest extends InternalValueTest<Hypoglykemi, InternalDate> {
 
         @Override
         protected CertificateDataElement getElement(Hypoglykemi input) {
-            return QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toCertificate(input, null, 0, textProvider);
+            final var personId = Personnummer.createPersonnummer("191212121212").orElseThrow();
+            return QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toCertificate(input, personId, 0, textProvider);
         }
 
         @Override

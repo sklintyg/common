@@ -260,14 +260,14 @@ class QuestionIntygetAvserTest {
 
             @Override
             protected String getExpression() {
-                return IntygAvserKategori.VAR12.name() + " || " + IntygAvserKategori.VAR13.name() + " || "
-                    + IntygAvserKategori.VAR14.name() + " || " + IntygAvserKategori.VAR15.name() + " || "
-                    + IntygAvserKategori.VAR16.name() + " || " + IntygAvserKategori.VAR17.name() + " || "
-                    + IntygAvserKategori.VAR18.name() + " || " + IntygAvserKategori.VAR1.name() + " || "
-                    + IntygAvserKategori.VAR2.name() + " || " + IntygAvserKategori.VAR3.name() + " || "
-                    + IntygAvserKategori.VAR4.name() + " || " + IntygAvserKategori.VAR5.name() + " || "
-                    + IntygAvserKategori.VAR6.name() + " || " + IntygAvserKategori.VAR7.name() + " || "
-                    + IntygAvserKategori.VAR8.name() + " || " + IntygAvserKategori.VAR9.name();
+                return "exists(" + IntygAvserKategori.VAR12.name() + ") || exists(" + IntygAvserKategori.VAR13.name() + ") || exists("
+                    + IntygAvserKategori.VAR14.name() + ") || exists(" + IntygAvserKategori.VAR15.name() + ") || exists("
+                    + IntygAvserKategori.VAR16.name() + ") || exists(" + IntygAvserKategori.VAR17.name() + ") || exists("
+                    + IntygAvserKategori.VAR18.name() + ") || exists(" + IntygAvserKategori.VAR1.name() + ") || exists("
+                    + IntygAvserKategori.VAR2.name() + ") || exists(" + IntygAvserKategori.VAR3.name() + ") || exists("
+                    + IntygAvserKategori.VAR4.name() + ") || exists(" + IntygAvserKategori.VAR5.name() + ") || exists("
+                    + IntygAvserKategori.VAR6.name() + ") || exists(" + IntygAvserKategori.VAR7.name() + ") || exists("
+                    + IntygAvserKategori.VAR8.name() + ") || exists(" + IntygAvserKategori.VAR9.name() + ")";
             }
 
             @Override

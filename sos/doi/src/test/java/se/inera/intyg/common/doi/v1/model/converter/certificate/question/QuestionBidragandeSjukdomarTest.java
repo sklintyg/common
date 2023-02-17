@@ -52,7 +52,6 @@ import se.inera.intyg.common.support.facade.model.config.CauseOfDeath;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeathList;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.config.CodeItem;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
@@ -215,6 +214,16 @@ class QuestionBidragandeSjukdomarTest {
         }
 
         @Test
+        void shouldIncludeMaxDate() {
+            final var question = QuestionBidragandeSjukdomar.toCertificate(
+                bidragandeSjukdomar, 0, texts);
+            final var config = (CertificateDataConfigCauseOfDeathList) question.getConfig();
+            for (int i = 0; i < EXPECTED_IDS.size(); i++) {
+                assertEquals(LocalDate.now(), config.getList().get(i).getMaxDate());
+            }
+        }
+
+        @Test
         void shouldIncludeValueTypeTerminalCauseOfDeathListId() {
             final var question = QuestionBidragandeSjukdomar.toCertificate(
                 bidragandeSjukdomar, 0, texts);
@@ -336,35 +345,6 @@ class QuestionBidragandeSjukdomarTest {
             for (int i = 0; i < ids.size(); i++) {
                 final var certificateDataValidationMaxDate = (CertificateDataValidationText) question.getValidation()[i];
                 assertEquals(55, certificateDataValidationMaxDate.getLimit());
-            }
-        }
-
-        @Test
-        void shouldIncludeValidationMaxDateType() {
-            final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
-            final var ids = List.of("8", "9", "10", "11", "12", "13", "14", "15");
-            for (int i = 8; i < ids.size() + 8; i++) {
-                assertEquals(CertificateDataValidationType.MAX_DATE_VALIDATION, question.getValidation()[i].getType());
-            }
-        }
-
-        @Test
-        void shouldIncludeValidationMaxDateId() {
-            final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
-            final var ids = List.of("8", "9", "10", "11", "12", "13", "14", "15");
-            for (int i = 8; i < ids.size() + 8; i++) {
-                final var certificateDataValidationMaxDate = (CertificateDataValidationMaxDate) question.getValidation()[i];
-                assertEquals(Integer.toString(i - 8), certificateDataValidationMaxDate.getId());
-            }
-        }
-
-        @Test
-        void shouldIncludeValidationMaxDateNumberOfDays() {
-            final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
-            final var ids = List.of("8", "9", "10", "11", "12", "13", "14", "15");
-            for (int i = 8; i < ids.size() + 8; i++) {
-                final var certificateDataValidationMaxDate = (CertificateDataValidationMaxDate) question.getValidation()[i];
-                assertEquals(0, certificateDataValidationMaxDate.getNumberOfDays());
             }
         }
     }

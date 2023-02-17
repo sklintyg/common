@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question;
 
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.BEDOMNING_KORKORTSBEHORIGHET_VAR11_LABEL_ID;
@@ -168,16 +168,16 @@ public class QuestionBedomningUppfyllerBehorighetskrav {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(BEDOMNING_SVAR_ID)
-                        .expression(multipleOrExpression(getLicenceOptions(true).toArray(new String[0])))
+                        .expression(multipleOrExpressionWithExists(getLicenceOptions(true).toArray(new String[0])))
                         .build(),
                     CertificateDataValidationDisableSubElement.builder()
                         .questionId(BEDOMNING_SVAR_ID)
-                        .expression(multipleOrExpression(getLicenceOptions(false).toArray(new String[0])))
+                        .expression(multipleOrExpressionWithExists(getLicenceOptions(false).toArray(new String[0])))
                         .id(List.of(BedomningKorkortstyp.VAR11.name()))
                         .build(),
                     CertificateDataValidationDisableSubElement.builder()
                         .questionId(BEDOMNING_SVAR_ID)
-                        .expression(singleExpression(BedomningKorkortstyp.VAR11.name()))
+                        .expression(exists(BedomningKorkortstyp.VAR11.name()))
                         .id(getLicenceOptions(false))
                         .build()
                 }

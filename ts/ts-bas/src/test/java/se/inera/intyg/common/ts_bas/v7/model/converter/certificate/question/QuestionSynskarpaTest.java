@@ -455,9 +455,9 @@ class QuestionSynskarpaTest {
 
         @Override
         protected String getExpression() {
-            return BINOKULART_UTAN_KORREKTION_JSON_ID
-                + " && " + VANSTER_OGA_UTAN_KORREKTION_JSON_ID
-                + " && " + HOGER_OGA_UTAN_KORREKTION_JSON_ID;
+            return "exists(" + BINOKULART_UTAN_KORREKTION_JSON_ID
+                + ") && exists(" + VANSTER_OGA_UTAN_KORREKTION_JSON_ID
+                + ") && exists(" + HOGER_OGA_UTAN_KORREKTION_JSON_ID + ")";
         }
 
         @Override

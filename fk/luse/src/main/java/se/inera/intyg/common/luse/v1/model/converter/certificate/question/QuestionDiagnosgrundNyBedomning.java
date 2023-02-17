@@ -25,7 +25,7 @@ import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNO
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_SVAR_TEXT_ID;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_UNSELECTED_TEXT;
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -62,7 +62,7 @@ public class QuestionDiagnosgrundNyBedomning {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(DIAGNOSGRUND_NY_BEDOMNING_SVAR_ID)
-                        .expression(singleExpression(DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID))
+                        .expression(exists(DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID))
                         .build()
                 }
             )

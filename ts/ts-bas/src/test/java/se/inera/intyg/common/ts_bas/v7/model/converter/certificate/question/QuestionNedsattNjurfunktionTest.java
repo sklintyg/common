@@ -151,7 +151,7 @@ class QuestionNedsattNjurfunktionTest {
 
             @Override
             protected String getExpression() {
-                return "$" + NEDSATT_NJURFUNKTION_JSON_ID;
+                return "exists(" + NEDSATT_NJURFUNKTION_JSON_ID + ")";
             }
 
             @Override

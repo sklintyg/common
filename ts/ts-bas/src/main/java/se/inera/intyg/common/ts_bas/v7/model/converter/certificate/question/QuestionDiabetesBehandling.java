@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BEHANDLING_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BEHANDLING_DIABETES_SVAR_TEXT_ID;
@@ -90,12 +90,12 @@ public class QuestionDiabetesBehandling {
                     CertificateDataValidationMandatory.builder()
                         .questionId(BEHANDLING_DIABETES_SVAR_ID)
                         .expression(
-                            multipleOrExpression(
+                            multipleOrExpressionWithExists(
                                 KOSTBEHANDLING_DELSVAR_JSON_ID, TABLETTBEHANDLING_DELSVAR_JSON_ID, INSULINBEHANDLING_DELSVAR_JSON_ID))
                         .build(),
                     CertificateDataValidationShow.builder()
                         .questionId(TYP_AV_DIABETES_SVAR_ID)
-                        .expression(singleExpression(DiabetesKod.DIABETES_TYP_2.name()))
+                        .expression(exists(DiabetesKod.DIABETES_TYP_2.name()))
                         .build()
                 }
             )

@@ -41,7 +41,6 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigDateTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
-import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMaxDateTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueDateTest;
@@ -109,6 +108,17 @@ class QuestionKannedomOmPatientTest {
         protected String getDescriptionId() {
             return null;
         }
+
+        @Override
+        protected LocalDate getMaxDate() {
+            return LocalDate.now();
+        }
+
+        @Override
+        protected LocalDate getMinDate() {
+            return null;
+        }
+
     }
 
     @Nested
@@ -151,31 +161,6 @@ class QuestionKannedomOmPatientTest {
         @Override
         protected String getExpression() {
             return "$" + KANNEDOM_SVAR_JSON_ID_2;
-        }
-    }
-
-    @Nested
-    class IncludeValidationMaxDateTest extends ValidationMaxDateTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionKannedomOmPatient.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 1;
-        }
-
-
-        @Override
-        protected String getId() {
-            return KANNEDOM_SVAR_JSON_ID_2;
-        }
-
-        @Override
-        protected short getDaysInFuture() {
-            return 0;
         }
     }
 

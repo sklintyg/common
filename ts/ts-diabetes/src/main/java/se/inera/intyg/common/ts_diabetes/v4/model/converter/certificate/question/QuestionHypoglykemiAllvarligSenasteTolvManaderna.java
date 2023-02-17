@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question;
 
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_SVAR_ID;
@@ -68,7 +68,7 @@ public class QuestionHypoglykemiAllvarligSenasteTolvManaderna {
                 new CertificateDataValidation[]{
                     CertificateDataValidationShow.builder()
                         .questionId(INTYG_AVSER_SVAR_ID)
-                        .expression(multipleOrExpression(IntygAvserKategori.VAR1.name(), IntygAvserKategori.VAR2.name(),
+                        .expression(multipleOrExpressionWithExists(IntygAvserKategori.VAR1.name(), IntygAvserKategori.VAR2.name(),
                             IntygAvserKategori.VAR3.name(), IntygAvserKategori.VAR4.name(), IntygAvserKategori.VAR5.name(),
                             IntygAvserKategori.VAR6.name(), IntygAvserKategori.VAR7.name(), IntygAvserKategori.VAR8.name(),
                             IntygAvserKategori.VAR9.name())
@@ -76,7 +76,7 @@ public class QuestionHypoglykemiAllvarligSenasteTolvManaderna {
                         .build(),
                     CertificateDataValidationMandatory.builder()
                         .questionId(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_SVAR_ID)
-                        .expression(singleExpression(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_JSON_ID))
+                        .expression(exists(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_JSON_ID))
                         .build()
                 }
             )

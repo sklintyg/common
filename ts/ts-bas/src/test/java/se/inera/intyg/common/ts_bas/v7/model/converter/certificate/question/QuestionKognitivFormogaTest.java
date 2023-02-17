@@ -151,7 +151,7 @@ class QuestionKognitivFormogaTest {
 
             @Override
             protected String getExpression() {
-                return "$" + TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_JSON_ID;
+                return "exists(" + TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_JSON_ID + ")";
             }
 
             @Override

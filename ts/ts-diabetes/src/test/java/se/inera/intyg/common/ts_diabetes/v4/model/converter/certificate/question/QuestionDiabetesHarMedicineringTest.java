@@ -155,7 +155,7 @@ class QuestionDiabetesHarMedicineringTest {
 
             @Override
             protected String getExpression() {
-                return "$" + ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID;
+                return "exists(" + ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID + ")";
             }
 
             @Override

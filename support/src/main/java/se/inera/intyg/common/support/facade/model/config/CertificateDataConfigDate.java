@@ -20,6 +20,7 @@ package se.inera.intyg.common.support.facade.model.config;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.time.LocalDate;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
@@ -45,6 +46,8 @@ public class CertificateDataConfigDate implements CertificateDataConfig {
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
     String id;
+    LocalDate minDate;
+    LocalDate maxDate;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataConfigDateBuilder {

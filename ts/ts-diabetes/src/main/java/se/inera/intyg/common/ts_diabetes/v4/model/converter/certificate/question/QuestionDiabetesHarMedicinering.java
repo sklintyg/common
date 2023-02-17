@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question;
 
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID;
@@ -63,7 +63,7 @@ public class QuestionDiabetesHarMedicinering {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID)
-                        .expression(singleExpression(ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID))
+                        .expression(exists(ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID))
                         .build()
                 }
             )

@@ -148,7 +148,7 @@ class QuestionStadigvarandeMedicineringTest {
 
             @Override
             protected String getExpression() {
-                return "$forekomststadigvarandemedicinering";
+                return "exists(forekomststadigvarandemedicinering)";
             }
 
             @Override

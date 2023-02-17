@@ -186,7 +186,7 @@ class QuestionHypoglykemiAterkommandeSenasteAretKontrollerasTest {
 
         @Override
         protected String getExpression() {
-            return "$" + HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_KONTROLLERAS_JSON_ID;
+            return "exists(" + HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_KONTROLLERAS_JSON_ID + ")";
         }
     }
 

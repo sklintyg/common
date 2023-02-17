@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question;
 
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
@@ -72,7 +73,7 @@ public class QuestionHypoglykemiFormagaKannaVarningstecken {
                         .build(),
                     CertificateDataValidationMandatory.builder()
                         .questionId(HYPOGLYKEMI_FORMAGA_KANNA_VARNINGSTECKEN_SVAR_ID)
-                        .expression(singleExpression(HYPOGLYKEMI_FORMAGA_KANNA_VARNINGSTECKEN_JSON_ID))
+                        .expression(exists(HYPOGLYKEMI_FORMAGA_KANNA_VARNINGSTECKEN_JSON_ID))
                         .build()
                 }
             )

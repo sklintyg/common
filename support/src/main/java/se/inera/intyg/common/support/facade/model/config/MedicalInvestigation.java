@@ -20,6 +20,7 @@ package se.inera.intyg.common.support.facade.model.config;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.Builder;
 import lombok.Value;
@@ -34,6 +35,8 @@ public class MedicalInvestigation {
     String informationSourceId;
     String dateId;
     List<CodeItem> typeOptions;
+    LocalDate maxDate;
+    LocalDate minDate;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class MedicalInvestigationBuilder {

@@ -67,7 +67,6 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedi
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigMedicalInvestigationTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
-import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMaxDateTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalValueTest;
@@ -164,6 +163,16 @@ class QuestionUnderlagTest {
                     .typeOptions(getTypeOptions())
                     .build()
             );
+        }
+
+        @Override
+        protected List<LocalDate> getMaxDates() {
+            return Collections.nCopies(3, LocalDate.now());
+        }
+
+        @Override
+        protected List<LocalDate> getMinDates() {
+            return Collections.nCopies(3, null);
         }
 
         @Override
@@ -344,78 +353,6 @@ class QuestionUnderlagTest {
         @Override
         protected String getExpression() {
             return "$" + UNDERLAGFINNS_SVAR_JSON_ID_3;
-        }
-    }
-
-    @Nested
-    class IncludeValidationMaxDateTestDatum0 extends ValidationMaxDateTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionUnderlag.toCertificate(Collections.emptyList(), 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 2;
-        }
-
-        @Override
-        protected String getId() {
-            return "'" + UNDERLAG_SVAR_JSON_ID_4 + "[0].datum" + "'";
-        }
-
-        @Override
-        protected short getDaysInFuture() {
-            return 0;
-        }
-    }
-
-    @Nested
-    class IncludeValidationMaxDateTestDatum1 extends ValidationMaxDateTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionUnderlag.toCertificate(Collections.emptyList(), 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 3;
-        }
-
-        @Override
-        protected String getId() {
-            return "'" + UNDERLAG_SVAR_JSON_ID_4 + "[1].datum" + "'";
-        }
-
-        @Override
-        protected short getDaysInFuture() {
-            return 0;
-        }
-    }
-
-    @Nested
-    class IncludeValidationMaxDateTestDatum2 extends ValidationMaxDateTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionUnderlag.toCertificate(Collections.emptyList(), 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 4;
-        }
-
-        @Override
-        protected String getId() {
-            return "'" + UNDERLAG_SVAR_JSON_ID_4 + "[2].datum" + "'";
-        }
-
-        @Override
-        protected short getDaysInFuture() {
-            return 0;
         }
     }
 

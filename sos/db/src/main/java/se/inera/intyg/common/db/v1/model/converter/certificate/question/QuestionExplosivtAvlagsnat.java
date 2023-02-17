@@ -25,6 +25,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_AV
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_AVLAGSNAT_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_IMPLANTAT_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_IMPLANTAT_JSON_ID;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 
@@ -63,7 +64,7 @@ public class QuestionExplosivtAvlagsnat {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(EXPLOSIV_AVLAGSNAT_DELSVAR_ID)
-                        .expression(singleExpression(EXPLOSIV_AVLAGSNAT_JSON_ID))
+                        .expression(exists(EXPLOSIV_AVLAGSNAT_JSON_ID))
                         .build(),
                     CertificateDataValidationShow.builder()
                         .questionId(EXPLOSIV_IMPLANTAT_DELSVAR_ID)

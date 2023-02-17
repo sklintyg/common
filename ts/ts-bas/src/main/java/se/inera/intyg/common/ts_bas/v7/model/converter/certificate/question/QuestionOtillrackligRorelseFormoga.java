@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INTYG_AVSER_SVAR_ID_1;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.OTILLRACKLIG_RORELSEFORMAGA_JSON_ID;
@@ -67,11 +67,11 @@ public class QuestionOtillrackligRorelseFormoga {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID)
-                        .expression(singleExpression(OTILLRACKLIG_RORELSEFORMAGA_JSON_ID))
+                        .expression(exists(OTILLRACKLIG_RORELSEFORMAGA_JSON_ID))
                         .build(),
                     CertificateDataValidationShow.builder()
                         .questionId(INTYG_AVSER_SVAR_ID_1)
-                        .expression(multipleOrExpression(
+                        .expression(multipleOrExpressionWithExists(
                             IntygAvserKategori.IAV5.name(), IntygAvserKategori.IAV6.name(), IntygAvserKategori.IAV7.name(),
                             IntygAvserKategori.IAV8.name(), IntygAvserKategori.IAV9.name()))
                         .build()
