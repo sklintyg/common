@@ -19,9 +19,10 @@
 
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
+
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_MEDICINSKABEHANDLINGAR;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
 
 import se.inera.intyg.common.fkparent.model.converter.certificate.AbstractQuestionPlaneradBehandling;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -32,7 +33,7 @@ public class QuestionPlaneradBehandling extends AbstractQuestionPlaneradBehandli
 
     public static CertificateDataElement toCertificate(String value, int index,
         CertificateTextProvider texts) {
-        return toCertificate(value, PLANERADBEHANDLING_SVAR_ID_20, MEDICINSKABEHANDLINGAR_CATEGORY_ID, PLANERADBEHANDLING_SVAR_JSON_ID_20,
+        return toCertificate(value, PLANERADBEHANDLING_SVAR_ID_20, CATEGORY_MEDICINSKABEHANDLINGAR, PLANERADBEHANDLING_SVAR_JSON_ID_20,
             index, texts);
     }
 

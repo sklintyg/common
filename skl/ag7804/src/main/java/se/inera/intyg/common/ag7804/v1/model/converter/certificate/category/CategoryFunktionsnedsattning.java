@@ -19,10 +19,11 @@
 
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.category;
 
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID;
+
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_FUNKTIONSNEDSATTNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_TEXT;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -36,11 +37,11 @@ public class CategoryFunktionsnedsattning {
     public static CertificateDataElement toCertificate(int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(FUNKTIONSNEDSATTNING_CATEGORY_ID)
+            .id(CATEGORY_FUNKTIONSNEDSATTNING)
             .index(index)
             .config(
                 CertificateDataConfigCategory.builder()
-                    .text(texts.get(FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID))
+                    .text(texts.get(FUNKTIONSNEDSATTNING_CATEGORY_TEXT))
                     .build()
             )
             .validation(

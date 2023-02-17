@@ -19,8 +19,8 @@
 
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.category;
 
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.OVRIGT_CATEGORY_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_OVRIGT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_CATEGORY_TEXT;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -31,7 +31,7 @@ public class CategoryOvrigt {
     public static CertificateDataElement toCertificate(int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(OVRIGT_CATEGORY_ID)
+            .id(CATEGORY_OVRIGT)
             .index(index)
             .config(
                 CertificateDataConfigCategory.builder()

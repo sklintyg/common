@@ -19,9 +19,10 @@
 
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSRESOR_SVAR_ID_34;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSRESOR_SVAR_JSON_ID_34;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
+
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSRESOR_SVAR_ID_34;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSRESOR_SVAR_JSON_ID_34;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_BEDOMNING;
 
 import se.inera.intyg.common.fkparent.model.converter.certificate.AbstractQuestionArbetsresor;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -32,7 +33,7 @@ public class QuestionArbetsresor extends AbstractQuestionArbetsresor {
 
     public static CertificateDataElement toCertificate(Boolean value, int index,
         CertificateTextProvider texts) {
-        return toCertificate(value, ARBETSRESOR_SVAR_ID_34, BEDOMNING_CATEGORY_ID, ARBETSRESOR_SVAR_JSON_ID_34, index, texts);
+        return toCertificate(value, ARBETSRESOR_SVAR_ID_34, CATEGORY_BEDOMNING, ARBETSRESOR_SVAR_JSON_ID_34, index, texts);
     }
 
     public static Boolean toInternal(Certificate certificate) {

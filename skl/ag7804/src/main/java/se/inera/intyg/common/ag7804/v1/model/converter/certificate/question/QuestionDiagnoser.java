@@ -18,10 +18,11 @@
  */
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_SVAR_DESCRIPTION_ID;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_SVAR_ID_6;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_SVAR_TEXT_ID;
+
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_DIAGNOS;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_BESKRIVNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_ID_6;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_TEXT;
 
 import java.util.List;
 import se.inera.intyg.common.fkparent.model.converter.certificate.AbstractQuestionDiagnoser;
@@ -34,7 +35,7 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 public class QuestionDiagnoser extends AbstractQuestionDiagnoser {
 
     public static CertificateDataElement toCertificate(List<Diagnos> diagnoser, int index, CertificateTextProvider textProvider) {
-        return toCertificate(diagnoser, DIAGNOS_SVAR_ID_6, DIAGNOS_CATEGORY_ID, DIAGNOS_SVAR_TEXT_ID, DIAGNOS_SVAR_DESCRIPTION_ID, null,
+        return toCertificate(diagnoser, DIAGNOS_SVAR_ID_6, CATEGORY_DIAGNOS, DIAGNOS_SVAR_TEXT, DIAGNOS_SVAR_BESKRIVNING, null,
             index,
             textProvider);
     }

@@ -23,6 +23,7 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ANLED
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -33,7 +34,7 @@ public class QuestionKontaktBeskrivning extends AbstractQuestionKontaktBeskrivni
     public static CertificateDataElement toCertificate(String value, int index,
         CertificateTextProvider texts) {
         return toCertificate(value, ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26, KONTAKT_ONSKAS_SVAR_ID_26,
-            ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26, ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT, index, texts);
+            ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26, ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT, KONTAKT_ONSKAS_SVAR_JSON_ID_26, index, texts);
     }
 
     public static String toInternal(Certificate certificate) {

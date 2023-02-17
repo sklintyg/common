@@ -19,7 +19,6 @@
 
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
@@ -34,6 +33,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue
 public class AbstractQuestionKontaktBeskrivning {
 
     public static CertificateDataElement toCertificate(String value, String questionId, String parent, String jsonId, String textId,
+        String expression,
         int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
@@ -57,7 +57,7 @@ public class AbstractQuestionKontaktBeskrivning {
                     CertificateDataValidationShow.builder()
                         .questionId(parent)
                         .expression(
-                            singleExpression(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
+                            singleExpression(expression)
                         )
                         .build()
                 }

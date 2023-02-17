@@ -19,17 +19,17 @@
 
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ANSWER_NO;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ANSWER_YES;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.KONTAKT_CATEGORY_ID;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_TEXT;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_BESKRIVNING;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_TEXT;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
+
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ANSWER_NO;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ANSWER_YES;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_KONTAKT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_103;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_103;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_TEXT;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -45,14 +45,13 @@ public class QuestionKontakt {
     public static CertificateDataElement toCertificate(Boolean value, int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(KONTAKT_ONSKAS_SVAR_ID_26)
+            .id(KONTAKT_ONSKAS_SVAR_ID_103)
             .index(index)
-            .parent(KONTAKT_CATEGORY_ID)
+            .parent(CATEGORY_KONTAKT)
             .config(
                 CertificateDataConfigCheckboxBoolean.builder()
-                    .id(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
+                    .id(KONTAKT_ONSKAS_SVAR_JSON_ID_103)
                     .text(texts.get(KONTAKT_ONSKAS_SVAR_TEXT))
-                    .description(texts.get(KONTAKT_ONSKAS_SVAR_BESKRIVNING))
                     .selectedText(texts.get(ANSWER_YES))
                     .unselectedText(texts.get(ANSWER_NO))
                     .label(texts.get(KONTAKT_ONSKAS_DELSVAR_TEXT))
@@ -60,7 +59,7 @@ public class QuestionKontakt {
             )
             .value(
                 CertificateDataValueBoolean.builder()
-                    .id(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
+                    .id(KONTAKT_ONSKAS_SVAR_JSON_ID_103)
                     .selected(value)
                     .build()
             )
@@ -68,14 +67,15 @@ public class QuestionKontakt {
                 new CertificateDataValidation[]{
                     CertificateDataValidationHide.builder()
                         .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(exists(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
                         .build()
                 }
             )
             .build();
     }
 
+
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), KONTAKT_ONSKAS_SVAR_ID_26, KONTAKT_ONSKAS_SVAR_JSON_ID_26);
+        return booleanValue(certificate.getData(), KONTAKT_ONSKAS_SVAR_ID_103, KONTAKT_ONSKAS_SVAR_JSON_ID_103);
     }
 }

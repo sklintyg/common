@@ -19,8 +19,8 @@
 
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.category;
 
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEDOMNING_CATEGORY_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.BEDOMNING_CATEGORY_TEXT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_BEDOMNING;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -32,7 +32,7 @@ public class CategoryBedomning {
     public static CertificateDataElement toCertificate(int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(BEDOMNING_CATEGORY_ID)
+            .id(CATEGORY_BEDOMNING)
             .index(index)
             .config(
                 CertificateDataConfigCategory.builder()

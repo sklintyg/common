@@ -19,9 +19,10 @@
 
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_ID_33;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
+
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_ID_33;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_BEDOMNING;
 
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.AbstractQuestionArbetstidsforlaggning;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -32,7 +33,7 @@ public class QuestionArbetstidsforlaggning extends AbstractQuestionArbetstidsfor
 
     public static CertificateDataElement toCertificate(Boolean value, int index,
         CertificateTextProvider texts) {
-        return toCertificate(value, ARBETSTIDSFORLAGGNING_SVAR_ID_33, BEDOMNING_CATEGORY_ID, ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33, index,
+        return toCertificate(value, ARBETSTIDSFORLAGGNING_SVAR_ID_33, CATEGORY_BEDOMNING, ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33, index,
             texts);
     }
 

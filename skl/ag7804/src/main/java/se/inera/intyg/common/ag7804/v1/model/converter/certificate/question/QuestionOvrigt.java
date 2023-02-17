@@ -19,9 +19,10 @@
 
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.OVRIGT_CATEGORY_ID;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_OVRIGT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_ID_25;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_TEXT;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -41,10 +42,11 @@ public class QuestionOvrigt {
         return CertificateDataElement.builder()
             .id(OVRIGT_SVAR_ID_25)
             .index(index)
-            .parent(OVRIGT_CATEGORY_ID)
+            .parent(CATEGORY_OVRIGT)
             .config(
                 CertificateDataConfigTextArea.builder()
                     .id(OVRIGT_SVAR_JSON_ID_25)
+                    .text(texts.get(OVRIGT_SVAR_TEXT))
                     .build()
             )
             .value(

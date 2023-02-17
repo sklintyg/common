@@ -19,7 +19,10 @@
 
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.category;
 
-import se.inera.intyg.common.ag7804.converter.RespConstants;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_DESCRIPTION;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_ID;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_TEXT;
+
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory;
@@ -28,12 +31,12 @@ public class CategorySmittbararpenning {
 
     public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_ID)
+            .id(AVSTANGNING_SMITTSKYDD_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigCategory.builder()
-                    .text(texts.get(RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_TEXT))
-                    .description(texts.get(RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_DESCRIPTION))
+                    .text(texts.get(AVSTANGNING_SMITTSKYDD_CATEGORY_TEXT))
+                    .description(texts.get(AVSTANGNING_SMITTSKYDD_CATEGORY_DESCRIPTION))
                     .build()
             )
             .build();

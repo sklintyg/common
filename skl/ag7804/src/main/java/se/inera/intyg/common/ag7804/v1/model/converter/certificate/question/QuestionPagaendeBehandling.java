@@ -19,9 +19,10 @@
 
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKABEHANDLINGAR_CATEGORY_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
+
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_MEDICINSKABEHANDLINGAR;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
 
 import se.inera.intyg.common.fkparent.model.converter.certificate.AbstractQuestionPagaendeBehandling;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -32,7 +33,7 @@ public class QuestionPagaendeBehandling extends AbstractQuestionPagaendeBehandli
 
     public static CertificateDataElement toCertificate(String value, int index,
         CertificateTextProvider texts) {
-        return toCertificate(value, PAGAENDEBEHANDLING_SVAR_ID_19, MEDICINSKABEHANDLINGAR_CATEGORY_ID, PAGAENDEBEHANDLING_SVAR_JSON_ID_19,
+        return toCertificate(value, PAGAENDEBEHANDLING_SVAR_ID_19, CATEGORY_MEDICINSKABEHANDLINGAR, PAGAENDEBEHANDLING_SVAR_JSON_ID_19,
             index, texts);
     }
 

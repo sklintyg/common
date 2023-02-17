@@ -19,9 +19,10 @@
 
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37;
+
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_BEDOMNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37;
 
 import se.inera.intyg.common.fkparent.model.converter.certificate.AbstractQuestionForsakringsmedicinsktBeslutsstod;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -32,7 +33,7 @@ public class QuestionForsakringsmedicinsktBeslutsstod extends AbstractQuestionFo
 
     public static CertificateDataElement toCertificate(String value, int index,
         CertificateTextProvider texts) {
-        return toCertificate(value, FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37, BEDOMNING_CATEGORY_ID,
+        return toCertificate(value, FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37, CATEGORY_BEDOMNING,
             FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37, index, texts);
     }
 

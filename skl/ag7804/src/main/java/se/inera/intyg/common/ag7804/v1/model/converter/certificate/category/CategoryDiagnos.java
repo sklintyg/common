@@ -19,8 +19,9 @@
 
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.category;
 
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_TEXT;
+
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_DIAGNOS;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_CATEGORY_TEXT;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -31,7 +32,7 @@ public class CategoryDiagnos {
     public static CertificateDataElement toCertificate(int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
-            .id(DIAGNOS_CATEGORY_ID)
+            .id(CATEGORY_DIAGNOS)
             .index(index)
             .config(
                 CertificateDataConfigCategory.builder()
