@@ -23,52 +23,20 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ANLED
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 
-public class QuestionKontaktBeskrivning {
+public class QuestionKontaktBeskrivning extends AbstractQuestionKontaktBeskrivning {
 
     public static CertificateDataElement toCertificate(String value, int index,
         CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26)
-            .index(index)
-            .parent(KONTAKT_ONSKAS_SVAR_ID_26)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26)
-                    .text(texts.get(ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT))
-                    .build()
-            )
-            .value(
-                CertificateDataTextValue.builder()
-                    .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26)
-                    .text(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(KONTAKT_ONSKAS_SVAR_ID_26)
-                        .expression(
-                            singleExpression(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
-                        )
-                        .build()
-                }
-            )
-            .build();
+        return toCertificate(value, ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26, KONTAKT_ONSKAS_SVAR_ID_26,
+            ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26, ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT, index, texts);
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26, ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26);
+        return toInternal(certificate, ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26, ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26);
     }
 }
