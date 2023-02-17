@@ -64,11 +64,11 @@ public class QuestionTerminalDodsorsak {
                     .text(texts.get(TERMINAL_DODSORSAK_QUESTION_TEXT_ID))
                     .description(texts.get(TERMINAL_DODSORSAK_DESCRIPTION_TEXT_ID))
                     .label(FOLJD_OM_DELSVAR_A_LABEL)
-                    .maxDate(LocalDate.now())
                     .causeOfDeath(
                         CauseOfDeath.builder()
                             .descriptionId(TERMINAL_DODSORSAK_JSON_ID)
                             .debutId(DODSORSAK_DATUM_DELSVAR_ID)
+                            .maxDate(LocalDate.now())
                             .specifications(List.of(
                                 CodeItem.builder()
                                     .id(Specifikation.PLOTSLIG.name())

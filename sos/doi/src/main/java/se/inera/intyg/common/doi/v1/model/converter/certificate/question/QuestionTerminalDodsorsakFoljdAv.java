@@ -65,10 +65,10 @@ public class QuestionTerminalDodsorsakFoljdAv {
             .config(CertificateDataConfigCauseOfDeath.builder()
                 .text(texts.get(FOLJD_AV_QUESTION_TEXT_ID))
                 .label(label)
-                .maxDate(LocalDate.now())
                 .causeOfDeath(
                     CauseOfDeath.builder()
                         .id(FOLJD_JSON_ID)
+                        .maxDate(LocalDate.now())
                         .descriptionId(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].beskrivning")
                         .debutId(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].datum")
                         .specifications(List.of(

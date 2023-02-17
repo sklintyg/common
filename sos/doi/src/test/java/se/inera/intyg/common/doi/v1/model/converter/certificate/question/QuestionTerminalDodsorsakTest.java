@@ -176,7 +176,7 @@ class QuestionTerminalDodsorsakTest {
         void shouldIncludeMaxDate() {
             final var question = QuestionTerminalDodsorsak.toCertificate(causeOfDeathEmpty, 0, texts);
             final var config = (CertificateDataConfigCauseOfDeath) question.getConfig();
-            assertEquals(config.getMaxDate(), LocalDate.now());
+            assertEquals(config.getCauseOfDeath().getMaxDate(), LocalDate.now());
         }
 
         @Test
