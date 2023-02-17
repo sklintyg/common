@@ -21,67 +21,22 @@ package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_TEXT;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
-import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 
-public class QuestionAtgarderBeskrivning {
+public class QuestionAtgarderBeskrivning extends AbstractQuestionAtgarderBeskrivning {
 
     public static CertificateDataElement toCertificate(String value, int index,
         CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44)
-            .index(index)
-            .parent(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .text(texts.get(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_TEXT))
-                    .id(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44)
-                    .build()
-            )
-            .value(
-                CertificateDataTextValue.builder()
-                    .id(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44)
-                    .text(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
-                        .expression(
-                            multipleOrExpression(
-                                exists(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
-                            )
-                        )
-                        .build()
-                }
-            )
-            .build();
+        return toCertificate(value, ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44, ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40,
+            ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44, index, texts);
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44,
+        return toInternal(certificate, ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44,
             ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44);
     }
 }
