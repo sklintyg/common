@@ -44,10 +44,7 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFOR
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_ID_33;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_TEXT;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.ATGARDER_CATEGORY_TEXT;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_DESCRIPTION;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_ID;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_QUESTION_LABEL;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
@@ -161,6 +158,8 @@ import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning.SjukskrivningsG
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning.SysselsattningsTyp;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.category.CategoryAtgarder;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.category.CategorySmittbararpenning;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.fkparent.model.converter.RespConstants;
@@ -219,7 +218,7 @@ public final class InternalToCertificate {
         var index = 0;
         return CertificateBuilder.create()
             .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
-            .addElement(createSmittbararpenningCategory(index++, texts))
+            .addElement(CategorySmittbararpenning.toCertificate(index++, texts))
             .addElement(createAvstangningSmittskyddQuestion(internalCertificate.getAvstangningSmittskydd(), index++, texts))
             .addElement(createGrundForMUCategory(index++, texts))
             .addElement(createIntygetBaseratPa(internalCertificate, index++, texts))
@@ -247,7 +246,7 @@ public final class InternalToCertificate {
             .addElement(createArbetsresorQuestion(internalCertificate.getArbetsresor(), index++, texts))
             .addElement(createPrognosQuestion(internalCertificate.getPrognos(), index++, texts))
             .addElement(createPrognosTimeperiodQuestion(internalCertificate.getPrognos(), index++, texts))
-            .addElement(createAtgarderCategory(index++, texts))
+            .addElement(CategoryAtgarder.toCertificate(index++, texts))
             .addElement(createAtgarderQuestion(internalCertificate.getArbetslivsinriktadeAtgarder(), index++, texts))
             .addElement(createAtgarderBeskrivning(internalCertificate.getArbetslivsinriktadeAtgarderBeskrivning(), index++, texts))
             .addElement(createOvrigtCategory(index++, texts))
@@ -258,18 +257,6 @@ public final class InternalToCertificate {
             .build();
     }
 
-    private static CertificateDataElement createSmittbararpenningCategory(int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(AVSTANGNING_SMITTSKYDD_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigCategory.builder()
-                    .text(texts.get(AVSTANGNING_SMITTSKYDD_CATEGORY_TEXT))
-                    .description(texts.get(AVSTANGNING_SMITTSKYDD_CATEGORY_DESCRIPTION))
-                    .build()
-            )
-            .build();
-    }
 
     public static CertificateDataElement createAvstangningSmittskyddQuestion(Boolean value, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
@@ -1208,27 +1195,6 @@ public final class InternalToCertificate {
 
     private static String getPrognosDagarTillArbeteValue(Prognos prognos) {
         return prognos != null && prognos.getDagarTillArbete() != null ? prognos.getDagarTillArbete().getId() : null;
-    }
-
-    private static CertificateDataElement createAtgarderCategory(int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(CATEGORY_ATGARDER)
-            .index(index)
-            .config(
-                CertificateDataConfigCategory.builder()
-                    .text(texts.get(ATGARDER_CATEGORY_TEXT))
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
-            .build();
     }
 
 

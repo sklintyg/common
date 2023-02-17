@@ -17,25 +17,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.ag7804.v1.model.converter.certificate.category;
+package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 
-import se.inera.intyg.common.ag7804.converter.RespConstants;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39;
+
+import se.inera.intyg.common.lisjp.model.internal.Prognos;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.AbstractQuestionPrognosTimePeriod;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory;
 
-public class CategorySmittbararpenning {
+public class QuestionPrognosTimePeriod extends AbstractQuestionPrognosTimePeriod {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigCategory.builder()
-                    .text(texts.get(RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_TEXT))
-                    .description(texts.get(RespConstants.AVSTANGNING_SMITTSKYDD_CATEGORY_DESCRIPTION))
-                    .build()
-            )
-            .build();
+    public static CertificateDataElement toCertificate(Prognos prognos, int index,
+        CertificateTextProvider texts) {
+        return toCertificate(prognos, PROGNOS_BESKRIVNING_DELSVAR_ID_39, BEDOMNING_CATEGORY_ID, index, texts);
     }
 }
