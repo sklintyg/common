@@ -151,7 +151,7 @@ class QuestionBalansrubbningarTest {
 
             @Override
             protected String getExpression() {
-                return "$" + BALANSRUBBNINGAR_YRSEL_JSON_ID;
+                return "exists(" + BALANSRUBBNINGAR_YRSEL_JSON_ID + ")";
             }
 
             @Override

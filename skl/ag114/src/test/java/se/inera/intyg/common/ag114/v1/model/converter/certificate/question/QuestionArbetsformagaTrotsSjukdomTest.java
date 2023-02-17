@@ -152,7 +152,7 @@ class QuestionArbetsformagaTrotsSjukdomTest {
 
             @Override
             protected String getExpression() {
-                return "$" + ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID;
+                return "exists(" + ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID + ")";
             }
 
             @Override

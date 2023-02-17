@@ -149,7 +149,7 @@ class QuestionAlkoholNarkotikaJournaluppgifterTest {
 
             @Override
             protected String getExpression() {
-                return "$missbrukberoendetecken";
+                return "exists(missbrukberoendetecken)";
             }
 
             @Override

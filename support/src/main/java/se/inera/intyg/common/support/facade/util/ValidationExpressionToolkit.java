@@ -52,6 +52,16 @@ public final class ValidationExpressionToolkit {
         });
     }
 
+    public static String multipleOrExpressionWithExists(String... expression) {
+        return Arrays.stream(expression).reduce("", (s, s2) -> {
+            if (!s.isEmpty()) {
+                s += " || ";
+            }
+            s += "exists(" + s2 + ")";
+            return s;
+        });
+    }
+
     public static String multipleAndExpression(String... expression) {
         return Arrays.stream(expression).reduce("", (s, s2) -> {
             if (!s.isEmpty()) {
@@ -102,6 +112,10 @@ public final class ValidationExpressionToolkit {
         return s + '.' + attribute;
     }
 
+    public static String wrapWithAttribute(String s, String attribute) {
+        return attribute + "(" + s + ")";
+    }
+
     public static String equalsWith(String s, String value) {
         return s + " == " + value;
     }
@@ -117,4 +131,5 @@ public final class ValidationExpressionToolkit {
     public static String from(String s) {
         return s + ".from";
     }
+
 }

@@ -151,7 +151,7 @@ class QuestionHjartOchKarlsjukdomTest {
 
             @Override
             protected String getExpression() {
-                return "$" + HJART_ELLER_KARLSJUKDOM_JSON_ID;
+                return "exists(" + HJART_ELLER_KARLSJUKDOM_JSON_ID + ")";
             }
 
             @Override

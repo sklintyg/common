@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question;
 
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_ANNAN_LABEL_ID;
@@ -86,7 +86,7 @@ public class QuestionDiabetesTyp {
                     CertificateDataValidationMandatory.builder()
                         .questionId(ALLMANT_TYP_AV_DIABETES_SVAR_ID)
                         .expression(
-                            multipleOrExpression(
+                            multipleOrExpressionWithExists(
                                 KvTypAvDiabetes.TYP1.getCode(),
                                 KvTypAvDiabetes.TYP2.getCode(),
                                 KvTypAvDiabetes.LADA.getCode(),

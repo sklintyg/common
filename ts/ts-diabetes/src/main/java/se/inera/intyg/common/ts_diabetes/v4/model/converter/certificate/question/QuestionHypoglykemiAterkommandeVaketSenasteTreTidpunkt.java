@@ -27,14 +27,13 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_TEXT_ID;
 
+import java.time.LocalDate;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMinDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -42,8 +41,6 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Hypoglykemi;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 public class QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt {
-
-    private static final short NUMBER_OF_DAYS = 0;
 
     public static CertificateDataElement toCertificate(Hypoglykemi hypoglykemi, Personnummer personId, int index,
         CertificateTextProvider textProvider) {
@@ -58,6 +55,8 @@ public class QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt {
                 CertificateDataConfigDate.builder()
                     .id(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID)
                     .text(textProvider.get(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_TEXT_ID))
+                    .minDate(personId != null ? birthDate(personId) : null)
+                    .maxDate(LocalDate.now())
                     .build()
             )
             .value(
@@ -76,14 +75,6 @@ public class QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt {
                         .questionId(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_DELSVAR_ID)
                         .expression(singleExpression(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID))
                         .build(),
-                    CertificateDataValidationMaxDate.builder()
-                        .id(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID)
-                        .numberOfDays(NUMBER_OF_DAYS)
-                        .build(),
-                    CertificateDataValidationMinDate.builder()
-                        .id(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID)
-                        .minDate(personId != null ? birthDate(personId) : null)
-                        .build()
                 }
             )
             .build();

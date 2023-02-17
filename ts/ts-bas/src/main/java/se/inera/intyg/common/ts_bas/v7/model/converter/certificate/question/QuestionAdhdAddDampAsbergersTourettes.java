@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID;
@@ -64,7 +64,7 @@ public class QuestionAdhdAddDampAsbergersTourettes {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID)
-                        .expression(singleExpression(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID))
+                        .expression(exists(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID))
                         .build()
                 }
             )

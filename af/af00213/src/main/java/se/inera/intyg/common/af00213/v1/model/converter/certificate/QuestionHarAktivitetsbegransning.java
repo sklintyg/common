@@ -27,6 +27,7 @@ import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ANS
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ANSWER_YES;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_11;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 
@@ -65,7 +66,7 @@ public class QuestionHarAktivitetsbegransning {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(AKTIVITETSBEGRANSNING_DELSVAR_ID_21)
-                        .expression(singleExpression(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21))
+                        .expression(exists(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21))
                         .build(),
                     CertificateDataValidationShow.builder()
                         .questionId(FUNKTIONSNEDSATTNING_DELSVAR_ID_11)

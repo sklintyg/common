@@ -42,7 +42,6 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCa
 import se.inera.intyg.common.support.facade.model.config.CodeItem;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath;
@@ -53,7 +52,6 @@ import se.inera.intyg.common.support.model.InternalDate;
 public class QuestionTerminalDodsorsak {
 
     public static final short LIMIT = (short) 120;
-    public static final short NUMBER_OF_DAYS_IN_FUTURE = (short) 0;
 
     public static CertificateDataElement toCertificate(Dodsorsak dodsorsak, int index, CertificateTextProvider texts) {
 
@@ -66,6 +64,7 @@ public class QuestionTerminalDodsorsak {
                     .text(texts.get(TERMINAL_DODSORSAK_QUESTION_TEXT_ID))
                     .description(texts.get(TERMINAL_DODSORSAK_DESCRIPTION_TEXT_ID))
                     .label(FOLJD_OM_DELSVAR_A_LABEL)
+                    .maxDate(LocalDate.now())
                     .causeOfDeath(
                         CauseOfDeath.builder()
                             .descriptionId(TERMINAL_DODSORSAK_JSON_ID)
@@ -124,10 +123,6 @@ public class QuestionTerminalDodsorsak {
                     CertificateDataValidationText.builder()
                         .id(TERMINAL_DODSORSAK_JSON_ID)
                         .limit(LIMIT)
-                        .build(),
-                    CertificateDataValidationMaxDate.builder()
-                        .id(DODSORSAK_DATUM_DELSVAR_ID)
-                        .numberOfDays(NUMBER_OF_DAYS_IN_FUTURE)
                         .build()
                 }
             )

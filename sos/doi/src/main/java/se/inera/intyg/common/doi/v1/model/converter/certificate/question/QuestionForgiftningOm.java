@@ -24,7 +24,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_OM_QUESTION_SELECTED_TEXT;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_OM_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_OM_QUESTION_UNSELECTED_TEXT;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -57,7 +57,7 @@ public class QuestionForgiftningOm {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(FORGIFTNING_OM_DELSVAR_ID)
-                        .expression(singleExpression(FORGIFTNING_OM_JSON_ID))
+                        .expression(exists(FORGIFTNING_OM_JSON_ID))
                         .build()
                 }
             )

@@ -149,7 +149,7 @@ class QuestionAdhdAddDampAsbergersTourettesTest {
 
             @Override
             protected String getExpression() {
-                return "$adhdadddampasperbergerstourettes";
+                return "exists(adhdadddampasperbergerstourettes)";
             }
 
             @Override

@@ -33,15 +33,12 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.model.InternalDate;
 
 
 public class QuestionUndersokningsdatum {
-
-    public static final short NUMBER_OF_DAYS_IN_FUTURE = (short) 0;
 
     public static CertificateDataElement toCertificate(LocalDate undersokningsdatum, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
@@ -52,6 +49,7 @@ public class QuestionUndersokningsdatum {
                 CertificateDataConfigDate.builder()
                     .text(texts.get(UNDERSOKNING_DATUM_QUESTION_TEXT_ID))
                     .id(UNDERSOKNING_DATUM_JSON_ID)
+                    .maxDate(LocalDate.now())
                     .build()
             )
             .value(
@@ -69,10 +67,6 @@ public class QuestionUndersokningsdatum {
                     CertificateDataValidationShow.builder()
                         .questionId(UNDERSOKNING_YTTRE_DELSVAR_ID)
                         .expression(singleExpression(Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN.name()))
-                        .build(),
-                    CertificateDataValidationMaxDate.builder()
-                        .id(UNDERSOKNING_DATUM_JSON_ID)
-                        .numberOfDays(NUMBER_OF_DAYS_IN_FUTURE)
                         .build()
                 }
             )

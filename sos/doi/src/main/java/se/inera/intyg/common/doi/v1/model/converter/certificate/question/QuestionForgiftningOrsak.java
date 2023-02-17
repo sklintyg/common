@@ -24,7 +24,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_ORSAK_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_ORSAK_QUESTION_DESCRIPTION_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_ORSAK_QUESTION_TEXT_ID;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
 
@@ -84,11 +84,11 @@ public class QuestionForgiftningOrsak {
                     CertificateDataValidationMandatory.builder()
                         .questionId(FORGIFTNING_ORSAK_DELSVAR_ID)
                         .expression(
-                            multipleOrExpression(
-                                singleExpression(ForgiftningOrsak.OLYCKSFALL.name()),
-                                singleExpression(ForgiftningOrsak.SJALVMORD.name()),
-                                singleExpression(ForgiftningOrsak.AVSIKTLIGT_VALLAD.name()),
-                                singleExpression(ForgiftningOrsak.OKLART.name())
+                            multipleOrExpressionWithExists(
+                                ForgiftningOrsak.OLYCKSFALL.name(),
+                                ForgiftningOrsak.SJALVMORD.name(),
+                                ForgiftningOrsak.AVSIKTLIGT_VALLAD.name(),
+                                ForgiftningOrsak.OKLART.name()
                             )
                         )
                         .build(),

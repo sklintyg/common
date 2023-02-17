@@ -154,7 +154,7 @@ class QuestionOtillrackligRorelseFormogaTest {
 
             @Override
             protected String getExpression() {
-                return "$" + OTILLRACKLIG_RORELSEFORMAGA_JSON_ID;
+                return "exists(" + OTILLRACKLIG_RORELSEFORMAGA_JSON_ID + ")";
             }
 
             @Override
@@ -178,8 +178,11 @@ class QuestionOtillrackligRorelseFormogaTest {
 
             @Override
             protected String getExpression() {
-                return IntygAvserKategori.IAV5.name() + " || " + IntygAvserKategori.IAV6.name() + " || " + IntygAvserKategori.IAV7.name()
-                    + " || " + IntygAvserKategori.IAV8.name() + " || " + IntygAvserKategori.IAV9.name();
+                return "exists(" + IntygAvserKategori.IAV5.name()
+                    + ") || exists(" + IntygAvserKategori.IAV6.name()
+                    + ") || exists(" + IntygAvserKategori.IAV7.name()
+                    + ") || exists(" + IntygAvserKategori.IAV8.name()
+                    + ") || exists(" + IntygAvserKategori.IAV9.name() + ")";
             }
 
             @Override

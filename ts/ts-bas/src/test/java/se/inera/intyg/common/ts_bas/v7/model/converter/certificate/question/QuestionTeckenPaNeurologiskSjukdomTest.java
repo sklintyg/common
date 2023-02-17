@@ -151,7 +151,7 @@ class QuestionTeckenPaNeurologiskSjukdomTest {
 
             @Override
             protected String getExpression() {
-                return "$" + TECKEN_NEUROLOGISK_SJUKDOM_JSON_ID;
+                return "exists(" + TECKEN_NEUROLOGISK_SJUKDOM_JSON_ID + ")";
             }
 
             @Override

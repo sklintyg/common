@@ -20,6 +20,7 @@ package se.inera.intyg.common.support.facade.model.config;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.time.LocalDate;
 import lombok.Builder;
 import lombok.Value;
 import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleDate.CheckboxMultipleDateBuilder;
@@ -31,6 +32,8 @@ public class CheckboxMultipleDate {
 
     String id;
     String label;
+    LocalDate maxDate;
+    LocalDate minDate;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CheckboxMultipleDateBuilder {

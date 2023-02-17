@@ -28,14 +28,13 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_TEXT_ID;
 
+import java.time.LocalDate;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMinDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -43,8 +42,6 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 public class QuestionDiabetesMedicineringHypoglykemiRiskDatum {
-
-    private static final short LIMIT = 0;
 
     public static CertificateDataElement toCertificate(Allmant allmant, Personnummer personId, int index, CertificateTextProvider texts) {
         final var medicineringMedforRiskForHypoglykemi =
@@ -59,6 +56,8 @@ public class QuestionDiabetesMedicineringHypoglykemiRiskDatum {
                 CertificateDataConfigDate.builder()
                     .id(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID)
                     .text(texts.get(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_TEXT_ID))
+                    .minDate(personId != null ? birthDate(personId) : null)
+                    .maxDate(LocalDate.now())
                     .build()
             )
             .value(
@@ -73,17 +72,9 @@ public class QuestionDiabetesMedicineringHypoglykemiRiskDatum {
                         .questionId(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID)
                         .expression(singleExpression(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID))
                         .build(),
-                    CertificateDataValidationMaxDate.builder()
-                        .id(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID)
-                        .numberOfDays(LIMIT)
-                        .build(),
                     CertificateDataValidationShow.builder()
                         .questionId(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID)
                         .expression(singleExpression(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID))
-                        .build(),
-                    CertificateDataValidationMinDate.builder()
-                        .id(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID)
-                        .minDate(personId != null ? birthDate(personId) : null)
                         .build()
                 }
             )

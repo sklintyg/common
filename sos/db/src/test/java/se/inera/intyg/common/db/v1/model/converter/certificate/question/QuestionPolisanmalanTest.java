@@ -45,7 +45,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.db.model.internal.Undersokning;
-import se.inera.intyg.common.db.v1.model.converter.certificate.question.QuestionPolisanmalan;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
@@ -178,7 +177,7 @@ class QuestionPolisanmalanTest {
         void shouldIncludeValidationMandatoryExpression() {
             final var question = QuestionPolisanmalan.toCertificate(true, 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals("$" + POLISANMALAN_JSON_ID, certificateDataValidationMandatory.getExpression());
+            assertEquals("exists(" + POLISANMALAN_JSON_ID + ")", certificateDataValidationMandatory.getExpression());
         }
 
         @Test

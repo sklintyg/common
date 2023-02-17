@@ -25,7 +25,7 @@ import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARB
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_QUESTION_DESCRIPTION;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_QUESTION_TEXT;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_SVAR_JSON_ID_41;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -62,7 +62,7 @@ public class QuestionHarArbetspaverkan {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(ARBETETS_PAVERKAN_DELSVAR_ID_41)
-                        .expression(singleExpression(ARBETETS_PAVERKAN_SVAR_JSON_ID_41))
+                        .expression(exists(ARBETETS_PAVERKAN_SVAR_JSON_ID_41))
                         .build()
                 }
             )

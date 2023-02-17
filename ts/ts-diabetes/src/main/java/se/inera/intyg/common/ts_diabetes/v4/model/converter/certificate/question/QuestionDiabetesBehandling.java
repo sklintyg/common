@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question;
 
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_TEXT_ID;
@@ -92,14 +92,14 @@ public class QuestionDiabetesBehandling {
                     CertificateDataValidationMandatory.builder()
                         .questionId(ALLMANT_BEHANDLING_SVAR_ID)
                         .expression(
-                            multipleOrExpression(
+                            multipleOrExpressionWithExists(
                                 ALLMANT_BEHANDLING_INSULIN_JSON_ID,
                                 ALLMANT_BEHANDLING_TABLETTER_JSON_ID,
                                 ALLMANT_BEHANDLING_ANNAN_JSON_ID))
                         .build(),
                     CertificateDataValidationShow.builder()
                         .questionId(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID)
-                        .expression(singleExpression(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID))
+                        .expression(exists(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID))
                         .build()
                 }
             )

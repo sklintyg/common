@@ -196,10 +196,10 @@ class QuestionForgiftningOrsakTest {
 
         @Test
         void shouldIncludeValidationMandatoryExpression() {
-            final var expectedExpression = "$" + ForgiftningOrsak.OLYCKSFALL.name()
-                + " || $" + ForgiftningOrsak.SJALVMORD.name()
-                + " || $" + ForgiftningOrsak.AVSIKTLIGT_VALLAD.name()
-                + " || $" + ForgiftningOrsak.OKLART.name();
+            final var expectedExpression = "exists(" + ForgiftningOrsak.OLYCKSFALL.name()
+                + ") || exists(" + ForgiftningOrsak.SJALVMORD.name()
+                + ") || exists(" + ForgiftningOrsak.AVSIKTLIGT_VALLAD.name()
+                + ") || exists(" + ForgiftningOrsak.OKLART.name() + ")";
 
             final var question = QuestionForgiftningOrsak.toCertificate(null, 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];

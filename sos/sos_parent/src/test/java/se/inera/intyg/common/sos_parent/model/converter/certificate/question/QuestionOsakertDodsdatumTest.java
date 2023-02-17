@@ -157,7 +157,7 @@ class QuestionOsakertDodsdatumTest {
         void shouldIncludeValidationMandatoryExpression() {
             final var question = QuestionOsakertDodsdatum.toCertificate(null, 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals("$" + DODSDATUM_JSON_ID, certificateDataValidationMandatory.getExpression());
+            assertEquals("uncertainDate($" + DODSDATUM_JSON_ID + ")", certificateDataValidationMandatory.getExpression());
         }
 
         @Nested

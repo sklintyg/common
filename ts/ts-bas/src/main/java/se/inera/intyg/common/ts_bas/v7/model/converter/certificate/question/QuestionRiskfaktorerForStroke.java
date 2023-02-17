@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HJART_ELLER_KARLSJUKDOM_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.RISKFAKTORER_STROKE_JSON_ID;
@@ -63,7 +63,7 @@ public class QuestionRiskfaktorerForStroke {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(RISKFAKTORER_STROKE_SVAR_ID)
-                        .expression(singleExpression(RISKFAKTORER_STROKE_JSON_ID))
+                        .expression(exists(RISKFAKTORER_STROKE_JSON_ID))
                         .build()
                 }
             )

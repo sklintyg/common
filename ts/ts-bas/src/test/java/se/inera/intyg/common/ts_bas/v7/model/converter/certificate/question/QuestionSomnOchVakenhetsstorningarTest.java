@@ -148,7 +148,7 @@ class QuestionSomnOchVakenhetsstorningarTest {
 
             @Override
             protected String getExpression() {
-                return "$vakenhetsstorning";
+                return "exists(vakenhetsstorning)";
             }
 
             @Override

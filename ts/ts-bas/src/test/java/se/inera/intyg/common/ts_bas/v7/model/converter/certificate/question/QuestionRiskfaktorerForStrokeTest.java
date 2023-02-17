@@ -151,7 +151,7 @@ class QuestionRiskfaktorerForStrokeTest {
 
             @Override
             protected String getExpression() {
-                return "$" + RISKFAKTORER_STROKE_JSON_ID;
+                return "exists(" + RISKFAKTORER_STROKE_JSON_ID + ")";
             }
 
             @Override

@@ -149,7 +149,7 @@ class QuestionPsykiskSjukdomStorningTest {
 
             @Override
             protected String getExpression() {
-                return "$psykisksjukdom";
+                return "exists(psykisksjukdom)";
             }
 
             @Override

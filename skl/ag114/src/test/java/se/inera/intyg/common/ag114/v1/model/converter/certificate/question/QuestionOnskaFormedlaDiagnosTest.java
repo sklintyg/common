@@ -152,7 +152,7 @@ class QuestionOnskaFormedlaDiagnosTest {
 
             @Override
             protected String getExpression() {
-                return "$" + ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID;
+                return "exists(" + ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID + ")";
             }
 
             @Override

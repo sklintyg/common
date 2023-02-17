@@ -227,11 +227,11 @@ class QuestionIntygetAvserTest {
 
             @Override
             protected String getExpression() {
-                return IntygAvserKategori.IAV1.name() + " || " + IntygAvserKategori.IAV2.name() + " || "
-                    + IntygAvserKategori.IAV3.name() + " || " + IntygAvserKategori.IAV4.name() + " || "
-                    + IntygAvserKategori.IAV5.name() + " || " + IntygAvserKategori.IAV6.name() + " || "
-                    + IntygAvserKategori.IAV7.name() + " || " + IntygAvserKategori.IAV8.name() + " || "
-                    + IntygAvserKategori.IAV9.name() + " || " + IntygAvserKategori.IAV10.name();
+                return "exists(" + IntygAvserKategori.IAV1.name() + ") || exists(" + IntygAvserKategori.IAV2.name() + ") || exists("
+                    + IntygAvserKategori.IAV3.name() + ") || exists(" + IntygAvserKategori.IAV4.name() + ") || exists("
+                    + IntygAvserKategori.IAV5.name() + ") || exists(" + IntygAvserKategori.IAV6.name() + ") || exists("
+                    + IntygAvserKategori.IAV7.name() + ") || exists(" + IntygAvserKategori.IAV8.name() + ") || exists("
+                    + IntygAvserKategori.IAV9.name() + ") || exists(" + IntygAvserKategori.IAV10.name() + ")";
             }
 
             @Override

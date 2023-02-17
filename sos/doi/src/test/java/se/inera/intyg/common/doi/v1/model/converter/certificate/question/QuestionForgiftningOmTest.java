@@ -170,7 +170,7 @@ class QuestionForgiftningOmTest {
         void shouldIncludeValidationMandatoryExpression() {
             final var question = QuestionForgiftningOm.toCertificate(true, 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals("$" + FORGIFTNING_OM_JSON_ID, certificateDataValidationMandatory.getExpression());
+            assertEquals("exists(" + FORGIFTNING_OM_JSON_ID + ")", certificateDataValidationMandatory.getExpression());
         }
     }
 

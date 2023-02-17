@@ -20,6 +20,7 @@ package se.inera.intyg.common.support.facade.testsetup.model.config;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDate;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
@@ -27,6 +28,8 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTy
 public abstract class ConfigDateTest extends ConfigTest {
 
     protected abstract String getJsonId();
+    protected abstract LocalDate getMinDate();
+    protected abstract LocalDate getMaxDate();
 
     @Override
     protected CertificateDataConfigTypes getType() {
@@ -40,4 +43,17 @@ public abstract class ConfigDateTest extends ConfigTest {
         assertEquals(getJsonId(), config.getId());
     }
 
+    @Test
+    void shouldIncludeMinDate() {
+        final var question = getElement();
+        final var config = (CertificateDataConfigDate) question.getConfig();
+        assertEquals(getMinDate(), config.getMinDate());
+    }
+
+    @Test
+    void shouldIncludeMaxDate() {
+        final var question = getElement();
+        final var config = (CertificateDataConfigDate) question.getConfig();
+        assertEquals(getMaxDate(), config.getMaxDate());
+    }
 }

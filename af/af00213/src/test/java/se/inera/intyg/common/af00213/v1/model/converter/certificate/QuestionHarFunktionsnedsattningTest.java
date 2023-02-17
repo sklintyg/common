@@ -235,7 +235,9 @@ class QuestionHarFunktionsnedsattningTest {
                 final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
                 assertAll("Validation question validation",
                     () -> assertEquals(FUNKTIONSNEDSATTNING_DELSVAR_ID_11, certificateDataValidationMandatory.getQuestionId()),
-                    () -> assertEquals("$" + FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11, certificateDataValidationMandatory.getExpression())
+                    () -> assertEquals(
+                        "exists(" + FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11 + ")", certificateDataValidationMandatory.getExpression()
+                    )
                 );
             }
         }

@@ -60,8 +60,6 @@ import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleDate;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -166,6 +164,21 @@ class QuestionUnderlagBaseratPaTest {
         }
 
         @Test
+        void shouldIncludeConfigListOfCheckboxMultipleDateWithMaxDate() {
+            final var question = QuestionUnderlagBaseratPa.toCertificate(null, null, null, null, 0, texts
+            );
+
+            final var config = (CertificateDataConfigCheckboxMultipleDate) question.getConfig();
+
+            assertAll(
+                () -> assertEquals(LocalDate.now(), config.getList().get(0).getMaxDate()),
+                () -> assertEquals(LocalDate.now(), config.getList().get(1).getMaxDate()),
+                () -> assertEquals(LocalDate.now(), config.getList().get(2).getMaxDate()),
+                () -> assertEquals(LocalDate.now(), config.getList().get(3).getMaxDate())
+            );
+        }
+
+        @Test
         void shouldIncludeDateListValueType() {
             final var question = QuestionUnderlagBaseratPa.toCertificate(null, null, null, null, 0, texts
             );
@@ -203,57 +216,6 @@ class QuestionUnderlagBaseratPaTest {
         }
 
         @Test
-        void shouldIncludeMaxDateValidation() {
-            final var question = QuestionUnderlagBaseratPa.toCertificate(null, null, null, null, 0, texts
-            );
-
-            assertAll(
-                () -> assertEquals(CertificateDataValidationType.MAX_DATE_VALIDATION, question.getValidation()[0].getType()),
-                () -> assertEquals(CertificateDataValidationType.MAX_DATE_VALIDATION, question.getValidation()[1].getType()),
-                () -> assertEquals(CertificateDataValidationType.MAX_DATE_VALIDATION, question.getValidation()[2].getType()),
-                () -> assertEquals(CertificateDataValidationType.MAX_DATE_VALIDATION, question.getValidation()[3].getType())
-            );
-        }
-
-        @Test
-        void shouldIncludeMaxDateValidationId() {
-            final var question = QuestionUnderlagBaseratPa.toCertificate(null, null, null, null, 0, texts
-            );
-
-            final var firstValidation = (CertificateDataValidationMaxDate) question.getValidation()[0];
-            final var secondValidation = (CertificateDataValidationMaxDate) question.getValidation()[1];
-            final var thirdValidation = (CertificateDataValidationMaxDate) question.getValidation()[2];
-            final var fourthValidation = (CertificateDataValidationMaxDate) question.getValidation()[3];
-
-            assertAll(
-                () -> assertEquals(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1, firstValidation.getId()),
-                () -> assertEquals(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1, secondValidation.getId()),
-                () -> assertEquals(GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1, thirdValidation.getId()),
-                () -> assertEquals(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1, fourthValidation.getId())
-            );
-        }
-
-        @Test
-        void shouldIncludeMaxDateValidationLimit() {
-            final var question = QuestionUnderlagBaseratPa.toCertificate(null, null, null, null, 0, texts
-            );
-
-            final var firstValidation = (CertificateDataValidationMaxDate) question.getValidation()[0];
-            final var secondValidation = (CertificateDataValidationMaxDate) question.getValidation()[1];
-            final var thirdValidation = (CertificateDataValidationMaxDate) question.getValidation()[2];
-            final var fourthValidation = (CertificateDataValidationMaxDate) question.getValidation()[3];
-
-            final var expectedNumberOfDays = (short) 0;
-
-            assertAll(
-                () -> assertEquals(expectedNumberOfDays, firstValidation.getNumberOfDays()),
-                () -> assertEquals(expectedNumberOfDays, secondValidation.getNumberOfDays()),
-                () -> assertEquals(expectedNumberOfDays, thirdValidation.getNumberOfDays()),
-                () -> assertEquals(expectedNumberOfDays, fourthValidation.getNumberOfDays())
-            );
-        }
-
-        @Test
         void shouldIncludeValidationMandatoryExpression() {
             final var expectedExpression =
                 GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1 + " || "
@@ -262,7 +224,7 @@ class QuestionUnderlagBaseratPaTest {
                     + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
             final var question = QuestionUnderlagBaseratPa.toCertificate(null, null, null, null, 0, texts
             );
-            final var mandatoryValidation = (CertificateDataValidationMandatory) question.getValidation()[4];
+            final var mandatoryValidation = (CertificateDataValidationMandatory) question.getValidation()[0];
 
             assertEquals(expectedExpression, mandatoryValidation.getExpression());
         }

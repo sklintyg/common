@@ -24,7 +24,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_I
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_IMPLANTAT_QUESTION_UNSELECTED_TEXT;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_IMPLANTAT_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_IMPLANTAT_JSON_ID;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -61,7 +61,7 @@ public class QuestionExplosivtImplantat {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(EXPLOSIV_IMPLANTAT_DELSVAR_ID)
-                        .expression(singleExpression(EXPLOSIV_IMPLANTAT_JSON_ID))
+                        .expression(exists(EXPLOSIV_IMPLANTAT_JSON_ID))
                         .build()
                 }
             )

@@ -205,11 +205,11 @@ class QuestionGrunderDodsorsaksuppgifterTest {
 
         @Test
         void shouldIncludeValidationMandatoryExpression() {
-            final var expectedExpression = "$" + Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN.name()
-                + " || $" + Dodsorsaksgrund.UNDERSOKNING_EFTER_DODEN.name()
-                + " || $" + Dodsorsaksgrund.KLINISK_OBDUKTION.name()
-                + " || $" + Dodsorsaksgrund.RATTSMEDICINSK_OBDUKTION.name()
-                + " || $" + Dodsorsaksgrund.RATTSMEDICINSK_BESIKTNING.name();
+            final var expectedExpression = "exists(" + Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN.name()
+                + ") || exists(" + Dodsorsaksgrund.UNDERSOKNING_EFTER_DODEN.name()
+                + ") || exists(" + Dodsorsaksgrund.KLINISK_OBDUKTION.name()
+                + ") || exists(" + Dodsorsaksgrund.RATTSMEDICINSK_OBDUKTION.name()
+                + ") || exists(" + Dodsorsaksgrund.RATTSMEDICINSK_BESIKTNING.name() + ")";
 
             final var question = QuestionGrunderDodsorsaksuppgifter.toCertificate(dodsorsaksgrund, 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];

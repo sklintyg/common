@@ -34,6 +34,7 @@ import static se.inera.intyg.common.support.facade.util.ValidationExpressionTool
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.subtract;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.to;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.withCitation;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.wrapWithAttribute;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.wrapWithNotEmpty;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.wrapWithParenthesis;
 
@@ -139,5 +140,10 @@ class ValidationExpressionToolkitTest {
     @Test
     void shallAddMoreThanOrEqualsWithLong() {
         assertEquals("variable >= 2", moreThanOrEqual("variable", 2L));
+    }
+
+    @Test
+    void shallWrapWithAttribute() {
+        assertEquals("attribute(variable)", wrapWithAttribute("variable", "attribute"));
     }
 }

@@ -32,6 +32,7 @@ import static se.inera.intyg.common.support.facade.util.ValidationExpressionTool
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateListValue;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,14 +44,11 @@ import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateList;
 import se.inera.intyg.common.support.model.InternalDate;
 
 public abstract class AbstractQuestionIntygetBaseratPa {
-
-    private static final short NUMBER_OF_DAYS_IN_FUTURE = 0;
 
     protected static CertificateDataElement toCertificate(InternalDate undersokningPatient, InternalDate telefonkontaktPatient,
         InternalDate journaluppgifter, InternalDate annat, String questionId, String parentId, int index,
@@ -68,18 +66,22 @@ public abstract class AbstractQuestionIntygetBaseratPa {
                             CheckboxMultipleDate.builder()
                                 .id(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1)
                                 .label(textProvider.get(GRUNDFORMU_UNDERSOKNING_LABEL_ID))
+                                .maxDate(LocalDate.now())
                                 .build(),
                             CheckboxMultipleDate.builder()
                                 .id(GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1)
                                 .label(textProvider.get(GRUNDFORMU_TELEFONKONTAKT_LABEL_ID))
+                                .maxDate(LocalDate.now())
                                 .build(),
                             CheckboxMultipleDate.builder()
                                 .id(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1)
                                 .label(textProvider.get(GRUNDFORMU_JOURNALUPPGIFTER_LABEL_ID))
+                                .maxDate(LocalDate.now())
                                 .build(),
                             CheckboxMultipleDate.builder()
                                 .id(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
                                 .label(textProvider.get(GRUNDFORMU_ANNAT_LABEL_ID))
+                                .maxDate(LocalDate.now())
                                 .build()
                         )
                     )
@@ -101,22 +103,6 @@ public abstract class AbstractQuestionIntygetBaseratPa {
                                 GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1,
                                 GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1
                             ))
-                        .build(),
-                    CertificateDataValidationMaxDate.builder()
-                        .id(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1)
-                        .numberOfDays(NUMBER_OF_DAYS_IN_FUTURE)
-                        .build(),
-                    CertificateDataValidationMaxDate.builder()
-                        .id(GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1)
-                        .numberOfDays(NUMBER_OF_DAYS_IN_FUTURE)
-                        .build(),
-                    CertificateDataValidationMaxDate.builder()
-                        .id(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1)
-                        .numberOfDays(NUMBER_OF_DAYS_IN_FUTURE)
-                        .build(),
-                    CertificateDataValidationMaxDate.builder()
-                        .id(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
-                        .numberOfDays(NUMBER_OF_DAYS_IN_FUTURE)
                         .build(),
                     CertificateDataValidationHide.builder()
                         .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)

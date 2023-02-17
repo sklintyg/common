@@ -27,7 +27,6 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DE
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_PLOTSLIG;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_CATEGORY_ID;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.withCitation;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -41,7 +40,6 @@ import se.inera.intyg.common.support.facade.model.config.CauseOfDeath;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeath;
 import se.inera.intyg.common.support.facade.model.config.CodeItem;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMaxDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath;
@@ -52,7 +50,6 @@ import se.inera.intyg.common.support.model.InternalDate;
 public class QuestionTerminalDodsorsakFoljdAv {
 
     public static final short LIMIT = (short) 80;
-    public static final short NUMBER_OF_DAYS_IN_FUTURE = (short) 0;
 
     public static CertificateDataElement toCertificate(
         Dodsorsak terminalDodsorsak,
@@ -68,6 +65,7 @@ public class QuestionTerminalDodsorsakFoljdAv {
             .config(CertificateDataConfigCauseOfDeath.builder()
                 .text(texts.get(FOLJD_AV_QUESTION_TEXT_ID))
                 .label(label)
+                .maxDate(LocalDate.now())
                 .causeOfDeath(
                     CauseOfDeath.builder()
                         .id(FOLJD_JSON_ID)
@@ -122,10 +120,6 @@ public class QuestionTerminalDodsorsakFoljdAv {
                     CertificateDataValidationText.builder()
                         .id(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].beskrivning")
                         .limit(LIMIT)
-                        .build(),
-                    CertificateDataValidationMaxDate.builder()
-                        .id(withCitation(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].datum"))
-                        .numberOfDays(NUMBER_OF_DAYS_IN_FUTURE)
                         .build()
                 }
             )

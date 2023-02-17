@@ -186,7 +186,7 @@ class QuestionHypoglykemiAterkommandeSenasteAretTrafikTest {
 
         @Override
         protected String getExpression() {
-            return "$" + HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_JSON_ID;
+            return "exists(" + HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_JSON_ID + ")";
         }
     }
 

@@ -172,8 +172,10 @@ class QuestionDiabetesTypTest {
 
         @Override
         protected String getExpression() {
-            return KvTypAvDiabetes.TYP1.getCode() + " || " + KvTypAvDiabetes.TYP2.getCode() + " || " + KvTypAvDiabetes.LADA.getCode()
-                + " || " + KvTypAvDiabetes.ANNAN.getCode();
+            return "exists(" + KvTypAvDiabetes.TYP1.getCode()
+                + ") || exists(" + KvTypAvDiabetes.TYP2.getCode()
+                + ") || exists(" + KvTypAvDiabetes.LADA.getCode()
+                + ") || exists(" + KvTypAvDiabetes.ANNAN.getCode() + ")";
         }
 
         @Override
