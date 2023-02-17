@@ -127,6 +127,7 @@ class QuestionUnderlagTest {
 
         @Test
         void shouldIncludeTypeText() {
+            QuestionUnderlag.toCertificate(List.of(), 0, texts);
             verify(texts, atLeastOnce()).get(UNDERLAG_TYPE_TEXT_ID);
         }
 
@@ -139,11 +140,13 @@ class QuestionUnderlagTest {
 
         @Test
         void shouldIncludeInformationSourceText() {
+            QuestionUnderlag.toCertificate(List.of(), 0, texts);
             verify(texts, atLeastOnce()).get(UNDERLAG_INFORMATION_SOURCE_TEXT_ID);
         }
 
         @Test
         void shouldIncludeTypeInformationSourceDescription() {
+            QuestionUnderlag.toCertificate(List.of(), 0, texts);
             verify(texts, atLeastOnce()).get(UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID);
         }
 

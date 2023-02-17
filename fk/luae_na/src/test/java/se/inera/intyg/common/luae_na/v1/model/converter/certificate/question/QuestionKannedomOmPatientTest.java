@@ -108,6 +108,7 @@ class QuestionKannedomOmPatientTest {
 
         @Test
         void shouldIncludeConfigText() {
+            QuestionKannedomOmPatient.toCertificate(null, 0, texts);
             verify(texts, atLeastOnce()).get(KANNEDOM_SVAR_TEXT);
         }
 
