@@ -81,7 +81,7 @@ class QuestionSysselsattningYrkeTest {
     }
 
     @Nested
-    class QuestionSysselsattningYrkeQuestion {
+    class ToCertificate {
 
         private LisjpUtlatandeV1 internalCertificate;
 
@@ -199,7 +199,7 @@ class QuestionSysselsattningYrkeTest {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionNuvarandeArbete {
+    class ToInternal {
 
         private LisjpUtlatandeV1 internalCertificate;
 
