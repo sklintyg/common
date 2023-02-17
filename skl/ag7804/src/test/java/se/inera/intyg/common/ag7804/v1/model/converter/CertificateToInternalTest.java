@@ -47,6 +47,7 @@ import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
 import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning.SysselsattningsTyp;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -1131,7 +1132,7 @@ class CertificateToInternalTest {
             vardenhet.setPostadress(expectedValue);
 
             final var certificate = CertificateBuilder.create()
-                .metadata(InternalToCertificate.createMetadata(internalCertificate, texts))
+                .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate,
@@ -1146,7 +1147,7 @@ class CertificateToInternalTest {
             vardenhet.setPostort(expectedValue);
 
             final var certificate = CertificateBuilder.create()
-                .metadata(InternalToCertificate.createMetadata(internalCertificate, texts))
+                .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate,
@@ -1161,7 +1162,7 @@ class CertificateToInternalTest {
             vardenhet.setPostnummer(expectedValue);
 
             final var certificate = CertificateBuilder.create()
-                .metadata(InternalToCertificate.createMetadata(internalCertificate, texts))
+                .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate,
@@ -1176,7 +1177,7 @@ class CertificateToInternalTest {
             vardenhet.setTelefonnummer(expectedValue);
 
             final var certificate = CertificateBuilder.create()
-                .metadata(InternalToCertificate.createMetadata(internalCertificate, texts))
+                .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate,

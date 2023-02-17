@@ -68,7 +68,6 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_KONT
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_MEDICINSKABEHANDLINGAR;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_OVRIGT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_SYSSELSATTNING;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.DESCRIPTION;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_CATEGORY_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_ICD_10_ID;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_ICD_10_LABEL;
@@ -161,18 +160,17 @@ import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
 import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning.SysselsattningsTyp;
-import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.converter.RespConstants;
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.CertificateDataElementStyleEnum;
-import se.inera.intyg.common.support.facade.model.Staff;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
@@ -190,8 +188,6 @@ import se.inera.intyg.common.support.facade.model.config.DiagnosesTerminology;
 import se.inera.intyg.common.support.facade.model.config.DropdownItem;
 import se.inera.intyg.common.support.facade.model.config.RadioMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.RadioMultipleCodeOptionalDropdown;
-import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
-import se.inera.intyg.common.support.facade.model.metadata.Unit;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisableSubElement;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationEnable;
@@ -208,7 +204,6 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
-import se.inera.intyg.common.support.facade.util.MetaDataToolkit;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 
 public final class InternalToCertificate {
@@ -223,7 +218,7 @@ public final class InternalToCertificate {
     public static Certificate convert(Ag7804UtlatandeV1 internalCertificate, CertificateTextProvider texts) {
         var index = 0;
         return CertificateBuilder.create()
-            .metadata(createMetadata(internalCertificate, texts))
+            .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
             .addElement(createSmittbararpenningCategory(index++, texts))
             .addElement(createAvstangningSmittskyddQuestion(internalCertificate.getAvstangningSmittskydd(), index++, texts))
             .addElement(createGrundForMUCategory(index++, texts))
@@ -260,37 +255,6 @@ public final class InternalToCertificate {
             .addElement(createKontaktCategory(index++, texts))
             .addElement(createKontaktQuestion(internalCertificate.getKontaktMedAg(), index++, texts))
             .addElement(createKontaktBeskrivning(internalCertificate.getAnledningTillKontakt(), index, texts))
-            .build();
-    }
-
-    public static CertificateMetadata createMetadata(Ag7804UtlatandeV1 internalCertificate, CertificateTextProvider texts) {
-        final var unit = internalCertificate.getGrundData().getSkapadAv().getVardenhet();
-        return CertificateMetadata.builder()
-            .id(internalCertificate.getId())
-            .type(internalCertificate.getTyp())
-            .typeVersion(internalCertificate.getTextVersion())
-            .name(Ag7804EntryPoint.MODULE_NAME)
-            .description(texts.get(DESCRIPTION))
-            .unit(
-                Unit.builder()
-                    .unitId(unit.getEnhetsid())
-                    .unitName(unit.getEnhetsnamn())
-                    .address(unit.getPostadress())
-                    .zipCode(unit.getPostnummer())
-                    .city(unit.getPostort())
-                    .email(unit.getEpost())
-                    .phoneNumber(unit.getTelefonnummer())
-                    .build()
-            )
-            .issuedBy(
-                Staff.builder()
-                    .personId(internalCertificate.getGrundData().getSkapadAv().getPersonId())
-                    .fullName(internalCertificate.getGrundData().getSkapadAv().getFullstandigtNamn())
-                    .build()
-            )
-            .patient(
-                MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getPatient())
-            )
             .build();
     }
 
