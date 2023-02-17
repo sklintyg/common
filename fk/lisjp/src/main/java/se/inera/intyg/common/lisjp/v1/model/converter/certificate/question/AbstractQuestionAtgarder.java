@@ -1,0 +1,203 @@
+/*
+ * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
+
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_TEXT;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
+import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
+import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.model.CertificateDataElement;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
+import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleCode;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisableSubElement;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCodeList;
+
+public abstract class AbstractQuestionAtgarder {
+
+    public static CertificateDataElement toCertificate(List<ArbetslivsinriktadeAtgarder> atgarder, String questionId, String parent,
+        int index,
+        CertificateTextProvider texts) {
+        return CertificateDataElement.builder()
+            .id(questionId)
+            .index(index)
+            .parent(parent)
+            .config(
+                CertificateDataConfigCheckboxMultipleCode.builder()
+                    .text(texts.get(ARBETSLIVSINRIKTADE_ATGARDER_TEXT))
+                    .list(
+                        Arrays.asList(
+                            CheckboxMultipleCode.builder()
+                                .id(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId())
+                                .label(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getLabel())
+                                .build(),
+                            CheckboxMultipleCode.builder()
+                                .id(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId())
+                                .label(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getLabel())
+                                .build(),
+                            CheckboxMultipleCode.builder()
+                                .id(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId())
+                                .label(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getLabel())
+                                .build(),
+                            CheckboxMultipleCode.builder()
+                                .id(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId())
+                                .label(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getLabel())
+                                .build(),
+                            CheckboxMultipleCode.builder()
+                                .id(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId())
+                                .label(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getLabel())
+                                .build(),
+                            CheckboxMultipleCode.builder()
+                                .id(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId())
+                                .label(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getLabel())
+                                .build(),
+                            CheckboxMultipleCode.builder()
+                                .id(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId())
+                                .label(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getLabel())
+                                .build(),
+                            CheckboxMultipleCode.builder()
+                                .id(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId())
+                                .label(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getLabel())
+                                .build(),
+                            CheckboxMultipleCode.builder()
+                                .id(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId())
+                                .label(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getLabel())
+                                .build(),
+                            CheckboxMultipleCode.builder()
+                                .id(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId())
+                                .label(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getLabel())
+                                .build(),
+                            CheckboxMultipleCode.builder()
+                                .id(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
+                                .label(ArbetslivsinriktadeAtgarderVal.OVRIGT.getLabel())
+                                .build()
+                        )
+                    )
+                    .build()
+            )
+            .value(
+                CertificateDataValueCodeList.builder()
+                    .list(createAtgarderCodeList(atgarder))
+                    .build()
+            )
+            .validation(
+                new CertificateDataValidation[]{
+                    CertificateDataValidationMandatory.builder()
+                        .questionId(questionId)
+                        .expression(
+                            multipleOrExpression(
+                                exists(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId()),
+                                exists(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId()),
+                                exists(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId()),
+                                exists(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId()),
+                                exists(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId()),
+                                exists(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId()),
+                                exists(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId()),
+                                exists(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId()),
+                                exists(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId()),
+                                exists(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId()),
+                                exists(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
+                            )
+                        )
+                        .build(),
+                    CertificateDataValidationDisableSubElement.builder()
+                        .questionId(questionId)
+                        .expression(
+                            multipleOrExpression(
+                                exists(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId()),
+                                exists(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId()),
+                                exists(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId()),
+                                exists(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId()),
+                                exists(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId()),
+                                exists(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId()),
+                                exists(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId()),
+                                exists(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId()),
+                                exists(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId()),
+                                exists(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
+                            )
+                        )
+                        .id(Collections.singletonList(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId()))
+                        .build(),
+                    CertificateDataValidationDisableSubElement.builder()
+                        .questionId(questionId)
+                        .expression(
+                            exists(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId())
+                        )
+                        .id(
+                            Arrays.asList(
+                                ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId(),
+                                ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId(),
+                                ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId(),
+                                ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId(),
+                                ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId(),
+                                ArbetslivsinriktadeAtgarderVal.OVRIGT.getId()
+                            )
+                        )
+                        .build(),
+                    CertificateDataValidationHide.builder()
+                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                        .expression(exists(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .build()
+                }
+            )
+            .build();
+    }
+
+    private static List<CertificateDataValueCode> createAtgarderCodeList(List<ArbetslivsinriktadeAtgarder> atgarder) {
+        if (atgarder == null) {
+            return Collections.emptyList();
+        }
+
+        return atgarder.stream()
+            .map(atgard -> CertificateDataValueCode.builder()
+                .id(atgard.getTyp().getId())
+                .code(atgard.getTyp().getId())
+                .build())
+            .collect(Collectors.toList());
+    }
+
+    public static List<ArbetslivsinriktadeAtgarder> toInternal(Certificate certificate, String questionId) {
+        var codeList = codeListValue(certificate.getData(), questionId);
+        return codeList
+            .stream()
+            .map(
+                code -> ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.fromId(code.getId()))
+            )
+            .collect(Collectors.toList());
+    }
+}
