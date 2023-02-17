@@ -188,7 +188,7 @@ class QuestionHypoglykemiForstarRiskerMedHypoglykemiTest {
 
         @Override
         protected String getExpression() {
-            return "$" + HYPOGLYKEMI_FORSTAR_RISKER_MED_HYPOGLYKEMI_JSON_ID;
+            return "exists(" + HYPOGLYKEMI_FORSTAR_RISKER_MED_HYPOGLYKEMI_JSON_ID + ")";
         }
     }
 
