@@ -19,79 +19,23 @@
 
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ANSWER_NO;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ANSWER_YES;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_BESKRIVNING;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_ID_33;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_TEXT;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 
-import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 
-public class QuestionArbetstidsforlaggning {
+public class QuestionArbetstidsforlaggning extends AbstractQuestionArbetstidsforlaggning {
 
     public static CertificateDataElement toCertificate(Boolean value, int index,
         CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(ARBETSTIDSFORLAGGNING_SVAR_ID_33)
-            .index(index)
-            .parent(BEDOMNING_CATEGORY_ID)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33)
-                    .text(texts.get(ARBETSTIDSFORLAGGNING_SVAR_TEXT))
-                    .description(texts.get(ARBETSTIDSFORLAGGNING_SVAR_BESKRIVNING))
-                    .selectedText(texts.get(ANSWER_YES))
-                    .unselectedText(texts.get(ANSWER_NO))
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33)
-                    .selected(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32)
-                        .expression(multipleOrExpression(
-                            singleExpression(SjukskrivningsGrad.NEDSATT_1_4.getId()),
-                            singleExpression(SjukskrivningsGrad.NEDSATT_HALFTEN.getId()),
-                            singleExpression(SjukskrivningsGrad.NEDSATT_3_4.getId())
-                        ))
-                        .build(),
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(ARBETSTIDSFORLAGGNING_SVAR_ID_33)
-                        .expression(exists(ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33))
-                        .build(),
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(exists(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build(),
-                }
-            )
-            .build();
+        return toCertificate(value, ARBETSTIDSFORLAGGNING_SVAR_ID_33, BEDOMNING_CATEGORY_ID, ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33, index,
+            texts);
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), ARBETSTIDSFORLAGGNING_SVAR_ID_33, ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33);
+        return toInternal(certificate, ARBETSTIDSFORLAGGNING_SVAR_ID_33, ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33);
     }
 }
