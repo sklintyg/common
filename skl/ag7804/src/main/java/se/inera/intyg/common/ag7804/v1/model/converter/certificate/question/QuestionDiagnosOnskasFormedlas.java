@@ -30,9 +30,11 @@ import static se.inera.intyg.common.support.facade.util.ValidationExpressionTool
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.not;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
 
 import java.util.Arrays;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.RadioMultipleCode;
@@ -41,7 +43,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 
-public class QuestionShouldIncludeDiagnoses {
+public class QuestionDiagnosOnskasFormedlas {
 
     public static CertificateDataElement toCertificate(Boolean value, int index,
         CertificateTextProvider texts) {
@@ -97,4 +99,11 @@ public class QuestionShouldIncludeDiagnoses {
         }
     }
 
+    public static Boolean toInternal(Certificate certificate) {
+        final var code = codeValue(certificate.getData(), ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100);
+        if (code == null) {
+            return null;
+        }
+        return code.equals(YES_ID);
+    }
 }

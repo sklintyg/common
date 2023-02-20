@@ -53,6 +53,7 @@ import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionAtgarder;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionAvstangningSmittskydd;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionBehovAvSjukskrivning;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionDiagnosOnskasFormedlas;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionDiagnoser;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionForsakringsmedicinsktBeslutsstod;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionFunktionsnedsattning;
@@ -62,7 +63,6 @@ import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionOvrigt;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionPrognos;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionPrognosTimePeriod;
-import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionShouldIncludeDiagnoses;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionSysselsattning;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionSysselsattningYrke;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
@@ -393,7 +393,7 @@ class CertificateToInternalTest {
 
             final var certificate = CertificateBuilder.create()
                 .addElement(
-                    QuestionShouldIncludeDiagnoses.toCertificate(expectedValue, index, texts))
+                    QuestionDiagnosOnskasFormedlas.toCertificate(expectedValue, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
@@ -407,7 +407,7 @@ class CertificateToInternalTest {
             final var expectedValue = false;
 
             final var certificate = CertificateBuilder.create()
-                .addElement(QuestionShouldIncludeDiagnoses.toCertificate(null, index, texts))
+                .addElement(QuestionDiagnosOnskasFormedlas.toCertificate(null, index, texts))
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);

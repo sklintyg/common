@@ -28,6 +28,7 @@ import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionAtgarderBeskrivning;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionAvstangningSmittskydd;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionBehovAvSjukskrivning;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionDiagnosOnskasFormedlas;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionDiagnoser;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionForsakringsmedicinsktBeslutsstod;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionFunktionsnedsattning;
@@ -61,6 +62,7 @@ public final class CertificateToInternal {
             .setAnnatGrundForMUBeskrivning(QuestionAnnatGrundForMUBeskrivning.toInternal(certificate))
             .setSysselsattning(QuestionSysselsattning.toInternal(certificate))
             .setNuvarandeArbete(QuestionSysselsattningYrke.toInternal(certificate))
+            .setOnskarFormedlaDiagnos(QuestionDiagnosOnskasFormedlas.toInternal(certificate))
             .setDiagnoser(QuestionDiagnoser.toInternal(certificate,
                 moduleService))
             .setFunktionsnedsattning(QuestionFunktionsnedsattning.toInternal(certificate))

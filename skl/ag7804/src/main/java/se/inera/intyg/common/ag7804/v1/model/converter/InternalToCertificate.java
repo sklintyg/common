@@ -37,6 +37,7 @@ import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionAtgarderBeskrivning;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionAvstangningSmittskydd;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionBehovAvSjukskrivning;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionDiagnosOnskasFormedlas;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionDiagnoser;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionForsakringsmedicinsktBeslutsstod;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionFunktionsnedsattning;
@@ -49,7 +50,6 @@ import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.Ques
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionPlaneradBehandling;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionPrognos;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionPrognosTimePeriod;
-import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionShouldIncludeDiagnoses;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionSysselsattning;
 import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionSysselsattningYrke;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
@@ -77,7 +77,7 @@ public final class InternalToCertificate {
             .addElement(QuestionSysselsattning.toCertificate(internalCertificate.getSysselsattning(), index++, texts))
             .addElement(QuestionSysselsattningYrke.toCertificate(internalCertificate.getNuvarandeArbete(), index++, texts))
             .addElement(CategoryDiagnos.toCertificate(index++, texts))
-            .addElement(QuestionShouldIncludeDiagnoses.toCertificate(internalCertificate.getOnskarFormedlaDiagnos(), index++, texts))
+            .addElement(QuestionDiagnosOnskasFormedlas.toCertificate(internalCertificate.getOnskarFormedlaDiagnos(), index++, texts))
             .addElement(QuestionDiagnoser.toCertificate(internalCertificate.getDiagnoser(), index++, texts))
             .addElement(CategoryFunktionsnedsattning.toCertificate(index++, texts))
             .addElement(QuestionFunktionsnedsattning.toCertificate(internalCertificate.getFunktionsnedsattning(), index++, texts))
