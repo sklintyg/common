@@ -24,12 +24,12 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AKTIV
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
 
 import java.util.List;
-import se.inera.intyg.common.fkparent.model.converter.certificate.AbstractQuestionAktivitetsbegransningar;
+import se.inera.intyg.common.fkparent.model.converter.certificate.AbstractQuestionAktivitetsbegransningarIcfCode;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 
-public class QuestionAktivitetsbegransningar extends AbstractQuestionAktivitetsbegransningar {
+public class QuestionAktivitetsbegransningar extends AbstractQuestionAktivitetsbegransningarIcfCode {
 
     public static CertificateDataElement toCertificate(String value, List<String> activityLimitationCategories,
         int index,

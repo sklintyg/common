@@ -20,66 +20,25 @@
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 
 
-import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_FUNKTIONSNEDSATTNING;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_BESKRIVNING;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_35;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_TEXT;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 
-public class QuestionFunktionsnedsattning {
+public class QuestionFunktionsnedsattning extends AbstractQuestionAktivitetsbegransningarFunktionsnedsattningar {
 
     public static CertificateDataElement toCertificate(String value, int index,
         CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(FUNKTIONSNEDSATTNING_SVAR_ID_35)
-            .index(index)
-            .parent(CATEGORY_FUNKTIONSNEDSATTNING)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .header(texts.get(FUNKTIONSNEDSATTNING_SVAR_TEXT))
-                    .text(texts.get(FUNKTIONSNEDSATTNING_DELSVAR_TEXT))
-                    .description(texts.get(FUNKTIONSNEDSATTNING_DELSVAR_BESKRIVNING))
-                    .id(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35)
-                    .build()
-            )
-            .value(
-                CertificateDataTextValue.builder()
-                    .id(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35)
-                    .text(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(FUNKTIONSNEDSATTNING_SVAR_ID_35)
-                        .expression(
-                            singleExpression(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35)
-                        )
-                        .build(),
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
-            .build();
+        return toCertificate(value, FUNKTIONSNEDSATTNING_SVAR_ID_35, FUNKTIONSNEDSATTNING_SVAR_TEXT, FUNKTIONSNEDSATTNING_DELSVAR_TEXT,
+            FUNKTIONSNEDSATTNING_DELSVAR_BESKRIVNING, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35, index, texts);
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), FUNKTIONSNEDSATTNING_SVAR_ID_35, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35);
+        return toInternal(certificate, FUNKTIONSNEDSATTNING_SVAR_ID_35, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35);
     }
 }

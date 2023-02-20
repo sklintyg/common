@@ -24,62 +24,20 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEG
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_TEXT;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_FUNKTIONSNEDSATTNING;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
-import se.inera.intyg.common.fkparent.model.converter.certificate.AbstractQuestionAktivitetsbegransningar;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 
-public class QuestionAktivitetsbegransningar extends AbstractQuestionAktivitetsbegransningar {
+public class QuestionAktivitetsbegransningar extends AbstractQuestionAktivitetsbegransningarFunktionsnedsattningar {
 
     public static CertificateDataElement toCertificate(String value, int index,
         CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(AKTIVITETSBEGRANSNING_SVAR_ID_17)
-            .index(index)
-            .parent(CATEGORY_FUNKTIONSNEDSATTNING)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .header(texts.get(AKTIVITETSBEGRANSNING_SVAR_TEXT))
-                    .text(texts.get(AKTIVITETSBEGRANSNING_DELSVAR_TEXT))
-                    .description(texts.get(AKTIVITETSBEGRANSNING_DELSVAR_BESKRIVNING))
-                    .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
-                    .build()
-            )
-            .value(
-                CertificateDataTextValue.builder()
-                    .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
-                    .text(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(AKTIVITETSBEGRANSNING_SVAR_ID_17)
-                        .expression(
-                            singleExpression(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
-                        )
-                        .build(),
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
-            .build();
+        return toCertificate(value, AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_SVAR_TEXT, AKTIVITETSBEGRANSNING_DELSVAR_TEXT,
+            AKTIVITETSBEGRANSNING_DELSVAR_BESKRIVNING, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17, index, texts);
     }
 
     public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17);
+        return toInternal(certificate, AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17);
     }
 }

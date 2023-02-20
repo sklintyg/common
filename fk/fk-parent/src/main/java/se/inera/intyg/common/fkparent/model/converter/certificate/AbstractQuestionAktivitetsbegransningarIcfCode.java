@@ -41,7 +41,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataIcfValue;
 
-public abstract class AbstractQuestionAktivitetsbegransningar {
+public abstract class AbstractQuestionAktivitetsbegransningarIcfCode {
 
     public static CertificateDataElement toCertificate(String value, String questionId, String parent, String jsonId,
         List<String> activityLimitationCategories,
