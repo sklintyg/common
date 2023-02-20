@@ -21,6 +21,7 @@ package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ATGARDER_CATEGORY_ID;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -38,20 +39,25 @@ public class QuestionAtgarder extends AbstractQuestionAtgarder {
     public static CertificateDataElement toCertificate(List<ArbetslivsinriktadeAtgarder> atgarder, int index,
         CertificateTextProvider texts) {
         final var questionAtgarderValueManager = new QuestionAtgarderConfigProvider(
-            getCheckboxMultipleCodeList(),
+            getCheckboxMultipleCode(),
             getMandatoryValidationIds(),
-            getDisableAndSubElementValidationIds(),
-            getArbetslivsinriktadeAtgarderValue(atgarder),
+            getDisableValidationIds(),
+            covertValue(atgarder),
             ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId());
         return toCertificate(questionAtgarderValueManager, ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, ATGARDER_CATEGORY_ID, index, texts);
     }
 
-
     public static List<ArbetslivsinriktadeAtgarder> toInternal(Certificate certificate) {
-        return toInternal(certificate, ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
+        var codeList = codeListValue(certificate.getData(), ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
+        return codeList
+            .stream()
+            .map(
+                code -> ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.fromId(code.getId()))
+            )
+            .collect(Collectors.toList());
     }
 
-    private static List<QuestionAtgarderValueProvider> getArbetslivsinriktadeAtgarderValue(List<ArbetslivsinriktadeAtgarder> atgarder) {
+    private static List<QuestionAtgarderValueProvider> covertValue(List<ArbetslivsinriktadeAtgarder> atgarder) {
         if (atgarder == null) {
             return Collections.emptyList();
         }
@@ -64,7 +70,7 @@ public class QuestionAtgarder extends AbstractQuestionAtgarder {
         return new QuestionAtgarderValueProvider(atgarder.getTyp().getId());
     }
 
-    private static String[] getDisableAndSubElementValidationIds() {
+    private static String[] getDisableValidationIds() {
         return new String[]{
             ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId(),
             ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId(),
@@ -95,7 +101,7 @@ public class QuestionAtgarder extends AbstractQuestionAtgarder {
         };
     }
 
-    private static List<CheckboxMultipleCode> getCheckboxMultipleCodeList() {
+    private static List<CheckboxMultipleCode> getCheckboxMultipleCode() {
         return Arrays.asList(
             CheckboxMultipleCode.builder()
                 .id(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId())

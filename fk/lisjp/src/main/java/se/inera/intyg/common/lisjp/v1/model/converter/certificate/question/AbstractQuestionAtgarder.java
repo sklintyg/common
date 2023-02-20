@@ -25,16 +25,12 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTA
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
-import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleCode;
@@ -119,16 +115,6 @@ public abstract class AbstractQuestionAtgarder {
             .collect(Collectors.toList());
     }
 
-    public static List<ArbetslivsinriktadeAtgarder> toInternal(Certificate certificate, String questionId) {
-        var codeList = codeListValue(certificate.getData(), questionId);
-        return codeList
-            .stream()
-            .map(
-                code -> ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.fromId(code.getId()))
-            )
-            .collect(Collectors.toList());
-    }
-
     public static class QuestionAtgarderConfigProvider {
 
         private final List<CheckboxMultipleCode> checkboxMultipleCodes;
@@ -141,7 +127,7 @@ public abstract class AbstractQuestionAtgarder {
         private final List<QuestionAtgarderValueProvider> values;
 
 
-        QuestionAtgarderConfigProvider(List<CheckboxMultipleCode> listOfArbetslivsinriktadeAtgarderVal, String[] mandatoryValidation,
+        public QuestionAtgarderConfigProvider(List<CheckboxMultipleCode> listOfArbetslivsinriktadeAtgarderVal, String[] mandatoryValidation,
             String[] disableValidation, List<QuestionAtgarderValueProvider> values, String notCurrentId) {
             this.checkboxMultipleCodes = listOfArbetslivsinriktadeAtgarderVal;
             this.mandatoryValidation = mandatoryValidation;
@@ -171,11 +157,11 @@ public abstract class AbstractQuestionAtgarder {
         }
     }
 
-    static class QuestionAtgarderValueProvider {
+    public static class QuestionAtgarderValueProvider {
 
         private final String id;
 
-        QuestionAtgarderValueProvider(String id) {
+        public QuestionAtgarderValueProvider(String id) {
             this.id = id;
         }
 

@@ -21,16 +21,9 @@ package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 
 
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_TEXT;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_ATGARDER;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,161 +33,105 @@ import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.Abstr
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleCode;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisableSubElement;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCodeList;
 
 public class QuestionAtgarder extends AbstractQuestionAtgarder {
 
     public static CertificateDataElement toCertificate(List<ArbetslivsinriktadeAtgarder> atgarder, int index,
         CertificateTextProvider texts) {
         final var questionAtgarderValueManager = new QuestionAtgarderConfigProvider(
-            getCheckboxMultipleCodeList(),
+            getCheckboxMultipleCode(),
             getMandatoryValidationIds(),
-            getDisableAndSubElementValidationIds(),
-            getArbetslivsinriktadeAtgarderValue(atgarder),
+            getDisableValidationIds(),
+            covertValue(atgarder),
             ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId());
         return toCertificate(questionAtgarderValueManager, ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, CATEGORY_ATGARDER, index, texts);
     }
 
-
-    public static CertificateDataElement toCertificates(List<ArbetslivsinriktadeAtgarder> atgarder,
-        int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
-            .index(index)
-            .parent(CATEGORY_ATGARDER)
-            .config(
-                CertificateDataConfigCheckboxMultipleCode.builder()
-                    .text(texts.get(ARBETSLIVSINRIKTADE_ATGARDER_TEXT))
-                    .list(
-                        Arrays.asList(
-                            CheckboxMultipleCode.builder()
-                                .id(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId())
-                                .label(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getLabel())
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId())
-                                .label(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getLabel())
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId())
-                                .label(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getLabel())
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId())
-                                .label(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getLabel())
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId())
-                                .label(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getLabel())
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId())
-                                .label(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getLabel())
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId())
-                                .label(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getLabel())
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId())
-                                .label(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getLabel())
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
-                                .label(ArbetslivsinriktadeAtgarderVal.OVRIGT.getLabel())
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .value(
-                CertificateDataValueCodeList.builder()
-                    .list(createAtgarderCodeList(atgarder))
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
-                        .expression(
-                            multipleOrExpressionWithExists(
-                                ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId(),
-                                ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId(),
-                                ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId(),
-                                ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId(),
-                                ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId(),
-                                ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId(),
-                                ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId(),
-                                ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId(),
-                                ArbetslivsinriktadeAtgarderVal.OVRIGT.getId()
-                            )
-                        )
-                        .build(),
-                    CertificateDataValidationDisableSubElement.builder()
-                        .questionId(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
-                        .expression(
-                            multipleOrExpressionWithExists(
-                                ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId(),
-                                ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId(),
-                                ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId(),
-                                ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId(),
-                                ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId(),
-                                ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId(),
-                                ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId(),
-                                ArbetslivsinriktadeAtgarderVal.OVRIGT.getId()
-                            )
-                        )
-                        .id(Collections.singletonList(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId()))
-                        .build(),
-                    CertificateDataValidationDisableSubElement.builder()
-                        .questionId(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
-                        .expression(
-                            exists(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId())
-                        )
-                        .id(
-                            Arrays.asList(
-                                ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId(),
-                                ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId(),
-                                ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId(),
-                                ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId(),
-                                ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId(),
-                                ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId(),
-                                ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId(),
-                                ArbetslivsinriktadeAtgarderVal.OVRIGT.getId()
-                            )
-                        )
-                        .build(),
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
-            .build();
-    }
-
-    private static List<CertificateDataValueCode> createAtgarderCodeList(List<ArbetslivsinriktadeAtgarder> atgarder) {
+    private static List<QuestionAtgarderValueProvider> covertValue(List<ArbetslivsinriktadeAtgarder> atgarder) {
         if (atgarder == null) {
             return Collections.emptyList();
         }
-
         return atgarder.stream()
-            .map(atgard -> CertificateDataValueCode.builder()
-                .id(atgard.getTyp().getId())
-                .code(atgard.getTyp().getId())
-                .build())
+            .map(QuestionAtgarder::toArbetslivsinriktadeAtgarder)
             .collect(Collectors.toList());
     }
 
+    private static QuestionAtgarderValueProvider toArbetslivsinriktadeAtgarder(
+        ArbetslivsinriktadeAtgarder atgarder) {
+        return new QuestionAtgarderValueProvider(atgarder.getTyp().getId());
+    }
+
+    private static String[] getDisableValidationIds() {
+        return new String[]{
+            ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId(),
+            ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId(),
+            ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId(),
+            ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId(),
+            ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId(),
+            ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId(),
+            ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId(),
+            ArbetslivsinriktadeAtgarderVal.OVRIGT.getId()
+        };
+    }
+
+    private static String[] getMandatoryValidationIds() {
+        return new String[]{
+            ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId(),
+            ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId(),
+            ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId(),
+            ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId(),
+            ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId(),
+            ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId(),
+            ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId(),
+            ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId(),
+            ArbetslivsinriktadeAtgarderVal.OVRIGT.getId()
+        };
+    }
+
+    private static List<CheckboxMultipleCode> getCheckboxMultipleCode() {
+        return List.of(
+            CheckboxMultipleCode.builder()
+                .id(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId())
+                .label(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getLabel())
+                .build(),
+            CheckboxMultipleCode.builder()
+                .id(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId())
+                .label(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getLabel())
+                .build(),
+            CheckboxMultipleCode.builder()
+                .id(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId())
+                .label(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getLabel())
+                .build(),
+            CheckboxMultipleCode.builder()
+                .id(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId())
+                .label(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getLabel())
+                .build(),
+            CheckboxMultipleCode.builder()
+                .id(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId())
+                .label(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getLabel())
+                .build(),
+            CheckboxMultipleCode.builder()
+                .id(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId())
+                .label(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getLabel())
+                .build(),
+            CheckboxMultipleCode.builder()
+                .id(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId())
+                .label(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getLabel())
+                .build(),
+            CheckboxMultipleCode.builder()
+                .id(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId())
+                .label(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getLabel())
+                .build(),
+            CheckboxMultipleCode.builder()
+                .id(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
+                .label(ArbetslivsinriktadeAtgarderVal.OVRIGT.getLabel())
+                .build()
+        );
+    }
+
     public static List<ArbetslivsinriktadeAtgarder> toInternal(Certificate certificate) {
+
         var codeList = codeListValue(certificate.getData(), ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40);
         return codeList
             .stream()
