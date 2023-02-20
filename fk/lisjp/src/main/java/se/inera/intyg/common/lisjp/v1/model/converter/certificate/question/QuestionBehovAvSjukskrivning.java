@@ -21,7 +21,7 @@ package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
-import static se.inera.intyg.common.lisjp.v1.model.converter.certificate.util.QuestionBehovAvSjukskrivningProvider.getConfigProvider;
+import static se.inera.intyg.common.lisjp.v1.model.converter.certificate.util.QuestionBehovAvSjukskrivningCommonProvider.getConfigProvider;
 
 import java.util.Collections;
 import java.util.List;

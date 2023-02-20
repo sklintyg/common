@@ -32,7 +32,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.config.CheckboxDateRange;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 
-public class QuestionBehovAvSjukskrivningProvider {
+public class QuestionBehovAvSjukskrivningCommonProvider {
 
     public static QuestionBehovAvSjukskrivningConfigProvider getConfigProvider(List<SjukskrivningValue> list, CertificateTextProvider texts,
         Relation relation) {
