@@ -21,7 +21,7 @@ package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_BEDOMNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_ID_33;
 
 import se.inera.intyg.common.fkparent.model.converter.certificate.AbstractQuestionMotiveringArbetstidsforlaggning;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -32,7 +32,7 @@ public class QuestionMotiveringArbetstidsforlaggning extends AbstractQuestionMot
 
     public static CertificateDataElement toCertificate(String value, int index,
         CertificateTextProvider texts) {
-        return toCertificate(value, ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33, CATEGORY_BEDOMNING,
+        return toCertificate(value, ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33, ARBETSTIDSFORLAGGNING_SVAR_ID_33,
             ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33, index, texts);
     }
 

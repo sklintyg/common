@@ -20,8 +20,8 @@
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_TEXT;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
@@ -59,16 +59,16 @@ public abstract class AbstractQuestionAtgarderBeskrivning {
                         .questionId(parent)
                         .expression(
                             multipleOrExpression(
-                                exists(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
                             )
                         )
                         .build()

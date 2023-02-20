@@ -25,8 +25,8 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSLIVSINR
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_ATGARDER;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
 
 import java.util.Arrays;
@@ -112,15 +112,15 @@ public class QuestionAtgarder {
                         .questionId(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
                         .expression(
                             multipleOrExpression(
-                                exists(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
                             )
                         )
                         .build(),
@@ -128,14 +128,14 @@ public class QuestionAtgarder {
                         .questionId(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
                         .expression(
                             multipleOrExpression(
-                                exists(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId()),
+                                singleExpression(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
                             )
                         )
                         .id(Collections.singletonList(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId()))
@@ -143,7 +143,7 @@ public class QuestionAtgarder {
                     CertificateDataValidationDisableSubElement.builder()
                         .questionId(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40)
                         .expression(
-                            exists(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId())
+                            singleExpression(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId())
                         )
                         .id(
                             Arrays.asList(
@@ -160,7 +160,7 @@ public class QuestionAtgarder {
                         .build(),
                     CertificateDataValidationHide.builder()
                         .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(exists(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
                         .build()
                 }
             )

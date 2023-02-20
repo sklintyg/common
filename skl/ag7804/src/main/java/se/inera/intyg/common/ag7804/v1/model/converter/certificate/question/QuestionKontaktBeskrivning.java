@@ -22,7 +22,7 @@ package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_103;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_KONTAKT;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_103;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_103;
 
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.AbstractQuestionKontaktBeskrivning;
@@ -34,7 +34,7 @@ public class QuestionKontaktBeskrivning extends AbstractQuestionKontaktBeskrivni
 
     public static CertificateDataElement toCertificate(String value, int index,
         CertificateTextProvider texts) {
-        return toCertificate(value, ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103, CATEGORY_KONTAKT,
+        return toCertificate(value, ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103, KONTAKT_ONSKAS_SVAR_ID_103,
             ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_103, ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT, KONTAKT_ONSKAS_SVAR_JSON_ID_103, index, texts);
     }
 

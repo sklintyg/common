@@ -23,7 +23,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBET
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
@@ -62,7 +61,7 @@ public abstract class AbstractQuestionMotiveringArbetstidsforlaggning {
                     CertificateDataValidationShow.builder()
                         .questionId(parent)
                         .expression(
-                            exists(ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33)
+                            singleExpression(ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33)
                         )
                         .build(),
                     CertificateDataValidationMandatory.builder()
@@ -71,7 +70,7 @@ public abstract class AbstractQuestionMotiveringArbetstidsforlaggning {
                         .build(),
                     CertificateDataValidationHide.builder()
                         .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(exists(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
                         .build()
                 }
             )
