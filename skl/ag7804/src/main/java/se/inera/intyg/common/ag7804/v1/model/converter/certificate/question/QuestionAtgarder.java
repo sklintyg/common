@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import se.inera.intyg.common.ag7804.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.ag7804.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.AbstractQuestionAtgarder;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -48,9 +49,21 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCodeList;
 
-public class QuestionAtgarder {
+public class QuestionAtgarder extends AbstractQuestionAtgarder {
 
-    public static CertificateDataElement toCertificate(List<ArbetslivsinriktadeAtgarder> atgarder,
+    public static CertificateDataElement toCertificate(List<ArbetslivsinriktadeAtgarder> atgarder, int index,
+        CertificateTextProvider texts) {
+        final var questionAtgarderValueManager = new QuestionAtgarderConfigProvider(
+            getCheckboxMultipleCodeList(),
+            getMandatoryValidationIds(),
+            getDisableAndSubElementValidationIds(),
+            getArbetslivsinriktadeAtgarderValue(atgarder),
+            ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId());
+        return toCertificate(questionAtgarderValueManager, ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, CATEGORY_ATGARDER, index, texts);
+    }
+
+
+    public static CertificateDataElement toCertificates(List<ArbetslivsinriktadeAtgarder> atgarder,
         int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
