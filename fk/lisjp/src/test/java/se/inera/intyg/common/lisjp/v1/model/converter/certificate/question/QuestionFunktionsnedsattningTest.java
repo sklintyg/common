@@ -209,7 +209,7 @@ class QuestionFunktionsnedsattningTest {
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
             assertAll("Validation question validation",
                 () -> assertEquals(FUNKTIONSNEDSATTNING_SVAR_ID_35, certificateDataValidationMandatory.getQuestionId()),
-                () -> assertEquals("exists(" + FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35 + ")",
+                () -> assertEquals("$" + FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35,
                     certificateDataValidationMandatory.getExpression())
             );
         }
@@ -223,7 +223,7 @@ class QuestionFunktionsnedsattningTest {
             final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
             assertAll("Validation question validation",
                 () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                () -> assertEquals("exists(" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27 + ")", certificateDataValidationHide.getExpression())
+                () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
             );
         }
     }

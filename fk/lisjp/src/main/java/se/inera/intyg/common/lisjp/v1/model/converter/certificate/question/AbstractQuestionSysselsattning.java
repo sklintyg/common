@@ -27,7 +27,7 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.SYSSE
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.SYSSELSATTNING_STUDIER;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.SYSSELSATTNING_SVAR_BESKRIVNING;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.SYSSELSATTNING_SVAR_TEXT;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
 
@@ -93,11 +93,11 @@ public abstract class AbstractQuestionSysselsattning {
                     CertificateDataValidationMandatory.builder()
                         .questionId(questionId)
                         .expression(
-                            multipleOrExpression(
-                                singleExpression(SysselsattningsTyp.NUVARANDE_ARBETE.getId()),
-                                singleExpression(SysselsattningsTyp.ARBETSSOKANDE.getId()),
-                                singleExpression(SysselsattningsTyp.FORADLRARLEDIGHET_VARD_AV_BARN.getId()),
-                                singleExpression(SysselsattningsTyp.STUDIER.getId())
+                            multipleOrExpressionWithExists(
+                                SysselsattningsTyp.NUVARANDE_ARBETE.getId(),
+                                SysselsattningsTyp.ARBETSSOKANDE.getId(),
+                                SysselsattningsTyp.FORADLRARLEDIGHET_VARD_AV_BARN.getId(),
+                                SysselsattningsTyp.STUDIER.getId()
                             )
                         )
                         .build(),

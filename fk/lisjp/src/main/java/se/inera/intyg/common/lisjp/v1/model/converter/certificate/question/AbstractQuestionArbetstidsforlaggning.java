@@ -26,7 +26,8 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBET
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 
@@ -68,15 +69,15 @@ public abstract class AbstractQuestionArbetstidsforlaggning {
                 new CertificateDataValidation[]{
                     CertificateDataValidationShow.builder()
                         .questionId(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32)
-                        .expression(multipleOrExpression(
-                            singleExpression(SjukskrivningsGrad.NEDSATT_1_4.getId()),
-                            singleExpression(SjukskrivningsGrad.NEDSATT_HALFTEN.getId()),
-                            singleExpression(SjukskrivningsGrad.NEDSATT_3_4.getId())
+                        .expression(multipleOrExpressionWithExists(
+                            SjukskrivningsGrad.NEDSATT_1_4.getId(),
+                            SjukskrivningsGrad.NEDSATT_HALFTEN.getId(),
+                            SjukskrivningsGrad.NEDSATT_3_4.getId()
                         ))
                         .build(),
                     CertificateDataValidationMandatory.builder()
                         .questionId(questionId)
-                        .expression(singleExpression(jsonId))
+                        .expression(exists(jsonId))
                         .build(),
                     CertificateDataValidationHide.builder()
                         .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)

@@ -28,7 +28,7 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGN
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_SVAR_SANNOLIKT_INTE;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_SVAR_STOR_SANNOLIKHET;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_SVAR_TEXT;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
 
@@ -92,11 +92,11 @@ public abstract class AbstractQuestionPrognos {
                     CertificateDataValidationMandatory.builder()
                         .questionId(questionId)
                         .expression(
-                            multipleOrExpression(
-                                singleExpression(PrognosTyp.MED_STOR_SANNOLIKHET.getId()),
-                                singleExpression(PrognosTyp.ATER_X_ANTAL_DGR.getId()),
-                                singleExpression(PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING.getId()),
-                                singleExpression(PrognosTyp.PROGNOS_OKLAR.getId())
+                            multipleOrExpressionWithExists(
+                                PrognosTyp.MED_STOR_SANNOLIKHET.getId(),
+                                PrognosTyp.ATER_X_ANTAL_DGR.getId(),
+                                PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING.getId(),
+                                PrognosTyp.PROGNOS_OKLAR.getId()
                             )
                         )
                         .build(),

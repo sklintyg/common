@@ -30,7 +30,7 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_DAGAR
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_DAGAR_60;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_DAGAR_90;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_SVAR_ID_39;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import java.util.Arrays;
@@ -103,12 +103,12 @@ public class QuestionPrognosTimePeriod {
                     CertificateDataValidationMandatory.builder()
                         .questionId(PROGNOS_BESKRIVNING_DELSVAR_ID_39)
                         .expression(
-                            multipleOrExpression(
-                                singleExpression(PrognosDagarTillArbeteTyp.DAGAR_30.getId()),
-                                singleExpression(PrognosDagarTillArbeteTyp.DAGAR_60.getId()),
-                                singleExpression(PrognosDagarTillArbeteTyp.DAGAR_90.getId()),
-                                singleExpression(PrognosDagarTillArbeteTyp.DAGAR_180.getId()),
-                                singleExpression(PrognosDagarTillArbeteTyp.DAGAR_365.getId())
+                            multipleOrExpressionWithExists(
+                                PrognosDagarTillArbeteTyp.DAGAR_30.getId(),
+                                PrognosDagarTillArbeteTyp.DAGAR_60.getId(),
+                                PrognosDagarTillArbeteTyp.DAGAR_90.getId(),
+                                PrognosDagarTillArbeteTyp.DAGAR_180.getId(),
+                                PrognosDagarTillArbeteTyp.DAGAR_365.getId()
                             )
                         )
                         .build(),

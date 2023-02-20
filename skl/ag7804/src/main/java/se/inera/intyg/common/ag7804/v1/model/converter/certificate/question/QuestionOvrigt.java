@@ -35,7 +35,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue
 
 public class QuestionOvrigt {
 
-    private static final short LIMIT_OVRIGT = (short) 2700;
+    private static final short LIMIT_OVRIGT = (short) 4000;
 
     public static CertificateDataElement toCertificate(String value, int index,
         CertificateTextProvider texts) {

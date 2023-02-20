@@ -825,19 +825,6 @@ class InternalToCertificateTest {
                     () -> assertEquals("$" + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1, certificateDataValidationShow.getExpression())
                 );
             }
-
-            @Test
-            void shouldIncludeCategoryValidationHide() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1);
-
-                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[2];
-                assertAll("Validation question validation",
-                    () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
-                );
-            }
         }
 
         @Nested
@@ -895,7 +882,7 @@ class InternalToCertificateTest {
                 final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[0];
                 assertAll("Validation question validation",
                     () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals("exists(" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27 + ")",
+                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27,
                         certificateDataValidationHide.getExpression())
                 );
             }
@@ -1293,22 +1280,6 @@ class InternalToCertificateTest {
                         certificateDataValidationShow.getExpression())
                 );
             }
-
-            @Test
-            void shouldIncludeQuestionValidationHide() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(NUVARANDE_ARBETE_SVAR_ID_29);
-
-                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[2];
-                assertAll("Validation question validation",
-                    () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27,
-                        certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals(
-                        "$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27,
-                        certificateDataValidationHide.getExpression())
-                );
-            }
         }
 
         @Nested
@@ -1545,9 +1516,9 @@ class InternalToCertificateTest {
                     () -> assertEquals("ICD-10-SE", certificateDataConfigDiagnoses.getTerminology().get(0).getLabel()),
                     () -> assertEquals("KSH_97_P", certificateDataConfigDiagnoses.getTerminology().get(1).getId()),
                     () -> assertEquals("KSH97-P (Primärvård)", certificateDataConfigDiagnoses.getTerminology().get(1).getLabel()),
-                    () -> assertEquals("1", certificateDataConfigDiagnoses.getList().get(0).getId()),
-                    () -> assertEquals("2", certificateDataConfigDiagnoses.getList().get(1).getId()),
-                    () -> assertEquals("3", certificateDataConfigDiagnoses.getList().get(2).getId())
+                    () -> assertEquals("diagnoser[0].row", certificateDataConfigDiagnoses.getList().get(0).getId()),
+                    () -> assertEquals("diagnoser[1].diagnoskod", certificateDataConfigDiagnoses.getList().get(1).getId()),
+                    () -> assertEquals("diagnoser[2].diagnoskod", certificateDataConfigDiagnoses.getList().get(2).getId())
                 );
             }
 
@@ -1569,7 +1540,7 @@ class InternalToCertificateTest {
 
                 final var certificateDataConfigDiagnoses = (CertificateDataValueDiagnosisList) question.getValue();
                 assertAll(
-                    () -> assertEquals("1", certificateDataConfigDiagnoses.getList().get(0).getId()),
+                    () -> assertEquals("diagnoser[0].row", certificateDataConfigDiagnoses.getList().get(0).getId()),
                     () -> assertEquals(expectedDiagnos.getDiagnosKodSystem(),
                         certificateDataConfigDiagnoses.getList().get(0).getTerminology()),
                     () -> assertEquals(expectedDiagnos.getDiagnosKod(), certificateDataConfigDiagnoses.getList().get(0).getCode()),
@@ -1597,7 +1568,7 @@ class InternalToCertificateTest {
 
                 final var certificateDataConfigDiagnoses = (CertificateDataValueDiagnosisList) question.getValue();
                 assertAll(
-                    () -> assertEquals("2", certificateDataConfigDiagnoses.getList().get(0).getId()),
+                    () -> assertEquals("diagnoser[1].diagnoskod", certificateDataConfigDiagnoses.getList().get(0).getId()),
                     () -> assertEquals(expectedDiagnos.getDiagnosKodSystem(),
                         certificateDataConfigDiagnoses.getList().get(0).getTerminology()),
                     () -> assertEquals(expectedDiagnos.getDiagnosKod(), certificateDataConfigDiagnoses.getList().get(0).getCode()),
@@ -1625,7 +1596,7 @@ class InternalToCertificateTest {
 
                 final var certificateDataConfigDiagnoses = (CertificateDataValueDiagnosisList) question.getValue();
                 assertAll(
-                    () -> assertEquals("3", certificateDataConfigDiagnoses.getList().get(0).getId()),
+                    () -> assertEquals("diagnoser[2].diagnoskod", certificateDataConfigDiagnoses.getList().get(0).getId()),
                     () -> assertEquals(expectedDiagnos.getDiagnosKodSystem(),
                         certificateDataConfigDiagnoses.getList().get(0).getTerminology()),
                     () -> assertEquals(expectedDiagnos.getDiagnosKod(), certificateDataConfigDiagnoses.getList().get(0).getCode()),
@@ -1654,9 +1625,9 @@ class InternalToCertificateTest {
 
                 final var certificateDataConfigDiagnoses = (CertificateDataValueDiagnosisList) question.getValue();
                 assertAll(
-                    () -> assertEquals("1", certificateDataConfigDiagnoses.getList().get(0).getId()),
-                    () -> assertEquals("2", certificateDataConfigDiagnoses.getList().get(1).getId()),
-                    () -> assertEquals("3", certificateDataConfigDiagnoses.getList().get(2).getId()),
+                    () -> assertEquals("diagnoser[0].row", certificateDataConfigDiagnoses.getList().get(0).getId()),
+                    () -> assertEquals("diagnoser[1].diagnoskod", certificateDataConfigDiagnoses.getList().get(1).getId()),
+                    () -> assertEquals("diagnoser[2].diagnoskod", certificateDataConfigDiagnoses.getList().get(2).getId()),
                     () -> assertEquals(expectedDiagnosFirst.getDiagnosKod(), certificateDataConfigDiagnoses.getList().get(0).getCode()),
                     () -> assertEquals(expectedDiagnosSecond.getDiagnosKod(), certificateDataConfigDiagnoses.getList().get(1).getCode()),
                     () -> assertEquals(expectedDiagnosThird.getDiagnosKod(), certificateDataConfigDiagnoses.getList().get(2).getCode())
@@ -1672,7 +1643,7 @@ class InternalToCertificateTest {
                 final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
                 assertAll("Validation question validation",
                     () -> assertEquals(DIAGNOS_SVAR_ID_6, certificateDataValidationMandatory.getQuestionId()),
-                    () -> assertEquals("$1", certificateDataValidationMandatory.getExpression())
+                    () -> assertEquals("'$diagnoser[0].row'", certificateDataValidationMandatory.getExpression())
                 );
             }
 
@@ -1682,7 +1653,7 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(DIAGNOS_SVAR_ID_6);
 
-                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
+                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[2];
                 assertAll("Validation question validation",
                     () -> assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100, certificateDataValidationHide.getQuestionId()),
                     () -> assertEquals("exists(NO)", certificateDataValidationHide.getExpression())
@@ -1695,7 +1666,7 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(DIAGNOS_SVAR_ID_6);
 
-                final var certificateDataValidationEnable = (CertificateDataValidationEnable) question.getValidation()[2];
+                final var certificateDataValidationEnable = (CertificateDataValidationEnable) question.getValidation()[3];
                 assertAll("Validation question validation",
                     () -> assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100, certificateDataValidationEnable.getQuestionId()),
                     () -> assertEquals("exists(YES) || exists(NO)", certificateDataValidationEnable.getExpression())
@@ -1708,9 +1679,9 @@ class InternalToCertificateTest {
 
                 final var question = certificate.getData().get(RespConstants.DIAGNOS_SVAR_ID_6);
 
-                final var certificateDataValidation = (CertificateDataValidationText) question.getValidation()[3];
+                final var certificateDataValidation = (CertificateDataValidationText) question.getValidation()[1];
                 assertAll("Validation question validation",
-                    () -> assertEquals(250, certificateDataValidation.getLimit())
+                    () -> assertEquals(81, certificateDataValidation.getLimit())
                 );
             }
         }
@@ -3036,7 +3007,7 @@ class InternalToCertificateTest {
                 assertAll("Validating question",
                     () -> assertEquals(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(CATEGORY_BEDOMNING, question.getParent()),
+                    () -> assertEquals(ARBETSTIDSFORLAGGNING_SVAR_ID_33, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
                     () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
@@ -4444,19 +4415,6 @@ class InternalToCertificateTest {
                         certificateDataValidationShow.getExpression())
                 );
             }
-
-            @Test
-            void shouldIncludeValidationHide() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44);
-
-                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
-                assertAll("Validation question validation",
-                    () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
-                );
-            }
         }
 
 
@@ -4823,7 +4781,7 @@ class InternalToCertificateTest {
                 assertAll("Validating question",
                     () -> assertEquals(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103, question.getId()),
                     () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(KONTAKT_CATEGORY_ID, question.getParent()),
+                    () -> assertEquals(KONTAKT_ONSKAS_SVAR_ID_103, question.getParent()),
                     () -> assertNotNull(question.getValue(), "Missing value"),
                     () -> assertNotNull(question.getValidation(), "Missing validation"),
                     () -> assertNotNull(question.getConfig(), "Missing config")
@@ -4899,19 +4857,6 @@ class InternalToCertificateTest {
                 assertAll("Validation question validation",
                     () -> assertEquals(KONTAKT_ONSKAS_SVAR_ID_103, certificateDataValidationShow.getQuestionId()),
                     () -> assertEquals("$" + KONTAKT_ONSKAS_SVAR_JSON_ID_103, certificateDataValidationShow.getExpression())
-                );
-            }
-
-            @Test
-            void shouldIncludeValidationHide() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103);
-
-                final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
-                assertAll("Validation question validation",
-                    () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                    () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
                 );
             }
         }

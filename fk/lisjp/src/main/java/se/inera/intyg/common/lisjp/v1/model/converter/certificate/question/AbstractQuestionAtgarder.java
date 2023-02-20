@@ -22,7 +22,8 @@ package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_TEXT;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeListValue;
 
@@ -116,35 +117,35 @@ public abstract class AbstractQuestionAtgarder {
                     CertificateDataValidationMandatory.builder()
                         .questionId(questionId)
                         .expression(
-                            multipleOrExpression(
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
+                            multipleOrExpressionWithExists(
+                                ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId(),
+                                ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId(),
+                                ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId(),
+                                ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId(),
+                                ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId(),
+                                ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId(),
+                                ArbetslivsinriktadeAtgarderVal.OVRIGT.getId()
                             )
                         )
                         .build(),
                     CertificateDataValidationDisableSubElement.builder()
                         .questionId(questionId)
                         .expression(
-                            multipleOrExpression(
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId()),
-                                singleExpression(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
+                            multipleOrExpressionWithExists(
+                                ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId(),
+                                ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId(),
+                                ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId(),
+                                ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId(),
+                                ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId(),
+                                ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId(),
+                                ArbetslivsinriktadeAtgarderVal.OVRIGT.getId()
                             )
                         )
                         .id(Collections.singletonList(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId()))
@@ -152,7 +153,7 @@ public abstract class AbstractQuestionAtgarder {
                     CertificateDataValidationDisableSubElement.builder()
                         .questionId(questionId)
                         .expression(
-                            singleExpression(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId())
+                            exists(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId())
                         )
                         .id(
                             Arrays.asList(

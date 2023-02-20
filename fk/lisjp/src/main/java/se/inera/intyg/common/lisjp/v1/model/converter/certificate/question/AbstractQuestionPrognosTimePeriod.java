@@ -27,7 +27,8 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGN
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_DAGAR_60;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_DAGAR_90;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_SVAR_ID_39;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import java.util.Arrays;
@@ -100,18 +101,18 @@ public abstract class AbstractQuestionPrognosTimePeriod {
                     CertificateDataValidationMandatory.builder()
                         .questionId(questionId)
                         .expression(
-                            multipleOrExpression(
-                                singleExpression(PrognosDagarTillArbeteTyp.DAGAR_30.getId()),
-                                singleExpression(PrognosDagarTillArbeteTyp.DAGAR_60.getId()),
-                                singleExpression(PrognosDagarTillArbeteTyp.DAGAR_90.getId()),
-                                singleExpression(PrognosDagarTillArbeteTyp.DAGAR_180.getId()),
-                                singleExpression(PrognosDagarTillArbeteTyp.DAGAR_365.getId())
+                            multipleOrExpressionWithExists(
+                                PrognosDagarTillArbeteTyp.DAGAR_30.getId(),
+                                PrognosDagarTillArbeteTyp.DAGAR_60.getId(),
+                                PrognosDagarTillArbeteTyp.DAGAR_90.getId(),
+                                PrognosDagarTillArbeteTyp.DAGAR_180.getId(),
+                                PrognosDagarTillArbeteTyp.DAGAR_365.getId()
                             )
                         )
                         .build(),
                     CertificateDataValidationEnable.builder()
                         .questionId(PROGNOS_SVAR_ID_39)
-                        .expression(singleExpression(PrognosTyp.ATER_X_ANTAL_DGR.getId()))
+                        .expression(exists(PrognosTyp.ATER_X_ANTAL_DGR.getId()))
                         .build()
                 }
             )

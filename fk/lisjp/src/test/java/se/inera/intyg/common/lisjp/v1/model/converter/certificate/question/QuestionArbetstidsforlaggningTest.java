@@ -202,7 +202,7 @@ class QuestionArbetstidsforlaggningTest {
             assertAll("Validation question validation",
                 () -> assertEquals(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32, certificateDataValidationShow.getQuestionId()),
                 () -> assertEquals(
-                    "$EN_FJARDEDEL || $HALFTEN || $TRE_FJARDEDEL",
+                    "exists(EN_FJARDEDEL) || exists(HALFTEN) || exists(TRE_FJARDEDEL)",
                     certificateDataValidationShow.getExpression())
             );
         }
@@ -229,7 +229,7 @@ class QuestionArbetstidsforlaggningTest {
             final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[2];
             assertAll("Validation question validation",
                 () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                () -> assertEquals("exists(" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27 + ")", certificateDataValidationHide.getExpression())
+                () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
             );
         }
     }

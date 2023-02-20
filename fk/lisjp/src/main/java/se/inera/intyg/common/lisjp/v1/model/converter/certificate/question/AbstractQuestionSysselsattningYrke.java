@@ -20,6 +20,7 @@
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_TEXT;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
@@ -61,7 +62,7 @@ public abstract class AbstractQuestionSysselsattningYrke {
                         .build(),
                     CertificateDataValidationShow.builder()
                         .questionId(parent)
-                        .expression(singleExpression(SysselsattningsTyp.NUVARANDE_ARBETE.getId()))
+                        .expression(exists(SysselsattningsTyp.NUVARANDE_ARBETE.getId()))
                         .build()
                 }
             )

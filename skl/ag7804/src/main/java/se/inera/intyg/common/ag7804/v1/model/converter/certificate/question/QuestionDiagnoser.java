@@ -25,7 +25,9 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_
 import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NO_ID;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.YES_ID;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 
 import java.util.List;
 import se.inera.intyg.common.fkparent.model.converter.certificate.AbstractQuestionDiagnoser;
@@ -34,6 +36,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
+import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationEnable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
@@ -50,7 +53,11 @@ public class QuestionDiagnoser extends AbstractQuestionDiagnoser {
         return List.of(
             CertificateDataValidationHide.builder()
                 .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
-                .expression(singleExpression(NO_ID))
+                .expression(exists(NO_ID))
+                .build(),
+            CertificateDataValidationEnable.builder()
+                .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
+                .expression(multipleOrExpressionWithExists(YES_ID, NO_ID))
                 .build()
         );
     }

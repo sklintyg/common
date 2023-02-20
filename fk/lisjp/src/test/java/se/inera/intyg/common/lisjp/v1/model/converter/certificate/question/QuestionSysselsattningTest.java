@@ -348,7 +348,7 @@ class QuestionSysselsattningTest {
             final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
             assertAll("Validation question validation",
                 () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                () -> assertEquals("exists(" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27 + ")", certificateDataValidationHide.getExpression())
+                () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
             );
         }
     }

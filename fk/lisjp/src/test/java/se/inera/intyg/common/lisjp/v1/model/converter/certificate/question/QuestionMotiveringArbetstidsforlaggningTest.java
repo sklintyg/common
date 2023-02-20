@@ -179,7 +179,7 @@ class QuestionMotiveringArbetstidsforlaggningTest {
             final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[0];
             assertAll("Validation question validation",
                 () -> assertEquals(ARBETSTIDSFORLAGGNING_SVAR_ID_33, certificateDataValidationShow.getQuestionId()),
-                () -> assertEquals("exists(" + ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33 + ")", certificateDataValidationShow.getExpression())
+                () -> assertEquals("$" + ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33, certificateDataValidationShow.getExpression())
             );
         }
 
@@ -192,7 +192,8 @@ class QuestionMotiveringArbetstidsforlaggningTest {
             final var certificateDataValidation = (CertificateDataValidationMandatory) question.getValidation()[1];
             assertAll("Question validation",
                 () -> assertEquals(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33, certificateDataValidation.getQuestionId()),
-                () -> assertEquals("$" + ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33, certificateDataValidation.getExpression())
+                () -> assertEquals("$" + ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33,
+                    certificateDataValidation.getExpression())
             );
         }
 
@@ -205,7 +206,7 @@ class QuestionMotiveringArbetstidsforlaggningTest {
             final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[2];
             assertAll("Validation question validation",
                 () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                () -> assertEquals("exists(" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27 + ")", certificateDataValidationHide.getExpression())
+                () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
             );
         }
     }
