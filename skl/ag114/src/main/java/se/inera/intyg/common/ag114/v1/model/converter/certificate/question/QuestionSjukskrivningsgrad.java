@@ -24,7 +24,7 @@ import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKS
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_SVAR_JSON_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_SVAR_TEXT_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_UNIT_OF_MEASURE;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.integerValue;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.isNumeric;
 
@@ -66,7 +66,7 @@ public class QuestionSjukskrivningsgrad {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(SJUKSKRIVNINGSGRAD_SVAR_ID)
-                        .expression(singleExpression(SJUKSKRIVNINGSGRAD_SVAR_JSON_ID))
+                        .expression(exists(SJUKSKRIVNINGSGRAD_SVAR_JSON_ID))
                         .build()
                 }
             )
