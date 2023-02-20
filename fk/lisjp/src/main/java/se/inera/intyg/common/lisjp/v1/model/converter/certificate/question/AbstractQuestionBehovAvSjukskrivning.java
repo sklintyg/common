@@ -19,17 +19,13 @@
 
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_EN_FJARDEDEL;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_HALFTEN;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_HELT_NEDSATT;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_BESKRIVNING;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_TEXT;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_TRE_FJARDEDEL;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateRangeListValue;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -52,7 +48,8 @@ import se.inera.intyg.common.support.model.common.internal.Relation;
 
 public abstract class AbstractQuestionBehovAvSjukskrivning {
 
-    public static CertificateDataElement toCertificate(List<Sjukskrivning> list, String questionId, String parent, int index,
+    public static CertificateDataElement toCertificate(QuestionBehovAvSjukskrivningConfigProvider configProvider, String questionId,
+        String parent, int index,
         CertificateTextProvider texts, Relation relation) {
         return CertificateDataElement.builder()
             .id(questionId)
@@ -63,31 +60,16 @@ public abstract class AbstractQuestionBehovAvSjukskrivning {
                     .text(texts.get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_TEXT))
                     .description(texts.get(BEHOV_AV_SJUKSKRIVNING_SVAR_BESKRIVNING))
                     .list(
-                        Arrays.asList(
-                            CheckboxDateRange.builder()
-                                .id(SjukskrivningsGrad.NEDSATT_1_4.getId())
-                                .label(texts.get(BEHOV_AV_SJUKSKRIVNING_EN_FJARDEDEL))
-                                .build(),
-                            CheckboxDateRange.builder()
-                                .id(SjukskrivningsGrad.NEDSATT_HALFTEN.getId())
-                                .label(texts.get(BEHOV_AV_SJUKSKRIVNING_HALFTEN))
-                                .build(),
-                            CheckboxDateRange.builder()
-                                .id(SjukskrivningsGrad.NEDSATT_3_4.getId())
-                                .label(texts.get(BEHOV_AV_SJUKSKRIVNING_TRE_FJARDEDEL))
-                                .build(),
-                            CheckboxDateRange.builder()
-                                .id(SjukskrivningsGrad.HELT_NEDSATT.getId())
-                                .label(texts.get(BEHOV_AV_SJUKSKRIVNING_HELT_NEDSATT))
-                                .build()
-                        )
+                        configProvider.getCheckboxMultipleCodes()
                     )
-                    .previousSickLeavePeriod(getPreviousSickLeavePeriod(relation))
+                    .previousSickLeavePeriod(
+                        getPreviousSickLeavePeriod(configProvider.getRenewalRelation(), configProvider.getSickLeaveText(),
+                            configProvider.getExpirationalDate()))
                     .build()
             )
             .value(
                 CertificateDataValueDateRangeList.builder()
-                    .list(createSjukskrivningValue(list))
+                    .list(createSjukskrivningValue(configProvider.getValues()))
                     .build()
             )
             .validation(
@@ -95,10 +77,7 @@ public abstract class AbstractQuestionBehovAvSjukskrivning {
                     CertificateDataValidationMandatory.builder()
                         .questionId(questionId)
                         .expression(multipleOrExpressionWithExists(
-                            SjukskrivningsGrad.NEDSATT_1_4.getId(),
-                            SjukskrivningsGrad.NEDSATT_HALFTEN.getId(),
-                            SjukskrivningsGrad.NEDSATT_3_4.getId(),
-                            SjukskrivningsGrad.HELT_NEDSATT.getId()
+                            configProvider.getMandatoryValidation()
                         ))
                         .build()
                 }
@@ -106,30 +85,30 @@ public abstract class AbstractQuestionBehovAvSjukskrivning {
             .build();
     }
 
-    private static String getPreviousSickLeavePeriod(Relation relation) {
-        return hasRenewalRelation(relation) ? getPreviousSickLeavePeriodText(relation) : null;
+    private static String getPreviousSickLeavePeriod(String relationCode, String sickLeaveText, LocalDate expirationalDate) {
+        return hasRenewalRelation(relationCode) ? getPreviousSickLeavePeriodText(sickLeaveText, expirationalDate) : null;
     }
 
-    private static String getPreviousSickLeavePeriodText(Relation relation) {
+    private static String getPreviousSickLeavePeriodText(String sickLeaveText, LocalDate expirationalDate) {
         return String.format(
             "På det ursprungliga intyget var slutdatumet för den sista sjukskrivningsperioden %s och sjukskrivningsgraden var %s.",
-            DateTimeFormatter.ofPattern("yyyy-MM-dd").format(relation.getSistaGiltighetsDatum()),
-            relation.getSistaSjukskrivningsgrad()
+            DateTimeFormatter.ofPattern("yyyy-MM-dd").format(expirationalDate),
+            sickLeaveText
         );
     }
 
-    private static boolean hasRenewalRelation(Relation relation) {
-        return relation != null && relation.getRelationKod() == RelationKod.FRLANG;
+    private static boolean hasRenewalRelation(String relation) {
+        return relation != null && relation.equals(RelationKod.FRLANG.name());
     }
 
-    private static List<CertificateDataValueDateRange> createSjukskrivningValue(List<Sjukskrivning> sickLeaves) {
+    private static List<CertificateDataValueDateRange> createSjukskrivningValue(List<SjukskrivningValue> sickLeaves) {
         if (sickLeaves == null) {
             return Collections.emptyList();
         }
         return sickLeaves.stream()
             .filter(item -> item.getPeriod() != null && item.getPeriod().isValid())
             .map(item -> CertificateDataValueDateRange.builder()
-                .id(Objects.requireNonNull(item.getSjukskrivningsgrad()).getId())
+                .id(Objects.requireNonNull(item.getId()))
                 .to(Objects.requireNonNull(item.getPeriod()).getTom().asLocalDate())
                 .from(item.getPeriod().getFrom().asLocalDate())
                 .build()
@@ -145,5 +124,71 @@ public abstract class AbstractQuestionBehovAvSjukskrivning {
                 )
             )
         ).collect(Collectors.toList());
+    }
+
+    public static class QuestionBehovAvSjukskrivningConfigProvider {
+
+        private final List<CheckboxDateRange> checkboxMultipleCodes;
+
+        private final String renewalRelation;
+
+        private final LocalDate expirationalDate;
+        private final String sickLeaveText;
+        private final List<SjukskrivningValue> values;
+        private final String[] mandatoryValidation;
+
+        public QuestionBehovAvSjukskrivningConfigProvider(List<CheckboxDateRange> checkboxMultipleCodes, String renewalRelation,
+            LocalDate expirationalDate, String sickLeaveText, String[] mandatoryValidation, List<SjukskrivningValue> values) {
+            this.checkboxMultipleCodes = checkboxMultipleCodes;
+            this.renewalRelation = renewalRelation;
+            this.expirationalDate = expirationalDate;
+            this.sickLeaveText = sickLeaveText;
+            this.mandatoryValidation = mandatoryValidation;
+            this.values = values;
+        }
+
+        public List<CheckboxDateRange> getCheckboxMultipleCodes() {
+            return checkboxMultipleCodes;
+        }
+
+        public String getRenewalRelation() {
+            return renewalRelation;
+        }
+
+        public LocalDate getExpirationalDate() {
+            return expirationalDate;
+        }
+
+        public String getSickLeaveText() {
+            return sickLeaveText;
+        }
+
+        public String[] getMandatoryValidation() {
+            return mandatoryValidation;
+        }
+
+        public List<SjukskrivningValue> getValues() {
+            return values;
+        }
+    }
+
+    public static class SjukskrivningValue {
+
+        private final String id;
+        private final InternalLocalDateInterval period;
+
+        public SjukskrivningValue(InternalLocalDateInterval period, String id) {
+            this.period = period;
+            this.id = id;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+
+        public InternalLocalDateInterval getPeriod() {
+            return period;
+        }
     }
 }

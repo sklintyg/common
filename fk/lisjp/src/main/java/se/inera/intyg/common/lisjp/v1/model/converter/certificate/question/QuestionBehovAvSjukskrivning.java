@@ -21,8 +21,12 @@ package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
+import static se.inera.intyg.common.lisjp.v1.model.converter.certificate.util.QuestionBehovAvSjukskrivningProvider.getConfigProvider;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -33,7 +37,22 @@ public class QuestionBehovAvSjukskrivning extends AbstractQuestionBehovAvSjukskr
 
     public static CertificateDataElement toCertificate(List<Sjukskrivning> list, int index,
         CertificateTextProvider texts, Relation relation) {
-        return toCertificate(list, BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32, BEDOMNING_CATEGORY_ID, index, texts, relation);
+        return toCertificate(getConfigProvider(convertValues(list), texts, relation), BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32,
+            BEDOMNING_CATEGORY_ID, index,
+            texts, relation);
+    }
+
+    private static List<SjukskrivningValue> convertValues(List<Sjukskrivning> list) {
+        if (list == null) {
+            return Collections.emptyList();
+        }
+        return list.stream()
+            .map(QuestionBehovAvSjukskrivning::toSjukskrivningsValue)
+            .collect(Collectors.toList());
+    }
+
+    private static SjukskrivningValue toSjukskrivningsValue(Sjukskrivning sjukskrivning) {
+        return new SjukskrivningValue(sjukskrivning.getPeriod(), Objects.requireNonNull(sjukskrivning.getSjukskrivningsgrad()).getId());
     }
 
     public static List<Sjukskrivning> toInternal(Certificate certificate) {

@@ -20,124 +20,45 @@
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 
 
-import static se.inera.intyg.common.ag7804.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_EN_FJARDEDEL;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_HALFTEN;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_HELT_NEDSATT;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_BESKRIVNING;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_TEXT;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_TRE_FJARDEDEL;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_BEDOMNING;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
+import static se.inera.intyg.common.lisjp.v1.model.converter.certificate.util.QuestionBehovAvSjukskrivningProvider.getConfigProvider;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateRangeListValue;
 
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
-import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning.SjukskrivningsGrad;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.AbstractQuestionBehovAvSjukskrivning;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigSickLeavePeriod;
-import se.inera.intyg.common.support.facade.model.config.CheckboxDateRange;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRange;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 
-public class QuestionBehovAvSjukskrivning {
+public class QuestionBehovAvSjukskrivning extends AbstractQuestionBehovAvSjukskrivning {
 
     public static CertificateDataElement toCertificate(List<Sjukskrivning> list, int index,
         CertificateTextProvider texts, Relation relation) {
-        return CertificateDataElement.builder()
-            .id(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32)
-            .index(index)
-            .parent(CATEGORY_BEDOMNING)
-            .config(
-                CertificateDataConfigSickLeavePeriod.builder()
-                    .text(texts.get(BEHOV_AV_SJUKSKRIVNING_SVAR_TEXT))
-                    .description(texts.get(BEHOV_AV_SJUKSKRIVNING_SVAR_BESKRIVNING))
-                    .list(
-                        Arrays.asList(
-                            CheckboxDateRange.builder()
-                                .id(SjukskrivningsGrad.NEDSATT_1_4.getId())
-                                .label(texts.get(BEHOV_AV_SJUKSKRIVNING_EN_FJARDEDEL))
-                                .build(),
-                            CheckboxDateRange.builder()
-                                .id(SjukskrivningsGrad.NEDSATT_HALFTEN.getId())
-                                .label(texts.get(BEHOV_AV_SJUKSKRIVNING_HALFTEN))
-                                .build(),
-                            CheckboxDateRange.builder()
-                                .id(SjukskrivningsGrad.NEDSATT_3_4.getId())
-                                .label(texts.get(BEHOV_AV_SJUKSKRIVNING_TRE_FJARDEDEL))
-                                .build(),
-                            CheckboxDateRange.builder()
-                                .id(SjukskrivningsGrad.HELT_NEDSATT.getId())
-                                .label(texts.get(BEHOV_AV_SJUKSKRIVNING_HELT_NEDSATT))
-                                .build()
-                        )
-                    )
-                    .previousSickLeavePeriod(getPreviousSickLeavePeriod(relation))
-                    .build()
-            )
-            .value(
-                CertificateDataValueDateRangeList.builder()
-                    .list(createSjukskrivningValue(list))
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32)
-                        .expression(multipleOrExpressionWithExists(
-                            SjukskrivningsGrad.NEDSATT_1_4.getId(),
-                            SjukskrivningsGrad.NEDSATT_HALFTEN.getId(),
-                            SjukskrivningsGrad.NEDSATT_3_4.getId(),
-                            SjukskrivningsGrad.HELT_NEDSATT.getId()
-                        ))
-                        .build()
-                }
-            )
-            .build();
+
+        return toCertificate(getConfigProvider(convertValues(list), texts, relation), BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32, CATEGORY_BEDOMNING,
+            index, texts,
+            relation);
     }
 
-    private static String getPreviousSickLeavePeriod(Relation relation) {
-        return hasRenewalRelation(relation) ? getPreviousSickLeavePeriodText(relation) : null;
-    }
-
-    private static String getPreviousSickLeavePeriodText(Relation relation) {
-        return String.format(
-            "På det ursprungliga intyget var slutdatumet för den sista sjukskrivningsperioden %s och sjukskrivningsgraden var %s.",
-            DateTimeFormatter.ofPattern("yyyy-MM-dd").format(relation.getSistaGiltighetsDatum()),
-            relation.getSistaSjukskrivningsgrad()
-        );
-    }
-
-    private static boolean hasRenewalRelation(Relation relation) {
-        return relation != null && relation.getRelationKod() == RelationKod.FRLANG;
-    }
-
-    private static List<CertificateDataValueDateRange> createSjukskrivningValue(
-        List<Sjukskrivning> sickLeaves) {
-        if (sickLeaves == null) {
+    private static List<SjukskrivningValue> convertValues(List<Sjukskrivning> list) {
+        if (list == null) {
             return Collections.emptyList();
         }
-        return sickLeaves.stream()
-            .filter(item -> item.getPeriod() != null && item.getPeriod().isValid())
-            .map(item -> CertificateDataValueDateRange.builder()
-                .id(Objects.requireNonNull(item.getSjukskrivningsgrad()).getId())
-                .to(Objects.requireNonNull(item.getPeriod()).getTom().asLocalDate())
-                .from(item.getPeriod().getFrom().asLocalDate())
-                .build()
-            ).collect(Collectors.toList());
+        return list.stream()
+            .map(QuestionBehovAvSjukskrivning::toSjukskrivningsValue)
+            .collect(Collectors.toList());
+    }
+
+    private static SjukskrivningValue toSjukskrivningsValue(Sjukskrivning sjukskrivning) {
+        return new SjukskrivningValue(sjukskrivning.getPeriod(), Objects.requireNonNull(sjukskrivning.getSjukskrivningsgrad()).getId());
     }
 
     public static List<Sjukskrivning> toInternal(Certificate certificate) {

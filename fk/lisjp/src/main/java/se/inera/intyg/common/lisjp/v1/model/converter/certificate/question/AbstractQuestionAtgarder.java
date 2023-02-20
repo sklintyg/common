@@ -60,7 +60,7 @@ public abstract class AbstractQuestionAtgarder {
             )
             .value(
                 CertificateDataValueCodeList.builder()
-                    .list(createAtgarderCodeList(valueManager))
+                    .list(createAtgarderCodeList(valueManager.getValues()))
                     .build()
             )
             .validation(
@@ -102,12 +102,12 @@ public abstract class AbstractQuestionAtgarder {
             .build();
     }
 
-    private static List<CertificateDataValueCode> createAtgarderCodeList(QuestionAtgarderConfigProvider valueManager) {
-        if (valueManager.getValues() == null) {
+    private static List<CertificateDataValueCode> createAtgarderCodeList(List<QuestionAtgarderValueProvider> values) {
+        if (values == null) {
             return Collections.emptyList();
         }
 
-        return valueManager.getValues().stream()
+        return values.stream()
             .map(atgard -> CertificateDataValueCode.builder()
                 .id(atgard.getId())
                 .code(atgard.getId())
