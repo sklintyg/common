@@ -20,11 +20,9 @@
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_TEXT;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.textValue;
 
-import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -35,7 +33,8 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue
 
 public abstract class AbstractQuestionAtgarderBeskrivning {
 
-    public static CertificateDataElement toCertificate(String value, String questionId, String parent, String jsonId, int index,
+    public static CertificateDataElement toCertificate(String value, QuestionAtgarderBeskrivningValidationProvider validationProvider,
+        String questionId, String parent, String jsonId, int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(questionId)
@@ -58,17 +57,8 @@ public abstract class AbstractQuestionAtgarderBeskrivning {
                     CertificateDataValidationShow.builder()
                         .questionId(parent)
                         .expression(
-                            multipleOrExpression(
-                                exists(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId()),
-                                exists(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
+                            multipleOrExpressionWithExists(
+                                validationProvider.getShowValidation()
                             )
                         )
                         .build()
@@ -79,5 +69,18 @@ public abstract class AbstractQuestionAtgarderBeskrivning {
 
     public static String toInternal(Certificate certificate, String questionId, String jsonId) {
         return textValue(certificate.getData(), questionId, jsonId);
+    }
+
+    public static class QuestionAtgarderBeskrivningValidationProvider {
+
+        private final String[] showValidation;
+
+        public String[] getShowValidation() {
+            return showValidation;
+        }
+
+        public QuestionAtgarderBeskrivningValidationProvider(String[] showValidation) {
+            this.showValidation = showValidation;
+        }
     }
 }

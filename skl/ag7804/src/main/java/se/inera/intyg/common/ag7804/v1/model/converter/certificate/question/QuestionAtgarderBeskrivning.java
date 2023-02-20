@@ -24,6 +24,7 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSLIVSINR
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40;
 
+import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.AbstractQuestionAtgarderBeskrivning;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -33,8 +34,26 @@ public class QuestionAtgarderBeskrivning extends AbstractQuestionAtgarderBeskriv
 
     public static CertificateDataElement toCertificate(String value, int index,
         CertificateTextProvider texts) {
-        return toCertificate(value, ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44, ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40,
+        final var questionAtgarderBeskrivningValidationProvider = new QuestionAtgarderBeskrivningValidationProvider(
+            showValidationIds()
+        );
+
+        return toCertificate(value, questionAtgarderBeskrivningValidationProvider, ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44,
+            ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40,
             ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44, index, texts);
+    }
+
+    private static String[] showValidationIds() {
+        return new String[]{
+            ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId(),
+            ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId(),
+            ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId(),
+            ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId(),
+            ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId(),
+            ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId(),
+            ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId(),
+            ArbetslivsinriktadeAtgarderVal.OVRIGT.getId()
+        };
     }
 
     public static String toInternal(Certificate certificate) {
