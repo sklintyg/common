@@ -73,8 +73,10 @@ public final class RespConstants {
 
     public static final String UNDERLAG_TYPE_TEXT_ID = "FRG_4.RBK";
     public static final String UNDERLAG_DATUM_TEXT = "Datum";
-    public static final String UNDERLAG_INFORMATION_SOURCE_TEXT_ID = "DFR_4.3.RBK";
-    public static final String UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID = "DFR_4.3.HLP";
+    public static final String UNDERLAG_INFORMATION_SOURCE_TEXT = "Från vilken vårdgivare";
+    public static final String UNDERLAG_INFORMATION_SOURCE_DESCRIPTION = "Skriv från vilken vårdgivare Försäkringskassan kan hämta"
+        + " information om utredningen/underlaget, exempelvis Neuropsykiatriska kliniken på X-stads sjukhus eller om patienten själv"
+        + " kommer att bifoga utredningen till sin ansökan. ";
 
 
     public static final String SJUKDOMSFORLOPP_SVAR_ID_5 = "5";

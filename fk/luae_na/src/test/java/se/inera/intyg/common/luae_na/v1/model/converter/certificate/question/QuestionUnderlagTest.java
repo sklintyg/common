@@ -27,6 +27,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_DESCRIPTION;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_TEXT;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.NEUROPSYKIATRISKT_UTLATANDE;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.OVRIGT;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRANFORETAGSHALSOVARD;
@@ -42,8 +44,6 @@ import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.GRU
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_DATUM_TEXT;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID;
-import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_TEXT_ID;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
 import static se.inera.intyg.common.luae_na.v1.model.converter.RespConstants.UNDERLAG_TYPE_TEXT_ID;
@@ -140,14 +140,16 @@ class QuestionUnderlagTest {
 
         @Test
         void shouldIncludeInformationSourceText() {
-            QuestionUnderlag.toCertificate(List.of(), 0, texts);
-            verify(texts, atLeastOnce()).get(UNDERLAG_INFORMATION_SOURCE_TEXT_ID);
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
+            final var config = (CertificateDataConfigMedicalInvestigation) question.getConfig();
+            assertEquals(UNDERLAG_INFORMATION_SOURCE_TEXT, config.getInformationSourceText());
         }
 
         @Test
         void shouldIncludeTypeInformationSourceDescription() {
-            QuestionUnderlag.toCertificate(List.of(), 0, texts);
-            verify(texts, atLeastOnce()).get(UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID);
+            final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
+            final var config = (CertificateDataConfigMedicalInvestigation) question.getConfig();
+            assertEquals(UNDERLAG_INFORMATION_SOURCE_DESCRIPTION, config.getInformationSourceDescription());
         }
 
         @Test

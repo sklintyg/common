@@ -22,8 +22,8 @@ package se.inera.intyg.common.fkparent.model.converter.certificate;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_DATUM_TEXT;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_TEXT_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_DESCRIPTION;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_TEXT;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_TYPE_TEXT_ID;
@@ -77,8 +77,8 @@ public abstract class AbstractQuestionUnderlag {
                 CertificateDataConfigMedicalInvestigation.builder()
                     .typeText(texts.get(UNDERLAG_TYPE_TEXT_ID))
                     .dateText(UNDERLAG_DATUM_TEXT)
-                    .informationSourceText(texts.get(UNDERLAG_INFORMATION_SOURCE_TEXT_ID))
-                    .informationSourceDescription(texts.get(UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID))
+                    .informationSourceText(UNDERLAG_INFORMATION_SOURCE_TEXT)
+                    .informationSourceDescription(UNDERLAG_INFORMATION_SOURCE_DESCRIPTION)
                     .list(
                         List.of(
                             MedicalInvestigation.builder()
