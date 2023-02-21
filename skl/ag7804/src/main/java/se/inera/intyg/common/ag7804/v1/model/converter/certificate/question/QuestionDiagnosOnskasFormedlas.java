@@ -27,7 +27,6 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMED
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_TEXT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.YES_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.withCitation;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
 
 import java.util.Arrays;
@@ -80,7 +79,7 @@ public class QuestionDiagnosOnskasFormedlas {
                         .build(),
                     CertificateDataValidationHighlight.builder()
                         .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
-                        .expression(withCitation("1"))
+                        .expression("1")
                         .build(),
                 }
             )
