@@ -211,7 +211,7 @@ class QuestionDiagnosOnskasFormedlasTest {
             assertAll("Validation question validation",
                 () -> assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100, certificateDataValidationHighlight.getQuestionId()),
                 () -> assertEquals(
-                    "exists(YES) || exists(NO) || !exists(YES) || !exists(NO)",
+                    "'1'",
                     certificateDataValidationHighlight.getExpression()
                 )
             );

@@ -25,7 +25,6 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_BEDO
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 
 public class CategoryBedomning {
 
@@ -38,9 +37,6 @@ public class CategoryBedomning {
                 CertificateDataConfigCategory.builder()
                     .text(texts.get(BEDOMNING_CATEGORY_TEXT))
                     .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{}
             )
             .build();
     }
