@@ -73,29 +73,7 @@ public class QuestionMotiveringTidigtStartdatum {
                     CertificateDataValidationShow.builder()
                         .questionId(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32)
                         .expression(
-                            multipleOrExpression(
-                                wrapWithParenthesis(
-                                    singleExpression(
-                                        lessThanOrEqual(
-                                            appendAttribute(
-                                                SjukskrivningsGrad.NEDSATT_1_4.getId(), attribute), VALIDATION_DAYS_TIDIGT_START_DATUM))),
-                                wrapWithParenthesis(
-                                    singleExpression(
-                                        lessThanOrEqual(
-                                            appendAttribute(
-                                                SjukskrivningsGrad.NEDSATT_HALFTEN.getId(), attribute),
-                                            VALIDATION_DAYS_TIDIGT_START_DATUM))),
-                                wrapWithParenthesis(
-                                    singleExpression(
-                                        lessThanOrEqual(
-                                            appendAttribute(
-                                                SjukskrivningsGrad.NEDSATT_3_4.getId(), attribute), VALIDATION_DAYS_TIDIGT_START_DATUM))),
-                                wrapWithParenthesis(
-                                    singleExpression(
-                                        lessThanOrEqual(
-                                            appendAttribute(
-                                                SjukskrivningsGrad.HELT_NEDSATT.getId(), attribute), VALIDATION_DAYS_TIDIGT_START_DATUM)))
-                            )
+                            getMultipleOrExpression(attribute)
                         )
                         .build(),
                     CertificateDataValidationText.builder()
@@ -105,6 +83,32 @@ public class QuestionMotiveringTidigtStartdatum {
                 }
             )
             .build();
+    }
+
+    private static String getMultipleOrExpression(String attribute) {
+        return multipleOrExpression(
+            wrapWithParenthesis(
+                singleExpression(
+                    lessThanOrEqual(
+                        appendAttribute(
+                            SjukskrivningsGrad.NEDSATT_1_4.getId(), attribute), VALIDATION_DAYS_TIDIGT_START_DATUM))),
+            wrapWithParenthesis(
+                singleExpression(
+                    lessThanOrEqual(
+                        appendAttribute(
+                            SjukskrivningsGrad.NEDSATT_HALFTEN.getId(), attribute),
+                        VALIDATION_DAYS_TIDIGT_START_DATUM))),
+            wrapWithParenthesis(
+                singleExpression(
+                    lessThanOrEqual(
+                        appendAttribute(
+                            SjukskrivningsGrad.NEDSATT_3_4.getId(), attribute), VALIDATION_DAYS_TIDIGT_START_DATUM))),
+            wrapWithParenthesis(
+                singleExpression(
+                    lessThanOrEqual(
+                        appendAttribute(
+                            SjukskrivningsGrad.HELT_NEDSATT.getId(), attribute), VALIDATION_DAYS_TIDIGT_START_DATUM)))
+        );
     }
 
     public static String toInternal(Certificate certificate) {
