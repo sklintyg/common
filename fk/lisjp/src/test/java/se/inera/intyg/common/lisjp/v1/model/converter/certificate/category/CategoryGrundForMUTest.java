@@ -106,7 +106,7 @@ class CategoryGrundForMUTest {
 
         @Override
         protected String getExpression() {
-            return "exists(" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27 + ")";
+            return "$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
         }
 
         @Override

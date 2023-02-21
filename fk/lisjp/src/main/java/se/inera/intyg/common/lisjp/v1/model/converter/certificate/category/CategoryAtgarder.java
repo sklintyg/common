@@ -23,7 +23,7 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ATGAR
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ATGARDER_CATEGORY_TEXT;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -47,7 +47,7 @@ public class CategoryAtgarder {
                 new CertificateDataValidation[]{
                     CertificateDataValidationHide.builder()
                         .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(exists(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
                         .build()
                 }
             )

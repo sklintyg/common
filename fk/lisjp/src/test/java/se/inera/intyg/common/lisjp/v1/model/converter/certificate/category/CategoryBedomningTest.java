@@ -91,7 +91,6 @@ class CategoryBedomningTest {
                 () -> assertEquals(expectedIndex, category.getIndex()),
                 () -> assertNull(category.getParent(), "Should not contain a parent"),
                 () -> assertNull(category.getValue(), "Should not contain a value"),
-                () -> assertNotNull(category.getValidation(), "Should include validation"),
                 () -> assertNotNull(category.getConfig(), "Should include config")
             );
         }
@@ -114,7 +113,7 @@ class CategoryBedomningTest {
         void shouldNotIncludeAnyValidation() {
             final var certificate = InternalToCertificate.convert(internalCertificate, texts);
             final var question = certificate.getData().get(BEDOMNING_CATEGORY_ID);
-            assertTrue(question.getValidation().length == 0, "Should not contain any validation");
+            assertNull(question.getValidation(), "Should not contain any validation");
         }
     }
 }
