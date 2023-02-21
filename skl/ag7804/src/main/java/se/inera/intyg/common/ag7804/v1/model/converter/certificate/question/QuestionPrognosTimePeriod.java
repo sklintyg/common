@@ -20,109 +20,26 @@
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 
 
-import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_BEDOMNING;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_DAGAR_180;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_DAGAR_30;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_DAGAR_365;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_DAGAR_60;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_DAGAR_90;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_SVAR_ID_39;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
-import java.util.Arrays;
 import se.inera.intyg.common.ag7804.model.internal.Prognos;
-import se.inera.intyg.common.ag7804.model.internal.PrognosDagarTillArbeteTyp;
-import se.inera.intyg.common.ag7804.model.internal.PrognosTyp;
+import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.AbstractQuestionPrognosTimePeriod;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.CertificateDataElementStyleEnum;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDropdown;
-import se.inera.intyg.common.support.facade.model.config.DropdownItem;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationEnable;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
-import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 
-public class QuestionPrognosTimePeriod {
+public class QuestionPrognosTimePeriod extends AbstractQuestionPrognosTimePeriod {
 
     public static CertificateDataElement toCertificate(Prognos prognos, int index,
         CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(PROGNOS_BESKRIVNING_DELSVAR_ID_39)
-            .index(index)
-            .parent(CATEGORY_BEDOMNING)
-            .config(
-                CertificateDataConfigDropdown.builder()
-                    .list(
-                        Arrays.asList(
-                            DropdownItem.builder()
-                                .id("")
-                                .label("Välj tidsperiod")
-                                .build(),
-                            DropdownItem.builder()
-                                .id(PrognosDagarTillArbeteTyp.DAGAR_30.getId())
-                                .label(texts.get(PROGNOS_DAGAR_30))
-                                .build(),
-                            DropdownItem.builder()
-                                .id(PrognosDagarTillArbeteTyp.DAGAR_60.getId())
-                                .label(texts.get(PROGNOS_DAGAR_60))
-                                .build(),
-                            DropdownItem.builder()
-                                .id(PrognosDagarTillArbeteTyp.DAGAR_90.getId())
-                                .label(texts.get(PROGNOS_DAGAR_90))
-                                .build(),
-                            DropdownItem.builder()
-                                .id(PrognosDagarTillArbeteTyp.DAGAR_180.getId())
-                                .label(texts.get(PROGNOS_DAGAR_180))
-                                .build(),
-                            DropdownItem.builder()
-                                .id(PrognosDagarTillArbeteTyp.DAGAR_365.getId())
-                                .label(texts.get(PROGNOS_DAGAR_365))
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .value(
-                CertificateDataValueCode.builder()
-                    .id(getPrognosDagarTillArbeteValue(prognos))
-                    .code(getPrognosDagarTillArbeteValue(prognos))
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build(),
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(PROGNOS_BESKRIVNING_DELSVAR_ID_39)
-                        .expression(
-                            multipleOrExpressionWithExists(
-                                PrognosDagarTillArbeteTyp.DAGAR_30.getId(),
-                                PrognosDagarTillArbeteTyp.DAGAR_60.getId(),
-                                PrognosDagarTillArbeteTyp.DAGAR_90.getId(),
-                                PrognosDagarTillArbeteTyp.DAGAR_180.getId(),
-                                PrognosDagarTillArbeteTyp.DAGAR_365.getId()
-                            )
-                        )
-                        .build(),
-                    CertificateDataValidationEnable.builder()
-                        .questionId(PROGNOS_SVAR_ID_39)
-                        .expression(singleExpression(PrognosTyp.ATER_X_ANTAL_DGR.getId()))
-                        .build()
-                }
-            )
-            .style(CertificateDataElementStyleEnum.HIDDEN)
-            .build();
+        final var timePeriodConfigProvider = new QuestionPrognosTimePeriodConfigProvider(
+            convertValue(prognos)
+        );
+        return toCertificate(timePeriodConfigProvider, PROGNOS_BESKRIVNING_DELSVAR_ID_39, CATEGORY_BEDOMNING, index, texts);
     }
 
-    private static String getPrognosDagarTillArbeteValue(Prognos prognos) {
-        return prognos != null && prognos.getDagarTillArbete() != null ? prognos.getDagarTillArbete().getId() : null;
+    private static QuestionPrognosTimePeriodValue convertValue(Prognos prognos) {
+        return prognos != null && prognos.getDagarTillArbete() != null ? new QuestionPrognosTimePeriodValue(
+            prognos.getDagarTillArbete().getId()) : null;
     }
 }

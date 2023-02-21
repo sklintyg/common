@@ -19,8 +19,12 @@
 
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_EN_FJARDEDEL;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_HALFTEN;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_HELT_NEDSATT;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_BESKRIVNING;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_TEXT;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_TRE_FJARDEDEL;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateRangeListValue;
 
@@ -60,7 +64,24 @@ public abstract class AbstractQuestionBehovAvSjukskrivning {
                     .text(texts.get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_TEXT))
                     .description(texts.get(BEHOV_AV_SJUKSKRIVNING_SVAR_BESKRIVNING))
                     .list(
-                        configProvider.getCheckboxMultipleCodes()
+                        List.of(
+                            CheckboxDateRange.builder()
+                                .id(SjukskrivningsGrad.NEDSATT_1_4.getId())
+                                .label(texts.get(BEHOV_AV_SJUKSKRIVNING_EN_FJARDEDEL))
+                                .build(),
+                            CheckboxDateRange.builder()
+                                .id(SjukskrivningsGrad.NEDSATT_HALFTEN.getId())
+                                .label(texts.get(BEHOV_AV_SJUKSKRIVNING_HALFTEN))
+                                .build(),
+                            CheckboxDateRange.builder()
+                                .id(SjukskrivningsGrad.NEDSATT_3_4.getId())
+                                .label(texts.get(BEHOV_AV_SJUKSKRIVNING_TRE_FJARDEDEL))
+                                .build(),
+                            CheckboxDateRange.builder()
+                                .id(SjukskrivningsGrad.HELT_NEDSATT.getId())
+                                .label(texts.get(BEHOV_AV_SJUKSKRIVNING_HELT_NEDSATT))
+                                .build()
+                        )
                     )
                     .previousSickLeavePeriod(
                         getPreviousSickLeavePeriod(configProvider.getRenewalRelation(), configProvider.getSickLeaveText(),
@@ -77,7 +98,10 @@ public abstract class AbstractQuestionBehovAvSjukskrivning {
                     CertificateDataValidationMandatory.builder()
                         .questionId(questionId)
                         .expression(multipleOrExpressionWithExists(
-                            configProvider.getMandatoryValidation()
+                            SjukskrivningsGrad.NEDSATT_1_4.getId(),
+                            SjukskrivningsGrad.NEDSATT_HALFTEN.getId(),
+                            SjukskrivningsGrad.NEDSATT_3_4.getId(),
+                            SjukskrivningsGrad.HELT_NEDSATT.getId()
                         ))
                         .build()
                 }
@@ -128,27 +152,17 @@ public abstract class AbstractQuestionBehovAvSjukskrivning {
 
     public static class QuestionBehovAvSjukskrivningConfigProvider {
 
-        private final List<CheckboxDateRange> checkboxMultipleCodes;
-
         private final String renewalRelation;
-
         private final LocalDate expirationalDate;
         private final String sickLeaveText;
         private final List<SjukskrivningValue> values;
-        private final String[] mandatoryValidation;
 
-        public QuestionBehovAvSjukskrivningConfigProvider(List<CheckboxDateRange> checkboxMultipleCodes, String renewalRelation,
-            LocalDate expirationalDate, String sickLeaveText, String[] mandatoryValidation, List<SjukskrivningValue> values) {
-            this.checkboxMultipleCodes = checkboxMultipleCodes;
+        public QuestionBehovAvSjukskrivningConfigProvider(String renewalRelation,
+            LocalDate expirationalDate, String sickLeaveText, List<SjukskrivningValue> values) {
             this.renewalRelation = renewalRelation;
             this.expirationalDate = expirationalDate;
             this.sickLeaveText = sickLeaveText;
-            this.mandatoryValidation = mandatoryValidation;
             this.values = values;
-        }
-
-        public List<CheckboxDateRange> getCheckboxMultipleCodes() {
-            return checkboxMultipleCodes;
         }
 
         public String getRenewalRelation() {
@@ -161,10 +175,6 @@ public abstract class AbstractQuestionBehovAvSjukskrivning {
 
         public String getSickLeaveText() {
             return sickLeaveText;
-        }
-
-        public String[] getMandatoryValidation() {
-            return mandatoryValidation;
         }
 
         public List<SjukskrivningValue> getValues() {

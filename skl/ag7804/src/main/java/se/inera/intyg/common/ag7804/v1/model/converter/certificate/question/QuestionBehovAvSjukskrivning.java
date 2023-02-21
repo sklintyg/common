@@ -22,7 +22,6 @@ package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.ag7804.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_BEDOMNING;
-import static se.inera.intyg.common.lisjp.v1.model.converter.certificate.util.QuestionBehovAvSjukskrivningCommonProvider.getConfigProvider;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateRangeListValue;
 
 import java.util.Collections;
@@ -42,10 +41,15 @@ public class QuestionBehovAvSjukskrivning extends AbstractQuestionBehovAvSjukskr
 
     public static CertificateDataElement toCertificate(List<Sjukskrivning> list, int index,
         CertificateTextProvider texts, Relation relation) {
-
-        return toCertificate(getConfigProvider(convertValues(list), texts, relation), BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32, CATEGORY_BEDOMNING,
-            index, texts,
-            relation);
+        return toCertificate(
+            new QuestionBehovAvSjukskrivningConfigProvider(
+                relation != null ? relation.getRelationKod().name() : null,
+                relation != null ? relation.getSistaGiltighetsDatum() : null,
+                relation != null ? relation.getSistaSjukskrivningsgrad() : null,
+                convertValues(list)),
+            BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32,
+            CATEGORY_BEDOMNING, index,
+            texts, relation);
     }
 
     private static List<SjukskrivningValue> convertValues(List<Sjukskrivning> list) {

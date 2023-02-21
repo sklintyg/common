@@ -21,7 +21,6 @@ package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
-import static se.inera.intyg.common.lisjp.v1.model.converter.certificate.util.QuestionBehovAvSjukskrivningCommonProvider.getConfigProvider;
 
 import java.util.Collections;
 import java.util.List;
@@ -37,7 +36,13 @@ public class QuestionBehovAvSjukskrivning extends AbstractQuestionBehovAvSjukskr
 
     public static CertificateDataElement toCertificate(List<Sjukskrivning> list, int index,
         CertificateTextProvider texts, Relation relation) {
-        return toCertificate(getConfigProvider(convertValues(list), texts, relation), BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32,
+        return toCertificate(
+            new QuestionBehovAvSjukskrivningConfigProvider(
+                relation != null ? relation.getRelationKod().name() : null,
+                relation != null ? relation.getSistaGiltighetsDatum() : null,
+                relation != null ? relation.getSistaSjukskrivningsgrad() : null,
+                convertValues(list)),
+            BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32,
             BEDOMNING_CATEGORY_ID, index,
             texts, relation);
     }

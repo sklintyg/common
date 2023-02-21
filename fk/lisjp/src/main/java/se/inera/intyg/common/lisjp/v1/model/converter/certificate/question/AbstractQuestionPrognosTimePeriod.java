@@ -32,7 +32,6 @@ import static se.inera.intyg.common.support.facade.util.ValidationExpressionTool
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 
 import java.util.Arrays;
-import se.inera.intyg.common.lisjp.model.internal.Prognos;
 import se.inera.intyg.common.lisjp.model.internal.PrognosDagarTillArbeteTyp;
 import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -48,7 +47,8 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 
 public abstract class AbstractQuestionPrognosTimePeriod {
 
-    public static CertificateDataElement toCertificate(Prognos prognos, String questionId, String parent, int index,
+    public static CertificateDataElement toCertificate(QuestionPrognosTimePeriodConfigProvider configProvider, String questionId,
+        String parent, int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(questionId)
@@ -88,8 +88,8 @@ public abstract class AbstractQuestionPrognosTimePeriod {
             )
             .value(
                 CertificateDataValueCode.builder()
-                    .id(getPrognosDagarTillArbeteValue(prognos))
-                    .code(getPrognosDagarTillArbeteValue(prognos))
+                    .id(getPrognosDagarTillArbeteValue(configProvider.getValue()))
+                    .code(getPrognosDagarTillArbeteValue(configProvider.getValue()))
                     .build()
             )
             .validation(
@@ -120,7 +120,33 @@ public abstract class AbstractQuestionPrognosTimePeriod {
             .build();
     }
 
-    private static String getPrognosDagarTillArbeteValue(Prognos prognos) {
-        return prognos != null && prognos.getDagarTillArbete() != null ? prognos.getDagarTillArbete().getId() : null;
+    private static String getPrognosDagarTillArbeteValue(QuestionPrognosTimePeriodValue timePeriodValue) {
+        return timePeriodValue != null ? timePeriodValue.getId() : null;
+    }
+
+    public static class QuestionPrognosTimePeriodConfigProvider {
+
+        private final QuestionPrognosTimePeriodValue value;
+
+        public QuestionPrognosTimePeriodConfigProvider(QuestionPrognosTimePeriodValue value) {
+            this.value = value;
+        }
+
+        public QuestionPrognosTimePeriodValue getValue() {
+            return value;
+        }
+    }
+
+    public static class QuestionPrognosTimePeriodValue {
+
+        private final String id;
+
+        public QuestionPrognosTimePeriodValue(String id) {
+            this.id = id;
+        }
+
+        public String getId() {
+            return id;
+        }
     }
 }

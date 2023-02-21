@@ -3771,7 +3771,7 @@ class InternalToCertificateTest {
                 final var certificateDataValidationEnable = (CertificateDataValidationEnable) question.getValidation()[2];
                 assertAll("Validation question validation",
                     () -> assertEquals(PROGNOS_SVAR_ID_39, certificateDataValidationEnable.getQuestionId()),
-                    () -> assertEquals("$" + PrognosTyp.ATER_X_ANTAL_DGR.getId(),
+                    () -> assertEquals("exists(" + PrognosTyp.ATER_X_ANTAL_DGR.getId() + ")",
                         certificateDataValidationEnable.getExpression())
                 );
             }

@@ -23,8 +23,7 @@ package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_BEDOMNING;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_SVAR_ID_39;
-import static se.inera.intyg.common.lisjp.v1.model.converter.certificate.util.QuestionPrognosCommonProvider.getCodeOptionalDropdowns;
-import static se.inera.intyg.common.lisjp.v1.model.converter.certificate.util.QuestionPrognosCommonProvider.getMandatoryValidation;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
 
 import se.inera.intyg.common.ag7804.model.internal.Prognos;
 import se.inera.intyg.common.ag7804.model.internal.PrognosDagarTillArbeteTyp;
@@ -39,8 +38,6 @@ public class QuestionPrognos extends AbstractQuestionPrognos {
     public static CertificateDataElement toCertificate(Prognos prognos, int index,
         CertificateTextProvider texts) {
         final var prognosConfigProvider = new QuestionPrognosConfigProvider(
-            getCodeOptionalDropdowns(texts),
-            getMandatoryValidation(),
             covertValue(prognos)
         );
         return toCertificate(prognosConfigProvider, PROGNOS_SVAR_ID_39, CATEGORY_BEDOMNING, index, texts);
@@ -51,11 +48,13 @@ public class QuestionPrognos extends AbstractQuestionPrognos {
     }
 
     public static Prognos toInternal(Certificate certificate) {
-        final var toInternalValue = toInternal(certificate, PROGNOS_SVAR_ID_39, PROGNOS_BESKRIVNING_DELSVAR_ID_39);
-        if (toInternalValue == null) {
+        var codeType = codeValue(certificate.getData(), PROGNOS_SVAR_ID_39);
+        var codeDays = codeValue(certificate.getData(), PROGNOS_BESKRIVNING_DELSVAR_ID_39);
+
+        if (codeType == null && codeDays == null) {
             return null;
         }
-        return Prognos.create(getPrognosType(toInternalValue[0]), getPrognosDays(toInternalValue[1]));
+        return Prognos.create(getPrognosType(codeType), getPrognosDays(codeDays));
     }
 
     private static PrognosTyp getPrognosType(String type) {

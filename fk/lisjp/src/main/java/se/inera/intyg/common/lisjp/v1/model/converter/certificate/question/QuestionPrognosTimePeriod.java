@@ -30,6 +30,14 @@ public class QuestionPrognosTimePeriod extends AbstractQuestionPrognosTimePeriod
 
     public static CertificateDataElement toCertificate(Prognos prognos, int index,
         CertificateTextProvider texts) {
-        return toCertificate(prognos, PROGNOS_BESKRIVNING_DELSVAR_ID_39, BEDOMNING_CATEGORY_ID, index, texts);
+        final var timePeriodConfigProvider = new QuestionPrognosTimePeriodConfigProvider(
+            convertValue(prognos)
+        );
+        return toCertificate(timePeriodConfigProvider, PROGNOS_BESKRIVNING_DELSVAR_ID_39, BEDOMNING_CATEGORY_ID, index, texts);
+    }
+
+    private static QuestionPrognosTimePeriodValue convertValue(Prognos prognos) {
+        return prognos != null && prognos.getDagarTillArbete() != null ? new QuestionPrognosTimePeriodValue(
+            prognos.getDagarTillArbete().getId()) : null;
     }
 }
