@@ -23,18 +23,26 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
+import se.inera.intyg.common.ag7804.v1.model.converter.CertificateToInternal;
 import se.inera.intyg.common.ag7804.v1.model.converter.InternalToCertificate;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 class MetaDataGrundDataTest {
@@ -61,7 +69,7 @@ class MetaDataGrundDataTest {
     }
 
     @Nested
-    class MetaData {
+    class ToCertificate {
 
         private Ag7804UtlatandeV1 internalCertificate;
 
@@ -234,6 +242,100 @@ class MetaDataGrundDataTest {
 
                 assertEquals(expectedFullName, certificate.getMetadata().getIssuedBy().getFullName());
             }
+        }
+    }
+
+    @Mock
+    WebcertModuleService moduleService;
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class ToInternal {
+
+        private Ag7804UtlatandeV1 internalCertificate;
+        private Vardenhet vardenhet;
+
+        @BeforeEach
+        void setup() {
+            final var grundData = new GrundData();
+            final var patient = new Patient();
+            patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+            grundData.setPatient(patient);
+            final var hosPersonal = new HoSPersonal();
+            vardenhet = new Vardenhet();
+            hosPersonal.setVardenhet(vardenhet);
+            grundData.setSkapadAv(hosPersonal);
+
+            internalCertificate =
+                Ag7804UtlatandeV1.builder()
+                    .setId("id")
+                    .setTextVersion("1.0")
+                    .setGrundData(grundData)
+                    .build();
+        }
+
+        Stream<String> values() {
+            return Stream.of("test string", "", null);
+        }
+
+        @ParameterizedTest
+        @MethodSource("values")
+        void shouldIncludeUnitAddress(String expectedValue) {
+            vardenhet.setPostadress(expectedValue);
+
+            final var certificate = CertificateBuilder.create()
+                .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
+                .build();
+
+            final var updatedCertificate = CertificateToInternal.convert(certificate,
+                internalCertificate, moduleService);
+
+            assertEquals(expectedValue, updatedCertificate.getGrundData().getSkapadAv().getVardenhet().getPostadress());
+        }
+
+        @ParameterizedTest
+        @MethodSource("values")
+        void shouldIncludeUnitCity(String expectedValue) {
+            vardenhet.setPostort(expectedValue);
+
+            final var certificate = CertificateBuilder.create()
+                .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
+                .build();
+
+            final var updatedCertificate = CertificateToInternal.convert(certificate,
+                internalCertificate, moduleService);
+
+            assertEquals(expectedValue, updatedCertificate.getGrundData().getSkapadAv().getVardenhet().getPostort());
+        }
+
+        @ParameterizedTest
+        @MethodSource("values")
+        void shouldIncludeUnitZipCode(String expectedValue) {
+            vardenhet.setPostnummer(expectedValue);
+
+            final var certificate = CertificateBuilder.create()
+                .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
+                .build();
+
+            final var updatedCertificate = CertificateToInternal.convert(certificate,
+                internalCertificate, moduleService);
+
+            assertEquals(expectedValue, updatedCertificate.getGrundData().getSkapadAv().getVardenhet().getPostnummer());
+        }
+
+        @ParameterizedTest
+        @MethodSource("values")
+        void shouldIncludeUnitPhonenumber(String expectedValue) {
+            vardenhet.setTelefonnummer(expectedValue);
+
+            final var certificate = CertificateBuilder.create()
+                .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
+                .build();
+
+            final var updatedCertificate = CertificateToInternal.convert(certificate,
+                internalCertificate, moduleService);
+
+            assertEquals(expectedValue, updatedCertificate.getGrundData().getSkapadAv().getVardenhet().getTelefonnummer());
         }
     }
 }
