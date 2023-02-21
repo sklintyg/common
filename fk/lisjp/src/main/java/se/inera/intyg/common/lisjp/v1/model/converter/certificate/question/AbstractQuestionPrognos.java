@@ -19,23 +19,15 @@
 
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_BESKRIVNING;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_TEXT;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_SVAR_ATER_X_ANTAL_DAGAR;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_SVAR_BESKRIVNING;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_SVAR_PROGNOS_OKLAR;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_SVAR_SANNOLIKT_INTE;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_SVAR_STOR_SANNOLIKHET;
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_SVAR_TEXT;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
 
-import java.util.Arrays;
-import se.inera.intyg.common.lisjp.model.internal.Prognos;
-import se.inera.intyg.common.lisjp.model.internal.PrognosDagarTillArbeteTyp;
-import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
+import java.util.List;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -48,8 +40,10 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 
 public abstract class AbstractQuestionPrognos {
 
-    public static CertificateDataElement toCertificate(Prognos prognos, String questionId, String parent, int index,
-        CertificateTextProvider texts) {
+    public static CertificateDataElement toCertificate(
+        QuestionPrognosConfigProvider configProvider,
+        String questionId, String parent,
+        int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(questionId)
             .index(index)
@@ -59,32 +53,14 @@ public abstract class AbstractQuestionPrognos {
                     .text(texts.get(PROGNOS_SVAR_TEXT))
                     .description(texts.get(PROGNOS_SVAR_BESKRIVNING))
                     .list(
-                        Arrays.asList(
-                            RadioMultipleCodeOptionalDropdown.builder()
-                                .id(PrognosTyp.MED_STOR_SANNOLIKHET.getId())
-                                .label(texts.get(PROGNOS_SVAR_STOR_SANNOLIKHET))
-                                .build(),
-                            RadioMultipleCodeOptionalDropdown.builder()
-                                .id(PrognosTyp.ATER_X_ANTAL_DGR.getId())
-                                .label(texts.get(PROGNOS_SVAR_ATER_X_ANTAL_DAGAR))
-                                .dropdownQuestionId(PROGNOS_BESKRIVNING_DELSVAR_ID_39)
-                                .build(),
-                            RadioMultipleCodeOptionalDropdown.builder()
-                                .id(PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING.getId())
-                                .label(texts.get(PROGNOS_SVAR_SANNOLIKT_INTE))
-                                .build(),
-                            RadioMultipleCodeOptionalDropdown.builder()
-                                .id(PrognosTyp.PROGNOS_OKLAR.getId())
-                                .label(texts.get(PROGNOS_SVAR_PROGNOS_OKLAR))
-                                .build()
-                        )
+                        configProvider.getRadioMultipleCodeOptionalDropdowns()
                     )
                     .build()
             )
             .value(
                 CertificateDataValueCode.builder()
-                    .id(getPrognosValue(prognos))
-                    .code(getPrognosValue(prognos))
+                    .id(getPrognosValue(configProvider.getValue()))
+                    .code(getPrognosValue(configProvider.getValue()))
                     .build()
             )
             .validation(
@@ -93,10 +69,7 @@ public abstract class AbstractQuestionPrognos {
                         .questionId(questionId)
                         .expression(
                             multipleOrExpressionWithExists(
-                                PrognosTyp.MED_STOR_SANNOLIKHET.getId(),
-                                PrognosTyp.ATER_X_ANTAL_DGR.getId(),
-                                PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING.getId(),
-                                PrognosTyp.PROGNOS_OKLAR.getId()
+                                configProvider.getMandatoryValidation()
                             )
                         )
                         .build(),
@@ -109,26 +82,58 @@ public abstract class AbstractQuestionPrognos {
             .build();
     }
 
-    private static String getPrognosValue(Prognos prognos) {
-        return (prognos != null && prognos.getTyp() != null) ? prognos.getTyp().getId() : null;
+    private static String getPrognosValue(QuestionPrognosValue value) {
+        return (value != null && value.getId() != null) ? value.getId() : null;
     }
 
-    private static PrognosTyp getPrognosType(String type) {
-        return type != null ? PrognosTyp.fromId(type) : null;
-    }
-
-    private static PrognosDagarTillArbeteTyp getPrognosDays(String days) {
-        return days != null && !days.isEmpty() ? PrognosDagarTillArbeteTyp.fromId(days) : null;
-    }
-
-    public static Prognos toInternal(Certificate certificate, String questionId, String dropdownQuestionId) {
+    public static String[] toInternal(Certificate certificate, String questionId, String dropdownQuestionId) {
         var codeType = codeValue(certificate.getData(), questionId);
         var codeDays = codeValue(certificate.getData(), dropdownQuestionId);
 
         if (codeType == null && codeDays == null) {
             return null;
         }
+        return new String[]{codeType, codeDays};
+    }
 
-        return Prognos.create(getPrognosType(codeType), getPrognosDays(codeDays));
+    public static class QuestionPrognosConfigProvider {
+
+        private final List<RadioMultipleCodeOptionalDropdown> radioMultipleCodeOptionalDropdowns;
+        private final String[] mandatoryValidation;
+
+        private final QuestionPrognosValue value;
+
+        public QuestionPrognosConfigProvider(List<RadioMultipleCodeOptionalDropdown> radioMultipleCodeOptionalDropdowns,
+            String[] mandatoryValidation,
+            QuestionPrognosValue value) {
+            this.radioMultipleCodeOptionalDropdowns = radioMultipleCodeOptionalDropdowns;
+            this.mandatoryValidation = mandatoryValidation;
+            this.value = value;
+        }
+
+        public List<RadioMultipleCodeOptionalDropdown> getRadioMultipleCodeOptionalDropdowns() {
+            return radioMultipleCodeOptionalDropdowns;
+        }
+
+        public String[] getMandatoryValidation() {
+            return mandatoryValidation;
+        }
+
+        public QuestionPrognosValue getValue() {
+            return value;
+        }
+    }
+
+    public static class QuestionPrognosValue {
+
+        private final String id;
+
+        public QuestionPrognosValue(String id) {
+            this.id = id;
+        }
+
+        public String getId() {
+            return id;
+        }
     }
 }
