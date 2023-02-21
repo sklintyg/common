@@ -43,8 +43,6 @@ import org.mockito.Mockito;
 import se.inera.intyg.common.ag7804.v1.model.converter.CertificateToInternal;
 import se.inera.intyg.common.ag7804.v1.model.converter.InternalToCertificate;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
-import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionPagaendeBehandling;
-import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.QuestionPlaneradBehandling;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
