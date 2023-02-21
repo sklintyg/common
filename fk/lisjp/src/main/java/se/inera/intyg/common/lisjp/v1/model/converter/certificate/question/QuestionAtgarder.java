@@ -103,50 +103,24 @@ public class QuestionAtgarder extends AbstractQuestionAtgarder {
 
     private static List<CheckboxMultipleCode> getCheckboxMultipleCode() {
         return Arrays.asList(
-            CheckboxMultipleCode.builder()
-                .id(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getId())
-                .label(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT.getLabel())
-                .build(),
-            CheckboxMultipleCode.builder()
-                .id(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getId())
-                .label(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING.getLabel())
-                .build(),
-            CheckboxMultipleCode.builder()
-                .id(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getId())
-                .label(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING.getLabel())
-                .build(),
-            CheckboxMultipleCode.builder()
-                .id(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getId())
-                .label(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE.getLabel())
-                .build(),
-            CheckboxMultipleCode.builder()
-                .id(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getId())
-                .label(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.getLabel())
-                .build(),
-            CheckboxMultipleCode.builder()
-                .id(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getId())
-                .label(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING.getLabel())
-                .build(),
-            CheckboxMultipleCode.builder()
-                .id(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getId())
-                .label(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL.getLabel())
-                .build(),
-            CheckboxMultipleCode.builder()
-                .id(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getId())
-                .label(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING.getLabel())
-                .build(),
-            CheckboxMultipleCode.builder()
-                .id(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getId())
-                .label(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.getLabel())
-                .build(),
-            CheckboxMultipleCode.builder()
-                .id(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getId())
-                .label(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.getLabel())
-                .build(),
-            CheckboxMultipleCode.builder()
-                .id(ArbetslivsinriktadeAtgarderVal.OVRIGT.getId())
-                .label(ArbetslivsinriktadeAtgarderVal.OVRIGT.getLabel())
-                .build()
+            getCheckboxFor(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT),
+            getCheckboxFor(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING),
+            getCheckboxFor(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING),
+            getCheckboxFor(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE),
+            getCheckboxFor(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN),
+            getCheckboxFor(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING),
+            getCheckboxFor(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL),
+            getCheckboxFor(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING),
+            getCheckboxFor(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD),
+            getCheckboxFor(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER),
+            getCheckboxFor(ArbetslivsinriktadeAtgarderVal.OVRIGT)
         );
+    }
+
+    private static CheckboxMultipleCode getCheckboxFor(ArbetslivsinriktadeAtgarderVal inteAktuellt) {
+        return CheckboxMultipleCode.builder()
+            .id(inteAktuellt.getId())
+            .label(inteAktuellt.getLabel())
+            .build();
     }
 }
