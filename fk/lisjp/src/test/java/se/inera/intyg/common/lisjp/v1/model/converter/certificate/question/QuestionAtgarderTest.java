@@ -627,8 +627,9 @@ class QuestionAtgarderTest {
             assertAll("Validation question validation",
                 () -> assertEquals(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, certificateDataValidationMandatory.getQuestionId()),
                 () -> assertEquals(
-                    "exists(EJ_AKTUELLT) || exists(ARBETSTRANING) || exists(ARBETSANPASSNING) || exists(SOKA_NYTT_ARBETE) || exists(BESOK_ARBETSPLATS) "
-                        + "|| exists(ERGONOMISK) || exists(HJALPMEDEL) || exists(KONFLIKTHANTERING) || exists(KONTAKT_FHV) || exists(OMFORDELNING) || exists(OVRIGA_ATGARDER)",
+                    "exists(EJ_AKTUELLT) || exists(ARBETSTRANING) || exists(ARBETSANPASSNING) || exists(SOKA_NYTT_ARBETE)"
+                        + " || exists(BESOK_ARBETSPLATS) " + "|| exists(ERGONOMISK) || exists(HJALPMEDEL) || "
+                        + "exists(KONFLIKTHANTERING) || exists(KONTAKT_FHV) || exists(OMFORDELNING) || exists(OVRIGA_ATGARDER)",
                     certificateDataValidationMandatory.getExpression())
             );
         }
@@ -647,7 +648,8 @@ class QuestionAtgarderTest {
                 () -> assertEquals("EJ_AKTUELLT", certificateDataValidationDisableSubElement.getId().get(0)),
                 () -> assertEquals(
                     "exists(ARBETSTRANING) || exists(ARBETSANPASSNING) || exists(SOKA_NYTT_ARBETE) || exists(BESOK_ARBETSPLATS) "
-                        + "|| exists(ERGONOMISK) || exists(HJALPMEDEL) || exists(KONFLIKTHANTERING) || exists(KONTAKT_FHV) || exists(OMFORDELNING) || exists(OVRIGA_ATGARDER)",
+                        + "|| exists(ERGONOMISK) || exists(HJALPMEDEL) || exists(KONFLIKTHANTERING) || exists(KONTAKT_FHV) || "
+                        + "exists(OMFORDELNING) || exists(OVRIGA_ATGARDER)",
                     certificateDataValidationDisableSubElement.getExpression())
             );
         }

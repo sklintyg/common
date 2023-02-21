@@ -123,9 +123,11 @@ class QuestionPrognosTest {
 
             assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
 
-            final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
+            final var certificateDataConfigMultipleCodeOptionalDropdown =
+                (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
             assertAll("Validating question configuration",
-                () -> assertTrue(certificateDataConfigMultipleCodeOptionalDropdown.getText().trim().length() > 0, "Missing text"),
+                () -> assertTrue(
+                    certificateDataConfigMultipleCodeOptionalDropdown.getText().trim().length() > 0, "Missing text"),
                 () -> assertTrue(certificateDataConfigMultipleCodeOptionalDropdown.getDescription().trim().length() > 0,
                     "Missing description"),
                 () -> assertNull(certificateDataConfigMultipleCodeOptionalDropdown.getHeader(), "Should not have a header"),
@@ -142,7 +144,8 @@ class QuestionPrognosTest {
 
             assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
 
-            final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
+            final var certificateDataConfigMultipleCodeOptionalDropdown =
+                (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
             assertAll("Validating question configuration",
                 () -> assertEquals(PrognosTyp.MED_STOR_SANNOLIKHET.getId(),
                     certificateDataConfigMultipleCodeOptionalDropdown.getList().get(0).getId()),
@@ -159,7 +162,8 @@ class QuestionPrognosTest {
 
             assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
 
-            final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
+            final var certificateDataConfigMultipleCodeOptionalDropdown =
+                (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
             assertAll("Validating question configuration",
                 () -> assertEquals(PrognosTyp.ATER_X_ANTAL_DGR.getId(),
                     certificateDataConfigMultipleCodeOptionalDropdown.getList().get(1).getId()),
@@ -179,7 +183,8 @@ class QuestionPrognosTest {
 
             assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
 
-            final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
+            final var certificateDataConfigMultipleCodeOptionalDropdown =
+                (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
             assertAll("Validating question configuration",
                 () -> assertEquals(PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING.getId(),
                     certificateDataConfigMultipleCodeOptionalDropdown.getList().get(2).getId()),
@@ -196,7 +201,8 @@ class QuestionPrognosTest {
 
             assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
 
-            final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
+            final var certificateDataConfigMultipleCodeOptionalDropdown =
+                (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
             assertAll("Validating question configuration",
                 () -> assertEquals(PrognosTyp.PROGNOS_OKLAR.getId(),
                     certificateDataConfigMultipleCodeOptionalDropdown.getList().get(3).getId()),

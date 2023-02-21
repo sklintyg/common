@@ -384,8 +384,8 @@ class QuestionDiagnoserTest {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class ToInternal {
 
-        private final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
-        private final String DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION = "Beskrivning utan egen text";
+        private static final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
+        private static final String DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION = "Beskrivning utan egen text";
         private LisjpUtlatandeV1 internalCertificate;
 
         @BeforeEach

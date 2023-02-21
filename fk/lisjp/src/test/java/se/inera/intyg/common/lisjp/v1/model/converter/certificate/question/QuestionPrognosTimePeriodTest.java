@@ -345,7 +345,8 @@ class QuestionPrognosTimePeriodTest {
             assertAll("Validation question validation",
                 () -> assertEquals(PROGNOS_BESKRIVNING_DELSVAR_ID_39, certificateDataValidationMandatory.getQuestionId()),
                 () -> assertEquals(
-                    "exists(TRETTIO_DGR) || exists(SEXTIO_DGR) || exists(NITTIO_DGR) || exists(HUNDRAATTIO_DAGAR) || exists(TREHUNDRASEXTIOFEM_DAGAR)",
+                    "exists(TRETTIO_DGR) || exists(SEXTIO_DGR) || exists(NITTIO_DGR) || exists(HUNDRAATTIO_DAGAR) "
+                        + "|| exists(TREHUNDRASEXTIOFEM_DAGAR)",
                     certificateDataValidationMandatory.getExpression())
             );
         }
