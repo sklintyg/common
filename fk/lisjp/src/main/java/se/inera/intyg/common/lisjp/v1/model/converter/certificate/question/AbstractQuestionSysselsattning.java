@@ -51,7 +51,8 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 
 public abstract class AbstractQuestionSysselsattning {
 
-    public static CertificateDataElement toCertificate(List<Sysselsattning> value, String questionId, String parent, int index,
+    public static CertificateDataElement toCertificate(QuestionSyssesattningConfigProvider value, String questionId, String parent,
+        int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(questionId)
@@ -85,7 +86,7 @@ public abstract class AbstractQuestionSysselsattning {
             )
             .value(
                 CertificateDataValueCodeList.builder()
-                    .list(createSysselsattningCodeList(value))
+                    .list(createSysselsattningCodeList(value.getValue()))
                     .build()
             )
             .validation(
@@ -110,15 +111,15 @@ public abstract class AbstractQuestionSysselsattning {
             .build();
     }
 
-    private static List<CertificateDataValueCode> createSysselsattningCodeList(List<Sysselsattning> value) {
+    private static List<CertificateDataValueCode> createSysselsattningCodeList(List<QuestionSysselsattningValue> value) {
         if (value == null) {
             return Collections.emptyList();
         }
 
         return value.stream()
             .map(sysselsattning -> CertificateDataValueCode.builder()
-                .id(Objects.requireNonNull(sysselsattning.getTyp()).getId())
-                .code(sysselsattning.getTyp().getId())
+                .id(Objects.requireNonNull(sysselsattning.getId()))
+                .code(sysselsattning.getId())
                 .build())
             .collect(Collectors.toList());
     }
@@ -133,4 +134,29 @@ public abstract class AbstractQuestionSysselsattning {
             .collect(Collectors.toList());
     }
 
+    public static class QuestionSyssesattningConfigProvider {
+
+        private final List<QuestionSysselsattningValue> value;
+
+        public QuestionSyssesattningConfigProvider(List<QuestionSysselsattningValue> value) {
+            this.value = value;
+        }
+
+        public List<QuestionSysselsattningValue> getValue() {
+            return value;
+        }
+    }
+
+    public static class QuestionSysselsattningValue {
+
+        private final String id;
+
+        public QuestionSysselsattningValue(String id) {
+            this.id = id;
+        }
+
+        public String getId() {
+            return id;
+        }
+    }
 }
