@@ -216,7 +216,7 @@ class QuestionArbetstidsforlaggningTest {
             final var certificateDataValidation = (CertificateDataValidationMandatory) question.getValidation()[1];
             assertAll("Question validation",
                 () -> assertEquals(ARBETSTIDSFORLAGGNING_SVAR_ID_33, certificateDataValidation.getQuestionId()),
-                () -> assertEquals("exists(" + ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33 + ")", certificateDataValidation.getExpression())
+                () -> assertEquals("$" + ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33, certificateDataValidation.getExpression())
             );
         }
 

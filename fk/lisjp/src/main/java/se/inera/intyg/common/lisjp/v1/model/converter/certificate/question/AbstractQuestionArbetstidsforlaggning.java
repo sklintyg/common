@@ -26,7 +26,6 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBET
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
@@ -77,7 +76,7 @@ public abstract class AbstractQuestionArbetstidsforlaggning {
                         .build(),
                     CertificateDataValidationMandatory.builder()
                         .questionId(questionId)
-                        .expression(exists(jsonId))
+                        .expression(singleExpression(jsonId))
                         .build(),
                     CertificateDataValidationHide.builder()
                         .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
