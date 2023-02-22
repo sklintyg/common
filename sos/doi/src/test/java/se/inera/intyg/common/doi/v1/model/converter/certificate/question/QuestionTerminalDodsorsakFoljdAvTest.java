@@ -148,7 +148,7 @@ class QuestionTerminalDodsorsakFoljdAvTest {
             final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
                 causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
             CertificateDataConfigCauseOfDeath causeOfDeath = (CertificateDataConfigCauseOfDeath) question.getConfig();
-            assertEquals(LocalDate.now(), causeOfDeath.getMaxDate());
+            assertEquals(LocalDate.now(), causeOfDeath.getCauseOfDeath().getMaxDate());
         }
 
         Stream<String> dodsOrsakerLabelStream() {
