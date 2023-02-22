@@ -20,6 +20,8 @@ package se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_DESCRIPTION;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_TEXT;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.NEUROPSYKIATRISKT_UTLATANDE;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.OVRIGT;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRANFORETAGSHALSOVARD;
@@ -35,8 +37,6 @@ import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRU
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAG_DATUM_TEXT;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID;
-import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_TEXT_ID;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAG_TYPE_TEXT_ID;
@@ -132,12 +132,12 @@ class QuestionUnderlagTest {
 
         @Override
         protected String getInformationSourceText() {
-            return UNDERLAG_INFORMATION_SOURCE_TEXT_ID;
+            return UNDERLAG_INFORMATION_SOURCE_TEXT;
         }
 
         @Override
         protected String getInformationSourceDescription() {
-            return UNDERLAG_INFORMATION_SOURCE_DESCRIPTION_ID;
+            return UNDERLAG_INFORMATION_SOURCE_DESCRIPTION;
         }
 
         @Override
