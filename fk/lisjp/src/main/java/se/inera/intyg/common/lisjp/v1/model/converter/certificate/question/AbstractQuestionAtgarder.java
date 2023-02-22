@@ -102,7 +102,7 @@ public abstract class AbstractQuestionAtgarder {
             .build();
     }
 
-    private static List<CertificateDataValueCode> createAtgarderCodeList(List<QuestionAtgarderValueProvider> values) {
+    private static List<CertificateDataValueCode> createAtgarderCodeList(List<QuestionAtgarderValue> values) {
         if (values == null) {
             return Collections.emptyList();
         }
@@ -124,11 +124,11 @@ public abstract class AbstractQuestionAtgarder {
 
         private final String notCurrentId;
 
-        private final List<QuestionAtgarderValueProvider> values;
+        private final List<QuestionAtgarderValue> values;
 
 
         public QuestionAtgarderConfigProvider(List<CheckboxMultipleCode> listOfArbetslivsinriktadeAtgarderVal, String[] mandatoryValidation,
-            String[] disableValidation, List<QuestionAtgarderValueProvider> values, String notCurrentId) {
+            String[] disableValidation, List<QuestionAtgarderValue> values, String notCurrentId) {
             this.checkboxMultipleCodes = listOfArbetslivsinriktadeAtgarderVal;
             this.mandatoryValidation = mandatoryValidation;
             this.disableValidation = disableValidation;
@@ -152,16 +152,16 @@ public abstract class AbstractQuestionAtgarder {
             return disableValidation;
         }
 
-        public List<QuestionAtgarderValueProvider> getValues() {
+        public List<QuestionAtgarderValue> getValues() {
             return values;
         }
     }
 
-    public static class QuestionAtgarderValueProvider {
+    public static class QuestionAtgarderValue {
 
         private final String id;
 
-        public QuestionAtgarderValueProvider(String id) {
+        public QuestionAtgarderValue(String id) {
             this.id = id;
         }
 

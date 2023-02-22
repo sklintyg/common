@@ -48,7 +48,7 @@ public class QuestionAtgarder extends AbstractQuestionAtgarder {
         return toCertificate(questionAtgarderValueManager, ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, CATEGORY_ATGARDER, index, texts);
     }
 
-    private static List<QuestionAtgarderValueProvider> covertValue(List<ArbetslivsinriktadeAtgarder> atgarder) {
+    private static List<QuestionAtgarderValue> covertValue(List<ArbetslivsinriktadeAtgarder> atgarder) {
         if (atgarder == null) {
             return Collections.emptyList();
         }
@@ -57,9 +57,9 @@ public class QuestionAtgarder extends AbstractQuestionAtgarder {
             .collect(Collectors.toList());
     }
 
-    private static QuestionAtgarderValueProvider toArbetslivsinriktadeAtgarder(
+    private static QuestionAtgarderValue toArbetslivsinriktadeAtgarder(
         ArbetslivsinriktadeAtgarder atgarder) {
-        return new QuestionAtgarderValueProvider(atgarder.getTyp().getId());
+        return new QuestionAtgarderValue(atgarder.getTyp().getId());
     }
 
     private static String[] getDisableValidationIds() {

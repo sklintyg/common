@@ -57,7 +57,7 @@ public class QuestionAtgarder extends AbstractQuestionAtgarder {
             .collect(Collectors.toList());
     }
 
-    private static List<QuestionAtgarderValueProvider> covertValue(List<ArbetslivsinriktadeAtgarder> atgarder) {
+    private static List<QuestionAtgarderValue> covertValue(List<ArbetslivsinriktadeAtgarder> atgarder) {
         if (atgarder == null) {
             return Collections.emptyList();
         }
@@ -66,8 +66,8 @@ public class QuestionAtgarder extends AbstractQuestionAtgarder {
             .collect(Collectors.toList());
     }
 
-    private static QuestionAtgarderValueProvider atgardToArbetslivsinriktadeAtgarderValue(ArbetslivsinriktadeAtgarder atgarder) {
-        return new QuestionAtgarderValueProvider(atgarder.getTyp().getId());
+    private static QuestionAtgarderValue atgardToArbetslivsinriktadeAtgarderValue(ArbetslivsinriktadeAtgarder atgarder) {
+        return new QuestionAtgarderValue(atgarder.getTyp().getId());
     }
 
     private static String[] getDisableValidationIds() {
