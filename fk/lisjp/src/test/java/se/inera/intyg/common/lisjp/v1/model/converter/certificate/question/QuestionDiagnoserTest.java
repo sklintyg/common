@@ -18,13 +18,14 @@
  */
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOSES_LIST_ITEM_1_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOSES_LIST_ITEM_2_ID;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOSES_LIST_ITEM_3_ID;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOSES_LIST_ITEM_1_ID;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOSES_LIST_ITEM_2_ID;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOSES_LIST_ITEM_3_ID;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_ICD_10_ID;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGNOS_ICD_10_LABEL;
@@ -36,17 +37,25 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.DIAGN
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.withCitation;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.lisjp.v1.model.converter.CertificateToInternal;
+import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
+import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
@@ -58,6 +67,7 @@ import se.inera.intyg.common.support.facade.testsetup.model.validation.Validatio
 import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
 import se.inera.intyg.common.support.facade.testsetup.model.value.InternalValueTest;
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueDiagnosListTest;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
 @ExtendWith(MockitoExtension.class)
@@ -66,13 +76,13 @@ class QuestionDiagnoserTest {
     private static final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
     private static final String DIAGNOSIS_DISPLAYNAME = "Namn att visa upp";
     @Mock
-    private CertificateTextProvider textProvider;
+    private CertificateTextProvider texts;
     @Mock
     private WebcertModuleService webcertModuleService;
 
     @BeforeEach
     void setup() {
-        when(textProvider.get(any(String.class))).thenReturn("Test string");
+        when(texts.get(any(String.class))).thenReturn("Test string");
     }
 
 
@@ -81,7 +91,7 @@ class QuestionDiagnoserTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
+            return QuestionDiagnoser.toCertificate(List.of(), 0, texts);
         }
 
         @Override
@@ -105,12 +115,12 @@ class QuestionDiagnoserTest {
 
         @Override
         protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
+            return texts;
         }
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
+            return QuestionDiagnoser.toCertificate(List.of(), 0, texts);
         }
 
         @Override
@@ -143,7 +153,7 @@ class QuestionDiagnoserTest {
 
         @Override
         protected CertificateDataElement getElement(List<Diagnos> input) {
-            return QuestionDiagnoser.toCertificate(input, 0, textProvider);
+            return QuestionDiagnoser.toCertificate(input, 0, texts);
         }
 
         @Override
@@ -262,7 +272,7 @@ class QuestionDiagnoserTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
+            return QuestionDiagnoser.toCertificate(List.of(), 0, texts);
         }
 
         @Override
@@ -276,7 +286,7 @@ class QuestionDiagnoserTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
+            return QuestionDiagnoser.toCertificate(List.of(), 0, texts);
         }
 
         @Override
@@ -299,7 +309,7 @@ class QuestionDiagnoserTest {
             if (input != null && !input.isEmpty()) {
                 doReturn(DIAGNOSIS_DISPLAYNAME).when(webcertModuleService).getDescriptionFromDiagnosKod(anyString(), anyString());
             }
-            return QuestionDiagnoser.toCertificate(input, 0, textProvider);
+            return QuestionDiagnoser.toCertificate(input, 0, texts);
         }
 
         @Override
@@ -367,6 +377,79 @@ class QuestionDiagnoserTest {
                     )
                 )
             );
+        }
+    }
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class ToInternal {
+
+        private static final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
+        private static final String DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION = "Beskrivning utan egen text";
+        private LisjpUtlatandeV1 internalCertificate;
+
+        @BeforeEach
+        void setup() {
+            internalCertificate = LisjpUtlatandeV1.builder()
+                .setGrundData(new GrundData())
+                .setId("id")
+                .setTextVersion("TextVersion")
+                .build();
+        }
+
+        Stream<List<Diagnos>> diagnosisListValues() {
+            return Stream.of(Arrays.asList(
+                Diagnos.create("F500", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION)
+            ), Arrays.asList(
+                Diagnos.create("", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION),
+                Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION),
+                Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION)
+            ), Collections.emptyList());
+        }
+
+        @ParameterizedTest
+        @MethodSource("diagnosisListValues")
+        void shouldIncludeDiagnosValue(List<Diagnos> expectedValue) {
+            if (expectedValue != null && !expectedValue.isEmpty()) {
+                doReturn(DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION).when(webcertModuleService)
+                    .getDescriptionFromDiagnosKod(anyString(), anyString());
+            }
+            final var index = 1;
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionDiagnoser.toCertificate(expectedValue, index, texts))
+                .build();
+            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, webcertModuleService);
+
+            assertEquals(expectedValue, updatedCertificate.getDiagnoser());
+        }
+
+        @Test
+        void shouldIncludeDiagnosValueNull() {
+            final var index = 1;
+            final List<Diagnos> expectedValue = Collections.emptyList();
+
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionDiagnoser.toCertificate(null, index, texts))
+                .build();
+
+            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, webcertModuleService);
+            assertEquals(expectedValue, updatedCertificate.getDiagnoser());
+        }
+
+        @Test
+        void shouldExcludeDiagnosKodNull() {
+            final var index = 1;
+            var diagnoser = Arrays.asList(
+                Diagnos.create(null, "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION),
+                Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION),
+                Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION));
+
+            final var certificate = CertificateBuilder.create()
+                .addElement(QuestionDiagnoser.toCertificate(diagnoser, index, texts))
+                .build();
+
+            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, webcertModuleService);
+            assertEquals(updatedCertificate.getDiagnoser().size(), 3);
         }
     }
 }

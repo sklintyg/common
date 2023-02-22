@@ -19,25 +19,19 @@
 package se.inera.intyg.common.ag7804.v1.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.ag7804.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.ag7804.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
 import se.inera.intyg.common.ag7804.model.internal.Prognos;
@@ -47,10 +41,35 @@ import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
 import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning.SysselsattningsTyp;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.MetaDataGrundData;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionAktivitetsbegransningar;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionAnnatGrundForMUBeskrivning;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionArbetsresor;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionArbetstidsforlaggning;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionAtgarder;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionAtgarderBeskrivning;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionAvstangningSmittskydd;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionBehovAvSjukskrivning;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionDiagnosOnskasFormedlas;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionDiagnoser;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionForsakringsmedicinsktBeslutsstod;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionFunktionsnedsattning;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionIntygetBaseratPa;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionKontakt;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionKontaktBeskrivning;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionMotiveringArbetstidsforlaggning;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionOvrigt;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionPagaendeBehandling;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionPlaneradBehandling;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionPrognos;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionPrognosTimePeriod;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionSysselsattning;
+import se.inera.intyg.common.ag7804.v1.model.converter.certificate.question.QuestionSysselsattningYrke;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -60,1129 +79,324 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@DisplayName("Should convert Certificate to AG7804")
+@ExtendWith(MockitoExtension.class)
 class CertificateToInternalTest {
 
+    private Certificate certificate;
+    private Ag7804UtlatandeV1 expectedInternalCertificate;
+
     @Mock
-    WebcertModuleService moduleService;
-    CertificateTextProvider texts;
+    private CertificateTextProvider textProvider;
+
+    @Mock
+    private WebcertModuleService webcertModuleService;
+
+    private static final String DIAGNOSIS_DISPLAYNAME = "Namn att visa upp";
+    private static final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
 
     @BeforeEach
     void setup() {
-        texts = Mockito.mock(CertificateTextProvider.class);
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
-    }
-
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionAvstangningSmittskydd {
-
-        private Ag7804UtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<Boolean> booleanValues() {
-            return Stream.of(true, false, null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("booleanValues")
-        void shouldIncludeAvstangningSmittskyddValue(Boolean expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create().addElement(InternalToCertificate
-                    .createAvstangningSmittskyddQuestion(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getAvstangningSmittskydd());
-        }
-    }
-
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionGrundForMU {
-
-        private Ag7804UtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<InternalDate> dateValues() {
-            return Stream.of(new InternalDate(LocalDate.now().plusMonths(10)), new InternalDate(LocalDate.now()), null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("dateValues")
-        void shouldIncludeGrundForMUUndersokningValue(InternalDate expectedValue) {
-            final var index = 1;
-
-            final var utlatande =
-                Ag7804UtlatandeV1.builder()
-                    .setId("id")
-                    .setTextVersion("1.0")
-                    .setGrundData(new GrundData())
-                    .setUndersokningAvPatienten(expectedValue)
-                    .build();
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createIntygetBaseratPa(utlatande, index, texts)).build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getUndersokningAvPatienten());
-        }
-
-        @ParameterizedTest
-        @MethodSource("dateValues")
-        void shouldIncludeGrundForMUTelefonkontaktValue(InternalDate expectedValue) {
-            final var index = 1;
-
-            final var utlatande =
-                Ag7804UtlatandeV1.builder()
-                    .setId("id")
-                    .setTextVersion("1.0")
-                    .setGrundData(new GrundData())
-                    .setTelefonkontaktMedPatienten(expectedValue)
-                    .build();
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createIntygetBaseratPa(utlatande, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getTelefonkontaktMedPatienten());
-        }
-
-        @ParameterizedTest
-        @MethodSource("dateValues")
-        void shouldIncludeGrundForMUJournalUppgifterValue(InternalDate expectedValue) {
-            final var index = 1;
-
-            final var utlatande =
-                Ag7804UtlatandeV1.builder()
-                    .setId("id")
-                    .setTextVersion("1.0")
-                    .setGrundData(new GrundData())
-                    .setJournaluppgifter(expectedValue)
-                    .build();
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createIntygetBaseratPa(utlatande, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getJournaluppgifter());
-        }
-
-        @ParameterizedTest
-        @MethodSource("dateValues")
-        void shouldIncludeGrundForMUAnnatValue(InternalDate expectedValue) {
-            final var index = 1;
-
-            final var utlatande =
-                Ag7804UtlatandeV1.builder()
-                    .setId("id")
-                    .setTextVersion("1.0")
-                    .setGrundData(new GrundData())
-                    .setAnnatGrundForMU(expectedValue)
-                    .build();
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createIntygetBaseratPa(utlatande, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getAnnatGrundForMU());
-        }
-    }
-
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionAnnatGrundForMUBeskrivning {
-
-        private Ag7804UtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<String> textValues() {
-            return Stream.of("Här kommer en text!", "", null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludeAnnatGrundForMUBeskrivningValue(String expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create().addElement(InternalToCertificate
-                    .createAnnatGrundForMUBeskrivning(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            if (expectedValue == null || expectedValue.isEmpty()) {
-                assertNull(updatedCertificate.getAnnatGrundForMUBeskrivning());
-            } else {
-                assertEquals(expectedValue, updatedCertificate.getAnnatGrundForMUBeskrivning());
-            }
-        }
-    }
-
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionSysselsattning {
-
-        private Ag7804UtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<List<Sysselsattning>> codeListValues() {
-            return Stream.of(Arrays.asList(
-                Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE),
-                Sysselsattning.create(SysselsattningsTyp.ARBETSSOKANDE),
-                Sysselsattning.create(SysselsattningsTyp.FORADLRARLEDIGHET_VARD_AV_BARN),
-                Sysselsattning.create(SysselsattningsTyp.STUDIER)
-            ), Collections.emptyList());
-        }
-
-        @ParameterizedTest
-        @MethodSource("codeListValues")
-        void shouldIncludeSysselsattningValue(List<Sysselsattning> expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create().addElement(InternalToCertificate
-                    .createSysselsattningQuestion(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getSysselsattning());
-        }
-
-        @Test
-        void shouldIncludeAtgardValueNull() {
-            final var index = 1;
-            final List<Sysselsattning> expectedValue = Collections.emptyList();
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createSysselsattningQuestion(null, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getSysselsattning());
-        }
-    }
-
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionNuvarandeArbete {
-
-        private Ag7804UtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<String> textValues() {
-            return Stream.of("Här kommer en text!", "", null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludeNuvarandeArbeteValue(String expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create().addElement(InternalToCertificate
-                    .createSysselsattningYrkeQuestion(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            if (expectedValue == null || expectedValue.isEmpty()) {
-                assertNull(updatedCertificate.getNuvarandeArbete());
-            } else {
-                assertEquals(expectedValue, updatedCertificate.getNuvarandeArbete());
-            }
-        }
-    }
-
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionShouldIncludeDiagnoses {
-
-        private Ag7804UtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<Boolean> booleanValues() {
-            return Stream.of(true, false);
-        }
-
-        @ParameterizedTest
-        @MethodSource("booleanValues")
-        void shouldIncludePatientWantsDiagnosesIncludedValue(Boolean expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createShouldIncludeDiagnosesQuestion(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getOnskarFormedlaDiagnos());
-        }
-
-        @Test
-        void shouldIncludePatientWantsDiagnosesIncludedNullValue() {
-            final var index = 1;
-            final var expectedValue = false;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createShouldIncludeDiagnosesQuestion(null, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getOnskarFormedlaDiagnos());
-        }
-    }
-
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionDiagnos {
-
-        private final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
-        private final String DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION = "Beskrivning utan egen text";
-        private Ag7804UtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            moduleService = mock(WebcertModuleService.class);
-            when(moduleService.getDescriptionFromDiagnosKod(anyString(), anyString())).thenReturn(DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION);
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<List<Diagnos>> diagnosisListValues() {
-            return Stream.of(Arrays.asList(
-                Diagnos.create("F500", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION)
-            ), Arrays.asList(
-                Diagnos.create("", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION),
-                Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION),
-                Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION)
-            ), Collections.emptyList());
-        }
-
-        @ParameterizedTest
-        @MethodSource("diagnosisListValues")
-        void shouldIncludeDiagnosValue(List<Diagnos> expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createDiagnosQuestion(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getDiagnoser());
-        }
-
-        @Test
-        void shouldIncludeDiagnosValueNull() {
-            final var index = 1;
-            final List<Diagnos> expectedValue = Collections.emptyList();
-
-            final var certificate = CertificateBuilder.create().addElement(InternalToCertificate.createDiagnosQuestion(null, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-            assertEquals(expectedValue, updatedCertificate.getDiagnoser());
-        }
-
-        @Test
-        void shouldExcludeDiagnosKodNull() {
-            final var index = 1;
-            var diagnoser = Arrays.asList(
-                Diagnos.create(null, "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION),
-                Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION),
-                Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DESCRIPTION_WITHOUT_ADDITION));
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createDiagnosQuestion(diagnoser, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-            assertEquals(updatedCertificate.getDiagnoser().size(), 2);
-        }
-    }
-
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionFunktionsnedsattning {
-
-        private Ag7804UtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<String> textValues() {
-            return Stream.of("Här kommer en text!", "", null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludeFunktionsnedsattningValue(String expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create().addElement(InternalToCertificate
-                    .createFunktionsnedsattningQuestion(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            if (expectedValue == null || expectedValue.isEmpty()) {
-                assertNull(updatedCertificate.getFunktionsnedsattning());
-            } else {
-                assertEquals(expectedValue, updatedCertificate.getFunktionsnedsattning());
-            }
-        }
-    }
-
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionAktivitetsbegransning {
-
-        private Ag7804UtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<String> textValues() {
-            return Stream.of("Här kommer en text!", "", null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludeFunktionsnedsattningValue(String expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create().addElement(
-                    InternalToCertificate.createAktivitetsbegransningQuestion(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            if (expectedValue == null || expectedValue.isEmpty()) {
-                assertNull(updatedCertificate.getAktivitetsbegransning());
-            } else {
-                assertEquals(expectedValue, updatedCertificate.getAktivitetsbegransning());
-            }
-        }
-    }
-
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionMedicinskaBehandlingar {
-
-        private Ag7804UtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<String> textValues() {
-            return Stream.of("Här kommer en text!", "", null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludePagaendeBehandlingValue(String expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create().addElement(
-                    InternalToCertificate.createPagaendeBehandlingQuestion(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            if (expectedValue == null || expectedValue.isEmpty()) {
-                assertNull(updatedCertificate.getPagaendeBehandling());
-            } else {
-                assertEquals(expectedValue, updatedCertificate.getPagaendeBehandling());
-            }
-        }
-
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludePlaneradBehandlingValue(String expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create().addElement(
-                    InternalToCertificate.createPlaneradBehandlingQuestion(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            if (expectedValue == null || expectedValue.isEmpty()) {
-                assertNull(updatedCertificate.getPlaneradBehandling());
-            } else {
-                assertEquals(expectedValue, updatedCertificate.getPlaneradBehandling());
-            }
-        }
-    }
-
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionBedomning {
-
-        private Ag7804UtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<List<Sjukskrivning>> sickLeaveValues() {
-            return Stream.of(
+        when(textProvider.get(anyString())).thenReturn("Test string");
+        final var internalLocalDateInterval = new InternalLocalDateInterval();
+        internalLocalDateInterval.setFrom(new InternalDate(LocalDate.now()));
+        internalLocalDateInterval.setTom(new InternalDate(LocalDate.now()));
+        expectedInternalCertificate = Ag7804UtlatandeV1.builder()
+            .setId("id")
+            .setTextVersion("textVersion")
+            .setGrundData(getGrundData())
+            .setAvstangningSmittskydd(true)
+            .setAnnatGrundForMUBeskrivning("beskrivning")
+            .setSysselsattning(List.of(Sysselsattning.create(SysselsattningsTyp.ARBETSSOKANDE)))
+            .setNuvarandeArbete("nuvarandeArbete")
+            .setDiagnoser(
                 Arrays.asList(
-                    Sjukskrivning.create(
-                        SjukskrivningsGrad.HELT_NEDSATT, new InternalLocalDateInterval(
-                            new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now())
-                        )
-                    ),
-                    Sjukskrivning.create(
-                        SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
-                            new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now())
-                        )
-                    )
-                ), Collections.emptyList()
-            );
-        }
+                    Diagnos.create("", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                    Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                    Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME))
+            )
+            .setFunktionsnedsattning("funktionsnedsattning")
+            .setPagaendeBehandling("pagaendeBehandling")
+            .setPlaneradBehandling("planeradBehandling")
+            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, internalLocalDateInterval)))
+            .setForsakringsmedicinsktBeslutsstod("forskningsmedicinsktBeslut")
+            .setArbetstidsforlaggning(true)
+            .setArbetstidsforlaggningMotivering("arbetstidsforlaggningMotivering")
+            .setArbetsresor(true)
+            .setPrognos(Prognos.create(PrognosTyp.PROGNOS_OKLAR, PrognosDagarTillArbeteTyp.DAGAR_30))
+            .setArbetslivsinriktadeAtgarder(List.of(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)))
+            .setArbetslivsinriktadeAtgarderBeskrivning("arbetslivsinriktadeAtgarderBeskrivning")
+            .setOvrigt("ovrigt")
+            .setKontaktMedAg(true)
+            .setAnledningTillKontakt("anledningTillKontakt")
+            .setAktivitetsbegransning("aktivitetsbegransning")
+            .setUndersokningAvPatienten(new InternalDate(LocalDate.now()))
+            .setTelefonkontaktMedPatienten(new InternalDate(LocalDate.now()))
+            .setJournaluppgifter(new InternalDate(LocalDate.now()))
+            .setAnnatGrundForMU(new InternalDate(LocalDate.now()))
+            .setOnskarFormedlaDiagnos(true)
+            .build();
 
-        List<Sjukskrivning> manySickLeaveValues() {
-            return List.of(
-                Sjukskrivning.create(
-                    SjukskrivningsGrad.NEDSATT_1_4, new InternalLocalDateInterval(
-                        new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now())
-                    )
-                ),
-                Sjukskrivning.create(
-                    SjukskrivningsGrad.HELT_NEDSATT, new InternalLocalDateInterval(
-                        new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now())
-                    )
-                ),
-                Sjukskrivning.create(
-                    SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
-                        new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now())
-                    )
-                )
-            );
-        }
-
-        @ParameterizedTest
-        @MethodSource("sickLeaveValues")
-        void shouldIncludeBehovAvSjukskrivningValue(List<Sjukskrivning> expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create().addElement(
-                    InternalToCertificate.createBehovAvSjukskrivningQuestion(expectedValue, index, texts, internalCertificate.getGrundData()
-                        .getRelation()))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getSjukskrivningar());
-        }
-
-        @Test
-        void shouldIncludeBehovAvSjukskrivningValueNull() {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create().addElement(
-                    InternalToCertificate.createBehovAvSjukskrivningQuestion(null, index, texts, internalCertificate.getGrundData()
-                        .getRelation()))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(Collections.emptyList(), updatedCertificate.getSjukskrivningar());
-        }
-
-        @Test
-        void shouldSortSickleaveValuesFromLargestToSmallestDegree() {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create().addElement(
-                    InternalToCertificate.createBehovAvSjukskrivningQuestion(
-                        manySickLeaveValues(), index, texts, internalCertificate.getGrundData().getRelation()))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(SjukskrivningsGrad.HELT_NEDSATT, updatedCertificate.getSjukskrivningar().get(0).getSjukskrivningsgrad());
-            assertEquals(SjukskrivningsGrad.NEDSATT_HALFTEN, updatedCertificate.getSjukskrivningar().get(1).getSjukskrivningsgrad());
-            assertEquals(SjukskrivningsGrad.NEDSATT_1_4, updatedCertificate.getSjukskrivningar().get(2).getSjukskrivningsgrad());
-        }
+        certificate = CertificateBuilder.create()
+            .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, textProvider))
+            .addElement(
+                QuestionAvstangningSmittskydd.toCertificate(expectedInternalCertificate.getAvstangningSmittskydd(), 0, textProvider)
+            )
+            .addElement(QuestionIntygetBaseratPa.toCertificate(expectedInternalCertificate, 0, textProvider))
+            .addElement(
+                QuestionAnnatGrundForMUBeskrivning.toCertificate(expectedInternalCertificate.getAnnatGrundForMUBeskrivning(), 0,
+                    textProvider))
+            .addElement(QuestionSysselsattning.toCertificate(expectedInternalCertificate.getSysselsattning(), 0, textProvider))
+            .addElement(QuestionSysselsattningYrke.toCertificate(expectedInternalCertificate.getNuvarandeArbete(), 0, textProvider))
+            .addElement(QuestionDiagnoser.toCertificate(expectedInternalCertificate.getDiagnoser(), 0, textProvider))
+            .addElement(QuestionPagaendeBehandling.toCertificate(expectedInternalCertificate.getPagaendeBehandling(), 0, textProvider))
+            .addElement(QuestionPlaneradBehandling.toCertificate(expectedInternalCertificate.getPlaneradBehandling(), 0, textProvider))
+            .addElement(
+                QuestionAktivitetsbegransningar.toCertificate(expectedInternalCertificate.getAktivitetsbegransning(), 0, textProvider))
+            .addElement(
+                QuestionFunktionsnedsattning.toCertificate(expectedInternalCertificate.getFunktionsnedsattning(), 0, textProvider))
+            .addElement(QuestionBehovAvSjukskrivning.toCertificate(expectedInternalCertificate.getSjukskrivningar(), 0, textProvider,
+                expectedInternalCertificate.getGrundData().getRelation()))
+            .addElement(
+                QuestionForsakringsmedicinsktBeslutsstod.toCertificate(expectedInternalCertificate.getForsakringsmedicinsktBeslutsstod(), 0,
+                    textProvider))
+            .addElement(
+                QuestionArbetstidsforlaggning.toCertificate(expectedInternalCertificate.getArbetstidsforlaggning(), 0, textProvider))
+            .addElement(
+                QuestionMotiveringArbetstidsforlaggning.toCertificate(expectedInternalCertificate.getArbetstidsforlaggningMotivering(), 0,
+                    textProvider))
+            .addElement(QuestionArbetsresor.toCertificate(expectedInternalCertificate.getArbetsresor(), 0, textProvider))
+            .addElement(QuestionPrognos.toCertificate(expectedInternalCertificate.getPrognos(), 0, textProvider))
+            .addElement(QuestionPrognosTimePeriod.toCertificate(expectedInternalCertificate.getPrognos(), 0, textProvider))
+            .addElement(QuestionAtgarder.toCertificate(expectedInternalCertificate.getArbetslivsinriktadeAtgarder(), 0, textProvider))
+            .addElement(
+                QuestionAtgarderBeskrivning.toCertificate(expectedInternalCertificate.getArbetslivsinriktadeAtgarderBeskrivning(), 0,
+                    textProvider))
+            .addElement(QuestionOvrigt.toCertificate(expectedInternalCertificate.getOvrigt(), 0, textProvider))
+            .addElement(QuestionKontakt.toCertificate(expectedInternalCertificate.getKontaktMedAg(), 0, textProvider))
+            .addElement(QuestionKontaktBeskrivning.toCertificate(expectedInternalCertificate.getAnledningTillKontakt(), 0, textProvider))
+            .addElement(
+                QuestionDiagnosOnskasFormedlas.toCertificate(expectedInternalCertificate.getOnskarFormedlaDiagnos(), 0, textProvider))
+            .build();
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionForsakringsmedicinsktBeslutsstod {
-
-        private Ag7804UtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<String> textValues() {
-            return Stream.of("Här kommer en text!", "", null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludeForsakringsmedicinsktBeslutsstodValue(String expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create().addElement(
-                    InternalToCertificate.createForsakringsmedicinsktBeslutsstodQuestion(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            if (expectedValue == null || expectedValue.isEmpty()) {
-                assertNull(updatedCertificate.getForsakringsmedicinsktBeslutsstod());
-            } else {
-                assertEquals(expectedValue, updatedCertificate.getForsakringsmedicinsktBeslutsstod());
-            }
-        }
+    private static GrundData getGrundData() {
+        final var grundData = new GrundData();
+        final var hosPersonal = new HoSPersonal();
+        final var vardenhet = new Vardenhet();
+        final var patient = new Patient();
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
+        hosPersonal.setVardenhet(vardenhet);
+        grundData.setSkapadAv(hosPersonal);
+        grundData.setPatient(patient);
+        return grundData;
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionArbetstidsforlaggning {
-
-        private Ag7804UtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<Boolean> booleanValues() {
-            return Stream.of(true, false, null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("booleanValues")
-        void shouldIncludeArbetstidsforlaggningValue(Boolean expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create().addElement(
-                    InternalToCertificate.createArbetstidsforlaggningQuestion(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getArbetstidsforlaggning());
-        }
+    @Test
+    void shallIncludeId() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getId(), actualInternalCertificate.getId());
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionMotiveringArbetstidsforlaggning {
-
-        private Ag7804UtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<String> textValues() {
-            return Stream.of("Här kommer en text!", "", null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludeMotiveringArbetstidsforlaggningValue(String expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create().addElement(
-                    InternalToCertificate.createMotiveringArbetstidsforlaggningQuestion(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            if (expectedValue == null || expectedValue.isEmpty()) {
-                assertNull(updatedCertificate.getArbetstidsforlaggningMotivering());
-            } else {
-                assertEquals(expectedValue, updatedCertificate.getArbetstidsforlaggningMotivering());
-            }
-        }
+    @Test
+    void shallIncludeTextVersion() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getTextVersion(), actualInternalCertificate.getTextVersion());
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionArbetsresor {
-
-        private Ag7804UtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<Boolean> booleanValues() {
-            return Stream.of(true, false, null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("booleanValues")
-        void shouldIncludeArbetstidsforlaggningValue(Boolean expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create().addElement(
-                    InternalToCertificate.createArbetsresorQuestion(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getArbetsresor());
-        }
+    @Test
+    void shallIncludeGrundData() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertNotNull(actualInternalCertificate.getGrundData(), "GrundData is missing!");
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionPrognos {
-
-        private Ag7804UtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<Prognos> prognosValues() {
-            return Stream.of(Prognos.create(PrognosTyp.MED_STOR_SANNOLIKHET, null),
-                Prognos.create(PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING, null),
-                Prognos.create(PrognosTyp.PROGNOS_OKLAR, null),
-                Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_30),
-                Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_60),
-                Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_90),
-                Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_180),
-                Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_365), null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("prognosValues")
-        void shouldIncludePrognosValue(Prognos expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(
-                    InternalToCertificate.createPrognosQuestion(expectedValue, index, texts))
-                .addElement(InternalToCertificate
-                    .createPrognosTimeperiodQuestion(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getPrognos());
-        }
+    @Test
+    void shallIncludeAvstangningSmittskydd() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getAvstangningSmittskydd(), actualInternalCertificate.getAvstangningSmittskydd());
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionAtgard {
-
-        private Ag7804UtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<List<ArbetslivsinriktadeAtgarder>> codeListValues() {
-            return Stream.of(
-                Arrays.asList(
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT)
-                ),
-                Arrays.asList(
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OVRIGT),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL)
-
-                ),
-                Collections.emptyList());
-        }
-
-        @ParameterizedTest
-        @MethodSource("codeListValues")
-        void shouldIncludeAtgardValue(List<ArbetslivsinriktadeAtgarder> expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(
-                    InternalToCertificate
-                        .createAtgarderQuestion(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getArbetslivsinriktadeAtgarder());
-        }
-
-        @Test
-        void shouldIncludeAtgardValueNull() {
-            final var index = 1;
-            final List<ArbetslivsinriktadeAtgarder> expectedValue = Collections.emptyList();
-
-            final var certificate = CertificateBuilder.create().addElement(
-                    InternalToCertificate.createAtgarderQuestion(null, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getArbetslivsinriktadeAtgarder());
-        }
+    @Test
+    void shallIncludeAnnatGrundForMUBeskrivning() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getAnnatGrundForMUBeskrivning(),
+            actualInternalCertificate.getAnnatGrundForMUBeskrivning());
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionAtgarderBeskrivning {
-
-        private Ag7804UtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<String> textValues() {
-            return Stream.of("Här kommer en text!", "", null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludeAtgarderBeskrivningValue(String expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create().addElement(
-                    InternalToCertificate.createAtgarderBeskrivning(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            if (expectedValue == null || expectedValue.isEmpty()) {
-                assertNull(updatedCertificate.getArbetslivsinriktadeAtgarderBeskrivning());
-            } else {
-                assertEquals(expectedValue, updatedCertificate.getArbetslivsinriktadeAtgarderBeskrivning());
-            }
-        }
+    @Test
+    void shallIncludeSysselsattning() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getSysselsattning(), actualInternalCertificate.getSysselsattning());
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionOvrigt {
-
-        private Ag7804UtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<String> textValues() {
-            return Stream.of("Här kommer en text!", "", null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludeOvrigtValue(String expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(
-                    InternalToCertificate.createOvrigtQuestion(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            if (expectedValue == null || expectedValue.isEmpty()) {
-                assertNull(updatedCertificate.getOvrigt());
-            } else {
-                assertEquals(expectedValue, updatedCertificate.getOvrigt());
-            }
-        }
+    @Test
+    void shallIncludeNuvarandeArbete() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getNuvarandeArbete(), actualInternalCertificate.getNuvarandeArbete());
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionKontakt {
-
-        private Ag7804UtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<Boolean> booleanValues() {
-            return Stream.of(true, false, null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("booleanValues")
-        void shouldIncludeKontaktValue(Boolean expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(
-                    InternalToCertificate.createKontaktQuestion(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getKontaktMedAg());
-        }
+    @Test
+    void shallIncludeDiagnoser() {
+        doReturn(DIAGNOSIS_DISPLAYNAME).when(webcertModuleService).getDescriptionFromDiagnosKod(anyString(), anyString());
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getDiagnoser(), actualInternalCertificate.getDiagnoser());
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class QuestionAnledningKontakt {
-
-        private Ag7804UtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void setup() {
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<String> textValues() {
-            return Stream.of("Här kommer en text!", "", null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludeKontaktBeskrivning(String expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(InternalToCertificate.createKontaktBeskrivning(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            if (expectedValue == null || expectedValue.isEmpty()) {
-                assertNull(updatedCertificate.getAnledningTillKontakt());
-            } else {
-                assertEquals(expectedValue, updatedCertificate.getAnledningTillKontakt());
-            }
-        }
+    @Test
+    void shallIncludeFunktionsnedsattning() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getFunktionsnedsattning(), actualInternalCertificate.getFunktionsnedsattning());
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class GrundDataTest {
+    @Test
+    void shallIncludePagaendeBehandling() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getPagaendeBehandling(), actualInternalCertificate.getPagaendeBehandling());
+    }
 
-        private Ag7804UtlatandeV1 internalCertificate;
-        private Vardenhet vardenhet;
+    @Test
+    void shallIncludePlaneradBehandling() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getPlaneradBehandling(), actualInternalCertificate.getPlaneradBehandling());
+    }
 
-        @BeforeEach
-        void setup() {
-            final var grundData = new GrundData();
-            final var patient = new Patient();
-            patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-            grundData.setPatient(patient);
-            final var hosPersonal = new HoSPersonal();
-            vardenhet = new Vardenhet();
-            hosPersonal.setVardenhet(vardenhet);
-            grundData.setSkapadAv(hosPersonal);
+    @Test
+    void shallIncludeSjukskrivningar() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getSjukskrivningar(), actualInternalCertificate.getSjukskrivningar());
+    }
 
-            internalCertificate =
-                Ag7804UtlatandeV1.builder()
-                    .setId("id")
-                    .setTextVersion("1.0")
-                    .setGrundData(grundData)
-                    .build();
-        }
 
-        Stream<String> values() {
-            return Stream.of("test string", "", null);
-        }
+    @Test
+    void shallIncludeForsakringsmedicinsktBeslutsstod() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getForsakringsmedicinsktBeslutsstod(),
+            actualInternalCertificate.getForsakringsmedicinsktBeslutsstod());
+    }
 
-        @ParameterizedTest
-        @MethodSource("values")
-        void shouldIncludeUnitAddress(String expectedValue) {
-            vardenhet.setPostadress(expectedValue);
+    @Test
+    void shallIncludeArbetstidsforlaggning() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getArbetstidsforlaggning(),
+            actualInternalCertificate.getArbetstidsforlaggning());
+    }
 
-            final var certificate = CertificateBuilder.create()
-                .metadata(InternalToCertificate.createMetadata(internalCertificate, texts))
-                .build();
+    @Test
+    void shallIncludeArbetstidsforlaggningMotivering() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getArbetstidsforlaggningMotivering(),
+            actualInternalCertificate.getArbetstidsforlaggningMotivering());
+    }
 
-            final var updatedCertificate = CertificateToInternal.convert(certificate,
-                internalCertificate, moduleService);
+    @Test
+    void shallIncludeArbetsresor() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getArbetsresor(), actualInternalCertificate.getArbetsresor());
+    }
 
-            assertEquals(expectedValue, updatedCertificate.getGrundData().getSkapadAv().getVardenhet().getPostadress());
-        }
+    @Test
+    void shallIncludePrognos() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getPrognos(), actualInternalCertificate.getPrognos());
+    }
 
-        @ParameterizedTest
-        @MethodSource("values")
-        void shouldIncludeUnitCity(String expectedValue) {
-            vardenhet.setPostort(expectedValue);
+    @Test
+    void shallIncludeArbetslivsinriktadeAtgarder() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getArbetslivsinriktadeAtgarder(),
+            actualInternalCertificate.getArbetslivsinriktadeAtgarder());
+    }
 
-            final var certificate = CertificateBuilder.create()
-                .metadata(InternalToCertificate.createMetadata(internalCertificate, texts))
-                .build();
+    @Test
+    void shallIncludeArbetslivsinriktadeAtgarderBeskrivning() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getArbetslivsinriktadeAtgarderBeskrivning(),
+            actualInternalCertificate.getArbetslivsinriktadeAtgarderBeskrivning());
+    }
 
-            final var updatedCertificate = CertificateToInternal.convert(certificate,
-                internalCertificate, moduleService);
+    @Test
+    void shallIncludeOvrigt() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getOvrigt(), actualInternalCertificate.getOvrigt());
+    }
 
-            assertEquals(expectedValue, updatedCertificate.getGrundData().getSkapadAv().getVardenhet().getPostort());
-        }
+    @Test
+    void shallIncludeKontaktMedFk() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getKontaktMedAg(), actualInternalCertificate.getKontaktMedAg());
+    }
 
-        @ParameterizedTest
-        @MethodSource("values")
-        void shouldIncludeUnitZipCode(String expectedValue) {
-            vardenhet.setPostnummer(expectedValue);
+    @Test
+    void shallIncludeAnledningTillKontakt() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getAnledningTillKontakt(), actualInternalCertificate.getAnledningTillKontakt());
+    }
 
-            final var certificate = CertificateBuilder.create()
-                .metadata(InternalToCertificate.createMetadata(internalCertificate, texts))
-                .build();
+    @Test
+    void shallIncludeAktivitetsbegransning() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getAktivitetsbegransning(), actualInternalCertificate.getAktivitetsbegransning());
+    }
 
-            final var updatedCertificate = CertificateToInternal.convert(certificate,
-                internalCertificate, moduleService);
+    @Test
+    void shallIncludeUndersokningAvPatienten() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getUndersokningAvPatienten(),
+            actualInternalCertificate.getUndersokningAvPatienten());
+    }
 
-            assertEquals(expectedValue, updatedCertificate.getGrundData().getSkapadAv().getVardenhet().getPostnummer());
-        }
+    @Test
+    void shallIncludeTelefonkontaktMedPatienten() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getTelefonkontaktMedPatienten(),
+            actualInternalCertificate.getTelefonkontaktMedPatienten());
+    }
 
-        @ParameterizedTest
-        @MethodSource("values")
-        void shouldIncludeUnitPhonenumber(String expectedValue) {
-            vardenhet.setTelefonnummer(expectedValue);
+    @Test
+    void shallIncludeJournaluppgifter() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getJournaluppgifter(),
+            actualInternalCertificate.getJournaluppgifter());
+    }
 
-            final var certificate = CertificateBuilder.create()
-                .metadata(InternalToCertificate.createMetadata(internalCertificate, texts))
-                .build();
+    @Test
+    void shallIncludeAnnatGrundForMU() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getAnnatGrundForMU(),
+            actualInternalCertificate.getAnnatGrundForMU());
+    }
 
-            final var updatedCertificate = CertificateToInternal.convert(certificate,
-                internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getGrundData().getSkapadAv().getVardenhet().getTelefonnummer());
-        }
+    @Test
+    void shallIncludeDiagnosOnskasFormedlas() {
+        final var actualInternalCertificate = CertificateToInternal.convert(certificate,
+            expectedInternalCertificate, webcertModuleService);
+        assertEquals(expectedInternalCertificate.getOnskarFormedlaDiagnos(),
+            actualInternalCertificate.getOnskarFormedlaDiagnos());
     }
 }
