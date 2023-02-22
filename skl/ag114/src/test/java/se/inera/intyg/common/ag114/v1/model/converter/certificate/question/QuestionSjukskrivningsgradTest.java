@@ -158,7 +158,7 @@ class QuestionSjukskrivningsgradTest {
 
         @Override
         protected String getExpression() {
-            return "$" + SJUKSKRIVNINGSGRAD_SVAR_JSON_ID;
+            return "exists(" + SJUKSKRIVNINGSGRAD_SVAR_JSON_ID + ")";
         }
 
         @Override
