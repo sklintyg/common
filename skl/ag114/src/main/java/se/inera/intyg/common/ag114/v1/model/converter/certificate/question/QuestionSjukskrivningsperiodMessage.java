@@ -29,22 +29,26 @@ import static se.inera.intyg.common.support.facade.util.ValidationExpressionTool
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.subtract;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.to;
 
+import java.time.temporal.ChronoUnit;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMessage;
 import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 
 public class QuestionSjukskrivningsperiodMessage {
 
     private static final long DATE_RANGE_LIMIT = 14;
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider textProvider) {
+    public static CertificateDataElement toCertificate(InternalLocalDateInterval sjukskrivningsperiod, int index,
+        CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
             .id(SJUKSKRIVNINGSGRAD_PERIOD_MESSAGE_ID)
             .parent(CATEGORY_BEDOMNING_ID)
             .index(index)
+            .visible(moreThanOrEqualFourteenDays(sjukskrivningsperiod))
             .config(
                 CertificateDataConfigMessage.builder()
                     .message(textProvider.get(SJUKSKRIVNINGSGRAD_PERIOD_MESSAGE_TEXT_ID))
@@ -63,5 +67,13 @@ public class QuestionSjukskrivningsperiodMessage {
                 }
             )
             .build();
+    }
+
+    private static Boolean moreThanOrEqualFourteenDays(InternalLocalDateInterval sjukskrivningsperiod) {
+        if (sjukskrivningsperiod == null || sjukskrivningsperiod.getFrom() == null || sjukskrivningsperiod.getTom() == null) {
+            return false;
+        }
+
+        return ChronoUnit.DAYS.between(sjukskrivningsperiod.fromAsLocalDate(), sjukskrivningsperiod.tomAsLocalDate()) >= DATE_RANGE_LIMIT;
     }
 }

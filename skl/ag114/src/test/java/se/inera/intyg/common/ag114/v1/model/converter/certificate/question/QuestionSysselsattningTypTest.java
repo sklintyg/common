@@ -22,26 +22,32 @@ package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ANSWER_NOT_SELECTED;
-import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ANSWER_YES;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_SYSSELSATTNING_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID;
-import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_JSON_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_LABEL_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_TEXT_ID;
 
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.mockito.Mockito;
+import org.mockito.internal.matchers.Null;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning.SysselsattningsTyp;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
+import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleCode;
+import se.inera.intyg.common.support.facade.model.config.Layout;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCodeList;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
-import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCheckboxBooleanTest;
+import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCheckboxMultipleCodeTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationDisableTest;
-import se.inera.intyg.common.support.facade.testsetup.model.value.ValueBooleanTest;
+import se.inera.intyg.common.support.facade.testsetup.model.value.InputExpectedValuePair;
+import se.inera.intyg.common.support.facade.testsetup.model.value.ValueCodeListTest;
 
 class QuestionSysselsattningTypTest {
 
@@ -50,7 +56,7 @@ class QuestionSysselsattningTypTest {
     @BeforeEach
     void setup() {
         texts = Mockito.mock(CertificateTextProvider.class);
-        when(texts.get(any(String.class))).thenReturn("Test string");
+        when(texts.get(any(String.class))).thenReturn(TYP_AV_SYSSELSATTNING_SVAR_LABEL_ID);
     }
 
     @Nested
@@ -78,12 +84,7 @@ class QuestionSysselsattningTypTest {
     }
 
     @Nested
-    class IncludeConfigCheckboxBooleanTests extends ConfigCheckboxBooleanTest {
-
-        @Override
-        protected String getJsonId() {
-            return TYP_AV_SYSSELSATTNING_SVAR_JSON_ID;
-        }
+    class IncludeConfigCheckboxBooleanTests extends ConfigCheckboxMultipleCodeTest {
 
         @Override
         protected CertificateTextProvider getTextProviderMock() {
@@ -93,11 +94,6 @@ class QuestionSysselsattningTypTest {
         @Override
         protected CertificateDataElement getElement() {
             return QuestionSysselsattningTyp.toCertificate(0, texts);
-        }
-
-        @Override
-        protected String getLabelId() {
-            return TYP_AV_SYSSELSATTNING_SVAR_LABEL_ID;
         }
 
         @Override
@@ -111,27 +107,41 @@ class QuestionSysselsattningTypTest {
         }
 
         @Override
-        protected String getSelectedTextId() {
-            return ANSWER_YES;
+        protected List<CheckboxMultipleCode> getExpectedListOfCodes() {
+            return List.of(
+                CheckboxMultipleCode.builder()
+                    .id(SysselsattningsTyp.NUVARANDE_ARBETE.getId())
+                    .label(TYP_AV_SYSSELSATTNING_SVAR_LABEL_ID)
+                    .build()
+            );
         }
 
         @Override
-        protected String getUnselectedTextId() {
-            return ANSWER_NOT_SELECTED;
+        protected Layout getLayout() {
+            return null;
         }
     }
 
     @Nested
-    class IncludeValueBooleanTests extends ValueBooleanTest {
+    @TestInstance(Lifecycle.PER_CLASS)
+    class IncludeValueBooleanTests extends ValueCodeListTest<Null> {
 
         @Override
-        protected String getJsonId() {
-            return TYP_AV_SYSSELSATTNING_SVAR_JSON_ID;
+        protected CertificateDataElement getElement(Null expectedValue) {
+            return QuestionSysselsattningTyp.toCertificate(0, texts);
         }
 
         @Override
-        protected Boolean getBoolean() {
-            return true;
+        protected List<InputExpectedValuePair<Null, CertificateDataValueCodeList>> inputExpectedValuePairList() {
+            return List.of(new InputExpectedValuePair<>(null, CertificateDataValueCodeList.builder()
+                .list(
+                    List.of(
+                        CertificateDataValueCode.builder()
+                            .id(SysselsattningsTyp.NUVARANDE_ARBETE.getId())
+                            .code(SysselsattningsTyp.NUVARANDE_ARBETE.getId())
+                            .build()
+                    )
+                ).build()));
         }
 
         @Override
@@ -150,7 +160,7 @@ class QuestionSysselsattningTypTest {
 
         @Override
         protected String getExpression() {
-            return "$" + TYP_AV_SYSSELSATTNING_SVAR_JSON_ID;
+            return "exists(" + SysselsattningsTyp.NUVARANDE_ARBETE.getId() + ")";
         }
 
         @Override

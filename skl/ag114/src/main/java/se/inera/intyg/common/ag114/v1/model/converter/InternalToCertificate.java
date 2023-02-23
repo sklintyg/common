@@ -112,7 +112,7 @@ public class InternalToCertificate {
                 QuestionSjukskrivningsperiod.toCertificate(internalCertificate.getSjukskrivningsperiod(), index++, textProvider)
             )
             .addElement(
-                QuestionSjukskrivningsperiodMessage.toCertificate(index++, textProvider)
+                QuestionSjukskrivningsperiodMessage.toCertificate(internalCertificate.getSjukskrivningsperiod(), index++, textProvider)
             )
             .addElement(
                 CategoryOvrigt.toCertificate(index++, textProvider)

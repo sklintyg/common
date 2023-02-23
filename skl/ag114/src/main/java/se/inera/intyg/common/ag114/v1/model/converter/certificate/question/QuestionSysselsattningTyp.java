@@ -19,23 +19,23 @@
 
 package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ANSWER_NOT_SELECTED;
-import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ANSWER_YES;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_SYSSELSATTNING_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID;
-import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_JSON_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_LABEL_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_TEXT_ID;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.exists;
 
 import java.util.List;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
+import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning.SysselsattningsTyp;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
+import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationDisable;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCodeList;
 
 public class QuestionSysselsattningTyp {
 
@@ -45,25 +45,36 @@ public class QuestionSysselsattningTyp {
             .index(index)
             .parent(CATEGORY_SYSSELSATTNING_ID)
             .config(
-                CertificateDataConfigCheckboxBoolean.builder()
-                    .id(TYP_AV_SYSSELSATTNING_SVAR_JSON_ID)
+                CertificateDataConfigCheckboxMultipleCode.builder()
                     .text(textProvider.get(TYP_AV_SYSSELSATTNING_SVAR_TEXT_ID))
-                    .label(textProvider.get(TYP_AV_SYSSELSATTNING_SVAR_LABEL_ID))
-                    .selectedText(ANSWER_YES)
-                    .unselectedText(ANSWER_NOT_SELECTED)
+                    .list(
+                        List.of(
+                            CheckboxMultipleCode.builder()
+                                .id(SysselsattningsTyp.NUVARANDE_ARBETE.getId())
+                                .label(textProvider.get(TYP_AV_SYSSELSATTNING_SVAR_LABEL_ID))
+                                .build()
+                        )
+                    )
                     .build()
+
             )
             .value(
-                CertificateDataValueBoolean.builder()
-                    .id(TYP_AV_SYSSELSATTNING_SVAR_JSON_ID)
-                    .selected(true)
+                CertificateDataValueCodeList.builder()
+                    .list(
+                        List.of(
+                            CertificateDataValueCode.builder()
+                                .id(SysselsattningsTyp.NUVARANDE_ARBETE.getId())
+                                .code(SysselsattningsTyp.NUVARANDE_ARBETE.getId())
+                                .build()
+                        )
+                    )
                     .build()
             )
             .validation(
                 new CertificateDataValidation[]{
                     CertificateDataValidationDisable.builder()
                         .questionId(TYP_AV_SYSSELSATTNING_SVAR_ID)
-                        .expression(singleExpression(TYP_AV_SYSSELSATTNING_SVAR_JSON_ID))
+                        .expression(exists(SysselsattningsTyp.NUVARANDE_ARBETE.getId()))
                         .build()
                 }
             )
