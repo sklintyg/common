@@ -19,6 +19,8 @@
 
 package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_BEDOMNING_ID;
@@ -27,8 +29,10 @@ import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKS
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_PERIOD_MESSAGE_TEXT_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID;
 
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -38,6 +42,8 @@ import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigMessageTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionSjukskrivningsperiodMessageTest {
@@ -55,7 +61,7 @@ class QuestionSjukskrivningsperiodMessageTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionSjukskrivningsperiodMessage.toCertificate(0, texts);
+            return QuestionSjukskrivningsperiodMessage.toCertificate(null, 0, texts);
         }
 
         @Override
@@ -94,7 +100,7 @@ class QuestionSjukskrivningsperiodMessageTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionSjukskrivningsperiodMessage.toCertificate(0, texts);
+            return QuestionSjukskrivningsperiodMessage.toCertificate(null, 0, texts);
         }
 
         @Override
@@ -126,12 +132,34 @@ class QuestionSjukskrivningsperiodMessageTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionSjukskrivningsperiodMessage.toCertificate(0, texts);
+            return QuestionSjukskrivningsperiodMessage.toCertificate(null, 0, texts);
         }
 
         @Override
         protected int getValidationIndex() {
             return 0;
+        }
+    }
+
+    @Nested
+    class IncludeVisibleTests {
+
+        @Test
+        void shouldBeVisible() {
+            final var internalLocalDateInterval = new InternalLocalDateInterval();
+            internalLocalDateInterval.setFrom(new InternalDate(LocalDate.now()));
+            internalLocalDateInterval.setTom(new InternalDate(LocalDate.now().plusDays(14)));
+            final var certificateDataElement = QuestionSjukskrivningsperiodMessage.toCertificate(internalLocalDateInterval, 0, texts);
+            assertTrue(certificateDataElement.getVisible());
+        }
+
+        @Test
+        void shouldNotBeVisible() {
+            final var internalLocalDateInterval = new InternalLocalDateInterval();
+            internalLocalDateInterval.setFrom(new InternalDate(LocalDate.now()));
+            internalLocalDateInterval.setTom(new InternalDate(LocalDate.now().plusDays(13)));
+            final var certificateDataElement = QuestionSjukskrivningsperiodMessage.toCertificate(internalLocalDateInterval, 0, texts);
+            assertFalse(certificateDataElement.getVisible());
         }
     }
 }
