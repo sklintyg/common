@@ -25,6 +25,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_Q
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_QUESTION_UNKNOWN_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_QUESTION_UNSELECTED_TEXT_ID;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
 
@@ -78,10 +79,10 @@ public class QuestionOperation {
                     CertificateDataValidationMandatory.builder()
                         .questionId(OPERATION_OM_DELSVAR_ID)
                         .expression(
-                            multipleOrExpression(
-                                singleExpression(OmOperation.JA.name()),
-                                singleExpression(OmOperation.NEJ.name()),
-                                singleExpression(OmOperation.UPPGIFT_SAKNAS.name())
+                            multipleOrExpressionWithExists(
+                                OmOperation.JA.name(),
+                                OmOperation.NEJ.name(),
+                                OmOperation.UPPGIFT_SAKNAS.name()
                             )
                         )
                         .build()
