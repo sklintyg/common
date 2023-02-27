@@ -24,9 +24,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_Q
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_QUESTION_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_QUESTION_UNKNOWN_TEXT_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_QUESTION_UNSELECTED_TEXT_ID;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.codeValue;
 
 import java.util.Arrays;
