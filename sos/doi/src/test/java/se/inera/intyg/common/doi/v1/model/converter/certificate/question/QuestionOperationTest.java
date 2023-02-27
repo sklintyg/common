@@ -196,9 +196,9 @@ class QuestionOperationTest {
 
         @Test
         void shouldIncludeValidationMandatoryExpression() {
-            final var expectedExpression = "$" + OmOperation.JA.name()
-                + " || $" + OmOperation.NEJ.name()
-                + " || $" + OmOperation.UPPGIFT_SAKNAS.name();
+            final var expectedExpression = "exists(" + OmOperation.JA.name()
+                + ") || exists(" + OmOperation.NEJ.name()
+                + ") || exists(" + OmOperation.UPPGIFT_SAKNAS.name() + ")";
 
             final var question = QuestionOperation.toCertificate(null, 0, texts);
             final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
