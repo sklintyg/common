@@ -32,7 +32,6 @@ import static se.inera.intyg.common.ag114.model.converter.RespConstants.NEDSATT_
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_2;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_SVAR_JSON_ID_7_1;
-import static se.inera.intyg.common.ag114.model.converter.RespConstants.SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID;
@@ -42,6 +41,7 @@ import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.NEDSATT_ARBETSFORMAGA_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID;
+import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_SVAR_ID;
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID;
@@ -168,19 +168,19 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
         // Sjukskrivningsperiod
         if (utlatande.getSjukskrivningsperiod() == null) {
             ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, RespConstants.CATEGORY_BEDOMNING,
-                SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".period",
+                SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID + ".period",
                 ValidationMessageType.EMPTY, "common.validation.ue-sjukfranvaro.period.invalid", SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID);
         } else {
 
             boolean fromDateValid = ValidatorUtil.validateDate(utlatande.getSjukskrivningsperiod().getFrom(), validationMessages,
-                RespConstants.CATEGORY_BEDOMNING, SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".from", null, SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID);
+                RespConstants.CATEGORY_BEDOMNING, SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID + ".from", null, SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID);
 
             boolean toDateValid = ValidatorUtil.validateDate(utlatande.getSjukskrivningsperiod().getTom(), validationMessages,
-                RespConstants.CATEGORY_BEDOMNING, SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".tom", null, SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID);
+                RespConstants.CATEGORY_BEDOMNING, SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID + ".tom", null, SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID);
 
             if (fromDateValid && toDateValid && !utlatande.getSjukskrivningsperiod().isValid()) {
                 ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, RespConstants.CATEGORY_BEDOMNING,
-                    SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".tom",
+                    SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID + ".tom",
                     ValidationMessageType.INCORRECT_COMBINATION, COMMON_VALIDATION_DATE_PERIOD_INVALID_ORDER,
                     SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID);
             }
