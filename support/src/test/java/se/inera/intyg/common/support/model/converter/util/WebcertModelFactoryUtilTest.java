@@ -18,16 +18,21 @@
  */
 package se.inera.intyg.common.support.model.converter.util;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder;
+import static se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil.populateWithPatientInfo;
+
 import org.junit.Test;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder;
+import se.inera.intyg.schemas.contract.InvalidPersonNummerException;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 public class WebcertModelFactoryUtilTest {
 
@@ -170,7 +175,41 @@ public class WebcertModelFactoryUtilTest {
         assertNull(target.getSkapadAv().getVardenhet().getTelefonnummer());
     }
 
-//    @Test
+    @Test
+    public void shouldPopulateWithPatientInfoFromPU() throws InvalidPersonNummerException, ConverterException {
+        final var firstname = "firstname";
+        final var lastname = "lastname";
+        final var patientFromPu = createPatient(firstname, lastname);
+        final var patientFromUtlatande = createPatient("fname", "lname");
+
+        final var grundData = new GrundData();
+        grundData.setPatient(patientFromUtlatande);
+
+        populateWithPatientInfo(grundData, patientFromPu);
+        assertAll(
+            () -> assertEquals(firstname, patientFromPu.getFornamn()),
+            () -> assertEquals(lastname, patientFromPu.getEfternamn())
+        );
+    }
+
+    @Test
+    public void shouldPopulateWithPatientInfoFromUtlatande() throws InvalidPersonNummerException, ConverterException {
+        final var firstname = "firstname";
+        final var lastname = "lastname";
+        final var patientFromPu = createPatient(null, null);
+        final var patientFromUtlatande = createPatient(firstname, lastname);
+
+        final var grundData = new GrundData();
+        grundData.setPatient(patientFromUtlatande);
+
+        populateWithPatientInfo(grundData, patientFromPu);
+        assertAll(
+            () -> assertEquals(firstname, patientFromPu.getFornamn()),
+            () -> assertEquals(lastname, patientFromPu.getEfternamn())
+        );
+    }
+
+    //    @Test
 //    public void testBuildNewEffectivePatientAppliesAllNewValid() throws ConverterException {
 //        Patient oldPatient = createPatient();
 //        Patient newPatient = createNewPatient();
@@ -224,17 +263,17 @@ public class WebcertModelFactoryUtilTest {
 //        return newPatient;
 //    }
 //
-//    private Patient createPatient() {
-//        Patient patient = new Patient();
-//        patient.setFornamn("firstname");
-//        patient.setMellannamn("middlename");
-//        patient.setEfternamn("lastname");
-//        patient.setFullstandigtNamn("firstname middlename lastname");
-//        patient.setPersonId(new Personnummer(TOLVAN));
-//        patient.setPostadress("postal address");
-//        patient.setPostnummer("000000");
-//        patient.setPostort("post city");
-//        return patient;
-//    }
+    private Patient createPatient(String firstname, String lastname) throws InvalidPersonNummerException {
+        Patient patient = new Patient();
+        patient.setFornamn(firstname);
+        patient.setMellannamn("middlename");
+        patient.setEfternamn(lastname);
+        patient.setFullstandigtNamn("firstname middlename lastname");
+        patient.setPersonId(Personnummer.createPersonnummer(TOLVAN).get());
+        patient.setPostadress("postal address");
+        patient.setPostnummer("000000");
+        patient.setPostort("post city");
+        return patient;
+    }
 
 }

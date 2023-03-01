@@ -18,10 +18,8 @@
  */
 package se.inera.intyg.common.support.model.converter.util;
 
-import java.time.LocalDateTime;
-
 import com.google.common.base.Strings;
-
+import java.time.LocalDateTime;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -76,13 +74,28 @@ public final class WebcertModelFactoryUtil {
             throw new ConverterException("Got null while trying to populateWithPatientInfo");
         }
 
-        grundData.setPatient(patient);
+        if (patientGotValuesFromPU(patient)) {
+            grundData.setPatient(patient);
+        } else {
+            patient.setFullstandigtNamn(grundData.getPatient().getFullstandigtNamn());
+            patient.setFornamn(grundData.getPatient().getFornamn());
+            patient.setMellannamn(grundData.getPatient().getMellannamn());
+            patient.setEfternamn(grundData.getPatient().getEfternamn());
+            patient.setPostadress(grundData.getPatient().getPostadress());
+            patient.setPostort(grundData.getPatient().getPostort());
+            patient.setPostnummer(grundData.getPatient().getPostnummer());
+        }
+
         // INTYG-5573, if adress is incomplete dont use it, to stay consistent how other parts of Webcert behave.
         if (!patient.isCompleteAddressProvided()) {
             patient.setPostadress(null);
             patient.setPostnummer(null);
             patient.setPostort(null);
         }
+    }
+
+    private static boolean patientGotValuesFromPU(Patient patient) {
+        return patient.getFornamn() != null && patient.getEfternamn() != null;
     }
 
     private static void populateWithMissingInfo(Vardenhet target, Vardenhet source) {
