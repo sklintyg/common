@@ -24,7 +24,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDER
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_INFORMATION_SOURCE_TEXT;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.NEUROPSYKIATRISKT_UTLATANDE;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.OVRIGT;
-import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRANFORETAGSHALSOVARD;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRANPSYKOLOG;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRANSKOLHALSOVARD;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRAN_ARBETSTERAPEUT;
@@ -188,10 +187,10 @@ class QuestionUnderlagTest {
             return List.of(
                 getCodeItem(NEUROPSYKIATRISKT_UTLATANDE),
                 getCodeItem(UNDERLAG_FRAN_HABILITERINGEN),
+                getCodeItem(UNDERLAG_FRAN_ARBETSTERAPEUT),
                 getCodeItem(UNDERLAG_FRAN_FYSIOTERAPEUT),
                 getCodeItem(UNDERLAG_FRAN_LOGOPED),
                 getCodeItem(UNDERLAG_FRANPSYKOLOG),
-                getCodeItem(UNDERLAG_FRANFORETAGSHALSOVARD),
                 getCodeItem(UNDERLAG_FRANSKOLHALSOVARD),
                 getCodeItem(UTREDNING_AV_ANNAN_SPECIALISTKLINIK),
                 getCodeItem(UTREDNING_FRAN_VARDINRATTNING_UTOMLANDS),

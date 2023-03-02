@@ -32,7 +32,8 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 public class QuestionUnderlag extends AbstractQuestionUnderlag {
 
     public static CertificateDataElement toCertificate(List<Underlag> underlag, int index, CertificateTextProvider texts) {
-        return toCertificate(underlag, UnderlagsTyp.UNDERLAG_FRAN_ARBETSTERAPEUT, UNDERLAG_SVAR_ID_4, GRUNDFORMU_CATEGORY_ID, index, texts);
+        return toCertificate(underlag, UnderlagsTyp.UNDERLAG_FRANFORETAGSHALSOVARD, UNDERLAG_SVAR_ID_4, GRUNDFORMU_CATEGORY_ID, index,
+            texts);
     }
 
     public static List<Underlag> toInternal(Certificate certificate) {
