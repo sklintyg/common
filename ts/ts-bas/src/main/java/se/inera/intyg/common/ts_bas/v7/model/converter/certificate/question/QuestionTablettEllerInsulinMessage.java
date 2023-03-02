@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BEHANDLING_DIABETES_SVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.HAR_DIABETES_CATEGORY_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.INSULINBEHANDLING_DELSVAR_JSON_ID;
@@ -53,7 +53,7 @@ public class QuestionTablettEllerInsulinMessage {
                     CertificateDataValidationShow.builder()
                         .questionId(BEHANDLING_DIABETES_SVAR_ID)
                         .expression(
-                            multipleOrExpression(TABLETTBEHANDLING_DELSVAR_JSON_ID, INSULINBEHANDLING_DELSVAR_JSON_ID)
+                            multipleOrExpressionWithExists(TABLETTBEHANDLING_DELSVAR_JSON_ID, INSULINBEHANDLING_DELSVAR_JSON_ID)
                         )
                         .build()
                 }
