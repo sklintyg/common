@@ -122,7 +122,7 @@ class QuestionTablettEllerInsulinMessageTest {
 
         @Override
         protected String getExpression() {
-            return TABLETTBEHANDLING_DELSVAR_JSON_ID + " || " + INSULINBEHANDLING_DELSVAR_JSON_ID;
+            return "exists(" + TABLETTBEHANDLING_DELSVAR_JSON_ID + ") || exists(" + INSULINBEHANDLING_DELSVAR_JSON_ID + ")";
         }
 
         @Override
