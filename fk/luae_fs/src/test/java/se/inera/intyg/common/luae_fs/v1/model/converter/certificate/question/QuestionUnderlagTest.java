@@ -188,7 +188,6 @@ class QuestionUnderlagTest {
             return List.of(
                 getCodeItem(NEUROPSYKIATRISKT_UTLATANDE),
                 getCodeItem(UNDERLAG_FRAN_HABILITERINGEN),
-                getCodeItem(UNDERLAG_FRAN_ARBETSTERAPEUT),
                 getCodeItem(UNDERLAG_FRAN_FYSIOTERAPEUT),
                 getCodeItem(UNDERLAG_FRAN_LOGOPED),
                 getCodeItem(UNDERLAG_FRANPSYKOLOG),

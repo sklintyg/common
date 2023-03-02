@@ -33,7 +33,6 @@ import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTy
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.OVRIGT;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRANFORETAGSHALSOVARD;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRANPSYKOLOG;
-import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRANSKOLHALSOVARD;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRAN_ARBETSTERAPEUT;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRAN_FYSIOTERAPEUT;
 import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRAN_HABILITERINGEN;
@@ -245,11 +244,10 @@ class QuestionUnderlagTest {
                         assertEquals(UNDERLAG_FRAN_LOGOPED.getId(), config.getList().get(i).getTypeOptions().get(4).getId());
                         assertEquals(UNDERLAG_FRANPSYKOLOG.getId(), config.getList().get(i).getTypeOptions().get(5).getId());
                         assertEquals(UNDERLAG_FRANFORETAGSHALSOVARD.getId(), config.getList().get(i).getTypeOptions().get(6).getId());
-                        assertEquals(UNDERLAG_FRANSKOLHALSOVARD.getId(), config.getList().get(i).getTypeOptions().get(7).getId());
-                        assertEquals(UTREDNING_AV_ANNAN_SPECIALISTKLINIK.getId(), config.getList().get(i).getTypeOptions().get(8).getId());
+                        assertEquals(UTREDNING_AV_ANNAN_SPECIALISTKLINIK.getId(), config.getList().get(i).getTypeOptions().get(7).getId());
                         assertEquals(UTREDNING_FRAN_VARDINRATTNING_UTOMLANDS.getId(),
-                            config.getList().get(i).getTypeOptions().get(9).getId());
-                        assertEquals(OVRIGT.getId(), config.getList().get(i).getTypeOptions().get(10).getId());
+                            config.getList().get(i).getTypeOptions().get(8).getId());
+                        assertEquals(OVRIGT.getId(), config.getList().get(i).getTypeOptions().get(9).getId());
                     }
                 }
             );
@@ -277,13 +275,11 @@ class QuestionUnderlagTest {
                             config.getList().get(i).getTypeOptions().get(5).getLabel());
                         assertEquals(UNDERLAG_FRANFORETAGSHALSOVARD.getLabel(),
                             config.getList().get(i).getTypeOptions().get(6).getLabel());
-                        assertEquals(UNDERLAG_FRANSKOLHALSOVARD.getLabel(),
-                            config.getList().get(i).getTypeOptions().get(7).getLabel());
                         assertEquals(UTREDNING_AV_ANNAN_SPECIALISTKLINIK.getLabel(),
-                            config.getList().get(i).getTypeOptions().get(8).getLabel());
+                            config.getList().get(i).getTypeOptions().get(7).getLabel());
                         assertEquals(UTREDNING_FRAN_VARDINRATTNING_UTOMLANDS.getLabel(),
-                            config.getList().get(i).getTypeOptions().get(9).getLabel());
-                        assertEquals(OVRIGT.getLabel(), config.getList().get(i).getTypeOptions().get(10).getLabel());
+                            config.getList().get(i).getTypeOptions().get(8).getLabel());
+                        assertEquals(OVRIGT.getLabel(), config.getList().get(i).getTypeOptions().get(9).getLabel());
                     }
                 }
             );

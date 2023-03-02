@@ -24,6 +24,7 @@ import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UND
 import java.util.List;
 import se.inera.intyg.common.fkparent.model.converter.certificate.AbstractQuestionUnderlag;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
+import se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -31,7 +32,7 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 public class QuestionUnderlag extends AbstractQuestionUnderlag {
 
     public static CertificateDataElement toCertificate(List<Underlag> underlag, int index, CertificateTextProvider texts) {
-        return toCertificate(underlag, UNDERLAG_SVAR_ID_4, GRUNDFORMU_CATEGORY_ID, index, texts);
+        return toCertificate(underlag, UnderlagsTyp.UNDERLAG_FRAN_ARBETSTERAPEUT, UNDERLAG_SVAR_ID_4, GRUNDFORMU_CATEGORY_ID, index, texts);
     }
 
     public static List<Underlag> toInternal(Certificate certificate) {
