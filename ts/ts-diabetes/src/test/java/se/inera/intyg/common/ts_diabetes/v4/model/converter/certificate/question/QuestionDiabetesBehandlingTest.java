@@ -175,20 +175,20 @@ class QuestionDiabetesBehandlingTest {
                         )
                         .build(),
                     CertificateDataValueCodeList.builder().list(
-                        List.of(
-                            CertificateDataValueCode.builder()
-                                .id(ALLMANT_BEHANDLING_INSULIN_JSON_ID)
-                                .code(ALLMANT_BEHANDLING_INSULIN_JSON_ID)
-                                .build(),
-                            CertificateDataValueCode.builder()
-                                .id(ALLMANT_BEHANDLING_TABLETTER_JSON_ID)
-                                .code(ALLMANT_BEHANDLING_TABLETTER_JSON_ID)
-                                .build(),
-                            CertificateDataValueCode.builder()
-                                .id(ALLMANT_BEHANDLING_ANNAN_JSON_ID)
-                                .code(ALLMANT_BEHANDLING_ANNAN_JSON_ID)
-                                .build()
-                        ))
+                            List.of(
+                                CertificateDataValueCode.builder()
+                                    .id(ALLMANT_BEHANDLING_INSULIN_JSON_ID)
+                                    .code(ALLMANT_BEHANDLING_INSULIN_JSON_ID)
+                                    .build(),
+                                CertificateDataValueCode.builder()
+                                    .id(ALLMANT_BEHANDLING_TABLETTER_JSON_ID)
+                                    .code(ALLMANT_BEHANDLING_TABLETTER_JSON_ID)
+                                    .build(),
+                                CertificateDataValueCode.builder()
+                                    .id(ALLMANT_BEHANDLING_ANNAN_JSON_ID)
+                                    .code(ALLMANT_BEHANDLING_ANNAN_JSON_ID)
+                                    .build()
+                            ))
                         .build()
                 ));
         }
@@ -229,7 +229,7 @@ class QuestionDiabetesBehandlingTest {
 
         @Override
         protected String getExpression() {
-            return "exists(" + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID + ")";
+            return "$" + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
         }
 
         @Override
