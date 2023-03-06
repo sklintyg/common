@@ -109,7 +109,7 @@ public abstract class AbstractQuestionBehovAvSjukskrivning {
             .build();
     }
 
-    private static String getPreviousSickLeavePeriod(String relationCode, String sickLeaveText, LocalDate expirationalDate) {
+    private static String getPreviousSickLeavePeriod(RelationKod relationCode, String sickLeaveText, LocalDate expirationalDate) {
         return hasRenewalRelation(relationCode) ? getPreviousSickLeavePeriodText(sickLeaveText, expirationalDate) : null;
     }
 
@@ -121,8 +121,8 @@ public abstract class AbstractQuestionBehovAvSjukskrivning {
         );
     }
 
-    private static boolean hasRenewalRelation(String relation) {
-        return relation != null && relation.equals(RelationKod.FRLANG.name());
+    private static boolean hasRenewalRelation(RelationKod relation) {
+        return relation == RelationKod.FRLANG;
     }
 
     private static List<CertificateDataValueDateRange> createSjukskrivningValue(List<SjukskrivningValue> sickLeaves) {
@@ -152,12 +152,12 @@ public abstract class AbstractQuestionBehovAvSjukskrivning {
 
     public static class QuestionBehovAvSjukskrivningConfigProvider {
 
-        private final String renewalRelation;
+        private final RelationKod renewalRelation;
         private final LocalDate expirationalDate;
         private final String sickLeaveText;
         private final List<SjukskrivningValue> values;
 
-        public QuestionBehovAvSjukskrivningConfigProvider(String renewalRelation,
+        public QuestionBehovAvSjukskrivningConfigProvider(RelationKod renewalRelation,
             LocalDate expirationalDate, String sickLeaveText, List<SjukskrivningValue> values) {
             this.renewalRelation = renewalRelation;
             this.expirationalDate = expirationalDate;
@@ -165,7 +165,7 @@ public abstract class AbstractQuestionBehovAvSjukskrivning {
             this.values = values;
         }
 
-        public String getRenewalRelation() {
+        public RelationKod getRenewalRelation() {
             return renewalRelation;
         }
 

@@ -38,7 +38,7 @@ public class QuestionBehovAvSjukskrivning extends AbstractQuestionBehovAvSjukskr
         CertificateTextProvider texts, Relation relation) {
         return toCertificate(
             new QuestionBehovAvSjukskrivningConfigProvider(
-                relation != null ? relation.getRelationKod().name() : null,
+                relation != null ? relation.getRelationKod() : null,
                 relation != null ? relation.getSistaGiltighetsDatum() : null,
                 relation != null ? relation.getSistaSjukskrivningsgrad() : null,
                 convertValues(list)),
