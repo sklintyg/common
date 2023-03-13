@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.category;
 
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID;
@@ -52,10 +52,10 @@ public class CategoryHypoglykemi {
                         .build(),
                     CertificateDataValidationShow.builder()
                         .questionId(INTYG_AVSER_SVAR_ID)
-                        .expression(multipleOrExpression(IntygAvserKategori.VAR1.name(), IntygAvserKategori.VAR2.name(),
-                                IntygAvserKategori.VAR3.name(), IntygAvserKategori.VAR4.name(), IntygAvserKategori.VAR5.name(),
-                                IntygAvserKategori.VAR6.name(), IntygAvserKategori.VAR7.name(), IntygAvserKategori.VAR8.name(),
-                                IntygAvserKategori.VAR9.name())
+                        .expression(multipleOrExpressionWithExists(IntygAvserKategori.VAR1.name(), IntygAvserKategori.VAR2.name(),
+                            IntygAvserKategori.VAR3.name(), IntygAvserKategori.VAR4.name(), IntygAvserKategori.VAR5.name(),
+                            IntygAvserKategori.VAR6.name(), IntygAvserKategori.VAR7.name(), IntygAvserKategori.VAR8.name(),
+                            IntygAvserKategori.VAR9.name())
                         )
                         .build()
                 }
