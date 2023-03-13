@@ -25,8 +25,10 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_BESKRIVNING;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_TEXT;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_TRE_FJARDEDEL;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateRangeListValue;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.getInternalLocalDateInterval;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -46,7 +48,6 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRange;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
-import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 
@@ -97,11 +98,11 @@ public abstract class AbstractQuestionBehovAvSjukskrivning {
                 new CertificateDataValidation[]{
                     CertificateDataValidationMandatory.builder()
                         .questionId(questionId)
-                        .expression(multipleOrExpressionWithExists(
-                            SjukskrivningsGrad.NEDSATT_1_4.getId(),
-                            SjukskrivningsGrad.NEDSATT_HALFTEN.getId(),
-                            SjukskrivningsGrad.NEDSATT_3_4.getId(),
-                            SjukskrivningsGrad.HELT_NEDSATT.getId()
+                        .expression(multipleOrExpression(
+                            singleExpression(SjukskrivningsGrad.NEDSATT_1_4.getId()),
+                            singleExpression(SjukskrivningsGrad.NEDSATT_HALFTEN.getId()),
+                            singleExpression(SjukskrivningsGrad.NEDSATT_3_4.getId()),
+                            singleExpression(SjukskrivningsGrad.HELT_NEDSATT.getId())
                         ))
                         .build()
                 }
@@ -141,13 +142,13 @@ public abstract class AbstractQuestionBehovAvSjukskrivning {
 
     public static List<Sjukskrivning> toInternal(Certificate certificate, String questionId) {
         var list = dateRangeListValue(certificate.getData(), questionId);
+
         return list.stream().map(
-            item -> Sjukskrivning.create(
-                SjukskrivningsGrad.fromId(item.getId()), new InternalLocalDateInterval(
-                    new InternalDate(item.getFrom()), new InternalDate(item.getTo())
-                )
-            )
-        ).collect(Collectors.toList());
+            AbstractQuestionBehovAvSjukskrivning::getSjukskrivning).collect(Collectors.toList());
+    }
+
+    private static Sjukskrivning getSjukskrivning(CertificateDataValueDateRange item) {
+        return Sjukskrivning.create(SjukskrivningsGrad.fromId(item.getId()), getInternalLocalDateInterval(item));
     }
 
     public static class QuestionBehovAvSjukskrivningConfigProvider {

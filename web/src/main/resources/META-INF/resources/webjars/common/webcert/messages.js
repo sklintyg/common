@@ -661,7 +661,7 @@
             'common.label.choose': 'Välj...',
 
             // Standard valideringsmeddelande UE komponenter
-
+            'common.validation.ue-sjukskrivningar.empty': 'Ange ett datum.',
             'common.validation.ue-checkbox-date.empty': 'Ange ett svar.',
             'common.validation.ue-year-picker.empty': 'Ange ett år.',
             'common.validation.ue-year-picker.invalid_format': 'Ange ett år på formatet åååå.',
