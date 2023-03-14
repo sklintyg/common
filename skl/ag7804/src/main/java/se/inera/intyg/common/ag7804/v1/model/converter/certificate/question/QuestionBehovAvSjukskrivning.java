@@ -23,18 +23,19 @@ package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_BEDOMNING;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.dateRangeListValue;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.getInternalLocalDateInterval;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
+import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.lisjp.v1.model.converter.certificate.question.AbstractQuestionBehovAvSjukskrivning;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.InternalLocalDateInterval;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRange;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 
 public class QuestionBehovAvSjukskrivning extends AbstractQuestionBehovAvSjukskrivning {
@@ -67,12 +68,13 @@ public class QuestionBehovAvSjukskrivning extends AbstractQuestionBehovAvSjukskr
 
     public static List<Sjukskrivning> toInternal(Certificate certificate) {
         var list = dateRangeListValue(certificate.getData(), BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
+
         return list.stream().map(
-            item -> Sjukskrivning.create(
-                Sjukskrivning.SjukskrivningsGrad.fromId(item.getId()), new InternalLocalDateInterval(
-                    new InternalDate(item.getFrom()), new InternalDate(item.getTo())
-                )
-            )
-        ).collect(Collectors.toList());
+            QuestionBehovAvSjukskrivning::getSjukskrivning).collect(Collectors.toList());
+    }
+
+    private static Sjukskrivning getSjukskrivning(CertificateDataValueDateRange item) {
+        return Sjukskrivning.create(SjukskrivningsGrad.fromId(item.getId()),
+            getInternalLocalDateInterval(item));
     }
 }
