@@ -148,6 +148,13 @@ class QuestionMotiveringTillInteBaseratPaUndersokningTest {
             assertEquals(expectedText, value.getText());
         }
 
+        @Test
+        void shouldIncludeLightbulbIcon() {
+            final var certificateDataElement = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
+            final var config = certificateDataElement.getConfig();
+            assertEquals("lightbulb_outline", config.getIcon());
+        }
+
         @Nested
         class IncludeValidationShowTest extends ValidationShowTest {
 
@@ -209,7 +216,7 @@ class QuestionMotiveringTillInteBaseratPaUndersokningTest {
                 .build();
 
             final var actualValue = QuestionMotiveringTillInteBaseratPaUndersokning.toInternal(certificate);
-            
+
             if (expectedValue == null || expectedValue.isEmpty()) {
                 assertNull(actualValue);
             } else {
