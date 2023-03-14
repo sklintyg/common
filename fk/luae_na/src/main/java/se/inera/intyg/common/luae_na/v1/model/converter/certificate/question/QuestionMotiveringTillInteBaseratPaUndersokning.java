@@ -47,6 +47,8 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue
 public class QuestionMotiveringTillInteBaseratPaUndersokning {
 
     private static final short LIMIT = 150;
+    private static final String LIGHTBULB_ICON = "lightbulb_outline";
+
 
     public static CertificateDataElement toCertificate(String motivering, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
@@ -59,6 +61,7 @@ public class QuestionMotiveringTillInteBaseratPaUndersokning {
                     .text(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_TEXT)
                     .description(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION.replace("{0}",
                         texts.get(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION_ID)))
+                    .icon(LIGHTBULB_ICON)
                     .build()
             )
             .value(

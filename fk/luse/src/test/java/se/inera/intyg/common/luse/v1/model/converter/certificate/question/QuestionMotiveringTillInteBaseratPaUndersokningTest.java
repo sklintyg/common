@@ -19,6 +19,7 @@
 
 package se.inera.intyg.common.luse.v1.model.converter.certificate.question;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeastOnce;
@@ -122,6 +123,13 @@ class QuestionMotiveringTillInteBaseratPaUndersokningTest {
             final var question = getElement();
             assertTrue(question.getConfig().getText().trim().length() > 0, "Missing description");
             verify(getTextProviderMock(), atLeastOnce()).get(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION_ID);
+        }
+
+        @Test
+        void shouldIncludeLightbulbIcon() {
+            final var certificateDataElement = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, textProvider);
+            final var config = certificateDataElement.getConfig();
+            assertEquals("lightbulb_outline", config.getIcon());
         }
     }
 
