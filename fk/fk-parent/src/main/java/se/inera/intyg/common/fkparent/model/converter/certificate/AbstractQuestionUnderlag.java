@@ -27,23 +27,13 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDER
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_TYPE_TEXT_ID;
-import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.NEUROPSYKIATRISKT_UTLATANDE;
-import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.OVRIGT;
-import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRANFORETAGSHALSOVARD;
-import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRANPSYKOLOG;
-import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRANSKOLHALSOVARD;
-import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRAN_ARBETSTERAPEUT;
-import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRAN_FYSIOTERAPEUT;
-import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRAN_HABILITERINGEN;
-import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UNDERLAG_FRAN_LOGOPED;
-import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UTREDNING_AV_ANNAN_SPECIALISTKLINIK;
-import static se.inera.intyg.common.fkparent.model.internal.Underlag.UnderlagsTyp.UTREDNING_FRAN_VARDINRATTNING_UTOMLANDS;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleAndExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.withCitation;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.wrapWithNotEmpty;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -67,7 +57,8 @@ import se.inera.intyg.common.support.model.InternalDate;
 
 public abstract class AbstractQuestionUnderlag {
 
-    public static CertificateDataElement toCertificate(List<Underlag> underlag, String questionId, String parentId, int index,
+    public static CertificateDataElement toCertificate(List<Underlag> underlag, UnderlagsTyp ignoredUnderlagsTyp, String questionId,
+        String parentId, int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(questionId)
@@ -86,7 +77,7 @@ public abstract class AbstractQuestionUnderlag {
                                 .dateId(UNDERLAG_SVAR_JSON_ID_4 + "[0].datum")
                                 .informationSourceId(UNDERLAG_SVAR_JSON_ID_4 + "[0].hamtasFran")
                                 .typeOptions(
-                                    getTypeOptions()
+                                    getTypeOptions(ignoredUnderlagsTyp)
                                 )
                                 .maxDate(LocalDate.now())
                                 .build(),
@@ -95,7 +86,7 @@ public abstract class AbstractQuestionUnderlag {
                                 .dateId(UNDERLAG_SVAR_JSON_ID_4 + "[1].datum")
                                 .informationSourceId(UNDERLAG_SVAR_JSON_ID_4 + "[1].hamtasFran")
                                 .typeOptions(
-                                    getTypeOptions()
+                                    getTypeOptions(ignoredUnderlagsTyp)
                                 )
                                 .maxDate(LocalDate.now())
                                 .build(),
@@ -104,7 +95,7 @@ public abstract class AbstractQuestionUnderlag {
                                 .dateId(UNDERLAG_SVAR_JSON_ID_4 + "[2].datum")
                                 .informationSourceId(UNDERLAG_SVAR_JSON_ID_4 + "[2].hamtasFran")
                                 .typeOptions(
-                                    getTypeOptions()
+                                    getTypeOptions(ignoredUnderlagsTyp)
                                 )
                                 .maxDate(LocalDate.now())
                                 .build()
@@ -165,19 +156,11 @@ public abstract class AbstractQuestionUnderlag {
             .build();
     }
 
-    private static List<CodeItem> getTypeOptions() {
-        return List.of(
-            getCodeItem(NEUROPSYKIATRISKT_UTLATANDE),
-            getCodeItem(UNDERLAG_FRAN_HABILITERINGEN),
-            getCodeItem(UNDERLAG_FRAN_ARBETSTERAPEUT),
-            getCodeItem(UNDERLAG_FRAN_FYSIOTERAPEUT),
-            getCodeItem(UNDERLAG_FRAN_LOGOPED),
-            getCodeItem(UNDERLAG_FRANPSYKOLOG),
-            getCodeItem(UNDERLAG_FRANFORETAGSHALSOVARD),
-            getCodeItem(UNDERLAG_FRANSKOLHALSOVARD),
-            getCodeItem(UTREDNING_AV_ANNAN_SPECIALISTKLINIK),
-            getCodeItem(UTREDNING_FRAN_VARDINRATTNING_UTOMLANDS),
-            getCodeItem(OVRIGT));
+    private static List<CodeItem> getTypeOptions(UnderlagsTyp ignoredUnderlagsTyp) {
+        return Arrays.stream(UnderlagsTyp.values())
+            .filter(value -> value != ignoredUnderlagsTyp)
+            .map(AbstractQuestionUnderlag::getCodeItem)
+            .collect(Collectors.toList());
     }
 
     private static CodeItem getCodeItem(UnderlagsTyp underlagsTyp) {

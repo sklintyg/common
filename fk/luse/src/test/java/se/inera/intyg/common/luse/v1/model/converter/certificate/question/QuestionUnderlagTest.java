@@ -194,7 +194,6 @@ class QuestionUnderlagTest {
                 getCodeItem(UNDERLAG_FRAN_LOGOPED),
                 getCodeItem(UNDERLAG_FRANPSYKOLOG),
                 getCodeItem(UNDERLAG_FRANFORETAGSHALSOVARD),
-                getCodeItem(UNDERLAG_FRANSKOLHALSOVARD),
                 getCodeItem(UTREDNING_AV_ANNAN_SPECIALISTKLINIK),
                 getCodeItem(UTREDNING_FRAN_VARDINRATTNING_UTOMLANDS),
                 getCodeItem(OVRIGT));

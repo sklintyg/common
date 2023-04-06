@@ -253,6 +253,10 @@ public final class ValueToolkit {
             return null;
         }
 
+        return getInternalLocalDateInterval(dateRangeValue);
+    }
+
+    public static InternalLocalDateInterval getInternalLocalDateInterval(CertificateDataValueDateRange dateRangeValue) {
         if (dateRangeValue.getFrom() == null && dateRangeValue.getTo() == null) {
             return null;
         }

@@ -77,7 +77,7 @@ public final class RespConstants {
     public static final String SJUKSKRIVNINGSGRAD_PERIOD_SVAR_TEXT_ID = "DFR_7.2.RBK";
     public static final String SJUKSKRIVNINGSGRAD_PERIOD_SVAR_LABEL_FROM_ID = "FROM";
     public static final String SJUKSKRIVNINGSGRAD_PERIOD_SVAR_LABEL_TOM_ID = "TOM";
-    public static final String SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID = "sjukskrivningsgradPeriod";
+    public static final String SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID = "sjukskrivningsperiod";
     public static final String SJUKSKRIVNINGSGRAD_PERIOD_MESSAGE_ID = "7.3";
     public static final String SJUKSKRIVNINGSGRAD_PERIOD_MESSAGE_TEXT_ID = "SKL-001.ALERT";
     public static final String KONTAKT_ONSKAS_SVAR_ID = "9";
