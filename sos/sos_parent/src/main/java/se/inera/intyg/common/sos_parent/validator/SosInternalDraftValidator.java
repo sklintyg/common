@@ -63,7 +63,8 @@ public final class SosInternalDraftValidator {
                 ValidationMessageType.EMPTY, DODSDATUM_SAKERT_DELSVAR_ID);
             return;
         }
-
+        final var patientBirthDateFromPersonId = ValidatorUtil.getBirthDateFromPersonnummer(
+            utlatande.getGrundData().getPatient().getPersonId());
         // R1 & R2
         if (utlatande.getDodsdatum() == null) {
             if (utlatande.getDodsdatumSakert()) {
@@ -83,9 +84,10 @@ public final class SosInternalDraftValidator {
                 if (!utlatande.getDodsdatum().isBeforeNumDays(-1)) {
                     ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
                         ValidationMessageType.OTHER, "common.validation.date.today.or.earlier", DODSDATUM_DELSVAR_ID);
-                } else if (utlatande.getDodsdatum().isValidDate() && utlatande.getDodsdatum().isBeforeBeginningOfLastYear()) {
+                } else if (utlatande.getDodsdatum().isValidDate() && utlatande.getDodsdatum()
+                    .isBeforePatientsBirthDate(patientBirthDateFromPersonId)) {
                     ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
-                        ValidationMessageType.OTHER, "common.validation.date.beforeLastYear", DODSDATUM_DELSVAR_ID);
+                        ValidationMessageType.OTHER, "common.validation.date.beforePatientBirthDate", DODSDATUM_DELSVAR_ID);
                 }
             }
 
@@ -102,12 +104,13 @@ public final class SosInternalDraftValidator {
             } else if (utlatande.getDodsdatum().vagueDateInFuture()) {
                 ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
                     ValidationMessageType.OTHER, "common.validation.date.today.or.earlier", DODSDATUM_OSAKERT_DELSVAR_ID);
-            } else if (utlatande.getDodsdatum().isValidDate() && utlatande.getDodsdatum().isBeforeBeginningOfLastYear()) {
+            } else if (utlatande.getDodsdatum().isValidDate() && utlatande.getDodsdatum()
+                .isBeforePatientsBirthDate(patientBirthDateFromPersonId)) {
                 ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
-                    ValidationMessageType.OTHER, "common.validation.date.beforeLastYear", DODSDATUM_OSAKERT_DELSVAR_ID);
+                    ValidationMessageType.OTHER, "common.validation.date.beforePatientBirthDate", DODSDATUM_OSAKERT_DELSVAR_ID);
             }
         }
-
+        LocalDate patientBirthDate = ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId());
         // R3
         if (!utlatande.getDodsdatumSakert()) {
 
@@ -124,9 +127,9 @@ public final class SosInternalDraftValidator {
                     ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "dodsdatumOchdodsPlats", ANTRAFFAT_DOD_DATUM_JSON_ID,
                         ValidationMessageType.INCORRECT_COMBINATION, prefix + ".validation.datum.innanDodsdatum",
                         ANTRAFFAT_DOD_DATUM_DELSVAR_ID);
-                } else if (utlatande.getAntraffatDodDatum().isBeforeBeginningOfLastYear()) {
+                } else if (utlatande.getAntraffatDodDatum().isBeforePatientsBirthDate(patientBirthDate)) {
                     ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "dodsdatumOchdodsPlats", ANTRAFFAT_DOD_DATUM_JSON_ID,
-                        ValidationMessageType.OTHER, "common.validation.date.beforeLastYear", ANTRAFFAT_DOD_DATUM_DELSVAR_ID);
+                        ValidationMessageType.OTHER, "common.validation.date.beforePatientBirthDate", ANTRAFFAT_DOD_DATUM_DELSVAR_ID);
                 }
             }
 
