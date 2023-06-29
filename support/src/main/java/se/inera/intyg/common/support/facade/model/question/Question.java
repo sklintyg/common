@@ -26,6 +26,7 @@ import lombok.Builder;
 import lombok.Value;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateRelation;
 import se.inera.intyg.common.support.facade.model.question.Question.QuestionBuilder;
+import java.util.List;
 
 @JsonDeserialize(builder = QuestionBuilder.class)
 @Value
@@ -46,6 +47,7 @@ public class Question {
     private Reminder[] reminders;
     private LocalDateTime lastUpdate;
     private LocalDate lastDateToReply;
+    private List<String> contactInfo;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class QuestionBuilder {
