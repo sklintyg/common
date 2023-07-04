@@ -176,7 +176,7 @@ public class InternalDateTest {
         final var localDate = LocalDate.now().minusYears(2).minusDays(1);
         final var patientBirthDate = LocalDate.now().minusYears(2);
         InternalDate date = new InternalDate(localDate);
-        assertTrue(date.isBeforePatientsBirthDate(patientBirthDate));
+        assertTrue(date.isBefore(patientBirthDate));
     }
 
     @Test
@@ -184,6 +184,6 @@ public class InternalDateTest {
         final var localDate = LocalDate.now().minusYears(2).plusDays(1);
         final var patientBirthDate = LocalDate.now().minusYears(2);
         InternalDate date = new InternalDate(localDate);
-        assertFalse(date.isBeforePatientsBirthDate(patientBirthDate));
+        assertFalse(date.isBefore(patientBirthDate));
     }
 }

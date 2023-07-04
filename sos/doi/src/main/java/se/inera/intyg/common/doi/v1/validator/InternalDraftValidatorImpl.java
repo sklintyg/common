@@ -236,7 +236,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                         .addValidationErrorWithQuestionId(validationMessages, "operation", OPERATION_DATUM_JSON_ID,
                             ValidationMessageType.INCORRECT_COMBINATION,
                             "common.validation.date.e-06", OPERATION_DATUM_DELSVAR_ID);
-                } else if (utlatande.getOperationDatum().isBeforePatientsBirthDate(ValidatorUtil.getBirthDateFromPersonnummer(
+                } else if (utlatande.getOperationDatum().isBefore(ValidatorUtil.getBirthDateFromPersonnummer(
                     utlatande.getGrundData().getPatient().getPersonId()))) {
                     ValidatorUtil
                         .addValidationErrorWithQuestionId(validationMessages, "operation", OPERATION_DATUM_JSON_ID,

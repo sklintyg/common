@@ -85,7 +85,7 @@ public final class SosInternalDraftValidator {
                     ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
                         ValidationMessageType.OTHER, "common.validation.date.today.or.earlier", DODSDATUM_DELSVAR_ID);
                 } else if (utlatande.getDodsdatum().isValidDate() && utlatande.getDodsdatum()
-                    .isBeforePatientsBirthDate(patientBirthDateFromPersonId)) {
+                    .isBefore(patientBirthDateFromPersonId)) {
                     ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
                         ValidationMessageType.OTHER, "common.validation.date.beforePatientBirthDate", DODSDATUM_DELSVAR_ID);
                 }
@@ -105,7 +105,7 @@ public final class SosInternalDraftValidator {
                 ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
                     ValidationMessageType.OTHER, "common.validation.date.today.or.earlier", DODSDATUM_OSAKERT_DELSVAR_ID);
             } else if (utlatande.getDodsdatum().isValidDate() && utlatande.getDodsdatum()
-                .isBeforePatientsBirthDate(patientBirthDateFromPersonId)) {
+                .isBefore(patientBirthDateFromPersonId)) {
                 ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
                     ValidationMessageType.OTHER, "common.validation.date.beforePatientBirthDate", DODSDATUM_OSAKERT_DELSVAR_ID);
             }
@@ -127,7 +127,7 @@ public final class SosInternalDraftValidator {
                     ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "dodsdatumOchdodsPlats", ANTRAFFAT_DOD_DATUM_JSON_ID,
                         ValidationMessageType.INCORRECT_COMBINATION, prefix + ".validation.datum.innanDodsdatum",
                         ANTRAFFAT_DOD_DATUM_DELSVAR_ID);
-                } else if (utlatande.getAntraffatDodDatum().isBeforePatientsBirthDate(patientBirthDate)) {
+                } else if (utlatande.getAntraffatDodDatum().isBefore(patientBirthDate)) {
                     ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "dodsdatumOchdodsPlats", ANTRAFFAT_DOD_DATUM_JSON_ID,
                         ValidationMessageType.OTHER, "common.validation.date.beforePatientBirthDate", ANTRAFFAT_DOD_DATUM_DELSVAR_ID);
                 }

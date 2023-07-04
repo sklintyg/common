@@ -202,9 +202,9 @@ public class InternalDate {
             && this.asLocalDate().isBefore(LocalDate.ofYearDay(LocalDate.now().getYear() - 1, 1));
     }
 
-    public boolean isBeforePatientsBirthDate(LocalDate patientBirthDate) {
+    public boolean isBefore(LocalDate providedDate) {
         return date != null
-            && this.asLocalDate().isBefore(patientBirthDate);
+            && this.asLocalDate().isBefore(providedDate);
     }
 
     @Override
