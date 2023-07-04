@@ -96,6 +96,26 @@ angular.module('ag7804').config(function($stateProvider) {
                 }
             }
         }).
+        state('webcert.fragasvar.ag7804', {
+            data: { defaultActive : 'index', intygType: 'ag7804' },
+            url: '/fragasvar/ag7804/:intygTypeVersion/:certificateId',
+            resolve: {
+                ViewState: 'ag7804.IntygController.ViewStateService',
+                ViewConfigFactory: viewConfig,
+                supportPanelConfigFactory: 'ag7804.supportPanelConfigFactory',
+                IntygViewState: 'ag7804.IntygController.ViewStateService'
+            },
+            views: {
+                'intyg@webcert.fragasvar' : {
+                    templateUrl: commonPath + 'intyg/smiIntygUv.html',
+                    controller: 'smi.ViewCertCtrlUv'
+                },
+                'header@webcert.fragasvar.ag7804' : {
+                    templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
+                    controller: 'common.IntygHeader'
+                }
+            }
+        }).
         state('ag7804-readonly', {
             data: { intygType: 'ag7804' },
             url: '/intyg-read-only/ag7804/:intygTypeVersion/:certificateId',
