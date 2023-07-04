@@ -228,22 +228,23 @@ class InternalToCertificateTest {
     }
 
     @Test
+    void shallIncludeQuestionArbetsresor() {
+        final var actualCertificate = InternalToCertificate.convert(internalCertificate, textProvider);
+        assertEquals(20, actualCertificate.getData().get(ARBETSRESOR_SVAR_ID_34).getIndex());
+    }
+
+    @Test
     void shallIncludeQuestionArbetstidsforlaggning() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(20, actualCertificate.getData().get(ARBETSTIDSFORLAGGNING_SVAR_ID_33).getIndex());
+        assertEquals(21, actualCertificate.getData().get(ARBETSTIDSFORLAGGNING_SVAR_ID_33).getIndex());
     }
 
     @Test
     void shallIncludeQuestionMotiveringArbetstidsforlaggning() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(21, actualCertificate.getData().get(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33).getIndex());
+        assertEquals(22, actualCertificate.getData().get(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33).getIndex());
     }
 
-    @Test
-    void shallIncludeQuestionArbetsresor() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, textProvider);
-        assertEquals(22, actualCertificate.getData().get(ARBETSRESOR_SVAR_ID_34).getIndex());
-    }
 
     @Test
     void shallIncludeQuestionPrognos() {
