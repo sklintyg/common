@@ -52,14 +52,15 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory',
             }
 
             if (featureService.isFeatureActive(featureService.features.SRS, config.intygContext.type) &&
-                !(isSigned || isKompletteringsUtkast || isLocked)) {
+                !(isKompletteringsUtkast || isLocked)) {
                 config.tabs.push({
                     id: 'wc-srs-panel-tab',
                     title: 'common.supportpanel.srs.title',
                     icon: 'lightbulb_outline',
                     tooltip: 'common.supportpanel.srs.tooltip',
                     config: {
-                        intygContext: config.intygContext
+                        intygContext: config.intygContext,
+                        readOnly: isSigned
                     },
                     active: !_anyTabActive()
                 });
