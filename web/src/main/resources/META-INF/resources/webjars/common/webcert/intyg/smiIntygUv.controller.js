@@ -38,6 +38,9 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
 
             // Page setup
             $scope.user = UserModel;
+            if ($stateParams.origin === 'rs') {
+                UserModel.user.fromRehabstod = true;
+            }
 
             ViewState.intygModel = {};
             ViewState.intygModel.filledAlways = true;

@@ -98,7 +98,7 @@ angular.module('lisjp').config(function($stateProvider) {
         }).
         state('webcert.fragasvar.lisjp', {
             data: { defaultActive : 'index', intygType: 'lisjp' },
-            url: '/fragasvar/lisjp/:intygTypeVersion/:certificateId',
+            url: '/fragasvar/lisjp/:intygTypeVersion/:certificateId?origin=normal',
             resolve: {
                 ViewState: 'lisjp.IntygController.ViewStateService',
                 ViewConfigFactory: viewConfig,
