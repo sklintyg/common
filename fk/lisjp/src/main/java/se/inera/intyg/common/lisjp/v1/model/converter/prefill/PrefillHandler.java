@@ -83,6 +83,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -232,13 +233,17 @@ public class PrefillHandler {
                 }
             }
 
-            utlatande.setSjukskrivningar(sjukskrivningar);
-            utlatande.setSysselsattning(sysselsattning);
-            utlatande.setArbetslivsinriktadeAtgarder(arbetslivsinriktadeAtgarder);
-            utlatande.setDiagnoser(diagnoser);
+            utlatande.setSjukskrivningar(removeDuplicates(sjukskrivningar));
+            utlatande.setSysselsattning(removeDuplicates(sysselsattning));
+            utlatande.setArbetslivsinriktadeAtgarder(removeDuplicates(arbetslivsinriktadeAtgarder));
+            utlatande.setDiagnoser(removeDuplicates(diagnoser));
         }
 
         return pr;
+    }
+
+    public static <T> List<T> removeDuplicates(List<T> list) {
+        return list.stream().distinct().collect(Collectors.toList());
     }
 
     private void handleAvstangningSmittskydd(Builder utlatande, Svar svar) throws PrefillWarningException {
@@ -665,7 +670,7 @@ public class PrefillHandler {
 
     private void ensureKnownAndValidDiagnosisCode(Delsvar delsvar, CVType diagnos) throws PrefillWarningException {
         if (!moduleService.validateDiagnosisCodeFormat(diagnos.getCode())
-                || !moduleService.validateDiagnosisCode(diagnos.getCode(), Diagnoskodverk.getEnumByCodeSystem(diagnos.getCodeSystem()))) {
+            || !moduleService.validateDiagnosisCode(diagnos.getCode(), Diagnoskodverk.getEnumByCodeSystem(diagnos.getCodeSystem()))) {
             throw new PrefillWarningException(delsvar, WARNING_INVALID_CVTYPE_CODE_VALUE + " for diagnosis code " + diagnos.getCode());
         }
     }
