@@ -61,10 +61,10 @@ public class LuaefsPdfDefinitionBuilderTest {
     protected static final String TEXT_VERSION_1_0 = "1.0";
     protected static final String TEXT_VERSION_1_1 = "1.1";
 
-    private ObjectMapper objectMapper = new CustomObjectMapper();
+    private final ObjectMapper objectMapper = new CustomObjectMapper();
 
     private IntygTextsServiceImpl intygTextsService;
-    private List<LuaefsUtlatandeV1> intygList = new ArrayList<>();
+    private final List<LuaefsUtlatandeV1> intygList = new ArrayList<>();
 
     @Mock
     FkAbstractModuleEntryPoint entryPoint;

@@ -1,17 +1,17 @@
 dependencies {
-  compile project(':ts-parent')
-  compile project(":common-pdf")
+  implementation project(':ts-parent')
+  implementation project(":common-pdf")
 
-  compile "org.apache.commons:commons-lang3"
-  compile "javax.annotation:javax.annotation-api"
+  implementation "org.apache.commons:commons-lang3"
+  implementation "javax.annotation:javax.annotation-api"
 
   compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
-  compile "com.google.auto.value:auto-value:${autovalueVersion}"
-  compile "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
+  implementation "com.google.auto.value:auto-value:${autovalueVersion}"
+  implementation "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
   annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
 
-  testCompile "org.apache.commons:commons-lang3"
-  testCompile "org.assertj:assertj-core"
+  testImplementation "org.apache.commons:commons-lang3"
+  testImplementation "org.assertj:assertj-core"
   testImplementation testFixtures(project(":common-support"))
 
 }

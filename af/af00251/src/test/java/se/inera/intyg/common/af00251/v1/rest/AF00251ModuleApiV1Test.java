@@ -22,6 +22,7 @@ import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -40,6 +41,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFactory;
 import javax.xml.ws.soap.SOAPFaultException;
@@ -102,8 +104,8 @@ public class AF00251ModuleApiV1Test {
     public static final String TESTFILE_COMPLETE_UTLATANDE = "internal/scenarios/pass-complete.json";
     private static final String INTYG_TYPE_VERSION_1 = "1.0";
 
-    private final String LOGICAL_ADDRESS = "logical address";
-    private final String PNR_TOLVAN = "19121212-1212";
+    private static final String LOGICAL_ADDRESS = "logical address";
+    private static final String PNR_TOLVAN = "19121212-1212";
 
     @Mock
     private RegisterCertificateResponderInterface registerCertificateResponderInterface;
@@ -131,7 +133,7 @@ public class AF00251ModuleApiV1Test {
 
 
     public AF00251ModuleApiV1Test() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -229,7 +231,7 @@ public class AF00251ModuleApiV1Test {
         verify(getCertificateResponder, times(1)).getCertificate(eq(logicalAddress), captor.capture());
         assertEquals(certificateId, captor.getValue().getIntygsId().getExtension());
         assertEquals(internalModel, certificate.getInternalModel());
-        assertEquals(false, certificate.isRevoked());
+        assertFalse(certificate.isRevoked());
     }
 
     @Test(expected = ModuleException.class)
@@ -388,7 +390,7 @@ public class AF00251ModuleApiV1Test {
 
         final AF00251UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("pass-complete")
             .asInternalModel();
-        final List<Sjukfranvaro> sjukfranvarosUnchecked = utlatande.getSjukfranvaro()
+        final List<Sjukfranvaro> sjukfranvarosUnchecked = Objects.requireNonNull(utlatande.getSjukfranvaro())
             .stream()
             .map(Sjukfranvaro::toBuilder)
             .map(builder -> builder.setChecked(false)
@@ -409,7 +411,7 @@ public class AF00251ModuleApiV1Test {
 
         final AF00251UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("pass-complete")
             .asInternalModel();
-        final List<Sjukfranvaro> sjukfranvarosUnchecked = utlatande.getSjukfranvaro()
+        final List<Sjukfranvaro> sjukfranvarosUnchecked = Objects.requireNonNull(utlatande.getSjukfranvaro())
             .stream()
             .map(Sjukfranvaro::toBuilder)
             .map(builder -> builder.setChecked(null)
@@ -559,7 +561,7 @@ public class AF00251ModuleApiV1Test {
     }
 
     private Personnummer createPnr(String civicRegistrationNumber) {
-        return Personnummer.createPersonnummer(civicRegistrationNumber).get();
+        return Personnummer.createPersonnummer(civicRegistrationNumber).orElseThrow();
     }
 
     private RegisterCertificateResponseType createReturnVal(ResultCodeType res) {

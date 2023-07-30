@@ -97,8 +97,8 @@ public class Af00213ModuleApiV1Test {
     public static final String TESTFILE_UTLATANDE = "v1/internal/scenarios/pass-minimal.json";
     private static final String INTYG_TYPE_VERSION_1 = "1.0";
 
-    private final String LOGICAL_ADDRESS = "logical address";
-    private final String PNR_TOLVAN = "19121212-1212";
+    private static final String LOGICAL_ADDRESS = "logical address";
+    private static final String PNR_TOLVAN = "19121212-1212";
 
     @Mock
     private RegisterCertificateResponderInterface registerCertificateResponderInterface;

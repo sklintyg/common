@@ -71,3 +71,5 @@ task jsCodeQuality(type: NodeTask, dependsOn: [npmInstall, unzipBuildTools]) {
 
 checkstyleMain.dependsOn jsCodeQuality
 jsCodeQuality.onlyIf { project.hasProperty('codeQuality') }
+
+packageTests.dependsOn('jsInclude')

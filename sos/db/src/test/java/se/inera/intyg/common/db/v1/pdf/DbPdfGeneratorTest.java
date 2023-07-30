@@ -50,7 +50,7 @@ public class DbPdfGeneratorTest {
 
     protected IntygTexts intygTexts;
 
-    private ObjectMapper objectMapper = new CustomObjectMapper();
+    private final ObjectMapper objectMapper = new CustomObjectMapper();
 
     @Before
     public void initTexts() throws IOException {

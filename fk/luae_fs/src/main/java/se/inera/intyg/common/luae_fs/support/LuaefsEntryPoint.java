@@ -60,7 +60,6 @@ public class LuaefsEntryPoint extends FkAbstractModuleEntryPoint {
     public String getModuleCssPath(ApplicationOrigin originator) {
         switch (originator) {
             case MINA_INTYG:
-                return "";
             case WEBCERT:
                 return "";
             default:

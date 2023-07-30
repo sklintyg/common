@@ -1,12 +1,12 @@
 dependencies {
-  compile project(':ts-parent')
-  compile project(":common-pdf")
+  api project(':ts-parent')
+  implementation project(":common-pdf")
 
-  compile "javax.annotation:javax.annotation-api"
+  implementation "javax.annotation:javax.annotation-api"
 
   compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
-  compile "com.google.auto.value:auto-value:${autovalueVersion}"
-  compile "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
+  implementation "com.google.auto.value:auto-value:${autovalueVersion}"
+  implementation "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
   annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
   testImplementation testFixtures(project(":common-support"))
 

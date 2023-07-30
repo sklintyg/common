@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.support.facade.testsetup.model.config;
 
-import static com.helger.commons.mock.CommonsAssert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

@@ -1,7 +1,6 @@
 dependencies {
-  compile project(':common-support')
-  compile project(':integration-util')
+  api project(':common-support')
+  implementation project(':integration-util')
 
-  compile "javax.annotation:javax.annotation-api"
-
+  implementation "javax.annotation:javax.annotation-api"
 }

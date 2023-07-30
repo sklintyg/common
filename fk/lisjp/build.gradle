@@ -1,13 +1,13 @@
 dependencies {
-    compile project(':fk-parent')
+    api project(':fk-parent')
 
     compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
 
-    compile "com.google.auto.value:auto-value:${autovalueVersion}"
-    compile "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
+    implementation "com.google.auto.value:auto-value:${autovalueVersion}"
+    implementation "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
 
-    testCompile "org.assertj:assertj-core"
-    testCompile "org.apache.commons:commons-lang3"
+    testImplementation "org.assertj:assertj-core"
+    testImplementation "org.apache.commons:commons-lang3"
 
     testImplementation testFixtures(project(":common-support"))
 

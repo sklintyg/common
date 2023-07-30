@@ -1,12 +1,14 @@
+compileJava.dependsOn(':db:jsInclude')
+
 dependencies {
-  compile project(':sos_parent')
-  compile project(':db')
+  implementation project(':sos_parent')
+  implementation project(':db')
 
   compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
-  compile "com.google.auto.value:auto-value:${autovalueVersion}"
-  compile "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
+  implementation "com.google.auto.value:auto-value:${autovalueVersion}"
+  implementation "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
 
-  testCompile "org.apache.commons:commons-lang3"
+  testImplementation "org.apache.commons:commons-lang3"
 
   annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
   testImplementation testFixtures(project(":common-support"))

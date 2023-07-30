@@ -48,14 +48,14 @@ public class LuaefsEntryPointTest {
     private LuaefsEntryPoint entryPoint;
 
     @Test
-    public void testGetDetailedModuleDescriptionReturnNullIfNoIntygTextsRepositorySet() throws Exception {
+    public void testGetDetailedModuleDescriptionReturnNullIfNoIntygTextsRepositorySet() {
         entryPoint = new LuaefsEntryPoint();
         ReflectionTestUtils.setField(entryPoint, "repo", Optional.empty());
         assertNull(entryPoint.getDetailedModuleDescription());
     }
 
     @Test
-    public void testGetDetailedModuleDescriptionReturnStringWhenIntygTextsRepositorySet() throws Exception {
+    public void testGetDetailedModuleDescriptionReturnStringWhenIntygTextsRepositorySet() {
         when(repoMock.getLatestVersion(anyString())).thenReturn("1.0");
         SortedMap<String, String> map = new TreeMap<>();
         map.put(FkAbstractModuleEntryPoint.DESCRIPTION_TEXT_KEY, "hello");

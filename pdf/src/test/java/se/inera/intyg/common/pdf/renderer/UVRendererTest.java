@@ -27,7 +27,7 @@ import com.google.common.collect.ImmutableMap;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -72,7 +72,7 @@ public class UVRendererTest {
         String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
         ClassPathResource cpr = new ClassPathResource("ag7804/ag7804-uv-viewmodel.v1.js");
-        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), StandardCharsets.UTF_8);
 
         IntygTexts intygTexts = loadTexts("ag7804/texterMU_AG7804_v1.0.xml");
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skr_logo.png").getInputStream());
@@ -107,7 +107,7 @@ public class UVRendererTest {
         String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
         ClassPathResource cpr = new ClassPathResource("ag7804/ag7804-uv-viewmodel.v1.js");
-        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), StandardCharsets.UTF_8);
 
         IntygTexts intygTexts = loadTexts("ag7804/texterMU_AG7804_v1.0.xml");
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skr_logo.png").getInputStream());
@@ -142,7 +142,7 @@ public class UVRendererTest {
         String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
         ClassPathResource cpr = new ClassPathResource("ag7804/ag7804-uv-viewmodel.v1.js");
-        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), StandardCharsets.UTF_8);
 
         IntygTexts intygTexts = loadTexts("ag7804/texterMU_AG7804_v1.0.xml");
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skr_logo.png").getInputStream());
@@ -182,7 +182,7 @@ public class UVRendererTest {
         String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
         ClassPathResource cpr = new ClassPathResource("ag114/ag1-14-uv-viewmodel.v1.js");
-        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), StandardCharsets.UTF_8);
 
         IntygTexts intygTexts = loadTexts("ag114/pdftestMU_AG114_v1.0.xml");
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skr_logo.png").getInputStream());
@@ -217,7 +217,7 @@ public class UVRendererTest {
         String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
         ClassPathResource cpr = new ClassPathResource("ag114/ag1-14-uv-viewmodel.v1.js");
-        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), StandardCharsets.UTF_8);
 
         IntygTexts intygTexts = loadTexts("ag114/pdftestMU_AG114_v1.0.xml");
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skr_logo.png").getInputStream());
@@ -252,7 +252,7 @@ public class UVRendererTest {
         String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
         ClassPathResource cpr = new ClassPathResource("ag114/ag1-14-uv-viewmodel.v1.js");
-        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), StandardCharsets.UTF_8);
 
         IntygTexts intygTexts = loadTexts("ag114/pdftestMU_AG114_v1.0.xml");
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skr_logo.png").getInputStream());
@@ -291,7 +291,7 @@ public class UVRendererTest {
         String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
         ClassPathResource cpr = new ClassPathResource("tsdiabetes/ts-up.v3.js");
-        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), StandardCharsets.UTF_8);
 
         IntygTexts intygTexts = loadTexts("tsdiabetes/texterTS_TSTRK_1031_v3.0.xml");
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("transportstyrelsen-logo.png").getInputStream());
@@ -324,7 +324,7 @@ public class UVRendererTest {
         String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
         ClassPathResource cpr = new ClassPathResource("tsdiabetes/ts-up.v3.js");
-        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), StandardCharsets.UTF_8);
 
         IntygTexts intygTexts = loadTexts("tsdiabetes/texterTS_TSTRK_1031_v3.0.xml");
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("transportstyrelsen-logo.png").getInputStream());
@@ -357,7 +357,7 @@ public class UVRendererTest {
         String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
         ClassPathResource cpr = new ClassPathResource("tsbas/tsbas-up.js");
-        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), StandardCharsets.UTF_8);
 
         IntygTexts intygTexts = loadTexts("tsbas/texterTS_TSTRK_1007_v6.8.xml");
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("transportstyrelsen-logo.png").getInputStream());
@@ -390,7 +390,7 @@ public class UVRendererTest {
         String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
         ClassPathResource cpr = new ClassPathResource("tsbas/tsbas-up.js");
-        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), StandardCharsets.UTF_8);
 
         IntygTexts intygTexts = loadTexts("tsbas/texterTS_TSTRK_1007_v6.8.xml");
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("transportstyrelsen-logo.png").getInputStream());
@@ -423,7 +423,7 @@ public class UVRendererTest {
         String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
         ClassPathResource cpr = new ClassPathResource("lisjp/lisjp-up.js");
-        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), StandardCharsets.UTF_8);
 
         IntygTexts intygTexts = loadTexts("lisjp/texterMU_LISJP_v1.0.xml");
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("forsakringskassan-logo.png").getInputStream());
@@ -457,7 +457,7 @@ public class UVRendererTest {
         String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
         ClassPathResource cpr = new ClassPathResource("af00213/af00213-uv-viewmodel.js");
-        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), StandardCharsets.UTF_8);
 
         IntygTexts intygTexts = loadTexts("af00213/texterMU_AF00213_v1.0.xml");
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("af-logo.png").getInputStream());
@@ -490,7 +490,7 @@ public class UVRendererTest {
         String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
         ClassPathResource cpr = new ClassPathResource("af00213/af00213-uv-viewmodel.js");
-        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), StandardCharsets.UTF_8);
 
         IntygTexts intygTexts = loadTexts("af00213/texterMU_AF00213_v1.0.xml");
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("af-logo.png").getInputStream());
@@ -522,7 +522,7 @@ public class UVRendererTest {
         String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
         ClassPathResource cpr = new ClassPathResource("af00213/af00213-uv-viewmodel.js");
-        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), StandardCharsets.UTF_8);
 
         IntygTexts intygTexts = loadTexts("af00213/texterMU_AF00213_v1.0.xml");
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("af-logo.png").getInputStream());
@@ -555,7 +555,7 @@ public class UVRendererTest {
         String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
         ClassPathResource cpr = new ClassPathResource("af00213/af00213-uv-viewmodel.js");
-        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), StandardCharsets.UTF_8);
 
         IntygTexts intygTexts = loadTexts("af00213/texterMU_AF00213_v1.0.xml");
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("af-logo.png").getInputStream());
@@ -588,7 +588,7 @@ public class UVRendererTest {
         String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
         ClassPathResource cpr = new ClassPathResource("af00213/af00213-uv-viewmodel.js");
-        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), StandardCharsets.UTF_8);
 
         IntygTexts intygTexts = loadTexts("af00213/texterMU_AF00213_v1.0.xml");
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("af-logo.png").getInputStream());
@@ -621,7 +621,7 @@ public class UVRendererTest {
         String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
         ClassPathResource cpr = new ClassPathResource("af00213/af00213-uv-viewmodel.js");
-        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), StandardCharsets.UTF_8);
 
         IntygTexts intygTexts = loadTexts("af00213/texterMU_AF00213_v1.0.xml");
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("af-logo.png").getInputStream());
@@ -654,7 +654,7 @@ public class UVRendererTest {
         String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
         ClassPathResource cpr = new ClassPathResource("tstrk1009/tstrk1009-uv-viewmodel.v1.js");
-        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), StandardCharsets.UTF_8);
 
         IntygTexts intygTexts = loadTexts("tstrk1009/texterTS_TSTRK_1009_v1.0.xml");
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("transportstyrelsen-logo.png").getInputStream());
@@ -682,7 +682,7 @@ public class UVRendererTest {
 
     private JsonNode loadAndCleanIntygJson(String intygJsonFile) throws IOException {
         InputStream inputStream = loadJsonModel(intygJsonFile);
-        String jsonModel = IOUtils.toString(inputStream, Charset.forName("UTF-8"));
+        String jsonModel = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
         return new ObjectMapper().readTree(jsonModel);
     }
 

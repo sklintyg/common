@@ -26,7 +26,7 @@ import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
 import se.inera.intyg.common.fkparent.pdf.PdfConstants;
 
 // CHECKSTYLE:OFF MagicNumber
@@ -38,14 +38,14 @@ public class FkFormIdentityEventHandler extends PdfPageEventHelper {
 
     private static final float ROTATION = 90f;
     private final String blankettVersion;
-    private String formId;
+    private final String formId;
     private String formIdRow2 = null;
-    private String blankettId;
-    private float formidX = Utilities.millimetersToPoints(12f);
-    private float formidXWith2Rows = Utilities.millimetersToPoints(9f);
-    private float formidY = Utilities.millimetersToPoints(8.5f);
-    private float scanidX = Utilities.millimetersToPoints(12f);
-    private float scanidY = Utilities.millimetersToPoints(118f);
+    private final String blankettId;
+    private final float formidX = Utilities.millimetersToPoints(12f);
+    private final float formidXWith2Rows = Utilities.millimetersToPoints(9f);
+    private final float formidY = Utilities.millimetersToPoints(8.5f);
+    private final float scanidX = Utilities.millimetersToPoints(12f);
+    private final float scanidY = Utilities.millimetersToPoints(118f);
 
     public FkFormIdentityEventHandler(String formId, String blankettId, String blankettVersion) {
         this.formId = formId;
@@ -64,7 +64,7 @@ public class FkFormIdentityEventHandler extends PdfPageEventHelper {
     @Override
     public void onEndPage(PdfWriter writer, Document document) {
         PdfContentByte canvas = writer.getDirectContentUnder();
-        boolean is2Rows = !StringUtils.isEmpty(formIdRow2);
+        boolean is2Rows = !ObjectUtils.isEmpty(formIdRow2);
         float firstRowX = is2Rows ? formidXWith2Rows : formidX;
 
         ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(formId, PdfConstants.FONT_FORM_ID_LABEL), firstRowX, formidY,
@@ -82,7 +82,7 @@ public class FkFormIdentityEventHandler extends PdfPageEventHelper {
     }
 
     public String buildPageScanId(String blankettId, String blankettVersion, int pageNumber) {
-        /*******************************************************
+        /*
          * (Hittat i FK7800_001_F_001.pdf i extraherad xfa xml definition) rad 445
          * "XXXX" + "A" + "B" + "VV" *
          * *
@@ -98,7 +98,7 @@ public class FkFormIdentityEventHandler extends PdfPageEventHelper {
          * pageNum = "0" + pageNum;
          * }
          * skanningsid.rawValue = "7800" + pageNum + "01";
-         ********************************************************/
+         */
         return blankettId + String.format("%02d", pageNumber) + blankettVersion;
     }
 

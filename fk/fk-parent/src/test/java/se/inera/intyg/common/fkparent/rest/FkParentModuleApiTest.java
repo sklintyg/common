@@ -118,7 +118,7 @@ public class FkParentModuleApiTest {
     private ObjectMapper objectMapper = new CustomObjectMapper();
 
     public FkParentModuleApiTest() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @BeforeClass
@@ -382,7 +382,7 @@ public class FkParentModuleApiTest {
     @Test
     public void testUpdateBeforeSave() throws Exception {
         final String otherHosPersonalName = "Other Person";
-        doAnswer(invocation -> (Utlatande) invocation.getArguments()[0]).when(moduleApi)
+        doAnswer(invocation -> invocation.getArguments()[0]).when(moduleApi)
             .decorateDiagnoserWithDescriptions(any(Utlatande.class));
 
         HoSPersonal hosPersonal = new HoSPersonal();
@@ -411,7 +411,7 @@ public class FkParentModuleApiTest {
     public void testUpdateBeforeSigning() throws Exception {
         final String otherHosPersonalName = "Other Person";
         final LocalDateTime signDate = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
-        doAnswer(invocation -> (Utlatande) invocation.getArguments()[0]).when(moduleApi)
+        doAnswer(invocation -> invocation.getArguments()[0]).when(moduleApi)
             .decorateDiagnoserWithDescriptions(any(Utlatande.class));
 
         HoSPersonal hosPersonal = new HoSPersonal();
@@ -497,7 +497,7 @@ public class FkParentModuleApiTest {
     }
 
     @Test
-    public void testGetModuleSpecificArendeParameters() throws Exception {
+    public void testGetModuleSpecificArendeParameters() {
         final String svarIdHelperAnswer1 = "svarIdHelperAnswer1";
         final String svarIdHelperAnswer2 = "svarIdHelperAnswer2";
         List<String> frageIds = Arrays.asList("1", "2", "9001");
@@ -575,13 +575,13 @@ public class FkParentModuleApiTest {
         return response;
     }
 
-    private Patient createUpdatedPatient() throws Exception {
+    private Patient createUpdatedPatient() {
         Patient patient = new Patient();
         patient.setEfternamn("updated lastName");
         patient.setMellannamn("updated middle-name");
         patient.setFornamn("updated firstName");
         patient.setFullstandigtNamn("updated full name");
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
         patient.setPostadress("updated postal address");
         patient.setPostnummer("54321");
         patient.setPostort("updated post city");
@@ -597,7 +597,7 @@ public class FkParentModuleApiTest {
 
         private String textVersion;
 
-        private GrundData grundData = new GrundData();
+        private final GrundData grundData = new GrundData();
 
         private String signature;
 

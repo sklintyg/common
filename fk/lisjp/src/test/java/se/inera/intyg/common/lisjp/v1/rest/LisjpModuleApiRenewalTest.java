@@ -19,6 +19,7 @@
 package se.inera.intyg.common.lisjp.v1.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Objects;
 import org.apache.cxf.helpers.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,6 +41,7 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -50,7 +52,6 @@ import static org.junit.Assert.assertNull;
 public class LisjpModuleApiRenewalTest {
 
     public static final String TESTFILE_UTLATANDE = "v1/LisjpModelCompareUtil/utlatande.json";
-
 
     @Spy
     private WebcertModelFactoryImpl webcertModelFactory = new WebcertModelFactoryImpl();
@@ -74,7 +75,7 @@ public class LisjpModuleApiRenewalTest {
         LisjpUtlatandeV1 renewCopy = new CustomObjectMapper().readValue(renewalFromTemplate, LisjpUtlatandeV1.class);
 
         // Blanked out values:
-        assertFalse(renewCopy.getKontaktMedFk());
+        assertNotEquals(Boolean.TRUE, renewCopy.getKontaktMedFk());
         assertEquals(0, renewCopy.getSjukskrivningar().size());
         assertNull(renewCopy.getAnledningTillKontakt());
         assertNull(renewCopy.getUndersokningAvPatienten());
@@ -102,9 +103,9 @@ public class LisjpModuleApiRenewalTest {
         assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
 
         // Relation
-        assertEquals(original.getSjukskrivningar().get(0).getPeriod().getTom().asLocalDate(),
+        assertEquals(Objects.requireNonNull(original.getSjukskrivningar().get(0).getPeriod()).getTom().asLocalDate(),
             renewCopy.getGrundData().getRelation().getSistaGiltighetsDatum());
-        assertEquals(original.getSjukskrivningar().get(0).getSjukskrivningsgrad().getLabel(),
+        assertEquals(Objects.requireNonNull(original.getSjukskrivningar().get(0).getSjukskrivningsgrad()).getLabel(),
             renewCopy.getGrundData().getRelation().getSistaSjukskrivningsgrad());
     }
 

@@ -23,7 +23,7 @@ import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
@@ -106,9 +106,9 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
     @Autowired(required = false)
     private RevokeCertificateResponderInterface revokeCertificateClient;
 
-    private Class<T> type;
+    private final Class<T> type;
 
-    private RegisterCertificateValidator validator = new RegisterCertificateValidator(getSchematronFileName());
+    private final RegisterCertificateValidator validator = new RegisterCertificateValidator(getSchematronFileName());
 
     @Autowired(required = false)
     private IntygTextsService intygTexts;
@@ -174,7 +174,7 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
     }
 
     @Override
-    public boolean shouldNotify(String persistedState, String currentState) throws ModuleException {
+    public boolean shouldNotify(String persistedState, String currentState) {
         return true;
     }
 
@@ -239,7 +239,7 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
     }
 
     @Override
-    public Utlatande getUtlatandeFromJson(String utlatandeJson) throws ModuleException, IOException {
+    public Utlatande getUtlatandeFromJson(String utlatandeJson) throws IOException {
         return objectMapper.readValue(utlatandeJson, type);
     }
 
@@ -265,7 +265,7 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
     }
 
     @Override
-    public String transformToStatisticsService(String inputXml) throws ModuleException {
+    public String transformToStatisticsService(String inputXml) {
         return inputXml;
     }
 
@@ -309,7 +309,7 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
         if (signatureXml == null) {
             return jsonModel;
         }
-        String base64EncodedSignatureXml = Base64.getEncoder().encodeToString(signatureXml.getBytes(Charset.forName("UTF-8")));
+        String base64EncodedSignatureXml = Base64.getEncoder().encodeToString(signatureXml.getBytes(StandardCharsets.UTF_8));
         return updateInternalAfterSigning(jsonModel, base64EncodedSignatureXml);
     }
 
@@ -429,12 +429,12 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
 
     @Override
     public Certificate getCertificateFromJson(String certificateAsJson,
-        TypeAheadProvider typeAheadProvider) throws ModuleException, IOException {
+        TypeAheadProvider typeAheadProvider) throws ModuleException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException, IOException {
+    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException {
         throw new UnsupportedOperationException();
     }
 

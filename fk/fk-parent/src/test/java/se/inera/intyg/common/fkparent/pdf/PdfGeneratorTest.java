@@ -65,12 +65,12 @@ public class PdfGeneratorTest {
 
     @Test
     public void testGeneratePdfName() throws Exception {
-        final String PREFIX = "test";
+        final String prefix = "test";
         final LocalDateTime tidpunkt = LocalDateTime.now();
 
-        String expected = PREFIX + "_" + tidpunkt.format(DateTimeFormatter.ofPattern("yy-MM-dd_HHmm")) + ".pdf";
+        String expected = prefix + "_" + tidpunkt.format(DateTimeFormatter.ofPattern("yy-MM-dd_HHmm")) + ".pdf";
 
-        String actual = PdfGenerator.generatePdfFilename(tidpunkt, PREFIX);
+        String actual = PdfGenerator.generatePdfFilename(tidpunkt, prefix);
 
         assertEquals(expected, actual);
     }

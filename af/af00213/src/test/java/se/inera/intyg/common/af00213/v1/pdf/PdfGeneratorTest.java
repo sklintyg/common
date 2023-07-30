@@ -22,7 +22,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -45,7 +45,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @ContextConfiguration(classes = {BefattningService.class})
 public class PdfGeneratorTest {
 
-    private PdfGenerator testee = new PdfGenerator();
+    private final PdfGenerator testee = new PdfGenerator();
 
     @Test
     public void testGeneratePdf() throws IOException, ModuleException {
@@ -54,10 +54,10 @@ public class PdfGeneratorTest {
         IntygTexts intygTexts = intygsTextRepositoryHelper.getTexts("af00213", "1.0");
 
         String jsonModel = IOUtils.toString(new ClassPathResource("v1/internal/scenarios/pass-complete.json").getInputStream(),
-            Charset.forName("UTF-8"));
-        PdfResponse pdfResponse = testee
-            .generatePdf(UUID.randomUUID().toString(), jsonModel, "1", Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
-                new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
+            StandardCharsets.UTF_8);
+        PdfResponse pdfResponse = testee.generatePdf(UUID.randomUUID().toString(), jsonModel, "1",
+            Personnummer.createPersonnummer("19121212-1212").orElseThrow(), intygTexts, new ArrayList<>(),
+            ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
         assertNotNull(pdfResponse);
         Pattern p = Pattern.compile("^af_medicinskt_utlatande_[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");
         assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());

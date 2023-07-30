@@ -39,7 +39,6 @@ import se.inera.intyg.common.util.logging.LogMarkers;
 
 /**
  * CXF interceptor which turns SOAP faults into valid SOAP responses.
- *
  * Transformation is performed using XSLTs which transform the <soap:Fault> element to a proper response element containing a <result>
  * element giving more specifics about the error.
  *

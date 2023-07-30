@@ -19,6 +19,7 @@
 package se.inera.intyg.common.db.v1.rest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -34,10 +35,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 import com.google.common.io.Resources;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Properties;
@@ -129,7 +130,7 @@ public class DbModuleApiV1Test {
     private DbModuleApiV1 moduleApi;
 
     public DbModuleApiV1Test() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test(expected = ModuleException.class)
@@ -197,7 +198,7 @@ public class DbModuleApiV1Test {
         verify(getCertificateResponder, times(1)).getCertificate(eq(logicalAddress), captor.capture());
         assertEquals(certificateId, captor.getValue().getIntygsId().getExtension());
         assertEquals(internalModel, certificate.getInternalModel());
-        assertEquals(false, certificate.isRevoked());
+        assertFalse(certificate.isRevoked());
     }
 
     @Test
@@ -249,7 +250,7 @@ public class DbModuleApiV1Test {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
             .thenReturn(createReturnVal(ResultCodeType.ERROR));
         try {
-            String xmlContents = Resources.toString(Resources.getResource("v1/db.xml"), Charsets.UTF_8);
+            String xmlContents = Resources.toString(Resources.getResource("v1/db.xml"), StandardCharsets.UTF_8);
             moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
         } catch (IOException e) {
             fail();
@@ -260,7 +261,7 @@ public class DbModuleApiV1Test {
     public void testSendCertificateShouldUseXml() {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any())).thenReturn(createReturnVal(ResultCodeType.OK));
         try {
-            String xmlContents = Resources.toString(Resources.getResource("v1/db.xml"), Charsets.UTF_8);
+            String xmlContents = Resources.toString(Resources.getResource("v1/db.xml"), StandardCharsets.UTF_8);
             moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
 
             verify(registerCertificateResponderInterface, times(1)).registerCertificate(same(LOGICAL_ADDRESS), any());
@@ -363,7 +364,7 @@ public class DbModuleApiV1Test {
     @Test
     public void testRevokeCertificate() throws Exception {
         final String logicalAddress = "logicalAddress";
-        String xmlContents = Resources.toString(Resources.getResource("revokerequest.xml"), Charsets.UTF_8);
+        String xmlContents = Resources.toString(Resources.getResource("revokerequest.xml"), StandardCharsets.UTF_8);
 
         RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
         returnVal.setResult(ResultTypeUtil.okResult());
@@ -375,7 +376,7 @@ public class DbModuleApiV1Test {
     @Test(expected = ExternalServiceCallException.class)
     public void testRevokeCertificateThrowsExternalServiceCallException() throws Exception {
         final String logicalAddress = "logicalAddress";
-        String xmlContents = Resources.toString(Resources.getResource("revokerequest.xml"), Charsets.UTF_8);
+        String xmlContents = Resources.toString(Resources.getResource("revokerequest.xml"), StandardCharsets.UTF_8);
 
         RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
         returnVal.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "resultText"));
@@ -386,11 +387,10 @@ public class DbModuleApiV1Test {
     @Test
     public void testCreateRevokeRequest() throws Exception {
         final String meddelande = "revokeMessage";
-        final String intygId = "intygId";
 
         GrundData gd = new GrundData();
         gd.setPatient(new Patient());
-        gd.getPatient().setPersonId(Personnummer.createPersonnummer("191212121212").get());
+        gd.getPatient().setPersonId(Personnummer.createPersonnummer("191212121212").orElseThrow());
         HoSPersonal skapadAv = createHosPersonal();
         gd.setSkapadAv(skapadAv);
 
@@ -412,7 +412,7 @@ public class DbModuleApiV1Test {
     @Test
     public void testGetUtlatandeFromXml() {
         try {
-            String xmlContents = Resources.toString(Resources.getResource("v1/db.xml"), Charsets.UTF_8);
+            String xmlContents = Resources.toString(Resources.getResource("v1/db.xml"), StandardCharsets.UTF_8);
             DbUtlatandeV1 res = (DbUtlatandeV1) moduleApi.getUtlatandeFromXml(xmlContents);
 
             assertEquals("1234567", res.getId());
@@ -426,7 +426,7 @@ public class DbModuleApiV1Test {
     private Utlatande createUtlatande() {
         GrundData gd = new GrundData();
         gd.setPatient(new Patient());
-        gd.getPatient().setPersonId(Personnummer.createPersonnummer("191212121212").get());
+        gd.getPatient().setPersonId(Personnummer.createPersonnummer("191212121212").orElseThrow());
         HoSPersonal skapadAv = createHosPersonal();
         gd.setSkapadAv(skapadAv);
         return DbUtlatandeV1.builder().setId("intygId").setGrundData(gd).setTextVersion("").build();
@@ -448,7 +448,7 @@ public class DbModuleApiV1Test {
         Patient patient = new Patient();
         patient.setFornamn("fornamn");
         patient.setEfternamn("efternamn");
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
         return new CreateNewDraftHolder("certificateId", "1.0", createHosPersonal(), patient);
     }
 
@@ -462,7 +462,7 @@ public class DbModuleApiV1Test {
 
     private Patient createPatient(String fornamn, String efternamn, String personnummer) {
         Patient patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer((personnummer != null) ? personnummer : "191212121212").get());
+        patient.setPersonId(Personnummer.createPersonnummer((personnummer != null) ? personnummer : "191212121212").orElseThrow());
         patient.setFornamn(fornamn);
         patient.setEfternamn(efternamn);
         return patient;
@@ -487,7 +487,7 @@ public class DbModuleApiV1Test {
     }
 
     private String getResourceAsString(ClassPathResource cpr) throws IOException {
-        return Resources.toString(cpr.getURL(), Charsets.UTF_8);
+        return Resources.toString(cpr.getURL(), StandardCharsets.UTF_8);
     }
 
     @Test
@@ -547,7 +547,7 @@ public class DbModuleApiV1Test {
         final var unit = new Vardenhet();
         final var skapadAv = new HoSPersonal();
         final var patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
         skapadAv.setVardenhet(unit);
         final var grundData = new GrundData();
         grundData.setSkapadAv(skapadAv);

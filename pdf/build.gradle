@@ -1,14 +1,14 @@
 dependencies {
-  compile project(':logging-util')
-  compile project(':common-services')
+  implementation project(':logging-util')
+  implementation project(':common-services')
 
-  compile "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
-  compile "com.fasterxml.jackson.core:jackson-core"
-  compile "com.fasterxml.jackson.core:jackson-databind"
+  implementation "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
+  implementation "com.fasterxml.jackson.core:jackson-core"
+  api "com.fasterxml.jackson.core:jackson-databind"
 
-  compile "org.apache.commons:commons-text:${commonsTextVersion}"
+  implementation "org.apache.commons:commons-text:${commonsTextVersion}"
 
-  compile "commons-io:commons-io:${commonsIoVersion}"
-  compile "com.itextpdf:itext7-core:${itext7Version}"
-  compile "com.itextpdf:html2pdf:${itextPdfHtmlVersion}"
+  api "commons-io:commons-io:${commonsIoVersion}"
+  implementation "com.itextpdf:itext7-core:${itext7Version}"
+  implementation "com.itextpdf:html2pdf:${itextPdfHtmlVersion}"
 }

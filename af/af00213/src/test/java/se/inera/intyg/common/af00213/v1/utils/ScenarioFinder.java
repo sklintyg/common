@@ -71,8 +71,7 @@ public final class ScenarioFinder {
 
     public static List<Scenario> getScenarios(String scenarioWithWildcards, String scenarioPath, String model)
         throws ScenarioNotFoundException {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
-        try {
+        try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext()) {
             Resource[] resources = context.getResources(scenarioPath + scenarioWithWildcards);
             ArrayList<Scenario> result = new ArrayList<>();
             if (resources.length < 1) {
@@ -84,8 +83,6 @@ public final class ScenarioFinder {
             return result;
         } catch (IOException e) {
             throw new ScenarioNotFoundException(scenarioPath + scenarioWithWildcards, model);
-        } finally {
-            context.close();
         }
     }
 
@@ -113,13 +110,10 @@ public final class ScenarioFinder {
 
     private static Scenario getScenario(String filename, String scenarioPath, String model)
         throws ScenarioNotFoundException {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
-        try {
+        try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext()) {
             return new FileBasedScenario(context.getResource(scenarioPath + filename).getFile());
         } catch (IOException e) {
             throw new ScenarioNotFoundException(filename, model);
-        } finally {
-            context.close();
         }
     }
 
@@ -177,12 +171,9 @@ public final class ScenarioFinder {
     }
 
     private static String model(String location) throws IOException {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
-        try {
+        try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext()) {
             Resource resource = context.getResource(location);
             return IOUtils.toString(resource.getInputStream());
-        } finally {
-            context.close();
         }
     }
 

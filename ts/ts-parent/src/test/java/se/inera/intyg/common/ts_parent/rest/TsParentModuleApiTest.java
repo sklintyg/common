@@ -106,8 +106,8 @@ public class TsParentModuleApiTest {
 
     private static final String INTYG_TYPE_VERSION_1 = "1.0";
 
-    private final String INTYG_ID = "test-id";
-    private final String LOGICAL_ADDRESS = "logicalAddress";
+    private static final String INTYG_ID = "test-id";
+    private static final String LOGICAL_ADDRESS = "logicalAddress";
 
     private static ClassPathResource getCertificateFile;
     private static ClassPathResource registerCertificateFile;
@@ -132,7 +132,7 @@ public class TsParentModuleApiTest {
     private ObjectMapper objectMapper = new CustomObjectMapper();
 
     public TsParentModuleApiTest() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @BeforeClass
@@ -529,7 +529,7 @@ public class TsParentModuleApiTest {
         updatedPatient.setMellannamn("updated middle-name");
         updatedPatient.setFornamn("updated firstName");
         updatedPatient.setFullstandigtNamn("updated full name");
-        updatedPatient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+        updatedPatient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
         updatedPatient.setPostadress("updated postal address");
         updatedPatient.setPostnummer("54321");
         updatedPatient.setPostort("updated post city");
@@ -545,7 +545,7 @@ public class TsParentModuleApiTest {
 
         private String textVersion;
 
-        private GrundData grundData = new GrundData();
+        private final GrundData grundData = new GrundData();
 
         private String signature;
 

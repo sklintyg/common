@@ -22,7 +22,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -51,7 +50,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
 public class PdfGeneratorTest {
 
     private static final String PDF_PATH = "build/pdf/";
-    private PdfGenerator testee = new PdfGenerator();
+    private final PdfGenerator testee = new PdfGenerator();
 
     @Test
     public void testGeneratePdf() throws IOException, ModuleException {
@@ -62,8 +61,9 @@ public class PdfGeneratorTest {
         String jsonModel = IOUtils.toString(new ClassPathResource("internal/scenarios/pass-complete.json").getInputStream(),
             StandardCharsets.UTF_8);
         PdfResponse pdfResponse = testee
-            .generatePdf(UUID.randomUUID().toString(), jsonModel, "1", Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
-                new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
+            .generatePdf(UUID.randomUUID().toString(), jsonModel, "1",
+                Personnummer.createPersonnummer("19121212-1212").orElseThrow(), intygTexts, new ArrayList<>(), ApplicationOrigin.WEBCERT,
+                UtkastStatus.SIGNED);
 
         final Path path = Paths.get(PDF_PATH, pdfResponse.getFilename());
 
@@ -76,7 +76,6 @@ public class PdfGeneratorTest {
         assertNotNull(pdfResponse);
         Pattern p = Pattern.compile("^af_lakarintyg_arbetsmarknadspolitiskt_program_[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");
         assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());
-
     }
 
 }

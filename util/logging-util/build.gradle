@@ -1,6 +1,6 @@
 dependencies {
-  compile "ch.qos.logback:logback-classic"
-  compile "org.springframework:spring-context"
+  implementation "ch.qos.logback:logback-classic"
+  api "org.springframework:spring-context"
 
   compileOnly "javax.servlet:javax.servlet-api"
 }

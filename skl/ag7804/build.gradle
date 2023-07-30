@@ -1,11 +1,13 @@
 dependencies {
-    compile project(':ag-parent')
-    compile project(':fk-parent')
-    compile project(':lisjp')
+    api project(':ag-parent')
+    api project(':fk-parent')
+    api project(':lisjp')
 
     compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
-    compile "com.google.auto.value:auto-value:${autovalueVersion}"
-    compile "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
+    implementation "com.google.auto.value:auto-value:${autovalueVersion}"
+    implementation "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
     annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
+
     testImplementation testFixtures(project(":common-support"))
+    testImplementation "org.apache.commons:commons-lang3"
 }

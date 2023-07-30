@@ -1,19 +1,18 @@
+compileJava.dependsOn(':common-web:jsInclude')
+
 dependencies {
-    compile project(":common-support")
-    compile project(":common-web")
-    compile project(":integration-util")
-    compile project(":common-services")
-    compile project(":common-schemas")
+    api project(":common-support")
+    implementation project(":common-web")
+    api project(":integration-util")
+    api project(":common-services")
+    implementation project(":common-schemas")
 
-    compile "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
-    compile "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schematron:${intygClinicalprocessSchematronVersion}"
+    implementation "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
+    implementation "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schematron:${intygClinicalprocessSchematronVersion}"
 
-    compile "com.itextpdf:itextpdf:${itextVersion}"
-    //compile "com.helger:ph-schematron:${phSchematronVersion}"
-    compile group: 'com.helger', name: 'ph-schematron', version: "${phSchematronVersion}",
-            {
-                exclude group: "com.helger", module: "ph-jaxb-pom"
-            }
-    compile "org.springframework:spring-tx"
+    api "com.itextpdf:itextpdf:${itextVersion}"
+    implementation ("com.helger:ph-schematron:${phSchematronVersion}") { exclude group: "com.helger", module: "ph-jaxb-pom" }
+
+    implementation "org.springframework:spring-tx"
     testImplementation testFixtures(project(":common-support"))
 }

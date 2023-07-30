@@ -122,14 +122,14 @@ public class TsTrk1062ModuleApiV1Test {
     @InjectMocks
     private TsTrk1062ModuleApiV1 moduleApi;
 
-    private final static String TEXT_VERSION = "v1";
-    private final static String INTERNAL_MODEL = "INTERNAL_MODEL";
-    private final static String INTYGS_ID = "IntygsId";
-    private final static String LOGICAL_ADDRESS = "LOGICAL_ADDRESS";
-    private final static String RECIPIENT_ID = "RECIPIENT_ID";
+    private static final String TEXT_VERSION = "v1";
+    private static final String INTERNAL_MODEL = "INTERNAL_MODEL";
+    private static final String INTYGS_ID = "IntygsId";
+    private static final String LOGICAL_ADDRESS = "LOGICAL_ADDRESS";
+    private static final String RECIPIENT_ID = "RECIPIENT_ID";
 
     public TsTrk1062ModuleApiV1Test() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -407,7 +407,7 @@ public class TsTrk1062ModuleApiV1Test {
         skapadAv.setFullstandigtNamn("Torsten Ericsson");
 
         Patient patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
         patient.setPostadress("postadress");
         patient.setPostnummer("11111");
         patient.setPostort("postort");

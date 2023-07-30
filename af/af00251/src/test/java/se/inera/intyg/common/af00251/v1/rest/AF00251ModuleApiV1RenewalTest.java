@@ -24,6 +24,7 @@ import static org.junit.Assert.assertNull;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.util.Objects;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -84,9 +85,9 @@ public class AF00251ModuleApiV1RenewalTest {
         assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
 
         // Relation should contain last one
-        assertEquals(original.getSjukfranvaro().get(3).getPeriod().getTom().asLocalDate(),
+        assertEquals(Objects.requireNonNull(Objects.requireNonNull(original.getSjukfranvaro()).get(3).getPeriod()).getTom().asLocalDate(),
             renewCopy.getGrundData().getRelation().getSistaGiltighetsDatum());
-        assertEquals(original.getSjukfranvaro().get(3).getNiva().toString(),
+        assertEquals(Objects.requireNonNull(original.getSjukfranvaro().get(3).getNiva()).toString(),
             renewCopy.getGrundData().getRelation().getSistaSjukskrivningsgrad());
     }
 

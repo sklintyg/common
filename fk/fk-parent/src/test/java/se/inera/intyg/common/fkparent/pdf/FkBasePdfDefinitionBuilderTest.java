@@ -53,9 +53,9 @@ public class FkBasePdfDefinitionBuilderTest {
 
     private static final String FKASSA_RECIPIENT_ID = "FKASSA";
 
-    private IntygTexts intygTexts = getIntygTexts();
+    private final IntygTexts intygTexts = getIntygTexts();
 
-    private class FkBasePdfDefinitionBuilderForTest extends FkBasePdfDefinitionBuilder {
+    private static class FkBasePdfDefinitionBuilderForTest extends FkBasePdfDefinitionBuilder {
 
         public FkBasePdfDefinitionBuilderForTest(IntygTexts intygTexts) {
             this.intygTexts = intygTexts;
@@ -66,7 +66,7 @@ public class FkBasePdfDefinitionBuilderTest {
     private FkBasePdfDefinitionBuilder builder = new FkBasePdfDefinitionBuilderForTest(intygTexts);
 
     @Test
-    public void testIsSentToFk() throws Exception {
+    public void testIsSentToFk() {
 
         assertFalse(builder.isSentToFk(null));
 
@@ -86,7 +86,7 @@ public class FkBasePdfDefinitionBuilderTest {
     }
 
     @Test
-    public void testIsMakulerad() throws Exception {
+    public void testIsMakulerad() {
 
         assertFalse(builder.isMakulerad(null));
 
@@ -106,7 +106,7 @@ public class FkBasePdfDefinitionBuilderTest {
     }
 
     @Test
-    public void testNullSafeString() throws Exception {
+    public void testNullSafeString() {
         InternalDate date = null;
         assertEquals("", builder.nullSafeString(date));
 
@@ -166,7 +166,7 @@ public class FkBasePdfDefinitionBuilderTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetTextMissingText() throws Exception {
+    public void testGetTextMissingText() {
         builder.getText(KEY_MISSING_TEXT);
     }
 

@@ -23,6 +23,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.services.texts.model.Tillaggsfraga;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepositoryImpl;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -52,8 +53,8 @@ public class IntygTextsLuaenaRepositoryTestHelper extends IntygTextsRepositoryIm
             String intygsTyp = root.getAttribute("typ").toLowerCase();
             LocalDate giltigFrom = super.getDate(root, "giltigFrom");
             LocalDate giltigTo = super.getDate(root, "giltigTom");
-            SortedMap texts = super.getTexter(root);
-            List tillaggsFragor = this.getTillaggsfragor(e);
+            SortedMap<String, String> texts = super.getTexter(root);
+            List<Tillaggsfraga> tillaggsFragor = this.getTillaggsfragor(e);
 
             Properties prop = new Properties();
             prop.putAll(ImmutableMap

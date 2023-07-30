@@ -1,9 +1,9 @@
 dependencies {
-    compile project(':sos_parent')
+    implementation project(':sos_parent')
 
     compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
-    compile "com.google.auto.value:auto-value:${autovalueVersion}"
-    compile "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
+    implementation "com.google.auto.value:auto-value:${autovalueVersion}"
+    implementation "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
     annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
     testImplementation testFixtures(project(":common-support"))
 }
