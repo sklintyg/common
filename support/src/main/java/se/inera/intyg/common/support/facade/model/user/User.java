@@ -45,6 +45,7 @@ public class User {
     private boolean protectedPerson;
     private List<CareProvider> careProviders;
     private String launchId;
+    private String launchFromOrigin;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class UserBuilder {
