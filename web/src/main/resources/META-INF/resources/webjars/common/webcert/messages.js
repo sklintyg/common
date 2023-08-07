@@ -723,7 +723,7 @@
             'common.validation.future.datum': 'Ange ett giltigt datum. Framtida datum ger inga resultat.',
             'common.validation.previous.datum': 'Ange ett giltigt datum. Datumet är för långt bak i tiden.',
             'common.validation.date.today.or.earlier': 'Ange dagens eller ett tidigare datum.',
-            'common.validation.date.beforeLastYear': 'Ange ett datum, samma som eller senare än 1 januari föregående året.',
+            'common.validation.date.beforePatientBirthDate': 'Ange ett datum, samma som eller senare än patientens födelsedatum.',
             'common.validation.diagnos.missing': 'Ange minst en diagnos.',
             'common.validation.diagnos.codemissing': 'Ange diagnoskod.',
             'common.validation.diagnos.invalid': 'Diagnoskod är ej giltig.',
