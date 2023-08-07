@@ -127,7 +127,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
                     ValidatorUtil
                         .addValidationErrorWithQuestionId(validationMessages, "yttreUndersokning", UNDERSOKNING_DATUM_JSON_ID,
                             ValidationMessageType.OTHER,
-                            "db.validation.undersokningDatum.before.beginningOflastYear", UNDERSOKNING_DATUM_DELSVAR_ID);
+                            "common.validation.date.beforePatientBirthDate", UNDERSOKNING_DATUM_DELSVAR_ID);
                 }
             }
         }
