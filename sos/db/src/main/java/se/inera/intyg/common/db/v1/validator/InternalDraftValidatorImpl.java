@@ -122,11 +122,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
                         .addValidationErrorWithQuestionId(validationMessages, "yttreUndersokning", UNDERSOKNING_DATUM_JSON_ID,
                             ValidationMessageType.INCORRECT_COMBINATION,
                             "db.validation.undersokningDatum.after.antraffatDodDatum", UNDERSOKNING_DATUM_DELSVAR_ID);
-                } else if (utlatande.getUndersokningDatum().isBeforeBeginningOfLastYear()) {
+                } else if (utlatande.getUndersokningDatum().isBefore(ValidatorUtil.getBirthDateFromPersonnummer(
+                    utlatande.getGrundData().getPatient().getPersonId()))) {
                     ValidatorUtil
                         .addValidationErrorWithQuestionId(validationMessages, "yttreUndersokning", UNDERSOKNING_DATUM_JSON_ID,
                             ValidationMessageType.OTHER,
-                            "db.validation.undersokningDatum.before.beginningOflastYear", UNDERSOKNING_DATUM_DELSVAR_ID);
+                            "common.validation.date.beforePatientBirthDate", UNDERSOKNING_DATUM_DELSVAR_ID);
                 }
             }
         }
