@@ -89,12 +89,14 @@ import org.springframework.util.StringUtils;
 import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
+import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
 import se.inera.intyg.common.lisjp.model.internal.Prognos;
 import se.inera.intyg.common.lisjp.model.internal.PrognosDagarTillArbeteTyp;
 import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
+import se.inera.intyg.common.lisjp.model.internal.Sysselsattning.SysselsattningsTyp;
 import se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillResult.PrefillEventType;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1.Builder;
@@ -131,6 +133,7 @@ public class PrefillHandler {
     static final String WARNING_INVALID_DATEPERIOD_CONTENT = "Ignoring - failed to parse DatePeriod";
     static final String WARNING_INVALID_DATE_CONTENT = "Ignoring - expected a date string in format yyyy-MM-dd";
     static final String WARNING_MISSING_DATE_DEFAULTING_TO = "No valid yyyy-MM-dd date provided for delsvar %s - defaulting to %s";
+    static final String INFO_DUPLICATE_VALUES = "Value already exists and will be ignored";
     private static final String WARNING_MISSING_MANDATORY_CVTYPE_FOR_DELSVAR = "Ignoring - Missing mandatory CVType for delsvar %s";
     private static final String WARNING_INVALID_SVAR_ID = "Ignoring - invalid svar id";
     private static final String WARNING_INVALID_DELSVAR_ID = "Ignoring - invalid delsvar id";
@@ -172,7 +175,7 @@ public class PrefillHandler {
                             handleGrundForMedicinsktUnderlag(utlatande, svar, pr);
                             break;
                         case TYP_AV_SYSSELSATTNING_SVAR_ID_28:
-                            handleSysselsattning(sysselsattning, svar);
+                            handleSysselsattning(sysselsattning, svar, pr);
                             break;
                         case NUVARANDE_ARBETE_SVAR_ID_29:
                             handleNuvarandeArbete(utlatande, svar);
@@ -208,7 +211,7 @@ public class PrefillHandler {
                             handlePrognos(utlatande, svar);
                             break;
                         case ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40:
-                            handleArbetslivsinriktadeAtgarder(arbetslivsinriktadeAtgarder, svar);
+                            handleArbetslivsinriktadeAtgarder(arbetslivsinriktadeAtgarder, svar, pr);
                             break;
                         case ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44:
                             handleArbetslivsinriktadeAtgarderBeskrivning(utlatande, svar);
@@ -319,7 +322,8 @@ public class PrefillHandler {
 
     }
 
-    private void handleArbetslivsinriktadeAtgarder(List<ArbetslivsinriktadeAtgarder> arbetslivsinriktadeAtgarder, Svar svar)
+    private void handleArbetslivsinriktadeAtgarder(List<ArbetslivsinriktadeAtgarder> arbetslivsinriktadeAtgarder, Svar svar,
+        PrefillResult pr)
         throws PrefillWarningException {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
@@ -327,8 +331,9 @@ public class PrefillHandler {
                     String arbetslivsinriktadeAtgarderValKod = getValidatedCVTypeCodeContent(delsvar,
                         ARBETSLIVSINRIKTADE_ATGARDER_CODE_SYSTEM);
                     try {
-                        arbetslivsinriktadeAtgarder.add(ArbetslivsinriktadeAtgarder
-                            .create(ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal.fromId(arbetslivsinriktadeAtgarderValKod)));
+                        final var arbetslivsinriktadAtgard = ArbetslivsinriktadeAtgarder
+                            .create(ArbetslivsinriktadeAtgarderVal.fromId(arbetslivsinriktadeAtgarderValKod));
+                        addIfNotPresentOrElseLog(arbetslivsinriktadeAtgarder, arbetslivsinriktadAtgard, pr, svar);
                     } catch (Exception e) {
                         throw new PrefillWarningException(delsvar, WARNING_INVALID_CVTYPE_CODE_VALUE);
                     }
@@ -455,9 +460,8 @@ public class PrefillHandler {
                 String.format(WARNING_MISSING_DATE_DEFAULTING_TO, BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32, defaultStartDate));
             period = new InternalLocalDateInterval(defaultStartDate.toString(), "");
         }
-
-        sjukskrivningar.add(Sjukskrivning.create(sjukskrivningsgrad, period));
-
+        final var sjukskrivning = Sjukskrivning.create(sjukskrivningsgrad, period);
+        addIfNotPresentOrElseLog(sjukskrivningar, sjukskrivning, pr, svar);
     }
 
 
@@ -486,14 +490,15 @@ public class PrefillHandler {
         }
     }
 
-    private void handleSysselsattning(List<Sysselsattning> sysselsattning, Svar svar) throws PrefillWarningException {
+    private void handleSysselsattning(List<Sysselsattning> sysselsattningar, Svar svar, PrefillResult pr) throws PrefillWarningException {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case TYP_AV_SYSSELSATTNING_DELSVAR_ID_28:
                     String sysselsattningsTypString = getValidatedCVTypeCodeContent(delsvar,
                         TYP_AV_SYSSELSATTNING_CODE_SYSTEM);
                     try {
-                        sysselsattning.add(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.fromId(sysselsattningsTypString)));
+                        final var sysselsattning = Sysselsattning.create(SysselsattningsTyp.fromId(sysselsattningsTypString));
+                        addIfNotPresentOrElseLog(sysselsattningar, sysselsattning, pr, svar);
                     } catch (Exception e) {
                         throw new PrefillWarningException(delsvar, WARNING_INVALID_CVTYPE_CODE_VALUE);
                     }
@@ -502,6 +507,14 @@ public class PrefillHandler {
                 default:
                     throw new PrefillWarningException(delsvar, WARNING_INVALID_DELSVAR_ID);
             }
+        }
+    }
+
+    public static <T> void addIfNotPresentOrElseLog(List<T> list, T entry, PrefillResult pr, Svar svar) {
+        if (list.contains(entry)) {
+            pr.addMessage(PrefillEventType.INFO, svar, INFO_DUPLICATE_VALUES);
+        } else {
+            list.add(entry);
         }
     }
 
@@ -644,28 +657,30 @@ public class PrefillHandler {
                 diagnosBeskrivning = handleDiagnoseLookup(pr, diagnosKod, diagnoskodverk.name(),
                     DIAGNOS_BESKRIVNING_DELSVAR_ID_6);
             }
-            diagnoser.add(Diagnos.create(diagnosKod, diagnoskodverk.toString(), diagnosBeskrivning, diagnosDisplayName));
+            final var diagnos = Diagnos.create(diagnosKod, diagnoskodverk.toString(), diagnosBeskrivning, diagnosDisplayName);
+            addIfNotPresentOrElseLog(diagnoser, diagnos, pr, svar);
         }
         if (bidiagnosKod1 != null) {
             if (StringUtils.isEmpty(bidiagnosBeskrivning1)) {
                 bidiagnosBeskrivning1 = handleDiagnoseLookup(pr, bidiagnosKod1, bidiagnoskodverk1.name(),
                     BIDIAGNOS_1_BESKRIVNING_DELSVAR_ID_6);
             }
-            diagnoser.add(Diagnos.create(bidiagnosKod1, bidiagnoskodverk1.toString(), bidiagnosBeskrivning1, bidiagnosDisplayName1));
-
+            final var diagnos = Diagnos.create(bidiagnosKod1, bidiagnoskodverk1.toString(), bidiagnosBeskrivning1, bidiagnosDisplayName1);
+            addIfNotPresentOrElseLog(diagnoser, diagnos, pr, svar);
         }
         if (bidiagnosKod2 != null) {
             if (StringUtils.isEmpty(bidiagnosBeskrivning2)) {
                 bidiagnosBeskrivning2 = handleDiagnoseLookup(pr, bidiagnosKod2, bidiagnoskodverk2.name(),
                     BIDIAGNOS_2_BESKRIVNING_DELSVAR_ID_6);
             }
-            diagnoser.add(Diagnos.create(bidiagnosKod2, bidiagnoskodverk2.toString(), bidiagnosBeskrivning2, bidiagnosDisplayName2));
+            final var diagnos = Diagnos.create(bidiagnosKod2, bidiagnoskodverk2.toString(), bidiagnosBeskrivning2, bidiagnosDisplayName2);
+            addIfNotPresentOrElseLog(diagnoser, diagnos, pr, svar);
         }
     }
 
     private void ensureKnownAndValidDiagnosisCode(Delsvar delsvar, CVType diagnos) throws PrefillWarningException {
         if (!moduleService.validateDiagnosisCodeFormat(diagnos.getCode())
-                || !moduleService.validateDiagnosisCode(diagnos.getCode(), Diagnoskodverk.getEnumByCodeSystem(diagnos.getCodeSystem()))) {
+            || !moduleService.validateDiagnosisCode(diagnos.getCode(), Diagnoskodverk.getEnumByCodeSystem(diagnos.getCodeSystem()))) {
             throw new PrefillWarningException(delsvar, WARNING_INVALID_CVTYPE_CODE_VALUE + " for diagnosis code " + diagnos.getCode());
         }
     }
