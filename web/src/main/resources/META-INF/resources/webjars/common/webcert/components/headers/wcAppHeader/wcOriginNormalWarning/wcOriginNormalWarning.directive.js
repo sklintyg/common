@@ -48,11 +48,10 @@ angular.module('common').directive('wcOriginNormalWarning',
                 }
               });
             };
-
             var shouldOriginNormalWarningDialogBeDisplayed = function() {
               return UserModel.user.origin === 'NORMAL' &&
                   featureService.isFeatureActive(featureService.features.VARNING_FRISTAENDE) &&
-                  !$window.sessionStorage[careProviderHSAWithoutDash] && !UserModel.user.fromRehabstod;
+                  !$window.sessionStorage[careProviderHSAWithoutDash] && !UserModel.user.launchFromOrgin;
             };
 
             if (shouldOriginNormalWarningDialogBeDisplayed()) {

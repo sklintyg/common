@@ -98,7 +98,7 @@ angular.module('ag7804').config(function($stateProvider) {
         }).
         state('webcert.fragasvar.ag7804', {
             data: { defaultActive : 'index', intygType: 'ag7804' },
-            url: '/fragasvar/ag7804/:intygTypeVersion/:certificateId?origin=normal',
+            url: '/fragasvar/ag7804/:intygTypeVersion/:certificateId',
             resolve: {
                 ViewState: 'ag7804.IntygController.ViewStateService',
                 ViewConfigFactory: viewConfig,
