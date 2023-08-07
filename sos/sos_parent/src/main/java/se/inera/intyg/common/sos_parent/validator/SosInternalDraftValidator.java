@@ -110,7 +110,7 @@ public final class SosInternalDraftValidator {
                     ValidationMessageType.OTHER, "common.validation.date.beforePatientBirthDate", DODSDATUM_OSAKERT_DELSVAR_ID);
             }
         }
-        LocalDate patientBirthDate = ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId());
+        final var patientBirthDate = ValidatorUtil.getBirthDateFromPersonnummer(utlatande.getGrundData().getPatient().getPersonId());
         // R3
         if (!utlatande.getDodsdatumSakert()) {
 
