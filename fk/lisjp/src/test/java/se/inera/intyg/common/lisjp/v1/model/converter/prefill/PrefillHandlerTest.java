@@ -316,6 +316,19 @@ public class PrefillHandlerTest {
                 .count());
     }
 
+    @Test
+    public void shouldLogIgnoredDuplicatedPrefillValues() {
+        final var expectedSvarId = List.of("28", "32", "40");
+        final var scenario = new PrefillScenario("lisjp-duplicated-values");
+        final var template = getEmptyUtlatande();
+        final var result = testee.prefill(template, scenario.getForifyllnad());
+        for (SvarResult message : result.getMessages()) {
+            assertEquals(message.getEventType(), PrefillEventType.INFO);
+            assertTrue(expectedSvarId.contains(message.getSvarId()));
+            assertEquals(message.getMessage(), "Value already exists and will be ignored");
+        }
+    }
+
 
     private Builder getEmptyUtlatande() {
         Builder template = LisjpUtlatandeV1.builder();
