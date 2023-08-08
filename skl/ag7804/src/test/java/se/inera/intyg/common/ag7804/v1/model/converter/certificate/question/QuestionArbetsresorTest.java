@@ -95,7 +95,7 @@ class QuestionArbetsresorTest {
 
         @Test
         void shouldIncludeQuestionElement() {
-            final var expectedIndex = 22;
+            final var expectedIndex = 20;
 
             final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
