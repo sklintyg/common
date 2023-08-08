@@ -97,7 +97,7 @@ class QuestionMotiveringArbetstidsforlaggningTest {
 
         @Test
         void shouldIncludeQuestionElement() {
-            final var expectedIndex = 22;
+            final var expectedIndex = 23;
 
             final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
