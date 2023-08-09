@@ -23,10 +23,6 @@ angular.module('doi').factory('doi.UtkastConfigFactory.v1',
             'use strict';
 
             var today = moment().format('YYYY-MM-DD');
-            var beginningOfLastYear = moment()
-                .subtract(1, 'year')
-                .dayOfYear(1)
-                .format('YYYY-MM-DD');
 
             function _getCategoryIds() {
                 // Validation category names matched with backend message strings from InternalDraftValidator
@@ -47,13 +43,14 @@ angular.module('doi').factory('doi.UtkastConfigFactory.v1',
                 var kategori = ueFactoryTemplates.kategori;
                 var fraga = ueFactoryTemplates.fraga;
                 var patient = ueSOSFactoryTemplates.patient(viewState);
+                var patientBirthDate = ueSOSFactoryTemplates.patientBirthDate(viewState.common.__utlatandeJson.content.grundData.patient.personId);
 
                 var config = [
 
                     patient,
 
                     ueSOSFactoryTemplates.identitet(categoryIds[1], true),
-                    ueSOSFactoryTemplates.dodsDatum(categoryIds[2]),
+                    ueSOSFactoryTemplates.dodsDatum(categoryIds[2], patientBirthDate),
                     ueSOSFactoryTemplates.barn(categoryIds[3]),
                     kategori(categoryIds[7], 'KAT_7.RBK', 'KAT_7.HLP', {}, [
                         fraga(null, '', '', {}, [{
@@ -153,7 +150,7 @@ angular.module('doi').factory('doi.UtkastConfigFactory.v1',
                             {
                                 modelProp: 'operationDatum',
                                 type: 'ue-date',
-                                minDate: beginningOfLastYear,
+                                minDate: patientBirthDate,
                                 maxDate: today,
                                 watcher: {
                                     expression: 'model.dodsdatumSakert ? model.dodsdatum : model.antraffatDodDatum',

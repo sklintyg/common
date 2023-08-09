@@ -39,11 +39,11 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
         }
 
         return {
-
+    
             patient: _patient,
-
-            identitet: function(categoryName, useFraga14){
-
+    
+            identitet: function(categoryName, useFraga14) {
+        
                 var fragor = [
                     fraga(1, '', '', {}, [
                         {
@@ -60,8 +60,8 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                         }
                     ])
                 ];
-
-                if(useFraga14){
+        
+                if (useFraga14) {
                     fragor.push(fraga(14, '', '', {}, [
                         {
                             modelProp: 'land',
@@ -76,24 +76,24 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                         }
                     ]));
                 }
-
+        
                 return kategori(categoryName, 'KAT_1.RBK', 'KAT_1.HLP', {}, fragor);
             },
-            dodsDatum: function(categoryName){
+            dodsDatum: function(categoryName, patientBirthDate) {
                 return kategori(categoryName, 'KAT_2.RBK', 'KAT_2.HLP', {}, [
-                    fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', { required: true, requiredProp: 'dodsdatumSakert' }, [
+                    fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', {required: true, requiredProp: 'dodsdatumSakert'}, [
                         {
                             modelProp: 'dodsdatumSakert',
                             type: 'ue-radio',
                             yesLabel: 'SVAR_SAKERT.RBK',
                             noLabel: 'SVAR_EJ_SAKERT.RBK'
                         }
-                        ]),
-                    fraga(2, '', '', { required: true }, [
+                    ]),
+                    fraga(2, '', '', {required: true}, [
                         {
                             modelProp: 'dodsdatum',
                             type: 'ue-date',
-                            minDate: beginningOfLastYear,
+                            minDate: patientBirthDate,
                             maxDate: today,
                             hideExpression: 'model.dodsdatumSakert !== true',
                             label: {key: 'DFR_2.2.RBK', helpKey: 'DFR_2.2.HLP', required: true, requiredProp: 'dodsdatum'}
@@ -105,16 +105,16 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                             label: {key: 'DFR_2.2.RBK', helpKey: 'DFR_2.2.HLP', required: true, requiredProp: 'dodsdatum'}
                         }
                     ]),
-                    fraga(2, '', '', { required: true }, [
+                    fraga(2, '', '', {required: true}, [
                         {
                             modelProp: 'antraffatDodDatum',
                             type: 'ue-date',
-                            minDate: beginningOfLastYear,
+                            minDate: patientBirthDate,
                             maxDate: today,
                             hideExpression: 'model.dodsdatumSakert !== false',
                             label: {key: 'DFR_2.3.RBK', helpKey: 'DFR_2.2.HLP', required: true, requiredProp: 'antraffatDodDatum'}
                         }
-                        ]),
+                    ]),
                     fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', {}, [
                         {
                             modelProp: 'dodsplatsKommun',
@@ -137,10 +137,10 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                             type: 'ue-radiogroup',
                             code: 'DODSPLATS_BOENDE',
                             choices: [
-                                {label:'DODSPLATS_BOENDE.SJUKHUS.RBK', id:'SJUKHUS'},
-                                {label:'DODSPLATS_BOENDE.ORDINART_BOENDE.RBK', id:'ORDINART_BOENDE'},
-                                {label:'DODSPLATS_BOENDE.SARSKILT_BOENDE.RBK', id:'SARSKILT_BOENDE'},
-                                {label:'DODSPLATS_BOENDE.ANNAN.RBK', id:'ANNAN'}
+                                {label: 'DODSPLATS_BOENDE.SJUKHUS.RBK', id: 'SJUKHUS'},
+                                {label: 'DODSPLATS_BOENDE.ORDINART_BOENDE.RBK', id: 'ORDINART_BOENDE'},
+                                {label: 'DODSPLATS_BOENDE.SARSKILT_BOENDE.RBK', id: 'SARSKILT_BOENDE'},
+                                {label: 'DODSPLATS_BOENDE.ANNAN.RBK', id: 'ANNAN'}
                             ],
                             label: {
                                 key: 'DFR_3.2.RBK',
@@ -152,7 +152,7 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                     ])
                 ]);
             },
-            barn: function(categoryName){
+            barn: function(categoryName) {
                 return kategori(categoryName, 'KAT_3.RBK', 'KAT_3.HLP', {}, [
                     fraga(4, '', '', {}, [
                         {
@@ -165,11 +165,11 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                             watcher: {
                                 expression: 'model.dodsdatumSakert ? model.dodsdatum : null',
                                 listener: function _barnDodsDatumListener(newValue, oldValue, scope) {
-                                    var birthDate = dateUtils.toMomentStrict(PersonIdValidator.getBirthDate(scope.model.grundData.patient.personId));
+                                    var birthDate = dateUtils.toMomentStrict(
+                                        PersonIdValidator.getBirthDate(scope.model.grundData.patient.personId));
                                     if (!birthDate) {
                                         $log.error('Invalid personnummer in _barnDodsDatumListener');
-                                    }
-                                    else {
+                                    } else {
                                         var barn28DagarDate = birthDate.add(28, 'days');
                                         var dodsDatum = dateUtils.toMomentStrict(newValue);
                                         if (dodsDatum && dodsDatum.isValid() &&
@@ -187,12 +187,12 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                                     }
                                 }
                             }
-                        },{
+                        }, {
                             type: 'ue-alert',
                             alertType: 'info',
                             hideExpression: '!form.formState.barnForced || !model.barn',
                             key: 'DFR_4.1_INOM28.INFO'
-                        },{
+                        }, {
                             type: 'ue-alert',
                             alertType: 'info',
                             hideExpression: '!form.formState.barnForced || model.barn',
@@ -200,6 +200,9 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                         }
                     ])
                 ]);
+            },
+            patientBirthDate: function(patientId) {
+                return dateUtils.toMomentStrict(PersonIdValidator.getBirthDate(patientId));
             }
         };
     }]);
