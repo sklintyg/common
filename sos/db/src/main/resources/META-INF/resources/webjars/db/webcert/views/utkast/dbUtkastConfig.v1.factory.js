@@ -21,7 +21,7 @@ angular.module('db').factory('db.UtkastConfigFactory.v1',
         'common.DateUtilsService', 'common.ueFactoryTemplatesHelper', 'common.ueSOSFactoryTemplatesHelper',
         function($log, $timeout, DateUtils, ueFactoryTemplates, ueSOSFactoryTemplates) {
             'use strict';
-
+            
             function _getCategoryIds() {
                 // Validation category names matched with backend message strings from InternalDraftValidator
                 return {
@@ -33,17 +33,14 @@ angular.module('db').factory('db.UtkastConfigFactory.v1',
                     6: 'polisanmalan'
                 };
             }
-
+            
             function _getConfig(viewState) {
                 var categoryIds = _getCategoryIds();
-
+                
                 var kategori = ueFactoryTemplates.kategori;
                 var fraga = ueFactoryTemplates.fraga;
                 var patient = ueSOSFactoryTemplates.patient(viewState);
-                var beginningOfLastYear = moment()
-                    .subtract(1, 'year')
-                    .dayOfYear(1)
-                    .format('YYYY-MM-DD');
+                var patientBirthDate = ueSOSFactoryTemplates.patientBirthDate(viewState.common.__utlatandeJson.content.grundData.patient.personId);
                 var today = moment().format('YYYY-MM-DD');
 
                 var config = [
@@ -51,7 +48,7 @@ angular.module('db').factory('db.UtkastConfigFactory.v1',
                     patient,
 
                     ueSOSFactoryTemplates.identitet(categoryIds[1], false),
-                    ueSOSFactoryTemplates.dodsDatum(categoryIds[2]),
+                    ueSOSFactoryTemplates.dodsDatum(categoryIds[2], patientBirthDate),
                     ueSOSFactoryTemplates.barn(categoryIds[3]),
 
                     kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {}, [
@@ -98,7 +95,7 @@ angular.module('db').factory('db.UtkastConfigFactory.v1',
                             }
                         }, {
                             type: 'ue-date',
-                            minDate: beginningOfLastYear,
+                            minDate: patientBirthDate,
                             maxDate: today,
                             modelProp: 'undersokningDatum',
                             hideExpression: 'model.undersokningYttre != "DETALJER_UNDERSOKNING.UNDERSOKNING_GJORT_KORT_FORE_DODEN"',
