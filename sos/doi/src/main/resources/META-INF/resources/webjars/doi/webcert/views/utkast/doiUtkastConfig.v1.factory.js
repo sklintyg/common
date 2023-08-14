@@ -156,7 +156,7 @@ angular.module('doi').factory('doi.UtkastConfigFactory.v1',
                                     expression: 'model.dodsdatumSakert ? model.dodsdatum : model.antraffatDodDatum',
                                     listener: function _operationsMinMaxDateListener(newValue, oldValue, scope) {
                                         var minDate = (scope.model.dodsdatum ? moment(scope.model.dodsdatum)
-                                            .subtract(4, 'week').format('YYYY-MM-DD') : beginningOfLastYear);
+                                            .subtract(4, 'week').format('YYYY-MM-DD') : patientBirthDate);
                                         scope.config.minDate = minDate;
                                         scope.config.maxDate = newValue ? newValue : today;
                                     }

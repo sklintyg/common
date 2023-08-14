@@ -21,7 +21,6 @@ angular.module('db').factory('db.UtkastConfigFactory.v1',
         'common.DateUtilsService', 'common.ueFactoryTemplatesHelper', 'common.ueSOSFactoryTemplatesHelper',
         function($log, $timeout, DateUtils, ueFactoryTemplates, ueSOSFactoryTemplates) {
             'use strict';
-            
             function _getCategoryIds() {
                 // Validation category names matched with backend message strings from InternalDraftValidator
                 return {
@@ -33,10 +32,8 @@ angular.module('db').factory('db.UtkastConfigFactory.v1',
                     6: 'polisanmalan'
                 };
             }
-            
             function _getConfig(viewState) {
                 var categoryIds = _getCategoryIds();
-                
                 var kategori = ueFactoryTemplates.kategori;
                 var fraga = ueFactoryTemplates.fraga;
                 var patient = ueSOSFactoryTemplates.patient(viewState);

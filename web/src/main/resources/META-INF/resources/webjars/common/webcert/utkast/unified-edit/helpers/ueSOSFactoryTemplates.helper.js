@@ -26,11 +26,6 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
         var fraga = ueFactoryTemplates.fraga;
         var today = moment().format('YYYY-MM-DD');
 
-        var beginningOfLastYear = moment()
-            .subtract(1, 'year')
-            .dayOfYear(1)
-            .format('YYYY-MM-DD');
-
         function _patient(viewState) {
             function _shouldDisableAddressInputWhen(model) {
                 return viewState.common.validPatientAddressAquiredFromPU;
@@ -39,11 +34,11 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
         }
 
         return {
-    
+
             patient: _patient,
-    
-            identitet: function(categoryName, useFraga14) {
-        
+
+            identitet: function(categoryName, useFraga14){
+
                 var fragor = [
                     fraga(1, '', '', {}, [
                         {
@@ -76,10 +71,10 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                         }
                     ]));
                 }
-        
+
                 return kategori(categoryName, 'KAT_1.RBK', 'KAT_1.HLP', {}, fragor);
             },
-            dodsDatum: function(categoryName, patientBirthDate) {
+            dodsDatum: function(categoryName, patientBirthDate){
                 return kategori(categoryName, 'KAT_2.RBK', 'KAT_2.HLP', {}, [
                     fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', {required: true, requiredProp: 'dodsdatumSakert'}, [
                         {
@@ -152,7 +147,7 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                     ])
                 ]);
             },
-            barn: function(categoryName) {
+            barn: function(categoryName){
                 return kategori(categoryName, 'KAT_3.RBK', 'KAT_3.HLP', {}, [
                     fraga(4, '', '', {}, [
                         {
@@ -187,12 +182,12 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                                     }
                                 }
                             }
-                        }, {
+                        },{
                             type: 'ue-alert',
                             alertType: 'info',
                             hideExpression: '!form.formState.barnForced || !model.barn',
                             key: 'DFR_4.1_INOM28.INFO'
-                        }, {
+                        },{
                             type: 'ue-alert',
                             alertType: 'info',
                             hideExpression: '!form.formState.barnForced || model.barn',
@@ -201,7 +196,7 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                     ])
                 ]);
             },
-            patientBirthDate: function(patientId) {
+            patientBirthDate: function(patientId){
                 return dateUtils.toMomentStrict(PersonIdValidator.getBirthDate(patientId));
             }
         };
