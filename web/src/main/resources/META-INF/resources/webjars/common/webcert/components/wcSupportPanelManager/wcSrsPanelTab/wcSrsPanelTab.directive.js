@@ -520,9 +520,9 @@ angular.module('common').directive('wcSrsPanelTab',
                     if ($scope.srs.srsApplicable) {
                         $scope.logSrsPanelActivated();
                     }
-                    if ($scope.config.isReadOnly) {
+                    if ($scope.config.isReadOnly || $scope.config.intygContext.isSigned) {
                         $scope.srs.isReadOnly = true;
-                        $scope.srs.userClientContext = 'SRS_REH'; // Rehabstöd
+                        $scope.srs.userClientContext = $scope.config.isReadOnly ? 'SRS_REH' : 'SRS_SIGNED';
                         $scope.srs.isForlangning = false;
                         $scope.srs.intygId = $scope.config.intygContext.id;
 

@@ -60,7 +60,6 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory',
                     tooltip: 'common.supportpanel.srs.tooltip',
                     config: {
                         intygContext: config.intygContext,
-                        readOnly: isSigned
                     },
                     active: !_anyTabActive()
                 });
