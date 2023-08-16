@@ -36,14 +36,19 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
+import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
+import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
+import se.inera.intyg.common.lisjp.model.internal.Sysselsattning.SysselsattningsTyp;
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
 import se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillResult.PrefillEventType;
 import se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillResult.SvarResult;
@@ -246,6 +251,85 @@ public class PrefillHandlerTest {
         }
     }
 
+    @Test
+    public void shouldIgnoreDuplicatedPrefillValuesForSysselsattning() {
+        final var scenario = new PrefillScenario("lisjp-duplicated-values");
+        final var template = getEmptyUtlatande();
+        testee.prefill(template, scenario.getForifyllnad());
+        final var utlatande = template.build();
+        assertEquals(4, Objects.requireNonNull(utlatande.getSysselsattning()).size());
+        assertEquals(1,
+            utlatande.getSysselsattning()
+                .stream()
+                .filter(Objects::nonNull)
+                .map(Sysselsattning::getTyp)
+                .filter(typ -> typ == SysselsattningsTyp.ARBETSSOKANDE)
+                .count());
+    }
+
+    @Test
+    public void shouldIgnoreDuplicatedPrefillValuesForDiagnos() {
+        final var scenario = new PrefillScenario("lisjp-duplicated-values");
+        final var template = getEmptyUtlatande();
+        testee.prefill(template, scenario.getForifyllnad());
+        final var utlatande = template.build();
+        assertEquals(3, Objects.requireNonNull(utlatande.getDiagnoser()).size());
+        assertEquals(1,
+            utlatande.getDiagnoser()
+                .stream()
+                .filter(Objects::nonNull)
+                .map(Diagnos::getDiagnosKod)
+                .filter(Objects::nonNull)
+                .filter(typ -> typ.equals("J22"))
+                .count());
+    }
+
+    @Test
+    public void shouldIgnoreDuplicatedPrefillValuesForSjukskrivningar() {
+        final var scenario = new PrefillScenario("lisjp-duplicated-values");
+        final var template = getEmptyUtlatande();
+        testee.prefill(template, scenario.getForifyllnad());
+        final var utlatande = template.build();
+        assertEquals(4, Objects.requireNonNull(utlatande.getSjukskrivningar()).size());
+        assertEquals(1,
+            utlatande.getSjukskrivningar()
+                .stream()
+                .filter(Objects::nonNull)
+                .map(Sjukskrivning::getSjukskrivningsgrad)
+                .filter(typ -> typ == SjukskrivningsGrad.HELT_NEDSATT)
+                .count());
+    }
+
+    @Test
+    public void shouldIgnoreDuplicatedPrefillValuesForAktivitetskategorier() {
+        final var scenario = new PrefillScenario("lisjp-duplicated-values");
+        final var template = getEmptyUtlatande();
+        testee.prefill(template, scenario.getForifyllnad());
+        final var utlatande = template.build();
+        assertEquals(10, Objects.requireNonNull(utlatande.getArbetslivsinriktadeAtgarder()).size());
+        assertEquals(1,
+            utlatande.getArbetslivsinriktadeAtgarder()
+                .stream()
+                .filter(Objects::nonNull)
+                .map(ArbetslivsinriktadeAtgarder::getTyp)
+                .filter(typ -> typ == ArbetslivsinriktadeAtgarderVal.ARBETSTRANING)
+                .count());
+    }
+
+    @Test
+    public void shouldLogIgnoredDuplicatedPrefillValues() {
+        final var expectedSvarId = List.of("28", "32", "40");
+        final var scenario = new PrefillScenario("lisjp-duplicated-values");
+        final var template = getEmptyUtlatande();
+        final var result = testee.prefill(template, scenario.getForifyllnad());
+        for (SvarResult message : result.getMessages()) {
+            assertEquals(message.getEventType(), PrefillEventType.INFO);
+            assertTrue(expectedSvarId.contains(message.getSvarId()));
+            assertEquals(message.getMessage(), "Value already exists and will be ignored");
+        }
+    }
+
+
     private Builder getEmptyUtlatande() {
         Builder template = LisjpUtlatandeV1.builder();
         //Set the minimal properties that are required for a valid utlatande to be built().
@@ -254,6 +338,4 @@ public class PrefillHandlerTest {
         template.setGrundData(new GrundData());
         return template;
     }
-
-
 }

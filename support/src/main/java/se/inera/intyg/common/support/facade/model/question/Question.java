@@ -46,6 +46,7 @@ public class Question {
     private Reminder[] reminders;
     private LocalDateTime lastUpdate;
     private LocalDate lastDateToReply;
+    private String[] contactInfo;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class QuestionBuilder {

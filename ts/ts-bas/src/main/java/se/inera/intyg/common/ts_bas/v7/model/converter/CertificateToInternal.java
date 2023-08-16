@@ -27,6 +27,7 @@ import static se.inera.intyg.common.ts_bas.v7.model.converter.certificate.questi
 
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAdhdAddDampAsbergersTourettes;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaJournaluppgifter;
 import se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question.QuestionAlkoholNarkotikaLakarordinerat;
@@ -97,7 +98,7 @@ public class CertificateToInternal {
         return TsBasUtlatandeV7.builder()
             .setId(internalCertificate.getId())
             .setTextVersion(internalCertificate.getTextVersion())
-            .setGrundData(internalCertificate.getGrundData())
+            .setGrundData(MetaDataGrundData.toInternal(certificate.getMetadata(), internalCertificate.getGrundData()))
             .setIntygAvser(QuestionIntygetAvser.toInternal(certificate))
             .setSyn(Syn.builder()
                 .setSynfaltsdefekter(QuestionSynfaltsdefekter.toInternal(certificate))

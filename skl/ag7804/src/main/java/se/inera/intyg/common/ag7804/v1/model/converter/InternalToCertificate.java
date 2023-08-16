@@ -91,11 +91,11 @@ public final class InternalToCertificate {
             .addElement(
                 QuestionForsakringsmedicinsktBeslutsstod.toCertificate(internalCertificate.getForsakringsmedicinsktBeslutsstod(), index++,
                     texts))
+            .addElement(QuestionArbetsresor.toCertificate(internalCertificate.getArbetsresor(), index++, texts))
             .addElement(QuestionArbetstidsforlaggning.toCertificate(internalCertificate.getArbetstidsforlaggning(), index++, texts))
             .addElement(
                 QuestionMotiveringArbetstidsforlaggning.toCertificate(internalCertificate.getArbetstidsforlaggningMotivering(), index++,
                     texts))
-            .addElement(QuestionArbetsresor.toCertificate(internalCertificate.getArbetsresor(), index++, texts))
             .addElement(QuestionPrognos.toCertificate(internalCertificate.getPrognos(), index++, texts))
             .addElement(QuestionPrognosTimePeriod.toCertificate(internalCertificate.getPrognos(), index++, texts))
             .addElement(CategoryAtgarder.toCertificate(index++, texts))

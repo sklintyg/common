@@ -226,7 +226,7 @@ public class InternalValidatorTest {
         DbUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("validation-fail-R7-4").asInternalModel();
         LocalDate antraffatDatum = LocalDate.ofYearDay(LocalDate.now().getYear() - 1, 3);
         LocalDate dodsDatum = LocalDate.ofYearDay(LocalDate.now().getYear() - 1, 1);
-        LocalDate undersokningDatum = LocalDate.ofYearDay(LocalDate.now().getYear() - 1, 1).minusDays(3);
+        LocalDate undersokningDatum = LocalDate.of(1927, 3, 9);
         utlatandeFromJson.getAntraffatDodDatum().setDate(antraffatDatum.format(DateTimeFormatter.ISO_LOCAL_DATE));
         utlatandeFromJson.getDodsdatum().setDate(dodsDatum.format(DateTimeFormatter.ISO_LOCAL_DATE));
         utlatandeFromJson.getUndersokningDatum().setDate(undersokningDatum.format(DateTimeFormatter.ISO_LOCAL_DATE));
@@ -235,7 +235,7 @@ public class InternalValidatorTest {
         assertEquals(ValidationMessageType.OTHER, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("yttreUndersokning", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("undersokningDatum", internalValidationResponse.getValidationErrors().get(0).getField());
-        assertEquals("db.validation.undersokningDatum.before.beginningOflastYear",
+        assertEquals("common.validation.date.beforePatientBirthDate",
             internalValidationResponse.getValidationErrors().get(0).getMessage());
         assertEquals(UNDERSOKNING_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
     }
