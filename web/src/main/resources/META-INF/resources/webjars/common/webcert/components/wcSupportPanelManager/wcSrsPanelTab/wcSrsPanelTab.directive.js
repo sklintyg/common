@@ -167,6 +167,16 @@ angular.module('common').directive('wcSrsPanelTab',
              */
             $scope.$on('intyg.loaded', function(event, content) {
                 reset();
+                if ($scope.config.intygContext.isSigned) {
+                    $scope.srs.isReadOnly = true;
+                    $scope.srs.intygsTyp = content.typ;
+                    $scope.srs.personId = content.grundData.patient.personId;
+                    $scope.srs.vardgivareHsaId = content.grundData.skapadAv.vardenhet.vardgivare.vardgivarid;
+                    $scope.srs.hsaId = content.grundData.skapadAv.vardenhet.enhetsid
+                    if(content.diagnoser.length > 0) {
+                        $scope.srs.originalDiagnosKod = content.diagnoser[0].diagnosKod
+                    }
+                }
                 if (content.grundData.relation.relationKod === 'FRLANG') {
                     $scope.srs.isForlangning = true;
                     // $scope.srs.extensionFromIntygId = content.grundData.relation.relationIntygsId;
@@ -174,7 +184,7 @@ angular.module('common').directive('wcSrsPanelTab',
                     $scope.srs.extensionPredictionFetched = false;
                 } else {
                     $scope.srs.isForlangning = false;
-                    $scope.srs.userClientContext = 'SRS_UTK';
+                    $scope.srs.userClientContext = $scope.config.intygContext.isSigned ? 'SRS_SIGNED' : 'SRS_UTK';
                 }
                 $scope.srs.intygId = $stateParams.certificateId;
 
@@ -522,7 +532,7 @@ angular.module('common').directive('wcSrsPanelTab',
                     }
                     if ($scope.config.isReadOnly) {
                         $scope.srs.isReadOnly = true;
-                        $scope.srs.userClientContext = 'SRS_REH'; // Rehabstöd
+                        $scope.srs.userClientContext = 'SRS_REH';
                         $scope.srs.isForlangning = false;
                         $scope.srs.intygId = $scope.config.intygContext.id;
 
