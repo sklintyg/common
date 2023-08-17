@@ -173,7 +173,7 @@ angular.module('common').directive('wcSrsPanelTab',
                     $scope.srs.personId = content.grundData.patient.personId;
                     $scope.srs.vardgivareHsaId = content.grundData.skapadAv.vardenhet.vardgivare.vardgivarid;
                     $scope.srs.hsaId = content.grundData.skapadAv.vardenhet.enhetsid;
-                    if(content.diagnoser.length > 0) {
+                    if (content.diagnoser.length > 0) {
                         $scope.srs.originalDiagnosKod = content.diagnoser[0].diagnosKod;
                     }
                 }
