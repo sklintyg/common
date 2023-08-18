@@ -177,7 +177,7 @@ angular.module('common').directive('wcSrsPanelTab',
                         $scope.srs.originalDiagnosKod = content.diagnoser[0].diagnosKod;
                     }
                 }
-                if (content.grundData.relation.relationKod === 'FRLANG') {
+                if (!$scope.config.intygContext.isSigned && content.grundData.relation.relationKod === 'FRLANG') {
                     $scope.srs.isForlangning = true;
                     // $scope.srs.extensionFromIntygId = content.grundData.relation.relationIntygsId;
                     $scope.srs.userClientContext = 'SRS_FRL';
