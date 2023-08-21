@@ -18,9 +18,9 @@
  */
 angular.module('common').directive('wcSrsPanelTab',
     [ 'common.ObjectHelper', 'common.srsProxy', 'common.authorityService', '$stateParams',
-        'common.srsService', 'common.srsViewState', '$timeout', '$window',
+        'common.srsService', 'common.srsViewState', '$timeout', '$window', 'common.UserModel',
     function(ObjectHelper, srsProxy, authorityService, $stateParams,
-             srsService, srsViewState, $timeout, $window) {
+             srsService, srsViewState, $timeout, $window, UserModel) {
     'use strict';
 
     return {
@@ -160,7 +160,12 @@ angular.module('common').directive('wcSrsPanelTab',
                         $scope.srs.vardgivareHsaId, $scope.srs.hsaId);
                 }
             };
-
+            function getUserClientContext() {
+                if (UserModel.user.launchFromOrigin === 'rs') {
+                    return 'SRS_REH';
+                }
+                return $scope.config.intygContext.isSigned ? 'SRS_SIGNED' : 'SRS_UTK';
+            }
             /**
              * Starts the flow when the user enters the certificate editor
              * or the editor is reloaded.
@@ -179,6 +184,7 @@ angular.module('common').directive('wcSrsPanelTab',
                 } else {
                     $scope.srs.isReadOnly = false;
                 }
+    
                 if (!$scope.config.intygContext.isSigned && content.grundData.relation.relationKod === 'FRLANG') {
                     $scope.srs.isForlangning = true;
                     // $scope.srs.extensionFromIntygId = content.grundData.relation.relationIntygsId;
@@ -186,7 +192,7 @@ angular.module('common').directive('wcSrsPanelTab',
                     $scope.srs.extensionPredictionFetched = false;
                 } else {
                     $scope.srs.isForlangning = false;
-                    $scope.srs.userClientContext = $scope.config.intygContext.isSigned ? 'SRS_SIGNED' : 'SRS_UTK';
+                    $scope.srs.userClientContext = getUserClientContext();
                 }
                 $scope.srs.intygId = $stateParams.certificateId;
 
