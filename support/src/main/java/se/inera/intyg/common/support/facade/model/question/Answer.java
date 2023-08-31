@@ -34,6 +34,7 @@ public class Answer {
     private String message;
     private String author;
     private LocalDateTime sent;
+    private String[] contactInfo;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class AnswerBuilder {
