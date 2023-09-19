@@ -727,6 +727,11 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
+    public String getAdditionalInfoLabel() {
+        return "Avser diagnos";
+    }
+
+    @Override
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
         try {
             final var utlatande = getUtlatandeFromJson(model);

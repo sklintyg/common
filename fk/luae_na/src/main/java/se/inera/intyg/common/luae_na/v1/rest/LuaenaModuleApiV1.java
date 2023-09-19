@@ -232,6 +232,11 @@ public class LuaenaModuleApiV1 extends FkParentModuleApi<LuaenaUtlatandeV1> {
         return getJsonFromCertificate(certificate, model);
     }
 
+    @Override
+    public String getAdditionalInfoLabel() {
+        return "Avser diagnos";
+    }
+
     private Map<String, String> getDynamicKeyMap() {
         final var provider = getTextProvider(LuaenaEntryPoint.MODULE_ID);
 

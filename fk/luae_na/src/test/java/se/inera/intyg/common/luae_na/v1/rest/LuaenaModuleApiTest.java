@@ -436,6 +436,13 @@ public class LuaenaModuleApiTest {
         assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
     }
 
+    @Test
+    public void shouldReturnAdditionalInfoLabel() {
+        final var response = moduleApi.getAdditionalInfoLabel();
+
+        assertEquals("Avser diagnos", response);
+    }
+
     private String toJsonString(LuaenaUtlatandeV1 utlatande) throws ModuleException {
         try {
             return objectMapper.writeValueAsString(utlatande);

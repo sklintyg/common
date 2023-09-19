@@ -240,6 +240,11 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
         return getJsonFromCertificate(certificate, model);
     }
 
+    @Override
+    public String getAdditionalInfoLabel() {
+        return "Avser diagnos";
+    }
+
     private Map<String, String> getDynamicKeyMap() {
         final var provider = getTextProvider(LuseEntryPoint.MODULE_ID);
 

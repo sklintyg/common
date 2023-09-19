@@ -515,6 +515,13 @@ public class TsParentModuleApiTest {
         moduleApi.handleResponse(response, request);
     }
 
+    @Test
+    public void shouldReturnAdditionalInfoLabel() {
+        final var response = moduleApi.getAdditionalInfoLabel();
+
+        assertEquals("Avser behörighet", response);
+    }
+
     private RegisterCertificateResponseType createRegisterCertificateResponse(ResultCodeType resultCodeType) {
         var response = new RegisterCertificateResponseType();
         ResultType resultType = new ResultType();

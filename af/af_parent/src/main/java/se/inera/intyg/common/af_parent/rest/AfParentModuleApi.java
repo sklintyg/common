@@ -449,4 +449,9 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public String getAdditionalInfoLabel() {
+        return "Gäller intygsperiod";
+    }
+
 }

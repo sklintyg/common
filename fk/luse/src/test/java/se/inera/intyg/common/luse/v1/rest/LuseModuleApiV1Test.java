@@ -646,6 +646,13 @@ public class LuseModuleApiV1Test {
         assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
     }
 
+    @Test
+    public void shouldReturnAdditionalInfoLabel() {
+        final var response = moduleApi.getAdditionalInfoLabel();
+
+        assertEquals("Avser diagnos", response);
+    }
+
     private String toJsonString(LuseUtlatandeV1 utlatande) throws ModuleException {
         try {
             return objectMapper.writeValueAsString(utlatande);

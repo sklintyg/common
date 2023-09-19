@@ -454,4 +454,9 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public String getAdditionalInfoLabel() {
+        return "Avser behörighet";
+    }
+
 }

@@ -242,6 +242,11 @@ public class LuaefsModuleApiV1 extends FkParentModuleApi<LuaefsUtlatandeV1> {
         return getJsonFromCertificate(certificate, model);
     }
 
+    @Override
+    public String getAdditionalInfoLabel() {
+        return "Avser diagnos";
+    }
+
     private Map<String, String> getDynamicKeyMap() {
         final var provider = getTextProvider(LuaefsEntryPoint.MODULE_ID);
 
