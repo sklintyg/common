@@ -567,13 +567,6 @@ public class FkParentModuleApiTest {
         moduleApi.handleResponse(response, request);
     }
 
-    @Test
-    public void shouldReturnAdditionalInfoLabel() {
-        final var response = moduleApi.getAdditionalInfoLabel();
-
-        assertEquals("Intygsperiod", response);
-    }
-
     private RegisterCertificateResponseType createRegisterCertificateResponse(ResultCodeType resultCodeType) {
         var response = new RegisterCertificateResponseType();
         ResultType resultType = new ResultType();
