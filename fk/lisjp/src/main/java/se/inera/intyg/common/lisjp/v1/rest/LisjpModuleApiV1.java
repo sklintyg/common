@@ -286,6 +286,11 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
     }
 
     @Override
+    public String getAdditionalInfoLabel() {
+        return "Gäller intygsperiod";
+    }
+
+    @Override
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
         final var certificate = getCertificateFromJson(model, typeAheadProvider);
         TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new LispTestabilityCertificateTestdataProvider());
