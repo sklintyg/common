@@ -204,6 +204,11 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
     }
 
     @Override
+    public String getAdditionalInfoLabel() {
+        return "";
+    }
+
+    @Override
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
         final var certificate = getCertificateFromJson(model, typeAheadProvider);
         TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new DoiTestabilityCertificateTestdataProvider());

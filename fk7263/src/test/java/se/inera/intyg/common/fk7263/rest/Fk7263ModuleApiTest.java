@@ -486,6 +486,13 @@ public class Fk7263ModuleApiTest {
         assertThrows(IllegalArgumentException.class, () -> fk7263ModuleApi.getJsonFromUtlatande(null));
     }
 
+    @Test
+    public void shouldReturnAdditionalInfoLabel() {
+        final var response = fk7263ModuleApi.getAdditionalInfoLabel();
+
+        assertEquals("Avser diagnos", response);
+    }
+
     private Fk7263Utlatande getUtlatandeFromFile() throws IOException {
         return new CustomObjectMapper().readValue(new ClassPathResource(
             TESTFILE_UTLATANDE).getFile(), Fk7263Utlatande.class);

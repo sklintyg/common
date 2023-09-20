@@ -328,6 +328,13 @@ public interface ModuleApi extends ModuleFacadeApi {
     String getAdditionalInfo(Intyg intyg) throws ModuleException;
 
     /**
+     * Generates the label for the additional info which should be shown in Mina intyg.
+     *
+     * @return the information as a String
+     */
+    String getAdditionalInfoLabel();
+
+    /**
      * Injects the XML digital signature into the json model encoded into Base64.
      *
      * @param jsonModel the certificate as JSON.

@@ -75,6 +75,7 @@ public class LuaenaModuleApiV1 extends FkParentModuleApi<LuaenaUtlatandeV1> {
     private static final Logger LOG = LoggerFactory.getLogger(LuaenaModuleApiV1.class);
 
     private static final String CERTIFICATE_FILE_PREFIX = "lakarutlatande_aktivitetsersattning";
+    private static final String ADDITIONAL_INFO_LABEL = "Avser diagnos";
     private Map<String, String> validationMessages;
 
     public LuaenaModuleApiV1() {
@@ -230,6 +231,11 @@ public class LuaenaModuleApiV1 extends FkParentModuleApi<LuaenaUtlatandeV1> {
         final var certificate = getCertificateFromJson(model, typeAheadProvider);
         TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new LuaenaTestabilityCertificateTestdataProvider());
         return getJsonFromCertificate(certificate, model);
+    }
+
+    @Override
+    public String getAdditionalInfoLabel() {
+        return ADDITIONAL_INFO_LABEL;
     }
 
     private Map<String, String> getDynamicKeyMap() {

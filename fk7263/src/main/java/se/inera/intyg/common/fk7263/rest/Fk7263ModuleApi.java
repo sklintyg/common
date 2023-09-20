@@ -123,6 +123,7 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     private static final Comparator<? super DatePeriodType> PERIOD_START = Comparator.comparing(DatePeriodType::getStart);
     private static final String SPACE = "---";
+    public static final String ADDITIONAL_INFO_LABEL = "Avser diagnos";
     @Autowired
     private WebcertModelFactory<Fk7263Utlatande> webcertModelFactory;
 
@@ -724,6 +725,11 @@ public class Fk7263ModuleApi implements ModuleApi {
         final var message = utlatande == null ? "null" : utlatande.getClass().toString();
         throw new IllegalArgumentException(
             "Utlatande was not instance of class Fk7263Utlatande, utlatande was instance of class: " + message);
+    }
+
+    @Override
+    public String getAdditionalInfoLabel() {
+        return ADDITIONAL_INFO_LABEL;
     }
 
     @Override

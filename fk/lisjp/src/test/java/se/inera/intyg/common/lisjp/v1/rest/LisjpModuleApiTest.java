@@ -629,6 +629,13 @@ public class LisjpModuleApiTest {
         assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
     }
 
+    @Test
+    public void shouldReturnAdditionalInfoLabel() {
+        final var response = moduleApi.getAdditionalInfoLabel();
+
+        assertEquals("Gäller intygsperiod", response);
+    }
+
     private String toJsonString(LisjpUtlatandeV1 utlatande) throws ModuleException {
         try {
             return objectMapper.writeValueAsString(utlatande);

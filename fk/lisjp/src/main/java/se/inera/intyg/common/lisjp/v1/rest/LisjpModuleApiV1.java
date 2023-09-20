@@ -78,6 +78,7 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
     private static final Logger LOG = LoggerFactory.getLogger(LisjpModuleApiV1.class);
 
     private static final String CERTIFICATE_FILE_PREFIX = "lakarintyg_sjukpenning";
+    private static final String ADDITIONAL_INFO_LABEL = "Gäller intygsperiod";
 
     private Map<String, String> validationMessages;
 
@@ -283,6 +284,11 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
         final var message = utlatande == null ? "null" : utlatande.getClass().toString();
         throw new IllegalArgumentException(
             "Utlatande was not instance of class LisjpUtlatandeV1, utlatande was instance of class: " + message);
+    }
+
+    @Override
+    public String getAdditionalInfoLabel() {
+        return ADDITIONAL_INFO_LABEL;
     }
 
     @Override
