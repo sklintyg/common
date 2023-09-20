@@ -72,6 +72,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 @Component(value = "moduleapi.luse.v1")
 public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
 
+    private static final String ADDITIONAL_INFO_LABEL = "Avser diagnos";
     @Autowired
     private InternalToCertificate internalToCertificate;
     @Autowired
@@ -242,7 +243,7 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
 
     @Override
     public String getAdditionalInfoLabel() {
-        return "Avser diagnos";
+        return ADDITIONAL_INFO_LABEL;
     }
 
     private Map<String, String> getDynamicKeyMap() {

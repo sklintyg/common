@@ -98,6 +98,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
 
     public static final String REGISTER_CERTIFICATE_VERSION1 = "v1";
     public static final String REGISTER_CERTIFICATE_VERSION3 = "v3";
+    private static final String ADDITIONAL_INFO_LABEL = "Avser behörighet";
 
     @Autowired(required = false)
     protected WebcertModuleService moduleService;
@@ -456,7 +457,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public String getAdditionalInfoLabel() {
-        return "Avser behörighet";
+        return ADDITIONAL_INFO_LABEL;
     }
 
 }

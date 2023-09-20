@@ -76,6 +76,7 @@ public class LuaefsModuleApiV1 extends FkParentModuleApi<LuaefsUtlatandeV1> {
     private static final Logger LOG = LoggerFactory.getLogger(LuaefsModuleApiV1.class);
 
     private static final String CERTIFICATE_FILE_PREFIX = "lakarutlatande_aktivitetsersattning";
+    private static final String ADDITIONAL_INFO_LABEL = "Avser diagnos";
     private Map<String, String> validationMessages;
 
     @Autowired
@@ -244,7 +245,7 @@ public class LuaefsModuleApiV1 extends FkParentModuleApi<LuaefsUtlatandeV1> {
 
     @Override
     public String getAdditionalInfoLabel() {
-        return "Avser diagnos";
+        return ADDITIONAL_INFO_LABEL;
     }
 
     private Map<String, String> getDynamicKeyMap() {
