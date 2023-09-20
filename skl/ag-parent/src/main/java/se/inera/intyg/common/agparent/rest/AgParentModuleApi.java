@@ -87,6 +87,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleApi {
 
     private static final Logger LOG = LoggerFactory.getLogger(AgParentModuleApi.class);
+    public static final String ADDITIONAL_INFO_LABEL = "Gäller intygsperiod";
 
     @Autowired(required = false)
     protected WebcertModuleService moduleService;
@@ -420,7 +421,7 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public String getAdditionalInfoLabel() {
-        return "Gäller intygsperiod";
+        return ADDITIONAL_INFO_LABEL;
     }
 
 }
