@@ -55,6 +55,7 @@ public class CertificateMetadata {
     private boolean latestMajorVersion;
     private LocalDateTime readyForSign;
     private String responsibleHospName;
+    private CertificateRecipient recipient;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateMetadataBuilder {
