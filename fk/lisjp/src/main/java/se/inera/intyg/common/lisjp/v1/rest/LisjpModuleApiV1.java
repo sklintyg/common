@@ -82,7 +82,7 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
     private static final String CERTIFICATE_FILE_PREFIX = "lakarintyg_sjukpenning";
     private static final String ADDITIONAL_INFO_LABEL = "Gäller intygsperiod";
     private Map<String, String> validationMessages;
-    @Autowired
+    @Autowired(required = false)
     private SummaryConverter summaryConverter;
 
     public LisjpModuleApiV1() {

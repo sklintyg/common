@@ -146,7 +146,7 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     @Autowired(required = false)
     private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
-    @Autowired
+    @Autowired(required = false)
     private SummaryConverter summaryConverter;
     private Map<String, String> validationMessages;
 

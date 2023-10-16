@@ -76,7 +76,7 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
     @Autowired
     private CertificateToInternal certificateToInternal;
 
-    @Autowired
+    @Autowired(required = false)
     private SummaryConverter summaryConverter;
 
     public static final String SCHEMATRON_FILE = "doi.v1.sch";

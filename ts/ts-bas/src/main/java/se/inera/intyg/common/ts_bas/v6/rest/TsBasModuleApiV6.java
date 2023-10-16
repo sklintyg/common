@@ -108,7 +108,7 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
 
     @Autowired(required = false)
     private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
-    @Autowired
+    @Autowired(required = false)
     private SummaryConverter summaryConverter;
     private SendTSClient sendTsBasClient;
     private Map<String, String> validationMessages;

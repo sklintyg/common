@@ -71,7 +71,7 @@ public class Ag114ModuleApiV1 extends AgParentModuleApi<Ag114UtlatandeV1> {
 
     @Autowired
     private CertificateToInternal certificateToInternal;
-    @Autowired
+    @Autowired(required = false)
     private SummaryConverter summaryConverter;
 
     private Map<String, String> validationMessages;

@@ -139,7 +139,7 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Autowired
+    @Autowired(required = false)
     private SummaryConverter summaryConverter;
 
     public TsDiabetesModuleApiV2() {

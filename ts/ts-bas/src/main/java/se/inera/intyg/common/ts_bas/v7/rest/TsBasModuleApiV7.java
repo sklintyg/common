@@ -96,7 +96,7 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
 
     @Autowired
     private CertificateToInternal certificateToInternal;
-    @Autowired
+    @Autowired(required = false)
     private SummaryConverter summaryConverter;
 
     public TsBasModuleApiV7() {

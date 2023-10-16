@@ -79,7 +79,7 @@ public class LuaenaModuleApiV1 extends FkParentModuleApi<LuaenaUtlatandeV1> {
     private static final String CERTIFICATE_FILE_PREFIX = "lakarutlatande_aktivitetsersattning";
     private static final String ADDITIONAL_INFO_LABEL = "Avser diagnos";
     private Map<String, String> validationMessages;
-    @Autowired
+    @Autowired(required = false)
     private SummaryConverter summaryConverter;
 
     public LuaenaModuleApiV1() {

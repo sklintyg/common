@@ -82,7 +82,7 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
     private static final String SUPPORTED_LISJP_MAJOR_VERSION = "1";
 
     private Map<String, String> validationMessages;
-    @Autowired
+    @Autowired(required = false)
     private SummaryConverter summaryConverter;
 
     public Ag7804ModuleApiV1() {

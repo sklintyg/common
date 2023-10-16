@@ -92,7 +92,7 @@ public class TsDiabetesModuleApiV4 extends TsParentModuleApi<TsDiabetesUtlatande
     @Autowired
     private CertificateToInternal certificateToInternal;
 
-    @Autowired
+    @Autowired(required = false)
     private SummaryConverter summaryConverter;
 
     public TsDiabetesModuleApiV4() {

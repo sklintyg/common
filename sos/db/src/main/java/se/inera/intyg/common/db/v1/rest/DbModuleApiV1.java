@@ -67,7 +67,7 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
     private static final String PDF_FILENAME_PREFIX = "dodsbevis";
 
     private Map<String, String> validationMessages;
-    @Autowired
+    @Autowired(required = false)
     private SummaryConverter summaryConverter;
 
     public DbModuleApiV1() {

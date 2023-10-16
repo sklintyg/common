@@ -65,7 +65,7 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
     private static final Logger LOG = LoggerFactory.getLogger(Af00213ModuleApiV1.class);
     public static final String SCHEMATRON_FILE = "af00213.v1.sch";
     private Map<String, String> validationMessages;
-    @Autowired
+    @Autowired(required = false)
     private SummaryConverter summaryConverter;
 
     public Af00213ModuleApiV1() {

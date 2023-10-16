@@ -78,7 +78,7 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
     private InternalToCertificate internalToCertificate;
     @Autowired
     private CertificateToInternal certificateToInternal;
-    @Autowired
+    @Autowired(required = false)
     private SummaryConverter summaryConverter;
     public static final String SCHEMATRON_FILE = "luse.v1.sch";
     private static final Logger LOG = LoggerFactory.getLogger(LuseModuleApiV1.class);

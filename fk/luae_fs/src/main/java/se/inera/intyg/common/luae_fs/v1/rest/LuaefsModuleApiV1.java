@@ -83,9 +83,8 @@ public class LuaefsModuleApiV1 extends FkParentModuleApi<LuaefsUtlatandeV1> {
     private InternalToCertificate internalToCertificate;
     @Autowired
     private CertificateToInternal certificateToInternal;
-    @Autowired
+    @Autowired(required = false)
     private SummaryConverter summaryConverter;
-
 
     public LuaefsModuleApiV1() {
         super(LuaefsUtlatandeV1.class);
