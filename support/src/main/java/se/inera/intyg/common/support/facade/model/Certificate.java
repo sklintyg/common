@@ -63,9 +63,9 @@ public class Certificate {
 
     @Override
     public String toString() {
-        return "Certificate{" +
-            "metadata=" + metadata +
-            ", data=" + data +
-            '}';
+        return "Certificate{"
+            + "metadata=" + metadata
+            + ", data=" + data
+            + '}';
     }
 }
