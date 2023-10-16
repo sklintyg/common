@@ -53,6 +53,7 @@ import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.SummaryConverter;
 import se.inera.intyg.common.support.modules.mapper.Mapper;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.GetCopyFromCriteria;
@@ -75,12 +76,13 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
     @Autowired
     private CertificateToInternal certificateToInternal;
 
+    @Autowired
+    private SummaryConverter summaryConverter;
+
     public static final String SCHEMATRON_FILE = "doi.v1.sch";
     private static final Logger LOG = LoggerFactory.getLogger(DoiModuleApiV1.class);
     private static final String PDF_FILENAME_PREFIX = "dodsorsaksintyg";
-
     private static final String SUPPORTED_DB_MAJOR_VERSION = "1";
-
     private Map<String, String> validationMessages;
 
     public DoiModuleApiV1() {
@@ -178,7 +180,10 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
     public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider) throws ModuleException {
         final var internalCertificate = getInternal(certificateAsJson);
         final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
-        return internalToCertificate.convert(internalCertificate, certificateTextProvider, typeAheadProvider);
+        final var certificate = internalToCertificate.convert(internalCertificate, certificateTextProvider, typeAheadProvider);
+        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+        certificate.getMetadata().setSummary(certificateSummary);
+        return certificate;
     }
 
     @Override

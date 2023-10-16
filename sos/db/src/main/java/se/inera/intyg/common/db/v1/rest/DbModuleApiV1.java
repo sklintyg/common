@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.db.support.DbModuleEntryPoint;
@@ -47,6 +48,7 @@ import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.SummaryConverter;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
@@ -65,6 +67,8 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
     private static final String PDF_FILENAME_PREFIX = "dodsbevis";
 
     private Map<String, String> validationMessages;
+    @Autowired
+    private SummaryConverter summaryConverter;
 
     public DbModuleApiV1() {
         super(DbUtlatandeV1.class);
@@ -142,8 +146,11 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
     public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider) throws ModuleException {
         final var internalCertificate = getInternal(certificateAsJson);
         final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
-        return InternalToCertificate.convert(internalCertificate, certificateTextProvider,
+        final var certificate = InternalToCertificate.convert(internalCertificate, certificateTextProvider,
             typeAheadProvider.getValues(TypeAheadEnum.MUNICIPALITIES));
+        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+        certificate.getMetadata().setSummary(certificateSummary);
+        return certificate;
     }
 
     @Override

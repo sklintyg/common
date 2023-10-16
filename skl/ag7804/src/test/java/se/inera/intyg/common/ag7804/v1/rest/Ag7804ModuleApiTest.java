@@ -35,13 +35,10 @@ import static org.mockito.Mockito.when;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFactory;
 import javax.xml.ws.soap.SOAPFaultException;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -59,8 +56,6 @@ import se.inera.intyg.common.ag7804.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.ag7804.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.ag7804.v1.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
-import se.inera.intyg.common.support.model.Status;
-import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -69,7 +64,6 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
-import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
@@ -77,7 +71,6 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
-import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
@@ -91,8 +84,6 @@ import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.Revoke
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
-import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
@@ -128,20 +119,6 @@ public class Ag7804ModuleApiTest {
 
     public Ag7804ModuleApiTest() {
         MockitoAnnotations.initMocks(this);
-    }
-
-    // TODO
-    @Ignore
-    @Test(expected = ModuleSystemException.class)
-    public void testPdfEmployerNotAllowedForSmittskydd() throws Exception {
-        doReturn(ScenarioFinder.getInternalScenario("pass-smittskydd").asInternalModel())
-            .when(objectMapper)
-            .readValue("internal model", Ag7804UtlatandeV1.class);
-
-        List<Status> statuses = new ArrayList<>();
-        List<String> optionalFields = new ArrayList<>();
-
-        moduleApi.pdfEmployer("internal model", statuses, ApplicationOrigin.WEBCERT, optionalFields, UtkastStatus.SIGNED);
     }
 
     @Test(expected = UnsupportedOperationException.class)
@@ -444,30 +421,6 @@ public class Ag7804ModuleApiTest {
         }
     }
 
-    /*
-     * @Test
-     * public void getAdditionalInfoMultiplePeriodsTest() throws Exception {
-     * final String fromString = "2015-12-12";
-     * final String middleDate1 = "2015-12-13";
-     * final String middleDate2 = "2015-12-14";
-     * final String middleDate3 = "2015-12-15";
-     * final String middleDate4 = "2015-12-16";
-     * final String toString = "2016-03-02";
-     *
-     * Ag7804UtlatandeV1.Builder utlatandeBuilder = getUtlatandeFromFile().toBuilder().setSjukskrivningar(Arrays.asList(
-     * Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.HELT_NEDSATT,
-     * new InternalLocalDateInterval(middleDate2, middleDate3)),
-     * Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.HELT_NEDSATT, new InternalLocalDateInterval(middleDate4,
-     * toString)),
-     * Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.HELT_NEDSATT,
-     * new InternalLocalDateInterval(fromString, middleDate1))));
-     * Intyg intyg = UtlatandeToIntyg.convert(utlatandeBuilder.build());
-     *
-     * String result = moduleApi.getAdditionalInfo(intyg);
-     *
-     * assertEquals(fromString + " - " + toString, result);
-     * }
-     */
     private GetCertificateResponseType createGetCertificateResponseType() throws ScenarioNotFoundException {
         GetCertificateResponseType res = new GetCertificateResponseType();
         RegisterCertificateType registerType = ScenarioFinder.getInternalScenario("pass-minimal").asTransportModel();
@@ -511,14 +464,6 @@ public class Ag7804ModuleApiTest {
 
     private Personnummer createPnr(String civicRegistrationNumber) {
         return Personnummer.createPersonnummer(civicRegistrationNumber).get();
-    }
-
-    private RegisterCertificateResponseType createReturnVal(ResultCodeType res) {
-        RegisterCertificateResponseType retVal = new RegisterCertificateResponseType();
-        ResultType value = new ResultType();
-        value.setResultCode(res);
-        retVal.setResult(value);
-        return retVal;
     }
 
     private Ag7804UtlatandeV1 getUtlatandeFromFile() throws IOException {

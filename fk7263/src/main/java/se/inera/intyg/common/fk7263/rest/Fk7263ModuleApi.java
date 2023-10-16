@@ -89,6 +89,7 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
+import se.inera.intyg.common.support.modules.converter.SummaryConverter;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
@@ -145,6 +146,8 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     @Autowired(required = false)
     private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
+    @Autowired
+    private SummaryConverter summaryConverter;
     private Map<String, String> validationMessages;
 
     public Fk7263ModuleApi() {
@@ -698,7 +701,10 @@ public class Fk7263ModuleApi implements ModuleApi {
     public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider) throws ModuleException {
         final var internalCertificate = getInternal(certificateAsJson);
         final var certificateMessagesProvider = getMessagesProvider();
-        return InternalToCertificate.convert(internalCertificate, certificateMessagesProvider);
+        final var certificate = InternalToCertificate.convert(internalCertificate, certificateMessagesProvider);
+        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+        certificate.getMetadata().setSummary(certificateSummary);
+        return certificate;
     }
 
     @Override

@@ -28,6 +28,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.same;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -64,6 +65,7 @@ import se.inera.intyg.common.db.v1.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
+import se.inera.intyg.common.support.facade.model.metadata.CertificateSummary;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -72,6 +74,7 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.SummaryConverter;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
@@ -92,6 +95,7 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ErrorIdType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
@@ -124,6 +128,9 @@ public class DbModuleApiV1Test {
 
     @Mock
     private IntygTextsService intygTexts;
+
+    @Mock
+    private SummaryConverter summaryConverter;
 
     @InjectMocks
     private DbModuleApiV1 moduleApi;
@@ -516,6 +523,9 @@ public class DbModuleApiV1Test {
         when(intygTexts.getIntygTextsPojo(any(), any())).thenReturn(
             new IntygTexts("1.0", DbModuleEntryPoint.MODULE_ID, LocalDate.now(), LocalDate.now().plusDays(1),
                 Maps.newTreeMap(), Collections.emptyList(), new Properties()));
+        doReturn(CertificateSummary.builder().build())
+            .when(summaryConverter).convert(eq(moduleApi), any(Intyg.class));
+
         moduleApi.getCertificateFromJson("internal model", typeAheadProvider);
         verify(typeAheadProvider).getValues(TypeAheadEnum.MUNICIPALITIES);
     }
@@ -543,13 +553,16 @@ public class DbModuleApiV1Test {
         }
     }
 
-    private GrundData getGrundData() {
+    private static GrundData getGrundData() {
         final var unit = new Vardenhet();
         final var skapadAv = new HoSPersonal();
         final var patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-        skapadAv.setVardenhet(unit);
         final var grundData = new GrundData();
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
+        final var vardgivare = new Vardgivare();
+        vardgivare.setVardgivarid("id");
+        unit.setVardgivare(vardgivare);
+        skapadAv.setVardenhet(unit);
         grundData.setSkapadAv(skapadAv);
         grundData.setPatient(patient);
         return grundData;
