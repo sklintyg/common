@@ -430,7 +430,6 @@ public class TsBasModuleApiTest {
         assertEquals(expectedCertificate, actualCertificate);
     }
 
-
     @Test
     public void shallConvertCertificateToInternal() throws Exception {
         final var expectedJson = "expectedJson";
