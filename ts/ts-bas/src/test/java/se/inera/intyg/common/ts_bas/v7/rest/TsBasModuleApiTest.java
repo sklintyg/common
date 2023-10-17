@@ -61,11 +61,14 @@ import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
+import se.inera.intyg.common.support.facade.model.metadata.CertificateSummary;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.modules.converter.SummaryConverter;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
@@ -130,6 +133,9 @@ public class TsBasModuleApiTest {
 
     @Mock
     CertificateTextProvider certificateTextProvider;
+
+    @Mock
+    private SummaryConverter summaryConverter;
 
 
     public TsBasModuleApiTest() {
@@ -409,24 +415,37 @@ public class TsBasModuleApiTest {
 
     @Test
     public void shallConvertInternalToCertificate() throws Exception {
-        final var expectedCertificate = CertificateBuilder.create().build();
+        final var expectedCertificate = CertificateBuilder.create()
+            .metadata(
+                CertificateMetadata.builder()
+                    .summary(CertificateSummary.builder().build())
+                    .build()
+            ).build();
+
+        final var convertedCertificate = CertificateBuilder.create()
+            .metadata(
+                CertificateMetadata.builder().build()
+            ).build();
+
         final var certificateAsJson = "certificateAsJson";
         final var typeAheadProvider = mock(TypeAheadProvider.class);
 
         final var internalCertificate = TsBasUtlatandeV7.builder()
             .setId("123")
             .setTextVersion("1.0")
-            .setGrundData(new GrundData())
+            .setGrundData(getGrundData())
             .build();
 
         doReturn(internalCertificate)
             .when(objectMapper).readValue(eq(certificateAsJson), eq(TsBasUtlatandeV7.class));
 
-        doReturn(expectedCertificate)
+        doReturn(convertedCertificate)
             .when(internalToCertificate).convert(eq(internalCertificate), any(CertificateTextProvider.class));
 
-        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider);
+        doReturn(CertificateSummary.builder().build())
+            .when(summaryConverter).convert(eq(moduleApi), any(Intyg.class));
 
+        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider);
         assertEquals(expectedCertificate, actualCertificate);
     }
 
@@ -536,5 +555,20 @@ public class TsBasModuleApiTest {
         StringWriter stringWriter = new StringWriter();
         JAXB.marshal(registerCertificateType, stringWriter);
         return stringWriter.toString();
+    }
+
+    private static GrundData getGrundData() {
+        final var unit = new Vardenhet();
+        final var skapadAv = new HoSPersonal();
+        final var patient = new Patient();
+        final var grundData = new GrundData();
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
+        final var vardgivare = new Vardgivare();
+        vardgivare.setVardgivarid("id");
+        unit.setVardgivare(vardgivare);
+        skapadAv.setVardenhet(unit);
+        grundData.setSkapadAv(skapadAv);
+        grundData.setPatient(patient);
+        return grundData;
     }
 }
