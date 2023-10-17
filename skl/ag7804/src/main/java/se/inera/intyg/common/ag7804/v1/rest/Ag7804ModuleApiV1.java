@@ -28,6 +28,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
@@ -56,6 +57,7 @@ import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.SummaryConverter;
 import se.inera.intyg.common.support.modules.mapper.Mapper;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.GetCopyFromCriteria;
@@ -80,6 +82,8 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
     private static final String SUPPORTED_LISJP_MAJOR_VERSION = "1";
 
     private Map<String, String> validationMessages;
+    @Autowired(required = false)
+    private SummaryConverter summaryConverter;
 
     public Ag7804ModuleApiV1() {
         super(Ag7804UtlatandeV1.class);
@@ -253,7 +257,10 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
         TypeAheadProvider typeAheadProvider) throws ModuleException {
         final var internalCertificate = getInternal(certificateAsJson);
         final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
-        return InternalToCertificate.convert(internalCertificate, certificateTextProvider);
+        final var certificate = InternalToCertificate.convert(internalCertificate, certificateTextProvider);
+        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+        certificate.getMetadata().setSummary(certificateSummary);
+        return certificate;
     }
 
     @Override

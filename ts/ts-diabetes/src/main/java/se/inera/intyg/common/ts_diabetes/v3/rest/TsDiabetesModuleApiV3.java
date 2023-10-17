@@ -50,6 +50,7 @@ import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.SummaryConverter;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
@@ -89,6 +90,9 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
     private static final Logger LOG = LoggerFactory.getLogger(TsDiabetesModuleApiV3.class);
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired(required = false)
+    private SummaryConverter summaryConverter;
 
     public TsDiabetesModuleApiV3() {
         super(TsDiabetesUtlatandeV3.class);
@@ -236,7 +240,10 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
         TypeAheadProvider typeAheadProvider) throws ModuleException, IOException {
         final var internalCertificate = getInternal(certificateAsJson);
         final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
-        return internalToCertificate.convert(internalCertificate, certificateTextProvider);
+        final var certificate = internalToCertificate.convert(internalCertificate, certificateTextProvider);
+        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+        certificate.getMetadata().setSummary(certificateSummary);
+        return certificate;
     }
 
     @Override

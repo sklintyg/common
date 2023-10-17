@@ -71,6 +71,8 @@ import se.inera.intyg.common.ag114.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
+import se.inera.intyg.common.support.facade.model.metadata.CertificateSummary;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -79,6 +81,7 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.modules.converter.SummaryConverter;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
@@ -153,6 +156,8 @@ public class Ag114ModuleApiTest {
 
     @Mock
     private WebcertModuleService moduleService;
+    @Mock
+    private SummaryConverter summaryConverter;
 
     @InjectMocks
     private Ag114ModuleApiV1 moduleApi;
@@ -512,27 +517,39 @@ public class Ag114ModuleApiTest {
 
     @Test
     public void shallConvertInternalToCertificate() throws Exception {
-        final var expectedCertificate = CertificateBuilder.create().build();
+        final var expectedCertificate = CertificateBuilder.create()
+            .metadata(
+                CertificateMetadata.builder()
+                    .summary(CertificateSummary.builder().build())
+                    .build()
+            ).build();
+
+        final var convertedCertificate = CertificateBuilder.create()
+            .metadata(
+                CertificateMetadata.builder().build()
+            ).build();
+
         final var certificateAsJson = "certificateAsJson";
         final var typeAheadProvider = mock(TypeAheadProvider.class);
 
         final var internalCertificate = Ag114UtlatandeV1.builder()
             .setId("123")
             .setTextVersion("1.0")
-            .setGrundData(new GrundData())
+            .setGrundData(getGrundData())
             .build();
 
         doReturn(internalCertificate)
             .when(objectMapper).readValue(eq(certificateAsJson), eq(Ag114UtlatandeV1.class));
 
-        doReturn(expectedCertificate)
+        doReturn(convertedCertificate)
             .when(internalToCertificate).convert(eq(internalCertificate), any(CertificateTextProvider.class));
 
-        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider);
+        doReturn(CertificateSummary.builder().build())
+            .when(summaryConverter).convert(eq(moduleApi), any(Intyg.class));
 
+        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider);
         assertEquals(expectedCertificate, actualCertificate);
     }
-
 
     @Test
     public void shallConvertCertificateToInternal() throws Exception {
@@ -653,5 +670,20 @@ public class Ag114ModuleApiTest {
         return (resourceName == null) ?
             null :
             Resources.toString(Resources.getResource(resourceName), Charsets.UTF_8);
+    }
+
+    private static GrundData getGrundData() {
+        final var unit = new Vardenhet();
+        final var skapadAv = new HoSPersonal();
+        final var patient = new Patient();
+        final var grundData = new GrundData();
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
+        final var vardgivare = new Vardgivare();
+        vardgivare.setVardgivarid("id");
+        unit.setVardgivare(vardgivare);
+        skapadAv.setVardenhet(unit);
+        grundData.setSkapadAv(skapadAv);
+        grundData.setPatient(patient);
+        return grundData;
     }
 }

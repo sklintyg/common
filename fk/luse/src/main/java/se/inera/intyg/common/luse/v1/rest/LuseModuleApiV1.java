@@ -59,6 +59,7 @@ import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.SummaryConverter;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.AdditionalMetaData;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
@@ -77,10 +78,11 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
     private InternalToCertificate internalToCertificate;
     @Autowired
     private CertificateToInternal certificateToInternal;
+    @Autowired(required = false)
+    private SummaryConverter summaryConverter;
     public static final String SCHEMATRON_FILE = "luse.v1.sch";
     private static final Logger LOG = LoggerFactory.getLogger(LuseModuleApiV1.class);
     private static final String CERTIFICATE_FILE_PREFIX = "lakarutlatande_sjukersattning";
-
     private Map<String, String> validationMessages;
 
 
@@ -208,7 +210,10 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
     public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider) throws ModuleException {
         final var internalCertificate = getInternal(certificateAsJson);
         final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
-        return internalToCertificate.convert(internalCertificate, certificateTextProvider);
+        final var certificate = internalToCertificate.convert(internalCertificate, certificateTextProvider);
+        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+        certificate.getMetadata().setSummary(certificateSummary);
+        return certificate;
     }
 
     @Override

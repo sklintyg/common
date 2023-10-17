@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.af00213.pdf.PdfGenerator;
@@ -46,6 +47,7 @@ import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.SummaryConverter;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
@@ -62,8 +64,9 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
 
     private static final Logger LOG = LoggerFactory.getLogger(Af00213ModuleApiV1.class);
     public static final String SCHEMATRON_FILE = "af00213.v1.sch";
-
     private Map<String, String> validationMessages;
+    @Autowired(required = false)
+    private SummaryConverter summaryConverter;
 
     public Af00213ModuleApiV1() {
         super(Af00213UtlatandeV1.class);
@@ -166,7 +169,10 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
     public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider) throws ModuleException {
         final var internalCertificate = getInternal(certificateAsJson);
         final var textProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
-        return InternalToCertificate.convert(internalCertificate, textProvider);
+        final var certificate = InternalToCertificate.convert(internalCertificate, textProvider);
+        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+        certificate.getMetadata().setSummary(certificateSummary);
+        return certificate;
     }
 
     @Override

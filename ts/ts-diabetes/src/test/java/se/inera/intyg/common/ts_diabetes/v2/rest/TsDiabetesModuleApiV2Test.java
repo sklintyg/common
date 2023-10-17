@@ -68,12 +68,15 @@ import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.utils.Resu
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
+import se.inera.intyg.common.support.facade.model.metadata.CertificateSummary;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.modules.converter.SummaryConverter;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
@@ -159,6 +162,9 @@ public class TsDiabetesModuleApiV2Test {
 
     @Mock
     private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
+
+    @Mock
+    private SummaryConverter summaryConverter;
 
 
     public TsDiabetesModuleApiV2Test() {
@@ -529,23 +535,36 @@ public class TsDiabetesModuleApiV2Test {
 
     @Test
     public void shallConvertInternalToCertificate() throws Exception {
-        final var expectedCertificate = CertificateBuilder.create().build();
+        final var expectedCertificate = CertificateBuilder.create()
+            .metadata(
+                CertificateMetadata.builder()
+                    .summary(CertificateSummary.builder().build())
+                    .build()
+            ).build();
+
+        final var convertedCertificate = CertificateBuilder.create()
+            .metadata(
+                CertificateMetadata.builder().build()
+            ).build();
+
         final var certificateAsJson = "certificateAsJson";
         final var typeAheadProvider = mock(TypeAheadProvider.class);
 
         var internalCertificate = new TsDiabetesUtlatandeV2();
         internalCertificate.setId("123");
         internalCertificate.setTextVersion("1.0");
-        internalCertificate.setGrundData(new GrundData());
+        internalCertificate.setGrundData(getGrundData());
 
         doReturn(internalCertificate)
             .when(objectMapper).readValue(eq(certificateAsJson), eq(TsDiabetesUtlatandeV2.class));
 
-        doReturn(expectedCertificate)
+        doReturn(convertedCertificate)
             .when(internalToCertificate).convert(eq(internalCertificate), any(CertificateTextProvider.class));
 
-        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider);
+        doReturn(CertificateSummary.builder().build())
+            .when(summaryConverter).convert(eq(moduleApi), any(Intyg.class));
 
+        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider);
         assertEquals(expectedCertificate, actualCertificate);
     }
 
@@ -617,5 +636,20 @@ public class TsDiabetesModuleApiV2Test {
     private String xmlToString(RegisterTSDiabetesType registerTsDiabetes) throws JAXBException {
         JAXBElement<RegisterTSDiabetesType> el = new ObjectFactory().createRegisterTSDiabetes(registerTsDiabetes);
         return XmlMarshallerHelper.marshal(el);
+    }
+
+    private static GrundData getGrundData() {
+        final var unit = new Vardenhet();
+        final var skapadAv = new HoSPersonal();
+        final var patient = new Patient();
+        final var grundData = new GrundData();
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
+        final var vardgivare = new Vardgivare();
+        vardgivare.setVardgivarid("id");
+        unit.setVardgivare(vardgivare);
+        skapadAv.setVardenhet(unit);
+        grundData.setSkapadAv(skapadAv);
+        grundData.setPatient(patient);
+        return grundData;
     }
 }

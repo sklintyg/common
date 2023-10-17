@@ -47,7 +47,6 @@ import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -69,11 +68,14 @@ import se.inera.ifv.insuranceprocess.healthreporting.v2.ResultOfCall;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
+import se.inera.intyg.common.support.facade.model.metadata.CertificateSummary;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.modules.converter.SummaryConverter;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
@@ -129,6 +131,9 @@ public class TsBasModuleApiTest {
 
     @Mock
     private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
+
+    @Mock
+    private SummaryConverter summaryConverter;
 
     public TsBasModuleApiTest() {
         MockitoAnnotations.initMocks(this);
@@ -247,14 +252,6 @@ public class TsBasModuleApiTest {
         final String originalXml = xmlToString(ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel());
 
         TsBasUtlatandeV6 res = moduleApi.getUtlatandeFromXml(originalXml);
-        assertNotNull(res);
-    }
-
-    @Test
-    @Ignore
-    public void testGetUtlatandeWhenXmlIsInV3Format() throws Exception {
-        String xml = xmlToString(ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel());
-        TsBasUtlatandeV6 res = moduleApi.getUtlatandeFromXml(xml);
         assertNotNull(res);
     }
 
@@ -508,24 +505,37 @@ public class TsBasModuleApiTest {
 
     @Test
     public void shallConvertInternalToCertificate() throws Exception {
-        final var expectedCertificate = CertificateBuilder.create().build();
+        final var expectedCertificate = CertificateBuilder.create()
+            .metadata(
+                CertificateMetadata.builder()
+                    .summary(CertificateSummary.builder().build())
+                    .build()
+            ).build();
+
+        final var convertedCertificate = CertificateBuilder.create()
+            .metadata(
+                CertificateMetadata.builder().build()
+            ).build();
+
         final var certificateAsJson = "certificateAsJson";
         final var typeAheadProvider = mock(TypeAheadProvider.class);
 
         final var internalCertificate = TsBasUtlatandeV6.builder()
             .setId("123")
             .setTextVersion("1.0")
-            .setGrundData(new GrundData())
+            .setGrundData(getGrundData())
             .build();
 
         doReturn(internalCertificate)
             .when(objectMapper).readValue(eq(certificateAsJson), eq(TsBasUtlatandeV6.class));
 
-        doReturn(expectedCertificate)
+        doReturn(convertedCertificate)
             .when(internalToCertificate).convert(eq(internalCertificate), any(CertificateTextProvider.class));
 
-        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider);
+        doReturn(CertificateSummary.builder().build())
+            .when(summaryConverter).convert(eq(moduleApi), any(Intyg.class));
 
+        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider);
         assertEquals(expectedCertificate, actualCertificate);
     }
 
@@ -616,4 +626,18 @@ public class TsBasModuleApiTest {
         return stringWriter.toString();
     }
 
+    private static GrundData getGrundData() {
+        final var unit = new Vardenhet();
+        final var skapadAv = new HoSPersonal();
+        final var patient = new Patient();
+        final var grundData = new GrundData();
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
+        final var vardgivare = new Vardgivare();
+        vardgivare.setVardgivarid("id");
+        unit.setVardgivare(vardgivare);
+        skapadAv.setVardenhet(unit);
+        grundData.setSkapadAv(skapadAv);
+        grundData.setPatient(patient);
+        return grundData;
+    }
 }
