@@ -2,6 +2,8 @@ dependencies {
   compile project(':ts-parent')
   compile project(":common-pdf")
 
+  implementation "org.jvnet.jaxb2_commons:jaxb2-basics:${jaxb2Version}"
+
   compile "org.apache.commons:commons-lang3"
   compile "javax.annotation:javax.annotation-api"
 

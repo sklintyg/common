@@ -43,21 +43,14 @@ import static org.junit.Assert.fail;
 public class TSBasV3toV1TransformerTest {
 
     private static final String V3_UTLATANDE_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.2.xsd";
-
     private static final String V3_UTLATANDE_SIG_SCHEMA = "core_components/xmldsig-core-schema_0.1.xsd";
-
     private static final String V3_UTLATANDE_TYPES_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_types_3.2.xsd";
-
-    private static final String V3_UTLATANDE_TYPES_EXT_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.2_ext.xsd";
-
+    private static final String V3_UTLATANDE_TYPES_EXT_SCHEMA_32 = "core_components/clinicalprocess_healthcond_certificate_3.2_ext.xsd";
+    private static final String V3_UTLATANDE_TYPES_EXT_SCHEMA_34 = "core_components/clinicalprocess_healthcond_certificate_3.4_ext.xsd";
     private static final String V3_REGISTER_SCHEMA = "interactions/RegisterCertificateInteraction/RegisterCertificateResponder_3.1.xsd";
-
     private static final String V1_TS_BAS_SCHEMA = "specializations/TS-Bas/ts-bas_model.xsd";
-
     private static final String V1_CORE_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_1.0.xsd";
-
     private static final String V1_TYPES_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_types_1.0.xsd";
-
     private static final String V1_REGISTER_SCHEMA = "interactions/RegisterCertificateInteraction/RegisterCertificateResponder_1.0.xsd";
 
     private static Schema v3Schema;
@@ -70,7 +63,8 @@ public class TSBasV3toV1TransformerTest {
         Source rootSource = schemaValidatorBuilder.registerResource(V3_REGISTER_SCHEMA);
         schemaValidatorBuilder.registerResource(V3_UTLATANDE_SCHEMA);
         schemaValidatorBuilder.registerResource(V3_UTLATANDE_TYPES_SCHEMA);
-        schemaValidatorBuilder.registerResource(V3_UTLATANDE_TYPES_EXT_SCHEMA);
+        schemaValidatorBuilder.registerResource(V3_UTLATANDE_TYPES_EXT_SCHEMA_32);
+        schemaValidatorBuilder.registerResource(V3_UTLATANDE_TYPES_EXT_SCHEMA_34);
         schemaValidatorBuilder.registerResource(V3_UTLATANDE_SIG_SCHEMA);
         v3Schema = schemaValidatorBuilder.build(rootSource);
     }
