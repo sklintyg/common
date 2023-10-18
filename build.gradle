@@ -51,7 +51,6 @@ allprojects {
 
     repositories {
         mavenLocal()
-        maven { url "http://172.21.0.1:37373/repository/it-public/" }
         maven { url "https://nexus.drift.inera.se/repository/it-public/" }
         mavenCentral {
             content {
@@ -105,7 +104,7 @@ allprojects {
     }
 
     group = 'se.inera.intyg.common'
-    version = System.properties['buildVersion'] ?: '3.19.1-SNAPSHOT'
+    version = System.properties['buildVersion'] ?: '3.20.0-SNAPSHOT'
 
     compileJava.options.encoding = 'UTF-8'
 
@@ -121,8 +120,7 @@ allprojects {
     artifacts.archives packageTests
 
     uploadArchives.repositories.mavenDeployer {
-        repository(url: "http://172.21.0.1:37373/repository/maven-releases/") {
-        //repository(url: "https://nexus.drift.inera.se/repository/maven-releases/") {
+        repository(url: "https://nexus.drift.inera.se/repository/maven-releases/") {
             authentication(userName: System.properties['ineraNexusUsername'], password: System.properties['ineraNexusPassword'])
         }
     }
