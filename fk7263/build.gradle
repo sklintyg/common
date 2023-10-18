@@ -5,6 +5,8 @@ dependencies {
     compile project(":common-services")
     compile project(":common-schemas")
 
+    implementation "org.jvnet.jaxb2_commons:jaxb2-basics:${jaxb2Version}"
+
     compile "com.itextpdf:itextpdf:${itextVersion}"
     compile group: 'com.helger', name: 'ph-schematron', version: "${phSchematronVersion}",
             {

@@ -47,21 +47,14 @@ import static org.junit.Assert.fail;
 public class Fk7263TransformerTest {
 
     private static final String COMMON_UTLATANDE_SCHEMA = "core_components/MU7263-RIV_3.1.xsd";
-
     private static final String COMMON_UTLATANDE_TYPES_SCHEMA = "core_components/insuranceprocess_healthreporting_2.0.xsd";
-
     private static final String ISO_TYPES_SCHEMA = "core_components/iso_dt_subset_1.0.xsd";
-
     private static final String ROOT_LEVEL_UTLATANDE_SCHEMA = "interactions/RegisterMedicalCertificateInteraction/RegisterMedicalCertificateResponder_3.1.xsd";
-
     private static final String ROOT_LEVEL_FK7263SIT_SCHEMA = "interactions/RegisterCertificateInteraction/RegisterCertificateResponder_3.1.xsd";
-
     private static final String ROOT_LEVEL_FK7263_GENERAL_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.2.xsd";
-
-    private static final String ROOT_LEVEL_FK7263_EXT_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.2_ext.xsd";
-
+    private static final String ROOT_LEVEL_FK7263_EXT_SCHEMA_32 = "core_components/clinicalprocess_healthcond_certificate_3.2_ext.xsd";
+    private static final String ROOT_LEVEL_FK7263_EXT_SCHEMA_34 = "core_components/clinicalprocess_healthcond_certificate_3.4_ext.xsd";
     private static final String XMLDSIG_SCHEMA = "core_components/xmldsig-core-schema_0.1.xsd";
-
     private static final String CLINICAL_UTLATANDE_TYPES_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_types_3.2.xsd";
 
     private static Schema lakarutlatandeInputSchema;
@@ -86,7 +79,8 @@ public class Fk7263TransformerTest {
         Source rootSource = schemaValidatorBuilder.registerResource(ROOT_LEVEL_FK7263SIT_SCHEMA);
         schemaValidatorBuilder.registerResource(CLINICAL_UTLATANDE_TYPES_SCHEMA);
         schemaValidatorBuilder.registerResource(ROOT_LEVEL_FK7263_GENERAL_SCHEMA);
-        schemaValidatorBuilder.registerResource(ROOT_LEVEL_FK7263_EXT_SCHEMA);
+        schemaValidatorBuilder.registerResource(ROOT_LEVEL_FK7263_EXT_SCHEMA_32);
+        schemaValidatorBuilder.registerResource(ROOT_LEVEL_FK7263_EXT_SCHEMA_34);
         schemaValidatorBuilder.registerResource(XMLDSIG_SCHEMA);
 
         fk7263sitOutputSchema = schemaValidatorBuilder.build(rootSource);

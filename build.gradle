@@ -6,13 +6,12 @@ plugins {
 }
 
 ext {
-    intygClinicalprocessSchematronVersion = "1.0.57"
-    intygClinicalprocessSchemasVersion = "1.0.24"
-    intygTransportstyrelsenSchemasVersion = "1.0.5"
-    rivtaClinicalprocessSchemasVersion = "4.0.5"
-    rivtaInsuranceprocessSchemasVersion = "3.1.0.5"
-
-    schemasContractVersion = "2.1.8"
+    intygClinicalprocessSchemasVersion = "1.0.24.1"
+    intygClinicalprocessSchematronVersion = "1.0.57.1"
+    intygTransportstyrelsenSchemasVersion = "1.0.5.1"
+    rivtaClinicalprocessSchemasVersion = "4.0.5.1"
+    rivtaInsuranceprocessSchemasVersion = "3.1.0.5.1"
+    schemasContractVersion = "2.1.8.1"
 
     autovalueVersion = "1.9"
     cxfVersion = "3.5.5"
@@ -26,6 +25,8 @@ ext {
     itext7Version = "7.2.3"
     itextPdfHtmlVersion = "4.0.3"
     jakartaJwsApiVersion = "3.0.0"
+    javaxJwsApiVersion = "1.1"
+    jaxb2Version = "0.13.1"
     phSchematronVersion = "5.6.5"
     saxonVersion = "11.4"
 
@@ -78,6 +79,8 @@ allprojects {
     }
 
     dependencies {
+        implementation "javax.jws:javax.jws-api:${javaxJwsApiVersion}"
+
         compile "javax.annotation:javax.annotation-api"
         compile "jakarta.xml.bind:jakarta.xml.bind-api"
         compile "jakarta.xml.ws:jakarta.xml.ws-api"
@@ -101,7 +104,7 @@ allprojects {
     }
 
     group = 'se.inera.intyg.common'
-    version = System.properties['buildVersion'] ?: '3.19.1-SNAPSHOT'
+    version = System.properties['buildVersion'] ?: '3.20.0-SNAPSHOT'
 
     compileJava.options.encoding = 'UTF-8'
 
