@@ -51,7 +51,7 @@ public class Fk7263TransformerTest {
     private static final String ISO_TYPES_SCHEMA = "core_components/iso_dt_subset_1.0.xsd";
     private static final String ROOT_LEVEL_UTLATANDE_SCHEMA = "interactions/RegisterMedicalCertificateInteraction/RegisterMedicalCertificateResponder_3.1.xsd";
     private static final String ROOT_LEVEL_FK7263SIT_SCHEMA = "interactions/RegisterCertificateInteraction/RegisterCertificateResponder_3.1.xsd";
-    private static final String ROOT_LEVEL_FK7263_GENERAL_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.2.xsd";
+    private static final String ROOT_LEVEL_FK7263_GENERAL_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.3.xsd";
     private static final String ROOT_LEVEL_FK7263_EXT_SCHEMA_32 = "core_components/clinicalprocess_healthcond_certificate_3.2_ext.xsd";
     private static final String ROOT_LEVEL_FK7263_EXT_SCHEMA_34 = "core_components/clinicalprocess_healthcond_certificate_3.4_ext.xsd";
     private static final String XMLDSIG_SCHEMA = "core_components/xmldsig-core-schema_0.1.xsd";

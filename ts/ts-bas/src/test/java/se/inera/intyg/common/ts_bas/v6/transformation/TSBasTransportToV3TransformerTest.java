@@ -48,7 +48,7 @@ import static org.junit.Assert.fail;
 
 public class TSBasTransportToV3TransformerTest {
 
-    private static final String V3_UTLATANDE_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.2.xsd";
+    private static final String V3_UTLATANDE_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.3.xsd";
     private static final String V3_UTLATANDE_SIG_SCHEMA = "core_components/xmldsig-core-schema_0.1.xsd";
     private static final String V3_UTLATANDE_TYPES_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_types_3.2.xsd";
     private static final String V3_UTLATANDE_TYPES_EXT_SCHEMA_32 = "core_components/clinicalprocess_healthcond_certificate_3.2_ext.xsd";
