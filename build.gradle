@@ -1,7 +1,7 @@
 plugins {
-    id "se.inera.intyg.plugin.common" version "3.2.7" apply false
+    id "se.inera.intyg.plugin.common" version "3.2.9-SNAPSHOT" apply false
     id "nebula.node" version "1.4.2" apply false
-    id "io.spring.dependency-management" version "1.0.13.RELEASE"
+    id "io.spring.dependency-management" version "1.1.3"
     id "java-test-fixtures"
 }
 
@@ -13,27 +13,27 @@ ext {
     rivtaInsuranceprocessSchemasVersion = "3.1.0.5.1"
     schemasContractVersion = "2.1.8.1"
 
-    autovalueVersion = "1.9"
-    cxfVersion = "3.5.5"
+    autovalueVersion = "1.10.4"
+    cxfVersion = "3.6.2"
     commonsCollectionsVersion = "4.4"
     commonsTextVersion = "1.10.0"
-    commonsCsvVersion = "1.9.0"
-    commonsIoVersion = "2.11.0"
-    equalsVerifierVersion = "3.10.1"
-    guavaVersion = "31.1-jre"
+    commonsCsvVersion = "1.10.0"
+    commonsIoVersion = "2.14.0"
+    equalsVerifierVersion = "3.15.2"
+    guavaVersion = "32.0.1-jre"
     itextVersion = "5.5.13.3"
-    itext7Version = "7.2.3"
-    itextPdfHtmlVersion = "4.0.3"
+    itext7Version = "8.0.1"
+    itextPdfHtmlVersion = "5.0.1"
     jakartaJwsApiVersion = "3.0.0"
     javaxJwsApiVersion = "1.1"
     jaxb2Version = "0.13.1"
     phSchematronVersion = "5.6.5"
-    saxonVersion = "11.4"
+    saxonVersion = "12.3"
 
     nodeJsVersion = "12.22.12"
     npmVersion = "6.14.16"
 
-    springbootMavenBomVersion = "2.7.6"
+    springbootMavenBomVersion = "2.7.17"
 }
 
 allprojects {
