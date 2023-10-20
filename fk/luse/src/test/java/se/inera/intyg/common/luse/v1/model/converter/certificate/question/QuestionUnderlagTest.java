@@ -122,6 +122,11 @@ class QuestionUnderlagTest {
         }
 
         @Override
+        protected String getText() {
+            return UNDERLAG_TYPE_TEXT_ID;
+        }
+
+        @Override
         protected String getTypeText() {
             return UNDERLAG_TYPE_TEXT_ID;
         }

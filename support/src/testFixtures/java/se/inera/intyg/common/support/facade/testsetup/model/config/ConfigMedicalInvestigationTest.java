@@ -33,6 +33,7 @@ import se.inera.intyg.common.support.facade.model.config.MedicalInvestigation;
 
 public abstract class ConfigMedicalInvestigationTest extends ConfigTest {
 
+    protected abstract String getText();
     protected abstract String getTypeText();
     protected abstract String getDateText();
     protected abstract String getInformationSourceText();
