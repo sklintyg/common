@@ -44,7 +44,7 @@ public final class MessagesParser {
     private static final Pattern END_POSITION_PATTERN = Pattern.compile("^\\s*\\},");
     private static final String STRING_CONCAT_REGEXP = "[\\'\\\"]\\s*\\+\\s*[\\'\\\"]";
 
-    private List<Map<String, String>> list;
+    private final List<Map<String, String>> list;
 
     private MessagesParser() {
         list = new ArrayList<>();
@@ -82,7 +82,7 @@ public final class MessagesParser {
     }
 
     private String parseAsJson(InputStream inputStream) {
-        String json = "";
+        final var json = new StringBuilder();
         boolean startPositionFound = false;
         boolean endPositionFound = false;
         try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
@@ -90,15 +90,15 @@ public final class MessagesParser {
             while ((line = br.readLine()) != null) {
                 if (findEndPosition(line)) {
                     endPositionFound = true;
-                    json += "}";
+                    json.append("}");
                     break;
                 }
                 if (startPositionFound) {
-                    json += line + "\n";
+                    json.append(line).append("\n");
                 }
                 if (findStartPosition(line)) {
                     startPositionFound = true;
-                    json = "{\n";
+                    json.append("{\n");
                 }
             }
         } catch (IOException exception) {
@@ -108,7 +108,7 @@ public final class MessagesParser {
 
         validateParsedResult(startPositionFound, endPositionFound);
 
-        return json;
+        return json.toString();
     }
 
     private void validateParsedResult(boolean startPositionFound, boolean endPositionFound) {
