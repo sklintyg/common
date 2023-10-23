@@ -27,7 +27,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_BEDOMNING;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_SVAR_ID_39;
 
@@ -103,7 +102,7 @@ class QuestionPrognosTimePeriodTest {
             assertAll("Validating question",
                 () -> assertEquals(PROGNOS_BESKRIVNING_DELSVAR_ID_39, question.getId()),
                 () -> assertEquals(expectedIndex, question.getIndex()),
-                () -> assertEquals(CATEGORY_BEDOMNING, question.getParent()),
+                () -> assertEquals(PROGNOS_SVAR_ID_39, question.getParent()),
                 () -> assertNotNull(question.getValue(), "Missing value"),
                 () -> assertNotNull(question.getValidation(), "Missing validation"),
                 () -> assertNotNull(question.getConfig(), "Missing config")

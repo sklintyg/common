@@ -19,8 +19,8 @@
 
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
-import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.PROGNOS_SVAR_ID_39;
 
 import se.inera.intyg.common.lisjp.model.internal.Prognos;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
@@ -33,7 +33,7 @@ public class QuestionPrognosTimePeriod extends AbstractQuestionPrognosTimePeriod
         final var timePeriodConfigProvider = new QuestionPrognosTimePeriodConfigProvider(
             convertValue(prognos)
         );
-        return toCertificate(timePeriodConfigProvider, PROGNOS_BESKRIVNING_DELSVAR_ID_39, BEDOMNING_CATEGORY_ID, index, texts);
+        return toCertificate(timePeriodConfigProvider, PROGNOS_BESKRIVNING_DELSVAR_ID_39, PROGNOS_SVAR_ID_39, index, texts);
     }
 
     private static QuestionPrognosTimePeriodValue convertValue(Prognos prognos) {
