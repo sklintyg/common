@@ -22,7 +22,7 @@ ext {
     equalsVerifierVersion = "3.15.2"
     guavaVersion = "32.0.1-jre"
     itextVersion = "5.5.13.3"
-    itext7Version = "8.0.1"
+    itext7Version = "7.2.5"
     itextPdfHtmlVersion = "5.0.1"
     jakartaJwsApiVersion = "3.0.0"
     javaxJwsApiVersion = "1.1"
