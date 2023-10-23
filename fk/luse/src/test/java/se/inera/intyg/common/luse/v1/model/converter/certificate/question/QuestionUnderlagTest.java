@@ -122,7 +122,7 @@ class QuestionUnderlagTest {
         }
 
         @Override
-        protected String getText() {
+        protected String getTextId() {
             return UNDERLAG_TYPE_TEXT_ID;
         }
 
@@ -178,11 +178,6 @@ class QuestionUnderlagTest {
         @Override
         protected List<LocalDate> getMinDates() {
             return Collections.nCopies(3, null);
-        }
-
-        @Override
-        protected String getTextId() {
-            return null;
         }
 
         @Override
