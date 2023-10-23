@@ -66,6 +66,7 @@ public abstract class AbstractQuestionUnderlag {
             .index(index)
             .config(
                 CertificateDataConfigMedicalInvestigation.builder()
+                    .text((texts.get(UNDERLAG_TYPE_TEXT_ID)))
                     .typeText(texts.get(UNDERLAG_TYPE_TEXT_ID))
                     .dateText(UNDERLAG_DATUM_TEXT)
                     .informationSourceText(UNDERLAG_INFORMATION_SOURCE_TEXT)
