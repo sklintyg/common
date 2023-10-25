@@ -30,7 +30,7 @@ angular.module('common').directive('wcOriginNormalWarning',
         var careProviderName = UserModel.user.valdVardgivare.namn;
         return {
           templateUrl:
-              '/web/webjars/common/webcert/components/wcOriginNormalWarning/wcOriginNormalWarning.infodialog.html',
+              '/web/webjars/common/webcert/components/wcOriginNormalWarning/wcOriginNormalWarning.directive.html',
           restrict: 'E',
           scope: {},
           controller: function($scope) {
