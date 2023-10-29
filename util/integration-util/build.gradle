@@ -1,8 +1,12 @@
 dependencies {
-  compile project(':common-support')
-  compile project(':logging-util')
+  implementation project(':common-support')
+  implementation project(':logging-util')
 
-  compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
-  compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider"
-  compile "org.apache.cxf:cxf-rt-frontend-jaxrs:${cxfVersion}"
+  implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+  implementation "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider"
+
+  implementation "org.apache.cxf:cxf-rt-frontend-jaxrs:${cxfVersion}"
+  implementation "org.slf4j:slf4j-api"
+  implementation "org.springframework:spring-context"
+  implementation "org.springframework:spring-core"
 }

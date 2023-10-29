@@ -1,8 +1,11 @@
 dependencies {
-  compile project(':common-support')
+  implementation project(':common-support')
+
+  implementation "com.google.guava:guava:${guavaVersion}"
 
   implementation "org.jvnet.jaxb2_commons:jaxb2-basics:${jaxb2Version}"
 
-  compile "se.riv.insuranceprocess.healthreporting:insuranceprocess-healthreporting-schemas:${rivtaInsuranceprocessSchemasVersion}"
-  compile "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schemas:${intygClinicalprocessSchemasVersion}"
+  implementation "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schemas:${intygClinicalprocessSchemasVersion}"
+  implementation "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
+  implementation "se.riv.insuranceprocess.healthreporting:insuranceprocess-healthreporting-schemas:${rivtaInsuranceprocessSchemasVersion}"
 }

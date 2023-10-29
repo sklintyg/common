@@ -1,16 +1,27 @@
 dependencies {
-    compile project(":af-parent")
+    implementation project(":af-parent")
+    implementation project(":common-pdf")
+    implementation project(":common-services")
+    implementation project(":common-support")
 
-    compile ("com.helger:ph-schematron:${phSchematronVersion}") {
-        exclude group: "com.helger", module: "ph-jaxb-pom"
-    }
-    compile "org.springframework:spring-tx"
+    implementation "com.fasterxml.jackson.core:jackson-databind"
+    implementation "com.google.guava:guava:${guavaVersion}"
+    implementation ("com.helger:ph-schematron:${phSchematronVersion}") { exclude group: "com.helger", module: "ph-jaxb-pom" }
 
-    compile "com.google.auto.value:auto-value:${autovalueVersion}"
-    compile "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
-    annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
+    implementation "commons-io:commons-io:${commonsIoVersion}"
+    implementation "org.springframework:spring-context"
+
+    implementation "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
+    implementation "se.riv.clinicalprocess.healthcond.certificate:clinicalprocess-healthcond-certificate-schemas:${rivtaClinicalprocessSchemasVersion}"
+
     compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
+    compileOnly "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
+    annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
 
-    testCompile "org.hamcrest:hamcrest"
-    testCompile "org.hamcrest:hamcrest-library"
+    testImplementation project(":integration-util")
+
+    testImplementation "org.apache.commons:commons-lang3"
+    testImplementation "org.apache.cxf:cxf-core:${cxfVersion}"
+    testImplementation "org.hamcrest:hamcrest"
+    testImplementation "org.hamcrest:hamcrest-library"
 }

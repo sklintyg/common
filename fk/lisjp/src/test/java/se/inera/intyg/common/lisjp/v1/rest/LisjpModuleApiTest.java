@@ -19,6 +19,7 @@
 package se.inera.intyg.common.lisjp.v1.rest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -63,6 +64,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
+import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.lisjp.v1.model.converter.SvarIdHelperImpl;
 import se.inera.intyg.common.lisjp.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.lisjp.v1.model.converter.WebcertModelFactoryImpl;
@@ -112,9 +114,8 @@ public class LisjpModuleApiTest {
 
     public static final String TESTFILE_UTLATANDE = "v1/internal/scenarios/pass-flera-sysselsattningar.json";
     private static final String INTYG_TYPE_VERSION_1 = "1.0";
-
-    private final String LOGICAL_ADDRESS = "logical address";
-    private final String PNR_TOLVAN = "19121212-1212";
+    private static final String LOGICAL_ADDRESS = "logical address";
+    private static final String PNR_TOLVAN = "19121212-1212";
 
     @Mock
     private RegisterCertificateResponderInterface registerCertificateResponderInterface;
@@ -144,7 +145,7 @@ public class LisjpModuleApiTest {
     private LisjpModuleApiV1 moduleApi;
 
     public LisjpModuleApiTest() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test(expected = RuntimeException.class)
@@ -266,7 +267,7 @@ public class LisjpModuleApiTest {
         verify(getCertificateResponder, times(1)).getCertificate(eq(logicalAddress), captor.capture());
         assertEquals(certificateId, captor.getValue().getIntygsId().getExtension());
         assertEquals(internalModel, certificate.getInternalModel());
-        assertEquals(false, certificate.isRevoked());
+        assertFalse(certificate.isRevoked());
     }
 
     @Test(expected = ModuleException.class)
@@ -498,8 +499,8 @@ public class LisjpModuleApiTest {
         final String fromString = "2015-12-12";
         final String toString = "2016-03-02";
 
-        LisjpUtlatandeV1.Builder utlatandeBuilder = getUtlatandeFromFile().toBuilder().setSjukskrivningar(Arrays.asList(
-            Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.HELT_NEDSATT, new InternalLocalDateInterval(fromString, toString))));
+        LisjpUtlatandeV1.Builder utlatandeBuilder = getUtlatandeFromFile().toBuilder().setSjukskrivningar(List.of(
+            Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, new InternalLocalDateInterval(fromString, toString))));
         Intyg intyg = UtlatandeToIntyg.convert(utlatandeBuilder.build(), moduleService);
 
         String result = moduleApi.getAdditionalInfo(intyg);
@@ -605,7 +606,7 @@ public class LisjpModuleApiTest {
     public void getCertficateMessagesProviderGetExistingKey() throws ModuleException {
         final var certificateMessagesProvider = moduleApi.getMessagesProvider();
 
-        assertEquals(certificateMessagesProvider.get("common.continue"), "Fortsätt");
+        assertEquals("Fortsätt", certificateMessagesProvider.get("common.continue"));
     }
 
     @Test
@@ -686,7 +687,7 @@ public class LisjpModuleApiTest {
     }
 
     private Personnummer createPnr(String civicRegistrationNumber) {
-        return Personnummer.createPersonnummer(civicRegistrationNumber).get();
+        return Personnummer.createPersonnummer(civicRegistrationNumber).orElseThrow();
     }
 
     private RegisterCertificateResponseType createReturnVal(ResultCodeType res) {

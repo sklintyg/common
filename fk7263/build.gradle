@@ -1,24 +1,32 @@
 dependencies {
-    compile project(":common-support")
-    compile project(":common-web")
-    compile project(":integration-util")
-    compile project(":common-services")
-    compile project(":common-schemas")
+    implementation project(":common-schemas")
+    implementation project(":common-support")
+    implementation project(":common-services")
+    implementation project(":common-web")
+    implementation project(':logging-util')
+
+    implementation "com.fasterxml.jackson.core:jackson-annotations"
+    implementation "com.fasterxml.jackson.core:jackson-databind"
+    implementation "com.google.guava:guava:${guavaVersion}"
+    implementation "com.itextpdf:itextpdf:${itextVersion}"
+    implementation ("com.helger:ph-schematron:${phSchematronVersion}") { exclude group: "com.helger", module: "ph-jaxb-pom" }
+    implementation "javax.annotation:javax.annotation-api"
 
     implementation "org.jvnet.jaxb2_commons:jaxb2-basics:${jaxb2Version}"
+    implementation "org.springframework:spring-context"
+    implementation "org.springframework:spring-oxm"
+    implementation "org.springframework:spring-tx"
 
-    compile "com.itextpdf:itextpdf:${itextVersion}"
-    compile group: 'com.helger', name: 'ph-schematron', version: "${phSchematronVersion}",
-            {
-                exclude group: "com.helger", module: "ph-jaxb-pom"
-            }
-    compile "org.springframework:spring-tx"
+    implementation "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schemas:${intygClinicalprocessSchemasVersion}"
+    implementation "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schematron:${intygClinicalprocessSchematronVersion}"
+    implementation "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
+    implementation "se.riv.clinicalprocess.healthcond.certificate:clinicalprocess-healthcond-certificate-schemas:${rivtaClinicalprocessSchemasVersion}"
+    implementation "se.riv.insuranceprocess.healthreporting:insuranceprocess-healthreporting-schemas:${rivtaInsuranceprocessSchemasVersion}"
 
-    compile "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schemas:${intygClinicalprocessSchemasVersion}"
-    compile "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schematron:${intygClinicalprocessSchematronVersion}"
+    testRuntimeOnly "javax.servlet:javax.servlet-api"
 
-    testRuntime "javax.servlet:javax.servlet-api"
-    compile "javax.annotation:javax.annotation-api"
-
+    testImplementation project(":integration-util")
     testImplementation testFixtures(project(":common-support"))
+
+    testImplementation "org.apache.cxf:cxf-core:${cxfVersion}"
 }
