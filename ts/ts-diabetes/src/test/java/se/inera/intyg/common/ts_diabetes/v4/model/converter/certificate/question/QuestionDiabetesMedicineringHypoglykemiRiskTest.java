@@ -26,6 +26,7 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_DESCRIPTION_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TEXT_ID;
@@ -55,16 +56,16 @@ class QuestionDiabetesMedicineringHypoglykemiRiskTest {
     @Mock
     CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
-    }
-
     @Nested
     class ToCertificate {
 
         @Nested
         class IncludeCommonElementTests extends CommonElementTest {
+
+            @BeforeEach
+            void setUp() {
+                when(textProvider.get(any(String.class))).thenReturn("test string");
+            }
 
             @Override
             protected CertificateDataElement getElement() {
@@ -88,7 +89,12 @@ class QuestionDiabetesMedicineringHypoglykemiRiskTest {
         }
 
         @Nested
-        class IncludeConfigRadioBooleanTests extends ConfigRadioBooleanTest {
+        class IncludeConfigRadioBooleanTestsWithoutDescription extends ConfigRadioBooleanTest {
+
+            @BeforeEach
+            void setUp() {
+                when(textProvider.get(any(String.class))).thenReturn(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_DESCRIPTION_ID);
+            }
 
             @Override
             protected String getId() {
@@ -129,7 +135,58 @@ class QuestionDiabetesMedicineringHypoglykemiRiskTest {
         }
 
         @Nested
+        class IncludeConfigRadioBooleanTestsWithDescription extends ConfigRadioBooleanTest {
+
+            @BeforeEach
+            void setUp() {
+                when(textProvider.get(any(String.class))).thenReturn("test string");
+            }
+
+            @Override
+            protected String getId() {
+                return ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
+            }
+
+            @Override
+            protected String getSelectedText() {
+                return "Ja";
+            }
+
+            @Override
+            protected String getUnselectedText() {
+                return "Nej";
+            }
+
+            @Override
+            protected CertificateTextProvider getTextProviderMock() {
+                return textProvider;
+            }
+
+            @Override
+            protected CertificateDataElement getElement() {
+                doReturn("Ja").when(textProvider).get(SVAR_JA_TEXT_ID);
+                doReturn("Nej").when(textProvider).get(SVAR_NEJ_TEXT_ID);
+                return QuestionDiabetesMedicineringHypoglykemiRisk.toCertificate(null, 0, textProvider);
+            }
+
+            @Override
+            protected String getTextId() {
+                return ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TEXT_ID;
+            }
+
+            @Override
+            protected String getDescriptionId() {
+                return ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_DESCRIPTION_ID;
+            }
+        }
+
+        @Nested
         class IncludeValueRadioBooleanTest extends ValueBooleanTest {
+
+            @BeforeEach
+            void setUp() {
+                when(textProvider.get(any(String.class))).thenReturn("test string");
+            }
 
             @Override
             protected CertificateDataElement getElement() {
@@ -152,6 +209,11 @@ class QuestionDiabetesMedicineringHypoglykemiRiskTest {
 
         @Nested
         class IncludeValidationMandatory extends ValidationMandatoryTest {
+
+            @BeforeEach
+            void setUp() {
+                when(textProvider.get(any(String.class))).thenReturn("test string");
+            }
 
             @Override
             protected String getQuestionId() {
@@ -177,6 +239,11 @@ class QuestionDiabetesMedicineringHypoglykemiRiskTest {
         @Nested
         class IncludeValidationShowTest extends ValidationShowTest {
 
+            @BeforeEach
+            void setUp() {
+                when(textProvider.get(any(String.class))).thenReturn("test string");
+            }
+
             @Override
             protected String getQuestionId() {
                 return ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID;
@@ -201,6 +268,11 @@ class QuestionDiabetesMedicineringHypoglykemiRiskTest {
 
     @Nested
     class ToInternal {
+
+        @BeforeEach
+        void setUp() {
+            when(textProvider.get(any(String.class))).thenReturn("test string");
+        }
 
         @Nested
         @TestInstance(PER_CLASS)

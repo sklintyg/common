@@ -104,6 +104,7 @@ public final class RespConstants {
     public static final String ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_DELSVAR_ID = "208.1";
     public static final String ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID = "medicineringMedforRiskForHypoglykemi";
     public static final String ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TEXT_ID = "FRG_208.RBK";
+    public static final String ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_DESCRIPTION_ID = "FRG_208.HLP";
 
     public static final String ALLMANT_BEHANDLING_SVAR_ID = "209";
     public static final String ALLMANT_BEHANDLING_JSON_ID = "behandling";
