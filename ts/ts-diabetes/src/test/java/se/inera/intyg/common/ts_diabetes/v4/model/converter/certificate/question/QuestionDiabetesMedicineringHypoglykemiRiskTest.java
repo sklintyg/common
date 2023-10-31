@@ -60,6 +60,7 @@ class QuestionDiabetesMedicineringHypoglykemiRiskTest {
     void setUp() {
         when(textProvider.get(any(String.class))).thenReturn("test string");
     }
+
     @Nested
     class ToCertificate {
 
