@@ -56,13 +56,12 @@ class QuestionDiabetesMedicineringHypoglykemiRiskTest {
     @Mock
     CertificateTextProvider textProvider;
 
+    @BeforeEach
+    void setUp() {
+        when(textProvider.get(any(String.class))).thenReturn("test string");
+    }
     @Nested
     class ToCertificate {
-
-        @BeforeEach
-        void setUp() {
-            when(textProvider.get(any(String.class))).thenReturn("test string");
-        }
 
         @Nested
         class IncludeCommonElementTests extends CommonElementTest {
@@ -253,11 +252,6 @@ class QuestionDiabetesMedicineringHypoglykemiRiskTest {
 
     @Nested
     class ToInternal {
-
-        @BeforeEach
-        void setUp() {
-            when(textProvider.get(any(String.class))).thenReturn("test string");
-        }
 
         @Nested
         @TestInstance(PER_CLASS)
