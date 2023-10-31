@@ -59,13 +59,13 @@ class QuestionDiabetesMedicineringHypoglykemiRiskTest {
     @Nested
     class ToCertificate {
 
+        @BeforeEach
+        void setUp() {
+            when(textProvider.get(any(String.class))).thenReturn("test string");
+        }
+
         @Nested
         class IncludeCommonElementTests extends CommonElementTest {
-
-            @BeforeEach
-            void setUp() {
-                when(textProvider.get(any(String.class))).thenReturn("test string");
-            }
 
             @Override
             protected CertificateDataElement getElement() {
@@ -93,7 +93,7 @@ class QuestionDiabetesMedicineringHypoglykemiRiskTest {
 
             @BeforeEach
             void setUp() {
-                when(textProvider.get(any(String.class))).thenReturn(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_DESCRIPTION_ID);
+                when(textProvider.getOrNull(any(String.class))).thenReturn(null);
             }
 
             @Override
@@ -139,7 +139,7 @@ class QuestionDiabetesMedicineringHypoglykemiRiskTest {
 
             @BeforeEach
             void setUp() {
-                when(textProvider.get(any(String.class))).thenReturn("test string");
+                when(textProvider.getOrNull(any(String.class))).thenReturn("test string");
             }
 
             @Override
@@ -183,11 +183,6 @@ class QuestionDiabetesMedicineringHypoglykemiRiskTest {
         @Nested
         class IncludeValueRadioBooleanTest extends ValueBooleanTest {
 
-            @BeforeEach
-            void setUp() {
-                when(textProvider.get(any(String.class))).thenReturn("test string");
-            }
-
             @Override
             protected CertificateDataElement getElement() {
                 return QuestionDiabetesMedicineringHypoglykemiRisk.toCertificate(
@@ -209,11 +204,6 @@ class QuestionDiabetesMedicineringHypoglykemiRiskTest {
 
         @Nested
         class IncludeValidationMandatory extends ValidationMandatoryTest {
-
-            @BeforeEach
-            void setUp() {
-                when(textProvider.get(any(String.class))).thenReturn("test string");
-            }
 
             @Override
             protected String getQuestionId() {
@@ -238,11 +228,6 @@ class QuestionDiabetesMedicineringHypoglykemiRiskTest {
 
         @Nested
         class IncludeValidationShowTest extends ValidationShowTest {
-
-            @BeforeEach
-            void setUp() {
-                when(textProvider.get(any(String.class))).thenReturn("test string");
-            }
 
             @Override
             protected String getQuestionId() {

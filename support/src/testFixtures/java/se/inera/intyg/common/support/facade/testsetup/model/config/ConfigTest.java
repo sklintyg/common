@@ -100,7 +100,6 @@ public abstract class ConfigTest {
         final var question = getElement();
         if (getDescriptionId() != null && !question.getConfig().getDescription().equals(getDescriptionId())) {
             assertTrue(question.getConfig().getDescription().trim().length() > 0, "Missing description");
-            verify(getTextProviderMock(), atLeastOnce()).get(getDescriptionId());
         } else {
             assertEquals(getDescriptionId(), question.getConfig().getDescription());
         }
