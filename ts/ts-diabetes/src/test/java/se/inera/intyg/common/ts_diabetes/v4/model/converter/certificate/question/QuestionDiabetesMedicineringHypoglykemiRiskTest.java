@@ -93,11 +93,6 @@ class QuestionDiabetesMedicineringHypoglykemiRiskTest {
         @Nested
         class IncludeConfigRadioBooleanTestsWithoutDescription extends ConfigRadioBooleanTest {
 
-            @BeforeEach
-            void setUp() {
-                when(textProvider.getOrNull(any(String.class))).thenReturn(null);
-            }
-
             @Override
             protected String getId() {
                 return ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
@@ -137,7 +132,7 @@ class QuestionDiabetesMedicineringHypoglykemiRiskTest {
         }
 
         @Test
-        void test() {
+        void shallReturnDescriptionIfExists() {
             when(textProvider.getOrNull(any(String.class))).thenReturn(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_DESCRIPTION_ID);
 
             final var certificateDataElement = QuestionDiabetesMedicineringHypoglykemiRisk.toCertificate(null, 0, textProvider);
