@@ -24,6 +24,7 @@ import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValu
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_DESCRIPTION_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TEXT_ID;
@@ -54,6 +55,7 @@ public class QuestionDiabetesMedicineringHypoglykemiRisk {
                 CertificateDataConfigRadioBoolean.builder()
                     .id(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID)
                     .text(textProvider.get(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TEXT_ID))
+                    .description(textProvider.getOrNull(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_DESCRIPTION_ID))
                     .selectedText(textProvider.get(SVAR_JA_TEXT_ID))
                     .unselectedText(textProvider.get(SVAR_NEJ_TEXT_ID))
                     .build()

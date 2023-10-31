@@ -19,6 +19,7 @@
 
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
@@ -26,6 +27,7 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_DESCRIPTION_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants.ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TEXT_ID;
@@ -34,6 +36,7 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -88,7 +91,7 @@ class QuestionDiabetesMedicineringHypoglykemiRiskTest {
         }
 
         @Nested
-        class IncludeConfigRadioBooleanTests extends ConfigRadioBooleanTest {
+        class IncludeConfigRadioBooleanTestsWithoutDescription extends ConfigRadioBooleanTest {
 
             @Override
             protected String getId() {
@@ -126,6 +129,15 @@ class QuestionDiabetesMedicineringHypoglykemiRiskTest {
             protected String getDescriptionId() {
                 return null;
             }
+        }
+
+        @Test
+        void shallReturnDescriptionIfExists() {
+            when(textProvider.getOrNull(any(String.class))).thenReturn(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_DESCRIPTION_ID);
+
+            final var certificateDataElement = QuestionDiabetesMedicineringHypoglykemiRisk.toCertificate(null, 0, textProvider);
+            assertEquals(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_DESCRIPTION_ID,
+                certificateDataElement.getConfig().getDescription());
         }
 
         @Nested
