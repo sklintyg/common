@@ -47,6 +47,12 @@ public final class DefaultCertificateTextProvider implements CertificateTextProv
         return parseText(value, key);
     }
 
+    @Override
+    public String getOrNull(String key) {
+        final var value = get(key);
+        return value.equals(key) ? null : value;
+    }
+
     private boolean isHeadline(String key) {
         return key.contains(".RBK");
     }

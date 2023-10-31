@@ -21,4 +21,6 @@ package se.inera.intyg.common.services.texts;
 public interface CertificateTextProvider {
 
     String get(String key);
+
+    String getOrNull(String key);
 }
