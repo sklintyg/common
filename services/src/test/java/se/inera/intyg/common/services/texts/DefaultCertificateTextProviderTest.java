@@ -221,9 +221,101 @@ class DefaultCertificateTextProviderTest {
     class GetOrNull {
 
         @Test
-        void shallReturnTextForKeyIfItExists() {
+        void shallReturnTextForKey() {
             final var actualText = defaultCertificateTextProvider.getOrNull(QUESTION_KEY);
             assertEquals(QUESTION_VALUE, actualText);
+        }
+
+        @Test
+        void shallReturnTextForQuestionHeaderIfKeyMissing() {
+            final var actualText = defaultCertificateTextProvider.getOrNull("6");
+            assertEquals(QUESTION_VALUE, actualText);
+        }
+
+        @Test
+        void shallReturnTextForQuestionSubHeaderIfKeyMissing() {
+            final var actualText = defaultCertificateTextProvider.getOrNull("6.1");
+            assertEquals(SUBQUESTION_VALUE, actualText);
+        }
+
+        @Test
+        void shallReturnOriginalValueIfTextHasNoSymbolsToParse() {
+            final var actualText = defaultCertificateTextProvider.getOrNull(KEY_WITHOUT_SYMBOLS);
+            assertEquals(VALUE_WITHOUT_SYMBOLS, actualText);
+
+        }
+
+        @Test
+        void shallRemoveDashAndAddListItems() {
+            final var actualText = defaultCertificateTextProvider.getOrNull(KEY_WITH_DASH_AS_LIST);
+            assertEquals(VALUE_WITH_LIST_TAGS, actualText);
+        }
+
+        @Test
+        void shallNotRemoveDashWhenInsideText() {
+            final var actualText = defaultCertificateTextProvider.getOrNull(KEY_WITH_DASH_AS_TEXT);
+            assertEquals(VALUE_WITH_DASH_AS_TEXT, actualText);
+
+        }
+
+        @Test
+        void shallRemoveDotAndAddListItems() {
+            final var actualText = defaultCertificateTextProvider.getOrNull(KEY_WITH_DOT);
+            assertEquals(VALUE_WITH_LIST_TAGS, actualText);
+        }
+
+        @Test
+        void shallRemoveDashAsFirstCharAndAddListItems() {
+            final var actualText = defaultCertificateTextProvider.getOrNull(KEY_WITH_LIST_TAGS_IN_FRONT);
+            assertEquals(VALUE_WITH_LIST_TAGS_IN_FRONT, actualText);
+        }
+
+        @Test
+        void shallRemoveSeveralNewLinesAndAddOneNewLine() {
+            final var actualText = defaultCertificateTextProvider.getOrNull(KEY_SEVERAL_NEW_LINES);
+            assertEquals(EXPECTED_VALUE_WITH_SEVERAL_NEW_LINES, actualText);
+        }
+
+        @Test
+        void shallRemoveTab() {
+            final var actualText = defaultCertificateTextProvider.getOrNull(KEY_TAB);
+            assertEquals(VALUE_WITHOUT_TAB, actualText);
+        }
+
+        @Test
+        void shallRemoveExtraSpacing() {
+            final var actualText = defaultCertificateTextProvider.getOrNull(KEY_SPACING);
+            assertEquals(VALUE_WITHOUT_EXTRA_SPACE, actualText);
+        }
+
+        @Test
+        void shallNotParseExtraSpacingOfHeaderText() {
+            final var actualText = defaultCertificateTextProvider.getOrNull(HEADER_KEY);
+            assertEquals(HEADER_TEXT, actualText);
+        }
+
+        @Test
+        void shallRemoveIncorrectNewLineInFK7801One() {
+            final var actualText = defaultCertificateTextProvider.getOrNull(FK_7801_NEW_LINE_ONE_KEY);
+            assertEquals(FK_7801_NEW_LINE_ONE_TEXT_FIXED, actualText);
+        }
+
+        @Test
+        void shallRemoveIncorrectNewLineInFK7801Two() {
+            final var actualText = defaultCertificateTextProvider.getOrNull(FK_7801_NEW_LINE_TWO_KEY);
+            assertEquals(FK_7801_NEW_LINE_TWO_TEXT_FIXED, actualText);
+        }
+
+        @Test
+        void shallAddNewlineInTsbasV7() {
+            final var actualText = defaultCertificateTextProvider.getOrNull(TS_BAS_INTYGET_AVSER_HELP_TEXT_KEY);
+            assertEquals(TS_BAS_INTYGET_AVSER_HELP_TEXT_FIXED, actualText);
+        }
+
+        @Test
+        void shallReplaceAngularLaunchIconWithReactLaunchIcon() {
+            final var actualText = defaultCertificateTextProvider.getOrNull(ANGULAR_TRANSPORTSTYRELSEN_LINK_KEY);
+            assertEquals(REACT_TRANSPORTSTYRELSEN_LINK_KEY, actualText);
         }
 
         @Test

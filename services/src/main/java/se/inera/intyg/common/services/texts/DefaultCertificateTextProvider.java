@@ -49,8 +49,8 @@ public final class DefaultCertificateTextProvider implements CertificateTextProv
 
     @Override
     public String getOrNull(String key) {
-        final var value = intygTexts.getTexter().get(key);
-        return value != null ? parseText(value, key) : null;
+        final var value = get(key);
+        return value.equals(key) ? null : value;
     }
 
     private boolean isHeadline(String key) {
