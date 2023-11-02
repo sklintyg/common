@@ -21,7 +21,7 @@ package se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.questio
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.HYPOGLYKEMI_CATEGORY_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.SYN_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.SYN_DUBBELSEENDE_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.SYN_DUBBELSEENDE_SVAR_TEXT_ID;
 
@@ -68,7 +68,7 @@ class QuestionSynDubbelseendeTest {
 
         @Override
         protected String getParent() {
-            return HYPOGLYKEMI_CATEGORY_ID;
+            return SYN_CATEGORY_ID;
         }
 
         @Override
