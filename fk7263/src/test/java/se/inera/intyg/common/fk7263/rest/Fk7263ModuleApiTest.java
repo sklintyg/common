@@ -490,7 +490,7 @@ public class Fk7263ModuleApiTest {
     public void shouldReturnAdditionalInfoLabel() {
         final var response = fk7263ModuleApi.getAdditionalInfoLabel();
 
-        assertEquals("Avser diagnos", response);
+        assertEquals("Gäller intygsperiod", response);
     }
 
     private Fk7263Utlatande getUtlatandeFromFile() throws IOException {

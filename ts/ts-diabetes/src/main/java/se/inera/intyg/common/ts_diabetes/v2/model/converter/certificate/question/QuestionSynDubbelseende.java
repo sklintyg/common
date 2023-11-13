@@ -20,7 +20,7 @@
 package se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.booleanValue;
-import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.HYPOGLYKEMI_CATEGORY_ID;
+import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.SYN_CATEGORY_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.SYN_DUBBELSEENDE_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.SYN_DUBBELSEENDE_SVAR_TEXT_ID;
 
@@ -31,10 +31,13 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueView
 
 public class QuestionSynDubbelseende {
 
+    private QuestionSynDubbelseende() {
+    }
+
     public static CertificateDataElement toCertificate(Boolean dubbelseende, int index, CertificateTextProvider textProvider) {
         return CertificateDataElement.builder()
             .id(SYN_DUBBELSEENDE_SVAR_ID)
-            .parent(HYPOGLYKEMI_CATEGORY_ID)
+            .parent(SYN_CATEGORY_ID)
             .index(index)
             .config(
                 CertificateDataConfigViewText.builder()

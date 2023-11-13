@@ -124,7 +124,7 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     private static final Comparator<? super DatePeriodType> PERIOD_START = Comparator.comparing(DatePeriodType::getStart);
     private static final String SPACE = "---";
-    public static final String ADDITIONAL_INFO_LABEL = "Avser diagnos";
+    public static final String ADDITIONAL_INFO_LABEL = "Gäller intygsperiod";
     @Autowired
     private WebcertModelFactory<Fk7263Utlatande> webcertModelFactory;
 
