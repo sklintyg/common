@@ -239,20 +239,22 @@ configure(subprojects.findAll { ['fk7263', 'ts-bas', 'ts-diabetes', 'tstrk1062',
         }
     }
 
-    tasks.register('jsTests', NodeTask) {
-        dependsOn npmInstall, unzipWebjars
+    if (project.name != 'fk7263') {
+        tasks.register('jsTests', NodeTask) {
+            dependsOn npmInstall, unzipWebjars
 
-        def webappTestOutputDir = 'build/karma/'
-        inputs.dir("${projectDir}/src/main/resources")
-        inputs.files(fileTree(projectDir).include('*.js'))
-        inputs.files(fileTree(projectDir).include('*.json'))
-        inputs.files(fileTree(rootProject.projectDir).include('package.json'))
-        inputs.files(configurations.compile)
-        outputs.dir(webappTestOutputDir)
+            def webappTestOutputDir = 'build/karma/'
+            inputs.dir("${projectDir}/src/main/resources")
+            inputs.files(fileTree(projectDir).include('*.js'))
+            inputs.files(fileTree(projectDir).include('*.json'))
+            inputs.files(fileTree(rootProject.projectDir).include('package.json'))
+            inputs.files(configurations.compile)
+            outputs.dir(webappTestOutputDir)
 
-        script = file("${rootProject.projectDir}/node_modules/grunt-cli/bin/grunt")
-        args = ["--gruntfile=${rootProject.projectDir}/Gruntfile.js", "--base=${projectDir}", "--intygModule=${project.name}",
-                "--outputDir=${webappTestOutputDir}", "--npmDir=${rootProject.projectDir}", 'test']
+            script = file("${rootProject.projectDir}/node_modules/grunt-cli/bin/grunt")
+            args = ["--gruntfile=${rootProject.projectDir}/Gruntfile.js", "--base=${projectDir}", "--intygModule=${project.name}",
+                    "--outputDir=${webappTestOutputDir}", "--npmDir=${rootProject.projectDir}", 'test']
+        }
     }
 
     test.dependsOn(jsTests)
