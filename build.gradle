@@ -255,9 +255,8 @@ configure(subprojects.findAll { ['fk7263', 'ts-bas', 'ts-diabetes', 'tstrk1062',
             args = ["--gruntfile=${rootProject.projectDir}/Gruntfile.js", "--base=${projectDir}", "--intygModule=${project.name}",
                     "--outputDir=${webappTestOutputDir}", "--npmDir=${rootProject.projectDir}", 'test']
         }
+        test.dependsOn(jsTests)
     }
-
-    test.dependsOn(jsTests)
 }
 
 subprojects.collect {subproject -> subproject.name }.each { subprojectName ->
