@@ -1,8 +1,13 @@
+import se.inera.intyg.IntygPluginKt
+
+import java.nio.file.Files
+import java.nio.file.Paths
+
 plugins {
-    id "se.inera.intyg.plugin.common" version "3.2.9" apply false
-    id "nebula.node" version "1.4.2" apply false
-    id "io.spring.dependency-management" version "1.0.15.RELEASE"
-    id "java-test-fixtures"
+    id "se.inera.intyg.plugin.common" version "3.3.1" apply false
+    id "com.netflix.nebula.node" version "3.0.0" apply false
+    id "io.spring.dependency-management" version "1.1.3" apply false
+    id 'test-report-aggregation'
 }
 
 ext {
@@ -20,15 +25,15 @@ ext {
     commonsCsvVersion = "1.10.0"
     commonsIoVersion = "2.14.0"
     equalsVerifierVersion = "3.15.2"
-    guavaVersion = "32.0.1-jre"
+    guavaVersion = "32.1.3-jre"
     itextVersion = "5.5.13.3"
     itext7Version = "7.2.5"
     itextPdfHtmlVersion = "4.0.5"
-    jakartaJwsApiVersion = "3.0.0"
-    javaxJwsApiVersion = "1.1"
+    jakartaJwsApiVersion = "2.1.0" // version 3.0.0 -> warning: "class file for javax.jws.soap.SOAPBinding$ParameterStyle not found"
     jaxb2Version = "0.13.1"
     phSchematronVersion = "5.6.5"
     saxonVersion = "12.3"
+    spotbugsAnnotationVersion = "4.8.0"
 
     nodeJsVersion = "12.22.12"
     npmVersion = "6.14.16"
@@ -38,8 +43,109 @@ ext {
 
 allprojects {
     apply plugin: 'se.inera.intyg.plugin.common'
-    apply plugin: 'maven'
+    apply plugin: "io.spring.dependency-management"
+    apply plugin: 'maven-publish'
+    apply plugin: 'java-library'
     apply plugin: 'idea'
+
+    group = 'se.inera.intyg.common'
+    version = System.properties['buildVersion'] ?: '3.21.0-SNAPSHOT'
+    sourceCompatibility = 11
+    targetCompatibility = 11
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${springbootMavenBomVersion}"
+        }
+    }
+
+    dependencies {
+        implementation "ch.qos.logback:logback-classic"
+        implementation "jakarta.annotation:jakarta.annotation-api"
+        implementation "jakarta.jws:jakarta.jws-api:${jakartaJwsApiVersion}"
+        implementation "jakarta.xml.ws:jakarta.xml.ws-api"
+
+        testImplementation "junit:junit"
+        testImplementation "org.assertj:assertj-core"
+        testImplementation "org.glassfish.jaxb:jaxb-runtime"
+        testImplementation "org.junit.jupiter:junit-jupiter-api"
+        testImplementation "org.junit.jupiter:junit-jupiter-params"
+        testImplementation "org.mockito:mockito-junit-jupiter"
+        testImplementation "org.mockito:mockito-core"
+        testImplementation "org.skyscreamer:jsonassert"
+        testImplementation "org.springframework:spring-test"
+        testImplementation "org.xmlunit:xmlunit-core"
+
+        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+        testRuntimeOnly "org.junit.vintage:junit-vintage-engine"
+    }
+
+    tasks.register('packageTests', Jar) {
+        from sourceSets.test.output
+        archiveClassifier.set('tests')
+    }
+
+    tasks.register('install') {
+        description("Publishes artifact to local maven repository.")
+        dependsOn(publishToMavenLocal)
+    }
+
+    tasks.register('createVersionPropertyFile', VersionPropertyFileTask)
+
+    if (project.hasProperty('codeQuality')) {
+        tasks.register('spotbugsIncludesAndExcludes') {
+            dependsOn ":unzipBuildTools"
+            spotbugsMain {
+                includeFilter.set(rootProject.layout.buildDirectory.file("/build-tools/spotbugs/spotbugsIncludeFilter.xml").get().asFile)
+                excludeFilter.set(rootProject.layout.buildDirectory.file("/build-tools/spotbugs/spotbugsExcludeFilter.xml").get().asFile)
+            }
+        }
+
+        spotbugsMain.dependsOn('spotbugsIncludesAndExcludes')
+        spotbugsMain.dependsOn(':unzipBuildTools')
+        spotbugsTest.enabled(false)
+        dependencies { spotbugsSlf4j "org.slf4j:slf4j-simple" }
+    }
+
+    if (project.name in ["luse", "db", "af-parent", "lisjp", "luae_fs", "luae_na", "fk7263", "ag114", "ts-bas", "ts-diabetes"]) {
+        compileJava.dependsOn(":common-web:jsInclude")
+    }
+
+    if (project.name == "doi") {
+        compileJava.dependsOn(":db:jsInclude")
+    }
+
+    jar { duplicatesStrategy = DuplicatesStrategy.INCLUDE }
+    test { useJUnitPlatform() }
+    artifacts.archives packageTests
+    compileJava.options.encoding = 'UTF-8'
+    compileTestJava.dependsOn createVersionPropertyFile
+    checkstyleMain.dependsOn createVersionPropertyFile
+
+    repositories {
+        mavenLocal()
+        maven { url "https://nexus.drift.inera.se/repository/it-public/" }
+        mavenCentral {
+            content {
+                excludeGroupByRegex "se\\.inera.*"
+            }
+        }
+    }
+
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                from components.java
+            }
+        }
+        repositories.maven {
+            url = uri("https://nexus.drift.inera.se/repository/maven-releases/")
+            credentials {
+                username = System.properties['ineraNexusUsername']
+                password = System.properties['ineraNexusPassword']
+            }
+        }
+    }
 
     idea {
         module {
@@ -49,92 +155,19 @@ allprojects {
         }
     }
 
-    repositories {
-        mavenLocal()
-        maven { url "https://nexus.drift.inera.se/repository/it-public/" }
-        mavenCentral {
-            content {
-                // this repository contains everything BUT artifacts with group starting with "se.inera"
-                excludeGroupByRegex "se\\.inera.*"
-            }
-        }
-    }
-
     configurations {
         // Remove these due to conflict with Spring SAML which uses bcprov-jdk15.
         compile.exclude group: "org.bouncycastle", module: "bcpkix-jdk15on"
         compile.exclude group: "org.bouncycastle", module: "bcprov-jdk15on"
     }
-
-    apply plugin: "io.spring.dependency-management"
-
-    test {
-        useJUnitPlatform()
-    }
-
-    dependencyManagement {
-        imports {
-            mavenBom "org.springframework.boot:spring-boot-dependencies:${springbootMavenBomVersion}"
-        }
-    }
-
-    dependencies {
-        implementation "javax.jws:javax.jws-api:${javaxJwsApiVersion}"
-
-        compile "javax.annotation:javax.annotation-api"
-        compile "jakarta.xml.bind:jakarta.xml.bind-api"
-        compile "jakarta.xml.ws:jakarta.xml.ws-api"
-        compile "jakarta.jws:jakarta.jws-api:${jakartaJwsApiVersion}"
-        testCompile "org.glassfish.jaxb:jaxb-runtime"
-        testCompile "com.sun.xml.messaging.saaj:saaj-impl"
-
-        testCompile "junit:junit"
-        testCompile "org.junit.jupiter:junit-jupiter-api"
-        testCompile "org.junit.jupiter:junit-jupiter-params"
-        testCompile "org.mockito:mockito-junit-jupiter"
-        testCompile "org.mockito:mockito-core"
-        testCompile "org.skyscreamer:jsonassert"
-        testCompile "org.springframework:spring-test"
-        testCompile "org.assertj:assertj-core"
-        testCompile "org.xmlunit:xmlunit-core"
-        testCompile "nl.jqno.equalsverifier:equalsverifier:${equalsVerifierVersion}"
-
-        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
-        testRuntimeOnly "org.junit.vintage:junit-vintage-engine"
-    }
-
-    group = 'se.inera.intyg.common'
-    version = System.properties['buildVersion'] ?: '3.20.0-SNAPSHOT'
-
-    compileJava.options.encoding = 'UTF-8'
-
-    sourceCompatibility = 11
-    targetCompatibility = 11
-
-    task createVersionPropertyFile(type: VersionPropertyFileTask)
-
-    task packageTests(type: Jar) {
-        from sourceSets.test.output
-        archiveClassifier.set('tests')
-    }
-    artifacts.archives packageTests
-
-    uploadArchives.repositories.mavenDeployer {
-        repository(url: "https://nexus.drift.inera.se/repository/maven-releases/") {
-            authentication(userName: System.properties['ineraNexusUsername'], password: System.properties['ineraNexusPassword'])
-        }
-    }
 }
 
-configure(subprojects.findAll {
-    ['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes-2', 'tstrk1062', 'lisjp', 'luse', 'luae_fs', 'luae_na', 'db', 'doi', 'af00213', 'af00251', 'ag114', 'ag7804', 'tstrk1009'].contains(it.name)
-}) {
+configure(subprojects.findAll { ['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes-2', 'tstrk1062', 'lisjp', 'luse', 'luae_fs', 'luae_na',
+                                 'db', 'doi', 'af00213', 'af00251', 'ag114', 'ag7804', 'tstrk1009'].contains(it.name) }) {
 
-    apply plugin: 'nebula.grunt'
+    apply plugin: 'com.netflix.nebula.grunt'
 
-    grunt {
-        colors = System.properties['gruntColors'] ? System.properties['gruntColors'].toBoolean() : true
-    }
+    grunt { colors = System.properties['gruntColors'] ? System.properties['gruntColors'].toBoolean() : true  }
 
     node {
         version = "${nodeJsVersion}"
@@ -146,9 +179,11 @@ configure(subprojects.findAll {
         nodeModulesDir = rootProject.projectDir
     }
 
-    task jsInclude(type: NodeTask, dependsOn: [npmInstall]) {
-        def webappOutputDir = 'build/'
+    tasks.register('jsInclude', NodeTask) {
+        dependsOn npmInstall
+        doNotTrackState "Declaring input or output directories on tasks which contain unreadable content has been deprecated."
 
+        def webappOutputDir = 'build/'
         inputs.dir("$projectDir/src/main/resources")
         inputs.files(fileTree(projectDir).include('*.js'))
         inputs.files(fileTree(projectDir).include('*.json'))
@@ -161,27 +196,14 @@ configure(subprojects.findAll {
                 "--outputDir=${webappOutputDir}", "--npmDir=${rootProject.projectDir}", 'default']
     }
 
-    jar.dependsOn(jsInclude)
-
-    task unzipBuildTools(type: Copy) {
-        into "${rootProject.buildDir}/build-tools/"
-        from {
-            def intygJar = project.rootProject.buildscript.configurations.classpath.find {
-                it.name.contains("se.inera.intyg.plugin.common")
-            }
-            zipTree(intygJar)
-        }
-    }
-
-    task jsCodeQuality(type: NodeTask, dependsOn: [npmInstall, unzipBuildTools]) {
+    tasks.register('jsCodeQuality', NodeTask) {
+        dependsOn npmInstall, ':unzipBuildTools'
         outputs.upToDateWhen { false }
 
         script = file("${rootProject.projectDir}/node_modules/grunt-cli/bin/grunt")
         args = ["--gruntfile=${rootProject.projectDir}/Gruntfile.js", "--base=${projectDir}", "--intygModule=${project.name}",
                 "--npmDir=${rootProject.projectDir}", 'lint']
     }
-
-    jsCodeQuality.onlyIf { project.hasProperty('codeQuality') }
 
     jar {
         exclude '**/*.scss'
@@ -191,33 +213,36 @@ configure(subprojects.findAll {
         exclude '**/karma*.conf.ci.js'
     }
 
-    afterEvaluate {
-        checkstyleMain.dependsOn jsCodeQuality
+    if (project.hasProperty('codeQuality')) {
+        spotbugsMain.dependsOn('jsInclude')
     }
+
+    afterEvaluate { checkstyleMain.dependsOn jsCodeQuality }
+    compileTestJava.dependsOn('jsInclude')
+    checkstyleMain.dependsOn('jsInclude')
+    jar.dependsOn(jsInclude)
+    jsCodeQuality.onlyIf { project.hasProperty('codeQuality') }
 }
 
-configure(subprojects.findAll {
-    ['fk7263', 'ts-bas', 'ts-diabetes', 'tstrk1062', 'lisjp', 'af00213', 'af00251'].contains(it.name)
-}) {
-    configurations {
-        jstests
-    }
+configure(subprojects.findAll { ['fk7263', 'ts-bas', 'ts-diabetes', 'tstrk1062', 'lisjp', 'af00213', 'af00251'].contains(it.name) }) {
 
-    dependencies {
-        jstests project(':common-web')
-    }
+    configurations { jstests }
+    dependencies { jstests project(':common-web') }
 
-    task unzipWebjars(type: Copy, dependsOn: ":common-web:build") {
+    tasks.register('unzipWebjars', Copy) {
+        dependsOn ":common-web:build"
         description 'Copies common-web from the classpath and expands it so that we can use their static resources with karma'
-        into "$buildDir/webjars/"
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        into "${project.layout.buildDirectory.get().asFile}/webjars/"
         from {
             configurations.jstests.collect { zipTree(it) }
         }
     }
 
-    task jsTests(type: NodeTask, dependsOn: [npmInstall, unzipWebjars]) {
-        def webappTestOutputDir = 'build/karma/'
+    tasks.register('jsTests', NodeTask) {
+        dependsOn npmInstall, unzipWebjars
 
+        def webappTestOutputDir = 'build/karma/'
         inputs.dir("${projectDir}/src/main/resources")
         inputs.files(fileTree(projectDir).include('*.js'))
         inputs.files(fileTree(projectDir).include('*.json'))
@@ -233,4 +258,30 @@ configure(subprojects.findAll {
     test.dependsOn(jsTests)
 }
 
-task tagRelease(type: TagReleaseTask)
+subprojects.collect {subproject -> subproject.name }.each { subprojectName ->
+    dependencies { testReportAggregation project(":${subprojectName}") }
+}
+
+tasks.register('tagRelease', TagReleaseTask)
+
+tasks.register('unzipBuildTools', Copy) {
+    into "${rootProject.layout.buildDirectory.get().asFile}/build-tools/"
+    from { zipTree(project.rootProject.buildscript.configurations.classpath.find { it.name.contains("se.inera.intyg.plugin.common") }) }
+}
+
+tasks.register("applyGitHooks", Copy) {
+    dependsOn("unzipBuildTools")
+    def repository = IntygPluginKt.findGitRepository(project.rootProject.projectDir)
+    def commitMsg = rootProject.layout.buildDirectory.file("/build-tools/git_hooks/commit-msg").get().asFile
+    def preCommit = rootProject.layout.buildDirectory.file("/build-tools/git_hooks/pre-commit").get().asFile
+    def toDir = Paths.get(repository.directory.path, "hooks")
+
+    if (!Files.exists(toDir)) {
+        Files.createDirectory(toDir)
+    }
+
+    IntygPluginKt.copyFile(commitMsg, toDir)
+    IntygPluginKt.copyFile(preCommit, toDir)
+}
+
+applyGitHooks.dependsOn(unzipBuildTools)

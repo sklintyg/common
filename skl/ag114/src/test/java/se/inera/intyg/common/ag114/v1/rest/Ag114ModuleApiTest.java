@@ -45,6 +45,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import javax.xml.soap.SOAPFactory;
 import javax.xml.transform.Source;
 import javax.xml.ws.soap.SOAPFaultException;
@@ -67,6 +68,7 @@ import se.inera.intyg.common.ag114.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ag114.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
+import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning.SysselsattningsTyp;
 import se.inera.intyg.common.ag114.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.services.texts.IntygTextsService;
@@ -163,14 +165,13 @@ public class Ag114ModuleApiTest {
     private Ag114ModuleApiV1 moduleApi;
 
     public Ag114ModuleApiTest() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
-
 
     @Before
     public void setUp() throws Exception {
         ReflectionTestUtils.setField(webcertModelFactory, "intygTexts", intygTextsServiceMock);
-        when(intygTextsServiceMock.getLatestVersionForSameMajorVersion(eq(Ag114EntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
+        when(intygTextsServiceMock.getLatestVersionForSameMajorVersion(Ag114EntryPoint.MODULE_ID, INTYG_TYPE_VERSION_1))
             .thenReturn(INTYG_TYPE_VERSION_1);
     }
 
@@ -197,7 +198,7 @@ public class Ag114ModuleApiTest {
 
     @Test
     public void testGetCertificate() throws Exception {
-        GetCertificateResponseType result = createGetCertificateResponseType(StatusKod.SENTTO, "FKASSA");
+        GetCertificateResponseType result = createGetCertificateResponseType(StatusKod.SENTTO);
 
         when(getCertificateResponderInterface.getCertificate(anyString(), any())).thenReturn(result);
         final CertificateResponse response = moduleApi.getCertificate("id", LOGICAL_ADDRESS, "INVANA");
@@ -206,7 +207,7 @@ public class Ag114ModuleApiTest {
 
     @Test
     public void testGetCertificateWhenRevoked() throws Exception {
-        GetCertificateResponseType result = createGetCertificateResponseType(StatusKod.CANCEL, "FKASSA");
+        GetCertificateResponseType result = createGetCertificateResponseType(StatusKod.CANCEL);
 
         when(getCertificateResponderInterface.getCertificate(anyString(), any())).thenReturn(result);
         final CertificateResponse response = moduleApi.getCertificate("id", LOGICAL_ADDRESS, "INVANA");
@@ -332,7 +333,7 @@ public class Ag114ModuleApiTest {
     public void testCreateNewInternal() throws Exception {
         CreateNewDraftHolder createNewDraftHolder =
             new CreateNewDraftHolder("1", INTYG_TYPE_VERSION_1, createHosPersonal(),
-                createPatient("fornamn", "efternamn", TEST_PATIENT_PERSONNR));
+                createPatient("fornamn", "efternamn"));
 
         final String renewalFromTemplate = moduleApi.createNewInternal(createNewDraftHolder);
 
@@ -359,7 +360,7 @@ public class Ag114ModuleApiTest {
     @Test
     public void testUpdatePatientBeforeSave() throws IOException, ModuleException {
         final String json = getResourceAsString("v1/Ag114ModuleApiTest/valid-utkast-sample.json");
-        final Patient updatedPatient = createPatient("Nytt", "Namn", TEST_PATIENT_PERSONNR);
+        final Patient updatedPatient = createPatient("Nytt", "Namn");
 
         Ag114UtlatandeV1 utlatandeBeforeSave = (Ag114UtlatandeV1) moduleApi.getUtlatandeFromJson(json);
         assertNotEquals(updatedPatient, utlatandeBeforeSave.getGrundData().getPatient());
@@ -391,7 +392,7 @@ public class Ag114ModuleApiTest {
     @Test
     public void testUpdateBeforeViewing() throws IOException, ModuleException {
         final String json = getResourceAsString("v1/internal/scenarios/pass-minimal.json");
-        final Patient updatedPatient = createPatient("Nytt", "Namn", TEST_PATIENT_PERSONNR);
+        final Patient updatedPatient = createPatient("Nytt", "Namn");
 
         Ag114UtlatandeV1 utlatandeBeforeViewing = (Ag114UtlatandeV1) moduleApi.getUtlatandeFromJson(json);
         assertNotEquals(updatedPatient, utlatandeBeforeViewing.getGrundData().getPatient());
@@ -433,12 +434,12 @@ public class Ag114ModuleApiTest {
         final String intygId = "intygId";
 
         GrundData gd = new GrundData();
-        gd.setPatient(createPatient("fornamn", "efternamn", TEST_PATIENT_PERSONNR));
+        gd.setPatient(createPatient("fornamn", "efternamn"));
         HoSPersonal skapadAv = createHosPersonal();
         gd.setSkapadAv(skapadAv);
 
         Utlatande utlatande = Ag114UtlatandeV1.builder().setId(intygId).setGrundData(gd).setTextVersion("1.0")
-            .setSysselsattning(Arrays.asList(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE)))
+            .setSysselsattning(List.of(Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE)))
             .build();
 
         String res = moduleApi.createRevokeRequest(utlatande, skapadAv, meddelande);
@@ -482,7 +483,7 @@ public class Ag114ModuleApiTest {
     @Test(expected = ModuleException.class)
     public void testGetIntygFromUtlatandeConverterException() throws Exception {
         Utlatande failingUtlatande = Ag114UtlatandeV1.builder().setId("").setGrundData(new GrundData()).setTextVersion("1.0")
-            .setSysselsattning(Arrays.asList(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE)))
+            .setSysselsattning(List.of(Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE)))
             .build();
 
         moduleApi.getIntygFromUtlatande(failingUtlatande);
@@ -539,7 +540,7 @@ public class Ag114ModuleApiTest {
             .build();
 
         doReturn(internalCertificate)
-            .when(objectMapper).readValue(eq(certificateAsJson), eq(Ag114UtlatandeV1.class));
+            .when(objectMapper).readValue(certificateAsJson, Ag114UtlatandeV1.class);
 
         doReturn(convertedCertificate)
             .when(internalToCertificate).convert(eq(internalCertificate), any(CertificateTextProvider.class));
@@ -564,7 +565,7 @@ public class Ag114ModuleApiTest {
             .build();
 
         doReturn(internalCertificate)
-            .when(objectMapper).readValue(eq(certificateAsJson), eq(Ag114UtlatandeV1.class));
+            .when(objectMapper).readValue(certificateAsJson, Ag114UtlatandeV1.class);
 
         doReturn(expectedJson)
             .when(objectMapper).writeValueAsString(internalCertificate);
@@ -580,7 +581,7 @@ public class Ag114ModuleApiTest {
     public void getCertficateMessagesProviderGetExistingKey() {
         final var certificateMessagesProvider = moduleApi.getMessagesProvider();
 
-        assertEquals(certificateMessagesProvider.get("common.continue"), "Fortsätt");
+        assertEquals("Fortsätt", certificateMessagesProvider.get("common.continue"));
     }
 
     @Test
@@ -590,7 +591,7 @@ public class Ag114ModuleApiTest {
         assertNull(certificateMessagesProvider.get("not.existing"));
     }
 
-    private GetCertificateResponseType createGetCertificateResponseType(final StatusKod statusKod, final String part)
+    private GetCertificateResponseType createGetCertificateResponseType(final StatusKod statusKod)
         throws IOException, ModuleException {
         GetCertificateResponseType response = new GetCertificateResponseType();
 
@@ -598,26 +599,26 @@ public class Ag114ModuleApiTest {
         Utlatande utlatandeFromXml = moduleApi.getUtlatandeFromXml(xmlContents);
         Intyg intyg = moduleApi.getIntygFromUtlatande(utlatandeFromXml);
 
-        intyg.getStatus().add(createStatus(statusKod.name(), part));
+        intyg.getStatus().add(createStatus(statusKod.name()));
 
         response.setIntyg(intyg);
 
         return response;
     }
 
-    private IntygsStatus createStatus(String statuskod, String recipientID) {
+    private IntygsStatus createStatus(String statuskod) {
         IntygsStatus intygsStatus = new IntygsStatus();
         Statuskod sk = new Statuskod();
         sk.setCode(statuskod);
         intygsStatus.setStatus(sk);
         Part part = new Part();
-        part.setCode(recipientID);
+        part.setCode("FKASSA");
         intygsStatus.setPart(part);
         intygsStatus.setTidpunkt(LocalDateTime.now());
         return intygsStatus;
     }
 
-    private Patient createPatient(String fornamn, String efternamn, String pnr) {
+    private Patient createPatient(String fornamn, String efternamn) {
         Patient patient = new Patient();
         if (StringUtils.isNotEmpty(fornamn)) {
             patient.setFornamn(fornamn);
@@ -625,12 +626,12 @@ public class Ag114ModuleApiTest {
         if (StringUtils.isNotEmpty(efternamn)) {
             patient.setEfternamn(efternamn);
         }
-        patient.setPersonId(createPnr(pnr));
+        patient.setPersonId(createPnr());
         return patient;
     }
 
-    private Personnummer createPnr(String civicRegistrationNumber) {
-        return Personnummer.createPersonnummer(civicRegistrationNumber).get();
+    private Personnummer createPnr() {
+        return Personnummer.createPersonnummer(Ag114ModuleApiTest.TEST_PATIENT_PERSONNR).orElseThrow();
     }
 
     private HoSPersonal createHosPersonal() {
@@ -667,9 +668,8 @@ public class Ag114ModuleApiTest {
     }
 
     private String getResourceAsString(String resourceName) throws IOException {
-        return (resourceName == null) ?
-            null :
-            Resources.toString(Resources.getResource(resourceName), Charsets.UTF_8);
+        return (resourceName == null)
+            ? null : Resources.toString(Resources.getResource(resourceName), Charsets.UTF_8);
     }
 
     private static GrundData getGrundData() {

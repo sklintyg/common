@@ -84,8 +84,7 @@ public class Ag114ModuleApiV1 extends AgParentModuleApi<Ag114UtlatandeV1> {
     private void init() {
         try {
             final var inputStream1 = new ClassPathResource("/META-INF/resources/webjars/common/webcert/messages.js").getInputStream();
-            final var inputStream2
-                = new ClassPathResource("/META-INF/resources/webjars/ag114/webcert/views/messages.js").getInputStream();
+            final var inputStream2 = new ClassPathResource("/META-INF/resources/webjars/ag114/webcert/views/messages.js").getInputStream();
             validationMessages = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
         } catch (IOException exception) {
             LOG.error("Error during initialization. Could not read messages files");
@@ -173,7 +172,7 @@ public class Ag114ModuleApiV1 extends AgParentModuleApi<Ag114UtlatandeV1> {
 
     @Override
     protected Ag114UtlatandeV1 decorateDiagnoserWithDescriptions(Ag114UtlatandeV1 utlatande) {
-        if (utlatande.getDiagnoser() != null && utlatande.getDiagnoser().size() > 0) {
+        if (utlatande.getDiagnoser() != null && !utlatande.getDiagnoser().isEmpty()) {
             List<Diagnos> decoratedDiagnoser = utlatande.getDiagnoser().stream()
                 .map(diagnos -> Diagnos.create(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem(), diagnos.getDiagnosBeskrivning(),
                     moduleService.getDescriptionFromDiagnosKod(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem())))

@@ -1,15 +1,25 @@
 dependencies {
-    compile project(':fk-parent')
+    implementation project(":fk-parent")
+    implementation project(":common-services")
+    implementation project(":common-support")
+    implementation project(":common-web")
+
+    implementation "com.fasterxml.jackson.core:jackson-annotations"
+    implementation "com.fasterxml.jackson.core:jackson-databind"
+    implementation "com.google.guava:guava:${guavaVersion}"
+    implementation "com.itextpdf:itextpdf:${itextVersion}"
+    implementation "org.springframework:spring-context"
+    implementation "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
+    implementation "se.riv.clinicalprocess.healthcond.certificate:clinicalprocess-healthcond-certificate-schemas:${rivtaClinicalprocessSchemasVersion}"
 
     compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
-
-    compile "com.google.auto.value:auto-value:${autovalueVersion}"
-    compile "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
-
-    testCompile "org.assertj:assertj-core"
-    testCompile "org.apache.commons:commons-lang3"
+    compileOnly "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
+    annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
 
     testImplementation testFixtures(project(":common-support"))
-
-    annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
+    testImplementation project(":integration-util")
+    testImplementation ("com.helger:ph-schematron:${phSchematronVersion}") { exclude group: "com.helger", module: "ph-jaxb-pom" }
+    testImplementation "org.apache.commons:commons-lang3"
+    testImplementation "org.apache.cxf:cxf-core:${cxfVersion}"
+    testImplementation "org.assertj:assertj-core"
 }

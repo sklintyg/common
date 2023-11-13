@@ -1,14 +1,18 @@
 dependencies {
-  compile project(':logging-util')
-  compile project(':common-services')
+  implementation project(':common-services')
+  implementation project(':common-support')
+  implementation project(':common-support')
+  implementation project(':logging-util')
 
-  compile "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
-  compile "com.fasterxml.jackson.core:jackson-core"
-  compile "com.fasterxml.jackson.core:jackson-databind"
+  implementation "com.fasterxml.jackson.core:jackson-core"
+  implementation "com.fasterxml.jackson.core:jackson-databind"
+  implementation "com.google.guava:guava:${guavaVersion}"
+  implementation "com.itextpdf:html2pdf:${itextPdfHtmlVersion}"
+  implementation "com.itextpdf:itext7-core:${itext7Version}"
+  implementation "commons-io:commons-io:${commonsIoVersion}"
+  implementation "org.apache.commons:commons-text:${commonsTextVersion}"
+  implementation "org.springframework:spring-core"
+  implementation "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
 
-  compile "org.apache.commons:commons-text:${commonsTextVersion}"
-
-  compile "commons-io:commons-io:${commonsIoVersion}"
-  compile "com.itextpdf:itext7-core:${itext7Version}"
-  compile "com.itextpdf:html2pdf:${itextPdfHtmlVersion}"
+  compileOnly "com.github.spotbugs:spotbugs-annotations:${spotbugsAnnotationVersion}"
 }

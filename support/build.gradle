@@ -1,30 +1,34 @@
 apply plugin: "java-test-fixtures"
 
+components.java.withVariantsFromConfiguration(configurations.testFixturesApiElements) { skip() }
+components.java.withVariantsFromConfiguration(configurations.testFixturesRuntimeElements) { skip() }
+if (project.hasProperty("codeQuality")) { spotbugsTestFixtures.enabled(false) }
+
 dependencies {
-  compile project(':logging-util')
+  implementation project(':logging-util')
 
-  compile "org.springframework:spring-oxm"
-  compile "se.riv.clinicalprocess.healthcond.certificate:clinicalprocess-healthcond-certificate-schemas:${rivtaClinicalprocessSchemasVersion}"
-  compile "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schemas:${intygClinicalprocessSchemasVersion}"
-  compile "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
-  compile "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schematron:${intygClinicalprocessSchematronVersion}"
-  compile ("com.helger:ph-schematron:${phSchematronVersion}") {
-      exclude group: "com.helger", module: "ph-jaxb-pom"
-  }
+  implementation "com.fasterxml.jackson.core:jackson-databind"
+  implementation "com.google.guava:guava:${guavaVersion}"
+  implementation ("com.helger:ph-schematron:${phSchematronVersion}") { exclude group: "com.helger", module: "ph-jaxb-pom" }
+  implementation "net.sf.saxon:Saxon-HE:${saxonVersion}"
+  implementation "org.apache.commons:commons-csv:${commonsCsvVersion}"
+  implementation "org.springframework:spring-oxm"
+  implementation "org.springframework:spring-context"
+  implementation "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schemas:${intygClinicalprocessSchemasVersion}"
+  implementation "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schematron:${intygClinicalprocessSchematronVersion}"
+  implementation "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
+  implementation "se.riv.clinicalprocess.healthcond.certificate:clinicalprocess-healthcond-certificate-schemas:${rivtaClinicalprocessSchemasVersion}"
 
-  compile "com.fasterxml.jackson.core:jackson-databind"
-  compile "com.google.guava:guava:${guavaVersion}"
-  compile "net.sf.saxon:Saxon-HE:${saxonVersion}"
-  compile "org.apache.commons:commons-csv:${commonsCsvVersion}"
+  compileOnly 'org.projectlombok:lombok'
+  annotationProcessor 'org.projectlombok:lombok'
 
-  testCompile "org.assertj:assertj-core"
+  testImplementation "nl.jqno.equalsverifier:equalsverifier:${equalsVerifierVersion}"
+  testImplementation "org.assertj:assertj-core"
+
   testFixturesImplementation "org.junit.jupiter:junit-jupiter-api"
   testFixturesImplementation "org.junit.jupiter:junit-jupiter-params"
   testFixturesImplementation "org.mockito:mockito-junit-jupiter"
   testFixturesImplementation "org.mockito:mockito-core"
-
-  compileOnly 'org.projectlombok:lombok'
-  annotationProcessor 'org.projectlombok:lombok'
 
   testCompileOnly 'org.projectlombok:lombok'
   testAnnotationProcessor 'org.projectlombok:lombok'

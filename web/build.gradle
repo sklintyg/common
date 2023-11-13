@@ -1,4 +1,4 @@
-apply plugin: 'nebula.grunt'
+apply plugin: 'com.netflix.nebula.grunt'
 
 def webappOutputDir = 'build/'
 def webappTestOutputDir = 'build/karma/'
@@ -27,7 +27,8 @@ sourceSets {
     }
 }
 
-task jsTests(type: NodeTask, dependsOn: [npmInstall]) {
+tasks.register('jsTests', NodeTask) {
+    dependsOn npmInstall
     inputs.dir("$projectDir/src/main/resources")
     inputs.files(fileTree(projectDir).include('*.js'))
     inputs.files(fileTree(projectDir).include('*.json'))
@@ -35,13 +36,13 @@ task jsTests(type: NodeTask, dependsOn: [npmInstall]) {
     outputs.dir(webappTestOutputDir)
 
     script = file(gruntBinary)
-    args = [ 'test', "--outputDir=${webappTestOutputDir}", "--base=${projectDir}", "--npmDir=${rootProject.projectDir}",
-             '--run-coverage=' + (project.findProperty('codeCoverage') != null ? 'true' : '') ]
+    args = ['test', "--outputDir=${webappTestOutputDir}", "--base=${projectDir}", "--npmDir=${rootProject.projectDir}",
+            '--run-coverage=' + (project.findProperty('codeCoverage') != null ? 'true' : '')]
 }
 
-test.dependsOn(jsTests)
-
-task jsInclude(type: NodeTask, dependsOn: [npmInstall]) {
+tasks.register('jsInclude', NodeTask) {
+    dependsOn npmInstall
+    doNotTrackState "Declaring input or output directories on tasks which contain unreadable content has been deprecated."
     inputs.dir("$projectDir/src/main/resources")
     inputs.files(fileTree(projectDir).include('*.js'))
     inputs.files(fileTree(projectDir).include('*.json'))
@@ -49,25 +50,27 @@ task jsInclude(type: NodeTask, dependsOn: [npmInstall]) {
     outputs.dir(webappOutputDir)
 
     script = file(gruntBinary)
-    args = [ 'default', "--outputDir=${webappOutputDir}", "--base=${projectDir}", "--npmDir=${rootProject.projectDir}" ]
+    args = ['default', "--outputDir=${webappOutputDir}", "--base=${projectDir}", "--npmDir=${rootProject.projectDir}"]
 }
 
-jar.dependsOn(jsInclude)
-
-task unzipBuildTools(type: Copy) {
-    into "$buildDir/build-tools/"
+tasks.register('unzipBuildTools', Copy) {
+    into "${project.layout.buildDirectory.get().asFile}/build-tools/"
     from {
         def intygJar = project.rootProject.buildscript.configurations.classpath.find { it.name.contains("se.inera.intyg.plugin.common") }
         zipTree(intygJar)
     }
 }
 
-task jsCodeQuality(type: NodeTask, dependsOn: [npmInstall, unzipBuildTools]) {
+tasks.register('jsCodeQuality', NodeTask) {
+    dependsOn npmInstall, unzipBuildTools
     outputs.upToDateWhen { false }
 
     script = file(gruntBinary)
-    args = [ 'lint', "--base=${projectDir}", "--npmDir=${rootProject.projectDir}" ]
+    args = ['lint', "--base=${projectDir}", "--npmDir=${rootProject.projectDir}"]
 }
 
 checkstyleMain.dependsOn jsCodeQuality
+jar.dependsOn(jsInclude)
+packageTests.dependsOn(":common-web:jsInclude")
+test.dependsOn(jsTests)
 jsCodeQuality.onlyIf { project.hasProperty('codeQuality') }
