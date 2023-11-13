@@ -10,11 +10,7 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-databind"
     implementation "com.google.guava:guava:${guavaVersion}"
     implementation "commons-io:commons-io:${commonsIoVersion}"
-    implementation "javax.annotation:javax.annotation-api"
-
-    implementation "org.slf4j:slf4j-api"
     implementation "org.springframework:spring-context"
-
     implementation "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
     implementation "se.riv.clinicalprocess.healthcond.certificate:clinicalprocess-healthcond-certificate-schemas:${rivtaClinicalprocessSchemasVersion}"
 
@@ -22,9 +18,8 @@ dependencies {
     compileOnly "com.google.auto.value:auto-value-annotations:${autovalueVersion}"
     annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
 
-    testImplementation project(":integration-util")
     testImplementation testFixtures(project(":common-support"))
-
+    testImplementation project(":integration-util")
     testImplementation ("com.helger:ph-schematron:${phSchematronVersion}") { exclude group: "com.helger", module: "ph-jaxb-pom" }
     testImplementation "org.apache.commons:commons-lang3"
     testImplementation "org.apache.cxf:cxf-core:${cxfVersion}"

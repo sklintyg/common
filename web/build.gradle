@@ -40,8 +40,6 @@ tasks.register('jsTests', NodeTask) {
             '--run-coverage=' + (project.findProperty('codeCoverage') != null ? 'true' : '')]
 }
 
-test.dependsOn(jsTests)
-
 tasks.register('jsInclude', NodeTask) {
     dependsOn npmInstall
     doNotTrackState "Declaring input or output directories on tasks which contain unreadable content has been deprecated."
@@ -54,8 +52,6 @@ tasks.register('jsInclude', NodeTask) {
     script = file(gruntBinary)
     args = ['default', "--outputDir=${webappOutputDir}", "--base=${projectDir}", "--npmDir=${rootProject.projectDir}"]
 }
-
-jar.dependsOn(jsInclude)
 
 tasks.register('unzipBuildTools', Copy) {
     into "${project.layout.buildDirectory.get().asFile}/build-tools/"
@@ -73,6 +69,8 @@ tasks.register('jsCodeQuality', NodeTask) {
     args = ['lint', "--base=${projectDir}", "--npmDir=${rootProject.projectDir}"]
 }
 
-packageTests.dependsOn(":common-web:jsInclude")
 checkstyleMain.dependsOn jsCodeQuality
+jar.dependsOn(jsInclude)
+packageTests.dependsOn(":common-web:jsInclude")
+test.dependsOn(jsTests)
 jsCodeQuality.onlyIf { project.hasProperty('codeQuality') }

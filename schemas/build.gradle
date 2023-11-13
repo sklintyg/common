@@ -2,9 +2,7 @@ dependencies {
   implementation project(':common-support')
 
   implementation "com.google.guava:guava:${guavaVersion}"
-
   implementation "org.jvnet.jaxb2_commons:jaxb2-basics:${jaxb2Version}"
-
   implementation "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schemas:${intygClinicalprocessSchemasVersion}"
   implementation "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
   implementation "se.riv.insuranceprocess.healthreporting:insuranceprocess-healthreporting-schemas:${rivtaInsuranceprocessSchemasVersion}"

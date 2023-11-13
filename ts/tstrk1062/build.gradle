@@ -8,11 +8,8 @@ dependencies {
   implementation "com.fasterxml.jackson.core:jackson-databind"
   implementation "com.google.guava:guava:${guavaVersion}"
   implementation "commons-io:commons-io:${commonsIoVersion}"
-
-  implementation "org.slf4j:slf4j-api"
   implementation "org.springframework:spring-beans"
   implementation "org.springframework:spring-context"
-
   implementation "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
   implementation "se.riv.clinicalprocess.healthcond.certificate:clinicalprocess-healthcond-certificate-schemas:${rivtaClinicalprocessSchemasVersion}"
 

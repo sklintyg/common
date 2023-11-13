@@ -6,10 +6,7 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-databind"
     implementation "com.google.guava:guava:${guavaVersion}"
     implementation "jakarta.ws.rs:jakarta.ws.rs-api"
-
-    implementation "org.slf4j:slf4j-api"
     implementation "org.springframework:spring-beans"
-
     implementation "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
     implementation "se.inera.intyg.transportstyrelsen:intyg-transportstyrelsen-schemas:${intygTransportstyrelsenSchemasVersion}"
     implementation "se.riv.clinicalprocess.healthcond.certificate:clinicalprocess-healthcond-certificate-schemas:${rivtaClinicalprocessSchemasVersion}"

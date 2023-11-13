@@ -17,7 +17,6 @@ dependencies {
     annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
 
     testImplementation project(":integration-util")
-
     testImplementation "org.apache.commons:commons-lang3"
     testImplementation "org.apache.cxf:cxf-core:${cxfVersion}"
 }

@@ -7,11 +7,9 @@ dependencies {
     implementation "com.google.guava:guava:${guavaVersion}"
     implementation "com.itextpdf:itextpdf:${itextVersion}"
     implementation ("com.helger:ph-schematron:${phSchematronVersion}") { exclude group: "com.helger", module: "ph-jaxb-pom" }
-
     implementation "org.apache.cxf:cxf-core:${cxfVersion}"
     implementation "org.springframework:spring-beans"
     implementation "org.springframework:spring-core"
-
     implementation "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schematron:${intygClinicalprocessSchematronVersion}"
     implementation "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
     implementation "se.riv.clinicalprocess.healthcond.certificate:clinicalprocess-healthcond-certificate-schemas:${rivtaClinicalprocessSchemasVersion}"

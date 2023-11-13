@@ -9,12 +9,9 @@ dependencies {
   implementation "com.google.guava:guava:${guavaVersion}"
   implementation "com.itextpdf:html2pdf:${itextPdfHtmlVersion}"
   implementation "com.itextpdf:itext7-core:${itext7Version}"
-
   implementation "commons-io:commons-io:${commonsIoVersion}"
-
   implementation "org.apache.commons:commons-text:${commonsTextVersion}"
   implementation "org.springframework:spring-core"
-
   implementation "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
 
   compileOnly "com.github.spotbugs:spotbugs-annotations:${spotbugsAnnotationVersion}"
