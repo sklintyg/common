@@ -120,7 +120,7 @@ allprojects {
     artifacts.archives packageTests
     compileJava.options.encoding = 'UTF-8'
     compileTestJava.dependsOn createVersionPropertyFile
-    jar { duplicatesStrategy = DuplicatesStrategy.INCLUDE }
+    jar { duplicatesStrategy = DuplicatesStrategy.EXCLUDE }
     test { useJUnitPlatform() }
 
     repositories {
@@ -158,8 +158,8 @@ allprojects {
 
     configurations {
         // Remove these due to conflict with Spring SAML which uses bcprov-jdk15.
-        compile.exclude group: "org.bouncycastle", module: "bcpkix-jdk15on"
-        compile.exclude group: "org.bouncycastle", module: "bcprov-jdk15on"
+        implementation.exclude group: "org.bouncycastle", module: "bcpkix-jdk15on"
+        implementation.exclude group: "org.bouncycastle", module: "bcprov-jdk15on"
     }
 }
 
@@ -189,7 +189,7 @@ configure(subprojects.findAll { ['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes
         inputs.files(fileTree(projectDir).include('*.js'))
         inputs.files(fileTree(projectDir).include('*.json'))
         inputs.files(fileTree(rootProject.projectDir).include('package.json'))
-        inputs.files(configurations.compile)
+        inputs.files(configurations.compileClasspath)
         outputs.dir(webappOutputDir)
 
         script = file("${rootProject.projectDir}/node_modules/grunt-cli/bin/grunt")
@@ -212,6 +212,14 @@ configure(subprojects.findAll { ['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes
         exclude '**/*.test.js'
         exclude '**/karma*.conf.js'
         exclude '**/karma*.conf.ci.js'
+    }
+
+    if (project.name in ["luse", "db", "af-parent", "lisjp", "luae_fs", "luae_na", "fk7263", "ag114", "ts-bas", "ts-diabetes"]) {
+        jsInclude.dependsOn(":common-web:jsInclude")
+    }
+
+    if (project.name == "doi") {
+        jsInclude.dependsOn(":db:jsInclude")
     }
 
     if (project.hasProperty('codeQuality')) {

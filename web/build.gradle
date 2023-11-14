@@ -32,7 +32,7 @@ tasks.register('jsTests', NodeTask) {
     inputs.dir("$projectDir/src/main/resources")
     inputs.files(fileTree(projectDir).include('*.js'))
     inputs.files(fileTree(projectDir).include('*.json'))
-    inputs.files(configurations.compile)
+    inputs.files(configurations.compileClasspath)
     outputs.dir(webappTestOutputDir)
 
     script = file(gruntBinary)
@@ -46,7 +46,7 @@ tasks.register('jsInclude', NodeTask) {
     inputs.dir("$projectDir/src/main/resources")
     inputs.files(fileTree(projectDir).include('*.js'))
     inputs.files(fileTree(projectDir).include('*.json'))
-    inputs.files(configurations.compile)
+    inputs.files(configurations.compileClasspath)
     outputs.dir(webappOutputDir)
 
     script = file(gruntBinary)
