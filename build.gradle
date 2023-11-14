@@ -107,12 +107,6 @@ allprojects {
         spotbugsMain.dependsOn('spotbugsIncludesAndExcludes')
         spotbugsTest.enabled(false)
         dependencies { spotbugsSlf4j "org.slf4j:slf4j-simple" }
-
-        afterEvaluate {
-            if (project.name == "hsatk-integration") {
-                licenseMain.dependsOn(wsdl2javaTask)
-            }
-        }
     }
 
     if (project.name in ["luse", "db", "af-parent", "lisjp", "luae_fs", "luae_na", "fk7263", "ag114", "ts-bas", "ts-diabetes"]) {
