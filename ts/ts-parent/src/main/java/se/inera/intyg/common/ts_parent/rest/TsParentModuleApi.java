@@ -99,6 +99,8 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     public static final String REGISTER_CERTIFICATE_VERSION1 = "v1";
     public static final String REGISTER_CERTIFICATE_VERSION3 = "v3";
     private static final String ADDITIONAL_INFO_LABEL = "Avser behörighet";
+    private static final String PREAMBLE_TEXT = "Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
+        + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg.";
 
     @Autowired(required = false)
     protected WebcertModuleService moduleService;
@@ -460,4 +462,8 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
         return ADDITIONAL_INFO_LABEL;
     }
 
+    @Override
+    public String getPreambleText() {
+        return PREAMBLE_TEXT;
+    }
 }

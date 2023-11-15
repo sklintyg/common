@@ -493,6 +493,15 @@ public class Fk7263ModuleApiTest {
         assertEquals("Gäller intygsperiod", response);
     }
 
+    @Test
+    public void shouldReturnPreambleText() {
+        final var expectedResult = "Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
+            + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg. "
+            + "Om du vill ansöka om sjukpenning, gör du det på {LINK:http://www.forsakringskassan.se/sjuk}.";
+
+        assertEquals(expectedResult, fk7263ModuleApi.getPreambleText());
+    }
+
     private Fk7263Utlatande getUtlatandeFromFile() throws IOException {
         return new CustomObjectMapper().readValue(new ClassPathResource(
             TESTFILE_UTLATANDE).getFile(), Fk7263Utlatande.class);

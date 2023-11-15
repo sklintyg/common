@@ -335,6 +335,13 @@ public interface ModuleApi extends ModuleFacadeApi {
     String getAdditionalInfoLabel();
 
     /**
+     * Generates the preamble text which should be shown in Mina intyg.
+     *
+     * @return the information as a String
+     */
+    String getPreambleText();
+
+    /**
      * Injects the XML digital signature into the json model encoded into Base64.
      *
      * @param jsonModel the certificate as JSON.

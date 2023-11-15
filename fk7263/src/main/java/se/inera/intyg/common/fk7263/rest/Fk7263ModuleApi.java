@@ -125,6 +125,11 @@ public class Fk7263ModuleApi implements ModuleApi {
     private static final Comparator<? super DatePeriodType> PERIOD_START = Comparator.comparing(DatePeriodType::getStart);
     private static final String SPACE = "---";
     public static final String ADDITIONAL_INFO_LABEL = "Gäller intygsperiod";
+
+    private static final String PREAMBLE_TEXT = "Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
+        + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg. "
+        + "Om du vill ansöka om sjukpenning, gör du det på {LINK:http://www.forsakringskassan.se/sjuk}.";
+
     @Autowired
     private WebcertModelFactory<Fk7263Utlatande> webcertModelFactory;
 
@@ -748,5 +753,10 @@ public class Fk7263ModuleApi implements ModuleApi {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public String getPreambleText() {
+        return PREAMBLE_TEXT;
     }
 }
