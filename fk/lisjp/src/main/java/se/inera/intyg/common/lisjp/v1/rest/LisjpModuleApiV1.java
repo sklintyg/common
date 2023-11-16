@@ -81,7 +81,7 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
 
     private static final String CERTIFICATE_FILE_PREFIX = "lakarintyg_sjukpenning";
     private static final String ADDITIONAL_INFO_LABEL = "Gäller intygsperiod";
-    private static final String PREAMBLE_TEXT = "Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
+    private static final String PREAMBLE_FOR_CITIZENS = "Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
         + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg. "
         + "Om du vill ansöka om sjukpenning, gör du det på {LINK:http://www.forsakringskassan.se/sjuk}.";
     private Map<String, String> validationMessages;
@@ -308,7 +308,7 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
     }
 
     @Override
-    public String getPreambleText() {
-        return PREAMBLE_TEXT;
+    public String getPreambleForCitizens() {
+        return PREAMBLE_FOR_CITIZENS;
     }
 }

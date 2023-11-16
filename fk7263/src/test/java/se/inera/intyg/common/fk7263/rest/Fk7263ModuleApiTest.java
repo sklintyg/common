@@ -494,12 +494,12 @@ public class Fk7263ModuleApiTest {
     }
 
     @Test
-    public void shouldReturnPreambleText() {
+    public void shouldReturnPreambleForCitizens() {
         final var expectedResult = "Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
             + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg. "
             + "Om du vill ansöka om sjukpenning, gör du det på {LINK:http://www.forsakringskassan.se/sjuk}.";
 
-        assertEquals(expectedResult, fk7263ModuleApi.getPreambleText());
+        assertEquals(expectedResult, fk7263ModuleApi.getPreambleForCitizens());
     }
 
     private Fk7263Utlatande getUtlatandeFromFile() throws IOException {

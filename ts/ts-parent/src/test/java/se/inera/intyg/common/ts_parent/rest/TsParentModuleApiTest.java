@@ -513,11 +513,11 @@ public class TsParentModuleApiTest {
     }
 
     @Test
-    public void shouldReturnPreambleText() {
+    public void shouldReturnPreambleForCitizens() {
         final var expectedResult = "Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
             + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg.";
 
-        assertEquals(expectedResult, moduleApi.getPreambleText());
+        assertEquals(expectedResult, moduleApi.getPreambleForCitizens());
     }
 
     private RegisterCertificateResponseType createRegisterCertificateResponse(ResultCodeType resultCodeType) {

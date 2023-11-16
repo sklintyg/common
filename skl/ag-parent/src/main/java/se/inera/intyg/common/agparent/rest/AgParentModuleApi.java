@@ -88,7 +88,7 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
 
     private static final Logger LOG = LoggerFactory.getLogger(AgParentModuleApi.class);
     public static final String ADDITIONAL_INFO_LABEL = "Gäller intygsperiod";
-    private static final String PREAMBLE_TEXT =
+    private static final String PREAMBLE_FOR_CITIZENS =
         "Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. Du kan inte ändra något i ditt intyg. "
             + "Har du frågor kontaktar du den som skrivit ditt intyg. Det här intyget behöver du skriva ut och skicka själv. "
             + "När du klickar på “skriv ut” kan du välja om du vill visa eller dölja din diagnos. Ingen annan information kan döljas.";
@@ -429,7 +429,7 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public String getPreambleText() {
-        return PREAMBLE_TEXT;
+    public String getPreambleForCitizens() {
+        return PREAMBLE_FOR_CITIZENS;
     }
 }
