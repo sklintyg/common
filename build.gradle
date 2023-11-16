@@ -224,6 +224,7 @@ configure(subprojects.findAll { ['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes
 
     if (project.hasProperty('codeQuality')) {
         spotbugsMain.dependsOn('jsInclude')
+        jacocoTestReport.mustRunAfter(":db:jsInclude")
     }
 
     afterEvaluate { checkstyleMain.dependsOn jsCodeQuality }
