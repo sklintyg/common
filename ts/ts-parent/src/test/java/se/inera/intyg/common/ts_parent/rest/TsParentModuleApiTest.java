@@ -56,6 +56,8 @@ import org.mockito.Spy;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import se.inera.intyg.common.support.facade.model.CertificateText;
+import se.inera.intyg.common.support.facade.model.CertificateTextType;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -514,8 +516,10 @@ public class TsParentModuleApiTest {
 
     @Test
     public void shouldReturnPreambleForCitizens() {
-        final var expectedResult = "Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
-            + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg.";
+        final var expectedResult = CertificateText.builder()
+            .type(CertificateTextType.PREAMBLE_TEXT)
+            .text("Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
+                + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg.").build();
 
         assertEquals(expectedResult, moduleApi.getPreambleForCitizens());
     }

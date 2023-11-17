@@ -53,6 +53,9 @@ import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvide
 import se.inera.intyg.common.services.messages.MessagesParser;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.model.CertificateLink;
+import se.inera.intyg.common.support.facade.model.CertificateText;
+import se.inera.intyg.common.support.facade.model.CertificateTextType;
 import se.inera.intyg.common.support.facade.util.TestabilityToolkit;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
@@ -81,9 +84,10 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
 
     private static final String CERTIFICATE_FILE_PREFIX = "lakarintyg_sjukpenning";
     private static final String ADDITIONAL_INFO_LABEL = "Gäller intygsperiod";
+    private static final String LINK_FK_ID = "linkFK";
     private static final String PREAMBLE_FOR_CITIZENS = "Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
         + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg. "
-        + "Om du vill ansöka om sjukpenning, gör du det på {LINK:http://www.forsakringskassan.se/sjuk}.";
+        + "Om du vill ansöka om sjukpenning, gör du det på {" + LINK_FK_ID + "}.";
     private Map<String, String> validationMessages;
     @Autowired(required = false)
     private SummaryConverter summaryConverter;
@@ -308,7 +312,18 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
     }
 
     @Override
-    public String getPreambleForCitizens() {
-        return PREAMBLE_FOR_CITIZENS;
+    public CertificateText getPreambleForCitizens() {
+        return CertificateText
+            .builder()
+            .text(PREAMBLE_FOR_CITIZENS)
+            .type(CertificateTextType.PREAMBLE_TEXT)
+            .links(List.of(
+                CertificateLink.builder()
+                    .url("http://www.forsakringskassan.se/sjuk")
+                    .name("Försäkringskassan")
+                    .id(LINK_FK_ID)
+                    .build()
+            ))
+            .build();
     }
 }

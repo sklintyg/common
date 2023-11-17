@@ -51,6 +51,8 @@ import se.inera.intyg.common.services.texts.DefaultCertificateTextProvider;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.model.CertificateText;
+import se.inera.intyg.common.support.facade.model.CertificateTextType;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -99,7 +101,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
 
     public static final String PREFIX = "Motivering till varför ingen ytterligare medicinsk information kunde anges vid komplettering: ";
     private static final String PREAMBLE_FOR_CITIZEN = "Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
-        + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg. ";
+        + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg.";
 
     @Autowired(required = false)
     protected WebcertModuleService moduleService;
@@ -538,7 +540,10 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
         throw new UnsupportedOperationException();
     }
 
-    public String getPreambleForCitizens() {
-        return PREAMBLE_FOR_CITIZEN;
+    public CertificateText getPreambleForCitizens() {
+        return CertificateText.builder()
+            .type(CertificateTextType.PREAMBLE_TEXT)
+            .text(PREAMBLE_FOR_CITIZEN)
+            .build();
     }
 }

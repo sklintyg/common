@@ -43,6 +43,8 @@ import se.inera.intyg.common.services.texts.DefaultCertificateTextProvider;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.model.CertificateText;
+import se.inera.intyg.common.support.facade.model.CertificateTextType;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -463,7 +465,10 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public String getPreambleForCitizens() {
-        return PREAMBLE_FOR_CITIZENS;
+    public CertificateText getPreambleForCitizens() {
+        return CertificateText.builder()
+            .type(CertificateTextType.PREAMBLE_TEXT)
+            .text(PREAMBLE_FOR_CITIZENS)
+            .build();
     }
 }
