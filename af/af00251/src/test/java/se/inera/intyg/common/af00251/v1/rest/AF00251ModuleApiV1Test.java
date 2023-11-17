@@ -61,6 +61,7 @@ import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
 import se.inera.intyg.common.af00251.v1.model.internal.Sjukfranvaro;
 import se.inera.intyg.common.af00251.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.af00251.v1.utils.ScenarioNotFoundException;
+import se.inera.intyg.common.support.facade.model.CertificateText;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -498,6 +499,17 @@ public class AF00251ModuleApiV1Test {
     @Test
     public void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
         assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
+    }
+
+    @Test
+    public void shouldReturnPreambleText() {
+        final var expectedResponse = CertificateText.builder()
+            .text("")
+            .build();
+
+        final var response = moduleApi.getPreambleForCitizens();
+
+        assertEquals(expectedResponse, response);
     }
 
     private String toJsonString(AF00251UtlatandeV1 utlatande) throws ModuleException {

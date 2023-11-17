@@ -41,6 +41,7 @@ import se.inera.intyg.common.services.texts.DefaultCertificateTextProvider;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.model.CertificateText;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -453,6 +454,13 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
     @Override
     public String getAdditionalInfoLabel() {
         return ADDITIONAL_INFO_LABEL;
+    }
+
+    @Override
+    public CertificateText getPreambleForCitizens() {
+        return CertificateText.builder()
+            .text("")
+            .build();
     }
 
 }
