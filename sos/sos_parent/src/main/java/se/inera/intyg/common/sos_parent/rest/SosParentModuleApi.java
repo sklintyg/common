@@ -44,6 +44,7 @@ import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.model.CertificateText;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -342,6 +343,13 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
         List<ResolveOrder> otherStrategy = Collections.singletonList(PU);
 
         return new PatientDetailResolveOrder(null, addressStrategy, otherStrategy);
+    }
+
+    @Override
+    public CertificateText getPreambleForCitizens() {
+        return CertificateText.builder()
+            .text("")
+            .build();
     }
 
     protected IntygTexts getTexts(String intygsTyp, String version) {
