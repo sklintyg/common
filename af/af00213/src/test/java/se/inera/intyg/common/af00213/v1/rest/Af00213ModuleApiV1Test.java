@@ -476,7 +476,7 @@ public class Af00213ModuleApiV1Test {
     }
 
     @Test
-    void shouldReturnPreambleText() {
+    public void shouldReturnPreambleText() {
         final var expectedResponse = CertificateText.builder()
             .text("")
             .build();
