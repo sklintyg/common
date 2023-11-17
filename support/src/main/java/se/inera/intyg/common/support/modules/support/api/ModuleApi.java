@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import se.inera.intyg.common.support.facade.model.CertificateText;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -333,6 +334,13 @@ public interface ModuleApi extends ModuleFacadeApi {
      * @return the information as a String
      */
     String getAdditionalInfoLabel();
+
+    /**
+     * Generates the preamble text for citizens which should be shown in Mina intyg.
+     *
+     * @return the information as a String
+     */
+    CertificateText getPreambleForCitizens();
 
     /**
      * Injects the XML digital signature into the json model encoded into Base64.

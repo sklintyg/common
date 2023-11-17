@@ -72,6 +72,9 @@ import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.lisjp.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.lisjp.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.lisjp.v1.validator.InternalDraftValidatorImpl;
+import se.inera.intyg.common.support.facade.model.CertificateLink;
+import se.inera.intyg.common.support.facade.model.CertificateText;
+import se.inera.intyg.common.support.facade.model.CertificateTextType;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
@@ -635,6 +638,26 @@ public class LisjpModuleApiTest {
         final var response = moduleApi.getAdditionalInfoLabel();
 
         assertEquals("Gäller intygsperiod", response);
+    }
+
+    @Test
+    public void shouldReturnPreambleForCitizens() {
+        final var expectedResult = CertificateText
+            .builder()
+            .type(CertificateTextType.PREAMBLE_TEXT)
+            .text("Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
+                + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg. "
+                + "Om du vill ansöka om sjukpenning, gör du det på {linkFK}.")
+            .links(List.of(
+                CertificateLink.builder()
+                    .url("http://www.forsakringskassan.se/sjuk")
+                    .name("Försäkringskassan")
+                    .id("linkFK")
+                    .build()
+            ))
+            .build();
+
+        assertEquals(expectedResult, moduleApi.getPreambleForCitizens());
     }
 
     private String toJsonString(LisjpUtlatandeV1 utlatande) throws ModuleException {

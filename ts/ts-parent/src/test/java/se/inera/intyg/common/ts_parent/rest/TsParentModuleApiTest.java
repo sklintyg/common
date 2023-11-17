@@ -32,16 +32,17 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-
 import javax.xml.bind.JAXB;
 import javax.xml.ws.soap.SOAPFaultException;
-
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -53,13 +54,10 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.springframework.core.io.ClassPathResource;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import se.inera.intyg.common.support.facade.model.CertificateText;
+import se.inera.intyg.common.support.facade.model.CertificateTextType;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -304,12 +302,6 @@ public class TsParentModuleApiTest {
         assertEquals(inputString, res);
     }
 
-    /*
-        @Test(expected = UnsupportedOperationException.class)
-        public void testvalidateXml() throws Exception {
-            moduleApi.validateXml("xmlBody");
-        }
-    */
     @Test(expected = UnsupportedOperationException.class)
     public void testGetModuleSpecificArendeParameters() throws Exception {
         moduleApi.getModuleSpecificArendeParameters(new TestUtlatande(), new ArrayList<>());
@@ -520,6 +512,16 @@ public class TsParentModuleApiTest {
         final var response = moduleApi.getAdditionalInfoLabel();
 
         assertEquals("Avser behörighet", response);
+    }
+
+    @Test
+    public void shouldReturnPreambleForCitizens() {
+        final var expectedResult = CertificateText.builder()
+            .type(CertificateTextType.PREAMBLE_TEXT)
+            .text("Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
+                + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg.").build();
+
+        assertEquals(expectedResult, moduleApi.getPreambleForCitizens());
     }
 
     private RegisterCertificateResponseType createRegisterCertificateResponse(ResultCodeType resultCodeType) {

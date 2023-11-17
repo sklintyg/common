@@ -78,6 +78,9 @@ import se.inera.intyg.common.services.messages.MessagesParser;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.model.CertificateLink;
+import se.inera.intyg.common.support.facade.model.CertificateText;
+import se.inera.intyg.common.support.facade.model.CertificateTextType;
 import se.inera.intyg.common.support.facade.util.TestabilityToolkit;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.Status;
@@ -125,6 +128,13 @@ public class Fk7263ModuleApi implements ModuleApi {
     private static final Comparator<? super DatePeriodType> PERIOD_START = Comparator.comparing(DatePeriodType::getStart);
     private static final String SPACE = "---";
     public static final String ADDITIONAL_INFO_LABEL = "Gäller intygsperiod";
+    private static final String LINK_FK_ID = "linkFK";
+    private static final String PREAMBLE_FOR_CITIZEN = "Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
+        + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg. "
+        + "Om du vill ansöka om sjukpenning, gör du det på {" + LINK_FK_ID + "}.";
+    private static final String FK_URL = "http://www.forsakringskassan.se/sjuk";
+    private static final String FK_NAME = "Försäkringskassan";
+
     @Autowired
     private WebcertModelFactory<Fk7263Utlatande> webcertModelFactory;
 
@@ -748,5 +758,21 @@ public class Fk7263ModuleApi implements ModuleApi {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public CertificateText getPreambleForCitizens() {
+        return CertificateText
+            .builder()
+            .type(CertificateTextType.PREAMBLE_TEXT)
+            .text(PREAMBLE_FOR_CITIZEN)
+            .links(List.of(
+                CertificateLink.builder()
+                    .url(FK_URL)
+                    .name(FK_NAME)
+                    .id(LINK_FK_ID)
+                    .build()
+            ))
+            .build();
     }
 }

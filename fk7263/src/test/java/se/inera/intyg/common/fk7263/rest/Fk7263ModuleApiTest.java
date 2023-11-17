@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import javax.xml.bind.JAXBElement;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,6 +56,9 @@ import se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.fk7263.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.utils.ResultOfCallUtil;
+import se.inera.intyg.common.support.facade.model.CertificateLink;
+import se.inera.intyg.common.support.facade.model.CertificateText;
+import se.inera.intyg.common.support.facade.model.CertificateTextType;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
@@ -491,6 +495,26 @@ public class Fk7263ModuleApiTest {
         final var response = fk7263ModuleApi.getAdditionalInfoLabel();
 
         assertEquals("Gäller intygsperiod", response);
+    }
+
+    @Test
+    public void shouldReturnPreambleForCitizens() {
+        final var expectedResult = CertificateText
+            .builder()
+            .type(CertificateTextType.PREAMBLE_TEXT)
+            .text("Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
+                + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg. "
+                + "Om du vill ansöka om sjukpenning, gör du det på {linkFK}.")
+            .links(List.of(
+                CertificateLink.builder()
+                    .url("http://www.forsakringskassan.se/sjuk")
+                    .name("Försäkringskassan")
+                    .id("linkFK")
+                    .build()
+            ))
+            .build();
+
+        assertEquals(expectedResult, fk7263ModuleApi.getPreambleForCitizens());
     }
 
     private Fk7263Utlatande getUtlatandeFromFile() throws IOException {
