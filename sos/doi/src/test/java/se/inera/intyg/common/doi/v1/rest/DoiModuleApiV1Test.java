@@ -67,6 +67,7 @@ import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
+import se.inera.intyg.common.support.facade.model.CertificateText;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateSummary;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
@@ -550,6 +551,17 @@ public class DoiModuleApiV1Test {
     @Test
     public void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
         assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
+    }
+
+    @Test
+    public void shouldReturnPreambleForCitizens() {
+        final var expectedResponse = CertificateText.builder()
+            .text("")
+            .build();
+
+        final var response = moduleApi.getPreambleForCitizens();
+
+        assertEquals(expectedResponse, response);
     }
 
     private String toJsonString(DoiUtlatandeV1 utlatande) throws ModuleException {

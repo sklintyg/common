@@ -65,6 +65,7 @@ import se.inera.intyg.common.db.v1.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
+import se.inera.intyg.common.support.facade.model.CertificateText;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateSummary;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -543,6 +544,17 @@ public class DbModuleApiV1Test {
     @Test
     public void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
         assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
+    }
+
+    @Test
+    public void shouldReturnPreambleForCitizens() {
+        final var expectedResponse = CertificateText.builder()
+            .text("")
+            .build();
+
+        final var response = moduleApi.getPreambleForCitizens();
+
+        assertEquals(expectedResponse, response);
     }
 
     private String toJsonString(DbUtlatandeV1 utlatande) throws ModuleException {
