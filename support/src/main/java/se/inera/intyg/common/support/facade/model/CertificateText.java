@@ -20,13 +20,13 @@ package se.inera.intyg.common.support.facade.model;
 
 import java.util.List;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 @Builder
 public class CertificateText {
 
-    String text;
-    CertificateTextType type;
-    List<CertificateLink> links;
+    private String text;
+    private CertificateTextType type;
+    private List<CertificateLink> links;
 }

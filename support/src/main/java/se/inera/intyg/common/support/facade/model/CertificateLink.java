@@ -19,13 +19,13 @@
 package se.inera.intyg.common.support.facade.model;
 
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 @Builder
 public class CertificateLink {
 
-    String name;
-    String url;
-    String id;
+    private String name;
+    private String url;
+    private String id;
 }
