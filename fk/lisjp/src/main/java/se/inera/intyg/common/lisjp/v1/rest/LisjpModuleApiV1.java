@@ -88,6 +88,8 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
     private static final String PREAMBLE_FOR_CITIZENS = "Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
         + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg. "
         + "Om du vill ansöka om sjukpenning, gör du det på {" + LINK_FK_ID + "}.";
+    private static final String FK_URL = "http://www.forsakringskassan.se/sjuk";
+    private static final String FK_NAME = "Försäkringskassan";
     private Map<String, String> validationMessages;
     @Autowired(required = false)
     private SummaryConverter summaryConverter;
@@ -319,8 +321,8 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
             .type(CertificateTextType.PREAMBLE_TEXT)
             .links(List.of(
                 CertificateLink.builder()
-                    .url("http://www.forsakringskassan.se/sjuk")
-                    .name("Försäkringskassan")
+                    .url(FK_URL)
+                    .name(FK_NAME)
                     .id(LINK_FK_ID)
                     .build()
             ))
