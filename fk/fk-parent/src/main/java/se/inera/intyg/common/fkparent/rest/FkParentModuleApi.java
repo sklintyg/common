@@ -540,6 +540,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public CertificateText getPreambleForCitizens() {
         return CertificateText.builder()
             .type(CertificateTextType.PREAMBLE_TEXT)
