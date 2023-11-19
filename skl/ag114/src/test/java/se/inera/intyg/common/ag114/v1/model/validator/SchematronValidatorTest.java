@@ -21,14 +21,11 @@ package se.inera.intyg.common.ag114.v1.model.validator;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.net.URL;
-
-import java.nio.charset.StandardCharsets;
-import org.junit.Test;
-
 import com.google.common.io.Resources;
 import com.helger.commons.debug.GlobalDebug;
-
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import org.junit.Test;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;

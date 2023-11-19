@@ -26,14 +26,16 @@ import static se.inera.intyg.common.agparent.model.validator.InternalToSchematro
 import static se.inera.intyg.common.agparent.model.validator.InternalToSchematronValidatorTestUtil.getTransportValidationErrorString;
 import static se.inera.intyg.common.agparent.model.validator.InternalToSchematronValidatorTestUtil.getXmlFromModel;
 
+import com.google.common.base.Charsets;
+import com.google.common.collect.ImmutableList;
+import com.helger.commons.debug.GlobalDebug;
+import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.ByteArrayInputStream;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.xml.transform.stream.StreamSource;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,12 +43,6 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.util.ReflectionTestUtils;
-
-import com.google.common.base.Charsets;
-import com.google.common.collect.ImmutableList;
-import com.helger.commons.debug.GlobalDebug;
-import com.helger.schematron.svrl.SVRLHelper;
-
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.utils.Scenario;
 import se.inera.intyg.common.ag114.v1.utils.ScenarioFinder;

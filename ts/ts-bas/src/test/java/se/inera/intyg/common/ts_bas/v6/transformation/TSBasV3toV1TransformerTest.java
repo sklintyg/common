@@ -20,7 +20,7 @@ package se.inera.intyg.common.ts_bas.v6.transformation;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import com.helger.collection.pair.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xml.sax.ErrorHandler;
@@ -90,16 +90,16 @@ public class TSBasV3toV1TransformerTest {
 
         for (String xmlFile : testFiles) {
             String xmlContents = Resources.toString(getResource("v6/scenarios/rivtav3/" + xmlFile), Charsets.UTF_8);
-            List v3Result = validate(v3Schema, xmlContents);
+            final var v3Result = validate(v3Schema, xmlContents);
             if (!v3Result.isEmpty()) {
-                fail(xmlFile + " failed to validate against schema v3 with errors " + v3Result.toString());
+                fail(xmlFile + " failed to validate against schema v3 with errors " + v3Result);
             }
 
             String result = transformer.transform(xmlContents);
 
-            List v1Results = validate(v1Schema, result);
+            final var v1Results = validate(v1Schema, result);
             if (!v1Results.isEmpty()) {
-                fail(xmlFile + " failed to validate against schema v1 with errors " + v1Results.toString());
+                fail(xmlFile + " failed to validate against schema v1 with errors " + v1Results);
             }
         }
     }
@@ -108,8 +108,8 @@ public class TSBasV3toV1TransformerTest {
         StreamSource xmlSource = new StreamSource(new ByteArrayInputStream(xml.getBytes(Charsets.UTF_8)));
 
         Pair<Validator, ArrayList<SAXParseException>> validatorObject = setupValidator(schema);
-        Validator validator = validatorObject.getFirst();
-        ArrayList<SAXParseException> exceptions = validatorObject.getSecond();
+        Validator validator = validatorObject.getLeft();
+        ArrayList<SAXParseException> exceptions = validatorObject.getRight();
         try {
             validator.validate(xmlSource);
         } catch (Exception ex) {
@@ -122,7 +122,7 @@ public class TSBasV3toV1TransformerTest {
     private static Pair<Validator, ArrayList<SAXParseException>> setupValidator(Schema v1Schema) {
         Validator validator = v1Schema.newValidator();
         final ArrayList<SAXParseException> exceptions = new ArrayList<>();
-        Pair<Validator, ArrayList<SAXParseException>> ret = new Pair<>(validator, exceptions);
+        Pair<Validator, ArrayList<SAXParseException>> ret = Pair.of(validator, exceptions);
         validator.setErrorHandler(new ErrorHandler() {
             @Override
             public void warning(SAXParseException exception) {

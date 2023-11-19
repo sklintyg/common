@@ -27,15 +27,17 @@ import static se.inera.intyg.common.fkparent.model.validator.InternalToSchematro
 import static se.inera.intyg.common.fkparent.model.validator.InternalToSchematronValidatorTestUtil.getTransportValidationErrorString;
 import static se.inera.intyg.common.fkparent.model.validator.InternalToSchematronValidatorTestUtil.getXmlFromModel;
 
+import com.google.common.base.Charsets;
+import com.google.common.collect.ImmutableList;
+import com.helger.commons.debug.GlobalDebug;
+import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.ByteArrayInputStream;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.xml.transform.stream.StreamSource;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,13 +46,6 @@ import org.junit.runners.Parameterized.Parameters;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import com.google.common.base.Charsets;
-import com.google.common.collect.ImmutableList;
-import com.helger.commons.debug.GlobalDebug;
-import com.helger.schematron.svrl.SVRLHelper;
-
-import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.lisjp.v1.rest.LisjpModuleApiV1;
@@ -61,6 +56,7 @@ import se.inera.intyg.common.lisjp.v1.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
+import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 /**

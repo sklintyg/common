@@ -18,10 +18,19 @@
  */
 package se.inera.intyg.common.db.v1.validator;
 
+import static org.junit.Assert.assertTrue;
+import static se.inera.intyg.common.sos_parent.validator.ValidatorTestUtil.getInternalValidationErrorString;
+import static se.inera.intyg.common.sos_parent.validator.ValidatorTestUtil.getTransportValidationErrorString;
+import static se.inera.intyg.common.sos_parent.validator.ValidatorTestUtil.getXmlFromModel;
+
 import com.google.common.base.Charsets;
 import com.helger.commons.debug.GlobalDebug;
 import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
+import java.io.ByteArrayInputStream;
+import java.util.Collection;
+import java.util.stream.Collectors;
+import javax.xml.transform.stream.StreamSource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -35,16 +44,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
-
-import javax.xml.transform.stream.StreamSource;
-import java.io.ByteArrayInputStream;
-import java.util.Collection;
-import java.util.stream.Collectors;
-
-import static org.junit.Assert.assertTrue;
-import static se.inera.intyg.common.sos_parent.validator.ValidatorTestUtil.getInternalValidationErrorString;
-import static se.inera.intyg.common.sos_parent.validator.ValidatorTestUtil.getTransportValidationErrorString;
-import static se.inera.intyg.common.sos_parent.validator.ValidatorTestUtil.getXmlFromModel;
 
 @RunWith(Parameterized.class)
 public class InternalValidatorResultMatchesSchematronValidatorTest {

@@ -18,11 +18,22 @@
  */
 package se.inera.intyg.common.fk7263.transformation;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import com.helger.schematron.sch.SchematronResourceSCH;
 import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
-import com.helger.schematron.xslt.SchematronResourceSCH;
+import java.io.ByteArrayInputStream;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,21 +42,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.fk7263.rest.Fk7263ModuleApi;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import java.io.ByteArrayInputStream;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 @RunWith(MockitoJUnitRunner.class)
 public class Fk7263TransformerTest {
 
+    // CHECKSTYLE:OFF LineLength
     private static final String COMMON_UTLATANDE_SCHEMA = "core_components/MU7263-RIV_3.1.xsd";
     private static final String COMMON_UTLATANDE_TYPES_SCHEMA = "core_components/insuranceprocess_healthreporting_2.0.xsd";
     private static final String ISO_TYPES_SCHEMA = "core_components/iso_dt_subset_1.0.xsd";
@@ -56,6 +56,7 @@ public class Fk7263TransformerTest {
     private static final String ROOT_LEVEL_FK7263_EXT_SCHEMA_34 = "core_components/clinicalprocess_healthcond_certificate_3.4_ext.xsd";
     private static final String XMLDSIG_SCHEMA = "core_components/xmldsig-core-schema_0.1.xsd";
     private static final String CLINICAL_UTLATANDE_TYPES_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_types_3.2.xsd";
+    // CHECKSTYLE:ON LineLength
 
     private static Schema lakarutlatandeInputSchema;
     private static Schema fk7263sitOutputSchema;

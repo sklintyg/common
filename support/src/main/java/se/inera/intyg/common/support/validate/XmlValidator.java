@@ -18,15 +18,12 @@
  */
 package se.inera.intyg.common.support.validate;
 
+import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.xml.transform.stream.StreamSource;
-
-import com.helger.schematron.svrl.SVRLHelper;
-
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
