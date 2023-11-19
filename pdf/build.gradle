@@ -11,13 +11,9 @@ dependencies {
   implementation "com.itextpdf:itext7-core:${itext7Version}"
   implementation "commons-io:commons-io:${commonsIoVersion}"
   implementation "org.apache.commons:commons-text:${commonsTextVersion}"
+  implementation "org.openjdk.nashorn:nashorn-core:${nashornVersion}"
   implementation "org.springframework:spring-core"
   implementation "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
 
   compileOnly "com.github.spotbugs:spotbugs-annotations:${spotbugsAnnotationVersion}"
-
-
-
-
-  implementation 'org.openjdk.nashorn:nashorn-core:15.4'
 }

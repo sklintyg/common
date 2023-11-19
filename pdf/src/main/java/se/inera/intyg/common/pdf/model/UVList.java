@@ -28,7 +28,7 @@ import com.google.common.base.Strings;
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.ListItem;
 import com.itextpdf.layout.element.Paragraph;
-import jdk.nashorn.api.scripting.ScriptObjectMirror;
+import org.openjdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
 /**

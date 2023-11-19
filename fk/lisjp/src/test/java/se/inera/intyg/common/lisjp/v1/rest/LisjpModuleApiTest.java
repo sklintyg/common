@@ -44,14 +44,14 @@ import static se.inera.intyg.common.lisjp.v1.rest.LisjpModuleApiV1.PREFIX;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPFactory;
+import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPFactory;
-import javax.xml.ws.soap.SOAPFaultException;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;

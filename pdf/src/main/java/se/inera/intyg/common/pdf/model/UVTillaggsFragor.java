@@ -19,7 +19,7 @@
 package se.inera.intyg.common.pdf.model;
 
 import com.itextpdf.layout.element.Div;
-import jdk.nashorn.api.scripting.ScriptObjectMirror;
+import org.openjdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
 /**

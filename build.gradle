@@ -38,6 +38,7 @@ ext {
     itextPdfHtmlVersion = "4.0.5"
     jakartaJwsApiVersion = "3.0.0"
     jaxb2Version = "3.0.0"
+    nashornVersion = "15.4"
     phSchematronVersion = "5.6.5"
     saxonVersion = "12.3"
     spotbugsAnnotationVersion = "4.8.0"
