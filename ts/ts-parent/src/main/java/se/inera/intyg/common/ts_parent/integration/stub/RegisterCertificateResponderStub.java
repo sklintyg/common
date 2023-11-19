@@ -18,18 +18,20 @@
  */
 package se.inera.intyg.common.ts_parent.integration.stub;
 
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.soap.MessageFactory;
+import jakarta.xml.soap.SOAPBody;
+import jakarta.xml.soap.SOAPConstants;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.ws.Provider;
+import jakarta.xml.ws.ServiceMode;
+import jakarta.xml.ws.WebServiceProvider;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.SOAPBody;
-import javax.xml.soap.SOAPConstants;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -37,15 +39,10 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.ws.Provider;
-import javax.xml.ws.ServiceMode;
-import javax.xml.ws.WebServiceProvider;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
-
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType;
@@ -54,7 +51,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v1.ResultType;
 import se.riv.clinicalprocess.healthcond.certificate.v1.Utlatande;
 
 @WebServiceProvider
-@ServiceMode(value = javax.xml.ws.Service.Mode.MESSAGE)
+@ServiceMode(value = jakarta.xml.ws.Service.Mode.MESSAGE)
 public final class RegisterCertificateResponderStub implements Provider<SOAPMessage> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RegisterCertificateResponderStub.class);
@@ -99,7 +96,7 @@ public final class RegisterCertificateResponderStub implements Provider<SOAPMess
     @Override
     public SOAPMessage invoke(SOAPMessage request) {
         LOGGER.debug("Invoking response for incoming request in stub");
-        javax.xml.soap.SOAPMessage response = null;
+        SOAPMessage response = null;
         SOAPBody soapBody = null;
         try {
             response = messageFactory.createMessage();

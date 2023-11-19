@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.support.xml;
 
-import javax.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBElement;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 public final class XmlMarshallerHelper {

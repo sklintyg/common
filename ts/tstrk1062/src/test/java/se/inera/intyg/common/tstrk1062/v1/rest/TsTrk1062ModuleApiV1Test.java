@@ -33,6 +33,9 @@ import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetai
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import jakarta.xml.bind.JAXB;
+import jakarta.xml.soap.SOAPFault;
+import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URL;
@@ -40,9 +43,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javax.xml.bind.JAXB;
-import javax.xml.soap.SOAPFault;
-import javax.xml.ws.soap.SOAPFaultException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -122,14 +122,14 @@ public class TsTrk1062ModuleApiV1Test {
     @InjectMocks
     private TsTrk1062ModuleApiV1 moduleApi;
 
-    private final static String TEXT_VERSION = "v1";
-    private final static String INTERNAL_MODEL = "INTERNAL_MODEL";
-    private final static String INTYGS_ID = "IntygsId";
-    private final static String LOGICAL_ADDRESS = "LOGICAL_ADDRESS";
-    private final static String RECIPIENT_ID = "RECIPIENT_ID";
+    private static final String TEXT_VERSION = "v1";
+    private static final String INTERNAL_MODEL = "INTERNAL_MODEL";
+    private static final String INTYGS_ID = "IntygsId";
+    private static final String LOGICAL_ADDRESS = "LOGICAL_ADDRESS";
+    private static final String RECIPIENT_ID = "RECIPIENT_ID";
 
     public TsTrk1062ModuleApiV1Test() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -258,7 +258,7 @@ public class TsTrk1062ModuleApiV1Test {
     }
 
     @Test
-    public void testGetRegisterCertificateValidator() throws Exception {
+    public void testGetRegisterCertificateValidator() {
         final RegisterCertificateValidator actualRegisterCertificateValidator = moduleApi.getRegisterCertificateValidator();
 
         assertNotNull("RegisterCertificateValidator is null", actualRegisterCertificateValidator);
@@ -316,7 +316,7 @@ public class TsTrk1062ModuleApiV1Test {
     }
 
     @Test
-    public void testdecorateDiagnoserWithDescriptions() throws Exception {
+    public void testdecorateDiagnoserWithDescriptions() {
         final String expectedDiagnosDisplayName = "Detta är diagnosbeskrivningen";
         final DiagnosKodad expectedDiagnosKodad = DiagnosKodad.create("A01", "ICD10",
             "Diagnosbeskrivning", null, "Årtal");
@@ -407,7 +407,7 @@ public class TsTrk1062ModuleApiV1Test {
         skapadAv.setFullstandigtNamn("Torsten Ericsson");
 
         Patient patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
         patient.setPostadress("postadress");
         patient.setPostnummer("11111");
         patient.setPostort("postort");

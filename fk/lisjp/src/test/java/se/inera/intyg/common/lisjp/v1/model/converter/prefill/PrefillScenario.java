@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.lisjp.v1.model.converter.prefill;
 
+import jakarta.xml.bind.JAXBElement;
 import java.io.IOException;
-import javax.xml.bind.JAXBElement;
 import org.apache.cxf.helpers.IOUtils;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;

@@ -14,7 +14,7 @@ dependencies {
   implementation "commons-io:commons-io:${commonsIoVersion}"
   implementation "jakarta.ws.rs:jakarta.ws.rs-api"
   implementation "org.apache.commons:commons-lang3"
-  implementation "org.jvnet.jaxb2_commons:jaxb2-basics:${jaxb2Version}"
+  implementation "codes.rafael.jaxb2_commons:jaxb2-basics:${jaxb2Version}"
   implementation "org.springframework:spring-beans"
   implementation "org.springframework:spring-context"
   implementation "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"

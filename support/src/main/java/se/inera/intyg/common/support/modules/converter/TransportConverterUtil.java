@@ -18,7 +18,12 @@
  */
 package se.inera.intyg.common.support.modules.converter;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static se.inera.intyg.common.support.Constants.ADDRESS_DETAILS_SOURCE_PU_CODE;
+
 import com.google.common.base.Strings;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.ws.Holder;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.YearMonth;
@@ -31,8 +36,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import javax.xml.bind.JAXBElement;
-import javax.xml.ws.Holder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3._2000._09.xmldsig_.ObjectFactory;
@@ -53,16 +56,19 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.schemas.contract.Personnummer;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.*;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.Befattning;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PQType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.Specialistkompetens;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.UnderskriftType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Enhet;
 import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
-
-
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static se.inera.intyg.common.support.Constants.ADDRESS_DETAILS_SOURCE_PU_CODE;
 
 /**
  * Provides utility methods for converting domain objects from transport format to internal Java format.
@@ -83,7 +89,7 @@ public final class TransportConverterUtil {
      * @return if delsvar can be parsed as string content
      */
     public static boolean isStringContent(Delsvar delsvar) {
-        return delsvar.getContent().stream().allMatch(a -> a instanceof String);
+        return delsvar.getContent().stream().allMatch(String.class::isInstance);
     }
 
     /**

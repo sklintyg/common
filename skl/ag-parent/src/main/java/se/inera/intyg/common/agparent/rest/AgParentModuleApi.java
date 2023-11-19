@@ -22,14 +22,14 @@ import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
-import javax.xml.bind.JAXBElement;
-import javax.xml.ws.soap.SOAPFaultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -9,7 +9,7 @@ dependencies {
   implementation "com.fasterxml.jackson.core:jackson-databind"
   implementation "com.google.guava:guava:${guavaVersion}"
   implementation "commons-io:commons-io:${commonsIoVersion}"
-  implementation "org.jvnet.jaxb2_commons:jaxb2-basics:${jaxb2Version}"
+  implementation "codes.rafael.jaxb2_commons:jaxb2-basics:${jaxb2Version}"
   implementation "org.springframework:spring-beans"
   implementation "org.springframework:spring-context"
   implementation "org.springframework:spring-oxm"

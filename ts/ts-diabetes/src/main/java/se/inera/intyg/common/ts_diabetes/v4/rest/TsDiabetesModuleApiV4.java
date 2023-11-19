@@ -23,6 +23,8 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import jakarta.xml.bind.JAXB;
+import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.charset.Charset;
@@ -32,8 +34,6 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.xml.bind.JAXB;
-import javax.xml.ws.soap.SOAPFaultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

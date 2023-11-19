@@ -19,11 +19,9 @@
 package se.inera.intyg.common.support.xml;
 
 import com.helger.xml.transform.StringStreamResult;
+import jakarta.xml.bind.JAXBElement;
 import java.io.StringReader;
-
-import javax.xml.bind.JAXBElement;
 import javax.xml.transform.stream.StreamSource;
-
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 //import com.helger.commons.xml.transform.StringStreamResult;
