@@ -42,8 +42,8 @@ public final class CertificateBuilder {
         return this;
     }
 
-    public CertificateBuilder addElementIfValue(CertificateDataElement element, boolean hasValue) {
-        if (hasValue) {
+    public CertificateBuilder conditionalAddElement(CertificateDataElement element, boolean condition) {
+        if (condition) {
             this.data.put(element.getId(), element);
         }
         return this;

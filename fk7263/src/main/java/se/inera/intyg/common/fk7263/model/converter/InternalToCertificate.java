@@ -118,7 +118,7 @@ public class InternalToCertificate {
             .addElement(
                 QuestionIntygetBaserasPaAnnat.toCertificate(internalCertificate.getAnnanReferens(), index++)
             )
-            .addElementIfValue(
+            .conditionalAddElement(
                 QuestionAnnanReferensBeskrivning.toCertificate(internalCertificate.getAnnanReferensBeskrivning(), index++),
                 internalCertificate.getAnnanReferensBeskrivning() != null && !internalCertificate.getAnnanReferensBeskrivning().isEmpty()
             )
