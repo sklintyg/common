@@ -42,6 +42,13 @@ public final class CertificateBuilder {
         return this;
     }
 
+    public CertificateBuilder addElementIfValue(CertificateDataElement element, boolean hasValue) {
+        if (hasValue) {
+            this.data.put(element.getId(), element);
+        }
+        return this;
+    }
+
     public CertificateBuilder metadata(CertificateMetadata metadata) {
         this.metadata = metadata;
         return this;
