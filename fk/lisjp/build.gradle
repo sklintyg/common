@@ -18,6 +18,7 @@ dependencies {
 
     testImplementation testFixtures(project(":common-support"))
     testImplementation project(":integration-util")
+    testImplementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
     testImplementation "com.helger.schematron:ph-schematron-xslt:${phSchematronVersion}"
     testImplementation "org.apache.commons:commons-lang3"
     testImplementation "org.apache.cxf:cxf-core:${cxfVersion}"

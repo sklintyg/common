@@ -30,7 +30,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
-import javax.xml.ws.WebServiceProvider;
+import jakarta.xml.ws.WebServiceProvider;
 import java.util.HashMap;
 
 import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MAKULERAD;

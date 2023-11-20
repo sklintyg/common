@@ -73,6 +73,7 @@ allprojects {
         implementation "jakarta.jws:jakarta.jws-api:${jakartaJwsApiVersion}"
         implementation "jakarta.xml.ws:jakarta.xml.ws-api"
 
+        testImplementation "com.sun.xml.messaging.saaj:saaj-impl"
         testImplementation "junit:junit"
         testImplementation "org.assertj:assertj-core"
         testImplementation "org.glassfish.jaxb:jaxb-runtime"

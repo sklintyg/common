@@ -18,19 +18,21 @@
  */
 package se.inera.intyg.common.af00213.v1.rest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import org.apache.cxf.helpers.IOUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.af00213.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -44,30 +46,34 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 /**
  * Specifically tests the renewal of LISJP where certain fields are nulled out.
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class Af00213ModuleApiV1RenewalTest {
 
     public static final String TESTFILE_UTLATANDE = "v1/Af00213ModelCompareUtil/utlatande.json";
 
     @Spy
-    private WebcertModelFactoryImpl webcertModelFactory = new WebcertModelFactoryImpl();
+    private WebcertModelFactoryImpl webcertModelFactory;
 
     @Spy
-    private ObjectMapper objectMapper = new CustomObjectMapper();
+    private ObjectMapper objectMapper;
 
     @InjectMocks
     private Af00213ModuleApiV1 moduleApi;
 
+    @BeforeEach
+    void init() {
+        ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
+    }
+
     @Test
     public void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
-        String internalModelHolder = IOUtils.toString(new ClassPathResource(
-            TESTFILE_UTLATANDE).getInputStream());
-        Af00213UtlatandeV1 original = getUtlatandeFromFile();
-        String renewalFromTemplate = moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
+        IOUtils.toString(new ClassPathResource(TESTFILE_UTLATANDE).getInputStream());
+        final var original = getUtlatandeFromFile();
+        final var renewalFromTemplate = moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
         assertNotNull(renewalFromTemplate);
 
         // Create two instances to compare field by field.
-        Af00213UtlatandeV1 renewCopy = new CustomObjectMapper().readValue(renewalFromTemplate, Af00213UtlatandeV1.class);
+        final var renewCopy = new CustomObjectMapper().readValue(renewalFromTemplate, Af00213UtlatandeV1.class);
 
         // Blanked out values:
         assertNull(renewCopy.getSignature());
@@ -83,7 +89,7 @@ public class Af00213ModuleApiV1RenewalTest {
     }
 
     private CreateDraftCopyHolder createCopyHolder() {
-        CreateDraftCopyHolder draftCopyHolder = new CreateDraftCopyHolder("certificateId",
+        final var draftCopyHolder = new CreateDraftCopyHolder("certificateId",
             createHosPersonal());
         draftCopyHolder.setIntygTypeVersion("1");
         draftCopyHolder.setRelation(new Relation());
@@ -91,7 +97,7 @@ public class Af00213ModuleApiV1RenewalTest {
     }
 
     private HoSPersonal createHosPersonal() {
-        HoSPersonal hosPersonal = new HoSPersonal();
+        final var hosPersonal = new HoSPersonal();
         hosPersonal.setPersonId("hsaId");
         hosPersonal.setFullstandigtNamn("namn");
         hosPersonal.setVardenhet(new Vardenhet());
@@ -103,5 +109,4 @@ public class Af00213ModuleApiV1RenewalTest {
         return new CustomObjectMapper().readValue(new ClassPathResource(
             TESTFILE_UTLATANDE).getFile(), Af00213UtlatandeV1.class);
     }
-
 }

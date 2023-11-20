@@ -27,6 +27,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -55,7 +56,7 @@ public class BefattningService {
     @PostConstruct
     @SuppressFBWarnings
     void initialize() throws IOException {
-        final Reader reader = new BufferedReader(new InputStreamReader(resource.getInputStream(), "UTF-8"));
+        final Reader reader = new BufferedReader(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8));
         try {
             final ImmutableBiMap.Builder<String, String> codeBuilder = ImmutableBiMap.builder();
 
