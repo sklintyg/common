@@ -18,18 +18,6 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.pdf;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.BaseFont;
@@ -39,6 +27,16 @@ import com.itextpdf.text.pdf.PdfIndirectReference;
 import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
@@ -172,7 +170,7 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
 
     @Override
     public byte[] generatePDF(TsDiabetesUtlatandeV2 utlatande, List<Status> statuses, ApplicationOrigin applicationOrigin,
-        UtkastStatus utkastStatus) throws PdfGeneratorException {
+        UtkastStatus utkastStatus, String minaIntygMarginText) throws PdfGeneratorException {
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
@@ -191,7 +189,7 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
 
             // Decorate PDF depending on the origin of the pdf-call and the status of the utlatande
             if (!isUtkast) {
-                createLeftMarginText(pdfStamper, pdfReader.getNumberOfPages(), utlatande.getId(), applicationOrigin);
+                createLeftMarginText(pdfStamper, pdfReader.getNumberOfPages(), utlatande.getId(), applicationOrigin, minaIntygMarginText);
             }
             // Add applicable watermarks
             addWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast, isMakulerad(statuses), isLocked);

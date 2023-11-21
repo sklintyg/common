@@ -112,7 +112,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         List<Status> statuses, ApplicationOrigin applicationOrigin) throws IOException, DocumentException;
 
     public FkPdfDefinition buildPdfDefinition(LisjpUtlatandeV1 intyg, List<Status> statuses, ApplicationOrigin applicationOrigin,
-        IntygTexts intygTexts, UtkastStatus utkastStatus)
+        IntygTexts intygTexts, UtkastStatus utkastStatus, String printedByText)
         throws PdfGeneratorException {
         this.intygTexts = intygTexts;
 
@@ -137,7 +137,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
             def.addPageEvent(new FkOverflowPagePersonnummerEventHandlerImpl(
                 intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
             if (!isUtkast && !isLockedUtkast) {
-                def.addPageEvent(new FkPrintedByEventHandler(intyg.getId(), getPrintedByText(applicationOrigin)));
+                def.addPageEvent(new FkPrintedByEventHandler(intyg.getId(), getPrintedByText(applicationOrigin, printedByText)));
             }
 
             def.addPageEvent(new IntygStateWatermarker(isUtkast, isMakulerad(statuses), isLockedUtkast));

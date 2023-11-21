@@ -18,8 +18,16 @@
  */
 package se.inera.intyg.common.luae_na.v1.pdf;
 
+import static org.junit.Assert.assertNotNull;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,15 +46,6 @@ import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.assertNotNull;
 
 /**
  * Generate variants of a LUAENA pdf, partly to see that make sure no exceptions occur but mainly for manual visual inspection
@@ -80,26 +79,26 @@ public class LuaenaPdfDefinitionBuilderTest {
 
         intygList.add(objectMapper
             .readValue(new ClassPathResource("v1/PdfGeneratorTest/minimalt_utlatande.json").getFile(),
-                    LuaenaUtlatandeV1.class));
+                LuaenaUtlatandeV1.class));
         intygList.add(
             objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/fullt_utlatande.json").getFile(),
-                    LuaenaUtlatandeV1.class));
+                LuaenaUtlatandeV1.class));
         intygList.add(objectMapper
             .readValue(new ClassPathResource("v1/PdfGeneratorTest/overflow_utlatande.json").getFile(),
-                    LuaenaUtlatandeV1.class));
+                LuaenaUtlatandeV1.class));
 
     }
 
     @Test
     public void testGenerateNotSentToFK() throws Exception {
         generate("unsent", new ArrayList<>(), ApplicationOrigin.MINA_INTYG, TEXT_VERSION_1_0,
-                UtkastStatus.SIGNED);
+            UtkastStatus.SIGNED);
         generate("unsent", new ArrayList<>(), ApplicationOrigin.WEBCERT, TEXT_VERSION_1_0,
-                UtkastStatus.SIGNED);
+            UtkastStatus.SIGNED);
         generate("unsent", new ArrayList<>(), ApplicationOrigin.MINA_INTYG, TEXT_VERSION_1_1,
-                UtkastStatus.SIGNED);
+            UtkastStatus.SIGNED);
         generate("unsent", new ArrayList<>(), ApplicationOrigin.WEBCERT, TEXT_VERSION_1_1,
-                UtkastStatus.SIGNED);
+            UtkastStatus.SIGNED);
     }
 
     @Test
@@ -116,59 +115,59 @@ public class LuaenaPdfDefinitionBuilderTest {
         statuses.clear();
         statuses.add(new Status(CertificateState.CANCELLED, "HSVARD", LocalDateTime.now()));
         generate("sent-makulerat", statuses, ApplicationOrigin.WEBCERT, TEXT_VERSION_1_0,
-                UtkastStatus.SIGNED);
+            UtkastStatus.SIGNED);
         generate("sent-makulerat", statuses, ApplicationOrigin.WEBCERT, TEXT_VERSION_1_1,
-                UtkastStatus.SIGNED);
+            UtkastStatus.SIGNED);
     }
 
     @Test
     public void testGeneratePdfForUtkast() throws Exception {
         LuaenaUtlatandeV1 utkast = objectMapper
             .readValue(new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(),
-                    LuaenaUtlatandeV1.class);
+                LuaenaUtlatandeV1.class);
 
         generate(utkast, "utkast", Lists.newArrayList(), ApplicationOrigin.WEBCERT, TEXT_VERSION_1_0,
-                UtkastStatus.DRAFT_COMPLETE);
+            UtkastStatus.DRAFT_COMPLETE);
         generate(utkast, "utkast", Lists.newArrayList(), ApplicationOrigin.WEBCERT, TEXT_VERSION_1_1,
-                UtkastStatus.DRAFT_COMPLETE);
+            UtkastStatus.DRAFT_COMPLETE);
     }
 
     @Test
     public void testGeneratePdfForLockedUtkast() throws Exception {
         LuaenaUtlatandeV1 utkast = objectMapper
             .readValue(new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(),
-                    LuaenaUtlatandeV1.class);
+                LuaenaUtlatandeV1.class);
 
         generate(utkast, "låst-utkast", Lists.newArrayList(), ApplicationOrigin.WEBCERT, TEXT_VERSION_1_0,
-                UtkastStatus.DRAFT_LOCKED);
+            UtkastStatus.DRAFT_LOCKED);
         generate(utkast, "låst-utkast", Lists.newArrayList(), ApplicationOrigin.WEBCERT, TEXT_VERSION_1_1,
-                UtkastStatus.DRAFT_LOCKED);
+            UtkastStatus.DRAFT_LOCKED);
     }
 
     private void generate(String scenarioName, List<Status> statuses, ApplicationOrigin origin, String textVersion,
-                          UtkastStatus utkastStatus)
-            throws PdfGeneratorException, IOException {
+        UtkastStatus utkastStatus)
+        throws PdfGeneratorException, IOException {
         for (LuaenaUtlatandeV1 intyg : intygList) {
             generate(intyg, scenarioName, statuses, origin, textVersion, utkastStatus);
         }
     }
 
     private void generate(LuaenaUtlatandeV1 utlatandeV1, String scenarioName, List<Status> statuses,
-                          ApplicationOrigin origin, String textVersion, UtkastStatus utkastStatus)
-            throws PdfGeneratorException, IOException {
+        ApplicationOrigin origin, String textVersion, UtkastStatus utkastStatus)
+        throws PdfGeneratorException, IOException {
         byte[] generatorResult = PdfGenerator
             .generatePdf(luaenaPdfDefinitionBuilder.buildPdfDefinition(utlatandeV1, statuses, origin,
-                    intygTextsService.getIntygTextsPojo("luae_na", textVersion), utkastStatus));
+                intygTextsService.getIntygTextsPojo("luae_na", textVersion), utkastStatus, "printedByText"));
 
         assertNotNull(generatorResult);
         writePdfToFile(generatorResult, origin, scenarioName, utlatandeV1.getId());
     }
 
     private void writePdfToFile(byte[] pdf, ApplicationOrigin origin, String scenarioName, String namingPrefix)
-            throws IOException {
+        throws IOException {
         String dir = "build/tmp";
         File file = new File(String.format("%s/%s-%s-%s-%s", dir, origin.name(), scenarioName, namingPrefix,
-                "luae_na.pdf"));
+            "luae_na.pdf"));
         FileOutputStream fop = new FileOutputStream(file);
 
         file.createNewFile();

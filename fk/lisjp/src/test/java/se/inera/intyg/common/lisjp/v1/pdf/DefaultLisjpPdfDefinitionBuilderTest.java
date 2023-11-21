@@ -121,7 +121,7 @@ public class DefaultLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinition
         throws PdfGeneratorException, IOException {
         FkPdfDefinition pdfDefinition = lisjpPdfDefinitionBuilder
             .buildPdfDefinition(utlatandeV1, statuses, origin,
-                intygTextsService.getIntygTextsPojo("lisjp", textVersion), utkastStatus);
+                intygTextsService.getIntygTextsPojo("lisjp", textVersion), utkastStatus, "printedByText");
         byte[] generatorResult = PdfGenerator.generatePdf(pdfDefinition);
 
         assertNotNull(generatorResult);

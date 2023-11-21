@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
@@ -82,6 +83,9 @@ public class LuaenaModuleApiV1 extends FkParentModuleApi<LuaenaUtlatandeV1> {
     @Autowired(required = false)
     private SummaryConverter summaryConverter;
 
+    @Value("${pdf.margin.printed.from.app.name:Intyget är utskrivet från 1177 intyg}")
+    private String pdfMinaIntygMarginText;
+
     public LuaenaModuleApiV1() {
         super(LuaenaUtlatandeV1.class);
         init();
@@ -108,7 +112,7 @@ public class LuaenaModuleApiV1 extends FkParentModuleApi<LuaenaUtlatandeV1> {
             IntygTexts texts = getTexts(LuaenaEntryPoint.MODULE_ID, luaenaIntyg.getTextVersion());
 
             final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luaenaIntyg, statuses, applicationOrigin,
-                texts, utkastStatus);
+                texts, utkastStatus, pdfMinaIntygMarginText);
 
             return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition),
                 PdfGenerator.generatePdfFilename(LocalDateTime.now(), CERTIFICATE_FILE_PREFIX));
