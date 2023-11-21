@@ -168,10 +168,8 @@ class QuestionSynskarpaSkickasSeparatTest {
             protected String getExpression() {
                 return "exists(" + VANSTER_OGA_UTAN_KORREKTION_JSON_ID
                     + ") || exists(" + VANSTER_OGA_MED_KORREKTION_JSON_ID
-                    + ") || exists(" + KONTAKTLINSER_VANSTER_OGA_JSON_ID
                     + ") || exists(" + HOGER_OGA_UTAN_KORREKTION_JSON_ID
                     + ") || exists(" + HOGER_OGA_MED_KORREKTION_JSON_ID
-                    + ") || exists(" + KONTAKTLINSER_HOGER_OGA_DELSVAR_JSON_ID
                     + ") || exists(" + BINOKULART_UTAN_KORREKTION_JSON_ID
                     + ") || exists(" + BINOKULART_MED_KORREKTION_JSON_ID + ")";
             }
@@ -184,6 +182,30 @@ class QuestionSynskarpaSkickasSeparatTest {
             @Override
             protected int getValidationIndex() {
                 return 0;
+            }
+        }
+
+        @Nested
+        class IncludeValidationDisableTestsForKontaktlinser extends ValidationDisableTest {
+
+            @Override
+            protected String getQuestionId() {
+                return VARDEN_FOR_SYNSKARPA_ID;
+            }
+
+            @Override
+            protected String getExpression() {
+                return KONTAKTLINSER_VANSTER_OGA_JSON_ID + " || " + KONTAKTLINSER_HOGER_OGA_DELSVAR_JSON_ID;
+            }
+
+            @Override
+            protected CertificateDataElement getElement() {
+                return QuestionSynskarpaSkickasSeparat.toCertificate(null, 0, textProvider);
+            }
+
+            @Override
+            protected int getValidationIndex() {
+                return 1;
             }
         }
     }
