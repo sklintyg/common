@@ -40,6 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.w3.wsaddressing10.AttributedURIType;
@@ -141,6 +142,9 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
 
     @Autowired(required = false)
     private SummaryConverter summaryConverter;
+
+    @Value("${pdf.margin.printed.from.app.name:Intyget är utskrivet från 1177 intyg}")
+    private String pdfMinaIntygMarginText;
 
     public TsDiabetesModuleApiV2() {
         super(TsDiabetesUtlatandeV2.class);
@@ -332,7 +336,8 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
         throws ModuleException {
         try {
-            return new PdfResponse(pdfGenerator.generatePDF(getInternal(internalModel), statuses, applicationOrigin, utkastStatus),
+            return new PdfResponse(
+                pdfGenerator.generatePDF(getInternal(internalModel), statuses, applicationOrigin, utkastStatus, pdfMinaIntygMarginText),
                 pdfGenerator.generatePdfFilename(getInternal(internalModel)));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);

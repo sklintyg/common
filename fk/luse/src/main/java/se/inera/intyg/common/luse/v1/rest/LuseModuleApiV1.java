@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
@@ -80,11 +81,12 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
     private CertificateToInternal certificateToInternal;
     @Autowired(required = false)
     private SummaryConverter summaryConverter;
+    @Value("${pdf.margin.printed.from.app.name:Intyget är utskrivet från 1177 intyg}")
+    private String pdfMinaIntygMarginText;
     public static final String SCHEMATRON_FILE = "luse.v1.sch";
     private static final Logger LOG = LoggerFactory.getLogger(LuseModuleApiV1.class);
     private static final String CERTIFICATE_FILE_PREFIX = "lakarutlatande_sjukersattning";
     private Map<String, String> validationMessages;
-
 
     public LuseModuleApiV1() {
         super(LuseUtlatandeV1.class);
@@ -114,7 +116,8 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
             LusePdfDefinitionBuilder builder = new LusePdfDefinitionBuilder();
             IntygTexts texts = getTexts(LuseEntryPoint.MODULE_ID, luseIntyg.getTextVersion());
 
-            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luseIntyg, statuses, applicationOrigin, texts, utkastStatus);
+            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luseIntyg, statuses, applicationOrigin, texts, utkastStatus,
+                pdfMinaIntygMarginText);
 
             return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition),
                 PdfGenerator.generatePdfFilename(LocalDateTime.now(), CERTIFICATE_FILE_PREFIX));

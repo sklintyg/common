@@ -97,6 +97,9 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
     @Value("${pdf.watermark.description.text:Du kan se intyget genom att logga in på 1177.se}")
     private String pdfWatermarkDescription;
 
+    @Value("${pdf.margin.printed.from.app.name:Intyget är utskrivet från 1177 intyg}")
+    private String pdfMinaIntygMarginText;
+
     public LisjpModuleApiV1() {
         super(LisjpUtlatandeV1.class);
         init();
@@ -242,7 +245,8 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
         try {
             IntygTexts texts = getTexts(LisjpEntryPoint.MODULE_ID, luseIntyg.getTextVersion());
 
-            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luseIntyg, statuses, applicationOrigin, texts, utkastStatus);
+            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luseIntyg, statuses, applicationOrigin, texts, utkastStatus,
+                pdfMinaIntygMarginText);
 
             return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition),
                 PdfGenerator.generatePdfFilename(LocalDateTime.now(), filePrefix));

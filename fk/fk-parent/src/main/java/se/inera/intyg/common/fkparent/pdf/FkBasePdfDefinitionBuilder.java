@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
-import org.springframework.beans.factory.annotation.Value;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.pdf.model.FkPage;
 import se.inera.intyg.common.fkparent.pdf.model.FkTillaggsFraga;
@@ -53,14 +52,11 @@ public class FkBasePdfDefinitionBuilder {
 
     protected IntygTexts intygTexts;
 
-    @Value("${pdf.margin.printed.from.app.name:Intyget är utskrivet från 1177 intyg}")
-    protected String printedFromMinaIntyg;
-
     protected String getPropertyValue(String propertyName) {
         return this.intygTexts.getProperties().getProperty(propertyName, "");
     }
 
-    protected String getPrintedByText(ApplicationOrigin applicationOrigin) {
+    protected String getPrintedByText(ApplicationOrigin applicationOrigin, String printedFromMinaIntyg) {
         switch (applicationOrigin) {
             case WEBCERT:
                 return "Intyget är utskrivet från Webcert";

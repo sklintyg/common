@@ -34,13 +34,14 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
  */
 public class PdfDefaultGenerator extends PdfAbstractGenerator {
 
-    public PdfDefaultGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
+    public PdfDefaultGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus,
+        String minaIntygMarginText)
         throws PdfGeneratorException {
-        this(intyg, statuses, applicationOrigin, utkastStatus, true);
+        this(intyg, statuses, applicationOrigin, utkastStatus, true, minaIntygMarginText);
     }
 
     PdfDefaultGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus,
-        boolean flatten)
+        boolean flatten, String minaIntygMarginText)
         throws PdfGeneratorException {
         try {
             this.intyg = intyg;

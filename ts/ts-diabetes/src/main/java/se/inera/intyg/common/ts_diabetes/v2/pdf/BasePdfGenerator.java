@@ -32,7 +32,6 @@ import com.itextpdf.text.pdf.PdfStamper;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-import org.springframework.beans.factory.annotation.Value;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
@@ -43,8 +42,6 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
  */
 public abstract class BasePdfGenerator<T extends Utlatande> {
 
-    @Value("${pdf.margin.printed.from.app.name:Intyget är utskrivet från 1177 intyg}")
-    protected String minaIntygMarginText;
     public static final String WEBCERT_MARGIN_TEXT = "Intyget är utskrivet från Webcert.";
     private static final Font FONT = new Font(Font.FontFamily.HELVETICA, 100f, Font.NORMAL, BaseColor.GRAY);
     private static final String DRAFT_WATERMARK_TEXT = "UTKAST";
@@ -97,7 +94,8 @@ public abstract class BasePdfGenerator<T extends Utlatande> {
         }
     }
 
-    protected void createLeftMarginText(PdfStamper pdfStamper, int numberOfPages, String id, ApplicationOrigin applicationOrigin)
+    protected void createLeftMarginText(PdfStamper pdfStamper, int numberOfPages, String id, ApplicationOrigin applicationOrigin,
+        String minaIntygMarginText)
         throws DocumentException, IOException {
         PdfContentByte addOverlay;
         BaseFont bf = BaseFont.createFont();
