@@ -21,6 +21,11 @@ package se.inera.intyg.common.tstrk1009.v1.pdf;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,12 +43,6 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-
 public class PdfGenerator {
 
     private static final String PDF_LOGOTYPE_CLASSPATH_URI = "/pdf/transportstyrelsens_logotyp_rgb.png";
@@ -60,7 +59,7 @@ public class PdfGenerator {
     private static final String CERTIFICATE_FILE_PREFIX = "lakarintyg_transportstyrelsen_";
 
     public PdfResponse generatePdf(String intygsId, String jsonModel, Personnummer personId, IntygTexts intygTexts, List<Status> statuses,
-        ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
+        ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus, String footerAppName) throws ModuleException {
 
         byte[] pdfBinaryData;
         String filename;
@@ -88,6 +87,7 @@ public class PdfGenerator {
                 .withIsLockedUtkast(isLockedUtkast)
                 .withIsMakulerad(isMakulerad)
                 .withApplicationOrigin(applicationOrigin)
+                .withFooterAppName(footerAppName)
                 .build();
 
             //use printconfig to create pdf binary

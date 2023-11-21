@@ -18,9 +18,17 @@
  */
 package se.inera.intyg.common.ts_bas.v6.pdf;
 
+import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_BODY;
+import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_HEADER;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,15 +46,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 import se.inera.intyg.schemas.contract.Personnummer;
-
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-
-import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_BODY;
-import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_HEADER;
 
 
 @Component("ts-bas.v6.PdfGenerator")
@@ -68,7 +67,7 @@ public class PdfGenerator {
     private static final String CERTIFICATE_FILE_PREFIX = "lakarintyg_transportstyrelsen_";
 
     public PdfResponse generatePdf(String intygsId, String jsonModel, Personnummer personId, IntygTexts intygTexts, List<Status> statuses,
-        ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
+        ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus, String footerAppName) throws ModuleException {
 
         try {
             String intygsVersion = "v" + intygTexts.getVersion();
@@ -98,6 +97,7 @@ public class PdfGenerator {
                 .withIsLockedUtkast(isLockedUtkast)
                 .withIsMakulerad(isMakulerad)
                 .withApplicationOrigin(applicationOrigin)
+                .withFooterAppName(footerAppName)
                 .build();
 
             byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);

@@ -36,6 +36,10 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
  */
 public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinitionBuilder {
 
+    public DefaultLisjpPdfDefinitionBuilder(String pdfWatermarkDescription) {
+        super(pdfWatermarkDescription);
+    }
+
     @Override
     void fillIntyg(FkPdfDefinition pdfDefinition, LisjpUtlatandeV1 intyg, boolean isUtkast, boolean isLockedUtkast,
         List<Status> statuses, ApplicationOrigin applicationOrigin) throws IOException, DocumentException {

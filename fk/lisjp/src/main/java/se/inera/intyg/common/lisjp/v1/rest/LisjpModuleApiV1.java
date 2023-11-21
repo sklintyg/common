@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
@@ -84,6 +85,8 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
     private Map<String, String> validationMessages;
     @Autowired(required = false)
     private SummaryConverter summaryConverter;
+    @Value("${pdf.watermark.description.text:Du kan se intyget genom att logga in på 1177.se}")
+    private String pdfWatermarkDescription;
 
     public LisjpModuleApiV1() {
         super(LisjpUtlatandeV1.class);
@@ -108,7 +111,8 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
         throws ModuleException {
         LisjpUtlatandeV1 luseIntyg = getInternal(internalModel);
-        return generatePdf(new DefaultLisjpPdfDefinitionBuilder(), statuses, luseIntyg, applicationOrigin, CERTIFICATE_FILE_PREFIX,
+        return generatePdf(new DefaultLisjpPdfDefinitionBuilder(pdfWatermarkDescription), statuses, luseIntyg, applicationOrigin,
+            CERTIFICATE_FILE_PREFIX,
             utkastStatus);
     }
 

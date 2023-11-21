@@ -32,6 +32,7 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.ws.soap.SOAPFaultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
@@ -73,6 +74,9 @@ public class Tstrk1009ModuleApiV1 extends TsParentModuleApi<Tstrk1009UtlatandeV1
 
     private static final Logger LOG = LoggerFactory.getLogger(Tstrk1009UtlatandeV1.class);
 
+    @Value("${pdf.footer.app.name.text:1177 intyg}")
+    private String pdfFooterAppName;
+
     public Tstrk1009ModuleApiV1() {
         super(Tstrk1009UtlatandeV1.class);
     }
@@ -86,7 +90,7 @@ public class Tstrk1009ModuleApiV1 extends TsParentModuleApi<Tstrk1009UtlatandeV1
             Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
             return new PdfGenerator().generatePdf(
                 utlatande.getId(), internalModel, personId, texts,
-                statuses, applicationOrigin, utkastStatus);
+                statuses, applicationOrigin, utkastStatus, pdfFooterAppName);
         } catch (Exception e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate", e);

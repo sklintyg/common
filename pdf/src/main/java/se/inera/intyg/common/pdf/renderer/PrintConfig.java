@@ -18,10 +18,9 @@
  */
 package se.inera.intyg.common.pdf.renderer;
 
+import java.util.Map;
 import se.inera.intyg.common.pdf.model.Summary;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-
-import java.util.Map;
 
 /**
  * A PrintConfig is a parameter object that is passed to the generic UVRenderer.
@@ -57,6 +56,7 @@ public class PrintConfig {
     private boolean isMakulerad;
     private boolean showSignBox;
     private boolean showSignatureLine;
+    private String footerAppName;
 
     //Defines a override (String) value to be rendered instead of actual modelProp.
     // This is used when creating a employer print where certain values are not to be included
@@ -140,6 +140,10 @@ public class PrintConfig {
         return applicationOrigin;
     }
 
+    public String getFooterAppName() {
+        return footerAppName;
+    }
+
     public static final class PrintConfigBuilder {
 
         private String intygJsonModel;
@@ -160,6 +164,7 @@ public class PrintConfig {
         private boolean showSignatureLine;
         private ApplicationOrigin applicationOrigin;
         private Map<String, String> modelPropReplacements;
+        private String footerAppName;
 
         private PrintConfigBuilder() {
         }
@@ -258,6 +263,11 @@ public class PrintConfig {
             return this;
         }
 
+        public PrintConfigBuilder withFooterAppName(String footerAppName) {
+            this.footerAppName = footerAppName;
+            return this;
+        }
+
         public PrintConfig build() {
             PrintConfig printConfig = new PrintConfig();
             printConfig.isUtkast = this.isUtkast;
@@ -278,6 +288,7 @@ public class PrintConfig {
             printConfig.showSignBox = this.showSignBox;
             printConfig.showSignatureLine = this.showSignatureLine;
             printConfig.modelPropReplacements = this.modelPropReplacements;
+            printConfig.footerAppName = this.footerAppName;
             return printConfig;
         }
     }
