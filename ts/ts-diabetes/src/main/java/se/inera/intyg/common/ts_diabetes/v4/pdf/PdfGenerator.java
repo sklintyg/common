@@ -63,7 +63,7 @@ public class PdfGenerator {
     protected static final String CERTIFICATE_FILE_PREFIX = "lakarintyg_transportstyrelsen_";
 
     public PdfResponse generatePdf(String intygsId, String jsonModel, Personnummer personId, IntygTexts intygTexts, List<Status> statuses,
-        ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
+        ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus, String footerAppName) throws ModuleException {
 
         final var intygTextsDeepCopy = intygTexts.deepCopy();
         replaceHtmlContent(intygTextsDeepCopy, "FRG_33.RBK");
@@ -94,6 +94,7 @@ public class PdfGenerator {
                 .withIsLockedUtkast(isLockedUtkast)
                 .withIsMakulerad(isMakulerad)
                 .withApplicationOrigin(applicationOrigin)
+                .withFooterAppName(footerAppName)
                 .build();
 
             byte[] data = new UVRenderer().startRendering(printConfig, intygTextsDeepCopy);

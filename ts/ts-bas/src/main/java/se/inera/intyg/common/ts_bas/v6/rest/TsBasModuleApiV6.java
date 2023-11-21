@@ -38,6 +38,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.oxm.MarshallingFailureException;
 import org.springframework.stereotype.Component;
@@ -113,6 +114,9 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
     private SendTSClient sendTsBasClient;
     private Map<String, String> validationMessages;
 
+    @Value("${pdf.footer.app.name.text:1177 intyg}")
+    private String pdfFooterAppName;
+
     public TsBasModuleApiV6() {
         super(TsBasUtlatandeV6.class);
         initMessages();
@@ -151,7 +155,7 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
 
         Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
         return new PdfGenerator().generatePdf(utlatande.getId(), internalModel, personId, texts, statuses, applicationOrigin,
-            utkastStatus);
+            utkastStatus, pdfFooterAppName);
     }
 
     @Override

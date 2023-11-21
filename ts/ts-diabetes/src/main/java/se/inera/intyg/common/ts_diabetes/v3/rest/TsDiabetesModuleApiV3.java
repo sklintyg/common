@@ -38,6 +38,7 @@ import javax.xml.ws.soap.SOAPFaultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
@@ -94,6 +95,9 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
     @Autowired(required = false)
     private SummaryConverter summaryConverter;
 
+    @Value("${pdf.footer.app.name.text:1177 intyg}")
+    private String pdfFooterAppName;
+
     public TsDiabetesModuleApiV3() {
         super(TsDiabetesUtlatandeV3.class);
         init();
@@ -122,7 +126,7 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
 
         Personnummer personId = tsDiabetesUtlatandeV3.getGrundData().getPatient().getPersonId();
         return new PdfGenerator().generatePdf(tsDiabetesUtlatandeV3.getId(), internalModel, personId, texts, statuses, applicationOrigin,
-            utkastStatus);
+            utkastStatus, pdfFooterAppName);
     }
 
     @Override

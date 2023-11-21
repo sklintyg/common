@@ -48,8 +48,9 @@ public class DefaultLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinition
     protected static final String TEXT_VERSION_1_0 = "1.0";
     protected static final String TEXT_VERSION_1_1 = "1.1";
     protected static final String TEXT_VERSION_1_2 = "1.2";
-
-    private final DefaultLisjpPdfDefinitionBuilder lisjpPdfDefinitionBuilder = new DefaultLisjpPdfDefinitionBuilder();
+    private final String electronicCopyWatermarkSubtitle = "subTitle";
+    private final DefaultLisjpPdfDefinitionBuilder lisjpPdfDefinitionBuilder = new DefaultLisjpPdfDefinitionBuilder(
+        electronicCopyWatermarkSubtitle);
 
     @Test
     public void testGenerateNotSentToFK() throws Exception {

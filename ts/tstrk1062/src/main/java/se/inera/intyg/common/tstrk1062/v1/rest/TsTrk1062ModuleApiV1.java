@@ -31,6 +31,7 @@ import javax.xml.ws.soap.SOAPFaultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
@@ -69,6 +70,9 @@ public class TsTrk1062ModuleApiV1 extends TsParentModuleApi<TsTrk1062UtlatandeV1
     @Autowired
     private PdfGenerator pdfGenerator;
 
+    @Value("${pdf.footer.app.name.text:1177 intyg}")
+    private String pdfFooterAppName;
+
     public TsTrk1062ModuleApiV1() {
         super(TsTrk1062UtlatandeV1.class);
     }
@@ -81,7 +85,7 @@ public class TsTrk1062ModuleApiV1 extends TsParentModuleApi<TsTrk1062UtlatandeV1
 
         Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
         return pdfGenerator.generatePdf(utlatande.getId(), internalModel, personId, texts, statuses, applicationOrigin,
-            utkastStatus);
+            utkastStatus, pdfFooterAppName);
     }
 
     @Override
