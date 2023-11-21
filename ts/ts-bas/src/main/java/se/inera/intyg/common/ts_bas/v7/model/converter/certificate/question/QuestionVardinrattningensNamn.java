@@ -25,7 +25,6 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VA
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -48,7 +47,7 @@ public class QuestionVardinrattningensNamn {
 
         return CertificateDataElement.builder()
             .id(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID)
-            .parent(VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID)
+            .parent(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID)
             .index(index)
             .config(
                 CertificateDataConfigTextField.builder()

@@ -22,9 +22,9 @@ package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.STADIGVARANDE_MEDICINERING_CATEGORY_ID;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,7 +69,7 @@ class QuestionStadigvarandeMedicineringBeskrivningTest {
 
         @Override
         protected String getParent() {
-            return STADIGVARANDE_MEDICINERING_CATEGORY_ID;
+            return FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID;
         }
 
         @Override

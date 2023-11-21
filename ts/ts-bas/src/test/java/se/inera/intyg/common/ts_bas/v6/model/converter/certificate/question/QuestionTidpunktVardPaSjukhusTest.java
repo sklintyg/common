@@ -22,9 +22,9 @@ package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,7 +69,7 @@ class QuestionTidpunktVardPaSjukhusTest {
 
         @Override
         protected String getParent() {
-            return VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID;
+            return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
         }
 
         @Override
