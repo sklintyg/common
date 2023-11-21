@@ -159,16 +159,14 @@ public class LuaefsModuleApiTest {
     private LuaefsModuleApiV1 moduleApi;
 
     public LuaefsModuleApiTest() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Before
     public void setUp() throws Exception {
-
         ReflectionTestUtils.setField(webcertModelFactory, "intygTexts", intygTextsServiceMock);
         when(intygTextsServiceMock.getLatestVersionForSameMajorVersion(eq(LuaefsEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
             .thenReturn(INTYG_TYPE_VERSION_1);
-
     }
 
     @Test

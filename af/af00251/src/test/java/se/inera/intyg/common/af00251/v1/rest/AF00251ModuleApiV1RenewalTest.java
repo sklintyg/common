@@ -18,18 +18,20 @@
  */
 package se.inera.intyg.common.af00251.v1.rest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.af00251.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -43,29 +45,33 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 /**
  * Specifically tests the renewal of AF00251 where certain fields are nulled out.
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class AF00251ModuleApiV1RenewalTest {
 
     public static final String TESTFILE_UTLATANDE = "renewal/utlatande.json";
 
     @Spy
-    private WebcertModelFactoryImpl webcertModelFactory = new WebcertModelFactoryImpl();
-
+    private WebcertModelFactoryImpl webcertModelFactory;
     @Spy
     private ObjectMapper objectMapper = new CustomObjectMapper();
 
     @InjectMocks
     private AF00251ModuleApiV1 moduleApi;
 
+    @BeforeEach
+    void init() {
+        ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
+    }
+
     @Test
     public void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
 
-        AF00251UtlatandeV1 original = getUtlatandeFromFile();
-        String renewalFromTemplate = moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
+        final var original = getUtlatandeFromFile();
+        final var renewalFromTemplate = moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
         assertNotNull(renewalFromTemplate);
 
         // Create two instances to compare field by field.
-        AF00251UtlatandeV1 renewCopy = new CustomObjectMapper().readValue(renewalFromTemplate, AF00251UtlatandeV1.class);
+        final var renewCopy = new CustomObjectMapper().readValue(renewalFromTemplate, AF00251UtlatandeV1.class);
 
         // Blanked out values:
         assertNull(renewCopy.getSjukfranvaro());
@@ -91,14 +97,14 @@ public class AF00251ModuleApiV1RenewalTest {
     }
 
     private CreateDraftCopyHolder createCopyHolder() {
-        CreateDraftCopyHolder draftCopyHolder = new CreateDraftCopyHolder("certificateId",
+        final var draftCopyHolder = new CreateDraftCopyHolder("certificateId",
             createHosPersonal());
         draftCopyHolder.setRelation(new Relation());
         return draftCopyHolder;
     }
 
     private HoSPersonal createHosPersonal() {
-        HoSPersonal hosPersonal = new HoSPersonal();
+        final var hosPersonal = new HoSPersonal();
         hosPersonal.setPersonId("hsaId");
         hosPersonal.setFullstandigtNamn("namn");
         hosPersonal.setVardenhet(new Vardenhet());

@@ -26,6 +26,7 @@ dependencies {
   testImplementation "nl.jqno.equalsverifier:equalsverifier:${equalsVerifierVersion}"
   testImplementation "org.assertj:assertj-core"
 
+  testFixturesImplementation "com.fasterxml.jackson.core:jackson-annotations"
   testFixturesImplementation "org.junit.jupiter:junit-jupiter-api"
   testFixturesImplementation "org.junit.jupiter:junit-jupiter-params"
   testFixturesImplementation "org.mockito:mockito-junit-jupiter"
