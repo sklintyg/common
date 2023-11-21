@@ -24,7 +24,6 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_ST
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.STADIGVARANDE_MEDICINERING_CATEGORY_ID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -73,7 +72,7 @@ class QuestionStadigvarandeMedicineringBeskrivningTest {
 
             @Override
             protected String getParent() {
-                return STADIGVARANDE_MEDICINERING_CATEGORY_ID;
+                return FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID;
             }
 
             @Override

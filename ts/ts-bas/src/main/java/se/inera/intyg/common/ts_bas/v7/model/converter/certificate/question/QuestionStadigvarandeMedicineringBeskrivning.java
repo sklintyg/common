@@ -25,7 +25,6 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_ST
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.STADIGVARANDE_MEDICINERING_CATEGORY_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -48,7 +47,7 @@ public class QuestionStadigvarandeMedicineringBeskrivning {
 
         return CertificateDataElement.builder()
             .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
-            .parent(STADIGVARANDE_MEDICINERING_CATEGORY_ID)
+            .parent(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
             .index(index)
             .config(
                 CertificateDataConfigTextArea.builder()
