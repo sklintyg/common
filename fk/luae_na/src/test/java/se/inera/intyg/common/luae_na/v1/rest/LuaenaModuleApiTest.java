@@ -18,12 +18,12 @@
  */
 package se.inera.intyg.common.luae_na.v1.rest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -48,17 +48,17 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.luae_na.support.LuaenaEntryPoint;
 import se.inera.intyg.common.luae_na.v1.model.converter.SvarIdHelperImpl;
 import se.inera.intyg.common.luae_na.v1.model.converter.WebcertModelFactoryImpl;
@@ -71,7 +71,6 @@ import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
@@ -86,45 +85,44 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ErrorIdType;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
-@RunWith(MockitoJUnitRunner.class)
-public class LuaenaModuleApiTest {
+@ExtendWith(MockitoExtension.class)
+class LuaenaModuleApiTest {
 
     private static final String LOGICAL_ADDRESS = "logical address";
-
-    private final String PNR_TOLVAN = "19121212-1212";
+    private static final String PNR_TOLVAN = "19121212-1212";
 
     @Mock
     private RegisterCertificateResponderInterface registerCertificateResponderInterface;
-
     @Mock
     private RevokeCertificateResponderInterface revokeClient;
-
     @Spy
     private CustomObjectMapper objectMapper;
-
     @Mock
     private WebcertModuleService moduleService;
-
     @Mock
     private WebcertModelFactoryImpl webcertModelFactory;
     @Mock
     private IntygTextsService intygTexts;
-
     @Spy
     private SvarIdHelperImpl svarIdHelper;
 
     @InjectMocks
     private LuaenaModuleApiV1 moduleApi;
 
+    @BeforeEach
+    void init() {
+        ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
+        ReflectionTestUtils.setField(moduleApi, "svarIdHelper", svarIdHelper);
+    }
+
     @Test
-    public void testSendCertificateShouldUseXml() {
+    void testSendCertificateShouldUseXml() {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any())).thenReturn(createReturnVal(ResultCodeType.OK));
         try {
-            String xmlContents = Resources.toString(Resources.getResource("v1/luae_na.xml"), Charsets.UTF_8);
+            final var xmlContents = Resources.toString(Resources.getResource("v1/luae_na.xml"), Charsets.UTF_8);
             moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
 
             verify(registerCertificateResponderInterface, times(1)).registerCertificate(same(LOGICAL_ADDRESS), any());
@@ -134,67 +132,74 @@ public class LuaenaModuleApiTest {
         }
     }
 
-    @Test(expected = ModuleException.class)
-    public void testSendCertificateShouldFailWhenErrorIsReturned() throws ModuleException {
+    @Test
+    void testSendCertificateShouldFailWhenErrorIsReturned() throws IOException {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
             .thenReturn(createReturnVal(ResultCodeType.ERROR));
-        try {
-            String xmlContents = Resources.toString(Resources.getResource("v1/luae_na.xml"), Charsets.UTF_8);
-            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
-        } catch (IOException e) {
-            fail();
-        }
-    }
-
-    @Test(expected = ModuleException.class)
-    public void testSendCertificateShouldFailOnNullModelHolder() throws ModuleException {
-        moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null);
-    }
-
-    @Test(expected = ModuleException.class)
-    public void testSendCertificateShouldFailOnEmptyXml() throws ModuleException {
-        moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null);
-    }
-
-    @Test(expected = ModuleException.class)
-    public void testSendCertificateShouldFailOnNullLogicalAddress() throws ModuleException {
-        moduleApi.sendCertificateToRecipient("blaha", null, null);
-    }
-
-    @Test(expected = ModuleException.class)
-    public void testSendCertificateShouldFailOnEmptyLogicalAddress() throws ModuleException {
-        moduleApi.sendCertificateToRecipient("blaha", "", null);
+        final var xmlContents = Resources.toString(Resources.getResource("v1/luae_na.xml"), Charsets.UTF_8);
+        assertThrows(ModuleException.class, () ->
+            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null)
+        );
     }
 
     @Test
-    public void testRevokeCertificate() throws Exception {
-        final String logicalAddress = "logicalAddress";
-        String xmlContents = Resources.toString(Resources.getResource("v1/revokerequest.xml"), Charsets.UTF_8);
+    void testSendCertificateShouldFailOnNullModelHolder() {
+        assertThrows(ModuleException.class, () ->
+            moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null)
+        );
+    }
 
-        RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
+    @Test
+    void testSendCertificateShouldFailOnEmptyXml() {
+        assertThrows(ModuleException.class, () ->
+            moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null)
+        );
+    }
+
+    @Test
+    void testSendCertificateShouldFailOnNullLogicalAddress() {
+        assertThrows(ModuleException.class, () ->
+            moduleApi.sendCertificateToRecipient("blaha", null, null)
+        );
+    }
+
+    @Test
+    void testSendCertificateShouldFailOnEmptyLogicalAddress() {
+        assertThrows(ModuleException.class, () ->
+            moduleApi.sendCertificateToRecipient("blaha", "", null)
+        );
+    }
+
+    @Test
+    void testRevokeCertificate() throws Exception {
+        final var logicalAddress = "logicalAddress";
+        final var xmlContents = Resources.toString(Resources.getResource("v1/revokerequest.xml"), Charsets.UTF_8);
+
+        final var returnVal = new RevokeCertificateResponseType();
         returnVal.setResult(ResultTypeUtil.okResult());
         when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
         moduleApi.revokeCertificate(xmlContents, logicalAddress);
         verify(revokeClient, times(1)).revokeCertificate(eq(logicalAddress), any());
     }
 
-    @Test(expected = ExternalServiceCallException.class)
-    public void testRevokeCertificateThrowsExternalServiceCallException() throws Exception {
-        final String logicalAddress = "logicalAddress";
-        String xmlContents = Resources.toString(Resources.getResource("v1/revokerequest.xml"), Charsets.UTF_8);
+    @Test
+    void testRevokeCertificateThrowsExternalServiceCallException() throws IOException {
+        final var logicalAddress = "logicalAddress";
+        final var xmlContents = Resources.toString(Resources.getResource("v1/revokerequest.xml"), Charsets.UTF_8);
 
-        RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
+        final var returnVal = new RevokeCertificateResponseType();
         returnVal.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "resultText"));
         when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
-        moduleApi.revokeCertificate(xmlContents, logicalAddress);
-        fail();
+        assertThrows(ExternalServiceCallException.class, () ->
+            moduleApi.revokeCertificate(xmlContents, logicalAddress)
+        );
     }
 
     @Test
-    public void testRegisterCertificateAlreadyExists() throws Exception {
-        final String logicalAddress = "logicalAddress";
-        final String internalModel = "internal model";
-        RegisterCertificateResponseType response = new RegisterCertificateResponseType();
+    void testRegisterCertificateAlreadyExists() throws Exception {
+        final var logicalAddress = "logicalAddress";
+        final var internalModel = "internal model";
+        final var response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.infoResult("Certificate already exists"));
 
         Mockito.doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
@@ -213,10 +218,10 @@ public class LuaenaModuleApiTest {
     }
 
     @Test
-    public void testRegisterCertificateGenericInfoResult() throws Exception {
-        final String logicalAddress = "logicalAddress";
-        final String internalModel = "internal model";
-        RegisterCertificateResponseType response = new RegisterCertificateResponseType();
+    void testRegisterCertificateGenericInfoResult() throws Exception {
+        final var logicalAddress = "logicalAddress";
+        final var internalModel = "internal model";
+        final var response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.infoResult("INFO"));
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
@@ -234,26 +239,23 @@ public class LuaenaModuleApiTest {
     }
 
     @Test
-    public void testCreateRevokeRequest() throws Exception {
-        final String meddelande = "revokeMessage";
-        final String intygId = "intygId";
-
-        HoSPersonal skapadAv = createHosPersonal();
-
-        GrundData gd = new GrundData();
+    void testCreateRevokeRequest() throws Exception {
+        final var meddelande = "revokeMessage";
+        final var intygId = "intygId";
+        final var skapadAv = createHosPersonal();
+        final var gd = new GrundData();
         gd.setPatient(createPatient());
         gd.setSkapadAv(skapadAv);
 
-        Utlatande utlatande = LuaenaUtlatandeV1.builder().setId(intygId).setGrundData(gd).setTextVersion("").build();
-
-        String res = moduleApi.createRevokeRequest(utlatande, skapadAv, meddelande);
+        final var utlatande = LuaenaUtlatandeV1.builder().setId(intygId).setGrundData(gd).setTextVersion("").build();
+        final var res = moduleApi.createRevokeRequest(utlatande, skapadAv, meddelande);
         assertNotNull(res);
         assertNotEquals("", res);
     }
 
     @Test
-    public void testUpdateBeforeSave() throws Exception {
-        final String internalModel = "internal model";
+    void testUpdateBeforeSave() throws Exception {
+        final var internalModel = "internal model";
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
             .when(objectMapper)
@@ -261,14 +263,14 @@ public class LuaenaModuleApiTest {
         doReturn(internalModel)
             .when(objectMapper)
             .writeValueAsString(any());
-        String response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
+        final var response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
         assertEquals(internalModel, response);
         verify(moduleService, times(1)).getDescriptionFromDiagnosKod(anyString(), anyString());
     }
 
     @Test
-    public void testUpdateBeforeSigning() throws Exception {
-        final String internalModel = "internal model";
+    void testUpdateBeforeSigning() throws Exception {
+        final var internalModel = "internal model";
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
             .when(objectMapper)
@@ -278,16 +280,15 @@ public class LuaenaModuleApiTest {
             .when(objectMapper)
             .writeValueAsString(any());
 
-        String response = moduleApi.updateBeforeSigning(internalModel, createHosPersonal(), LocalDateTime.now());
+        final var response = moduleApi.updateBeforeSigning(internalModel, createHosPersonal(), LocalDateTime.now());
         assertEquals(internalModel, response);
         verify(moduleService, times(1)).getDescriptionFromDiagnosKod(anyString(), anyString());
     }
 
     @Test
-    public void testGetModuleSpecificArendeParameters() throws Exception {
-        LuaenaUtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel();
-
-        Map<String, List<String>> res = moduleApi.getModuleSpecificArendeParameters(utlatande,
+    void testGetModuleSpecificArendeParameters() throws Exception {
+        final var utlatande = ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel();
+        final var res = moduleApi.getModuleSpecificArendeParameters(utlatande,
             Arrays.asList(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, FORSLAG_TILL_ATGARD_SVAR_ID_24, SUBSTANSINTAG_SVAR_ID_21));
 
         assertNotNull(res);
@@ -306,32 +307,28 @@ public class LuaenaModuleApiTest {
     }
 
     @Test
-    public void testGetAdditionalInfo() throws Exception {
-        Intyg intyg = ScenarioFinder.getInternalScenario("pass-minimal").asTransportModel().getIntyg();
-
-        String additionalInfo = moduleApi.getAdditionalInfo(intyg);
-
-        assertNotNull(additionalInfo);
-        assertEquals("Skada på multipla böjmuskler och deras senor på handleds- och handnivå", additionalInfo);
-    }
-
-    @Test
-    public void testGetAdditionalInfoHuvuddiagnos() throws Exception {
-        Intyg intyg = ScenarioFinder.getInternalScenario("pass-diagnos-med-bidiagnoser").asTransportModel().getIntyg();
-
-        String additionalInfo = moduleApi.getAdditionalInfo(intyg);
+    void testGetAdditionalInfo() throws Exception {
+        final var intyg = ScenarioFinder.getInternalScenario("pass-minimal").asTransportModel().getIntyg();
+        final var additionalInfo = moduleApi.getAdditionalInfo(intyg);
 
         assertNotNull(additionalInfo);
         assertEquals("Skada på multipla böjmuskler och deras senor på handleds- och handnivå", additionalInfo);
     }
 
     @Test
-    public void testCreateCompletionFromTemplateWithComment() throws Exception {
+    void testGetAdditionalInfoHuvuddiagnos() throws Exception {
+        final var intyg = ScenarioFinder.getInternalScenario("pass-diagnos-med-bidiagnoser").asTransportModel().getIntyg();
+        final var additionalInfo = moduleApi.getAdditionalInfo(intyg);
 
-        final String ovrigt = "övrigtText";
-        final String kommentar = "kommentarText";
+        assertNotNull(additionalInfo);
+        assertEquals("Skada på multipla böjmuskler och deras senor på handleds- och handnivå", additionalInfo);
+    }
 
-        LuaenaUtlatandeV1 utlatande = LuaenaUtlatandeV1
+    @Test
+    void testCreateCompletionFromTemplateWithComment() throws Exception {
+        final var ovrigt = "övrigtText";
+        final var kommentar = "kommentarText";
+        final var utlatande = LuaenaUtlatandeV1
             .builder()
             .setId("utlatande-id")
             .setGrundData(new GrundData())
@@ -341,21 +338,18 @@ public class LuaenaModuleApiTest {
 
         when(webcertModelFactory.createCopy(any(), any())).thenReturn(utlatande);
 
-        String result = moduleApi.createCompletionFromTemplate(createCopyHolder(), utlatande, kommentar);
-        LuaenaUtlatandeV1 utlatandeFromJson = (LuaenaUtlatandeV1) moduleApi.getUtlatandeFromJson(result);
+        final var result = moduleApi.createCompletionFromTemplate(createCopyHolder(), utlatande, kommentar);
+        final var utlatandeFromJson = (LuaenaUtlatandeV1) moduleApi.getUtlatandeFromJson(result);
 
         assertEquals(ovrigt + "\n\n" + PREFIX + kommentar, utlatandeFromJson.getOvrigt());
-
         verify(webcertModelFactory, times(1)).createCopy(any(), any());
     }
 
     @Test
-    public void testCreateCompletionFromTemplateWithNoComment() throws Exception {
-
-        final String ovrigt = "övrigtText";
-        final String kommentar = "";
-
-        LuaenaUtlatandeV1 utlatande = LuaenaUtlatandeV1
+    void testCreateCompletionFromTemplateWithNoComment() throws Exception {
+        final var ovrigt = "övrigtText";
+        final var kommentar = "";
+        final var utlatande = LuaenaUtlatandeV1
             .builder()
             .setId("utlatande-id")
             .setGrundData(new GrundData())
@@ -365,21 +359,18 @@ public class LuaenaModuleApiTest {
 
         when(webcertModelFactory.createCopy(any(), any())).thenReturn(utlatande);
 
-        String result = moduleApi.createCompletionFromTemplate(createCopyHolder(), utlatande, kommentar);
-        LuaenaUtlatandeV1 utlatandeFromJson = (LuaenaUtlatandeV1) moduleApi.getUtlatandeFromJson(result);
+        final var result = moduleApi.createCompletionFromTemplate(createCopyHolder(), utlatande, kommentar);
+        final var utlatandeFromJson = (LuaenaUtlatandeV1) moduleApi.getUtlatandeFromJson(result);
 
         assertEquals(ovrigt, utlatandeFromJson.getOvrigt());
-
         verify(webcertModelFactory, times(1)).createCopy(any(), any());
     }
 
     @Test
-    public void testCreateCompletionFromTemplateWithNoOvrigt() throws Exception {
-
-        final String ovrigt = "";
-        final String kommentar = "kommentarText";
-
-        LuaenaUtlatandeV1 utlatande = LuaenaUtlatandeV1
+    void testCreateCompletionFromTemplateWithNoOvrigt() throws Exception {
+        final var ovrigt = "";
+        final var kommentar = "kommentarText";
+        final var utlatande = LuaenaUtlatandeV1
             .builder()
             .setId("utlatande-id")
             .setGrundData(new GrundData())
@@ -389,40 +380,37 @@ public class LuaenaModuleApiTest {
 
         when(webcertModelFactory.createCopy(any(), any())).thenReturn(utlatande);
 
-        String result = moduleApi.createCompletionFromTemplate(createCopyHolder(), utlatande, kommentar);
-        LuaenaUtlatandeV1 utlatandeFromJson = (LuaenaUtlatandeV1) moduleApi.getUtlatandeFromJson(result);
+        final var result = moduleApi.createCompletionFromTemplate(createCopyHolder(), utlatande, kommentar);
+        final var utlatandeFromJson = (LuaenaUtlatandeV1) moduleApi.getUtlatandeFromJson(result);
 
         assertEquals(PREFIX + kommentar, utlatandeFromJson.getOvrigt());
-
         verify(webcertModelFactory, times(1)).createCopy(any(), any());
     }
 
     @Test
-    public void getCertficateMessagesProviderGetExistingKey() throws ModuleException {
-        IntygTexts intygTexts1 = new IntygTexts("1.0", LuaenaEntryPoint.MODULE_ID, LocalDate.now(), LocalDate.now().plusDays(1),
+    void getCertficateMessagesProviderGetExistingKey() {
+        final var intygTexts1 = new IntygTexts("1.0", LuaenaEntryPoint.MODULE_ID, LocalDate.now(), LocalDate.now().plusDays(1),
             Collections.emptySortedMap(),
             Collections.emptyList(), new Properties());
         doReturn(intygTexts1).when(intygTexts).getIntygTextsPojo(any(), any());
 
         final var certificateMessagesProvider = moduleApi.getMessagesProvider();
-
-        assertEquals(certificateMessagesProvider.get("common.continue"), "Fortsätt");
+        assertEquals("Fortsätt", certificateMessagesProvider.get("common.continue"));
     }
 
     @Test
-    public void getCertficateMessagesProviderGetMissingKey() throws ModuleException {
-        IntygTexts intygTexts1 = new IntygTexts("1.0", LuaenaEntryPoint.MODULE_ID, LocalDate.now(), LocalDate.now().plusDays(1),
+    void getCertficateMessagesProviderGetMissingKey() {
+        final var intygTexts1 = new IntygTexts("1.0", LuaenaEntryPoint.MODULE_ID, LocalDate.now(), LocalDate.now().plusDays(1),
             Collections.emptySortedMap(),
             Collections.emptyList(), new Properties());
         doReturn(intygTexts1).when(intygTexts).getIntygTextsPojo(any(), any());
 
         final var certificateMessagesProvider = moduleApi.getMessagesProvider();
-
         assertNull(certificateMessagesProvider.get("not.existing"));
     }
 
     @Test
-    public void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande()
+    void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande()
         throws ModuleException, ScenarioNotFoundException {
         final var utlatande = ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel();
         final var expectedJsonString = toJsonString(utlatande);
@@ -432,12 +420,12 @@ public class LuaenaModuleApiTest {
     }
 
     @Test
-    public void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
+    void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
         assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
     }
 
     @Test
-    public void shouldReturnAdditionalInfoLabel() {
+    void shouldReturnAdditionalInfoLabel() {
         final var response = moduleApi.getAdditionalInfoLabel();
 
         assertEquals("Avser diagnos", response);
@@ -452,15 +440,15 @@ public class LuaenaModuleApiTest {
     }
 
     private RegisterCertificateResponseType createReturnVal(ResultCodeType res) {
-        RegisterCertificateResponseType retVal = new RegisterCertificateResponseType();
-        ResultType value = new ResultType();
+        final var retVal = new RegisterCertificateResponseType();
+        final var value = new ResultType();
         value.setResultCode(res);
         retVal.setResult(value);
         return retVal;
     }
 
     private HoSPersonal createHosPersonal() {
-        HoSPersonal hosPerson = new HoSPersonal();
+        final var hosPerson = new HoSPersonal();
         hosPerson.setPersonId("hsaId1");
         hosPerson.setFullstandigtNamn("Doktor A");
         hosPerson.setVardenhet(createVardenhet());
@@ -468,27 +456,23 @@ public class LuaenaModuleApiTest {
     }
 
     private Patient createPatient() {
-        return createPatient("fornamn", "efternamn", PNR_TOLVAN);
-    }
-
-    private Patient createPatient(String fornamn, String efternamn, String pnr) {
-        Patient patient = new Patient();
-        if (StringUtils.isNotEmpty(fornamn)) {
-            patient.setFornamn(fornamn);
+        final var patient = new Patient();
+        if (StringUtils.isNotEmpty("fornamn")) {
+            patient.setFornamn("fornamn");
         }
-        if (StringUtils.isNotEmpty(efternamn)) {
-            patient.setEfternamn(efternamn);
+        if (StringUtils.isNotEmpty("efternamn")) {
+            patient.setEfternamn("efternamn");
         }
-        patient.setPersonId(createPnr(pnr));
+        patient.setPersonId(createPnr());
         return patient;
     }
 
-    private Personnummer createPnr(String civicRegistrationNumber) {
-        return Personnummer.createPersonnummer(civicRegistrationNumber).get();
+    private Personnummer createPnr() {
+        return Personnummer.createPersonnummer(LuaenaModuleApiTest.PNR_TOLVAN).orElseThrow();
     }
 
     private Vardenhet createVardenhet() {
-        Vardenhet vardenhet = new Vardenhet();
+        final var vardenhet = new Vardenhet();
         vardenhet.setEnhetsid("hsaId");
         vardenhet.setEnhetsnamn("ve1");
         vardenhet.setVardgivare(new Vardgivare());
