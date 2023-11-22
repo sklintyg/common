@@ -107,8 +107,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 @ContextConfiguration(classes = {BefattningService.class})
 class DoiModuleApiV1Test {
 
-    private static final  String LOGICAL_ADDRESS = "logical address";
-    private static final  String INTYG_TYPE_VERSION_1 = "1.0";
+    private static final String LOGICAL_ADDRESS = "logical address";
+    private static final String INTYG_TYPE_VERSION_1 = "1.0";
 
     @Mock
     private RegisterCertificateResponderInterface registerCertificateResponderInterface;
@@ -126,6 +126,8 @@ class DoiModuleApiV1Test {
     private InternalToCertificate internalToCertificate;
     @Mock
     private CertificateToInternal certificateToInternal;
+    @Mock
+    private IntygTextsService intygTextsService;
     @Mock
     private SummaryConverter summaryConverter;
 
